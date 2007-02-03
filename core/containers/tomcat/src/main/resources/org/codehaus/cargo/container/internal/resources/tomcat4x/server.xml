@@ -1,0 +1,28 @@
+<Server port="@cargo.rmi.port@" shutdown="SHUTDOWN" debug="@catalina.logging.level@">
+
+  <Service name="Tomcat-Standalone" debug="@catalina.logging.level@">
+
+    <Connector className="org.apache.catalina.connector.http.HttpConnector"
+        port="@cargo.servlet.port@" minProcessors="5" maxProcessors="75"
+        acceptCount="10" debug="@catalina.logging.level@"/>
+
+    <Engine name="Standalone" defaultHost="@cargo.hostname@" debug="@catalina.logging.level@">
+
+      <Logger className="org.apache.catalina.logger.FileLogger"
+          prefix="catalina-" suffix=".log" timestamp="true"/>
+
+      <Realm className="org.apache.catalina.realm.MemoryRealm" />
+
+      <Host name="@cargo.hostname@" debug="@catalina.logging.level@" 
+          appBase="webapps" unpackWARs="true">
+      
+        <!-- Contexts to explicitely point to where the wars are located -->
+        @tomcat.webapps@
+
+      </Host>
+
+    </Engine>
+
+  </Service>
+
+</Server>

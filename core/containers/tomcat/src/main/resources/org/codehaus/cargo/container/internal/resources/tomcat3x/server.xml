@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<Server>
+
+  <ContextManager workDir="work" >
+
+    <!-- ==================== Global modules ==================== -->
+
+    <LoaderInterceptor11 useApplicationLoader="true"/>
+
+    <TrustedLoader />
+
+    <LogSetter name="tc_log"
+        timestamps="true"
+  		  verbosityLevel="@tomcat3x.logging.level@"
+	  	  path="tc-${yyyyMMdd}.log"/>
+
+    <LogEvents enabled="@tomcat3x.logEvents.enabled@"/>
+
+    <!-- Backward compat: read the Context declarations from server.xml-->
+    <ContextXmlReader config="conf/server.xml" />
+
+    <!-- Separated Context -->
+    <ContextXmlReader config="conf/apps.xml" />
+
+    <AutoDeploy source="modules" target="modules" redeploy="true" />
+
+    <AutoWebApp dir="modules" host="DEFAULT" trusted="true"/>
+
+    <AutoDeploy source="webapps" target="webapps" />
+
+    <AutoWebApp dir="webapps" host="DEFAULT" />
+
+    <PolicyLoader securityManagerClass="java.lang.SecurityManager"
+        policyFile="conf/tomcat.policy" />
+
+    <SimpleMapper1 />
+
+    <SessionExpirer checkInterval="60" />
+
+    <!-- For development you can use randomClass="java.util.Random" -->
+    <SessionIdGenerator randomClass="java.security.SecureRandom" 
+        randomFile="/dev/urandom" />
+
+    <!-- ========== context processing modules ========== -->
+
+    <!-- This will be the "default" profile 
+         ( all except the "global" modules can be set per context ) -->
+
+    <LogSetter name="servlet_log"
+        timestamps="true"
+  		  verbosityLevel="@tomcat3x.logging.level@"
+	  	  path="servlet-${yyyyMMdd}.log"/>
+
+    <LogSetter name="JASPER_LOG"
+        timestamps="true"
+        verbosityLevel="@tomcat3x.logging.level@"
+        path="jasper-${yyyyMMdd}.log"/>
+
+    <WebXmlReader validate="true" />
+
+    <ErrorHandler showDebugInfo="true" />
+
+    <WorkDirSetup cleanWorkDir="false" />
+
+    <Jdk12Interceptor /> 
+
+    <!-- Non-standard invoker, for backward compat. ( /servlet/* ) -->
+    <InvokerInterceptor /> 
+
+    <!-- you can add javaCompiler="jikes" -->
+    <JspInterceptor keepGenerated="true" largeFile="false" useJspServlet="false"/>
+        
+    <StaticInterceptor listings="true" useAcceptLanguage="true" useCharset="locale"/>
+        
+    <ReloadInterceptor fullReload="true" />
+
+    <SimpleSessionStore maxActiveSessions="-1" />
+
+    <AccessInterceptor />
+
+    <CredentialsInterceptor />
+
+    <SimpleRealm filename="conf/users/tomcat-users.xml" />
+
+    <LoadOnStartupInterceptor />
+
+    <Servlet22Interceptor />
+
+    <!-- Request processing -->
+
+    <DecodeInterceptor /> 
+
+    <!-- If you are running SSL and wish to verify Tomcat sessions 
+         against SSL sessions, use checkSSLSessionId="true"
+         Default is checkSSLSessionId="false" -->
+    <SessionId cookiesFirst="true" noCookies="false" /> 
+
+    <!-- Automatic config generation
+         Set noRoot="false" if you wish to have Tomcat try to take
+           control of the external web server's root context.
+           Additonal configuration of the external web server may be
+           required for this to be successful.
+         Note: Configuration files are not written as part of the
+           default startup behvior.  Append "jkconf" to the startup
+           command to have Tomcat initialize, write the config files,
+           then exit. This may be done while Tomcat is running. 
+    -->
+    <ApacheConfig noRoot="true" />
+    <IISConfig noRoot="true" />
+    <NSConfig noRoot="true" />
+
+    <AccessLogInterceptor logFile="access.log"/>
+
+    <!-- ==================== Connectors ==================== -->
+
+    <CoyoteConnector port="@cargo.servlet.port@" 
+        maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
+        enableLookups="false" acceptCount="100"
+        debug="0" connectionTimeout="20000" 
+        disableUploadTimeout="true" />
+
+    <!-- JNI connector. It assumes the library is located in 
+         TOMCAT_HOME/bin/native/jni_connect.[dll, nlm, so]. or in LD_LIBRARY_PATH.
+         For different paths set "nativeLibrary" parameter.
+
+         The JniConnector will be self-enable only if JNI mode is detected. 
+    -->
+    <JniConnector /> 
+
+    <!-- Apache AJP12 support. This is also used to shut down tomcat.
+         Parameter "address" defines network interface this Interceptor
+         "binds" to. Add it if you want to "bind" to just "127.0.0.1".
+             
+         address="127.0.0.1"
+             
+         Parameter "tomcatAuthentication", controls if Tomcat honors 
+         ( and uses ) auth done in HTTP Server or not, when true Tomcat does 
+         not use in any way auth information provided by the HTTP Server. 
+         true is the default. 
+             
+         tomcatAuthentication="false"
+    -->
+    <Ajp12Connector	 port="8007" />
+
+    <!-- Jk2 support using coyote. -->
+    <CoyoteConnector processorClassName="org.apache.jk.server.JkCoyoteHandler" 
+        port="8009" />
+
+  </ContextManager>
+</Server>

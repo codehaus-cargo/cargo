@@ -1,0 +1,83 @@
+dn: dc=@domain@
+dc: @domain@
+objectclass: top
+objectclass: domain
+
+dn: ou=@realm@, dc=@domain@
+ou: @realm@
+objectclass: top
+objectclass: organizationalUnit
+
+dn: ou=groups,ou=@realm@, dc=@domain@
+ou: groups
+objectclass: organizationalUnit
+objectclass: top
+
+dn: ou=people,ou=@realm@, dc=@domain@
+ou: people
+objectclass: organizationalUnit
+objectclass: top
+
+dn: cn=Administrators,ou=groups,ou=@realm@, dc=@domain@
+memberURL: ldap:///ou=groups,ou=@realm@,dc=@domain@??sub?(&(objectclass=person)(wlsMemberOf=cn=Administrators,ou=groups,ou=@realm@,dc=@domain@))
+description: Administrators can view and modify all resource attributes and start and stop servers.
+objectclass: top
+objectclass: groupOfUniqueNames
+objectclass: groupOfURLs
+cn: Administrators
+uniquemember: cn=cust,ou=groups,ou=@realm@,dc=@domain@
+uniquemember: cn=admin,ou=groups,ou=@realm@,dc=@domain@
+
+dn: cn=Deployers,ou=groups,ou=@realm@, dc=@domain@
+memberURL: ldap:///ou=groups,ou=@realm@,dc=@domain@??sub?(&(objectclass=person)(wlsMemberOf=cn=Deployers,ou=groups,ou=@realm@,dc=@domain@))
+description: Deployers can view all resource attributes and deploy applications.
+objectclass: top
+objectclass: groupOfUniqueNames
+objectclass: groupOfURLs
+cn: Deployers
+
+dn: cn=Monitors,ou=groups,ou=@realm@, dc=@domain@
+memberURL: ldap:///ou=groups,ou=@realm@,dc=@domain@??sub?(&(objectclass=person)(wlsMemberOf=cn=Monitors,ou=groups,ou=@realm@,dc=@domain@))
+description: Monitors can view and modify all resource attributes and perform operations not restricted by roles.
+objectclass: top
+objectclass: groupOfUniqueNames
+objectclass: groupOfURLs
+cn: Monitors
+
+dn: cn=Operators,ou=groups,ou=@realm@, dc=@domain@
+memberURL: ldap:///ou=groups,ou=@realm@,dc=@domain@??sub?(&(objectclass=person)(wlsMemberOf=cn=Operators,ou=groups,ou=@realm@,dc=@domain@))
+description: Operators can view and modify all resource attributes and perform server lifecycle operations.
+objectclass: top
+objectclass: groupOfUniqueNames
+objectclass: groupOfURLs
+cn: Operators
+
+dn: cn=admin,ou=groups,ou=@realm@, dc=@domain@
+memberURL: ldap:///ou=groups,ou=@realm@,dc=@domain@??sub?(&(objectclass=person)(wlsMemberOf=cn=admin,ou=groups,ou=@realm@,dc=@domain@))
+description: admin_group
+objectclass: top
+objectclass: groupOfUniqueNames
+objectclass: groupOfURLs
+cn: admin
+
+dn: cn=cust,ou=groups,ou=@realm@, dc=@domain@
+memberURL: ldap:///ou=groups,ou=@realm@,dc=@domain@??sub?(&(objectclass=person)(wlsMemberOf=cn=cust,ou=groups,ou=@realm@,dc=@domain@))
+description: cust_group
+objectclass: top
+objectclass: groupOfUniqueNames
+objectclass: groupOfURLs
+cn: cust
+
+dn: uid=weblogic,ou=people,ou=@realm@, dc=@domain@
+description: admin user
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: top
+cn: weblogic
+sn: weblogic
+userpassword: {ssha}Db3plmWceuFbOxDheLMVV+tFRf1ONqaA
+uid: weblogic
+objectclass: wlsUser
+wlsMemberOf: cn=Administrators,ou=groups,ou=@realm@,dc=@domain@
+

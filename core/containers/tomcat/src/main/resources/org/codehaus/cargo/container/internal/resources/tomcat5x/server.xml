@@ -1,0 +1,38 @@
+<Server port="@cargo.rmi.port@" shutdown="SHUTDOWN" debug="@catalina.logging.level@">
+
+  <Service name="Catalina" debug="@catalina.logging.level@">
+
+    <Connector port="@cargo.servlet.port@"
+        maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
+        enableLookups="false" redirectPort="8443" acceptCount="100"
+        connectionTimeout="20000" disableUploadTimeout="true"
+        scheme="@cargo.protocol@" secure="@catalina.secure@"
+        debug="@catalina.logging.level@"/>
+
+    <Engine name="Catalina" defaultHost="@cargo.hostname@" 
+        debug="@catalina.logging.level@">
+
+      <Realm className="org.apache.catalina.realm.MemoryRealm" />
+
+      <!-- Note: There seems to be a bug in Tomcat 5.x if the debug attribute 
+           is present. Ideally we would have written:
+               debug="@catalina.logging.level@"
+           However, doing this result in a NullPointerException in 
+           ExpandWar.java at line 145. -->
+      <Host name="@cargo.hostname@" appBase="webapps" unpackWARs="true"
+          autoDeploy="true" xmlValidation="false" xmlNamespaceAware="false">
+
+        <!-- Contexts to explicitely point to where the wars are located -->
+        @tomcat.webapps@
+
+        <Valve className="org.apache.catalina.valves.AccessLogValve"
+            directory="logs" prefix="@cargo.hostname@_access_log." suffix=".txt"
+            pattern="common" resolveHosts="false"/>
+          
+      </Host>
+
+    </Engine>
+
+  </Service>
+
+</Server>

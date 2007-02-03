@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<!DOCTYPE rmi-server PUBLIC "Orion RMI-server" "http://www.orionserver.com/dtds/rmi-server.dtd">
+
+<rmi-server port="@cargo.rmi.port@">	
+</rmi-server>

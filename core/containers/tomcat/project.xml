@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<project>
+  <extend>${basedir}/../project.xml</extend>
+  <name>Cargo Core Tomcat Container</name>
+  <artifactId>cargo-core-container-tomcat</artifactId>
+  <package>org.codehaus.cargo.container.tomcat</package>
+  <shortDescription>Core API implementation for Tomcat containers</shortDescription>
+  <description>
+    Core API implementation for Tomcat containers
+  </description>
+  <repository>
+    <connection>scm:svn:svn://svn.cargo.codehaus.org/cargo/scm/cargo/trunk/core/containers/tomcat</connection>
+    <url>http://svn.cargo.codehaus.org/</url> 
+  </repository>
+ 
+  <packageGroups>
+    <packageGroup>
+      <title>Public API</title>
+      <packages>org.codehaus.cargo.container.tomcat</packages>
+    </packageGroup>
+    <packageGroup>
+      <title>Internal API</title>
+      <packages>org.codehaus.cargo.container.tomcat.internal</packages>
+    </packageGroup>
+  </packageGroups>  
+
+</project>

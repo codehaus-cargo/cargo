@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!DOCTYPE orion-web-app PUBLIC '//Evermind//Orion web-application' 'http://www.orionserver.com/dtds/orion-web.dtd'>
+
+<!-- Set development="true" to enabvle development, enable this if you
+want to debug JSP sources etc -->
+
+<orion-web-app
+	jsp-cache-directory="./persistence"
+	servlet-webdir="/servlet"
+	development="false"	persistence-path="./persistence/state.ser">
+
+	<!-- The mime-mappings for this server -->
+	<mime-mappings path="./mime.types" />
+	<servlet-chaining servlet-name="xsl" mime-type="text/xml" />
+
+	<web-app>
+		<servlet>
+			<servlet-name>xsl</servlet-name>
+			<servlet-class>com.evermind.servlet.XSLServlet</servlet-class>
+			<init-param>
+				<param-name>defaultContentType</param-name>
+				<param-value>text/html</param-value>
+			</init-param>
+		</servlet>
+	
+		<servlet>
+			<servlet-name>jsp</servlet-name>
+			<servlet-class>com.evermind.server.http.JSPServlet</servlet-class>
+		</servlet>
+
+		<servlet>
+			<servlet-name>ssi</servlet-name>
+			<servlet-class>com.evermind.server.http.SSIServlet</servlet-class>
+		</servlet>
+
+		<servlet>
+			<servlet-name>cgi</servlet-name>
+			<servlet-class>com.evermind.server.http.CGIServlet</servlet-class>
+		</servlet>
+
+		<servlet>
+			<servlet-name>perl</servlet-name>
+			<servlet-class>com.evermind.server.http.CGIServlet</servlet-class>
+			<init-param>
+				<param-name>interpreter</param-name>
+				<param-value>perl</param-value>
+			</init-param>
+		</servlet>
+
+		<servlet>
+			<servlet-name>php</servlet-name>
+			<servlet-class>com.evermind.server.http.CGIServlet</servlet-class>
+			<init-param>
+			<param-name>interpreter</param-name>
+				<param-value>php</param-value>
+			</init-param>
+		</servlet>
+		<servlet-mapping>
+			<servlet-name>jsp</servlet-name>
+			<url-pattern>/*.jsp</url-pattern>
+		</servlet-mapping>
+
+		<servlet-mapping>
+			<servlet-name>cgi</servlet-name>
+			<url-pattern>/*.cgi</url-pattern>
+		</servlet-mapping>
+
+		<servlet-mapping>
+			<servlet-name>perl</servlet-name>
+			<url-pattern>/*.pl</url-pattern>
+		</servlet-mapping>
+
+		<servlet-mapping>
+			<servlet-name>php</servlet-name>
+			<url-pattern>/*.php</url-pattern>
+		</servlet-mapping>
+
+		<servlet-mapping>
+			<servlet-name>php</servlet-name>
+			<url-pattern>/*.php3</url-pattern>
+		</servlet-mapping>
+
+		<servlet-mapping>
+			<servlet-name>php</servlet-name>
+			<url-pattern>/*.phtml</url-pattern>
+		</servlet-mapping>
+
+		<servlet-mapping>
+			<servlet-name>ssi</servlet-name>
+			<url-pattern>/*.shtml</url-pattern>
+		</servlet-mapping>
+		<welcome-file-list>
+			<welcome-file>index.html</welcome-file>
+			<welcome-file>default.jsp</welcome-file>
+		</welcome-file-list>
+	</web-app>
+</orion-web-app>

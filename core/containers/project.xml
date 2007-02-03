@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<project>
+  <extend>${basedir}/../project.xml</extend>
+  <name>Cargo Core Containers</name>
+  <artifactId>cargo-core-containers</artifactId>
+  <package>org.codehaus.cargo.container</package>
+  <shortDescription>Core API Container Implementations</shortDescription>
+  <description>
+    Core API Container Implementations
+  </description>
+  <repository>
+    <connection>scm:svn:svn://svn.cargo.codehaus.org/cargo/scm/cargo/trunk/core/containers</connection>
+    <url>http://svn.cargo.codehaus.org/</url> 
+  </repository>
+ 
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-container</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-util</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-module</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.5.4</version>
+    </dependency>
+    <!-- Note: We should normally put the version in the version tag but unfortunately this
+         doesn't work because it would mean we would have 2 artifacts with the same groupId,
+         artifactId and type... -->
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-util-${pom.currentVersion}</artifactId>
+      <version>tests</version>
+    </dependency>
+  </dependencies>
+
+</project>

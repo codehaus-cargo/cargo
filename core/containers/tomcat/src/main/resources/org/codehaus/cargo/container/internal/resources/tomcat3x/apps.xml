@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<webapps>
+
+    <!-- Contexts to explicitely point to where the wars are located -->
+    @tomcat.webapps@
+  
+</webapps>

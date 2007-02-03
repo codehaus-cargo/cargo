@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE application-server PUBLIC "Orion Application Server Config" "http://www.orionserver.com/dtds/application-server.dtd">
+
+<application-server
+    application-directory="../applications"
+    deployment-directory="../application-deployments">
+
+  <rmi-config path="./rmi.xml"/>
+  <log>
+    <file path="../log/server.log"/>
+  </log>
+
+  <global-application name="default" path="./application.xml"/>
+
+  <!-- Add EAR applications entries for each depoyable EAR -->
+  @orion.application@
+
+  <global-web-app-config path="./global-web-application.xml"/>
+  <web-site path="./default-web-site.xml"/>
+
+</application-server>

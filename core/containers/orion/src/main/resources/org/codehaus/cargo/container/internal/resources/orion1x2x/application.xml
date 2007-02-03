@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE orion-application PUBLIC "-//Evermind//DTD J2EE Application runtime 1.2//EN" "http://www.orionserver.com/dtds/orion-application.dtd">
+
+<orion-application>
+
+  <web-module id="defaultWebApp" path="../default-web-app"/>
+
+  <!-- Add web-module entries for each deployable WAR -->
+  @orion.web-module@
+
+  <!-- Add Cargo Ping Component -->
+  <web-module id="cargocpc" path="../applications/cargocpc.war"/>
+  
+  <persistence path="../persistence"/>
+	
+  <principals path="./principals.xml"/>
+
+  <log>
+    <file path="../log/global-application.log"/>
+  </log>
+
+  @orion.roles@
+
+  <data-sources path="data-sources.xml" />
+
+  <namespace-access>
+    <read-access>
+      <namespace-resource root="">
+        <security-role-mapping>
+          <group name="administrators" />
+        </security-role-mapping>
+      </namespace-resource>
+    </read-access>
+    <write-access>
+      <namespace-resource root="">
+        <security-role-mapping>
+          <group name="administrators" />
+        </security-role-mapping>
+      </namespace-resource>
+    </write-access>
+  </namespace-access>
+
+</orion-application>
