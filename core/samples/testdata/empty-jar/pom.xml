@@ -14,4 +14,20 @@
     <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/testdata/empty-jar</connection>
     <url>http://svn.cargo.codehaus.org/</url> 
   </scm>
+  <!-- We need this for now because Maven is not able to build from the top level without
+       querying the remote repository. This is probably a Maven bug. Remove this when it
+       is fixed -->
+  <repositories>
+    <repository>
+      <id>codehaus.snapshots</id>
+      <name>Codehaus Snapshots</name>
+      <url>http://snapshots.repository.codehaus.org</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 </project>
