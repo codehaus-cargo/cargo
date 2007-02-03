@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo</artifactId>
+    <version>0.9-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-build-tools</artifactId>
+  <name>Cargo Build Tools</name>
+  <packaging>jar</packaging>
+  <description>Cargo Build Tools</description>
+  <scm>
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/build-tools</connection>
+    <url>http://svn.cargo.codehaus.org/</url>
+  </scm>
+</project>
