@@ -21,7 +21,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
-    <artifactId>cargo</artifactId>
+    <artifactId>cargo-parent</artifactId>
     <version>1-SNAPSHOT</version>
     <relativePath>pom/pom.xml</relativePath>
   </parent>
@@ -33,6 +33,9 @@
   <modules>
     <!--module>resources</module-->
     <module>core</module>
+    <module>core/documentation</module>
+    <module>core/samples/testdata</module>
+    <module>core/samples</module>
     <!--module>extensions</module-->
   </modules>
 </project>
