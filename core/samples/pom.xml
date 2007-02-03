@@ -421,7 +421,7 @@
     <module>java</module>
   </modules>
   <properties>
-    <cargo.containers>resin3x, tomcat4x, jetty6x</cargo.containers>
+    <cargo.containers>jetty6x</cargo.containers>
     <cargo.install.dir>${java.io.tmpdir}/cargo/installs</cargo.install.dir>
   </properties>
   <profiles>
