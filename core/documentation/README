@@ -1,0 +1,12 @@
+All Cargo documentation is available on Cargo's website on:
+
+  http://cargo.codehaus.org
+  
+This directory contains additional documentation-related files. Namely:
+- original Microsoft PowerPoint documents used to draw the diagrams found on the website
+- source code snippets referenced on the website (using the Confluence {snippet} macro - see 
+  http://confluence.atlassian.com/display/CONFEXT/Snippet+Macro+Library). We're using this macro
+  to ensure that the examples on the website are always in sync with the code
+
+
+  
