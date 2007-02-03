@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-samples-testdata</artifactId>
+    <version>0.9-SNAPSHOT</version>
+  </parent>
+  <artifactId>simple-war</artifactId>
+  <name>Cargo Simple WAR test data for samples</name>
+  <packaging>war</packaging>
+  <scm>
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/testdata/simple-war</connection>
+    <url>http://svn.cargo.codehaus.org/</url> 
+  </scm>
+</project>

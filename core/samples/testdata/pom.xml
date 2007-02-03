@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo</artifactId>
+    <version>0.9-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+  <groupId>org.codehaus.cargo</groupId>
+  <artifactId>cargo-samples-testdata</artifactId>
+  <packaging>pom</packaging>
+  <name>Cargo Samples Test Data</name>
+  <description>Test data for the Sample applications</description>
+  <scm>
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/testdata</connection>
+    <url>http://svn.cargo.codehaus.org/</url>
+  </scm>
+  <modules>
+    <module>empty-jar</module>
+    <module>empty-ear</module>
+    <module>simple-war</module>
+    <module>simple-ejb</module>
+    <module>simple-ear</module>
+    <module>authentication-war</module>
+    <module>expanded-war</module>
+    <module>tomcat-context</module>
+  </modules>
+</project>

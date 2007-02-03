@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-samples-testdata</artifactId>
+    <version>0.9-SNAPSHOT</version>
+  </parent>
+  <artifactId>simple-ejb</artifactId>
+  <name>Cargo Simple EJB test data for samples</name>
+  <packaging>ejb</packaging>
+  <scm>
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/testdata/simple-ejb</connection>
+    <url>http://svn.cargo.codehaus.org/</url> 
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-j2ee_1.4_spec</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+</project>

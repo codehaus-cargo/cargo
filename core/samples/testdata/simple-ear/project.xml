@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<project>
+  <extend>${basedir}/../project.xml</extend>
+  <name>Simple EAR test data for Cargo samples</name>
+  <artifactId>simple-ear</artifactId>
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>simple-war</artifactId>
+      <version>${pom.currentVersion}</version>
+      <type>war</type>
+      <properties>
+        <ear.bundle>true</ear.bundle>
+        <ear.appxml.war.context-root>/simpleweb</ear.appxml.war.context-root>
+      </properties>
+    </dependency>
+  </dependencies>
+</project>

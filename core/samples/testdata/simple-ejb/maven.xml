@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<project default="cargo:dist">
+  <goal name="cargo:dist" prereqs="ejb:install"/>
+</project>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<project>
+  <extend>${basedir}/../../build-tools/project.xml</extend>
+  <name>Cargo Samples Test Data</name>
+  <shortDescription>Test data for the Sample applications</shortDescription>
+  <description>
+    Test data for the Sample applications
+  </description>
+  <reports/>
+</project>

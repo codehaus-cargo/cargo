@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<project>
+  <extend>${basedir}/../project.xml</extend>
+  <name>Empty EAR test data for Cargo samples</name>
+  <artifactId>empty-ear</artifactId>
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>empty-jar</artifactId>
+      <version>${pom.currentVersion}</version>
+      <properties>
+        <ear.module>true</ear.module>
+      </properties>
+    </dependency>
+  </dependencies>
+</project>

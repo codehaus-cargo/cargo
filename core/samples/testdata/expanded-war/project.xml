@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<project>
+  <extend>${basedir}/../project.xml</extend>
+  <name>Expanded WAR test data for Cargo samples</name>
+  <artifactId>expanded-war</artifactId>
+</project>
