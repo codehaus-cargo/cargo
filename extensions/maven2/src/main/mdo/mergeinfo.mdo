@@ -1,0 +1,95 @@
+<model>
+  <id>uberwar</id>
+  <name>UberWar</name>
+  <description>
+    Items that should be merged by the uberwar
+  </description>
+  <defaults>
+    <default>
+    	<key>package</key>
+      <value>org.codehaus.cargo.maven2</value> 
+    </default>
+  </defaults>
+  <classes>
+    <class rootElement="true" xml.tagName="uberwar">
+      <name>MergeRoot</name>
+      <version>1.0.0</version>
+      <description>Root element of the merge xml</description>
+      
+      <fields>
+        <field>
+          <name>wars</name>
+          <version>1.0.0</version>
+          <description>War Files to merge</description>
+          <association>
+            <name>war</name>
+            <type>String</type>
+            <multiplicity>*</multiplicity>
+          </association>
+        </field>
+
+        <field>
+          <name>merges</name>
+          <version>1.0.0</version>
+          <description>Merge settings</description>
+          <association>            
+            <type>Merge</type>
+            <multiplicity>*</multiplicity>
+          </association>
+        </field>
+
+        <field>
+	    	  <name>webXml</name>
+	    	  <version>1.0.0</version>   	  
+          <association>
+            <type>WebXml</type>
+       	    <version>1.0.0</version>
+            <multiplicity>1</multiplicity>
+          </association>         
+	  	  </field>	  
+
+
+      </fields>
+      
+    </class>
+
+
+	  <class>
+	    <name>WebXml</name>
+	    <description>Web.xml merge settings</description>
+	    <version>1.0.0</version>
+	    
+	    <fields>
+	      <field>
+	        <name>contextParams</name>
+	        <type>DOM</type>
+	      </field>
+	    </fields>
+	    
+	  </class>
+    
+	  <class>
+	    <name>Merge</name>
+	    <description>Merge settings</description>
+	    <version>1.0.0</version>
+	    
+	    <fields>
+	      <field>
+	        <name>document</name>
+	        <type>String</type>
+	      </field>
+	      <field>
+	        <name>file</name>
+	        <type>String</type>
+	      </field>
+	      
+	       <field>
+	        <name>classname</name>
+	        <type>String</type>
+	      </field>
+	    </fields>
+	    
+	  </class>
+    
+  </classes>
+</model>

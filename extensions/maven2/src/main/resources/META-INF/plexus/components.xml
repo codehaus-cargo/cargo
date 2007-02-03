@@ -1,0 +1,31 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
+      <role-hint>uberwar</role-hint>
+      <implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping</implementation>
+      <configuration>
+        <phases>              
+              <package>
+                org.codehaus.cargo:cargo-maven2-plugin:uberwar
+              </package>
+              <install>org.apache.maven.plugins:maven-install-plugin:install</install>
+              <deploy>org.apache.maven.plugins:maven-deploy-plugin:deploy</deploy>
+            </phases>
+      </configuration>
+    </component>
+		
+	
+	<component>
+      <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
+      <role-hint>uberwar</role-hint>
+      <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
+      <configuration>        
+        <type>uberwar</type>  
+		 <extension>war</extension>
+        <packaging>uberwar</packaging>       
+      </configuration>
+    </component>
+	
+  </components>
+</component-set>
