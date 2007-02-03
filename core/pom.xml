@@ -64,8 +64,8 @@
   </build>
   <modules>
     <module>api</module>
-    <!--module>containers</module>
-    <module>uberjar</module>
+    <module>containers</module>
+    <!--module>uberjar</module>
     <module>documentation</module>
     <module>samples</module-->
   </modules>
