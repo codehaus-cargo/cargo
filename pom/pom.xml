@@ -1,0 +1,348 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.cargo</groupId>
+  <artifactId>cargo</artifactId>
+  <name>Cargo</name>
+  <packaging>pom</packaging>
+  <version>0.9-SNAPSHOT</version>
+  <url>http://cargo.codehaus.org</url>
+  <prerequisites>
+    <!-- It may work with previous versions of Maven but this hasn't been tested so for safety
+         we require Maven 2.0.4 -->
+    <maven>2.0.4</maven>
+  </prerequisites>
+  <ciManagement>
+    <notifiers>
+      <notifier>
+        <type>mail</type>
+        <configuration>
+          <address>dev@cargo.codehaus.org</address>
+        </configuration>
+      </notifier>
+      <notifier>
+        <type>irc</type>
+        <configuration>
+          <host>irc.codehaus.org</host>
+          <port>6667</port>
+          <channel>#cargo</channel>
+        </configuration>
+      </notifier>
+    </notifiers>
+  </ciManagement>
+  <inceptionYear>2004</inceptionYear>
+  <issueManagement>
+    <system>jira</system>
+    <url>http://jira.codehaus.org/browse/CARGO</url>
+  </issueManagement>
+  <developers>
+    <developer>
+      <name>Vincent Massol</name>
+      <id>vmassol</id>
+      <email>vmassol@codehaus.org</email>
+      <organization>Codehaus</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+    <developer>
+      <name>Desire Atanga</name>
+      <id>datanga</id>
+      <email></email>
+      <organization>OCTO Technology</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+    <developer>
+      <name>Hendrik Schreiber</name>
+      <id>hendriks</id>
+      <email>hs@tagtraum.com</email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Arnaud Heritier</name>
+      <id>aheritier</id>
+      <email></email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+    <developer>
+      <name>Milos Kleint</name>
+      <id>mkleint</id>
+      <email></email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>I Nyoman Winardi</name>
+      <id>winwin</id>
+      <email></email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Lev Olkhovich</name>
+      <id>oleo</id>
+      <email></email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Mark Hobson</name>
+      <id>mark</id>
+      <email></email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Magnus Grimsell</name>
+      <id>grimsell</id>
+      <email></email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Nigel Magnay</name>
+      <id>magnayn</id>
+      <email></email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Jan Bartel</name>
+      <id>janb</id>
+      <email></email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Scott Farquhar</name>
+      <id>sfarquhar</id>
+      <email></email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Vincent Siveton</name>
+      <id>vsiveton</id>
+      <email></email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <name>Jerome Lacoste</name>
+    </contributor>
+    <contributor>
+      <name>Tim Shadel</name>
+    </contributor>
+    <contributor>
+      <name>Matt Raible</name>
+    </contributor>
+    <contributor>
+      <name>Jan Zuchhold</name>
+    </contributor>
+    <contributor>
+      <name>Eoghan McIlwaine</name>
+    </contributor>
+    <contributor>
+      <name>Bill Dudney</name>
+    </contributor>
+    <contributor>
+      <name>Rahul Thakur</name>
+    </contributor>
+    <contributor>
+      <name>Lester Ecarma</name>
+    </contributor>
+    <contributor>
+      <name>Juri Artamonov</name>
+    </contributor>
+    <contributor>
+      <name>Kohsuke Kawaguchi</name>
+    </contributor>
+    <contributor>
+      <name>Wendy Smoak</name>
+    </contributor>
+    <contributor>
+      <name>Cedric Vidal</name>
+    </contributor>
+  </contributors>
+  <dependencies/>
+  <organization>
+    <name>Codehaus</name>
+    <url>http://codehaus.org/</url>
+  </organization>
+  <distributionManagement>
+    <repository>
+      <id>cargo-release</id>
+      <name>Cargo's release repository</name>
+      <url>dav:https://dav.codehaus.org/repository/cargo/</url>
+    </repository>
+    <snapshotRepository>
+      <id>cargo-snapshot</id>
+      <name>Cargo's snapshot repository</name>
+      <url>dav:https://dav.codehaus.org/snapshots.repository/cargo/</url>
+    </snapshotRepository>
+    <site>
+      <id>cargo-website</id>
+      <url>dav:https://dav.codehaus.org/cargo/maven-site/</url>
+    </site>
+  </distributionManagement>
+  <scm>
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk</connection>
+    <developerConnection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk</developerConnection>
+    <url>http://svn.cargo.codehaus.org/</url> 
+  </scm>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>clirr-maven-plugin</artifactId>
+        <configuration>
+          <minSeverity>info</minSeverity>
+          <textOutputFile>${project.build.directory}/clirr.txt</textOutputFile>
+          <excludes>
+            <exclude>**/internal/**</exclude>
+            <exclude>**/spi/**</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+      <!-- Commenting out till Clover plugin v2.2 is released. This is because we need support for
+           test-jar artifacts which wasn't working in v2.1.
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clover-plugin</artifactId>
+      </plugin-->
+    </plugins>
+  </reporting>
+
+  <build>
+
+    <pluginManagement>
+      <plugins>
+        <!-- Apply checkstyle rules and fail the build in case of errors. The checkstyle config
+             files are taken from the build-tools JAR module -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <dependencies>
+            <dependency>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-build-tools</artifactId>
+              <version>${version}</version>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <consoleOutput>true</consoleOutput>
+            <configLocation>build-tools/checkstyle.xml</configLocation>
+            <headerLocation>build-tools/checkstyle.license</headerLocation>
+            <suppressionsLocation>build-tools/checkstyle-suppressions.xml</suppressionsLocation>
+            <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.4</source>
+          <target>1.4</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <!-- TODO: Version 2.2 of the surefire plugin seems to be not working for us.
+             See http://jira.codehaus.org/browse/MSUREFIRE-145. Once it's fixed we'll be able
+             to remove this version element -->
+        <version>2.1.3</version>
+        <configuration>
+          <excludes>
+            <exclude>**/Abstract*.java</exclude>
+            <exclude>**/Test*.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+      <!-- Commenting out till Clover plugin v2.2 is released. This is because we need support for
+           test-jar artifacts which wasn't working in v2.1.
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clover-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>instrument</goal>
+              <goal>aggregate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin-->
+
+    </plugins>
+
+    <!-- Codehaus is now using WebDav so we need to use the correct Maven Wagon to access it -->
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-1</version>
+      </extension>
+    </extensions>
+
+  </build>
+
+  <modules>
+    <module>build-tools</module>
+    <module>core</module>
+    <module>documentation</module>
+    <module>extensions</module>
+    <module>samples/testdata</module>
+    <module>samples</module>
+  </modules>
+
+</project>
