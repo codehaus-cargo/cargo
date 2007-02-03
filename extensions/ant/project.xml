@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<project>
+  <extend>${basedir}/../../build-tools/project.xml</extend>
+  <name>Cargo Ant tasks</name>
+  <artifactId>cargo-ant</artifactId>
+  <package>org.codehaus.cargo.ant</package>
+  <shortDescription>Ant tasks for Cargo</shortDescription>
+  <description>
+    Ant tasks for Cargo
+  </description>
+  <repository>
+    <connection>scm:svn:http://svn.cargo.codehaus.org/cargo/trunk/ant</connection>
+    <url>http://svn.cargo.codehaus.org/</url> 
+  </repository>
+ 
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-util</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-module</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-container</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-generic</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+    
+    <!-- Container implementations -->
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-geronimo</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-jboss</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-jo</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-orion</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-resin</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-tomcat</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-weblogic</artifactId>
+      <version>${pom.currentVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.5.4</version>
+    </dependency>
+
+    <!-- Test dependencies -->
+
+    <!-- Note: We should normally put the version in the version tag but unfortunately this
+         doesn't work because it would mean we would have 2 artifacts with the same groupId,
+         artifactId and type... -->
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-container-${pom.currentVersion}</artifactId>
+      <version>tests</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test/java</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+
+      <!-- unit test resources --> 
+      <resources> 
+        <resource> 
+          <directory>src/test/resources</directory> 
+          <includes> 
+            <include>**</include> 
+          </includes> 
+          <excludes> 
+            <exclude>**/*.java</exclude>
+          </excludes>
+        </resource> 
+      </resources>       
+
+    </unitTest>
+
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+
+  </build>
+
+</project>
