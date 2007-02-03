@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<!-- This POM is the one that should be deployed to the Maven remote repository. It doesn't
+     contain any reference to private artifacts making it compatible with m2. Please note that
+     this is a minimal POM which doesn't contain all the information about the Cargo project. -->
+
+<project>
+  <pomVersion>3</pomVersion>
+  <groupId>org.codehaus.cargo</groupId>
+  <currentVersion>0.9-SNAPSHOT</currentVersion>
+  <name>Cargo Core Uberjar</name>
+  <artifactId>cargo-core-uberjar</artifactId>
+  <package>org.codehaus.cargo</package>
+  <shortDescription>The Cargo Core Uberjar</shortDescription>
+  <description>
+    The Cargo Core Uberjar
+  </description>
+  <repository>
+    <connection>scm:svn:svn://svn.cargo.codehaus.org/cargo/scm/cargo/core/uberjar</connection>
+    <url>http://svn.cargo.codehaus.org/</url>
+  </repository>
+  <distributionSite>beaver.codehaus.org</distributionSite>
+  <distributionDirectory>/dist</distributionDirectory>
+  <dependencies>
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.5.4</version>
+    </dependency>
+  </dependencies>
+</project>

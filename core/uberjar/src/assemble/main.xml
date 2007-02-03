@@ -1,0 +1,27 @@
+<assembly>
+  <formats>
+    <format>jar</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>org.codehaus.cargo:cargo-core-api-container</include>
+        <include>org.codehaus.cargo:cargo-core-api-module</include>
+        <include>org.codehaus.cargo:cargo-core-api-util</include>
+        <include>org.codehaus.cargo:cargo-core-api-generic</include>
+        <include>org.codehaus.cargo:cargo-core-container-geronimo</include>
+        <include>org.codehaus.cargo:cargo-core-container-jboss</include>
+        <include>org.codehaus.cargo:cargo-core-container-jetty</include>
+        <include>org.codehaus.cargo:cargo-core-container-jo</include>
+        <include>org.codehaus.cargo:cargo-core-container-resin</include>
+        <include>org.codehaus.cargo:cargo-core-container-tomcat</include>
+        <include>org.codehaus.cargo:cargo-core-container-orion</include>
+        <include>org.codehaus.cargo:cargo-core-container-weblogic</include>
+      </includes>
+      <unpack>true</unpack>
+      <scope>test</scope>
+    </dependencySet>
+  </dependencySets>
+</assembly>
