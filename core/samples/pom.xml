@@ -421,7 +421,7 @@
     <module>java</module>
   </modules>
   <properties>
-    <cargo.containers>jetty6x</cargo.containers>
+    <cargo.containers>resin3x, tomcat4x, jetty6x</cargo.containers>
     <cargo.install.dir>${java.io.tmpdir}/cargo/installs</cargo.install.dir>
   </properties>
   <profiles>
@@ -497,6 +497,24 @@
       <id>jetty6x</id>
       <properties>
         <cargo.containers>jetty6x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jboss3x</id>
+      <properties>
+        <cargo.containers>jboss3x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jboss4x</id>
+      <properties>
+        <cargo.containers>jboss4x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jo1x</id>
+      <properties>
+        <cargo.containers>jo1x</cargo.containers>
       </properties>
     </profile>
   </profiles>
