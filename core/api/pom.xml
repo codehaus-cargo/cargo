@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-core</artifactId>
+    <version>0.9-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-core-api</artifactId>
+  <name>Cargo Core API</name>
+  <packaging>pom</packaging>
+  <description>The Cargo Core API</description>
+  <scm>
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/core/api</connection>
+    <url>http://svn.cargo.codehaus.org/</url>
+  </scm>
+  <modules>
+    <module>util</module>
+    <module>module</module>
+    <module>container</module>
+    <module>generic</module>
+  </modules>
+</project>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-core-api</artifactId>
+    <version>0.9-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-core-api-container</artifactId>
+  <name>Cargo Core Container API</name>
+  <packaging>jar</packaging>
+  <description>API to start/stop/configure containers</description>
+  <scm>
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/core/api/container</connection>
+    <url>http://svn.cargo.codehaus.org/</url>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-module</artifactId>
+      <version>${version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-j2ee-deployment_1.1_spec</artifactId>
+      <version>1.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.5.4</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-util</artifactId>
+      <version>${version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <!-- We create an attached artifact containing reusable test classes which we're reusing
+           in other module's unit tests.
+           Note: We need to only include some classes but there seems to be no way to do that using
+           the JAR plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <group>"Public API" "org.codehaus.cargo.container*", "Public SPI" "org.codehaus.cargo.container.spi*", "Internal API" "org.codehaus.cargo.container.internal*"</group>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
