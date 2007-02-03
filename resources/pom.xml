@@ -21,15 +21,20 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
-    <artifactId>cargo-resources</artifactId>
-    <version>0.9-SNAPSHOT</version>
+    <artifactId>cargo-parent</artifactId>
+    <version>1-SNAPSHOT</version>
+    <relativePath>../pom/pom.xml</relativePath>
   </parent>
-  <artifactId>cargo-build-tools</artifactId>
-  <name>Cargo Build Tools</name>
-  <packaging>jar</packaging>
-  <description>Cargo Build Tools</description>
+  <artifactId>cargo-resources</artifactId>
+  <name>Cargo Shared Resources</name>
+  <version>0.9-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <description>Cargo Shared Resources (License files, Checkstyle configuration files, etc)</description>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/resources/trunk/build-tools</connection>
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/resources/trunk</connection>
     <url>http://svn.cargo.codehaus.org/</url>
   </scm>
+  <modules>
+    <module>build-tools</module>
+  </modules>
 </project>
