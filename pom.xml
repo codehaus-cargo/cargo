@@ -36,6 +36,6 @@
     <module>core/documentation</module>
     <module>core/samples/testdata</module>
     <module>core/samples</module>
-    <!--module>extensions</module-->
+    <module>extensions</module>
   </modules>
 </project>
