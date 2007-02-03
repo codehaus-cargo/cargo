@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<project default="cargo:dist"
+    xmlns:u="jelly:util"
+    xmlns:ant="jelly:ant"
+  	xmlns:j="jelly:core">
+
+  <goal name="cargo:dist" prereqs="jar:install"/>
+
+  <goal name="cargo:clover" prereqs="clover:test"/>
+
+</project>
