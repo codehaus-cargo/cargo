@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo</artifactId>
+    <version>0.9-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-samples</artifactId>
+  <packaging>pom</packaging>
+  <name>Cargo Samples</name>
+  <description>Sample applications that exercises the Cargo APIs</description>
+  <scm>
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples</connection>
+    <url>http://svn.cargo.codehaus.org/</url>
+  </scm>
+  <dependencies>
+
+    <!-- TODO: We would like to depend only on the agggregated core jar but this feature is not yet
+         available in Maven2. Refactor when it is -->
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-generic</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- Container dependencies (in alphabetical order) -->
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-geronimo</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-jboss</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-jetty</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-jo</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-orion</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-resin</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-tomcat</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-weblogic</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- Test data artifacts -->
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>simple-war</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>simple-ejb</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <type>ejb</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>expanded-war</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>authentication-war</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>tomcatcontext-war</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>simple-ear</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <type>ear</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>empty-ear</artifactId>
+      <version>0.9-SNAPSHOT</version>
+      <type>ear</type>
+    </dependency>
+
+  </dependencies>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <!-- TODO: Version 2.2 of the surefire plugin seems to be not working for us.
+               See http://jira.codehaus.org/browse/MSUREFIRE-145. Once it's fixed we'll be able
+               to remove this version element -->
+          <version>2.1.3</version>
+          <configuration>
+            
+            <forkMode>pertest</forkMode>
+            <useFile>false</useFile>
+            <reportFormat>plain</reportFormat>
+
+            <systemProperties>
+
+              <!--
+                Default locations from where to get the container installation files. If you
+                wish to use a version already downloaded on your filesystem, use the
+                "file:///" prefix instead of "http://".
+                For example: file:///c:/apps/resin-3.0.19.zip
+                If you wish to use an already installed container, set the
+                "cargo.[container name].home" property in your settings.xml file.
+                For example: c:/apps/resin-3.0.19
+                -->
+
+              <property>
+                <name>cargo.resin3x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.resin3x.url</name>
+                <value>http://www.caucho.com/download/resin-3.0.22.zip</value>
+              </property>
+
+              <property>
+                <name>cargo.resin2x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.resin2x.url</name>
+                <value>http://www.caucho.com/download/resin-2.1.17.zip</value>
+              </property>
+
+              <property>
+                <name>cargo.orion2x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.orion2x.url</name>
+                <value>http://www.orionserver.com/distributions/orion2.0.7.zip</value>
+              </property>
+
+              <property>
+                <name>cargo.orion1x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.orion1x.url</name>
+                <value>http://www.orionserver.com/distributions/orion1.6.0b.zip</value>
+              </property>
+
+              <property>
+                <name>cargo.tomcat3x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.tomcat3x.url</name>
+                <value>http://www.apache.org/dist/tomcat/tomcat-3/v3.3.2/bin/jakarta-tomcat-3.3.2.zip</value>
+              </property>
+
+              <property>
+                <name>cargo.tomcat4x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.tomcat4x.url</name>
+                <value>http://www.apache.org/dist/tomcat/tomcat-4/v4.1.34/bin/apache-tomcat-4.1.34.zip</value>
+              </property>
+
+              <!--
+                Note: For Tomcat 5.5.x (requires JDK 1.5), you can use the following URL:
+                http://www.apache.org/dist/tomcat/tomcat-5/v5.5.17/bin/apache-tomcat-5.5.17.zip
+                -->
+              <property>
+                <name>cargo.tomcat5x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.tomcat5x.url</name>
+                <value>http://www.apache.org/dist/tomcat/tomcat-5/v5.0.30/bin/jakarta-tomcat-5.0.30.zip</value>
+              </property>
+
+              <property>
+                <name>cargo.jetty4x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.jetty4x.url</name>
+                <value>http://dist.codehaus.org/jetty/jetty-4.2.27.zip</value>
+              </property>
+
+              <property>
+                <name>cargo.jetty5x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.jetty5x.url</name>
+                <value>http://dist.codehaus.org/jetty/jetty-5.1.12.zip</value>
+              </property>
+
+              <property>
+                <name>cargo.jetty6x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.jetty6x.url</name>
+                <value>http://dist.codehaus.org/jetty/jetty-6.1.1rc1.zip</value>
+              </property>
+
+              <!--
+                Note: There is no direct download link for WL 8.x. Thus you have to manually
+                install it on your machine and specify where it is installed using the
+                cargo.weblogic8x.home property.
+                For example:
+                  <property>
+                    <name>cargo.weblogic8x.home</name>
+                    <value>c:/bea/weblogic81</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.weblogic8x.port</name>
+                <value>8280</value>
+              </property>
+
+              <!--
+                Note: There is no direct download link for OC4J 9.x. Thus you have to manually
+                install it on your machine and specify where it is installed using the
+                cargo.oc4j9x.home property.
+                For example:
+                  <property>
+                    <name>cargo.oc4j9x.home</name>
+                    <value>c:/apps/oc4j-9.0.4</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.oc4j9x.port</name>
+                <value>8280</value>
+              </property>
+
+              <property>
+                <name>cargo.jo1x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.jo1x.url</name>
+                <value>http://www.tagtraum.com/download/jo1.1beta1.zip</value>
+              </property>
+
+              <property>
+                <name>cargo.jboss3x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.jboss3x.url</name>
+                <value>http://ovh.dl.sourceforge.net/sourceforge/jboss/jboss-3.2.8.SP1.zip</value>
+              </property>
+
+              <property>
+                <name>cargo.jboss4x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.jboss4x.url</name>
+                <value>http://downloads.sourceforge.net/jboss/jboss-4.0.5.GA.zip?big_mirror=1</value>
+              </property>
+
+              <!--
+                If you're behind a proxy, you can define the following properties in your
+                settings.xml file:
+
+                  <property>
+                    <name>cargo.proxy.host</name>
+                    <value>[proxy host]</value>
+                  </property>
+                  <property>
+                    <name>cargo.proxy.port</name>
+                    <value>[proxy port]</value>
+                  </property>
+                  <property>
+                    <name>cargo.proxy.user</name>
+                    <value>[proxy user (if any)]</value>
+                  </property>
+                  <property>
+                    <name>cargo.proxy.password</name>
+                    <value>[proxy password (if any)]</value>
+                  </property>
+                  <property>
+                    <name>cargo.proxy.excludehosts</name>
+                    <value>
+                      [A list of hosts to bypass the proxy on (if any). These should be
+                      separated with the vertical bar character '|'. Only in Java 1.4 does ftp use
+                      this list. e.g. fozbot.corp.sun.com|*.eng.sun.com]
+                    </value>
+                  </property>
+              -->
+
+              <property>
+                <name>cargo.target.dir</name>
+                <value>${basedir}/target</value>
+                <!--value>${project.build.directory}</value-->
+              </property>
+
+              <!--
+                Location of testdata dependencies used by the tests. These paths are relative to
+                the local Maven repository.
+                -->
+              <property>
+                <name>cargo.testdata.empty-ear</name>
+                <value>org/codehaus/cargo/empty-ear/0.9-SNAPSHOT/empty-ear-0.9-SNAPSHOT.ear</value>
+              </property>
+              <property>
+                <name>cargo.testdata.authentication-war</name>
+                <value>org/codehaus/cargo/authentication-war/0.9-SNAPSHOT/authentication-war-0.9-SNAPSHOT.war</value>
+              </property>
+              <property>
+                <name>cargo.testdata.expanded-war</name>
+                <value>org/codehaus/cargo/expanded-war/0.9-SNAPSHOT/expanded-war-0.9-SNAPSHOT.war</value>
+              </property>
+              <property>
+                <name>cargo.testdata.simple-ear</name>
+                <value>org/codehaus/cargo/simple-ear/0.9-SNAPSHOT/simple-ear-0.9-SNAPSHOT.ear</value>
+              </property>
+              <property>
+                <name>cargo.testdata.simple-war</name>
+                <value>org/codehaus/cargo/simple-war/0.9-SNAPSHOT/simple-war-0.9-SNAPSHOT.war</value>
+              </property>
+              <property>
+                <name>cargo.testdata.simple-ejb</name>
+                <value>org/codehaus/cargo/simple-ejb/0.9-SNAPSHOT/simple-ejb-0.9-SNAPSHOT.jar</value>
+              </property>
+              <property>
+                <name>cargo.testdata.tomcatcontext-war</name>
+                <value>org/codehaus/cargo/tomcatcontext-war/0.9-SNAPSHOT/tomcatcontext-war-0.9-SNAPSHOT.war</value>
+              </property>
+
+              <property>
+                <name>cargo.version</name>
+                <value>0.9-SNAPSHOT</value>
+              </property>
+
+              <property>
+                <name>cargo.containers.timeout</name>
+                <value>120000</value>
+              </property>
+
+              <!-- Location where to download and install the containers for the tests -->
+              <property>
+                <name>cargo.install.dir</name>
+                <value>${cargo.install.dir}</value>
+              </property>
+
+              <!-- Default list of containers to run on. If you want to shorten or change the
+                   execution of 'samples', simply specify a shorter list of containers on the
+                   command line or in your settings -->
+              <property>
+                <name>cargo.containers</name>
+                <value>${cargo.containers}</value>
+              </property>
+
+            </systemProperties>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+  <modules>
+    <module>java</module>
+    <module>extensions</module>
+  </modules>
+  <properties>
+    <cargo.containers>jetty6x</cargo.containers>
+    <cargo.install.dir>${java.io.tmpdir}/cargo/installs</cargo.install.dir>
+  </properties>
+  <profiles>
+    <profile>
+      <!-- All containers for the CI -->
+      <id>all-ci</id>
+      <properties>
+        <cargo.containers>resin3x, orion2x, tomcat5x, jetty6x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <!-- All containers that have a distribution which can be downloaded automatically -->
+      <id>all-downloadable</id>
+      <properties>
+        <cargo.containers>resin2x, resin3x, orion1x, orion2x, tomcat3x, tomcat4x, tomcat5x, jetty4x, jetty5x, jetty6x, geronimo1x, jboss3x, jboss4x, jo1x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>orion1x</id>
+      <properties>
+        <cargo.containers>orion1x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>orion2x</id>
+      <properties>
+        <cargo.containers>orion2x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>resin2x</id>
+      <properties>
+        <cargo.containers>resin2x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>resin3x</id>
+      <properties>
+        <cargo.containers>resin3x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomcat3x</id>
+      <properties>
+        <cargo.containers>tomcat3x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomcat4x</id>
+      <properties>
+        <cargo.containers>tomcat4x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomcat5x</id>
+      <properties>
+        <cargo.containers>tomcat5x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jetty4x</id>
+      <properties>
+        <cargo.containers>jetty4x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jetty5x</id>
+      <properties>
+        <cargo.containers>jetty5x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jetty6x</id>
+      <properties>
+        <cargo.containers>jetty6x</cargo.containers>
+      </properties>
+    </profile>
+  </profiles>
+</project>
