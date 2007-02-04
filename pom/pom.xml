@@ -30,24 +30,6 @@
          we require Maven 2.0.4 -->
     <maven>2.0.4</maven>
   </prerequisites>
-  <ciManagement>
-    <notifiers>
-      <notifier>
-        <type>mail</type>
-        <configuration>
-          <address>dev@cargo.codehaus.org</address>
-        </configuration>
-      </notifier>
-      <notifier>
-        <type>irc</type>
-        <configuration>
-          <host>irc.codehaus.org</host>
-          <port>6667</port>
-          <channel>#cargo</channel>
-        </configuration>
-      </notifier>
-    </notifiers>
-  </ciManagement>
   <inceptionYear>2004</inceptionYear>
   <issueManagement>
     <system>jira</system>
