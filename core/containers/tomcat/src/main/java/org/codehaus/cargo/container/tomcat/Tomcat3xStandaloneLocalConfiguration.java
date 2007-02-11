@@ -106,7 +106,7 @@ public class Tomcat3xStandaloneLocalConfiguration extends AbstractTomcatStandalo
                     && !((WAR) deployable).isExpandedWar())
                 {
                     String appName = getFileHandler().getName(deployable.getFile());
-                    fileUtils.copyFile(deployable.getFile(),
+                    fileUtils.copyFile(new File(deployable.getFile()).getAbsolutePath(),
                         getFileHandler().append(appDir, appName), null, true);                    
                 }
                 else if (deployable.getType() != DeployableType.WAR)
