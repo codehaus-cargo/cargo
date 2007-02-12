@@ -30,7 +30,8 @@
   <packaging>maven-one-plugin</packaging>
   <description>Cargo Maven 1 plugin</description>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/extensions/maven</connection>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/extensions/trunk/maven</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/trunk/maven</developerConnection>
     <url>http://svn.cargo.codehaus.org/</url>
   </scm>
   <dependencies>

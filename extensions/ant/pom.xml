@@ -29,7 +29,8 @@
   <packaging>jar</packaging>
   <description>Ant tasks for Cargo</description>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/extensions/ant</connection>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/extensions/trunk/ant</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/trunk/ant</developerConnection>
     <url>http://svn.cargo.codehaus.org/</url>
   </scm>
   <dependencies>

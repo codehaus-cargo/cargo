@@ -30,7 +30,8 @@
   <packaging>pom</packaging>
   <description>Cargo Extensions</description>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/extensions/trunk</connection>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/extensions/trunk</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/trunk</developerConnection>
     <url>http://svn.cargo.codehaus.org/</url>
   </scm>
   
