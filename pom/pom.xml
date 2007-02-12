@@ -1,10 +1,29 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2005-2007 Vincent Massol.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.codehaus.cargo</groupId>
   <artifactId>cargo-parent</artifactId>
   <name>Cargo</name>
   <packaging>pom</packaging>
-  <version>1</version>
+  <version>1-SNAPSHOT</version>
   <url>http://cargo.codehaus.org</url>
   <prerequisites>
     <!-- It may work with previous versions of Maven but this hasn't been tested so for safety
@@ -30,7 +49,7 @@
     <developer>
       <name>Desire Atanga</name>
       <id>datanga</id>
-      <email />
+      <email></email>
       <organization>OCTO Technology</organization>
       <roles>
         <role>Java Developer</role>
@@ -41,7 +60,7 @@
       <name>Hendrik Schreiber</name>
       <id>hendriks</id>
       <email>hs@tagtraum.com</email>
-      <organization />
+      <organization></organization>
       <roles>
         <role>Java Developer</role>
       </roles>
@@ -49,8 +68,8 @@
     <developer>
       <name>Arnaud Heritier</name>
       <id>aheritier</id>
-      <email />
-      <organization />
+      <email></email>
+      <organization></organization>
       <roles>
         <role>Java Developer</role>
       </roles>
@@ -59,8 +78,8 @@
     <developer>
       <name>Milos Kleint</name>
       <id>mkleint</id>
-      <email />
-      <organization />
+      <email></email>
+      <organization></organization>
       <roles>
         <role>Java Developer</role>
       </roles>
@@ -68,8 +87,8 @@
     <developer>
       <name>I Nyoman Winardi</name>
       <id>winwin</id>
-      <email />
-      <organization />
+      <email></email>
+      <organization></organization>
       <roles>
         <role>Java Developer</role>
       </roles>
@@ -77,8 +96,8 @@
     <developer>
       <name>Lev Olkhovich</name>
       <id>oleo</id>
-      <email />
-      <organization />
+      <email></email>
+      <organization></organization>
       <roles>
         <role>Java Developer</role>
       </roles>
@@ -86,8 +105,8 @@
     <developer>
       <name>Mark Hobson</name>
       <id>mark</id>
-      <email />
-      <organization />
+      <email></email>
+      <organization></organization>
       <roles>
         <role>Java Developer</role>
       </roles>
@@ -95,8 +114,8 @@
     <developer>
       <name>Magnus Grimsell</name>
       <id>grimsell</id>
-      <email />
-      <organization />
+      <email></email>
+      <organization></organization>
       <roles>
         <role>Java Developer</role>
       </roles>
@@ -104,8 +123,8 @@
     <developer>
       <name>Nigel Magnay</name>
       <id>magnayn</id>
-      <email />
-      <organization />
+      <email></email>
+      <organization></organization>
       <roles>
         <role>Java Developer</role>
       </roles>
@@ -113,8 +132,8 @@
     <developer>
       <name>Jan Bartel</name>
       <id>janb</id>
-      <email />
-      <organization />
+      <email></email>
+      <organization></organization>
       <roles>
         <role>Java Developer</role>
       </roles>
@@ -122,8 +141,8 @@
     <developer>
       <name>Scott Farquhar</name>
       <id>sfarquhar</id>
-      <email />
-      <organization />
+      <email></email>
+      <organization></organization>
       <roles>
         <role>Java Developer</role>
       </roles>
@@ -131,8 +150,8 @@
     <developer>
       <name>Vincent Siveton</name>
       <id>vsiveton</id>
-      <email />
-      <organization />
+      <email></email>
+      <organization></organization>
       <roles>
         <role>Java Developer</role>
       </roles>
@@ -176,7 +195,7 @@
       <name>Cedric Vidal</name>
     </contributor>
   </contributors>
-  <dependencies />
+  <dependencies/>
   <organization>
     <name>Codehaus</name>
     <url>http://codehaus.org/</url>
@@ -198,9 +217,9 @@
     </site>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/pom/tags/cargo-parent-1</connection>
-    <developerConnection>scm:svn:svn://svn.codehaus.org/cargo/pom/tags/cargo-parent-1</developerConnection>
-    <url>http://svn.cargo.codehaus.org/tags/cargo-parent-1</url> 
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/pom/trunk</connection>
+    <developerConnection>scm:svn:svn://svn.codehaus.org/cargo/pom/trunk</developerConnection>
+    <url>http://svn.cargo.codehaus.org/</url> 
   </scm>
   <reporting>
     <plugins>
