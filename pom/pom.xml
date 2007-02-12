@@ -4,7 +4,7 @@
   <artifactId>cargo-parent</artifactId>
   <name>Cargo</name>
   <packaging>pom</packaging>
-  <version>1</version>
+  <version>2-SNAPSHOT</version>
   <url>http://cargo.codehaus.org</url>
   <prerequisites>
     <!-- It may work with previous versions of Maven but this hasn't been tested so for safety
@@ -198,9 +198,9 @@
     </site>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/pom/tags/cargo-parent-1</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/pom/tags/cargo-parent-1</developerConnection>
-    <url>http://svn.cargo.codehaus.org/tags/cargo-parent-1</url> 
+    <connection>scm:svn:http://svn.codehaus.org/cargo/pom/trunk</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/pom/trunk</developerConnection>
+    <url>http://svn.cargo.codehaus.org/</url> 
   </scm>
   <reporting>
     <plugins>
