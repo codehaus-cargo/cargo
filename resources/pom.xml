@@ -52,5 +52,16 @@
         <enabled>true</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>codehaus</id>
+      <name>Codehaus</name>
+      <url>http://repository.codehaus.org</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
   </repositories>
 </project>
