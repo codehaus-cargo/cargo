@@ -29,7 +29,8 @@
   <packaging>jar</packaging>
   <description>Cargo Build Tools</description>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/resources/trunk/build-tools</connection>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/build-tools</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/build-tools</developerConnection>
     <url>http://svn.cargo.codehaus.org/</url>
   </scm>
 </project>
