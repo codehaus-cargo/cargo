@@ -217,8 +217,8 @@
     </site>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/pom/trunk</connection>
-    <developerConnection>scm:svn:svn://svn.codehaus.org/cargo/pom/trunk</developerConnection>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/pom/trunk</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/pom/trunk</developerConnection>
     <url>http://svn.cargo.codehaus.org/</url> 
   </scm>
   <reporting>
