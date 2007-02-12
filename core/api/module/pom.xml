@@ -29,7 +29,8 @@
   <packaging>jar</packaging>
   <description>Core API to parse/create J2EE Modules</description>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/core/api/module</connection>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/api/module</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/api/module</developerConnection>
     <url>http://svn.cargo.codehaus.org/</url>
   </scm>
   <dependencies>

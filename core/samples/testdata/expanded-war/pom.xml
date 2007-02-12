@@ -11,7 +11,8 @@
   <name>Cargo Expanded WAR test data for samples</name>
   <packaging>war</packaging>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/testdata/expanded-war</connection>
-    <url>http://svn.cargo.codehaus.org/</url> 
+    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/samples/testdata/expanded-war</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/samples/testdata/expanded-war</developerConnection>
+    <url>http://svn.cargo.codehaus.org/</url>
   </scm>
 </project>

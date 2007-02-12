@@ -29,7 +29,8 @@
   <name>Cargo Core Uberjar</name>
   <description>The Cargo Core Uberjar</description>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/core/trunk/uberjar</connection>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/uberjar</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/uberjar</developerConnection>
     <url>http://svn.cargo.codehaus.org/</url>
   </scm>
   <dependencies>

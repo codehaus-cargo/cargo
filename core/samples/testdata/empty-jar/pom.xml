@@ -11,7 +11,8 @@
   <name>Cargo Empty JAR test data for samples</name>
   <packaging>jar</packaging>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/testdata/empty-jar</connection>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/samples/testdata/empty-jar</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/samples/testdata/empty-jar</developerConnection>
     <url>http://svn.cargo.codehaus.org/</url> 
   </scm>
   <!-- We need this for now because Maven is not able to build from the top level without

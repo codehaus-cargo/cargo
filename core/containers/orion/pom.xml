@@ -12,7 +12,8 @@
   <packaging>jar</packaging>
   <description>Core API implementation for Orion containers</description>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/core/containers/orion</connection>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/containers/orion</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/containers/orion</developerConnection>
     <url>http://svn.cargo.codehaus.org/</url>
   </scm>
 </project>

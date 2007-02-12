@@ -11,7 +11,8 @@
   <name>Cargo Simple EAR test data for samples</name>
   <packaging>ear</packaging>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/testdata/simple-ear</connection>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/samples/testdata/simple-ear</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/samples/testdata/simple-ear</developerConnection>
     <url>http://svn.cargo.codehaus.org/</url> 
   </scm>
   <dependencies>

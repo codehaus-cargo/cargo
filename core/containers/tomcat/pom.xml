@@ -12,7 +12,8 @@
   <packaging>jar</packaging>
   <description>Core API implementation for Tomcat containers</description>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/core/containers/tomcat</connection>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/containers/tomcat</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/containers/tomcat</developerConnection>
     <url>http://svn.cargo.codehaus.org/</url>
   </scm>
 </project>

@@ -29,7 +29,8 @@
   <packaging>pom</packaging>
   <description>The Cargo Core API</description>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/core/trunk/api</connection>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/api</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/api</developerConnection>
     <url>http://svn.cargo.codehaus.org/</url>
   </scm>
   <modules>
