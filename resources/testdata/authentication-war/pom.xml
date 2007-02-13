@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>0.9-SNAPSHOT</version>
+    <version>0.9.1-SNAPSHOT</version>
   </parent>
   <artifactId>authentication-war</artifactId>
   <name>Cargo Authenticated WAR test data for samples</name>

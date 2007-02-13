@@ -21,10 +21,9 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-resources</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.9.1-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-build-tools</artifactId>
-  <version>1.0-SNAPSHOT </version>
   <name>Cargo Build Tools</name>
   <packaging>jar</packaging>
   <description>Cargo Build Tools</description>
