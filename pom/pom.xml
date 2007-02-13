@@ -261,7 +261,7 @@
             <dependency>
               <groupId>org.codehaus.cargo</groupId>
               <artifactId>cargo-build-tools</artifactId>
-              <version>${version}</version>
+              <version>0.9.1-SNAPSHOT</version>
             </dependency>
           </dependencies>
           <configuration>
