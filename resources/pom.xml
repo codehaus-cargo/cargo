@@ -32,7 +32,7 @@
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk</developerConnection>
-    <url>http://svn.cargo.codehaus.org/</url>
+    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk</url>
   </scm>
   <modules>
     <module>build-tools</module>

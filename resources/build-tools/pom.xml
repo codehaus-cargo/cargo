@@ -31,6 +31,6 @@
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/build-tools</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/build-tools</developerConnection>
-    <url>http://svn.cargo.codehaus.org/</url>
+    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk/build-tools</url>
   </scm>
 </project>
