@@ -31,7 +31,7 @@
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/cargo/extensions/trunk/ant</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/trunk/ant</developerConnection>
-    <url>http://svn.cargo.codehaus.org/</url>
+    <url>http://svn.cargo.codehaus.org/cargo/extensions/trunk/ant</url>
   </scm>
   <dependencies>
     <dependency>

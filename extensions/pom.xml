@@ -32,7 +32,7 @@
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/cargo/extensions/trunk</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/trunk</developerConnection>
-    <url>http://svn.cargo.codehaus.org/</url>
+    <url>http://svn.cargo.codehaus.org/cargo/extensions/trunk</url>
   </scm>
   
   <!-- Note: We're using hardcoded version below instead of using ${version} because the Maven2
