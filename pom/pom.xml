@@ -218,7 +218,7 @@
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/cargo/pom/trunk</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/cargo/pom/trunk</developerConnection>
-    <url>http://svn.cargo.codehaus.org/</url> 
+    <url>http://svn.cargo.codehaus.org/cargo/pom/trunk</url> 
   </scm>
   <reporting>
     <plugins>
