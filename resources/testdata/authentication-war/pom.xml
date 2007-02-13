@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-samples-testdata</artifactId>
+    <version>0.9-SNAPSHOT</version>
+  </parent>
+  <artifactId>authentication-war</artifactId>
+  <name>Cargo Authenticated WAR test data for samples</name>
+  <packaging>war</packaging>
+  <scm>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/testdata/authentication-war</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/testdata/authentication-war</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/cargo/resources/trunk/testdata/authentication-war</url>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.4</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+</project>
