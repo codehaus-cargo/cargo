@@ -98,43 +98,43 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-war</artifactId>
-      <version>0.9-SNAPSHOT</version>
+      <version>0.9.1-SNAPSHOT</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-ejb</artifactId>
-      <version>0.9-SNAPSHOT</version>
+      <version>0.9.1-SNAPSHOT</version>
       <type>ejb</type>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>expanded-war</artifactId>
-      <version>0.9-SNAPSHOT</version>
+      <version>0.9.1-SNAPSHOT</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>authentication-war</artifactId>
-      <version>0.9-SNAPSHOT</version>
+      <version>0.9.1-SNAPSHOT</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>tomcatcontext-war</artifactId>
-      <version>0.9-SNAPSHOT</version>
+      <version>0.9.1-SNAPSHOT</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-ear</artifactId>
-      <version>0.9-SNAPSHOT</version>
+      <version>0.9.1-SNAPSHOT</version>
       <type>ear</type>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>empty-ear</artifactId>
-      <version>0.9-SNAPSHOT</version>
+      <version>0.9.1-SNAPSHOT</version>
       <type>ear</type>
     </dependency>
 
@@ -356,36 +356,38 @@
                 -->
               <property>
                 <name>cargo.testdata.empty-ear</name>
-                <value>org/codehaus/cargo/empty-ear/0.9-SNAPSHOT/empty-ear-0.9-SNAPSHOT.ear</value>
+                <value>org/codehaus/cargo/empty-ear/0.9.1-SNAPSHOT/empty-ear-0.9.1-SNAPSHOT.ear</value>
               </property>
               <property>
                 <name>cargo.testdata.authentication-war</name>
-                <value>org/codehaus/cargo/authentication-war/0.9-SNAPSHOT/authentication-war-0.9-SNAPSHOT.war</value>
+                <value>org/codehaus/cargo/authentication-war/0.9.1-SNAPSHOT/authentication-war-0.9.1-SNAPSHOT.war</value>
               </property>
               <property>
                 <name>cargo.testdata.expanded-war</name>
-                <value>org/codehaus/cargo/expanded-war/0.9-SNAPSHOT/expanded-war-0.9-SNAPSHOT.war</value>
+                <value>org/codehaus/cargo/expanded-war/0.9.1-SNAPSHOT/expanded-war-0.9.1-SNAPSHOT.war</value>
               </property>
               <property>
                 <name>cargo.testdata.simple-ear</name>
-                <value>org/codehaus/cargo/simple-ear/0.9-SNAPSHOT/simple-ear-0.9-SNAPSHOT.ear</value>
+                <value>org/codehaus/cargo/simple-ear/0.9.1-SNAPSHOT/simple-ear-0.9.1-SNAPSHOT.ear</value>
               </property>
               <property>
                 <name>cargo.testdata.simple-war</name>
-                <value>org/codehaus/cargo/simple-war/0.9-SNAPSHOT/simple-war-0.9-SNAPSHOT.war</value>
+                <value>org/codehaus/cargo/simple-war/0.9.1-SNAPSHOT/simple-war-0.9.1-SNAPSHOT.war</value>
               </property>
               <property>
                 <name>cargo.testdata.simple-ejb</name>
-                <value>org/codehaus/cargo/simple-ejb/0.9-SNAPSHOT/simple-ejb-0.9-SNAPSHOT.jar</value>
+                <value>org/codehaus/cargo/simple-ejb/0.9.1-SNAPSHOT/simple-ejb-0.9.1-SNAPSHOT.jar</value>
               </property>
               <property>
                 <name>cargo.testdata.tomcatcontext-war</name>
-                <value>org/codehaus/cargo/tomcatcontext-war/0.9-SNAPSHOT/tomcatcontext-war-0.9-SNAPSHOT.war</value>
+                <value>org/codehaus/cargo/tomcatcontext-war/0.9.1-SNAPSHOT/tomcatcontext-war-0.9.1-SNAPSHOT.war</value>
               </property>
 
+              <!-- Version used to compute the location of the test data files in the local Maven
+                   repository. -->  
               <property>
                 <name>cargo.version</name>
-                <value>0.9-SNAPSHOT</value>
+                <value>0.9.1-SNAPSHOT</value>
               </property>
 
               <property>
