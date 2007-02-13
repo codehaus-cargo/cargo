@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-core-containers</artifactId>
-    <version>0.9-SNAPSHOT</version>
+    <version>0.9</version>
   </parent>
   <artifactId>cargo-core-container-geronimo</artifactId>
   <name>Cargo Core Geronimo Container</name>
   <packaging>jar</packaging>
   <description>Core API implementation for Geronimo containers</description>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/containers/geronimo</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/containers/geronimo</developerConnection>
-    <url>http://svn.cargo.codehaus.org/</url>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/core/tags/cargo-core-0.9</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/tags/cargo-core-0.9</developerConnection>
+    <url>http://svn.cargo.codehaus.org/tags/cargo-core-0.9</url>
   </scm>
 </project>

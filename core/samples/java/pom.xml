@@ -31,7 +31,7 @@
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/samples/java</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/samples/java</developerConnection>
-    <url>http://svn.cargo.codehaus.org/</url>
+    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/samples/java</url>
   </scm>
   <dependencies>
     <dependency>

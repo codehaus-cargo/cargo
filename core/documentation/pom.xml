@@ -33,7 +33,7 @@
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/documentation</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/documentation</developerConnection>
-    <url>http://svn.cargo.codehaus.org/</url>
+    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/documentation</url>
   </scm>
   <dependencies>
     <dependency>

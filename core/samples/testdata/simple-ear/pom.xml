@@ -13,7 +13,7 @@
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/samples/testdata/simple-ear</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/samples/testdata/simple-ear</developerConnection>
-    <url>http://svn.cargo.codehaus.org/</url> 
+    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/samples/testdata/simple-ear</url> 
   </scm>
   <dependencies>
     <dependency>
