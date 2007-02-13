@@ -21,9 +21,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
-    <artifactId>cargo-parent</artifactId>
-    <version>1</version>
-    <relativePath>../../pom/pom.xml</relativePath>
+    <artifactId>cargo-core</artifactId>
+    <version>0.9-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-samples</artifactId>
   <packaging>pom</packaging>
@@ -148,7 +147,7 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <configuration>
             
-            <forkMode>always</forkMode>
+            <forkMode>pertest</forkMode>
             <useFile>false</useFile>
             <reportFormat>plain</reportFormat>
 

@@ -54,17 +54,11 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
   <modules>
     <module>api</module>
     <module>containers</module>
     <module>uberjar</module>
+    <module>samples</module>
+    <module>documentation</module>
   </modules>
 </project>

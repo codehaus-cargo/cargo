@@ -21,9 +21,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
-    <artifactId>cargo-parent</artifactId>
-    <version>1</version>
-    <relativePath>../../pom/pom.xml</relativePath>
+    <artifactId>cargo-core</artifactId>
+    <version>0.9-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-documentation</artifactId>
   <name>Cargo Website Resources</name>

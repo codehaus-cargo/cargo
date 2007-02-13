@@ -32,6 +32,14 @@
     <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/api</developerConnection>
     <url>http://svn.cargo.codehaus.org/cargo/core/trunk/api</url>
   </scm>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
   <modules>
     <module>util</module>
     <module>module</module>

@@ -1,5 +1,0 @@
-<!-- The docBase is used by the Tomcat-specific test that tests deploying an expanded WAR
-     file containing a context.xml file. -->
-<Context path="/tomcat-context" docBase="../../tomcat-context/">
-  <Parameter name="testcontextxml" value="test value"/>
-</Context>
