@@ -21,15 +21,15 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>0.9.1</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>empty-ear</artifactId>
   <name>Cargo Empty EAR test data for samples</name>
   <packaging>ear</packaging>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</url>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/testdata/empty-ear</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/testdata/empty-ear</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk/testdata/empty-ear</url>
   </scm>
   <dependencies>
     <dependency>

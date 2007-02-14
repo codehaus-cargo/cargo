@@ -21,14 +21,14 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>0.9.1</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>expanded-war</artifactId>
   <name>Cargo Expanded WAR test data for samples</name>
   <packaging>war</packaging>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</url>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/testdata/expanded-war</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/testdata/expanded-war</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk/testdata/expanded-war</url>
   </scm>
 </project>

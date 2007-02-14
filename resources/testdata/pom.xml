@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-resources</artifactId>
-    <version>0.9.1</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>org.codehaus.cargo</groupId>
   <artifactId>cargo-samples-testdata</artifactId>
@@ -11,9 +11,9 @@
   <name>Cargo Samples Test Data</name>
   <description>Test data for the Sample applications</description>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</url>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/testdata</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/testdata</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk/testdata</url>
   </scm>
   <modules>
     <module>empty-jar</module>

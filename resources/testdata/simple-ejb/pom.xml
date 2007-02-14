@@ -21,15 +21,15 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>0.9.1</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>simple-ejb</artifactId>
   <name>Cargo Simple EJB test data for samples</name>
   <packaging>ejb</packaging>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</url> 
+    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/testdata/simple-ejb</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/testdata/simple-ejb</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk/testdata/simple-ejb</url> 
   </scm>
   <dependencies>
     <dependency>

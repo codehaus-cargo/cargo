@@ -21,15 +21,15 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-resources</artifactId>
-    <version>0.9.1</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-build-tools</artifactId>
   <name>Cargo Build Tools</name>
   <packaging>jar</packaging>
   <description>Cargo Build Tools</description>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</url>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/build-tools</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/build-tools</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk/build-tools</url>
   </scm>
 </project>
