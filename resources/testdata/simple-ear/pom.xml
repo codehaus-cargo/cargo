@@ -16,20 +16,20 @@
   ~ limitations under the License.
   -->
 
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>0.9.1-SNAPSHOT</version>
+    <version>0.9.1</version>
   </parent>
   <artifactId>simple-ear</artifactId>
   <name>Cargo Simple EAR test data for samples</name>
   <packaging>ear</packaging>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/testdata/simple-ear</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/testdata/simple-ear</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk/testdata/simple-ear</url> 
+    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/resources/tags/cargo-resources-0.9.1</url> 
   </scm>
   <dependencies>
     <dependency>
