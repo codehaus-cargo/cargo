@@ -29,21 +29,22 @@
   <name>Cargo Extensions</name>
   <packaging>pom</packaging>
   <description>Cargo Extensions</description>
+  <version>0.9-SNAPSHOT</version>
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/cargo/extensions/trunk</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/trunk</developerConnection>
     <url>http://svn.cargo.codehaus.org/cargo/extensions/trunk</url>
   </scm>
-  
-  <!-- Note: We're using hardcoded version below instead of using ${version} because the Maven2
-       plugin has a different <version> than the dependencies below. -->
+  <properties>
+    <!-- define this variable for core version because of potentially different release cycles -->
+    <cargo.core.version>0.9-SNAPSHOT</cargo.core.version>
+  </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-api-generic</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${cargo.core.version}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -56,50 +57,42 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-geronimo</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${cargo.core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-jboss</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${cargo.core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-jetty</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${cargo.core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-jo</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${cargo.core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-orion</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${cargo.core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-resin</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${cargo.core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-tomcat</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${cargo.core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-weblogic</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${cargo.core.version}</version>
     </dependency>
   </dependencies>
   <modules>

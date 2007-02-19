@@ -37,7 +37,7 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-api-container</artifactId>
-      <version>${version}</version>
+      <version>${cargo.core.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
