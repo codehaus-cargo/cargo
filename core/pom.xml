@@ -29,6 +29,9 @@
   <version>0.9-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>Cargo Core</description>
+  <properties>
+    <cargo.resources.version>0.9.1</cargo.resources.version>
+  </properties>
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk</developerConnection>
@@ -64,7 +67,7 @@
             <dependency>
               <groupId>org.codehaus.cargo</groupId>
               <artifactId>cargo-build-tools</artifactId>
-              <version>0.9.1</version>
+              <version>${cargo.resources.version}</version>
             </dependency>
           </dependencies>
         </plugin>
