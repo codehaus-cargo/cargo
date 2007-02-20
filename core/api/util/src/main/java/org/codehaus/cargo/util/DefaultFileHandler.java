@@ -253,7 +253,7 @@ public class DefaultFileHandler implements FileHandler
         InputStream is;
         try
         {
-            is = new FileInputStream(file);
+            is = new FileInputStream(new File(file).getAbsoluteFile());
         }
         catch (FileNotFoundException e)
         {
