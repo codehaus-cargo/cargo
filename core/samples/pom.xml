@@ -40,58 +40,49 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-api-generic</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${version}</version>
     </dependency>
 
     <!-- Container dependencies (in alphabetical order) -->
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-geronimo</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-jboss</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-jetty</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-jo</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-orion</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-resin</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-tomcat</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-weblogic</artifactId>
-      <version>0.9-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${version}</version>
     </dependency>
 
     <!-- Test data artifacts -->
