@@ -154,6 +154,17 @@
         <role>Java Developer</role>
       </roles>
     </developer>
+    <developer>
+      <name>David J. M. Karlsen</name>
+      <email>david@codehaus.org</email>
+      <id>david</id>
+      <organization>davidkarlsen.com</organization>
+      <organizationUrl>http://www.davidkarlsen.com</organizationUrl>
+      <timezone>+1</timezone>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
   </developers>
   <contributors>
     <contributor>
