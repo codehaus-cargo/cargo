@@ -19,14 +19,14 @@
  */
 package org.codehaus.cargo.module.webapp.tomcat;
 
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.codehaus.cargo.module.AbstractDescriptor;
 import org.codehaus.cargo.module.Dtd;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Iterator;
 
 /**
  * Encapsulates the DOM representation of a web deployment descriptor 
@@ -58,7 +58,7 @@ public class TomcatContextXml extends AbstractDescriptor
      */
     public TomcatContextXml(Document document)
     {
-        super(document, new Dtd("sample/tomcat-context.dtd"));
+        super(document, new Dtd("file:sample/tomcat-context.dtd"));
     }
 
     /**
