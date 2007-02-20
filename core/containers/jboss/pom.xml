@@ -27,9 +27,4 @@
   <name>Cargo Core JBoss Container</name>
   <packaging>jar</packaging>
   <description>Core API implementation for JBoss containers</description>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/containers/jboss</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/containers/jboss</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/containers/jboss</url>
-  </scm>
 </project>

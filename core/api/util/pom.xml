@@ -27,11 +27,6 @@
   <name>Cargo Core Util API</name>
   <packaging>jar</packaging>
   <description>Core Utility API (logging, Ant utils, File utils, etc)</description>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/api/util</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/api/util</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/api/util</url>
-  </scm>
   <dependencies>
     <dependency>
       <groupId>ant</groupId>

@@ -27,11 +27,6 @@
   <name>Cargo Core Containers</name>
   <packaging>pom</packaging>
   <description>Core API Container Implementations</description>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/containers</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/containers</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/containers</url>
-  </scm>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>

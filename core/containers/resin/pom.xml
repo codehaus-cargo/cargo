@@ -27,9 +27,4 @@
   <name>Cargo Core Resin Container</name>
   <packaging>jar</packaging>
   <description>Core API implementation for Resin containers</description>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/containers/resin</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/containers/resin</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/containers/resin</url>
-  </scm>
 </project>

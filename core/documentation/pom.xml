@@ -29,11 +29,6 @@
   <version>0.9-SNAPSHOT</version>
   <packaging>jar</packaging>
   <description>Cargo Website Resources</description>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/documentation</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/documentation</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/documentation</url>
-  </scm>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>

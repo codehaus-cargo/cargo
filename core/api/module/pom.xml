@@ -27,11 +27,6 @@
   <name>Cargo Core Module API</name>
   <packaging>jar</packaging>
   <description>Core API to parse/create J2EE Modules</description>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/api/module</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/api/module</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/api/module</url>
-  </scm>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>

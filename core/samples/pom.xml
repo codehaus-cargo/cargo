@@ -28,11 +28,6 @@
   <packaging>pom</packaging>
   <name>Cargo Samples</name>
   <description>Samples that exercises the Cargo Java APIs</description>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/samples</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/samples</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/samples</url>
-  </scm>
   <dependencies>
 
     <!-- TODO: We would like to depend only on the agggregated core jar but this feature is not yet

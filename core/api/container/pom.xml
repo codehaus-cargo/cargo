@@ -27,11 +27,6 @@
   <name>Cargo Core Container API</name>
   <packaging>jar</packaging>
   <description>API to start/stop/configure containers</description>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/api/container</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/api/container</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/api/container</url>
-  </scm>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>

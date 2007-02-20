@@ -27,11 +27,6 @@
   <packaging>pom</packaging>
   <name>Cargo Core Uberjar</name>
   <description>The Cargo Core Uberjar</description>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/uberjar</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/uberjar</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/uberjar</url>
-  </scm>
   <dependencies>
     <!-- All dependencoes are defined with a test scope. Ideally they should be using a provided
          scope but doing this make them not being included in the uberjar. The reason we don't

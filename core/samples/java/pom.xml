@@ -28,11 +28,6 @@
   <name>Cargo Samples for Java</name>
   <packaging>jar</packaging>
   <description>Sample application that exercises the Cargo Java API</description>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/samples/java</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/samples/java</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/samples/java</url>
-  </scm>
   <dependencies>
     <dependency>
       <groupId>org.apache.geronimo.specs</groupId>

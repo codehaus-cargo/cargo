@@ -27,11 +27,6 @@
   <name>Cargo Core Generic API</name>
   <packaging>jar</packaging>
   <description>Core API to generically access the typed container API</description>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/api/generic</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/api/generic</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/api/generic</url>
-  </scm>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>

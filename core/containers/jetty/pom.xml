@@ -27,9 +27,4 @@
   <name>Cargo Core Jetty Container</name>
   <packaging>jar</packaging>
   <description>Core API implementation for Jetty containers</description>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/containers/jetty</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/containers/jetty</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/containers/jetty</url>
-  </scm>
 </project>

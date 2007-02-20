@@ -27,9 +27,4 @@
   <name>Cargo Core jo! Container</name>
   <packaging>jar</packaging>
   <description>Core API implementation for jo! containers</description>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk/containers/jo</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk/containers/jo</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk/containers/jo</url>
-  </scm>
 </project>
