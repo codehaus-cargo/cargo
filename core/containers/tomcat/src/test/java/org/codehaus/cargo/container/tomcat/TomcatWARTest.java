@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import java.io.File;
-
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.util.AbstractResourceTest;
 
