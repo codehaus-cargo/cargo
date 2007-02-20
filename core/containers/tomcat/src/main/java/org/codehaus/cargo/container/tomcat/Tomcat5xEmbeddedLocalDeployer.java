@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
 import org.codehaus.cargo.module.webapp.tomcat.TomcatWarArchive;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -211,7 +212,7 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
 
         byte[] buf = new byte[1024];
 
-        JarFile archive = new JarFile(war);
+        JarFile archive = new JarFile(new File(war).getAbsoluteFile());
         Enumeration e = archive.entries();
         while (e.hasMoreElements())
         {
