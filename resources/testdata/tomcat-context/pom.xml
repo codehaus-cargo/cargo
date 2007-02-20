@@ -26,11 +26,6 @@
   <artifactId>tomcatcontext-war</artifactId>
   <name>Cargo Tomcat context WAR test data for samples</name>
   <packaging>war</packaging>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/testdata/tomcat-context</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/testdata/tomcat-context</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk/testdata/tomcat-context</url> 
-  </scm>
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>

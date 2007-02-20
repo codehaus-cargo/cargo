@@ -26,11 +26,6 @@
   <artifactId>simple-ejb</artifactId>
   <name>Cargo Simple EJB test data for samples</name>
   <packaging>ejb</packaging>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/testdata/simple-ejb</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/testdata/simple-ejb</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk/testdata/simple-ejb</url> 
-  </scm>
   <dependencies>
     <dependency>
       <groupId>org.apache.geronimo.specs</groupId>

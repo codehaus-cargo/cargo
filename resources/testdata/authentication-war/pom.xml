@@ -10,11 +10,6 @@
   <artifactId>authentication-war</artifactId>
   <name>Cargo Authenticated WAR test data for samples</name>
   <packaging>war</packaging>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/testdata/authentication-war</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/testdata/authentication-war</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/cargo/resources/trunk/testdata/authentication-war</url>
-  </scm>
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>

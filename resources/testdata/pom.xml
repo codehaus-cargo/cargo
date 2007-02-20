@@ -10,11 +10,6 @@
   <packaging>pom</packaging>
   <name>Cargo Samples Test Data</name>
   <description>Test data for the Sample applications</description>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/testdata</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/testdata</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk/testdata</url>
-  </scm>
   <modules>
     <module>empty-jar</module>
     <module>empty-ear</module>

@@ -8,11 +8,6 @@
   <artifactId>empty-jar</artifactId>
   <name>Cargo Empty JAR test data for samples</name>
   <packaging>jar</packaging>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/testdata/empty-jar</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/testdata/empty-jar</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk/testdata/empty-jar</url> 
-  </scm>
   <!-- We need this for now because Maven is not able to build from the top level without
        querying the remote repository. This is probably a Maven bug. Remove this when it
        is fixed -->

@@ -26,11 +26,6 @@
   <artifactId>simple-ear</artifactId>
   <name>Cargo Simple EAR test data for samples</name>
   <packaging>ear</packaging>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/testdata/simple-ear</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/testdata/simple-ear</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk/testdata/simple-ear</url> 
-  </scm>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>

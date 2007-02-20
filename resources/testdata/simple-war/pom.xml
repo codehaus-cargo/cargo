@@ -8,9 +8,4 @@
   <artifactId>simple-war</artifactId>
   <name>Cargo Simple WAR test data for samples</name>
   <packaging>war</packaging>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk/testdata/simple-war</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk/testdata/simple-war</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk/testdata/simple-war</url> 
-  </scm>
 </project>
