@@ -155,7 +155,7 @@
               </property>
               <property>
                 <name>cargo.resin3x.url</name>
-                <value>http://www.caucho.com/download/resin-3.0.22.zip</value>
+                <value>http://www.caucho.com/download/resin-3.0.23.zip</value>
               </property>
 
               <property>
