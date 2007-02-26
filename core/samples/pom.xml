@@ -240,7 +240,7 @@
               </property>
               <property>
                 <name>cargo.jetty6x.url</name>
-                <value>http://dist.codehaus.org/jetty/jetty-6.1.1rc1.zip</value>
+                <value>http://dist.codehaus.org/jetty/jetty-6.1.1.zip</value>
               </property>
 
               <!--
