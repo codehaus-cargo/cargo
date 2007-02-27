@@ -135,7 +135,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration
                 || ((deployable.getType() == DeployableType.WAR)
                     && !((WAR) deployable).isExpandedWar()))
             {
-                fileUtils.copyFile(new File(deployable.getFile()),
+                fileUtils.copyFile(new File(deployable.getFile()).getAbsoluteFile(),
                     new File(appDir, new File(deployable.getFile()).getName()),
                     null, true);
             }
