@@ -37,7 +37,7 @@
   </scm>
   <properties>
     <!-- define this variable for core version because of potentially different release cycles -->
-    <cargo.core.version>0.9-SNAPSHOT</cargo.core.version>
+    <cargo.core.version>0.9</cargo.core.version>
   </properties>
 
   <dependencies>
