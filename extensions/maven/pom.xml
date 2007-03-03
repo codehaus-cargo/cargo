@@ -24,6 +24,7 @@
     <artifactId>cargo-extensions</artifactId>
     <version>0.9</version>
   </parent>
+  <version>0.9-SNAPSHOT</version>
   <groupId>org.codehaus.cargo</groupId>
   <artifactId>cargo-maven-plugin</artifactId>
   <name>Cargo Maven 1 plugin</name>
