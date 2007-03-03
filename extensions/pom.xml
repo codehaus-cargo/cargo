@@ -39,7 +39,18 @@
     <!-- define this variable for core version because of potentially different release cycles -->
     <cargo.core.version>0.9</cargo.core.version>
   </properties>
-
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-release-plugin</artifactId>
+          <configuration>
+            <tagBase>https://svn.codehaus.org/cargo/extensions/tags</tagBase>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
