@@ -6,14 +6,14 @@
     <version>0.9</version>
   </parent>
   <artifactId>cargo-ant</artifactId>
-  <version>0.9</version>
+  <version>1.0-SNAPSHOT</version>
   <name>Cargo Ant tasks</name>
   <packaging>jar</packaging>
   <description>Ant tasks for Cargo</description>
   <scm>
-    <connection>scm:svn:https://svn.codehaus.org/cargo/extensions/tags/cargo-ant-0.9</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/tags/cargo-ant-0.9</developerConnection>
-    <url>https://svn.codehaus.org/cargo/extensions/tags/cargo-ant-0.9</url>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/extensions/trunk/ant</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/trunk/ant</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/extensions/trunk/ant</url>
   </scm>
   <dependencies>
     <dependency>
