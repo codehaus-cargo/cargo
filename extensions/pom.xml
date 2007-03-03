@@ -16,8 +16,7 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
@@ -29,11 +28,11 @@
   <name>Cargo Extensions</name>
   <packaging>pom</packaging>
   <description>Cargo Extensions</description>
-  <version>0.9-SNAPSHOT</version>
+  <version>0.9</version>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/extensions/trunk</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/trunk</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/extensions/trunk</url>
+    <connection>scm:svn:https://svn.codehaus.org/cargo/extensions/tags/cargo-extensions-0.9</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/tags/cargo-extensions-0.9</developerConnection>
+    <url>https://svn.codehaus.org/cargo/extensions/tags/cargo-extensions-0.9</url>
   </scm>
   <properties>
     <!-- define this variable for core version because of potentially different release cycles -->
