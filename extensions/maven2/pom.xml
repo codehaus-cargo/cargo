@@ -22,19 +22,13 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-extensions</artifactId>
-    <version>0.9-SNAPSHOT</version>
+    <version>0.9</version>
   </parent>
   <artifactId>cargo-maven2-plugin</artifactId>
   <version>0.3-SNAPSHOT</version>
   <name>Cargo Maven 2 plugin</name>
   <packaging>maven-plugin</packaging>
   <description>Cargo Maven 2 Plugin</description>
-  
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/extensions/trunk/maven2</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/trunk/maven2</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/extensions/trunk/maven2</url>
-  </scm>
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
