@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-samples-testAll</artifactId>
+    <version>0.3-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-samples-maven2-testStopEmbeddedContainerInAnotherExecution</artifactId>
+  <packaging>pom</packaging>
+  <name>cargo-samples-maven2-testStopEmbeddedContainerInAnotherExecution</name>
+  <description>
+    o Verifies that an embedded container like Jetty can be stopped when the stop goal is called
+      in a separate maven2 execution. The cargo plugin will save the container instance created
+      during the first execution in the context allowing it to be retrieved later on.
+    o To execute the test, simply run "mvn install". The test is successful if the container is
+      stopped.
+  </description>
+  <scm>
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/extensions/maven2/testStopEmbeddedContainerInAnotherExecution</connection>
+    <url>http://svn.cargo.codehaus.org/</url>
+  </scm>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <configuration>
+          <wait>false</wait>
+          <container>
+            <containerId>jetty5x</containerId>
+            <type>embedded</type>
+          </container>
+          <configuration>
+            <home>${project.build.directory}/jetty5x/container</home>
+            <properties>
+              <cargo.servlet.port>${port}</cargo.servlet.port>
+              <cargo.logging>high</cargo.logging>
+            </properties>
+          </configuration>
+        </configuration>
+        <executions>
+          <execution>
+            <id>jetty-start</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jetty-stop</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

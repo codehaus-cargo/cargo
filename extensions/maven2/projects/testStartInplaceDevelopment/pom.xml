@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-samples-testAll</artifactId>
+    <version>0.3-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-samples-maven2-testStartInplaceDevelopment</artifactId>
+  <packaging>war</packaging>
+  <name>cargo-samples-maven2-testStartInplaceDevelopment</name>
+  <description>testStartInplaceDevelopment</description>
+  <scm>
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/extensions/maven2/testStartInplaceDevelopment</connection>
+    <url>http://svn.cargo.codehaus.org/</url>
+  </scm>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <configuration>
+          <container>
+            <!-- NOTE: This test currently works only for Jetty and Tomcat as it requires that
+                 container implementations support deploying an expanded WAR from a directory
+                 without copying it to the container deploy directory -->
+            <containerId>${containerId}</containerId>
+            <log>${project.build.directory}/${containerId}/cargo.log</log>
+            <!-- TODO: Use profiles as the zipURLInstaller element should not be used for Jetty
+                 as the Cargo Jetty implementation is embeddable -->  
+            <zipUrlInstaller>
+              <url>${downloadUrl}</url>
+              <installDir>${installDir}</installDir>
+            </zipUrlInstaller>
+          </container>
+          <configuration>
+            <home>${project.build.directory}/${containerId}/container</home>
+            <properties>
+              <cargo.servlet.port>${port}</cargo.servlet.port>
+              <cargo.logging>high</cargo.logging>
+            </properties>
+            <deployables>
+              <deployable>
+                <!-- Override location to point to the exploded webapp. Otherwise it'll deploy
+                     the generated WAR. We want to ensure that jetty reloads any change made to
+                     the webapp source tree... -->
+                <location>${basedir}/src/main/webapp</location>
+              </deployable>
+            </deployables>
+          </configuration>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-samples-testAll</artifactId>
+    <version>0.3-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-samples-maven2-testStartWithEmptyConfiguration</artifactId>
+  <packaging>war</packaging>
+  <name>cargo-samples-maven2-testStartWithEmptyConfiguration</name>
+  <description>testStartWithEmptyConfiguration</description>
+  <scm>
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/extensions/maven2/testStartWithEmptyConfiguration</connection>
+    <url>http://svn.cargo.codehaus.org/</url>
+  </scm>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>
