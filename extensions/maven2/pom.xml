@@ -104,18 +104,6 @@
           <goalPrefix>cargo</goalPrefix>
         </configuration>
       </plugin>
-      <!-- may be wise to add this plugin after a while to assert documentation standards
-        breaks build if activated in the current state
-      <plugin>
-        <artifactId>maven-docck-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>  -->
       <!-- stages the plugin so it can be used in integration-tests by the invoker plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
