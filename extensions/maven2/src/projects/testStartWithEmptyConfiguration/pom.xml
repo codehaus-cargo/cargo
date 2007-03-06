@@ -28,6 +28,11 @@
         </executions>
         <configuration>
           <wait>false</wait>
+	  <configuration>
+	    <properties>
+	      <cargo.servlet.port>${port}</cargo.servlet.port>
+	    </properties>
+	  </configuration>
         </configuration>
       </plugin>
     </plugins>
