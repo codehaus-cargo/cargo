@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.codehaus.cargo</groupId>
   <artifactId>cargo-samples-testAll</artifactId>
@@ -8,16 +9,12 @@
   <name>Cargo Samples for the Maven2 plugin</name>
   <version>0.3-SNAPSHOT</version>
   <description>Test the Maven 2 plugin</description>
-  <modules>
-    <module>testStartWithNoDeployableAndInBlockingMode</module>
-    <module>testStartAndLocalDeploy</module>
-    <module>testStartWithOneWarOneEarDeployed</module>
-  </modules>
   
   <!-- Properties common to all profiles -->
   <properties>
     <port>8082</port>
     <installDir>${java.io.tmpdir}/cargo/installs</installDir>
+    <cargo.resources.version>0.9.1</cargo.resources.version>
   </properties>
 
   <!-- Container-specific profiles -->
@@ -26,7 +23,7 @@
       <id>tomcat5x</id>
       <activation>
         <activeByDefault>true</activeByDefault>
-       </activation>
+      </activation>
       <properties>
         <containerId>tomcat5x</containerId>
         <downloadUrl>http://www.apache.org/dist/tomcat/tomcat-5/v5.0.30/bin/jakarta-tomcat-5.0.30.zip</downloadUrl>
@@ -57,7 +54,7 @@
       <id>jboss4x</id>
       <properties>
         <containerId>jboss4x</containerId>
-        <downloadUrl>http://ovh.dl.sourceforge.net/sourceforge/jboss/jboss-4.0.2.zip</downloadUrl>
+        <downloadUrl>http://downloads.sourceforge.net/jboss/jboss-4.0.5.GA.zip?big_mirror=1</downloadUrl>
       </properties>
     </profile>
   </profiles>

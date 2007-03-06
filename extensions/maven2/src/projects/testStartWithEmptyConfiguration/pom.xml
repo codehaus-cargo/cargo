@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
@@ -11,15 +12,23 @@
   <packaging>war</packaging>
   <name>cargo-samples-maven2-testStartWithEmptyConfiguration</name>
   <description>testStartWithEmptyConfiguration</description>
-  <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/extensions/maven2/testStartWithEmptyConfiguration</connection>
-    <url>http://svn.cargo.codehaus.org/</url>
-  </scm>
   <build>
     <plugins>
       <plugin>
         <groupId>org.codehaus.cargo</groupId>
         <artifactId>cargo-maven2-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>start</goal>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <wait>false</wait>
+        </configuration>
       </plugin>
     </plugins>
   </build>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
@@ -11,15 +12,11 @@
   <packaging>war</packaging>
   <name>cargo-samples-maven2-testStartAndLocalDeploy</name>
   <description>testStartAndDeploy</description>
-  <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/extensions/maven2/testStartAndLocalDeploy</connection>
-    <url>http://svn.cargo.codehaus.org/</url>
-  </scm>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-war</artifactId>
-      <version>0.9-SNAPSHOT</version>
+      <version>${cargo.resources.version}</version>
       <type>war</type>
     </dependency>
   </dependencies>
@@ -28,7 +25,18 @@
       <plugin>
         <groupId>org.codehaus.cargo</groupId>
         <artifactId>cargo-maven2-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>start</goal>
+              <goal>deploy</goal>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
+          <wait>false</wait>
           <container>
             <containerId>${containerId}</containerId>
             <log>${project.build.directory}/${containerId}/cargo.log</log>

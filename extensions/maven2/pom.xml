@@ -24,6 +24,19 @@
     <artifactId>cargo-extensions</artifactId>
     <version>0.9</version>
   </parent>
+  <repositories>
+    <!-- added for maven-plugin-management-plugin -->
+    <repository>
+      <id>apache.snapshots</id>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <url>http://people.apache.org/maven-snapshot-repository/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
   <artifactId>cargo-maven2-plugin</artifactId>
   <version>0.3-SNAPSHOT</version>
   <name>Cargo Maven 2 plugin</name>
@@ -69,7 +82,6 @@
       <plugin>
         <groupId>org.codehaus.modello</groupId>
         <artifactId>modello-maven-plugin</artifactId>
-        <version>1.0-alpha-7</version>
         <executions>
           <execution>
             <goals>
@@ -91,6 +103,66 @@
                fully qualified name on the command line -->
           <goalPrefix>cargo</goalPrefix>
         </configuration>
+      </plugin>
+      <!-- may be wise to add this plugin after a while to assert documentation standards
+        breaks build if activated in the current state
+      <plugin>
+        <artifactId>maven-docck-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>  -->
+      <!-- stages the plugin so it can be used in integration-tests by the invoker plugin -->
+      <plugin>
+        <artifactId>maven-plugin-management-plugin</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>stage</goal>
+              <goal>unstage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-invoker-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <goals>
+                <goal>clean</goal>
+                <goal>integration-test</goal>
+              </goals>
+              <pomIncludes>
+                <pomInclude>*/pom.xml</pomInclude>
+              </pomIncludes>
+              <pomExcludes>
+                <!-- these tests needs fixing -->
+                <pomExclude>testStartAndAutoDeploy/pom.xml</pomExclude>
+                <!-- will have to run on container with ear support -->
+                <pomExclude>testStartWithOneWarOneEarDeployed/pom.xml</pomExclude>
+                <!-- disable these for now as these tests need some javacode and to be
+                executed by the embedder plugin instead -->              
+                <pomExclude>testRemoteDeploy/pom.xml</pomExclude>
+                <pomExclude>testStartInplaceDevelopment/pom.xml</pomExclude>
+                <pomExclude>testStartMultipleContainers/pom.xml</pomExclude>
+                <pomExclude>testStartUsingAlreadyInstalledContainer/pom.xml</pomExclude>
+                <pomExclude>testStartWithNoDeployableAndInBlockingMode/pom.xml</pomExclude>
+                <pomExclude>testStopEmbeddedContainerInAnotherExecution/pom.xml</pomExclude>
+              </pomExcludes>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
