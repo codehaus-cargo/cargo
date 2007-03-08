@@ -168,7 +168,7 @@ public class ContainerTest extends MockObjectTestCase
     {
         org.codehaus.cargo.maven2.configuration.Container containerElement = new org.codehaus.cargo.maven2.configuration.Container();
         containerElement.setContainerId(container.getId());
-        containerElement.setImplementation(container.getClass());
+        containerElement.setImplementation(container.getClass().getName());
         containerElement.setHome("container/home");
         containerElement.setType(container.getType());
 

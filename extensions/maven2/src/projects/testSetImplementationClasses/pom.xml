@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-samples-testAll</artifactId>
+    <version>0.3-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-maven2-plugin-it-test1</artifactId>
+  <name>Integration Test Case 1 for Cargo Maven 2 plugin</name>
+  <packaging>war</packaging>
+  <description>Integration Test Case for Cargo Maven 2 Plugin which sets implementation classes</description>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <configuration>
+          <container>
+            <implementation>org.codehaus.cargo.container.stub.EmbeddedLocalContainerStub</implementation>
+            <type>embedded</type>
+            <containerId>myEmbeddedLocalContainer</containerId>
+          </container>
+          <configuration>
+            <implementation>org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub</implementation>
+            <type>standalone</type>
+          </configuration>
+          <deployer>
+            <implementation>org.codehaus.cargo.container.stub.EmbeddedLocalDeployerStub</implementation>
+            <type>embedded</type>
+            <deployables/>
+          </deployer>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>start</goal>
+              <goal>deploy</goal>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-api-container</artifactId>
+            <version>${cargo.core.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
+</project>

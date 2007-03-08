@@ -1,20 +1,20 @@
-/* 
+/*
  * ========================================================================
- * 
+ *
  * Copyright 2005 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ========================================================================
  */
 package org.codehaus.cargo.maven2.configuration;
@@ -44,14 +44,14 @@ public class DeployableTest extends MockObjectTestCase
         this.mockLog = mock(Log.class);
         this.mockLog.stubs().method("debug");
     }
-    
+
     public void testCreateDeployableWhenOnlyLocationSpecified() throws Exception
     {
         String deployableFile = "testCreateDeployableWhenOnlyLocationSpecified.war";
 
         Deployable deployableElement = new Deployable();
         deployableElement.setLocation(deployableFile);
-        
+
         CargoProject project = createDefaultProject("war", new HashSet());
         org.codehaus.cargo.container.deployable.Deployable deployable =
             deployableElement.createDeployable("whateverId", project);
@@ -62,7 +62,7 @@ public class DeployableTest extends MockObjectTestCase
         assertEquals(project.getArtifactId(), deployableElement.getArtifactId());
         assertEquals(project.getPackaging(), deployableElement.getType());
     }
-    
+
     public void testCreateDeployableWhenDeployableIsNotADependency() throws Exception
     {
         Deployable deployableElement = createCustomDeployableElement();
@@ -83,7 +83,7 @@ public class DeployableTest extends MockObjectTestCase
     public void testCreateCustomDeployable() throws Exception
     {
         // Custom deployable type
-        Deployable deployableElement = createCustomDeployableElement();        
+        Deployable deployableElement = createCustomDeployableElement();
 
         String deployableFile = "testCreateCustomDeployable.custom";
 
@@ -93,7 +93,7 @@ public class DeployableTest extends MockObjectTestCase
         Set artifacts = new HashSet();
         artifacts.add(artifact);
 
-        org.codehaus.cargo.container.deployable.Deployable deployable = 
+        org.codehaus.cargo.container.deployable.Deployable deployable =
             deployableElement.createDeployable("whateverId",
                 createDefaultProject("war", artifacts));
 
@@ -159,7 +159,7 @@ public class DeployableTest extends MockObjectTestCase
             + "You've defined a [war] type whereas the project's packaging is [something]. This is "
             + "possibly an error and as a consequence the plugin will try to find this deployable "
             + "in the project's dependencies."));
-        
+
         try
         {
             deployableElement.computeLocation(createDefaultProject("something", new HashSet()));
@@ -177,14 +177,14 @@ public class DeployableTest extends MockObjectTestCase
         return new CargoProject(packaging, "projectGroupId", "projectArtifactId",
             "projectBuildDirectory", "projectFinalName", artifacts, (Log) this.mockLog.proxy());
     }
-    
+
     private Deployable createCustomDeployableElement()
     {
-        Deployable deployableElement = new Deployable();        
+        Deployable deployableElement = new Deployable();
         deployableElement.setGroupId("customGroupId");
         deployableElement.setArtifactId("customArtifactId");
         deployableElement.setType("customType");
-        deployableElement.setImplementation(CustomType.class);
+        deployableElement.setImplementation(CustomType.class.getName());
         return deployableElement;
     }
 

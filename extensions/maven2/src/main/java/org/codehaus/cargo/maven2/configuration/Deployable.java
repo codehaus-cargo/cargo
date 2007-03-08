@@ -45,7 +45,7 @@ public class Deployable extends AbstractDependency
 
     private Long pingTimeout;
 
-    private Class implementation;
+    private String implementation;
 
     private Map properties;
 
@@ -69,12 +69,12 @@ public class Deployable extends AbstractDependency
         return this.pingTimeout;
     }
 
-    public void setImplementation(Class implementation)
+    public void setImplementation(String implementation)
     {
         this.implementation = implementation;
     }
 
-    public Class getImplementation()
+    public String getImplementation()
     {
         return this.implementation;
     }
@@ -119,8 +119,18 @@ public class Deployable extends AbstractDependency
         // If a custom implementation class is defined register it against the deployable factory.
         if (getImplementation() != null)
         {
-            factory.registerDeployable(containerId, DeployableType.toType(getType()),
-                getImplementation());
+            try
+            {
+                Class deployableClass = Class.forName(getImplementation(), true,
+                    this.getClass().getClassLoader());
+                factory.registerDeployable(containerId, DeployableType.toType(getType()),
+                    deployableClass);
+            }
+            catch (ClassNotFoundException cnfe)
+            {
+              throw new MojoExecutionException("Custom deployable implementation ["
+                  + getImplementation() + "] cannot be loaded", cnfe);
+            }
         }
 
         org.codehaus.cargo.container.deployable.Deployable deployable =
@@ -214,7 +224,7 @@ public class Deployable extends AbstractDependency
         {
             isMatching = true;
         }
-        
+
         return isMatching;
     }
 

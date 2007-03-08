@@ -1,20 +1,20 @@
-/* 
+/*
  * ========================================================================
- * 
+ *
  * Copyright 2005-2006 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ========================================================================
  */
 package org.codehaus.cargo.maven2.configuration;
@@ -33,21 +33,21 @@ import org.codehaus.cargo.maven2.util.CargoProject;
 /**
  * Holds configuration data for the <code>&lt;configuration&gt;</code> tag used to configure
  * the plugin in the <code>pom.xml</code> file.
- *  
+ *
  * @version $Id$
  */
 public class Configuration
 {
     private String type = ConfigurationType.STANDALONE.getType();
-   
-    private Class implementation;
+
+    private String implementation;
 
     private String home;
 
     private Map properties;
 
     private Deployable[] deployables;
-    
+
     public ConfigurationType getType()
     {
         return ConfigurationType.toType(this.type);
@@ -82,18 +82,18 @@ public class Configuration
     {
         return this.deployables;
     }
-    
+
     public void setDeployables(Deployable[] deployables)
     {
         this.deployables = deployables;
     }
-    
-    public Class getImplementation()
+
+    public String getImplementation()
     {
         return this.implementation;
     }
 
-    public void setImplementation(Class implementation)
+    public void setImplementation(String implementation)
     {
         this.implementation = implementation;
     }
@@ -106,8 +106,18 @@ public class Configuration
 
         if (getImplementation() != null)
         {
-            factory.registerConfiguration(containerId, containerType, getType(),
-                getImplementation());
+            try
+            {
+                Class configurationClass = Class.forName(getImplementation(), true,
+                    this.getClass().getClassLoader());
+                factory.registerConfiguration(containerId, containerType, getType(),
+                    configurationClass);
+            }
+            catch (ClassNotFoundException cnfe)
+            {
+                throw new MojoExecutionException("Custom configuration implementation ["
+                    + getImplementation() + "] cannot be loaded", cnfe);
+            }
         }
 
         // Only use the dir if specified
@@ -153,7 +163,7 @@ public class Configuration
             }
         }
 
-        return configuration;        
+        return configuration;
     }
 
     /**

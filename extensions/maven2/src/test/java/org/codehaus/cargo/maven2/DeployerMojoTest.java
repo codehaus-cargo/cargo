@@ -66,7 +66,7 @@ public class DeployerMojoTest extends TestCase
         TestableDeployerMojo mojo = new TestableDeployerMojo();
 
         Deployer deployerElement = new Deployer();
-        deployerElement.setImplementation(InstalledLocalDeployerStub.class);
+        deployerElement.setImplementation(InstalledLocalDeployerStub.class.getName());
         deployerElement.setType(DeployerType.INSTALLED.getType());
         mojo.setDeployerElement(deployerElement);
 

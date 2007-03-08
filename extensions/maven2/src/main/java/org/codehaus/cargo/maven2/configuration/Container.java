@@ -1,20 +1,20 @@
-/* 
+/*
  * ========================================================================
- * 
+ *
  * Copyright 2005-2006 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ========================================================================
  */
 package org.codehaus.cargo.maven2.configuration;
@@ -50,7 +50,7 @@ public class Container
 {
     private String containerId;
 
-    private Class implementation;
+    private String implementation;
 
     private Dependency[] dependencies;
 
@@ -96,7 +96,7 @@ public class Container
     {
         this.dependencies = dependencies;
     }
-    
+
     public ContainerType getType()
     {
         return ContainerType.toType(this.type);
@@ -162,12 +162,12 @@ public class Container
         return this.logLevel;
     }
 
-    public Class getImplementation()
+    public String getImplementation()
     {
         return this.implementation;
     }
 
-    public void setImplementation(Class implementation)
+    public void setImplementation(String implementation)
     {
         this.implementation = implementation;
     }
@@ -182,7 +182,17 @@ public class Container
         // default container factory.
         if (getImplementation() != null)
         {
-            factory.registerContainer(getContainerId(), getType(), getImplementation());
+            try
+            {
+                Class containerClass = Class.forName(getImplementation(), true,
+                    this.getClass().getClassLoader());
+                factory.registerContainer(getContainerId(), getType(), containerClass);
+            }
+            catch (ClassNotFoundException cnfe)
+            {
+               throw new MojoExecutionException("Custom container implementation ["
+                   + getImplementation() + "] cannot be loaded", cnfe);
+            }
         }
 
         org.codehaus.cargo.container.Container container = factory.createContainer(
@@ -228,14 +238,14 @@ public class Container
             for (int i = 0; i < getDependencies().length; i++)
             {
                 File pathFile = new File(getDependencies()[i].getDependencyPath(project));
-                
-                try 
+
+                try
                 {
                     dependencyURLs[i] = pathFile.toURL();
                 }
                 catch (MalformedURLException e)
                 {
-                    throw new MojoExecutionException("Invalid classpath location [" 
+                    throw new MojoExecutionException("Invalid classpath location ["
                         + pathFile.getPath() + "]");
                 }
             }
@@ -250,7 +260,7 @@ public class Container
         }
     }
 
-    private void setupEmbeddedSystemProperties(EmbeddedLocalContainer container) 
+    private void setupEmbeddedSystemProperties(EmbeddedLocalContainer container)
     {
         if (getSystemProperties() != null)
         {

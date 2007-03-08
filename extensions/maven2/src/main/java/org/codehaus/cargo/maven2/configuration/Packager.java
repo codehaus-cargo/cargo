@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.packager.PackagerType;
 /**
  * Holds configuration data for the <code>&lt;packager&gt;</code> tag used to configure
  * the plugin in the <code>pom.xml</code> file.
- *  
+ *
  * @version $Id: $
  */
 public class Packager
@@ -38,16 +38,16 @@ public class Packager
      */
     private String outputLocation;
 
-    private String type = PackagerType.DIRECTORY.getType(); 
+    private String type = PackagerType.DIRECTORY.getType();
 
-    private Class implementation;
+    private String implementation;
 
-    public Class getImplementation()
+    public String getImplementation()
     {
         return this.implementation;
     }
 
-    public void setImplementation(Class implementation)
+    public void setImplementation(String implementation)
     {
         this.implementation = implementation;
     }
@@ -71,7 +71,7 @@ public class Packager
     {
         this.outputLocation = outputLocation;
     }
-    
+
     public org.codehaus.cargo.container.packager.Packager createPackager(
         org.codehaus.cargo.container.Container container) throws MojoExecutionException
     {
@@ -84,7 +84,17 @@ public class Packager
         // default packager factory.
         if (getImplementation() != null)
         {
-            factory.registerPackager(container.getId(), type, getImplementation());
+            try
+            {
+                Class packagerClass = Class.forName(getImplementation(), true,
+                    this.getClass().getClassLoader());
+                factory.registerPackager(container.getId(), type, packagerClass);
+            }
+            catch (ClassNotFoundException cnfe)
+            {
+                throw new MojoExecutionException("Custom packager implementation ["
+                    + getImplementation() + "] cannot be loaded", cnfe);
+            }
         }
 
         packager = factory.createPackager(container.getId(), type, getOutputLocation());
