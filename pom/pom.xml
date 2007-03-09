@@ -275,10 +275,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <!-- TODO: Version 2.2 of the surefire plugin seems to be not working for us.
-             See http://jira.codehaus.org/browse/MSUREFIRE-145. Once it's fixed we'll be able
-             to remove this version element -->
-        <version>2.1.3</version>
         <configuration>
           <excludes>
             <exclude>**/Abstract*.java</exclude>
