@@ -16,8 +16,7 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
@@ -25,7 +24,7 @@
     <version>0.9</version>
   </parent>
   <artifactId>cargo-maven2-plugin</artifactId>
-  <version>0.3-SNAPSHOT</version>
+  <version>0.3</version>
   <name>Cargo Maven 2 plugin</name>
   <packaging>maven-plugin</packaging>
   <description>Cargo Maven 2 Plugin</description>
@@ -164,4 +163,10 @@
       </build>
     </profile>
   </profiles>
+
+  <scm>
+    <connection>scm:svn:https://svn.codehaus.org/cargo/extensions/tags/cargo-maven2-plugin-0.3</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/tags/cargo-maven2-plugin-0.3</developerConnection>
+    <url>https://svn.codehaus.org/cargo/extensions/tags/cargo-maven2-plugin-0.3</url>
+  </scm>
 </project>
