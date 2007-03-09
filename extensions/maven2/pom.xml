@@ -24,7 +24,7 @@
     <version>0.9</version>
   </parent>
   <artifactId>cargo-maven2-plugin</artifactId>
-  <version>0.3</version>
+  <version>0.4-SNAPSHOT</version>
   <name>Cargo Maven 2 plugin</name>
   <packaging>maven-plugin</packaging>
   <description>Cargo Maven 2 Plugin</description>
@@ -163,10 +163,4 @@
       </build>
     </profile>
   </profiles>
-
-  <scm>
-    <connection>scm:svn:https://svn.codehaus.org/cargo/extensions/tags/cargo-maven2-plugin-0.3</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/tags/cargo-maven2-plugin-0.3</developerConnection>
-    <url>https://svn.codehaus.org/cargo/extensions/tags/cargo-maven2-plugin-0.3</url>
-  </scm>
 </project>
