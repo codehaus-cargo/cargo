@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testAll</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-samples-maven2-testStartMultipleContainers</artifactId>
   <packaging>pom</packaging>

@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testAll</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-maven2-plugin-it-test1</artifactId>
   <name>Integration Test Case 1 for Cargo Maven 2 plugin</name>

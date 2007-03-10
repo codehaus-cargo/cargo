@@ -5,21 +5,16 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testAll</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-samples-maven2-testStartWithNoDeployableAndInBlockingMode</artifactId>
+  <artifactId>cargo-samples-maven2-testStartUsingAlreadyInstalledContainer</artifactId>
   <packaging>pom</packaging>
-  <name>cargo-samples-maven2-testStartWithNoDeployableAndInBlockingMode</name>
+  <name>cargo-samples-maven2-testStartUsingAlreadyInstalledContainer</name>
   <description>
-    o Verifies that a container can be started by calling
-    "mvn org.codehaus.cargo.maven2:cargo-maven2-plugin:start". After being started the container 
-    will wait indefinitely, until it is stopped (by calling 
-    "mvn org.codehaus.cargo.maven2:cargo-maven2-plugin:stop" in another Maven session for example
-   or by pressing ctrl-c).
-    o Also verifies that the container timeout can be modified.
+    TODO
   </description>
   <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/extensions/maven2/testStartWithNoDeployableAndInBlockingMode</connection>
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/extensions/maven2/testStartUsingAlreadyInstalledContainer</connection>
     <url>http://svn.cargo.codehaus.org/</url>
   </scm>
   <build>
@@ -31,13 +26,9 @@
           <wait>true</wait>
           <container>
             <containerId>${containerId}</containerId>
-            <timeout>180000</timeout>
-            <output>${project.build.directory}/${containerId}/output.log</output>
             <log>${project.build.directory}/${containerId}/cargo.log</log>
-            <zipUrlInstaller>
-              <url>${downloadUrl}</url>
-              <installDir>${installDir}</installDir>
-            </zipUrlInstaller>
+            <!-- Note: We assume the container has already been installed in ${homeDir} -->
+            <home>${home}</home>
           </container>
           <configuration>
             <home>${project.build.directory}/${containerId}/container</home>
@@ -50,4 +41,21 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>tomcat5x</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+       </activation>
+      <properties>
+        <home>${installDir}/jakarta-tomcat-5.0.30/jakarta-tomcat-5.0.30</home>
+      </properties>
+    </profile>
+    <profile>
+      <id>orion2x</id>
+      <properties>
+        <home>${installDir}/orion2.0.5/orion</home>
+      </properties>
+    </profile>
+  </profiles>
 </project>

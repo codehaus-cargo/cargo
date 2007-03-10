@@ -7,7 +7,7 @@
   <artifactId>cargo-samples-testAll</artifactId>
   <packaging>pom</packaging>
   <name>Cargo Samples for the Maven2 plugin</name>
-  <version>0.3-SNAPSHOT</version>
+  <version>1.0-SNAPSHOT</version>
   <description>Test the Maven 2 plugin</description>
   
   <!-- Properties common to all profiles -->
