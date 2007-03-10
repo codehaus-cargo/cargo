@@ -30,5 +30,6 @@
   <description>Cargo Extensions for Maven 2</description>
   <modules>
     <module>plugin</module>
+    <module>archetypes</module>
   </modules>
 </project>
