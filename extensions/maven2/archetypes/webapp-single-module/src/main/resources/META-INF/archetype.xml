@@ -1,0 +1,14 @@
+<archetype>
+  <id>cargo-archetype-webapp-single-module</id>
+  <sources>
+    <source>src/main/java/SomeClass.java</source>
+  </sources>
+  <testSources>
+    <source>src/test/java/SomeClassTest.java</source>
+    <source>src/test/java/it/WebappTest.java</source>
+  </testSources>
+  <resources>
+    <resource>src/main/webapp/index.jsp</resource>
+    <resource>src/main/webapp/WEB-INF/web.xml</resource>
+  </resources>
+</archetype>

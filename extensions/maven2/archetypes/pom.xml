@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-samples-extensions</artifactId>
+    <version>0.9-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-archetypes</artifactId>
+  <version>0.3-SNAPSHOT</version>
+  <name>Cargo Maven2 Archetypes</name>
+  <packaging>pom</packaging>
+  <description>Sample Maven2 Archetypes for using Cargo</description>
+  <scm>
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/extensions/archetypes</connection>
+    <url>http://svn.cargo.codehaus.org/</url>
+  </scm>
+  <modules>
+    <module>webapp-single-module</module>
+    <module>webapp-functional-tests-module</module>
+  </modules>
+</project>

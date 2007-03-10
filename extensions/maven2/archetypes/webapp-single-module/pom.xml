@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-archetypes</artifactId>
+    <version>0.3-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-archetype-webapp-single-module</artifactId>
+  <name>Cargo Maven2 Archetype Single Webapp Module</name>
+  <packaging>maven-plugin</packaging>
+  <description>
+    Sample Maven2 Archetypes showing how to configure Cargo and Maven to run functional tests
+    directly from a single webapp module.
+  </description>
+  <scm>
+    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/extensions/archetypes/webapp-single-module</connection>
+    <url>http://svn.cargo.codehaus.org/</url>
+  </scm>
+</project>
