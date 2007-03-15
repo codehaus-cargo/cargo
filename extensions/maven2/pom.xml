@@ -24,7 +24,7 @@
     <version>0.9</version>
   </parent>
   <artifactId>cargo-extensions-maven2</artifactId>
-  <version>0.3.1</version>
+  <version>1.0-SNAPSHOT</version>
   <name>Cargo Extensions - Maven 2</name>
   <packaging>pom</packaging>
   <description>Cargo Extensions for Maven 2</description>
@@ -32,10 +32,4 @@
     <module>plugin</module>
     <module>archetypes</module>
   </modules>
-
-  <scm>
-    <connection>scm:svn:https://svn.codehaus.org/cargo/extensions/tags/cargo-maven2-0.3.1</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/tags/cargo-maven2-0.3.1</developerConnection>
-    <url>https://svn.codehaus.org/cargo/extensions/tags/cargo-maven2-0.3.1</url>
-  </scm>
 </project>
