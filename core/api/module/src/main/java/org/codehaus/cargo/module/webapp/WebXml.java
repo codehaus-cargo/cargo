@@ -1056,7 +1056,7 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
             while (i.hasNext())
             {
                 VendorWebAppDescriptor descr = (VendorWebAppDescriptor) i.next();
-                descr.addEjbReference(ref.getName(), ref.getJndiName());
+                descr.addEjbReference(ref);
             }
         }
         else

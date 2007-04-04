@@ -1,23 +1,23 @@
-/* 
+/*
  * ========================================================================
- * 
- * Copyright 2003 The Apache Software Foundation. Code from this file 
+ *
+ * Copyright 2003 The Apache Software Foundation. Code from this file
  * was originally imported from the Jakarta Cactus project.
- * 
+ *
  * Copyright 2004-2006 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ========================================================================
  */
 package org.codehaus.cargo.module.webapp;
@@ -26,6 +26,8 @@ import org.codehaus.cargo.module.DefaultJarArchive;
 import org.codehaus.cargo.module.JarArchive;
 import org.codehaus.cargo.module.AbstractDescriptorIo;
 import org.codehaus.cargo.module.Descriptor;
+import org.codehaus.cargo.module.webapp.jboss.JBossWebXml;
+import org.codehaus.cargo.module.webapp.jboss.JBossWebXmlIo;
 import org.codehaus.cargo.module.webapp.orion.OrionWebXml;
 import org.codehaus.cargo.module.webapp.orion.OrionWebXmlIo;
 import org.codehaus.cargo.module.webapp.resin.ResinWebXml;
@@ -111,6 +113,7 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
             addOracleDescriptor();
             addWebsphereDescriptor();
             addResinDescriptor();
+            addJBossDescriptor();
         }
         return this.webXml;
     }
@@ -265,7 +268,7 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
             }
         }
     }
-    
+
     /**
      * Associates the webXml with a orion-web.xml if one is present in the war.
      *
@@ -315,6 +318,38 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
             if (in != null)
             {
                 IbmWebBndXmi descr = IbmWebBndXmiIo.parseIbmWebBndXmi(in);
+                if (descr != null)
+                {
+                    this.webXml.addVendorDescriptor(descr);
+                }
+            }
+        }
+        finally
+        {
+            if (in != null)
+            {
+                in.close();
+            }
+        }
+    }
+
+    /**
+     * Associates the webXml with a jboss-web.xml, if one is present in the war.
+     *
+     * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
+     * @throws SAXException If the deployment descriptor of the WAR could not be parsed
+     * @throws ParserConfigurationException If there is an XML parser configration problem
+     */
+    private void addJBossDescriptor()
+        throws IOException, SAXException, ParserConfigurationException
+    {
+        InputStream in = null;
+        try
+        {
+            in = getResource("WEB-INF/jboss-web.xml");
+            if (in != null)
+            {
+                JBossWebXml descr = JBossWebXmlIo.parseJBossWebXml(in);
                 if (descr != null)
                 {
                     this.webXml.addVendorDescriptor(descr);
