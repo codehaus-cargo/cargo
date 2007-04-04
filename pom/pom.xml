@@ -245,6 +245,11 @@
           <excludes>
             <exclude>**/internal/**</exclude>
             <exclude>**/spi/**</exclude>
+            <exclude>org/codehaus/cargo/module/webapp/VendorWebAppDescriptor</exclude>
+            <exclude>org/codehaus/cargo/module/webapp/orion/OrionWebXml</exclude>
+            <exclude>org/codehaus/cargo/module/webapp/resin/ResinWebXml</exclude>
+            <exclude>org/codehaus/cargo/module/webapp/weblogic/WeblogicXml</exclude>
+            <exclude>org/codehaus/cargo/module/webapp/websphere/IbmWebBndXmi</exclude>            
           </excludes>
         </configuration>
       </plugin>
