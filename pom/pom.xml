@@ -241,6 +241,7 @@
         <artifactId>clirr-maven-plugin</artifactId>
         <configuration>
           <minSeverity>info</minSeverity>
+          <failOnError>false</failOnError> <!-- only warn until we can compare agains stable release version -->
           <textOutputFile>${project.build.directory}/clirr.txt</textOutputFile>
           <excludes>
             <exclude>**/internal/**</exclude>
