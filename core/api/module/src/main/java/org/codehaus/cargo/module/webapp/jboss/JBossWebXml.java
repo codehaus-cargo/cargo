@@ -20,11 +20,12 @@
 package org.codehaus.cargo.module.webapp.jboss;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
+import org.codehaus.cargo.module.DescriptorType;
+import org.jdom.Element;
 import org.codehaus.cargo.module.Dtd;
 import org.codehaus.cargo.module.webapp.EjbRef;
 import org.codehaus.cargo.module.webapp.VendorWebAppDescriptor;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.codehaus.cargo.module.webapp.WebXmlType;
 
 /**
  * Encapsulates the DOM representation of a web deployment descriptor
@@ -43,12 +44,12 @@ public class JBossWebXml extends AbstractDescriptor implements VendorWebAppDescr
     /**
      * Constructor.
      *
-     * @param document The DOM document representing the parsed deployment
-     *         descriptor
+     * @param rootElement The root document element
+     * @param type The document type
      */
-    public JBossWebXml(Document document)
+    public JBossWebXml(Element rootElement, DescriptorType type)
     {
-        super(document, new Dtd("http://www.jboss.org/j2ee/dtd/jboss-web.dtd"));
+        super(rootElement, type);
     }
 
     /**
@@ -57,7 +58,8 @@ public class JBossWebXml extends AbstractDescriptor implements VendorWebAppDescr
      */
     public String getContextRoot()
     {
-        String context = getNestedText(getRootElement(), JBossWebXmlTag.CONTEXT_ROOT);
+        String context = getNestedText(
+            getRootElement(), getDescriptorType().getTagByName(JBossWebXmlTag.CONTEXT_ROOT));
 
         // Remove leading slash if there is one.
         if ((context != null) && context.startsWith("/"))
@@ -79,17 +81,21 @@ public class JBossWebXml extends AbstractDescriptor implements VendorWebAppDescr
 
     public void addEjbReference(EjbRef ref)
     {
-        JBossWebXmlTag ejbRefTag = JBossWebXmlTag.EJB_REF;
-        JBossWebXmlTag jndiTag = JBossWebXmlTag.JNDI_NAME;
+        JBossWebXmlTag ejbRefTag = (JBossWebXmlTag)getDescriptorType().getTagByName(JBossWebXmlTag.EJB_REF);
+        JBossWebXmlTag jndiTag = (JBossWebXmlTag)getDescriptorType().getTagByName(JBossWebXmlTag.JNDI_NAME);
         if(ref.isLocal())
         {
-            ejbRefTag = JBossWebXmlTag.EJB_LOCAL_REF;
-            jndiTag = JBossWebXmlTag.LOCAL_JNDI_NAME;
+        	ejbRefTag = (JBossWebXmlTag)getDescriptorType().getTagByName(JBossWebXmlTag.EJB_LOCAL_REF);
+            jndiTag = (JBossWebXmlTag)getDescriptorType().getTagByName(JBossWebXmlTag.LOCAL_JNDI_NAME);
         }
-        Element ejbRefElement =
-            getDocument().createElement(ejbRefTag.getTagName());
-        ejbRefElement.appendChild(createNestedText(JBossWebXmlTag.EJB_REF_NAME, ref.getName()));
-        ejbRefElement.appendChild(createNestedText(jndiTag, ref.getJndiName()));
-        addElement(JBossWebXmlTag.EJB_REF, ejbRefElement, getRootElement());
+        
+        Element ejbRefElement = ejbRefTag.create();                       
+        
+        ejbRefElement.addContent(createNestedText(getDescriptorType().getTagByName(JBossWebXmlTag.EJB_REF_NAME),
+        		ref.getName()));
+        ejbRefElement.addContent(createNestedText(jndiTag, ref.getJndiName()));        
+
+        getRootElement().addContent(ejbRefElement);
+        
     }
 }

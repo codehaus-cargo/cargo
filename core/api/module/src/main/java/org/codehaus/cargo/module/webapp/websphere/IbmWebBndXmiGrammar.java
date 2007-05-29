@@ -53,11 +53,16 @@ public class IbmWebBndXmiGrammar implements Grammar
         if (tagName.equals(ROOT) || tagName.equals(ROOT_NAMESPACE))
         {
             elementOrder = new ArrayList();
-            elementOrder.add(new DescriptorTag("virtualHostName", true));
-            elementOrder.add(new DescriptorTag("webapp", true));
-            elementOrder.add(new DescriptorTag("resRefBindings", true));
-            elementOrder.add(new DescriptorTag("ejbRefBindings", true));
-            elementOrder.add(new DescriptorTag("resourceEnvRefBindings", true));
+            elementOrder.add(new DescriptorTag(
+                IbmWebBndXmiType.getInstance(), "virtualHostName", true));
+            elementOrder.add(new DescriptorTag(
+                IbmWebBndXmiType.getInstance(), "webapp", true));
+            elementOrder.add(new DescriptorTag(
+                IbmWebBndXmiType.getInstance(), "resRefBindings", true));
+            elementOrder.add(new DescriptorTag(
+                IbmWebBndXmiType.getInstance(), "ejbRefBindings", true));
+            elementOrder.add(new DescriptorTag(
+                IbmWebBndXmiType.getInstance(), "resourceEnvRefBindings", true));
         }
         
         return elementOrder;

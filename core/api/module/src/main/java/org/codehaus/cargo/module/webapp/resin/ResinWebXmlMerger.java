@@ -19,45 +19,17 @@
  */
 package org.codehaus.cargo.module.webapp.resin;
 
-import org.codehaus.cargo.module.internal.util.xml.AbstractNodeList;
-import org.codehaus.cargo.module.merge.MergeElement;
-import org.codehaus.cargo.module.merge.MergeNodeList;
-import org.codehaus.cargo.module.merge.AbstractMergeSet;
-import org.codehaus.cargo.module.merge.strategy.MergeStrategy;
-import org.codehaus.cargo.util.log.LoggedObject;
+import org.codehaus.cargo.module.XmlMerger;
+import org.codehaus.cargo.module.merge.DescriptorMergerByTag;
+
 
 /**
  * Class to manage the merging of two resin web descriptors.
  * 
  * @version $Id $
  */
-public class ResinWebXmlMerger extends LoggedObject
-{
-    /**
-     * Strategies for merging directory servlets.
-     */
-    public MergeStrategy mergeDirectoryServletStrategy = MergeStrategy.OVERWRITE;
-
-    /**
-     * Strategies for merging session config.
-     */
-    public MergeStrategy mergeSessionConfigStrategy = MergeStrategy.OVERWRITE;
-
-    /**
-     * Strategies for merging resource references.
-     */
-    public MergeStrategy mergeResourceRefsStrategy = MergeStrategy.OVERWRITE;
-
-    /**
-     * Strategies for merging jndi links.
-     */
-    public MergeStrategy mergeJndiLinksStrategy = MergeStrategy.OVERWRITE;
-
-    /**
-     * Strategies for merging system properties.
-     */
-    public MergeStrategy mergeSystemPropertiesStrategy = MergeStrategy.OVERWRITE;
-  
+public class ResinWebXmlMerger extends XmlMerger
+{     
     /**
      * The original, authorative descriptor onto which the merges are performed.
      */
@@ -75,6 +47,13 @@ public class ResinWebXmlMerger extends LoggedObject
             throw new IllegalArgumentException("Must pass a resin web xml");
         }
         this.webXml = theWebXml;
+        
+        DescriptorMergerByTag dmt = new DescriptorMergerByTag(ResinWebXmlType.getInstance());
+
+        // Default behaviours
+        dmt.setDefaultStrategyIfNoneSpecified(DescriptorMergerByTag.OVERWRITE);
+        
+        addMerger(dmt);
     }
 
     /**
@@ -89,106 +68,8 @@ public class ResinWebXmlMerger extends LoggedObject
             throw new IllegalArgumentException("Must pass a resin web xml");
         }
 
-        mergeSystemProperties(theMergeWebXml);
-        mergeResourceRefs(theMergeWebXml);
-        mergeJndiLinks(theMergeWebXml);
-        mergeSessionConfig(theMergeWebXml);
-        mergeDirectoryServlet(theMergeWebXml);
+        super.merge(theMergeWebXml);
     }
 
-    /**
-     * Merge directory-servlet definitions.
-     * 
-     * @param theWebXml the web xml to merge
-     */
-    private void mergeDirectoryServlet(ResinWebXml theWebXml)
-    {
-        AbstractMergeSet merger = new MergeElement(this.webXml.getRootElement(), this.webXml
-            .getDirectoryServlet(), theWebXml.getDirectoryServlet());
-
-        int count = merger.merge(this.mergeDirectoryServletStrategy);
-
-        getLogger().debug(
-            "Merged " + count + " directory-servlet definition" + (count != 1 ? "s " : " ")
-                + "into the descriptor", this.getClass().getName());
-
-    }
-
-    /**
-     * Merge session-config definitions.
-     * 
-     * @param theWebXml the web xml to merge
-     */
-    private void mergeSessionConfig(ResinWebXml theWebXml)
-    {
-        AbstractMergeSet merger = new MergeElement(this.webXml.getRootElement(), this.webXml
-            .getSessionConfig(), theWebXml.getSessionConfig());
-
-        int count = merger.merge(this.mergeSessionConfigStrategy);
-
-        getLogger().debug(
-            "Merged " + count + " session-config definition" + (count != 1 ? "s " : " ")
-                + "into the descriptor", this.getClass().getName());
-    }
-
-    /**
-     * Merge resource-ref definitions.
-     * 
-     * @param theWebXml the web xml to merge
-     */
-    private void mergeResourceRefs(ResinWebXml theWebXml)
-    {
-        AbstractNodeList ourItems = this.webXml.getResourceRefs();
-        AbstractNodeList mergeItems = theWebXml.getResourceRefs();
-
-        AbstractMergeSet merger = MergeNodeList.createFromNames(ourItems, mergeItems);
-
-        int count = merger.merge(this.mergeResourceRefsStrategy);
-
-        getLogger().debug(
-            "Merged " + count + " resource-ref definition" + (count != 1 ? "s " : " ")
-                + "into the descriptor", this.getClass().getName());
-    }
-
-    /**
-     * Merge jndi-link definitions.
-     * 
-     * @param theWebXml the web xml to merge
-     */
-    private void mergeJndiLinks(ResinWebXml theWebXml)
-    {
-        AbstractNodeList ourItems = this.webXml.getJndiLinks();
-        AbstractNodeList mergeItems = theWebXml.getJndiLinks();
-
-        AbstractMergeSet merger = MergeNodeList.createFromNames(ourItems, mergeItems);
-
-        int count = merger.merge(this.mergeJndiLinksStrategy);
-
-        getLogger().debug(
-            "Merged " + count + " jndi-link definition" + (count != 1 ? "s " : " ")
-                + "into the descriptor", this.getClass().getName());
-    }
-
-    /**
-     * Merges the system-property definitions from the specified descriptor into the original
-     * descriptor.
-     * 
-     * @param theWebXml The descriptor that contains the context-params definitions that are to be
-     *            merged into the original descriptor
-     */
-    private void mergeSystemProperties(ResinWebXml theWebXml)
-    {
-        AbstractNodeList ourSystemProperties = this.webXml.getSystemProperties();
-        AbstractNodeList mergeSystemProperties = theWebXml.getSystemProperties();
-
-        AbstractMergeSet merger = MergeNodeList.createFromNames(ourSystemProperties,
-            mergeSystemProperties);
-
-        int count = merger.merge(this.mergeSystemPropertiesStrategy);
-
-        getLogger().debug(
-            "Merged " + count + " system-property definition" + (count != 1 ? "s " : " ")
-                + "into the descriptor", this.getClass().getName());
-    }
 
 }

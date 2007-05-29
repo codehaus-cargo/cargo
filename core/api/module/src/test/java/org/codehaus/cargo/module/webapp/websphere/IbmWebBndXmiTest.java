@@ -20,12 +20,11 @@
 package org.codehaus.cargo.module.webapp.websphere;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
+import org.jdom.Element;
 import org.codehaus.cargo.module.webapp.EjbRef;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 /**
  * Unit tests for {@link IbmWebBndXmi}.
@@ -35,7 +34,7 @@ import org.w3c.dom.NodeList;
 public class IbmWebBndXmiTest extends AbstractDocumentBuilderTest
 {
     /**
-     * Tests that a ejb reference description can be added
+     * Tests that a ejb reference description can be added.
      *
      * @throws Exception If an unexpected error occurs
      */
@@ -46,20 +45,21 @@ public class IbmWebBndXmiTest extends AbstractDocumentBuilderTest
             + "xmlns:com.ibm.ejs.models.base.bindings.webappbnd=\"webappbnd.xmi\" "
             + "xmi:id=\"WebAppBinding_1082390762531\">"
             + "</com.ibm.ejs.models.base.bindings.webappbnd:WebAppBinding>";
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        IbmWebBndXmi descr = new IbmWebBndXmi(doc);
+        IbmWebBndXmi descr = IbmWebBndXmiIo.parseIbmWebBndXmi(
+            new ByteArrayInputStream(xml.getBytes()) );
+        
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");
         descr.addEjbReference(ref);
 
-        NodeList nl = descr.getDocument().getElementsByTagName("ejbRefBindings");
-        Element n = (Element)nl.item(0);
-        assertEquals("fee", n.getAttribute("jndiName"));
-        assertEquals(1, nl.getLength());
-        nl = n.getElementsByTagName("bindingEjbRef");
-        n = (Element)nl.item(0);
-        assertEquals("WEB-INF/web.xml#foo", n.getAttribute("href"));
-        assertEquals(1, nl.getLength());
+        List nl = descr.getDocument().getRootElement().getChildren("ejbRefBindings");
+        Element n = (Element) nl.get(0);
+        assertEquals("fee", n.getAttribute("jndiName").getValue());
+        assertEquals(1, nl.size());
+        nl = n.getChildren("bindingEjbRef");
+        n = (Element) nl.get(0);
+        assertEquals("WEB-INF/web.xml#foo", n.getAttribute("href").getValue());
+        assertEquals(1, nl.size());
     }
 }

@@ -22,31 +22,41 @@ package org.codehaus.cargo.module.webapp.jboss;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.codehaus.cargo.module.AbstractDescriptorIo;
-import org.xml.sax.SAXException;
+import org.codehaus.cargo.module.DescriptorType;
+import org.jdom.JDOMException;
 
 /**
- * Provides convenience methods for reading Tomcat web context descriptor.
+ * Provides convenience methods for reading JBoss web context descriptor.
  * 
  * @version $Id$
  */
 public class JBossWebXmlIo extends AbstractDescriptorIo
 {
     /**
+     * Constructor.
+     * 
+     * @param factory Descriptor Type
+     */
+    protected JBossWebXmlIo(DescriptorType factory)
+    {
+        super(factory);    
+    }
+
+    /**
      * Parses a deployment descriptor provided as input stream.
      * 
      * @param theInput The input stream
      * @return The parsed descriptor
-     * @throws SAXException If the input could not be parsed
-     * @throws ParserConfigurationException If the XML parser was not correctly
-     *          configured
      * @throws IOException If an I/O error occurs
+     * @throws JDOMException If the XML parser was not correctly
+     *          configured
      */
     public static JBossWebXml parseJBossWebXml(InputStream theInput)
-        throws SAXException, ParserConfigurationException, IOException
-    {
-        return new JBossWebXml(createDocumentBuilder().parse(theInput));
+        throws IOException, JDOMException
+    {      
+        return (JBossWebXml) JBossWebXmlType.getInstance().
+              getDescriptorIo().parseXml(theInput);              
     }
+
 }

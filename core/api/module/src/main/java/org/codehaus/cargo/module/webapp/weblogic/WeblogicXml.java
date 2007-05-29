@@ -19,14 +19,13 @@
  */
 package org.codehaus.cargo.module.webapp.weblogic;
 
+import java.util.Iterator;
+
 import org.codehaus.cargo.module.AbstractDescriptor;
-import org.codehaus.cargo.module.Dtd;
+import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.webapp.EjbRef;
 import org.codehaus.cargo.module.webapp.VendorWebAppDescriptor;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import java.util.Iterator;
+import org.jdom.Element;
 
 /**
  * Encapsulates the DOM representation of a weblogic web deployment descriptor
@@ -44,11 +43,12 @@ public class WeblogicXml extends AbstractDescriptor implements VendorWebAppDescr
     /**
      * Constructor.
      *
-     * @param document The DOM document representing the parsed deployment descriptor
+     * @param rootElement The document root element
+     * @param type The descriptor type
      */
-    public WeblogicXml(Document document)
+    public WeblogicXml(Element rootElement, DescriptorType type)
     {
-        super(document, new Dtd("http://www.bea.com/servers/wls810/dtd/weblogic810-web-jar.dtd"));
+        super(rootElement, type);
     }
 
     /**
@@ -72,15 +72,19 @@ public class WeblogicXml extends AbstractDescriptor implements VendorWebAppDescr
             refDescr = (Element) i.next();
         }
         else
-        {
+        {          
             refDescr =
-                getDocument().createElement(WeblogicXmlTag.REFERENCE_DESCRIPTOR.getTagName());
-            refDescr = addElement(WeblogicXmlTag.REFERENCE_DESCRIPTOR, refDescr, getRootElement());
+                new Element(WeblogicXmlTag.REFERENCE_DESCRIPTOR);
+            refDescr = addElement(getDescriptorType().getTagByName(
+                WeblogicXmlTag.REFERENCE_DESCRIPTOR), refDescr, getRootElement());
         }
-        Element ejbRefElement =
-            getDocument().createElement(WeblogicXmlTag.EJB_REFERENCE_DESCRIPTION.getTagName());
-        ejbRefElement.appendChild(createNestedText(WeblogicXmlTag.EJB_REF_NAME, ref.getName()));
-        ejbRefElement.appendChild(createNestedText(WeblogicXmlTag.JNDI_NAME, ref.getJndiName()));
-        addElement(WeblogicXmlTag.EJB_REFERENCE_DESCRIPTION, ejbRefElement, refDescr);
+
+        Element ejbRefElement = new Element(WeblogicXmlTag.EJB_REFERENCE_DESCRIPTION);
+        ejbRefElement.addContent(createNestedText(
+            getDescriptorType().getTagByName(WeblogicXmlTag.EJB_REF_NAME), ref.getName()));
+        ejbRefElement.addContent(createNestedText(
+            getDescriptorType().getTagByName(WeblogicXmlTag.JNDI_NAME), ref.getJndiName()));
+        addElement(getDescriptorType().getTagByName(
+            WeblogicXmlTag.EJB_REFERENCE_DESCRIPTION), ejbRefElement, refDescr);
     }
 }

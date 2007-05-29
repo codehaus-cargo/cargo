@@ -20,6 +20,7 @@
 package org.codehaus.cargo.module.ejb.weblogic;
 
 import org.codehaus.cargo.module.DescriptorTag;
+import org.codehaus.cargo.module.DescriptorType;
 
 /**
  * Represents the various tags in a weblogic ejb jar deployment descriptor.
@@ -28,46 +29,48 @@ import org.codehaus.cargo.module.DescriptorTag;
  */
 public class WeblogicEjbJarXmlTag extends DescriptorTag
 {
+   
+    
     /**
      * Element name 'ejb-name'.
      */
-    public static final WeblogicEjbJarXmlTag EJB_NAME = new WeblogicEjbJarXmlTag("ejb-name");
+    public static final String EJB_NAME = "ejb-name";
 
     /**
      * Element name 'local-jndi-name'.
      */
-    public static final WeblogicEjbJarXmlTag LOCAL_JNDI_NAME =
-        new WeblogicEjbJarXmlTag("local-jndi-name");
+    public static final String LOCAL_JNDI_NAME = "local-jndi-name";
     
     /**
      * Element name 'jndi-name'.
      */
-    public static final WeblogicEjbJarXmlTag JNDI_NAME = new WeblogicEjbJarXmlTag("jndi-name");
+    public static final String JNDI_NAME = "jndi-name";
     
     /**
      * Element name 'dispatch-policy'.
      */
-    public static final WeblogicEjbJarXmlTag DISPATCH_POLICY = 
-        new WeblogicEjbJarXmlTag("dispatch-policy");
+    public static final String DISPATCH_POLICY = "dispatch-policy";
     
     /**
      * Constructor.
      * 
+     * @param type Descriptor type
      * @param tagName The tag name of the element
      * @param isMultipleAllowed Whether the element may occur multiple times in the descriptor
      */
-    protected WeblogicEjbJarXmlTag(String tagName, boolean isMultipleAllowed)
+    protected WeblogicEjbJarXmlTag(DescriptorType type, String tagName, boolean isMultipleAllowed)
     {
-        super(tagName, isMultipleAllowed);
+        super(type, tagName, isMultipleAllowed);
     }
     
     /**
      * Constructor.
      * 
+     * @param type Descriptor type
      * @param tagName The tag name of the element
      */
-    protected WeblogicEjbJarXmlTag(String tagName)
+    protected WeblogicEjbJarXmlTag(DescriptorType type, String tagName)
     {
-        this(tagName, true);
+        this(type, tagName, true);
     }
 }

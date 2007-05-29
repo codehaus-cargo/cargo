@@ -29,6 +29,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.codehaus.cargo.module.JarArchive;
 import org.codehaus.cargo.module.ejb.EjbArchive;
 import org.codehaus.cargo.module.webapp.WarArchive;
+import org.jdom.JDOMException;
 import org.xml.sax.SAXException;
 
 /**
@@ -46,9 +47,10 @@ public interface EarArchive extends JarArchive
      * @throws SAXException If the deployment descriptor of the EAR could not be parsed
      * @throws ParserConfigurationException If there is an XML parser
      *         configration problem
+     * @throws JDOMException  If there is an exception reading the application xml
      */
     ApplicationXml getApplicationXml()
-        throws IOException, SAXException, ParserConfigurationException;
+        throws IOException, SAXException, ParserConfigurationException, JDOMException;
 
     /**
      * Returns the web-app archive stored in the EAR with the specified URI.

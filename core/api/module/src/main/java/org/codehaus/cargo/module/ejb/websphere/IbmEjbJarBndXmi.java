@@ -20,14 +20,15 @@
 package org.codehaus.cargo.module.ejb.websphere;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
 import org.codehaus.cargo.module.DescriptorTag;
+import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.ejb.EjbDef;
 import org.codehaus.cargo.module.ejb.VendorEjbDescriptor;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import org.jdom.Element;
+
 
 /**
  * Encapsulates the DOM representation of a websphere ejb deployment descriptor 
@@ -40,11 +41,12 @@ public class IbmEjbJarBndXmi extends AbstractDescriptor implements VendorEjbDesc
     /**
      * Constructor.
      * 
-     * @param document The DOM document representing the parsed deployment descriptor
+     * @param rootElement The root document element
+     * @param type The descriptor type
      */
-    public IbmEjbJarBndXmi(Document document)
+    public IbmEjbJarBndXmi(Element rootElement, DescriptorType type)
     {
-        super(document, new IbmEjbJarBndXmiGrammar());
+        super(rootElement, type);
     }
     
     /**
@@ -66,7 +68,7 @@ public class IbmEjbJarBndXmi extends AbstractDescriptor implements VendorEjbDesc
         Element bindings = getEjbBindings(ejb.getId());
         if (bindings != null)
         {
-            jndiName = bindings.getAttribute("jndiName");
+            jndiName = bindings.getAttribute("jndiName").getValue();
         }
         return jndiName;
     }
@@ -81,13 +83,14 @@ public class IbmEjbJarBndXmi extends AbstractDescriptor implements VendorEjbDesc
     {
         Element ejbElement = null;
         String wantedHref = "META-INF/ejb-jar.xml#" + id;
-        Iterator names = getElements(new DescriptorTag("ejbBindings", true));
+        Iterator names = getElements(
+            new DescriptorTag(IbmEjbJarBndXmiType.getInstance(), "ejbBindings", true));
         while (names.hasNext())
         {
             Element bindingsElement = (Element) names.next();
-            NodeList nl = bindingsElement.getElementsByTagName("enterpriseBean");
-            Element beanElement = (Element) nl.item(0);
-            String href = beanElement.getAttribute("href");
+            List nl = bindingsElement.getChildren("enterpriseBean");
+            Element beanElement = (Element) nl.get(0);
+            String href = beanElement.getAttribute("href").getValue();
             if (wantedHref.equals(href))
             {
                 ejbElement = bindingsElement;

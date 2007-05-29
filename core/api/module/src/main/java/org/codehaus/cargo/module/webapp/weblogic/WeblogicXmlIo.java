@@ -22,10 +22,8 @@ package org.codehaus.cargo.module.webapp.weblogic;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.codehaus.cargo.module.AbstractDescriptorIo;
-import org.xml.sax.SAXException;
+import org.jdom.JDOMException;
 
 /**
  * Provides convenience methods for reading Weblogic web deployment descriptor.
@@ -34,18 +32,28 @@ import org.xml.sax.SAXException;
  */
 public class WeblogicXmlIo extends AbstractDescriptorIo
 {
+  
+    /**
+     * Constructor.
+     */
+    protected WeblogicXmlIo()
+    {
+        super(WeblogicXmlType.getInstance());    
+    }
+  
     /**
      * Parses a deployment descriptor provided as input stream.
      * 
      * @param input The input stream
      * @return The parsed descriptor
-     * @throws SAXException If the input could not be parsed
-     * @throws ParserConfigurationException If the XML parser was not correctly configured
-     * @throws IOException If an I/O error occurs
+     * @throws JDOMException If the input could not be parsed
+     * @throws IOException If an I/O error occurs      
      */
     public static WeblogicXml parseWeblogicXml(InputStream input)
-        throws SAXException, ParserConfigurationException, IOException
+        throws IOException, JDOMException
     {
-        return new WeblogicXml(createDocumentBuilder().parse(input));
+        WeblogicXmlIo io = new WeblogicXmlIo();
+        return (WeblogicXml) io.parseXml(input);  
     }
+
 }

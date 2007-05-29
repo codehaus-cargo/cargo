@@ -22,11 +22,11 @@ package org.codehaus.cargo.module.ejb.weblogic;
 import java.util.Iterator;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
-import org.codehaus.cargo.module.Dtd;
+import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.ejb.EjbDef;
 import org.codehaus.cargo.module.ejb.VendorEjbDescriptor;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.jdom.Element;
+
 
 /**
  * Encapsulates the DOM representation of a weblogic ejb deployment descriptor 
@@ -40,11 +40,12 @@ public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDe
     /**
      * Constructor.
      * 
-     * @param document The DOM document representing the parsed deployment descriptor
+     * @param rootElement The root of the DOM document representing the parsed deployment descriptor
+     * @param type The descriptor type
      */
-    public WeblogicEjbJarXml(Document document)
+    public WeblogicEjbJarXml(Element rootElement, DescriptorType type)
     {
-        super(document, new Dtd("http://www.bea.com/servers/wls810/dtd/weblogic-ejb-jar.dtd"));
+        super(rootElement, type);
     }
     
     /**
@@ -67,10 +68,12 @@ public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDe
         Element ejbElement = getEjb(ejb.getName());
         if (ejbElement != null)
         {
-            jndiName = getNestedText(ejbElement, WeblogicEjbJarXmlTag.LOCAL_JNDI_NAME);
+            jndiName = getNestedText(ejbElement, 
+                getDescriptorType().getTagByName(WeblogicEjbJarXmlTag.LOCAL_JNDI_NAME));
             if (jndiName == null)
             {
-                jndiName = getNestedText(ejbElement, WeblogicEjbJarXmlTag.JNDI_NAME);
+                jndiName = getNestedText(ejbElement, 
+                    getDescriptorType().getTagByName(WeblogicEjbJarXmlTag.JNDI_NAME));
             }
         }
         
@@ -93,7 +96,8 @@ public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDe
         }
         else
         {
-            ejbElement.appendChild(createNestedText(WeblogicEjbJarXmlTag.DISPATCH_POLICY, policy));
+            ejbElement.addContent(createNestedText(
+                getDescriptorType().getTagByName(WeblogicEjbJarXmlTag.DISPATCH_POLICY), policy));
         }
     }
 
@@ -115,7 +119,8 @@ public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDe
         }
         else
         {
-            policy = getNestedText(ejbElement, WeblogicEjbJarXmlTag.DISPATCH_POLICY);
+            policy = getNestedText(ejbElement, 
+                getDescriptorType().getTagByName(WeblogicEjbJarXmlTag.DISPATCH_POLICY));
         }
 
         return policy;
@@ -135,10 +140,10 @@ public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDe
         while (names.hasNext())
         {
             Element nameElement = (Element) names.next();
-            String name = nameElement.getFirstChild().getNodeValue();
+            String name = nameElement.getText();
             if (ejbName.equals(name))
             {
-                ejbElement = (Element) nameElement.getParentNode();
+                ejbElement = nameElement.getParentElement();
                 break;
             }
         }

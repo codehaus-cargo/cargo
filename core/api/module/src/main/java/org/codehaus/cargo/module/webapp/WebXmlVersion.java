@@ -22,7 +22,7 @@
  */
 package org.codehaus.cargo.module.webapp;
 
-import org.w3c.dom.DocumentType;
+import org.jdom.DocType;
 
 /**
  * Enumerated type that represents the version of the web deployment descriptor.
@@ -145,9 +145,9 @@ public final class WebXmlVersion implements Comparable
      *
      * @throws NullPointerException If the document type is <code>null</code>
      */
-    public static WebXmlVersion valueOf(DocumentType theDocType) throws NullPointerException
+    public static WebXmlVersion valueOf(DocType theDocType) throws NullPointerException
     {
-        return valueOf(theDocType.getPublicId());
+        return valueOf(theDocType.getPublicID());
     }
 
     /**

@@ -22,10 +22,8 @@ package org.codehaus.cargo.module.ejb.orion;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.codehaus.cargo.module.AbstractDescriptorIo;
-import org.xml.sax.SAXException;
+import org.jdom.JDOMException;
 
 /**
  * Provides convenience methods for reading Oracle ejb jar deployment descriptor.
@@ -35,17 +33,26 @@ import org.xml.sax.SAXException;
 public class OrionEjbJarXmlIo extends AbstractDescriptorIo
 {
     /**
+     * Protected constructor.
+     */
+    protected OrionEjbJarXmlIo()
+    {
+        super(OrionEjbJarXmlType.getInstance());
+    }
+    /**
      * Parses a deployment descriptor provided as input stream.
      * 
      * @param input The input stream
-     * @return The parsed descriptor
-     * @throws SAXException If the input could not be parsed
-     * @throws ParserConfigurationException If the XML parser was not correctly configured
+     * @return The parsed descriptor        
      * @throws IOException If an I/O error occurs
+     * @throws JDOMException If the input could not be parsed
      */
     public static OrionEjbJarXml parseOracleEjbJarXml(InputStream input)
-        throws SAXException, ParserConfigurationException, IOException
+        throws IOException, JDOMException
     {
-        return new OrionEjbJarXml(createDocumentBuilder().parse(input));
+        OrionEjbJarXmlIo xio = new OrionEjbJarXmlIo();
+        return (OrionEjbJarXml) xio.parseXml(input);
     }
+
+
 }

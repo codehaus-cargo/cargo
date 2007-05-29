@@ -22,7 +22,9 @@
  */
 package org.codehaus.cargo.module.application;
 
-import org.w3c.dom.DocumentType;
+import org.jdom.DocType;
+
+
 
 /**
  * Enumerated type that represents the version of the deployment descriptor of a enterprise 
@@ -165,9 +167,9 @@ public final class ApplicationXmlVersion implements Comparable
      *         not recognized
      * @throws NullPointerException If the document type is <code>null</code>
      */
-    public static ApplicationXmlVersion valueOf(DocumentType theDocType) throws NullPointerException
+    public static ApplicationXmlVersion valueOf(DocType theDocType) throws NullPointerException
     {
-        return valueOf(theDocType.getPublicId());
+        return valueOf(theDocType.getPublicID());
     }
 
     /**

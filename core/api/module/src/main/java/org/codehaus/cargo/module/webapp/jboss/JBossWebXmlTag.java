@@ -20,6 +20,7 @@
 package org.codehaus.cargo.module.webapp.jboss;
 
 import org.codehaus.cargo.module.DescriptorTag;
+import org.codehaus.cargo.module.DescriptorType;
 
 /**
  * Represents the various top-level tags in a JBoss web deployment descriptor
@@ -32,38 +33,39 @@ public final class JBossWebXmlTag extends DescriptorTag
     /**
      * Element name 'context-root'.
      */
-    public static final JBossWebXmlTag CONTEXT_ROOT =
-        new JBossWebXmlTag("context-root", false);
+    public static final String CONTEXT_ROOT = "context-root";
 
-    public static final JBossWebXmlTag EJB_REF = new JBossWebXmlTag("ejb-ref");
+    public static final String EJB_REF = "ejb-ref";
 
-    public static final JBossWebXmlTag EJB_LOCAL_REF = new JBossWebXmlTag("ejb-local-ref");
+    public static final String EJB_LOCAL_REF = "ejb-local-ref";
 
-    public static final JBossWebXmlTag EJB_REF_NAME = new JBossWebXmlTag("ejb-ref-name");
+    public static final String EJB_REF_NAME = "ejb-ref-name";
 
-    public static final JBossWebXmlTag JNDI_NAME = new JBossWebXmlTag("jndi-name");
+    public static final String JNDI_NAME = "jndi-name";
 
-    public static final JBossWebXmlTag LOCAL_JNDI_NAME = new JBossWebXmlTag("local-jndi-name");
+    public static final String LOCAL_JNDI_NAME = "local-jndi-name";
 
     /**
      * Constructor.
      *
+     * @param type Descriptor type
      * @param tagName The tag name of the element
      * @param isMultipleAllowed Whether the element may occur multiple times in
      *         the descriptor
      */
-    protected JBossWebXmlTag(String tagName, boolean isMultipleAllowed)
+    protected JBossWebXmlTag(DescriptorType type, String tagName, boolean isMultipleAllowed)
     {
-        super(tagName, isMultipleAllowed);
+        super(type, tagName, isMultipleAllowed, null, null);
     }
 
     /**
      * Constructor.
      *
+     * @param type Descriptor type
      * @param tagName The tag name of the element
      */
-    protected JBossWebXmlTag(String tagName)
+    protected JBossWebXmlTag(DescriptorType type, String tagName)
     {
-        this(tagName, true);
+        this(type, tagName, true);
     }
 }

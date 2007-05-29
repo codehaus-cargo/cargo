@@ -23,7 +23,7 @@ import java.io.ByteArrayInputStream;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.ejb.EjbDef;
-import org.w3c.dom.Document;
+
 
 /**
  * Unit tests for {@link WeblogicEjbJarXml}.
@@ -46,8 +46,8 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </weblogic-enterprise-bean>"
             + "</weblogic-ejb-jar>";
             
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        WeblogicEjbJarXml descr = new WeblogicEjbJarXml(doc);
+       
+        WeblogicEjbJarXml descr = WeblogicEjbJarXmlIo.parseWeblogicEjbJarXml(new ByteArrayInputStream(xml.getBytes()));
         assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb")));
     }
     
@@ -66,8 +66,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </weblogic-enterprise-bean>"
             + "</weblogic-ejb-jar>";
             
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        WeblogicEjbJarXml descr = new WeblogicEjbJarXml(doc);
+        WeblogicEjbJarXml descr = WeblogicEjbJarXmlIo.parseWeblogicEjbJarXml(new ByteArrayInputStream(xml.getBytes()));
         assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb")));
     }
     
@@ -85,8 +84,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </weblogic-enterprise-bean>"
             + "</weblogic-ejb-jar>";
             
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        WeblogicEjbJarXml descr = new WeblogicEjbJarXml(doc);
+        WeblogicEjbJarXml descr = WeblogicEjbJarXmlIo.parseWeblogicEjbJarXml(new ByteArrayInputStream(xml.getBytes()));
         assertNull(descr.getJndiName(new EjbDef("MyEjd")));
     }
     
@@ -104,8 +102,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "    <dispatch-policy>threadQueue</dispatch-policy>"
             + "  </weblogic-enterprise-bean>"
             + "</weblogic-ejb-jar>";
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        WeblogicEjbJarXml descr = new WeblogicEjbJarXml(doc);
+        WeblogicEjbJarXml descr = WeblogicEjbJarXmlIo.parseWeblogicEjbJarXml(new ByteArrayInputStream(xml.getBytes()));
         assertEquals("threadQueue", descr.getDispatchPolicy(new EjbDef("MyEjb")));
     }
     
@@ -122,8 +119,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "    <jndi-name>mycomp/MyEjb</jndi-name>"        
             + "  </weblogic-enterprise-bean>"
             + "</weblogic-ejb-jar>";
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        WeblogicEjbJarXml descr = new WeblogicEjbJarXml(doc);
+        WeblogicEjbJarXml descr = WeblogicEjbJarXmlIo.parseWeblogicEjbJarXml(new ByteArrayInputStream(xml.getBytes()));
         descr.addDispatchPolicy(new EjbDef("MyEjb"), "threadQueue");
         assertEquals("threadQueue", descr.getDispatchPolicy(new EjbDef("MyEjb")));
     }

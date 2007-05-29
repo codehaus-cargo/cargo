@@ -21,10 +21,8 @@ package org.codehaus.cargo.module.ejb;
 
 import java.io.IOException;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.codehaus.cargo.module.JarArchive;
-import org.xml.sax.SAXException;
+import org.jdom.JDOMException;
 
 /**
  * Class that encapsulates access to an EJB JAR.
@@ -38,8 +36,7 @@ public interface EjbArchive extends JarArchive
      *
      * @return the EjbJarXml
      * @throws IOException If there was a problem reading the deployment descriptor in the EAR
-     * @throws SAXException If the deployment descriptor of the EAR could not be parsed
-     * @throws ParserConfigurationException If there is an XML parser configration problem
+     * @throws JDOMException If there is a problem with the XML 
      */
-    EjbJarXml getEjbJarXml() throws IOException, SAXException, ParserConfigurationException;
+    EjbJarXml getEjbJarXml() throws IOException, JDOMException;
 }

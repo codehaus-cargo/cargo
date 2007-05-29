@@ -27,11 +27,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
-import org.codehaus.cargo.module.Dtd;
+import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.J2eeDescriptor;
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentType;
-import org.w3c.dom.Element;
+import org.jdom.DocType;
+import org.jdom.Element;
+
 
 /**
  * Encapsulates the DOM representation of an EAR descriptor (<code>application.xml</code>) to 
@@ -49,11 +49,12 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
     /**
      * Constructor.
      * 
-     * @param theDocument The DOM document representing the parsed deployment descriptor
+     * @param rootElement the root element for this descriptor
+     * @param type the type of this descriptor
      */
-    public ApplicationXml(Document theDocument)
+    public ApplicationXml(Element rootElement, DescriptorType type)
     {
-        super(theDocument, new Dtd("http://java.sun.com/dtd/application_1_3.dtd"));
+        super(rootElement, type);
     }
     
     /**
@@ -62,7 +63,7 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
     public ApplicationXmlVersion getVersion()
     {
         ApplicationXmlVersion version = null;
-        DocumentType docType = getDocument().getDoctype();
+        DocType docType = getDocument().getDocType();
         if (docType != null)
         {
             version = ApplicationXmlVersion.valueOf(docType);
@@ -87,11 +88,13 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
         while (moduleElements.hasNext())
         {
             Element moduleElement = (Element) moduleElements.next();
-            Iterator webElements = getNestedElements(moduleElement, ApplicationXmlTag.WEB);
+            Iterator webElements = getNestedElements(moduleElement,  
+                getDescriptorType().getTagByName(ApplicationXmlTag.WEB));
             if (webElements.hasNext())
             {
                 Element webElement = (Element) webElements.next(); 
-                if (webUri.equals(getNestedText(webElement, ApplicationXmlTag.WEB_URI)))
+                if (webUri.equals(getNestedText(webElement, 
+                    getDescriptorType().getTagByName(ApplicationXmlTag.WEB_URI))))
                 {
                     return webElement;
                 }
@@ -113,7 +116,8 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
         {
             throw new IllegalArgumentException("Web module [" + webUri + "] is not defined");
         }
-        return getNestedText(webModuleElement, ApplicationXmlTag.CONTEXT_ROOT);
+        return getNestedText(webModuleElement, getDescriptorType().getTagByName(
+            ApplicationXmlTag.CONTEXT_ROOT));
     }
 
     /**
@@ -128,11 +132,13 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
         while (moduleElements.hasNext())
         {
             Element moduleElement = (Element) moduleElements.next();
-            Iterator webElements = getNestedElements(moduleElement, ApplicationXmlTag.WEB);
+            Iterator webElements = getNestedElements(
+                moduleElement, getDescriptorType().getTagByName(ApplicationXmlTag.WEB));
             if (webElements.hasNext())
             {
                 Element webElement = (Element) webElements.next(); 
-                String webUri = getNestedText(webElement, ApplicationXmlTag.WEB_URI);
+                String webUri = getNestedText(
+                    webElement, getDescriptorType().getTagByName(ApplicationXmlTag.WEB_URI));
                 if (webUri != null)
                 {
                     webUris.add(webUri);
@@ -154,7 +160,8 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
         while (moduleElements.hasNext())
         {
             Element moduleElement = (Element) moduleElements.next();
-            String ejb = getNestedText(moduleElement, ApplicationXmlTag.EJB);
+            String ejb = getNestedText(
+                moduleElement, getDescriptorType().getTagByName(ApplicationXmlTag.EJB));
             if (ejb != null)
             {
                 modules.add(ejb);
@@ -183,12 +190,15 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
      */
     public void addWebModule(String uri, String context)
     {
-        Element moduleElement = getDocument().createElement(ApplicationXmlTag.MODULE.getTagName());
-        Element webElement = getDocument().createElement(ApplicationXmlTag.WEB.getTagName());
-        webElement.appendChild(createNestedText(ApplicationXmlTag.WEB_URI, uri));
-        webElement.appendChild(createNestedText(ApplicationXmlTag.CONTEXT_ROOT, context));
-        moduleElement.appendChild(webElement);
-        addElement(ApplicationXmlTag.MODULE, moduleElement, getRootElement());
+        Element moduleElement = new Element(ApplicationXmlTag.MODULE);
+        Element webElement = new Element(ApplicationXmlTag.WEB);
+        webElement.addContent(createNestedText(
+            getDescriptorType().getTagByName(ApplicationXmlTag.WEB_URI), uri));
+        webElement.addContent(createNestedText(
+            getDescriptorType().getTagByName(ApplicationXmlTag.CONTEXT_ROOT), context));
+        moduleElement.addContent(webElement);
+        addElement(getDescriptorType().getTagByName(
+            ApplicationXmlTag.MODULE), moduleElement, getRootElement());
     }
     
     /**
@@ -198,9 +208,11 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
     */
     public void addEjbModule(String name)
     {
-        Element moduleElement = getDocument().createElement(ApplicationXmlTag.MODULE.getTagName());
-        moduleElement.appendChild(createNestedText(ApplicationXmlTag.EJB, name));
-        addElement(ApplicationXmlTag.MODULE, moduleElement, getRootElement());
+        Element moduleElement = new Element(ApplicationXmlTag.MODULE);
+        moduleElement.addContent(createNestedText(
+            getDescriptorType().getTagByName(ApplicationXmlTag.EJB), name));
+        addElement(getDescriptorType().getTagByName(
+            ApplicationXmlTag.MODULE), moduleElement, getRootElement());
     }
 
     /**

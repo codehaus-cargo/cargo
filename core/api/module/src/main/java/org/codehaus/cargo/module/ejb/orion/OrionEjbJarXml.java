@@ -1,20 +1,20 @@
-/*
+/* 
  * ========================================================================
- *
- * Copyright 2005-2007 Vincent Massol.
+ * 
+ * Copyright 2005-2006 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ * 
  * ========================================================================
  */
 package org.codehaus.cargo.module.ejb.orion;
@@ -23,14 +23,14 @@ import java.util.Iterator;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
 import org.codehaus.cargo.module.DescriptorTag;
-import org.codehaus.cargo.module.Dtd;
+import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.ejb.EjbDef;
 import org.codehaus.cargo.module.ejb.VendorEjbDescriptor;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.jdom.Element;
+
 
 /**
- * Encapsulates the DOM representation of a oracle ejb deployment descriptor
+ * Encapsulates the DOM representation of a oracle ejb deployment descriptor 
  * <code>orion-ejb-jar.xml</code> to provide convenience methods for easy access and manipulation.
  *
  * @version $Id$
@@ -39,15 +39,15 @@ public class OrionEjbJarXml extends AbstractDescriptor implements VendorEjbDescr
 {
     /**
      * Constructor.
-     *
+     * 
      * @param document The DOM document representing the parsed deployment descriptor
+     * @param type the type of the descriptor
      */
-    public OrionEjbJarXml(Document document)
+    public OrionEjbJarXml(Element document, DescriptorType type)
     {
-        super(document,
-            new Dtd("http://www.oracle.com/technology/ias/dtds/orion-ejb-jar-9_04.dtd"));
+        super(document, type);
     }
-
+    
     /**
      * {@inheritDoc}
      * @see VendorEjbDescriptor#getFileName()
@@ -56,7 +56,7 @@ public class OrionEjbJarXml extends AbstractDescriptor implements VendorEjbDescr
     {
         return "orion-ejb-jar.xml";
     }
-
+    
     /**
      * {@inheritDoc}
      * @see VendorEjbDescriptor#getJndiName(EjbDef)
@@ -67,22 +67,14 @@ public class OrionEjbJarXml extends AbstractDescriptor implements VendorEjbDescr
         Element ejbElement = getEjb(ejb.getName());
         if (ejbElement != null)
         {
-            if (ejb.getLocal() != null)
-            {
-                jndiName = ejbElement.getAttribute("local-location");
-            }
-
-            if (jndiName == null)
-            {
-                jndiName = ejbElement.getAttribute("location");
-            }
+            jndiName = ejbElement.getAttribute("location").getValue();
         }
         return jndiName;
     }
 
     /**
      * Returns a specific ejb.
-     *
+     * 
      * @param ejbName the name of the ejb to get
      * @return the ejb or null if no ejb with that name exists
      */
@@ -93,57 +85,59 @@ public class OrionEjbJarXml extends AbstractDescriptor implements VendorEjbDescr
         {
             ejbElement = getEntityEjb(ejbName);
         }
-
+        
         return ejbElement;
     }
-
+    
     /**
      * Returns a specific ejb.
-     *
+     * 
      * @param ejbName the name of the ejb to get
      * @return the ejb or null if no ejb with that name exists
      */
     private Element getSessionEjb(String ejbName)
     {
         Element ejbElement = null;
-
-        Iterator names = getElements(new DescriptorTag("session-deployment", true));
+        
+        Iterator names = getElements(new DescriptorTag(
+            OrionEjbJarXmlType.getInstance(), "session-deployment", true));
         while (names.hasNext())
         {
             Element deploymentElement = (Element) names.next();
-            String name = deploymentElement.getAttribute("name");
+            String name = deploymentElement.getAttribute("name").getValue();
             if (name.equals(ejbName))
             {
                 ejbElement = deploymentElement;
                 break;
             }
         }
-
+        
         return ejbElement;
     }
-
+    
     /**
      * Returns a specific ejb.
-     *
+     * 
      * @param ejbName the name of the ejb to get
      * @return the ejb or null if no ejb with that name exists
      */
     private Element getEntityEjb(String ejbName)
     {
         Element ejbElement = null;
-
-        Iterator names = getElements(new DescriptorTag("entity-deployment", true));
+        
+        Iterator names = getElements(new DescriptorTag(
+            OrionEjbJarXmlType.getInstance(), "entity-deployment", true));
         while (names.hasNext())
         {
             Element deploymentElement = (Element) names.next();
-            String name = deploymentElement.getAttribute("name");
+            String name = deploymentElement.getAttribute("name").getValue();
             if (name.equals(ejbName))
             {
                 ejbElement = deploymentElement;
                 break;
             }
         }
-
+        
         return ejbElement;
     }
 }

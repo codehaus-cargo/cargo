@@ -20,6 +20,7 @@
 package org.codehaus.cargo.module.webapp.weblogic;
 
 import org.codehaus.cargo.module.DescriptorTag;
+import org.codehaus.cargo.module.DescriptorType;
 
 /**
  * Represents the various top-level tags in a web deployment descriptor as a typesafe enumeration.
@@ -31,159 +32,161 @@ public class WeblogicXmlTag extends DescriptorTag
     /**
      * Element name 'description'.
      */
-    public static final WeblogicXmlTag DESCRIPTION = new WeblogicXmlTag("description");
+    public static final String DESCRIPTION = "description";
 
     /**
      * Element name 'weblogic-version'.
      */
-    public static final WeblogicXmlTag WEBLOGIC_VERSION = new WeblogicXmlTag("weblogic-version");
+    public static final String WEBLOGIC_VERSION = "weblogic-version";
 
     /**
      * Element name 'security-role-assignment'.
      */
-    public static final WeblogicXmlTag SECURITY_ROLE_ASSIGNMENT =
-        new WeblogicXmlTag("security-role-assignment");
+    public static final String SECURITY_ROLE_ASSIGNMENT =
+        "security-role-assignment";
 
     /**
      * Element name 'run-as-role-assignment'.
      */
-    public static final WeblogicXmlTag RUN_AS_ROLE_ASSIGNMENT =
-        new WeblogicXmlTag("run-as-role-assignment");
+    public static final String RUN_AS_ROLE_ASSIGNMENT =
+        "run-as-role-assignment";
 
     /**
      * Element name 'reference-descriptor'.
      */
-    public static final WeblogicXmlTag REFERENCE_DESCRIPTOR =
-        new WeblogicXmlTag("reference-descriptor");
+    public static final String REFERENCE_DESCRIPTOR =
+        "reference-descriptor";
     
     /**
      * Element name 'session-descriptor'.
      */
-    public static final WeblogicXmlTag SESSION_DESCRIPTOR = 
-        new WeblogicXmlTag("session-descriptor");
+    public static final String SESSION_DESCRIPTOR = 
+        "session-descriptor";
     
     /**
      * Element name 'jsp-descriptor'.
      */
-    public static final WeblogicXmlTag JSP_DESCRIPTOR = new WeblogicXmlTag("jsp-descriptor");
+    public static final String JSP_DESCRIPTOR = "jsp-descriptor";
     
     /**
      * Element name 'auth-filter'.
      */
-    public static final WeblogicXmlTag AUTH_FILTER = new WeblogicXmlTag("auth-filter");
+    public static final String AUTH_FILTER = "auth-filter";
     
     /**
      * Element name 'container-descriptor'.
      */
-    public static final WeblogicXmlTag CONTAINER_DESCRIPTOR =
-        new WeblogicXmlTag("container-descriptor");
+    public static final String CONTAINER_DESCRIPTOR =
+        "container-descriptor";
 
     /**
      * Element name 'charset-params'.
      */
-    public static final WeblogicXmlTag CHARSET_PARAMS = new WeblogicXmlTag("charset-params");
+    public static final String CHARSET_PARAMS = "charset-params";
     
     /**
      * Element name 'virtual-directory-mapping'.
      */
-    public static final WeblogicXmlTag VIRTUAL_DIRECTORY_MAPPING =
-        new WeblogicXmlTag("virtual-directory-mapping");
+    public static final String VIRTUAL_DIRECTORY_MAPPING =
+        "virtual-directory-mapping";
     
     /**
      * Element name 'url-match-map'.
      */
-    public static final WeblogicXmlTag URL_MATCH_MAP = new WeblogicXmlTag("url-match-map");
+    public static final String URL_MATCH_MAP = "url-match-map";
     
     /**
      * Element name 'preprocessor'.
      */
-    public static final WeblogicXmlTag PREPROCESSOR = new WeblogicXmlTag("preprocessor");
+    public static final String PREPROCESSOR = "preprocessor";
     
     /**
      * Element name 'preprocessor-mapping'.
      */
-    public static final WeblogicXmlTag PREPROCESSOR_MAPPING =
-        new WeblogicXmlTag("preprocessor-mapping");
+    public static final String PREPROCESSOR_MAPPING =
+        "preprocessor-mapping";
 
     /**
      * Element name 'security-permission'.
      */
-    public static final WeblogicXmlTag SECURITY_PERMISSION =
-        new WeblogicXmlTag("security-permission");
+    public static final String SECURITY_PERMISSION =
+        "security-permission";
 
     /**
      * Element name 'context-root'.
      */
-    public static final WeblogicXmlTag CONTEXT_ROOT = new WeblogicXmlTag("context-root");
+    public static final String CONTEXT_ROOT = "context-root";
 
     /**
      * Element name 'wl-dispatch-policy'.
      */
-    public static final WeblogicXmlTag WL_DISPATCH_POLICY =
-        new WeblogicXmlTag("wl-dispatch-policy");
+    public static final String WL_DISPATCH_POLICY =
+        "wl-dispatch-policy";
 
     /**
      * Element name 'servlet-descriptor'.
      */
-    public static final WeblogicXmlTag SERVLET_DESCRIPTOR =
-        new WeblogicXmlTag("servlet-descriptor");
+    public static final String SERVLET_DESCRIPTOR =
+        "servlet-descriptor";
 
     /**
      * Element name 'init-as'.
      */
-    public static final WeblogicXmlTag INIT_AS = new WeblogicXmlTag("init-as");
+    public static final String INIT_AS = "init-as";
 
     /**
      * Element name 'destroy-as'.
      */
-    public static final WeblogicXmlTag DESTROY_AS = new WeblogicXmlTag("destroy-as");
+    public static final String DESTROY_AS = "destroy-as";
 
     /**
      * Element name 'resource-description'.
      */
-    public static final WeblogicXmlTag RESOURCE_DESCRIPTION =
-        new WeblogicXmlTag("resource-description");
+    public static final String RESOURCE_DESCRIPTION =
+        "resource-description";
     
     /**
      * Element name 'resource-env-description'.
      */
-    public static final WeblogicXmlTag RESOURCE_ENV_DESCRIPTION =
-        new WeblogicXmlTag("resource-env-description");
+    public static final String RESOURCE_ENV_DESCRIPTION =
+        "resource-env-description";
     
     /**
      * Element name 'ejb-reference-description'.
      */
-    public static final WeblogicXmlTag EJB_REFERENCE_DESCRIPTION =
-        new WeblogicXmlTag("ejb-reference-description");
+    public static final String EJB_REFERENCE_DESCRIPTION =
+        "ejb-reference-description";
     
     /**
      * Element name 'ejb-ref-name'.
      */
-    public static final WeblogicXmlTag EJB_REF_NAME = new WeblogicXmlTag("ejb-ref-name");
+    public static final String EJB_REF_NAME = "ejb-ref-name";
     
     /**
      * Element name 'jndi-name'.
      */
-    public static final WeblogicXmlTag JNDI_NAME = new WeblogicXmlTag("jndi-name");
+    public static final String JNDI_NAME = "jndi-name";
     
     /**
      * Constructor.
      * 
+     * @param type Descriptor type
      * @param tagName The tag name of the element
      * @param isMultipleAllowed Whether the element may occur multiple times in the descriptor
      */
-    protected WeblogicXmlTag(String tagName, boolean isMultipleAllowed)
+    protected WeblogicXmlTag(DescriptorType type, String tagName, boolean isMultipleAllowed)
     {
-        super(tagName, isMultipleAllowed);
+        super(type, tagName, isMultipleAllowed);
     }
 
     /**
      * Constructor.
      * 
+     * @param type Descriptor type
      * @param tagName The tag name of the element
      */
-    protected WeblogicXmlTag(String tagName)
+    protected WeblogicXmlTag(DescriptorType type, String tagName)
     {
-        this(tagName, true);
+        this(type, tagName, true);
     }
 }

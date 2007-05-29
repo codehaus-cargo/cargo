@@ -38,9 +38,8 @@ import org.codehaus.cargo.module.webapp.websphere.IbmWebBndXmi;
 import org.codehaus.cargo.module.webapp.websphere.IbmWebBndXmiIo;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.DefaultFileHandler;
-import org.xml.sax.SAXException;
+import org.jdom.JDOMException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -86,10 +85,11 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
+     * @throws JDOMException 
      * @see WarArchive#getWebXml()
      */
     public final WebXml getWebXml()
-        throws IOException, SAXException, ParserConfigurationException
+        throws IOException, JDOMException
     {
         if (this.webXml == null)
         {
@@ -120,10 +120,11 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
+     * @throws JDOMException 
      * @see WarArchive#store(java.io.File)
      */
     public final void store(File warFile)
-        throws IOException, SAXException, ParserConfigurationException
+        throws IOException, JDOMException
     {
         FileHandler fileHandler = new DefaultFileHandler();
         JarInputStream in = getContentAsStream();
@@ -135,7 +136,8 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
         for (Iterator vendorDescriptors = getWebXml().getVendorDescriptors();
             vendorDescriptors.hasNext();)
         {
-            descriptorNames.add("WEB-INF/" + ((Descriptor) vendorDescriptors.next()).getFileName());
+            descriptorNames.add("WEB-INF/" 
+                + ((Descriptor) vendorDescriptors.next()).getFileName());
         }
 
         // Copy all entries from the original WAR file except for deployment descriptors. The
@@ -209,11 +211,10 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
      * Associates the webXml with a weblogic.xml if one is present in the war.
      *
      * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
-     * @throws SAXException If the deployment descriptor of the WAR could not be parsed
-     * @throws ParserConfigurationException If there is an XML parser configration problem
+     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
     private void addWeblogicDescriptor()
-        throws IOException, SAXException, ParserConfigurationException
+        throws IOException, JDOMException
     {
         InputStream in = null;
         try
@@ -241,11 +242,10 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
      * Associates the webXml with a resin-web if one is present in the war.
      *
      * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
-     * @throws SAXException If the deployment descriptor of the WAR could not be parsed
-     * @throws ParserConfigurationException If there is an XML parser configration problem
+     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
     private void addResinDescriptor()
-        throws IOException, SAXException, ParserConfigurationException
+        throws IOException, JDOMException
     {
         InputStream in = null;
         try
@@ -273,11 +273,10 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
      * Associates the webXml with a orion-web.xml if one is present in the war.
      *
      * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
-     * @throws SAXException If the deployment descriptor of the WAR could not be parsed
-     * @throws ParserConfigurationException If there is an XML parser configration problem
+     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed     
      */
     private void addOracleDescriptor()
-        throws IOException, SAXException, ParserConfigurationException
+        throws IOException, JDOMException
     {
         InputStream in = null;
         try
@@ -305,11 +304,10 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
      * Associates the webXml with a ibm-web-bnd.xmi, if one is present in the war.
      *
      * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
-     * @throws SAXException If the deployment descriptor of the WAR could not be parsed
-     * @throws ParserConfigurationException If there is an XML parser configration problem
+     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
     private void addWebsphereDescriptor()
-        throws IOException, SAXException, ParserConfigurationException
+        throws IOException, JDOMException
     {
         InputStream in = null;
         try
@@ -337,11 +335,10 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
      * Associates the webXml with a jboss-web.xml, if one is present in the war.
      *
      * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
-     * @throws SAXException If the deployment descriptor of the WAR could not be parsed
-     * @throws ParserConfigurationException If there is an XML parser configration problem
+     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
     private void addJBossDescriptor()
-        throws IOException, SAXException, ParserConfigurationException
+        throws IOException, JDOMException
     {
         InputStream in = null;
         try

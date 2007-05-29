@@ -20,16 +20,13 @@
 package org.codehaus.cargo.module.webapp.resin;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
-
-import org.codehaus.cargo.module.internal.util.xml.AbstractNodeList;
+import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.webapp.EjbRef;
-import org.codehaus.cargo.module.webapp.TagNodeList;
 import org.codehaus.cargo.module.webapp.VendorWebAppDescriptor;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.jdom.Element;
 
 /**
  * Encapsulates the DOM representation of a web deployment descriptor <code>resin-web.xml</code>
@@ -43,39 +40,16 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
      * File name of this descriptor.
      */
     private static final String FILE_NAME = "resin-web.xml";
-
-    /**
-     * The various type collections Properties.
-     */
-    private AbstractNodeList systemProperties;
-
-    /**
-     * Resource Refs.
-     */
-    private AbstractNodeList resourceRefs;
-
-    /**
-     * JNDI Links.
-     */
-    private AbstractNodeList jndiLinks;
-
+   
     /**
      * Constructor.
      *
-     * @param document The DOM document representing the parsed deployment descriptor
+     * @param rootElement The descriptor root element
+     * @param type The descriptor type
      */
-    public ResinWebXml(Document document)
+    public ResinWebXml(Element rootElement, DescriptorType type)
     {
-        super(document, null);
-        this.systemProperties = new TagNodeList(getRootElement(), ResinWebXmlTag.SYSTEM_PROPERTY,
-            SystemProperty.class);
-
-        this.resourceRefs = new TagNodeList(getRootElement(), ResinWebXmlTag.RESOURCE_REFERENCE,
-            ResourceRef.class);
-
-        this.jndiLinks = new TagNodeList(getRootElement(), ResinWebXmlTag.JNDI_LINK,
-            JndiLink.class);
-
+        super(rootElement, type);
     }
 
     /**
@@ -102,9 +76,9 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
      *
      * @return the system properties
      */
-    public AbstractNodeList getSystemProperties()
+    public List getSystemProperties()
     {
-        return this.systemProperties;
+        return getTags(ResinWebXmlTag.SYSTEM_PROPERTY);
     }
 
     /**
@@ -112,9 +86,9 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
      *
      * @return the resource refs
      */
-    public AbstractNodeList getResourceRefs()
+    public List getResourceRefs()
     {
-        return this.resourceRefs;
+        return getTags(ResinWebXmlTag.RESOURCE_REFERENCE);
     }
 
     /**
@@ -122,9 +96,9 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
      *
      * @return the jndi links
      */
-    public AbstractNodeList getJndiLinks()
+    public List getJndiLinks()
     {
-        return this.jndiLinks;
+        return getTags(ResinWebXmlTag.JNDI_LINK);
     }
 
     /**
@@ -149,7 +123,7 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
      * @return directory servlet element
      */
     public Element getDirectoryServlet()
-    {
+    {      
         Iterator i = getElements(ResinWebXmlTag.DIRECTORY_SERVLET);
         if (!i.hasNext())
         {

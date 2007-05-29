@@ -28,13 +28,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
+import org.codehaus.cargo.module.AbstractDescriptorIo;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -45,14 +43,14 @@ import org.xml.sax.SAXException;
  *
  * @version $Id$
  */
-public final class ApplicationXmlIo
+public final class ApplicationXmlIo extends AbstractDescriptorIo
 {
     /**
      * Utility class should not have a public or default constructor.
      */
     private ApplicationXmlIo()
     {
-        // Private constructor to prevent instantiation of this class.
+      super(ApplicationXmlType.getInstance());   
     }
     
     /**
@@ -91,13 +89,12 @@ public final class ApplicationXmlIo
      * @param file The file to parse
      * @param entityResolver A SAX entity resolver, or <code>null</code> to use the default
      * @return The parsed descriptor
-     * @throws SAXException If the file could not be parsed
-     * @throws ParserConfigurationException If the XML parser was not correctly configured
      * @throws IOException If an I/O error occurs
+     * @throws JDOMException If the file could not be parsed
      */
     public static ApplicationXml parseApplicationXmlFromFile(File file,
         EntityResolver entityResolver)
-        throws SAXException, ParserConfigurationException, IOException
+        throws IOException, JDOMException
     {
         InputStream in = null;
         try
@@ -127,18 +124,16 @@ public final class ApplicationXmlIo
      * @param input The input stream
      * @param entityResolver A SAX entity resolver, or <code>null</code> to use the default
      * @return The parsed descriptor
-     * @throws SAXException If the input could not be parsed
-     * @throws ParserConfigurationException If the XML parser was not correctly configured
      * @throws IOException If an I/O error occurs
+     * @throws JDOMException If the input could not be parsed
      */
     public static ApplicationXml parseApplicationXml(InputStream input,
         EntityResolver entityResolver)
-        throws SAXException, ParserConfigurationException, IOException
+        throws IOException, JDOMException
     {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setValidating(false);
-        factory.setNamespaceAware(false);
-        DocumentBuilder builder = factory.newDocumentBuilder();
+        ApplicationXmlIo io = new ApplicationXmlIo();  
+        SAXBuilder builder = io.createDocumentBuilder();
+        
         if (entityResolver != null)
         {
             builder.setEntityResolver(entityResolver);
@@ -147,9 +142,9 @@ public final class ApplicationXmlIo
         {
             builder.setEntityResolver(new ApplicationXmlEntityResolver());
         }
-        return new ApplicationXml(builder.parse(input));
-    }
-
+        return (ApplicationXml) builder.build(input);
+    }    
+    
     /**
      * Writes the specified document to a file.
      * 
@@ -232,16 +227,15 @@ public final class ApplicationXmlIo
                                            boolean isIndent)
         throws IOException
     {
-        OutputFormat outputFormat =
-            new OutputFormat(appXml.getDocument());
+        Format format = Format.getPrettyFormat();
         if (encoding != null)
         {
-            outputFormat.setEncoding(encoding);
+            format.setEncoding(encoding);
         }
-        outputFormat.setIndenting(isIndent);
-        outputFormat.setPreserveSpace(false);
-        XMLSerializer serializer = new XMLSerializer(output, outputFormat);
-        serializer.serialize(appXml.getDocument());
+
+        XMLOutputter serializer = new XMLOutputter(format);
+
+        serializer.output(appXml.getDocument(), output);
     }
 
 }

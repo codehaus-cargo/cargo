@@ -23,6 +23,7 @@ import java.io.ByteArrayInputStream;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.ejb.EjbDef;
+import org.codehaus.cargo.module.webapp.jboss.JBossWebXmlIo;
 import org.w3c.dom.Document;
 
 /**
@@ -49,8 +50,7 @@ public class JBossXmlTest extends AbstractDocumentBuilderTest
             + "</enterprise-beans>"
             + "</jboss>";
 
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        JBossXml descr = new JBossXml(doc);
+        JBossXml descr = JBossXmlIo.parseJBossXml(new ByteArrayInputStream(xml.getBytes()));
         assertEquals("test/Tester", descr.getJndiName(new EjbDef("BeanOne")));
     }
 
@@ -71,8 +71,7 @@ public class JBossXmlTest extends AbstractDocumentBuilderTest
             + "</enterprise-beans>"
             + "</jboss>";
 
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        JBossXml descr = new JBossXml(doc);
+        JBossXml descr = JBossXmlIo.parseJBossXml(new ByteArrayInputStream(xml.getBytes()));
         assertNull(descr.getJndiName(new EjbDef("BeanOn")));
     }
 }

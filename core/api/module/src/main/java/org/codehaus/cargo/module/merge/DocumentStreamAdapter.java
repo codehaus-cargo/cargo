@@ -24,14 +24,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
-import org.codehaus.cargo.module.AbstractDescriptorIo;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
+import org.codehaus.cargo.module.DescriptorIo;
+import org.jdom.Document;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 /**
  * Adapter class to convert streams into documents.
@@ -42,13 +40,18 @@ import org.xml.sax.SAXException;
  * 
  * @version $Id: $
  */
-public class DocumentStreamAdapter extends AbstractDescriptorIo implements MergeProcessor
+public class DocumentStreamAdapter implements MergeProcessor
 {
     /**
      * The next item to merge.
      */
     private MergeProcessor next;
 
+    /**
+     * The Descriptor IO.
+     */
+    private DescriptorIo   descriptorIo;
+    
     /**
      * constructor.
      * 
@@ -98,13 +101,13 @@ public class DocumentStreamAdapter extends AbstractDescriptorIo implements Merge
                 return null;
             }
             
-            OutputFormat outputFormat = new OutputFormat(doc);
-
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-            XMLSerializer serializer = new XMLSerializer(out, outputFormat);
-            serializer.serialize(doc);
-
+            XMLOutputter serializer = new XMLOutputter();
+            Format format = Format.getPrettyFormat();
+           
+            ByteArrayOutputStream out = new ByteArrayOutputStream();     
+            serializer.setFormat(format);
+            serializer.output(doc, out);
+                       
             byte[] data = out.toByteArray();
             return new ByteArrayInputStream(data);
         }
@@ -119,15 +122,37 @@ public class DocumentStreamAdapter extends AbstractDescriptorIo implements Merge
      * 
      * @param theInput in the InputStream to read
      * @return Document generated from the stream
-     * @throws ParserConfigurationException on parse exception
-     * @throws SAXException on sax exception
      * @throws IOException on IO exception
+     * @throws JDOMException if there is an XML problem
      */
-    protected Document getDocument(InputStream theInput) throws ParserConfigurationException,
-        SAXException, IOException
+    protected Document getDocument(InputStream theInput) throws 
+        IOException, JDOMException
     {
-        DocumentBuilder builder = createDocumentBuilder();
-        return builder.parse(theInput);
+        if (descriptorIo == null)
+        {
+            SAXBuilder builder = new SAXBuilder();
+            builder.setValidation(false);
+            return builder.build(theInput);
+        }
+      
+        return descriptorIo.createDocumentBuilder().build(theInput);
+
     }
 
+    /**
+     * @return the descriptorIo
+     */
+    public DescriptorIo getDescriptorIo()
+    {
+        return this.descriptorIo;
+    }
+
+    /**
+     * @param descriptorIo the descriptorIo to set
+     */
+    public void setDescriptorIo(DescriptorIo descriptorIo)
+    {
+        this.descriptorIo = descriptorIo;
+    }
+        
 }

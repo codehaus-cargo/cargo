@@ -25,6 +25,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.jdom.input.SAXBuilder;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -47,8 +48,19 @@ public abstract class AbstractDocumentBuilderTest extends TestCase
     /**
      * The JAXP document builder.
      */
-    protected DocumentBuilder builder;
+    protected SAXBuilder builder;
 
+    protected EntityResolver getEntityResolver()
+    {
+      return new EntityResolver()
+      {
+          public InputSource resolveEntity(String thePublicId, 
+              String theSystemId) throws SAXException
+          {
+              return new InputSource(new StringReader(""));
+          }
+      };
+    }
     /**
      * @see TestCase#setUp
      */
@@ -58,7 +70,10 @@ public abstract class AbstractDocumentBuilderTest extends TestCase
         this.factory.setValidating(false);
         this.factory.setNamespaceAware(false);
 
-        this.builder = this.factory.newDocumentBuilder();
+       // this.builder = this.factory.newDocumentBuilder();
+        
+        this.builder = new SAXBuilder();
+        
         this.builder.setEntityResolver(new EntityResolver()
         {
             public InputSource resolveEntity(String thePublicId, 

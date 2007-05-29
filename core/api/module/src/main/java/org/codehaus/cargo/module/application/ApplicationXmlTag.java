@@ -32,69 +32,72 @@ import org.codehaus.cargo.module.DescriptorTag;
  */
 public final class ApplicationXmlTag extends DescriptorTag
 {
+    
     /**
-     * Element name 'icon'.
+     * Element name 'icon'. 
      */
-    public static final ApplicationXmlTag ICON = new ApplicationXmlTag("icon");
+    public static final String ICON = "icon";
     
     /**
      * Element name 'display-name'.
      */
-    public static final ApplicationXmlTag DISPLAY_NAME = new ApplicationXmlTag("display-name");
+    public static final String DISPLAY_NAME = "display-name";
     
     /**
      * Element name 'description'.
      */
-    public static final ApplicationXmlTag DESCRIPTION = new ApplicationXmlTag("description");
+    public static final String DESCRIPTION = "description";
     
     /**
      * Element name 'module'.
      */
-    public static final ApplicationXmlTag MODULE = new ApplicationXmlTag("module");
+    public static final String MODULE = "module";
     
     /**
      * Element name 'ejb'.
      */
-    public static final ApplicationXmlTag EJB = new ApplicationXmlTag("ejb");
+    public static final String EJB = "ejb";
     
     /**
      * Element name 'web'.
      */
-    public static final ApplicationXmlTag WEB = new ApplicationXmlTag("web");
+    public static final String WEB = "web";
     
     /**
      * Element name 'web-uri'.
      */
-    public static final ApplicationXmlTag WEB_URI = new ApplicationXmlTag("web-uri");
+    public static final String WEB_URI = "web-uri";
     
     /**
      * Element name 'context-root'.
      */
-    public static final ApplicationXmlTag CONTEXT_ROOT = new ApplicationXmlTag("context-root");
+    public static final String CONTEXT_ROOT = "context-root";
    
     /**
      * Element name 'security-role'.
      */
-    public static final ApplicationXmlTag SECURITY_ROLE = new ApplicationXmlTag("security-role");
+    public static final String SECURITY_ROLE = "security-role";
     
     /**
      * Constructor.
      * 
+     * @param type Descriptor type
      * @param tagName The tag name of the element
      * @param isMultipleAllowed Whether the element may occur multiple times in the descriptor
      */
-    protected ApplicationXmlTag(String tagName, boolean isMultipleAllowed)
+    protected ApplicationXmlTag(ApplicationXmlType type, String tagName, boolean isMultipleAllowed)
     {
-        super(tagName, isMultipleAllowed);
+        super(type, tagName, isMultipleAllowed);
     }
     
     /**
      * Constructor.
      * 
+     * @param type Descriptor type
      * @param tagName The tag name of the element
      */
-    protected ApplicationXmlTag(String tagName)
+    protected ApplicationXmlTag(ApplicationXmlType type, String tagName)
     {
-        this(tagName, true);
+        this(type, tagName, true);
     }    
 }

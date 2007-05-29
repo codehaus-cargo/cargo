@@ -32,6 +32,7 @@ import org.codehaus.cargo.module.ejb.DefaultEjbArchive;
 import org.codehaus.cargo.module.ejb.EjbArchive;
 import org.codehaus.cargo.module.webapp.DefaultWarArchive;
 import org.codehaus.cargo.module.webapp.WarArchive;
+import org.jdom.JDOMException;
 import org.xml.sax.SAXException;
 
 /**
@@ -68,10 +69,11 @@ public class DefaultEarArchive extends DefaultJarArchive implements EarArchive
 
     /**
      * {@inheritDoc}
+     * @throws JDOMException 
      * @see EarArchive#getApplicationXml()
      */
     public final ApplicationXml getApplicationXml() 
-        throws IOException, SAXException, ParserConfigurationException
+        throws IOException, SAXException, ParserConfigurationException, JDOMException
     {
         if (this.applicationXml == null)
         {

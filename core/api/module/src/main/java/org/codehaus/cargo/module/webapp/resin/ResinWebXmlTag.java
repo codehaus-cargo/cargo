@@ -20,6 +20,7 @@
 package org.codehaus.cargo.module.webapp.resin;
 
 import org.codehaus.cargo.module.DescriptorTag;
+import org.codehaus.cargo.module.DescriptorType;
 
 
 /**
@@ -33,52 +34,49 @@ public final class ResinWebXmlTag extends DescriptorTag
     /**
      * Attribute name 'path'.
      */
-    public static final ResinWebXmlTag SYSTEM_PROPERTY =
-        new ResinWebXmlTag("system-property", true);
+    public static final String SYSTEM_PROPERTY = "system-property";
     
     /**
      * Elements of resource-ref.
      */
-    public static final ResinWebXmlTag RESOURCE_REFERENCE =
-        new ResinWebXmlTag("resource-ref", true);
+    public static final String RESOURCE_REFERENCE = "resource-ref";
 
     /**
      * Elements of session-config.
      */
-    public static final ResinWebXmlTag SESSION_CONFIG =
-        new ResinWebXmlTag("session-config", true);
+    public static final String SESSION_CONFIG = "session-config";
 
     /**
      * Elements of directory-servlet.
      */
-    public static final ResinWebXmlTag DIRECTORY_SERVLET =
-        new ResinWebXmlTag("directory-servlet", true);
+    public static final String DIRECTORY_SERVLET = "directory-servlet";
 
     /**
      * Elements of jndi-link.
      */
-    public static final ResinWebXmlTag JNDI_LINK =
-        new ResinWebXmlTag("jndi-link", true);
+    public static final String JNDI_LINK = "jndi-link";
     
     /**
      * Constructor.
      * 
+     * @param type Descriptor type
      * @param tagName The tag name of the element
      * @param isMultipleAllowed Whether the element may occur multiple times in
      *         the descriptor
      */
-    protected ResinWebXmlTag(String tagName, boolean isMultipleAllowed)
+    protected ResinWebXmlTag(DescriptorType type, String tagName, boolean isMultipleAllowed)
     {
-        super(tagName, isMultipleAllowed);
+        super(type, tagName, isMultipleAllowed);
     }
 
     /**
      * Constructor.
      * 
+     * @param type Descriptor type
      * @param tagName The tag name of the element
      */
-    protected ResinWebXmlTag(String tagName)
+    protected ResinWebXmlTag(DescriptorType type, String tagName)
     {
-        this(tagName, true);
+        this(type, tagName, true);
     }
 }

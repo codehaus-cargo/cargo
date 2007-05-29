@@ -22,11 +22,11 @@ package org.codehaus.cargo.module.ejb.jboss;
 import java.util.Iterator;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
-import org.codehaus.cargo.module.Dtd;
+import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.ejb.EjbDef;
 import org.codehaus.cargo.module.ejb.VendorEjbDescriptor;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.jdom.Element;
+
 
 /**
  * Encapsulates the DOM representation of a jboss ejb deployment descriptor
@@ -36,10 +36,16 @@ import org.w3c.dom.Element;
  * @version $Id: $
  */
 public class JBossXml extends AbstractDescriptor implements VendorEjbDescriptor
-{
-    public JBossXml(Document document)
+{    
+    /**
+     * Constructor.
+     * 
+     * @param rootElement The root of the DOM document representing the parsed deployment descriptor
+     * @param type The descriptor type
+     */
+    public JBossXml(Element rootElement, DescriptorType type)
     {
-        super(document, new Dtd("http://www.jboss.org/j2ee/dtd/jboss_4_0.dtd"));
+        super(rootElement, type);
     }
 
     public String getJndiName(EjbDef ejb)
@@ -49,16 +55,18 @@ public class JBossXml extends AbstractDescriptor implements VendorEjbDescriptor
         Element ejbElement = getEjb(ejb.getName());
         if (ejbElement != null)
         {
-            jndiName = getNestedText(ejbElement, JBossXmlTag.LOCAL_JNDI_NAME);
+            jndiName = getNestedText(ejbElement, 
+            		getDescriptorType().getTagByName(JBossXmlTag.LOCAL_JNDI_NAME));
             if(jndiName == null)
             {
-                jndiName = getNestedText(ejbElement, JBossXmlTag.JNDI_NAME);
+                jndiName = getNestedText(ejbElement, 
+                		getDescriptorType().getTagByName(JBossXmlTag.JNDI_NAME));
             }
         }
 
         return jndiName;
-    }
-
+    }    
+    
     public String getFileName()
     {
         return "jboss.xml";
@@ -78,10 +86,10 @@ public class JBossXml extends AbstractDescriptor implements VendorEjbDescriptor
         while (names.hasNext())
         {
             Element nameElement = (Element) names.next();
-            String name = nameElement.getFirstChild().getNodeValue();
+            String name = nameElement.getText();
             if (ejbName.equals(name))
             {
-                ejbElement = (Element) nameElement.getParentNode();
+                ejbElement = nameElement.getParentElement();
                 break;
             }
         }

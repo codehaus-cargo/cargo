@@ -27,12 +27,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.codehaus.cargo.module.AbstractDescriptorIo;
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentType;
+import org.codehaus.cargo.module.DescriptorType;
+import org.jdom.JDOMException;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -45,12 +42,12 @@ import org.xml.sax.SAXException;
 public final class WebXmlIo extends AbstractDescriptorIo
 {
     /**
-     * Utility class should not have a public or default constructor.
+     * Constructor.
+     * @param type descriptor type 
      */
-    private WebXmlIo()
+    public WebXmlIo(DescriptorType type)
     {
-        // Voluntarily empty constructor as utility classes should not have a public or default
-        // constructor
+        super(type);
     }
 
     /**
@@ -84,26 +81,23 @@ public final class WebXmlIo extends AbstractDescriptorIo
     }
 
     /**
+     * @return the configured entity resolver
+     */
+    protected EntityResolver getEntityResolver()
+    {
+        return new WebXmlEntityResolver();
+    }
+    
+    /**
      * Creates a new empty deployment descriptor.
      *
      * @param theVersion The version of the descriptor to create
      *
      * @return The new descriptor
-     *
-     * @throws ParserConfigurationException If the XML parser was not correctly configured
      */
-    public static WebXml newWebXml(WebXmlVersion theVersion)
-        throws ParserConfigurationException
+    public static WebXml newWebXml(WebXmlVersion theVersion)         
     {
-        DocumentBuilder builder = createDocumentBuilder();
-        DocumentType docType = null;
-        if (theVersion != null)
-        {
-            docType = builder.getDOMImplementation().createDocumentType("web-app",
-                theVersion.getPublicId(), theVersion.getSystemId());
-        }
-        Document doc = builder.getDOMImplementation().createDocument("", "web-app", docType);
-        return new WebXml(doc);
+        return (WebXml) WebXml23Type.getInstance().document(null);        
     }
 
     /**
@@ -114,13 +108,12 @@ public final class WebXmlIo extends AbstractDescriptorIo
      *
      * @return The parsed descriptor
      *
-     * @throws SAXException If the file could not be parsed
-     * @throws ParserConfigurationException If the XML parser was not correctly configured
-     * @throws IOException If an I/O error occurs
+     * @throws JDOMException If the file could not be parsed     
+     * @throws IOException If an I/O error occurs  
      */
     public static WebXml parseWebXmlFromFile(File theFile,
         EntityResolver theEntityResolver)
-        throws SAXException, ParserConfigurationException, IOException
+        throws  IOException, JDOMException
     {
         InputStream in = null;
         try
@@ -151,24 +144,17 @@ public final class WebXmlIo extends AbstractDescriptorIo
      * @param theEntityResolver A SAX entity resolver, or <code>null</code> to use the default
      *
      * @return The parsed descriptor
-     *
-     * @throws SAXException If the input could not be parsed
-     * @throws ParserConfigurationException If the XML parser was not correctly configured
      * @throws IOException If an I/O error occurs
+     * @throws JDOMException  If the input could not be parsed
+
      */
     public static WebXml parseWebXml(InputStream theInput,
         EntityResolver theEntityResolver)
-        throws SAXException, ParserConfigurationException, IOException
+        throws IOException, JDOMException
     {
-        DocumentBuilder builder = createDocumentBuilder();
-        if (theEntityResolver != null)
-        {
-            builder.setEntityResolver(theEntityResolver);
-        }
-        else
-        {
-            builder.setEntityResolver(new WebXmlEntityResolver());
-        }
-        return new WebXml(builder.parse(theInput));
+        return (WebXml) WebXml23Type.getInstance().getDescriptorIo().parseXml(
+            theInput, theEntityResolver);        
     }
+    
+    
 }

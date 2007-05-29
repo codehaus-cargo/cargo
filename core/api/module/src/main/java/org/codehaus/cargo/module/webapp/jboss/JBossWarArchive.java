@@ -24,10 +24,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.codehaus.cargo.module.DefaultJarArchive;
-import org.xml.sax.SAXException;
+import org.jdom.JDOMException;
 
 /**
  * Class that encapsulates access to a WAR.
@@ -52,13 +50,11 @@ public class JBossWarArchive
      * @param warFile The web application archive
      * @throws IOException If there was a problem reading the  deployment
      *         descriptor in the WAR
-     * @throws SAXException If the deployment descriptor of the WAR could not
-     *         be parsed
-     * @throws ParserConfigurationException If there is an XML parser
-     *         configration problem
+     * @throws JDOMException If the deployment descriptor of the WAR could not
+     *         be parsed    
      */
     public JBossWarArchive(File warFile)
-        throws IOException, SAXException, ParserConfigurationException
+        throws IOException, JDOMException
     {
         this.warFile = warFile;
         this.jbossWebXml = parseJBossWebXml();
@@ -69,13 +65,11 @@ public class JBossWarArchive
      *         if none exists 
      * @throws IOException If there was a problem reading the  deployment
      *         descriptor in the WAR
-     * @throws SAXException If the deployment descriptor of the WAR could not
-     *         be parsed
-     * @throws ParserConfigurationException If there is an XML parser
-     *         configration problem
+     * @throws JDOMException If the deployment descriptor of the WAR could not
+     *         be parsed     
      */
     private JBossWebXml parseJBossWebXml()
-        throws IOException, SAXException, ParserConfigurationException
+        throws IOException, JDOMException
     {
         JBossWebXml webXml = null;
         

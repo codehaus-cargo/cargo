@@ -24,9 +24,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
-import org.codehaus.cargo.module.Dtd;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.codehaus.cargo.module.DescriptorType;
+import org.jdom.Attribute;
+import org.jdom.Element;
 
 /**
  * Encapsulates the DOM representation of a web deployment descriptor 
@@ -46,19 +46,20 @@ public class TomcatContextXml extends AbstractDescriptor
      * Specifies the order in which the top-level elements must appear in the descriptor, according 
      * to the DTD.
      */
-    private static final TomcatContextXmlTag[] ELEMENT_ORDER =
-    {
-        TomcatContextXmlTag.CONTEXT_PATH
-    };
+//    private static final TomcatContextXmlTag[] ELEMENT_ORDER =
+//    {
+//        TomcatContextXmlTag.CONTEXT_PATH
+//    };
 
     /**
      * Constructor.
      * 
-     * @param document The DOM document representing the parsed deployment descriptor
+     * @param rootElement The root element of the context
+     * @param type the document descriptor type
      */
-    public TomcatContextXml(Document document)
+    public TomcatContextXml(Element rootElement, DescriptorType type)
     {
-        super(document, new Dtd("file:sample/tomcat-context.dtd"));
+        super(rootElement, type);
     }
 
     /**
@@ -67,7 +68,13 @@ public class TomcatContextXml extends AbstractDescriptor
      */
     public String getPath()
     {
-        String path = getRootElement().getAttribute(TomcatContextXmlTag.CONTEXT_PATH.getTagName());
+        Attribute attr = getRootElement().getAttribute(TomcatContextXmlTag.CONTEXT_PATH);
+        if (attr == null)
+        {
+            return null;
+        }
+        
+        String path = attr.getValue();
 
         // An empty path string means a path not defined.
         if (path.length() == 0)

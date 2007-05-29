@@ -19,50 +19,114 @@
  */
 package org.codehaus.cargo.module;
 
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.jdom.Document;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
+import org.xml.sax.EntityResolver;
+
 /**
- * Provides convenience methods for reading and writing web deployment descriptors.
+ * Provides convenience methods for reading and writing descriptors.
  *
  * @version $Id$
  */
-public abstract class AbstractDescriptorIo
+public abstract class AbstractDescriptorIo implements DescriptorIo
 {
     /**
-     * Utility class should not have a public or default constructor.
+     * The type of this descriptor IO.
      */
-    protected AbstractDescriptorIo()
+    private DescriptorType factory;
+
+    /**
+     * Constructor.
+     * 
+     * @param descriptorType the descriptor type.
+     */
+    protected AbstractDescriptorIo(DescriptorType descriptorType)
     {
         // Voluntarily empty constructor as utility classes should not have a public or default
         // constructor
+        this.factory = descriptorType;
     }
 
     /**
-     * @return a new non-validating, non-namespace-aware {@link DocumentBuilder} instance
-     * @throws ParserConfigurationException in case of error
+     * Create a document builder. 
+     * @return new document builder
      */
-    public static DocumentBuilder createDocumentBuilder() throws ParserConfigurationException
+    public SAXBuilder createDocumentBuilder()
     {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setValidating(false);
-        factory.setNamespaceAware(false);
+        return createDocumentBuilder(null);
+    }
 
-        DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-        documentBuilder.setEntityResolver(new XmlEntityResolver());
+    /**
+     * @param theEntityResolver entity resolver or null
+     * @return a new non-validating, non-namespace-aware {@link DocumentBuilder} instance
+     */
+    public SAXBuilder createDocumentBuilder(EntityResolver theEntityResolver)        
+    {
+        SAXBuilder factory = new SAXBuilder();
+        factory.setValidation(false);
+        factory.setFactory(this.factory.getJDOMFactory());
 
-        return documentBuilder;
+        EntityResolver resolver = theEntityResolver;
+        if (resolver == null)
+        {
+            resolver = getEntityResolver();
+        }
+
+        if (resolver != null)
+        {
+            factory.setEntityResolver(resolver);
+        }
+
+        return factory;
+    }
+
+    /**
+     * Get the default entity resolver for this type.
+     * @return default resolver, or null if none
+     */
+    protected EntityResolver getEntityResolver()
+    {
+        return null;
+    }
+
+    /**
+     * @param input the input stream
+     * @return JDOM Document
+     * @throws IOException if problem reading the stream 
+     * @throws JDOMException  if problem parsing the stream
+     */
+    public Document parseXml(InputStream input) throws 
+        JDOMException, IOException
+    {
+        return parseXml(input, null);
+    }
+
+    /**
+     * Create a document from the input stream and resolver.
+     *  
+     * @param input the input stream
+     * @param resolver entity resolver, or null
+     * @return JDOM Document
+     * @throws IOException if problem reading the stream 
+     * @throws JDOMException  if problem parsing the stream
+     */
+    public Document parseXml(InputStream input, EntityResolver resolver)
+        throws JDOMException, IOException
+    {
+        SAXBuilder builder = createDocumentBuilder(resolver);
+        return builder.build(input);
     }
 
     /**
@@ -139,16 +203,12 @@ public abstract class AbstractDescriptorIo
     public static void writeDescriptor(Descriptor descriptor, OutputStream out, String encoding,
         boolean isIndent) throws IOException
     {
-        OutputFormat outputFormat =
-            new OutputFormat(descriptor.getDocument());
-        if (encoding != null)
-        {
-            outputFormat.setEncoding(encoding);
-        }
-        outputFormat.setIndenting(isIndent);
-        outputFormat.setPreserveSpace(false);
-        XMLSerializer serializer = new XMLSerializer(out, outputFormat);
-        serializer.serialize(descriptor.getDocument());
+        XMLOutputter serializer = new XMLOutputter();
+        Format format = Format.getPrettyFormat();
+
+        serializer.setFormat(format);
+        serializer.output((Document) descriptor, out);
+
     }
 
     /**

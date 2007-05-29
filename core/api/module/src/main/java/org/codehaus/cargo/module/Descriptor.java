@@ -19,26 +19,61 @@
  */
 package org.codehaus.cargo.module;
 
-import org.w3c.dom.Document;
+import java.util.List;
+
+import org.jdom.Document;
+import org.jdom.Element;
 
 /**
  * Common interface for Deployment Descriptors.
  * 
  * @version $Id$
  */
-public interface Descriptor
+public interface Descriptor extends org.jdom.Parent
 {
-    /**
-     * Returns the DOM Document that this Descriptor holds as its internal XML representation.
-     * 
-     * @return the DOM document
-     */
-    Document getDocument();
-    
     /**
      * Returns the file name of this descriptor. For example "web.xml", "weblogic.xml", etc.
      * 
      * @return the file name
      */
     String getFileName();
+ 
+    /**
+     * 
+     * @return this descriptor as a document
+     */
+    Document getDocument();
+    
+    /**
+     * {@inheritDoc}
+     * @see org.jdom.Parent#getRootElement
+     */
+    Element getRootElement();
+
+    /**
+     * Add an element into the descriptor.
+     * 
+     * @param tag Descriptor Tag
+     * @param right Element insert before 
+     * @param rootElement Parent element
+     * @return The added element
+     */
+    Element addElement(DescriptorTag tag, Element right, Element rootElement);
+    
+    /**
+     * Get elements of a particular descriptor tag whose identifier matches the passed parameter.
+     * 
+     * @param tag tag to search for
+     * @param value value for the identifier to match
+     * @return the element that matches
+     */
+    Element getTagByIdentifier(DescriptorTag tag, String value);
+    
+    /**
+     * Get tags of a particular type.
+     * 
+     * @param tag type of elements to find
+     * @return list of tags
+     */
+    List getTags(DescriptorTag tag);
 }

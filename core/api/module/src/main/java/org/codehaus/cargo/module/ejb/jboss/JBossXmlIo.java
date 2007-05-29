@@ -22,10 +22,8 @@ package org.codehaus.cargo.module.ejb.jboss;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.codehaus.cargo.module.AbstractDescriptorIo;
-import org.xml.sax.SAXException;
+import org.jdom.JDOMException;
 
 /**
  * Provides convenience methods for reading JBoss ejb jar deployment descriptor.
@@ -34,18 +32,26 @@ import org.xml.sax.SAXException;
  */
 public class JBossXmlIo extends AbstractDescriptorIo
 {
+	/**
+	 * Protected Constructor.
+	 */
+    protected JBossXmlIo()
+    {
+        super(JBossXmlType.getInstance());    
+    }
+	
     /**
      * Parses a deployment descriptor provided as input stream.
      *
      * @param input The input stream
      * @return The parsed descriptor
-     * @throws SAXException If the input could not be parsed
-     * @throws ParserConfigurationException If the XML parser was not correctly configured
      * @throws IOException If an I/O error occurs
+     * @throws JDOMException If an XML Parsing problem
      */
     public static JBossXml parseJBossXml(InputStream input)
-        throws SAXException, ParserConfigurationException, IOException
+        throws IOException, JDOMException
     {
-        return new JBossXml(createDocumentBuilder().parse(input));
+    	JBossXmlIo xio = new JBossXmlIo();
+        return (JBossXml) xio.parseXml(input);                
     }
 }

@@ -22,8 +22,6 @@ package org.codehaus.cargo.module.ejb;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.codehaus.cargo.module.DefaultJarArchive;
 import org.codehaus.cargo.module.ejb.jboss.JBossXml;
 import org.codehaus.cargo.module.ejb.jboss.JBossXmlIo;
@@ -33,7 +31,7 @@ import org.codehaus.cargo.module.ejb.weblogic.WeblogicEjbJarXml;
 import org.codehaus.cargo.module.ejb.weblogic.WeblogicEjbJarXmlIo;
 import org.codehaus.cargo.module.ejb.websphere.IbmEjbJarBndXmi;
 import org.codehaus.cargo.module.ejb.websphere.IbmEjbJarBndXmiIo;
-import org.xml.sax.SAXException;
+import org.jdom.JDOMException;
 
 /**
  * Class that encapsulates access to an EJB JAR.
@@ -69,10 +67,11 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
 
     /**
      * {@inheritDoc}
+     * @throws JDOMException 
      * @see EjbArchive#getEjbJarXml()
      */
     public final EjbJarXml getEjbJarXml()
-        throws IOException, SAXException, ParserConfigurationException
+        throws IOException, JDOMException
     {
         if (this.ejbJarXml == null)
         {
@@ -101,11 +100,10 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
      * Associates the ejb-jar.xml with a weblogic-ejb-jar.xml if one is present in the jar.
      *
      * @throws IOException If there was a problem reading the  deployment descriptor in the EJB jar
-     * @throws SAXException If the deployment descriptor of the EJB jar could not be parsed
-     * @throws ParserConfigurationException If there is an XML parser configration problem
+     * @throws JDOMException  If the deployment descriptor of the EJB jar could not be parsed
      */
     private void addWeblogicDescriptor()
-        throws IOException, SAXException, ParserConfigurationException
+        throws IOException, JDOMException
     {
         InputStream in = null;
         try
@@ -133,11 +131,10 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
      * Associates the ejb-jar.xml with orion-ejb-jar.xml if one is present in the war.
      *
      * @throws IOException If there was a problem reading the  deployment descriptor in the JAR
-     * @throws SAXException If the deployment descriptor of the EJB jar could not be parsed
-     * @throws ParserConfigurationException If there is an XML parser configration problem
+     * @throws JDOMException If the deployment descriptor of the EJB jar could not be parsed 
      */
     private void addOracleDescriptor()
-        throws IOException, SAXException, ParserConfigurationException
+        throws IOException, JDOMException
     {
         InputStream in = null;
         try
@@ -165,11 +162,10 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
      * Associates the ejb-jar.xml with ibm-ejb-jar-bnd.xmi if one is present in the jar.
      *
      * @throws IOException If there was a problem reading the deployment descriptor in the JAR
-     * @throws SAXException If the deployment descriptor of the EJB jar could not be parsed
-     * @throws ParserConfigurationException If there is an XML parser configration problem
+     * @throws JDOMException If the deployment descriptor of the EJB jar could not be parsed    
      */
     private void addWebsphereDescriptor()
-        throws IOException, SAXException, ParserConfigurationException
+        throws IOException, JDOMException
     {
         InputStream in = null;
         try
@@ -201,7 +197,7 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
      * @throws ParserConfigurationException If there is an XML parser configration problem
      */
     private void addJBossDescriptor()
-        throws IOException, SAXException, ParserConfigurationException
+        throws IOException, JDOMException
     {
         InputStream in = null;
         try

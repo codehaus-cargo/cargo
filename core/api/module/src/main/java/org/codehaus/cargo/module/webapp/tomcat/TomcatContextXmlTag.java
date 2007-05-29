@@ -20,6 +20,7 @@
 package org.codehaus.cargo.module.webapp.tomcat;
 
 import org.codehaus.cargo.module.DescriptorTag;
+import org.codehaus.cargo.module.DescriptorType;
 
 /**
  * Represents the various top-level tags in a Tomcat context web deployment 
@@ -32,34 +33,34 @@ public final class TomcatContextXmlTag extends DescriptorTag
     /**
      * Attribute name 'path'.
      */
-    public static final TomcatContextXmlTag CONTEXT_PATH =
-        new TomcatContextXmlTag("path", false);
+    public static final String CONTEXT_PATH = "path";
 
     /**
      * Element name 'Parameter'.
      */
-    public static final TomcatContextXmlTag PARAMETER =
-        new TomcatContextXmlTag("Parameter", true);
+    public static final String PARAMETER = "Parameter";
 
     /**
      * Constructor.
      * 
+     * @param type Descriptor type
      * @param tagName The tag name of the element
      * @param isMultipleAllowed Whether the element may occur multiple times in
      *         the descriptor
      */
-    protected TomcatContextXmlTag(String tagName, boolean isMultipleAllowed)
+    protected TomcatContextXmlTag(DescriptorType type, String tagName, boolean isMultipleAllowed)
     {
-        super(tagName, isMultipleAllowed);
+        super(type, tagName, isMultipleAllowed);
     }
 
     /**
      * Constructor.
      * 
+     * @param type Descriptor type
      * @param tagName The tag name of the element
      */
-    protected TomcatContextXmlTag(String tagName)
+    protected TomcatContextXmlTag(DescriptorType type, String tagName)
     {
-        this(tagName, true);
+        this(type, tagName, true);
     }
 }

@@ -24,7 +24,9 @@ package org.codehaus.cargo.module.application;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.application.ApplicationXmlVersion;
-import org.w3c.dom.DocumentType;
+import org.jdom.DocType;
+import org.jdom.input.SAXBuilder;
+
 
 /**
  * Unit tests for {@link ApplicationXmlVersion}.
@@ -89,7 +91,7 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
     {
         try
         {
-            ApplicationXmlVersion.valueOf((DocumentType) null);
+            ApplicationXmlVersion.valueOf((DocType) null);
             fail("Expected NullPointerException");
         }
         catch (NullPointerException expected)
@@ -106,9 +108,10 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
      */
     public void testValueOfUnknownDocType() throws Exception
     {
-        DocumentType docType = this.builder.getDOMImplementation().createDocumentType("application",
-            "foo", "bar");
-        assertNull(ApplicationXmlVersion.valueOf(docType));
+      DocType docType = new DocType("application",
+          "foo", "bar");
+      
+      assertNull(ApplicationXmlVersion.valueOf(docType));
     }
 
     /**
@@ -119,7 +122,7 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
      */
     public void testValueOfDocType12() throws Exception
     {
-        DocumentType docType = this.builder.getDOMImplementation().createDocumentType("application",
+      DocType docType = new DocType("application",
             ApplicationXmlVersion.V1_2.getPublicId(),
             ApplicationXmlVersion.V1_2.getSystemId());
         assertEquals(ApplicationXmlVersion.V1_2, ApplicationXmlVersion.valueOf(docType));
@@ -133,7 +136,7 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
      */
     public void testValueOfDocType13() throws Exception
     {
-        DocumentType docType = this.builder.getDOMImplementation().createDocumentType("application",
+      DocType docType = new DocType("application",
             ApplicationXmlVersion.V1_3.getPublicId(),
             ApplicationXmlVersion.V1_3.getSystemId());
         assertEquals(ApplicationXmlVersion.V1_3, ApplicationXmlVersion.valueOf(docType));

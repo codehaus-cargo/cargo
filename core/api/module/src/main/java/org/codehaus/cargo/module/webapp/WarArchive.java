@@ -20,9 +20,8 @@
 package org.codehaus.cargo.module.webapp;
 
 import org.codehaus.cargo.module.JarArchive;
-import org.xml.sax.SAXException;
+import org.jdom.JDOMException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
@@ -39,10 +38,9 @@ public interface WarArchive extends JarArchive
      * @return The parsed deployment descriptor
      *
      * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
-     * @throws SAXException If the deployment descriptor of the WAR could not be parsed
-     * @throws ParserConfigurationException If there is an XML parser configuration problem
+     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
-    WebXml getWebXml() throws IOException, SAXException, ParserConfigurationException;
+    WebXml getWebXml() throws IOException, JDOMException;
 
     /**
      * Stores the war archive to file. Changes to the descriptors of the war archive will be stored
@@ -51,8 +49,7 @@ public interface WarArchive extends JarArchive
      * @param warFile file to store the war in.
      *
      * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
-     * @throws SAXException If the deployment descriptor of the WAR could not be parsed
-     * @throws ParserConfigurationException If there is an XML parser configuration problem
+     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
-    void store(File warFile) throws IOException, SAXException, ParserConfigurationException;
+    void store(File warFile) throws IOException, JDOMException;
 }

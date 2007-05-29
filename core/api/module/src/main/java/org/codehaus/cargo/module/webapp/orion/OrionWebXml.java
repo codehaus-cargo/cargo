@@ -21,11 +21,11 @@ package org.codehaus.cargo.module.webapp.orion;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
 import org.codehaus.cargo.module.DescriptorTag;
-import org.codehaus.cargo.module.Dtd;
+import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.webapp.EjbRef;
 import org.codehaus.cargo.module.webapp.VendorWebAppDescriptor;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.jdom.Element;
+
 
 /**
  * Encapsulates the DOM representation of a oracle web deployment descriptor
@@ -43,11 +43,12 @@ public class OrionWebXml extends AbstractDescriptor implements VendorWebAppDescr
     /**
      * Constructor.
      *
-     * @param document The DOM document representing the parsed deployment descriptor
+     * @param rootElement The root document element
+     * @param type The document descriptor type
      */
-    public OrionWebXml(Document document)
+    public OrionWebXml(Element rootElement, DescriptorType type)
     {
-        super(document, new Dtd("http://www.oracle.com/technology/ias/dtds/orion-web-9_04.dtd"));
+        super(rootElement, type);
     }
 
     /**
@@ -65,10 +66,11 @@ public class OrionWebXml extends AbstractDescriptor implements VendorWebAppDescr
      */
     public final void addEjbReference(EjbRef ref)
     {
-        Element ejbRefElement = getDocument().createElement("ejb-ref-mapping");
+        Element ejbRefElement = new Element("ejb-ref-mapping");
         ejbRefElement.setAttribute("name", ref.getName());
         ejbRefElement.setAttribute("location", ref.getJndiName());
         addElement(
-            new DescriptorTag("ejb-ref-mapping", true), ejbRefElement, getRootElement());
+            new DescriptorTag(OrionWebXmlType.getInstance(), "ejb-ref-mapping", true),
+                ejbRefElement, getRootElement());
     }
 }

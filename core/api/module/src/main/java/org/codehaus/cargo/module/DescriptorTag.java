@@ -22,6 +22,10 @@
  */
 package org.codehaus.cargo.module;
 
+import java.lang.reflect.Constructor;
+
+import org.codehaus.cargo.util.CargoException;
+
 /**
  * Represents the various top-level tags in a deployment descriptor as a typesafe enumeration.
  *
@@ -29,6 +33,11 @@ package org.codehaus.cargo.module;
  */
 public class DescriptorTag
 {
+    /**
+     * The type this descriptor tag is in.
+     */
+    private DescriptorType descriptorType;
+    
     /**
      * The tag name.
      */
@@ -40,15 +49,48 @@ public class DescriptorTag
     private boolean multipleAllowed;
 
     /**
+     * Optional identifier for this tag.
+     */
+    private Identifier identifier;
+    
+    /**
+     * Element Implementation class. 
+     */
+    private Class      implementationClass;
+    
+    /**
      * Constructor.
      *
+     * @param descriptorType the type of this tag
+     * @param tagName The tag name of the element
+     * @param isMultipleAllowed Whether the element may occur multiple times in the descriptor
+     * @param identifier optional tag identifier
+     * @param clazz implementation class for this tag
+     */
+    public DescriptorTag(DescriptorType descriptorType, String tagName,
+        boolean isMultipleAllowed, Identifier identifier, Class clazz)
+    {
+        this.descriptorType = descriptorType;
+        this.tagName = tagName;
+        this.multipleAllowed = isMultipleAllowed;      
+        this.identifier = identifier;
+        this.implementationClass = clazz;    
+        if (this.descriptorType != null)
+        {
+            descriptorType.addTag(this);
+        }
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param descriptorType the type of this tag
      * @param tagName The tag name of the element
      * @param isMultipleAllowed Whether the element may occur multiple times in the descriptor
      */
-    public DescriptorTag(String tagName, boolean isMultipleAllowed)
+    public DescriptorTag(DescriptorType descriptorType, String tagName, boolean isMultipleAllowed)
     {
-        this.tagName = tagName;
-        this.multipleAllowed = isMultipleAllowed;
+        this(descriptorType, tagName, isMultipleAllowed, null, null);
     }
 
     /**
@@ -97,11 +139,66 @@ public class DescriptorTag
     }
 
     /**
+     * @return the identifier
+     */
+    public Identifier getIdentifier()
+    {
+        return this.identifier;
+    }
+    
+    /**
+     * @return the webXmlElementClass
+     */
+    public Class getImplementationClass()
+    {
+        return this.implementationClass;
+    }
+    
+    /**
      * {@inheritDoc}
      * @see java.lang.Object#toString
      */
     public String toString()
     {
         return getTagName();
+    }
+    
+    /**
+     * @return instantiated descriptor element, or null if no implementation class.
+     * @throws CargoException if any configuration problem
+     */
+    public DescriptorElement create() throws CargoException
+    {    
+        DescriptorElement returnValue = null;
+        
+        if (implementationClass == null)
+        {
+            returnValue = new DescriptorElement(this);
+        }
+        else
+        {
+            Constructor[] constructors = implementationClass.getConstructors();
+          
+            for (int i = 0; i < constructors.length; i++)
+            {
+                Constructor cons = constructors[i];
+                if (cons.getParameterTypes().length == 1)
+                {
+                    try
+                    {
+                        if (cons.getParameterTypes()[0].isAssignableFrom(this.getClass()))
+                        {
+                            returnValue = (DescriptorElement) cons.newInstance(new Object[]{this});
+                            break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new CargoException("Error instantiating class for " + getTagName());
+                    }
+                }
+            }
+        }
+        return returnValue;                  
     }
 }

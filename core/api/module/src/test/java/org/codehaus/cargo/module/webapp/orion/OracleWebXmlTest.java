@@ -20,12 +20,10 @@
 package org.codehaus.cargo.module.webapp.orion;
 
 import java.io.ByteArrayInputStream;
-
+import java.util.List;
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
+import org.jdom.Element;
 import org.codehaus.cargo.module.webapp.EjbRef;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 /**
  * Unit tests for {@link OracleWebXml}.
@@ -35,25 +33,25 @@ import org.w3c.dom.NodeList;
 public class OracleWebXmlTest extends AbstractDocumentBuilderTest
 {
     /**
-     * Tests that a ejb reference description can be added
+     * Tests that a ejb reference description can be added.
      *
      * @throws Exception If an unexpected error occurs
      */
     public void testAddEjbReferenceDescription() throws Exception
     {
         String xml = "<orion-web-app></orion-web-app>";
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        OrionWebXml descr = new OrionWebXml(doc);
+        
+        OrionWebXml descr = OrionWebXmlIo.parseOrionXml(new ByteArrayInputStream(xml.getBytes()));        
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");
         descr.addEjbReference(ref);
 
-        NodeList nl = descr.getDocument().getElementsByTagName("ejb-ref-mapping");
-        Element n = (Element)nl.item(0);
-        assertEquals("foo", n.getAttribute("name"));
-        assertEquals("fee", n.getAttribute("location"));
-        assertEquals(1, nl.getLength());
+        List nl = descr.getDocument().getRootElement().getChildren("ejb-ref-mapping");
+        Element n = (Element)nl.get(0);
+        assertEquals("foo", n.getAttribute("name").getValue());
+        assertEquals("fee", n.getAttribute("location").getValue());
+        assertEquals(1, nl.size());
     }
 
 }

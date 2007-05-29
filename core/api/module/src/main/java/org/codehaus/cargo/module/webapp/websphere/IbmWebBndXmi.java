@@ -23,10 +23,12 @@ import java.util.Random;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
 import org.codehaus.cargo.module.DescriptorTag;
+import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.webapp.EjbRef;
 import org.codehaus.cargo.module.webapp.VendorWebAppDescriptor;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.jdom.Element;
+import org.jdom.Namespace;
+
 
 /**
  * Encapsulates the DOM representation of a websphere web deployment descriptor
@@ -49,11 +51,12 @@ public class IbmWebBndXmi extends AbstractDescriptor implements VendorWebAppDesc
     /**
      * Constructor.
      *
-     * @param document The DOM document representing the parsed deployment descriptor
+     * @param rootElement The root document element
+     * @param type The descriptor type
      */
-    public IbmWebBndXmi(Document document)
+    public IbmWebBndXmi(Element rootElement, DescriptorType type)
     {
-        super(document, new IbmWebBndXmiGrammar());
+        super(rootElement, type);
     }
 
     /**
@@ -71,15 +74,17 @@ public class IbmWebBndXmi extends AbstractDescriptor implements VendorWebAppDesc
      */
     public final void addEjbReference(EjbRef ref)
     {
-        Element ejbRefBindingsElement = getDocument().createElement("ejbRefBindings");
+        Element ejbRefBindingsElement = new Element("ejbRefBindings");
         String id = "EjbRefBinding_" + this.random.nextLong();
-        ejbRefBindingsElement.setAttribute("xmi:id", id);
+        Namespace namespace = Namespace.getNamespace("xmi", "http://www.omg.org/XMI");
+        ejbRefBindingsElement.setAttribute("id", id, namespace);
         ejbRefBindingsElement.setAttribute("jndiName", ref.getJndiName());
-        Element bindingEjbRef = getDocument().createElement("bindingEjbRef");
+        Element bindingEjbRef = new Element("bindingEjbRef");
         bindingEjbRef.setAttribute("href", "WEB-INF/web.xml#" + ref.getName().replace('/', '_'));
-        ejbRefBindingsElement.appendChild(bindingEjbRef);
+        ejbRefBindingsElement.getContent().add(bindingEjbRef);
 
-        addElement(new DescriptorTag("ejbRefBindings", true), ejbRefBindingsElement,
+        addElement(new DescriptorTag(
+            IbmWebBndXmiType.getInstance(), "ejbRefBindings", true), ejbRefBindingsElement,
             getRootElement());
     }
 }

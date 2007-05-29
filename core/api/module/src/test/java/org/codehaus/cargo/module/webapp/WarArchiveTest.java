@@ -33,6 +33,9 @@ import org.codehaus.cargo.util.AbstractResourceTest;
  */
 public final class WarArchiveTest extends AbstractResourceTest
 {
+    /**
+     * Path to package.
+     */
     private static final String PACKAGE_PATH = "org/codehaus/cargo/module/";
     
     /**

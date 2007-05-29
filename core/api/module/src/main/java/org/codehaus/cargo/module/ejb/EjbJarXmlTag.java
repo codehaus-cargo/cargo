@@ -20,6 +20,7 @@
 package org.codehaus.cargo.module.ejb;
 
 import org.codehaus.cargo.module.DescriptorTag;
+import org.codehaus.cargo.module.DescriptorType;
 
 /**
  * Represents the various tags in a ejb jar deployment descriptor.
@@ -31,46 +32,48 @@ public class EjbJarXmlTag extends DescriptorTag
     /**
      * Element name 'session'.
      */
-    public static final EjbJarXmlTag SESSION = new EjbJarXmlTag("session");
+    public static final String SESSION = "session";
     
     /**
      * Element name 'entity'.
      */
-    public static final EjbJarXmlTag ENTITY = new EjbJarXmlTag("entity");
+    public static final String ENTITY = "entity";
     
     /**
      * Element name 'ejb-name'.
      */
-    public static final EjbJarXmlTag EJB_NAME = new EjbJarXmlTag("ejb-name");
+    public static final String EJB_NAME = "ejb-name";
     
     /**
      * Element name 'local'.
      */
-    public static final EjbJarXmlTag LOCAL = new EjbJarXmlTag("local");
+    public static final String LOCAL = "local";
     
     /**
      * Element name 'local-home'.
      */
-    public static final EjbJarXmlTag LOCAL_HOME = new EjbJarXmlTag("local-home");
+    public static final String LOCAL_HOME = "local-home";
     
     /**
      * Constructor.
      * 
+     * @param type Descriptor type
      * @param tagName The tag name of the element
      * @param isMultipleAllowed Whether the element may occur multiple times in the descriptor
      */
-    protected EjbJarXmlTag(String tagName, boolean isMultipleAllowed)
+    protected EjbJarXmlTag(DescriptorType type, String tagName, boolean isMultipleAllowed)
     {
-        super(tagName, isMultipleAllowed);
+        super(type, tagName, isMultipleAllowed);
     }
     
     /**
      * Constructor.
      * 
+     * @param type Descriptor type
      * @param tagName The tag name of the element
      */
-    protected EjbJarXmlTag(String tagName)
+    protected EjbJarXmlTag(DescriptorType type, String tagName)
     {
-        this(tagName, true);
+        this(type, tagName, true);
     }
 }

@@ -22,11 +22,10 @@ package org.codehaus.cargo.module.merge;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.cargo.module.AbstractDescriptorIo;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.jdom.Content;
+import org.jdom.Document;
+import org.jdom.Element;
+
 
 /**
  * Class that can merge two DOM Documents, relatively simply. This works by just
@@ -42,7 +41,7 @@ import org.w3c.dom.NodeList;
  * 
  * @version $Id: $
  */
-public class DocumentMerger extends AbstractDescriptorIo implements MergeProcessor
+public class DocumentMerger implements MergeProcessor
 {
     /**
      * The list of merge documents.
@@ -95,14 +94,14 @@ public class DocumentMerger extends AbstractDescriptorIo implements MergeProcess
      */
     private void merge(Document left, Document right)
     {
-        NodeList children = right.getDocumentElement().getChildNodes();
-        for (int i = 0; i < children.getLength(); i++)
+        List children = right.getRootElement().getContent();
+        for (int i = 0; i < children.size(); i++)
         {
-            Node node = children.item(i);
+            Content node = (Content) children.get(i);
             if (node instanceof Element)
             {
-                Node clone = left.importNode(node, true);
-                left.getDocumentElement().appendChild(clone);
+                Content clone = ((Element) node).detach();
+                left.getRootElement().addContent(clone);
             }
         }
     }

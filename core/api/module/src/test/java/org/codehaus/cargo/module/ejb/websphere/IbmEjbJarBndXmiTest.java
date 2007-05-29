@@ -23,7 +23,9 @@ import java.io.ByteArrayInputStream;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.ejb.EjbDef;
-import org.w3c.dom.Document;
+import org.codehaus.cargo.module.ejb.weblogic.WeblogicEjbJarXml;
+import org.codehaus.cargo.module.ejb.weblogic.WeblogicEjbJarXmlIo;
+
 
 /**
  * Unit tests for {@link IbmEjbJarXmi}.
@@ -39,16 +41,15 @@ public class IbmEjbJarBndXmiTest extends AbstractDocumentBuilderTest
      */
     public void testGetJndiName() throws Exception
     {
-        String xml = "<com.ibm.ejs.models.base.bindings.ejbbnd:EJBJarBinding>"
+        String xml = "<ejbbnd:EJBJarBinding xmlns:ejbbnd=\"ejbbnd.xmi\" xmlns:xmi=\"http://www.omg.org/XMI\">"
             + "  <ejbJar href=\"META-INF/ejb-jar.xml#ejb-jar_ID\"/>"
             + "  <ejbBindings xmi:id=\"bindingId\" jndiName=\"mycomp/MyEjb\">"
             + "    <enterpriseBean xmi:type=\"com.ibm.etools.ejb:Session\" "
             + "                    href=\"META-INF/ejb-jar.xml#ejbId\"/>"
             + "  </ejbBindings>"
-            + "</com.ibm.ejs.models.base.bindings.ejbbnd:EJBJarBinding>";
+            + "</ejbbnd:EJBJarBinding>";
             
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        IbmEjbJarBndXmi descr = new IbmEjbJarBndXmi(doc);
+        IbmEjbJarBndXmi descr = IbmEjbJarBndXmiIo.parseIbmEjbJarXmi(new ByteArrayInputStream(xml.getBytes()));
         assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb", "ejbId")));
     }
 

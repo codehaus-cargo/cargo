@@ -26,8 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.util.Iterator;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
-import org.codehaus.cargo.module.application.ApplicationXml;
-import org.w3c.dom.Document;
+
 
 /**
  * Unit tests for {@link ApplicationXml}.
@@ -47,7 +46,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
     {
         try
         {
-            new ApplicationXml(null);
+            new ApplicationXml(null, null);
             fail("Expected NullPointerException");
         }
         catch (NullPointerException npe)
@@ -70,8 +69,8 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "    <java>javaclient.jar</java>"
             + "  </module>"
             + "</application>";
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        ApplicationXml applicationXml = new ApplicationXml(doc);
+
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
         Iterator webUris = applicationXml.getWebModuleUris();
         assertTrue("No web modules defined", !webUris.hasNext());
     }
@@ -93,8 +92,8 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "    </web>"
             + "  </module>"
             + "</application>";
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        ApplicationXml applicationXml = new ApplicationXml(doc);
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
+
         Iterator webUris = applicationXml.getWebModuleUris();
         assertEquals("webmodule.jar", webUris.next());
         assertTrue(!webUris.hasNext());
@@ -129,8 +128,8 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "    </web>"
             + "  </module>"
             + "</application>";
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        ApplicationXml applicationXml = new ApplicationXml(doc);
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
+
         Iterator webUris = applicationXml.getWebModuleUris();
         assertEquals("webmodule1.jar", webUris.next());
         assertEquals("webmodule2.jar", webUris.next());
@@ -152,8 +151,8 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "    <java>javaclient.jar</java>"
             + "  </module>"
             + "</application>";
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        ApplicationXml applicationXml = new ApplicationXml(doc);
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
+
         try
         {
             applicationXml.getWebModuleContextRoot("webmodule.jar");
@@ -181,8 +180,8 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "    </web>"
             + "  </module>"
             + "</application>";
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        ApplicationXml applicationXml = new ApplicationXml(doc);
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
+
         assertEquals("/webmodule",
             applicationXml.getWebModuleContextRoot("webmodule.jar"));
     }
@@ -215,8 +214,8 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "    </web>"
             + "  </module>"
             + "</application>";
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        ApplicationXml applicationXml = new ApplicationXml(doc);
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
+
         assertEquals("/webmodule1",
             applicationXml.getWebModuleContextRoot("webmodule1.jar"));
         assertEquals("/webmodule2",
@@ -235,8 +234,8 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = "<application></application>";
         
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        ApplicationXml applicationXml = new ApplicationXml(doc);
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
+
         applicationXml.addEjbModule("ejbmodule1.jar");
         
         // Extract all ejbmodules, should be just one
@@ -264,8 +263,8 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "  </module>"            
             + "</application>";
         
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        ApplicationXml applicationXml = new ApplicationXml(doc);
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
+
         
         Iterator i = applicationXml.getEjbModules();
         assertEquals("myFirstEjb.jar", i.next());

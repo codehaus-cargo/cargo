@@ -22,6 +22,7 @@
  */
 package org.codehaus.cargo.module;
 
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -76,4 +77,13 @@ public interface JarArchive
     * @throws java.io.IOException If an I/O error occurs
     */
     void expandToPath(String path) throws IOException;
+    
+    /**
+     * Expand the archive to the specified directory, filtering out files.
+     * 
+     * @param path The path to expand to
+     * @param filter The filter to use
+     * @throws java.io.IOException If an I/O error occurs
+     */
+    void expandToPath(String path, FileFilter filter) throws IOException;
 }

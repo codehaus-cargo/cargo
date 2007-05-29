@@ -23,8 +23,8 @@ import java.io.ByteArrayInputStream;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.EjbRef;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.jdom.Element;
+
 
 /**
  * Unit tests for {@link JBossWebXm}.
@@ -41,22 +41,23 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
     public void testAddEjbReference() throws Exception
     {
         String xml = "<jboss-web></jboss-web>";
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        JBossWebXml descr = new JBossWebXml(doc);
+        
+        JBossWebXml descr = JBossWebXmlIo.parseJBossWebXml( new ByteArrayInputStream(xml.getBytes()) );
+        
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");
         ref.setLocal(false);
         descr.addEjbReference(ref);
 
-        Element ejbRef = (Element)doc.getDocumentElement().getFirstChild();
-        assertEquals("ejb-ref", ejbRef.getNodeName());
-        Element ejbRefName = (Element)ejbRef.getFirstChild();
-        assertEquals("ejb-ref-name", ejbRefName.getNodeName());
-        assertEquals("foo", ejbRefName.getFirstChild().getNodeValue());
-        Element jndiName = (Element)ejbRef.getChildNodes().item(1);
-        assertEquals("jndi-name", jndiName.getNodeName());
-        assertEquals("fee", jndiName.getFirstChild().getNodeValue());
+        Element ejbRef = (Element)descr.getRootElement().getChildren().get(0);
+        assertEquals("ejb-ref", ejbRef.getName());
+        Element ejbRefName = (Element)ejbRef.getChildren().get(0);
+        assertEquals("ejb-ref-name", ejbRefName.getName());
+        assertEquals("foo", ejbRefName.getValue());
+        Element jndiName = (Element)ejbRef.getChildren().get(1);
+        assertEquals("jndi-name", jndiName.getName());
+        assertEquals("fee", jndiName.getValue());
     }
 
     /**
@@ -67,22 +68,22 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
     public void testAddLocalEjbReference() throws Exception
     {
         String xml = "<jboss-web></jboss-web>";
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        JBossWebXml descr = new JBossWebXml(doc);
+        JBossWebXml descr = JBossWebXmlIo.parseJBossWebXml( new ByteArrayInputStream(xml.getBytes()) );
+        
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");
         ref.setLocal(true);
         descr.addEjbReference(ref);
 
-        Element ejbRef = (Element)doc.getDocumentElement().getFirstChild();
-        assertEquals("ejb-local-ref", ejbRef.getNodeName());
-        Element ejbRefName = (Element)ejbRef.getFirstChild();
-        assertEquals("ejb-ref-name", ejbRefName.getNodeName());
-        assertEquals("foo", ejbRefName.getFirstChild().getNodeValue());
-        Element jndiName = (Element)ejbRef.getChildNodes().item(1);
-        assertEquals("local-jndi-name", jndiName.getNodeName());
-        assertEquals("fee", jndiName.getFirstChild().getNodeValue());
+        Element ejbRef = (Element)descr.getRootElement().getChildren().get(0);
+        assertEquals("ejb-local-ref", ejbRef.getName());
+        Element ejbRefName = (Element)ejbRef.getChildren().get(0);
+        assertEquals("ejb-ref-name", ejbRefName.getName());
+        assertEquals("foo", ejbRefName.getValue());
+        Element jndiName = (Element)ejbRef.getChildren().get(1);
+        assertEquals("local-jndi-name", jndiName.getName());
+        assertEquals("fee", jndiName.getValue());
     }
 
     /**
@@ -97,19 +98,20 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
             + "<security-domain/>"
             + "<resource-ref/>"
             + "</jboss-web>";
-        Document doc = this.builder.parse(new ByteArrayInputStream(xml.getBytes()));
-        JBossWebXml descr = new JBossWebXml(doc);
+        
+        JBossWebXml descr = JBossWebXmlIo.parseJBossWebXml( new ByteArrayInputStream(xml.getBytes()) );
+        
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");
         ref.setLocal(false);
         descr.addEjbReference(ref);
 
-        Element secDomain = (Element)doc.getDocumentElement().getChildNodes().item(0);
-        assertEquals("security-domain", secDomain.getNodeName());
-        Element resRef = (Element)doc.getDocumentElement().getChildNodes().item(1);
-        assertEquals("resource-ref", resRef.getNodeName());
-        Element ejbRef = (Element)doc.getDocumentElement().getChildNodes().item(2);
-        assertEquals("ejb-ref", ejbRef.getNodeName());
+        Element secDomain = (Element)descr.getRootElement().getChildren().get(0);
+        assertEquals("security-domain", secDomain.getName());
+        Element resRef = (Element)descr.getRootElement().getChildren().get(1);
+        assertEquals("resource-ref", resRef.getName());
+        Element ejbRef = (Element)descr.getRootElement().getChildren().get(2);
+        assertEquals("ejb-ref", ejbRef.getName());
     }
 }

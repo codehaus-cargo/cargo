@@ -24,8 +24,7 @@ package org.codehaus.cargo.module.webapp;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.WebXmlVersion;
-import org.w3c.dom.DocumentType;
-
+import org.jdom.DocType;
 /**
  * Unit tests for {@link WebXmlVersion}.
  *
@@ -85,7 +84,7 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
     {
         try
         {
-            WebXmlVersion.valueOf((DocumentType) null);
+            WebXmlVersion.valueOf((DocType) null);
             fail("Expected NullPointerException");
         }
         catch (NullPointerException expected)
@@ -102,7 +101,7 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
      */
     public void testValueOfUnknownDocType() throws Exception
     {
-        DocumentType docType = this.builder.getDOMImplementation().createDocumentType("web-app",
+      DocType docType = new DocType("web-app",
             "foo", "bar");
         assertNull(WebXmlVersion.valueOf(docType));
     }
@@ -115,7 +114,7 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
      */
     public void testValueOfDocType22() throws Exception
     {
-        DocumentType docType = this.builder.getDOMImplementation().createDocumentType("web-app",
+      DocType docType = new DocType("web-app",
             WebXmlVersion.V2_2.getPublicId(), WebXmlVersion.V2_2.getSystemId());
         assertEquals(WebXmlVersion.V2_2, WebXmlVersion.valueOf(docType));
     }
@@ -128,7 +127,7 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
      */
     public void testValueOfDocType23() throws Exception
     {
-        DocumentType docType = this.builder.getDOMImplementation().createDocumentType("web-app",
+      DocType docType = new DocType("web-app",
             WebXmlVersion.V2_3.getPublicId(), WebXmlVersion.V2_3.getSystemId());
         assertEquals(WebXmlVersion.V2_3, WebXmlVersion.valueOf(docType));
     }

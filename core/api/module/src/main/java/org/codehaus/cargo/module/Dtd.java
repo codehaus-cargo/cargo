@@ -97,7 +97,7 @@ public class Dtd implements Grammar
                     {
                         element = element.substring(0, element.length() - 1);
                     }
-                    DescriptorTag tag = new DescriptorTag(element, multipleAllowed);
+                    DescriptorTag tag = new DescriptorTag(null, element, multipleAllowed);
                     elements.add(tag);
                 }
             }
