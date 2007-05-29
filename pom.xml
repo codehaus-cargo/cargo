@@ -31,6 +31,7 @@
   <packaging>pom</packaging>
   <description>Top level POM to build all other Cargo modules</description>
   <modules>
+    <module>pom</module>
     <module>resources</module>
     <module>core</module>
     <module>extensions</module>
