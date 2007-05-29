@@ -50,7 +50,7 @@ public class TomcatContextXmlType  extends AbstractDescriptorType
     */
     protected TomcatContextXmlType()
     {
-        super(null, TomcatContextXml.class, new Dtd("sample/tomcat-context.dtd"));   
+        super(null, TomcatContextXml.class, new Dtd("file:sample/tomcat-context.dtd"));   
     }
       
    /**
