@@ -78,15 +78,28 @@
 	        <name>document</name>
 	        <type>String</type>
 	      </field>
+	      
 	      <field>
 	        <name>file</name>
 	        <type>String</type>
 	      </field>
 	      
 	       <field>
+	        <name>type</name>
+	        <type>String</type>
+	      </field>
+	      
+	      
+	      <field>
 	        <name>classname</name>
 	        <type>String</type>
 	      </field>
+	      
+	      <field>
+	        <name>parameters</name>
+	        <type>DOM</type>
+	      </field>
+	      
 	    </fields>
 	    
 	  </class>

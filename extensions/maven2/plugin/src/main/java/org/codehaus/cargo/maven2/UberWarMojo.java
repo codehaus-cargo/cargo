@@ -37,28 +37,31 @@ import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.module.merge.MergeException;
 import org.codehaus.cargo.module.merge.MergeProcessor;
-import org.codehaus.cargo.module.merge.strategy.ChooseByNameMergeStrategy;
-import org.codehaus.cargo.module.merge.strategy.MergeStrategy;
-import org.codehaus.cargo.module.merge.strategy.NodeMergeStrategy;
+
 import org.codehaus.cargo.module.merge.DocumentStreamAdapter;
 import org.codehaus.cargo.module.webapp.WarArchive;
 import org.codehaus.cargo.module.webapp.DefaultWarArchive;
-import org.codehaus.cargo.module.webapp.WarArchiveMerger;
+import org.codehaus.cargo.module.webapp.WebXmlIo;
+import org.codehaus.cargo.module.webapp.merge.WarArchiveMerger;
 import org.codehaus.plexus.configuration.PlexusConfiguration;
 import org.codehaus.plexus.util.xml.*;
 import org.codehaus.plexus.util.xml.pull.*;
 import org.codehaus.cargo.maven2.io.xpp3.UberWarXpp3Reader;
+import org.codehaus.cargo.maven2.merge.MergeProcessorFactory;
+import org.codehaus.cargo.maven2.merge.MergeWebXml;
+import org.codehaus.cargo.maven2.merge.MergeXslt;
+import org.jdom.JDOMException;
 import org.xml.sax.SAXException;
 
 /**
- * Build an uberwar.
+ * Build an uberwar
  *
+ * @version
  * @goal uberwar
  * @phase package
  * @requiresDependencyResolution runtime
- * @version $Id: $
  */
-public class UberWarMojo extends AbstractCommonMojo
+public class UberWarMojo extends AbstractUberWarMojo
 {
     /**
      * The directory for the generated WAR.
@@ -159,14 +162,15 @@ public class UberWarMojo extends AbstractCommonMojo
                 }
             }
 
+            // List of <merge> nodes to perform, in order
             for(Iterator i = root.getMerges().iterator(); i.hasNext();)
             {
                 Merge merge = (Merge)i.next();
                 doMerge( wam, merge );
             }
 
-            WebXml merge = root.getWebXml();
-            doWebXmlMerge(wam, merge);
+            //WebXml merge = root.getWebXml();
+            //doWebXmlMerge(wam, merge);
 
             File warFile = new File(this.outputDirectory, this.warName + ".war");
 
@@ -185,56 +189,59 @@ public class UberWarMojo extends AbstractCommonMojo
         {
             throw new MojoExecutionException("IOException creating UBERWAR", e);
         }
-        catch (SAXException e)
+        catch (JDOMException e)
         {
             throw new MojoExecutionException("Xml format exception creating UBERWAR", e);
-        }
-        catch (ParserConfigurationException e)
-        {
-            throw new MojoExecutionException("Parsing exception creating UBERWAR", e);
-        }
+        }        
         catch (MergeException e)
         {
             throw new MojoExecutionException("Merging exception creating UBERWAR", e);
         }
+        
     }
 
-    private void doWebXmlMerge(WarArchiveMerger wam, WebXml merge) throws MojoExecutionException
-    {
-        Xpp3Dom dom = (Xpp3Dom)merge.getContextParams();
-
-        try
-        {
-            MergeStrategy ms = makeStrategy(dom.getChild(0));
-
-            wam.getWebXmlMerger().setMergeContextParamsStrategy(ms);
-        }
-        catch(Exception e)
-        {
-            throw new MojoExecutionException("Exception merging web.xml", e);
-        }
-
-    }
-
+    
     private void doMerge(WarArchiveMerger wam, Merge merge) throws MojoExecutionException
     {
         try
         {
+            String type     = merge.getType();
             String file     = merge.getFile();
             String document = merge.getDocument();
             String clazz    = merge.getClassname();
 
-            MergeProcessor merger = (MergeProcessor) Class.forName(clazz)
-                .newInstance();
-
-            if (document != null)
+            MergeProcessor merger = null;
+            
+            if( type != null )
             {
-                merger = new DocumentStreamAdapter(merger);
-                wam.addMergeProcessor(document, merger);
+              if( type.equalsIgnoreCase("web.xml") )
+              {                
+                merger = new MergeWebXml().create(wam, merge); ;                
+              }                
+              else if( type.equalsIgnoreCase("xslt") )
+              {                
+                merger = new MergeXslt(descriptor.getParentFile()).create(wam, merge); ;                
+              }      
             }
             else
             {
-                wam.addMergeProcessor(file, merger);
+              merger = (MergeProcessor) Class.forName(clazz).newInstance();
+            }                        
+              
+            if( merger != null )
+            {
+              if (document != null)
+              {
+                  merger = new DocumentStreamAdapter(merger);
+                  wam.addMergeProcessor(document, merger);
+              }
+              else if( file != null )
+              {                              
+                  wam.addMergeProcessor(file, merger);
+              }
+              
+              
+              //merger.performMerge();
             }
         }
         catch(Exception e)
@@ -243,58 +250,6 @@ public class UberWarMojo extends AbstractCommonMojo
         }
     }
 
-
-    protected MergeStrategy makeStrategy(Xpp3Dom config) throws MojoExecutionException
-    {
-
-        if( !config.getName().equals("strategy") )
-        {
-            throw new MojoExecutionException("You must specify a merge strategy");
-        }
-
-        String strategyName = config.getAttribute("name");
-
-        if( strategyName.equalsIgnoreCase("Preserve"))
-        {
-            return MergeStrategy.PRESERVE;
-        }
-        else if( strategyName.equalsIgnoreCase("Overwrite"))
-        {
-            return MergeStrategy.OVERWRITE;
-        }
-        else if( strategyName.equalsIgnoreCase("ChooseByName"))
-        {
-            Xpp3Dom def = config.getChild("default").getChild(0);
-
-            ChooseByNameMergeStrategy cbnms = new ChooseByNameMergeStrategy(makeStrategy(def));
-
-            Xpp3Dom[] items = config.getChildren();
-            for(int i=0; i<items.length;i++)
-            {
-                Xpp3Dom item = items[i];
-                if( item.getName().equals("choice") )
-                {
-                    cbnms.addStrategyForName(item.getAttribute("name"), makeStrategy(item.getChild(0)));
-                }
-            }
-            return cbnms;
-        }
-        if( strategyName.equalsIgnoreCase("NodeMerge"))
-        {
-            String theXml = config.getChild(0).toString();
-
-            try
-            {
-                return new NodeMergeStrategy(new ByteArrayInputStream(theXml.getBytes()));
-            }
-            catch (Exception e)
-            {
-                throw new MojoExecutionException("Problem generating Node Merge strategy");
-            }
-        }
-
-        throw new MojoExecutionException("Must provide a known strategy type (don't understand " + strategyName + ")");
-    }
 
     protected void addWar(WarArchiveMerger wam, String artifactIdent)
         throws MojoExecutionException, IOException
@@ -338,13 +293,14 @@ public class UberWarMojo extends AbstractCommonMojo
             Artifact artifact = (Artifact) iter.next();
 
             ScopeArtifactFilter filter = new ScopeArtifactFilter(Artifact.SCOPE_RUNTIME);
+            
             if (!artifact.isOptional() && filter.include(artifact))
             {
                 String type = artifact.getType();
                 if ("war".equals(type))
                 {
                     try
-                    {
+                    {                      
                         wam.addMergeItem(new DefaultWarArchive(artifact.getFile().getPath()));
                     }
                     catch(MergeException e)
