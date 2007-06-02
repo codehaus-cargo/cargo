@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.codehaus.cargo.module.DefaultJarArchive;
+import org.codehaus.cargo.module.JarArchive;
+import org.codehaus.cargo.module.JarArchiveIo;
 import org.jdom.JDOMException;
 
 /**
@@ -87,8 +89,7 @@ public class TomcatWarArchive
             }
             else
             {
-                DefaultJarArchive jarArchive = new DefaultJarArchive(
-                    new File(this.warFile).getPath());
+                JarArchive jarArchive = JarArchiveIo.open(new File(this.warFile));
                 in = jarArchive.getResource("META-INF/context.xml");
             }
 

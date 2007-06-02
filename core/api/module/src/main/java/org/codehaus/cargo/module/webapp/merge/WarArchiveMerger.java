@@ -19,11 +19,15 @@
  */
 package org.codehaus.cargo.module.webapp.merge;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.codehaus.cargo.module.merge.MergeException;
 import org.codehaus.cargo.module.merge.MergeProcessor;
 import org.codehaus.cargo.module.webapp.DefaultWarArchive;
 import org.codehaus.cargo.module.webapp.WarArchive;
 import org.codehaus.cargo.util.CargoException;
+import org.jdom.JDOMException;
 
 /**
  * Class for merging two War Archives into each other.
@@ -68,12 +72,12 @@ public class WarArchiveMerger implements MergeProcessor
      */
     public void addMergeItem(Object mergeItem) throws MergeException
     {
-        if (!(mergeItem instanceof DefaultWarArchive))
+        if (!(mergeItem instanceof WarArchive))
         {
             throw new MergeException(
                 "WarArchiveMerger cannot merge things that are not WarArchives");
         }
-        this.result.add((DefaultWarArchive) mergeItem);
+        this.result.add((WarArchive) mergeItem);
     }
 
     /**
@@ -88,6 +92,19 @@ public class WarArchiveMerger implements MergeProcessor
         return merge;
     }
 
+    /**
+     * Perform the archive merge, using the specified file as the output destination.
+     * 
+     * @param targetFile The target file to output to.
+     * @throws JDOMException 
+     * @throws IOException 
+     */
+    public void performMerge(File targetFile) throws IOException, JDOMException
+    {
+    	WarArchive output = (WarArchive)performMerge();
+    	output.store(targetFile);    
+    }
+            
     /**
      * Get the class used for web xml merging.
      * 

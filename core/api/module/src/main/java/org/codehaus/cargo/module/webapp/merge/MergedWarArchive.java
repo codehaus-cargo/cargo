@@ -75,7 +75,7 @@ public class MergedWarArchive implements WarArchive
     /**
      * @return the first war file in the merge list
      */
-    protected DefaultWarArchive firstWarFile()
+    protected WarArchive firstWarFile()
     {
         return ((MergeWarFileDetails) this.warFiles.get(0)).getWarFile();
     }
@@ -92,7 +92,7 @@ public class MergedWarArchive implements WarArchive
     /**
      * @param warFile in a warfile to add to the merge
      */
-    void add(DefaultWarArchive warFile)
+    void add(WarArchive warFile)
     {
         this.warFiles.add(new MergeWarFileDetails(warFile));
     }

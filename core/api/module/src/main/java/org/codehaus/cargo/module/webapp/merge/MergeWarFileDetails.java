@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.cargo.module.webapp.DefaultWarArchive;
+import org.codehaus.cargo.module.webapp.WarArchive;
 
 /**
  * Class to store the war file that is required for saving, together with any
@@ -38,7 +39,7 @@ public class MergeWarFileDetails implements FileFilter
     /**
      * War Archive.
      */
-    private DefaultWarArchive warArchive;
+    private WarArchive warArchive;
 
     /**
      * List of exclusions.
@@ -49,7 +50,7 @@ public class MergeWarFileDetails implements FileFilter
      * Constructor.
      * @param warArchive War Archive to use
      */
-    public MergeWarFileDetails(DefaultWarArchive warArchive)
+    public MergeWarFileDetails(WarArchive warArchive)
     {
         this.warArchive = warArchive;
     }
@@ -57,7 +58,7 @@ public class MergeWarFileDetails implements FileFilter
     /**
      * @return War Archive
      */
-    public DefaultWarArchive getWarFile()
+    public WarArchive getWarFile()
     {
         return warArchive;
     }
