@@ -101,6 +101,12 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
                 {
                     this.webXml = WebXmlIo.parseWebXml(in, null);
                 }
+                else
+                {
+                	// need to create something, as otherwise vendor descriptors
+                	// will fail
+                	this.webXml = new WebXml();
+                }
             }
             finally
             {

@@ -87,6 +87,10 @@ public class ArchiveResourceMerger
 
         File outputFile = new File(assembleDir.getAbsolutePath() + File.separator
             + this.resource);
+        
+        // Make sure the directory actually exists
+        outputFile.getParentFile().mkdir();
+        
         FileOutputStream fos = null;
 
         try
