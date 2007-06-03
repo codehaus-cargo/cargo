@@ -38,4 +38,12 @@ public class Listener extends WebXmlElement
     {
       super(tag);   
     }   
+    
+    /**
+     * @return The listener class.
+     */
+    public String getListenerClass()
+    {
+    	return this.getChildText("listener-class");
+    }
 }

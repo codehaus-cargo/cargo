@@ -30,6 +30,7 @@ import org.codehaus.cargo.module.webapp.elements.ContextParam;
 import org.codehaus.cargo.module.webapp.elements.Filter;
 import org.codehaus.cargo.module.webapp.elements.FilterMapping;
 import org.codehaus.cargo.module.webapp.elements.InitParam;
+import org.codehaus.cargo.module.webapp.elements.Listener;
 import org.codehaus.cargo.module.webapp.elements.SecurityConstraint;
 import org.codehaus.cargo.module.webapp.elements.Servlet;
 
@@ -305,7 +306,7 @@ public class WebXmlType extends AbstractDescriptorType
                 new Identifier("filter-name"),
                 FilterMapping.class),
             new WebXmlTag(this, "init-param", true, new Identifier("param-name"), InitParam.class),
-            new WebXmlTag(this, "listener"),
+            new WebXmlTag(this, "listener", true, new Identifier("listener-class"), Listener.class),
             new WebXmlTag(this, "servlet", true, new Identifier("servlet-name"), Servlet.class),
             new WebXmlTag(this, "servlet-name"), new WebXmlTag(this, "jsp-file"),
             new WebXmlTag(this, "servlet-class"), new WebXmlTag(this, "load-on-startup"),
