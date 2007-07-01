@@ -57,7 +57,7 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
     }
 
     /**
-     * Whether the local deployer should copy the wars to tbe Tomcat webapps directory. This is 
+     * Whether the local deployer should copy the wars to the Tomcat webapps directory. This is
      * because Tomcat standalone configuration may not want to copy wars and instead configure
      * server.xml to point to where the wars are located instead of copying them.
      * 
