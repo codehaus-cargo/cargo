@@ -4,10 +4,7 @@ import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
 import org.codehaus.cargo.sample.java.EnvironmentTestData;
 import org.codehaus.cargo.sample.java.CargoTestSuite;
 import org.codehaus.cargo.sample.java.PingUtils;
-import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.HasDirectoryPackagerValidator;
+import org.codehaus.cargo.sample.java.validator.*;
 import org.codehaus.cargo.generic.packager.DefaultPackagerFactory;
 import org.codehaus.cargo.generic.packager.PackagerFactory;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
@@ -38,6 +35,7 @@ public class TomcatPackagerTest extends AbstractCargoTestCase
         CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local Tomcat "
             + "containers supporting directory Packagers");
         suite.addTestSuite(TomcatPackagerTest.class, new Validator[] {
+            new StartsWithContainerValidator("tomcat"),
             new IsInstalledLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),
             new HasDirectoryPackagerValidator()});
