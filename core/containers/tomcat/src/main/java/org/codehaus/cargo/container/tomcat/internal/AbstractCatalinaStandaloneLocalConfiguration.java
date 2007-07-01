@@ -115,8 +115,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
                 // Create a webapps directory for automatic deployment of WARs dropped inside.
                 String appDir = getFileHandler().createDirectory(getHome(), "webapps");
 
-                // Deploy all deployables into the webapps directory, except for expanded WARs which
-                // remain in their initial location (we point Resin to them).
+                // Deploy all deployables into the webapps directory.
                 TomcatCopyingInstalledLocalDeployer deployer =
                     new TomcatCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
                 deployer.setShouldDeployExpandedWARs(true);
