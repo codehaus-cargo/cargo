@@ -23,7 +23,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.jetty.internal.Jetty4xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty4xEmbeddedStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
@@ -38,7 +38,7 @@ public class Jetty4xEmbeddedStandaloneLocalConfiguration
      * Capability of the Jetty standalone configuration.
      */
     private static ConfigurationCapability capability =
-        new Jetty4xStandaloneLocalConfigurationCapability();
+        new Jetty4xEmbeddedStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}

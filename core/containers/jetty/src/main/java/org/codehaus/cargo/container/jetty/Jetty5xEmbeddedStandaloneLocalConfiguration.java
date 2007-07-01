@@ -23,7 +23,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.jetty.internal.Jetty5xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty5xEmbeddedStandaloneLocalConfigurationCapability;
 
 /**
  * A mostly canned configuration for a Jetty 5.x running embedded. User uses properties to
@@ -47,8 +47,8 @@ public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
     /**
      * Capability set for this type of config.
      */
-    private static Jetty5xStandaloneLocalConfigurationCapability capability =
-        new Jetty5xStandaloneLocalConfigurationCapability();
+    private static Jetty5xEmbeddedStandaloneLocalConfigurationCapability capability =
+        new Jetty5xEmbeddedStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}

@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
 /**
- * Base class for jetty standalone configurations.
+ * Base class for Jetty standalone configurations.
  * 
  * @version $Id$
  */

@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.jetty;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.jetty.internal.Jetty6xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty6xEmbeddedStandaloneLocalConfigurationCapability;
 
 /**
  * A mostly canned configuration for an embedded Jetty 6.x instance.
@@ -35,8 +35,8 @@ public class Jetty6xEmbeddedStandaloneLocalConfiguration extends
     /**
      * capabilities supported by this config.
      */
-    private static Jetty6xStandaloneLocalConfigurationCapability capability =
-        new Jetty6xStandaloneLocalConfigurationCapability();
+    private static Jetty6xEmbeddedStandaloneLocalConfigurationCapability capability =
+        new Jetty6xEmbeddedStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}

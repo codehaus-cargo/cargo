@@ -20,20 +20,18 @@
 package org.codehaus.cargo.container.jetty.internal;
 
 /**
- * Configuration capability for a Jetty 5.x container.
+ * Configuration capability for a Jetty 4.x Embedded container.
  *
  * @version $Id$
  */
-public class Jetty5xStandaloneLocalConfigurationCapability extends
-    AbstractJettyStandaloneLocalConfigurationCapability
-{
+public class Jetty4xEmbeddedStandaloneLocalConfigurationCapability extends
+        AbstractJettyEmbeddedStandaloneLocalConfigurationCapability {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfigurationCapability#AbstractJettyStandaloneLocalConfigurationCapability()
+     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedStandaloneLocalConfigurationCapability#AbstractJettyEmbeddedStandaloneLocalConfigurationCapability()
      */
-    public Jetty5xStandaloneLocalConfigurationCapability()
+    public Jetty4xEmbeddedStandaloneLocalConfigurationCapability()
     {
         super();
     }
-
 }

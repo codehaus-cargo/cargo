@@ -28,12 +28,12 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 /**
  * Capabilities of the Jetty's
  * {@link org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration}
- * configuration.
+ * configuration for Embedded containers.
  * 
  * @version $Id$
  */
-public abstract class AbstractJettyStandaloneLocalConfigurationCapability
-    extends AbstractStandaloneLocalConfigurationCapability
+public abstract class AbstractJettyEmbeddedStandaloneLocalConfigurationCapability
+        extends AbstractStandaloneLocalConfigurationCapability
 {
     /**
      * Configuration-specific supports Map.
@@ -43,7 +43,7 @@ public abstract class AbstractJettyStandaloneLocalConfigurationCapability
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public AbstractJettyStandaloneLocalConfigurationCapability()
+    public AbstractJettyEmbeddedStandaloneLocalConfigurationCapability()
     {
         super();
 

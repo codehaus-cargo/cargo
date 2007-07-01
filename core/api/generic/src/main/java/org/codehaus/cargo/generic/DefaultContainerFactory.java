@@ -85,6 +85,8 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
             "org.codehaus.cargo.container.jetty.Jetty5xEmbeddedLocalContainer");
         registerContainer("jetty6x", ContainerType.EMBEDDED,
             "org.codehaus.cargo.container.jetty.Jetty6xEmbeddedLocalContainer");
+        registerContainer("jetty6x", ContainerType.INSTALLED,
+            "org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer");
 
         registerContainer("jo1x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.jo.Jo1xInstalledLocalContainer");
