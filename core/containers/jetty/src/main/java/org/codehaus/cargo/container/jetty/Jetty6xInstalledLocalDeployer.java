@@ -66,34 +66,32 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     {
         super.deployWar(deployableDir, war);
 
-        // Create the context file only the container is started as otherwise we don't need hot
-        // deployment as the war will be statically deployed.
-        if (getContainer().getState().isStarted())
-        {
-            String contextDir = getFileHandler().append(getContainer().getConfiguration().getHome(),
-                "contexts");
-            String contextFile = getFileHandler().append(contextDir, war.getContext() + ".xml");
-            getFileHandler().createFile(contextFile);
+        // Create a Jetty context file. This is useful for 2 purposes:
+        // - ability to hot deploy
+        // - ability to tell Jetty to install the WAR under a given context name
+        String contextDir = getFileHandler().append(getContainer().getConfiguration().getHome(),
+            "contexts");
+        String contextFile = getFileHandler().append(contextDir, war.getContext() + ".xml");
+        getFileHandler().createFile(contextFile);
 
-            OutputStream out = getFileHandler().getOutputStream(contextFile);
-            try
-            {
-                out.write(("<?xml version=\"1.0\"  encoding=\"ISO-8859-1\"?>\n"
-                    + "<!DOCTYPE Configure PUBLIC \"-//Mort Bay Consulting//DTD Configure//EN\" "
-                        + "\"http://jetty.mortbay.org/configure.dtd\">\n"
-                    + "<Configure class=\"org.mortbay.jetty.webapp.WebAppContext\">\n"
-                    + "  <Set name=\"contextPath\">/" + war.getContext() + "</Set>\n"
-                    + "  <Set name=\"war\"><SystemProperty name=\"config.home\" "
-                        + "default=\".\"/>/webapps/" + war.getContext() + ".war</Set>\n"
-                    + "  <Set name=\"extractWAR\">true</Set>\n"
-                    + "</Configure>").getBytes());
-                out.close();
-            }
-            catch (IOException e)
-            {
-                throw new ContainerException("Failed to create Jetty Context file for ["
-                    + war.getFile() + "]");
-            }
+        OutputStream out = getFileHandler().getOutputStream(contextFile);
+        try
+        {
+            out.write(("<?xml version=\"1.0\"  encoding=\"ISO-8859-1\"?>\n"
+                + "<!DOCTYPE Configure PUBLIC \"-//Mort Bay Consulting//DTD Configure//EN\" "
+                    + "\"http://jetty.mortbay.org/configure.dtd\">\n"
+                + "<Configure class=\"org.mortbay.jetty.webapp.WebAppContext\">\n"
+                + "  <Set name=\"contextPath\">/" + war.getContext() + "</Set>\n"
+                + "  <Set name=\"war\"><SystemProperty name=\"config.home\" "
+                    + "default=\".\"/>/webapps/" + war.getContext() + ".war</Set>\n"
+                + "  <Set name=\"extractWAR\">true</Set>\n"
+                + "</Configure>").getBytes());
+            out.close();
+        }
+        catch (IOException e)
+        {
+            throw new ContainerException("Failed to create Jetty Context file for ["
+                + war.getFile() + "]");
         }
     }
 }
