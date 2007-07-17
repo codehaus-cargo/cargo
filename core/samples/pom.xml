@@ -204,7 +204,7 @@
               </property>
               <property>
                 <name>cargo.jetty4x.url</name>
-                <value>http://dist.codehaus.org/jetty/jetty-4.2.27.zip</value>
+                <value>http://dist.codehaus.org/jetty/jetty-4.2.x/jetty-4.2.27.zip</value>
               </property>
 
               <property>
@@ -213,7 +213,7 @@
               </property>
               <property>
                 <name>cargo.jetty5x.url</name>
-                <value>http://dist.codehaus.org/jetty/jetty-5.1.12.zip</value>
+                <value>http://dist.codehaus.org/jetty/jetty-5.1.x/jetty-5.1.12.zip</value>
               </property>
 
               <property>
@@ -222,7 +222,7 @@
               </property>
               <property>
                 <name>cargo.jetty6x.url</name>
-                <value>http://dist.codehaus.org/jetty/jetty-6.1.1.zip</value>
+                <value>http://dist.codehaus.org/jetty/jetty-6.1.x/jetty-6.1.1.zip</value>
               </property>
 
               <!--
