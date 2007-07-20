@@ -67,6 +67,11 @@ public final class JarUtils
                 {
                     // Create a jar entry and add it to the temp jar.
                     String entryName = fileToAdd.getPath().substring(root.getPath().length() + 1);
+                    
+                    // If we leave these entries as '\'s, then the resulting zip file won't be expandable
+                    // on Unix operating systems like OSX, becuase it is possible to have filenames with \s
+                    // in them - so it's impossible to determine that this is actually a directory.                    
+                    entryName = entryName.replace('\\','/');
                     JarEntry entry = new JarEntry(entryName);
                     jarStream.putNextEntry(entry);
 
