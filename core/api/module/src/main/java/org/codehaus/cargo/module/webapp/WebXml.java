@@ -33,6 +33,7 @@ import org.codehaus.cargo.module.Identifier;
 import org.codehaus.cargo.module.J2eeDescriptor;
 import org.jdom.DocType;
 import org.jdom.Element;
+import org.jdom.Namespace;
 
 /**
  * Encapsulates the DOM representation of a web deployment descriptor <code>web.xml</code> to
@@ -96,6 +97,18 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
     }
 
     /**
+     * Get the namespace that tags in this descriptor live in.
+     * @return the namespace, or null if none
+     */
+    protected Namespace getTagNamespace()
+    {
+      if( this.getVersion() == null )
+        return null;
+      
+      return this.getVersion().getNamespace();      
+    }
+    
+    /**
      * Returns the servlet API version.
      *
      * @return The version
@@ -107,7 +120,8 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
         {
             return WebXmlVersion.valueOf(docType);
         }
-        return null;
+        
+        return WebXmlVersion.valueOf(this.getRootElement());
     }
 
     /**
@@ -141,7 +155,7 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
             throw new NullPointerException();
         }
             
-        List items = getRootElement().getChildren(tag);
+        List items = getRootElement().getChildren(tag, getTagNamespace());
         if (items.size() == 0)
         {
             return null;
@@ -149,5 +163,7 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
         
         return ((Element) items.get(0));
     }
+
+
 }
 

@@ -48,7 +48,7 @@ public class ResinWebXmlMerger extends XmlMerger
         }
         this.webXml = theWebXml;
         
-        DescriptorMergerByTag dmt = new DescriptorMergerByTag(ResinWebXmlType.getInstance());
+        DescriptorMergerByTag dmt = new DescriptorMergerByTag();
 
         // Default behaviours
         dmt.setDefaultStrategyIfNoneSpecified(DescriptorMergerByTag.OVERWRITE);

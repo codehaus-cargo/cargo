@@ -40,25 +40,16 @@ public class ContextParam extends WebXmlElement
     {
       super(tag);      
     }
-    
-    /**
-     * Constructor.
-     * 
-     */
-    public ContextParam()
-    {
-      this(getTagByName(WebXmlType.CONTEXT_PARAM));
-    }
-    
+        
     /**
      * Constructor.
      * 
      * @param name Name of the parameter
      * @param value Value for the parameter
      */
-    public ContextParam(String name, String value)
+    public ContextParam(WebXmlTag tag, String name, String value)
     {
-        this(getTagByName(WebXmlType.CONTEXT_PARAM));
+        this(tag);
         setParamName(name);
         setParamValue(value);
     }

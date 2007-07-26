@@ -44,6 +44,6 @@ public class Listener extends WebXmlElement
      */
     public String getListenerClass()
     {
-    	return this.getChildText("listener-class");
+    	return this.getChildText("listener-class", getTag().getTagNamespace());
     }
 }

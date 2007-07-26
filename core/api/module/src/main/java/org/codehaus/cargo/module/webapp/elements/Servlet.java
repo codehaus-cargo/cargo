@@ -40,21 +40,13 @@ public class Servlet extends WebXmlElement
 
     /**
      * Constructor.
-     */
-    public Servlet()
-    {
-        super(getTagByName(WebXmlType.SERVLET));
-    }
-
-    /**
-     * Constructor.
      * 
      * @param servletName name of the servlet
      * @param servletClass class of the servlet
      */
-    public Servlet(String servletName, String servletClass)
+    public Servlet(WebXmlTag tag, String servletName, String servletClass)
     {
-        super(getTagByName(WebXmlType.SERVLET));
+        super(tag);
         setServletName(servletName);
         setServletClass(servletClass);
     }

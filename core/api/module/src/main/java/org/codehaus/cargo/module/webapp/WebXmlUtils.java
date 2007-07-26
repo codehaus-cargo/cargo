@@ -162,13 +162,13 @@ public final class WebXmlUtils
         }
         String roleName = null;
         Servlet servlet = getServlet(webXml, theServletName);
-        List nodeList = servlet.getChildren(WebXmlType.RUN_AS);
+        List nodeList = servlet.getChildren(WebXmlType.RUN_AS, servlet.getNamespace());
         if (nodeList != null && nodeList.size() > 0)
         {
             Element e = (Element) nodeList.get(0);
             if (e != null)
             {
-                roleName = e.getChildText(WebXmlType.ROLE_NAME);
+                roleName = e.getChildText(WebXmlType.ROLE_NAME, e.getNamespace());
             }
         }
 
@@ -183,7 +183,8 @@ public final class WebXmlUtils
      */
     public static void addTagInitParam(WebXmlElement itemElement, String name, String value)
     {
-        InitParam init = new InitParam(name, value);
+        WebXmlTag tag = (WebXmlTag)itemElement.getTag().getDescriptorType().getTagByName("init-param");
+        InitParam init = new InitParam(tag, name, value);
         itemElement.getChildren().add(init);
     }
 
@@ -198,7 +199,7 @@ public final class WebXmlUtils
     {
         WebXmlElement element =
             (WebXmlElement) webXml.getTagByIdentifier(WebXmlType.FILTER, name);
-        List items = element.getChildren("init-param");
+        List items = element.getChildren("init-param", element.getTag().getTagNamespace());
         List result = new ArrayList(items.size());
         for (Iterator i = items.iterator(); i.hasNext();)
         {
@@ -245,8 +246,9 @@ public final class WebXmlUtils
      * @param servletClass The servlet class name
      */
     public static void addServlet(WebXml webXml, String servletName, String servletClass)
-    {
-        Servlet servlet = new Servlet(servletName, servletClass);
+    {      
+        WebXmlTag tag = (WebXmlTag)webXml.getDescriptorType().getTagByName("servlet");
+        Servlet servlet = new Servlet(tag, servletName, servletClass);
         webXml.addTag(servlet);
     }
 
@@ -291,11 +293,11 @@ public final class WebXmlUtils
         {
             Element servletElement = (Element) servletElements.next();
             Element thisElement =
-                servletElement.getChild(WebXmlType.JSP_FILE);
+                servletElement.getChild(WebXmlType.JSP_FILE, servletElement.getNamespace());
             if (thisElement != null && theJspFile.equals(thisElement.getText()))
             {
                 servletNames.add(servletElement.getChild(
-                    WebXmlType.SERVLET_NAME).getText());
+                    WebXmlType.SERVLET_NAME, servletElement.getNamespace()).getText());
 
             }
         }
@@ -340,10 +342,10 @@ public final class WebXmlUtils
         {
             Element servletMappingElement = (Element) servletMappingElements.next();
             if (theServletName.equals(servletMappingElement.getChild(
-                WebXmlType.SERVLET_NAME).getText()))
+                WebXmlType.SERVLET_NAME, servletMappingElement.getNamespace()).getText()))
             {
                 String urlPattern =
-                    servletMappingElement.getChild(WebXmlType.URL_PATTERN)
+                    servletMappingElement.getChild(WebXmlType.URL_PATTERN, servletMappingElement.getNamespace() )
                         .getText();
                 if (urlPattern != null)
                 {
@@ -380,17 +382,18 @@ public final class WebXmlUtils
     public static void addServletInitParam(WebXml webXml, String theServletName, String name,
         String value)
     {
+        WebXmlTag tag = (WebXmlTag)webXml.getDescriptorType().getTagByName("init-param");
         Servlet servletElement = getServlet(webXml, theServletName);
         if (servletElement == null)
         {
             throw new IllegalStateException("Servlet '" + theServletName + "' not defined");
         }
-        InitParam ip = new InitParam();
+        InitParam ip = new InitParam(tag);
         ip.setParamName(name);
         ip.setParamValue(value);
 
         Element loadOnStartupElements =
-            servletElement.getChild(WebXmlType.LOAD_ON_STARTUP);
+            servletElement.getChild(WebXmlType.LOAD_ON_STARTUP, servletElement.getNamespace());
 
         if (loadOnStartupElements != null)
         {
@@ -429,12 +432,12 @@ public final class WebXmlUtils
         if (theElement != null)
         {
             List initParamElements =
-                theElement.getChildren(WebXmlType.INIT_PARAM);
+                theElement.getChildren(WebXmlType.INIT_PARAM, theElement.getNamespace());
             for (int i = 0; i < initParamElements.size(); i++)
             {
                 Element initParamElement = (Element) initParamElements.get(i);
                 String paramName =
-                    initParamElement.getChildText(WebXmlType.PARAM_NAME);
+                    initParamElement.getChildText(WebXmlType.PARAM_NAME, theElement.getNamespace());
                 if (paramName != null)
                 {
                     initParamNames.add(paramName);
@@ -472,26 +475,26 @@ public final class WebXmlUtils
         }
 
         WebXmlElement securityConstraintElement =
-            (WebXmlElement) getWebXmlType().getTagByName(
+            (WebXmlElement) webXml.getDescriptorType().getTagByName(
                 WebXmlType.SECURITY_CONSTRAINT).create();
 
         Element webResourceCollectionElement =
-            getWebXmlType().getTagByName(WebXmlType.WEB_RESOURCE_COLLECTION).create();
+            webXml.getDescriptorType().getTagByName(WebXmlType.WEB_RESOURCE_COLLECTION).create();
 
-        webResourceCollectionElement.addContent(getWebXmlType().getTagByName(
+        webResourceCollectionElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.WEB_RESOURCE_NAME).create().setText(theWebResourceName));
 
-        webResourceCollectionElement.addContent(getWebXmlType().getTagByName(
+        webResourceCollectionElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.URL_PATTERN).create().setText(theUrlPattern));
 
         securityConstraintElement.addContent(webResourceCollectionElement);
         
-        Element authConstraintElement = getWebXmlType().getTagByName(
+        Element authConstraintElement = webXml.getDescriptorType().getTagByName(
             WebXmlType.AUTH_CONSTRAINT).create();
         
         for (Iterator i = theRoles.iterator(); i.hasNext();)
         {
-            authConstraintElement.addContent(getWebXmlType().getTagByName(
+            authConstraintElement.addContent(webXml.getDescriptorType().getTagByName(
                 WebXmlType.ROLE_NAME).create().setText(
                 (String) i.next()));
         }
@@ -524,13 +527,13 @@ public final class WebXmlUtils
         {
             throw new IllegalStateException("Servlet '" + theServletName + "' already defined");
         }
-        WebXmlElement servletElement = (WebXmlElement) getWebXmlType().getTagByName(
+        WebXmlElement servletElement = (WebXmlElement) webXml.getDescriptorType().getTagByName(
             WebXmlType.SERVLET).create();
 
-        servletElement.addContent(getWebXmlType().getTagByName(
+        servletElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.SERVLET_NAME).create().setText(theServletName));
 
-        servletElement.addContent(getWebXmlType().getTagByName(
+        servletElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.JSP_FILE).create().setText(theJspFile));
 
         webXml.addTag(servletElement);
@@ -586,16 +589,16 @@ public final class WebXmlUtils
             throw new NullPointerException();
         }
         DescriptorElement loginConfigElement =
-            (DescriptorElement) getWebXmlType().getTagByName(
+            (DescriptorElement) webXml.getDescriptorType().getTagByName(
                 WebXmlType.LOGIN_CONFIG).create();
-        loginConfigElement.addContent(getWebXmlType().getTagByName(
+        loginConfigElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.AUTH_METHOD).create().setText(theAuthMethod));
         
-        loginConfigElement.addContent(getWebXmlType().getTagByName(
+        loginConfigElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.REALM_NAME).create().setText(theRealmName));
 
         webXml.getRootElement().removeContent(
-            new org.jdom.filter.ElementFilter(getWebXmlType().LOGIN_CONFIG));
+            new org.jdom.filter.ElementFilter(WebXmlType.LOGIN_CONFIG));
         webXml.addTag(loginConfigElement);
 
     }
@@ -608,7 +611,8 @@ public final class WebXmlUtils
      */
     public static String getLoginConfigAuthMethod(WebXml webXml)
     {
-        return getLoginConfig(webXml).getChildText(WebXmlType.AUTH_METHOD);
+        DescriptorElement de =  (DescriptorElement)getLoginConfig(webXml);
+        return de.getChildText(WebXmlType.AUTH_METHOD, de.getNamespace() );
     }
 
     /**
@@ -632,14 +636,14 @@ public final class WebXmlUtils
                 (SecurityConstraint) securityConstraintElements.next();
             Iterator webResourceCollectionElements =
                 securityConstraintElement.getChildren(
-                    WebXmlType.WEB_RESOURCE_COLLECTION).iterator();
+                    WebXmlType.WEB_RESOURCE_COLLECTION, securityConstraintElement.getNamespace()).iterator();
             if (webResourceCollectionElements.hasNext())
             {
                 Element webResourceCollectionElement =
                     (Element) webResourceCollectionElements.next();
 
                 String url =
-                    webResourceCollectionElement.getChildText(WebXmlType.URL_PATTERN);
+                    webResourceCollectionElement.getChildText(WebXmlType.URL_PATTERN, securityConstraintElement.getNamespace());
 
                 if (theUrlPattern.equals(url))
                 {
@@ -676,7 +680,7 @@ public final class WebXmlUtils
         {
             Element securityRoleElement = (Element) securityRoleElements.next();
             Element securityRoleName =
-                securityRoleElement.getChild(WebXmlType.ROLE_NAME);
+                securityRoleElement.getChild(WebXmlType.ROLE_NAME, securityRoleElement.getNamespace());
 
             if (securityRoleName != null)
             {
@@ -703,9 +707,9 @@ public final class WebXmlUtils
             webXml.getTags(WebXmlType.SECURITY_ROLE).iterator();
         while (securityRoleElements.hasNext())
         {
-            Element securityRoleElement = (Element) securityRoleElements.next();
+            DescriptorElement securityRoleElement = (DescriptorElement) securityRoleElements.next();
             if (theRoleName.equals(securityRoleElement.getChildText(
-                WebXmlType.ROLE_NAME)))
+                WebXmlType.ROLE_NAME, securityRoleElement.getNamespace() )))
             {
                 return securityRoleElement;
             }
@@ -721,37 +725,37 @@ public final class WebXmlUtils
      */
     public static void addEjbRef(WebXml webXml, EjbRef ref) 
     {
-        DescriptorElement ejbRefElement = getWebXmlType().getTagByName(
+        DescriptorElement ejbRefElement = webXml.getDescriptorType().getTagByName(
             WebXmlType.EJB_LOCAL_REF).create();
 
         ejbRefElement.setAttribute("id", ref.getName().replace('/', '_'));
         ejbRefElement
-            .addContent(getWebXmlType().getTagByName(
+            .addContent(webXml.getDescriptorType().getTagByName(
                 WebXmlType.EJB_REF_NAME).create().setText(ref.getName()));
         ejbRefElement
-            .addContent(getWebXmlType().getTagByName(
+            .addContent(webXml.getDescriptorType().getTagByName(
                 WebXmlType.EJB_REF_TYPE).create().setText(ref.getType()));
         if (ref.isLocal())
         {
-            ejbRefElement.addContent(getWebXmlType().getTagByName(
+            ejbRefElement.addContent(webXml.getDescriptorType().getTagByName(
                 WebXmlType.LOCAL_HOME).create().setText(
                 ref.getEjbHomeInterface()));
-            ejbRefElement.addContent(getWebXmlType().getTagByName(
+            ejbRefElement.addContent(webXml.getDescriptorType().getTagByName(
                 WebXmlType.LOCAL).create().setText(
                 ref.getEjbInterface()));
         }
         else
         {
-            ejbRefElement.addContent(getWebXmlType().getTagByName(WebXmlType.HOME).create().setText(
+            ejbRefElement.addContent(webXml.getDescriptorType().getTagByName(WebXmlType.HOME).create().setText(
                 ref.getEjbHomeInterface()));
-            ejbRefElement.addContent(getWebXmlType().getTagByName(
+            ejbRefElement.addContent(webXml.getDescriptorType().getTagByName(
                 WebXmlType.REMOTE).create().setText(
                 ref.getEjbInterface()));
 
         }
         if (ref.getEjbName() != null)
         {
-            ejbRefElement.addContent(getWebXmlType().getTagByName(
+            ejbRefElement.addContent(webXml.getDescriptorType().getTagByName(
                 WebXmlType.EJB_LINK).create().setText(
                 ref.getEjbName()));
         }
@@ -787,10 +791,10 @@ public final class WebXmlUtils
         {
             throw new IllegalStateException("Security role '" + theRoleName + "' already defined");
         }
-        Element securityRoleElement = getWebXmlType().getTagByName(
+        Element securityRoleElement = webXml.getDescriptorType().getTagByName(
             WebXmlType.SECURITY_ROLE).create();
 
-        securityRoleElement.addContent(getWebXmlType().getTagByName(WebXmlType.ROLE_NAME).create()
+        securityRoleElement.addContent(webXml.getDescriptorType().getTagByName(WebXmlType.ROLE_NAME).create()
             .setText(theRoleName));
 
         webXml.getRootElement().addContent(securityRoleElement);
@@ -845,17 +849,17 @@ public final class WebXmlUtils
         {
             throw new IllegalStateException("Filter '" + filterName + "' not defined");
         }
-        Element filterMappingElement = getWebXmlType().getTagByName(
+        DescriptorElement filterMappingElement = webXml.getDescriptorType().getTagByName(
             WebXmlType.FILTER_MAPPING).create();
 
-        filterMappingElement.addContent(getWebXmlType().getTagByName(
+        filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.FILTER_NAME).create().setText(
             filterName));
-        filterMappingElement.addContent(getWebXmlType().getTagByName(
+        filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.URL_PATTERN).create().setText(
             urlPattern));
 
-        webXml.getRootElement().addContent(filterMappingElement);
+        webXml.addElement(filterMappingElement.getTag(), filterMappingElement, webXml.getRootElement() );
 
     }
 
@@ -883,15 +887,15 @@ public final class WebXmlUtils
         if (theElement != null)
         {
             List initParamElements =
-                theElement.getChildren(WebXmlType.INIT_PARAM);
+                theElement.getChildren(WebXmlType.INIT_PARAM, theElement.getNamespace());
             for (int i = 0; i < initParamElements.size(); i++)
             {
                 Element initParamElement = (Element) initParamElements.get(i);
                 String paramName =
-                    initParamElement.getChildText(WebXmlType.PARAM_NAME);
+                    initParamElement.getChildText(WebXmlType.PARAM_NAME, theElement.getNamespace());
                 if (theParamName.equals(paramName))
                 {
-                    return initParamElement.getChildText(WebXmlType.PARAM_VALUE);
+                    return initParamElement.getChildText(WebXmlType.PARAM_VALUE, theElement.getNamespace());
                 }
             }
         }
@@ -907,9 +911,9 @@ public final class WebXmlUtils
         String theRoleName) 
     {
         Element servlet = getServlet(webXml, theServletName);
-        Element runAsElement = getWebXmlType().getTagByName(WebXmlType.RUN_AS).create();
+        Element runAsElement = webXml.getDescriptorType().getTagByName(WebXmlType.RUN_AS).create();
 
-        runAsElement.addContent(getWebXmlType().getTagByName(
+        runAsElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.ROLE_NAME).create().setText(theRoleName));
 
         servlet.addContent(runAsElement);
@@ -928,18 +932,17 @@ public final class WebXmlUtils
         {
             throw new IllegalStateException("Servlet '" + theServletName + "' not defined");
         }
-        Element servletMappingElement = getWebXmlType().getTagByName(
+        DescriptorElement servletMappingElement = webXml.getDescriptorType().getTagByName(
             WebXmlType.SERVLET_MAPPING).create();
 
-        servletMappingElement.addContent(getWebXmlType().getTagByName(
+        servletMappingElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.SERVLET_NAME).create().setText(
             theServletName));
-        servletMappingElement.addContent(getWebXmlType().getTagByName(
+        servletMappingElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.URL_PATTERN).create().setText(
             theUrlPattern));
 
-        webXml.getRootElement().addContent(servletMappingElement);
-
+        webXml.addElement(servletMappingElement.getTag(), servletMappingElement, webXml.getRootElement() );        
     }
 
     /**
@@ -965,14 +968,5 @@ public final class WebXmlUtils
     public static void addFilter(WebXml webXml, Filter filter)
     {
         webXml.addTag(filter);
-    }
-
-    /**
-     * Get the web XML Type.
-     * @return WebXml static instance
-     */
-    private static WebXmlType getWebXmlType()
-    {
-        return WebXmlType.getInstance();
     }
 }

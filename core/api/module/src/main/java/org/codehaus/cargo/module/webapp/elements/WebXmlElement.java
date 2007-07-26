@@ -50,29 +50,17 @@ public class WebXmlElement extends DescriptorElement
     
         this.addContent(element.detach());
     }
-  
-  /**
-   * Get a tag from the web xml descriptor by name. Used for default tag
-   * implementations.
-   * 
-   * @param tagName The name of the tag
-   * @return Web XML Tag
-   */
-    protected static WebXmlTag getTagByName(String tagName)
-    {
-        return (WebXmlTag) WebXmlType.getInstance().getTagByName(tagName);
-    }
-  
+    
   /**
    * @param string Child name
    * @return child element
    */
     protected Element child(String string)
     {
-        Element child = this.getChild(string);
+        Element child = this.getChild(string, this.getNamespace());
         if (child == null)
         {
-            child = new Element(string);
+            child = new Element(string, this.getNamespace());
             this.getChildren().add(child);
         }
         return child;

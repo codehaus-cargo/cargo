@@ -43,7 +43,7 @@ public class FilterMapping extends WebXmlElement
      */
     public String getUrlPattern()
     {
-        Element e = getChild(WebXmlType.URL_PATTERN);
+        Element e = getChild(WebXmlType.URL_PATTERN, this.getNamespace());
         if (e == null)
         {
             return null;
@@ -57,7 +57,7 @@ public class FilterMapping extends WebXmlElement
      */
     public void setUrlPattern(String urlPattern)
     {
-        Element e = getChild(WebXmlType.URL_PATTERN);
+        Element e = getChild(WebXmlType.URL_PATTERN, this.getNamespace());
         e.setText(urlPattern);
     }
 
@@ -67,7 +67,7 @@ public class FilterMapping extends WebXmlElement
      */
     public String getFilterName()
     {
-        Element e = getChild(WebXmlType.FILTER_NAME);
+        Element e = getChild(WebXmlType.FILTER_NAME, this.getNamespace());
         return e.getText();
     }
 
@@ -77,7 +77,7 @@ public class FilterMapping extends WebXmlElement
      */
     public void setFilterName(String filterName)
     {
-        Element e = getChild(WebXmlType.FILTER_NAME);
+        Element e = getChild(WebXmlType.FILTER_NAME, this.getNamespace());
         e.setText(filterName);
     }
 }

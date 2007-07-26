@@ -23,6 +23,8 @@
 package org.codehaus.cargo.module.webapp;
 
 import org.jdom.DocType;
+import org.jdom.Element;
+import org.jdom.Namespace;
 
 /**
  * Enumerated type that represents the version of the web deployment descriptor.
@@ -45,6 +47,8 @@ public final class WebXmlVersion implements Comparable
         "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN",
         "http://java.sun.com/dtd/web-app_2_3.dtd");
 
+    public static final WebXmlVersion V2_4 = new WebXmlVersion("2.4", "http://java.sun.com/xml/ns/j2ee");
+    
     /**
      * The system ID of the corresponding document type.
      */
@@ -61,11 +65,16 @@ public final class WebXmlVersion implements Comparable
     private String publicId;
 
     /**
+     * The namespace for tags.
+     */
+    private Namespace namespace;
+    
+    /**
      * Constructor.
      *
      * @param theVersion The version as string
-     * @param thePublicId The public ID of the correspondig document type
-     * @param theSystemId The system ID of the correspondig document type
+     * @param thePublicId The public ID of the corresponding document type
+     * @param theSystemId The system ID of the corresponding document type
      */
     private WebXmlVersion(String theVersion, String thePublicId, String theSystemId)
     {
@@ -75,25 +84,33 @@ public final class WebXmlVersion implements Comparable
     }
 
     /**
+     * Constructor.
+     *
+     * @param theVersion The version as string
+     * @param namespaceUri The uri of the namespace
+     */
+    private WebXmlVersion(String theVersion, String namespaceUri)
+    {
+        this.version = theVersion;
+        this.namespace = Namespace.getNamespace(namespaceUri);
+    }
+    
+    /**
      * {@inheritDoc}
      * @see java.lang.Comparable#compareTo
      */
     public int compareTo(Object other)
     {
-        int result = 1;
-        if (other == this)
+        
+        if (other == this || !(other instanceof WebXmlVersion) )
         {
-            result = 0;
+            return 0;
         }
-        else
-        {
-            WebXmlVersion otherVersion = (WebXmlVersion) other;
-            if (otherVersion == V2_3)
-            {
-                result = -1;
-            }
-        }
-        return result;
+        
+        float thisVersion = Float.parseFloat(this.version);
+        float thatVersion = Float.parseFloat( ((WebXmlVersion)other).version);
+
+        return Float.compare(thisVersion, thatVersion);                
     }
 
     /**
@@ -150,6 +167,14 @@ public final class WebXmlVersion implements Comparable
         return valueOf(theDocType.getPublicID());
     }
 
+    public static WebXmlVersion valueOf(Element rootElement) 
+    {      
+      String value = rootElement.getAttributeValue("version");
+      if( "2.4".equals(value) )
+        return WebXmlVersion.V2_4;
+      
+      return null;
+    }
     /**
      * Returns the version corresponding to the given public ID.
      *
@@ -170,6 +195,15 @@ public final class WebXmlVersion implements Comparable
             version = WebXmlVersion.V2_3;
         }
         return version;
+    }
+
+    /**
+     * Return the namespace of this web xml file, or null if none.
+     * @return namespace
+     */
+    public Namespace getNamespace()
+    {
+      return this.namespace;
     }
 
 }

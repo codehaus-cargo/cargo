@@ -19,7 +19,12 @@
  */
 package org.codehaus.cargo.module;
 
+import java.util.Iterator;
+import java.util.Map;
+
+import org.codehaus.cargo.util.CargoException;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.xpath.XPath;
 
 /**
@@ -32,16 +37,48 @@ public class Identifier
     /**
      * String XPath of how to navigate to the identifier field.
      */
-    private String xpath;
+    private XPath xpath;
 
     /**
      * Constructor.
      * 
      * @param xpath XPath to use to identify field
+     * @throws JDOMException 
      */
-    public Identifier(String xpath)
+    public Identifier(String xpath) 
     {
-        this.xpath = xpath;
+      try
+      {
+        this.xpath = XPath.newInstance(xpath);
+      }
+      catch(JDOMException ex)
+      {
+        throw new CargoException("Unexpected xpath error", ex);
+      }
+    
+    }
+
+    /**
+     * @param namespaceMap
+     * @param string
+     * @throws JDOMException 
+     */
+    public Identifier(Map namespaceMap, String xpath)
+    {
+        try
+        {
+          this.xpath = XPath.newInstance(xpath);
+          for(Iterator i = namespaceMap.keySet().iterator();i.hasNext();)
+          {
+            String ns = (String)i.next();
+            String uri = (String)namespaceMap.get(ns);
+            this.xpath.addNamespace(ns, uri);
+          }
+        }
+        catch(JDOMException ex)
+        {
+          throw new CargoException("Unexpected xpath error", ex);
+        }
     }
 
     /**
@@ -53,8 +90,8 @@ public class Identifier
     public String getIdentifier(Element element)
     {
         try
-        {
-            Element e = (Element) XPath.newInstance(xpath).selectSingleNode(element);
+        {                   
+            Element e = (Element) xpath.selectSingleNode(element);
 
             return e.getText();
         }

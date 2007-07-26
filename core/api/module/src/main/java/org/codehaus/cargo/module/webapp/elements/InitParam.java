@@ -41,22 +41,14 @@ public class InitParam extends WebXmlElement
     }        
     
     /**
-     * Constructor.    
-     */
-    public InitParam()
-    {
-      this(getTagByName(WebXmlType.INIT_PARAM));
-    }
-
-    /**
      * Constructor.
      * 
      * @param name param name
      * @param value param value
      */
-    public InitParam(String name, String value)
+    public InitParam(WebXmlTag tag, String name, String value)
     {
-        this(getTagByName(WebXmlType.INIT_PARAM));
+        this(tag);
         setParamName(name);
         setParamValue(value);
     }
@@ -66,7 +58,7 @@ public class InitParam extends WebXmlElement
      */
     public String getParamName()
     {
-        return getChild("param-name").getText();
+        return getChild("param-name", getTag().getTagNamespace()).getText();
     }
     
     /**
@@ -75,7 +67,7 @@ public class InitParam extends WebXmlElement
      */
     public String getParamValue()
     {
-        return getChild("param-value").getText();
+        return getChild("param-value", getTag().getTagNamespace()).getText();
     }
     
     /**

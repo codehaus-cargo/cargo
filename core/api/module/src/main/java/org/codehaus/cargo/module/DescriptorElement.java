@@ -40,7 +40,7 @@ public class DescriptorElement extends Element
      */
     public DescriptorElement(DescriptorTag tag)
     {
-        super(tag.getTagName());
+        super(tag.getTagName(), tag.getTagNamespace());
         this.tag = tag;
     }
 

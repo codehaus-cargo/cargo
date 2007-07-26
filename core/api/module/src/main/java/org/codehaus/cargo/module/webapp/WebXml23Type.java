@@ -40,7 +40,8 @@ public class WebXml23Type extends WebXmlType
      */
     protected WebXml23Type()
     {
-        super(WebXmlType.getInstance(), new Dtd("http://java.sun.com/dtd/web-app_2_3.dtd"));
+        // We don't have an XSD grammar orderer yet so use 2.3 for now 
+        super(WebXml22Type.getInstance(), new Dtd("http://java.sun.com/dtd/web-app_2_3.dtd"));
         setDescriptorIo(new WebXmlIo(this));
     }
     /**
@@ -52,5 +53,11 @@ public class WebXml23Type extends WebXmlType
         return instance;
     }
   
- 
+    /** 
+     * {@inheritDoc}
+     */
+    public WebXmlVersion getVersion()
+    {
+        return WebXmlVersion.V2_3;
+    }
 };

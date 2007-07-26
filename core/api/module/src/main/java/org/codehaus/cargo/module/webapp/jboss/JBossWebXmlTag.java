@@ -55,7 +55,7 @@ public final class JBossWebXmlTag extends DescriptorTag
      */
     protected JBossWebXmlTag(DescriptorType type, String tagName, boolean isMultipleAllowed)
     {
-        super(type, tagName, isMultipleAllowed, null, null);
+        super(type, tagName, null, isMultipleAllowed, null, null);
     }
 
     /**

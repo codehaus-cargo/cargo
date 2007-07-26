@@ -29,6 +29,7 @@ import java.util.List;
 import org.jdom.Comment;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.Namespace;
 
 /**
  * Encapsulates the DOM representation of a deployment descriptor to provide convenience methods for
@@ -42,7 +43,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      * Grammar of the descriptor.
      */
     private DescriptorType descriptorType;
-
+    
     /**
      * Constructor.
      * 
@@ -67,8 +68,8 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
     public Document getDocument()
     {
         return this;
-    }
-    
+    }    
+            
     /**
      * Get tags of a particular type.
      * 
@@ -77,7 +78,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      */
     public List getTags(DescriptorTag tag)
     {
-        return getRootElement().getChildren(tag.getTagName());
+        return getRootElement().getChildren(tag.getTagName(), tag.getTagNamespace());
     }
 
     /**
@@ -140,7 +141,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
             throw new IllegalArgumentException("Cannot pass null values to getChildElements");
         }
         
-        items.addAll(element.getChildren(tag.getTagName()));
+        items.addAll(element.getChildren(tag.getTagName(), tag.getTagNamespace()));
         for (Iterator i = element.getChildren().iterator(); i.hasNext();)
         {
             Element e2 = (Element) i.next();
@@ -177,7 +178,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
     protected Iterator getNestedElements(Element parent, DescriptorTag tag)
     {
         List elements = new ArrayList();
-        List nodeList = parent.getChildren(tag.getTagName());
+        List nodeList = parent.getChildren(tag.getTagName(), tag.getTagNamespace());
         for (int i = 0; i < nodeList.size(); i++)
         {
             elements.add(nodeList.get(i));
@@ -194,7 +195,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      */
     protected Element createNestedText(DescriptorTag tag, String text)
     {
-        Element element = new Element(tag.getTagName());
+        Element element = new Element(tag.getTagName(), tag.getTagNamespace());
         element.setText(text);
 
         return element;
@@ -210,7 +211,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
     protected String getNestedText(Element parent, DescriptorTag tag)
     {
         String text = null;
-        List nestedElements = parent.getChildren(tag.getTagName());
+        List nestedElements = parent.getChildren(tag.getTagName(), tag.getTagNamespace());
         if (nestedElements.size() > 0)
         {
             text = getText((Element) nestedElements.get(0));
@@ -355,9 +356,10 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
             {
                 for (int j = i + 1; j < elementOrder.size(); j++)
                 {
+                  DescriptorTag theTag = (DescriptorTag) elementOrder.get(j);
                     List elements =
                         getRootElement().getChildren(
-                            (((DescriptorTag) elementOrder.get(j)).getTagName()));
+                            theTag.getTagName(), theTag.getTagNamespace() );
                     if (elements.size() > 0)
                     {
                         Element result = (Element) elements.get(0);

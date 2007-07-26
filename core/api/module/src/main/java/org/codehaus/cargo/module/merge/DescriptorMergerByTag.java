@@ -134,9 +134,8 @@ public class DescriptorMergerByTag implements DescriptorMerger
      * Constructor.
      * @param descriptorType The type of the descriptor for merging
      */
-    public DescriptorMergerByTag(DescriptorType descriptorType)
+    public DescriptorMergerByTag()
     {
-        this.descriptorTagFactory = descriptorType;
         this.mapDescriptorTagToStrategy = new HashMap();
     }
 
@@ -145,7 +144,7 @@ public class DescriptorMergerByTag implements DescriptorMerger
      * @param tag Tag to set
      * @param strategy Strategy to use
      */
-    public void setStrategy(DescriptorTag tag, MergeStrategy strategy)
+    public void setStrategy(String tag, MergeStrategy strategy)
     {
         this.mapDescriptorTagToStrategy.put(tag, strategy);
     }
@@ -166,6 +165,7 @@ public class DescriptorMergerByTag implements DescriptorMerger
      */
     public void merge(Descriptor other)
     {
+
         for (Iterator i = descriptorTagFactory.getAllTags().iterator(); i.hasNext();)
         {
             DescriptorTag tag = (DescriptorTag) i.next();
@@ -173,7 +173,7 @@ public class DescriptorMergerByTag implements DescriptorMerger
             Identifier identifier = tag.getIdentifier();
             if (identifier != null)
             {
-                MergeStrategy strategy = getMergeStrategy(tag);
+                MergeStrategy strategy = getMergeStrategy(tag.getTagName());
 
                 Descriptor left = baseDescriptor;
                 Descriptor right = other;
@@ -226,7 +226,7 @@ public class DescriptorMergerByTag implements DescriptorMerger
      * @param tag tag to get the merge strategy for
      * @return the merge strategy
      */
-    protected MergeStrategy getMergeStrategy(DescriptorTag tag)
+    protected MergeStrategy getMergeStrategy(String tag)
     {
         MergeStrategy strategy = (MergeStrategy) mapDescriptorTagToStrategy.get(tag);
         if (strategy == null)
@@ -250,6 +250,22 @@ public class DescriptorMergerByTag implements DescriptorMerger
     public void setDefaultStrategyIfNoneSpecified(MergeStrategy defaultStrategyIfNoneSpecified)
     {
         this.defaultStrategyIfNoneSpecified = defaultStrategyIfNoneSpecified;
+    }
+
+    /**
+     * @return the descriptorTagFactory
+     */
+    public DescriptorType getDescriptorType()
+    {
+      return this.descriptorTagFactory;
+    }
+
+    /**
+     * @param descriptorTagFactory the descriptorTagFactory to set
+     */
+    public void setDescriptorType(DescriptorType descriptorTagFactory)
+    {
+      this.descriptorTagFactory = descriptorTagFactory;
     }
 
 }

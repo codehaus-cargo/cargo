@@ -76,4 +76,11 @@ public interface Descriptor extends org.jdom.Parent
      * @return list of tags
      */
     List getTags(DescriptorTag tag);
+    
+    /**
+     * Get the descriptor type for this descriptor.
+     * @return descriptor type.
+     */
+    public DescriptorType getDescriptorType();
+    
 }

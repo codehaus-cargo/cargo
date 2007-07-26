@@ -29,6 +29,7 @@ import org.jdom.DefaultJDOMFactory;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMFactory;
+import org.jdom.Namespace;
 
 /**
  * @version $Id: $
@@ -172,7 +173,33 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
 
         return super.element(arg0);
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
+    public Element element(String name, Namespace namespace) 
+    {
+        DescriptorTag tag = (DescriptorTag) getTagByName(name);
+        if (tag != null)
+        {
+            try
+            {
+                DescriptorElement element = tag.create();
+//                if( element.getNamespace() == null && getTagNamespace() != null )
+//                {
+//                  element.setNamespace(getTagNamespace());
+//                }
+                return element;
+                
+            }
+            catch (Exception ex)
+            {
+                //
+            }          
+        }
+        return super.element(name, namespace);
+    }
+    
     /** 
      * Create a JDOM Document. 
      * @param rootElement the root element for the document

@@ -25,6 +25,7 @@ package org.codehaus.cargo.module;
 import java.lang.reflect.Constructor;
 
 import org.codehaus.cargo.util.CargoException;
+import org.jdom.Namespace;
 
 /**
  * Represents the various top-level tags in a deployment descriptor as a typesafe enumeration.
@@ -43,6 +44,11 @@ public class DescriptorTag
      */
     private String tagName;
 
+    /**
+     * The tag namespace.
+     */
+    private Namespace tagNamespace;
+    
     /**
      * Whether multiple occurrences of the tag in the descriptor are allowed.
      */
@@ -67,11 +73,12 @@ public class DescriptorTag
      * @param identifier optional tag identifier
      * @param clazz implementation class for this tag
      */
-    public DescriptorTag(DescriptorType descriptorType, String tagName,
+    public DescriptorTag(DescriptorType descriptorType, String tagName, Namespace namespace,
         boolean isMultipleAllowed, Identifier identifier, Class clazz)
     {
         this.descriptorType = descriptorType;
         this.tagName = tagName;
+        this.tagNamespace = namespace;
         this.multipleAllowed = isMultipleAllowed;      
         this.identifier = identifier;
         this.implementationClass = clazz;    
@@ -90,7 +97,7 @@ public class DescriptorTag
      */
     public DescriptorTag(DescriptorType descriptorType, String tagName, boolean isMultipleAllowed)
     {
-        this(descriptorType, tagName, isMultipleAllowed, null, null);
+        this(descriptorType, tagName, null, isMultipleAllowed, null, null);
     }
 
     /**
@@ -130,6 +137,15 @@ public class DescriptorTag
     }
 
     /**
+     * Get tag namespace.
+     * @return the namespace this tag is in.
+     */
+    public Namespace getTagNamespace()
+    {
+        return this.tagNamespace;
+    }
+    
+    /**
      * {@inheritDoc}
      * @see DescriptorTag#isMultipleAllowed()
      */
@@ -152,6 +168,15 @@ public class DescriptorTag
     public Class getImplementationClass()
     {
         return this.implementationClass;
+    }
+    
+    /**
+     * Return the descriptor type that this tag is defined in.
+     * @return descriptor type
+     */
+    public DescriptorType getDescriptorType()
+    {
+       return this.descriptorType;
     }
     
     /**

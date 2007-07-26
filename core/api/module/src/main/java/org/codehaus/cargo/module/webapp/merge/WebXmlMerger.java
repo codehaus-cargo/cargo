@@ -48,23 +48,27 @@ public class WebXmlMerger  extends XmlMerger
     private WebXml webXml;
         
     /**
+     * Our merger.
+     */
+    private DescriptorMergerByTag descriptorMergerByTag;
+    /**
      * Constructor.
      */
     public WebXmlMerger()
     {        
-        DescriptorMergerByTag dmt = new DescriptorMergerByTag(WebXmlType.getInstance());
+        descriptorMergerByTag = new DescriptorMergerByTag();
 
         // Default behaviours
-        dmt.setStrategy(WebXmlType.getInstance().getTagByName(
-            WebXmlType.LOGIN_CONFIG), DescriptorMergerByTag.OVERWRITE);
-        dmt.setStrategy(WebXmlType.getInstance().getTagByName(
-            WebXmlType.FILTER), DescriptorMergerByTag.IGNORE);
-        dmt.setStrategy(WebXmlType.getInstance().getTagByName(
-            WebXmlType.FILTER_MAPPING), DescriptorMergerByTag.IGNORE);
-        dmt.setStrategy(WebXmlType.getInstance().getTagByName(
-            WebXmlType.SERVLET), DescriptorMergerByTag.IGNORE);
+        descriptorMergerByTag.setStrategy(
+            WebXmlType.LOGIN_CONFIG, DescriptorMergerByTag.OVERWRITE);
+        descriptorMergerByTag.setStrategy(
+            WebXmlType.FILTER, DescriptorMergerByTag.IGNORE);
+        descriptorMergerByTag.setStrategy(
+            WebXmlType.FILTER_MAPPING, DescriptorMergerByTag.IGNORE);
+        descriptorMergerByTag.setStrategy(
+            WebXmlType.SERVLET, DescriptorMergerByTag.IGNORE);
       
-        addMerger(dmt);
+        addMerger(descriptorMergerByTag);
     }
 
     /**
@@ -84,7 +88,7 @@ public class WebXmlMerger  extends XmlMerger
     public void init(Descriptor base)
     {
         this.webXml = (WebXml) base;     
-      
+        descriptorMergerByTag.setDescriptorType(base.getDescriptorType());
         super.init(base);
     }
     

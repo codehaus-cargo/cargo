@@ -22,17 +22,29 @@
  */
 package org.codehaus.cargo.module.webapp;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.codehaus.cargo.module.AbstractDescriptorIo;
 import org.codehaus.cargo.module.DescriptorType;
+import org.codehaus.cargo.util.CargoException;
 import org.jdom.JDOMException;
+import org.saxpath.SAXPathEventSource;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
+import org.xml.sax.Parser;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Provides convenience methods for reading and writing web deployment descriptors.
@@ -41,6 +53,7 @@ import org.xml.sax.SAXException;
  */
 public final class WebXmlIo extends AbstractDescriptorIo
 {
+    
     /**
      * Constructor.
      * @param type descriptor type 
@@ -152,8 +165,15 @@ public final class WebXmlIo extends AbstractDescriptorIo
         EntityResolver theEntityResolver)
         throws IOException, JDOMException
     {
-        return (WebXml) WebXml23Type.getInstance().getDescriptorIo().parseXml(
-            theInput, theEntityResolver);        
+        // When we are passed an InputStream, we don't know if this is a 2.2, 2.3 or 2.4 stream. We
+        // need to create using the correct type, so we need to 'pre-read' te stream to work out
+        // which one it is.
+      
+                   
+        WebXmlTypeAwareParser handler = new WebXmlTypeAwareParser(theInput, theEntityResolver);
+        return handler.parse();
+        
+        
     }
     
     
