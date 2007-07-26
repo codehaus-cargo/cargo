@@ -43,18 +43,33 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class WebXmlTypeAwareParser extends DefaultHandler 
 {
+  /**
+   * The version that we think the XML data is.
+   */
     protected WebXmlVersion version;
     
+    /**
+     * Buffered Input Stream for sniffing versions and parsing data.
+     */
     BufferedInputStream bufferedStream;
     
+    /**
+     * Entity resolver. 
+     */
     EntityResolver      theEntityResolver;
     
+    /**
+     * Generated web xml.
+     */
     WebXml              webXml;
     
     /**
-     * @param theInput
-     * @param theEntityResolver 
-     * @throws IOException 
+     * Constructor. Make a Web XML parser which will generate a web xml of the correct
+     * type, by examining the stream.
+     * 
+     * @param theInput stream to read from
+     * @param theEntityResolver entity resolver to use 
+     * @throws IOException if there is a problem reading the stream
      */
     public WebXmlTypeAwareParser(InputStream theInput, EntityResolver theEntityResolver)
     {
@@ -62,6 +77,12 @@ public class WebXmlTypeAwareParser extends DefaultHandler
       this.theEntityResolver = theEntityResolver;
     }
     
+    /**
+     * Perform the parsing of the passed stream, and return a Web XML from the contents.
+     * @return WebXml
+     * @throws IOException if there is a problem reading the stream
+     * @throws JDOMException if there is an XML problem
+     */
     public WebXml parse() throws IOException, JDOMException
     {
       bufferedStream.mark(1024*1024);
@@ -76,13 +97,13 @@ public class WebXmlTypeAwareParser extends DefaultHandler
       
       while( (line = reader.readLine()) != null && this.version == null )
       {
-        if( line.contains(WebXmlVersion.V2_2.getPublicId()) )
+        if( line.indexOf(WebXmlVersion.V2_2.getPublicId()) != -1 )
           version = WebXmlVersion.V2_2;
         
-        if( line.contains(WebXmlVersion.V2_3.getPublicId()) )
+        if( line.indexOf(WebXmlVersion.V2_3.getPublicId()) != -1 )
           version = WebXmlVersion.V2_3;
         
-        if( line.contains("<web-app") )
+        if( line.indexOf("<web-app") != -1 )
           break;
       }
       
@@ -115,6 +136,12 @@ public class WebXmlTypeAwareParser extends DefaultHandler
       return this.webXml;      
     }
 
+    /**
+     * Generate the web xml once we know the type to use.
+     * 
+     * @throws IOException if there is an IO error
+     * @throws JDOMException if there is an XML error
+     */
     private void generateWebXml() throws IOException, JDOMException
     {
       bufferedStream.reset();      
@@ -135,29 +162,38 @@ public class WebXmlTypeAwareParser extends DefaultHandler
           bufferedStream, theEntityResolver);        
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public void notationDecl(String namespaceURI, String sName, String qName) throws SAXException
     {
-      System.out.println(namespaceURI);
 
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public void unparsedEntityDecl(java.lang.String arg0, java.lang.String arg1, java.lang.String arg2, java.lang.String arg3) throws org.xml.sax.SAXException
-    {
-      System.out.println(arg0);
+    {      
       
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public void startElement(String namespaceURI, String sName, String qName, Attributes attrs)
         throws org.xml.sax.SAXException
     {
       try
       {
-      
-        if( "2.4".equals( attrs.getValue("version") ) )
+        String xmlNs = attrs.getValue("xmlns");
+        String version =  attrs.getValue("version");
+        if( WebXmlVersion.V2_4.getNamespace().getURI().equals( xmlNs) )
         {
-          version = WebXmlVersion.V2_4;
+          // We are at a minimum a V2.4
+          this.version = WebXmlVersion.V2_4;
         }
-        
+                
         generateWebXml();
       }
       catch(Exception ex)
@@ -170,12 +206,12 @@ public class WebXmlTypeAwareParser extends DefaultHandler
     
     
     /**
-     * @return the version
+     * Get the version that was determined.
+     * @return the version.
      */
     public WebXmlVersion getVersion()
     {
       return this.version;
     }
-
     
 }

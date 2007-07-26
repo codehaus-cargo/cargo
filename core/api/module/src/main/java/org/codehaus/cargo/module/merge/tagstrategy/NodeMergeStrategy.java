@@ -28,9 +28,11 @@ import java.util.regex.Pattern;
 import org.codehaus.cargo.module.Descriptor;
 import org.codehaus.cargo.module.DescriptorElement;
 import org.codehaus.cargo.module.DescriptorType;
+import org.codehaus.cargo.module.webapp.WebXmlType;
 import org.jdom.Content;
 import org.jdom.Element;
 import org.jdom.JDOMException;
+import org.jdom.Namespace;
 import org.jdom.Text;
 import org.jdom.xpath.XPath;
 
@@ -51,14 +53,14 @@ public class NodeMergeStrategy implements MergeStrategy
      * 
      * @param template in the template to use in the merge
      */
-    public NodeMergeStrategy(Element template)
+    public NodeMergeStrategy(DescriptorType type, Element template)
     {
         if (template == null)
         {
             throw new IllegalArgumentException("Template must not be null");
         }
-        this.template = template;
-    }
+        this.template = template;        
+    }    
 
     /**
      * Constructor.
@@ -71,7 +73,7 @@ public class NodeMergeStrategy implements MergeStrategy
     public NodeMergeStrategy(DescriptorType type, InputStream stream) throws 
         IOException, JDOMException
     {
-        this.template = type.getDescriptorIo().parseXml(stream).getRootElement();
+        this.template = type.getDescriptorIo().parseXml(stream).getRootElement();                 
     }
 
     /**

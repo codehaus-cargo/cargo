@@ -59,7 +59,7 @@ public class ContextParam extends WebXmlElement
      */
     public String getParamName()
     {
-        return getChild("param-name").getText();
+        return getChild("param-name", getTag().getTagNamespace()).getText();
     }
     
     /**
@@ -67,7 +67,7 @@ public class ContextParam extends WebXmlElement
      */
     public String getParamValue()
     {
-        return getChild("param-value").getText();
+        return getChild("param-value", getTag().getTagNamespace()).getText();
     }
     
     /**
