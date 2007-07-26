@@ -20,6 +20,7 @@
 package org.codehaus.cargo.maven2.merge;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 
 import org.codehaus.cargo.maven2.Merge;
 import org.codehaus.cargo.module.Descriptor;
@@ -28,6 +29,8 @@ import org.codehaus.cargo.module.merge.MergeProcessor;
 import org.codehaus.cargo.module.merge.tagstrategy.ChooseByNameMergeStrategy;
 import org.codehaus.cargo.module.merge.tagstrategy.MergeStrategy;
 import org.codehaus.cargo.module.merge.tagstrategy.NodeMergeStrategy;
+import org.codehaus.cargo.module.webapp.WebXml;
+import org.codehaus.cargo.module.webapp.WebXmlIo;
 import org.codehaus.cargo.module.webapp.WebXmlType;
 import org.codehaus.cargo.module.webapp.merge.WarArchiveMerger;
 import org.codehaus.cargo.module.webapp.merge.WebXmlMerger;
@@ -70,7 +73,7 @@ public class MergeWebXml implements MergeProcessorFactory
         Xpp3Dom strategy = tag.getChild("strategy");
         MergeStrategy ms = makeStrategy(strategy);
         
-        dmt.setStrategy(WebXmlType.getInstance().getTagByName(tagName), ms);
+        dmt.setStrategy(tagName, ms);
       }
     }
     return null;
@@ -118,7 +121,8 @@ public class MergeWebXml implements MergeProcessorFactory
 
           try
           {
-              return new NodeMergeStrategy(WebXmlType.getInstance(), new ByteArrayInputStream(theXml.getBytes()));
+              WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(theXml.getBytes()), null);
+              return new NodeMergeStrategy( webXml.getRootElement() );
           }
           catch (Exception e)
           {
