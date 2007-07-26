@@ -20,6 +20,7 @@
 package org.codehaus.cargo.maven2.merge;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 
 import org.codehaus.cargo.maven2.Merge;
@@ -46,7 +47,12 @@ public class MergeWebXml implements MergeProcessorFactory
 {
   WebXmlMerger webXmlMerger;
   Descriptor firstItem = null;
+  File configDirectory;
   
+  public MergeWebXml(File configDirectory)
+  {
+    this.configDirectory = configDirectory;
+  }
   
   /* (non-Javadoc)
    * @see org.codehaus.cargo.maven2.merge.MergeType#init(org.codehaus.cargo.maven2.Merge)
@@ -89,7 +95,8 @@ public class MergeWebXml implements MergeProcessorFactory
       }
 
       String strategyName = config.getAttribute("name");
-
+      String strategyFile = config.getAttribute("file");
+      
       if( strategyName.equalsIgnoreCase("Preserve"))
       {
           return DescriptorMergerByTag.PRESERVE;
@@ -117,20 +124,46 @@ public class MergeWebXml implements MergeProcessorFactory
       }
       if( strategyName.equalsIgnoreCase("NodeMerge"))
       {
-          String theXml = config.getChild(0).toString();
+         
 
           try
           {
-              WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(theXml.getBytes()), null);
-              return new NodeMergeStrategy( webXml.getRootElement() );
+              if( strategyFile != null )
+              {
+                File f = new File(getConfigDirectory(), strategyFile);
+                WebXml webXml = WebXmlIo.parseWebXml(new FileInputStream(f), null);
+                return new NodeMergeStrategy( webXml.getDescriptorType(), webXml.getRootElement() );
+              }
+              else
+              {
+                String theXml = config.getChild(0).toString();
+                WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(theXml.getBytes()), null);
+                return new NodeMergeStrategy( webXml.getDescriptorType(), webXml.getRootElement() );
+              }
           }
           catch (Exception e)
           {
-              throw new CargoException("Problem generating Node Merge strategy");
+              throw new CargoException("Problem generating Node Merge strategy", e);
           }
       }
 
       throw new CargoException("Must provide a known strategy type (don't understand " + strategyName + ")");
+  }
+
+  /**
+   * @return the configDirectory
+   */
+  public File getConfigDirectory()
+  {
+    return this.configDirectory;
+  }
+
+  /**
+   * @param configDirectory the configDirectory to set
+   */
+  public void setConfigDirectory(File configDirectory)
+  {
+    this.configDirectory = configDirectory;
   }
      
 }

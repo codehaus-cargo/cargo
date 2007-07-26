@@ -107,6 +107,11 @@ public class UberWarMojo extends AbstractUberWarMojo
      */
     private PlexusConfiguration settings;
 
+    protected File getConfigDirectory()
+    {
+      return descriptor.getParentFile();
+    }
+    
     /**
      * Executes the UberWarMojo on the current project.
      *
@@ -216,7 +221,7 @@ public class UberWarMojo extends AbstractUberWarMojo
             {
               if( type.equalsIgnoreCase("web.xml") )
               {                
-                merger = new MergeWebXml().create(wam, merge); ;                
+                merger = new MergeWebXml(getConfigDirectory()).create(wam, merge); ;                
               }                
               else if( type.equalsIgnoreCase("xslt") )
               {                
