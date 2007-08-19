@@ -19,10 +19,12 @@
  */
 package org.codehaus.cargo.util.log;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,9 +40,9 @@ import org.codehaus.cargo.util.internal.log.AbstractLogger;
 public class FileLogger extends AbstractLogger
 {
     /**
-     * The file to log to.
+     * The OutputStream to log to.
      */
-    private FileOutputStream output;
+    private OutputStream output;
 
     /**
      * Date format used when logging to the file.
@@ -55,7 +57,8 @@ public class FileLogger extends AbstractLogger
     {
         try
         {
-            this.output = new FileOutputStream(file, append);
+            FileOutputStream fileOutputStream = new FileOutputStream(file, append);
+            this.output = new BufferedOutputStream(fileOutputStream);
         }
         catch (FileNotFoundException e)
         {
