@@ -19,19 +19,21 @@
  */
 package org.codehaus.cargo.container.installer;
 
-import org.apache.tools.ant.taskdefs.Expand;
-import org.apache.tools.ant.taskdefs.Get;
-import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.util.log.LoggedObject;
-import org.codehaus.cargo.util.AntUtils;
-import org.codehaus.cargo.util.AntTaskFactory;
-import org.codehaus.cargo.util.DefaultFileHandler;
-import org.codehaus.cargo.util.FileHandler;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.net.URL;
+
+import org.apache.tools.ant.taskdefs.Expand;
+import org.apache.tools.ant.taskdefs.Get;
+import org.apache.tools.ant.taskdefs.Untar;
+import org.apache.tools.ant.taskdefs.Untar.UntarCompressionMethod;
+import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.util.AntTaskFactory;
+import org.codehaus.cargo.util.AntUtils;
+import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
+import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
  * Installs a zipped container file from a URL to a location on your local disk.
@@ -40,6 +42,14 @@ import java.net.URL;
  */
 public class ZipURLInstaller extends LoggedObject implements Installer
 {
+    //archive types supported
+    private static final String[] ARCHIVE_ENDINGS = {
+        ".zip",
+        ".tgz",
+        ".tar",
+        ".bz2",
+    };
+    
     /**
      * URL where the zipped container is located.
      */
@@ -233,10 +243,48 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         getLogger().info("Installing container in [" + targetDir.getPath() + "]",
             getClass().getName());
 
-        Expand expandTask = (Expand) this.antUtils.createAntTask("unzip");
+        Expand expandTask = createExpandTask();
         expandTask.setSrc(new File(getDestinationDir(), getSourceFileName()));
         expandTask.setDest(targetDir);
         expandTask.execute();
+    }
+    
+    private Expand createExpandTask()
+    {
+        String archivename = getSourceFileName().toLowerCase();
+        Expand expand = null; 
+        if (archivename.endsWith(".zip"))
+        {
+            expand = (Expand) this.antUtils.createAntTask("unzip");
+        }
+        else if (archivename.endsWith(".tar"))
+        {
+            expand = (Expand) this.antUtils.createAntTask("untar");
+        }
+        else if (archivename.endsWith(".tgz"))
+        {
+            Untar untar = (Untar) this.antUtils.createAntTask("untar");
+            UntarCompressionMethod compressionMethod = new Untar.UntarCompressionMethod();
+            compressionMethod.setValue("gzip");
+            untar.setCompression(compressionMethod);
+            expand = untar;
+        }
+        else if (archivename.endsWith(".bz2"))
+        {
+            Untar untar = (Untar) this.antUtils.createAntTask("untar");
+            UntarCompressionMethod compressionMethod = new Untar.UntarCompressionMethod();
+            compressionMethod.setValue("bzip2");
+            untar.setCompression(compressionMethod);
+            expand = untar;
+        }
+        else
+        {
+            String errorMessage = "Unsupported archive type: [" + archivename + "]";
+            getLogger().warn(errorMessage, getClass().getName());
+            throw new IllegalArgumentException(errorMessage);
+        }
+        
+        return expand;
     }
 
     /**
@@ -312,10 +360,15 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     protected String getInstallDirName()
     {
         String name = getSourceFileName();
-        int dotPos = name.lastIndexOf(".zip");
-        if (dotPos > -1)
+        
+        for (int i=0; i<ARCHIVE_ENDINGS.length; i++)
         {
-            name = name.substring(0, dotPos);
+            int dotPos = name.lastIndexOf(ARCHIVE_ENDINGS[i]);
+            if (dotPos > -1)
+            {
+                name = name.substring(0, dotPos);
+                break;
+            }
         }
         
         return name;        
