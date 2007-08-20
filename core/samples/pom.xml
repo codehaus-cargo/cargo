@@ -213,7 +213,7 @@
               </property>
               <property>
                 <name>cargo.jetty5x.url</name>
-                <value>http://dist.codehaus.org/jetty/jetty-5.1.x/jetty-5.1.12.zip</value>
+                <value>http://dist.codehaus.org/jetty/jetty-5.1.x/jetty-5.1.14.tgz</value>
               </property>
 
               <property>
