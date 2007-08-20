@@ -84,7 +84,7 @@ public class JettyArtifactResolver
         jetty4xDependencies.add(new Dependency("tomcat", "jasper-runtime", "4.1.30"));
 
         List jetty5xDependencies = new ArrayList();
-        jetty5xDependencies.add(new Dependency("jetty", "org.mortbay.jetty", "5.1.12"));
+        jetty5xDependencies.add(new Dependency("jetty", "org.mortbay.jetty", "5.1.14"));
         jetty5xDependencies.add(new Dependency("javax.servlet", "servlet-api", "2.4"));
         jetty5xDependencies.add(new Dependency("javax.servlet", "jsp-api", "2.0"));
         jetty5xDependencies.add(new Dependency("ant", "ant", "1.6.4"));
