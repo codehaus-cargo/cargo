@@ -64,7 +64,6 @@
       <groupId>dom4j</groupId>
       <artifactId>dom4j</artifactId>
       <version>1.4</version>
-      <type>jar</type>
     </dependency>    
     <dependency>
       <groupId>jdom</groupId>
@@ -75,7 +74,6 @@
       <groupId>jaxen</groupId>
       <artifactId>jaxen</artifactId>
       <version>1.0-FCS</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
