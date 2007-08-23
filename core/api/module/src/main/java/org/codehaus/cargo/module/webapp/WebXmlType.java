@@ -278,6 +278,11 @@ public abstract class WebXmlType extends AbstractDescriptorType
     public static final String EJB_LINK = "ejb-link";
 
     /**
+     * Element name 'dispatcher'
+     */
+    public static final String DISPATCHER = "dispatcher";
+    
+    /**
      * Protected constructor.
      * 
      * @param parent Parent type if any

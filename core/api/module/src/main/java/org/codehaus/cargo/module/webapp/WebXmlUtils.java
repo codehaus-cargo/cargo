@@ -104,6 +104,35 @@ public final class WebXmlUtils
     }
 
     /**
+     * Returns the filter mappings that the specified filter is mapped to in an ordered list. If there
+     * are no mappings for the specified filter, an iterator over an empty list is returned.
+     * 
+     * @param webXml The webXml file to use
+     * @param theFilterName The name of the servlet filter of which the mappings should be retrieved
+     * @return An iterator over the ordered list of filter elements
+     */
+    public static Iterator getFilterMappingElements(WebXml webXml, String theFilterName)
+    {
+
+        if (theFilterName == null)
+        {
+            throw new NullPointerException();
+        }
+        List filterMappings = new ArrayList();
+        Iterator filterMappingElements =
+            webXml.getTags(WebXmlType.FILTER_MAPPING).iterator();
+        while (filterMappingElements.hasNext())
+        {
+            FilterMapping filterMappingElement = (FilterMapping) filterMappingElements.next();
+            if (theFilterName.equals(filterMappingElement.getFilterName()))
+            {              
+                filterMappings.add(filterMappingElement);                
+            }
+        }
+        return filterMappings.iterator();
+    }
+    
+    /**
      * Returns whether a context param by the specified name is defined in the deployment
      * descriptor.
      * 
@@ -843,22 +872,31 @@ public final class WebXmlUtils
      * @param filterName The name of the filter
      * @param urlPattern The URL Pattern
      */
-    public static void addFilterMapping(WebXml webXml, String filterName, String urlPattern)
+    public static void addFilterMapping(WebXml webXml, String filterName, String urlPattern, String[] dispatchers)
     {
         if (!hasFilter(webXml, filterName))
         {
             throw new IllegalStateException("Filter '" + filterName + "' not defined");
         }
-        DescriptorElement filterMappingElement = webXml.getDescriptorType().getTagByName(
+        FilterMapping filterMappingElement = (FilterMapping)webXml.getDescriptorType().getTagByName(
             WebXmlType.FILTER_MAPPING).create();
 
         filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.FILTER_NAME).create().setText(
             filterName));
+        
         filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.URL_PATTERN).create().setText(
             urlPattern));
 
+        if( dispatchers != null )
+        {
+          for( int i=0; i<dispatchers.length; i++ )
+          {
+            filterMappingElement.addDispatcher(dispatchers[i]);
+          }
+        }
+        
         webXml.addElement(filterMappingElement.getTag(), filterMappingElement, webXml.getRootElement() );
 
     }

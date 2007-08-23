@@ -33,6 +33,7 @@ import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlType;
 import org.codehaus.cargo.module.webapp.WebXmlUtils;
 import org.codehaus.cargo.module.webapp.WebXmlVersion;
+import org.codehaus.cargo.module.webapp.elements.FilterMapping;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -193,11 +194,11 @@ public class WebXmlMerger  extends XmlMerger
                 }
             }
             // merge the mappings
-            Iterator filterMappings = WebXmlUtils.getFilterMappings(theWebXml, filterName);
+            Iterator filterMappings = WebXmlUtils.getFilterMappingElements(theWebXml, filterName);
             while (filterMappings.hasNext())
             {
-                String urlPattern = (String) filterMappings.next();
-                WebXmlUtils.addFilterMapping(this.webXml, filterName, urlPattern);
+                FilterMapping mapping = (FilterMapping) filterMappings.next();
+                WebXmlUtils.addFilterMapping(this.webXml, filterName, mapping.getUrlPattern(), mapping.getDispatchers());
             }
             count++;
         }

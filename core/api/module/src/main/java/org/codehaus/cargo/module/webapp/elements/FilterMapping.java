@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.module.webapp.elements;
 
+import java.util.List;
+
 import org.codehaus.cargo.module.webapp.WebXmlTag;
 import org.codehaus.cargo.module.webapp.WebXmlType;
 import org.jdom.Element;
@@ -79,5 +81,33 @@ public class FilterMapping extends WebXmlElement
     {
         Element e = getChild(WebXmlType.FILTER_NAME, this.getNamespace());
         e.setText(filterName);
+    }
+    
+    /**
+     * Add a dispatcher element.
+     * @param dispatcherName name of the dispatcher.
+     */
+    public void addDispatcher(String dispatcherName)
+    {                
+        Element child = new Element(WebXmlType.DISPATCHER, this.getNamespace());
+        child.setText(dispatcherName);
+        this.getChildren().add(child);      
+    }
+
+    /**
+     * @return a list of dispatcher names.
+     */
+    public String[] getDispatchers()
+    {
+      List l = getChildren(WebXmlType.DISPATCHER, getTag().getTagNamespace());
+      
+      String[] items = new String[l.size()];
+      
+      for(int i=0; i<l.size(); i++)
+      {
+        items[i] = ((Element)l.get(i)).getText();
+      }
+      
+      return items;
     }
 }
