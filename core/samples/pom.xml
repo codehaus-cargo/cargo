@@ -6,7 +6,6 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-samples</artifactId>
-  <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Cargo Samples</name>
   <description>Samples that exercises the Cargo Java APIs</description>
