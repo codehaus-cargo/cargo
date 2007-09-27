@@ -167,6 +167,8 @@ public class UberWarMojo extends AbstractUberWarMojo
                 }
             }
 
+            addAllDependentJars(wam);
+            
             // List of <merge> nodes to perform, in order
             for(Iterator i = root.getMerges().iterator(); i.hasNext();)
             {
@@ -255,6 +257,39 @@ public class UberWarMojo extends AbstractUberWarMojo
         }
     }
 
+    /**
+     * Add all the JAR files specified into the merge - these will appear
+     * in the WEB-INF/lib directory.
+     * @param wam
+     * @throws MojoExecutionException 
+     */
+    protected void addAllDependentJars(WarArchiveMerger wam) throws MojoExecutionException
+    {
+      for (Iterator iter = getProject().getArtifacts().iterator(); iter.hasNext();)
+      {
+          Artifact artifact = (Artifact) iter.next();
+          System.out.println("See " + artifact); 
+          ScopeArtifactFilter filter = new ScopeArtifactFilter(Artifact.SCOPE_RUNTIME);
+          if (!artifact.isOptional() && filter.include(artifact))
+          {
+            String type = artifact.getType();
+            
+            if ("jar".equals(type))
+            {
+              System.out.println("use " + artifact );
+              try
+              {
+                  wam.addMergeItem(artifact.getFile());
+              }
+              catch(MergeException e)
+              {
+                  throw new MojoExecutionException("Problem merging WAR", e);
+              }
+              
+            }
+          }
+      }
+    }
 
     protected void addWar(WarArchiveMerger wam, String artifactIdent)
         throws MojoExecutionException, IOException
