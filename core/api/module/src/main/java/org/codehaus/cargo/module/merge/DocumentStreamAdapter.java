@@ -23,6 +23,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 
 import org.codehaus.cargo.module.DescriptorIo;
 import org.jdom.Document;
@@ -30,6 +31,9 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * Adapter class to convert streams into documents.
@@ -132,6 +136,19 @@ public class DocumentStreamAdapter implements MergeProcessor
         {
             SAXBuilder builder = new SAXBuilder();
             builder.setValidation(false);
+            
+            // We don't know what the DTD of the document is, so we won't have a local
+            // copy - so we don't want to fail if we can't get it!
+            
+            builder.setEntityResolver(new EntityResolver()
+            {
+                public InputSource resolveEntity(String thePublicId, 
+                    String theSystemId) throws SAXException
+                {
+                    return new InputSource(new StringReader(""));
+                }
+            });
+            
             return builder.build(theInput);
         }
       

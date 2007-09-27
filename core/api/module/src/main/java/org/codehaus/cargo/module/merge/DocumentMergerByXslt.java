@@ -51,6 +51,11 @@ public class DocumentMergerByXslt implements MergeProcessor
     private StreamSource xsltSource;
 
     /**
+     * The lazily-compiled XSLT transformer.
+     */
+    private Transformer transformer;
+    
+    /**
      * Constructor.
      * @param stream XML Stream for source XSLT
      */
@@ -109,8 +114,6 @@ public class DocumentMergerByXslt implements MergeProcessor
     {
         try
         {
-            TransformerFactory tFactory = TransformerFactory.newInstance();
-
             Document doc = createUnifiedDocument(left, right);
 
             org.jdom.output.DOMOutputter outputter = new org.jdom.output.DOMOutputter();
@@ -119,8 +122,12 @@ public class DocumentMergerByXslt implements MergeProcessor
             javax.xml.transform.Source xmlSource =
                 new javax.xml.transform.dom.DOMSource(domDocument);
 
-            Transformer transformer = tFactory.newTransformer(xsltSource);
-
+            if( transformer == null )
+            {
+              TransformerFactory tFactory = TransformerFactory.newInstance();
+              transformer = tFactory.newTransformer(xsltSource);
+            }
+            
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
             StreamResult xmlResult = new StreamResult(baos);
