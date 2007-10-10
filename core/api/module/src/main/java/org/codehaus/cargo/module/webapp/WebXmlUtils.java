@@ -1,20 +1,20 @@
-/* 
+/*
  * ========================================================================
- * 
+ *
  * Copyright 2005-2006 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ========================================================================
  */
 package org.codehaus.cargo.module.webapp;
@@ -46,7 +46,7 @@ public final class WebXmlUtils
     }
     /**
      * Returns a list of names of filters that are mapped to the specified class.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param className The fully qualified name of the filter class
      * @return An iterator over the names of the filters mapped to the class
@@ -73,7 +73,7 @@ public final class WebXmlUtils
     /**
      * Returns the URL-patterns that the specified filter is mapped to in an ordered list. If there
      * are no mappings for the specified filter, an iterator over an empty list is returned.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theFilterName The name of the servlet filter of which the mappings should be retrieved
      * @return An iterator over the ordered list of URL-patterns
@@ -106,7 +106,7 @@ public final class WebXmlUtils
     /**
      * Returns the filter mappings that the specified filter is mapped to in an ordered list. If there
      * are no mappings for the specified filter, an iterator over an empty list is returned.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theFilterName The name of the servlet filter of which the mappings should be retrieved
      * @return An iterator over the ordered list of filter elements
@@ -125,17 +125,17 @@ public final class WebXmlUtils
         {
             FilterMapping filterMappingElement = (FilterMapping) filterMappingElements.next();
             if (theFilterName.equals(filterMappingElement.getFilterName()))
-            {              
-                filterMappings.add(filterMappingElement);                
+            {
+                filterMappings.add(filterMappingElement);
             }
         }
         return filterMappings.iterator();
     }
-    
+
     /**
      * Returns whether a context param by the specified name is defined in the deployment
      * descriptor.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theParamName The name of the context param
      * @return <code>true</code> if the context param is defined, <code>false</code> otherwise
@@ -149,7 +149,7 @@ public final class WebXmlUtils
      * Returns the element that contains the definition of a specific context param, or
      * <code>null</code> if a context param of the specified name is not defined in the
      * descriptor.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param paramName The context param name
      * @return The DOM element representing the context param definition
@@ -166,7 +166,7 @@ public final class WebXmlUtils
     /**
      * Returns whether a servlet filter by the specified name is defined in the deployment
      * descriptor.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theFilterName The name of the filter
      * @return <code>true</code> if the filter is defined, <code>false</code> otherwise
@@ -178,7 +178,7 @@ public final class WebXmlUtils
 
     /**
      * For a named servlet, return the run-as role name.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theServletName the name of the servlet
      * @return the run-as role name
@@ -219,7 +219,7 @@ public final class WebXmlUtils
 
     /**
      * Get the init parameter names for a filter.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param name The name of the filter to use
      * @return an iterator over the param names
@@ -240,7 +240,7 @@ public final class WebXmlUtils
 
     /**
      * Add an init param to a filter.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param name The name of the filter
      * @param paramName The name of the parameter
@@ -257,7 +257,7 @@ public final class WebXmlUtils
 
     /**
      * Does the web xml have a named servlet.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param servletName The name of the servlet
      * @return <code>true</code> if it does, <code>false</code> if not.
@@ -269,13 +269,13 @@ public final class WebXmlUtils
 
     /**
      * Add a servlet to the descriptor.
-     *  
+     *
      * @param webXml The webXml file to use
      * @param servletName The servlet name
      * @param servletClass The servlet class name
      */
     public static void addServlet(WebXml webXml, String servletName, String servletClass)
-    {      
+    {
         WebXmlTag tag = (WebXmlTag)webXml.getDescriptorType().getTagByName("servlet");
         Servlet servlet = new Servlet(tag, servletName, servletClass);
         webXml.addTag(servlet);
@@ -305,7 +305,7 @@ public final class WebXmlUtils
 
     /**
      * Returns a list of names of servlets that are mapped to the specified JSP file.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theJspFile The path to the JSP file, relative to the root of the web-application
      * @return An iterator over the names of the servlets mapped to the JSP file
@@ -335,7 +335,7 @@ public final class WebXmlUtils
 
     /**
      * Get an iterator of the servlet names in the web xml.
-     * 
+     *
      * @param webXml The webXml file to use
      * @return Iterator
      */
@@ -354,7 +354,7 @@ public final class WebXmlUtils
 
     /**
      * Get the servlet mappings to the named servlet.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theServletName The name of the servlet
      * @return An iterator over the mappings
@@ -387,7 +387,7 @@ public final class WebXmlUtils
 
     /**
      * Add a servlet to the web xml.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param element The servlet element
      */
@@ -402,7 +402,7 @@ public final class WebXmlUtils
 
     /**
      * Add an init param to a servlet.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theServletName The name of the servlet
      * @param name The name of the init param
@@ -438,7 +438,7 @@ public final class WebXmlUtils
 
     /**
      * Get the names of all the servlet init parameters.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theServletName The name of the servlet
      * @return An iterator over the parameter names
@@ -450,7 +450,7 @@ public final class WebXmlUtils
 
     /**
      * Get the names of all the servlet init parameters.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theElement The element containing the servlet
      * @return An iterator over the parameter names
@@ -478,7 +478,7 @@ public final class WebXmlUtils
 
     /**
      * Add a security constraint.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theWebResourceName The name of the web resource
      * @param theUrlPattern The URL Pattern
@@ -517,10 +517,10 @@ public final class WebXmlUtils
             WebXmlType.URL_PATTERN).create().setText(theUrlPattern));
 
         securityConstraintElement.addContent(webResourceCollectionElement);
-        
+
         Element authConstraintElement = webXml.getDescriptorType().getTagByName(
             WebXmlType.AUTH_CONSTRAINT).create();
-        
+
         for (Iterator i = theRoles.iterator(); i.hasNext();)
         {
             authConstraintElement.addContent(webXml.getDescriptorType().getTagByName(
@@ -535,7 +535,7 @@ public final class WebXmlUtils
 
     /**
      * Add a JSP file.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theServletName The name of the servlet
      * @param theJspFile The name of the JSP file
@@ -546,7 +546,7 @@ public final class WebXmlUtils
      * @throws IllegalArgumentException
      * @throws SecurityException
      */
-    public static void addJspFile(WebXml webXml, String theServletName, String theJspFile)        
+    public static void addJspFile(WebXml webXml, String theServletName, String theJspFile)
     {
         if (theServletName == null)
         {
@@ -571,7 +571,7 @@ public final class WebXmlUtils
 
     /**
      * Does the descriptor have a security constraint for a URL?
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theUrlPattern The URL pattern to query
      * @return boolean
@@ -583,7 +583,7 @@ public final class WebXmlUtils
 
     /**
      * Does the descriptor have a login config?
-     * 
+     *
      * @param webXml The webXml file to use
      * @return boolean
      */
@@ -594,7 +594,7 @@ public final class WebXmlUtils
 
     /**
      * Get the login config.
-     * 
+     *
      * @param webXml The webXml file to use
      * @return The element containing the login config
      */
@@ -605,13 +605,13 @@ public final class WebXmlUtils
 
     /**
      * Set the login config.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theAuthMethod The authorization method
      * @param theRealmName The realm name
      */
-    public static void setLoginConfig(WebXml webXml, String theAuthMethod, 
-        String theRealmName)        
+    public static void setLoginConfig(WebXml webXml, String theAuthMethod,
+        String theRealmName)
     {
         if ((theRealmName == null) || (theAuthMethod == null))
         {
@@ -622,7 +622,7 @@ public final class WebXmlUtils
                 WebXmlType.LOGIN_CONFIG).create();
         loginConfigElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.AUTH_METHOD).create().setText(theAuthMethod));
-        
+
         loginConfigElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.REALM_NAME).create().setText(theRealmName));
 
@@ -634,7 +634,7 @@ public final class WebXmlUtils
 
     /**
      * Get the login config authorization method.
-     * 
+     *
      * @param webXml The webXml file to use
      * @return the auth method
      */
@@ -646,7 +646,7 @@ public final class WebXmlUtils
 
     /**
      * Get a security constraint by URL.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theUrlPattern The URL Pattern
      * @return Security Constraint
@@ -685,7 +685,7 @@ public final class WebXmlUtils
 
     /**
      * Does the role have a security definition?
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theRoleName The name of the role
      * @return boolean
@@ -697,7 +697,7 @@ public final class WebXmlUtils
 
     /**
      * Get the security role names.
-     * 
+     *
      * @param webXml The webXml file to use
      * @return an iterator over the role names
      */
@@ -721,7 +721,7 @@ public final class WebXmlUtils
 
     /**
      * Get the security role by name.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param theRoleName The name of the role
      * @return Element containing the security role
@@ -748,11 +748,11 @@ public final class WebXmlUtils
 
     /**
      * Add an EJB Reference.
-     * 
+     *
      * @param webXml The webXml file to use
      * @param ref the EJB Reference element to add
      */
-    public static void addEjbRef(WebXml webXml, EjbRef ref) 
+    public static void addEjbRef(WebXml webXml, EjbRef ref)
     {
         DescriptorElement ejbRefElement = webXml.getDescriptorType().getTagByName(
             WebXmlType.EJB_LOCAL_REF).create();
@@ -805,7 +805,7 @@ public final class WebXmlUtils
         webXml.addTag(ejbRefElement);
 
     }
-    
+
     /**
      * @param webXml The webXml file to use
      * @param theRoleName The role name to use
@@ -884,7 +884,7 @@ public final class WebXmlUtils
         filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.FILTER_NAME).create().setText(
             filterName));
-        
+
         filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.URL_PATTERN).create().setText(
             urlPattern));
@@ -896,7 +896,7 @@ public final class WebXmlUtils
             filterMappingElement.addDispatcher(dispatchers[i]);
           }
         }
-        
+
         webXml.addElement(filterMappingElement.getTag(), filterMappingElement, webXml.getRootElement() );
 
     }
@@ -915,11 +915,11 @@ public final class WebXmlUtils
 
     /**
      * @param theWebXml The webXml file to use
-     * @param theElement The element to get the parameter from 
+     * @param theElement The element to get the parameter from
      * @param theParamName The name of the parameter
      * @return The value of the init param
      */
-    private static String getInitParam(WebXml theWebXml, Element theElement, 
+    private static String getInitParam(WebXml theWebXml, Element theElement,
         String theParamName)
     {
         if (theElement != null)
@@ -946,7 +946,7 @@ public final class WebXmlUtils
      * @param theRoleName The role name to add
      */
     public static void addServletRunAsRoleName(WebXml webXml, String theServletName,
-        String theRoleName) 
+        String theRoleName)
     {
         Element servlet = getServlet(webXml, theServletName);
         Element runAsElement = webXml.getDescriptorType().getTagByName(WebXmlType.RUN_AS).create();
@@ -980,7 +980,7 @@ public final class WebXmlUtils
             WebXmlType.URL_PATTERN).create().setText(
             theUrlPattern));
 
-        webXml.addElement(servletMappingElement.getTag(), servletMappingElement, webXml.getRootElement() );        
+        webXml.addElement(servletMappingElement.getTag(), servletMappingElement, webXml.getRootElement() );
     }
 
     /**
@@ -989,7 +989,7 @@ public final class WebXmlUtils
      * @param paramName The name of the parameter
      * @return the init parameter value
      */
-    public static String getFilterInitParam(WebXml theWebXml, 
+    public static String getFilterInitParam(WebXml theWebXml,
         String filterName, String paramName)
     {
         Filter filter =
@@ -1005,6 +1005,20 @@ public final class WebXmlUtils
      */
     public static void addFilter(WebXml webXml, Filter filter)
     {
+        webXml.addTag(filter);
+    }
+
+    /**
+     * Add a filter to the descriptor.
+     *
+     * @param webXml The webXml file to use
+     * @param filterName The servlet name
+     * @param filterClass The servlet class name
+     */
+    public static void addFilter(WebXml webXml, String filterName, String filterClass)
+    {
+        WebXmlTag tag = (WebXmlTag)webXml.getDescriptorType().getTagByName("filter");
+        Filter filter = new Filter(tag, filterName, filterClass);
         webXml.addTag(filter);
     }
 }
