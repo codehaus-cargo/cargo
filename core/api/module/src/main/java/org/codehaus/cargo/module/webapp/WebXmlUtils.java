@@ -869,15 +869,19 @@ public final class WebXmlUtils
 
     /**
      * @param webXml The webXml file to use
-     * @param filterName The name of the filter
-     * @param urlPattern The URL Pattern
+     * @param rhs The mapping to add
      */
-    public static void addFilterMapping(WebXml webXml, String filterName, String urlPattern, String[] dispatchers)
+    public static void addFilterMapping(WebXml webXml, FilterMapping rhs)
     {
+        String filterName = rhs.getFilterName();
+              
         if (!hasFilter(webXml, filterName))
         {
             throw new IllegalStateException("Filter '" + filterName + "' not defined");
         }
+        
+        
+        
         FilterMapping filterMappingElement = (FilterMapping)webXml.getDescriptorType().getTagByName(
             WebXmlType.FILTER_MAPPING).create();
 
@@ -885,10 +889,27 @@ public final class WebXmlUtils
             WebXmlType.FILTER_NAME).create().setText(
             filterName));
 
-        filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
-            WebXmlType.URL_PATTERN).create().setText(
-            urlPattern));
-
+        String urlPattern = rhs.getUrlPattern();
+        
+        if( urlPattern != null )
+        {
+          filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
+              WebXmlType.URL_PATTERN).create().setText(
+              urlPattern));
+        }
+        else
+        {
+          // must be servlet name instead
+          String servletName = rhs.getServletName();
+          if( servletName == null )
+          {
+            throw new IllegalStateException("Filter '" + filterName + "' has neither a servlet-name nor a url-pattern.");
+          }
+          filterMappingElement.setServletName(servletName);
+        }
+        
+        String[] dispatchers = rhs.getDispatchers();
+        
         if( dispatchers != null )
         {
           for( int i=0; i<dispatchers.length; i++ )

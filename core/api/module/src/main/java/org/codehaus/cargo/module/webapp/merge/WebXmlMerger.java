@@ -113,6 +113,7 @@ public class WebXmlMerger  extends XmlMerger
             mergeServlets(theMergeWebXml);
             
             mergeSecurityRoles(theMergeWebXml);
+                        
         }
         catch (Exception e)
         {
@@ -198,7 +199,7 @@ public class WebXmlMerger  extends XmlMerger
             while (filterMappings.hasNext())
             {
                 FilterMapping mapping = (FilterMapping) filterMappings.next();
-                WebXmlUtils.addFilterMapping(this.webXml, filterName, mapping.getUrlPattern(), mapping.getDispatchers());
+                WebXmlUtils.addFilterMapping(this.webXml, mapping);
             }
             count++;
         }

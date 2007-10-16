@@ -72,12 +72,19 @@ public class WarArchiveMerger implements MergeProcessor
      */
     public void addMergeItem(Object mergeItem) throws MergeException
     {
-        if (!(mergeItem instanceof WarArchive))
+        if (mergeItem instanceof WarArchive)
         {
-            throw new MergeException(
-                "WarArchiveMerger cannot merge things that are not WarArchives");
+          this.result.add((WarArchive) mergeItem);         
         }
-        this.result.add((WarArchive) mergeItem);
+        else if(mergeItem instanceof File)
+        {          
+          this.result.addJar((File)mergeItem);         
+        }
+        else
+        {        
+          throw new MergeException(
+            "WarArchiveMerger cannot merge things that are not WarArchives or files");
+        }
     }
 
     /**

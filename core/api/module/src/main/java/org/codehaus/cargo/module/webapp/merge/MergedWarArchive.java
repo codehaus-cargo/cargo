@@ -34,6 +34,8 @@ import org.codehaus.cargo.module.webapp.WarArchive;
 import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlIo;
 import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
+import org.codehaus.cargo.util.FileUtils;
 import org.codehaus.cargo.util.JarUtils;
 import org.jdom.JDOMException;
 
@@ -48,6 +50,11 @@ public class MergedWarArchive implements WarArchive
      */
     private List warFiles;
 
+    /**
+     * Extra JAR files to appear in WEB-INF/lib.
+     */
+    private List jarFiles;
+    
     /**
      * The merged web xml, once generated.
      */
@@ -69,6 +76,7 @@ public class MergedWarArchive implements WarArchive
     MergedWarArchive()
     {
         this.warFiles = new ArrayList();
+        this.jarFiles = new ArrayList();
         this.mergeProcessors = new ArrayList();
     }
 
@@ -97,6 +105,14 @@ public class MergedWarArchive implements WarArchive
         this.warFiles.add(new MergeWarFileDetails(warFile));
     }
 
+    /**
+     * @param jarFile is a jar file to add to the merge.
+     */
+    void addJar(File jarFile)
+    {
+         this.jarFiles.add(jarFile);
+    }
+    
     /**
      * Get the web XML merger.
      *
@@ -183,6 +199,8 @@ public class MergedWarArchive implements WarArchive
 
         expandToPath(assembleDir);
 
+        copyJars(assembleDir);
+        
         // (over)write the web-inf configs
         WebXmlIo.writeAll(mergedWebXml, fileHandler.append(new File(assembleDir)
             .getAbsolutePath(), File.separator + "WEB-INF"));
@@ -199,6 +217,23 @@ public class MergedWarArchive implements WarArchive
     }
 
     /**
+     * @param assembleDir directory to copy JAR files to
+     */
+    private void copyJars(String assembleDir)
+    {
+      FileHandler fileHandler = new DefaultFileHandler();
+      
+      File f = new File(assembleDir);
+      File webInfLib = new File(f, "WEB-INF/lib");
+      webInfLib.mkdirs();
+      for (Iterator i = this.jarFiles.iterator(); i.hasNext();)
+      {
+        File sourceFile = (File)i.next();
+        fileHandler.copyFile(sourceFile.getAbsolutePath(), new File(webInfLib, sourceFile.getName()).getAbsolutePath());        
+      }      
+    }
+
+    /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.module.JarArchive#containsClass(java.lang.String)
      */
@@ -206,7 +241,6 @@ public class MergedWarArchive implements WarArchive
     {
         for (Iterator i = this.warFiles.iterator(); i.hasNext();)
         {
-
             MergeWarFileDetails details = (MergeWarFileDetails) i.next();
             WarArchive wa = details.getWarFile();
 
