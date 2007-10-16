@@ -218,6 +218,51 @@ public class DescriptorMergerByTag implements DescriptorMerger
                     throw new CargoException("Element Merging Exception", ex);
                 }
             }
+            else
+            {
+              // It is possible that this tag is a single value item (e.g. webxml display-name)
+              // so either it can exist singly, or not at all.
+              if( !tag.isMultipleAllowed() )
+              {
+                MergeStrategy strategy = getMergeStrategy(tag.getTagName());
+
+                Descriptor left = baseDescriptor;
+                Descriptor right = other;
+
+                List itemsL = left.getTags(tag);
+                List itemsR = right.getTags(tag);
+
+                DescriptorElement leftElement = (itemsL.size()==0)?null:(DescriptorElement)itemsL.get(0);
+                DescriptorElement rightElement = (itemsR.size()==0)?null:(DescriptorElement)itemsR.get(0);
+                
+                try
+                {
+                    if( leftElement != null )
+                    {
+                      if( rightElement != null )
+                      {
+                        strategy.inBoth(left, leftElement, rightElement);
+                      }
+                      else
+                      {
+                        strategy.inLeft(left, leftElement);
+                      }                      
+                    }
+                    else
+                    {
+                      if( rightElement != null )
+                      {
+                        strategy.inRight(left, rightElement);
+                      }
+                    }                  
+                }
+                catch (Exception ex)
+                {
+                    throw new CargoException("Element Merging Exception", ex);
+                }
+              }
+              
+            }
 
         }
     }
