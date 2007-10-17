@@ -220,17 +220,28 @@ public class DescriptorMergerByTag implements DescriptorMerger
             }
             else
             {
-              // It is possible that this tag is a single value item (e.g. webxml display-name)
-              // so either it can exist singly, or not at all.
-              if( !tag.isMultipleAllowed() )
+              Descriptor left = baseDescriptor;
+              Descriptor right = other;
+ 
+              List itemsL = left.getTags(tag);
+              List itemsR = new ArrayList(right.getTags(tag));
+              
+              if( tag.isMultipleAllowed() )
               {
+            	  // If multiple items are allowed, but there's no way of identifying tags
+            	  // From each other, then the best we can do is merge them together by
+            	  // addition...
+            	  for( Iterator it = itemsR.iterator(); it.hasNext(); )
+            	  {
+            		  DescriptorElement rightElement = (DescriptorElement)it.next();
+            		  left.addElement(tag, rightElement, left.getRootElement());
+            	  }
+              }
+              else
+              {
+            	// It is possible that this tag is a single value item (e.g. webxml display-name)
+                // so either it can exist singly, or not at all.
                 MergeStrategy strategy = getMergeStrategy(tag.getTagName());
-
-                Descriptor left = baseDescriptor;
-                Descriptor right = other;
-
-                List itemsL = left.getTags(tag);
-                List itemsR = right.getTags(tag);
 
                 DescriptorElement leftElement = (itemsL.size()==0)?null:(DescriptorElement)itemsL.get(0);
                 DescriptorElement rightElement = (itemsR.size()==0)?null:(DescriptorElement)itemsR.get(0);
