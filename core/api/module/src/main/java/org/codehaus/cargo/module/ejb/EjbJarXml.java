@@ -26,6 +26,7 @@ import java.util.List;
 import org.codehaus.cargo.module.AbstractDescriptor;
 import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.J2eeDescriptor;
+import org.jdom.Attribute;
 import org.jdom.Element;
 
 
@@ -94,7 +95,11 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
         {
             Element sessionElement = (Element) sessionElements.next();
             Session session = new Session();
-            session.setId(sessionElement.getAttribute("id").getValue());
+            Attribute id = sessionElement.getAttribute("id");
+            if(id != null)
+            {
+                session.setId(id.getValue());
+            }
             session.setName(getChildText(sessionElement, EjbJarXmlTag.EJB_NAME));
             session.setLocal(getChildText(sessionElement, EjbJarXmlTag.LOCAL));
             session.setLocalHome(getChildText(sessionElement, EjbJarXmlTag.LOCAL_HOME));
@@ -117,7 +122,11 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
         {
             Element sessionElement = (Element) sessionElements.next();
             Entity entity = new Entity();
-            entity.setId(sessionElement.getAttribute("id").getValue());
+            Attribute id = sessionElement.getAttribute("id");
+            if(id != null)
+            {
+                entity.setId(id.getValue());
+            }
             entity.setName(getChildText(sessionElement, EjbJarXmlTag.EJB_NAME));
             entity.setLocal(getChildText(sessionElement, EjbJarXmlTag.LOCAL));
             entity.setLocalHome(getChildText(sessionElement, EjbJarXmlTag.LOCAL_HOME));
