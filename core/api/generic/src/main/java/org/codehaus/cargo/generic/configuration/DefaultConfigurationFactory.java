@@ -1,20 +1,20 @@
-/* 
+/*
  * ========================================================================
- * 
+ *
  * Copyright 2004-2006 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ========================================================================
  */
 package org.codehaus.cargo.generic.configuration;
@@ -32,10 +32,10 @@ import org.codehaus.cargo.util.DefaultFileHandler;
 import java.lang.reflect.Constructor;
 
 /**
- * Default {@link ConfigurationFactory} implementation that has all the known container 
+ * Default {@link ConfigurationFactory} implementation that has all the known container
  * configurations registered against their containers. It also supports registering new
  * configurations against any container.
- * 
+ *
  * @version $Id$
  */
 public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHintFactory
@@ -56,7 +56,7 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
          */
         public String home;
     }
-    
+
     /**
      * Register default configurations.
      */
@@ -93,13 +93,15 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
         registerConfiguration("jo1x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.jo.Jo1xStandaloneLocalConfiguration");
-        
+
         registerConfiguration("orion1x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.orion.OrionStandaloneLocalConfiguration");
         registerConfiguration("orion2x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.orion.OrionStandaloneLocalConfiguration");
         registerConfiguration("oc4j9x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.orion.Oc4j9xStandaloneLocalConfiguration");
+        registerConfiguration("oc4j10x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            "org.codehaus.cargo.container.orion.Oc4j10xExistingLocalConfiguration");
 
         registerConfiguration("resin2x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.resin.Resin2xStandaloneLocalConfiguration");
@@ -109,7 +111,7 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
             "org.codehaus.cargo.container.resin.Resin3xStandaloneLocalConfiguration");
         registerConfiguration("resin3x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.resin.ResinExistingLocalConfiguration");
-        
+
         registerConfiguration("tomcat3x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.tomcat.Tomcat3xStandaloneLocalConfiguration");
         registerConfiguration("tomcat4x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -196,14 +198,14 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
     /**
      * {@inheritDoc}
-     * @see ConfigurationFactory#createConfiguration(String, org.codehaus.cargo.container.ContainerType, org.codehaus.cargo.container.configuration.ConfigurationType, String) 
+     * @see ConfigurationFactory#createConfiguration(String, org.codehaus.cargo.container.ContainerType, org.codehaus.cargo.container.configuration.ConfigurationType, String)
      */
     public Configuration createConfiguration(String containerId, ContainerType containerType,
         ConfigurationType configurationType, String home)
     {
         ConfigurationFactoryParameters parameters = new ConfigurationFactoryParameters();
         parameters.home = home;
-        
+
         return (Configuration) createImplementation(new RegistrationKey(
             new FullContainerIdentity(containerId, containerType), configurationType.getType()),
             parameters, "configuration");
@@ -217,13 +219,13 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
         GenericParameters parameters) throws NoSuchMethodException
     {
         Constructor constructor;
-        
+
         // Runtime configurations have constructors that do not take any parameter.
         if (ConfigurationType.toType(hint) == ConfigurationType.RUNTIME)
         {
             constructor = configurationClass.getConstructor(new Class[] {});
         }
-        else if ((ConfigurationType.toType(hint) == ConfigurationType.EXISTING) 
+        else if ((ConfigurationType.toType(hint) == ConfigurationType.EXISTING)
             || (ConfigurationType.toType(hint) == ConfigurationType.STANDALONE))
         {
             constructor = configurationClass.getConstructor(new Class[] {String.class});
@@ -232,8 +234,8 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
         {
             throw new ContainerException("Unknown configuration type [" + hint + "]");
         }
-        
-        return constructor; 
+
+        return constructor;
     }
 
     /**
@@ -255,10 +257,10 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
                 throw new ContainerException("The configuration home parameter should not be "
                     + "specified for runtime configurations");
             }
-            
+
             instance = constructor.newInstance(new Object[] {});
         }
-        else if ((ConfigurationType.toType(hint) == ConfigurationType.EXISTING) 
+        else if ((ConfigurationType.toType(hint) == ConfigurationType.EXISTING)
             || (ConfigurationType.toType(hint) == ConfigurationType.STANDALONE))
         {
             if (home == null)
@@ -276,13 +278,13 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
                 }
             }
 
-            instance = constructor.newInstance(new Object[] {home}); 
+            instance = constructor.newInstance(new Object[] {home});
         }
         else
         {
             throw new ContainerException("Unknown configuration type [" + hint + "]");
         }
-        
-        return instance; 
+
+        return instance;
     }
 }

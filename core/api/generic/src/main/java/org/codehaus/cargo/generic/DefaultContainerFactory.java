@@ -1,20 +1,20 @@
-/* 
+/*
  * ========================================================================
- * 
+ *
  * Copyright 2004-2006 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ========================================================================
  */
 package org.codehaus.cargo.generic;
@@ -38,7 +38,7 @@ import java.util.HashSet;
 
 /**
  * Default implementation of {@link ContainerFactory}. Registers all known containers.
- * 
+ *
  * @version $Id$
  */
 public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFactory
@@ -54,7 +54,7 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
          */
         public Configuration configuration;
     }
-    
+
     /**
      * Initialize container name mappings with container ids.
      */
@@ -62,7 +62,7 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
     {
         super();
 
-        // Note: We register containers using introspection so that we don't have to depend on 
+        // Note: We register containers using introspection so that we don't have to depend on
         // those containers at build time nor at runtime. More specifically this allows a user
         // to use the generic API and choose what container implementation jar he wants to use
         // without having to add all container implementations jars in the classpath.
@@ -90,15 +90,17 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
         registerContainer("jo1x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.jo.Jo1xInstalledLocalContainer");
-        
+
         registerContainer("oc4j9x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.orion.Oc4j9xInstalledLocalContainer");
+        registerContainer("oc4j10x", ContainerType.INSTALLED,
+            "org.codehaus.cargo.container.orion.Oc4j10xInstalledLocalContainer");
 
         registerContainer("orion1x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.orion.Orion1xInstalledLocalContainer");
         registerContainer("orion2x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.orion.Orion2xInstalledLocalContainer");
-        
+
         registerContainer("resin2x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.resin.Resin2xInstalledLocalContainer");
         registerContainer("resin3x", ContainerType.INSTALLED,
@@ -116,7 +118,7 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
             "org.codehaus.cargo.container.tomcat.Tomcat5xRemoteContainer");
         registerContainer("tomcat5x", ContainerType.EMBEDDED,
             "org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalContainer");
-        
+
         registerContainer("weblogic8x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.weblogic.WebLogic8xInstalledLocalContainer");
     }
@@ -180,7 +182,7 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
         return (Container) createImplementation(new RegistrationKey(new SimpleContainerIdentity(
             containerId), containerType.getType()), parameters, "container");
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor
@@ -191,7 +193,7 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
         Constructor constructor;
 
         ContainerType type = ContainerType.toType(containerType);
-        
+
         if (type.isLocal())
         {
             constructor = containerClass.getConstructor(new Class[] {LocalConfiguration.class});
@@ -204,7 +206,7 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
         {
             throw new ContainerException("Unknown container type [" + type.getType() + "]");
         }
-            
+
         return constructor;
     }
 
@@ -212,7 +214,7 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
      * {@inheritDoc}
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
-    protected Object createInstance(Constructor constructor, String containerType, 
+    protected Object createInstance(Constructor constructor, String containerType,
         GenericParameters parameters) throws Exception
     {
         Configuration configuration = ((ContainerFactoryParameters) parameters).configuration;
