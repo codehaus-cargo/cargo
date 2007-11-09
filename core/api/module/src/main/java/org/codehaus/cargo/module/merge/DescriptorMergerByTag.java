@@ -128,7 +128,7 @@ public class DescriptorMergerByTag implements DescriptorMerger
     /**
      * the default merging strategy.
      */
-    private MergeStrategy defaultStrategyIfNoneSpecified = PRESERVE;
+    private MergeStrategy defaultStrategyIfNoneSpecified = OVERWRITE;
 
     /**
      * Constructor.
