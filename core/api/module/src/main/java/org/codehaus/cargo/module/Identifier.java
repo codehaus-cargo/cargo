@@ -91,9 +91,7 @@ public class Identifier
     {
         try
         {                   
-            Element e = (Element) xpath.selectSingleNode(element);
-
-            return e.getText();
+        	return xpath.valueOf(element);
         }
         catch (Exception ex)
         {
