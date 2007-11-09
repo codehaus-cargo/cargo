@@ -33,8 +33,14 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.factory.ArtifactFactory;
+import org.apache.maven.artifact.installer.ArtifactInstaller;
+import org.apache.maven.artifact.repository.ArtifactRepository;
+import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.MavenProjectBuilder;
 import org.codehaus.cargo.module.merge.MergeException;
 import org.codehaus.cargo.module.merge.MergeProcessor;
 
@@ -43,7 +49,12 @@ import org.codehaus.cargo.module.webapp.WarArchive;
 import org.codehaus.cargo.module.webapp.DefaultWarArchive;
 import org.codehaus.cargo.module.webapp.WebXmlIo;
 import org.codehaus.cargo.module.webapp.merge.WarArchiveMerger;
+import org.codehaus.plexus.PlexusConstants;
+import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.configuration.PlexusConfiguration;
+import org.codehaus.plexus.context.Context;
+import org.codehaus.plexus.context.ContextException;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.Contextualizable;
 import org.codehaus.plexus.util.xml.*;
 import org.codehaus.plexus.util.xml.pull.*;
 import org.codehaus.cargo.maven2.io.xpp3.UberWarXpp3Reader;
@@ -61,7 +72,7 @@ import org.xml.sax.SAXException;
  * @phase package
  * @requiresDependencyResolution runtime
  */
-public class UberWarMojo extends AbstractUberWarMojo
+public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
 {
     /**
      * The directory for the generated WAR.
@@ -87,6 +98,14 @@ public class UberWarMojo extends AbstractUberWarMojo
     private File descriptor;
 
     /**
+     * Attempt to resolve dependencies, rather than simply merging the files
+     * in WEB-INF/lib. This is an experimental feature.
+     * 
+     * @parameter
+     */
+    private boolean resolveDependencies = false;
+    
+    /**
      * The id to use for the merge descriptor
      *
      * @parameter
@@ -107,6 +126,29 @@ public class UberWarMojo extends AbstractUberWarMojo
      */
     private PlexusConfiguration settings;
 
+	/** @component */
+	private ArtifactFactory artifactFactory;
+
+	/** @component */
+	private ArtifactResolver resolver;
+
+	/** @parameter expression="${localRepository}" */
+	private ArtifactRepository localRepository;
+
+	/** @parameter expression="${project.remoteArtifactRepositories}" */
+	private List remoteRepositories;
+
+	/** @parameter expression="${project}" */
+	private MavenProject mavenProject;
+
+	/** @component */
+	private MavenProjectBuilder mavenProjectBuilder;
+
+	/** @component */
+	private ArtifactInstaller installer;
+
+	private PlexusContainer container;
+    
     protected File getConfigDirectory()
     {
       return descriptor.getParentFile();
@@ -167,7 +209,16 @@ public class UberWarMojo extends AbstractUberWarMojo
                 }
             }
 
-            addAllDependentJars(wam);
+            if( resolveDependencies )
+            {
+            	wam.setMergeJarFiles(false);
+            	addAllTransitiveJars(wam);
+            }
+            else
+            {
+            	// Just look at our dependent JAR files instead
+            	addAllDependentJars(wam);
+            }
             
             // List of <merge> nodes to perform, in order
             for(Iterator i = root.getMerges().iterator(); i.hasNext();)
@@ -257,6 +308,31 @@ public class UberWarMojo extends AbstractUberWarMojo
         }
     }
 
+    /**
+     * Add all JAR files into the WAR file, calculated transitively and resolved in 
+     * the normal 'maven' way (I.E if 2 war files contain different versions, resolve to using
+     * only *1* version).
+     * 
+     * @param wam
+     * @throws MojoExecutionException
+     */
+    protected void addAllTransitiveJars(WarArchiveMerger wam) throws MojoExecutionException
+    {
+    	DependencyCalculator dc = new DependencyCalculator(artifactFactory,resolver,localRepository, remoteRepositories,mavenProject, mavenProjectBuilder, installer, container);
+    	
+    	try
+    	{
+    		for(Iterator i = dc.execute().iterator();i.hasNext();)
+    		{
+    			wam.addMergeItem(i.next());
+    		}
+    	}
+    	catch(Exception ex)
+    	{
+    		throw new MojoExecutionException("Problem merging dependent JAR files", ex);
+    	}
+    }
+    
     /**
      * Add all the JAR files specified into the merge - these will appear
      * in the WEB-INF/lib directory.
@@ -351,5 +427,9 @@ public class UberWarMojo extends AbstractUberWarMojo
             }
         }
     }
+
+	public void contextualize(Context context) throws ContextException {
+		container = (PlexusContainer) context.get( PlexusConstants.PLEXUS_KEY );
+	}
 
 }
