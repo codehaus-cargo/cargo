@@ -130,8 +130,8 @@ public class DependencyCalculator {
 		// Calculate the new deps
 		Artifact art = mavenProject.getArtifact();
 		Artifact art2 = artifactFactory.createArtifactWithClassifier(art
-				.getGroupId(), art.getArtifactId(), art.getVersion(), "pom",
-				"deps");
+				.getGroupId() + ".cargodeps", art.getArtifactId(), art.getVersion(), "pom",
+				null);
 		resolver.resolve(art2, remoteRepositories, localRepository);
 
 		MavenProject mavenProject = mavenProjectBuilder.buildWithDependencies(
@@ -224,12 +224,13 @@ public class DependencyCalculator {
 		for (Iterator i = pomFile.getDependencies().iterator(); i.hasNext();) {
 			Dependency art = (Dependency) i.next();
 			if (art.getType().equals("war")) {
-				art.setClassifier("deps");
+				art.setGroupId( art.getGroupId() + ".cargodeps");
 				art.setType("pom");
 			}
 		}
 
 		pomFile.setPackaging("pom");
+		
 		String version = pomFile.getVersion();
 
 		if (version == null)
@@ -241,8 +242,8 @@ public class DependencyCalculator {
 		pomWriter.write(new FileWriter(outFile), pomFile);
 
 		Artifact art2 = artifactFactory.createArtifactWithClassifier(artifact
-				.getGroupId(), artifact.getArtifactId(), artifact.getVersion(),
-				"pom", "deps");
+				.getGroupId() + ".cargodeps", artifact.getArtifactId(), artifact.getVersion(),
+				"pom", null);
 
 		installer.install(outFile, art2, localRepository);
 		outFile.delete();
