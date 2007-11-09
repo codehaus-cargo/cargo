@@ -113,6 +113,16 @@ public class WarArchiveMerger implements MergeProcessor
     }
             
     /**
+     * Control whether the merge should include JAR files.
+     * 
+     * @param doMergeJarFiles true if we do (default)
+     */
+    public void setMergeJarFiles(boolean doMergeJarFiles)
+    {
+    	this.result.mergeJarFiles(doMergeJarFiles);
+    }
+    
+    /**
      * Get the class used for web xml merging.
      * 
      * @return the Web XML Merger

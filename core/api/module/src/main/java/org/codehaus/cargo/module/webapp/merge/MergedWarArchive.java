@@ -56,6 +56,11 @@ public class MergedWarArchive implements WarArchive
     private List jarFiles;
     
     /**
+     * Whether the JAR files contained WEB-INF/lib should be merged.
+     */
+    private boolean mergeJarFiles = true;
+    
+    /**
      * The merged web xml, once generated.
      */
     private WebXml mergedWebXml;
@@ -199,6 +204,13 @@ public class MergedWarArchive implements WarArchive
 
         expandToPath(assembleDir);
 
+        if( !mergeJarFiles )
+        {
+        	File f = new File(assembleDir);
+            File webInfLib = new File(f, "WEB-INF/lib");
+        	fileHandler.delete( webInfLib.getAbsolutePath() );
+        }
+        
         copyJars(assembleDir);
         
         // (over)write the web-inf configs
@@ -330,4 +342,13 @@ public class MergedWarArchive implements WarArchive
             wa.expandToPath(path, filter);
         }
     }
+
+    /**
+     * Control whether to also merge the JAR files.
+     * 
+     * @param mergeJarFiles true if we do (default)
+     */
+    public void mergeJarFiles(boolean mergeJarFiles) {
+		this.mergeJarFiles = mergeJarFiles;
+	}
 }
