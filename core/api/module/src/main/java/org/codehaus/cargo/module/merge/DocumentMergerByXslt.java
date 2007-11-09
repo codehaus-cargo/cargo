@@ -22,6 +22,7 @@ package org.codehaus.cargo.module.merge;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,9 @@ import org.codehaus.cargo.util.CargoException;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * @version $Id: $
@@ -136,6 +140,20 @@ public class DocumentMergerByXslt implements MergeProcessor
 
             // PArse it back into a JDOM document
             SAXBuilder factory = new SAXBuilder();
+            factory.setValidation(false);
+            
+            // We don't know what the DTD of the document is, so we won't have a local
+            // copy - so we don't want to fail if we can't get it!
+            
+            factory.setEntityResolver(new EntityResolver()
+            {
+                public InputSource resolveEntity(String thePublicId, 
+                    String theSystemId) throws SAXException
+                {
+                    return new InputSource(new StringReader(""));
+                }
+            });
+            
             String xml = baos.toString();
 
             return factory.build(new ByteArrayInputStream(xml.getBytes()));
