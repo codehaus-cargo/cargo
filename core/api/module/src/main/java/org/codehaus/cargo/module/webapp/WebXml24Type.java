@@ -95,7 +95,7 @@ public class WebXml24Type extends WebXmlType
                 new WebXmlTag(this, "servlet-mapping"),
                 new WebXmlTag(this, "url-pattern"), new WebXmlTag(this, "session-config", false),
                 new WebXmlTag(this, "mime-mapping"), new WebXmlTag(this, "welcome-file-list", false),
-                new WebXmlTag(this, "error-page"), new WebXmlTag(this, "taglib"),
+                new WebXmlTag(this, "error-page", true, new Identifier("concat(error-code,'>',exception-type)"), null), new WebXmlTag(this, "taglib"),
                 new WebXmlTag(this, "resource-env-ref"), new WebXmlTag(this, "resource-ref"),
                 new WebXmlTag(this, "security-constraint", true, null, SecurityConstraint.class),
                 new WebXmlTag(this, "web-resource-collection"), 
