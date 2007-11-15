@@ -36,6 +36,7 @@ import org.codehaus.cargo.module.webapp.weblogic.WeblogicXml;
 import org.codehaus.cargo.module.webapp.weblogic.WeblogicXmlIo;
 import org.codehaus.cargo.module.webapp.websphere.IbmWebBndXmi;
 import org.codehaus.cargo.module.webapp.websphere.IbmWebBndXmiIo;
+import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.jdom.JDOMException;
@@ -64,12 +65,19 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
     private WebXml webXml;
 
     /**
+     * The filename.
+     */
+    private String file;
+
+    
+    /**
      * {@inheritDoc}
      * @see DefaultJarArchive#DefaultJarArchive(String)
      */
     public DefaultWarArchive(String file)
     {
         super(file);
+        this.file = file;
     }
 
     /**
@@ -107,6 +115,10 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
                 	// will fail
                 	this.webXml = new WebXml();
                 }
+            }
+            catch(Exception ex)
+            {
+            	throw new CargoException("Error parsing the web.xml file in " + file, ex);
             }
             finally
             {
