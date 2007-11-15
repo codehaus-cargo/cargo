@@ -96,7 +96,7 @@ public class Filter extends WebXmlElement
      */
     public List getInitParams()
     {
-        return getChildren("init-param");
+        return getChildren("init-param", getTag().getTagNamespace());
     }
 
     /**
