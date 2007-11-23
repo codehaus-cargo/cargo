@@ -1016,7 +1016,18 @@ public final class WebXmlUtils
         Filter filter =
             (Filter) theWebXml.getTagByIdentifier(
                 WebXmlType.FILTER, filterName);
-        return filter.getInitParam(paramName).getParamValue();
+        if( filter == null )
+        {
+        	throw new IllegalStateException("Filter '" + filterName + "' not defined");
+        }
+
+        InitParam initParam =  filter.getInitParam(paramName);
+        if( initParam == null )
+        {
+        	throw new IllegalStateException("Filter '" + filterName + "' Initialization parameter '" + paramName + "' not defined");
+        }
+
+        return initParam.getParamValue();
 
     }
 
