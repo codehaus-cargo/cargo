@@ -236,12 +236,13 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
       </plugin>
+      <!-- disabled due to: http://jira.codehaus.org/browse/MCLIRR-7
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>clirr-maven-plugin</artifactId>
         <configuration>
           <minSeverity>info</minSeverity>
-          <failOnError>false</failOnError> <!-- only warn until we can compare agains stable release version -->
+          <failOnError>false</failOnError>
           <textOutputFile>${project.build.directory}/clirr.txt</textOutputFile>
           <excludes>
             <exclude>**/internal/**</exclude>
@@ -254,7 +255,7 @@
           </excludes>
         </configuration>
       </plugin>
-
+      -->
       <!-- Commenting out till Clover plugin v2.2 is released. This is because we need support for
            test-jar artifacts which wasn't working in v2.1.
       <plugin>
@@ -274,9 +275,13 @@
           <target>1.4</target>
         </configuration>
       </plugin>
+      <!-- disabled until http://jira.codehaus.org/browse/MCLIRR-7 is released
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>clirr-maven-plugin</artifactId>
+	<configuration>
+	  <failOnError>false</failOnError>
+	</configuration>
         <executions>
           <execution>
             <goals>
@@ -285,6 +290,7 @@
           </execution>
         </executions>
       </plugin>
+      -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
