@@ -76,6 +76,12 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("jboss4x", ContainerType.REMOTE,
             ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jboss.internal."
                 + "JBossRuntimeConfigurationCapability");
+        registerConfigurationCapability("jboss42x", ContainerType.INSTALLED,
+            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jboss.internal."
+                + "JBossStandaloneLocalConfigurationCapability");
+        registerConfigurationCapability("jboss42x", ContainerType.REMOTE,
+                ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jboss.internal."
+                    + "JBossRuntimeConfigurationCapability");
 
         registerConfigurationCapability("jetty4x", ContainerType.EMBEDDED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jetty.internal."
@@ -103,6 +109,10 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("oc4j9x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.orion.internal."
                 + "OrionStandaloneLocalConfigurationCapability");
+        registerConfigurationCapability("oc4j10x", ContainerType.INSTALLED,
+            ConfigurationType.EXISTING, "org.codehaus.cargo.container.orion.internal."
+                + "OrionStandaloneLocalConfigurationCapability");
+
 
         registerConfigurationCapability("resin2x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.resin.internal."

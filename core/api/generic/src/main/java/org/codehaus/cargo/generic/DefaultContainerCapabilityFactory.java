@@ -56,6 +56,8 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
             "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
         registerContainerCapability("jboss4x",
             "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
+        registerContainerCapability("jboss42x",
+            "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
 
         registerContainerCapability("jetty4x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
@@ -68,6 +70,8 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
 
         registerContainerCapability("oc4j9x",
+            "org.codehaus.cargo.container.internal.J2EEContainerCapability");
+        registerContainerCapability("oc4j10x",
             "org.codehaus.cargo.container.internal.J2EEContainerCapability");
 
         registerContainerCapability("orion1x",

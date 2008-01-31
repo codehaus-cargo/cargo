@@ -104,6 +104,11 @@
       <version>${cargo.resources.version}</version>
       <type>ear</type>
     </dependency>
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <version>2.6.2</version>
+    </dependency>
 
   </dependencies>
   <build>
@@ -112,10 +117,11 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.1.3</version>
           <configuration>
             
             <forkMode>pertest</forkMode>
-            <useFile>false</useFile>
+            <useFile>true</useFile>
             <reportFormat>plain</reportFormat>
 
             <systemProperties>
@@ -280,6 +286,15 @@
                 <name>cargo.jboss4x.url</name>
                 <value>http://downloads.sourceforge.net/jboss/jboss-4.0.5.GA.zip?big_mirror=1</value>
               </property>
+  
+              <property>
+                <name>cargo.jboss42x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.jboss42x.url</name>
+                <value>http://downloads.sourceforge.net/jboss/jboss-4.2.2.GA.zip?big_mirror=1</value>
+              </property>
 
               <!--
                 If you're behind a proxy, you can define the following properties in your
@@ -401,7 +416,7 @@
       <!-- All containers that have a distribution which can be downloaded automatically -->
       <id>all-downloadable</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, orion1x, orion2x, tomcat3x, tomcat4x, tomcat5x, jetty4x, jetty5x, jetty6x, geronimo1x, jboss3x, jboss4x, jo1x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, orion1x, orion2x, tomcat3x, tomcat4x, tomcat5x, jetty4x, jetty5x, jetty6x, geronimo1x, jboss3x, jboss4x, jboss42x, jo1x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -475,6 +490,12 @@
       <properties>
         <cargo.containers>jboss4x</cargo.containers>
       </properties>
+    </profile>
+    <profile>
+       <id>jboss42x</id>
+       <properties>
+         <cargo.containers>jboss42x</cargo.containers>
+       </properties>
     </profile>
     <profile>
       <id>jo1x</id>
