@@ -40,6 +40,16 @@ public interface SpawnedContainer
     String[] getExtraClasspath();
 
     /**
+     * @param classpath the shared classpath that is shared by the container applications.
+     */
+    void setSharedClasspath(String[] classpath);
+
+    /**
+     * @return the extra classpath that is shared by the container applications.
+     */
+    String[] getSharedClasspath();
+
+    /**
      * @param properties the System properties to set in the container executing VM.
      */
     void setSystemProperties(Map properties);

@@ -73,12 +73,22 @@ public class InstalledLocalContainerStub
         throw new RuntimeException("Not implemented");
     }
 
+    public String[] getSharedClasspath()
+    {
+        throw new RuntimeException("Not implemented");
+    }
+
     public Map getSystemProperties()
     {
         return this.systemProperties;
     }
 
     public void setExtraClasspath(String[] classpath)
+    {
+        throw new RuntimeException("Not implemented");
+    }
+
+    public void setSharedClasspath(String[] classpath)
     {
         throw new RuntimeException("Not implemented");
     }

@@ -30,4 +30,9 @@ public interface TomcatPropertySet
      * The URL for calling the Tomcat Manager app.
      */
     String MANAGER_URL = "cargo.tomcat.manager.url";
+
+    /**
+     * The boolean value for the empty session path connector property.
+     */
+    String CONNECTOR_EMPTY_SESSION_PATH = "cargo.tomcat.connector.emptySessionPath";
 }

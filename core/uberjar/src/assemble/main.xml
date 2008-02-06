@@ -5,6 +5,7 @@
   <includeBaseDirectory>false</includeBaseDirectory>
   <dependencySets>
     <dependencySet>
+      <outputFileNameMapping/>
       <outputDirectory>/</outputDirectory>
       <includes>
         <include>org.codehaus.cargo:cargo-core-api-container</include>

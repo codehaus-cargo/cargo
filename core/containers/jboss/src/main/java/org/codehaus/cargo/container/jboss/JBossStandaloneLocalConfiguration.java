@@ -19,9 +19,11 @@
  */
 package org.codehaus.cargo.container.jboss;
 
+import org.apache.tools.ant.filters.ReplaceTokens;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBossStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBossInstalledLocalContainer;
@@ -52,7 +54,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
     /**
      * JBoss container instance.
      */
-    private JBossInstalledLocalContainer jbossContainer;
+    protected JBossInstalledLocalContainer jbossContainer;
 
     /**
      * {@inheritDoc}
@@ -98,6 +100,35 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         jbossContainer = (JBossInstalledLocalContainer) container;
 
         FilterChain filterChain = createJBossFilterChain(jbossContainer);
+
+        // Setup the shared class path
+        if (container instanceof InstalledLocalContainer)
+        {
+            InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
+            String[] sharedClassPath = installedContainer.getSharedClasspath();
+            StringBuffer tmp = new StringBuffer();
+            if (sharedClassPath != null)
+            {
+            	for (int i = 0; i < sharedClassPath.length; i++)
+            	{
+            		tmp.append(sharedClassPath[i]);
+
+            		// There is the @cargo.server.deploy.url@ after the @jboss.shared.classpath@
+            		tmp.append(',');
+            	}
+            } 
+            else 
+            {
+            	// if the sharedClassPath is null then we have to add a blank token to be added
+            	// Note: adding an empty string will result in an index out of bounds error so a space needs to be added
+            	tmp = tmp.append(" ");
+            }
+            String sharedClassPathString = tmp.toString();
+            getLogger().debug("Shared loader classpath is " + sharedClassPathString,
+                getClass().getName());
+            getAntUtils().addTokenToFilterChain(filterChain, "jboss.shared.classpath",
+                tmp.toString());
+        }
 
         getFileHandler().createDirectory(getHome(), "/deploy");
         getFileHandler().createDirectory(getHome(), "/lib");
@@ -150,7 +181,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
      * @param cargoFiles list of cargo resources file that will excluded
      * @throws IOException If an error occurs during the copy.
      */
-    private void copyExternalResources(File sourceDir, File destDir, String[] cargoFiles)
+    protected void copyExternalResources(File sourceDir, File destDir, String[] cargoFiles)
         throws IOException
     {
         File[] sourceFiles = sourceDir.listFiles();

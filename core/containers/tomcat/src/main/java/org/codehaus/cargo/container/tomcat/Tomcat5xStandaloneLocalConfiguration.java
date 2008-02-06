@@ -23,6 +23,7 @@ import java.io.File;
 
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
@@ -50,6 +51,8 @@ public class Tomcat5xStandaloneLocalConfiguration
     public Tomcat5xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+
+        setProperty(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH, "true");
     }
 
     /**
@@ -116,6 +119,24 @@ public class Tomcat5xStandaloneLocalConfiguration
                     + "    auth='Container'>\n"
                     + "</Resource>";
         }
+    }
+
+
+    /**
+     * Configure the emptySessionPath property token on the filter chain for the
+     * server.xml configuration file.
+     *
+     * {@inheritDoc}
+     * @see AbstractCatalinaStandaloneLocalConfiguration#createTomcatFilterChain()
+     */
+    protected FilterChain createTomcatFilterChain()
+    {
+        FilterChain filterChain = super.createTomcatFilterChain();
+
+        getAntUtils().addTokenToFilterChain(filterChain, "catalina.connector.emptySessionPath",
+            getPropertyValue(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH));
+
+        return filterChain;
     }
 
     /**

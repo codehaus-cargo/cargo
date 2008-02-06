@@ -678,6 +678,7 @@
                  scans the specified WebDAV location
        -->
       <attribute name="URLs">
+         @jboss.shared.classpath@
          @cargo.server.deploy.url@
       </attribute>
 

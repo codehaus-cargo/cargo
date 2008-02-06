@@ -64,6 +64,12 @@ public abstract class AbstractInstalledLocalContainer
     private String[] extraClasspath;    
 
     /**
+     * Additional classpath entries for the classpath that will be shared by
+     * the container applications.
+     */
+    private String[] sharedClasspath;
+
+    /**
      * The container home installation directory.
      */
     private String home;
@@ -218,6 +224,24 @@ public abstract class AbstractInstalledLocalContainer
     {
         return this.extraClasspath;
     }   
+
+    /**
+     * {@inheritDoc}
+     * @see InstalledLocalContainer#getHome()
+     */
+    public void setSharedClasspath(String[] classpath)
+    {
+        this.sharedClasspath = classpath;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see InstalledLocalContainer#getSharedClasspath()
+     */
+    public String[] getSharedClasspath()
+    {
+        return this.sharedClasspath;
+    }
 
     /**
      * {@inheritDoc}

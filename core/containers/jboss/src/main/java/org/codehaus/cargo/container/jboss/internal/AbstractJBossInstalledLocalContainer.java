@@ -242,7 +242,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
      *            located in the <code>server/</code> directory inside the JBoss installation ir.
      * @return the location of the passed directory name inside the server configuration, as a File
      */
-    private String getSpecificConfigurationDir(String location, String configurationName)
+    protected String getSpecificConfigurationDir(String location, String configurationName)
     {
         return getFileHandler().append(getHome(), "server/" + configurationName + "/" + location);
     }
