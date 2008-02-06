@@ -194,6 +194,7 @@ public class DeployableTest extends MockObjectTestCase
         mockArtifact.stubs().method("getGroupId").will(returnValue("customGroupId"));
         mockArtifact.stubs().method("getArtifactId").will(returnValue("customArtifactId"));
         mockArtifact.stubs().method("getType").will(returnValue("jar"));
+        mockArtifact.stubs().method("getClassifier").will(returnValue(null));
         mockArtifact.expects(atLeastOnce()).method("getFile").will(returnValue(
             new File(deployableFile)));
         return (Artifact) mockArtifact.proxy();

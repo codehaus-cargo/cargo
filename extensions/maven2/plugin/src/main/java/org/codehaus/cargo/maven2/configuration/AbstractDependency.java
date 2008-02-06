@@ -40,6 +40,8 @@ public abstract class AbstractDependency
     private String type;
 
     private String location;
+    
+    private String classifier;
 
     public void setType(String type)
     {
@@ -81,12 +83,25 @@ public abstract class AbstractDependency
         return this.artifactId;
     }
 
+    public void setClassifier(String classifier)
+    {
+    	this.classifier = classifier;
+    }
+    
+    public String getClassifier()
+    {
+    	return this.classifier;
+    }
+    
     protected String findArtifactLocation(Set artifacts, Log log) throws MojoExecutionException
     {
         Artifact resolvedArtifact = null;
-
+        
         log.debug("Searching for an artifact that matches [" + getGroupId() + ":"
-            + getArtifactId() + ":" + getType() + "]...");
+            + getArtifactId() + ":" + getType() +  ":" + getClassifier() + "]...");
+        
+        System.out.println("Searching for an artifact that matches [" + getGroupId() + ":"
+            + getArtifactId() + ":" + getType() +  ":" + getClassifier() + "]...");
 
         Iterator it = artifacts.iterator();
         while (it.hasNext())
@@ -94,11 +109,13 @@ public abstract class AbstractDependency
             Artifact artifact = (Artifact) it.next();
 
             log.debug("Checking artifact [" + artifact.getGroupId() + ":"
-                + artifact.getArtifactId() + ":" + artifact.getType() + "]...");
+                + artifact.getArtifactId() + ":" + artifact.getType() + ":" + artifact.getClassifier() + "]...");
 
             // TODO: Find a better to handle match between m2 types and cargo types...
             if (artifact.getGroupId().equals(getGroupId())
-                && artifact.getArtifactId().equals(getArtifactId()))
+                && artifact.getArtifactId().equals(getArtifactId())
+                && (artifact.getClassifier() == getClassifier() 
+                || (artifact.getClassifier() != null && artifact.getClassifier().equals(getClassifier()))))
             {
                 resolvedArtifact = artifact;
                 break;
