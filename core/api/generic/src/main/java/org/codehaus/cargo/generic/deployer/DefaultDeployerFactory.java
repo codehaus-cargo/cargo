@@ -76,6 +76,11 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
             "org.codehaus.cargo.container.jboss.JBossInstalledLocalDeployer");
         registerDeployer("jboss42x", DeployerType.REMOTE,
             "org.codehaus.cargo.container.jboss.JBossRemoteDeploter");
+        registerDeployer("jboss5x", DeployerType.INSTALLED,
+            "org.codehaus.cargo.container.jboss.JBossInstalledLocalDeployer");
+        registerDeployer("jboss5x", DeployerType.REMOTE,
+            "org.codehaus.cargo.container.jboss.JBossRemoteDeploter");
+
 
         registerDeployer("jetty4x", DeployerType.EMBEDDED,
             "org.codehaus.cargo.container.jetty.Jetty4xEmbeddedLocalDeployer");

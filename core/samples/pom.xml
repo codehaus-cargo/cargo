@@ -305,6 +305,15 @@
                 <value>http://downloads.sourceforge.net/jboss/jboss-4.2.2.GA.zip?big_mirror=1</value>
               </property>
 
+              <property>
+                <name>cargo.jboss5x.port</name>
+                <value>8080</value>
+              </property>
+              <property>
+                <name>cargo.jboss5x.url</name>
+                <value>http://downloads.sourceforge.net/jboss/jboss-5.0.0.Beta3.zip?big_mirror=1</value>
+              </property>
+
               <!--
                 If you're behind a proxy, you can define the following properties in your
                 settings.xml file:
@@ -425,7 +434,7 @@
       <!-- All containers that have a distribution which can be downloaded automatically -->
       <id>all-downloadable</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, orion1x, orion2x, tomcat3x, tomcat4x, tomcat5x, tomcat6x, jetty4x, jetty5x, jetty6x, geronimo1x, jboss3x, jboss4x, jboss42x, jo1x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, orion1x, orion2x, tomcat3x, tomcat4x, tomcat5x, tomcat6x, jetty4x, jetty5x, jetty6x, geronimo1x, jboss3x, jboss4x, jboss42x, jboss5x, jo1x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -510,6 +519,12 @@
        <id>jboss42x</id>
        <properties>
          <cargo.containers>jboss42x</cargo.containers>
+       </properties>
+    </profile>
+    <profile>
+       <id>jboss5x</id>
+       <properties>
+         <cargo.containers>jboss5x</cargo.containers>
        </properties>
     </profile>
     <profile>
