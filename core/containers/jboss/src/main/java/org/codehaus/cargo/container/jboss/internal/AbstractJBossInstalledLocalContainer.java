@@ -85,9 +85,25 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             new File(getLibDir(getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)))
                 .toURL().toString()));
 
-        java.createJvmarg().setValue("-Xms128m");
-        java.createJvmarg().setValue("-Xmx512m");
-
+        // if the jvmArgs don't alread contain memory settings add the default
+        String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+        if (jvmArgs != null)
+        {
+        	if (!jvmArgs.contains("-Xms"))
+        	{
+        		java.createJvmarg().setValue("-Xms128m");
+        	}
+        	if (!jvmArgs.contains("-Xmx"))
+        	{
+        		java.createJvmarg().setValue("-Xmx512m");
+        	}
+        } 
+        else
+        {
+        	java.createJvmarg().setValue("-Xms128m");
+        	java.createJvmarg().setValue("-Xmx512m");
+        }
+        
         java.createArg().setValue("--configuration=" + getId());
 
         Path classpath = java.createClasspath();
