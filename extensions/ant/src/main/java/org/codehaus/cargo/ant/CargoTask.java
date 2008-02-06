@@ -104,6 +104,12 @@ public class CargoTask extends Task
     private Path extraClasspath;
 
     /**
+     * Classpath entries for the classpath that will be shared the applications
+     * deployed in a container.
+     */
+    private Path sharedClasspath;
+
+    /**
      * The file to which output of the container should be written. If not specified the output
      * will be logged in Cargo's log file.
      */
@@ -356,6 +362,21 @@ public class CargoTask extends Task
     }
 
     /**
+     * Adds shared classpath that will be shared by container applications.
+     *
+     * @return reference to the classpath
+     */
+    public Path createSharedClasspath()
+    {
+        if (getSharedClasspath() == null)
+        {
+            this.sharedClasspath = new Path(getProject());
+        }
+
+        return this.sharedClasspath.createPath();
+    }
+
+    /**
      * Adds a system property that will be set up in the executing container VM.
      * 
      * @param property the system property to add
@@ -443,6 +464,7 @@ public class CargoTask extends Task
             {
                 setupHome();
                 setupExtraClasspath();
+                setupSharedClasspath();
                 setupSystemProperties();
             }
         }
@@ -563,6 +585,18 @@ public class CargoTask extends Task
     }
 
     /**
+     * Set up shared classpath if defined.
+     */
+    protected void setupSharedClasspath()
+    {
+        if (getSharedClasspath() != null)
+        {
+            ((InstalledLocalContainer) getContainer()).setSharedClasspath(
+                getSharedClasspath().list());
+        }
+    }
+
+    /**
      * Set up system properties if defined.
      */
     protected void setupSystemProperties()
@@ -607,6 +641,15 @@ public class CargoTask extends Task
     protected final Path getExtraClasspath()
     {
         return this.extraClasspath;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see #createSharedClasspath()
+     */
+    protected final Path getSharedClasspath()
+    {
+        return this.sharedClasspath;
     }
 
     /**
