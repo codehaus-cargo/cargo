@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2006 Vincent Massol.
+ * Copyright 2006-2008 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,6 +65,9 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
             "org.codehaus.cargo.container.tomcat.TomcatDirectoryPackager");
         registerPackager("tomcat5x", PackagerType.DIRECTORY,
             "org.codehaus.cargo.container.tomcat.TomcatDirectoryPackager");
+        registerPackager("tomcat6x", PackagerType.DIRECTORY,
+            "org.codehaus.cargo.container.tomcat.TomcatDirectoryPackager");
+
     }
 
     /**

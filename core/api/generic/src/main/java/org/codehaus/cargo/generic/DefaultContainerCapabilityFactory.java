@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2006 Vincent Massol.
+ * Copyright 2006-2008 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,6 +90,9 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
         registerContainerCapability("tomcat5x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
+        registerContainerCapability("tomcat6x",
+            "org.codehaus.cargo.container.internal.ServletContainerCapability");
+
 
         registerContainerCapability("weblogic8x",
             "org.codehaus.cargo.container.internal.J2EEContainerCapability");

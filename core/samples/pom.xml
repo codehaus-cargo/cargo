@@ -202,6 +202,15 @@
                 <name>cargo.tomcat5x.url</name>
                 <value>http://www.apache.org/dist/tomcat/tomcat-5/v5.0.30/bin/jakarta-tomcat-5.0.30.zip</value>
               </property>
+              <property>
+                <name>cargo.tomcat6x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.tomcat6x.url</name>
+                <value>http://www.apache.org/dist/tomcat/tomcat-6/v6.0.14/bin/apache-tomcat-6.0.14.zip</value>
+              </property>
+
 
               <property>
                 <name>cargo.jetty4x.port</name>
@@ -416,7 +425,7 @@
       <!-- All containers that have a distribution which can be downloaded automatically -->
       <id>all-downloadable</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, orion1x, orion2x, tomcat3x, tomcat4x, tomcat5x, jetty4x, jetty5x, jetty6x, geronimo1x, jboss3x, jboss4x, jboss42x, jo1x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, orion1x, orion2x, tomcat3x, tomcat4x, tomcat5x, tomcat6x, jetty4x, jetty5x, jetty6x, geronimo1x, jboss3x, jboss4x, jboss42x, jo1x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -459,6 +468,12 @@
       <id>tomcat5x</id>
       <properties>
         <cargo.containers>tomcat5x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomcat6x</id>
+      <properties>
+        <cargo.containers>tomcat6x</cargo.containers>
       </properties>
     </profile>
     <profile>

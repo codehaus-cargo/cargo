@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2004-2006 Vincent Massol.
+ * Copyright 2004-2008 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -122,6 +122,11 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
             "org.codehaus.cargo.container.tomcat.Tomcat5xRemoteContainer");
         registerContainer("tomcat5x", ContainerType.EMBEDDED,
             "org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalContainer");
+        registerContainer("tomcat6x", ContainerType.INSTALLED,
+            "org.codehaus.cargo.container.tomcat.Tomcat6xInstalledLocalContainer");
+        registerContainer("tomcat6x", ContainerType.REMOTE,
+            "org.codehaus.cargo.container.tomcat.Tomcat4xRemoteContainer");
+
 
         registerContainer("weblogic8x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.weblogic.WebLogic8xInstalledLocalContainer");

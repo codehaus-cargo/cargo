@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2006 Vincent Massol.
+ * Copyright 2006-2008 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -154,6 +154,16 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("tomcat5x", ContainerType.REMOTE,
             ConfigurationType.RUNTIME, "org.codehaus.cargo.container.tomcat.internal."
                 + "TomcatRuntimeConfigurationCapability");
+        registerConfigurationCapability("tomcat6x", ContainerType.INSTALLED,
+            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.tomcat.internal."
+                + "TomcatStandaloneLocalConfigurationCapability");
+        registerConfigurationCapability("tomcat6x", ContainerType.INSTALLED,
+            ConfigurationType.EXISTING, "org.codehaus.cargo.container.tomcat.internal."
+                + "TomcatExistingLocalConfigurationCapability");
+        registerConfigurationCapability("tomcat6x", ContainerType.REMOTE,
+            ConfigurationType.RUNTIME, "org.codehaus.cargo.container.tomcat.internal."
+                + "TomcatRuntimeConfigurationCapability");
+
 
         registerConfigurationCapability("weblogic8x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.weblogic.internal."

@@ -1,7 +1,7 @@
 /* 
  * ========================================================================
  * 
- * Copyright 2005-2006 Vincent Massol.
+ * Copyright 2005-2008 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,6 +104,11 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
             "org.codehaus.cargo.container.tomcat.Tomcat5xRemoteDeployer");
         registerDeployer("tomcat5x", DeployerType.EMBEDDED,
             "org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalDeployer");
+        registerDeployer("tomcat6x", DeployerType.INSTALLED,
+             "org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer");
+        registerDeployer("tomcat6x", DeployerType.REMOTE,
+            "org.codehaus.cargo.container.tomcat.Tomcat6xRemoteDeployer");
+
     }
 
     /**

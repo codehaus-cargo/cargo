@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2004-2006 Vincent Massol.
+ * Copyright 2004-2008 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -134,6 +134,13 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
             "org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration");
         registerConfiguration("tomcat5x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
             "org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration");
+        registerConfiguration("tomcat6x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            "org.codehaus.cargo.container.tomcat.Tomcat6xStandaloneLocalConfiguration");
+        registerConfiguration("tomcat6x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            "org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration");
+        registerConfiguration("tomcat6x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            "org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration");
+
 
         registerConfiguration("weblogic8x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.weblogic.WebLogicStandaloneLocalConfiguration");
