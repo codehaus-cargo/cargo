@@ -20,6 +20,8 @@
 package org.codehaus.cargo.maven2;
 
 import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
@@ -82,6 +84,28 @@ public class ContainerStartMojoTest extends MockObjectTestCase
         this.mojo.execute();
         LocalContainer localContainer = (LocalContainer) this.mojo.createdContainer;
         assertEquals(0, localContainer.getConfiguration().getDeployables().size());
+    }
+
+    public void testTwoExecutionsInProject() throws Exception
+    {
+        HashMap context = new HashMap();
+        setUpMojo(InstalledLocalContainerStub.class, InstalledLocalContainerStub.ID,
+            StandaloneLocalConfigurationStub.class);
+        this.mojo.setPluginContext(context);
+        this.mojo.setCargoProject(createTestCargoProject("pom"));
+
+        this.mojo.getConfigurationElement().setHome("foo");
+        this.mojo.execute();
+
+        this.mojo.getConfigurationElement().setHome("bar");
+        this.mojo.execute();
+
+        assertEquals(2, context.size());
+        Iterator iter = context.values().iterator();
+        org.codehaus.cargo.container.Container container1 = (org.codehaus.cargo.container.Container) iter.next();
+        org.codehaus.cargo.container.Container container2 = (org.codehaus.cargo.container.Container) iter.next();
+        // can't work out which container is which, so we just check they're different
+        assertFalse("containers should be different", container1.equals(container2));
     }
 
     /**

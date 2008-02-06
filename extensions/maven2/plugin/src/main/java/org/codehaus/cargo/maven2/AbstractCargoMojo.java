@@ -310,9 +310,12 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
         // Try to find the container in the Maven Plugin Context first.
         Map context = getPluginContext();
+
+        // Containers don't have any useful ID, so we use the home directory which is hopefully unique
+        String containerKey = CONTEXT_KEY_CONTAINER + "." + getConfigurationElement().getHome();
         if (context != null)
         {
-            container = (org.codehaus.cargo.container.Container) context.get(CONTEXT_KEY_CONTAINER);
+            container = (org.codehaus.cargo.container.Container) context.get(containerKey);
         }
 
         if (container == null)
@@ -322,7 +325,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
         if (context != null)
         {
-            context.put(CONTEXT_KEY_CONTAINER, container);
+            context.put(containerKey, container);
         }
 
         return container;
