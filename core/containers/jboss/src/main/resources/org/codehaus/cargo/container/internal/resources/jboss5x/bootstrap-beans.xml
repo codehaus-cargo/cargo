@@ -21,6 +21,7 @@
               <!-- ClassLoader -->
               <value>${jboss.lib.url}/jboss-classloading-spi.jar</value>
               <value>${jboss.lib.url}/jboss-classloader.jar</value>
+              <value>${jboss.lib.url}/osgi.core.jar</value>
               <!-- Deployers -->
               <value>${jboss.lib.url}/jboss-metatype.jar</value>
               <value>${jboss.lib.url}/jboss-managed.jar</value>
@@ -50,10 +51,11 @@
               <value>${jboss.lib.url}/jboss-aop-jboss5.jar</value>
               <value>${jboss.lib.url}/trove.jar</value>
               <!-- JAXB - shouldn't this be in endorsed? -->
+              <value>${jboss.lib.url}/activation.jar</value>
               <value>${jboss.lib.url}/jaxb-api.jar</value>
               <value>${jboss.lib.url}/jaxb-impl.jar</value>
               <value>${jboss.lib.url}/stax-api.jar</value>
-              <value>${jboss.lib.url}/activation.jar</value>
+              <value>${jboss.lib.url}/wstx.jar</value>
            </array>
         </parameter>
       </constructor>
@@ -85,14 +87,14 @@
    <bean name="JMXKernel" class="org.jboss.system.server.jmx.JMXKernel">
       <property name="kernel"><inject bean="jboss.kernel:service=Kernel"/></property>
       <property name="serverImpl"><inject bean="JBossServer"/></property>
-      <property name="oldClassLoader">true</property>
+      <property name="oldClassLoader">false</property>
    </bean>
 
 
    <!-- Repository classloader -->
-   <bean name="AOPClassLoaderScopingPolicy" class="org.jboss.aop.asintegration.jboss4.RepositoryClassLoaderScopingPolicy"/>
+   <!--bean name="AOPClassLoaderScopingPolicy" class="org.jboss.aop.asintegration.jboss4.RepositoryClassLoaderScopingPolicy"/-->
    <!-- VFS ClassLoader -->
-   <!-- bean name="AOPClassLoaderScopingPolicy" class="org.jboss.aop.asintegration.jboss5.VFSClassLoaderScopingPolicy"/-->
+   <bean name="AOPClassLoaderScopingPolicy" class="org.jboss.aop.asintegration.jboss5.VFSClassLoaderScopingPolicy"/>
 
    <!-- Integration -->
    <bean name="AOPJBossIntegration" class="org.jboss.aop.asintegration.jboss5.JBoss5Integration">
@@ -253,7 +255,9 @@
    <bean name="KernelDeploymentDeployer" class="org.jboss.deployers.vfs.deployer.kernel.KernelDeploymentDeployer">
       <property name="type">beans</property>
    </bean>
-   <bean name="BeanMetaDataDeployer" class="org.jboss.deployers.vfs.deployer.kernel.BeanMetaDataDeployer">
+   <!-- FIXME: Put back to BeanMetaDataDeployer once JBMICROCONT-234 has been added to trunk -->
+   <bean name="BeanMetaDataDeployer" class="org.jboss.system.deployers.TempBeanMetaDataDeployer">
+      <!--bean name="BeanMetaDataDeployer" class="org.jboss.deployers.vfs.deployer.kernel.BeanMetaDataDeployer"-->
       <constructor><parameter><inject bean="jboss.kernel:service=Kernel"/></parameter></constructor>
       <property name="type">beans</property>
    </bean>
@@ -271,12 +275,12 @@
    </bean>
 
    <!-- UnifiedClassLoader -->
-   <bean name="ServiceClassLoaderDeployer" class="org.jboss.system.deployers.ServiceClassLoaderDeployer">
+   <!--bean name="ServiceClassLoaderDeployer" class="org.jboss.system.deployers.ServiceClassLoaderDeployer">
       <constructor><parameter><inject bean="JMXKernel" property="serviceController"/></parameter></constructor>
-   </bean>
+   </bean-->
 
    <!-- VFS ClassLoader -->
-   <!--bean name="ClassLoaderSystem" class="org.jboss.classloader.spi.ClassLoaderSystem">
+   <bean name="ClassLoaderSystem" class="org.jboss.classloader.spi.ClassLoaderSystem">
       <constructor factoryClass="org.jboss.classloader.spi.ClassLoaderSystem" factoryMethod="getInstance"/>
    </bean>
    <bean name="ClassLoading" class="org.jboss.deployers.plugins.classloading.ClassLoading"/>
@@ -287,7 +291,7 @@
       <property name="classLoading"><inject bean="ClassLoading"/></property>
       <property name="system"><inject bean="ClassLoaderSystem"/></property>
       <property name="mbeanServer"><inject bean="JMXKernel" property="mbeanServer"/></property>
-   </bean-->
+   </bean>
 
 	<!-- MBean for making sure that the underlying AspectManagerService gets registered in JMX -->
 	<bean name="AspectManagerJMXRegistrar" class="org.jboss.aop.deployers.AspectManagerJMXRegistrar">

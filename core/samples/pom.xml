@@ -311,7 +311,7 @@
               </property>
               <property>
                 <name>cargo.jboss5x.url</name>
-                <value>http://downloads.sourceforge.net/jboss/jboss-5.0.0.Beta3.zip?big_mirror=1</value>
+                <value>http://downloads.sourceforge.net/jboss/jboss-5.0.0.Beta4.zip?big_mirror=1</value>
               </property>
 
               <!--
