@@ -19,8 +19,10 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
+import java.io.File;
+import java.util.Iterator;
+
 import org.apache.tools.ant.types.FilterChain;
-import org.apache.tools.ant.util.FileUtils;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
@@ -29,10 +31,9 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicStandaloneLocalConfigurationCapability;
-
-import java.io.File;
-import java.util.Iterator;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * WebLogic standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -136,32 +137,57 @@ public class WebLogicStandaloneLocalConfiguration extends AbstractStandaloneLoca
      */
     protected void setupDeployables(Container container)
     {
+        AbstractWebLogicInstalledLocalContainer installedLocalContainer
+            = (AbstractWebLogicInstalledLocalContainer) container;
         try 
         {
-            FileUtils fileUtils = FileUtils.newFileUtils();
+            // Get the deployable folder from container config. If it is not set
+            // use the default one.
+            String deployableFolder
+                = installedLocalContainer.getConfiguration().getPropertyValue(
+                    WebLogicPropertySet.DEPLOYABLE_FOLDER);
+            if (deployableFolder == null || deployableFolder.trim().length() <= 0)
+            {
+                deployableFolder = installedLocalContainer.getDefaultDeployableFolder();
+            }
 
             // Create the applications directory
-            String appDir = getFileHandler().createDirectory(getHome(), "applications");
-            
-            // Deploy all deployables into the applications directory
+            String deployableDirectory = getFileHandler().createDirectory(
+                getHome(), deployableFolder);
+
+            // Deploy all deployables into the deployable directory
             Iterator it = getDeployables().iterator();
+            FileHandler fh = getFileHandler();
             while (it.hasNext())
             {
                 Deployable deployable = (Deployable) it.next();
-                if ((deployable.getType() == DeployableType.WAR) 
-                    && ((WAR) deployable).isExpandedWar())
+
+                File deployableFile = new File(deployable.getFile());
+                if (!deployableFile.exists())
                 {
-                    continue;
+                    throw new RuntimeException(
+                        "Can not deploy non existing file '"
+                        + deployableFile.getAbsolutePath() + "'.");
                 }
 
-                fileUtils.copyFile(deployable.getFile(),
-                    getFileHandler().append(appDir, getFileHandler().getName(deployable.getFile())),
-                    null, true);
+                String deployableFilePath = deployableFile.getPath();
+                if (deployableFile.isFile())
+                {
+                    fh.copyFile(deployableFilePath,
+                        getFileHandler().append(deployableDirectory,
+                            fh.getName(deployableFilePath)));
+                }
+                else
+                {
+                    fh.copyDirectory(deployableFilePath,
+                        getFileHandler().append(deployableDirectory,
+                            fh.getName(deployableFilePath)));
+                }
             }
             
             // Deploy the cargocpc web-app by copying the WAR file
             getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-                new File(appDir, "cargocpc.war"));
+                new File(deployableDirectory, "cargocpc.war"));
         }
         catch (Exception e)
         {

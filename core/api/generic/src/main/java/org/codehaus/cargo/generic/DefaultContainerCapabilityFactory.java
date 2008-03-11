@@ -98,6 +98,8 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
 
         registerContainerCapability("weblogic8x",
             "org.codehaus.cargo.container.internal.J2EEContainerCapability");
+        registerContainerCapability("weblogic9x",
+            "org.codehaus.cargo.container.internal.J2EEContainerCapability");
     }
 
     /**

@@ -1,20 +1,18 @@
-/* 
+/*
  * ========================================================================
- * 
- * Copyright 2004-2006 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ========================================================================
  */
 package org.codehaus.cargo.container.weblogic;
@@ -23,22 +21,24 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer;
 
 /**
- * Special container support for the Bea WebLogic 8.x application server.
- * 
+ * Special container support for the Bea WebLogic 9.x application server.
+ * Author: 20060918 - Martin Zeltner (MZE)
+ *
  * @version $Id$
  */
-public class WebLogic8xInstalledLocalContainer extends AbstractWebLogicInstalledLocalContainer
+public class WebLogic9xInstalledLocalContainer
+    extends AbstractWebLogicInstalledLocalContainer
 {
     /**
      * Unique container id.
      */
-    public static final String ID = "weblogic8x";
+    public static final String ID = "weblogic9x";
 
     /**
      * {@inheritDoc}
      * @see AbstractWebLogicInstalledLocalContainer#AbstractInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
-    public WebLogic8xInstalledLocalContainer(LocalConfiguration configuration)
+    public WebLogic9xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
     }
@@ -49,7 +49,7 @@ public class WebLogic8xInstalledLocalContainer extends AbstractWebLogicInstalled
      */
     public final String getName()
     {
-        return "WebLogic 8.x";
+        return "WebLogic 9.x";
     }
 
     /**
@@ -67,6 +67,6 @@ public class WebLogic8xInstalledLocalContainer extends AbstractWebLogicInstalled
      */
     public String getDefaultDeployableFolder()
     {
-        return "applications";
+        return "autodeploy";
     }
 }

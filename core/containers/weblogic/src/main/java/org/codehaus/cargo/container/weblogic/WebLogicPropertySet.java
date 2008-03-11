@@ -40,4 +40,9 @@ public interface WebLogicPropertySet
      * WebLogic server name.
      */
     String SERVER = "cargo.weblogic.server";
+
+    /**
+     * Is the folder in the domain dir where to deploy apps.
+     */
+    String DEPLOYABLE_FOLDER = "cargo.weblogic.deployable.folder";
 }

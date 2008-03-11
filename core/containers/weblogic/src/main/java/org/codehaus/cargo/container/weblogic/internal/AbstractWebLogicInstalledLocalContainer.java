@@ -176,4 +176,9 @@ public abstract class AbstractWebLogicInstalledLocalContainer
         AntContainerExecutorThread webLogicRunner = new AntContainerExecutorThread(java);
         webLogicRunner.start();
     }
+
+    /**
+     * Gets the default name of the deployable folder.
+     */
+    public abstract String getDefaultDeployableFolder();
 }
