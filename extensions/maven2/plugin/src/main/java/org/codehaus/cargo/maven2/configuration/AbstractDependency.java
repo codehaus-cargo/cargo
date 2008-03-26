@@ -99,9 +99,6 @@ public abstract class AbstractDependency
         
         log.debug("Searching for an artifact that matches [" + getGroupId() + ":"
             + getArtifactId() + ":" + getType() +  ":" + getClassifier() + "]...");
-        
-        System.out.println("Searching for an artifact that matches [" + getGroupId() + ":"
-            + getArtifactId() + ":" + getType() +  ":" + getClassifier() + "]...");
 
         Iterator it = artifacts.iterator();
         while (it.hasNext())
