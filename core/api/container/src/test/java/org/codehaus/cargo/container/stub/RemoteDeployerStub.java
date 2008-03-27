@@ -73,4 +73,9 @@ public class RemoteDeployerStub extends LoggedObject implements Deployer
     {
         return DeployerType.REMOTE;
     }
+
+	public void undeploy(Deployable deployable, DeployableMonitor monitor) {
+		// Voluntarily do nothing for testing
+		
+	}
 }

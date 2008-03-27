@@ -74,4 +74,8 @@ public class EmbeddedLocalDeployerStub extends LoggedObject implements Deployer
     {
         return DeployerType.EMBEDDED;
     }
+
+	public void undeploy(Deployable deployable, DeployableMonitor monitor) {
+		// Voluntarily do nothing for testing
+	}
 }

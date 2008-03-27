@@ -75,4 +75,9 @@ public class InstalledLocalDeployerStub extends LoggedObject implements Deployer
     {
         return DeployerType.INSTALLED;
     }
+
+	public void undeploy(Deployable deployable, DeployableMonitor monitor) {
+		// Voluntarily do nothing for testing
+		
+	}
 }

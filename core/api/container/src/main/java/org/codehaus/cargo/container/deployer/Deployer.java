@@ -53,6 +53,16 @@ public interface Deployer extends Loggable
      * @param deployable the {@link Deployable} to undeploy
      */
     void undeploy(Deployable deployable);
+    
+    /**
+     * Undeploy a {@link Deployable} to the running container.
+     * Waits for the {@link Deployable} to be fully undeployed before returning.
+     *  
+     * @param deployable the {@link Deployable} to deploy
+     * @param monitor the monitor that checks for deployment status
+     */
+    void undeploy(Deployable deployable, DeployableMonitor monitor);
+
 
     /**
      * <p>Redeploy a {@link Deployable} already deployed to the running container. The service

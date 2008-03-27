@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2005-2006 Vincent Massol.
+ * Copyright 2005-2008 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,6 +63,20 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
         watchdog.watchForAvailability();
     }
 
+    /**
+     * {@inheritDoc}
+     * @see Deployer#undeploy(Deployable, DeployableMonitor)
+     */
+    public void undeploy(Deployable deployable, DeployableMonitor monitor)
+    {
+        undeploy(deployable);
+
+        // Wait for the Deployable to be undeployed
+        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
+        watchdog.setLogger(getLogger());
+        watchdog.watchForUnavailability();
+    }
+    
     /**
      * {@inheritDoc}
      * @see Deployer#deploy(Deployable)
