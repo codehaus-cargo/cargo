@@ -76,6 +76,23 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/server.xml",
             new File(confDir, "server.xml"), filterChain);
 
+
+        if (container instanceof InstalledLocalContainer)
+        {
+            InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
+            String[] sharedClassPath = installedContainer.getSharedClasspath();
+            StringBuffer tmp = new StringBuffer("${catalina.home}/lib,${catalina.home}/lib/*.jar");
+            for (int i = 0; i < sharedClassPath.length; i++)
+            {
+                tmp.append(',').append(sharedClassPath[i]);
+            }
+            getAntUtils().addTokenToFilterChain(filterChain, "catalina.common.loader",
+                tmp.toString());
+        }
+
+        getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/catalina.properties",
+            new File(confDir, "catalina.properties"), filterChain);
+
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId()
             + "/tomcat-users.xml", new File(confDir, "tomcat-users.xml"), filterChain);
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/web.xml",
@@ -198,7 +215,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
                 throw new ContainerException("Only WAR archives are supported for deployment "
                     + "in Tomcat. Got [" + deployable.getFile() + "]");
             }
-
+           
             // Do not create tokens for WARs containing a context file as they
             // are copied to the webapps directory.
             if (deployable instanceof TomcatWAR)

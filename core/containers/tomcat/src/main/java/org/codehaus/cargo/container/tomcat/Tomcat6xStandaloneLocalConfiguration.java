@@ -23,8 +23,10 @@ import java.io.File;
 
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.DataSource;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
@@ -45,6 +47,7 @@ public class Tomcat6xStandaloneLocalConfiguration
     public Tomcat6xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+        setProperty(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH, "true");
     }
 
     /**
@@ -53,18 +56,26 @@ public class Tomcat6xStandaloneLocalConfiguration
      */
     protected void setupManager(LocalContainer container)
     {
+        if (container instanceof EmbeddedLocalContainer)
+        {
+            // when running in the embedded mode, there's no need
+            // of any manager application.
+        }
+        else
+    {
         Copy copy = (Copy) getAntUtils().createAntTask("copy");
 
         FileSet fileSet = new FileSet();
         fileSet.setDir(new File(((InstalledLocalContainer) container).getHome()));
+            fileSet.createInclude().setName("conf/Catalina/localhost/manager.xml");
         fileSet.createInclude().setName("server/lib/catalina.jar");
         fileSet.createInclude().setName("server/webapps/manager/**");
-        fileSet.createInclude().setName("webapps/manager.xml");
         copy.addFileset(fileSet);
         
         copy.setTodir(new File(getHome()));
         
         copy.execute();
+    }
     }
 
     /**
@@ -87,45 +98,40 @@ public class Tomcat6xStandaloneLocalConfiguration
         {
             DataSource ds = new DataSource(dataSourceProperty);
             return
-                "  <Resource name='" + ds.getJndiLocation() + "' auth='Container' "
-                    + "type='" + ds.getDataSourceType() + "'/>\n"
-                    + "  <ResourceParams name='" + ds.getJndiLocation() + "'>\n"
-                    + "    <parameter>\n"
-                    + "      <name>driverClassName</name>\n"
-                    + "      <value>" + ds.getDriverClass() + "</value>\n"
-                    + "    </parameter>\n"
-                    + "    <parameter>\n"
-                    + "      <name>url</name>\n"
-                    + "      <value>" + ds.getUrl() + "</value>\n"
-                    + "    </parameter>\n"
-                    + "    <parameter>\n"
-                    + "      <name>username</name>\n"
-                    + "      <value>" + ds.getUsername() + "</value>\n"
-                    + "    </parameter>\n"
-                    + "    <parameter>\n"
-                    + "      <name>password</name>\n"
-                    + "      <value>" + ds.getPassword() + "</value>\n"
-                    + "    </parameter>\n"
-                    + "    <parameter>\n"
-                    + "      <name>factory</name>\n"
-                    + "      <value>org.apache.commons.dbcp.BasicDataSourceFactory</value>\n"
-                    + "    </parameter>\n"
-                    + "  </ResourceParams>\n"
+                "<Resource name='" + ds.getJndiLocation() + "'\n"
+                    + "    auth='Container'\n"
+                    + "    type='" + ds.getDataSourceType() + "'\n"
+                    + "    username='" + ds.getUsername() + "'\n"
+                    + "    password='" + ds.getPassword() + "'\n"
+                    + "    driverClassName='" + ds.getDriverClass() + "'\n"
+                    + "    url='" + ds.getUrl() + "'\n"
+                    + "/>\n"
                     // As we are using a database - we will likely need a transaction factory too.
-                    + "  <Resource name='UserTransaction' "
-                    + "type='javax.transaction.UserTransaction' auth='Container'>\n"
-                    + "  </Resource>\n"
-                    + "  <ResourceParams name='UserTransaction'>\n"
-                    + "    <parameter>\n"
-                    + "      <name>factory</name>\n"
-                    + "      <value>org.objectweb.jotm.UserTransactionFactory</value>\n"
-                    + "    </parameter>\n"
-                    + "    <parameter>\n"
-                    + "      <name>jotm.timeout</name>\n"
-                    + "      <value>60</value>\n"
-                    + "    </parameter>\n"
-                    + "</ResourceParams>";
+                    + "<Resource jotm.timeout='60' " 
+                    + "    factory='org.objectweb.jotm.UserTransactionFactory' "
+                    + "    name='UserTransaction' "
+                    + "    type='javax.transaction.UserTransaction' "
+                    + "    auth='Container'>\n"
+                    + "</Resource>";
         }
+    }
+
+
+    /**
+     * Configure the emptySessionPath property token on the filter chain for the
+     * server.xml configuration file.
+     *
+     * {@inheritDoc}
+     * @see AbstractCatalinaStandaloneLocalConfiguration#createTomcatFilterChain()
+     */
+    protected FilterChain createTomcatFilterChain()
+    {
+        FilterChain filterChain = super.createTomcatFilterChain();
+
+        getAntUtils().addTokenToFilterChain(filterChain, "catalina.connector.emptySessionPath",
+            getPropertyValue(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH));
+
+        return filterChain;
     }
 
     /**

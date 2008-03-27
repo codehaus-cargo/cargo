@@ -74,6 +74,8 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
 
         registerDeployable("tomcat5x", DeployableType.WAR,
             "org.codehaus.cargo.container.tomcat.TomcatWAR");
+        registerDeployable("tomcat6x", DeployableType.WAR,
+        	"org.codehaus.cargo.container.tomcat.TomcatWAR");
 
         registerDeployable("geronimo1x", DeployableType.WAR,
             "org.codehaus.cargo.container.geronimo.deployable.GeronimoWAR");

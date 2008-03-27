@@ -7,7 +7,8 @@
         enableLookups="false" redirectPort="8443" acceptCount="100"
         connectionTimeout="20000" disableUploadTimeout="true"
         scheme="@cargo.protocol@" secure="@catalina.secure@"
-        debug="@catalina.logging.level@"/>
+        debug="@catalina.logging.level@"
+        emptySessionPath="@catalina.connector.emptySessionPath@"/>
 
     <Engine name="Catalina" defaultHost="@cargo.hostname@" 
         debug="@catalina.logging.level@">
