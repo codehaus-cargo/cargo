@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2007 Vincent Massol.
+ * Copyright 2007-2008 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -140,6 +140,10 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
             java.createArg().setValue("--stop");
         }
 
+		//For Jetty to pick up on the extra classpath it needs to export
+		//the classpath as an environment variable 'CLASSPATH'
+        java.addSysproperty(getAntUtils().createSysProperty("CLASSPATH", java.getCommandLine().getClasspath()));
+        
         AntContainerExecutorThread jettyRunner = new AntContainerExecutorThread(java);
         jettyRunner.start();
     }
