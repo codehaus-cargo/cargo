@@ -96,6 +96,9 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
             "org.codehaus.cargo.container.jetty.Jetty6xEmbeddedLocalContainer");
         registerContainer("jetty6x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer");
+        registerContainer("jetty6x", ContainerType.REMOTE,
+            "org.codehaus.cargo.container.jetty.Jetty6xRemoteContainer");
+
 
         registerContainer("jo1x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.jo.Jo1xInstalledLocalContainer");
@@ -130,7 +133,7 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
         registerContainer("tomcat6x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.tomcat.Tomcat6xInstalledLocalContainer");
         registerContainer("tomcat6x", ContainerType.REMOTE,
-            "org.codehaus.cargo.container.tomcat.Tomcat4xRemoteContainer");
+            "org.codehaus.cargo.container.tomcat.Tomcat6xRemoteContainer");
 
 
         registerContainer("weblogic8x", ContainerType.INSTALLED,

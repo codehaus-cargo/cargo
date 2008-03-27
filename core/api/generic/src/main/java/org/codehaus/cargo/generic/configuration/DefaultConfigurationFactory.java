@@ -99,6 +99,8 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
             "org.codehaus.cargo.container.jetty.Jetty6xEmbeddedStandaloneLocalConfiguration");
         registerConfiguration("jetty6x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.jetty.Jetty6xStandaloneLocalConfiguration");
+        registerConfiguration("jetty6x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            "org.codehaus.cargo.container.jetty.JettyRuntimeConfiguration");
 
         registerConfiguration("jo1x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.jo.Jo1xStandaloneLocalConfiguration");

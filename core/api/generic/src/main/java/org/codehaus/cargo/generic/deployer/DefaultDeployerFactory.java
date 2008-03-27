@@ -90,6 +90,8 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
             "org.codehaus.cargo.container.jetty.Jetty6xEmbeddedLocalDeployer");
         registerDeployer("jetty6x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalDeployer");
+        registerDeployer("jetty6x", DeployerType.REMOTE,
+            "org.codehaus.cargo.container.jetty.JettyRemoteDeployer"); 
 
         registerDeployer("jo1x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.jo.Jo1xInstalledLocalDeployer");

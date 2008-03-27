@@ -102,6 +102,10 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("jetty6x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jetty.internal."
                 + "Jetty6xStandaloneLocalConfigurationCapability");
+        registerConfigurationCapability("jetty6x", ContainerType.REMOTE,
+            ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jetty.internal."
+                + "JettyRuntimeConfigurationCapability");
+
 
         registerConfigurationCapability("jo1x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jo.internal."
