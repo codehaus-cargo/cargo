@@ -165,6 +165,16 @@
         <role>Java Developer</role>
       </roles>
     </developer>
+    <developer>
+      <name>Matt Wringe</name>
+      <email>mwringe@redhat.com</email>
+      <id>mwringe</id>
+      <organization>Red Hat</organization>
+      <organizationUrl>www.redhat.com</organizationUrl>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
   </developers>
   <contributors>
     <contributor>
