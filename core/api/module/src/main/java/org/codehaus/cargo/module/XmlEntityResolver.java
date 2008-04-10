@@ -70,6 +70,14 @@ public class XmlEntityResolver implements EntityResolver
                               "weblogic-ejb-jar.dtd");
         publicIdentifiers.put("-//BEA Systems, Inc.//DTD Web Application 8.1//EN", 
                               "weblogic810-web-jar.dtd");
+
+        // jboss
+        publicIdentifiers.put("-//JBoss//DTD JBOSS 4.0//EN",
+                              "jboss_4_0.dtd");
+        publicIdentifiers.put("-//JBoss//DTD Web Service Reference 4.0//EN",
+                              "service-ref_4_0.dtd");
+        publicIdentifiers.put("-//JBoss//DTD Web Application 2.4//EN",
+                              "jboss-web_4_0.dtd");
     }
 
     /**
