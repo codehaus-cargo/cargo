@@ -110,7 +110,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
     public Document parseXml(InputStream input) throws 
         JDOMException, IOException
     {
-        return parseXml(input, null);
+        return parseXml(input, new XmlEntityResolver());
     }
 
     /**
