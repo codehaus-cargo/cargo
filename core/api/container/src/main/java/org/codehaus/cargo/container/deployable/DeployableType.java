@@ -42,6 +42,16 @@ public final class DeployableType
     public static final DeployableType EJB = new DeployableType("ejb");
     
     /**
+     * The SAR deployable type
+     */
+    public static final DeployableType SAR = new DeployableType("sar");
+    
+    /**
+     * The File deployable type.
+     */
+    public static final DeployableType FILE = new DeployableType("file");
+    
+    /**
      * A unique id that identifies a deployable type.
      */
     private String type;
@@ -75,6 +85,14 @@ public final class DeployableType
         else if (typeAsString.equalsIgnoreCase(EJB.type))
         {
             type = EJB;
+        }
+        else if (typeAsString.equalsIgnoreCase(SAR.type))
+        {
+        	type = SAR;
+        }
+        else if (typeAsString.equalsIgnoreCase(FILE.type))
+        {
+        	type = FILE;
         }
         else
         {

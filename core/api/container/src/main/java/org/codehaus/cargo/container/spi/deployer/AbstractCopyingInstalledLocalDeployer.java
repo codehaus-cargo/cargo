@@ -25,6 +25,8 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.EJB;
+import org.codehaus.cargo.container.deployable.File;
+import org.codehaus.cargo.container.deployable.SAR;
 import org.codehaus.cargo.container.deployable.WAR;
 
 import java.util.ArrayList;
@@ -54,6 +56,11 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      * @see #setShouldDeployExpandedWARs(boolean)
      */
     private boolean shouldDeployExpandedWARs;
+    
+    /**
+     * @see #setShouldDeployExpandedSARs(boolean)
+     */
+    private boolean shouldDeployExpandedSARs;
 
     /**
      * Deployed Deployables.
@@ -69,6 +76,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
         super(container);
 
         this.shouldDeployExpandedWARs = true;
+        this.shouldDeployExpandedSARs = true;
         this.deployedDeployables = new ArrayList();
     }
 
@@ -85,6 +93,19 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
         this.shouldDeployExpandedWARs = flag;
     }
 
+    /**
+     * Decide whether expanded SARs should be deployed. Some classes using this deployer may not
+     * want to deploy expanded SARs as they may want to deploy them in-situ by modifying the
+     * container's configuration file to point to the location of the expanded SAR. This saves
+     * some copying time and make it easier for development round-trips.
+     *
+     * @param flag if true expanded SARs will be deployed
+     */
+    public void setShouldDeployExpandedSARs(boolean flag)
+    {
+    	this.shouldDeployExpandedSARs = flag;
+    }
+    
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#deploy(Deployable)
@@ -131,9 +152,24 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
             {
                 deployEjb(deployableDir, (EJB) deployable);
             }
+            else if (deployable.getType() == DeployableType.SAR)
+            {
+            	if (deployable.isExpanded() && this.shouldDeployExpandedSARs)
+            	{
+            		deployExpandedSar(deployableDir, (SAR) deployable);
+            	}
+            	else
+            	{
+            	    deploySar(deployableDir, (SAR) deployable);
+            	}
+            }
+            else if (deployable.getType() == DeployableType.FILE)
+            {
+            	deployFile(deployableDir, (File) deployable);
+            }
             else
             {
-                throw new ContainerException("Only WAR, EJB and EAR are currently supported");
+                throw new ContainerException("Only WAR, EJB, EAR and SAR are currently supported");
             }
         }
         catch (Exception e)
@@ -234,7 +270,16 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
         getFileHandler().copyFile(ear.getFile(),
             getFileHandler().append(deployableDir, getFileHandler().getName(ear.getFile())));
     }
-
+    
+    /**
+     * Copy the SAR file to the deployable directory
+     */
+    protected void deploySar(String deployableDir, SAR sar)
+    {
+    	getFileHandler().copyFile(sar.getFile(),
+    			getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())));
+    }
+    
     /**
      * Copy the EJB file to the deployable directory.
      *
@@ -273,5 +318,35 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     {
         getFileHandler().copyDirectory(
             war.getFile(), getFileHandler().append(deployableDir, war.getContext()));
+    }
+    
+    /**
+     * Copy the full expanded SAR directory to the deployable directory, renaming it if
+     * the user has specified a custom context for this expanded SAR.
+     * @param deployableDir the directory to deploy the expanded SAR
+     * @param sar the expanded SAR sar
+     */
+    protected void deployExpandedSar(String deployableDir, SAR sar)
+    {
+        getFileHandler().copyDirectory(sar.getFile(), 
+        		getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())));
+    }
+    
+    /**
+     * Copy the file to the deployable directory
+     * @param deployableDir
+     * @param sar
+     */
+    protected void deployFile(String deployableDir, File file)
+    {
+    	if (getFileHandler().isDirectory(file.getFile()))
+    	{
+    		getFileHandler().copyDirectory(file.getFile(), 
+    				getFileHandler().append(deployableDir, getFileHandler().getName(file.getFile())));
+    	}
+    	else 
+    	{
+    		getFileHandler().copyFile(file.getFile(), getFileHandler().append(deployableDir, getFileHandler().getName(file.getFile())));
+    	}
     }
 }

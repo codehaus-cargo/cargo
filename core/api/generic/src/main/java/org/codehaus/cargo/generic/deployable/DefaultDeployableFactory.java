@@ -22,6 +22,8 @@ package org.codehaus.cargo.generic.deployable;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EJB;
+import org.codehaus.cargo.container.deployable.File;
+import org.codehaus.cargo.container.deployable.SAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
@@ -69,6 +71,8 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.WAR, WAR.class);
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.EJB, EJB.class);
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.EAR, EAR.class);
+        registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.SAR, SAR.class);
+        registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.FILE, File.class);
         
         // Register container-specific mappings
 
