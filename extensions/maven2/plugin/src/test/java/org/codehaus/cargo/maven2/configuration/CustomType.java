@@ -49,4 +49,8 @@ public class CustomType implements Deployable
     {
         // Voluntarily empty for testing
     }
+
+	public boolean isExpanded() {
+		return false;
+	}
 }

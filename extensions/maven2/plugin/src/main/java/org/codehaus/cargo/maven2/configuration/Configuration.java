@@ -23,8 +23,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.codehaus.cargo.container.configuration.Configfile;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
@@ -47,6 +49,8 @@ public class Configuration
     private Map properties;
 
     private Deployable[] deployables;
+    
+    private Configfile[] configfiles;
 
     public ConfigurationType getType()
     {
@@ -88,6 +92,16 @@ public class Configuration
         this.deployables = deployables;
     }
 
+    public Configfile[] getConfigfiles()
+    {
+    	return this.configfiles;
+    }
+    
+    public void setConfigfiles(Configfile[] configfiles)
+    {
+    	this.configfiles = configfiles;
+    }
+    
     public String getImplementation()
     {
         return this.implementation;
@@ -162,11 +176,23 @@ public class Configuration
                 addStaticDeployables(containerId, (LocalConfiguration) configuration, project);
             }
         }
+        
+        // Add configfiles for standalone local configurations
+        if (configuration instanceof StandaloneLocalConfiguration)
+        {
+        	if (getConfigfiles() != null)
+        	{
+        		for (int i = 0; i < getConfigfiles().length; i ++)
+        		{
+        		    ((StandaloneLocalConfiguration)configuration).setFileProperty(getConfigfiles()[i].getFile(), getConfigfiles()[i].getToFile(), getConfigfiles()[i].getToDir());
+        		}
+        	}
+        }
 
         return configuration;
     }
 
-    /**
+	/**
      * Add static deployables to the configuration.
      *
      * @param containerId the container id to which to deploy to

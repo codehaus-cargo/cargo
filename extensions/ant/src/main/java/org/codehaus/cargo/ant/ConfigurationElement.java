@@ -19,9 +19,11 @@
  */
 package org.codehaus.cargo.ant;
 
+import org.codehaus.cargo.container.configuration.Configfile;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
@@ -65,6 +67,11 @@ public class ConfigurationElement
     private List deployables = new ArrayList();
 
     /**
+     *List of configuration files
+     */
+    private List configfiles = new ArrayList();
+
+    /**
      * @param configurationClass the configuration class to associate to the containing container
      */
     public final void setClass(Class configurationClass)
@@ -96,6 +103,23 @@ public class ConfigurationElement
     protected final List getDeployables()
     {
         return this.deployables;
+    }
+
+    /**
+      * @param deployableElement the nested deployable element to deploy
+   */
+    public void addConfiguredConfigfile(Configfile configfileElement)
+    {
+        this.configfiles.add(configfileElement);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see #addConfiguredDeployable(DeployableElement)
+     */
+    protected final List getConfigfiles()
+    {
+        return this.configfiles;
     }
 
     /**
@@ -194,6 +218,18 @@ public class ConfigurationElement
         if (configuration instanceof LocalConfiguration)
         {
             addStaticDeployables(containerId, (LocalConfiguration) configuration);
+        }
+
+        if (configuration instanceof StandaloneLocalConfiguration)
+        {
+        	if (getConfigfiles() != null)
+        	{
+        		for (int i = 0; i < getConfigfiles().size(); i ++)
+        		{
+        			Configfile configfile = (Configfile)getConfigfiles().get(i);
+        			((StandaloneLocalConfiguration)configuration).setFileProperty(configfile.getFile(), configfile.getToFile(), configfile.getToDir());
+        		}
+        	}
         }
 
         return configuration;        
