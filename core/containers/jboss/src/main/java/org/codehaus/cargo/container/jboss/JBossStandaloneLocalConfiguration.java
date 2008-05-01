@@ -36,6 +36,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Implementation of a standalone {@link org.codehaus.cargo.container.configuration.Configuration}
@@ -100,6 +102,10 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         jbossContainer = (JBossInstalledLocalContainer) container;
 
         FilterChain filterChain = createJBossFilterChain(jbossContainer);
+        
+        // Deploy with user defined deployables with the appropriate deployer
+        JBossInstalledLocalDeployer deployer = new JBossInstalledLocalDeployer(jbossContainer);
+        deployer.deploy(getDeployables());
 
         // Setup the shared class path
         if (container instanceof InstalledLocalContainer)
@@ -111,18 +117,13 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
             {
             	for (int i = 0; i < sharedClassPath.length; i++)
             	{
-            		tmp.append(sharedClassPath[i]);
-
-            		// There is the @cargo.server.deploy.url@ after the @jboss.shared.classpath@
-            		tmp.append(',');
+            		String fileName = getFileHandler().getName(sharedClassPath[i]);
+            		String directoryName = getFileHandler().getParent(sharedClassPath[i]);
+            		
+            		tmp.append("<classpath codebase=\"" + directoryName + "\" archives=\"" + fileName + "\"/>");
+            		tmp.append("\n");
             	}
             } 
-            else 
-            {
-            	// if the sharedClassPath is null then we have to add a blank token to be added
-            	// Note: adding an empty string will result in an index out of bounds error so a space needs to be added
-            	tmp = tmp.append(" ");
-            }
             String sharedClassPathString = tmp.toString();
             getLogger().debug("Shared loader classpath is " + sharedClassPathString,
                 getClass().getName());
@@ -130,8 +131,8 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
                 tmp.toString());
         }
 
-        getFileHandler().createDirectory(getHome(), "/deploy");
-        getFileHandler().createDirectory(getHome(), "/lib");
+        String deployDir = getFileHandler().createDirectory(getHome(), "/deploy");
+        String libDir = getFileHandler().createDirectory(getHome(), "/lib");
 
         String confDir = getFileHandler().createDirectory(getHome(), "/conf");
 
@@ -150,10 +151,15 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         copyExternalResources(
             new File(jbossContainer.getConfDir(getPropertyValue(JBossPropertySet.CONFIGURATION))),
             new File(confDir), cargoFiles);
-
+        
+        // Copy the files within the JBoss Deploy directory to the cargo deploy directory
+        copyExternalResources(
+        		new File(jbossContainer.getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION))),
+        		new File(deployDir), new String[0]);
+        
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-            new File(getHome(), "/deploy/cargocpc.war"));
+            new File(getHome(), "/deploy/cargocpc.war"));   
     }
 
     /**
@@ -200,8 +206,9 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
                     }
                     else
                     {
-                        getFileHandler().copy(new FileInputStream(sourceFiles[i]),
-                            new FileOutputStream(new File(destDir, sourceFiles[i].getName())));
+                    	FileOutputStream fops = new FileOutputStream(new File(destDir, sourceFiles[i].getName()));
+                        getFileHandler().copy(new FileInputStream(sourceFiles[i]),fops);
+                        fops.close();
                     }
 
                 }
@@ -240,7 +247,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
     protected FilterChain createJBossFilterChain(JBossInstalledLocalContainer container)
         throws MalformedURLException
     {
-        FilterChain filterChain = new FilterChain();
+        FilterChain filterChain = createFilterChain();
         
         String[] version = jbossContainer.getName().split(" ");
         String mayorVersion = version[1].substring(0, 1);
@@ -281,14 +288,14 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         File deployDir =
             new File(container.getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION)));
         buffer.append("deploy/, ").append(deployDir.toURL().toString());
-
-        // Deploy with user defined deployables with the appropriate deployer
-        JBossInstalledLocalDeployer deployer = new JBossInstalledLocalDeployer(jbossContainer);
-        deployer.deploy(getDeployables());
-
-        getAntUtils().addTokenToFilterChain(filterChain, "cargo.server.deploy.url",
-            buffer.toString());
-
+        
+        // just use the original deploy directory and copy all the deployables from the server
+        // deploy directory to the cargo one. This is due to JBoss having deployers and sars in 
+        // the deploy directory which contain config files used to configure the server.
+        // By placing these files in the cargo home directory we will now be able to configure them
+        // with cargo.
+        getAntUtils().addTokenToFilterChain(filterChain, "cargo.server.deploy.url", "deploy/");
+        
         return filterChain;
     }
 

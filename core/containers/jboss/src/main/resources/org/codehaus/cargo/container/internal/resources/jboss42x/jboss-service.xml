@@ -13,6 +13,8 @@
      attribute.
     -->
    <classpath codebase="@cargo.server.lib.url@" archives="*"/>
+   @jboss.shared.classpath@
+   
 
    <!-- ==================================================================== -->
    <!-- JSR-77 Single JBoss Server Management Domain                         -->
@@ -678,7 +680,6 @@
                  scans the specified WebDAV location
        -->
       <attribute name="URLs">
-         @jboss.shared.classpath@
          @cargo.server.deploy.url@
       </attribute>
 

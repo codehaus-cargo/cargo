@@ -13,6 +13,7 @@
      attribute.
     -->
    <classpath codebase="@cargo.server.lib.url@" archives="*"/>
+   @jboss.shared.classpath@
 
    <!-- ==================================================================== -->
    <!-- Main Deployer                                                        -->

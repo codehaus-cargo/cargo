@@ -59,18 +59,13 @@ public class JBoss5xStandaloneLocalConfiguration extends
             {
             	for (int i = 0; i < sharedClassPath.length; i++)
             	{
-            		tmp.append(sharedClassPath[i]);
-
-            		// There is the @cargo.server.deploy.url@ after the @jboss.shared.classpath@
-            		tmp.append(',');
+            		String fileName = getFileHandler().getName(sharedClassPath[i]);
+            		String directoryName = getFileHandler().getParent(sharedClassPath[i]);
+            		
+            		tmp.append("<classpath codebase=\"" + directoryName + "\" archives=\"" + fileName + "\"/>");
+            		tmp.append("\n");
             	}
             } 
-            else 
-            {
-            	// if the sharedClassPath is null then we have to add a blank token to be added
-            	// Note: adding an empty string will result in an index out of bounds error so a space needs to be added
-            	tmp = tmp.append(" ");
-            }
             String sharedClassPathString = tmp.toString();
             getLogger().debug("Shared loader classpath is " + sharedClassPathString,
                 getClass().getName());
