@@ -186,7 +186,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
      */
     protected FilterChain createTomcatFilterChain()
     {
-        FilterChain filterChain = createFilterChain();
+        FilterChain filterChain = getFilterChain();
         
         // Add logging property tokens
         getAntUtils().addTokenToFilterChain(filterChain, "catalina.logging.level", 

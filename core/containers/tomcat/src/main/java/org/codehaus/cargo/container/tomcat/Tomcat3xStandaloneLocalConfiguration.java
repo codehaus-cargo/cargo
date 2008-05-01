@@ -134,7 +134,7 @@ public class Tomcat3xStandaloneLocalConfiguration extends AbstractTomcatStandalo
      */
     private FilterChain createTomcatFilterChain()
     {
-        FilterChain filterChain = createFilterChain();
+        FilterChain filterChain = getFilterChain();
 
         // Add logging property tokens
 

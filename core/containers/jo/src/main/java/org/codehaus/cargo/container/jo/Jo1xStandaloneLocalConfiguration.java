@@ -161,7 +161,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
      */
     private FilterChain createJoFilterChain() throws MalformedURLException
     {
-        FilterChain filterChain = createFilterChain();
+        FilterChain filterChain = getFilterChain();
 
         // TODO: Add token filters for adding users and roles
         // Add application deployment tokens

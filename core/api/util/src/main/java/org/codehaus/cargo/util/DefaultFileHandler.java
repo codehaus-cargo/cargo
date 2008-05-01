@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2006 Vincent Massol.
+ * Copyright 2006-2008 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,21 @@
 package org.codehaus.cargo.util;
 
 import org.apache.tools.ant.util.FileUtils;
+import org.apache.tools.ant.filters.util.ChainReaderHelper;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.FilterChain;
+import org.apache.tools.ant.types.FilterSet;
+import org.apache.tools.ant.types.FilterSetCollection;
 import org.apache.tools.ant.BuildException;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
@@ -35,6 +43,7 @@ import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Vector;
 import java.net.URL;
 import java.net.MalformedURLException;
 
@@ -103,6 +112,71 @@ public class DefaultFileHandler implements FileHandler
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * @see FileHander#copyFile(String, String, FilterChain)
+     */
+    public void copyFile(String source, String target, FilterChain filterChain)
+    {
+    	try
+    	{
+    		getFileUtils().copyFile(new File(source).getAbsolutePath(),
+    				new File(target).getAbsolutePath());
+    		
+    	       InputStream fileIS = new FileInputStream(source) ;
+    	        if (fileIS == null)
+    	        {
+    	            throw new IOException("File [" + source + "] not found");
+    	        }
+    	        
+    	        BufferedReader in = null;
+    	        BufferedWriter out = null;
+    	        try
+    	        {
+    	            ChainReaderHelper helper = new ChainReaderHelper();
+    	            helper.setBufferSize(8192);
+    	            helper.setPrimaryReader(new BufferedReader(new InputStreamReader(fileIS)));
+    	            Vector filterChains = new Vector();
+    	            filterChains.add(filterChain);
+    	            helper.setFilterChains(filterChains);
+    	            in = new BufferedReader(helper.getAssembledReader());
+
+    	            out = new BufferedWriter(new FileWriter(target));
+
+    	            String line;
+    	            while ((line = in.readLine()) != null)
+    	            {
+    	                if (line.length() == 0)
+    	                {
+    	                    out.newLine();
+    	                }
+    	                else
+    	                {
+    	                    out.write(line);
+    	                    out.newLine();
+    	                }
+    	            }
+    	        }
+    	        finally
+    	        {
+    	            if (in != null)
+    	            {
+    	                in.close();
+    	            }
+    	            if (out != null)
+    	            {
+    	                out.close();
+    	            }
+    	        }
+    	}
+    	catch (IOException e)
+    	{
+    		throw new CargoException("Failed to copy source file [" + source + "] to ["
+    				+ target + "] with FilterChain", e);
+    	}
+    }
+    
+    
     /**
      * {@inheritDoc}
      * @see FileHandler#copyDirectory(String, String)

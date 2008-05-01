@@ -162,7 +162,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration
      */
     private FilterChain createOrionFilterChain()
     {
-        FilterChain filterChain = createFilterChain();
+        FilterChain filterChain = getFilterChain();
 
         // Add Orion RMI port token
         getAntUtils().addTokenToFilterChain(filterChain, GeneralPropertySet.RMI_PORT,

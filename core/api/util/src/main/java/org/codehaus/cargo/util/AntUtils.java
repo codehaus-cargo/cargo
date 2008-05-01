@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2003-2004 The Apache Software Foundation. Code from this file
+ * Copyright 2003-2008 The Apache Software Foundation. Code from this file
  * was originally imported from the Jakarta Cactus project.
  *
  * Copyright 2004-2006 Vincent Massol.
@@ -31,6 +31,8 @@ import org.apache.tools.ant.types.FilterChain;
 
 import java.io.File;
 import java.net.URI;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Set of common Ant utility methods.
@@ -165,6 +167,23 @@ public class AntUtils
         token.setValue(value);
         replaceToken.addConfiguredToken(token);
         filterChain.addReplaceTokens(replaceToken);
+    }
+  
+    /**
+     * Add the map of tokens to the filterChain 
+     * 
+     * @param filterChain
+     * @param map
+     */
+    public void addTokensToFilterChain(FilterChain filterChain, Map map)
+    {
+    	Iterator iterator = map.keySet().iterator();
+    	while (iterator.hasNext())
+    	{
+    		String key = (String)iterator.next();
+    		String value = (String)map.get(key);
+    		addTokenToFilterChain(filterChain, key, value);
+    	}
     }
 
 }

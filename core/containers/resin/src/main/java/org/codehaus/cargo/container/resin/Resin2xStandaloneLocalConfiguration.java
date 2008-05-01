@@ -60,7 +60,7 @@ public class Resin2xStandaloneLocalConfiguration extends AbstractResinStandalone
      */
     protected FilterChain createResinFilterChain()
     {
-        FilterChain filterChain = createFilterChain();
+        FilterChain filterChain = getFilterChain();
 
         // Add expanded WAR support
         getAntUtils().addTokenToFilterChain(filterChain, "resin.expanded.webapps",

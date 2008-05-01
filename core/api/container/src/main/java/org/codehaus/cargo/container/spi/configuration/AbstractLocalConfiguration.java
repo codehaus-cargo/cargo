@@ -152,7 +152,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration
      * {@inheritDoc}
      * @see LocalConfiguration#configure(LocalContainer)
      */
-    public final void configure(LocalContainer container)
+    public void configure(LocalContainer container)
     {
         verify();
 

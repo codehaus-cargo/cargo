@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2006 Vincent Massol.
+ * Copyright 2006-2008 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+import org.apache.tools.ant.types.FilterChain;
+
 /**
  * File operations that are performed in Cargo. All file operations must use this interface. This
  * interface is also useful for unit testing as it's possible to create a mock implementation of it
@@ -40,6 +42,15 @@ public interface FileHandler
      * @param target the file to copy to. Must not be <code>null</code>.
      */
     void copyFile(String source, String target);
+    
+    /**
+     * Copy a file from a source to a destination using a filterchain to specify token replacement.
+     * 
+     * @param source the file to copy from. Must not be <code>null</code>
+     * @param target the file to copy to. Must not be <code>null</code>
+     * @param filterChain the filterChain to use during the copy process. Must not be <code>null</code>
+     */
+    void copyFile(String source, String target, FilterChain filterChain);
 
     /**
      * Copy a directory from a source to a destination.

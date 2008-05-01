@@ -97,7 +97,7 @@ public class WebLogicStandaloneLocalConfiguration extends AbstractStandaloneLoca
      */
     private FilterChain createWebLogicFilterChain()
     {
-        FilterChain filterChain = createFilterChain();
+        FilterChain filterChain = getFilterChain();
         
         StringBuffer appTokenValue = new StringBuffer(" ");
         

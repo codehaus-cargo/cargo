@@ -178,7 +178,7 @@ public class Geronimo1xStandaloneLocalConfiguration extends AbstractStandaloneLo
     protected FilterChain createGeronimoFilterChain(LocalContainer container)
         throws MalformedURLException
     {
-        FilterChain filterChain = new FilterChain();
+        FilterChain filterChain = getFilterChain();
 
         getAntUtils().addTokenToFilterChain(filterChain, GeneralPropertySet.RMI_PORT,
             getPropertyValue(GeneralPropertySet.RMI_PORT));

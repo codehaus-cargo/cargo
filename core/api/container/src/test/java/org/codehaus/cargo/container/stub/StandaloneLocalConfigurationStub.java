@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2006 Vincent Massol.
+ * Copyright 2006-2008 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,11 @@
  */
 package org.codehaus.cargo.container.stub;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.tools.ant.types.FilterChain;
+import org.codehaus.cargo.container.configuration.Configfile;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 
@@ -41,4 +46,26 @@ public class StandaloneLocalConfigurationStub
     {
         return ConfigurationType.STANDALONE;
     }
+
+	public Map getFileProperties() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getFileProperty(String file) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setFileProperty(String file, String tofile, String todir) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public FilterChain getFilterChain() 
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
