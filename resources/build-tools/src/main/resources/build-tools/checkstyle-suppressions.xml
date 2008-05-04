@@ -7,4 +7,6 @@
 <suppressions>
     <suppress checks="GenericIllegalRegexp"
               files="SimpleLogger.java"/>
+    <suppress checks="AbstractClassName"
+              files="WebXmlType.java"/>
 </suppressions>
