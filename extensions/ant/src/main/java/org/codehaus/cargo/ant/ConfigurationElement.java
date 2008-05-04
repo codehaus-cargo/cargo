@@ -106,7 +106,7 @@ public class ConfigurationElement
     }
 
     /**
-      * @param deployableElement the nested deployable element to deploy
+      * @param configfileElement the nested deployable element to deploy
    */
     public void addConfiguredConfigfile(Configfile configfileElement)
     {
@@ -222,14 +222,15 @@ public class ConfigurationElement
 
         if (configuration instanceof StandaloneLocalConfiguration)
         {
-        	if (getConfigfiles() != null)
-        	{
-        		for (int i = 0; i < getConfigfiles().size(); i ++)
-        		{
-        			Configfile configfile = (Configfile)getConfigfiles().get(i);
-        			((StandaloneLocalConfiguration)configuration).setFileProperty(configfile.getFile(), configfile.getToFile(), configfile.getToDir());
-        		}
-        	}
+            if (getConfigfiles() != null)
+            {
+                for (int i = 0; i < getConfigfiles().size(); i++)
+                {
+                    Configfile configfile = (Configfile) getConfigfiles().get(i);
+                    ((StandaloneLocalConfiguration) configuration).setFileProperty(configfile
+                            .getFile(), configfile.getToFile(), configfile.getToDir());
+                }
+            }
         }
 
         return configuration;        

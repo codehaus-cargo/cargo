@@ -46,7 +46,7 @@
           <dependency>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-build-tools</artifactId>
-            <version>0.9.1</version>
+<!--            <version>0.9.1</version> -->
           </dependency>
         </dependencies>
       </plugin>
