@@ -89,19 +89,19 @@ public abstract class AbstractJBossInstalledLocalContainer extends
         String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
         if (jvmArgs != null)
         {
-        	if (!jvmArgs.contains("-Xms"))
-        	{
-        		java.createJvmarg().setValue("-Xms128m");
-        	}
-        	if (!jvmArgs.contains("-Xmx"))
-        	{
-        		java.createJvmarg().setValue("-Xmx512m");
-        	}
+            if (!jvmArgs.contains("-Xms"))
+            {
+                java.createJvmarg().setValue("-Xms128m");
+            }
+            if (!jvmArgs.contains("-Xmx"))
+            {
+                java.createJvmarg().setValue("-Xmx512m");
+            }
         } 
         else
         {
-        	java.createJvmarg().setValue("-Xms128m");
-        	java.createJvmarg().setValue("-Xmx512m");
+            java.createJvmarg().setValue("-Xms128m");
+            java.createJvmarg().setValue("-Xmx512m");
         }
         
         java.createArg().setValue("--configuration=" + getId());

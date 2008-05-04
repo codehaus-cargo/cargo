@@ -71,6 +71,7 @@ public class DescriptorTag
      * @param tagName The tag name of the element
      * @param isMultipleAllowed Whether the element may occur multiple times in the descriptor
      * @param identifier optional tag identifier
+     * @param namespace The namespace to use
      * @param clazz implementation class for this tag
      */
     public DescriptorTag(DescriptorType descriptorType, String tagName, Namespace namespace,
@@ -172,11 +173,11 @@ public class DescriptorTag
     
     /**
      * Return the descriptor type that this tag is defined in.
-     * @return descriptor type
+     * @return descriptor type The descriptor type
      */
     public DescriptorType getDescriptorType()
     {
-       return this.descriptorType;
+        return this.descriptorType;
     }
     
     /**

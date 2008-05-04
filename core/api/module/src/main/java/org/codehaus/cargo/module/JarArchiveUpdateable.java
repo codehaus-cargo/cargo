@@ -31,14 +31,16 @@ import java.io.File;
  */
 public interface JarArchiveUpdateable extends JarArchive
 {
-	/** 
-	 * @return File / directory that this archive is stored in. 
-	 */
-	File getFile();
-	
-	/**
-	 * Recursively copy files from source into this archive.
-	 * @param source directory or file to copy into this jar.
-	 */
-	void copyAllIntoJar(File source);
+    /**
+     * @return File / directory that this archive is stored in.
+     */
+    File getFile();
+
+    /**
+     * Recursively copy files from source into this archive.
+     * 
+     * @param source
+     *            directory or file to copy into this jar.
+     */
+    void copyAllIntoJar(File source);
 }

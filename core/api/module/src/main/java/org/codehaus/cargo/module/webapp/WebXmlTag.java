@@ -46,7 +46,8 @@ public final class WebXmlTag extends DescriptorTag
     protected WebXmlTag(DescriptorType type, String tagName, 
         boolean isMultipleAllowed, Identifier identifier, Class clazz)
     {
-        super(type, tagName, ((WebXmlType)type).getVersion().getNamespace(), isMultipleAllowed, identifier, clazz);          
+        super(type, tagName, ((WebXmlType) type).getVersion().getNamespace(), isMultipleAllowed,
+                identifier, clazz);          
     }
     
     /**
@@ -58,7 +59,8 @@ public final class WebXmlTag extends DescriptorTag
      */
     protected WebXmlTag(DescriptorType type, String tagName, boolean isMultipleAllowed)
     {
-        super(type, tagName, ((WebXmlType)type).getVersion().getNamespace(), isMultipleAllowed, null, null);        
+        super(type, tagName, ((WebXmlType) type).getVersion().getNamespace(), isMultipleAllowed,
+                null, null);        
     }
 
     /**

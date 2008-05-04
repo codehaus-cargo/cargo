@@ -90,7 +90,7 @@ public class FilterMapping extends WebXmlElement
     public String getServletName()
     {
         Element e = getChild(WebXmlType.SERVLET_NAME, this.getNamespace());
-        return (e==null)?null:e.getText();
+        return (e == null) ? null : e.getText();
     }
 
     /**
@@ -119,15 +119,15 @@ public class FilterMapping extends WebXmlElement
      */
     public String[] getDispatchers()
     {
-      List l = getChildren(WebXmlType.DISPATCHER, getTag().getTagNamespace());
-      
-      String[] items = new String[l.size()];
-      
-      for(int i=0; i<l.size(); i++)
-      {
-        items[i] = ((Element)l.get(i)).getText();
-      }
-      
-      return items;
+        List l = getChildren(WebXmlType.DISPATCHER, getTag().getTagNamespace());
+
+        String[] items = new String[l.size()];
+
+        for (int i = 0; i < l.size(); i++)
+        {
+            items[i] = ((Element) l.get(i)).getText();
+        }
+
+        return items;
     }
 }

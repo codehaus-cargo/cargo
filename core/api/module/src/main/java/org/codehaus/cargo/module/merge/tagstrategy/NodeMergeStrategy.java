@@ -28,11 +28,9 @@ import java.util.regex.Pattern;
 import org.codehaus.cargo.module.Descriptor;
 import org.codehaus.cargo.module.DescriptorElement;
 import org.codehaus.cargo.module.DescriptorType;
-import org.codehaus.cargo.module.webapp.WebXmlType;
 import org.jdom.Content;
 import org.jdom.Element;
 import org.jdom.JDOMException;
-import org.jdom.Namespace;
 import org.jdom.Text;
 import org.jdom.xpath.XPath;
 
@@ -51,6 +49,7 @@ public class NodeMergeStrategy implements MergeStrategy
     /**
      * Constructor.
      * 
+     * @param type the descriptor type
      * @param template in the template to use in the merge
      */
     public NodeMergeStrategy(DescriptorType type, Element template)

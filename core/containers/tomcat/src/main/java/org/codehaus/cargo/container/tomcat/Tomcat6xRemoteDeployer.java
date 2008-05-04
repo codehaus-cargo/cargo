@@ -49,8 +49,9 @@ public class Tomcat6xRemoteDeployer extends AbstractTomcatRemoteDeployer
      *
      * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerDeployer#performUndeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
-   protected void performUndeploy(Deployable deployable) throws TomcatManagerException, IOException
-   {
+    protected void performUndeploy(Deployable deployable) throws TomcatManagerException,
+            IOException
+    {
         getTomcatManager().undeploy(getPath(deployable));
     }
 }

@@ -103,7 +103,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      */
     public void setShouldDeployExpandedSARs(boolean flag)
     {
-    	this.shouldDeployExpandedSARs = flag;
+        this.shouldDeployExpandedSARs = flag;
     }
     
     /**
@@ -154,18 +154,18 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
             }
             else if (deployable.getType() == DeployableType.SAR)
             {
-            	if (deployable.isExpanded() && this.shouldDeployExpandedSARs)
-            	{
-            		deployExpandedSar(deployableDir, (SAR) deployable);
-            	}
-            	else
-            	{
-            	    deploySar(deployableDir, (SAR) deployable);
-            	}
+                if (deployable.isExpanded() && this.shouldDeployExpandedSARs)
+                {
+                    deployExpandedSar(deployableDir, (SAR) deployable);
+                }
+                else
+                {
+                    deploySar(deployableDir, (SAR) deployable);
+                }
             }
             else if (deployable.getType() == DeployableType.FILE)
             {
-            	deployFile(deployableDir, (File) deployable);
+                deployFile(deployableDir, (File) deployable);
             }
             else
             {
@@ -272,12 +272,14 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     }
     
     /**
-     * Copy the SAR file to the deployable directory
+     * Copy the SAR file to the deployable directory.
+     * @param deployableDir The directory to copy it too
+     * @param sar the sar to copy
      */
     protected void deploySar(String deployableDir, SAR sar)
     {
-    	getFileHandler().copyFile(sar.getFile(),
-    			getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())));
+        getFileHandler().copyFile(sar.getFile(),
+                getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())));
     }
     
     /**
@@ -329,24 +331,29 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     protected void deployExpandedSar(String deployableDir, SAR sar)
     {
         getFileHandler().copyDirectory(sar.getFile(), 
-        		getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())));
+            getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())));
     }
     
     /**
-     * Copy the file to the deployable directory
-     * @param deployableDir
-     * @param sar
+     * Copy the file to the deployable directory.
+     * @param deployableDir the directory to hold the file
+     * @param file The file to copy
      */
     protected void deployFile(String deployableDir, File file)
     {
-    	if (getFileHandler().isDirectory(file.getFile()))
-    	{
-    		getFileHandler().copyDirectory(file.getFile(), 
-    				getFileHandler().append(deployableDir, getFileHandler().getName(file.getFile())));
-    	}
-    	else 
-    	{
-    		getFileHandler().copyFile(file.getFile(), getFileHandler().append(deployableDir, getFileHandler().getName(file.getFile())));
-    	}
+        if (getFileHandler().isDirectory(file.getFile()))
+        {
+            getFileHandler().copyDirectory(
+                    file.getFile(),
+                    getFileHandler()
+                            .append(deployableDir, getFileHandler().getName(file.getFile())));
+        } 
+        else
+        {
+            getFileHandler().copyFile(
+                    file.getFile(),
+                    getFileHandler()
+                            .append(deployableDir, getFileHandler().getName(file.getFile())));
+        }
     }
 }

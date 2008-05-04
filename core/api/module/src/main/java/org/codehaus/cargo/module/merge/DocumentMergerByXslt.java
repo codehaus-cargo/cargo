@@ -126,10 +126,10 @@ public class DocumentMergerByXslt implements MergeProcessor
             javax.xml.transform.Source xmlSource =
                 new javax.xml.transform.dom.DOMSource(domDocument);
 
-            if( transformer == null )
+            if (transformer == null)
             {
-              TransformerFactory tFactory = TransformerFactory.newInstance();
-              transformer = tFactory.newTransformer(xsltSource);
+                TransformerFactory tFactory = TransformerFactory.newInstance();
+                transformer = tFactory.newTransformer(xsltSource);
             }
             
             ByteArrayOutputStream baos = new ByteArrayOutputStream();

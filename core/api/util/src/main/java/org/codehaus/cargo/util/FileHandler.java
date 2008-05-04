@@ -48,7 +48,7 @@ public interface FileHandler
      * 
      * @param source the file to copy from. Must not be <code>null</code>
      * @param target the file to copy to. Must not be <code>null</code>
-     * @param filterChain the filterChain to use during the copy process. Must not be <code>null</code>
+     * @param filterChain the filterChain to use. Must not be <code>null</code>
      */
     void copyFile(String source, String target, FilterChain filterChain);
 

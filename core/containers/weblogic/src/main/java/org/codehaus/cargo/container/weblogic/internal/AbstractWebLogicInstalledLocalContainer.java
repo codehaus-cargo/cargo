@@ -179,6 +179,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer
 
     /**
      * Gets the default name of the deployable folder.
+     * @return The default deployable folder
      */
     public abstract String getDefaultDeployableFolder();
 }

@@ -29,13 +29,11 @@ import java.util.List;
 
 import org.codehaus.cargo.module.merge.MergeException;
 import org.codehaus.cargo.module.merge.MergeProcessor;
-import org.codehaus.cargo.module.webapp.DefaultWarArchive;
 import org.codehaus.cargo.module.webapp.WarArchive;
 import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlIo;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
-import org.codehaus.cargo.util.FileUtils;
 import org.codehaus.cargo.util.JarUtils;
 import org.jdom.JDOMException;
 
@@ -115,7 +113,7 @@ public class MergedWarArchive implements WarArchive
      */
     void addJar(File jarFile)
     {
-         this.jarFiles.add(jarFile);
+        this.jarFiles.add(jarFile);
     }
     
     /**
@@ -204,17 +202,17 @@ public class MergedWarArchive implements WarArchive
 
         expandToPath(assembleDir);
 
-        if( !mergeJarFiles )
+        if (!mergeJarFiles)
         {
-        	File f = new File(assembleDir);
+            File f = new File(assembleDir);
             File webInfLib = new File(f, "WEB-INF/lib");
             File[] files = webInfLib.listFiles();
-            for(int i=0; i<files.length;i++)
+            for (int i = 0; i < files.length; i++)
             {
-            	if( !files[i].isDirectory() && files[i].getName().toLowerCase().endsWith(".jar") )
-            	{
-            		fileHandler.delete( files[i].getAbsolutePath() );
-            	}
+                if (!files[i].isDirectory() && files[i].getName().toLowerCase().endsWith(".jar"))
+                {
+                    fileHandler.delete(files[i].getAbsolutePath());
+                }
             }
         }
         
@@ -240,16 +238,17 @@ public class MergedWarArchive implements WarArchive
      */
     private void copyJars(String assembleDir)
     {
-      FileHandler fileHandler = new DefaultFileHandler();
-      
-      File f = new File(assembleDir);
-      File webInfLib = new File(f, "WEB-INF/lib");
-      webInfLib.mkdirs();
-      for (Iterator i = this.jarFiles.iterator(); i.hasNext();)
-      {
-        File sourceFile = (File)i.next();
-        fileHandler.copyFile(sourceFile.getAbsolutePath(), new File(webInfLib, sourceFile.getName()).getAbsolutePath());        
-      }      
+        FileHandler fileHandler = new DefaultFileHandler();
+
+        File f = new File(assembleDir);
+        File webInfLib = new File(f, "WEB-INF/lib");
+        webInfLib.mkdirs();
+        for (Iterator i = this.jarFiles.iterator(); i.hasNext();)
+        {
+            File sourceFile = (File) i.next();
+            fileHandler.copyFile(sourceFile.getAbsolutePath(), new File(webInfLib, sourceFile
+                    .getName()).getAbsolutePath());
+        }      
     }
 
     /**
@@ -355,7 +354,8 @@ public class MergedWarArchive implements WarArchive
      * 
      * @param mergeJarFiles true if we do (default)
      */
-    public void mergeJarFiles(boolean mergeJarFiles) {
-		this.mergeJarFiles = mergeJarFiles;
-	}
+    public void mergeJarFiles(boolean mergeJarFiles)
+    {
+        this.mergeJarFiles = mergeJarFiles;
+    }
 }

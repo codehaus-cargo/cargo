@@ -24,7 +24,6 @@ import java.io.IOException;
 
 import org.codehaus.cargo.module.merge.MergeException;
 import org.codehaus.cargo.module.merge.MergeProcessor;
-import org.codehaus.cargo.module.webapp.DefaultWarArchive;
 import org.codehaus.cargo.module.webapp.WarArchive;
 import org.codehaus.cargo.util.CargoException;
 import org.jdom.JDOMException;
@@ -74,16 +73,16 @@ public class WarArchiveMerger implements MergeProcessor
     {
         if (mergeItem instanceof WarArchive)
         {
-          this.result.add((WarArchive) mergeItem);         
-        }
-        else if(mergeItem instanceof File)
-        {          
-          this.result.addJar((File)mergeItem);         
-        }
+            this.result.add((WarArchive) mergeItem);
+        } 
+        else if (mergeItem instanceof File)
+        {
+            this.result.addJar((File) mergeItem);
+        } 
         else
-        {        
-          throw new MergeException(
-            "WarArchiveMerger cannot merge things that are not WarArchives or files");
+        {
+            throw new MergeException(
+                    "WarArchiveMerger cannot merge things that are not WarArchives or files");
         }
     }
 
@@ -103,13 +102,13 @@ public class WarArchiveMerger implements MergeProcessor
      * Perform the archive merge, using the specified file as the output destination.
      * 
      * @param targetFile The target file to output to.
-     * @throws JDOMException 
-     * @throws IOException 
+     * @throws JDOMException If a JDOM exception occurs
+     * @throws IOException  If an IO exception occurs
      */
     public void performMerge(File targetFile) throws IOException, JDOMException
     {
-    	WarArchive output = (WarArchive)performMerge();
-    	output.store(targetFile);    
+        WarArchive output = (WarArchive) performMerge();
+        output.store(targetFile);    
     }
             
     /**
@@ -119,7 +118,7 @@ public class WarArchiveMerger implements MergeProcessor
      */
     public void setMergeJarFiles(boolean doMergeJarFiles)
     {
-    	this.result.mergeJarFiles(doMergeJarFiles);
+        this.result.mergeJarFiles(doMergeJarFiles);
     }
     
     /**

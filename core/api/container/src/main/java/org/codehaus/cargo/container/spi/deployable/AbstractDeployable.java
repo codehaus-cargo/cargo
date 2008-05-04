@@ -77,6 +77,9 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
         this.fileHandler = fileHandler;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public boolean isExpanded()
     {
         return getFileHandler().isDirectory(getFile());

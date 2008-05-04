@@ -30,7 +30,7 @@
   <packaging>pom</packaging>
   <description>Cargo Core</description>
   <properties>
-    <cargo.resources.version>0.9.1</cargo.resources.version>
+    <cargo.resources.version>1.0-SNAPSHOT</cargo.resources.version>
   </properties>
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk</connection>

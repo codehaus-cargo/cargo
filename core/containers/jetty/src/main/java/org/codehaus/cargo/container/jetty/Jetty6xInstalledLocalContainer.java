@@ -48,6 +48,10 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
      */
     private ContainerCapability capability = new ServletContainerCapability();
 
+    /**
+     *  Jetty6xInstalledLocalContainer Constructor.
+     * @param configuration The configuration associated with the container
+     */
     public Jetty6xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
@@ -131,7 +135,8 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
 
         java.setJar(new File(getHome(), "start.jar"));
 
-        if (isGettingStarted) {
+        if (isGettingStarted)
+        {
             java.createArg().setValue(
                 getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml"));
         }
@@ -140,9 +145,10 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
             java.createArg().setValue("--stop");
         }
 
-		//For Jetty to pick up on the extra classpath it needs to export
-		//the classpath as an environment variable 'CLASSPATH'
-        java.addSysproperty(getAntUtils().createSysProperty("CLASSPATH", java.getCommandLine().getClasspath()));
+        // For Jetty to pick up on the extra classpath it needs to export
+        // the classpath as an environment variable 'CLASSPATH'
+        java.addSysproperty(getAntUtils().createSysProperty("CLASSPATH",
+                java.getCommandLine().getClasspath()));
         
         AntContainerExecutorThread jettyRunner = new AntContainerExecutorThread(java);
         jettyRunner.start();

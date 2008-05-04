@@ -29,7 +29,6 @@ import java.util.List;
 import org.jdom.Comment;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.Namespace;
 
 /**
  * Encapsulates the DOM representation of a deployment descriptor to provide convenience methods for
@@ -356,10 +355,10 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
             {
                 for (int j = i + 1; j < elementOrder.size(); j++)
                 {
-                  DescriptorTag theTag = (DescriptorTag) elementOrder.get(j);
+                    DescriptorTag theTag = (DescriptorTag) elementOrder.get(j);
                     List elements =
                         getRootElement().getChildren(
-                            theTag.getTagName(), theTag.getTagNamespace() );
+                            theTag.getTagName(), theTag.getTagNamespace());
                     if (elements.size() > 0)
                     {
                         Element result = (Element) elements.get(0);

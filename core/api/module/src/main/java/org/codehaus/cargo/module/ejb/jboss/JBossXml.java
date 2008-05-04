@@ -48,6 +48,11 @@ public class JBossXml extends AbstractDescriptor implements VendorEjbDescriptor
         super(rootElement, type);
     }
 
+    /**
+     * Returns the JNDI name for the ejb..
+     * @param ejb The ejb
+     * @return The jndi name
+     */
     public String getJndiName(EjbDef ejb)
     {
         String jndiName = null;
@@ -55,18 +60,22 @@ public class JBossXml extends AbstractDescriptor implements VendorEjbDescriptor
         Element ejbElement = getEjb(ejb.getName());
         if (ejbElement != null)
         {
-            jndiName = getNestedText(ejbElement, 
-            		getDescriptorType().getTagByName(JBossXmlTag.LOCAL_JNDI_NAME));
-            if(jndiName == null)
+            jndiName = getNestedText(ejbElement, getDescriptorType().getTagByName(
+                    JBossXmlTag.LOCAL_JNDI_NAME));
+            if (jndiName == null)
             {
-                jndiName = getNestedText(ejbElement, 
-                		getDescriptorType().getTagByName(JBossXmlTag.JNDI_NAME));
+                jndiName = getNestedText(ejbElement, getDescriptorType().getTagByName(
+                        JBossXmlTag.JNDI_NAME));
             }
         }
 
         return jndiName;
     }    
     
+    /**
+     * Returns the file name 'jboss.xml'.
+     * @return The file name.
+     */
     public String getFileName()
     {
         return "jboss.xml";

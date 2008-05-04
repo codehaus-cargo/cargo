@@ -47,37 +47,38 @@ public class Identifier
      */
     public Identifier(String xpath) 
     {
-      try
-      {
-        this.xpath = XPath.newInstance(xpath);
-      }
-      catch(JDOMException ex)
-      {
-        throw new CargoException("Unexpected xpath error", ex);
-      }
+        try
+        {
+            this.xpath = XPath.newInstance(xpath);
+        } 
+        catch (JDOMException ex)
+        {
+            throw new CargoException("Unexpected xpath error", ex);
+        }
     
     }
 
     /**
-     * @param namespaceMap
-     * @param string
+     * 
+     * @param namespaceMap The namespaceMap
+     * @param xpath The xpath
      * @throws JDOMException 
      */
     public Identifier(Map namespaceMap, String xpath)
     {
         try
         {
-          this.xpath = XPath.newInstance(xpath);
-          for(Iterator i = namespaceMap.keySet().iterator();i.hasNext();)
-          {
-            String ns = (String)i.next();
-            String uri = (String)namespaceMap.get(ns);
-            this.xpath.addNamespace(ns, uri);
-          }
-        }
-        catch(JDOMException ex)
+            this.xpath = XPath.newInstance(xpath);
+            for (Iterator i = namespaceMap.keySet().iterator(); i.hasNext();)
+            {
+                String ns = (String) i.next();
+                String uri = (String) namespaceMap.get(ns);
+                this.xpath.addNamespace(ns, uri);
+            }
+        } 
+        catch (JDOMException ex)
         {
-          throw new CargoException("Unexpected xpath error", ex);
+            throw new CargoException("Unexpected xpath error", ex);
         }
     }
 
@@ -91,7 +92,7 @@ public class Identifier
     {
         try
         {                   
-        	return xpath.valueOf(element);
+            return xpath.valueOf(element);
         }
         catch (Exception ex)
         {

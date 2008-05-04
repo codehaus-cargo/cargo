@@ -104,8 +104,9 @@ public final class WebXmlUtils
     }
 
     /**
-     * Returns the filter mappings that the specified filter is mapped to in an ordered list. If there
-     * are no mappings for the specified filter, an iterator over an empty list is returned.
+     * Returns the filter mappings that the specified filter is mapped to in an ordered list. 
+     * If there are no mappings for the specified filter, an iterator over an empty list is 
+     * returned.
      *
      * @param webXml The webXml file to use
      * @param theFilterName The name of the servlet filter of which the mappings should be retrieved
@@ -212,7 +213,8 @@ public final class WebXmlUtils
      */
     public static void addTagInitParam(WebXmlElement itemElement, String name, String value)
     {
-        WebXmlTag tag = (WebXmlTag)itemElement.getTag().getDescriptorType().getTagByName("init-param");
+        WebXmlTag tag = (WebXmlTag) itemElement.getTag().getDescriptorType().getTagByName(
+                "init-param");
         InitParam init = new InitParam(tag, name, value);
         itemElement.getChildren().add(init);
     }
@@ -276,7 +278,7 @@ public final class WebXmlUtils
      */
     public static void addServlet(WebXml webXml, String servletName, String servletClass)
     {
-        WebXmlTag tag = (WebXmlTag)webXml.getDescriptorType().getTagByName("servlet");
+        WebXmlTag tag = (WebXmlTag) webXml.getDescriptorType().getTagByName("servlet");
         Servlet servlet = new Servlet(tag, servletName, servletClass);
         webXml.addTag(servlet);
     }
@@ -374,7 +376,8 @@ public final class WebXmlUtils
                 WebXmlType.SERVLET_NAME, servletMappingElement.getNamespace()).getText()))
             {
                 String urlPattern =
-                    servletMappingElement.getChild(WebXmlType.URL_PATTERN, servletMappingElement.getNamespace() )
+                    servletMappingElement.getChild(WebXmlType.URL_PATTERN,
+                        servletMappingElement.getNamespace())
                         .getText();
                 if (urlPattern != null)
                 {
@@ -411,7 +414,7 @@ public final class WebXmlUtils
     public static void addServletInitParam(WebXml webXml, String theServletName, String name,
         String value)
     {
-        WebXmlTag tag = (WebXmlTag)webXml.getDescriptorType().getTagByName("init-param");
+        WebXmlTag tag = (WebXmlTag) webXml.getDescriptorType().getTagByName("init-param");
         Servlet servletElement = getServlet(webXml, theServletName);
         if (servletElement == null)
         {
@@ -640,8 +643,8 @@ public final class WebXmlUtils
      */
     public static String getLoginConfigAuthMethod(WebXml webXml)
     {
-        DescriptorElement de =  (DescriptorElement)getLoginConfig(webXml);
-        return de.getChildText(WebXmlType.AUTH_METHOD, de.getNamespace() );
+        DescriptorElement de =  (DescriptorElement) getLoginConfig(webXml);
+        return de.getChildText(WebXmlType.AUTH_METHOD, de.getNamespace());
     }
 
     /**
@@ -665,14 +668,16 @@ public final class WebXmlUtils
                 (SecurityConstraint) securityConstraintElements.next();
             Iterator webResourceCollectionElements =
                 securityConstraintElement.getChildren(
-                    WebXmlType.WEB_RESOURCE_COLLECTION, securityConstraintElement.getNamespace()).iterator();
+                    WebXmlType.WEB_RESOURCE_COLLECTION, securityConstraintElement.getNamespace())
+                    .iterator();
             if (webResourceCollectionElements.hasNext())
             {
                 Element webResourceCollectionElement =
                     (Element) webResourceCollectionElements.next();
 
                 String url =
-                    webResourceCollectionElement.getChildText(WebXmlType.URL_PATTERN, securityConstraintElement.getNamespace());
+                    webResourceCollectionElement.getChildText(WebXmlType.URL_PATTERN,
+                        securityConstraintElement.getNamespace());
 
                 if (theUrlPattern.equals(url))
                 {
@@ -709,7 +714,8 @@ public final class WebXmlUtils
         {
             Element securityRoleElement = (Element) securityRoleElements.next();
             Element securityRoleName =
-                securityRoleElement.getChild(WebXmlType.ROLE_NAME, securityRoleElement.getNamespace());
+                securityRoleElement.getChild(WebXmlType.ROLE_NAME,
+                    securityRoleElement.getNamespace());
 
             if (securityRoleName != null)
             {
@@ -738,7 +744,7 @@ public final class WebXmlUtils
         {
             DescriptorElement securityRoleElement = (DescriptorElement) securityRoleElements.next();
             if (theRoleName.equals(securityRoleElement.getChildText(
-                WebXmlType.ROLE_NAME, securityRoleElement.getNamespace() )))
+                WebXmlType.ROLE_NAME, securityRoleElement.getNamespace())))
             {
                 return securityRoleElement;
             }
@@ -775,7 +781,8 @@ public final class WebXmlUtils
         }
         else
         {
-            ejbRefElement.addContent(webXml.getDescriptorType().getTagByName(WebXmlType.HOME).create().setText(
+            ejbRefElement.addContent(webXml.getDescriptorType().getTagByName(WebXmlType.HOME)
+                    .create().setText(
                 ref.getEjbHomeInterface()));
             ejbRefElement.addContent(webXml.getDescriptorType().getTagByName(
                 WebXmlType.REMOTE).create().setText(
@@ -823,7 +830,8 @@ public final class WebXmlUtils
         Element securityRoleElement = webXml.getDescriptorType().getTagByName(
             WebXmlType.SECURITY_ROLE).create();
 
-        securityRoleElement.addContent(webXml.getDescriptorType().getTagByName(WebXmlType.ROLE_NAME).create()
+        securityRoleElement.addContent(webXml.getDescriptorType()
+                .getTagByName(WebXmlType.ROLE_NAME).create()
             .setText(theRoleName));
 
         webXml.getRootElement().addContent(securityRoleElement);
@@ -882,8 +890,8 @@ public final class WebXmlUtils
         
         
         
-        FilterMapping filterMappingElement = (FilterMapping)webXml.getDescriptorType().getTagByName(
-            WebXmlType.FILTER_MAPPING).create();
+        FilterMapping filterMappingElement = (FilterMapping) webXml.getDescriptorType()
+                .getTagByName(WebXmlType.FILTER_MAPPING).create();
 
         filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.FILTER_NAME).create().setText(
@@ -891,34 +899,35 @@ public final class WebXmlUtils
 
         String urlPattern = rhs.getUrlPattern();
         
-        if( urlPattern != null )
+        if (urlPattern != null)
         {
-          filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
-              WebXmlType.URL_PATTERN).create().setText(
-              urlPattern));
+            filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
+                    WebXmlType.URL_PATTERN).create().setText(urlPattern));
         }
         else
         {
-          // must be servlet name instead
-          String servletName = rhs.getServletName();
-          if( servletName == null )
-          {
-            throw new IllegalStateException("Filter '" + filterName + "' has neither a servlet-name nor a url-pattern.");
-          }
-          filterMappingElement.setServletName(servletName);
-        }
-        
-        String[] dispatchers = rhs.getDispatchers();
-        
-        if( dispatchers != null )
-        {
-          for( int i=0; i<dispatchers.length; i++ )
-          {
-            filterMappingElement.addDispatcher(dispatchers[i]);
-          }
+            // must be servlet name instead
+            String servletName = rhs.getServletName();
+            if (servletName == null)
+            {
+                throw new IllegalStateException("Filter '" + filterName
+                        + "' has neither a servlet-name nor a url-pattern.");
+            }
+            filterMappingElement.setServletName(servletName);
         }
 
-        webXml.addElement(filterMappingElement.getTag(), filterMappingElement, webXml.getRootElement() );
+        String[] dispatchers = rhs.getDispatchers();
+
+        if (dispatchers != null)
+        {
+            for (int i = 0; i < dispatchers.length; i++)
+            {
+                filterMappingElement.addDispatcher(dispatchers[i]);
+            }
+        }
+
+        webXml.addElement(filterMappingElement.getTag(), filterMappingElement, webXml
+                .getRootElement());
 
     }
 
@@ -954,7 +963,8 @@ public final class WebXmlUtils
                     initParamElement.getChildText(WebXmlType.PARAM_NAME, theElement.getNamespace());
                 if (theParamName.equals(paramName))
                 {
-                    return initParamElement.getChildText(WebXmlType.PARAM_VALUE, theElement.getNamespace());
+                    return initParamElement.getChildText(WebXmlType.PARAM_VALUE, theElement
+                            .getNamespace());
                 }
             }
         }
@@ -1001,7 +1011,8 @@ public final class WebXmlUtils
             WebXmlType.URL_PATTERN).create().setText(
             theUrlPattern));
 
-        webXml.addElement(servletMappingElement.getTag(), servletMappingElement, webXml.getRootElement() );
+        webXml.addElement(servletMappingElement.getTag(), servletMappingElement, webXml
+                .getRootElement());
     }
 
     /**
@@ -1016,15 +1027,16 @@ public final class WebXmlUtils
         Filter filter =
             (Filter) theWebXml.getTagByIdentifier(
                 WebXmlType.FILTER, filterName);
-        if( filter == null )
+        if (filter == null)
         {
-        	throw new IllegalStateException("Filter '" + filterName + "' not defined");
+            throw new IllegalStateException("Filter '" + filterName + "' not defined");
         }
 
-        InitParam initParam =  filter.getInitParam(paramName);
-        if( initParam == null )
+        InitParam initParam = filter.getInitParam(paramName);
+        if (initParam == null)
         {
-        	throw new IllegalStateException("Filter '" + filterName + "' Initialization parameter '" + paramName + "' not defined");
+            throw new IllegalStateException("Filter '" + filterName
+                    + "' Initialization parameter '" + paramName + "' not defined");
         }
 
         return initParam.getParamValue();
@@ -1049,7 +1061,7 @@ public final class WebXmlUtils
      */
     public static void addFilter(WebXml webXml, String filterName, String filterClass)
     {
-        WebXmlTag tag = (WebXmlTag)webXml.getDescriptorType().getTagByName("filter");
+        WebXmlTag tag = (WebXmlTag) webXml.getDescriptorType().getTagByName("filter");
         Filter filter = new Filter(tag, filterName, filterClass);
         webXml.addTag(filter);
     }

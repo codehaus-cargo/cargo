@@ -7,33 +7,49 @@ import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.jboss.internal.JBoss5xInstalledLocalContainer;
-import org.codehaus.cargo.container.jboss.internal.JBossInstalledLocalContainer;
 
-public class JBoss5xStandaloneLocalConfiguration extends
-		JBossStandaloneLocalConfiguration {
+/**
+ * 
+ *@version $Id$
+ */
+public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalConfiguration
+{
 
-	public JBoss5xStandaloneLocalConfiguration(String dir) {
-		super(dir);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public JBoss5xStandaloneLocalConfiguration(String dir)
+    {
+        super(dir);
+    }
 
-	protected FilterChain createJBossFilterChain(JBoss5xInstalledLocalContainer container) throws MalformedURLException {
-		FilterChain filterChain = super.createJBossFilterChain(container);
-		
-		// add the deployer directory needed for JBoss5x
-		File deployersDir =
+    /**
+     * Create and return a filterchain for the JBoss configuration files.
+     * 
+     * @param container  The container
+     * @return the filterchain  The filterchain
+     * @throws MalformedURLException If a MalformedURLException occurs
+     */
+    protected FilterChain createJBossFilterChain(JBoss5xInstalledLocalContainer container)
+        throws MalformedURLException
+    {
+        FilterChain filterChain = super.createJBossFilterChain(container);
+
+        // add the deployer directory needed for JBoss5x
+        File deployersDir =
             new File(container.getDeployersDir(getPropertyValue(JBossPropertySet.CONFIGURATION)));
         getAntUtils().addTokenToFilterChain(filterChain, "cargo.jboss.deployers.url",
             deployersDir.toURL().toString());
         // add the deploy directory needed for JBoss5x
-		File deployDir =
+        File deployDir =
             new File(container.getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION)));
         getAntUtils().addTokenToFilterChain(filterChain, "cargo.jboss.deploy.url",
             deployDir.toURL().toString());
         
-		return filterChain;
-	}
-	
-	/**
+        return filterChain;
+    }
+
+    /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
@@ -47,7 +63,8 @@ public class JBoss5xStandaloneLocalConfiguration extends
 
         jbossContainer = (JBoss5xInstalledLocalContainer) container;
 
-        FilterChain filterChain = createJBossFilterChain((JBoss5xInstalledLocalContainer)jbossContainer);
+        FilterChain filterChain = createJBossFilterChain(
+                (JBoss5xInstalledLocalContainer) jbossContainer);
 
         // Setup the shared class path
         if (container instanceof InstalledLocalContainer)
@@ -57,14 +74,15 @@ public class JBoss5xStandaloneLocalConfiguration extends
             StringBuffer tmp = new StringBuffer();
             if (sharedClassPath != null)
             {
-            	for (int i = 0; i < sharedClassPath.length; i++)
-            	{
-            		String fileName = getFileHandler().getName(sharedClassPath[i]);
-            		String directoryName = getFileHandler().getParent(sharedClassPath[i]);
-            		
-            		tmp.append("<classpath codebase=\"" + directoryName + "\" archives=\"" + fileName + "\"/>");
-            		tmp.append("\n");
-            	}
+                for (int i = 0; i < sharedClassPath.length; i++)
+                {
+                    String fileName = getFileHandler().getName(sharedClassPath[i]);
+                    String directoryName = getFileHandler().getParent(sharedClassPath[i]);
+
+                    tmp.append("<classpath codebase=\"" + directoryName + "\" archives=\""
+                            + fileName + "\"/>");
+                    tmp.append("\n");
+                }
             } 
             String sharedClassPathString = tmp.toString();
             getLogger().debug("Shared loader classpath is " + sharedClassPathString,

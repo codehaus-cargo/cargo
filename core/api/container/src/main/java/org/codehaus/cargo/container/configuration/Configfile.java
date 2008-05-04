@@ -39,82 +39,93 @@ package org.codehaus.cargo.container.configuration;
  * 
  * @version $Id:$
  */
-public class Configfile {
+public class Configfile 
+{
 
-	/**
-	 * The file to be used.
-	 */
-	private String file;
-	
-	/**
-	 * The name and location of where the file should be saved in reference to the containers home.
-	 */
-	private String tofile;
-	
-	/**
-	 * The name of the directory where the file should be saved.
-	 */
-	private String todir;
-	
-	
-	public Configfile ()
-	{
-		this.file = null;
-		this.tofile = null;
-	}
-	
-	/**
-	 * Returns the name of the file to be used.
-	 * @return The file to be used
-	 */
-	public String getFile()
-	{
-		return file;
-	}
+   /**
+     * The file to be used.
+     */
+    private String file;
 
-	/**
-	 * Returns the name of the destination file
-	 * @return The name of the destination file
-	 */
-	public String getToFile()
-	{
-		return tofile;
-	}
-	
-	/**
-	 * Returns the name of the destination directory
-	 * @return The destination directory
-	 */
-	public String getToDir()
-	{
-		return todir;
-	}
-	
-	/**
-	 * Sets the file to be used.
-	 * @param file The file to use
-	 */
-	public void setFile(String file)
-	{
-		this.file = file;
-	}
-	
-	/**
-	 * Sets the destination file name.
-	 * @param tofile The destination file name
-	 */
-	public void setToFile(String tofile)
-	{
-		this.tofile = tofile;
-	}
-	
-	/**
-	 * Sets the destination directory to use
-	 * @param todir The destination directory
-	 */
-	public void setToDir(String todir)
-	{
-		this.todir = todir;
-	}
-		
+    /**
+     * The name and location of where the file should be saved in reference to
+     * the containers home.
+     */
+    private String tofile;
+
+    /**
+     * The name of the directory where the file should be saved.
+     */
+    private String todir;
+
+    /**
+     * Constructor.
+     */
+    public Configfile()
+    {
+        this.file = null;
+        this.tofile = null;
+    }
+
+    /**
+     * Returns the name of the file to be used.
+     * 
+     * @return The file to be used
+     */
+    public String getFile()
+    {
+        return file;
+    }
+
+    /**
+     * Returns the name of the destination file.
+     * 
+     * @return The name of the destination file
+     */
+    public String getToFile()
+    {
+        return tofile;
+    }
+
+    /**
+     * Returns the name of the destination directory.
+     * 
+     * @return The destination directory
+     */
+    public String getToDir()
+    {
+        return todir;
+    }
+
+    /**
+     * Sets the file to be used.
+     * 
+     * @param file
+     *            The file to use
+     */
+    public void setFile(String file)
+    {
+        this.file = file;
+    }
+
+    /**
+     * Sets the destination file name.
+     * 
+     * @param tofile
+     *            The destination file name
+     */
+    public void setToFile(String tofile)
+    {
+        this.tofile = tofile;
+    }
+
+    /**
+     * Sets the destination directory to use.
+     * @param todir The destination directory
+     */
+    public void setToDir(String todir)
+    {
+        this.todir = todir;
+    }
+    
 }

@@ -19,25 +19,22 @@
  */
 package org.codehaus.cargo.container.jboss;
 
-import org.apache.tools.ant.filters.ReplaceTokens;
-import org.apache.tools.ant.types.FilterChain;
-import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jboss.internal.JBossStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.jboss.internal.JBossInstalledLocalContainer;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Iterator;
-import java.util.Map;
+
+import org.apache.tools.ant.types.FilterChain;
+import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBossInstalledLocalContainer;
+import org.codehaus.cargo.container.jboss.internal.JBossStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
 /**
  * Implementation of a standalone {@link org.codehaus.cargo.container.configuration.Configuration}
@@ -115,14 +112,15 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
             StringBuffer tmp = new StringBuffer();
             if (sharedClassPath != null)
             {
-            	for (int i = 0; i < sharedClassPath.length; i++)
-            	{
-            		String fileName = getFileHandler().getName(sharedClassPath[i]);
-            		String directoryName = getFileHandler().getParent(sharedClassPath[i]);
-            		
-            		tmp.append("<classpath codebase=\"" + directoryName + "\" archives=\"" + fileName + "\"/>");
-            		tmp.append("\n");
-            	}
+                for (int i = 0; i < sharedClassPath.length; i++)
+                {
+                    String fileName = getFileHandler().getName(sharedClassPath[i]);
+                    String directoryName = getFileHandler().getParent(sharedClassPath[i]);
+
+                    tmp.append("<classpath codebase=\"" + directoryName + "\" archives=\""
+                            + fileName + "\"/>");
+                    tmp.append("\n");
+                }
             } 
             String sharedClassPathString = tmp.toString();
             getLogger().debug("Shared loader classpath is " + sharedClassPathString,
@@ -154,8 +152,9 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         
         // Copy the files within the JBoss Deploy directory to the cargo deploy directory
         copyExternalResources(
-        		new File(jbossContainer.getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION))),
-        		new File(deployDir), new String[0]);
+                 new File(jbossContainer
+                 .getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(
+                     deployDir), new String[0]);
         
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
@@ -206,8 +205,9 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
                     }
                     else
                     {
-                    	FileOutputStream fops = new FileOutputStream(new File(destDir, sourceFiles[i].getName()));
-                        getFileHandler().copy(new FileInputStream(sourceFiles[i]),fops);
+                        FileOutputStream fops = new FileOutputStream(new File(destDir,
+                                sourceFiles[i].getName()));
+                        getFileHandler().copy(new FileInputStream(sourceFiles[i]), fops);
                         fops.close();
                     }
 

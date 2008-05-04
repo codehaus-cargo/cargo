@@ -96,7 +96,7 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
             Element sessionElement = (Element) sessionElements.next();
             Session session = new Session();
             Attribute id = sessionElement.getAttribute("id");
-            if(id != null)
+            if (id != null)
             {
                 session.setId(id.getValue());
             }
@@ -123,7 +123,7 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
             Element sessionElement = (Element) sessionElements.next();
             Entity entity = new Entity();
             Attribute id = sessionElement.getAttribute("id");
-            if(id != null)
+            if (id != null)
             {
                 entity.setId(id.getValue());
             }

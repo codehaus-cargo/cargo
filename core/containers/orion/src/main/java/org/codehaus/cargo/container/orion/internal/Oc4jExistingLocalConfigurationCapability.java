@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 /**
  * Capabilities of OC4J

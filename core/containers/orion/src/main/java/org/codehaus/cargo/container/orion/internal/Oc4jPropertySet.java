@@ -34,5 +34,8 @@ public interface Oc4jPropertySet
      */
     String AUTO_DEPLOY_DIR = "cargo.oc4j.auto-deploy.dir";
 
+    /**
+     * Admin password.
+     */
     String ADMIN_PWD = "cargo.oc4j.admin.pwd";
 }

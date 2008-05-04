@@ -19,20 +19,17 @@
  */
 package org.codehaus.cargo.container.spi.configuration;
 
-import org.apache.tools.ant.types.FilterChain;
-import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.configuration.Configfile;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+
+import org.apache.tools.ant.types.FilterChain;
+import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
  * Base implementation for a standalone local configuration.
@@ -42,18 +39,18 @@ import java.util.Map;
 public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocalConfiguration
     implements StandaloneLocalConfiguration
 {
-	
-	/**
-	 * List of {@link Configfile}s to use for the container
-	 */
-	private Map configfiles;
-	
+
+    /**
+     * List of {@link Configfile}s to use for the container.
+     */
+    private Map configfiles;
+
     /**
      * The filterChain for the configuration files. This contains the tokens and what
      * values they should be replaced with.
      */
     private FilterChain filterChain;
-	
+
     /**
      * {@inheritDoc}
      * @see AbstractLocalConfiguration#AbstractLocalConfiguration(String)
@@ -68,9 +65,14 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         //this.filterChain = createFilterChain();       
     }
 
-    public void configure(LocalContainer container) {
-    	super.configure(container);
-    	configureFiles(getFilterChain());
+    /**
+     * Configure the specified container.
+     * @param container the container to configure
+     */
+    public void configure(LocalContainer container)
+    {
+        super.configure(container);
+        configureFiles(getFilterChain());
     }
     
     /**
@@ -120,20 +122,10 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      */
     protected final FilterChain createFilterChain()
     {
-    	this.filterChain = new FilterChain();
-
-//        getAntUtils().addTokenToFilterChain(filterChain,
-//            GeneralPropertySet.PROTOCOL, getPropertyValue(GeneralPropertySet.PROTOCOL));
-//        
-//        getAntUtils().addTokenToFilterChain(filterChain, 
-//            ServletPropertySet.PORT, getPropertyValue(ServletPropertySet.PORT));
-//
-//        getAntUtils().addTokenToFilterChain(filterChain,
-//            GeneralPropertySet.HOSTNAME, getPropertyValue(GeneralPropertySet.HOSTNAME));
+        this.filterChain = new FilterChain();
         
         // add all the token specified in the containers configuration into the filterchain
         getAntUtils().addTokensToFilterChain(filterChain, getProperties());
-        
         
         return filterChain;
     }
@@ -179,65 +171,68 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      */
     public FilterChain getFilterChain()
     {
-    	if (this.filterChain == null)
-    	{
-    		this.filterChain = createFilterChain();
-    	}
-    	return this.filterChain;
+        if (this.filterChain == null)
+        {
+            this.filterChain = createFilterChain();
+        }
+        return this.filterChain;
     }
     
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration#addConfigfile(org.codehaus.cargo.container.configuration.Configfile)
      */
-    public void setFileProperty (String file, String tofile, String todir)
+    public void setFileProperty(String file, String tofile, String todir)
     {
-    	
-    	String finalFile = null;
-    	
-    	if (file == null)
-    	{
-    		throw new RuntimeException ("file cannot be null");
-    	}  
-    	else if  (tofile == null && todir != null)
-    	{
-    		//get the filename and add it in the todir directory name
-    		String filename = file.substring(file.lastIndexOf("/") + 1,file.length());
-    		finalFile = getHome() + "/" + todir + "/" + filename;
-    	}
-    	else if (tofile != null && todir == null)
-    	{
-    		// just use the tofile filename as the final file
-    		finalFile = getHome() + "/" + tofile;
-    	}
-    	else if (tofile == null && todir == null)
-    	{
-    		// use the tofile filename and add it into the conf directory
-    		String filename = file.substring(file.lastIndexOf("/")+1, file.length());
-    		finalFile = getHome() + "/" + filename;
-    	}
-    	else if (tofile != null && todir != null)
-    	{
-    		// tofile means what name to call the file in the todir directory
-    		finalFile = getHome() + "/" + todir + "/" + tofile;
-    	}
-    	
-    	//replace all double slashes with a single slash
-    	while (finalFile.contains("//"))
-    	{
-    	finalFile = finalFile.replace("//", "/");
-    	}
-    	while (file.contains("//"))
-    	{
-    		file = file.replace("//", "/");
-    	}
-    	
-    	this.configfiles.put(finalFile, file);
+        String fileName = file;
+        String finalFile = null;
+
+        if (fileName == null)
+        {
+            throw new RuntimeException("file cannot be null");
+        } 
+        else if (tofile == null && todir != null)
+        {
+            // get the filename and add it in the todir directory name
+            String filename = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.length());
+            finalFile = getHome() + "/" + todir + "/" + filename;
+        } 
+        else if (tofile != null && todir == null)
+        {
+            // just use the tofile filename as the final file
+            finalFile = getHome() + "/" + tofile;
+        } 
+        else if (tofile == null && todir == null)
+        {
+            // use the tofile filename and add it into the conf directory
+            String filename = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.length());
+            finalFile = getHome() + "/" + filename;
+        } 
+        else if (tofile != null && todir != null)
+        {
+            // tofile means what name to call the file in the todir directory
+            finalFile = getHome() + "/" + todir + "/" + tofile;
+        }
+
+        // replace all double slashes with a single slash
+        while (finalFile.contains("//"))
+        {
+            finalFile = finalFile.replace("//", "/");
+        }
+        while (fileName.contains("//"))
+        {
+            fileName = fileName.replace("//", "/");
+        }
+
+        this.configfiles.put(finalFile, fileName);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String getFileProperty(String tofile)
     {
-    	return (String) this.configfiles.get(tofile);
+        return (String) this.configfiles.get(tofile);
     }
     
     /**
@@ -246,21 +241,23 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      */
     public Map getFileProperties()
     {
-    	return this.configfiles;
+        return this.configfiles;
     }
     
     /**
-     *  Copy the customized configuration files into the cargo home directory
+     *  Copy the customized configuration files into the cargo home directory.
+     *  @param filterChain the filter chain to use during the copy
      */
     protected void configureFiles(FilterChain filterChain)
     {
-    	Map files = getFileProperties();
-    	Iterator filesIt = files.keySet().iterator();
-    	while (filesIt.hasNext()){
-    		String toFile = (String)filesIt.next();
-    		String fromFile = (String)files.get(toFile);
-    		getFileHandler().copyFile(fromFile, toFile, filterChain);
-    	}
+        Map files = getFileProperties();
+        Iterator filesIt = files.keySet().iterator();
+        while (filesIt.hasNext())
+        {
+            String toFile = (String) filesIt.next();
+            String fromFile = (String) files.get(toFile);
+            getFileHandler().copyFile(fromFile, toFile, filterChain);
+        }
     }
   
 }

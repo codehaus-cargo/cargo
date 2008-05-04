@@ -18,7 +18,6 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
-import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 
@@ -36,7 +35,8 @@ public class JBossContainerCapability extends J2EEContainerCapability
      */
     public boolean supportsDeployableType(DeployableType type)
     {
-        return (type == DeployableType.EJB || type == DeployableType.SAR ) || super.supportsDeployableType(type);
+        return (type == DeployableType.EJB || type == DeployableType.SAR)
+                || super.supportsDeployableType(type);
     }
 
 }

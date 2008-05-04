@@ -21,8 +21,6 @@ package org.codehaus.cargo.container.deployable;
 
 import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 
-import com.sun.org.apache.bcel.internal.generic.IXOR;
-
 /**
  * Wraps an SAR file that will be deployed in the container.
  * 
@@ -30,9 +28,10 @@ import com.sun.org.apache.bcel.internal.generic.IXOR;
  */
 public class SAR extends AbstractDeployable
 {
-	
+
     /**
      * {@inheritDoc}
+     * 
      * @see AbstractDeployable#AbstractDeployable(String)
      */
     public SAR(String sar)
@@ -42,6 +41,7 @@ public class SAR extends AbstractDeployable
 
     /**
      * {@inheritDoc}
+     * 
      * @see Deployable#getType()
      */
     public DeployableType getType()
@@ -49,6 +49,10 @@ public class SAR extends AbstractDeployable
         return DeployableType.SAR;
     }
 
+    /**
+     * Return whether the SAR is exploded or not.
+     * @return true if the sar is a directory
+     */
     public boolean isExpandedSar()
     {
         return getFileHandler().isDirectory(getFile());

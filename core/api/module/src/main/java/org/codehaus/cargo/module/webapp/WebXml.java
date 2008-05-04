@@ -102,10 +102,11 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
      */
     protected Namespace getTagNamespace()
     {
-      if( this.getVersion() == null )
-        return null;
-      
-      return this.getVersion().getNamespace();      
+        if (this.getVersion() == null)
+        {
+            return null;
+        }
+        return this.getVersion().getNamespace();
     }
     
     /**

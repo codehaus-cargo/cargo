@@ -33,39 +33,49 @@ import java.io.InputStream;
  */
 public class WarArchiveIo
 {
-	/**
-	 * Open a war archive.
-	 * 
-	 * @param file Input File 
-	 * @return WarArchive
-	 * @throws IOException if an IO error occurs
-	 */
-	public static WarArchive open(String file) throws IOException
-	{
-		return new DefaultWarArchive(file);
-	}
-	
-	/**
-	 * Open a war archive.
-	 * 
-	 * @param is Input Stream 
-	 * @return WarArchive
-	 * @throws IOException if an IO error occurs
-	 */
-	public static WarArchive open(InputStream is) throws IOException
-	{
-		return new DefaultWarArchive(is);
-	}
-	
-	/**
-	 * Open a war archive.
-	 * 
-	 * @param f Input File 
-	 * @return WarArchive
-	 * @throws IOException if an IO error occurs
-	 */
-	public static WarArchive open(File f) throws IOException
-	{
-		return new DefaultWarArchive(f.getAbsolutePath());
-	}	
+    /**
+     * Constructor.
+     */
+    protected WarArchiveIo()
+    {
+        // Utility should not have a public  constructor.
+    }
+    
+    /**
+     * Open a war archive.
+     * 
+     * @param file
+     *            Input File
+     * @return WarArchive
+     * @throws IOException
+     *             if an IO error occurs
+     */
+    public static WarArchive open(String file) throws IOException
+    {
+        return new DefaultWarArchive(file);
+    }
+
+    /**
+     * Open a war archive.
+     * 
+     * @param is Input Stream
+     * @return WarArchive
+     * @throws IOException if an IO error occurs
+     */
+    public static WarArchive open(InputStream is) throws IOException
+    {
+        return new DefaultWarArchive(is);
+    }
+
+    /**
+     * Open a war archive.
+     * 
+     * @param f   Input File
+     * @return WarArchive
+     * @throws IOException if an IO error occurs
+     */
+    public static WarArchive open(File f) throws IOException
+    {
+        return new DefaultWarArchive(f.getAbsolutePath());
+    }
 }

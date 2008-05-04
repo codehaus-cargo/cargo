@@ -36,17 +36,17 @@ import org.codehaus.cargo.container.orion.internal.AbstractOc4j10xInstalledLocal
 public class Oc4j10xInstalledLocalContainer extends AbstractOc4j10xInstalledLocalContainer
 {
     /**
+     * Unique container id.
+     */
+    public static final String ID = "oc4j10x";
+    
+    /**
      * {@inheritDoc}
      */
     public Oc4j10xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
     }
-
-    /**
-     * Unique container id.
-     */
-    public static final String ID = "oc4j10x";
 
     /**
      * {@inheritDoc}

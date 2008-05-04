@@ -62,20 +62,20 @@ public class Tomcat6xStandaloneLocalConfiguration
             // of any manager application.
         }
         else
-    {
-        Copy copy = (Copy) getAntUtils().createAntTask("copy");
+        {
+            Copy copy = (Copy) getAntUtils().createAntTask("copy");
 
-        FileSet fileSet = new FileSet();
-        fileSet.setDir(new File(((InstalledLocalContainer) container).getHome()));
+            FileSet fileSet = new FileSet();
+            fileSet.setDir(new File(((InstalledLocalContainer) container).getHome()));
             fileSet.createInclude().setName("conf/Catalina/localhost/manager.xml");
-        fileSet.createInclude().setName("server/lib/catalina.jar");
-        fileSet.createInclude().setName("server/webapps/manager/**");
-        copy.addFileset(fileSet);
-        
-        copy.setTodir(new File(getHome()));
-        
-        copy.execute();
-    }
+            fileSet.createInclude().setName("server/lib/catalina.jar");
+            fileSet.createInclude().setName("server/webapps/manager/**");
+            copy.addFileset(fileSet);
+
+            copy.setTodir(new File(getHome()));
+
+            copy.execute();
+        }
     }
 
     /**

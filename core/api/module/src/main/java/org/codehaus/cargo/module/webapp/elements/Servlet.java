@@ -41,6 +41,7 @@ public class Servlet extends WebXmlElement
     /**
      * Constructor.
      * 
+     * @param tag webxml tag
      * @param servletName name of the servlet
      * @param servletClass class of the servlet
      */

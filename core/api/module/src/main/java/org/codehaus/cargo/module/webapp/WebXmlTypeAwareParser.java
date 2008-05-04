@@ -51,17 +51,17 @@ public class WebXmlTypeAwareParser extends DefaultHandler
     /**
      * Buffered Input Stream for sniffing versions and parsing data.
      */
-    BufferedInputStream bufferedStream;
+    private BufferedInputStream bufferedStream;
     
     /**
      * Entity resolver. 
      */
-    EntityResolver      theEntityResolver;
+    private EntityResolver      theEntityResolver;
     
     /**
      * Generated web xml.
      */
-    WebXml              webXml;
+    private WebXml              webXml;
     
     /**
      * Constructor. Make a Web XML parser which will generate a web xml of the correct
@@ -69,12 +69,11 @@ public class WebXmlTypeAwareParser extends DefaultHandler
      * 
      * @param theInput stream to read from
      * @param theEntityResolver entity resolver to use 
-     * @throws IOException if there is a problem reading the stream
      */
     public WebXmlTypeAwareParser(InputStream theInput, EntityResolver theEntityResolver)
     {
-      this.bufferedStream = new BufferedInputStream(theInput);
-      this.theEntityResolver = theEntityResolver;
+        this.bufferedStream = new BufferedInputStream(theInput);
+        this.theEntityResolver = theEntityResolver;
     }
     
     /**
@@ -85,55 +84,61 @@ public class WebXmlTypeAwareParser extends DefaultHandler
      */
     public WebXml parse() throws IOException, JDOMException
     {
-      bufferedStream.mark(1024*1024);
+        bufferedStream.mark(1024 * 1024);
       
       // Trying to find out what the DOCTYPE declaration from SAX seems to be
       // unbelievably difficult unless you rely on implementation specifics.
       // Do something cheap instead - sniff the first few lines for decls until we
       // see the web-app definition. 
       
-      BufferedReader reader = new BufferedReader( new InputStreamReader(bufferedStream) );
-      String line;
-      
-      while( (line = reader.readLine()) != null && this.version == null )
-      {
-        if( line.indexOf(WebXmlVersion.V2_2.getPublicId()) != -1 )
-          version = WebXmlVersion.V2_2;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(bufferedStream));
+        String line = reader.readLine();
         
-        if( line.indexOf(WebXmlVersion.V2_3.getPublicId()) != -1 )
-          version = WebXmlVersion.V2_3;
-        
-        if( line.indexOf("<web-app") != -1 )
-          break;
-      }
-      
-      if( this.version != null )
-      {
-        generateWebXml();
-      }
-      else
-      {
-        try
-        {        
-          bufferedStream.reset();
-          bufferedStream.mark(1024*1024);
-          SAXParser parser = SAXParserFactory.newInstance().newSAXParser();               
-          
-          parser.parse( new InputSource(bufferedStream), this);
-        }
-        catch (SAXException e)
+        while (line != null && this.version == null)
         {
-           // This exception is expected - the handler aborts the reading when it has worked
-           // out what the type is.
+            if (line.indexOf(WebXmlVersion.V2_2.getPublicId()) != -1)
+            {
+                version = WebXmlVersion.V2_2;
+            }
+            if (line.indexOf(WebXmlVersion.V2_3.getPublicId()) != -1)
+            {
+                version = WebXmlVersion.V2_3;
+            }
+            if (line.indexOf("<web-app") != -1)
+            {
+                break;
+            }
+            line = reader.readLine();
         }
-        catch(Exception ex)
+
+        if (this.version != null)
         {
-          // Something went wrong - just try normal generation
-          throw new CargoException("Problem in parsing", ex);
+            generateWebXml();
+        } 
+        else
+        {
+            try
+            {
+                bufferedStream.reset();
+                bufferedStream.mark(1024 * 1024);
+                SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+
+                parser.parse(new InputSource(bufferedStream), this);
+            } 
+            catch (SAXException e)
+            {
+                // This exception is expected - the handler aborts the reading
+                // when it has worked
+                // out what the type is.
+            } 
+            catch (Exception ex)
+            {
+                // Something went wrong - just try normal generation
+                throw new CargoException("Problem in parsing", ex);
+            }
         }
-      }
-      
-      return this.webXml;      
+
+        return this.webXml;
     }
 
     /**
@@ -144,22 +149,22 @@ public class WebXmlTypeAwareParser extends DefaultHandler
      */
     private void generateWebXml() throws IOException, JDOMException
     {
-      bufferedStream.reset();      
-      
-      // Default to 2.3 if nothing else specified
-      WebXmlType descriptorType = WebXml23Type.getInstance();
-      
-      if( WebXmlVersion.V2_2.equals(getVersion()) )
-      {
-         descriptorType = WebXml22Type.getInstance();
-      }
-      else if ( WebXmlVersion.V2_4.equals(getVersion()) )
-      {
-        descriptorType = WebXml24Type.getInstance();
-      }        
-      
-      webXml =  (WebXml) descriptorType.getDescriptorIo().parseXml(
-          bufferedStream, theEntityResolver);        
+        bufferedStream.reset();
+
+        // Default to 2.3 if nothing else specified
+        WebXmlType descriptorType = WebXml23Type.getInstance();
+
+        if (WebXmlVersion.V2_2.equals(getVersion()))
+        {
+            descriptorType = WebXml22Type.getInstance();
+        } 
+        else if (WebXmlVersion.V2_4.equals(getVersion()))
+        {
+            descriptorType = WebXml24Type.getInstance();
+        }
+
+        webXml = (WebXml) descriptorType.getDescriptorIo().parseXml(bufferedStream,
+                theEntityResolver);        
     }
     
     /**
@@ -173,7 +178,8 @@ public class WebXmlTypeAwareParser extends DefaultHandler
     /**
      * {@inheritDoc}
      */
-    public void unparsedEntityDecl(java.lang.String arg0, java.lang.String arg1, java.lang.String arg2, java.lang.String arg3) throws org.xml.sax.SAXException
+    public void unparsedEntityDecl(java.lang.String arg0, java.lang.String arg1,
+            java.lang.String arg2, java.lang.String arg3) throws org.xml.sax.SAXException
     {      
       
     }
@@ -184,23 +190,23 @@ public class WebXmlTypeAwareParser extends DefaultHandler
     public void startElement(String namespaceURI, String sName, String qName, Attributes attrs)
         throws org.xml.sax.SAXException
     {
-      try
-      {
-        String xmlNs = attrs.getValue("xmlns");
-        String version =  attrs.getValue("version");
-        if( WebXmlVersion.V2_4.getNamespace().getURI().equals( xmlNs) )
+        try
         {
-          // We are at a minimum a V2.4
-          this.version = WebXmlVersion.V2_4;
+            String xmlNs = attrs.getValue("xmlns");
+            String version = attrs.getValue("version");
+            if (WebXmlVersion.V2_4.getNamespace().getURI().equals(xmlNs))
+            {
+                // We are at a minimum a V2.4
+                this.version = WebXmlVersion.V2_4;
+            }
+
+            generateWebXml();
+        } 
+        catch (Exception ex)
+        {
+            throw new CargoException("Problem in parsing web xml file", ex);
         }
-                
-        generateWebXml();
-      }
-      catch(Exception ex)
-      {
-        throw new CargoException("Problem in parsing web xml file", ex);
-      }
-      throw new SAXException("Finished examining file - stop the parser");
+        throw new SAXException("Finished examining file - stop the parser");
     }
   
     
@@ -211,7 +217,7 @@ public class WebXmlTypeAwareParser extends DefaultHandler
      */
     public WebXmlVersion getVersion()
     {
-      return this.version;
+        return this.version;
     }
     
 }

@@ -33,40 +33,53 @@ import java.io.InputStream;
  */
 public class JarArchiveIo
 {
-	/**
-	 * Open a jar archive.
-	 * 
-	 * @param file Input File 
-	 * @return WarArchive
-	 * @throws IOException if an IO error occurs
-	 */
-	public static JarArchive open(String file) throws IOException
-	{
-		return new DefaultJarArchive(file);
-	}
-	
-	/**
-	 * Open a jar archive.
-	 * 
-	 * @param is Input Stream 
-	 * @return WarArchive
-	 * @throws IOException if an IO error occurs
-	 */
-	public static JarArchive open(InputStream is) throws IOException
-	{
-		return new DefaultJarArchive(is);
-	}
-	
-	/**
-	 * Open a jar archive.
-	 * 
-	 * @param f Input File 
-	 * @return WarArchive
-	 * @throws IOException if an IO error occurs
-	 */
-	public static JarArchive open(File f) throws IOException
-	{
-		return new DefaultJarArchive(f.getAbsolutePath());
-	}
-	
+    /**
+     * Constructor.
+     */
+    protected JarArchiveIo()
+    {
+        // do nothing, this class shouldn't have a constructor
+    }
+    
+    
+    /**
+     * Open a jar archive.
+     * 
+     * @param file   Input File
+     * @return WarArchive
+     * @throws IOException if an IO error occurs
+     */
+    public static JarArchive open(String file) throws IOException
+    {
+        return new DefaultJarArchive(file);
+    }
+
+    /**
+     * Open a jar archive.
+     * 
+     * @param is
+     *            Input Stream
+     * @return WarArchive
+     * @throws IOException
+     *             if an IO error occurs
+     */
+    public static JarArchive open(InputStream is) throws IOException
+    {
+        return new DefaultJarArchive(is);
+    }
+
+    /**
+     * Open a jar archive.
+     * 
+     * @param f
+     *            Input File
+     * @return WarArchive
+     * @throws IOException
+     *             if an IO error occurs
+     */
+    public static JarArchive open(File f) throws IOException
+    {
+        return new DefaultJarArchive(f.getAbsolutePath());
+    }
+    
 }

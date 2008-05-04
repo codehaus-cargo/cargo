@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.configuration;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.tools.ant.types.FilterChain;
@@ -35,36 +34,40 @@ import org.apache.tools.ant.types.FilterChain;
  */
 public interface StandaloneLocalConfiguration extends LocalConfiguration
 {
-	
-	/**
-	 * set the file property for a configuration. The todir and tofile are in named
-	 * in relation to the containers home directory.
-	 * 
-	 * toDir and toFile can be used independently, together, or null.
-	 * 
-	 * @param file The name of the file to be used
-	 * @param tofile The name of the destination file
-	 * @param todir The name of the destination directory
-	 */
-	void setFileProperty(String file, String tofile, String todir);
-	
-	/**
-	 *  Returns the file to be copied to the destination.
-	 * @param file The destination file
-	 * @return The file to be copied to the destination
-	 */
-	String getFileProperty(String file);
-	
-	/**
-	 * Returns the file configurations
-	 * @return The configuration file properies
-	 */
-	Map getFileProperties();
-	
-	/**
-	 * Returns the filterchain for this configuration
-	 * @return The filterchain
-	 */
-	FilterChain getFilterChain();
-	
+
+    /**
+     * set the file property for a configuration. The todir and tofile are in
+     * named in relation to the containers home directory.
+     * 
+     * toDir and toFile can be used independently, together, or null.
+     * 
+     * @param file The name of the file to be used
+     * @param tofile The name of the destination file
+     * @param todir The name of the destination directory
+     */
+    void setFileProperty(String file, String tofile, String todir);
+
+    /**
+     * Returns the file to be copied to the destination.
+     * 
+     * @param file
+     *            The destination file
+     * @return The file to be copied to the destination
+     */
+    String getFileProperty(String file);
+
+    /**
+     * Returns the file configurations.
+     * 
+     * @return The configuration file properies
+     */
+    Map getFileProperties();
+
+    /**
+     * Returns the filterchain for this configuration.
+     * 
+     * @return The filterchain
+     */
+    FilterChain getFilterChain();
+
 }

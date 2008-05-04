@@ -47,7 +47,11 @@ public final class WebXmlVersion implements Comparable
         "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN",
         "http://java.sun.com/dtd/web-app_2_3.dtd");
 
-    public static final WebXmlVersion V2_4 = new WebXmlVersion("2.4", "http://java.sun.com/xml/ns/j2ee");
+    /**
+     * Instance for version 2.4.
+     */
+    public static final WebXmlVersion V2_4 = new WebXmlVersion("2.4",
+            "http://java.sun.com/xml/ns/j2ee");
     
     /**
      * The system ID of the corresponding document type.
@@ -102,13 +106,13 @@ public final class WebXmlVersion implements Comparable
     public int compareTo(Object other)
     {
         
-        if (other == this || !(other instanceof WebXmlVersion) )
+        if (other == this || !(other instanceof WebXmlVersion))
         {
             return 0;
         }
         
         float thisVersion = Float.parseFloat(this.version);
-        float thatVersion = Float.parseFloat( ((WebXmlVersion)other).version);
+        float thatVersion = Float.parseFloat(((WebXmlVersion) other).version);
 
         return Float.compare(thisVersion, thatVersion);                
     }
@@ -167,13 +171,19 @@ public final class WebXmlVersion implements Comparable
         return valueOf(theDocType.getPublicID());
     }
 
-    public static WebXmlVersion valueOf(Element rootElement) 
-    {      
-      String value = rootElement.getAttributeValue("version");
-      if( "2.4".equals(value) )
-        return WebXmlVersion.V2_4;
-      
-      return null;
+    /**
+     * Returns the version corresponding to the given element.
+     * @param rootElement The element
+     * @return The version that matches the element
+     */
+    public static WebXmlVersion valueOf(Element rootElement)
+    {
+        String value = rootElement.getAttributeValue("version");
+        if ("2.4".equals(value))
+        {
+            return WebXmlVersion.V2_4;
+        }
+        return null;
     }
     /**
      * Returns the version corresponding to the given public ID.
@@ -203,7 +213,7 @@ public final class WebXmlVersion implements Comparable
      */
     public Namespace getNamespace()
     {
-      return this.namespace;
+        return this.namespace;
     }
 
 }

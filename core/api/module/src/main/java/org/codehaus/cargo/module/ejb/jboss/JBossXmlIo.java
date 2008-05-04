@@ -32,14 +32,14 @@ import org.jdom.JDOMException;
  */
 public class JBossXmlIo extends AbstractDescriptorIo
 {
-	/**
-	 * Protected Constructor.
-	 */
+   /**
+     * Protected Constructor.
+     */
     protected JBossXmlIo()
     {
         super(JBossXmlType.getInstance());    
     }
-	
+
     /**
      * Parses a deployment descriptor provided as input stream.
      *
@@ -51,7 +51,7 @@ public class JBossXmlIo extends AbstractDescriptorIo
     public static JBossXml parseJBossXml(InputStream input)
         throws IOException, JDOMException
     {
-    	JBossXmlIo xio = new JBossXmlIo();
+        JBossXmlIo xio = new JBossXmlIo();
         return (JBossXml) xio.parseXml(input);                
     }
 }

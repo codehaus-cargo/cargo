@@ -25,7 +25,6 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.cargo.module.webapp.DefaultWarArchive;
 import org.codehaus.cargo.module.webapp.WarArchive;
 
 /**

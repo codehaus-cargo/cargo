@@ -35,7 +35,6 @@ import org.codehaus.cargo.module.webapp.elements.InitParam;
 import org.codehaus.cargo.module.webapp.elements.Listener;
 import org.codehaus.cargo.module.webapp.elements.SecurityConstraint;
 import org.codehaus.cargo.module.webapp.elements.Servlet;
-import org.jdom.JDOMException;
 
 /**
  * Web 2.4 Descriptor.
@@ -44,15 +43,15 @@ import org.jdom.JDOMException;
 public class WebXml24Type extends WebXmlType
 {
 
-   /**
-    * Ensure all tags constructed.
-    */
-   private WebXmlTag[] tags;
-   
     /**
      * Single instance.
      */
     private static WebXml24Type instance = new WebXml24Type();
+    
+   /**
+    * Ensure all tags constructed.
+    */
+    private WebXmlTag[] tags;
     
     /**
      * Protected constructor.     
@@ -67,49 +66,64 @@ public class WebXml24Type extends WebXmlType
         
         this.tags = new WebXmlTag[] {
       
-                new WebXmlTag(this, "icon", false),
-                new WebXmlTag(this, "display-name", false),
-                new WebXmlTag(this, "description", false),
-                new WebXmlTag(this, "distributable", false),
-                new WebXmlTag(this,
+            new WebXmlTag(this, "icon", false),
+            new WebXmlTag(this, "display-name", false),
+            new WebXmlTag(this, "description", false),
+            new WebXmlTag(this, "distributable", false),
+            new WebXmlTag(this,
                     "context-param",
                     true,
                     new Identifier(namespaceMap, "j2ee:param-name"),
                     ContextParam.class),
-                new WebXmlTag(this, "param-name"),
-                new WebXmlTag(this, "param-value"),
-                new WebXmlTag(this, "filter", true, new Identifier(namespaceMap, "j2ee:filter-name"), Filter.class),
-                new WebXmlTag(this, "filter-name"),
-                new WebXmlTag(this, "filter-class"),
-                new WebXmlTag(this,
+            new WebXmlTag(this, "param-name"),
+            new WebXmlTag(this, "param-value"),
+            new WebXmlTag(this, "filter", true,
+                        new Identifier(namespaceMap, "j2ee:filter-name"), Filter.class),
+            new WebXmlTag(this, "filter-name"),
+            new WebXmlTag(this, "filter-class"),
+            new WebXmlTag(this,
                     "filter-mapping",
                     true,
                     new Identifier(namespaceMap, "j2ee:filter-name"),
                     FilterMapping.class),
-                new WebXmlTag(this, "init-param", true, new Identifier(namespaceMap, "j2ee:param-name"), InitParam.class),
-                new WebXmlTag(this, "listener", true, new Identifier(namespaceMap, "j2ee:listener-class"), Listener.class),
-                new WebXmlTag(this, "servlet", true, new Identifier(namespaceMap, "j2ee:servlet-name"), Servlet.class),
-                new WebXmlTag(this, "servlet-name"), new WebXmlTag(this, "jsp-file"),
-                new WebXmlTag(this, "servlet-class"), new WebXmlTag(this, "load-on-startup"),
-                new WebXmlTag(this, "run-as"), 
-                new WebXmlTag(this, "servlet-mapping"),
-                new WebXmlTag(this, "url-pattern"), new WebXmlTag(this, "session-config", false),
-                new WebXmlTag(this, "mime-mapping"), new WebXmlTag(this, "welcome-file-list", false),
-                new WebXmlTag(this, "error-page", true, new Identifier("concat(error-code,'>',exception-type)"), null), new WebXmlTag(this, "taglib"),
-                new WebXmlTag(this, "resource-env-ref"), new WebXmlTag(this, "resource-ref"),
-                new WebXmlTag(this, "security-constraint", true, null, SecurityConstraint.class),
-                new WebXmlTag(this, "web-resource-collection"), 
-                new WebXmlTag(this, "web-resource-name"),
-                new WebXmlTag(this, "auth-constraint", false, null, AuthConstraint.class),
-                new WebXmlTag(this, "login-config", false), new WebXmlTag(this, "auth-method"),
-                new WebXmlTag(this, "realm-name"),
-                new WebXmlTag(this, "security-role", true, new Identifier(namespaceMap, "j2ee:role-name"), null),
-                new WebXmlTag(this, "role-name"), new WebXmlTag(this, "env-entry"),
-                new WebXmlTag(this, "ejb-ref", true, new Identifier(namespaceMap, "j2ee:ejb-ref-name"), null),
-                new WebXmlTag(this, "ejb-local-ref"), new WebXmlTag(this, "ejb-ref-name"),
-                new WebXmlTag(this, "ejb-ref-type"), new WebXmlTag(this, "local"),
-                new WebXmlTag(this, "local-home"), new WebXmlTag(this, "remote"),
-                new WebXmlTag(this, "home"), new WebXmlTag(this, "ejb-link") };
+            new WebXmlTag(this, "init-param", true, new Identifier(namespaceMap,
+                        "j2ee:param-name"), InitParam.class),
+            new WebXmlTag(this, "listener", true, new Identifier(namespaceMap,
+                        "j2ee:listener-class"), Listener.class),
+            new WebXmlTag(this, "servlet", true, new Identifier(namespaceMap,
+                        "j2ee:servlet-name"), Servlet.class),
+            new WebXmlTag(this, "servlet-name"),
+            new WebXmlTag(this, "jsp-file"),
+            new WebXmlTag(this, "servlet-class"),
+            new WebXmlTag(this, "load-on-startup"),
+            new WebXmlTag(this, "run-as"),
+            new WebXmlTag(this, "servlet-mapping"),
+            new WebXmlTag(this, "url-pattern"),
+            new WebXmlTag(this, "session-config", false),
+            new WebXmlTag(this, "mime-mapping"),
+            new WebXmlTag(this, "welcome-file-list", false),
+            new WebXmlTag(this, "error-page", true, new Identifier(
+                        "concat(error-code,'>',exception-type)"), null),
+            new WebXmlTag(this, "taglib"),
+            new WebXmlTag(this, "resource-env-ref"),
+            new WebXmlTag(this, "resource-ref"),
+            new WebXmlTag(this, "security-constraint", true, null, SecurityConstraint.class),
+            new WebXmlTag(this, "web-resource-collection"),
+            new WebXmlTag(this, "web-resource-name"),
+            new WebXmlTag(this, "auth-constraint", false, null, AuthConstraint.class),
+            new WebXmlTag(this, "login-config", false),
+            new WebXmlTag(this, "auth-method"),
+            new WebXmlTag(this, "realm-name"),
+            new WebXmlTag(this, "security-role", true, new Identifier(namespaceMap,
+                        "j2ee:role-name"), null),
+            new WebXmlTag(this, "role-name"),
+            new WebXmlTag(this, "env-entry"),
+            new WebXmlTag(this, "ejb-ref", true, new Identifier(namespaceMap,
+                        "j2ee:ejb-ref-name"), null), new WebXmlTag(this, "ejb-local-ref"),
+            new WebXmlTag(this, "ejb-ref-name"), new WebXmlTag(this, "ejb-ref-type"),
+            new WebXmlTag(this, "local"), new WebXmlTag(this, "local-home"),
+            new WebXmlTag(this, "remote"), new WebXmlTag(this, "home"),
+            new WebXmlTag(this, "ejb-link") };
         setDescriptorIo(new WebXmlIo(this));
                 
     }

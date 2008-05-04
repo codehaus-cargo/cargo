@@ -84,10 +84,10 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
             StringBuffer tmp = new StringBuffer();
             if (sharedClassPath != null)
             {
-            	for (int i = 0; i < sharedClassPath.length; i++)
-            	{
-            		tmp.append(',').append(sharedClassPath[i]);
-            	}
+                for (int i = 0; i < sharedClassPath.length; i++)
+                {
+                    tmp.append(',').append(sharedClassPath[i]);
+                }
             }
             getAntUtils().addTokenToFilterChain(filterChain, "catalina.common.loader",
                 tmp.toString());

@@ -81,6 +81,6 @@ public interface Descriptor extends org.jdom.Parent
      * Get the descriptor type for this descriptor.
      * @return descriptor type.
      */
-    public DescriptorType getDescriptorType();
+    DescriptorType getDescriptorType();
     
 }

@@ -21,7 +21,6 @@
 package org.codehaus.cargo.module.webapp.elements;
 
 import org.codehaus.cargo.module.webapp.WebXmlTag;
-import org.codehaus.cargo.module.webapp.WebXmlType;
 
 
 /**
@@ -44,6 +43,7 @@ public class ContextParam extends WebXmlElement
     /**
      * Constructor.
      * 
+     * @param tag web xml tag
      * @param name Name of the parameter
      * @param value Value for the parameter
      */

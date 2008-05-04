@@ -170,20 +170,20 @@ public class AntUtils
     }
   
     /**
-     * Add the map of tokens to the filterChain 
+     * Add the map of tokens to the filterChain.
      * 
-     * @param filterChain
-     * @param map
+     * @param filterChain The filterchain to use
+     * @param map The map
      */
     public void addTokensToFilterChain(FilterChain filterChain, Map map)
     {
-    	Iterator iterator = map.keySet().iterator();
-    	while (iterator.hasNext())
-    	{
-    		String key = (String)iterator.next();
-    		String value = (String)map.get(key);
-    		addTokenToFilterChain(filterChain, key, value);
-    	}
+        Iterator iterator = map.keySet().iterator();
+        while (iterator.hasNext())
+        {
+            String key = (String) iterator.next();
+            String value = (String) map.get(key);
+            addTokenToFilterChain(filterChain, key, value);
+        }
     }
 
 }

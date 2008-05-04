@@ -67,10 +67,10 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
         FileUtils fileUtils = FileUtils.newFileUtils();
 
         String autoDeployDirSetting = getPropertyValue(Oc4jPropertySet.AUTO_DEPLOY_DIR);
-        if(autoDeployDirSetting == null)
+        if (autoDeployDirSetting == null)
         {
-            throw new CargoException("Can not start container without the " +
-                                     Oc4jPropertySet.AUTO_DEPLOY_DIR + " property set");
+            throw new CargoException("Can not start container without the " 
+                    + Oc4jPropertySet.AUTO_DEPLOY_DIR + " property set");
         }
         File autoDeployDir = new File(autoDeployDirSetting);
 
@@ -83,14 +83,13 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
             Deployable deployable = (Deployable) it.next();
             if ((deployable.getType() == DeployableType.EAR))
             {
-                fileUtils.copyFile(deployable.getFile(),
-                                   getFileHandler().append(appDir, getFileHandler().getName(deployable.getFile())),
-                                   null, true);
+                fileUtils.copyFile(deployable.getFile(), getFileHandler().append(appDir,
+                        getFileHandler().getName(deployable.getFile())), null, true);
             }
         }
 
         // Deploy the cargocpc web-app by packaging it as an EAR and auto-deploy
-        Ear ear = (Ear)getAntUtils().createAntTask("ear");
+        Ear ear = (Ear) getAntUtils().createAntTask("ear");
         File tmpDir = new File(getFileHandler().createUniqueTmpDirectory());
         File appXml = new File(tmpDir, "application.xml");
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",

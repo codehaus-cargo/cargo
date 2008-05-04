@@ -193,8 +193,7 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
      * Associates the ejb-jar.xml with jboss.xml if one is present in the jar.
      *
      * @throws IOException If there was a problem reading the deployment descriptor in the JAR
-     * @throws SAXException If the deployment descriptor of the EJB jar could not be parsed
-     * @throws ParserConfigurationException If there is an XML parser configration problem
+     * @throws JDOMException If there is an issue with JDOM
      */
     private void addJBossDescriptor()
         throws IOException, JDOMException

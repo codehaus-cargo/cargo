@@ -27,7 +27,7 @@ import org.codehaus.cargo.module.Dtd;
  */
 public class JBossXmlType extends AbstractDescriptorType
 {
-	/**
+    /**
      * Static instance.
      */
     private static JBossXmlType instance = new JBossXmlType();

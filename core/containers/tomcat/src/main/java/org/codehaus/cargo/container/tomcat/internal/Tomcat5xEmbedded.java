@@ -230,10 +230,13 @@ public final class Tomcat5xEmbedded
             Class.forName("org.apache.catalina.startup.Embedded", true, classLoader);
         Class realm = Class.forName("org.apache.catalina.Realm", true, classLoader);
         Class connector;
-        try {
+        try 
+        {
             // this works for Tomcat 5.0.x
             connector = Class.forName("org.apache.catalina.Connector", true, classLoader);
-        } catch (ClassNotFoundException e) {
+        } 
+        catch (ClassNotFoundException e) 
+        {
             // and this for Tomcat 5.5.x
             connector = Class.forName("org.apache.catalina.connector.Connector", true, classLoader);
         }

@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.jboss;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.internal.AbstractJBoss5xInstalledLocalContainer;
-import org.codehaus.cargo.container.jboss.internal.AbstractJBossInstalledLocalContainer;
 
 /**
  * JBoss 5.x series container implementation.

@@ -111,14 +111,14 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
                 }
                 else
                 {
-                	// need to create something, as otherwise vendor descriptors
-                	// will fail
-                	this.webXml = new WebXml();
+                    // need to create something, as otherwise vendor descriptors
+                    // will fail
+                    this.webXml = new WebXml();
                 }
-            }
-            catch(Exception ex)
+            } 
+            catch (Exception ex)
             {
-            	throw new CargoException("Error parsing the web.xml file in " + file, ex);
+                throw new CargoException("Error parsing the web.xml file in " + file, ex);
             }
             finally
             {

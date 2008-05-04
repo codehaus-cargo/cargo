@@ -48,6 +48,10 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends AbstractIns
      */
     private ContainerCapability capability = new J2EEContainerCapability();
 
+    /**
+     *  Constructor.
+     * @param configuration The configuration for the container
+     */
     public AbstractOc4j10xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
@@ -97,9 +101,9 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends AbstractIns
         FileSet fileSet = new FileSet();
         fileSet.setDir(new File(getHome()));
         Iterator i = getContainerClasspathIncludes().iterator();
-        while(i.hasNext())
+        while (i.hasNext())
         {
-            fileSet.createInclude().setName((String)i.next());
+            fileSet.createInclude().setName((String) i.next());
         }
         classpath.addFileset(fileSet);
         addToolsJarToClasspath(classpath);

@@ -24,16 +24,6 @@ package org.codehaus.cargo.module.webapp;
 
 import org.codehaus.cargo.module.AbstractDescriptorType;
 import org.codehaus.cargo.module.Dtd;
-import org.codehaus.cargo.module.Identifier;
-import org.codehaus.cargo.module.webapp.elements.AuthConstraint;
-import org.codehaus.cargo.module.webapp.elements.ContextParam;
-import org.codehaus.cargo.module.webapp.elements.Filter;
-import org.codehaus.cargo.module.webapp.elements.FilterMapping;
-import org.codehaus.cargo.module.webapp.elements.InitParam;
-import org.codehaus.cargo.module.webapp.elements.Listener;
-import org.codehaus.cargo.module.webapp.elements.SecurityConstraint;
-import org.codehaus.cargo.module.webapp.elements.Servlet;
-import org.jdom.Namespace;
 
 /**
  * A document type for web.xml web deployment descriptors.
@@ -278,7 +268,7 @@ public abstract class WebXmlType extends AbstractDescriptorType
     public static final String EJB_LINK = "ejb-link";
 
     /**
-     * Element name 'dispatcher'
+     * Element name 'dispatcher'.
      */
     public static final String DISPATCHER = "dispatcher";
     

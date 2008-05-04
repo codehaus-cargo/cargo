@@ -24,8 +24,6 @@ package org.codehaus.cargo.module.application;
 
 import java.io.IOException;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.codehaus.cargo.module.JarArchive;
 import org.codehaus.cargo.module.ejb.EjbArchive;
 import org.codehaus.cargo.module.webapp.WarArchive;
@@ -43,9 +41,6 @@ public interface EarArchive extends JarArchive
      *
      * @return The parsed deployment descriptor
      * @throws IOException If there was a problem reading the  deployment descriptor in the EAR
-     * @throws SAXException If the deployment descriptor of the EAR could not be parsed
-     * @throws ParserConfigurationException If there is an XML parser
-     *         configration problem
      * @throws JDOMException  If there is an exception reading the application xml
      */
     ApplicationXml getApplicationXml()

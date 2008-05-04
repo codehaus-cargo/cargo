@@ -42,7 +42,9 @@ import org.codehaus.cargo.util.log.LoggedObject;
  */
 public class ZipURLInstaller extends LoggedObject implements Installer
 {
-    //archive types supported
+    /**
+     * Archive types supported.
+     */
     private static final String[] ARCHIVE_ENDINGS = {
         ".zip",
         ".tgz",
@@ -249,6 +251,10 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         expandTask.execute();
     }
     
+    /**
+     * Create an ant Expand task.
+     * @return The expand task
+     */
     private Expand createExpandTask()
     {
         String archivename = getSourceFileName().toLowerCase();
@@ -361,7 +367,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     {
         String name = getSourceFileName();
         
-        for (int i=0; i<ARCHIVE_ENDINGS.length; i++)
+        for (int i = 0; i < ARCHIVE_ENDINGS.length; i++)
         {
             int dotPos = name.lastIndexOf(ARCHIVE_ENDINGS[i]);
             if (dotPos > -1)

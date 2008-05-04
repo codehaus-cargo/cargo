@@ -21,11 +21,9 @@ package org.codehaus.cargo.module.webapp.jboss;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
 import org.codehaus.cargo.module.DescriptorType;
-import org.jdom.Element;
-import org.codehaus.cargo.module.Dtd;
 import org.codehaus.cargo.module.webapp.EjbRef;
 import org.codehaus.cargo.module.webapp.VendorWebAppDescriptor;
-import org.codehaus.cargo.module.webapp.WebXmlType;
+import org.jdom.Element;
 
 /**
  * Encapsulates the DOM representation of a web deployment descriptor
@@ -79,20 +77,27 @@ public class JBossWebXml extends AbstractDescriptor implements VendorWebAppDescr
         return FILE_NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void addEjbReference(EjbRef ref)
     {
-        JBossWebXmlTag ejbRefTag = (JBossWebXmlTag)getDescriptorType().getTagByName(JBossWebXmlTag.EJB_REF);
-        JBossWebXmlTag jndiTag = (JBossWebXmlTag)getDescriptorType().getTagByName(JBossWebXmlTag.JNDI_NAME);
-        if(ref.isLocal())
+        JBossWebXmlTag ejbRefTag = (JBossWebXmlTag) getDescriptorType().getTagByName(
+                JBossWebXmlTag.EJB_REF);
+        JBossWebXmlTag jndiTag = (JBossWebXmlTag) getDescriptorType().getTagByName(
+                JBossWebXmlTag.JNDI_NAME);
+        if (ref.isLocal())
         {
-        	ejbRefTag = (JBossWebXmlTag)getDescriptorType().getTagByName(JBossWebXmlTag.EJB_LOCAL_REF);
-            jndiTag = (JBossWebXmlTag)getDescriptorType().getTagByName(JBossWebXmlTag.LOCAL_JNDI_NAME);
+            ejbRefTag = (JBossWebXmlTag) getDescriptorType().getTagByName(
+                    JBossWebXmlTag.EJB_LOCAL_REF);
+            jndiTag = (JBossWebXmlTag) getDescriptorType().getTagByName(
+                    JBossWebXmlTag.LOCAL_JNDI_NAME);
         }
-        
-        Element ejbRefElement = ejbRefTag.create();                       
-        
-        ejbRefElement.addContent(createNestedText(getDescriptorType().getTagByName(JBossWebXmlTag.EJB_REF_NAME),
-        		ref.getName()));
+
+        Element ejbRefElement = ejbRefTag.create();
+
+        ejbRefElement.addContent(createNestedText(getDescriptorType().getTagByName(
+                JBossWebXmlTag.EJB_REF_NAME), ref.getName()));
         ejbRefElement.addContent(createNestedText(jndiTag, ref.getJndiName()));        
 
         getRootElement().addContent(ejbRefElement);

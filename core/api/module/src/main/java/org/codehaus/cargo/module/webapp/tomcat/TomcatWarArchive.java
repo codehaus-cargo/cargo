@@ -24,7 +24,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.codehaus.cargo.module.DefaultJarArchive;
 import org.codehaus.cargo.module.JarArchive;
 import org.codehaus.cargo.module.JarArchiveIo;
 import org.jdom.JDOMException;

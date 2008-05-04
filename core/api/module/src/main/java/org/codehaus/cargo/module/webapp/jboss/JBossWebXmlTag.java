@@ -35,14 +35,29 @@ public final class JBossWebXmlTag extends DescriptorTag
      */
     public static final String CONTEXT_ROOT = "context-root";
 
+    /**
+     * Element name 'ejb-ref'.
+     */
     public static final String EJB_REF = "ejb-ref";
 
+    /**
+     * Element name 'ejb-local-ref'.
+     */
     public static final String EJB_LOCAL_REF = "ejb-local-ref";
 
+    /**
+     * Element name 'ejb-ref-name'.
+     */
     public static final String EJB_REF_NAME = "ejb-ref-name";
 
+    /**
+     * Element name 'jndi-name'.
+     */
     public static final String JNDI_NAME = "jndi-name";
 
+    /**
+     * Element name 'local-jndi-name'.
+     */
     public static final String LOCAL_JNDI_NAME = "local-jndi-name";
 
     /**
