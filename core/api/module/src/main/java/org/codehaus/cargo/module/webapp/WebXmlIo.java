@@ -29,6 +29,9 @@ import java.io.InputStream;
 
 import org.codehaus.cargo.module.AbstractDescriptorIo;
 import org.codehaus.cargo.module.DescriptorType;
+import org.jdom.DocType;
+import org.jdom.Document;
+import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
@@ -96,9 +99,32 @@ public final class WebXmlIo extends AbstractDescriptorIo
      *
      * @return The new descriptor
      */
-    public static WebXml newWebXml(WebXmlVersion theVersion)         
+    public static WebXml newWebXml(WebXmlVersion theVersion)
     {
-        return (WebXml) WebXml23Type.getInstance().document(null);        
+        Element root = new Element("web-app");
+
+        Document document = null;
+
+        if (theVersion.equals(WebXmlVersion.V2_2))
+        {
+            document = new WebXml22Type().document(root);
+            document.setDocType(new DocType("web-app",
+                    "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN",
+                    "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd"));
+        } 
+        else if (theVersion.equals(WebXmlVersion.V2_3))
+        {
+            document = new WebXml23Type().document(root);
+            document.setDocType(new DocType("web-app",
+                    "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN",
+                    "http://java.sun.com/dtd/web-app_2_3.dtd"));
+        } 
+        else
+        {
+            document = new WebXml24Type().document(root);
+            document.setDocType(new DocType("web-app", "http://java.sun.com/xml/ns/j2ee"));
+        }
+        return (WebXml) document;
     }
 
     /**

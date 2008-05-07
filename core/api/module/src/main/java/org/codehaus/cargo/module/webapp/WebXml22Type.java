@@ -41,7 +41,7 @@ public class WebXml22Type extends WebXmlType
   /**
    * Single instance.
    */
-    private static WebXml22Type instance = new WebXml22Type(null, null);
+    private static WebXml22Type instance = new WebXml22Type();
 
   /**
    * Ensure all tags constructed.
@@ -91,6 +91,17 @@ public class WebXml22Type extends WebXmlType
             new WebXmlTag(this, "local-home"), new WebXmlTag(this, "remote"),
             new WebXmlTag(this, "home"), new WebXmlTag(this, "ejb-link")
         };
+    
+   /**
+    *  Protected Constructor.
+    */
+    protected WebXml22Type()
+    {
+        super(null, new Dtd("http://java.sun.com/j2ee/dtds/web-app_2_2.dtd"));
+        setDescriptorIo(new WebXmlIo(this));
+    }
+    
+    
   /**
    * Protected constructor.
    * 

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.codehaus.cargo.module.DescriptorElement;
+import org.codehaus.cargo.module.webapp.elements.ContextParam;
 import org.codehaus.cargo.module.webapp.elements.Filter;
 import org.codehaus.cargo.module.webapp.elements.FilterMapping;
 import org.codehaus.cargo.module.webapp.elements.InitParam;
@@ -1064,5 +1065,19 @@ public final class WebXmlUtils
         WebXmlTag tag = (WebXmlTag) webXml.getDescriptorType().getTagByName("filter");
         Filter filter = new Filter(tag, filterName, filterClass);
         webXml.addTag(filter);
+    }
+    
+        /**
+     * Adds a new context-param element to the descriptor.
+     *
+     * @param webXml The webXml containing the descriptor
+     * @param name  The context name
+     * @param value  The context value
+     */
+    public static void addContextParam(WebXml webXml, String name, String value)
+    {
+        WebXmlTag tag = (WebXmlTag) webXml.getDescriptorType().getTagByName("context-param");
+        ContextParam contextParam = new ContextParam(tag, name, value);
+        webXml.addTag(contextParam);
     }
 }
