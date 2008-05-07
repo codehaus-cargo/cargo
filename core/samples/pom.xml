@@ -200,7 +200,7 @@
               </property>
               <property>
                 <name>cargo.tomcat5x.url</name>
-                <value>http://www.apache.org/dist/tomcat/tomcat-5/v5.0.30/bin/jakarta-tomcat-5.0.30.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-5/v5.0.30/bin/jakarta-tomcat-5.0.30.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat6x.port</name>
