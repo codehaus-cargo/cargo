@@ -22,7 +22,7 @@
   <artifactId>cargo-parent</artifactId>
   <name>Cargo</name>
   <packaging>pom</packaging>
-  <version>3</version>
+  <version>4-SNAPSHOT</version>
   <url>http://cargo.codehaus.org</url>
   <prerequisites>
     <!-- There are some issues with Maven 2.0.4 that have been fixed in Maven 2.0.5 -->
@@ -236,9 +236,9 @@
     </site>
   </distributionManagement>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/pom/tags/cargo-parent-3</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/pom/tags/cargo-parent-3</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/pom/tags/cargo-parent-3</url> 
+    <connection>scm:svn:http://svn.codehaus.org/cargo/pom/trunk</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/pom/trunk</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/pom/trunk</url> 
   </scm>
   <reporting>
     <plugins>
