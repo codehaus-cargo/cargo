@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-core-containers</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-alpha-2</version>
   </parent>
   <artifactId>cargo-core-container-jetty</artifactId>
   <name>Cargo Core Jetty Container</name>
