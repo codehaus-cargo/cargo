@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-resources</artifactId>
-    <version>1.0-alpha-2</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>org.codehaus.cargo</groupId>
   <artifactId>cargo-samples-testdata</artifactId>
