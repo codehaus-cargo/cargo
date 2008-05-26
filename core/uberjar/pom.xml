@@ -21,10 +21,10 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-core</artifactId>
-    <version>1.0-alpha-2</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-core-uberjar</artifactId>
-  <version>1.0-alpha-2</version>
+  <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Cargo Core Uberjar</name>
   <description>The Cargo Core Uberjar</description>
