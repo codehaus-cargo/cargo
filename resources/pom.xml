@@ -37,6 +37,7 @@
   <modules>
     <module>build-tools</module>
     <module>testdata</module>
+    <module>jetty-deployer</module>
   </modules>
   <!-- We need this for now because Maven is not able to build from the top level without
        querying the remote repository. This is probably a Maven bug. Remove this when it
