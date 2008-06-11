@@ -54,6 +54,13 @@ public final class WebXmlVersion implements Comparable
             "http://java.sun.com/xml/ns/j2ee");
     
     /**
+     * Instance for version 2.5.
+     */
+    public static final WebXmlVersion V2_5 = new WebXmlVersion("2.5",
+            "-//Sun Microsystems, Inc.//DTD Application Server 9.0 Servlet 2.5//EN",
+            "http://www.sun.com/software/dtd/appserver/sun-web-app_2_5-0.dtd");
+    
+    /**
      * The system ID of the corresponding document type.
      */
     private String systemId;
