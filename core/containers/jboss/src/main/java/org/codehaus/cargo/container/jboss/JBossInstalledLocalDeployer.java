@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.jboss;
 
-import java.io.File;
-
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
@@ -63,20 +61,22 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
     }
 
     /**
-     * {@inheritDoc}
+     * Copy the full expanded WAR directory to the deployable directory, renaming it if the user
+     * has specified a custom context for this expanded WAR.
+     *
+     * @param deployableDir the directory where the container is expecting deployables to be dropped
+     *        for deployments
+     * @param war the expanded WAR war
      *
      * <p>JBoss requires that expanded WAR directories end with <code>.war</code> so we have to
      * rename the expanded WAR directory. See the
      * <a href="http://docs.jboss.org/jbossas/jboss4guide/r4/html/ch2.chapter.html#d0e5347">
      * JBoss documentation for AbstractWebDeployer</a>.</p>
      *
-     * @see AbstractCopyingInstalledLocalDeployer#deployExpandedWar(String, org.codehaus.cargo.container.deployable.WAR)
      */
     protected void deployExpandedWar(String deployableDir, WAR war)
     {
-        super.deployExpandedWar(deployableDir, war);
-
-        File file = new File(deployableDir, war.getContext());
-        file.renameTo(new File(deployableDir, war.getContext() + ".war"));
+        getFileHandler().copyDirectory(
+                war.getFile(), getFileHandler().append(deployableDir, war.getContext() + ".war"));
     }
 }
