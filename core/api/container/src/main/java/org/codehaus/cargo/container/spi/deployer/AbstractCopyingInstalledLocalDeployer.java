@@ -26,6 +26,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.EJB;
 import org.codehaus.cargo.container.deployable.File;
+import org.codehaus.cargo.container.deployable.RAR;
 import org.codehaus.cargo.container.deployable.SAR;
 import org.codehaus.cargo.container.deployable.WAR;
 
@@ -61,6 +62,11 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      * @see #setShouldDeployExpandedSARs(boolean)
      */
     private boolean shouldDeployExpandedSARs;
+    
+    /**
+     * @see #setShouldDeployExpandedRARs(boolean)
+     */
+    private boolean shouldDeployExpandedRARs;
 
     /**
      * Deployed Deployables.
@@ -77,6 +83,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
 
         this.shouldDeployExpandedWARs = true;
         this.shouldDeployExpandedSARs = true;
+        this.shouldDeployExpandedRARs = true;
         this.deployedDeployables = new ArrayList();
     }
 
@@ -104,6 +111,19 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     public void setShouldDeployExpandedSARs(boolean flag)
     {
         this.shouldDeployExpandedSARs = flag;
+    }
+    
+    /**
+     * Decide whether expanded RARs should be deployed. Some classes using this deployer may not
+     * want to deploy expanded RARs as they may want to deploy them in-situ by modifying the
+     * container's configuration file to point to the location of the expanded RAR. This saves
+     * some copying time and make it easier for development round-trips.
+     *
+     * @param flag if true expanded RARs will be deployed
+     */
+    public void setShouldDeployExpandedRARs(boolean flag)
+    {
+        this.shouldDeployExpandedRARs = flag;
     }
     
     /**
@@ -163,13 +183,25 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
                     deploySar(deployableDir, (SAR) deployable);
                 }
             }
+            else if (deployable.getType() == DeployableType.RAR)
+            {
+                if (deployable.isExpanded() && this.shouldDeployExpandedRARs)
+                {
+                    deployExpandedRar(deployableDir, (RAR) deployable);
+                }
+                else
+                {
+                    deployRar(deployableDir, (RAR) deployable);
+                }
+            }
             else if (deployable.getType() == DeployableType.FILE)
             {
                 deployFile(deployableDir, (File) deployable);
             }
             else
             {
-                throw new ContainerException("Only WAR, EJB, EAR and SAR are currently supported");
+                throw new ContainerException(
+                        "Only WAR, EJB, EAR, RAR and SAR are currently supported");
             }
         }
         catch (Exception e)
@@ -283,6 +315,17 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     }
     
     /**
+     * Copy the RAR file to the deployable directory.
+     * @param deployableDir The directory to copy it too
+     * @param rar the rar to copy
+     */
+    protected void deployRar(String deployableDir, RAR rar)
+    {
+        getFileHandler().copyFile(rar.getFile(),
+                getFileHandler().append(deployableDir, getFileHandler().getName(rar.getFile())));
+    }
+    
+    /**
      * Copy the EJB file to the deployable directory.
      *
      * @param deployableDir the container's deployable directory
@@ -332,6 +375,18 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     {
         getFileHandler().copyDirectory(sar.getFile(), 
             getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())));
+    }
+    
+    /**
+     * Copy the full expanded RAR directory to the deployable directory, renaming it if
+     * the user has specified a custom context for this expanded RAR.
+     * @param deployableDir the directory to deploy the expanded RAR
+     * @param rar the expanded RAR rar
+     */
+    protected void deployExpandedRar(String deployableDir, RAR rar)
+    {
+        getFileHandler().copyDirectory(rar.getFile(), 
+            getFileHandler().append(deployableDir, getFileHandler().getName(rar.getFile())));
     }
     
     /**

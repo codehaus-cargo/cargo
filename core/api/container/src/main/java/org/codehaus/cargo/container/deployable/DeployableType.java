@@ -47,6 +47,11 @@ public final class DeployableType
     public static final DeployableType SAR = new DeployableType("sar");
     
     /**
+     * The RAR deployable type.
+     */
+    public static final DeployableType RAR = new DeployableType("rar");
+    
+    /**
      * The File deployable type.
      */
     public static final DeployableType FILE = new DeployableType("file");
@@ -89,6 +94,10 @@ public final class DeployableType
         else if (typeAsString.equalsIgnoreCase(SAR.type))
         {
             type = SAR;
+        }
+        else if (typeAsString.equalsIgnoreCase(RAR.type))
+        {
+            type = RAR;
         }
         else if (typeAsString.equalsIgnoreCase(FILE.type))
         {
