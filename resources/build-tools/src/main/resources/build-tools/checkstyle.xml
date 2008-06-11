@@ -8,7 +8,7 @@
 
   <!-- Other modules -->
   <module name="SuppressionFilter">
-    <property name="file" value="/home/mwringe/Projects/workspaces/workspace-cargo-clean/cargo-clean-upstream/resources/build-tools/src/main/resources/build-tools/checkstyle-suppressions.xml"/>
+    <property name="file" value="${checkstyle.suppressions.file}"/>
   </module>
 
   <!--
