@@ -131,8 +131,17 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
         String deployDir = getFileHandler().createDirectory(getHome(), "/deploy");
         String libDir = getFileHandler().createDirectory(getHome(), "/lib");
-
         String confDir = getFileHandler().createDirectory(getHome(), "/conf");
+        
+        String clustered = jbossContainer.getConfiguration().
+            getPropertyValue(JBossPropertySet.CLUSTERED);
+        
+        if (Boolean.parseBoolean(jbossContainer.getConfiguration().
+                getPropertyValue(JBossPropertySet.CLUSTERED)))
+        {
+            String farmDir = getFileHandler().createDirectory(getHome(), "/farm");        
+        }
+        
 
         // Copy configuration files from cargo resources directory with token replacement
         String[] cargoFiles = new String[] {"cargo-binding.xml", "log4j.xml",

@@ -233,7 +233,15 @@ public abstract class AbstractJBossInstalledLocalContainer extends
      */
     public String getDeployDir(String configurationName)
     {
-        return getSpecificConfigurationDir("deploy", configurationName);
+        String clustered = getConfiguration().getPropertyValue(JBossPropertySet.CLUSTERED);
+        if (Boolean.parseBoolean(clustered))
+        {
+            return getSpecificConfigurationDir("farm", configurationName);
+        }
+        else
+        {
+            return getSpecificConfigurationDir("deploy", configurationName);
+        }
     }
 
     /**

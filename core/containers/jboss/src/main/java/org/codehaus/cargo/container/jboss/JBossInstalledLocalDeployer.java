@@ -48,8 +48,18 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
      * @return Deployable directory for the container
      */
     public String getDeployableDir()
-    {
-        return getFileHandler().append(getContainer().getConfiguration().getHome(), "deploy");
+    {  
+        String clustered = getContainer().getConfiguration().
+                getPropertyValue(JBossPropertySet.CLUSTERED);
+        
+        if (Boolean.parseBoolean(clustered))
+        {
+            return getFileHandler().append(getContainer().getConfiguration().getHome(), "farm");
+        }
+        else
+        {
+            return getFileHandler().append(getContainer().getConfiguration().getHome(), "deploy");
+        }
     }
 
     /**

@@ -19,16 +19,20 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import junit.framework.TestCase;
 
-import org.codehaus.cargo.container.jboss.JBoss4xInstalledLocalContainer;
-import org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.jboss.JBossPropertySet;
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.apache.commons.vfs.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.jboss.JBoss4xInstalledLocalContainer;
+import org.codehaus.cargo.container.jboss.JBossInstalledLocalDeployer;
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
+import org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
-import org.apache.commons.vfs.impl.StandardFileSystemManager;
 
 /**
  * Unit tests for {@link AbstractJBossInstalledLocalContainer}.
@@ -70,6 +74,7 @@ public class JBossInstalledLocalContainerTest extends TestCase
 
         this.container = new JBoss4xInstalledLocalContainer(configuration);
         this.container.setHome(CONTAINER_HOME);
+        
     }
 
     public void testGetConfDir()
@@ -91,6 +96,23 @@ public class JBossInstalledLocalContainerTest extends TestCase
         String expected = this.fileHandler.append(CONFIGURATION_HOME, "deploy");
         assertEquals(expected, this.container.getDeployDir(
             this.container.getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
+    }
+
+    public void testGetFarmDir()
+    {
+        this.container.getConfiguration().setProperty(JBossPropertySet.CLUSTERED, "true");
+        String expected = this.fileHandler.append(CONFIGURATION_HOME, "farm");
+        assertEquals(expected, this.container.getDeployDir(
+            this.container.getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
+    }
+    
+    public void testGetFarmDeployDir()
+    {
+        this.container.getConfiguration().setProperty(JBossPropertySet.CLUSTERED, "true");
+        String expected = this.fileHandler.append(CONFIGURATION_HOME, "farm");
+        
+        JBossInstalledLocalDeployer deployer = new JBossInstalledLocalDeployer(this.container);
+        assertEquals(expected, deployer.getDeployableDir());
     }
 
     public void testVerifyJBossHomeWhenEmptyDirectory() throws Exception

@@ -30,4 +30,9 @@ public interface JBossPropertySet
      * The JBoss configuration selected. Examples of valid values: "default", "all", "minimal".
      */
     String CONFIGURATION = "cargo.jboss.configuration";
+    
+    /**
+     * Whether the JBoss Configuration should be clustered.
+     */
+    String CLUSTERED = "cargo.jboss.clustered";
 }
