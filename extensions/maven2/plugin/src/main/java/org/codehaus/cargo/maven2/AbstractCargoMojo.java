@@ -311,8 +311,24 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         // Try to find the container in the Maven Plugin Context first.
         Map context = getPluginContext();
 
-        // Containers don't have any useful ID, so we use the home directory which is hopefully unique
-        String containerKey = CONTEXT_KEY_CONTAINER + "." + getConfigurationElement().getHome();
+        String containerKey;
+        // Containers don't have a unique ID which makes it hard to start  multiple containers 
+        // on the same system. If the configuration has a home, then we can use that as an ID.
+        // some containers (like embedded containers) do not have a home element specified, in
+        // that case we will have to use the container type as the id (note: this means we can't 
+        // start multiple embedded servers of the same type).
+        // TODO: come up with a proper unique ID for each container.
+        if (getConfigurationElement() == null)
+        {
+            // since we don't have a home element, just use the container 
+            containerKey = CONTEXT_KEY_CONTAINER;
+        }
+        else
+        {
+            // use both the container and the container home
+            containerKey = CONTEXT_KEY_CONTAINER + "." + getConfigurationElement().getHome();
+        }
+        
         if (context != null)
         {
             container = (org.codehaus.cargo.container.Container) context.get(containerKey);
