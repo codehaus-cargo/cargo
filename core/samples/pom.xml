@@ -387,7 +387,7 @@
                    repository. -->  
               <property>
                 <name>cargo.version</name>
-                <value>1.0-SNAPSHOT</value>
+                <value>1.0-alpha-3</value>
               </property>
 
               <property>
