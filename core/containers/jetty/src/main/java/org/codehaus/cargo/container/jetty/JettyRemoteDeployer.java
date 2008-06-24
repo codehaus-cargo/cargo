@@ -116,7 +116,7 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
         }
         catch (Exception e)
         {
-            throw new ContainerException("Failed to deploy [" + deployable + "]", e);
+            throw new ContainerException("Failed to deploy [" + deployable.getFile() + "]", e);
         }
     }
     
@@ -266,18 +266,25 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
         
         String response = "";
         
-        // we got an error, try and get the error message
-        if (code >= 400)
+        try
         {
             // we got an error, try and get the error message
-            response = streamToString(connection.getErrorStream(), "UTF-8");
-        }
-        else
+            if (code >= 400)
+            {
+                // we got an error, try and get the error message
+                response = streamToString(connection.getInputStream(), "UTF-8");
+            } 
+            else
+            {
+                // no error was reported so try and get the message from the
+                // input stream
+                response = streamToString(connection.getInputStream(), "UTF-8");
+            }
+        } 
+        catch (Exception e)
         {
-            // no error was reported so try and get the message from the input stream
-            response = streamToString(connection.getInputStream(), "UTF-8");  
+            e.printStackTrace();
         }
-
         return response;
     }
     
