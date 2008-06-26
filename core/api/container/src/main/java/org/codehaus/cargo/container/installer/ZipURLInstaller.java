@@ -50,6 +50,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         ".tgz",
         ".tar",
         ".bz2",
+        ".tar.gz",
     };
     
     /**
@@ -267,7 +268,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         {
             expand = (Expand) this.antUtils.createAntTask("untar");
         }
-        else if (archivename.endsWith(".tgz"))
+        else if (archivename.endsWith(".tgz") || archivename.endsWith(".tar.gz"))
         {
             Untar untar = (Untar) this.antUtils.createAntTask("untar");
             UntarCompressionMethod compressionMethod = new Untar.UntarCompressionMethod();
