@@ -1,3 +1,22 @@
+/*
+ * ========================================================================
+ *
+ * Copyright 2008 Vincent Massol.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * ========================================================================
+ */
 package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
@@ -111,7 +130,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
 
         // Copy configuration files from cargo resources directory with token replacement
         String[] cargoFiles = new String[] {"cargo-binding.xml", "log4j.xml",
-            "jboss-service.xml", "bootstrap-beans.xml"};
+            "jboss-service.xml", "profile-service.xml"};
         for (int i = 0; i < cargoFiles.length; i++)
         {
             getResourceUtils().copyResource(
@@ -124,8 +143,8 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
         copyExternalResources(
             new File(jbossContainer.getConfDir(getPropertyValue(JBossPropertySet.CONFIGURATION))),
             new File(confDir), cargoFiles);
-
-        // Deploy the CPC (Cargo Ping Component) to the webapps directory
+        
+        // Copy the files within the JBoss Deploy directory to the cargo deploy directory
         copyExternalResources(
                  new File(jbossContainer
                  .getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(

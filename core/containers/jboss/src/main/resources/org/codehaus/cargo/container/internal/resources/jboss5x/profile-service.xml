@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+   The profile service
+-->
+<deployment xmlns="urn:jboss:bean-deployer:2.0">
+
+   <classloader><inject bean="profile-service-classloader:0.0.0"/></classloader>
+
+   <classloader name="profile-service-classloader" xmlns="urn:jboss:classloader:1.0" export-all="NON_EMPTY" import-all="true"/>
+
+   <!-- The basic profile service which relies on vfs scanners
+   to determine the profile deployments. This version does not
+   support the full ProfileService spi.
+   -->
+   <bean name="ProfileService" class="org.jboss.system.server.profileservice.basic.MetaDataAwareProfileService">
+      <constructor>
+         <parameter>${jboss.server.name}</parameter>
+      </constructor>
+      <property name="profileRoot">${jboss.server.home.dir}</property>
+      <property name="mainDeployer"><inject bean="MainDeployer"/></property>
+   </bean>
+
+   <bean name="ProfileServiceBootstrap" class="org.jboss.system.server.profileservice.ProfileServiceBootstrap">
+      <property name="kernel"><inject bean="jboss.kernel:service=Kernel"/></property>
+   </bean>
+
+   <!-- A filter for excluding files from the scanner -->
+   <bean name="DeploymentFilter" class="org.jboss.virtual.plugins.vfs.helpers.ExtensibleFilter">
+      <!-- Files starting with theses strings are ignored -->
+      <property name="prefixes">#,%,\,,.,_$</property>
+      <!-- Files ending with theses strings are ignored -->
+      <property name="suffixes">#,$,%,~,\,v,.BAK,.bak,.old,.orig,.tmp,.rej,.sh</property>
+      <!-- Files matching with theses strings are ignored -->
+      <property name="matches">.make.state,.nse_depinfo,CVS,CVS.admin,RCS,RCSLOG,SCCS,TAGS,core,tags</property>
+   </bean>
+
+   <!-- Scan for bootstraps -->
+   <bean name="VFSBootstrapScanner" class="org.jboss.system.server.profileservice.VFSBootstrapScannerImpl">
+      <property name="profileService"><inject bean="ProfileService"/></property>
+      <property name="filterInstance"><inject bean="DeploymentFilter"/></property>
+      <property name="URIList">
+         <list elementClass="java.net.URI">
+            <!-- Legacy static conf/jboss-service.xml -->
+            <value>${jboss.server.home.url}conf/jboss-service.xml</value>
+         </list>
+      </property>
+   </bean>
+
+   <!-- Scan for deployers -->
+   <bean name="VFSDeployerScanner" class="org.jboss.system.server.profileservice.VFSDeployerScannerImpl">
+      <property name="profileService"><inject bean="ProfileService"/></property>
+      <property name="filterInstance"><inject bean="DeploymentFilter"/></property>
+      <property name="URIList">
+         <list elementClass="java.net.URI">
+            <!-- Directory for deployers -->
+            <value>@cargo.jboss.deployers.url@</value>
+         </list>
+      </property>
+   </bean>
+
+   <!-- Scan for applications -->
+   <bean name="VFSDeploymentScanner" class="org.jboss.system.server.profileservice.VFSDeploymentScannerImpl">
+      <property name="profileService"><inject bean="ProfileService"/></property>
+      <property name="filterInstance"><inject bean="DeploymentFilter"/></property>
+      <property name="URIList">
+         <list elementClass="java.net.URI">
+            <!-- Standard hot deployment directory -->
+            <value>${jboss.server.home.url}deploy/</value>
+         </list>
+      </property>
+   </bean>
+
+   <!-- Hotdeployment of applications -->
+   <bean name="HDScanner"
+      class="org.jboss.system.server.profileservice.hotdeploy.HDScanner">
+      <property name="mainDeployer"><inject bean="MainDeployer"/></property>
+      <!-- Workaround for JBMICROCONT-176
+      -->
+      <property name="controller"><inject bean="jboss.kernel:service=KernelController"/></property>
+      <!-- Broken due to JBMICROCONT-176
+         <property name="controller"><inject bean="jboss.kernel:service=Kernel" property="controller"/></property>
+      -->
+      <property name="profileService"><inject bean="ProfileService"/></property>
+      <property name="scanPeriod">5000</property>
+      <property name="scanThreadName">HDScanner</property>
+   </bean>
+   
+</deployment>

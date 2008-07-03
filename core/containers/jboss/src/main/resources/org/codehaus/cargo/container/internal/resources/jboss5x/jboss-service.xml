@@ -276,16 +276,6 @@
    <!-- Security                                                             -->
    <!-- ==================================================================== -->
 
-   <mbean code="org.jboss.security.plugins.SecurityConfig"
-      name="jboss.security:service=SecurityConfig">
-      <attribute name="LoginConfig">jboss.security:service=XMLLoginConfig</attribute>
-      <depends>jboss.security:service=XMLLoginConfig</depends>
-   </mbean>
-   <mbean code="org.jboss.security.auth.login.XMLLoginConfig"
-      name="jboss.security:service=XMLLoginConfig">
-      <attribute name="ConfigResource">login-config.xml</attribute>
-   </mbean>
-
    <!-- JAAS security manager and realm mapping -->
    <mbean code="org.jboss.security.plugins.JaasSecurityManagerService"
       name="jboss.security:service=JaasSecurityManager">
@@ -320,123 +310,6 @@
       threads.
       -->
       <attribute name="DeepCopySubjectMode">false</attribute>
-   </mbean>
-
-   <!-- Authorization manager-->
-   <mbean code="org.jboss.security.plugins.AuthorizationManagerService"
-      name="jboss.security:service=AuthorizationManager">
-      <attribute name="AuthorizationManagerClassName">org.jboss.security.plugins.JBossAuthorizationManager</attribute>
-   </mbean>
-
-   <!-- ==================================================================== -->
-   <!-- Transactions                                                         -->
-   <!-- ==================================================================== -->
-
-   <!-- JBossTS JTA -->
-   <mbean code="com.arjuna.ats.jbossatx.jta.TransactionManagerService"
-      name="jboss:service=TransactionManager">
-      <attribute name="TransactionTimeout">300</attribute>
-      <attribute name="ObjectStoreDir">${jboss.server.data.dir}/tx-object-store</attribute>        
-   </mbean>
-
-   <!--
-      | UserTransaction support. Will be replaced by the DTM once
-      | the DTM is made to play nice with JBossTS.
-   -->
-   <mbean code="org.jboss.tm.usertx.server.ClientUserTransactionService"
-      name="jboss:service=ClientUserTransaction"
-      xmbean-dd="resource:xmdesc/ClientUserTransaction-xmbean.xml">
-      <depends>
-         <mbean code="org.jboss.invocation.jrmp.server.JRMPProxyFactory"
-            name="jboss:service=proxyFactory,target=ClientUserTransactionFactory">
-            <attribute name="InvokerName">jboss:service=invoker,type=unified</attribute>
-            <attribute name="TargetName">jboss:service=ClientUserTransaction</attribute>
-            <attribute name="JndiName">UserTransactionSessionFactory</attribute>
-            <attribute name="ExportedInterface">org.jboss.tm.usertx.interfaces.UserTransactionSessionFactory</attribute>
-            <attribute name="ClientInterceptors">
-               <interceptors>
-                  <interceptor>org.jboss.proxy.ClientMethodInterceptor</interceptor>
-                  <interceptor>org.jboss.invocation.InvokerInterceptor</interceptor>
-               </interceptors>
-            </attribute>
-            <depends>jboss:service=invoker,type=unified</depends>
-         </mbean>
-      </depends>
-      <depends optional-attribute-name="TxProxyName">
-         <mbean code="org.jboss.invocation.jrmp.server.JRMPProxyFactory"
-            name="jboss:service=proxyFactory,target=ClientUserTransaction">
-            <attribute name="InvokerName">jboss:service=invoker,type=unified</attribute>
-            <attribute name="TargetName">jboss:service=ClientUserTransaction</attribute>
-            <attribute name="JndiName"></attribute>
-            <attribute name="ExportedInterface">org.jboss.tm.usertx.interfaces.UserTransactionSession</attribute>
-            <attribute name="ClientInterceptors">
-               <interceptors>
-                  <interceptor>org.jboss.proxy.ClientMethodInterceptor</interceptor>
-                  <interceptor>org.jboss.invocation.InvokerInterceptor</interceptor>
-               </interceptors>
-            </attribute>
-            <depends>jboss:service=invoker,type=unified</depends>
-         </mbean>
-      </depends>
-   </mbean>
-
-   <!-- ==================================================================== -->
-   <!-- Invokers to the JMX node                                             -->
-   <!-- ==================================================================== -->
-
-   <!-- Unified invoker (based on remoting) -->
-   <!-- Can find more details on unified invoker configuration at -->
-   <!-- http://docs.jboss.org/jbossas/unified_invoker/UnifiedInvoker_guide.html -->
-   <mbean code="org.jboss.invocation.unified.server.UnifiedInvoker"
-      name="jboss:service=invoker,type=unified">
-      <!-- To turn on strict RMI exception propagation uncomment block below -->
-      <!-- This will cause the UnifiedInvokerProxy to wrap RemoteExceptions  -->
-      <!-- within a ServerException, otherwise will throw root exception     -->
-      <!-- (not RemoteException)                                             -->
-      <!-- <attribute name="StrictRMIException">true</attribute> -->
-      <depends>jboss:service=TransactionManager</depends>
-      <depends>jboss.remoting:service=Connector,transport=socket</depends>
-   </mbean>
-
-   <!-- RMI/JRMP invoker -->
-   <mbean code="org.jboss.invocation.jrmp.server.JRMPInvoker"
-      name="jboss:service=invoker,type=jrmp">
-      <attribute name="RMIObjectPort">4444</attribute>
-      <attribute name="ServerAddress">${jboss.bind.address}</attribute>
-      <!--
-      <attribute name="RMIClientSocketFactory">custom</attribute>
-      <attribute name="RMIServerSocketFactory">custom</attribute>
-      <attribute name="RMIServerSocketAddr">custom</attribute>
-      <attribute name="SecurityDomain">ssl-domain-name</attribute>
-      -->
-      <depends>jboss:service=TransactionManager</depends>
-   </mbean>
-
-   <mbean code="org.jboss.invocation.local.LocalInvoker"
-      name="jboss:service=invoker,type=local">
-
-      <depends>jboss:service=TransactionManager</depends>
-   </mbean>
-
-   <mbean code="org.jboss.invocation.pooled.server.PooledInvoker"
-      name="jboss:service=invoker,type=pooled">
-      <attribute name="NumAcceptThreads">1</attribute>
-      <attribute name="MaxPoolSize">300</attribute>
-      <attribute name="ClientMaxPoolSize">300</attribute>
-      <attribute name="SocketTimeout">60000</attribute>
-      <attribute name="ServerBindAddress">${jboss.bind.address}</attribute>
-      <attribute name="ServerBindPort">4445</attribute>
-      <attribute name="ClientConnectAddress">${jboss.bind.address}</attribute>
-      <attribute name="ClientConnectPort">0</attribute>
-      <attribute name="ClientRetryCount">1</attribute>
-      <attribute name="EnableTcpNoDelay">false</attribute>
-
-      <!-- Customized socket factory attributes
-      <attribute name="ClientSocketFactoryName">custom.client.factory</attribute>
-      <attribute name="ServerSocketFactoryName">custom.server.factory</attribute>
-      <attribute name="SslDomain">java:/jaas/pooledInvoker</attribute>
-      -->
-      <depends optional-attribute-name="TransactionManagerService">jboss:service=TransactionManager</depends>
    </mbean>
 
    <!-- ==================================================================== -->
@@ -512,8 +385,6 @@
             <!-- different subsystem values.  Otherwise, all invocations will be routed to the only one -->
             <!-- that is declared. -->
             <handlers>
-               <!-- can also specify handler by fully qualified classname -->
-               <handler subsystem="invoker">jboss:service=invoker,type=unified</handler>
                <!-- The JSR88 deployment service StreamingTarget handler -->
                <handler subsystem="JSR88">org.jboss.deployment.remoting.DeployHandler</handler>
             </handlers>
