@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-parent</artifactId>
-    <version>4.1</version>
+    <version>4.2-SNAPSHOT</version>
     <relativePath>../pom/pom.xml</relativePath>
   </parent>
   <artifactId>cargo-core</artifactId>
@@ -30,7 +30,7 @@
   <packaging>pom</packaging>
   <description>Cargo Core</description>
   <properties>
-    <cargo.resources.version>1.0-alpha-5</cargo.resources.version>
+    <cargo.resources.version>1.0-SNAPSHOT</cargo.resources.version>
   </properties>
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk</connection>
