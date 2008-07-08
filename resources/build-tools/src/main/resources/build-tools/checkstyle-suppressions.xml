@@ -9,4 +9,7 @@
               files="SimpleLogger.java"/>
     <suppress checks="AbstractClassName"
               files="WebXmlType.java"/>
+    <!-- TODO: figure out the proper checks name for "Utility classes should not have a public or default constructor" -->
+    <suppress checks=".*"
+              files="Tomcat5xEmbedded.java"/>
 </suppressions>
