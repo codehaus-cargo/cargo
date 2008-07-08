@@ -53,6 +53,7 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
 
     /**
      * {@inheritDoc}
+     * @see AbstractExistingLocalConfiguration#AbstractExistingLocalConfiguration(String)
      */
     public Oc4j10xExistingLocalConfiguration(String dir)
     {

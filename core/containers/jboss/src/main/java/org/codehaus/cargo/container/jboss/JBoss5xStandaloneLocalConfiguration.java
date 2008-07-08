@@ -36,6 +36,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
 
     /**
      * {@inheritDoc}
+     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
     public JBoss5xStandaloneLocalConfiguration(String dir)
     {

@@ -13,7 +13,7 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @param configuration
+     * @see AbstractJBossInstalledLocalContainer#AbstractJBossInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public AbstractJBoss5xInstalledLocalContainer(LocalConfiguration configuration)
     {
