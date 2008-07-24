@@ -111,7 +111,7 @@ public class Deployable extends AbstractDependency
         }
 
         project.getLog().debug("Computed deployable values: groupId = [" + getGroupId()
-            + "], artifactId = [" + getArtifactId() + "], type = [" + getType()
+            + "], artifactId = [" + getArtifactId() + "], classifier = [" + getClassifier() +"], type = [" + getType()
             + "], location = [" + getLocation() + "]");
 
         DeployableFactory factory = new DefaultDeployableFactory();
@@ -186,9 +186,18 @@ public class Deployable extends AbstractDependency
             && project.getArtifactId().equals(getArtifactId())
             && isTypeCompatible(project))
         {
+            String classifier = getClassifier();
             // Compute default location.
-            location = new File(project.getBuildDirectory(), project.getFinalName() + "."
+            if (classifier == null)
+            {
+                location = new File(project.getBuildDirectory(), project.getFinalName() + "."
                 + computeExtension(project.getPackaging())).getPath();
+            }
+            else
+            {
+                location = new File(project.getBuildDirectory(), project.getFinalName() + "-"+ classifier + "."
+                        + computeExtension(project.getPackaging())).getPath();
+            }
         }
         else
         {
