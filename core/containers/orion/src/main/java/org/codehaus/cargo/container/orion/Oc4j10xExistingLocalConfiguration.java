@@ -70,7 +70,7 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
         String autoDeployDirSetting = getPropertyValue(Oc4jPropertySet.AUTO_DEPLOY_DIR);
         if (autoDeployDirSetting == null)
         {
-            throw new CargoException("Can not start container without the " 
+            throw new CargoException("Can not start container without the "
                     + Oc4jPropertySet.AUTO_DEPLOY_DIR + " property set");
         }
         File autoDeployDir = new File(autoDeployDirSetting);
@@ -86,6 +86,11 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
             {
                 fileUtils.copyFile(deployable.getFile(), getFileHandler().append(appDir,
                         getFileHandler().getName(deployable.getFile())), null, true);
+            }
+            else
+            {
+                throw new CargoException("Only deployables of type " +
+                                         DeployableType.EAR + " is supported");
             }
         }
 
