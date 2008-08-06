@@ -89,8 +89,8 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
             }
             else
             {
-                throw new CargoException("Only deployables of type " +
-                                         DeployableType.EAR + " is supported");
+                throw new CargoException("Only deployables of type "
+                                         + DeployableType.EAR + " is supported");
             }
         }
 
