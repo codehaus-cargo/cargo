@@ -22,6 +22,7 @@ package org.codehaus.cargo.generic.configuration;
 import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
 import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.generic.internal.util.FullContainerIdentity;
+import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.ContainerType;
@@ -41,6 +42,19 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
      * Initialize configuration capability name mappings with container ids and configuration types.
      */
     public DefaultConfigurationCapabilityFactory()
+    {
+        this(null);
+    }
+
+    /**
+     * Register configuration capability name mappings.
+     *
+     * @param classLoader
+     *      ClassLoader to discover implementations from. See
+     *      {@link AbstractFactoryRegistry#register(ClassLoader, ConfigurationCapabilityFactory)}
+     *      for the details of what this value means.
+     */
+    public DefaultConfigurationCapabilityFactory(ClassLoader classLoader)
     {
         super();
         // Note: We register configuration capabilities using introspection so that we don't have to
@@ -189,6 +203,8 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("weblogic9x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, "org.codehaus.cargo.container.weblogic.internal."
                 + "WebLogicExistingLocalConfigurationCapability");
+
+        AbstractFactoryRegistry.register(classLoader, this);
     }
 
     /**

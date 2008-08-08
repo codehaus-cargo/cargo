@@ -60,6 +60,19 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
      */
     public DefaultContainerFactory()
     {
+        this(null);
+    }
+
+    /**
+     * Register packager name mappings.
+     *
+     * @param classLoader
+     *      ClassLoader to discover implementations from. See
+     *      {@link AbstractFactoryRegistry#register(ClassLoader, ContainerFactory)}
+     *      for the details of what this value means.
+     */
+    public DefaultContainerFactory(ClassLoader classLoader)
+    {
         super();
 
         // Note: We register containers using introspection so that we don't have to depend on
@@ -140,6 +153,8 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
             "org.codehaus.cargo.container.weblogic.WebLogic8xInstalledLocalContainer");
         registerContainer("weblogic9x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.weblogic.WebLogic9xInstalledLocalContainer");
+
+        AbstractFactoryRegistry.register(classLoader, this);
     }
 
     /**

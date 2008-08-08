@@ -26,6 +26,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
 import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.generic.internal.util.FullContainerIdentity;
+import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.DefaultFileHandler;
 
@@ -61,6 +62,19 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
      * Register default configurations.
      */
     public DefaultConfigurationFactory()
+    {
+        this(null);
+    }
+
+    /**
+     * Register configuration name mappings.
+     *
+     * @param classLoader
+     *      ClassLoader to discover implementations from. See
+     *      {@link AbstractFactoryRegistry#register(ClassLoader, ConfigurationFactory)}
+     *      for the details of what this value means.
+     */
+    public DefaultConfigurationFactory(ClassLoader classLoader)
     {
         super();
 
@@ -161,6 +175,8 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
             "org.codehaus.cargo.container.weblogic.WebLogicStandaloneLocalConfiguration");
         registerConfiguration("weblogic9x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.weblogic.WebLogicExistingLocalConfiguration");
+
+        AbstractFactoryRegistry.register(classLoader, this);
     }
 
     /**

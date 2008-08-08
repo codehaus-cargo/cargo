@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
 import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.generic.internal.util.SimpleContainerIdentity;
+import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 
 import java.lang.reflect.Constructor;
 
@@ -58,6 +59,19 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
      * Register default deployers.
      */
     public DefaultDeployerFactory()
+    {
+        this(null);
+    }
+
+    /**
+     * Register deployer name mappings.
+     *
+     * @param classLoader
+     *      ClassLoader to discover implementations from. See
+     *      {@link AbstractFactoryRegistry#register(ClassLoader, DeployerFactory)}
+     *      for the details of what this value means.
+     */
+    public DefaultDeployerFactory(ClassLoader classLoader)
     {
         super();
 
@@ -116,6 +130,7 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
         registerDeployer("tomcat6x", DeployerType.REMOTE,
             "org.codehaus.cargo.container.tomcat.Tomcat6xRemoteDeployer");
 
+        AbstractFactoryRegistry.register(classLoader, this);
     }
 
     /**

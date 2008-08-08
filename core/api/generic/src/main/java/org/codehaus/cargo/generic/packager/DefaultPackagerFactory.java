@@ -22,6 +22,7 @@ package org.codehaus.cargo.generic.packager;
 import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
 import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.generic.internal.util.SimpleContainerIdentity;
+import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.packager.PackagerType;
 import org.codehaus.cargo.container.packager.Packager;
@@ -55,6 +56,19 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
      */
     public DefaultPackagerFactory()
     {
+        this(null);
+    }
+
+    /**
+     * Register packager name mappings.
+     *
+     * @param classLoader
+     *      ClassLoader to discover implementations from. See
+     *      {@link AbstractFactoryRegistry#register(ClassLoader, PackagerFactory)}
+     *      for the details of what this value means.
+     */
+    public DefaultPackagerFactory(ClassLoader classLoader)
+    {
         super();
 
         // Note: Sorted by container id alphabetical order
@@ -68,6 +82,7 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
         registerPackager("tomcat6x", PackagerType.DIRECTORY,
             "org.codehaus.cargo.container.tomcat.TomcatDirectoryPackager");
 
+        AbstractFactoryRegistry.register(classLoader, this);
     }
 
     /**

@@ -22,6 +22,7 @@ package org.codehaus.cargo.generic;
 import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
 import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.generic.internal.util.SimpleContainerIdentity;
+import org.codehaus.cargo.generic.packager.PackagerFactory;
 import org.codehaus.cargo.container.ContainerCapability;
 
 import java.lang.reflect.Constructor;
@@ -39,6 +40,19 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
      * Initialize container capability name mappings with container ids.
      */
     public DefaultContainerCapabilityFactory()
+    {
+        this(null);
+    }
+
+    /**
+     * Register container capability name mappings.
+     *
+     * @param classLoader
+     *      ClassLoader to discover implementations from. See
+     *      {@link AbstractFactoryRegistry#register(ClassLoader, ContainerCapabilityFactory)}
+     *      for the details of what this value means.
+     */
+    public DefaultContainerCapabilityFactory(ClassLoader classLoader)
     {
         super();
 
@@ -100,6 +114,8 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
             "org.codehaus.cargo.container.internal.J2EEContainerCapability");
         registerContainerCapability("weblogic9x",
             "org.codehaus.cargo.container.internal.J2EEContainerCapability");
+
+        AbstractFactoryRegistry.register(classLoader, this);
     }
 
     /**

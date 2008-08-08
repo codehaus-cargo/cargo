@@ -30,6 +30,7 @@ import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
 import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.generic.internal.util.SimpleContainerIdentity;
+import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 
 import java.lang.reflect.Constructor;
 
@@ -66,6 +67,19 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
      */
     public DefaultDeployableFactory()
     {
+        this(null);
+    }
+
+    /**
+     * Register deployable classes mappings.
+     *
+     * @param classLoader
+     *      ClassLoader to discover implementations from. See
+     *      {@link AbstractFactoryRegistry#register(ClassLoader, DeployableFactory)}
+     *      for the details of what this value means.
+     */
+    public DefaultDeployableFactory(ClassLoader classLoader)
+    {
         // The WAR, EJB and EAR deployables are registered by default against all containers.
         // In order not to have to individually register against each container id we
         // create a fictitious default container id.
@@ -91,6 +105,8 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
             "org.codehaus.cargo.container.geronimo.deployable.GeronimoEAR");
 
         // TODO: Register JBossWAR here when we add JBoss support
+
+        AbstractFactoryRegistry.register(classLoader, this);
     }
 
     /**
