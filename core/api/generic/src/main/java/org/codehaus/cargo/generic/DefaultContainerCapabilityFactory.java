@@ -22,7 +22,6 @@ package org.codehaus.cargo.generic;
 import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
 import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.generic.internal.util.SimpleContainerIdentity;
-import org.codehaus.cargo.generic.packager.PackagerFactory;
 import org.codehaus.cargo.container.ContainerCapability;
 
 import java.lang.reflect.Constructor;

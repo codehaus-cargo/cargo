@@ -63,7 +63,6 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         // without having to add all container implementations jars in the classpath.
 
         // Note: Sorted by container id alphabetical order
-
         registerConfigurationCapability("geronimo1x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.geronimo.internal."
                 + "GeronimoStandaloneLocalConfigurationCapability");
