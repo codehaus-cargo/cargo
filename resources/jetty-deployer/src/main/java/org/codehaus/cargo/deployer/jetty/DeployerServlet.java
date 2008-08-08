@@ -59,6 +59,16 @@ public class DeployerServlet extends HttpServlet
      * The ContectHandlerCollection for the server.
      */
     private ContextHandlerCollection chc;
+    
+    /**
+     * The location of the server's configuration directory.
+     */
+    private String configHome;
+    
+    /**
+     * The location of the server's webapp directory
+     */
+    private String webAppDirectory;
 
     /**
      * Creates the DeployerServlet and gives the servlet reference to the server in which it is 
@@ -69,7 +79,10 @@ public class DeployerServlet extends HttpServlet
     public DeployerServlet(Server server)
     {
         this.server = server;
-
+        //TODO find a better means of determining the configuration and webapp directories
+        this.configHome = System.getProperty("config.home");
+        this.webAppDirectory = configHome + "/webapps";
+        
         // TODO there could potentially be more than one context handler
         // collection
         // and there is also the chance that a web application can be deployed
@@ -85,7 +98,6 @@ public class DeployerServlet extends HttpServlet
                 break;
             }
         }
-
     }
 
     /**
@@ -187,7 +199,7 @@ public class DeployerServlet extends HttpServlet
         else
         {
             Log.debug("trying to get the remote web archive");
-            String webappLocation = System.getProperty("jetty.home") + "/webapps" + contextPath
+            String webappLocation = webAppDirectory + contextPath
                     + ".war";
             File webappFile = new File(webappLocation);
             ServletInputStream inputStream = request.getInputStream();
@@ -246,12 +258,9 @@ public class DeployerServlet extends HttpServlet
         {
             fileName = contextPath;
         }
-
-        String jettyHome = System.getProperty("jetty.home");
-        String webAppDir = jettyHome + "/webapps/";
-
-        File webappArchive = new File(webAppDir + "/" + fileName + ".war");
-        File webappDirectory = new File(webAppDir + "/" + fileName);
+        
+        File webappArchive = new File(webAppDirectory + "/" + fileName + ".war");
+        File webappDirectory = new File(webAppDirectory + "/" + fileName);
         
         File returnedFile = null;
 
@@ -338,8 +347,7 @@ public class DeployerServlet extends HttpServlet
         }
         else
         {
-            String webappDestLocation = System.getProperty("jetty.home") + "/webapps" + context
-                    + ".war";
+            String webappDestLocation = webAppDirectory + context + ".war";
             File webappDest = new File(webappDestLocation);
 
             URI uri = null;
@@ -448,8 +456,7 @@ public class DeployerServlet extends HttpServlet
             {
                 sendError(response, "Can't find a valid file for this context path");
             } 
-            else if (!webAppFile.getPath().startsWith(
-                    System.getProperty("jetty.home") + "/webapps"))
+            else if (!webAppFile.getPath().startsWith(webAppDirectory))
             {
                 sendError(response,
                         "The cargo jetty deployer will not currently delete a war that exists " 
