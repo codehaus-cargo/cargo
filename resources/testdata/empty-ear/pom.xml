@@ -44,6 +44,7 @@
             <javaModule>
               <groupId>org.codehaus.cargo</groupId>
               <artifactId>empty-jar</artifactId>
+              <includeInApplicationXml>true</includeInApplicationXml>
             </javaModule>
           </modules>
         </configuration>
