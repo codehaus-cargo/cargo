@@ -136,8 +136,8 @@ public class Jonas4xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         // Copy configuration files from cargo resources directory with token replacement
         String[] cargoFiles = new String[]
         {
-            "carol.properties", "jetty5.xml", "server.xml", "jonas-realm.xml", "jonas.properties",
-            "trace.properties", "jaas.config"
+            "carol.properties", "jaas.config", "jetty5.xml", "jonas.properties", "jonas-realm.xml",
+            "server.xml", "trace.properties"
         };
         for (int i = 0; i < cargoFiles.length; i++)
         {
