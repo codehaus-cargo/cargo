@@ -109,6 +109,32 @@ public class VFSFileHandler extends DefaultFileHandler
         }
     }
 
+    public String createDirectory(String parent, String file)
+    {
+        if (file == null)
+        {
+            file = "";
+        }
+
+        if (parent!= null && !parent.endsWith("/") && 
+            !file.startsWith("/"))
+        {
+            parent += "/";
+        }
+
+        String filename = parent == null ? file : parent + file;
+        try
+        {
+            FileObject fileObject = getFileSystemManager().resolveFile(filename);
+            fileObject.createFolder();
+            return fileObject.toString();
+        }
+        catch (FileSystemException e)
+        {
+            throw new CargoException("Failed to create folder [" + filename + "]", e);
+        }
+    }
+
     public boolean exists(String path)
     {
         boolean result;

@@ -25,18 +25,19 @@ package org.codehaus.cargo.container.internal.util;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Vector;
 
 import org.apache.tools.ant.filters.util.ChainReaderHelper;
 import org.apache.tools.ant.types.FilterChain;
+import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
@@ -47,6 +48,12 @@ import org.codehaus.cargo.util.log.LoggedObject;
 public final class ResourceUtils extends LoggedObject
 {
     /**
+     * Default file handler for the @link{ResourceUtils#copyResource(String, File)} and
+     * @link{ResourceUtils#copyResource(String, File, FilterChain)} methods.
+     */
+    private static FileHandler defaultFileHandler = new DefaultFileHandler();
+
+    /**
      * Copies a container resource from the JAR into the specified file.
      * 
      * @param resourceName The name of the resource
@@ -54,6 +61,21 @@ public final class ResourceUtils extends LoggedObject
      * @throws IOException If an I/O error occurs while copying the resource
      */
     public void copyResource(String resourceName, File destFile) throws IOException
+    {
+        copyResource(resourceName, destFile.getPath(), defaultFileHandler);
+    }
+    
+    /**
+     * Copies a container resource from the JAR into the specified file using the specified
+     * file handler.
+     * 
+     * @param resourceName The name of the resource
+     * @param destFile The file to which the contents of the resource should be copied
+     * @param handler The file handler to use
+     * @throws IOException If an I/O error occurs while copying the resource
+     */
+    public void copyResource(String resourceName, String destFile, FileHandler handler)
+        throws IOException
     {
         InputStream in = ResourceUtils.class.getResourceAsStream(resourceName);
         if (in == null)
@@ -64,7 +86,7 @@ public final class ResourceUtils extends LoggedObject
         OutputStream out = null;
         try
         {
-            out = new FileOutputStream(destFile);
+            out = handler.getOutputStream(destFile);
             
             byte[] buf = new byte[4096];
             int numBytes;
@@ -96,6 +118,23 @@ public final class ResourceUtils extends LoggedObject
     public void copyResource(String resourceName, File destFile, FilterChain filterChain) 
         throws IOException
     {
+        copyResource(resourceName, destFile.getPath(), defaultFileHandler, filterChain);
+    }
+    
+    /**
+     * Copies a container resource from the JAR into the specified file, using the specified
+     * file handler thereby applying the specified filters.
+     * 
+     * @param resourceName The name of the resource, relative to the
+     *        org.apache.cactus.integration.ant.container package
+     * @param destFile The file to which the contents of the resource should be copied
+     * @param handler The file handler to be used for file copy
+     * @param filterChain The ordered list of filter readers that should be applied while copying
+     * @throws IOException If an I/O error occurs while copying the resource
+     */
+    public void copyResource(String resourceName, String destFile, FileHandler handler,
+        FilterChain filterChain) throws IOException
+    {
         InputStream resource = ResourceUtils.class.getResourceAsStream(resourceName);
         if (resource == null)
         {
@@ -114,7 +153,7 @@ public final class ResourceUtils extends LoggedObject
             helper.setFilterChains(filterChains);
             in = new BufferedReader(helper.getAssembledReader());
 
-            out = new BufferedWriter(new FileWriter(destFile));
+            out = new BufferedWriter(new OutputStreamWriter(handler.getOutputStream(destFile)));
 
             String line;
             while ((line = in.readLine()) != null)

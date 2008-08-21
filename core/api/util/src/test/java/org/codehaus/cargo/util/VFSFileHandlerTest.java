@@ -20,6 +20,7 @@
 package org.codehaus.cargo.util;
 
 import junit.framework.TestCase;
+
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
 
@@ -103,5 +104,28 @@ public class VFSFileHandlerTest extends TestCase
 
         assertEquals(1, children.length);
         assertEquals("ram:///some/directory/file.txt", children[0]);
+    }
+
+    public void testCreateDirectory()
+    {
+        this.fileHandler.createDirectory("ram://test", "test");
+        assertTrue(this.fileHandler.exists("ram:///test/test"));
+        assertTrue(this.fileHandler.isDirectory("ram:///test/test"));
+
+        this.fileHandler.createDirectory("ram://test2/", "test");
+        assertTrue(this.fileHandler.exists("ram:///test2/test"));
+        assertTrue(this.fileHandler.isDirectory("ram:///test2/test"));
+
+        this.fileHandler.createDirectory("ram://test3", "/test");
+        assertTrue(this.fileHandler.exists("ram:///test3/test"));
+        assertTrue(this.fileHandler.isDirectory("ram:///test3/test"));
+
+        this.fileHandler.createDirectory(null, "ram://test4");
+        assertTrue(this.fileHandler.exists("ram:///test4"));
+        assertTrue(this.fileHandler.isDirectory("ram:///test4"));
+
+        this.fileHandler.createDirectory("ram://test5", null);
+        assertTrue(this.fileHandler.exists("ram:///test5"));
+        assertTrue(this.fileHandler.isDirectory("ram:///test5"));
     }
 }
