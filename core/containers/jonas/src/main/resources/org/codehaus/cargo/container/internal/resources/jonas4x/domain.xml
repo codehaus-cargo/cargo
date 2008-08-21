@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<domain xmlns="http://www.objectweb.org/jonas/ns"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="http://www.objectweb.org/jonas/ns
+	  http://www.objectweb.org/jonas/ns/jonas-domain_4_9.xsd">
+  <name>jonas</name>
+  <description>A domain named jonas</description>
+
+  <!-- user name and password to use if any server or cluster daemon
+       doesn't have any user name and password defined  -->
+  <!--
+  <username>jonas</username>
+  <password>{base64}am9uYXM=</password>
+  -->
+
+  <!-- a cluster daemon in domain jonas -->
+  <!--
+  <cluster-daemon>
+    <name>cd1</name>
+    <description>cluster daemon 1</description>
+    <location>
+      <url>service:jmx:rmi://localhost/jndi/rmi://localhost:1806/jrmpconnector_cs</url>
+    </location>
+    <username>jonas</username>
+    <password>{base64}am9uYXM=</password>
+  </cluster-daemon>
+  -->
+
+  <!-- a slave server in domain jonas -->
+  <!--
+  <server>
+    <name>j1</name>
+    <description>Description2</description>
+    <location>
+      <url>service:jmx:rmi://localhost/jndi/rmi://localhost:1963/jrmpconnector_j1</url>
+      <url>Url2</url>
+    </location>
+    <username>jonas</username>
+    <password>{base64}am9uYXM=</password>
+    <cluster-daemon>cd1</cluster-daemon>
+  </server>
+  -->
+  <!-- a logical cluster embedded in domain jonas -->
+  <!--
+  <cluster>
+    <name>Clust</name>
+    <description></description>
+      <server>
+        <name>j2</name>
+        <description></description>
+        <location>
+          <url>service:jmx:rmi://localhost/jndi/rmi://localhost:1964/jrmpconnector_j2</url>
+        </location>
+        <cluster-daemon>cd1</cluster-daemon>
+      </server>
+  </cluster>
+  -->
+</domain>
