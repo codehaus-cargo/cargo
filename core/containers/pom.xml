@@ -62,6 +62,7 @@
     <module>jboss</module>
     <module>jetty</module>
     <module>jo</module>
+    <module>jonas</module>
     <module>orion</module>
     <module>resin</module>
     <module>tomcat</module>
