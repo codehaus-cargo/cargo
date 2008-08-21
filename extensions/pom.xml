@@ -86,6 +86,11 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-jonas</artifactId>
+      <version>${cargo.core.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-orion</artifactId>
       <version>${cargo.core.version}</version>
     </dependency>
