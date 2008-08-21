@@ -56,6 +56,11 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-jonas</artifactId>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-resin</artifactId>
       <version>${version}</version>
     </dependency>
