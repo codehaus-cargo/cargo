@@ -20,26 +20,41 @@
 package org.codehaus.cargo.maven2;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.apache.maven.artifact.resolver.ArtifactResolver;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.settings.RuntimeInfo;
+import org.apache.maven.settings.Server;
+import org.apache.maven.settings.Settings;
+import org.apache.maven.settings.io.xpp3.SettingsXpp3Reader;
 import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.maven2.log.MavenLogger;
-import org.codehaus.cargo.maven2.util.CargoProject;
-import org.codehaus.cargo.maven2.jetty.JettyArtifactResolver;
-import org.codehaus.cargo.maven2.configuration.Deployer;
+import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.maven2.configuration.Configuration;
 import org.codehaus.cargo.maven2.configuration.Container;
 import org.codehaus.cargo.maven2.configuration.Deployable;
+import org.codehaus.cargo.maven2.configuration.Deployer;
+import org.codehaus.cargo.maven2.jetty.JettyArtifactResolver;
+import org.codehaus.cargo.maven2.log.MavenLogger;
+import org.codehaus.cargo.maven2.util.CargoProject;
+import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.Logger;
-import org.codehaus.cargo.util.FileHandler;
-import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.plexus.util.IOUtil;
+import org.codehaus.plexus.util.ReaderFactory;
+import org.codehaus.plexus.util.interpolation.EnvarBasedValueSource;
+import org.codehaus.plexus.util.interpolation.RegexBasedInterpolator;
+import org.codehaus.plexus.util.xml.Xpp3Dom;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 /**
  * Common code used by Cargo MOJOs requiring <code>&lt;container&gt;</code> and
@@ -124,6 +139,14 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * @see org.codehaus.cargo.maven2.util.CargoProject
      */
     private CargoProject cargoProject;
+
+    /**
+     * Maven settings, injected automatically.
+     * 
+     * @parameter expression="${settings}"
+     * @readonly
+     */
+    private Settings settings;
 
     /**
      * @return the Cargo file utility class
@@ -292,6 +315,53 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         configuration = getConfigurationElement().createConfiguration(
             getContainerElement().getContainerId(), getContainerElement().getType(),
             getCargoProject());
+
+        // Find the cargo.server.settings for the current configuration. When found, iterate in
+        // the list of servers in Maven's settings.xml file in order to find out which server id
+        // corresponds to that identifier, and copy all non-set settings (cargo.remote.uri, ...).
+        //
+        // This feature helps people out in centralising their configurations.
+        Map properties = configuration.getProperties();
+        Iterator propertiesIterator = properties.entrySet().iterator();
+        while (propertiesIterator.hasNext())
+        {
+            Map.Entry property = (Map.Entry) propertiesIterator.next();
+            String propertyKey = (String) property.getKey();
+            if ("cargo.server.settings".equals(propertyKey))
+            {
+                String serverId = (String) property.getValue();
+                getLog().debug(
+                    "Found cargo.server.settings: key is " + propertyKey + ", value is " + serverId);
+                Iterator servers = settings.getServers().iterator();
+                while (servers.hasNext())
+                {
+                    Server server = (Server) servers.next();
+                    if (serverId.equals(server.getId()))
+                    {
+                        getLog().debug(
+                            "The Maven settings.xml file contains a reference for the "
+                                + "server with cargo.server.settings " + serverId
+                                + ", starting property injection");
+
+                        Xpp3Dom[] globalConfigurationOptions = ((Xpp3Dom) server.getConfiguration())
+                            .getChildren();
+                        for (int i = 0; i < globalConfigurationOptions.length; i++)
+                        {
+                            Xpp3Dom option = globalConfigurationOptions[i];
+                            if (properties.get(option.getName()) == null)
+                            {
+                                properties.put(option.getName(), option.getValue());
+                                getLog().debug(
+                                    "\tInjected property: " + option.getName() + '='
+                                        + option.getValue());
+                            }
+                        }
+                        break;
+                    }
+                }
+                break;
+            }
+        }
 
         return configuration;
     }
