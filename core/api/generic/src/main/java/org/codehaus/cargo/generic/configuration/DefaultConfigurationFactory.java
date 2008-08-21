@@ -123,6 +123,15 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
         registerConfiguration("jo1x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.jo.Jo1xStandaloneLocalConfiguration");
 
+        registerConfiguration("jonas4x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            "org.codehaus.cargo.container.jonas.JonasRuntimeConfiguration");
+        registerConfiguration("jonas4x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            "org.codehaus.cargo.container.jonas.Jonas4xExistingLocalConfiguration");
+        registerConfiguration("jonas4x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            "org.codehaus.cargo.container.jonas.Jonas4xStandaloneLocalConfiguration");
+        registerConfiguration("jonas4x", ContainerType.REMOTE, ConfigurationType.STANDALONE,
+            "org.codehaus.cargo.container.jonas.Jonas4xStandaloneLocalConfiguration");
+
         registerConfiguration("orion1x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.orion.OrionStandaloneLocalConfiguration");
         registerConfiguration("orion2x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,

@@ -84,6 +84,9 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
         registerContainerCapability("jo1x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
 
+        registerContainerCapability("jonas4x",
+            "org.codehaus.cargo.container.jonas.internal.JonasContainerCapability");
+
         registerContainerCapability("oc4j9x",
             "org.codehaus.cargo.container.internal.J2EEContainerCapability");
         registerContainerCapability("oc4j10x",

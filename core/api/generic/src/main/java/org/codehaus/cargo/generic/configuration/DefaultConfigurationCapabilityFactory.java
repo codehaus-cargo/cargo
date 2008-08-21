@@ -63,13 +63,45 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         // without having to add all container implementations jars in the classpath.
 
         // Note: Sorted by container id alphabetical order
+        registerGeronimo();
+
+        registerJBoss();
+
+        registerJetty();
+
+        registerJO();
+
+        registerJOnAS();
+
+        registerOrion();
+
+        registerResin();
+
+        registerTomcat();
+
+        registerWeblogic();
+
+        AbstractFactoryRegistry.register(classLoader, this);
+    }
+
+    /**
+     * Register Apache Geronimo
+     */
+    public void registerGeronimo()
+    {
         registerConfigurationCapability("geronimo1x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.geronimo.internal."
                 + "GeronimoStandaloneLocalConfigurationCapability");
         registerConfigurationCapability("geronimo1x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, "org.codehaus.cargo.container.geronimo.internal."
                 + "GeronimoExistingLocalConfigurationCapability");
+    }
 
+    /**
+     * Register JBoss
+     */
+    public void registerJBoss()
+    {
         registerConfigurationCapability("jboss3x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jboss.internal."
                 + "JBossStandaloneLocalConfigurationCapability");
@@ -106,7 +138,13 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("jboss5x", ContainerType.REMOTE,
                 ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jboss.internal."
                     + "JBossRuntimeConfigurationCapability");
+    }
 
+    /**
+     * Register Jetty
+     */
+    public void registerJetty()
+    {
         registerConfigurationCapability("jetty4x", ContainerType.EMBEDDED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jetty.internal."
                 + "Jetty4xEmbeddedStandaloneLocalConfigurationCapability");
@@ -122,11 +160,39 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("jetty6x", ContainerType.REMOTE,
             ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jetty.internal."
                 + "JettyRuntimeConfigurationCapability");
+    }
 
+    /**
+     * Register JO!
+     */
+    public void registerJO()
+    {
         registerConfigurationCapability("jo1x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jo.internal."
                 + "Jo1xStandaloneLocalConfigurationCapability");
+    }
 
+    /**
+     * Register OW2 JOnAS
+     */
+    public void registerJOnAS()
+    {
+        registerConfigurationCapability("jonas4x", ContainerType.REMOTE,
+            ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jonas.internal."
+                + "JonasRuntimeConfigurationCapability");
+        registerConfigurationCapability("jonas4x", ContainerType.INSTALLED,
+            ConfigurationType.EXISTING, "org.codehaus.cargo.container.jonas.internal."
+                + "JonasExistingLocalConfigurationCapability");
+        registerConfigurationCapability("jonas4x", ContainerType.INSTALLED,
+            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jonas.internal."
+                + "Jonas4xStandaloneLocalConfigurationCapability");
+    }
+
+    /**
+     * Register Orion
+     */
+    public void registerOrion()
+    {
         registerConfigurationCapability("orion1x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.orion.internal."
                 + "OrionStandaloneLocalConfigurationCapability");
@@ -139,7 +205,13 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("oc4j10x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, "org.codehaus.cargo.container.orion.internal."
                 + "OrionStandaloneLocalConfigurationCapability");
+    }
 
+    /**
+     * Register Resin
+     */
+    public void registerResin()
+    {
         registerConfigurationCapability("resin2x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.resin.internal."
                 + "ResinStandaloneLocalConfigurationCapability");
@@ -152,7 +224,13 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("resin3x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, "org.codehaus.cargo.container.resin.internal."
                 + "ResinExistingLocalConfigurationCapability");
+    }
 
+    /**
+     * Register Tomcat
+     */
+    public void registerTomcat()
+    {
         registerConfigurationCapability("tomcat3x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.tomcat.internal."
                 + "TomcatStandaloneLocalConfigurationCapability");
@@ -189,7 +267,13 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("tomcat6x", ContainerType.REMOTE,
             ConfigurationType.RUNTIME, "org.codehaus.cargo.container.tomcat.internal."
                 + "TomcatRuntimeConfigurationCapability");
+    }
 
+    /**
+     * Register BEA/Oracle Weblogic
+     */
+    public void registerWeblogic()
+    {
         registerConfigurationCapability("weblogic8x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.weblogic.internal."
                 + "WebLogicStandaloneLocalConfigurationCapability");
@@ -202,8 +286,6 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("weblogic9x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, "org.codehaus.cargo.container.weblogic.internal."
                 + "WebLogicExistingLocalConfigurationCapability");
-
-        AbstractFactoryRegistry.register(classLoader, this);
     }
 
     /**

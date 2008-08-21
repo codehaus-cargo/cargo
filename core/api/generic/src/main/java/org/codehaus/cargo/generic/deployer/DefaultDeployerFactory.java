@@ -34,7 +34,7 @@ import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import java.lang.reflect.Constructor;
 
 /**
- * Default {@link DeployerFactory} implementation that has all the known container 
+ * Default {@link DeployerFactory} implementation that has all the known container
  * deployers registered against their containers. It also supports registering new
  * deployers against any container.
  *
@@ -95,7 +95,6 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
         registerDeployer("jboss5x", DeployerType.REMOTE,
             "org.codehaus.cargo.container.jboss.JBossRemoteDeployer");
 
-
         registerDeployer("jetty4x", DeployerType.EMBEDDED,
             "org.codehaus.cargo.container.jetty.Jetty4xEmbeddedLocalDeployer");
         registerDeployer("jetty5x", DeployerType.EMBEDDED,
@@ -105,10 +104,15 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
         registerDeployer("jetty6x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalDeployer");
         registerDeployer("jetty6x", DeployerType.REMOTE,
-            "org.codehaus.cargo.container.jetty.JettyRemoteDeployer"); 
+            "org.codehaus.cargo.container.jetty.JettyRemoteDeployer");
 
         registerDeployer("jo1x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.jo.Jo1xInstalledLocalDeployer");
+
+        registerDeployer("jonas4x", DeployerType.REMOTE,
+            "org.codehaus.cargo.container.jonas.Jonas4xJsr160RemoteDeployer");
+        registerDeployer("jonas4x", DeployerType.INSTALLED,
+            "org.codehaus.cargo.container.jonas.Jonas4xInstalledLocalDeployer");
 
         registerDeployer("resin2x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.resin.ResinInstalledLocalDeployer");
