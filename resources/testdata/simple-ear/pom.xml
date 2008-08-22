@@ -30,7 +30,7 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-war</artifactId>
-      <version>${version}</version>
+      <version>${project.version}</version>
       <type>war</type>
       <scope>compile</scope>
     </dependency>
