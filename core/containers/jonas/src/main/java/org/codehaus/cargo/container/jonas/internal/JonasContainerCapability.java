@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 /**
  * Capabilities of the JOnAS container.
  * 
- * @version $Id: JonasContainerCapability.java 14642 2008-07-25 13:15:28Z alitokmen $
+ * @version $Id$
  */
 public class JonasContainerCapability extends J2EEContainerCapability
 {

@@ -29,12 +29,12 @@ import org.codehaus.cargo.container.deployable.WAR;
 /**
  * Remote deployer for JOnAS 4.x.
  * 
- * @version $Id: AbstractJonas4xRemoteDeployer.java 14871 2008-08-20 14:19:25Z alitokmen $
+ * @version $Id$
  */
 public abstract class AbstractJonas4xRemoteDeployer extends AbstractJonasRemoteDeployer
 {
     /**
-     * Jonas4xJsr160RemoteDeployer Constructor.
+     * Constructor.
      * 
      * @param container the remote container
      */
@@ -46,9 +46,10 @@ public abstract class AbstractJonas4xRemoteDeployer extends AbstractJonasRemoteD
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractJonasRemoteDeployer#getOperationName(ActionType, DeployableType)
+     * @see AbstractJonasRemoteDeployer#getOperationName(ActionType, DeployableType, TargetType)
      */
-    protected String getOperationName(ActionType actionType, DeployableType deployableType)
+    protected String getOperationName(ActionType actionType, DeployableType deployableType,
+        TargetType targetType)
     {
         String operationPrefix;
         if (actionType == ActionType.DEPLOY)
@@ -96,9 +97,10 @@ public abstract class AbstractJonas4xRemoteDeployer extends AbstractJonasRemoteD
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractJonasRemoteDeployer#getRemoteFileName(Deployable, String)
+     * @see AbstractJonasRemoteDeployer#getRemoteFileName(Deployable, String, boolean)
      */
-    protected String getRemoteFileName(Deployable deployable, String deployableIdentifier)
+    protected String getRemoteFileName(Deployable deployable, String deployableIdentifier,
+        boolean askFromServer)
     {
         String deployableId = deployableIdentifier;
 

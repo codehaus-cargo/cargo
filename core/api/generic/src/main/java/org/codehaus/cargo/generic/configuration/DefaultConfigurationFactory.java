@@ -78,51 +78,109 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
     {
         super();
 
-        // Note: Sorted by container id alphabetical order
+        // Note: We register containers using introspection so that we don't have to depend on
+        // those containers at build time nor at runtime. More specifically this allows a user
+        // to use the generic API and choose what container implementation jar he wants to use
+        // without having to add all container implementations jars in the classpath.
 
+        // Note: Sorted by container id alphabetical order
+        registerGeronimo();
+
+        registerJBoss();
+
+        registerJetty();
+
+        registerJO();
+
+        registerJOnAS();
+
+        registerOrion();
+
+        registerResin();
+
+        registerTomcat();
+
+        registerWeblogic();
+
+        AbstractFactoryRegistry.register(classLoader, this);
+    }
+
+    /**
+     * Register Apache Geronimo
+     */
+    public void registerGeronimo()
+    {
         registerConfiguration("geronimo1x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.geronimo.Geronimo1xStandaloneLocalConfiguration");
         registerConfiguration("geronimo1x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.geronimo.Geronimo1xExistingLocalConfiguration");
+    }
 
+    /**
+     * Register JBoss
+     */
+    public void registerJBoss()
+    {
         registerConfiguration("jboss3x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration");
         registerConfiguration("jboss3x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration");
+
         registerConfiguration("jboss4x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration");
         registerConfiguration("jboss4x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration");
         registerConfiguration("jboss4x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
             "org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration");
+
         registerConfiguration("jboss42x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration");
         registerConfiguration("jboss42x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration");
         registerConfiguration("jboss42x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
             "org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration");
+
         registerConfiguration("jboss5x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.jboss.JBoss5xStandaloneLocalConfiguration");
         registerConfiguration("jboss5x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration");
         registerConfiguration("jboss5x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
             "org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration");
+    }
 
-
+    /**
+     * Register Jetty
+     */
+    public void registerJetty()
+    {
         registerConfiguration("jetty4x", ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.jetty.Jetty4xEmbeddedStandaloneLocalConfiguration");
+
         registerConfiguration("jetty5x", ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.jetty.Jetty5xEmbeddedStandaloneLocalConfiguration");
+
         registerConfiguration("jetty6x", ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.jetty.Jetty6xEmbeddedStandaloneLocalConfiguration");
         registerConfiguration("jetty6x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.jetty.Jetty6xStandaloneLocalConfiguration");
         registerConfiguration("jetty6x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
             "org.codehaus.cargo.container.jetty.JettyRuntimeConfiguration");
+    }
 
+    /**
+     * Register JO!
+     */
+    public void registerJO()
+    {
         registerConfiguration("jo1x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.jo.Jo1xStandaloneLocalConfiguration");
+    }
 
+    /**
+     * Register OW2 JOnAS
+     */
+    public void registerJOnAS()
+    {
         registerConfiguration("jonas4x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
             "org.codehaus.cargo.container.jonas.JonasRuntimeConfiguration");
         registerConfiguration("jonas4x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
@@ -132,32 +190,62 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
         registerConfiguration("jonas4x", ContainerType.REMOTE, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.jonas.Jonas4xStandaloneLocalConfiguration");
 
+        registerConfiguration("jonas5x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            "org.codehaus.cargo.container.jonas.JonasRuntimeConfiguration");
+        // TODO: add jonas5x, ContainerType.INSTALLED, ConfigurationType.EXISTING
+        // TODO: add jonas5x, ContainerType.INSTALLED, ConfigurationType.STANDALONE
+        // TODO: add jonas5x, ContainerType.REMOTE, ConfigurationType.STANDALONE
+    }
+
+    /**
+     * Register Orion
+     */
+    public void registerOrion()
+    {
         registerConfiguration("orion1x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.orion.OrionStandaloneLocalConfiguration");
+
         registerConfiguration("orion2x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.orion.OrionStandaloneLocalConfiguration");
+
         registerConfiguration("oc4j9x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.orion.Oc4j9xStandaloneLocalConfiguration");
+
         registerConfiguration("oc4j10x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.orion.Oc4j10xExistingLocalConfiguration");
+    }
 
+    /**
+     * Register Resin
+     */
+    public void registerResin()
+    {
         registerConfiguration("resin2x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.resin.Resin2xStandaloneLocalConfiguration");
         registerConfiguration("resin2x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.resin.ResinExistingLocalConfiguration");
+
         registerConfiguration("resin3x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.resin.Resin3xStandaloneLocalConfiguration");
         registerConfiguration("resin3x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.resin.ResinExistingLocalConfiguration");
+    }
 
+    /**
+     * Register Tomcat
+     */
+    public void registerTomcat()
+    {
         registerConfiguration("tomcat3x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.tomcat.Tomcat3xStandaloneLocalConfiguration");
+
         registerConfiguration("tomcat4x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.tomcat.Tomcat4xStandaloneLocalConfiguration");
         registerConfiguration("tomcat4x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration");
         registerConfiguration("tomcat4x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
             "org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration");
+
         registerConfiguration("tomcat5x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.tomcat.Tomcat5xStandaloneLocalConfiguration");
         registerConfiguration("tomcat5x", ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
@@ -168,24 +256,29 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
             "org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration");
         registerConfiguration("tomcat5x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
             "org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration");
+
         registerConfiguration("tomcat6x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.tomcat.Tomcat6xStandaloneLocalConfiguration");
         registerConfiguration("tomcat6x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration");
         registerConfiguration("tomcat6x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
             "org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration");
+    }
 
-
+    /**
+     * Register BEA/Oracle Weblogic
+     */
+    public void registerWeblogic()
+    {
         registerConfiguration("weblogic8x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.weblogic.WebLogicStandaloneLocalConfiguration");
         registerConfiguration("weblogic8x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.weblogic.WebLogicExistingLocalConfiguration");
+
         registerConfiguration("weblogic9x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.weblogic.WebLogicStandaloneLocalConfiguration");
         registerConfiguration("weblogic9x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.weblogic.WebLogicExistingLocalConfiguration");
-
-        AbstractFactoryRegistry.register(classLoader, this);
     }
 
     /**

@@ -57,7 +57,7 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 /**
  * Server connection factory based on the MEJB API.
  * 
- * @version $Id: MEJBMBeanServerConnectionFactory.java 14700 2008-07-30 13:25:03Z alitokmen $
+ * @version $Id$
  */
 public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFactory
 {
@@ -113,7 +113,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
         private String previousLoginConfig;
 
         /**
-         * MEJBProxy Constructor.
+         * Constructor.
          * 
          * @param mejb Management MBean.
          * @param configuration Runtime configuration, contains for example the JAAS settings.

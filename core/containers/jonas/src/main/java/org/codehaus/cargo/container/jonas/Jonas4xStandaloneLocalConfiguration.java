@@ -42,7 +42,7 @@ import org.codehaus.cargo.util.CargoException;
  * Implementation of a standalone {@link org.codehaus.cargo.container.configuration.Configuration}
  * for JOnAS.
  * 
- * @version $Id: Jonas4xStandaloneLocalConfiguration.java 14641 2008-07-25 11:46:29Z alitokmen $
+ * @version $Id$
  */
 public class Jonas4xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
 {

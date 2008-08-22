@@ -25,6 +25,7 @@ import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.EJB;
 import org.codehaus.cargo.container.deployable.RAR;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.jonas.internal.Jonas4xAdmin;
 import org.codehaus.cargo.container.jonas.internal.JonasAdmin;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.util.CargoException;
@@ -33,7 +34,7 @@ import org.codehaus.cargo.util.FileHandler;
 /**
  * Static deployer that deploys WAR, EAR, EJB and RAR to JOnAS.
  * 
- * @version $Id: Jonas4xInstalledLocalDeployer.java 14641 2008-07-25 11:46:29Z alitokmen $
+ * @version $Id$
  */
 public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {

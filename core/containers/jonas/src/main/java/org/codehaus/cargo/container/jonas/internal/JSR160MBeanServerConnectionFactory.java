@@ -34,7 +34,7 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 /**
  * JMX remoting (JSR 160) implementation to get a remote MBeanServerConnection.
  * 
- * @version $Id: JSR160MBeanServerConnectionFactory.java 14641 2008-07-25 11:46:29Z alitokmen $
+ * @version $Id$
  */
 public class JSR160MBeanServerConnectionFactory implements MBeanServerConnectionFactory
 {

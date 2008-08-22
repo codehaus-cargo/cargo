@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.jonas.internal;
 /**
  * JOnAS admin command line capabilities interface.
  * 
- * @version $Id: JonasAdmin.java 14631 2008-07-24 13:29:15Z alitokmen $
+ * @version $Id$
  */
 public interface JonasAdmin
 {

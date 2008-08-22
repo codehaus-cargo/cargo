@@ -111,6 +111,7 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("jboss3x", ContainerType.INSTALLED,
             ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jboss.internal."
                 + "JBossRuntimeConfigurationCapability");
+
         registerConfigurationCapability("jboss4x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jboss.internal."
                 + "JBossStandaloneLocalConfigurationCapability");
@@ -120,6 +121,7 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("jboss4x", ContainerType.REMOTE,
             ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jboss.internal."
                 + "JBossRuntimeConfigurationCapability");
+
         registerConfigurationCapability("jboss42x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jboss.internal."
                 + "JBossStandaloneLocalConfigurationCapability");
@@ -129,6 +131,7 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("jboss42x", ContainerType.REMOTE,
                 ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jboss.internal."
                     + "JBossRuntimeConfigurationCapability");
+
         registerConfigurationCapability("jboss5x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jboss.internal."
                 + "JBossStandaloneLocalConfigurationCapability");
@@ -148,9 +151,11 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("jetty4x", ContainerType.EMBEDDED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jetty.internal."
                 + "Jetty4xEmbeddedStandaloneLocalConfigurationCapability");
+
         registerConfigurationCapability("jetty5x", ContainerType.EMBEDDED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jetty.internal."
                 + "Jetty5xEmbeddedStandaloneLocalConfigurationCapability");
+
         registerConfigurationCapability("jetty6x", ContainerType.EMBEDDED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jetty.internal."
                 + "Jetty6xEmbeddedStandaloneLocalConfigurationCapability");
@@ -186,6 +191,12 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("jonas4x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jonas.internal."
                 + "Jonas4xStandaloneLocalConfigurationCapability");
+
+        registerConfigurationCapability("jonas5x", ContainerType.REMOTE,
+            ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jonas.internal."
+                + "JonasRuntimeConfigurationCapability");
+        // TODO: add jonas5x, ContainerType.INSTALLED, ConfigurationType.EXISTING
+        // TODO: add jonas5x, ContainerType.INSTALLED, ConfigurationType.STANDALONE
     }
 
     /**
@@ -196,12 +207,15 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("orion1x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.orion.internal."
                 + "OrionStandaloneLocalConfigurationCapability");
+
         registerConfigurationCapability("orion2x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.orion.internal."
                 + "OrionStandaloneLocalConfigurationCapability");
+
         registerConfigurationCapability("oc4j9x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.orion.internal."
                 + "OrionStandaloneLocalConfigurationCapability");
+
         registerConfigurationCapability("oc4j10x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, "org.codehaus.cargo.container.orion.internal."
                 + "OrionStandaloneLocalConfigurationCapability");
@@ -218,6 +232,7 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("resin2x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, "org.codehaus.cargo.container.resin.internal."
                 + "ResinExistingLocalConfigurationCapability");
+
         registerConfigurationCapability("resin3x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.resin.internal."
                 + "ResinStandaloneLocalConfigurationCapability");
@@ -234,6 +249,7 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("tomcat3x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.tomcat.internal."
                 + "TomcatStandaloneLocalConfigurationCapability");
+
         registerConfigurationCapability("tomcat4x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.tomcat.internal."
                 + "TomcatStandaloneLocalConfigurationCapability");
@@ -243,6 +259,7 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("tomcat4x", ContainerType.REMOTE,
             ConfigurationType.RUNTIME, "org.codehaus.cargo.container.tomcat.internal."
                 + "TomcatRuntimeConfigurationCapability");
+
         registerConfigurationCapability("tomcat5x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.tomcat.internal."
                 + "TomcatStandaloneLocalConfigurationCapability");
@@ -258,6 +275,7 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("tomcat5x", ContainerType.REMOTE,
             ConfigurationType.RUNTIME, "org.codehaus.cargo.container.tomcat.internal."
                 + "TomcatRuntimeConfigurationCapability");
+
         registerConfigurationCapability("tomcat6x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.tomcat.internal."
                 + "TomcatStandaloneLocalConfigurationCapability");
@@ -280,6 +298,7 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("weblogic8x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, "org.codehaus.cargo.container.weblogic.internal."
                 + "WebLogicExistingLocalConfigurationCapability");
+
         registerConfigurationCapability("weblogic9x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.weblogic.internal."
                 + "WebLogicStandaloneLocalConfigurationCapability");

@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
 /**
  * Configuration to use when using a JOnAS remote container.
  * 
- * @version $Id: JonasRuntimeConfiguration.java 14641 2008-07-25 11:46:29Z alitokmen $
+ * @version $Id$
  */
 public class JonasRuntimeConfiguration extends AbstractRuntimeConfiguration
 {

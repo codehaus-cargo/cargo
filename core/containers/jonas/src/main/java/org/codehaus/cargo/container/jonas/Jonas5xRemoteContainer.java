@@ -29,12 +29,12 @@ import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
  * 
  * @version $Id$
  */
-public class Jonas4xRemoteContainer extends AbstractRemoteContainer
+public class Jonas5xRemoteContainer extends AbstractRemoteContainer
 {
     /**
      * Unique container id.
      */
-    public static final String ID = "jonas4x";
+    public static final String ID = "jonas5x";
 
     /**
      * the Capability of the JOnAS container.
@@ -46,7 +46,7 @@ public class Jonas4xRemoteContainer extends AbstractRemoteContainer
      * 
      * @param configuration the configuration to associate to this container.
      */
-    public Jonas4xRemoteContainer(RuntimeConfiguration configuration)
+    public Jonas5xRemoteContainer(RuntimeConfiguration configuration)
     {
         super(configuration);
     }
@@ -78,7 +78,7 @@ public class Jonas4xRemoteContainer extends AbstractRemoteContainer
      */
     public String getName()
     {
-        return "JOnAS 4.x Remote";
+        return "JOnAS 5.x Remote";
     }
 
 }

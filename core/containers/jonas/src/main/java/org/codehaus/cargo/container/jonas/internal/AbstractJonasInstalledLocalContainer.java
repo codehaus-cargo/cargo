@@ -37,7 +37,7 @@ import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 /**
  * Support for the JOnAS JEE container.
  * 
- * @version $Id: AbstractJonasInstalledLocalContainer.java 14641 2008-07-25 11:46:29Z alitokmen $
+ * @version $Id$
  */
 public abstract class AbstractJonasInstalledLocalContainer extends AbstractInstalledLocalContainer
 {

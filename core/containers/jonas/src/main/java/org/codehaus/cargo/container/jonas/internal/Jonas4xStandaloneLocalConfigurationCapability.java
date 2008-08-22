@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
  * Capabilities of the JOnAS 4.x
  * {@link org.codehaus.cargo.container.jonas.Jonas4xStandaloneLocalConfiguration} configuration.
  * 
- * @version $Id: Jonas4xStandaloneLocalConfigurationCapability.java 14641 2008-07-25 11:46:29Z alitokmen $
+ * @version $Id$
  */
 public class Jonas4xStandaloneLocalConfigurationCapability extends
     AbstractStandaloneLocalConfigurationCapability

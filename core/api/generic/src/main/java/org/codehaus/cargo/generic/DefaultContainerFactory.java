@@ -81,84 +81,169 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
         // without having to add all container implementations jars in the classpath.
 
         // Note: Sorted by container id alphabetical order
+        registerGeronimo();
 
+        registerJBoss();
+
+        registerJetty();
+
+        registerJO();
+
+        registerJOnAS();
+
+        registerOrion();
+
+        registerResin();
+
+        registerTomcat();
+
+        registerWeblogic();
+
+        AbstractFactoryRegistry.register(classLoader, this);
+    }
+
+    /**
+     * Register Apache Geronimo
+     */
+    public void registerGeronimo()
+    {
         registerContainer("geronimo1x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.geronimo.Geronimo1xInstalledLocalContainer");
+    }
 
+    /**
+     * Register JBoss
+     */
+    public void registerJBoss()
+    {
         registerContainer("jboss3x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.jboss.JBoss3xInstalledLocalContainer");
+
         registerContainer("jboss4x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.jboss.JBoss4xInstalledLocalContainer");
         registerContainer("jboss4x", ContainerType.REMOTE,
             "org.codehaus.cargo.container.jboss.JBoss4xRemoteContainer");
+
         registerContainer("jboss42x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.jboss.JBoss42xInstalledLocalContainer");
         registerContainer("jboss42x", ContainerType.REMOTE,
             "org.codehaus.cargo.container.jboss.JBoss42xRemoteContainer");
+
         registerContainer("jboss5x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.jboss.JBoss5xInstalledLocalContainer");
         registerContainer("jboss5x", ContainerType.REMOTE,
             "org.codehaus.cargo.container.jboss.JBoss5xRemoteContainer");
+    }
 
-
+    /**
+     * Register Jetty
+     */
+    public void registerJetty()
+    {
         registerContainer("jetty4x", ContainerType.EMBEDDED,
             "org.codehaus.cargo.container.jetty.Jetty4xEmbeddedLocalContainer");
+
         registerContainer("jetty5x", ContainerType.EMBEDDED,
             "org.codehaus.cargo.container.jetty.Jetty5xEmbeddedLocalContainer");
+
         registerContainer("jetty6x", ContainerType.EMBEDDED,
             "org.codehaus.cargo.container.jetty.Jetty6xEmbeddedLocalContainer");
         registerContainer("jetty6x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer");
         registerContainer("jetty6x", ContainerType.REMOTE,
             "org.codehaus.cargo.container.jetty.Jetty6xRemoteContainer");
+    }
 
+    /**
+     * Register JO!
+     */
+    public void registerJO()
+    {
         registerContainer("jo1x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.jo.Jo1xInstalledLocalContainer");
+    }
 
+    /**
+     * Register OW2 JOnAS
+     */
+    public void registerJOnAS()
+    {
         registerContainer("jonas4x", ContainerType.REMOTE,
             "org.codehaus.cargo.container.jonas.Jonas4xRemoteContainer");
         registerContainer("jonas4x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.jonas.Jonas4xInstalledLocalContainer");
 
-        registerContainer("oc4j9x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.orion.Oc4j9xInstalledLocalContainer");
-        registerContainer("oc4j10x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.orion.Oc4j10xInstalledLocalContainer");
+        registerContainer("jonas5x", ContainerType.REMOTE,
+            "org.codehaus.cargo.container.jonas.Jonas5xRemoteContainer");
+        // TODO: add jonas5x, ContainerType.INSTALLED
+    }
 
+    /**
+     * Register Orion
+     */
+    public void registerOrion()
+    {
         registerContainer("orion1x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.orion.Orion1xInstalledLocalContainer");
+
         registerContainer("orion2x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.orion.Orion2xInstalledLocalContainer");
 
+        registerContainer("oc4j9x", ContainerType.INSTALLED,
+            "org.codehaus.cargo.container.orion.Oc4j9xInstalledLocalContainer");
+
+        registerContainer("oc4j10x", ContainerType.INSTALLED,
+            "org.codehaus.cargo.container.orion.Oc4j10xInstalledLocalContainer");
+    }
+
+    /**
+     * Register Resin
+     */
+    public void registerResin()
+    {
         registerContainer("resin2x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.resin.Resin2xInstalledLocalContainer");
+
         registerContainer("resin3x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.resin.Resin3xInstalledLocalContainer");
+    }
 
+    /**
+     * Register Tomcat
+     */
+    public void registerTomcat()
+    {
         registerContainer("tomcat3x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.tomcat.Tomcat3xInstalledLocalContainer");
+
         registerContainer("tomcat4x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.tomcat.Tomcat4xInstalledLocalContainer");
         registerContainer("tomcat4x", ContainerType.REMOTE,
             "org.codehaus.cargo.container.tomcat.Tomcat4xRemoteContainer");
+
         registerContainer("tomcat5x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.tomcat.Tomcat5xInstalledLocalContainer");
         registerContainer("tomcat5x", ContainerType.REMOTE,
             "org.codehaus.cargo.container.tomcat.Tomcat5xRemoteContainer");
         registerContainer("tomcat5x", ContainerType.EMBEDDED,
             "org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalContainer");
+
         registerContainer("tomcat6x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.tomcat.Tomcat6xInstalledLocalContainer");
         registerContainer("tomcat6x", ContainerType.REMOTE,
             "org.codehaus.cargo.container.tomcat.Tomcat6xRemoteContainer");
+    }
 
-
+    /**
+     * Register BEA/Oracle Weblogic
+     */
+    public void registerWeblogic()
+    {
         registerContainer("weblogic8x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.weblogic.WebLogic8xInstalledLocalContainer");
+
         registerContainer("weblogic9x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.weblogic.WebLogic9xInstalledLocalContainer");
-
-        AbstractFactoryRegistry.register(classLoader, this);
     }
 
     /**

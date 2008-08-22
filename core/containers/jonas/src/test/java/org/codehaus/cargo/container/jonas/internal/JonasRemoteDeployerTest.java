@@ -62,17 +62,17 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
         Deployable deployable = factory.createDeployable("jonas4x", "/foo/bar.war",
             DeployableType.WAR);
 
-        assertEquals("foo.war", deployer.getRemoteFileName(deployable, "foo.pipo"));
-        assertEquals("foo.war", deployer.getRemoteFileName(deployable, "foo"));
-        assertEquals("bar.war", deployer.getRemoteFileName(deployable, null));
+        assertEquals("foo.war", deployer.getRemoteFileName(deployable, "foo.pipo", false));
+        assertEquals("foo.war", deployer.getRemoteFileName(deployable, "foo", false));
+        assertEquals("bar.war", deployer.getRemoteFileName(deployable, null, false));
 
         deployable = factory.createDeployable("jonas4x", "/foo/bar.war", DeployableType.WAR);
 
         ((WAR) deployable).setContext("/testContext");
-        assertEquals("testContext.war", deployer.getRemoteFileName(deployable, null));
+        assertEquals("testContext.war", deployer.getRemoteFileName(deployable, null, false));
 
         ((WAR) deployable).setContext("/");
-        assertEquals("rootContext.war", deployer.getRemoteFileName(deployable, null));
+        assertEquals("rootContext.war", deployer.getRemoteFileName(deployable, null, false));
     }
 
     public void testGetServerMBeanName()

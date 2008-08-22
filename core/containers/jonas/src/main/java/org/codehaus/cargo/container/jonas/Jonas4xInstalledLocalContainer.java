@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalCo
 /**
  * Support for the JOnAS JEE container.
  * 
- * @version $Id: Jonas4xInstalledLocalContainer.java 14689 2008-07-29 14:17:35Z alitokmen $
+ * @version $Id$
  */
 public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalContainer
 {

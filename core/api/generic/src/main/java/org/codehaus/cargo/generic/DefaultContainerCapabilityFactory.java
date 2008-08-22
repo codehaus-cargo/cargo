@@ -61,63 +61,149 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
         // without having to add all container implementations jars in the classpath.
 
         // Note: Sorted by container id alphabetical order
+        registerGeronimo();
 
+        registerJBoss();
+
+        registerJetty();
+
+        registerJO();
+
+        registerJOnAS();
+
+        registerOrion();
+
+        registerResin();
+
+        registerTomcat();
+
+        registerWeblogic();
+
+        AbstractFactoryRegistry.register(classLoader, this);
+    }
+
+    /**
+     * Register Apache Geronimo
+     */
+    public void registerGeronimo()
+    {
         registerContainerCapability("geronimo1x",
             "org.codehaus.cargo.container.internal.J2EEContainerCapability");
+    }
 
+    /**
+     * Register JBoss
+     */
+    public void registerJBoss()
+    {
         registerContainerCapability("jboss3x",
             "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
+
         registerContainerCapability("jboss4x",
             "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
+
         registerContainerCapability("jboss42x",
             "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
+
         registerContainerCapability("jboss5x",
             "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
+    }
 
+    /**
+     * Register Jetty
+     */
+    public void registerJetty()
+    {
         registerContainerCapability("jetty4x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
+
         registerContainerCapability("jetty5x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
+
         registerContainerCapability("jetty6x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
+    }
 
+    /**
+     * Register JO!
+     */
+    public void registerJO()
+    {
         registerContainerCapability("jo1x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
+    }
 
+    /**
+     * Register OW2 JOnAS
+     */
+    public void registerJOnAS()
+    {
         registerContainerCapability("jonas4x",
             "org.codehaus.cargo.container.jonas.internal.JonasContainerCapability");
 
-        registerContainerCapability("oc4j9x",
-            "org.codehaus.cargo.container.internal.J2EEContainerCapability");
-        registerContainerCapability("oc4j10x",
-            "org.codehaus.cargo.container.internal.J2EEContainerCapability");
+        registerContainerCapability("jonas5x",
+            "org.codehaus.cargo.container.jonas.internal.JonasContainerCapability");
+    }
 
+    /**
+     * Register Orion
+     */
+    public void registerOrion()
+    {
         registerContainerCapability("orion1x",
             "org.codehaus.cargo.container.internal.J2EEContainerCapability");
+
         registerContainerCapability("orion2x",
             "org.codehaus.cargo.container.internal.J2EEContainerCapability");
 
+        registerContainerCapability("oc4j9x",
+            "org.codehaus.cargo.container.internal.J2EEContainerCapability");
+
+        registerContainerCapability("oc4j10x",
+            "org.codehaus.cargo.container.internal.J2EEContainerCapability");
+
+    }
+
+    /**
+     * Register Resin
+     */
+    public void registerResin()
+    {
         registerContainerCapability("resin2x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
+
         registerContainerCapability("resin3x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
+    }
 
+    /**
+     * Register Tomcat
+     */
+    public void registerTomcat()
+    {
         registerContainerCapability("tomcat3x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
+
         registerContainerCapability("tomcat4x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
+
         registerContainerCapability("tomcat5x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
+
         registerContainerCapability("tomcat6x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
+    }
 
-
+    /**
+     * Register BEA/Oracle Weblogic
+     */
+    public void registerWeblogic()
+    {
         registerContainerCapability("weblogic8x",
             "org.codehaus.cargo.container.internal.J2EEContainerCapability");
+
         registerContainerCapability("weblogic9x",
             "org.codehaus.cargo.container.internal.J2EEContainerCapability");
-
-        AbstractFactoryRegistry.register(classLoader, this);
     }
 
     /**

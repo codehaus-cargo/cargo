@@ -20,34 +20,32 @@
 package org.codehaus.cargo.container.jonas;
 
 import org.codehaus.cargo.container.RemoteContainer;
-import org.codehaus.cargo.container.jonas.internal.AbstractJonas4xRemoteDeployer;
+import org.codehaus.cargo.container.jonas.internal.AbstractJonas5xRemoteDeployer;
+import org.codehaus.cargo.container.jonas.internal.JSR160MBeanServerConnectionFactory;
 import org.codehaus.cargo.container.jonas.internal.MBeanServerConnectionFactory;
-import org.codehaus.cargo.container.jonas.internal.MEJBMBeanServerConnectionFactory;
 
 /**
- * Remote deployer that uses Managment EJB (MEJB) to deploy to JOnAS.
+ * Remote deployer that uses JMX Remoting (JSR 160) to deploy to JOnAS.
  * 
  * @version $Id$
  */
-public class Jonas4xMEJBRemoteDeployer extends AbstractJonas4xRemoteDeployer
+public class Jonas5xJsr160RemoteDeployer extends AbstractJonas5xRemoteDeployer
 {
     /**
      * Constructor.
      * 
      * @param container the remote container
      */
-    public Jonas4xMEJBRemoteDeployer(RemoteContainer container)
+    public Jonas5xJsr160RemoteDeployer(RemoteContainer container)
     {
         super(container);
     }
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.jonas.internal#getMBeanServerConnectionFactory()
      */
     public MBeanServerConnectionFactory getMBeanServerConnectionFactory()
     {
-        return new MEJBMBeanServerConnectionFactory();
+        return new JSR160MBeanServerConnectionFactory();
     }
 }

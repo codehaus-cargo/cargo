@@ -45,7 +45,7 @@ import org.codehaus.cargo.util.FileHandler;
 /**
  * Abstract base class for JOnAS remote deployment.
  *
- * @version $Id: AbstractJonasRemoteDeployer.java 14871 2008-08-20 14:19:25Z alitokmen $
+ * @version $Id$
  */
 public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 {
@@ -62,7 +62,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
     /**
      * The run time configuration.
      */
-    private RuntimeConfiguration configuration;
+    protected RuntimeConfiguration configuration;
 
     /**
      * Action types.
@@ -146,7 +146,83 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
     }
 
     /**
-     * AbstractJonasRemoteDeployer Constructor.
+     * Target types.
+     */
+    protected static final class TargetType
+    {
+        /**
+         * One server.
+         */
+        public static final TargetType SERVER = new TargetType("server");
+
+        /**
+         * The domain master.
+         */
+        public static final TargetType DOMAIN = new TargetType("domain");
+
+        /**
+         * A unique id that identifies the target.
+         */
+        private String type;
+
+        /**
+         * @param type A unique id that identifies the target.
+         */
+        private TargetType(String type)
+        {
+            this.type = type;
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @see Object#equals(Object)
+         */
+        public boolean equals(Object object)
+        {
+            boolean result = false;
+            if (object instanceof TargetType)
+            {
+                TargetType type = (TargetType) object;
+                if (type.type.equalsIgnoreCase(this.type))
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @see Object#hashCode()
+         */
+        public int hashCode()
+        {
+            return this.type.hashCode();
+        }
+
+        /**
+         * @return the deployable type
+         */
+        public String getType()
+        {
+            return this.type;
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @see Object#toString()
+         */
+        public String toString()
+        {
+            return this.type;
+        }
+    }
+
+    /**
+     * Constructor.
      *
      * @param container the remote container
      */
@@ -194,7 +270,8 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
             if (config.getClusterName() == null)
             {
-                String operationName = getOperationName(ActionType.DEPLOY, deployable.getType());
+                String operationName = getOperationName(ActionType.DEPLOY, deployable.getType(),
+                    TargetType.SERVER);
                 getLogger().debug("Calling deployment operation " + operationName + " on server",
                     getClass().getName());
                 mbsc.invoke(serverMBeanName, operationName, new Object[]
@@ -207,8 +284,8 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
             }
             else
             {
-                String operationName = getOperationName(ActionType.UPLOAD_DEPLOY, deployable
-                    .getType());
+                String operationName = getOperationName(ActionType.UPLOAD_DEPLOY,
+                    deployable.getType(), TargetType.DOMAIN);
                 getLogger().debug(
                     "Calling deployment operation " + operationName + " on domain master",
                     getClass().getName());
@@ -248,11 +325,12 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
      *
      * @param actionType Action type.
      * @param deployableType Deployable type.
+     * @param targetType Target type.
      *
      * @return Operation name.
      */
     protected abstract String getOperationName(ActionType actionType,
-        DeployableType deployableType);
+        DeployableType deployableType, TargetType targetType);
 
     /**
      * {@inheritDoc}
@@ -282,11 +360,13 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
             ObjectName serverMBeanName = getServerMBeanName(config.getDomainName(), config
                 .getServerName());
 
-            String remoteFileName = getRemoteFileName(deployable, config.getDeployableIdentifier());
-            String operationName = getOperationName(ActionType.UNDEPLOY, deployable.getType());
+            String remoteFileName = getRemoteFileName(deployable, config.getDeployableIdentifier(),
+                true);
 
             if (config.getClusterName() == null)
             {
+                String operationName = getOperationName(ActionType.UNDEPLOY, deployable.getType(),
+                    TargetType.SERVER);
                 getLogger().debug("Calling undeployment operation " + operationName + " on server",
                     getClass().getName());
                 mbsc.invoke(serverMBeanName, operationName, new Object[]
@@ -299,6 +379,8 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
             }
             else
             {
+                String operationName = getOperationName(ActionType.UNDEPLOY, deployable.getType(),
+                    TargetType.DOMAIN);
                 getLogger().debug(
                     "Calling undeployment operation " + operationName + " on domain master",
                     getClass().getName());
@@ -351,13 +433,15 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
     }
 
     /**
-     * Get the remote file Name .
+     * Get the remote file name.
      *
      * @param deployable the deployable Object.
      * @param deployableIdentifier the deployable object ID.
+     * @param askFromServer whether to ask from server (in order to have a full path).
      * @return the remote file Name.
      */
-    protected abstract String getRemoteFileName(Deployable deployable, String deployableIdentifier);
+    protected abstract String getRemoteFileName(Deployable deployable, String deployableIdentifier,
+        boolean askFromServer);
 
     /**
      * Get the server MBean.
@@ -447,15 +531,16 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
         ObjectName serverMBeanName, RemoteDeployerConfig config) throws InstanceNotFoundException,
         MBeanException, ReflectionException, IOException
     {
-        File fle = new File(deployable.getFile());
+        File file = new File(deployable.getFile());
         FileHandler fileHandler = new DefaultFileHandler();
-        FileInputStream in = new FileInputStream(fle);
+        FileInputStream in = new FileInputStream(file);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         fileHandler.copy(in, out);
         in.close();
         getLogger().debug("Uploading file on server", this.getClass().getName());
-        String remoteFileName = getRemoteFileName(deployable, config.getDeployableIdentifier());
+        String remoteFileName = getRemoteFileName(deployable, config.getDeployableIdentifier(),
+            false);
         String filePathOnServer = (String) mbsc.invoke(serverMBeanName, "sendFile", new Object[]
         {
             out.toByteArray(), remoteFileName, Boolean.TRUE

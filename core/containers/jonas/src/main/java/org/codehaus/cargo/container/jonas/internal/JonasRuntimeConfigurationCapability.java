@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
  * Capabilities of JOnAS {@link org.codehaus.cargo.container.jonas.JonasRuntimeConfiguration}
  * configuration.
  * 
- * @version $Id: JonasRuntimeConfigurationCapability.java 14631 2008-07-24 13:29:15Z alitokmen $
+ * @version $Id$
  */
 public class JonasRuntimeConfigurationCapability extends AbstractRuntimeConfigurationCapability
 {

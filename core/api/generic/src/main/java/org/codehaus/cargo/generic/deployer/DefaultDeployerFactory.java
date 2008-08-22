@@ -75,66 +75,159 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
     {
         super();
 
-        // Note: Sorted by container id alphabetical order
+        // Note: We register containers using introspection so that we don't have to depend on
+        // those containers at build time nor at runtime. More specifically this allows a user
+        // to use the generic API and choose what container implementation jar he wants to use
+        // without having to add all container implementations jars in the classpath.
 
+        // Note: Sorted by container id alphabetical order
+        registerGeronimo();
+
+        registerJBoss();
+
+        registerJetty();
+
+        registerJO();
+
+        registerJOnAS();
+
+        registerOrion();
+
+        registerResin();
+
+        registerTomcat();
+
+        registerWeblogic();
+
+        AbstractFactoryRegistry.register(classLoader, this);
+    }
+
+    /**
+     * Register Apache Geronimo
+     */
+    public void registerGeronimo()
+    {
         registerDeployer("geronimo1x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.geronimo.GeronimoInstalledLocalDeployer");
+    }
 
+    /**
+     * Register JBoss
+     */
+    public void registerJBoss()
+    {
         registerDeployer("jboss3x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.jboss.JBossInstalledLocalDeployer");
+
         registerDeployer("jboss4x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.jboss.JBossInstalledLocalDeployer");
         registerDeployer("jboss4x", DeployerType.REMOTE,
             "org.codehaus.cargo.container.jboss.JBossRemoteDeployer");
+
         registerDeployer("jboss42x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.jboss.JBossInstalledLocalDeployer");
         registerDeployer("jboss42x", DeployerType.REMOTE,
             "org.codehaus.cargo.container.jboss.JBossRemoteDeployer");
+
         registerDeployer("jboss5x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.jboss.JBossInstalledLocalDeployer");
         registerDeployer("jboss5x", DeployerType.REMOTE,
             "org.codehaus.cargo.container.jboss.JBossRemoteDeployer");
+    }
 
+    /**
+     * Register Jetty
+     */
+    public void registerJetty()
+    {
         registerDeployer("jetty4x", DeployerType.EMBEDDED,
             "org.codehaus.cargo.container.jetty.Jetty4xEmbeddedLocalDeployer");
+
         registerDeployer("jetty5x", DeployerType.EMBEDDED,
             "org.codehaus.cargo.container.jetty.Jetty5xEmbeddedLocalDeployer");
+
         registerDeployer("jetty6x", DeployerType.EMBEDDED,
             "org.codehaus.cargo.container.jetty.Jetty6xEmbeddedLocalDeployer");
         registerDeployer("jetty6x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalDeployer");
         registerDeployer("jetty6x", DeployerType.REMOTE,
             "org.codehaus.cargo.container.jetty.JettyRemoteDeployer");
+    }
 
+    /**
+     * Register JO!
+     */
+    public void registerJO()
+    {
         registerDeployer("jo1x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.jo.Jo1xInstalledLocalDeployer");
+    }
 
+    /**
+     * Register OW2 JOnAS
+     */
+    public void registerJOnAS()
+    {
         registerDeployer("jonas4x", DeployerType.REMOTE,
             "org.codehaus.cargo.container.jonas.Jonas4xJsr160RemoteDeployer");
         registerDeployer("jonas4x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.jonas.Jonas4xInstalledLocalDeployer");
 
+        registerDeployer("jonas5x", DeployerType.REMOTE,
+            "org.codehaus.cargo.container.jonas.Jonas5xJsr160RemoteDeployer");
+        // TODO: add jonas5x, DeployerType.INSTALLED
+    }
+
+    /**
+     * Register Orion
+     */
+    public void registerOrion()
+    {
+        // TODO: this is empty...
+    }
+
+    /**
+     * Register Resin
+     */
+    public void registerResin()
+    {
         registerDeployer("resin2x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.resin.ResinInstalledLocalDeployer");
+
         registerDeployer("resin3x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.resin.ResinInstalledLocalDeployer");
+    }
 
+    /**
+     * Register Tomcat
+     */
+    public void registerTomcat()
+    {
         registerDeployer("tomcat4x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer");
+
         registerDeployer("tomcat4x", DeployerType.REMOTE,
             "org.codehaus.cargo.container.tomcat.Tomcat4xRemoteDeployer");
+
         registerDeployer("tomcat5x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer");
         registerDeployer("tomcat5x", DeployerType.REMOTE,
             "org.codehaus.cargo.container.tomcat.Tomcat5xRemoteDeployer");
         registerDeployer("tomcat5x", DeployerType.EMBEDDED,
             "org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalDeployer");
+
         registerDeployer("tomcat6x", DeployerType.INSTALLED,
              "org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer");
         registerDeployer("tomcat6x", DeployerType.REMOTE,
             "org.codehaus.cargo.container.tomcat.Tomcat6xRemoteDeployer");
+    }
 
-        AbstractFactoryRegistry.register(classLoader, this);
+    /**
+     * Register BEA/Oracle Weblogic
+     */
+    public void registerWeblogic()
+    {
+        // TODO: this is empty...
     }
 
     /**
