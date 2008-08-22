@@ -13,7 +13,7 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-api-util</artifactId>
-      <version>${version}</version>
+      <version>${project.version}</version>
     </dependency>
     <!-- set xerces, xml-apis and xalan to provided, so that these 
     	dependencies does not conflict with the surefire classpath while running the tests.
@@ -60,7 +60,7 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-api-util</artifactId>
-      <version>${version}</version>
+      <version>${project.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
