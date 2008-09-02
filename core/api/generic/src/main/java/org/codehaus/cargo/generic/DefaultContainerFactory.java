@@ -175,7 +175,8 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
         registerContainer("jonas5x", ContainerType.REMOTE,
             "org.codehaus.cargo.container.jonas.Jonas5xRemoteContainer");
-        // TODO: add jonas5x, ContainerType.INSTALLED
+        registerContainer("jonas5x", ContainerType.INSTALLED,
+            "org.codehaus.cargo.container.jonas.Jonas5xInstalledLocalContainer");
     }
 
     /**

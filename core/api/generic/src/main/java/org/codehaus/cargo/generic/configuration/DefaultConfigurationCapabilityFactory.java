@@ -190,13 +190,17 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
                 + "JonasExistingLocalConfigurationCapability");
         registerConfigurationCapability("jonas4x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jonas.internal."
-                + "Jonas4xStandaloneLocalConfigurationCapability");
+                + "JonasStandaloneLocalConfigurationCapability");
 
         registerConfigurationCapability("jonas5x", ContainerType.REMOTE,
             ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jonas.internal."
                 + "JonasRuntimeConfigurationCapability");
-        // TODO: add jonas5x, ContainerType.INSTALLED, ConfigurationType.EXISTING
-        // TODO: add jonas5x, ContainerType.INSTALLED, ConfigurationType.STANDALONE
+        registerConfigurationCapability("jonas5x", ContainerType.INSTALLED,
+            ConfigurationType.EXISTING, "org.codehaus.cargo.container.jonas.internal."
+                + "JonasExistingLocalConfigurationCapability");
+        registerConfigurationCapability("jonas5x", ContainerType.INSTALLED,
+            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jonas.internal."
+                + "JonasStandaloneLocalConfigurationCapability");
     }
 
     /**

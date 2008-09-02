@@ -36,7 +36,6 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-import org.codehaus.cargo.util.CargoException;
 
 /**
  * Implementation of a standalone {@link org.codehaus.cargo.container.configuration.Configuration}
@@ -44,19 +43,19 @@ import org.codehaus.cargo.util.CargoException;
  * 
  * @version $Id$
  */
-public class Jonas4xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
+public class Jonas5xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
 {
     /**
      * Jetty web container class name.
      */
     public static final String JETTY_WEB_CONTAINER_CLASS_NAME =
-        "org.objectweb.jonas.web.jetty50.JettyJWebContainerServiceImpl";
+        "org.ow2.jonas.web.jetty6.Jetty6Service";
 
     /**
      * Tomcat web container class name.
      */
-    public static final String CATALINA_WEB_CONTAINER_CLASS_NAME =
-        "org.objectweb.jonas.web.wrapper.catalina55.CatalinaJWebContainerServiceWrapper";
+    public static final String TOMCAT_WEB_CONTAINER_CLASS_NAME =
+        "org.ow2.jonas.web.tomcat6.Tomcat6Service";
 
     /**
      * Token filter key for users' role.
@@ -84,7 +83,7 @@ public class Jonas4xStandaloneLocalConfiguration extends AbstractStandaloneLocal
      * 
      * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
-    public Jonas4xStandaloneLocalConfiguration(String dir)
+    public Jonas5xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
 
@@ -95,6 +94,8 @@ public class Jonas4xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         setProperty(GeneralPropertySet.JVMARGS, "-Xms128m -Xmx512m");
         setProperty(JonasPropertySet.JONAS_REALM_NAME, "memrlm_1");
         setProperty(JonasPropertySet.JONAS_AVAILABLES_DATASOURCES, "HSQL1");
+        setProperty(JonasPropertySet.JONAS_WEBCONTAINER_CLASS_NAME,
+            TOMCAT_WEB_CONTAINER_CLASS_NAME);
     }
 
     /**
@@ -120,14 +121,7 @@ public class Jonas4xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         FilterChain filterChain = createJonasFilterChain(this.installedContainer);
 
         // setting the JONAS_BASE environment
-        getFileHandler().createDirectory(getHome(), "/webapps");
-        getFileHandler().createDirectory(getHome(), "/webapps/autoload");
-        getFileHandler().createDirectory(getHome(), "/ejbjars");
-        getFileHandler().createDirectory(getHome(), "/ejbjars/autoload");
-        getFileHandler().createDirectory(getHome(), "/apps");
-        getFileHandler().createDirectory(getHome(), "/apps/autoload");
-        getFileHandler().createDirectory(getHome(), "/rars");
-        getFileHandler().createDirectory(getHome(), "/rars/autoload");
+        getFileHandler().createDirectory(getHome(), "/deploy");
 
         getFileHandler().createDirectory(getHome(), "/logs");
 
@@ -136,8 +130,8 @@ public class Jonas4xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         // Copy configuration files from cargo resources directory with token replacement
         String[] cargoFiles = new String[]
         {
-            "carol.properties", "jaas.config", "jetty5.xml", "jonas.properties", "jonas-realm.xml",
-            "server.xml", "trace.properties"
+            "carol.properties", "jaas.config", "jetty6.xml", "jonas.properties", "jonas-realm.xml",
+            "tomcat6-server.xml", "trace.properties"
         };
         for (int i = 0; i < cargoFiles.length; i++)
         {
@@ -152,13 +146,13 @@ public class Jonas4xStandaloneLocalConfiguration extends AbstractStandaloneLocal
             cargoFiles);
 
         // Deploy with user defined deployables with the appropriate deployer
-        Jonas4xInstalledLocalDeployer deployer = new Jonas4xInstalledLocalDeployer(
+        Jonas5xInstalledLocalDeployer deployer = new Jonas5xInstalledLocalDeployer(
             installedContainer);
         deployer.deploy(getDeployables());
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-            getFileHandler().append(getHome(), "/webapps/autoload/cargocpc.war"), getFileHandler());
+            getFileHandler().append(getHome(), "/deploy/cargocpc.war"), getFileHandler());
     }
 
     /**
@@ -240,87 +234,9 @@ public class Jonas4xStandaloneLocalConfiguration extends AbstractStandaloneLocal
             JonasPropertySet.JONAS_AVAILABLES_DATASOURCES,
             getPropertyValue(JonasPropertySet.JONAS_AVAILABLES_DATASOURCES));
 
-        getAntUtils().addTokenToFilterChain(filterChain,
-            JonasPropertySet.JONAS_WEBCONTAINER_CLASS_NAME,
-            getWebContainerClassName(installedContainer));
-
         createUserFilterChain(filterChain);
 
         return filterChain;
-
-    }
-
-    /**
-     * Get the Web Container Class Name.
-     * 
-     * @param installedContainer theinstalled container
-     * @return he Web Container Class Name.
-     * @throws CargoException if Unable to detect JOnAS web container
-     */
-    protected String getWebContainerClassName(InstalledLocalContainer installedContainer)
-        throws CargoException
-    {
-        String providedSetting = getPropertyValue(JonasPropertySet.JONAS_WEBCONTAINER_CLASS_NAME);
-        if (providedSetting == null || providedSetting.trim().length() < 1)
-        {
-            if (isWebContainerInstalled("lib/jetty/lib", installedContainer))
-            {
-                providedSetting = JETTY_WEB_CONTAINER_CLASS_NAME;
-            }
-            else if (isWebContainerInstalled("lib/catalina/server/lib", installedContainer))
-            {
-                providedSetting = CATALINA_WEB_CONTAINER_CLASS_NAME;
-            }
-        }
-
-        if (providedSetting == null || providedSetting.trim().length() < 1)
-        {
-            throw new CargoException("Unable to detect JOnAS web container "
-                + "implementation please provide a "
-                + JonasPropertySet.JONAS_WEBCONTAINER_CLASS_NAME
-                + " setting containg the web runtime class name");
-        }
-        else
-        {
-            return providedSetting;
-        }
-    }
-
-    /**
-     * Checks whether a given web container is installed.
-     * 
-     * @param webContainerLibDir Web container library directory.
-     * @param installedContainer Container to look for.
-     * 
-     * @return true if installed, false otherwise.
-     */
-    private boolean isWebContainerInstalled(String webContainerLibDir,
-        InstalledLocalContainer installedContainer)
-    {
-
-        String libsDirName = getFileHandler().append(installedContainer.getHome(),
-            webContainerLibDir);
-        boolean exists = getFileHandler().exists(libsDirName);
-
-        if (exists)
-        {
-            String[] files = getFileHandler().getChildren(libsDirName);
-            // more than 1 jar is present in webContainerLibDir if the container is installed
-            int jarCount = 0;
-            for (int i = 0; i < files.length; i++)
-            {
-                if (files[i].toLowerCase().endsWith(".jar"))
-                {
-                    jarCount++;
-                }
-            }
-
-            if (jarCount > 1)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -404,6 +320,6 @@ public class Jonas4xStandaloneLocalConfiguration extends AbstractStandaloneLocal
      */
     public String toString()
     {
-        return "JOnAS 4.x Standalone Configuration";
+        return "JOnAS 5.x Standalone Configuration";
     }
 }

@@ -110,7 +110,7 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
     {
 
         this.fileHandler.createFile("ram:///test.jar");
-        EJB ejb = (EJB) factory.createDeployable(Jonas4xInstalledLocalContainer.ID,
+        EJB ejb = (EJB) factory.createDeployable("jonas4x",
             "ram:///test.jar", DeployableType.EJB);
 
         setupAdminColdDeployment();
@@ -137,7 +137,7 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
     {
 
         this.fileHandler.createFile("ram:///test.ear");
-        EAR ear = (EAR) factory.createDeployable(Jonas4xInstalledLocalContainer.ID,
+        EAR ear = (EAR) factory.createDeployable("jonas4x",
             "ram:///test.ear", DeployableType.EAR);
 
         setupAdminColdDeployment();
@@ -163,7 +163,7 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
     public void testDeployWar()
     {
         this.fileHandler.createFile("ram:///test.war");
-        WAR war = (WAR) factory.createDeployable(Jonas4xInstalledLocalContainer.ID,
+        WAR war = (WAR) factory.createDeployable("jonas4x",
             "ram:///test.war", DeployableType.WAR);
         war.setContext("testContext");
 
@@ -192,7 +192,7 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
     public void testDeployExpandedWar()
     {
         this.fileHandler.createFile("ram:///testExpandedWar");
-        WAR war = (WAR) factory.createDeployable(Jonas4xInstalledLocalContainer.ID,
+        WAR war = (WAR) factory.createDeployable("jonas4x",
             "ram:///testExpandedWar", DeployableType.WAR);
         war.setContext("testExpandedWarContext");
 
@@ -216,7 +216,7 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
 
         this.fileHandler.createFile("ram:///test.rar");
         RAR rar =
-            (RAR) factory.createDeployable(Jonas4xInstalledLocalContainer.ID, "ram:///test.rar",
+            (RAR) factory.createDeployable("jonas4x", "ram:///test.rar",
                 DeployableType.RAR);
 
         setupAdminColdDeployment();

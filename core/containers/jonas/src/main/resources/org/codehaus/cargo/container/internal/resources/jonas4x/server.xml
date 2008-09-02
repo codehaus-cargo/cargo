@@ -6,7 +6,7 @@
  -   Realm already set
  -   Examples with a JOnASStandardContext context.
  -
- - $Id: server.xml 14623 2008-07-23 14:57:43Z alitokmen $
+ - $Id: server.xml 14927 2008-08-29 13:36:34Z alitokmen $
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  -->
 
@@ -77,7 +77,7 @@
     -->
 
 
-    <!-- Define a non-SSL Coyote HTTP/1.1 Connector on port 9000 -->
+    <!-- Define a non-SSL Coyote HTTP/1.1 Connector on port @cargo.servlet.port@ -->
     <Connector port="@cargo.servlet.port@" maxHttpHeaderSize="8192" address="@cargo.hostname@"
                maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
                enableLookups="false" redirectPort="9043" acceptCount="100"

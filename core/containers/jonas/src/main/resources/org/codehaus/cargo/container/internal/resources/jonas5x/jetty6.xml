@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+<!--
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - JOnAS: Java(TM) Open Application Server
+  - Copyright (C) 2007 Bull S.A.S.
+  - Contact: jonas-team@ow2.org
+  -
+  - This library is free software; you can redistribute it and/or
+  - modify it under the terms of the GNU Lesser General Public
+  - License as published by the Free Software Foundation; either
+  - version 2.1 of the License, or (at your option) any later version.
+  -
+  - This library is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  - Lesser General Public License for more details.
+  -
+  - You should have received a copy of the GNU Lesser General Public
+  - License along with this library; if not, write to the Free Software
+  - Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+  -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - $Id: jetty6.xml 14927 2008-08-29 13:36:34Z alitokmen $
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+
+<!-- =============================================================== -->
+<!-- Configure the Jetty Server                                      -->
+<!--                                                                 -->
+<!-- Documentation of this file format can be found at:              -->
+<!-- http://docs.codehaus.org/display/JETTY/jetty.xml                -->
+<!--                                                                 -->
+<!-- =============================================================== -->
+
+
+<Configure id="Server" class="org.mortbay.jetty.Server">
+
+    <!-- =========================================================== -->
+    <!-- Server Thread Pool                                          -->
+    <!-- =========================================================== -->
+    <Set name="ThreadPool">
+      <!-- Default bounded blocking threadpool
+      -->
+      <New class="org.mortbay.thread.BoundedThreadPool">
+        <Set name="minThreads">10</Set>
+        <Set name="maxThreads">250</Set>
+      </New>
+
+      <!-- Optional Java 5 bounded threadpool with job queue
+      <New class="org.mortbay.thread.concurrent.ThreadPool">
+        <Set name="corePoolSize">250</Set>
+        <Set name="maximumPoolSize">250</Set>
+      </New>
+      -->
+    </Set>
+
+
+
+    <!-- =========================================================== -->
+    <!-- Set connectors                                              -->
+    <!-- =========================================================== -->
+    <!-- One of each type!                                           -->
+    <!-- =========================================================== -->
+
+    <!-- Use this connector for many frequently idle connections
+         and for threadless continuations.
+    -->
+    <Call name="addConnector">
+      <Arg>
+          <New class="org.mortbay.jetty.nio.SelectChannelConnector">
+            <Set name="port"><SystemProperty name="jetty.port" default="@cargo.servlet.port@"/></Set>
+            <Set name="maxIdleTime">30000</Set>
+            <Set name="Acceptors">2</Set>
+            <Set name="AcceptQueueSize">100</Set>
+            <Set name="statsOn">false</Set>
+            <Set name="confidentialPort">8443</Set>
+      <Set name="lowResourcesConnections">1000</Set>
+      <Set name="lowResourcesMaxIdleTime">500</Set>
+          </New>
+      </Arg>
+    </Call>
+
+    <!-- Use this connector if NIO is not available.
+    <Call name="addConnector">
+      <Arg>
+          <New class="org.mortbay.jetty.bio.SocketConnector">
+            <Set name="port">8081</Set>
+            <Set name="maxIdleTime">50000</Set>
+            <Set name="lowResourceMaxIdleTime">1500</Set>
+          </New>
+      </Arg>
+    </Call>
+    -->
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- To add a HTTPS SSL listener                                     -->
+    <!-- see jetty-ssl.xml to add an ssl connector. use                  -->
+    <!-- java -jar start.jar etc/jetty.xml etc/jetty-ssl.xml             -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <!-- =========================================================== -->
+    <!-- Set up global session ID manager                            -->
+    <!-- =========================================================== -->
+    <!--
+    <Set name="sessionIdManager">
+      <New class="org.mortbay.jetty.servlet.HashSessionIdManager">
+        <Set name="workerName">node1</Set>
+      </New>
+    </Set>
+    -->
+
+    <!-- =========================================================== -->
+    <!-- Configure Authentication Realms                             -->
+    <!-- Realms may be configured for the entire server here, or     -->
+    <!-- they can be configured for a specific web app in a context  -->
+    <!-- configuration (see $(jetty.home)/contexts/test.xml for an   -->
+    <!-- example).                                                   -->
+    <!-- =========================================================== -->
+    <Set name="UserRealms">
+      <Array type="org.mortbay.jetty.security.UserRealm">
+        <Item>
+          <New class="org.ow2.jonas.web.jetty6.security.Realm">
+            <Arg>@cargo.jonas.realm.name@</Arg>
+          </New>
+        </Item>
+      </Array>
+    </Set>
+
+    <!-- =========================================================== -->
+    <!-- extra options                                               -->
+    <!-- =========================================================== -->
+    <Set name="sendServerVersion">true</Set>
+    <Set name="sendDateHeader">true</Set>
+
+</Configure>

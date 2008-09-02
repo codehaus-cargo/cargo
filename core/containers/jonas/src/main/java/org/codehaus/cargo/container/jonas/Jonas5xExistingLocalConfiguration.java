@@ -28,16 +28,16 @@ import org.codehaus.cargo.container.jonas.internal.AbstractJonasExistingLocalCon
  * 
  * @version $Id$
  */
-public class Jonas4xExistingLocalConfiguration extends AbstractJonasExistingLocalConfiguration
+public class Jonas5xExistingLocalConfiguration extends AbstractJonasExistingLocalConfiguration
 {
     /**
      * {@inheritDoc}
      * 
      * @see AbstractJonasExistingLocalConfiguration#AbstractJonasExistingLocalConfiguration(String, String)
      */
-    public Jonas4xExistingLocalConfiguration(String dir)
+    public Jonas5xExistingLocalConfiguration(String dir)
     {
-        super(dir, "4.x");
+        super(dir, "5.x");
     }
 
     /**
@@ -50,18 +50,13 @@ public class Jonas4xExistingLocalConfiguration extends AbstractJonasExistingLoca
         InstalledLocalContainer jonasContainer = (InstalledLocalContainer) container;
 
         checkDirExists("conf");
-        checkDirExists("apps");
-        checkDirExists("apps/autoload");
-        checkDirExists("webapps");
-        checkDirExists("webapps/autoload");
-        checkDirExists("ejbjars");
-        checkDirExists("ejbjars/autoload");
+        checkDirExists("deploy");
 
-        Jonas4xInstalledLocalDeployer deployer = new Jonas4xInstalledLocalDeployer(jonasContainer);
+        Jonas5xInstalledLocalDeployer deployer = new Jonas5xInstalledLocalDeployer(jonasContainer);
         deployer.deploy(getDeployables());
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory.
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-            getFileHandler().append(getHome(), "/webapps/autoload/cargocpc.war"), getFileHandler());
+            getFileHandler().append(getHome(), "/deploy/cargocpc.war"), getFileHandler());
     }
 }

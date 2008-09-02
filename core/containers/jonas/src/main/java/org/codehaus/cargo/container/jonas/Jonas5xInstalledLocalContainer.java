@@ -35,14 +35,14 @@ import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalCo
  * 
  * @version $Id$
  */
-public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalContainer
+public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalContainer
 {
     /**
      * {@inheritDoc}
      * 
      * @see AbstractJonasInstalledLocalContainer#AbstractJonasInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
-    public Jonas4xInstalledLocalContainer(LocalConfiguration configuration)
+    public Jonas5xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
     }
@@ -55,7 +55,8 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public void doStart(Java java)
     {
         doAction(java);
-        java.createArg().setValue("org.objectweb.jonas.server.Server");
+        java.createArg().setValue("org.ow2.jonas.commands.admin.ClientAdmin");
+        java.createArg().setValue("start");
         java.createArg().setValue("-fg");
 
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
@@ -70,9 +71,9 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public void doStop(Java java)
     {
         doAction(java);
-        java.createArg().setValue("org.objectweb.jonas.adm.JonasAdmin");
+        java.createArg().setValue("org.ow2.jonas.commands.admin.ClientAdmin");
         doServerNameParam(java);
-        java.createArg().setValue("-s");
+        java.createArg().setValue("halt");
 
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
         jonasRunner.start();
@@ -85,21 +86,14 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      */
     protected void setupExtraSysProps(Java java, Map configuredSysProps)
     {
-        addSysProp(java, configuredSysProps, "jonas.default.classloader", "true");
         addSysProp(java, configuredSysProps, "org.omg.CORBA.ORBClass", "org.jacorb.orb.ORB");
         addSysProp(java, configuredSysProps, "org.omg.CORBA.ORBSingletonClass",
             "org.jacorb.orb.ORBSingleton");
         addSysProp(java, configuredSysProps,
             "org.omg.PortableInterceptor.ORBInitializerClass.standard_init",
             "org.jacorb.orb.standardInterceptors.IORInterceptorInitializer");
-        addSysProp(java, configuredSysProps, "javax.rmi.CORBA.PortableRemoteObjectClass",
-            "org.objectweb.carol.rmi.multi.MultiPRODelegate");
-        addSysProp(java, configuredSysProps, "java.naming.factory.initial",
-            "org.objectweb.carol.jndi.spi.MultiOrbInitialContextFactory");
-        addSysProp(java, configuredSysProps, "javax.rmi.CORBA.UtilClass",
-            "org.objectweb.carol.util.delegate.UtilDelegateImpl");
-        addSysProp(java, configuredSysProps, "java.rmi.server.RMIClassLoaderSpi",
-            "org.objectweb.jonas.server.RemoteClassLoaderSpi");
+        addSysProp(java, configuredSysProps, "com.sun.CORBA.ORBDynamicStubFactoryFactoryClass",
+            "com.sun.corba.se.impl.presentation.rmi.StubFactoryFactoryStaticImpl");
     }
 
     /**
@@ -111,13 +105,17 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     {
         setupSysProps(java);
 
-        java.setClassname("org.objectweb.jonas.server.Bootstrap");
+        java.setClassname("org.ow2.jonas.client.boot.Bootstrap");
 
         Path classpath = java.createClasspath();
         classpath.createPathElement().setLocation(
-            new File(getHome(), "lib/common/ow_jonas_bootstrap.jar"));
+            new File(getHome(), "lib/bootstrap/client-bootstrap.jar"));
         classpath.createPathElement().setLocation(
-            new File(getHome(), "lib/commons/jonas/jakarta-commons/commons-logging-api.jar"));
+            new File(getHome(), "lib/bootstrap/felix-launcher.jar"));
+        classpath.createPathElement().setLocation(
+            new File(getHome(), "lib/bootstrap/jonas-commands.jar"));
+        classpath.createPathElement().setLocation(
+            new File(getHome(), "lib/bootstrap/jonas-version.jar"));
         classpath.createPathElement().setLocation(new File(getConfiguration().getHome(), "conf"));
         try
         {
@@ -138,7 +136,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      */
     public String getId()
     {
-        return "jonas4x";
+        return "jonas5x";
     }
 
     /**
@@ -148,6 +146,6 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      */
     public String getName()
     {
-        return "JOnAS 4.x";
+        return "JOnAS 5.x";
     }
 }

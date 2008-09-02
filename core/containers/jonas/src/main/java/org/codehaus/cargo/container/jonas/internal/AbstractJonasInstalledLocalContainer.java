@@ -20,16 +20,10 @@
 package org.codehaus.cargo.container.jonas.internal;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Map;
 
 import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerCapability;
-import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
@@ -41,11 +35,6 @@ import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
  */
 public abstract class AbstractJonasInstalledLocalContainer extends AbstractInstalledLocalContainer
 {
-    /**
-     * Container version.
-     */
-    private String version;
-
     /**
      * Capability of the JOnAS container.
      */
@@ -141,36 +130,6 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
     }
 
     /**
-     * Configuring the target java ant task to launch a JOnAS command.
-     * 
-     * @param java the target java ant task to setup
-     */
-    public void doAction(Java java)
-    {
-        setupSysProps(java);
-
-        java.setClassname("org.objectweb.jonas.server.Bootstrap");
-
-        Path classpath = java.createClasspath();
-        classpath.createPathElement().setLocation(
-            new File(getHome(), "lib/common/ow_jonas_bootstrap.jar"));
-        classpath.createPathElement().setLocation(
-            new File(getHome(), "lib/commons/jonas/jakarta-commons/commons-logging-api.jar"));
-        classpath.createPathElement().setLocation(new File(getConfiguration().getHome(), "conf"));
-        try
-        {
-            addToolsJarToClasspath(classpath);
-
-        }
-        catch (IOException ex)
-        {
-            throw new ContainerException("IOException occured during java command line setup", ex);
-        }
-
-        java.setDir(new File(getConfiguration().getHome()));
-    }
-
-    /**
      * {@inheritDoc}
      * 
      * @see org.codehaus.cargo.container.Container#getCapability()
@@ -179,40 +138,4 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
     {
         return capability;
     }
-
-    /**
-     * @param defaultVersion default version to use if we cannot find out the exact JOnAS version
-     * @return the JOnAS version found
-     */
-    public String getVersion(String defaultVersion)
-    {
-        String version = this.version;
-
-        if (version == null)
-        {
-            try
-            {
-                URLClassLoader classloader = new URLClassLoader(new URL[]
-                {new File(getHome(), "/lib/common/ow_jonas_bootstrap.jar").toURL()});
-                Class versionClass = classloader
-                    .loadClass("org.objectweb.jonas_lib.version.Version");
-                Field versionField = versionClass.getField("NUMBER");
-                version = (String) versionField.get(null);
-
-                getLogger()
-                    .info("Found JOnAS version [" + version + "]", this.getClass().getName());
-            }
-            catch (Exception e)
-            {
-                getLogger().debug(
-                    "Failed to get JOnAS version, Error = [" + e.getMessage()
-                        + "]. Using generic version [" + defaultVersion + "]",
-                    this.getClass().getName());
-                version = defaultVersion;
-            }
-        }
-        this.version = version;
-        return version;
-    }
-
 }

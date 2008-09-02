@@ -334,7 +334,7 @@
               <property>
                 <name>cargo.jonas4x.url</name>
                 <value>http://download.fr.forge.objectweb.org/jonas/jonas4.10.1-tomcat5.5.26.tgz</value>
-              </property
+              </property>
               -->
               <property>
                 <name>cargo.jonas4x.port</name>
@@ -355,6 +355,39 @@
               </property>
               <property>
                 <name>cargo.jonas4x.configuration.cargo.remote.password</name>
+                <value>jonas</value>
+              </property>
+
+              <!--
+                Note: There is no direct zip download link for JOnAS 5. Please
+                download it manually from http://jonas.ow2.org/ and specify
+                where it is installed using the cargo.jonas5x.home property.
+
+                For example:
+                  <property>
+                    <name>cargo.jonas5x.home</name>
+                    <value>c:/apps/JONAS</value>
+                  </property>
+              -->
+              <property>
+                <name>cargo.jonas5x.port</name>
+                <value>8280</value>
+              </property>
+              <!-- additional required properties to make the samples work correctly -->
+              <property>
+                <name>cargo.jonas5x.configuration.cargo.jonas.realm.name</name>
+                <value>Cargo Test Realm</value>
+              </property>
+              <property>
+                <name>cargo.jonas5x.configuration.cargo.jonas.remote.deployer.skip.module.removal</name>
+                <value>true</value>
+              </property>
+              <property>
+                <name>cargo.jonas5x.configuration.cargo.remote.username</name>
+                <value>jonas</value>
+              </property>
+              <property>
+                <name>cargo.jonas5x.configuration.cargo.remote.password</name>
                 <value>jonas</value>
               </property>
 

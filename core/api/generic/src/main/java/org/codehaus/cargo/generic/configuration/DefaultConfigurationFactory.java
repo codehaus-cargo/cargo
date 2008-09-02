@@ -192,9 +192,12 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
         registerConfiguration("jonas5x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
             "org.codehaus.cargo.container.jonas.JonasRuntimeConfiguration");
-        // TODO: add jonas5x, ContainerType.INSTALLED, ConfigurationType.EXISTING
-        // TODO: add jonas5x, ContainerType.INSTALLED, ConfigurationType.STANDALONE
-        // TODO: add jonas5x, ContainerType.REMOTE, ConfigurationType.STANDALONE
+        registerConfiguration("jonas5x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            "org.codehaus.cargo.container.jonas.Jonas5xExistingLocalConfiguration");
+        registerConfiguration("jonas5x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            "org.codehaus.cargo.container.jonas.Jonas5xStandaloneLocalConfiguration");
+        registerConfiguration("jonas5x", ContainerType.REMOTE, ConfigurationType.STANDALONE,
+            "org.codehaus.cargo.container.jonas.Jonas5xStandaloneLocalConfiguration");
     }
 
     /**

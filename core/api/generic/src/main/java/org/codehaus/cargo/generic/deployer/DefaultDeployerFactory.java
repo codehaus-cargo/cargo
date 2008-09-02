@@ -175,7 +175,8 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
 
         registerDeployer("jonas5x", DeployerType.REMOTE,
             "org.codehaus.cargo.container.jonas.Jonas5xJsr160RemoteDeployer");
-        // TODO: add jonas5x, DeployerType.INSTALLED
+        registerDeployer("jonas5x", DeployerType.INSTALLED,
+            "org.codehaus.cargo.container.jonas.Jonas5xInstalledLocalDeployer");
     }
 
     /**

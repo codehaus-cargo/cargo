@@ -38,7 +38,6 @@ import org.codehaus.cargo.util.FileHandler;
  */
 public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {
-
     /**
      * JOnAS admin used for hot deployment.
      */
@@ -59,7 +58,8 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * 
      * @param container the container to be used
      * @param admin the JOnAS admin to use for deployment
-     * @param fileHandler the file handler to use, can be null to use the defaut file handler imple
+     * @param fileHandler the file handler to use, can be null to use the default file handler
+     *            implementation
      */
     public Jonas4xInstalledLocalDeployer(InstalledLocalContainer container, JonasAdmin admin,
         FileHandler fileHandler)
@@ -178,20 +178,15 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
             if (!undeployed)
             {
                 throw new CargoException("Unable to undeploy file " + fileName
-                    + " trough JOnAS admin");
+                    + " through JOnAS admin");
             }
         }
     }
 
     /**
-     * Deploy a {@link Deployable} to the running container.
+     * {@inheritDoc}
      * 
-     * @param targetDir the target Directory directory where the container is expecting deployables
-     *            to be dropped for deployments
-     * @param deployable the deployable object(the deployable file archive )
-     * @param fileName the archive file name to deploy
-     * @param copying Copying Deployable
-     * @throws CargoException if the deplyable can not be deployted
+     * @see AbstractCopyingInstalledLocalDeployer#deploy(String, Deployable, String, CopyingDeployable)
      */
     private void deploy(String targetDir, Deployable deployable, String fileName,
         CopyingDeployable copying) throws CargoException
@@ -204,25 +199,24 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
         {
             targetDiroctory += "/autoload";
         }
+
         copying.copyDeployable(targetDiroctory, deployable);
         if (isRunning)
         {
-            // hot deployment trough JOnAS admin
+            // hot deployment through JOnAS admin
             boolean deployed = admin.deploy(fileName);
             if (!deployed)
             {
                 throw new CargoException("Unable to deploy file " + fileName
-                    + " trough JOnAS admin");
+                    + " through JOnAS admin");
             }
         }
-
     }
 
     /**
-     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should
-     * be copied to. For Tomcat this is the <code>webapps</code> directory.
+     * {@inheritDoc}
      * 
-     * @return Deployable the directory to deploy to
+     * @see AbstractCopyingInstalledLocalDeployer#getDeployableDir()
      */
     public String getDeployableDir()
     {
@@ -233,15 +227,12 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     }
 
     /**
-     * 
-     * this Interface allows copying the deployble archive file to the JOnAS directory. where will
-     * be deployed
-     * 
+     * This Interface allows copying the deployable archive file to the JOnAS directory.
      */
     private interface CopyingDeployable
     {
         /**
-         * copy the Deployable archive file to the deployable directory.
+         * Copy the Deployable archive file to the deployable directory.
          * 
          * @param deployableDir the deployable directory
          * @param deployable deployable to deploy
@@ -250,14 +241,10 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     }
 
     /**
-     * 
-     * Generic class to allow copying the deployble archive file. to the JOnAS directory where will
-     * be deployed
-     * 
+     * Generic class to allow copying the deployable archive file.
      */
     private class GenericCopyingDeployable implements CopyingDeployable
     {
-
         /**
          * {@inheritDoc}
          * 
@@ -271,7 +258,5 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
                 getFileHandler().append(deployableDir,
                     getFileHandler().getName(deployable.getFile())));
         }
-
     }
-
 }

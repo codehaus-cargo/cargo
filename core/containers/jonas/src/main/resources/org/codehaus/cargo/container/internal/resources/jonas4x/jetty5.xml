@@ -13,7 +13,7 @@
   <!-- =============================================================== -->
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-  <!-- Add and configure a HTTP listener to port 9000                       -->
+  <!-- Add and configure a HTTP listener to port @cargo.servlet.port@  -->
   <!-- The default port can be changed using: java -Djetty.port=80     -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
   <Call name="addListener">

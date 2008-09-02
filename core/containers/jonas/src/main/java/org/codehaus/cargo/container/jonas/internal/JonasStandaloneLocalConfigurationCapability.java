@@ -31,14 +31,14 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
  * 
  * @version $Id$
  */
-public class Jonas4xStandaloneLocalConfigurationCapability extends
+public class JonasStandaloneLocalConfigurationCapability extends
     AbstractStandaloneLocalConfigurationCapability
 {
 
     /**
      * Initialize Jonas-specific configuration Map.
      */
-    public Jonas4xStandaloneLocalConfigurationCapability()
+    public JonasStandaloneLocalConfigurationCapability()
     {
         super();
 
