@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.packager.PackagerType;
  * Holds configuration data for the <code>&lt;packager&gt;</code> tag used to configure
  * the plugin in the <code>pom.xml</code> file.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class Packager
 {
