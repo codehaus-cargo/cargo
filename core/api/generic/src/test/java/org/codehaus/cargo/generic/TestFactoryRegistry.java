@@ -31,7 +31,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 /**
  * To be discovered by {@link AbstractFactoryRegistry}.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class TestFactoryRegistry extends AbstractFactoryRegistry
 {

@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.deployable;
 /**
  * Type of Depoyable. Can be WAR, EAR, EXPANDED_WAR, etc.
  * 
- * @version $Id: Deployable.java 314 2005-04-08 08:34:02Z vmassol $
+ * @version $Id$
  */
 public final class DeployableType
 {

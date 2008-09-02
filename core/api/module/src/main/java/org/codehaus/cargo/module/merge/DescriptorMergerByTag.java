@@ -37,7 +37,7 @@ import org.jdom.Element;
 /**
  * Merge a descriptor by tag.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class DescriptorMergerByTag implements DescriptorMerger
 {

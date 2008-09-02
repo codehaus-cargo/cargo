@@ -34,7 +34,7 @@ import org.codehaus.cargo.container.stub.EmbeddedLocalContainerStub;
 /**
  * Unit tests for {@link DefaultContainerFactory}.
  * 
- * @version $Id: DefaultContainerFactoryTest.java 314 2005-04-08 08:34:02Z vmassol $
+ * @version $Id$
  */
 public class DefaultContainerFactoryTest extends TestCase
 {

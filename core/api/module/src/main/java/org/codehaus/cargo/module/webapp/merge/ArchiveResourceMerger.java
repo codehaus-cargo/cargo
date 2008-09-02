@@ -13,7 +13,7 @@ import org.codehaus.cargo.module.merge.MergeProcessor;
 
 /**
  * Class to store merging operations.
- * @version $Id: $
+ * @version $Id$
  */
 public class ArchiveResourceMerger
 {

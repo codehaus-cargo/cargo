@@ -33,7 +33,7 @@ import org.jdom.Element;
  * <code>jboss.xml</code> to provide convenience methods for easy access and
  * manipulation.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class JBossXml extends AbstractDescriptor implements VendorEjbDescriptor
 {    

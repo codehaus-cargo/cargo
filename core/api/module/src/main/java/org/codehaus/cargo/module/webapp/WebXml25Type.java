@@ -25,7 +25,7 @@ package org.codehaus.cargo.module.webapp;
 import org.codehaus.cargo.module.Dtd;
 /**
  * Web 2.5 Descriptor.
- * @version $Id: $
+ * @version $Id$
  */
 public class WebXml25Type extends WebXmlType
 {

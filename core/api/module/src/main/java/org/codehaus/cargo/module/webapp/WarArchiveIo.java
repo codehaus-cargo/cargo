@@ -28,7 +28,7 @@ import java.io.InputStream;
  * Utility IO class for constructing War Archives. Use this class in preference
  * to the concrete implementations of WarArchive.
  * 
- * @version $Id: $
+ * @version $Id$
  *
  */
 public class WarArchiveIo

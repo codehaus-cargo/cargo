@@ -40,7 +40,7 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
  * Implementation of a standalone {@link org.codehaus.cargo.container.configuration.Configuration}
  * for JBoss 3.x series and JBoss 4.x series.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
 {

@@ -41,7 +41,7 @@ import java.util.Iterator;
  * 
  * TODO: we need more tests for the security sections and the various references
  * 
- * @version $Id: WebXmlMergerTest.java 1462 2007-05-01 20:22:33Z magnayn $
+ * @version $Id$
  */
 public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
 {

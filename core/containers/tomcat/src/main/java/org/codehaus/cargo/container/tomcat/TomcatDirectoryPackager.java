@@ -28,7 +28,7 @@ import java.util.Collections;
 /**
  * Package a Tomcat distribution.
  *  
- * @version $Id: Container.java 886 2006-02-28 12:40:47Z vmassol $
+ * @version $Id$
  */
 public class TomcatDirectoryPackager extends AbstractDirectoryPackager
 {

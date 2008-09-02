@@ -30,7 +30,7 @@ import java.io.IOException;
 /**
  * A deployer for webapps that deploys to a Jetty 6.x installed instance.
  *
- * @version $Id: Jetty6xEmbeddedLocalDeployer.java 1268 2007-01-11 15:46:46Z janb $
+ * @version $Id$
  */
 public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {

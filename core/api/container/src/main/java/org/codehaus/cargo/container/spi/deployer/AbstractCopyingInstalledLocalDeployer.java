@@ -44,7 +44,7 @@ import java.util.Set;
  * expanded WAR to the <code>deployable</code> directory. In other words it does not support
  * in-place expanded WARs (i.e. expanded WARs located in a different directory).
  *
- * @version $Id: $
+ * @version $Id$
  */
 public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInstalledLocalDeployer
 {

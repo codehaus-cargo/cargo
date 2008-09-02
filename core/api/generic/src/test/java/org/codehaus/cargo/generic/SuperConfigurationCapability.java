@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * Used by {@link TestFactoryRegistry} to see if the discovery succeeds.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class SuperConfigurationCapability implements ConfigurationCapability
 {

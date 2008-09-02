@@ -7,7 +7,8 @@ want to debug JSP sources etc -->
 <orion-web-app
 	jsp-cache-directory="./persistence"
 	servlet-webdir="/servlet"
-	development="false"	persistence-path="./persistence/state.ser">
+	development="false"
+	persistence-path="./persistence/state.ser">
 
 	<!-- The mime-mappings for this server -->
 	<mime-mappings path="./mime.types" />

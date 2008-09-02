@@ -22,7 +22,7 @@ package org.codehaus.cargo.module.merge;
 /**
  * Interface implemented by merger classes.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public interface MergeProcessor
 {    

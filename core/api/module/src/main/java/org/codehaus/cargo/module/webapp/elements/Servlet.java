@@ -24,7 +24,7 @@ import org.codehaus.cargo.module.webapp.WebXmlType;
 import org.jdom.Element;
 
 /**
- * @version $Id: $
+ * @version $Id$
  */
 public class Servlet extends WebXmlElement
 {

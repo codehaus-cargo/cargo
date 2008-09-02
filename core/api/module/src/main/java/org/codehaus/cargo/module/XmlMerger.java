@@ -29,7 +29,7 @@ import org.codehaus.cargo.util.log.LoggedObject;
 /**
  * Class for merging XML FIles.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class XmlMerger extends LoggedObject implements DescriptorMerger
 {

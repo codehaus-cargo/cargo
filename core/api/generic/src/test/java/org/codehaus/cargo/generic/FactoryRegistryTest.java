@@ -34,7 +34,7 @@ import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
  *
  * The class name can't be {@code AbstractFactoryRegistryTest} or else the test will be skipped.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class FactoryRegistryTest extends TestCase
 {

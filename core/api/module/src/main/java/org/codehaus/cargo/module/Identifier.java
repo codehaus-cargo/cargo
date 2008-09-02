@@ -30,7 +30,7 @@ import org.jdom.xpath.XPath;
 /**
  * Class used to work out how to 'identify' instances of DescrtiptorTags.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class Identifier
 {

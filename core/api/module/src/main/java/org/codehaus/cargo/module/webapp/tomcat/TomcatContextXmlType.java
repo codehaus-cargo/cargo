@@ -24,7 +24,7 @@ import org.codehaus.cargo.module.Dtd;
 
 
 /**
- * @version $Id: $
+ * @version $Id$
  *
  */
 public class TomcatContextXmlType  extends AbstractDescriptorType

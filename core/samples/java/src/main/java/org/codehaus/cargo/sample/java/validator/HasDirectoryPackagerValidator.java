@@ -8,7 +8,7 @@ import org.codehaus.cargo.container.packager.PackagerType;
 /**
  * Validate that the specified container has a directory packager registered.
  *
- * @version $Id: HasRemoteDeployerValidator.java 1048 2006-05-29 19:38:52Z vmassol $
+ * @version $Id$
  */
 public class HasDirectoryPackagerValidator implements Validator
 {

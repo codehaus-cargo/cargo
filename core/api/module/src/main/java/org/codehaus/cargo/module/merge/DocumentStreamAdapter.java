@@ -42,7 +42,7 @@ import org.xml.sax.SAXException;
  * in War files are accessed as streams - therefore use this wrapper to pass 
  * streams into the DocumentMerger (or subclass).
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class DocumentStreamAdapter implements MergeProcessor
 {

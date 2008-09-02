@@ -32,7 +32,7 @@ import java.io.File;
  * Jetty 6.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class Jetty6xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
 {

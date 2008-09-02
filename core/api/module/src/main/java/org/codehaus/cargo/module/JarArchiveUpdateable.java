@@ -26,7 +26,7 @@ import java.io.File;
 /**
  * Marker interface for a Jar archive that can be updated in-place.
  * 
- * @version $Id: $
+ * @version $Id$
  *
  */
 public interface JarArchiveUpdateable extends JarArchive

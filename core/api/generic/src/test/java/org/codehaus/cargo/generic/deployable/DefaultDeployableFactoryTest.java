@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.deployable.WAR;
 /**
  * Unit tests for {@link DefaultDeployableFactory}.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class DefaultDeployableFactoryTest extends TestCase
 {

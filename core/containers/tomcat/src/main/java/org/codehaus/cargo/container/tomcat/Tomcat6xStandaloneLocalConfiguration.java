@@ -35,7 +35,7 @@ import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLo
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
  *
- * @version $Id: Tomcat6xStandaloneLocalConfiguration.java 1159 2006-07-29 12:23:11Z vmassol $
+ * @version $Id$
  */
 public class Tomcat6xStandaloneLocalConfiguration
     extends AbstractCatalinaStandaloneLocalConfiguration

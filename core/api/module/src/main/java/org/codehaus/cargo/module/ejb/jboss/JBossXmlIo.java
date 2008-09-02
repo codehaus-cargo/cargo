@@ -28,7 +28,7 @@ import org.jdom.JDOMException;
 /**
  * Provides convenience methods for reading JBoss ejb jar deployment descriptor.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class JBossXmlIo extends AbstractDescriptorIo
 {

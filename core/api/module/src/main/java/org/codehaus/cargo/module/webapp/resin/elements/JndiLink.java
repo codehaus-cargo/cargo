@@ -29,7 +29,7 @@ import org.jdom.Element;
 /**
  * Wrapper Class representing a resin-web.xml JNDI link.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class JndiLink extends DescriptorElement
 {

@@ -22,7 +22,7 @@ package org.codehaus.cargo.module.webapp.elements;
 import org.codehaus.cargo.module.webapp.WebXmlTag;
 
 /**
- * @version $Id: $
+ * @version $Id$
  *
  */
 public class SecurityConstraint extends WebXmlElement

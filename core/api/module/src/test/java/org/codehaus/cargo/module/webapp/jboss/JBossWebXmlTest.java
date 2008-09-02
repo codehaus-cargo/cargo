@@ -29,7 +29,7 @@ import org.jdom.Element;
 /**
  * Unit tests for {@link JBossWebXm}.
  *
- * @version $Id:  $
+ * @version $Id$
  */
 public class JBossWebXmlTest extends AbstractDocumentBuilderTest
 {

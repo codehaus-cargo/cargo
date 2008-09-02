@@ -31,7 +31,7 @@ import java.util.ArrayList;
 /**
  * Package a container distribution and its local configuration in a directory.
  *
- * @version $Id: Container.java 886 2006-02-28 12:40:47Z vmassol $
+ * @version $Id$
  */
 public abstract class AbstractDirectoryPackager extends LoggedObject implements Packager
 {

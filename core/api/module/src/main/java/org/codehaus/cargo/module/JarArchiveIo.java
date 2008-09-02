@@ -28,7 +28,7 @@ import java.io.InputStream;
  * Utility IO class for constructing Jar Archives. Use this class in preference
  * to the concrete implementations of JarArchive.
  * 
- * @version $Id: $
+ * @version $Id$
  *
  */
 public class JarArchiveIo

@@ -28,7 +28,7 @@ import org.codehaus.cargo.module.Dtd;
 /**
  * A document type for web.xml web deployment descriptors.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public abstract class WebXmlType extends AbstractDescriptorType
 {        

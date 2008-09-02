@@ -25,7 +25,7 @@ import org.jdom.JDOMFactory;
 
 /**
  * Represents a "type" of descriptor - e.g. web.xml
- * @version $Id: $
+ * @version $Id$
  */
 public interface DescriptorType
 {

@@ -23,7 +23,7 @@ package org.codehaus.cargo.container.packager;
  * Types of {@link org.codehaus.cargo.container.packager.Packager}s.
  * There's currently one type only: "directory".
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class PackagerType
 {

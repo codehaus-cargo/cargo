@@ -26,7 +26,7 @@ import org.codehaus.cargo.module.Dtd;
 
 /**
  * Web 2.3 Descriptor.
- * @version $Id: $
+ * @version $Id$
  */
 public class WebXml23Type extends WebXmlType
 {

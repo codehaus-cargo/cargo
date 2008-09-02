@@ -24,7 +24,7 @@ import org.codehaus.cargo.container.ContainerType;
 /**
  * Represents a container identified by its id and type.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class FullContainerIdentity extends SimpleContainerIdentity
 {

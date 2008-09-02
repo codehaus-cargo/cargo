@@ -26,7 +26,7 @@ import org.codehaus.cargo.module.Descriptor;
 
 /**
  * Interface to merge two descriptors.
- * @version $Id: $
+ * @version $Id$
  */
 public interface DescriptorMerger
 {

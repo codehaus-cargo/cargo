@@ -40,7 +40,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * @version $Id: $
+ * @version $Id$
  */
 public class DocumentMergerByXslt implements MergeProcessor
 {

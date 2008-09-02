@@ -53,7 +53,7 @@ import java.util.List;
  * Container implementors should override the 1-arg {@code register} methods to register
  * its implementations to the given factory.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public abstract class AbstractFactoryRegistry
 {

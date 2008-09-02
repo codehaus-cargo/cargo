@@ -31,7 +31,7 @@ import org.codehaus.cargo.container.orion.internal.AbstractOc4j10xInstalledLocal
 /**
  * Installed local container for the OC4J 10.x application server.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class Oc4j10xInstalledLocalContainer extends AbstractOc4j10xInstalledLocalContainer
 {

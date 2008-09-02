@@ -34,7 +34,7 @@ import java.lang.reflect.Constructor;
  * packagers registered against their containers. It also supports registering new
  * packagers against any container.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFactory
     implements PackagerFactory

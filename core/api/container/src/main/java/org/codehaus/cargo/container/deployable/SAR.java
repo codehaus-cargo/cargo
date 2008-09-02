@@ -24,7 +24,7 @@ import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 /**
  * Wraps an SAR file that will be deployed in the container.
  * 
- * @version $Id: EAR.java 1163 2006-07-31 09:19:12Z vmassol $
+ * @version $Id$
  */
 public class SAR extends AbstractDeployable
 {

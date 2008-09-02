@@ -33,7 +33,7 @@ import org.codehaus.cargo.module.webapp.elements.Servlet;
 
 /**
  * Web 2.2 Descriptor.
- * @version $Id: $
+ * @version $Id$
  */
 public class WebXml22Type extends WebXmlType
 {

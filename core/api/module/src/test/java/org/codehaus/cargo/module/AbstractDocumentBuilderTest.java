@@ -36,7 +36,7 @@ import junit.framework.TestCase;
  * Helper {@link TestCase} that provides a {@link TestCase#setUp} method that creates a 
  * {@link javax.xml.parsers.DocumentBuilder}.
  * 
- * @version $Id: IbmWebBndXmiTest.java 314 2005-04-08 08:34:02Z vmassol $
+ * @version $Id$
  */
 public abstract class AbstractDocumentBuilderTest extends TestCase
 {

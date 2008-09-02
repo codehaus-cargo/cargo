@@ -26,7 +26,7 @@ import org.codehaus.cargo.module.AbstractDescriptorType;
 import org.codehaus.cargo.module.Dtd;
 
 /**
- * @version $Id: $
+ * @version $Id$
  */
 public class OrionEjbJarXmlType extends AbstractDescriptorType
 {

@@ -23,7 +23,7 @@ import org.codehaus.cargo.module.Descriptor;
 import org.codehaus.cargo.module.DescriptorElement;
 
 /**
- * @version $Id: $
+ * @version $Id$
  */
 public interface MergeStrategy
 {

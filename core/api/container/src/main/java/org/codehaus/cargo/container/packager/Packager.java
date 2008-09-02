@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
  * There can be several packagers like a directory packager which packeg them in a given directory
  * on the file system, a ZIP packager which does the same but packaged as a ZIP file, etc.
  *
- * @version $Id: Container.java 886 2006-02-28 12:40:47Z vmassol $
+ * @version $Id$
  */
 public interface Packager
 {

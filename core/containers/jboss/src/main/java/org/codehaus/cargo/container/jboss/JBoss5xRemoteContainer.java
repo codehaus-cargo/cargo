@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.jboss.internal.AbstractJBossRemoteContainer;
 /**
  * Special container support for wrapping a running instance of JBoss 5.x.
  * 
- * @version $Id: JBoss5xRemoteContainer.java 997 2006-04-09 14:47:14Z vmassol $
+ * @version $Id$
  */
 public class JBoss5xRemoteContainer extends AbstractJBossRemoteContainer
 {

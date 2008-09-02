@@ -29,7 +29,7 @@ import org.w3c.dom.Document;
 /**
  * Unit tests for {@link JBossXmlTest}.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class JBossXmlTest extends AbstractDocumentBuilderTest
 {

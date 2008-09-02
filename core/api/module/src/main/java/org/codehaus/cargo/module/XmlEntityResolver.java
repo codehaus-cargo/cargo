@@ -33,7 +33,7 @@ import org.xml.sax.SAXException;
  * Implementation of the SAX EntityResolver interface that looks up the web-app
  * DTDs from the JAR.
  * 
- * @version $Id: Dtd.java 359 2005-05-10 07:39:02Z vmassol $
+ * @version $Id$
  */
 public class XmlEntityResolver implements EntityResolver
 {

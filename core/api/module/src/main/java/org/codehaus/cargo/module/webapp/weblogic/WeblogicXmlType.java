@@ -23,7 +23,7 @@ import org.codehaus.cargo.module.AbstractDescriptorType;
 import org.codehaus.cargo.module.Dtd;
 
 /**
- * @version $Id: $ 
+ * @version $Id$ 
  */
 public class WeblogicXmlType extends AbstractDescriptorType
 {

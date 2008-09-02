@@ -34,7 +34,7 @@ import org.codehaus.cargo.module.webapp.elements.WebXmlElement;
 import org.jdom.Element;
 
 /**
- * @version $Id: $
+ * @version $Id$
  */
 public final class WebXmlUtils
 {
