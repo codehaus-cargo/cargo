@@ -72,6 +72,7 @@ public interface FileHandler
 
     /**
      * Convenience method for creating a new directory inside another one.
+     * If the directory already exists, it will return the already created directory.
      *
      * @param parentDir The directory in which the new directory should be created
      * @param name The name of the directory to create

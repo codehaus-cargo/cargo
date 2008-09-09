@@ -227,8 +227,8 @@ public class DefaultFileHandler implements FileHandler
     public String createDirectory(String parentDir, String name)
     {
         File dir = new File(parentDir, name);
-        boolean created = dir.mkdirs();
-        if (!created || !dir.isDirectory())
+        dir.mkdirs();
+        if (!dir.isDirectory() || !dir.exists())
         {
             throw new CargoException("Couldn't create directory " + dir.getAbsolutePath());
         }
