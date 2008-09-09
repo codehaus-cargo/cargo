@@ -464,7 +464,7 @@
                    repository. -->  
               <property>
                 <name>cargo.version</name>
-                <value>1.0-SNAPSHOT</value>
+                <value>1.0-alpha-6</value>
               </property>
 
               <property>
