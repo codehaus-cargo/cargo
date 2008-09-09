@@ -215,7 +215,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         // be required for most containers.
         // TODO: It would be nice to remove this limitation as we can never be sure what the right
         // value is...
-        Thread.sleep(2000);
+        Thread.sleep(3000);
     }
 
     /**

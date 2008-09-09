@@ -163,38 +163,6 @@
    </mbean>
 
    <!-- ==================================================================== -->
-   <!-- Service Binding                                                      -->
-   <!-- ==================================================================== -->
-
-   <!-- Automatically activated when generatting the clustering environment -->
-   <!-- @TESTSUITE_CLUSTER_CONFIG@ -->
-
-   <!--
-      | Binding service manager for port/host mapping. This is a sample
-      | config that demonstrates a JBoss instances with a server name 'jboss1'
-      | loading its bindings from an XML file using the ServicesStoreFactory
-      | implementation returned by the XMLServicesStoreFactory.
-      |
-      | ServerName: The unique name assigned to a JBoss server instance for
-      | lookup purposes. This allows a single ServicesStore to handle mulitiple
-      | JBoss servers.
-      |
-      | StoreURL: The URL string passed to org.jboss.services.binding.ServicesStore
-      | during initialization that specifies how to connect to the bindings store.
-      | StoreFactory: The org.jboss.services.binding.ServicesStoreFactory interface
-      | implementation to create to obtain the ServicesStore instance.
--->
-
-   <mbean code="org.jboss.services.binding.ServiceBindingManager"
-     name="jboss.system:service=ServiceBindingManager">
-     <attribute name="ServerName">cargo-binding</attribute>
-     <attribute name="StoreURL">@cargo.jboss.binding.url@</attribute>
-     <attribute name="StoreFactoryClassName">
-       org.jboss.services.binding.XMLServicesStoreFactory
-     </attribute>
-   </mbean>
-
-   <!-- ==================================================================== -->
    <!-- Class Loading                                                        -->
    <!-- ==================================================================== -->
 
@@ -203,7 +171,10 @@
       name="jboss:service=WebService">
       <!-- The Bind address and Port -->
       <attribute name="BindAddress">${jboss.bind.address}</attribute>      
-      <attribute name="Port">8083</attribute>
+      <attribute name="Port">
+         <!-- Get the port to use from ServiceBindingManager. -->
+         <value-factory bean="ServiceBindingManager" method="getIntBinding" parameter="jboss:service=WebService"/>
+      </attribute>
       <!--  The address to use for the host portion of the RMI codebase URL -->
       <attribute name="Host">${java.rmi.server.hostname}</attribute>
       <!-- Should non-EJB .class files be downloadable -->
@@ -244,13 +215,24 @@
       <!-- The listening port for the bootstrap JNP service. Set this to -1
          to run the NamingService without the JNP invoker listening port.
       -->
-      <attribute name="Port">1299</attribute>
+      <attribute name="Port">
+         <value-factory bean="ServiceBindingManager" method="getIntBinding">
+            <parameter>jboss:service=Naming</parameter>
+            <parameter>Port</parameter>
+         </value-factory>
+      </attribute>
+      
       <!-- The bootstrap JNP server bind address. This also sets the default
          RMI service bind address. Empty == all addresses
       -->
       <attribute name="BindAddress">${jboss.bind.address}</attribute>
       <!-- The port of the RMI naming service, 0 == anonymous -->
-      <attribute name="RmiPort">1098</attribute>
+      <attribute name="RmiPort">
+         <value-factory bean="ServiceBindingManager" method="getIntBinding">
+            <parameter>jboss:service=Naming</parameter>
+            <parameter>RmiPort</parameter>
+         </value-factory>
+      </attribute>
       <!-- The RMI service bind address. Empty == all addresses
       -->
       <attribute name="RmiBindAddress">${jboss.bind.address}</attribute>
@@ -339,11 +321,21 @@
 
        <!-- Remember that if you do use more than one param on the uri, will have to include as a CDATA, -->
        <!-- otherwise, parser will complain. -->
-       <!-- <attribute name="InvokerLocator"><![CDATA[socket://${jboss.bind.address}:4446/?datatype=invocation]]></attribute> -->
+       <!-- 
+       <attribute name="InvokerLocator">
+          <value-factory bean="ServiceBindingManager" method="getStringBinding">
+             <parameter>jboss.remoting:service=Connector,transport=socket</parameter>
+             <parameter><![CDATA[socket://${host}:${port}/?datatype=invocation]]></parameter>
+          </value-factory>
+       </attribute>
+       -->
 
       <attribute name="Configuration">
          <!-- Using the following <invoker> element instead of the InvokerLocator above because specific attributes needed. -->
          <!-- If wanted to use any of the parameters below, can just add them as parameters to the url above if wanted use the InvokerLocator attribute. -->
+         <value-factory bean="ServiceBindingManager" method="getElementBinding">
+             <parameter>jboss.remoting:service=Connector,transport=socket</parameter>
+             <parameter><![CDATA[
          <config>
             <!-- Other than transport type and handler, none of these configurations are required (will just use defaults). -->
             <invoker transport="socket">
@@ -356,9 +348,9 @@
                <!-- <attribute name="numAcceptThreads">1</attribute>-->
                <!-- <attribute name="maxPoolSize">303</attribute>-->
                <!-- <attribute name="clientMaxPoolSize" isParam="true">304</attribute>-->
-               <attribute name="socketTimeout" isParam="true">600000</attribute>
-               <attribute name="serverBindAddress">${jboss.bind.address}</attribute>
-               <attribute name="serverBindPort">4446</attribute>
+               <!-- <attribute name="timeout" isParam="true">600000</attribute> -->
+               <attribute name="serverBindAddress">${host}</attribute>
+               <attribute name="serverBindPort">${port}</attribute>
                <!-- <attribute name="clientConnectAddress">216.23.33.2</attribute> -->
                <!-- <attribute name="clientConnectPort">7777</attribute> -->
                <attribute name="enableTcpNoDelay" isParam="true">true</attribute>
@@ -389,6 +381,9 @@
                <handler subsystem="JSR88">org.jboss.deployment.remoting.DeployHandler</handler>
             </handlers>
          </config>
+         ]]>
+            </parameter>
+         </value-factory>
       </attribute>
       <depends>jboss.remoting:service=NetworkRegistry</depends>
    </mbean>
