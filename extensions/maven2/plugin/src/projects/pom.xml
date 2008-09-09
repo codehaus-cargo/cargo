@@ -14,8 +14,8 @@
   <properties>
     <port>8082</port>
     <installDir>${java.io.tmpdir}/cargo/installs</installDir>
-    <cargo.resources.version>1.0-SNAPSHOT</cargo.resources.version>
-    <cargo.core.version>1.0-SNAPSHOT</cargo.core.version>
+    <cargo.resources.version>1.0-alpha-6</cargo.resources.version>
+    <cargo.core.version>1.0-alpha-6</cargo.core.version>
   </properties>
 
   <!-- Container-specific profiles -->
