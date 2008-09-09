@@ -52,7 +52,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
      * The version of the user agent when communicating with Tomcat manager.
      * @TODO Do not hardcode the version!!!
      */
-    private static final String VERSION = "0.9-SNAPSHOT";
+    private static final String VERSION = "1.0-SNAPSHOT";
 
     /**
      * The Tomcat manager wrapper.
