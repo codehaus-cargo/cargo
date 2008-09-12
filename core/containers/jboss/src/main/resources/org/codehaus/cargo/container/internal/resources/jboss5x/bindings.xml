@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<deployment xmlns="urn:jboss:bean-deployer:2.0">
+
+   <classloader><inject bean="bindings-classloader:0.0.0"/></classloader>
+
+   <classloader name="bindings-classloader" xmlns="urn:jboss:classloader:1.0" export-all="NON_EMPTY" import-all="true">
+      <root>${jboss.server.lib.url}/jboss-bindingservice.jar</root>
+   </classloader>
+
+   <bean name="ServiceBindingManager" class="org.jboss.services.binding.ServiceBindingManager">
+
+      <constructor>
+         <!-- The set of bindings to use for this server -->
+         <parameter>${jboss.service.binding.set:cargo-default}</parameter>
+
+         <!-- The named sets of bindings -->
+         <parameter>
+            <bean name="ServiceBindingStore" class="org.jboss.services.binding.impl.PojoServiceBindingStore">
+
+               <constructor>
+                  <parameter>
+                     <map keyClass="java.lang.String" valueClass="java.util.Set">
+                        <entry>
+                            <key>cargo-default</key>
+                            <value><inject bean="PortsDefaultBindings"/></value>
+                        </entry>
+                     </map>
+                  </parameter>
+               </constructor>
+            </bean>
+         </parameter>
+      </constructor>
+
+   </bean>
+
+   <!-- The default bindings -->
+   <bean name="PortsDefaultBindings"  class="org.jboss.services.binding.impl.ServiceBindingSet">
+
+      <constructor>
+         <parameter>
+            <set>
+            <!-- ********************* conf/jboss-service.xml ****************** -->
+
+            <!-- Naming Service -->
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss:service=Naming</parameter>
+                  <parameter>Port</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>@cargo.rmi.port@</parameter>
+               </constructor>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss:service=Naming</parameter>
+                  <parameter>RmiPort</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>1098</parameter>
+               </constructor>
+            </bean>
+
+            <!-- Remote classloading service -->
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss:service=WebService</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>8083</parameter>
+               </constructor>
+            </bean>
+
+            <!-- Remoting Connector -->
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss.remoting:service=Connector,transport=socket</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>4446</parameter>
+               </constructor>
+            </bean>
+
+            <!-- ********************* deploy/remoting-service.xml ****************** -->
+
+            <!-- RMI/JRMP invoker -->
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss:service=invoker,type=jrmp</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>4444</parameter>
+               </constructor>
+            </bean>
+
+            <!-- Pooled invoker -->
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss:service=invoker,type=pooled</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>4445</parameter>
+               </constructor>
+            </bean>
+
+            <!-- ********************* deploy/cluster/hajndi-service.xml ****************** -->
+
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss:service=HAJNDI</parameter>
+                  <parameter>Port</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>1100</parameter>
+               </constructor>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss:service=HAJNDI</parameter>
+                  <parameter>RmiPort</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>1101</parameter>
+               </constructor>
+            </bean>
+
+            <!-- ********************* deploy/cluster/ha-legacy-service.xml ****************** -->
+
+            <!-- HA RMI/JRMP invoker -->
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss:service=invoker,type=jrmpha</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>4447</parameter>
+               </constructor>
+            </bean>
+
+            <!-- HA Pooled invoker -->
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss:service=invoker,type=pooledha</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>4448</parameter>
+               </constructor>
+            </bean>
+
+            <!-- ********************* deploy/iiop-service.xml ****************** -->
+
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss:service=CorbaORB</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>3528</parameter>
+               </constructor>
+            </bean>
+
+            <!-- ********************* deploy/snmp-adaptor.sar **************** -->
+
+            <!-- Trap receiver that acts as an SNMP Manager -->
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss.jmx:name=SnmpAgent,service=trapd,type=logger</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>1162</parameter>
+               </constructor>
+            </bean>
+
+            <!-- The SNMP adaptor MBean -->
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss.jmx:name=SnmpAgent,service=snmp,type=adaptor</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>1161</parameter>
+               </constructor>
+            </bean>
+
+            <!-- ********************* deploy/jmx-remoting.sar **************** -->
+
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss.remoting:service=JMXConnectorServer,protocol=rmi</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>1090</parameter>
+               </constructor>
+            </bean>
+
+            <!-- ********************* deploy/ejb3-connectors-service.xml **************** -->
+
+            <!-- EJB3 wants to have the service create its own ServiceBinding object
+                 dynamically.  See the value-factory usage in deploy/ejb3-connectors-service.xml -->
+
+
+            <!-- ********************* deploy/jbossweb.sar **************** -->
+            <!-- ********************* deploy/httpha-invoker.sar **************** -->
+
+            <!--
+                JBoss Web server.xml configuration.
+
+                Same binding config can be used by the following services, or really
+                anything else that needs to point to the JBoss Web HTTP connector
+                but doesn't need an XSL Transform
+
+                jboss:service=invoker,type=http
+                jboss:service=invoker,type=http,target=Naming
+                jboss:service=invoker,type=http,target=Naming,readonly=true
+                jboss:service=invoker,type=httpHA
+                jboss:service=invoker,type=http,target=HAJNDI
+                jboss.ws:service=ServiceEndpointManager
+            -->
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss.web:service=WebServer</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>@cargo.servlet.port@</parameter>
+               </constructor>
+
+               <!--
+                   Inject a XSLT transform configuration (see below) that describes
+                   how to transform server.xml
+                   If the binding value request doesn't require an XSL Transform, this config
+                   will be ignored.
+               -->
+               <property name="serviceBindingValueSourceConfig"><inject bean="JBossWebConnectorXSLTConfig"/></property>
+            </bean>
+
+            <!-- For services like those listed above that need to know the
+                 port of the HTTPS connector -->
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss.web:service=WebServer</parameter>
+                  <parameter>HttpsConnector</parameter>
+                  <!-- The address/port of the JBoss Web HTTPS Connector below -->
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>8443</parameter>
+               </constructor>
+            </bean>
+
+            <!-- ********************* deploy/messaging/remoting-bisocket-service.xml ********************** -->
+
+            <!-- Standard JBM bisocket connector -->
+            <bean class="org.jboss.services.binding.ServiceBinding">
+               <constructor>
+                  <parameter>jboss.messaging:service=Connector,transport=bisocket</parameter>
+                  <parameter>${jboss.bind.address}</parameter>
+                  <parameter>4457</parameter>
+               </constructor>
+            </bean>
+
+            <!-- ********************* deploy/transaction-jboss-beans.xml ********************** -->
+
+            <!-- JBossTS Recovery Manager -->
+            <bean class="org.jboss.services.binding.ServiceBinding">
+                <constructor>
+                    <parameter>TransactionManager</parameter>
+                    <parameter>recoveryManager</parameter>
+                    <parameter>${jboss.bind.address}</parameter>
+                    <parameter>4712</parameter>
+                </constructor>
+            </bean>
+
+            <!-- JBossTS Transaction Status Manager -->
+            <bean class="org.jboss.services.binding.ServiceBinding">
+                <constructor>
+                    <parameter>TransactionManager</parameter>
+                    <parameter>transactionStatusManager</parameter>
+                    <parameter>${jboss.bind.address}</parameter>
+                    <parameter>4713</parameter>
+                </constructor>
+            </bean>
+
+            <!-- JBossTS SocketProcessId.  The address part is ignored,
+                it will always use null/localhost/127.0.0.1. -->
+            <bean class="org.jboss.services.binding.ServiceBinding">
+                <constructor>
+                    <parameter>TransactionManager</parameter>
+                    <parameter>socketProcessId</parameter>
+                    <parameter><null/></parameter>
+                    <parameter>4714</parameter>
+                </constructor>
+            </bean>
+
+         </set>
+         </parameter>
+
+         <!-- The port offset -->
+         <parameter>0</parameter>
+         <!-- Default host name -->
+         <parameter>${jboss.bind.address}</parameter>
+      </constructor>
+
+   </bean>
+
+   <!-- Conversion of selected bindings into system properties -->
+   <bean name="SystemPropertyBinder" class="org.jboss.services.binding.SystemPropertyBinder">
+
+      <constructor>
+         <parameter>
+            <set>
+               <!-- JBM's remoting connector -->
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.messaging.connector.bisocket.port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding"
+                                       parameter="jboss.messaging:service=Connector,transport=bisocket"/>
+                     </parameter>
+                  </constructor>
+               </bean>
+            </set>
+         </parameter>
+      </constructor>
+
+   </bean>
+
+   <!-- XSL Transform to apply to server.xml -->
+   <bean name="JBossWebConnectorXSLTConfig"
+         class="org.jboss.services.binding.impl.XSLTServiceBindingValueSourceConfig">
+
+      <constructor>
+          <parameter><![CDATA[
+   <xsl:stylesheet
+         xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='1.0'>
+
+     <xsl:output method="xml" />
+     <xsl:param name="port"/>
+
+     <xsl:variable name="portAJP" select="$port - 71"/>
+     <xsl:variable name="portHttps" select="$port + 363"/>
+
+     <xsl:template match="/">
+       <xsl:apply-templates/>
+     </xsl:template>
+
+      <xsl:template match = "Connector">
+         <Connector>
+            <xsl:for-each select="@*">
+            <xsl:choose>
+               <xsl:when test="(name() = 'port' and . = '@cargo.servlet.port@')">
+                  <xsl:attribute name="port"><xsl:value-of select="$port" /></xsl:attribute>
+               </xsl:when>
+               <xsl:when test="(name() = 'port' and . = '8009')">
+                  <xsl:attribute name="port"><xsl:value-of select="$portAJP" /></xsl:attribute>
+               </xsl:when>
+               <xsl:when test="(name() = 'redirectPort')">
+                  <xsl:attribute name="redirectPort"><xsl:value-of select="$portHttps" /></xsl:attribute>
+               </xsl:when>
+               <xsl:when test="(name() = 'port' and . = '8443')">
+                  <xsl:attribute name="port"><xsl:value-of select="$portHttps" /></xsl:attribute>
+               </xsl:when>
+               <xsl:otherwise>
+                  <xsl:attribute name="{name()}"><xsl:value-of select="." /></xsl:attribute>
+               </xsl:otherwise>
+            </xsl:choose>
+            </xsl:for-each>
+            <xsl:apply-templates/>
+         </Connector>
+      </xsl:template>
+
+     <xsl:template match="*|@*">
+       <xsl:copy>
+         <xsl:apply-templates select="@*|node()"/>
+       </xsl:copy>
+     </xsl:template>
+   </xsl:stylesheet>
+   ]]>
+          </parameter>
+      </constructor>
+   </bean>
+
+</deployment>

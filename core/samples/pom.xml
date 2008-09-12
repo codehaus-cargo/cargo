@@ -244,6 +244,15 @@
                 <value>http://dist.codehaus.org/jetty/jetty-6.1.x/jetty-6.1.1.zip</value>
               </property>
 
+              <property>
+                <name>cargo.jetty7x.port</name>
+                <value>8280</value>
+              </property>
+              <property>
+                <name>cargo.jetty7x.url</name>
+                <value>http://dist.codehaus.org/jetty/jetty-7.0.0-prereleases/jetty-7.0.0pre3/jetty-assembly-7.0.0pre3.zip</value>
+              </property>
+
               <!--
                 Note: There is no direct download link for WL 8.x. Thus you have to manually
                 install it on your machine and specify where it is installed using the
@@ -511,7 +520,7 @@
       <!-- All containers that have a distribution which can be downloaded automatically -->
       <id>all-downloadable</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, orion1x, orion2x, tomcat3x, tomcat4x, tomcat5x, tomcat6x, jetty4x, jetty5x, jetty6x, geronimo1x, jboss3x, jboss4x, jboss42x, jboss5x, jo1x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, orion1x, orion2x, tomcat3x, tomcat4x, tomcat5x, tomcat6x, jetty4x, jetty5x, jetty6x, jetty7x, geronimo1x, jboss3x, jboss4x, jboss42x, jboss5x, jo1x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -578,6 +587,12 @@
       <id>jetty6x</id>
       <properties>
         <cargo.containers>jetty6x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jetty7x</id>
+      <properties>
+        <cargo.containers>jetty7x</cargo.containers>
       </properties>
     </profile>
     <profile>

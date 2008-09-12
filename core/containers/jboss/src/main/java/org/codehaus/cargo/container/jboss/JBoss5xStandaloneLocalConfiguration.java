@@ -130,7 +130,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
         
 
         // Copy configuration files from cargo resources directory with token replacement
-        String[] cargoFiles = new String[] {"cargo-binding.xml", "log4j.xml",
+        String[] cargoFiles = new String[] {"bindings.xml", "jboss-log4j.xml",
             "jboss-service.xml", "profile.xml"};
         for (int i = 0; i < cargoFiles.length; i++)
         {

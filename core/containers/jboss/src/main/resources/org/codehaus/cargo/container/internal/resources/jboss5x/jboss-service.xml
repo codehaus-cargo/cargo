@@ -103,7 +103,7 @@
    <mbean code="org.jboss.logging.Log4jService"
       name="jboss.system:type=Log4jService,service=Logging"
 	  xmbean-dd="resource:xmdesc/Log4jService-xmbean.xml">
-      <attribute name="ConfigurationURL">resource:log4j.xml</attribute>
+      <attribute name="ConfigurationURL">resource:jboss-log4j.xml</attribute>
       <!-- Set the org.apache.log4j.helpers.LogLog.setQuiteMode. As of log4j1.2.8
       this needs to be set to avoid a possible deadlock on exception at the
       appender level. See bug#696819.

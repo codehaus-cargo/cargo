@@ -122,6 +122,10 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
 
         registerContainerCapability("jetty6x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
+
+        registerContainerCapability("jetty7x",
+            "org.codehaus.cargo.container.internal.ServletContainerCapability");
+
     }
 
     /**

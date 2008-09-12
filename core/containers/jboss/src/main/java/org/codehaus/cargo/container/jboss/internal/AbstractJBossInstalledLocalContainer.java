@@ -135,7 +135,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
 
         // Sleep some extra time to fully ensure JBoss is stopped before giving back the control
         // to the user.
-        Thread.sleep(3000L);
+        Thread.sleep(5000L);
     }
 
     /**

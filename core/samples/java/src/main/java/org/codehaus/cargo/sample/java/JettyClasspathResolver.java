@@ -98,9 +98,31 @@ public class JettyClasspathResolver
         jetty6xDependencies.add("lib/plus/jetty-plus.jar");
         jetty6xDependencies.add("lib/xbean/jetty-xbean.jar");
 
+        List jetty7xDependencies = new ArrayList();
+        jetty7xDependencies.add("lib/jetty.jar");
+        jetty7xDependencies.add("lib/jetty-util.jar");
+        jetty7xDependencies.add("lib/servlet-api-2.5.jar");
+        jetty7xDependencies.add("lib/jsp-2.0/jsp-api-2.0.jar");
+        jetty7xDependencies.add("lib/jsp-2.0/jasper-compiler-jdt-5.5.15.jar");
+        jetty7xDependencies.add("lib/jsp-2.0/jasper-compiler-5.5.15.jar");
+        jetty7xDependencies.add("lib/jsp-2.0/jasper-runtime-5.5.15.jar");
+        jetty7xDependencies.add("lib/jsp-2.0/xercesImpl-2.6.2.jar");
+        jetty7xDependencies.add("lib/jsp-2.0/xmlParserAPIs-2.6.2.jar");
+        jetty7xDependencies.add("lib/jsp-2.0/commons-el-1.0.jar");
+        jetty7xDependencies.add("lib/jsp-2.0/jcl104-over-slf4j-1.0-rc5.jar");
+        jetty7xDependencies.add("lib/jsp-2.0/slf4j-simple-1.0-rc5.jar");
+        jetty7xDependencies.add("lib/management/jetty-management.jar");
+        jetty7xDependencies.add("lib/management/mx4j-3.0.1.jar");
+        jetty7xDependencies.add("lib/management/mx4j-tools-2.1.1.jar");
+        jetty7xDependencies.add("lib/naming/jetty-naming.jar");
+        jetty7xDependencies.add("lib/plus/jetty-plus.jar");
+        jetty7xDependencies.add("lib/xbean/jetty-xbean.jar");
+
+
         this.jettyDependencies.put("jetty4x", jetty4xDependencies);
         this.jettyDependencies.put("jetty5x", jetty5xDependencies);
         this.jettyDependencies.put("jetty6x", jetty6xDependencies);
+        this.jettyDependencies.put("jetty7x", jetty7xDependencies);
     }
 
     public ClassLoader resolveDependencies(String jettyContainerId, File containerHome)

@@ -152,6 +152,13 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
             "org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer");
         registerContainer("jetty6x", ContainerType.REMOTE,
             "org.codehaus.cargo.container.jetty.Jetty6xRemoteContainer");
+
+        registerContainer("jetty7x", ContainerType.EMBEDDED,
+            "org.codehaus.cargo.container.jetty.Jetty7xEmbeddedLocalContainer");
+        registerContainer("jetty7x", ContainerType.INSTALLED,
+            "org.codehaus.cargo.container.jetty.Jetty7xInstalledLocalContainer");
+        registerContainer("jetty7x", ContainerType.REMOTE,
+            "org.codehaus.cargo.container.jetty.Jetty7xRemoteContainer");
     }
 
     /**

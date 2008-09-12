@@ -61,6 +61,14 @@ public class EmbeddedContainerClasspathResolver
         jetty6xDependencies.add("lib/plus/*.jar");
         jetty6xDependencies.add("lib/xbean/*.jar");
 
+        List jetty7xDependencies = new ArrayList();
+        jetty7xDependencies.add("lib/*.jar");
+        jetty7xDependencies.add("lib/jsp-2.0/*.jar");
+        jetty7xDependencies.add("lib/management/*.jar");
+        jetty7xDependencies.add("lib/naming/*.jar");
+        jetty7xDependencies.add("lib/plus/*.jar");
+        jetty7xDependencies.add("lib/xbean/*.jar");
+
         List tomcat5xDependencies = new ArrayList();
         tomcat5xDependencies.add("bin/*.jar");
         tomcat5xDependencies.add("common/lib/*.jar");
@@ -69,6 +77,7 @@ public class EmbeddedContainerClasspathResolver
         dependencies.put("jetty4x", jetty4xDependencies);
         dependencies.put("jetty5x", jetty5xDependencies);
         dependencies.put("jetty6x", jetty6xDependencies);
+        dependencies.put("jetty7x", jetty7xDependencies);
         dependencies.put("tomcat5x", tomcat5xDependencies);
 
     }
