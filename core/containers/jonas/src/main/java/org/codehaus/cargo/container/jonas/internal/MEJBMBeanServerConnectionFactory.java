@@ -72,7 +72,8 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
     /**
      * Default JOnAS initial context factory.
      */
-    public static final String DEFAULT_JNDI_INITIAL_CTX_FACTORY = "org.objectweb.carol.jndi.spi.MultiOrbInitialContextFactory";
+    public static final String DEFAULT_JNDI_INITIAL_CTX_FACTORY =
+        "org.objectweb.carol.jndi.spi.MultiOrbInitialContextFactory";
 
     /**
      * Default provider URI.
@@ -210,9 +211,9 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * @see javax.management.MBeanServerConnection#createMBean(String, ObjectName, Object[],
          *      String[])
          */
-        public ObjectInstance createMBean(String arg0, ObjectName arg1, Object[] arg2, String[] arg3)
-            throws ReflectionException, InstanceAlreadyExistsException, MBeanException,
-            NotCompliantMBeanException, IOException
+        public ObjectInstance createMBean(String arg0, ObjectName arg1, Object[] arg2,
+            String[] arg3) throws ReflectionException, InstanceAlreadyExistsException,
+            MBeanException, NotCompliantMBeanException, IOException
         {
             throw new UnsupportedOperationException("MEJB proxy does not support this method call");
         }
