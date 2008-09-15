@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Set;
 
-import javax.imageio.IIOException;
 import javax.management.Attribute;
 import javax.management.AttributeList;
 import javax.management.AttributeNotFoundException;
@@ -54,7 +53,6 @@ import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
 
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
@@ -96,11 +94,6 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
     protected Logger logger;
 
     /**
-     * The JNDI context.
-     */
-    protected Context context;
-
-    /**
      * MEJB JNDI path.
      */
     protected String mejbJndiPath;
@@ -126,9 +119,9 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
     protected String password;
 
     /**
-     * Previous value of java.security.auth.login.config.
+     * The JNDI context.
      */
-    protected String previousLoginConfig;
+    protected Context jndiContext;
 
     /**
      * MEJB proxy.
@@ -240,15 +233,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
         public Object getAttribute(ObjectName arg0, String arg1) throws MBeanException,
             AttributeNotFoundException, InstanceNotFoundException, ReflectionException, IOException
         {
-            parent.setJAAS();
-            try
-            {
-                return mejb.getAttribute(arg0, arg1);
-            }
-            finally
-            {
-                parent.unsetJAAS();
-            }
+            return mejb.getAttribute(arg0, arg1);
         }
 
         /**
@@ -259,15 +244,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
         public AttributeList getAttributes(ObjectName arg0, String[] arg1)
             throws InstanceNotFoundException, ReflectionException, IOException
         {
-            parent.setJAAS();
-            try
-            {
-                return mejb.getAttributes(arg0, arg1);
-            }
-            finally
-            {
-                parent.unsetJAAS();
-            }
+            return mejb.getAttributes(arg0, arg1);
         }
 
         /**
@@ -277,15 +254,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          */
         public String getDefaultDomain() throws IOException
         {
-            parent.setJAAS();
-            try
-            {
-                return mejb.getDefaultDomain();
-            }
-            finally
-            {
-                parent.unsetJAAS();
-            }
+            return mejb.getDefaultDomain();
         }
 
         /**
@@ -305,15 +274,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          */
         public Integer getMBeanCount() throws IOException
         {
-            parent.setJAAS();
-            try
-            {
-                return mejb.getMBeanCount();
-            }
-            finally
-            {
-                parent.unsetJAAS();
-            }
+            return mejb.getMBeanCount();
         }
 
         /**
@@ -324,15 +285,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
         public MBeanInfo getMBeanInfo(ObjectName arg0) throws InstanceNotFoundException,
             IntrospectionException, ReflectionException, IOException
         {
-            parent.setJAAS();
-            try
-            {
-                return mejb.getMBeanInfo(arg0);
-            }
-            finally
-            {
-                parent.unsetJAAS();
-            }
+            return mejb.getMBeanInfo(arg0);
         }
 
         /**
@@ -355,15 +308,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
         public Object invoke(ObjectName arg0, String arg1, Object[] arg2, String[] arg3)
             throws InstanceNotFoundException, MBeanException, ReflectionException, IOException
         {
-            parent.setJAAS();
-            try
-            {
-                return mejb.invoke(arg0, arg1, arg2, arg3);
-            }
-            finally
-            {
-                parent.unsetJAAS();
-            }
+            return mejb.invoke(arg0, arg1, arg2, arg3);
         }
 
         /**
@@ -384,15 +329,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          */
         public boolean isRegistered(ObjectName arg0) throws IOException
         {
-            parent.setJAAS();
-            try
-            {
-                return mejb.isRegistered(arg0);
-            }
-            finally
-            {
-                parent.unsetJAAS();
-            }
+            return mejb.isRegistered(arg0);
         }
 
         /**
@@ -412,15 +349,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          */
         public Set queryNames(ObjectName arg0, QueryExp arg1) throws IOException
         {
-            parent.setJAAS();
-            try
-            {
-                return mejb.queryNames(arg0, arg1);
-            }
-            finally
-            {
-                parent.unsetJAAS();
-            }
+            return mejb.queryNames(arg0, arg1);
         }
 
         /**
@@ -482,15 +411,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
             AttributeNotFoundException, InvalidAttributeValueException, MBeanException,
             ReflectionException, IOException
         {
-            parent.setJAAS();
-            try
-            {
-                mejb.setAttribute(arg0, arg1);
-            }
-            finally
-            {
-                parent.unsetJAAS();
-            }
+            mejb.setAttribute(arg0, arg1);
         }
 
         /**
@@ -501,15 +422,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
         public AttributeList setAttributes(ObjectName arg0, AttributeList arg1)
             throws InstanceNotFoundException, ReflectionException, IOException
         {
-            parent.setJAAS();
-            try
-            {
-                return mejb.setAttributes(arg0, arg1);
-            }
-            finally
-            {
-                parent.unsetJAAS();
-            }
+            return mejb.setAttributes(arg0, arg1);
         }
 
         /**
@@ -629,62 +542,21 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
      */
     protected MBeanServerConnection createConnection(Hashtable props) throws Exception
     {
-        context = new InitialContext(props);
-        Object objref = context.lookup(mejbJndiPath);
+        if (jaasEntry != null)
+        {
+            System.setProperty("java.security.auth.login.config", jaasFile);
+            new LoginContext(jaasEntry, this).login();
+        }
+
+        jndiContext = new InitialContext(props);
+        Object objref = jndiContext.lookup(mejbJndiPath);
         ManagementHome home = (ManagementHome) PortableRemoteObject.narrow(objref,
             javax.management.j2ee.ManagementHome.class);
 
-        setJAAS();
         final Management mejb = home.create();
-        unsetJAAS();
-
         return new MEJBProxy(mejb, this);
-    }
 
-    /**
-     * Sets up JAAS and logs in.
-     * 
-     * @throws IOException If LoginException is thrown.
-     */
-    private void setJAAS() throws IOException
-    {
-        if (jaasEntry != null)
-        {
-            previousLoginConfig = System.setProperty("java.security.auth.login.config", jaasFile);
-
-            try
-            {
-                new LoginContext(jaasEntry, this).login();
-            }
-            catch (LoginException e)
-            {
-                throw new IIOException("Failed logging in", e);
-            }
-        }
-    }
-
-    /**
-     * Unsets JAAS and logs out.
-     * 
-     * @throws IOException If LoginException is thrown.
-     */
-    private void unsetJAAS() throws IOException
-    {
-        if (jaasEntry != null)
-        {
-            try
-            {
-                new LoginContext(jaasEntry).logout();
-            }
-            catch (LoginException e)
-            {
-                throw new IIOException("Failed logging out", e);
-            }
-            finally
-            {
-                System.setProperty("java.security.auth.login.config", previousLoginConfig);
-            }
-        }
+        // TODO: think about logout ?
     }
 
     /**
@@ -694,17 +566,17 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
      */
     public void destroy()
     {
-        if (context != null)
+        if (jndiContext != null)
         {
             try
             {
-                context.close();
+                jndiContext.close();
             }
             catch (Exception e)
             {
                 e.getMessage();
             }
-            context = null;
+            jndiContext = null;
         }
     }
 
