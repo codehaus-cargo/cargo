@@ -78,16 +78,16 @@ public class JonasPropertySet
 
     /**
      * For MEJB remote deployment only, defines the path where the JAAS configuration file is.
-     * Defaults to "jaas.config", ignored if {@link JonasPropertySet#JONAS_MEJB_JAAS_ROLE} is not
+     * Defaults to "jaas.config", ignored if {@link JonasPropertySet#JONAS_MEJB_JAAS_ENTRY} is not
      * set.
      */
-    public static final String JONAS_MEJB_JAAS_FILE = "cargo.jonas.jndi.jaas.file";
+    public static final String JONAS_MEJB_JAAS_FILE = "cargo.jonas.mejb.jaas.file";
 
     /**
-     * For MEJB remote deployment only, defines the role to use when connecting. Defaults to null,
-     * in which case no authentication is used.
+     * For MEJB remote deployment only, defines the JAAS entry to use when connecting. Defaults to
+     * null, in which case no authentication is used.
      */
-    public static final String JONAS_MEJB_JAAS_ROLE = "cargo.jonas.jndi.jaas.role";
+    public static final String JONAS_MEJB_JAAS_ENTRY = "cargo.jonas.mejb.jaas.entry";
 
     /**
      * For MEJB remote deployment only, the jndi initial context factory, defaults to
