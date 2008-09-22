@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -70,9 +71,26 @@ public class Jetty6xStandaloneLocalConfiguration extends AbstractStandaloneLocal
     {
         setupConfigurationDir();
 
+        FilterChain filterChain = createFilterChain();
+        String sessionPath = getPropertyValue(JettyPropertySet.SESSION_PATH);
+        String sessionContextParam = "";
+        
+        if (sessionPath != null)
+        {
+            sessionContextParam = "  <context-param>\n"
+                    + "    <param-name>org.mortbay.jetty.servlet.SessionPath</param-name>\n"
+                    + "    <param-value>" + sessionPath + "</param-value>\n"
+                    + "  </context-param>\n";
+        }
+
+        getAntUtils().addTokenToFilterChain(filterChain, "cargo.jetty.session.path.context-param",
+                sessionContextParam);
+        
         String etcDir = getFileHandler().createDirectory(getHome(), "etc");
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId()
             + "/jetty.xml", new File(etcDir, "jetty.xml"));
+        getResourceUtils().copyResource(RESOURCE_PATH + container.getId()
+                + "/webdefault.xml", new File(etcDir, "webdefault.xml"), filterChain);
 
         // Create a webapps directory for automatic deployment of WARs dropped inside.
         String appDir = getFileHandler().createDirectory(getHome(), "webapps");

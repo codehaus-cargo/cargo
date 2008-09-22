@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.jetty;
 /**
  * Gathers all Jetty properties.
  * 
- * @version $Id:$
+ * @version $Id$
  */
 public interface JettyPropertySet
 {
@@ -31,4 +31,8 @@ public interface JettyPropertySet
      */
     String DEPLOYER_URL = "cargo.jetty.deployer.url";
 
+    /**
+     * The default session path to use for all session cookies.
+     */
+    String SESSION_PATH = "cargo.jetty.session.path";
 }

@@ -85,6 +85,8 @@ public class Jetty7xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
                 + "  <Set name=\"war\"><SystemProperty name=\"config.home\" "
                     + "default=\".\"/>/webapps/" + war.getContext() + ".war</Set>\n"
                 + "  <Set name=\"extractWAR\">true</Set>\n"
+                + "  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
+                    + "default=\".\"/>/etc/webdefault.xml</Set>\n"
                 + "</Configure>").getBytes());
             out.close();
         }
