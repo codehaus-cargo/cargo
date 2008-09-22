@@ -221,6 +221,7 @@ public class DeployerServlet extends HttpServlet
             WebAppContext webappcontext = new WebAppContext();
             webappcontext.setContextPath(contextPath);
             webappcontext.setWar(webappLocation);
+            webappcontext.setDefaultsDescriptor(System.getProperty("config.home") + "/etc/webdefault.xml");
             chc.addHandler(webappcontext);
             try
             {
