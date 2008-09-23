@@ -99,6 +99,11 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
     protected String mejbJndiPath;
 
     /**
+     * The initial context to use.
+     */
+    protected String initialContextFactory;
+
+    /**
      * JAAS configuration file.
      */
     protected String jaasFile;
@@ -464,7 +469,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
         String jndiUrl = configuration.getPropertyValue(RemotePropertySet.URI);
 
         mejbJndiPath = configuration.getPropertyValue(JonasPropertySet.JONAS_MEJB_JNDI_PATH);
-        String initialContextFactory = configuration
+        initialContextFactory = configuration
             .getPropertyValue(JonasPropertySet.JONAS_MEJB_JNDI_INIT_CTX_FACT);
 
         if (jndiUrl == null || jndiUrl.trim().length() == 0)
@@ -544,6 +549,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
     {
         if (jaasEntry != null)
         {
+            System.setProperty(Context.INITIAL_CONTEXT_FACTORY, initialContextFactory);
             System.setProperty("java.security.auth.login.config", jaasFile);
             new LoginContext(jaasEntry, this).login();
         }

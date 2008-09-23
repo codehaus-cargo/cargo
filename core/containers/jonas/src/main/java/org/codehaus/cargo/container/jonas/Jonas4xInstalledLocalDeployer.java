@@ -192,15 +192,15 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
         CopyingDeployable copying) throws CargoException
     {
         boolean isRunning = false;
-        String targetDiroctory = targetDir;
+        String targetDirectory = targetDir;
 
         isRunning = admin.isServerRunning();
         if (!isRunning)
         {
-            targetDiroctory += "/autoload";
+            targetDirectory += "/autoload";
         }
 
-        copying.copyDeployable(targetDiroctory, deployable);
+        copying.copyDeployable(targetDirectory, deployable);
         if (isRunning)
         {
             // hot deployment through JOnAS admin
