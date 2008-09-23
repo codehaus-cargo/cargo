@@ -206,8 +206,15 @@
               </property>
               <property>
                 <name>cargo.tomcat5x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-5/v5.0.30/bin/jakarta-tomcat-5.0.30.zip</value>
+                <!-- <value>http://archive.apache.org/dist/tomcat/tomcat-5/v5.0.30/bin/jakarta-tomcat-5.0.30.zip</value> -->
+                <value>http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.27/bin/apache-tomcat-5.5.27.zip</value>
               </property>
+              <!-- Tomcat 5x requires this setting for the embedded tests -->
+              <!-- TODO: fix embedded tests and remove the SAXParserFactory property -->
+              <property>
+                <name>javax.xml.parsers.SAXParserFactory</name>
+                <value>com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl</value>
+              </property> 
               <property>
                 <name>cargo.tomcat6x.port</name>
                 <value>8280</value>
@@ -325,30 +332,18 @@
               </property>
               <property>
                 <name>cargo.jboss5x.url</name>
-                <value>http://downloads.sourceforge.net/jboss/jboss-5.0.0.Beta4.zip?big_mirror=1</value>
+                <value>http://downloads.sourceforge.net/jboss/jboss-5.0.0.CR2.zip?big_mirror=1</value>
               </property>
 
-              <!--
-                Note: There is no direct zip download link for JOnAS 4. Please
-                download it manually from http://jonas.ow2.org/ and specify
-                where it is installed using the cargo.jonas4x.home property.
-
-                For example:
-                  <property>
-                    <name>cargo.jonas4x.home</name>
-                    <value>c:/apps/JONAS</value>
-                  </property>
-
-                Unfortunately, CARGO doesn't support the tgz format.
               <property>
                 <name>cargo.jonas4x.url</name>
                 <value>http://download.fr.forge.objectweb.org/jonas/jonas4.10.1-tomcat5.5.26.tgz</value>
               </property>
-              -->
               <property>
                 <name>cargo.jonas4x.port</name>
                 <value>8280</value>
               </property>
+              
               <!-- additional required properties to make the samples work correctly -->
               <property>
                 <name>cargo.jonas4x.configuration.cargo.jonas.realm.name</name>
@@ -367,17 +362,10 @@
                 <value>jonas</value>
               </property>
 
-              <!--
-                Note: There is no direct zip download link for JOnAS 5. Please
-                download it manually from http://jonas.ow2.org/ and specify
-                where it is installed using the cargo.jonas5x.home property.
-
-                For example:
-                  <property>
-                    <name>cargo.jonas5x.home</name>
-                    <value>c:/apps/JONAS</value>
-                  </property>
-              -->
+              <property>
+                <name>cargo.jbonas5x.url</name>
+                <value>http://download.fr.forge.objectweb.org/jonas/jonas-osgi-5.0.4-bin.tar.gz</value>
+              </property>            
               <property>
                 <name>cargo.jonas5x.port</name>
                 <value>8280</value>
@@ -513,14 +501,14 @@
       <!-- All containers for the CI -->
       <id>all-ci</id>
       <properties>
-        <cargo.containers>resin3x, orion2x, tomcat5x, jetty6x</cargo.containers>
+        <cargo.containers>resin3x, orion2x, tomcat6x, jetty6x, jboss42x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <!-- All containers that have a distribution which can be downloaded automatically -->
       <id>all-downloadable</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, orion1x, orion2x, tomcat3x, tomcat4x, tomcat5x, tomcat6x, jetty4x, jetty5x, jetty6x, jetty7x, geronimo1x, jboss3x, jboss4x, jboss42x, jboss5x, jo1x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, orion1x, orion2x, tomcat3x, tomcat4x, tomcat5x, tomcat6x, jetty4x, jetty5x, jetty6x, jetty7x, geronimo1x, jboss3x, jboss4x, jboss42x, jboss5x, jo1x, jonas4x, jonas5x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -629,6 +617,12 @@
       <id>jonas4x</id>
       <properties>
         <cargo.containers>jonas4x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jonas5x</id>
+      <properties>
+        <cargo.containers>jonas5x</cargo.containers>
       </properties>
     </profile>
   </profiles>

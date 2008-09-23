@@ -72,6 +72,7 @@ public class EmbeddedContainerClasspathResolver
         List tomcat5xDependencies = new ArrayList();
         tomcat5xDependencies.add("bin/*.jar");
         tomcat5xDependencies.add("common/lib/*.jar");
+        tomcat5xDependencies.add("common/endorsed/*.jar");
         tomcat5xDependencies.add("server/lib/*.jar");
 
         dependencies.put("jetty4x", jetty4xDependencies);

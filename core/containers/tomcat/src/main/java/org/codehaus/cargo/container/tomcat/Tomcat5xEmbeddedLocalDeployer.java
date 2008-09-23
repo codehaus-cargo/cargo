@@ -117,7 +117,40 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
                 for (Iterator itr = params.entrySet().iterator(); itr.hasNext();)
                 {
                     Map.Entry param = (Map.Entry) itr.next();
-                    context.addParameter((String) param.getKey(), (String) param.getValue());
+
+                    //the parameter could be a string or a jdom Attribute depending on
+                    //if its Tomcat 5.0.x or 5.5.x, so we need to check the value here.
+                    String key;
+                    String value;
+                    if (param.getKey() instanceof org.jdom.Attribute)
+                    {
+                        key = ((org.jdom.Attribute) param.getKey()).getValue();
+                    }
+                    else if (param.getKey() instanceof String)
+                    {
+                        key = (String) param.getKey();
+                    }
+                    else
+                    {
+                        throw new ContainerException("Cannot handle Parameter Type : " 
+                                + param.getKey().getClass().toString());
+                    }
+                    
+                    if (param.getValue() instanceof org.jdom.Attribute)
+                    {
+                        value = ((org.jdom.Attribute) param.getValue()).getValue();
+                    }
+                    else if (param.getValue() instanceof String)
+                    {
+                        value = (String) param.getValue();
+                    }
+                    else
+                    {
+                        throw new ContainerException("Cannot handle Parameter Type : " 
+                                + param.getValue().getClass().toString());
+                    }
+                    
+                    context.addParameter(key, value);
                 }
             }
         }
