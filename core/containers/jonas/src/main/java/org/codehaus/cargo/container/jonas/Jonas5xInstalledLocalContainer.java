@@ -105,6 +105,10 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public void doAction(final Java java)
     {
         setupSysProps(java);
+        Variable jonasRoot = new Variable();
+        jonasRoot.setKey("jonas.root");
+        jonasRoot.setValue(getHome());
+        java.addSysproperty(jonasRoot);
 
         java.setClassname("org.ow2.jonas.client.boot.Bootstrap");
 
@@ -128,6 +132,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         }
 
         java.setDir(new File(getConfiguration().getHome()));
+        java.createArg().setValue("-start");
     }
 
     /**
