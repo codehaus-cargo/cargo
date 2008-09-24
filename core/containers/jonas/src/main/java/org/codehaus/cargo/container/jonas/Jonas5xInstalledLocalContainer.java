@@ -1,20 +1,20 @@
-/* 
+/*
  * ========================================================================
- * 
+ *
  * Copyright 2007-2008 OW2.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ========================================================================
  */
 package org.codehaus.cargo.container.jonas;
@@ -32,31 +32,32 @@ import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalCo
 
 /**
  * Support for the JOnAS JEE container.
- * 
+ *
  * @version $Id$
  */
 public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalContainer
 {
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see AbstractJonasInstalledLocalContainer#AbstractJonasInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
-    public Jonas5xInstalledLocalContainer(LocalConfiguration configuration)
+    public Jonas5xInstalledLocalContainer(final LocalConfiguration configuration)
     {
         super(configuration);
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see AbstractJonasInstalledLocalContainer#doStart(Java)
      */
-    public void doStart(Java java)
+    public void doStart(final Java java)
     {
         doAction(java);
         java.createArg().setValue("org.ow2.jonas.commands.admin.ClientAdmin");
         java.createArg().setValue("start");
+        doServerNameArgs(java);
         java.createArg().setValue("-fg");
 
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
@@ -65,10 +66,10 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see AbstractJonasInstalledLocalContainer#doStop(Java)
      */
-    public void doStop(Java java)
+    public void doStop(final Java java)
     {
         doAction(java);
         java.createArg().setValue("org.ow2.jonas.commands.admin.ClientAdmin");
@@ -81,10 +82,10 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see AbstractJonasInstalledLocalContainer#setupExtraSysProps(Java, Map)
      */
-    protected void setupExtraSysProps(Java java, Map configuredSysProps)
+    protected void setupExtraSysProps(final Java java, final Map configuredSysProps)
     {
         addSysProp(java, configuredSysProps, "org.omg.CORBA.ORBClass", "org.jacorb.orb.ORB");
         addSysProp(java, configuredSysProps, "org.omg.CORBA.ORBSingletonClass",
@@ -98,10 +99,10 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * Configuring the target java ant task to launch a JOnAS command.
-     * 
+     *
      * @param java the target java ant task to setup
      */
-    public void doAction(Java java)
+    public void doAction(final Java java)
     {
         setupSysProps(java);
 
@@ -131,7 +132,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.codehaus.cargo.container.Container#getId()
      */
     public String getId()
@@ -141,7 +142,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.codehaus.cargo.container.Container#getName()
      */
     public String getName()
