@@ -363,7 +363,7 @@
               </property>
 
               <property>
-                <name>cargo.jbonas5x.url</name>
+                <name>cargo.jonas5x.url</name>
                 <value>http://download.fr.forge.objectweb.org/jonas/jonas-osgi-5.0.4-bin.tar.gz</value>
               </property>            
               <property>
