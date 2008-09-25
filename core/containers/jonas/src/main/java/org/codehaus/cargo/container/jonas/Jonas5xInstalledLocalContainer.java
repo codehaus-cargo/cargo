@@ -55,10 +55,8 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public void doStart(final Java java)
     {
         doAction(java);
-        java.createArg().setValue("org.ow2.jonas.commands.admin.ClientAdmin");
-        java.createArg().setValue("start");
-        doServerNameArgs(java);
-        java.createArg().setValue("-fg");
+        doServerNameParam(java);
+        java.createArg().setValue("-start");
 
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
         jonasRunner.start();
@@ -72,9 +70,8 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public void doStop(final Java java)
     {
         doAction(java);
-        java.createArg().setValue("org.ow2.jonas.commands.admin.ClientAdmin");
         doServerNameParam(java);
-        java.createArg().setValue("halt");
+        java.createArg().setValue("-halt");
 
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
         jonasRunner.start();
@@ -105,12 +102,11 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public void doAction(final Java java)
     {
         setupSysProps(java);
+
         Variable jonasRoot = new Variable();
         jonasRoot.setKey("jonas.root");
         jonasRoot.setValue(getHome());
         java.addSysproperty(jonasRoot);
-
-        java.setClassname("org.ow2.jonas.client.boot.Bootstrap");
 
         Path classpath = java.createClasspath();
         classpath.createPathElement().setLocation(
@@ -131,8 +127,9 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
             throw new ContainerException("IOException occured during java command line setup", ex);
         }
 
+        java.setClassname("org.ow2.jonas.commands.admin.ClientAdmin");
+
         java.setDir(new File(getConfiguration().getHome()));
-        java.createArg().setValue("-start");
     }
 
     /**
