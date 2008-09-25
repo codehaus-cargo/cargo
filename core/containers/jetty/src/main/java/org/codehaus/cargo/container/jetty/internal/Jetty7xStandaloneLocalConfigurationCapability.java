@@ -31,7 +31,7 @@ import java.util.HashMap;
  * {@link org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration}
  * configuration for Installed containers.
  *
- * @version $Id: Jetty6xStandaloneLocalConfigurationCapability.java 1705 2008-09-02 13:14:55Z adriana $
+ * @version $Id$
  */
 public class Jetty7xStandaloneLocalConfigurationCapability
     extends AbstractStandaloneLocalConfigurationCapability

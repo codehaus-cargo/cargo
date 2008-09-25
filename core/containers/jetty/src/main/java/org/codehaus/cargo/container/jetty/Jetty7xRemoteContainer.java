@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.jetty.internal.AbstractJettyRemoteContainer;
 /**
  * Special container support for wrapping a running instance of Jetty.
  * 
- * @version $Id: Jetty6xRemoteContainer.java 1705 2008-09-02 13:14:55Z adriana $
+ * @version $Id$
  */
 public class Jetty7xRemoteContainer extends AbstractJettyRemoteContainer
 {

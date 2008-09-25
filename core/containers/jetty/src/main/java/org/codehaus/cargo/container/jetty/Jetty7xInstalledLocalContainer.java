@@ -34,7 +34,7 @@ import java.io.File;
 /**
  * Special container support for the Jetty 7.x servlet container.
  *
- * @version $Id: Jetty6xInstalledLocalContainer.java 1705 2008-09-02 13:14:55Z adriana $
+ * @version $Id$
  */
 public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContainer
 {
