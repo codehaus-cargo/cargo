@@ -106,9 +106,9 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         if (jonasRoot == null)
         {
             LocalConfiguration configuration = getConfiguration();
-            if (configuration instanceof Jonas5xStandaloneLocalConfiguration )
+            if (configuration instanceof Jonas5xStandaloneLocalConfiguration)
             {
-                jonasRoot = ((Jonas5xStandaloneLocalConfiguration)configuration).getJonasRoot();
+                jonasRoot = ((Jonas5xStandaloneLocalConfiguration) configuration).getJonasRoot();
             }
             else
             {
