@@ -57,6 +57,12 @@ public class JonasPropertySet
     public static final String JONAS_REALM_NAME = "cargo.jonas.realm.name";
 
     /**
+     * The JOnAS realm name for a standalone configuration, defaults to "memrlm_1", useful setting
+     * for webapps using a custom authentication realm name.
+     */
+    public static final String JONAS_LOGGING_LEVEL = "cargo.jonas.logging";
+
+    /**
      * The JOnAS web container class name implementation to be used for standalone configuration,
      * will be autodetected when no setting provided.
      */

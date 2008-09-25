@@ -96,6 +96,7 @@ public class Jonas5xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         setProperty(JonasPropertySet.JONAS_AVAILABLES_DATASOURCES, "HSQL1");
         setProperty(JonasPropertySet.JONAS_WEBCONTAINER_CLASS_NAME,
             TOMCAT_WEB_CONTAINER_CLASS_NAME);
+        setProperty(JonasPropertySet.JONAS_LOGGING_LEVEL, "INFO");
     }
 
     /**
@@ -153,6 +154,14 @@ public class Jonas5xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             getFileHandler().append(getHome(), "/deploy/cargocpc.war"), getFileHandler());
+    }
+
+    /**
+     * @return The JONAS_ROOT based on the installedContainer.
+     */
+    public String getJonasRoot()
+    {
+        return installedContainer.getHome();
     }
 
     /**
@@ -218,7 +227,6 @@ public class Jonas5xStandaloneLocalConfiguration extends AbstractStandaloneLocal
      */
     protected FilterChain createJonasFilterChain(InstalledLocalContainer installedContainer)
     {
-        // protocol, port, hostname are handled by the abstract impl
         FilterChain filterChain = super.createFilterChain();
 
         getAntUtils().addTokenToFilterChain(filterChain, GeneralPropertySet.RMI_PORT,
@@ -233,6 +241,10 @@ public class Jonas5xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         getAntUtils().addTokenToFilterChain(filterChain,
             JonasPropertySet.JONAS_AVAILABLES_DATASOURCES,
             getPropertyValue(JonasPropertySet.JONAS_AVAILABLES_DATASOURCES));
+
+        getAntUtils().addTokenToFilterChain(filterChain,
+            JonasPropertySet.JONAS_LOGGING_LEVEL,
+            getPropertyValue(JonasPropertySet.JONAS_LOGGING_LEVEL));
 
         createUserFilterChain(filterChain);
 

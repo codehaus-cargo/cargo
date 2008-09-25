@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.types.Environment.Variable;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
@@ -38,6 +37,12 @@ import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalCo
  */
 public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalContainer
 {
+
+    /**
+     * The JOnAS 5 configuration.
+     */
+    private Jonas5xStandaloneLocalConfiguration jonas5conf;
+
     /**
      * {@inheritDoc}
      *
@@ -46,6 +51,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public Jonas5xInstalledLocalContainer(final LocalConfiguration configuration)
     {
         super(configuration);
+        jonas5conf = (Jonas5xStandaloneLocalConfiguration) configuration;
     }
 
     /**
@@ -103,11 +109,9 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public void doAction(final Java java)
     {
         setupSysProps(java);
-
-        Variable jonasRoot = new Variable();
-        jonasRoot.setKey("jonas.root");
-        jonasRoot.setValue(getHome());
-        java.addSysproperty(jonasRoot);
+        java.addSysproperty(getAntUtils().createSysProperty("jonas.root",
+            new File(jonas5conf.getJonasRoot()).getAbsolutePath().
+                replace(File.separatorChar, '/')));
 
         Path classpath = java.createClasspath();
         classpath.createPathElement().setLocation(

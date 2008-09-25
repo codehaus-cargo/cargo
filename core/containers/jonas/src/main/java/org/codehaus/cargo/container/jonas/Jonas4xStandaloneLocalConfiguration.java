@@ -95,6 +95,7 @@ public class Jonas4xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         setProperty(GeneralPropertySet.JVMARGS, "-Xms128m -Xmx512m");
         setProperty(JonasPropertySet.JONAS_REALM_NAME, "memrlm_1");
         setProperty(JonasPropertySet.JONAS_AVAILABLES_DATASOURCES, "HSQL1");
+        setProperty(JonasPropertySet.JONAS_LOGGING_LEVEL, "INFO");
     }
 
     /**
@@ -243,6 +244,10 @@ public class Jonas4xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         getAntUtils().addTokenToFilterChain(filterChain,
             JonasPropertySet.JONAS_WEBCONTAINER_CLASS_NAME,
             getWebContainerClassName(installedContainer));
+
+        getAntUtils().addTokenToFilterChain(filterChain,
+            JonasPropertySet.JONAS_LOGGING_LEVEL,
+            getPropertyValue(JonasPropertySet.JONAS_LOGGING_LEVEL));
 
         createUserFilterChain(filterChain);
 
