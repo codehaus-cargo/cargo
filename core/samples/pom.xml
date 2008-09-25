@@ -370,6 +370,7 @@
                 <name>cargo.jonas5x.port</name>
                 <value>8280</value>
               </property>
+
               <!-- additional required properties to make the samples work correctly -->
               <property>
                 <name>cargo.jonas5x.configuration.cargo.jonas.realm.name</name>
