@@ -39,11 +39,6 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 {
 
     /**
-     * The JOnAS 5 configuration.
-     */
-    private Jonas5xStandaloneLocalConfiguration jonas5conf;
-
-    /**
      * {@inheritDoc}
      *
      * @see AbstractJonasInstalledLocalContainer#AbstractJonasInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
@@ -51,7 +46,6 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public Jonas5xInstalledLocalContainer(final LocalConfiguration configuration)
     {
         super(configuration);
-        jonas5conf = (Jonas5xStandaloneLocalConfiguration) configuration;
     }
 
     /**
@@ -108,10 +102,23 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      */
     public void doAction(final Java java)
     {
+        String jonasRoot = getHome();
+        if (jonasRoot == null)
+        {
+            LocalConfiguration configuration = getConfiguration();
+            if (configuration instanceof Jonas5xStandaloneLocalConfiguration )
+            {
+                jonasRoot = ((Jonas5xStandaloneLocalConfiguration)configuration).getJonasRoot();
+            }
+            else
+            {
+                throw new IllegalStateException("JONAS_ROOT must be set");
+            }
+        }
+
         setupSysProps(java);
         java.addSysproperty(getAntUtils().createSysProperty("jonas.root",
-            new File(jonas5conf.getJonasRoot()).getAbsolutePath().
-                replace(File.separatorChar, '/')));
+            new File(jonasRoot).getAbsolutePath().replace(File.separatorChar, '/')));
 
         Path classpath = java.createClasspath();
         classpath.createPathElement().setLocation(
