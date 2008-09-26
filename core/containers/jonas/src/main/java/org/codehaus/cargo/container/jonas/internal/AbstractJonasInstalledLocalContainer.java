@@ -65,11 +65,11 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
     public abstract void doStop(Java java);
 
     /**
-     * Setup of the target server name for the JOnAS admin command call.
+     * Setup of the target server and domain name for the JOnAS admin command call.
      *
      * @param java the target java ant task to setup
      */
-    public void doServerNameParam(final Java java)
+    public void doServerAndDomainNameParam(final Java java)
     {
         String serverName = getConfiguration().getPropertyValue(JonasPropertySet.JONAS_SERVER_NAME);
         if (serverName != null && serverName.trim().length() != 0)
@@ -77,23 +77,37 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
             java.createArg().setValue("-n");
             java.createArg().setValue(serverName);
         }
+        doDomainNameArgs(java);
     }
 
     /**
-     * Setup of the target server name for the JOnAS admin command call.
+     * Setup of the target server and domain name for the JOnAS admin command call.
      *
      * @param java the target java ant task to setup
      */
-    public void doServerNameArgs(final Java java)
+    public void doServerAndDomainNameArgs(final Java java)
     {
         String serverName = getConfiguration().getPropertyValue(JonasPropertySet.JONAS_SERVER_NAME);
         if (serverName != null && serverName.trim().length() != 0)
         {
             java.createJvmarg().setValue("-Djonas.name=" + serverName);
-
         }
+        doDomainNameArgs(java);
     }
 
+    /**
+     * Setup of the target domain name for the JOnAS admin command call.
+     *
+     * @param java the target java ant task to setup
+     */
+    private void doDomainNameArgs(final Java java)
+    {
+        String domainName = getConfiguration().getPropertyValue(JonasPropertySet.JONAS_DOMAIN_NAME);
+        if (domainName != null && domainName.trim().length() != 0)
+        {
+            java.createJvmarg().setValue("-Ddomain.name=" + domainName);
+        }
+    }
 
     /**
      * Setup of the required java system properties to configure JOnAS properly.

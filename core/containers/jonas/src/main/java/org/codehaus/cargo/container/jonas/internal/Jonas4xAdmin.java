@@ -56,7 +56,7 @@ public class Jonas4xAdmin implements JonasAdmin
 
         targetContainer.doAction(java);
         java.createArg().setValue("org.objectweb.jonas.adm.JonasAdmin");
-        targetContainer.doServerNameParam(java);
+        targetContainer.doServerAndDomainNameParam(java);
         java.createArg().setValue("-l");
 
         int returnCode = java.executeJava();
@@ -105,7 +105,7 @@ public class Jonas4xAdmin implements JonasAdmin
 
         targetContainer.doAction(java);
         java.createArg().setValue("org.objectweb.jonas.adm.JonasAdmin");
-        targetContainer.doServerNameParam(java);
+        targetContainer.doServerAndDomainNameParam(java);
         java.createArg().setValue(deploymentParam);
         java.createArg().setValue(beanFileName);
 

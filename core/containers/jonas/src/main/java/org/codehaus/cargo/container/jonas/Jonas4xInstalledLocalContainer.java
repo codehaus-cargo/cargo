@@ -57,7 +57,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         doAction(java);
         java.createArg().setValue("org.objectweb.jonas.server.Server");
 
-        doServerNameArgs(java);
+        doServerAndDomainNameArgs(java);
         java.createArg().setValue("-fg");
 
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
@@ -73,7 +73,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     {
         doAction(java);
         java.createArg().setValue("org.objectweb.jonas.adm.JonasAdmin");
-        doServerNameParam(java);
+        doServerAndDomainNameParam(java);
         java.createArg().setValue("-s");
 
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);

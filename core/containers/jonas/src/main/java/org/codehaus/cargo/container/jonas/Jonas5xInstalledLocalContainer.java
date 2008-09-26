@@ -56,7 +56,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public void doStart(final Java java)
     {
         doAction(java);
-        doServerNameParam(java);
+        doServerAndDomainNameArgs(java);
         java.createArg().setValue("-start");
 
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
@@ -71,7 +71,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public void doStop(final Java java)
     {
         doAction(java);
-        doServerNameParam(java);
+        doServerAndDomainNameArgs(java);
         java.createArg().setValue("-halt");
 
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
