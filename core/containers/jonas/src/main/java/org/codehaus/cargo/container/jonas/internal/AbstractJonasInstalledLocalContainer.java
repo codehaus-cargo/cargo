@@ -51,6 +51,46 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
     }
 
     /**
+     * Ping the WAR CPC to verify if the container is started or stopped.
+     *
+     * @param waitForStarting if true then wait for container start, if false wait for container
+     *            stop
+     * @throws InterruptedException if the thread sleep is interrupted
+     */
+    protected void waitForCompletion(final boolean waitForStarting) throws InterruptedException
+    {
+        JonasAdmin jonasAdmin = getJonasAdmin();
+
+        if (jonasAdmin != null)
+        {
+            boolean waitNeeded = true;
+            while (waitNeeded)
+            {
+                waitNeeded = jonasAdmin.isServerRunning() != waitForStarting;
+                if (waitNeeded)
+                {
+                    Thread.sleep(300);
+                }
+            }
+            if (!waitForStarting)
+            {
+                super.waitForCompletion(waitForStarting);
+            }
+        }
+        else
+        {
+            super.waitForCompletion(waitForStarting);
+        }
+    }
+
+    /**
+     * getJonasAdmin.
+     *
+     * @return a jonas admin
+     */
+    public abstract JonasAdmin getJonasAdmin();
+
+    /**
      * {@inheritDoc}
      *
      * @see AbstractInstalledLocalContainer#doStart(Java)

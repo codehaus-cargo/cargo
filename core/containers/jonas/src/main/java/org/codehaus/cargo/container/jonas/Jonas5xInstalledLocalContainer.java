@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalContainer;
+import org.codehaus.cargo.container.jonas.internal.JonasAdmin;
 
 /**
  * Support for the JOnAS JEE container.
@@ -162,5 +163,13 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public String getName()
     {
         return "JOnAS 5.x";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public JonasAdmin getJonasAdmin()
+    {
+        return null;
     }
 }
