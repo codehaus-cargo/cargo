@@ -136,8 +136,8 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         String clustered = jbossContainer.getConfiguration().
             getPropertyValue(JBossPropertySet.CLUSTERED);
         
-        if (Boolean.parseBoolean(jbossContainer.getConfiguration().
-                getPropertyValue(JBossPropertySet.CLUSTERED)))
+        if (Boolean.valueOf(jbossContainer.getConfiguration().
+                getPropertyValue(JBossPropertySet.CLUSTERED)).booleanValue())
         {
             String farmDir = getFileHandler().createDirectory(getHome(), "/farm");        
         }

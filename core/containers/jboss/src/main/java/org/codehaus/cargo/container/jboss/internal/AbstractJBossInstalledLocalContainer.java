@@ -89,11 +89,11 @@ public abstract class AbstractJBossInstalledLocalContainer extends
         String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
         if (jvmArgs != null)
         {
-            if (!jvmArgs.contains("-Xms"))
+            if (!jvmArgs.indexOf("-Xms") >= 0)
             {
                 java.createJvmarg().setValue("-Xms128m");
             }
-            if (!jvmArgs.contains("-Xmx"))
+            if (!jvmArgs.indexOf("-Xmx") >= 0)
             {
                 java.createJvmarg().setValue("-Xmx512m");
             }
@@ -234,7 +234,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
     public String getDeployDir(String configurationName)
     {
         String clustered = getConfiguration().getPropertyValue(JBossPropertySet.CLUSTERED);
-        if (Boolean.parseBoolean(clustered))
+        if (Boolean.valueOf(clustered).booleanValue())
         {
             return getSpecificConfigurationDir("farm", configurationName);
         }

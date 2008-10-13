@@ -215,11 +215,11 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         }
 
         // replace all double slashes with a single slash
-        while (finalFile.indexOf("//") > 0)
+        while (finalFile.indexOf("//") >= 0)
         {
             finalFile = finalFile.replaceAll("//", "/");
         }
-        while (fileName.indexOf("//") > 0)
+        while (fileName.indexOf("//") >= 0)
         {
             fileName = fileName.replaceAll("//", "/");
         }
