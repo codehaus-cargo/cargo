@@ -621,7 +621,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
             else
             {
                 throw new UnsupportedCallbackException(callback, "Unsupported callback type: "
-                    + callback.getClass().getSimpleName());
+                    + callback.getClass().getName());
             }
         }
     }
