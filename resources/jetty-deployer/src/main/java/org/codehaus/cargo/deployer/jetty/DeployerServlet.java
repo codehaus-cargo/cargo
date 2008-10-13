@@ -250,7 +250,7 @@ public class DeployerServlet extends HttpServlet
         String fileName;
         // the contextPath should always begin with a forward slash but adding
         // this logic if case of future modifications and to prevent a NPE.
-        if (contextPath.indexOf('/') > 0)
+        if (contextPath.indexOf('/') >= 0)
         {
             fileName = contextPath.substring(contextPath.indexOf('/'));
         } 
