@@ -41,7 +41,7 @@
   </context-param>
 -->
 
-@carg.jetty.sessionpath@
+@cargo.jetty.session.path.context-param@
 
 <!-- 
   <context-param>
