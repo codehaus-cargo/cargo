@@ -89,11 +89,11 @@ public abstract class AbstractJBossInstalledLocalContainer extends
         String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
         if (jvmArgs != null)
         {
-            if (!jvmArgs.indexOf("-Xms") >= 0)
+            if (jvmArgs.indexOf("-Xms") == -1)
             {
                 java.createJvmarg().setValue("-Xms128m");
             }
-            if (!jvmArgs.indexOf("-Xmx") >= 0)
+            if (jvmArgs.indexOf("-Xmx") == -1)
             {
                 java.createJvmarg().setValue("-Xmx512m");
             }
