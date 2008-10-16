@@ -339,7 +339,14 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
      */
     public void redeploy(Deployable deployable)
     {
-        undeploy(deployable);
+        try
+        {
+            undeploy(deployable);
+        }
+        catch (Exception ignored)
+        {
+            // Failed undeploying, probably because the application was not deployed yet.
+        }
         deploy(deployable);
     }
 
