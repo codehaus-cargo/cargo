@@ -19,7 +19,11 @@
  */
 package org.codehaus.cargo.container.jboss;
 
+import java.io.File;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
@@ -79,4 +83,49 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
         getFileHandler().copyDirectory(
                 war.getFile(), getFileHandler().append(deployableDir, war.getContext() + ".war"));
     }
+    
+    /**
+     * Undeploys and then deploys artifact. Assumes that server is shutdown.
+     *
+     * @param deployable artifact to redeploy
+     */
+    public void redeploy(Deployable deployable)
+    {
+        undeploy(deployable);
+        deploy(deployable);
+    }
+    
+    /**
+     * Removes previously deployed artifact.
+     *
+     * @param deployable artifact to undeploy
+     */
+    public void undeploy(Deployable deployable)
+    {
+        if (deployable.getType() != DeployableType.WAR)
+        {
+            super.undeploy(deployable);
+            return;
+        }
+        WAR war = (WAR) deployable;
+        String fileName = getFileHandler().append(getDeployableDir(), war.getContext() + ".war");
+        if (fileExists(fileName))
+        {
+            getLogger().info("Undeploying [" + fileName + "]...", this.getClass().getName());
+            getFileHandler().delete(fileName);
+        }
+    }
+
+    /**
+     * Checks whether file or dir represented by string exists
+     *
+     * @param fileName path to check
+     * @return true if file/dir exists
+     */
+    private boolean fileExists(String fileName)
+    {
+        return new File(fileName).exists();
+    }
+
+    
 }
