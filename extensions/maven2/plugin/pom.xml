@@ -120,7 +120,8 @@
       <build>
         <plugins>
           <!-- stages the plugin so it can be used in integration-tests by the invoker plugin -->
-	      <plugin>
+	  <!-- Disabling management plugin as it appears to too old and is no longer available in any repos -->
+<!--	      <plugin>
 	        <groupId>org.apache.maven.plugins</groupId>
 	        <artifactId>maven-plugin-management-plugin</artifactId>
 	        <version>1.0-SNAPSHOT</version>
@@ -132,7 +133,7 @@
 	            </goals>
 	          </execution>
 	        </executions>
-	      </plugin>
+	      </plugin> -->
 	      <plugin>
 	        <artifactId>maven-invoker-plugin</artifactId>
 	        <executions>
