@@ -51,6 +51,8 @@ public class Configuration
     private Deployable[] deployables;
     
     private Configfile[] configfiles;
+    
+    private Resource[] resources;
 
     public ConfigurationType getType()
     {
@@ -110,6 +112,15 @@ public class Configuration
     public void setImplementation(String implementation)
     {
         this.implementation = implementation;
+    }
+
+    public Resource[] getResources() 
+    {
+        return this.resources;
+    }
+    
+    public void setResources(Resource[] rlist) {
+        this.resources = rlist;
     }
 
     public org.codehaus.cargo.container.configuration.Configuration createConfiguration(
@@ -175,6 +186,11 @@ public class Configuration
             {
                 addStaticDeployables(containerId, (LocalConfiguration) configuration, project);
             }
+            
+            if (getResources() != null) 
+            {
+                addResources(containerId, (LocalConfiguration) configuration, project);
+            }
         }
         
         // Add configfiles for standalone local configurations
@@ -192,7 +208,24 @@ public class Configuration
         return configuration;
     }
 
-	/**
+	/** 
+	 * Add resources to the configuration.
+	 *
+     * @param containerId
+     * @param configuration
+     * @param project
+     */
+    private void addResources(String containerId,
+            LocalConfiguration configuration, CargoProject project)
+        throws MojoExecutionException
+    {
+        for (int i = 0; i < getResources().length; i++)
+        {
+            configuration.addResource(getResources()[i].createResource(containerId, project));
+        }
+    }
+
+    /**
      * Add static deployables to the configuration.
      *
      * @param containerId the container id to which to deploy to

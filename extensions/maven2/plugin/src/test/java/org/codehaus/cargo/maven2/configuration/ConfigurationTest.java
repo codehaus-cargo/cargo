@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.maven2.configuration;
 
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -57,6 +58,29 @@ public class ConfigurationTest extends TestCase
                 null);
 
         assertEquals("", configuration.getPropertyValue("someName"));
+    }
+    
+    public void testAddResources() throws Exception {
+        Configuration configurationElement = new Configuration();
+        configurationElement.setImplementation(StandaloneLocalConfigurationStub.class.getName());
+        
+        Resource resource = new Resource();
+        resource.setName("name");
+        resource.setType("someType");
+        HashMap parameters = new HashMap();
+        parameters.put("key", "value");
+        resource.setParameters(parameters);
+        configurationElement.setResources(new Resource[] {resource});
+        
+        org.codehaus.cargo.container.configuration.Configuration configuration = configurationElement.createConfiguration("testContainer", ContainerType.INSTALLED, null);
+        
+        StandaloneLocalConfigurationStub conf = (StandaloneLocalConfigurationStub) configuration;
+        List resources = conf.getResources();
+        assertEquals("resources not of correct size", 1, resources.size());
+        org.codehaus.cargo.container.resource.Resource r = (org.codehaus.cargo.container.resource.Resource) resources.get(0);
+        assertEquals("name not correct", "name", r.getName());
+        assertEquals("type not correct", "someType", r.getType());
+        
     }
 
 }
