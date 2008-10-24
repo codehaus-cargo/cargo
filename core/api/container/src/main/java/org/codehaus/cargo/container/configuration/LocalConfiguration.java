@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.configuration;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.resource.Resource;
 
 import java.util.List;
 
@@ -61,4 +62,19 @@ public interface LocalConfiguration extends Configuration
      * @param container the container to configure
      */
     void configure(LocalContainer container);
+    
+    
+    /**
+     * Add resources the container can take advantage of. I.e. datasources.
+     * 
+     * @param resource the {@link Resource} to add.
+     */
+    void addResource(Resource resource);
+    
+    /**
+     * @return the list of {@link Resource}s that are going to be added to the container when
+     * it is started.
+     */
+    List getResources();
+    
 }

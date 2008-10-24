@@ -24,6 +24,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
+import org.codehaus.cargo.container.resource.Resource;
 import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.DefaultFileHandler;
@@ -74,10 +75,15 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration
     private FileHandler fileHandler;
 
     /**
+     * List of {@link Resource}s to add to a container.
+     */
+    private List resources;
+
+    /**
      * @param home the home directory where the container will be set up to start and where it
      *        will deploy its deployables.
      */
-    public AbstractLocalConfiguration(String home)
+    public AbstractLocalConfiguration(String home) 
     {
         super();
 
@@ -85,6 +91,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration
         this.fileHandler = new DefaultFileHandler();
         this.antUtils = new AntUtils();
         this.resourceUtils = new ResourceUtils();
+        this.resources = new ArrayList();
 
         this.home = home;
     }
@@ -177,4 +184,22 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration
      * @throws Exception if any error is raised during the configuration
      */
     protected abstract void doConfigure(LocalContainer container) throws Exception;
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see LocalConfiguration#addResource(Resource)
+     */
+    public void addResource(Resource resource)
+    {
+        this.resources.add(resource);
+    }
+
+    /**
+     * @return the configured resources for this container.
+     */
+    public List getResources()
+    {
+        return this.resources;
+    }
 }

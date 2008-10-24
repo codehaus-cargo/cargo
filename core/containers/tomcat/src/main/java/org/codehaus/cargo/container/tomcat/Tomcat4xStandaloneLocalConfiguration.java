@@ -20,6 +20,8 @@
 package org.codehaus.cargo.container.tomcat;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
@@ -27,6 +29,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.DataSource;
+import org.codehaus.cargo.container.resource.Resource;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
 
 /**
@@ -126,6 +129,38 @@ public class Tomcat4xStandaloneLocalConfiguration
                     + "    </parameter>\n"
                     + "</ResourceParams>";
         }
+    }
+    
+    /**
+     * Create a resource token value.
+     * @return The resource token
+     */
+    protected String createResourceTokenValue()
+    {
+        String out = "";
+        Iterator it = getResources().iterator();
+        while (it.hasNext())
+        {
+            Resource r = (Resource) it.next();
+            out = out + "<Resource name=\"" + r.getName() + "\"\n" + "          type=\""
+                    + r.getType() + "\"\n" + "          auth=\"Container\"\n" + "/>\n";
+            Set parameterNames = r.getParameterNames();
+            if (parameterNames.size() > 0)
+            {
+                out = out + "<ResourceParams name=\"" + r.getName() + "\">\n";
+
+                Iterator pit = parameterNames.iterator();
+                while (pit.hasNext())
+                {
+                    String paramName = (String) pit.next();
+                    out = out + "  <parameter>\n" + "    <name>" + paramName + "</name>\n"
+                            + "    <value>" + r.getParameter(paramName) + "</value>\n"
+                            + "  </parameter>\n";
+                }
+                out = out + "</ResourceParams>\n";
+            }
+        }
+        return out;
     }
 
     /**

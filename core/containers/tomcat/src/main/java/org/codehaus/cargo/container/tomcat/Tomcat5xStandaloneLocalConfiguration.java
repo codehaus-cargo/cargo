@@ -20,15 +20,18 @@
 package org.codehaus.cargo.container.tomcat;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.FilterChain;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
-import org.codehaus.cargo.container.property.DatasourcePropertySet;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.property.DataSource;
+import org.codehaus.cargo.container.property.DatasourcePropertySet;
+import org.codehaus.cargo.container.resource.Resource;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
 
 /**
@@ -119,6 +122,33 @@ public class Tomcat5xStandaloneLocalConfiguration
                     + "    auth='Container'>\n"
                     + "</Resource>";
         }
+    }
+    
+    /**
+     * @return the XML to be put into the server.xml file.
+     */
+    protected String createResourceTokenValue()
+    {
+        getLogger().debug("Tomcat 5x createResourceTokenValue", this.getClass().getName());
+
+        String out = "";
+        Iterator it = getResources().iterator();
+
+        while (it.hasNext())
+        {
+            Resource r = (Resource) it.next();
+            out = out + "<Resource name=\"" + r.getName() + "\"\n" + "          type=\""
+                    + r.getType() + "\"\n";
+            Set parameterNames = r.getParameterNames();
+            Iterator pit = parameterNames.iterator();
+            while (pit.hasNext())
+            {
+                String pName = (String) pit.next();
+                out = out + "          " + pName + "=\"" + r.getParameter(pName) + "\"\n";
+            }
+            out = out + "/>\n";
+        }
+        return out;
     }
 
 

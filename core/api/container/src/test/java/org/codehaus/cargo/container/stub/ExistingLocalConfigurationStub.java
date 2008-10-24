@@ -19,8 +19,12 @@
  */
 package org.codehaus.cargo.container.stub;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.ExistingLocalConfiguration;
+import org.codehaus.cargo.container.resource.Resource;
 
 /**
  * Mock for {@link org.codehaus.cargo.container.configuration.ExistingLocalConfiguration}. We need
@@ -32,13 +36,30 @@ import org.codehaus.cargo.container.configuration.ExistingLocalConfiguration;
 public class ExistingLocalConfigurationStub
     extends AbstractLocalConfigurationStub implements ExistingLocalConfiguration
 {
-    public ExistingLocalConfigurationStub(String home)
+    private ArrayList resources;
+
+	public ExistingLocalConfigurationStub(String home)
     {
         super(home);
+        resources = new ArrayList();
     }
 
     public ConfigurationType getType()
     {
         return ConfigurationType.EXISTING;
     }
+
+	/* (non-Javadoc)
+	 * @see org.codehaus.cargo.container.configuration.LocalConfiguration#addResource(org.codehaus.cargo.container.resource.Resource)
+	 */
+	public void addResource(Resource resource) {
+		this.resources.add(resource);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.codehaus.cargo.container.configuration.LocalConfiguration#getResources()
+	 */
+	public List getResources() {
+		return resources;
+	}
 }

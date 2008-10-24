@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.stub;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.configuration.Configfile;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
+import org.codehaus.cargo.container.resource.Resource;
 
 /**
  * Mock for {@link org.codehaus.cargo.container.configuration.LocalConfiguration}. We need a static
@@ -37,9 +39,12 @@ import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 public class StandaloneLocalConfigurationStub
     extends AbstractLocalConfigurationStub implements StandaloneLocalConfiguration
 {
-    public StandaloneLocalConfigurationStub(String home)
+    private ArrayList resources;
+
+	public StandaloneLocalConfigurationStub(String home)
     {
         super(home);
+        resources = new ArrayList();
     }
 
     public ConfigurationType getType()
@@ -68,4 +73,19 @@ public class StandaloneLocalConfigurationStub
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.codehaus.cargo.container.configuration.LocalConfiguration#addResource(org.codehaus.cargo.container.resource.Resource)
+	 */
+	public void addResource(Resource resource) {
+		this.resources.add(resource);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.codehaus.cargo.container.configuration.LocalConfiguration#getResources()
+	 */
+	public List getResources() {
+		return resources;
+	}
+
+	
 }

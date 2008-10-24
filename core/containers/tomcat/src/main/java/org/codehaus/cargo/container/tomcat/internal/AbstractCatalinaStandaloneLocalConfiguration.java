@@ -241,10 +241,16 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
 
     /**
      * @return The XML that should be inserted into the server.xml file.  If no datasource,
-     * return " ".  Do not return empty string, as and cannot handle this.
+     * return " ".  Do not return empty string, as 'ant' cannot handle this.
      */
     protected abstract String createDatasourceTokenValue();
 
+    /**
+     * @return The XML that should be inserted into the server.xml file. If no datasource,
+     * return "". Do not return empty string, as 'ant' cannot handle this.
+     */
+    protected abstract String createResourceTokenValue();
+    
     /**
      * @param deployable the WAR to deploy
      * @return the "context" XML element to instert in the Tomcat <code>server.xml</code> 
@@ -268,6 +274,8 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
 
         contextTokenValue.append("\n" + createDatasourceTokenValue() + "\n");
 
+        contextTokenValue.append("\n" + createResourceTokenValue() + "\n");
+        
         contextTokenValue.append("</Context>");
         return contextTokenValue.toString();
     }
