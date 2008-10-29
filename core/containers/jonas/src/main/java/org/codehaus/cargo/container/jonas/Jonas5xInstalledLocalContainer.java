@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalContainer;
-import org.codehaus.cargo.container.jonas.internal.JonasAdmin;
 
 /**
  * Support for the JOnAS JEE container.
@@ -123,14 +122,13 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
         Path classpath = java.createClasspath();
         classpath.createPathElement().setLocation(
-            new File(getHome(), "lib/bootstrap/client-bootstrap.jar"));
-        classpath.createPathElement().setLocation(
             new File(getHome(), "lib/bootstrap/felix-launcher.jar"));
         classpath.createPathElement().setLocation(
             new File(getHome(), "lib/bootstrap/jonas-commands.jar"));
         classpath.createPathElement().setLocation(
             new File(getHome(), "lib/bootstrap/jonas-version.jar"));
-        classpath.createPathElement().setLocation(new File(getConfiguration().getHome(), "conf"));
+        classpath.createPathElement().setLocation(new File(getHome(), "conf"));
+
         try
         {
             addToolsJarToClasspath(classpath);
@@ -163,13 +161,5 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public String getName()
     {
         return "JOnAS 5.x";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public JonasAdmin getJonasAdmin()
-    {
-        return null;
     }
 }

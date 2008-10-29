@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.deployable.EJB;
 import org.codehaus.cargo.container.deployable.RAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.jonas.internal.Jonas4xAdmin;
-import org.codehaus.cargo.container.jonas.internal.JonasAdmin;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
@@ -41,7 +40,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     /**
      * JOnAS admin used for hot deployment.
      */
-    private JonasAdmin admin;
+    private Jonas4xAdmin admin;
 
     /**
      * {@inheritDoc}
@@ -61,7 +60,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * @param fileHandler the file handler to use, can be null to use the default file handler
      *            implementation
      */
-    public Jonas4xInstalledLocalDeployer(InstalledLocalContainer container, JonasAdmin admin,
+    public Jonas4xInstalledLocalDeployer(InstalledLocalContainer container, Jonas4xAdmin admin,
         FileHandler fileHandler)
     {
         super(container);

@@ -24,11 +24,11 @@ import org.codehaus.cargo.container.jonas.Jonas4xInstalledLocalContainer;
 import org.codehaus.cargo.util.AntUtils;
 
 /**
- * JOnAS admin command line utils class.
+ * JOnAS 4X admin command line utils class.
  *
  * @version $Id$
  */
-public class Jonas4xAdmin implements JonasAdmin
+public class Jonas4xAdmin
 {
     /**
      * Target JOnAS container, used for admin command line invocation setup.
@@ -58,6 +58,7 @@ public class Jonas4xAdmin implements JonasAdmin
         java.createArg().setValue("org.objectweb.jonas.adm.JonasAdmin");
         targetContainer.doServerAndDomainNameParam(java);
         java.createArg().setValue("-ping");
+        java.createArg().setValue("-timeout 5");
 
         int returnCode = java.executeJava();
         return returnCode == 0;

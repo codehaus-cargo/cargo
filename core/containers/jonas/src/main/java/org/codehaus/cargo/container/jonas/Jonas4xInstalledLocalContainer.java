@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalContainer;
 import org.codehaus.cargo.container.jonas.internal.Jonas4xAdmin;
-import org.codehaus.cargo.container.jonas.internal.JonasAdmin;
 
 /**
  * Support for the JOnAS JEE container.
@@ -43,7 +42,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     /**
      * The jonas admin.
      */
-    private JonasAdmin jonasAdmin;
+    private Jonas4xAdmin jonasAdmin;
 
     /**
      * {@inheritDoc}
@@ -57,6 +56,30 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     }
 
     /**
+     * Replace the CARGO WAR CPC with the Jonas4xAdmin ping.
+     *
+     * @param waitForStarting if true then wait for container start, if false wait for container
+     *            stop
+     * @throws InterruptedException if the thread sleep is interrupted
+     */
+    protected void waitForCompletion(final boolean waitForStarting) throws InterruptedException
+    {
+        boolean waitNeeded = true;
+        while (waitNeeded)
+        {
+            waitNeeded = jonasAdmin.isServerRunning() != waitForStarting;
+            if (waitNeeded)
+            {
+                Thread.sleep(300);
+            }
+        }
+        if (!waitForStarting)
+        {
+            super.waitForCompletion(waitForStarting);
+        }
+    }
+
+    /**
      * {@inheritDoc}
      *
      * @see AbstractJonasInstalledLocalContainer#doStart(Java)
@@ -64,10 +87,8 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public void doStart(final Java java)
     {
         doAction(java);
-        java.createArg().setValue("org.objectweb.jonas.server.Server");
-
         doServerAndDomainNameArgs(java);
-        java.createArg().setValue("-fg");
+        java.createArg().setValue("org.objectweb.jonas.server.Server");
 
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
         jonasRunner.start();
@@ -129,7 +150,8 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
             new File(getHome(), "lib/common/ow_jonas_bootstrap.jar"));
         classpath.createPathElement().setLocation(
             new File(getHome(), "lib/commons/jonas/jakarta-commons/commons-logging-api.jar"));
-        classpath.createPathElement().setLocation(new File(getConfiguration().getHome(), "conf"));
+        classpath.createPathElement().setLocation(new File(getHome(), "conf"));
+
         try
         {
             addToolsJarToClasspath(classpath);
@@ -160,13 +182,5 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public String getName()
     {
         return "JOnAS 4.x";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public JonasAdmin getJonasAdmin()
-    {
-        return jonasAdmin;
     }
 }
