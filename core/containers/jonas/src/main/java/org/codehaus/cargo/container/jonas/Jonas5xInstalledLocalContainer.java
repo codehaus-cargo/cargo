@@ -72,8 +72,10 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
             doServerAndDomainNameArgs(ping);
             ping.createArg().setValue("-ping");
             // IMPORTANT: impose timeout since default is 120 seconds
+            //            the argument is in milliseconds in JOnAS 5
             ping.createArg().setValue("-timeout");
-            ping.createArg().setValue("2000");      // milliseconds
+            ping.createArg().setValue("2000");
+            // Precise the aimed state for ping
             ping.createArg().setValue("-manageable.state");
             ping.createArg().setValue("j2ee.state.running");
             ping.reconfigure();

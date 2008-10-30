@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.EJB;
 import org.codehaus.cargo.container.deployable.RAR;
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.jonas.internal.JonasAdmin;
+import org.codehaus.cargo.container.jonas.internal.Jonas4xAdmin;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
 import org.codehaus.cargo.util.CargoException;
@@ -77,9 +77,9 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
         container.setFileHandler(this.fileHandler);
         container.setHome(JONAS_ROOT);
 
-        admin = mock(JonasAdmin.class);
+        admin = mock(Jonas4xAdmin.class);
 
-        deployer = new Jonas4xInstalledLocalDeployer(container, (JonasAdmin) admin.proxy(),
+        deployer = new Jonas4xInstalledLocalDeployer(container, (Jonas4xAdmin) admin.proxy(),
             this.fileHandler);
 
         factory = new DefaultDeployableFactory();

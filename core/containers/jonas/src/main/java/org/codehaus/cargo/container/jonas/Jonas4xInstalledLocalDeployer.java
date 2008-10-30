@@ -26,6 +26,7 @@ import org.codehaus.cargo.container.deployable.EJB;
 import org.codehaus.cargo.container.deployable.RAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.jonas.internal.Jonas4xAdmin;
+import org.codehaus.cargo.container.jonas.internal.Jonas4xAdminImpl;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
@@ -49,7 +50,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      */
     public Jonas4xInstalledLocalDeployer(InstalledLocalContainer container)
     {
-        this(container, new Jonas4xAdmin((Jonas4xInstalledLocalContainer) container), null);
+        this(container, new Jonas4xAdminImpl((Jonas4xInstalledLocalContainer) container), null);
     }
 
     /**

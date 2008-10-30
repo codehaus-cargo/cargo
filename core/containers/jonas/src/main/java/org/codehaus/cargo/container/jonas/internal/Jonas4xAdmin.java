@@ -19,58 +19,20 @@
  */
 package org.codehaus.cargo.container.jonas.internal;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.codehaus.cargo.container.jonas.Jonas4xInstalledLocalContainer;
-import org.codehaus.cargo.util.AntUtils;
 
 /**
- * JOnAS 4X admin command line utils class.
+ * JOnAS 4X admin command line utils interface.
  *
  * @version $Id$
  */
-public class Jonas4xAdmin
+public interface Jonas4xAdmin
 {
-    /**
-     * Target JOnAS container, used for admin command line invocation setup.
-     */
-    private Jonas4xInstalledLocalContainer targetContainer;
-
-    /**
-     *
-     * @param targetContainer the JOnAS target container
-     */
-    public Jonas4xAdmin(final Jonas4xInstalledLocalContainer targetContainer)
-    {
-        this.targetContainer = targetContainer;
-    }
-
     /**
      * Look if a local server instance is running.
      *
      * @return true if a local server instance is running
      */
-    public final boolean isServerRunning()
-    {
-        Java java = (Java) new AntUtils().createAntTask("java");
-        java.setFork(true);
-
-        targetContainer.doAction(java);
-        java.createArg().setValue("org.objectweb.jonas.adm.JonasAdmin");
-        targetContainer.doServerAndDomainNameParam(java);
-        java.createArg().setValue("-ping");
-        // IMPORTANT: impose timeout since default is 100 seconds
-        java.createArg().setValue("-timeout");
-        java.createArg().setValue("1");     // seconds
-        java.reconfigure();
-
-        int returnCode = java.executeJava();
-        if (returnCode != 0 && returnCode != 1)
-        {
-            throw new IllegalStateException("JonasAdmin ping returned " + returnCode
-                    + ", the only values allowed are 0 and 1");
-        }
-        return returnCode == 0;
-    }
+    boolean isServerRunning();
 
     /**
      * Undeploys the given bean name.
@@ -78,17 +40,7 @@ public class Jonas4xAdmin
      * @param beanFileName the bean file name
      * @return true if the bean has been correctly undeployed
      */
-    public final boolean unDeploy(final String beanFileName)
-    {
-        boolean undeployed = genericDeployment(beanFileName, "-r");
-        if (!undeployed)
-        {
-            // file deployed trough autoload directory are not undeployed it the autoload
-            // directory is not specified in the path
-            undeployed = genericDeployment("autoload/" + beanFileName, "-r");
-        }
-        return undeployed;
-    }
+    boolean unDeploy(final String beanFileName);
 
     /**
      * deploys the given bean name.
@@ -96,29 +48,5 @@ public class Jonas4xAdmin
      * @param beanFileName the bean file name
      * @return true if the bean has been correctly deployed
      */
-    public final boolean deploy(final String beanFileName)
-    {
-        return genericDeployment(beanFileName, "-a");
-    }
-
-    /**
-     *
-     * @param beanFileName bean File Name
-     * @param deploymentParam deployment parameter
-     * @return true if the deployment command(deploy or undeploy...)bean has been correctly executed
-     */
-    private boolean genericDeployment(final String beanFileName, final String deploymentParam)
-    {
-        Java java = (Java) new AntUtils().createAntTask("java");
-        java.setFork(true);
-
-        targetContainer.doAction(java);
-        java.createArg().setValue("org.objectweb.jonas.adm.JonasAdmin");
-        targetContainer.doServerAndDomainNameParam(java);
-        java.createArg().setValue(deploymentParam);
-        java.createArg().setValue(beanFileName);
-
-        int returnCode = java.executeJava();
-        return returnCode == 0;
-    }
+    boolean deploy(final String beanFileName);
 }

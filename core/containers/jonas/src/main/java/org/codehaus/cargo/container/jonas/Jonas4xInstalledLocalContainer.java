@@ -30,6 +30,7 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalContainer;
 import org.codehaus.cargo.container.jonas.internal.Jonas4xAdmin;
+import org.codehaus.cargo.container.jonas.internal.Jonas4xAdminImpl;
 
 /**
  * Support for the JOnAS JEE container.
@@ -51,7 +52,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     public Jonas4xInstalledLocalContainer(final LocalConfiguration configuration)
     {
         super(configuration);
-        jonasAdmin = new Jonas4xAdmin(this);
+        jonasAdmin = new Jonas4xAdminImpl(this);
     }
 
     /**
