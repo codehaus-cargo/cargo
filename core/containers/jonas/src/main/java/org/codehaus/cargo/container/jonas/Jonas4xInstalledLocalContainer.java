@@ -57,10 +57,6 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     /**
      * {@inheritDoc}<br>
      * This override replaces the CARGO WAR CPC with the Jonas4xAdmin ping.
-     *
-     * @param waitForStarting if true then wait for container start, if false wait for container
-     *            stop
-     * @throws InterruptedException If timed out
      */
     protected void waitForCompletion(final boolean waitForStarting) throws InterruptedException
     {
