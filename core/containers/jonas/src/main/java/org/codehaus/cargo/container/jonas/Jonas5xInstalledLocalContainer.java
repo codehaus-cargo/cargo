@@ -62,6 +62,33 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
         jonasRunner.start();
+
+        while (true)
+        {
+            Java ping = (Java) new AntUtils().createAntTask("java");
+            ping.setFork(true);
+
+            doAction(ping);
+            doServerAndDomainNameArgs(ping);
+            ping.createArg().setValue("-ping");
+            // IMPORTANT: impose timeout since default is 120 seconds
+            ping.createArg().setValue("-timeout");
+            ping.createArg().setValue("2000");      // milliseconds
+            ping.createArg().setValue("-manageable.state");
+            ping.createArg().setValue("j2ee.state.running");
+            ping.reconfigure();
+
+            int returnCode = ping.executeJava();
+            if (returnCode != 0 && returnCode != 1 && returnCode != 2)
+            {
+                throw new IllegalStateException("JonasAdmin ping returned " + returnCode
+                        + ", the only values allowed are 0, 1 and 2");
+            }
+            if (returnCode == 0)
+            {
+                break;
+            }
+        }
     }
 
     /**
@@ -74,46 +101,8 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         doAction(java);
         doServerAndDomainNameArgs(java);
         java.createArg().setValue("-halt");
-
-        AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
-        jonasRunner.start();
-    }
-
-    /**
-     * {@inheritDoc}<br>
-     * This override replaces the CARGO WAR CPC with the JOnAS ping.
-     */
-    protected void waitForCompletion(final boolean waitForStarting) throws InterruptedException
-    {
-        while (true)
-        {
-            Thread.sleep(1000);
-
-            Java java = (Java) new AntUtils().createAntTask("java");
-            java.setFork(true);
-
-            doAction(java);
-            doServerAndDomainNameArgs(java);
-            java.createArg().setValue("-ping");
-            // IMPORTANT: impose timeout since default is 100 seconds
-            java.createArg().setValue("-timeout");
-            // Put as separate argument otherwise the ANT Java task sets the
-            // argument to "-timeout 1" (with brackets!)
-            java.createArg().setValue("1");
-            java.reconfigure();
-
-            int returnCode = java.executeJava();
-            if (returnCode != 0 && returnCode != 1 && returnCode != 2)
-            {
-                throw new IllegalStateException("JonasAdmin ping returned " + returnCode
-                        + ", the only values allowed are 0, 1 and 2");
-            }
-            boolean serverRunning = (returnCode == 0);
-            if (serverRunning == waitForStarting)
-            {
-                break;
-            }
-        }
+        // Call java.execute directly since ClientAdmin.halt is synchronous
+        java.execute();
     }
 
     /**
