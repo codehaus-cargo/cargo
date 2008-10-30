@@ -38,6 +38,10 @@ import org.codehaus.cargo.container.jonas.internal.Jonas4xAdmin;
  */
 public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalContainer
 {
+    /**
+     * Maximal number of loops when waiting for completion (each loop is 5 seconds).
+     */
+    private static final int MAX_WAIT = 20;
 
     /**
      * The jonas admin.
@@ -61,10 +65,12 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      *
      * @param waitForStarting if true then wait for container start, if false wait for container
      *            stop
+     * @throws InterruptedException If timed out
      */
-    protected void waitForCompletion(final boolean waitForStarting)
+    protected void waitForCompletion(final boolean waitForStarting) throws InterruptedException
     {
-        while (true)
+        int wait;
+        for (wait = 0; wait < MAX_WAIT; wait++)
         {
             boolean serverRunning = jonasAdmin.isServerRunning();
             if (serverRunning == waitForStarting)
@@ -72,6 +78,11 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
                 break;
             }
             // No sleep needed: jonasAdmin.isServerRunning() has a timeout of 5 seconds
+        }
+
+        if (wait >= MAX_WAIT)
+        {
+            throw new InterruptedException("waitForCompletion timed out for jonas4x");
         }
     }
 

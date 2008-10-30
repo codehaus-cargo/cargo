@@ -63,6 +63,7 @@ public class Jonas4xAdmin
         // Put as separate argument otherwise the ANT Java task sets the
         // argument to "-timeout 5" (with brackets!)
         java.createArg().setValue("5");
+        java.setTimeout(new Long(5000));
 
         int returnCode = java.executeJava();
         if (returnCode != 0 && returnCode != 1)
