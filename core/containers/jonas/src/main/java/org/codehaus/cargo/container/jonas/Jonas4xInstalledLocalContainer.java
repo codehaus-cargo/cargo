@@ -56,26 +56,22 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     }
 
     /**
-     * Replace the CARGO WAR CPC with the Jonas4xAdmin ping.
+     * {@inheritDoc}<br>
+     * This override replaces the CARGO WAR CPC with the Jonas4xAdmin ping.
      *
      * @param waitForStarting if true then wait for container start, if false wait for container
      *            stop
-     * @throws InterruptedException if the thread sleep is interrupted
      */
-    protected void waitForCompletion(final boolean waitForStarting) throws InterruptedException
+    protected void waitForCompletion(final boolean waitForStarting)
     {
-        boolean waitNeeded = true;
-        while (waitNeeded)
+        while (true)
         {
-            waitNeeded = jonasAdmin.isServerRunning() != waitForStarting;
-            if (waitNeeded)
+            boolean serverRunning = jonasAdmin.isServerRunning();
+            if (serverRunning == waitForStarting)
             {
-                Thread.sleep(300);
+                break;
             }
-        }
-        if (!waitForStarting)
-        {
-            super.waitForCompletion(waitForStarting);
+            // No sleep needed: jonasAdmin.isServerRunning() has a timeout of 5 seconds
         }
     }
 

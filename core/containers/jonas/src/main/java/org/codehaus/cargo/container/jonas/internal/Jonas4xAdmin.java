@@ -58,9 +58,18 @@ public class Jonas4xAdmin
         java.createArg().setValue("org.objectweb.jonas.adm.JonasAdmin");
         targetContainer.doServerAndDomainNameParam(java);
         java.createArg().setValue("-ping");
-        java.createArg().setValue("-timeout 5");
+        // IMPORTANT: impose timeout since default is 100 seconds
+        java.createArg().setValue("-timeout");
+        // Put as separate argument otherwise the ANT Java task sets the
+        // argument to "-timeout 5" (with brackets!)
+        java.createArg().setValue("5");
 
         int returnCode = java.executeJava();
+        if (returnCode != 0 && returnCode != 1)
+        {
+            throw new IllegalStateException("JonasAdmin ping returned " + returnCode
+                    + ", the only values allowed are 0 and 1");
+        }
         return returnCode == 0;
     }
 
