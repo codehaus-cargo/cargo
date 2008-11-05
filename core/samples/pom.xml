@@ -12,7 +12,7 @@
   <description>Samples that exercises the Cargo Java APIs</description>
   <dependencies>
 
-    <!-- TODO: We would like to depend only on the agggregated core jar but this feature is not yet
+    <!-- TODO: We would like to depend only on the aggregated core jar but this feature is not yet
          available in Maven2. Refactor when it is -->
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
@@ -503,6 +503,16 @@
       <id>all-ci</id>
       <properties>
         <cargo.containers>resin3x, orion2x, tomcat6x, jetty6x, jboss42x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <!-- All containers for the CI in Java 4 -->
+      <id>all-ci-jdk-1.4</id>
+      <activation>
+        <jdk>1.4</jdk>
+      </activation>
+      <properties>
+        <cargo.containers>resin3x, orion2x, jboss42x</cargo.containers>
       </properties>
     </profile>
     <profile>
