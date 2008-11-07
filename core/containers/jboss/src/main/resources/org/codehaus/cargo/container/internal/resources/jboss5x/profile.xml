@@ -19,6 +19,9 @@
       </constructor>
       <property name="profileRoot">${jboss.server.home.dir}</property>
       <property name="mainDeployer"><inject bean="MainDeployer"/></property>
+      <property name="filter">
+        <bean class="org.jboss.system.server.profile.basic.XmlIncludeVirtualFileFilter"/>
+      </property>
    </bean>
 
    <bean name="ProfileServiceBootstrap" class="org.jboss.system.server.profileservice.ProfileServiceBootstrap">

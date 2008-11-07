@@ -5,11 +5,13 @@
    <classloader><inject bean="bindings-classloader:0.0.0"/></classloader>
 
    <classloader name="bindings-classloader" xmlns="urn:jboss:classloader:1.0" export-all="NON_EMPTY" import-all="true">
-      <root>${jboss.server.lib.url}/jboss-bindingservice.jar</root>
+      <root>${jboss.shared.lib.url}jboss-bindingservice.jar</root>
    </classloader>
 
    <bean name="ServiceBindingManager" class="org.jboss.services.binding.ServiceBindingManager">
 
+      <annotation>@org.jboss.aop.microcontainer.aspects.jmx.JMX(name="jboss.system:service=ServiceBindingManager", exposedInterface=org.jboss.services.binding.ServiceBindingManagerMBean.class, registerDirectly=true)</annotation>
+            
       <constructor>
          <!-- The set of bindings to use for this server -->
          <parameter>${jboss.service.binding.set:cargo-default}</parameter>

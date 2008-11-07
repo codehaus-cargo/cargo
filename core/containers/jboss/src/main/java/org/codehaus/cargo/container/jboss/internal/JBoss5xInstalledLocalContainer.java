@@ -23,7 +23,7 @@ package org.codehaus.cargo.container.jboss.internal;
  * The JBoss5x container implementation must implement this interface which provides
  * JBoss5x specifics elements.
  * 
- * @version $Id:$
+ * @version $Id$
  */
 public interface JBoss5xInstalledLocalContainer extends JBossInstalledLocalContainer
 {
@@ -34,5 +34,11 @@ public interface JBoss5xInstalledLocalContainer extends JBossInstalledLocalConta
      * @return The deployer directory located under the container's home installation directory
      */
     String getDeployersDir(String configurationName);
+    
+    /**
+     * Return the location of the shared server lib directory.
+     * @return The shared lib directory located under the container's home installation directory
+     */
+    String getSharedLibDir();
 
 }

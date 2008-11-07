@@ -8,11 +8,12 @@
 
 <server>
 
-   <!-- Load all jars from the JBOSS_DIST/server/<config>/lib directory. This
-     can be restricted to specific jars by specifying them in the archives
-     attribute.
-    -->
-   <classpath codebase="@cargo.server.lib.url@" archives="*"/>
+   <!-- Load all jars from the JBOSS_HOME/server/<config>/lib directory and
+        the shared JBOSS_HOME/server/lib directory. This can be restricted to
+        specific jars by specifying them in the archives attribute.
+   -->
+   <classpath codebase="${jboss.server.lib.url}" archives="*"/>
+   <classpath codebase="${jboss.shared.lib.url}" archives="*"/>
    @jboss.shared.classpath@
 
    <!-- ==================================================================== -->
@@ -24,36 +25,6 @@
       <attribute name="KernelMainDeployer"><inject bean="MainDeployer" /></attribute>
       <!-- This is used to validate incomplete deployments -->
       <attribute name="Controller"><inject bean="jboss.kernel:service=Kernel" property="controller"/></attribute>
-   </mbean>
-
-   <!-- ==================================================================== -->
-   <!-- SAR Deployer                                                         -->
-   <!-- ==================================================================== -->
-   <mbean code="org.jboss.deployment.SARDeployer"
-          name="jboss.system:service=ServiceDeployer">
-      <depends>jboss.system:service=MainDeployer</depends>
-   </mbean>
-
-   <!-- ==================================================================== -->
-   <!-- JSR-77 Single JBoss Server Management Domain                         -->
-   <!-- ==================================================================== -->
-   <mbean code="org.jboss.management.j2ee.LocalJBossServerDomain"
-      name="jboss.management.local:j2eeType=J2EEDomain,name=Manager">
-      <attribute name="MainDeployer">jboss.system:service=MainDeployer</attribute>
-      <attribute name="SARDeployer">jboss.system:service=ServiceDeployer</attribute>
-      <attribute name="EARDeployer">jboss.j2ee:service=EARDeployer</attribute>
-      <attribute name="EJBDeployer">jboss.ejb:service=EJBDeployer</attribute>
-      <attribute name="RARDeployer">jboss.jca:service=RARDeployer</attribute>
-      <attribute name="CMDeployer">jboss.jca:service=ConnectionFactoryDeployer</attribute>
-      <attribute name="WARDeployer">jboss.web:service=WebServer</attribute>
-      <attribute name="CARDeployer">jboss.j2ee:service=ClientDeployer</attribute>
-      <attribute name="MailService">jboss:service=Mail</attribute>
-      <attribute name="JMSService">jboss.mq:service=DestinationManager</attribute>
-      <attribute name="JNDIService">jboss:service=Naming</attribute>
-      <attribute name="JTAService">jboss:service=TransactionManager</attribute>
-      <attribute name="UserTransactionService">jboss:service=DistributedTransactionManager</attribute>
-      <attribute name="RMI_IIOPService">jboss:service=CorbaORB</attribute>
-      <depends>jboss.system:service=MainDeployer</depends>
    </mbean>
 
    <!-- ==================================================================== -->
@@ -293,130 +264,6 @@
       -->
       <attribute name="DeepCopySubjectMode">false</attribute>
    </mbean>
-
-   <!-- ==================================================================== -->
-   <!-- Remoting services 						                                   -->
-   <!-- ==================================================================== -->
-
-   <!-- For detailed description of all these configuration attributes, please see the -->
-   <!-- JBoss Remoting User's Guide or wiki (http://www.jboss.org/wiki/Wiki.jsp?page=Remoting_configuration) -->
-
-    <!-- The NetworkRegistry contains all the local and remote -->
-    <!-- servers that it recognizes.  The remote ones registered -->
-    <!-- are dependant on the detectors running and which domains -->
-    <!-- they are configured to identify.                         -->
-    <mbean code="org.jboss.remoting.network.NetworkRegistry"
-           name="jboss.remoting:service=NetworkRegistry"/>
-
-   <!-- The Connector is the core component of the remoting server service. -->
-   <!-- It binds the remoting invoker (transport protocol, callback configuration, -->
-   <!-- data marshalling, etc.) with the invocation handlers.  -->
-   <mbean code="org.jboss.remoting.transport.Connector"
-          name="jboss.remoting:service=Connector,transport=socket"
-          display-name="Socket transport Connector">
-
-       <!-- Can either just specify the InvokerLocator attribute and not the invoker element in the -->
-       <!-- Configuration attribute, or do the full invoker configuration in the in invoker element -->
-       <!-- of the Configuration attribute. -->
-
-       <!-- Remember that if you do use more than one param on the uri, will have to include as a CDATA, -->
-       <!-- otherwise, parser will complain. -->
-       <!-- 
-       <attribute name="InvokerLocator">
-          <value-factory bean="ServiceBindingManager" method="getStringBinding">
-             <parameter>jboss.remoting:service=Connector,transport=socket</parameter>
-             <parameter><![CDATA[socket://${host}:${port}/?datatype=invocation]]></parameter>
-          </value-factory>
-       </attribute>
-       -->
-
-      <attribute name="Configuration">
-         <!-- Using the following <invoker> element instead of the InvokerLocator above because specific attributes needed. -->
-         <!-- If wanted to use any of the parameters below, can just add them as parameters to the url above if wanted use the InvokerLocator attribute. -->
-         <value-factory bean="ServiceBindingManager" method="getElementBinding">
-             <parameter>jboss.remoting:service=Connector,transport=socket</parameter>
-             <parameter><![CDATA[
-         <config>
-            <!-- Other than transport type and handler, none of these configurations are required (will just use defaults). -->
-            <invoker transport="socket">
-               <attribute name="dataType" isParam="true">invocation</attribute>
-               <attribute name="marshaller" isParam="true">org.jboss.invocation.unified.marshall.InvocationMarshaller</attribute>
-               <attribute name="unmarshaller" isParam="true">org.jboss.invocation.unified.marshall.InvocationUnMarshaller</attribute>
-               <!-- This will be port on which the marshall loader port runs on.  -->
-               <!-- <attribute name="loaderport" isParam="true">4447</attribute> -->
-               <!-- The following are specific to socket invoker -->
-               <!-- <attribute name="numAcceptThreads">1</attribute>-->
-               <!-- <attribute name="maxPoolSize">303</attribute>-->
-               <!-- <attribute name="clientMaxPoolSize" isParam="true">304</attribute>-->
-               <!-- <attribute name="timeout" isParam="true">600000</attribute> -->
-               <attribute name="serverBindAddress">${host}</attribute>
-               <attribute name="serverBindPort">${port}</attribute>
-               <!-- <attribute name="clientConnectAddress">216.23.33.2</attribute> -->
-               <!-- <attribute name="clientConnectPort">7777</attribute> -->
-               <attribute name="enableTcpNoDelay" isParam="true">true</attribute>
-               <!-- <attribute name="backlog">200</attribute>-->
-               <!-- The following is for callback configuration and is independant of invoker type -->
-               <!-- <attribute name="callbackMemCeiling">30</attribute>-->
-               <!-- indicates callback store by fully qualified class name -->
-               <!-- <attribute name="callbackStore">org.jboss.remoting.CallbackStore</attribute>-->
-               <!-- indicates callback store by object name -->
-               <!-- <attribute name="callbackStore">jboss.remoting:service=CallbackStore,type=Serializable</attribute> -->
-               <!-- config params for callback store.  if were declaring callback store via object name, -->
-               <!-- could have specified these config params there. -->
-               <!-- StoreFilePath indicates to which directory to write the callback objects. -->
-               <!-- The default value is the property value of 'jboss.server.data.dir' and if this is not set, -->
-               <!-- then will be 'data'. Will then append 'remoting' and the callback client's session id. -->
-               <!-- An example would be 'data\remoting\5c4o05l-9jijyx-e5b6xyph-1-e5b6xyph-2'. -->
-               <!-- <attribute name="StoreFilePath">callback</attribute>-->
-               <!-- StoreFileSuffix indicates the file suffix to use for the callback objects written to disk. -->
-               <!-- The default value for file suffix is 'ser'. -->
-               <!-- <attribute name="StoreFileSuffix">cst</attribute>-->
-            </invoker>
-
-            <!-- At least one handler is required by the connector.  If have more than one, must decalre -->
-            <!-- different subsystem values.  Otherwise, all invocations will be routed to the only one -->
-            <!-- that is declared. -->
-            <handlers>
-               <!-- The JSR88 deployment service StreamingTarget handler -->
-               <handler subsystem="JSR88">org.jboss.deployment.remoting.DeployHandler</handler>
-            </handlers>
-         </config>
-         ]]>
-            </parameter>
-         </value-factory>
-      </attribute>
-      <depends>jboss.remoting:service=NetworkRegistry</depends>
-   </mbean>
-
-
-   <!-- <mbean code="org.jboss.remoting.detection.jndi.JNDIDetector"-->
-   <!--      name="jboss.remoting:service=Detector,transport=jndi">-->
-   <!-- host to which the detector will connect to for the JNDI server. -->
-   <!-- <attribute name="Host">localhost</attribute>-->
-   <!-- port to which detector will connect to for the JNDI server. -->
-   <!-- <attribute name="Port">5555</attribute>-->
-   <!-- context factory string used when connecting to the JNDI server. -->
-   <!-- The default is org.jnp.interfaces.NamingContextFactory. -->
-   <!-- <attribute name="ContextFactory">org.acme.NamingContextFactory</attribute> -->
-   <!-- url package string to use when connecting to the JNDI server. -->
-   <!-- The default is org.jboss.naming:org.jnp.interfaces. -->
-   <!-- <attribute name="URLPackage">org.acme.naming</attribute> -->
-   <!-- Sets the number of detection iterations before manually pinging -->
-   <!-- remote server to make sure still alive. This is needed since remote server -->
-   <!-- could crash and yet still have an entry in the JNDI server, -->
-   <!-- thus making it appear that it is still there. The default value is 5. -->
-   <!-- <attribute name="CleanDetectionNumber">20</attribute>-->
-
-   <!-- Specifies the domains in which the detector will recognize -->
-   <!-- detections.  If servers are not configured to be in these -->
-   <!-- domains, they will not be added to NetworkRegistry. -->
-   <!--      <attribute name="Configuration">-->
-   <!--         <domains>-->
-   <!--            <domain>roxanne</domain>-->
-   <!--            <domain>sparky</domain>-->
-   <!--         </domains>-->
-   <!--      </attribute>-->
-   <!--   </mbean>-->
 
    <!-- ==================================================================== -->
    <!-- Monitoring and Management                                            -->
