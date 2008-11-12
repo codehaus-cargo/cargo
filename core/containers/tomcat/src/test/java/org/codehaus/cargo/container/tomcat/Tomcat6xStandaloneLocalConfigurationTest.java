@@ -56,8 +56,9 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends TestCase {
 		
 		Tomcat6xStandaloneLocalConfiguration conf = new Tomcat6xStandaloneLocalConfiguration("foo");
 		Resource resource = new Resource("myDataSource", "javax.sql.DataSource");
+        resource.setParameter("password", "pass");
 		resource.setParameter("username", "foo");
-		resource.setParameter("password", "pass");
+
 		
 		conf.addResource(resource);
 		
@@ -80,12 +81,12 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends TestCase {
 		Tomcat6xStandaloneLocalConfiguration conf = new Tomcat6xStandaloneLocalConfiguration("foo");
 
 		Resource resource = new Resource("myDataSource", "javax.sql.DataSource");
+        resource.setParameter("password", "pass");
 		resource.setParameter("username", "foo");
-		resource.setParameter("password", "pass");
 
 		Resource resource2 = new Resource("otherDataSource", "javax.sql.DataSource");
+        resource2.setParameter("password", "bar");
 		resource2.setParameter("username", "gazonk");
-		resource2.setParameter("password", "bar");
 		
 		conf.addResource(resource);
 		conf.addResource(resource2);

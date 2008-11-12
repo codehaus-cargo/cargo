@@ -65,8 +65,8 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends TestCase {
 		
 		Tomcat4xStandaloneLocalConfiguration conf = new Tomcat4xStandaloneLocalConfiguration("foo");
 		Resource resource = new Resource("myDataSource", "javax.sql.DataSource");
+		resource.setParameter("password" , "pass");
 		resource.setParameter("username", "foo");
-		resource.setParameter("password", "pass");
 		
 		conf.addResource(resource);
 				

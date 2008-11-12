@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.resource;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -54,7 +54,7 @@ public class Resource
     {
         this.name = name;
         this.type = type;
-        parameters = new HashMap();
+        parameters = new LinkedHashMap();
     }
 
     /**
