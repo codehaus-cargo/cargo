@@ -502,7 +502,7 @@
       <!-- All containers for the CI -->
       <id>all-ci</id>
       <properties>
-        <cargo.containers>resin3x, orion2x, tomcat6x, jetty6x, jboss42x</cargo.containers>
+        <cargo.containers>resin3x, orion2x, tomcat6x, jetty6x, jboss42x, jonas5x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -512,7 +512,7 @@
         <jdk>1.4</jdk>
       </activation>
       <properties>
-        <cargo.containers>resin3x, orion2x, jboss42x</cargo.containers>
+        <cargo.containers>resin3x, orion2x, tomcat5x, jetty6x, jboss4x, jonas4x</cargo.containers>
       </properties>
     </profile>
     <profile>
