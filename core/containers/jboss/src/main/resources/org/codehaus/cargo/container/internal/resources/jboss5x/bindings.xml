@@ -5,7 +5,7 @@
    <classloader><inject bean="bindings-classloader:0.0.0"/></classloader>
 
    <classloader name="bindings-classloader" xmlns="urn:jboss:classloader:1.0" export-all="NON_EMPTY" import-all="true">
-      <root>${jboss.shared.lib.url}jboss-bindingservice.jar</root>
+      <root>${jboss.common.lib.url}jboss-bindingservice.jar</root>
    </classloader>
 
    <bean name="ServiceBindingManager" class="org.jboss.services.binding.ServiceBindingManager">
@@ -75,7 +75,7 @@
             <!-- Remoting Connector -->
             <bean class="org.jboss.services.binding.ServiceBinding">
                <constructor>
-                  <parameter>jboss.remoting:service=Connector,transport=socket</parameter>
+                  <parameter>UnifiedInvokerConnector</parameter>
                   <parameter>${jboss.bind.address}</parameter>
                   <parameter>4446</parameter>
                </constructor>

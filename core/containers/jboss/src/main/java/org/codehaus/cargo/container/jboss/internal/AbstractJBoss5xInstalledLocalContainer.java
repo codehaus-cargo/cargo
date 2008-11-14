@@ -29,8 +29,8 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
     protected void doStart(Java java) throws Exception
     {
         java.addSysproperty(getAntUtils().createSysProperty(
-                "jboss.shared.lib.url",
-                new File(getSharedLibDir()).toURL().toString()));
+                "jboss.common.lib.url",
+                new File(getCommonLibDir()).toURL().toString()));
         super.doStart(java);
     }
     
@@ -45,8 +45,8 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
     /**
      * {@inheritDoc}
      */
-    public String getSharedLibDir()
+    public String getCommonLibDir()
     {
-        return getFileHandler().append(getHome(), "server/lib");
+        return getFileHandler().append(getHome(), "common/lib");
     }
 }

@@ -79,7 +79,8 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             getConfiguration().getHome()));
         java.addSysproperty(getAntUtils().createSysProperty("jboss.server.home.url",
             new File(getConfiguration().getHome()).toURL().toString()));
-        java.addSysproperty(getAntUtils().createSysProperty("jboss.server.name", getId()));
+        java.addSysproperty(getAntUtils().createSysProperty("jboss.server.name",
+                getLibDir(getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION))));
         java.addSysproperty(getAntUtils().createSysProperty(
             "jboss.server.lib.url",
             new File(getLibDir(getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)))
@@ -104,7 +105,9 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             java.createJvmarg().setValue("-Xmx512m");
         }
         
-        java.createArg().setValue("--configuration=" + getId());
+        java.createArg().setValue(
+                "--configuration="
+                        + getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION));
 
         Path classpath = java.createClasspath();
         classpath.createPathElement().setLocation(new File(getHome(), "bin/run.jar"));

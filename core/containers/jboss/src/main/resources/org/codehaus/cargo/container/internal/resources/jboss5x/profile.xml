@@ -76,19 +76,4 @@
       </property>
    </bean>
 
-   <!-- Hotdeployment of applications -->
-   <bean name="HDScanner"
-      class="org.jboss.system.server.profileservice.hotdeploy.HDScanner">
-      <property name="mainDeployer"><inject bean="MainDeployer"/></property>
-      <!-- Workaround for JBMICROCONT-176
-      -->
-      <property name="controller"><inject bean="jboss.kernel:service=KernelController"/></property>
-      <!-- Broken due to JBMICROCONT-176
-         <property name="controller"><inject bean="jboss.kernel:service=Kernel" property="controller"/></property>
-      -->
-      <property name="profileService"><inject bean="ProfileService"/></property>
-      <property name="scanPeriod">5000</property>
-      <property name="scanThreadName">HDScanner</property>
-   </bean>
-   
 </deployment>
