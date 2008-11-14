@@ -507,12 +507,12 @@
     </profile>
     <profile>
       <!-- All containers for the CI in Java 4 -->
-      <id>all-ci-jdk-1.4</id>
+      <id>all-ci-java-1.4</id>
       <activation>
         <jdk>1.4</jdk>
       </activation>
       <properties>
-        <cargo.containers>resin3x, orion2x, tomcat5x, jetty6x, jboss4x, jonas4x</cargo.containers>
+        <cargo.containers>resin3x, orion2x, tomcat5x, jetty5x, jboss4x, jonas4x</cargo.containers>
       </properties>
     </profile>
     <profile>
