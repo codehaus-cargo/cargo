@@ -383,6 +383,10 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
                 {
                     String.class.getName()
                 });
+
+                // See bug CARGO-620
+                getLogger().debug("Calling garbage collector on server", getClass().getName());
+                mbsc.invoke(serverMBeanName, "runGC", null, null);
             }
             else
             {
