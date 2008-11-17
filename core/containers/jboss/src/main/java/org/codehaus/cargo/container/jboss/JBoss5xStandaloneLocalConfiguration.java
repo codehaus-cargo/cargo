@@ -151,6 +151,14 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
                  .getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(
                      deployDir), new String[0]);
         
+        //TODO: this should not be needed with the final release of JBoss AS5
+        // Copy the files within the JBoss lib-opt directory to the cargo lib-opt directory
+        String libOptDir = getFileHandler().createDirectory(getHome(), "/lib-opt");
+        copyExternalResources(
+                 new File(((JBoss5xInstalledLocalContainer) jbossContainer)
+                 .getLibOptDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(
+                     libOptDir), new String[0]);
+        
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             new File(getHome(), "/deploy/cargocpc.war"));

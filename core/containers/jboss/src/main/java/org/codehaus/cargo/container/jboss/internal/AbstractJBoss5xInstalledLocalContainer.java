@@ -45,6 +45,14 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
     /**
      * {@inheritDoc}
      */
+    public String getLibOptDir(String configurationName)
+    {
+        return getSpecificConfigurationDir("lib-opt", configurationName);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     public String getCommonLibDir()
     {
         return getFileHandler().append(getHome(), "common/lib");
