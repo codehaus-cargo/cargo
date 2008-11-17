@@ -144,7 +144,7 @@
 
               <property>
                 <name>cargo.resin3x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.resin3x.url</name>
@@ -153,7 +153,7 @@
 
               <property>
                 <name>cargo.resin2x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.resin2x.url</name>
@@ -162,7 +162,7 @@
 
               <property>
                 <name>cargo.orion2x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.orion2x.url</name>
@@ -171,7 +171,7 @@
 
               <property>
                 <name>cargo.orion1x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.orion1x.url</name>
@@ -180,7 +180,7 @@
 
               <property>
                 <name>cargo.tomcat3x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.tomcat3x.url</name>
@@ -189,7 +189,7 @@
 
               <property>
                 <name>cargo.tomcat4x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.tomcat4x.url</name>
@@ -202,7 +202,7 @@
                 -->
               <property>
                 <name>cargo.tomcat5x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.tomcat5x.url</name>
@@ -217,7 +217,7 @@
               </property>
               <property>
                 <name>cargo.tomcat6x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.tomcat6x.url</name>
@@ -226,7 +226,7 @@
 
               <property>
                 <name>cargo.jetty4x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.jetty4x.url</name>
@@ -235,7 +235,7 @@
 
               <property>
                 <name>cargo.jetty5x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.jetty5x.url</name>
@@ -244,7 +244,7 @@
 
               <property>
                 <name>cargo.jetty6x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.jetty6x.url</name>
@@ -253,7 +253,7 @@
 
               <property>
                 <name>cargo.jetty7x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.jetty7x.url</name>
@@ -272,7 +272,7 @@
                 -->
               <property>
                 <name>cargo.weblogic8x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
 
               <!--
@@ -287,12 +287,12 @@
                 -->
               <property>
                 <name>cargo.oc4j9x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
 
               <property>
                 <name>cargo.jo1x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.jo1x.url</name>
@@ -301,7 +301,7 @@
 
               <property>
                 <name>cargo.jboss3x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.jboss3x.url</name>
@@ -310,7 +310,7 @@
 
               <property>
                 <name>cargo.jboss4x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.jboss4x.url</name>
@@ -319,7 +319,7 @@
 
               <property>
                 <name>cargo.jboss42x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.jboss42x.url</name>
@@ -341,7 +341,7 @@
               </property>
               <property>
                 <name>cargo.jonas4x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
 
               <!-- additional required properties to make the samples work correctly -->
@@ -368,7 +368,7 @@
               </property>
               <property>
                 <name>cargo.jonas5x.port</name>
-                <value>8282</value>
+                <value>${cargo.samples.port}</value>
               </property>
 
               <!-- additional required properties to make the samples work correctly -->
@@ -494,6 +494,7 @@
     <module>java</module>
   </modules>
   <properties>
+    <cargo.samples.port>8285</cargo.samples.port>
     <cargo.containers>jetty6x</cargo.containers>
     <cargo.install.dir>${java.io.tmpdir}/cargo/installs</cargo.install.dir>
   </properties>
@@ -512,6 +513,8 @@
         <jdk>1.4</jdk>
       </activation>
       <properties>
+        <!-- Set different port numbers for different JDKs (Codehaus CI-specific) -->
+        <cargo.samples.port>8284</cargo.samples.port>
         <cargo.containers>resin3x, orion2x, tomcat5x, jetty5x, jboss4x, jonas4x</cargo.containers>
       </properties>
     </profile>
