@@ -63,9 +63,9 @@ public class WebLogic9xInstalledLocalContainer
 
     /**
      * {@inheritDoc}
-     * @see AbstractWebLogicInstalledLocalContainer#getDefaultDeployableFolder()
+     * 
      */
-    public String getDefaultDeployableFolder()
+    public String getAutoDeployDirectory()
     {
         return "autodeploy";
     }

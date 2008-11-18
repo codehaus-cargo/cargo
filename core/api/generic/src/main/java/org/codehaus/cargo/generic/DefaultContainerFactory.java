@@ -252,6 +252,9 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
         registerContainer("weblogic9x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.weblogic.WebLogic9xInstalledLocalContainer");
+
+        registerContainer("weblogic10x", ContainerType.INSTALLED,
+            "org.codehaus.cargo.container.weblogic.WebLogic10xInstalledLocalContainer");
     }
 
     /**

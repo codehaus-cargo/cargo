@@ -235,7 +235,12 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
      */
     public void registerWeblogic()
     {
-        // TODO: this is empty...
+        registerDeployer("weblogic8x", DeployerType.INSTALLED,
+            "org.codehaus.cargo.container.weblogic.WebLogicCopyingInstalledLocalDeployer");
+        registerDeployer("weblogic9x", DeployerType.INSTALLED,
+            "org.codehaus.cargo.container.weblogic.WebLogicCopyingInstalledLocalDeployer");
+        registerDeployer("weblogic10x", DeployerType.INSTALLED,
+            "org.codehaus.cargo.container.weblogic.WebLogicCopyingInstalledLocalDeployer");
     }
 
     /**

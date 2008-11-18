@@ -286,9 +286,10 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
         registerConfiguration("weblogic8x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.weblogic.WebLogicExistingLocalConfiguration");
 
-        registerConfiguration("weblogic9x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.weblogic.WebLogicStandaloneLocalConfiguration");
         registerConfiguration("weblogic9x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            "org.codehaus.cargo.container.weblogic.WebLogicExistingLocalConfiguration");
+
+        registerConfiguration("weblogic10x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.weblogic.WebLogicExistingLocalConfiguration");
     }
 
