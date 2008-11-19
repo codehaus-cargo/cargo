@@ -50,4 +50,9 @@ public interface GeneralPropertySet
      * The port to use when communicating with this server, for example to start and stop it.
      */
     String RMI_PORT = "cargo.rmi.port";
+    
+    /**
+     * URI Encoding to set.
+     */
+    String URI_ENCODING = "cargo.servlet.uriencoding";
 }

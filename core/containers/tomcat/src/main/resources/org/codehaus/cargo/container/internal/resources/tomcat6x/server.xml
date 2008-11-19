@@ -16,7 +16,8 @@
                scheme="@cargo.protocol@"
                secure="@catalina.secure@"
                debug="@catalina.logging.level@"
-               emptySessionPath="@catalina.connector.emptySessionPath@"/>
+               emptySessionPath="@catalina.connector.emptySessionPath@"
+               URIEncoding="@catalina.servlet.uriencoding@" />
 
     <!-- Define an AJP 1.3 Connector on port 8009 -->
     <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" />

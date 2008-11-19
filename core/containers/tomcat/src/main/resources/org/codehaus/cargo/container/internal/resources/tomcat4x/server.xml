@@ -4,7 +4,7 @@
 
     <Connector className="org.apache.catalina.connector.http.HttpConnector"
         port="@cargo.servlet.port@" minProcessors="5" maxProcessors="75"
-        acceptCount="10" debug="@catalina.logging.level@"/>
+        acceptCount="10" debug="@catalina.logging.level@ URIEncoding="@catalina.servlet.uriencoding@"/>
 
     <Engine name="Standalone" defaultHost="@cargo.hostname@" debug="@catalina.logging.level@">
 

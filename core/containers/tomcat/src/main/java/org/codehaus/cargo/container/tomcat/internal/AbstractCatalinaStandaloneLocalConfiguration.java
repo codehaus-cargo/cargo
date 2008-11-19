@@ -56,6 +56,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
 
         setProperty(ServletPropertySet.USERS, "admin::manager");
         setProperty(GeneralPropertySet.RMI_PORT, "8205");
+        setProperty(GeneralPropertySet.URI_ENCODING, "ISO-8859-1");
     }
 
     /**
@@ -203,6 +204,10 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
 
         // Add token filters for authenticated users
         getAntUtils().addTokenToFilterChain(filterChain, "tomcat.users", getSecurityToken());
+        
+        getAntUtils().addTokenToFilterChain(filterChain, "catalina.servlet.uriencoding",
+                getPropertyValue(GeneralPropertySet.URI_ENCODING));
+        
 
         // Add webapp contexts in order to explicitely point to where the
         // wars are located.

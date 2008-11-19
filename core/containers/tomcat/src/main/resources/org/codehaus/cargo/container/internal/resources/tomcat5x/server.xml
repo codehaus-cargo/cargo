@@ -8,7 +8,8 @@
         connectionTimeout="20000" disableUploadTimeout="true"
         scheme="@cargo.protocol@" secure="@catalina.secure@"
         debug="@catalina.logging.level@"
-        emptySessionPath="@catalina.connector.emptySessionPath@"/>
+        emptySessionPath="@catalina.connector.emptySessionPath@"
+        URIEncoding="@catalina.servlet.uriencoding@" />
 
     <Engine name="Catalina" defaultHost="@cargo.hostname@" 
         debug="@catalina.logging.level@">
