@@ -118,6 +118,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
         String deployDir = getFileHandler().createDirectory(getHome(), "/deploy");
         String libDir = getFileHandler().createDirectory(getHome(), "/lib");
         String confDir = getFileHandler().createDirectory(getHome(), "/conf");
+        String confBootstrapDir = getFileHandler().createDirectory(getHome(), "/conf/bootstrap");
 
         String clustered = jbossContainer.getConfiguration().
             getPropertyValue(JBossPropertySet.CLUSTERED);
@@ -127,23 +128,37 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
         {
             String farmDir = getFileHandler().createDirectory(getHome(), "/farm");        
         }
-        
-
+                
         // Copy configuration files from cargo resources directory with token replacement
-        String[] cargoFiles = new String[] {"bindings.xml", "jboss-log4j.xml",
-            "jboss-service.xml", "profile.xml"};
-        for (int i = 0; i < cargoFiles.length; i++)
+        String[] cargoConfigFiles = new String[] {"jboss-log4j.xml", "jboss-service.xml"};
+        for (int i = 0; i < cargoConfigFiles.length; i++)
         {
             getResourceUtils().copyResource(
-                RESOURCE_PATH + jbossContainer.getId() + "/" + cargoFiles[i],
-                new File(confDir, cargoFiles[i]), filterChain);
+                RESOURCE_PATH + jbossContainer.getId() + "/" + cargoConfigFiles[i],
+                new File(confDir, cargoConfigFiles[i]), filterChain);
+        }
+        
+        // Copy bootstrap configuration files from cargo resources directory with token replacement
+        String[] cargoConfigBootstrapFiles = new String[] {"bindings.xml", "profile.xml"};
+        for (int i = 0; i < cargoConfigBootstrapFiles.length; i++)
+        {
+            getResourceUtils().copyResource(
+                RESOURCE_PATH + jbossContainer.getId() + "/" + cargoConfigBootstrapFiles[i],
+                new File(confBootstrapDir, cargoConfigBootstrapFiles[i]), filterChain);
         }
 
         // Copy resources from jboss installation folder and exclude files
         // that already copied from cargo resources folder
         copyExternalResources(
             new File(jbossContainer.getConfDir(getPropertyValue(JBossPropertySet.CONFIGURATION))),
-            new File(confDir), cargoFiles);
+            new File(confDir), cargoConfigFiles);
+        
+        // Copy resources from jboss installation folder and exclude files
+        // that already copied from cargo resources folder
+        copyExternalResources(
+            new File(jbossContainer.getConfDir(getPropertyValue(JBossPropertySet.CONFIGURATION)) 
+                    + "/bootstrap"),
+            new File(confBootstrapDir), cargoConfigBootstrapFiles);
         
         // Copy the files within the JBoss Deploy directory to the cargo deploy directory
         copyExternalResources(
