@@ -515,7 +515,7 @@
       <!-- All containers for the CI -->
       <id>all-ci</id>
       <properties>
-        <cargo.containers>resin3x, orion2x, tomcat6x, jetty7x, jboss5x, jonas5x</cargo.containers>
+        <cargo.containers>resin3x, orion2x, tomcat6x, jetty6x, jboss5x, jonas5x</cargo.containers>
       </properties>
     </profile>
     <profile>
