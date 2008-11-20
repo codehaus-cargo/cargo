@@ -494,28 +494,35 @@
     <module>java</module>
   </modules>
   <properties>
-    <cargo.samples.port>8285</cargo.samples.port>
+    <!-- By default, only test on Jetty 6 on port 8285 -->
     <cargo.containers>jetty6x</cargo.containers>
+    <cargo.samples.port>8285</cargo.samples.port>
     <cargo.install.dir>${java.io.tmpdir}/cargo/installs</cargo.install.dir>
   </properties>
   <profiles>
     <profile>
+      <!-- Set different port numbers for different JDKs (Codehaus CI-specific) -->
+      <id>java-1.4</id>
+      <activation>
+        <jdk>1.4</jdk>
+      </activation>
+      <properties>
+         <!-- If on Java 4, test on port 8284 -->
+        <cargo.samples.port>8284</cargo.samples.port>
+      </properties>
+    </profile>
+    <profile>
       <!-- All containers for the CI -->
       <id>all-ci</id>
       <properties>
-        <cargo.containers>resin3x, orion2x, tomcat6x, jetty6x, jboss42x, jonas5x</cargo.containers>
+        <cargo.containers>resin3x, orion2x, tomcat6x, jetty7x, jboss5x, jonas5x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <!-- All containers for the CI in Java 4 -->
       <id>all-ci-java-1.4</id>
-      <activation>
-        <jdk>1.4</jdk>
-      </activation>
       <properties>
-        <!-- Set different port numbers for different JDKs (Codehaus CI-specific) -->
-        <cargo.samples.port>8284</cargo.samples.port>
-        <cargo.containers>resin3x, orion2x, tomcat5x, jetty5x, jboss4x, jonas4x</cargo.containers>
+        <cargo.containers>resin3x, orion2x, tomcat5x, jetty6x, jboss4x, jonas4x</cargo.containers>
       </properties>
     </profile>
     <profile>
