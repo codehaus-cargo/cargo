@@ -110,10 +110,13 @@
       <version>${cargo.resources.version}</version>
       <type>ear</type>
     </dependency>
+
+    <!-- Java 4 doesn't have com.sun.org.apache.xerces.internal -->
     <dependency>
-      <groupId>xerces</groupId>
-      <artifactId>xercesImpl</artifactId>
-      <version>2.6.2</version>
+      <groupId>activesoap</groupId>
+      <artifactId>jaxb-xercesImpl</artifactId>
+      <version>1.5</version>
+      <version>test</version>
     </dependency>
 
   </dependencies>
