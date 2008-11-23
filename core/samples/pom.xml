@@ -116,7 +116,7 @@
       <groupId>activesoap</groupId>
       <artifactId>jaxb-xercesImpl</artifactId>
       <version>1.5</version>
-      <version>test</version>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>
