@@ -56,24 +56,6 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     }
 
     /**
-     * {@inheritDoc}<br>
-     * This override replaces the CARGO WAR CPC with the Jonas4xAdmin ping.
-     */
-    protected void waitForCompletion(final boolean waitForStarting) throws InterruptedException
-    {
-        while (true)
-        {
-            Thread.sleep(1000);
-
-            boolean serverRunning = jonasAdmin.isServerRunning();
-            if (serverRunning == waitForStarting)
-            {
-                break;
-            }
-        }
-    }
-
-    /**
      * {@inheritDoc}
      *
      * @see AbstractJonasInstalledLocalContainer#doStart(Java)
@@ -86,6 +68,24 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
         jonasRunner.start();
+
+        // Wait for JOnAS to start by pinging (to ensure all modules are deployed and ready)
+        while (true)
+        {
+            try
+            {
+                Thread.sleep(1000);
+            }
+            catch (InterruptedException e)
+            {
+                throw new IllegalStateException("Thread.sleep failed");
+            }
+
+            if (jonasAdmin.isServerRunning())
+            {
+                break;
+            }
+        }
     }
 
     /**
@@ -95,13 +95,26 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      */
     public void doStop(final Java java)
     {
+        // Wait until JonasAdmin stop succeeds, throw exception if anything bad occurs
+        java.setFork(true);
+
         doAction(java);
         java.createArg().setValue("org.objectweb.jonas.adm.JonasAdmin");
         doServerAndDomainNameParam(java);
         java.createArg().setValue("-s");
 
-        AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
-        jonasRunner.start();
+        java.reconfigure();
+
+        int returnCode = java.executeJava();
+        if (returnCode != 0 && returnCode != 2)
+        {
+            throw new IllegalStateException("JonasAdmin stop returned " + returnCode
+                    + ", the only values allowed are 0 and 2");
+        }
+        if (returnCode != 0)
+        {
+            throw new IllegalStateException("Cannot stop server. Check JOnAS logs for details.");
+        }
     }
 
     /**

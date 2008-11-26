@@ -63,6 +63,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
         jonasRunner.start();
 
+        // Wait for JOnAS to start by pinging (to ensure all modules are deployed and ready)
         while (true)
         {
             Java ping = (Java) new AntUtils().createAntTask("java");
