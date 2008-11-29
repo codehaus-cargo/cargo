@@ -25,7 +25,6 @@ import org.apache.commons.vfs.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.weblogic.WebLogic9xInstalledLocalContainer;
-import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 import org.codehaus.cargo.container.weblogic.WebLogicStandaloneLocalConfiguration;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
@@ -78,7 +77,9 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
     public void testInitBeaHome()
     {
         this.container.initBeaHome();
-        assertEquals(BEA_HOME, this.container.getBeaHome());
+        // convert so that file paths match in windows os
+        String name = this.container.getBeaHome().replaceAll("\\\\", "/");
+        assertEquals(BEA_HOME, name);
     }
 
     public void testGetBeaHome()
