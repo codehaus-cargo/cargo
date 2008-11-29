@@ -211,6 +211,9 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
         
         registerContainerCapability("weblogic10x",
             "org.codehaus.cargo.container.internal.J2EEContainerCapability");
+
+        registerContainerCapability("weblogic103x",
+            "org.codehaus.cargo.container.internal.J2EEContainerCapability");    
     }
 
     /**

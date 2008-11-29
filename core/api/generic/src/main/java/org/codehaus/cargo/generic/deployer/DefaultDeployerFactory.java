@@ -241,6 +241,9 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
             "org.codehaus.cargo.container.weblogic.WebLogicCopyingInstalledLocalDeployer");
         registerDeployer("weblogic10x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.weblogic.WebLogicCopyingInstalledLocalDeployer");
+        registerDeployer("weblogic103x", DeployerType.INSTALLED,
+            "org.codehaus.cargo.container.weblogic.WebLogicCopyingInstalledLocalDeployer");
+
     }
 
     /**
