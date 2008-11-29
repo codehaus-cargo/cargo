@@ -30,23 +30,35 @@ public interface WebLogicPropertySet
      * User with administrator rights.
      */
     String ADMIN_USER = "cargo.weblogic.administrator.user";
-    
+
     /**
      * Password for user with administrator rights.
      */
     String ADMIN_PWD = "cargo.weblogic.administrator.password";
-    
+
     /**
      * WebLogic server name.
      */
     String SERVER = "cargo.weblogic.server";
-
+    
     /**
      * The auto-deploy folder, if different then default
      */
     String DEPLOYABLE_FOLDER = "cargo.weblogic.deployable.folder";
+
     /**
      * BEA Home. This is where bea products are installed
      */
     String BEA_HOME = "cargo.weblogic.bea.home";
+
+    /**
+     * Version of the domain configuration. Used in WebLogic 9x+, defaults to 9.2.3.0
+     */
+    String CONFIGURATION_VERSION = "cargo.weblogic.configuration.version";
+
+    /**
+     * Lowest common denominator of the servers in the domain. Used in WebLogic 9x+, defaults to
+     * 9.2.3.0
+     */
+    String DOMAIN_VERSION = "cargo.weblogic.domain.version";
 }

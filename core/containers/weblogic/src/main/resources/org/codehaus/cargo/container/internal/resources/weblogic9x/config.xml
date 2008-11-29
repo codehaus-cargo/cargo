@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<domain xmlns="http://www.bea.com/ns/weblogic/920/domain"
+	xmlns:sec="http://www.bea.com/ns/weblogic/90/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:wls="http://www.bea.com/ns/weblogic/90/security/wls"
+	xsi:schemaLocation="http://www.bea.com/ns/weblogic/90/security/xacml http://www.bea.com/ns/weblogic/90/security/xacml.xsd http://www.bea.com/ns/weblogic/90/security http://www.bea.com/ns/weblogic/90/security.xsd http://www.bea.com/ns/weblogic/920/domain http://www.bea.com/ns/weblogic/920/domain.xsd http://www.bea.com/ns/weblogic/90/security/wls http://www.bea.com/ns/weblogic/90/security/wls.xsd">
+	<name>domain</name>
+	<domain-version>@cargo.weblogic.domain.version@</domain-version>
+	<security-configuration>
+		<name>domain</name>
+		<realm>
+			<sec:authentication-provider xsi:type="wls:default-authenticatorType"></sec:authentication-provider>
+			<sec:authentication-provider xsi:type="wls:default-identity-asserterType">
+				<sec:active-type>AuthenticatedUser</sec:active-type>
+			</sec:authentication-provider>
+			<sec:role-mapper xmlns:xac="http://www.bea.com/ns/weblogic/90/security/xacml"
+				xsi:type="xac:xacml-role-mapperType"></sec:role-mapper>
+			<sec:authorizer xmlns:xac="http://www.bea.com/ns/weblogic/90/security/xacml"
+				xsi:type="xac:xacml-authorizerType"></sec:authorizer>
+			<sec:adjudicator xsi:type="wls:default-adjudicatorType"></sec:adjudicator>
+			<sec:credential-mapper xsi:type="wls:default-credential-mapperType"></sec:credential-mapper>
+			<sec:cert-path-provider xsi:type="wls:web-logic-cert-path-providerType"></sec:cert-path-provider>
+			<sec:cert-path-builder>WebLogicCertPathProvider</sec:cert-path-builder>
+			<sec:name>myrealm</sec:name>
+		</realm>
+		<default-realm>myrealm</default-realm>
+		<!--
+			note that the below was provided from the default examples server. As
+			such, it is not secure
+		-->
+		<credential-encrypted>{3DES}G3/I6oBo5uNLQeAlOxMd4zQE6SpdC6Oq08Qer6RljfD3nazgAjewavd9eRGnHBIY7Qc6yx2G+eFAxIriSyipBazAkvH3UZQ0</credential-encrypted>
+	</security-configuration>
+	<server>
+		<name>@cargo.weblogic.server@</name>
+		<listen-port>@cargo.servlet.port@</listen-port>
+	</server>
+	<embedded-ldap>
+		<name>domain</name>
+		<!--
+			note that the below was provided from the default examples server. As
+			such, it is not secure
+		-->
+		<credential-encrypted>{3DES}U5qCDmj6k1ikPWXdfJJ6alWSkYb0Rh0FiK0Gf5SS+VM=</credential-encrypted>
+	</embedded-ldap>
+	<configuration-version>@cargo.weblogic.configuration.version@</configuration-version>
+	@weblogic.apps@
+	<admin-server-name>@cargo.weblogic.server@</admin-server-name>
+</domain>
