@@ -19,12 +19,10 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
 import org.apache.tools.ant.types.FilterChain;
-import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -74,6 +72,7 @@ public class WebLogicStandaloneLocalConfiguration extends
     
     /**
      * {@inheritDoc}
+     * 
      * @see AbstractStandaloneLocalConfiguration#configure(LocalContainer)
      */
     protected void doConfigure(LocalContainer container) throws Exception
@@ -82,96 +81,87 @@ public class WebLogicStandaloneLocalConfiguration extends
 
         FilterChain filterChain = createWebLogicFilterChain();
 
-        getResourceUtils().copyResource(
-                RESOURCE_PATH + container.getId() + "/config.xml",
-            new File(getHome(), "config.xml"), filterChain);
+        // make sure you use this method, as it ensures the same filehandler
+        // that created the directory will be used to copy the resource.
+        // This is especially important for unit testing
+        getResourceUtils()
+            .copyResource(RESOURCE_PATH + container.getId() + "/config.xml",
+                getFileHandler().append(getDomainHome(), "config.xml"), getFileHandler(),
+                filterChain);
 
         getResourceUtils().copyResource(
-                RESOURCE_PATH + container.getId()
-            + "/DefaultAuthenticatorInit.ldift",
-                new File(getHome(), "DefaultAuthenticatorInit.ldift"),
-                filterChain);
+            RESOURCE_PATH + container.getId() + "/DefaultAuthenticatorInit.ldift",
+            getFileHandler().append(getDomainHome(), "DefaultAuthenticatorInit.ldift"),
+            getFileHandler(), filterChain);
 
         setupDeployables((WebLogicLocalContainer) container);
     }
 
     /**
-     * @return an Ant filter chain containing implementation for the filter
-     *         tokens used in the WebLogic configuration files
+     * @return an Ant filter chain containing implementation for the filter tokens used in the
+     *         WebLogic configuration files
      */
     private FilterChain createWebLogicFilterChain()
     {
         FilterChain filterChain = getFilterChain();
-        
+
         StringBuffer appTokenValue = new StringBuffer(" ");
-        
+
         Iterator it = getDeployables().iterator();
         while (it.hasNext())
         {
             Deployable deployable = (Deployable) it.next();
 
             if ((deployable.getType() == DeployableType.WAR)
-                    && ((WAR) deployable).isExpandedWar())
+                && ((WAR) deployable).isExpandedWar())
             {
                 String context = ((WAR) deployable).getContext();
-                appTokenValue.append("<Application "); 
+                appTokenValue.append("<Application ");
                 appTokenValue.append("Name=\"_" + context + "_app\" ");
-                appTokenValue.append("Path=\""
-                        + getFileHandler().getParent(deployable.getFile())
-                        + "\" ");
+                appTokenValue.append("Path=\"" + getFileHandler().getParent(deployable.getFile())
+                    + "\" ");
                 appTokenValue
-                        .append("StagedTargets=\"server\" StagingMode=\"stage\" TwoPhase=\"true\"");
+                    .append("StagedTargets=\"server\" StagingMode=\"stage\" TwoPhase=\"true\"");
                 appTokenValue.append(">");
-                
+
                 appTokenValue.append("<WebAppComponent ");
-                appTokenValue.append("Name=\"" + context + "\" "); 
+                appTokenValue.append("Name=\"" + context + "\" ");
                 appTokenValue.append("Targets=\"server\" ");
                 appTokenValue.append("URI=\"" + context + "\"");
                 appTokenValue.append("/></Application>");
             }
         }
-        
+
         getAntUtils().addTokenToFilterChain(filterChain, "weblogic.apps",
-                appTokenValue.toString());
-            
+            appTokenValue.toString());
+
         return filterChain;
     }
 
     /**
      * Deploy the Deployables to the weblogic configuration.
      * 
-     * @param container
-     *                the container to configure
-     * @throws IOException
-     *                 if the cargo ping deployment fails
+     * @param container the container to configure
+     * @throws IOException if the cargo ping deployment fails
      */
-    protected void setupDeployables(WebLogicLocalContainer container)
-        throws IOException
+    protected void setupDeployables(WebLogicLocalContainer container) throws IOException
     {
-        WebLogicLocalContainer weblogicContainer = container;
-            // Get the deployable folder from container config. If it is not set
-        File deployDir = new File(getDomainHome(), weblogicContainer
-                .getAutoDeployDirectory());
-            // use the default one.
-        if (!deployDir.exists())
-        {
-            throw new ContainerException(
-                    "Invalid existing configuration: The ["
-                            + deployDir.getPath()
-                            + "] directory does not exist");
-        }
+        // as this is an initial install, this directory will not exist, yet
+        String deployDir =
+            getFileHandler().createDirectory(getDomainHome(), container.getAutoDeployDirectory());
 
-        WebLogicCopyingInstalledLocalDeployer deployer = new WebLogicCopyingInstalledLocalDeployer(
-                (InstalledLocalContainer) container);
+        WebLogicCopyingInstalledLocalDeployer deployer =
+            new WebLogicCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
         deployer.deploy(getDeployables());
-            
+
         // Deploy the cargocpc web-app by copying the WAR file
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-                new File(deployDir, "cargocpc.war"));
-    }    
+            getFileHandler().append(deployDir, "cargocpc.war"), getFileHandler());
+    }
 
     /**
      * {@inheritDoc}
+     * 
      * @see Object#toString()
      */
     public String toString()
@@ -181,7 +171,6 @@ public class WebLogicStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
      */
     public String getDomainHome()
     {
