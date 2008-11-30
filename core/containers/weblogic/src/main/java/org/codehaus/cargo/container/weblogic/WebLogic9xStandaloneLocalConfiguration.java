@@ -104,8 +104,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends AbstractStandaloneLo
 
         getResourceUtils().copyResource(
             RESOURCE_PATH + container.getId() + "/SerializedSystemIni.dat",
-            getFileHandler().append(securityDir, "SerializedSystemIni.dat"), getFileHandler(),
-            filterChain);
+            getFileHandler().append(securityDir, "SerializedSystemIni.dat"), getFileHandler());
 
         setupDeployables((WebLogicLocalContainer) container);
     }
