@@ -264,10 +264,19 @@
               </property>
 
               <!--
-                Note: There is no direct download link for WL 8.x. Thus you have to manually
-                install it on your machine and specify where it is installed using the
-                cargo.weblogic8x.home property.
+                WebLogic 8.x
+
+                Notes: 
+                
+                WebLogic 8.1SP6 and below only run on JDK 1.4
+                
+                There is no non-interactive download link for WL 8.x.  Here is a link that requires license agreement:
+                   * http://commerce.bea.com/showproduct.jsp?family=WLS&major=8.1&minor=6
+ 
+                Once you install this, set the cargo.weblogic8x.home property accordingly.
+                
                 For example:
+
                   <property>
                     <name>cargo.weblogic8x.home</name>
                     <value>c:/bea/weblogic81</value>
@@ -275,6 +284,82 @@
                 -->
               <property>
                 <name>cargo.weblogic8x.port</name>
+                <value>${cargo.samples.port}</value>
+              </property>
+
+
+              <!--
+                WebLogic 9.x
+
+                Notes: 
+                
+                WebLogic 9.2MP3 and below only run on JDK 1.5
+                
+                There is no non-interactive download link for WL 9.x.  Here are links that require license agreement:
+                   * http://commerce.bea.com/showproduct.jsp?family=WLS&major=9.2&minor=3
+                   * http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html
+
+                Once you install this, set the cargo.weblogic9x.home property accordingly.
+                
+                For example:
+
+                  <property>
+                    <name>cargo.weblogic9x.home</name>
+                    <value>c:/bea/weblogic92</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.weblogic9x.port</name>
+                <value>${cargo.samples.port}</value>
+              </property>
+
+
+              <!--
+                WebLogic 10.x
+
+                Notes: 
+                
+                WebLogic 10.0MP1 and below only run on JDK 1.5
+                
+                There is no non-interactive download link for WL 10.x.  Here are links that require license agreement:
+                   * http://commerce.bea.com/showallversions.jsp?family=WLS
+                   * http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html
+
+                Once you install this, set the cargo.weblogic10x.home property accordingly.
+                
+                For example:
+
+                  <property>
+                    <name>cargo.weblogic10x.home</name>
+                    <value>c:/bea/wlserver_10.0</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.weblogic10x.port</name>
+                <value>${cargo.samples.port}</value>
+              </property>
+
+              <!--
+                WebLogic 10.3x
+
+                Notes: 
+                
+                WebLogic 10.3 only runs on JDK 1.6
+                
+                There is no non-interactive download link for WL 10.3x.  Here is is a link that requires license agreement:
+                   * http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html
+
+                Once you install this, set the cargo.weblogic10x.home property accordingly.
+                
+                For example:
+
+                  <property>
+                    <name>cargo.weblogic103x.home</name>
+                    <value>c:/bea/wlserver_10.3</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.weblogic103x.port</name>
                 <value>${cargo.samples.port}</value>
               </property>
 
@@ -647,6 +732,30 @@
       <id>jonas5x</id>
       <properties>
         <cargo.containers>jonas5x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>weblogic8x</id>
+      <properties>
+        <cargo.containers>weblogic8x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>weblogic9x</id>
+      <properties>
+        <cargo.containers>weblogic9x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>weblogic10x</id>
+      <properties>
+        <cargo.containers>weblogic10x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>weblogic103x</id>
+      <properties>
+        <cargo.containers>weblogic103x</cargo.containers>
       </properties>
     </profile>
   </profiles>
