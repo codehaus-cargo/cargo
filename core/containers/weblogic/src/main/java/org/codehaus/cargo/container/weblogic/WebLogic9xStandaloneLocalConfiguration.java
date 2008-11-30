@@ -137,9 +137,6 @@ public class WebLogic9xStandaloneLocalConfiguration extends AbstractStandaloneLo
                 appTokenValue.append("<source-path>");
                 appTokenValue.append(getFileHandler().getParent(deployable.getFile()));
                 appTokenValue.append("</source-path>");
-                appTokenValue.append("<uri>");
-                appTokenValue.append(context);
-                appTokenValue.append("</uri>");
                 appTokenValue.append("</app-deployment>");
             }
         }
