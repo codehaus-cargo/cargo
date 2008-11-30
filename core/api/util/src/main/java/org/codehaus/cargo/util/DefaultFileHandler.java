@@ -496,4 +496,19 @@ public class DefaultFileHandler implements FileHandler
 
         return results;
     }
+
+    /**
+     * {@inheritDoc}
+     * @see FileHandler#getAbsolutePath(String)
+     */
+    public String getAbsolutePath(String path)
+    {
+        File file = new File(path);
+        if (!file.isAbsolute())
+        {
+            file = new File(System.getProperty("user.dir"), file.getPath());
+        }
+        return file.getAbsolutePath();
+    }    
+    
 }

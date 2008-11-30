@@ -195,4 +195,12 @@ public interface FileHandler
      * @return the children of the passed directory
      */
     String[] getChildren(String directory);
+    
+    /**
+     * gets the absolute path from a file that may be relative to the current directory.
+     * 
+     * @param path - what to extract the file path from
+     * @return - absolute path to the file
+     */
+    String getAbsolutePath(String path);
 }
