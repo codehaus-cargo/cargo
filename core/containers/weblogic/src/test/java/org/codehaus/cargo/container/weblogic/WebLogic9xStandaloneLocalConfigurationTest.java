@@ -31,6 +31,8 @@ import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
 
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
@@ -105,6 +107,16 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends TestCase
 
     }
 
+    public void testGetAbsolutePathWithRelativePath() throws Exception
+    {
+        Deployable deployable = new WAR("path");
+        String path = configuration.getAbsolutePath(deployable);
+
+        assertEquals(System.getProperty("user.dir") + System.getProperty("file.separator")
+            + "path", path);
+    }
+
+    
     public void testConstructorSetsPropertyDefaults() throws Exception
     {
         assertEquals(configuration.getPropertyValue(WebLogicPropertySet.ADMIN_USER), "weblogic");
