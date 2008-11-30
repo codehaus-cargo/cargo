@@ -46,8 +46,9 @@ public class DefaultFileHandlerTest extends TestCase
 
     public void testGetAbsolutePathFromExplicit()
     {
-        String path = this.fileHandler.getAbsolutePath("/path");
-        assertEquals(path, "/path");
+        String path =
+            this.fileHandler.getAbsolutePath(System.getProperty("file.separator") + "path");
+        assertEquals(path, System.getProperty("file.separator") + "path");
     }
 
 }
