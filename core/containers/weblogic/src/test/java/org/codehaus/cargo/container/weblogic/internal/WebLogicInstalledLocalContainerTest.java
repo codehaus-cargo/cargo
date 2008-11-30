@@ -22,8 +22,10 @@ package org.codehaus.cargo.container.weblogic.internal;
 import junit.framework.TestCase;
 
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
+import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.weblogic.WebLogic9xInstalledLocalContainer;
 import org.codehaus.cargo.container.weblogic.WebLogicStandaloneLocalConfiguration;
 import org.codehaus.cargo.util.FileHandler;
@@ -31,14 +33,11 @@ import org.codehaus.cargo.util.VFSFileHandler;
 
 /**
  * Unit tests for {@link AbstractWeblogicInstalledLocalContainer}.
- * 
  * <p>
- * Note: These tests are using <a
- * href="http://jakarta.apache.org/commons/vfs/">VFS</a> with a <a
- * href="http://jakarta.apache.org/commons/vfs/filesystems.html#ram">RAM file
- * system</a> so that files are only created in memory. This makes is easy to
- * test file-based operations without having to resort to creating files in the
- * file system and deleting them afterwards.
+ * Note: These tests are using <a href="http://jakarta.apache.org/commons/vfs/">VFS</a> with a <a
+ * href="http://jakarta.apache.org/commons/vfs/filesystems.html#ram">RAM file system</a> so that
+ * files are only created in memory. This makes is easy to test file-based operations without having
+ * to resort to creating files in the file system and deleting them afterwards.
  * </p>
  * 
  * @version $Id$
@@ -46,12 +45,15 @@ import org.codehaus.cargo.util.VFSFileHandler;
 public class WebLogicInstalledLocalContainerTest extends TestCase
 {
     private static final String BEA_HOME = "ram:/bea";
+
     private static final String DOMAIN_HOME = BEA_HOME + "/mydomain";
+
     private static final String WL_HOME = BEA_HOME + "/weblogic9";
 
     private WebLogic9xInstalledLocalContainer container;
 
     private StandardFileSystemManager fsManager;
+
     private FileHandler fileHandler;
 
     /**
@@ -68,8 +70,7 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         this.fileHandler = new VFSFileHandler(this.fsManager);
         this.fileHandler.delete(BEA_HOME);
 
-        LocalConfiguration configuration = new WebLogicStandaloneLocalConfiguration(
-                DOMAIN_HOME);
+        LocalConfiguration configuration = new WebLogicStandaloneLocalConfiguration(DOMAIN_HOME);
         this.container = new WebLogic9xInstalledLocalContainer(configuration);
         this.container.setHome(WL_HOME);
     }
@@ -98,15 +99,14 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         {
             this.container.verifyWeblogicHome();
             fail("Should have thrown an exception here");
-        } catch (ContainerException expected)
+        }
+        catch (ContainerException expected)
         {
-            assertEquals(
-                    "Invalid Weblogic installation. The ["
-                            + WL_HOME
-                            + "/server/lib] directory is empty "
-                            + "and it shouldn't be. Make sure the WL_HOME directory you have specified "
-                            + "points to the right location (It's currently pointing to ["
-                            + WL_HOME + "])", expected.getMessage());
+            assertEquals("Invalid Weblogic installation. The [" + WL_HOME
+                + "/server/lib] directory is empty "
+                + "and it shouldn't be. Make sure the WL_HOME directory you have specified "
+                + "points to the right location (It's currently pointing to [" + WL_HOME + "])",
+                expected.getMessage());
         }
     }
 
@@ -119,15 +119,14 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         {
             this.container.verifyBeaHome();
             fail("Should have thrown an exception here");
-        } catch (ContainerException expected)
+        }
+        catch (ContainerException expected)
         {
-            assertEquals(
-                    "Invalid Weblogic installation. The ["
-                            + BEA_HOME
-                            + "/registry.xml] file doesn't "
-                            + "exist. Make sure the BEA_HOME directory you have specified "
-                            + "points to the right location (It's currently pointing to ["
-                            + BEA_HOME + "])", expected.getMessage());
+            assertEquals("Invalid Weblogic installation. The [" + BEA_HOME
+                + "/registry.xml] file doesn't "
+                + "exist. Make sure the BEA_HOME directory you have specified "
+                + "points to the right location (It's currently pointing to [" + BEA_HOME + "])",
+                expected.getMessage());
         }
     }
 
@@ -139,20 +138,18 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         {
             this.container.verifyWeblogicHome();
             fail("Should have thrown an exception here");
-        } catch (ContainerException expected)
+        }
+        catch (ContainerException expected)
         {
-            assertEquals(
-                    "Invalid Weblogic installation. The ["
-                            + WL_HOME
-                            + "/server/lib] directory doesn't "
-                            + "exist. Make sure the WL_HOME directory you have specified "
-                            + "points to the right location (It's currently pointing to ["
-                            + WL_HOME + "])", expected.getMessage());
+            assertEquals("Invalid Weblogic installation. The [" + WL_HOME
+                + "/server/lib] directory doesn't "
+                + "exist. Make sure the WL_HOME directory you have specified "
+                + "points to the right location (It's currently pointing to [" + WL_HOME + "])",
+                expected.getMessage());
         }
     }
 
-    public void testVerifyWeblogicHomeWhenFileInsteadOfDirectory()
-            throws Exception
+    public void testVerifyWeblogicHomeWhenFileInsteadOfDirectory() throws Exception
     {
         this.fsManager.resolveFile(WL_HOME + "/server/lib").createFile();
 
@@ -162,15 +159,14 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         {
             this.container.verifyWeblogicHome();
             fail("Should have thrown an exception here");
-        } catch (ContainerException expected)
+        }
+        catch (ContainerException expected)
         {
-            assertEquals(
-                    "Invalid Weblogic installation. The ["
-                            + WL_HOME
-                            + "/server/lib] path should be a "
-                            + "directory. Make sure the WL_HOME directory you have specified "
-                            + "points to the right location (It's currently pointing to ["
-                            + WL_HOME + "])", expected.getMessage());
+            assertEquals("Invalid Weblogic installation. The [" + WL_HOME
+                + "/server/lib] path should be a "
+                + "directory. Make sure the WL_HOME directory you have specified "
+                + "points to the right location (It's currently pointing to [" + WL_HOME + "])",
+                expected.getMessage());
         }
     }
 
@@ -184,10 +180,32 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
 
     public void testVerifyWeblogicHomeWhenValidConfiguration() throws Exception
     {
-        this.fsManager.resolveFile(WL_HOME + "/server/lib/weblogic.jar")
-                .createFile();
+        this.fsManager.resolveFile(WL_HOME + "/server/lib/weblogic.jar").createFile();
         this.container.setFileHandler(this.fileHandler);
         this.container.verifyWeblogicHome();
+    }
+
+    public void testMemArgsProvidedAsASystemProperty()
+    {
+        assertFalse(this.container.memArgsProvidedAsASystemProperty());
+        this.container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-Xms512m");
+        assertTrue(this.container.memArgsProvidedAsASystemProperty());
+
+    }
+
+    public void testDoesntSetDefaultMemArgsWhenProvidedAsASystemProperty() throws Exception
+    {
+        Java java = new Java();
+        this.container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-Xms512m");
+        this.container.addDefaultMemArgsIfNotProvidedAsASystemProperty(java);
+        assertTrue(java.getCommandLine().getVmCommand().getArguments().length == 0);
+    }
+
+    public void testSetsDefaultMemArgsWhenNotProvidedAsASystemProperty() throws Exception
+    {
+        Java java = new Java();
+        this.container.addDefaultMemArgsIfNotProvidedAsASystemProperty(java);
+        assertTrue(java.getCommandLine().getVmCommand().getArguments().length == 3);
     }
 
 }

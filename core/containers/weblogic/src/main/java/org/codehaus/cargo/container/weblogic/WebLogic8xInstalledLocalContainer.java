@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
+import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer;
 
@@ -67,5 +68,16 @@ public class WebLogic8xInstalledLocalContainer extends AbstractWebLogicInstalled
     public String getAutoDeployDirectory()
     {
         return "applications";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     */
+    protected void addDefaultMemArgs(Java java)
+    {
+        java.createJvmarg().setValue("-Xms32m");
+        java.createJvmarg().setValue("-Xmx200m");
+        java.createJvmarg().setValue("-XX:MaxPermSize=128m");
     }
 }

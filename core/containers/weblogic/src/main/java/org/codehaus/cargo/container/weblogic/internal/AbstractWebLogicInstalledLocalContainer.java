@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.weblogic.WebLogicLocalContainer;
@@ -256,6 +257,43 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     }
 
     /**
+     * Users can override memory defaults through setting them via a system property.
+     * 
+     * @param java - object to insert mem arguments if required
+     */
+    public void addDefaultMemArgsIfNotProvidedAsASystemProperty(Java java)
+    {
+        if (!memArgsProvidedAsASystemProperty())
+        {
+            addDefaultMemArgs(java);
+        }
+    }
+
+    /**
+     * Scan the System properties provided by the user and determine if memory args are present.
+     * 
+     * @return - true if jvm args were passed and contain memory arguments
+     */
+    public boolean memArgsProvidedAsASystemProperty()
+    {
+        String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+        if (jvmArgs != null)
+        {
+            // this will match either min or max memory args
+            if (jvmArgs.indexOf("-Xm") > -1)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param java - runtime configuration to insert default memory args into
+     */
+    protected abstract void addDefaultMemArgs(Java java);    
+    
+    /**
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#doStart(Java)
      */
@@ -263,6 +301,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     {
         initBeaHome();
 
+        addDefaultMemArgsIfNotProvidedAsASystemProperty(java);        
+        
         // Weblogic looks for files relative to the domain home, which is not
         // necessarily relative
         // to the Bea home
