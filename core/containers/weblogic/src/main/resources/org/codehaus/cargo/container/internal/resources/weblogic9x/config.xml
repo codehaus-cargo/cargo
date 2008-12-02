@@ -32,6 +32,7 @@
 	<server>
 		<name>@cargo.weblogic.server@</name>
 		<listen-port>@cargo.servlet.port@</listen-port>
+		<listen-address>@cargo.hostname@</listen-address>
 	</server>
 	<embedded-ldap>
 		<name>domain</name>

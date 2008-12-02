@@ -25,6 +25,8 @@ import java.util.Iterator;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
@@ -61,6 +63,8 @@ public class WebLogic9xStandaloneLocalConfiguration extends AbstractStandaloneLo
         setProperty(WebLogicPropertySet.SERVER, "server");
         setProperty(WebLogicPropertySet.CONFIGURATION_VERSION, "9.2.3.0");
         setProperty(WebLogicPropertySet.DOMAIN_VERSION, "9.2.3.0");
+        setProperty(ServletPropertySet.PORT, "7001");
+        setProperty(GeneralPropertySet.HOSTNAME, "localhost");
     }
 
     /**

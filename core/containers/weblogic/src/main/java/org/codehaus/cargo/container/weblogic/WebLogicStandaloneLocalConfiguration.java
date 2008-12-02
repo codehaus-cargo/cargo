@@ -30,6 +30,8 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicStandaloneLocalConfigurationCapability;
 
@@ -60,6 +62,8 @@ public class WebLogicStandaloneLocalConfiguration extends AbstractStandaloneLoca
         setProperty(WebLogicPropertySet.ADMIN_USER, "weblogic");
         setProperty(WebLogicPropertySet.ADMIN_PWD, "weblogic");
         setProperty(WebLogicPropertySet.SERVER, "server");
+        setProperty(ServletPropertySet.PORT, "7001");
+        setProperty(GeneralPropertySet.HOSTNAME, "localhost");
     }
 
     /**

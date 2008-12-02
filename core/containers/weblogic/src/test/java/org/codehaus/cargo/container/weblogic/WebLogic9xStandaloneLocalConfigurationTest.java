@@ -33,6 +33,7 @@ import org.custommonkey.xmlunit.XMLUnit;
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
@@ -49,7 +50,9 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends TestCase
 
     private static final String WL_HOME = BEA_HOME + "/weblogic9";
 
-    private static final String PORT = "7001";
+    private static final String HOSTNAME = "127.0.0.1";
+
+    private static final String PORT = "8001";
 
     private static final String CONFIGURATION_VERSION = "9.2.9.0";
 
@@ -116,7 +119,6 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends TestCase
             + "path", path);
     }
 
-    
     public void testConstructorSetsPropertyDefaults() throws Exception
     {
         assertEquals(configuration.getPropertyValue(WebLogicPropertySet.ADMIN_USER), "weblogic");
@@ -228,6 +230,24 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends TestCase
         configuration.doConfigure(container);
         String config = slurp(DOMAIN_HOME + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo(PORT, "//weblogic:listen-port", config);
+
+    }
+
+    public void testDoConfigureSetsDefaultAddress() throws Exception
+    {
+        configuration.doConfigure(container);
+        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        XMLAssert.assertXpathEvaluatesTo(configuration
+            .getPropertyValue(GeneralPropertySet.HOSTNAME), "//weblogic:listen-address", config);
+
+    }
+
+    public void testDoConfigureSetsAddress() throws Exception
+    {
+        configuration.setProperty(GeneralPropertySet.HOSTNAME, HOSTNAME);
+        configuration.doConfigure(container);
+        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        XMLAssert.assertXpathEvaluatesTo(HOSTNAME, "//weblogic:listen-address", config);
 
     }
 

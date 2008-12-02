@@ -317,6 +317,13 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
                     getConfiguration()
                             .getPropertyValue(ServletPropertySet.PORT)));
         }
+        if (getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) != null)
+        {
+            java.addSysproperty(getAntUtils().createSysProperty(
+                    "weblogic.ListenAddress",
+                    getConfiguration()
+                            .getPropertyValue(GeneralPropertySet.HOSTNAME)));
+        }
         java.addSysproperty(getAntUtils()
                 .createSysProperty(
                         "weblogic.name",
