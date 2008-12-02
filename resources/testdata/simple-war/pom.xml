@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>1.0-beta-2</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>simple-war</artifactId>
   <name>Cargo Simple WAR test data for samples</name>
