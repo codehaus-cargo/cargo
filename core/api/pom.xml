@@ -21,10 +21,10 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-core</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-beta-2</version>
   </parent>
   <artifactId>cargo-core-api</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0-beta-2</version>
   <name>Cargo Core API</name>
   <packaging>pom</packaging>
   <description>The Cargo Core API</description>
