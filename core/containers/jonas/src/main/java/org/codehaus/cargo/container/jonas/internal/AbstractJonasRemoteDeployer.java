@@ -542,14 +542,18 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
         ObjectName serverMBeanName, RemoteDeployerConfig config) throws InstanceNotFoundException,
         MBeanException, ReflectionException, IOException
     {
+        getLogger().debug("Uploading file \"" + deployable.getFile() + "\" on server",
+            this.getClass().getName());
+
+        // Read file
         File file = new File(deployable.getFile());
         FileHandler fileHandler = new DefaultFileHandler();
         FileInputStream in = new FileInputStream(file);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-
         fileHandler.copy(in, out);
         in.close();
-        getLogger().debug("Uploading file on server", this.getClass().getName());
+
+        // Send file
         String remoteFileName = getRemoteFileName(deployable, config.getDeployableIdentifier(),
             false);
         String filePathOnServer = (String) mbsc.invoke(serverMBeanName, "sendFile", new Object[]
@@ -560,12 +564,14 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
             byte[].class.getName(), String.class.getName(), boolean.class.getName()
         });
 
-        getLogger().debug("File uploaded on server : " + filePathOnServer,
-            this.getClass().getName());
+        // Check if file has been sent correctly
         if (filePathOnServer == null || filePathOnServer.trim().length() == 0)
         {
             throw new ContainerException("Server returned a null uploaded file path");
         }
+
+        getLogger().debug("File uploaded on server, saved as \"" + filePathOnServer + "\"",
+            this.getClass().getName());
         return filePathOnServer;
     }
 

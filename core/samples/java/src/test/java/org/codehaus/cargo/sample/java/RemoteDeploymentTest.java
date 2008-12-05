@@ -45,6 +45,7 @@ import org.apache.tools.ant.types.FileSet;
 
 import java.net.URL;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 
 public class RemoteDeploymentTest extends AbstractCargoTestCase
@@ -128,16 +129,22 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         deployer.deploy(this.war);
         PingUtils.assertPingTrue("simple war not correctly deployed", this.warPingURL, getLogger());
 
-        deployer.undeploy(war);
+        deployer.undeploy(this.war);
         PingUtils.assertPingFalse("simple war not correctly undeployed", this.warPingURL,
             getLogger());
 
         // Redeploy a second time to ensure that the undeploy worked.
-        deployer.deploy(war);
+        deployer.deploy(this.war);
         PingUtils.assertPingTrue("simple war not correctly deployed", this.warPingURL, getLogger());
 
         // Redeploy the WAR after modifying its content
-        deployer.redeploy(modifyWar(this.war));
+        Deployable modifiedDeployable = modifyWar(this.war);
+        File modifiedWar = new File(modifiedDeployable.getFile());
+        if (!modifiedWar.isFile())
+        {
+            throw new FileNotFoundException("Modified WAR \"" + modifiedWar + "\" doesn't exist");
+        }
+        deployer.redeploy(modifiedDeployable);
         URL newWarPingURL = new URL("http://localhost:" + getTestData().port
             + "/simple-war-" + getTestData().version + "/some.html");
         PingUtils.assertPingTrue("simple war not correctly redeployed", newWarPingURL, getLogger());
@@ -149,8 +156,14 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
      */
     private Deployable modifyWar(Deployable originalDeployable) throws Exception
     {
-        // Create the HMTL file that we'll add to the WAR
-        File tmpDir = new File(getTestData().targetDir);
+        // Create the HTML file that we'll add to the WAR
+        File tmpDir = new File(new File(getTestData().targetDir).getParent(), "modified-war");
+        tmpDir.mkdirs();
+        if (!tmpDir.isDirectory())
+        {
+            throw new FileNotFoundException("Cannot create modified WAR temporary directory \""
+                + tmpDir + "\"");
+        }
         File htmlFile = new File(tmpDir, "some.html");
         FileWriter fw = new FileWriter(htmlFile);
         fw.write("It works...");
@@ -169,6 +182,6 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         warTask.execute();
 
         return new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            updatedWar.getPath(), DeployableType.WAR); 
+            updatedWar.getPath(), DeployableType.WAR);
     }
 }
