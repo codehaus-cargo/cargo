@@ -183,7 +183,7 @@
               </property>
               <property>
                 <name>cargo.tomcat3x.url</name>
-                <value>http://www.apache.org/dist/tomcat/tomcat-3/v3.3.2/bin/jakarta-tomcat-3.3.2.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-3/v3.3.2/bin/jakarta-tomcat-3.3.2.zip</value>
               </property>
 
               <property>
@@ -192,7 +192,7 @@
               </property>
               <property>
                 <name>cargo.tomcat4x.url</name>
-                <value>http://www.apache.org/dist/tomcat/tomcat-4/v4.1.36/bin/apache-tomcat-4.1.36.zip</value>
+                <value>http://apache.mirror.anlx.net/tomcat/tomcat-4/v4.1.39/bin/apache-tomcat-4.1.39-LE-jdk14.zip</value>
               </property>
 
               <!--
@@ -219,7 +219,7 @@
               </property>
               <property>
                 <name>cargo.tomcat6x.url</name>
-                <value>http://www.apache.org/dist/tomcat/tomcat-6/v6.0.14/bin/apache-tomcat-6.0.14.zip</value>
+                <value>http://www.apache.org/dist/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip</value>
               </property>
 
               <property>
@@ -648,14 +648,14 @@
       <!-- All containers for the CI -->
       <id>all-ci</id>
       <properties>
-        <cargo.containers>resin3x, orion2x, tomcat6x, jetty6x, jboss42x, jonas5x</cargo.containers>
+        <cargo.containers>resin3x, orion2x, tomcat5x, tomcat6x, jetty6x, jboss42x, jonas5x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <!-- All containers for the CI in Java 4 -->
       <id>all-ci-java-1.4</id>
       <properties>
-        <cargo.containers>resin3x, orion2x, tomcat5x, jetty6x, jboss4x, jonas4x</cargo.containers>
+        <cargo.containers>resin3x, orion2x, tomcat4x, jetty6x, jboss4x, jonas4x</cargo.containers>
       </properties>
     </profile>
     <profile>
