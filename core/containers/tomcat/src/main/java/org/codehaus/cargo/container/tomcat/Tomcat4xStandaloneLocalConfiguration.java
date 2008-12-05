@@ -19,12 +19,9 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import java.io.File;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.types.FileSet;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
@@ -52,22 +49,19 @@ public class Tomcat4xStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
+     * 
      * @see AbstractCatalinaStandaloneLocalConfiguration#setupManager(org.codehaus.cargo.container.LocalContainer)
      */
     protected void setupManager(LocalContainer container)
     {
-        Copy copy = (Copy) getAntUtils().createAntTask("copy");
-
-        FileSet fileSet = new FileSet();
-        fileSet.setDir(new File(((InstalledLocalContainer) container).getHome()));
-        fileSet.createInclude().setName("server/lib/catalina.jar");
-        fileSet.createInclude().setName("server/webapps/manager/**");
-        fileSet.createInclude().setName("webapps/manager.xml");
-        copy.addFileset(fileSet);
-        
-        copy.setTodir(new File(getHome()));
-        
-        copy.execute();
+        String from = ((InstalledLocalContainer) container).getHome();
+        String to = getHome();
+        getFileHandler().copyDirectory(from + "/server/webapps/manager",
+            to + "/server/webapps/manager");
+        getFileHandler().copyFile(from + "/server/lib/catalina.jar",
+            to + "/server/lib/catalina.jar");
+        getFileHandler().copyFile(from + "/webapps/manager.xml", 
+            to + "/webapps/manager.xml");
     }
 
     /**

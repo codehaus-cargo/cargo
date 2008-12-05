@@ -19,12 +19,16 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
+import org.apache.tools.ant.types.FilterChain;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
+import java.io.IOException;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Common implementation of standalone
@@ -94,4 +98,31 @@ public abstract class AbstractTomcatStandaloneLocalConfiguration
 
         return token.toString();
     }
+
+    /**
+     * copy files to the conf directory, replacing tokens based on the filterchain parameter.
+     * 
+     * @param container - type of container configuration we are using.
+     * @param filterChain - holds tokenization details
+     * @throws IOException - if we cannot copy a file to the 'conf' directory
+     */
+    protected void setupConfFiles(LocalContainer container, FilterChain filterChain)
+        throws IOException
+    {
+        String confDir = getFileHandler().createDirectory(getHome(), "conf");
+        Iterator confFiles = getConfFiles().iterator();
+        while (confFiles.hasNext())
+        {
+            String file = (String) confFiles.next();
+            getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/" + file,
+                getFileHandler().append(confDir, file), getFileHandler(), filterChain);
+        }
+    }
+    
+    /**
+     * files that should be copied to the conf directory for the server to operate.
+     * 
+     * @return set of filenames to copy upon doConfigure
+     */
+    protected abstract Set getConfFiles();
 }

@@ -145,7 +145,7 @@
 
     <!-- Jk2 support using coyote. -->
     <CoyoteConnector processorClassName="org.apache.jk.server.JkCoyoteHandler" 
-        port="8009" />
+        port="@cargo.tomcat.ajp.port@" />
 
   </ContextManager>
 </Server>

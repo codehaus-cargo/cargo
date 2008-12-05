@@ -21,29 +21,56 @@ package org.codehaus.cargo.container.tomcat;
 
 import org.codehaus.cargo.container.resource.Resource;
 import org.codehaus.cargo.container.tomcat.Tomcat5xStandaloneLocalConfiguration;
-
-import junit.framework.TestCase;
+import org.custommonkey.xmlunit.XMLAssert;
 
 /**
- * @author Alexander Brill <alexander.brill@nhst.no>
- *
+ *  Tests for the Tomcat 5 implementation of StandaloneLocalConfigurationTest 
  */
-public class Tomcat5xStandaloneLocalConfigurationTest extends TestCase {
+public class Tomcat5xStandaloneLocalConfigurationTest extends Tomcat4xStandaloneLocalConfigurationTest {
 
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
+    protected String getTestHome()
+    {
+        return "ram:/tomcat5xconfig";
+    }
+    
+    protected void setUpContainerDefaults()
+    {
+        this.configuration = new Tomcat5xStandaloneLocalConfiguration(CONFIG_HOME);
+        this.container = new Tomcat5xInstalledLocalContainer(configuration);
+    }
+    
 
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
+    public void testConfigure() throws Exception
+    {
+        super.testConfigure();
+        assertTrue(fileHandler.exists(CONFIG_HOME + "/conf/catalina.properties"));
+    }
 
+    protected void setUpManager()
+    {
+        fileHandler.mkdirs(CONTAINER_HOME + "/webapps");
+        fileHandler.mkdirs(CONTAINER_HOME + "/server/lib");
+        fileHandler.mkdirs(CONTAINER_HOME + "/server/webapps/manager");
+        fileHandler.createFile(CONTAINER_HOME + "/conf/Catalina/localhost/manager.xml");
+        fileHandler.createFile(CONTAINER_HOME + "/server/lib/catalina.jar");
+    }
+
+    public void testConfigureManager()
+    {
+        configuration.configure(container);
+        assertTrue(fileHandler.exists(CONFIG_HOME + "/conf/Catalina/localhost/manager.xml"));
+        assertTrue(fileHandler.exists(CONFIG_HOME + "/server/lib/catalina.jar"));
+        assertTrue(fileHandler.exists(CONFIG_HOME + "/server/webapps/manager"));
+    }
+
+    public void testConfigureSetsCorrectAJPConnectorIdentifier() throws Exception
+    {
+        //check protocol instead of classname, as class is not required.
+        configuration.configure(container);
+        String config = slurp(CONFIG_HOME + "/conf/server.xml");
+        XMLAssert.assertXpathEvaluatesTo("AJP/1.3", "//Connector[2]/@protocol", config);
+    }
+    
 	/**
 	 * Test method for {@link org.codehaus.cargo.container.tomcat.Tomcat5xStandaloneLocalConfiguration#createResourceTokenValue()}.
 	 */
@@ -55,8 +82,8 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends TestCase {
 			"          username=\"foo\"\n" +
 			"/>\n";
 		
-		Tomcat5xStandaloneLocalConfiguration conf = new Tomcat5xStandaloneLocalConfiguration("foo");
-		Resource resource = new Resource("myDataSource", "javax.sql.DataSource");
+        Tomcat5xStandaloneLocalConfiguration conf = (Tomcat5xStandaloneLocalConfiguration)configuration;		
+        Resource resource = new Resource("myDataSource", "javax.sql.DataSource");
         resource.setParameter("password", "pass");
 		resource.setParameter("username", "foo");
 		
@@ -78,7 +105,7 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends TestCase {
 			"          username=\"gazonk\"\n" +
 			"/>\n";
 		
-		Tomcat5xStandaloneLocalConfiguration conf = new Tomcat5xStandaloneLocalConfiguration("foo");
+		Tomcat5xStandaloneLocalConfiguration conf = (Tomcat5xStandaloneLocalConfiguration)configuration;
 
 		Resource resource = new Resource("myDataSource", "javax.sql.DataSource");
         resource.setParameter("password", "pass");

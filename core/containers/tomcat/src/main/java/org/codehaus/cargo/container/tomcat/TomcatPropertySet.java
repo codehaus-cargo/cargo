@@ -35,4 +35,9 @@ public interface TomcatPropertySet
      * The boolean value for the empty session path connector property.
      */
     String CONNECTOR_EMPTY_SESSION_PATH = "cargo.tomcat.connector.emptySessionPath";
+
+    /**
+     * Port tomcat will listen on for AJP 1.3 requests.
+     */
+    String AJP_PORT = "cargo.tomcat.ajp.port";
 }

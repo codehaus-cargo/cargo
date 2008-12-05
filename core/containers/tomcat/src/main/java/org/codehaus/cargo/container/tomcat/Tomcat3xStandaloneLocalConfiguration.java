@@ -31,7 +31,9 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatStandaloneLocalConfiguration;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Tomcat standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} 
@@ -48,35 +50,43 @@ public class Tomcat3xStandaloneLocalConfiguration extends AbstractTomcatStandalo
     public Tomcat3xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+        setProperty(TomcatPropertySet.AJP_PORT, "8009");
     }
 
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
-    protected void doConfigure(LocalContainer container) throws Exception
+    public void doConfigure(LocalContainer container) throws Exception
     {
         FilterChain filterChain = createTomcatFilterChain();
 
         setupConfigurationDir();
         
-        // copy configuration files into the temporary container directory
-        String confDir = getFileHandler().createDirectory(getHome(), "conf");
-        getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/server.xml",
-            new File(confDir, "server.xml"), filterChain);
-
+        setupConfFiles(container, filterChain);
+        String confDir = getFileHandler().append(getHome(), "conf");
         String usersDir = getFileHandler().createDirectory(confDir, "users");
-        getResourceUtils().copyResource(RESOURCE_PATH + container.getId()
-            + "/tomcat-users.xml", new File(usersDir, "tomcat-users.xml"), filterChain);
-        
-        getResourceUtils().copyResource(RESOURCE_PATH + container.getId()
-            +  "/modules.xml", new File(confDir, "modules.xml"));
-        getResourceUtils().copyResource(RESOURCE_PATH + container.getId() +  "/apps.xml",
-            new File(confDir, "apps.xml"), filterChain);
+        getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/tomcat-users.xml",
+            getFileHandler().append(usersDir, "tomcat-users.xml"), getFileHandler(), filterChain);
         
         setupWebApps(container);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractTomcatStandaloneLocalConfiguration#getConfFiles()
+     */
+    protected Set getConfFiles()
+    {
+        Set confFiles = new HashSet();
+        confFiles.add("server.xml");
+        confFiles.add("modules.xml");
+        confFiles.add("apps.xml");
+        return confFiles;
+    }
+
+    
     /**
      * Setup the web apps directory and deploy applications.
      *
@@ -119,7 +129,8 @@ public class Tomcat3xStandaloneLocalConfiguration extends AbstractTomcatStandalo
             
             // Deploy the CPC (Cargo Ping Component) to the webapps directory
             getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-                new File(appDir, "cargocpc.war"));
+                getFileHandler().append(appDir, "cargocpc.war"), getFileHandler());
+
         }
         catch (Exception e)
         {
@@ -146,6 +157,10 @@ public class Tomcat3xStandaloneLocalConfiguration extends AbstractTomcatStandalo
         }
         getAntUtils().addTokenToFilterChain(filterChain, "tomcat3x.logEvents.enabled",
             logEventsEnabled);
+
+        // Add AJP connector port token
+        getAntUtils().addTokenToFilterChain(filterChain, TomcatPropertySet.AJP_PORT,
+            getPropertyValue(TomcatPropertySet.AJP_PORT));
 
         getAntUtils().addTokenToFilterChain(filterChain, "tomcat3x.logging.level", 
             getTomcatLoggingLevel(getPropertyValue(GeneralPropertySet.LOGGING)));

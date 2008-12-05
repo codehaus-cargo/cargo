@@ -19,12 +19,9 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import java.io.File;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -57,9 +54,12 @@ public class Tomcat5xStandaloneLocalConfiguration
 
         setProperty(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH, "true");
     }
-
+    
     /**
      * {@inheritDoc}
+     * 
+     * this does not deploy the manager, if the application is embedded.
+     * 
      * @see AbstractCatalinaStandaloneLocalConfiguration#setupManager(org.codehaus.cargo.container.LocalContainer)
      */
     protected void setupManager(LocalContainer container)
@@ -71,21 +71,17 @@ public class Tomcat5xStandaloneLocalConfiguration
         }
         else
         {
-            Copy copy = (Copy) getAntUtils().createAntTask("copy");
-
-            FileSet fileSet = new FileSet();
-            fileSet.setDir(new File(((InstalledLocalContainer) container).getHome()));
-            fileSet.createInclude().setName("conf/Catalina/localhost/manager.xml");
-            fileSet.createInclude().setName("server/lib/catalina.jar");
-            fileSet.createInclude().setName("server/webapps/manager/**");
-            copy.addFileset(fileSet);
-
-            copy.setTodir(new File(getHome()));
-
-            copy.execute();
+            String from = ((InstalledLocalContainer) container).getHome();
+            String to = getHome();
+            getFileHandler().copyDirectory(from + "/server/webapps/manager",
+                to + "/server/webapps/manager");
+            getFileHandler().copyFile(from + "/server/lib/catalina.jar",
+                to + "/server/lib/catalina.jar");
+            getFileHandler().copyFile(from + "/conf/Catalina/localhost/manager.xml",
+                to + "/conf/Catalina/localhost/manager.xml");
         }
     }
-
+    
     /**
      * @return the XML to be put into the server.xml file
      */
@@ -129,7 +125,7 @@ public class Tomcat5xStandaloneLocalConfiguration
      */
     protected String createResourceTokenValue()
     {
-        getLogger().debug("Tomcat 5x createResourceTokenValue", this.getClass().getName());
+        getLogger().debug("createResourceTokenValue", this.getClass().getName());
 
         String out = "";
         Iterator it = getResources().iterator();
@@ -176,5 +172,17 @@ public class Tomcat5xStandaloneLocalConfiguration
     public String toString()
     {
         return "Tomcat 5.x Standalone Configuration";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see AbstractCatalinaStandaloneLocalConfiguration#setupManager(org.codehaus.cargo.container.LocalContainer)
+     */
+    protected Set getConfFiles()
+    {
+        Set files = super.getConfFiles();
+        files.add("catalina.properties");
+        return files;
     }
 }

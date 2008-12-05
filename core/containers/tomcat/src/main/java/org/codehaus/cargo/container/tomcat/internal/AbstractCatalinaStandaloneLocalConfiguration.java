@@ -30,12 +30,15 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
+import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 import org.codehaus.cargo.container.tomcat.TomcatWAR;
 import org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalDeployer;
 import org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalContainer;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -57,6 +60,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
         setProperty(ServletPropertySet.USERS, "admin::manager");
         setProperty(GeneralPropertySet.RMI_PORT, "8205");
         setProperty(GeneralPropertySet.URI_ENCODING, "ISO-8859-1");
+        setProperty(TomcatPropertySet.AJP_PORT, "8009");
     }
 
     /**
@@ -71,12 +75,6 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
 
         getFileHandler().createDirectory(getHome(), "temp");
         getFileHandler().createDirectory(getHome(), "logs");
-
-        String confDir = getFileHandler().createDirectory(getHome(), "conf");
-
-        getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/server.xml",
-            new File(confDir, "server.xml"), filterChain);
-
 
         if (container instanceof InstalledLocalContainer)
         {
@@ -94,20 +92,28 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
                 tmp.toString());
         }
 
-        getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/catalina.properties",
-            new File(confDir, "catalina.properties"), filterChain);
-
-        getResourceUtils().copyResource(RESOURCE_PATH + container.getId()
-            + "/tomcat-users.xml", new File(confDir, "tomcat-users.xml"), filterChain);
-        getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/web.xml",
-            new File(confDir, "web.xml"));
-
+        setupConfFiles(container, filterChain);
+        
         setupManager(container);
 
         // deploy the web-app by copying the WAR file
         setupWebApps(container);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractTomcatStandaloneLocalConfiguration#getConfFiles()
+     */
+    protected Set getConfFiles()
+    {
+        Set confFiles = new HashSet();
+        confFiles.add("server.xml");
+        confFiles.add("tomcat-users.xml");
+        confFiles.add("web.xml");
+        return confFiles;
+    }
+    
     /**
      * Setup the manager webapp.
      *
@@ -145,7 +151,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
 
                 // Deploy the CPC (Cargo Ping Component) to the webapps directory
                 getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-                    new File(appDir, "cargocpc.war"));
+                    getFileHandler().append(appDir, "cargocpc.war"), getFileHandler());
             }
         }
         catch (Exception e)
@@ -197,6 +203,10 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
         getAntUtils().addTokenToFilterChain(filterChain, GeneralPropertySet.RMI_PORT,
             getPropertyValue(GeneralPropertySet.RMI_PORT));
 
+        // Add AJP connector port token
+        getAntUtils().addTokenToFilterChain(filterChain, TomcatPropertySet.AJP_PORT,
+            getPropertyValue(TomcatPropertySet.AJP_PORT));
+        
         // Add Catalina secure token, set to true if the protocol is https, false otherwise
         getAntUtils().addTokenToFilterChain(filterChain, "catalina.secure",
             String.valueOf("https".equalsIgnoreCase(getPropertyValue(

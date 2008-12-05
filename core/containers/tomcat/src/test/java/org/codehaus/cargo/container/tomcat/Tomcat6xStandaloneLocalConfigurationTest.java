@@ -21,27 +21,40 @@ package org.codehaus.cargo.container.tomcat;
 
 import org.codehaus.cargo.container.resource.Resource;
 
-import junit.framework.TestCase;
-
 /**
- * @author Alexander Brill <alexander.brill@nhst.no>
- *
+ *  Tests for the Tomcat 6 implementation of StandaloneLocalConfigurationTest 
  */
-public class Tomcat6xStandaloneLocalConfigurationTest extends TestCase {
+public class Tomcat6xStandaloneLocalConfigurationTest extends Tomcat5xStandaloneLocalConfigurationTest {
 
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
+    protected String getTestHome()
+    {
+        return "ram:/tomcat6xconfig";
+    }
+    
+    protected void setUpContainerDefaults()
+    {
+        this.configuration = new Tomcat6xStandaloneLocalConfiguration(CONFIG_HOME);
+        this.container = new Tomcat6xInstalledLocalContainer(configuration);
+    }
 
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
+    protected void setUpManager()
+    {
+        fileHandler.mkdirs(CONTAINER_HOME + "/lib");
+        fileHandler.createFile(CONTAINER_HOME + "/lib/catalina.jar");
+        fileHandler.mkdirs(CONTAINER_HOME + "/webapps/manager");
+        fileHandler.mkdirs(CONTAINER_HOME + "/webapps/host-manager");
+    }
+
+    /**
+     * note that manager is under webapps, not server/webapps in 5x.
+     */
+    public void testConfigureManager()
+    {
+        configuration.configure(container);
+        assertTrue(fileHandler.exists(CONFIG_HOME + "/lib/catalina.jar"));
+        assertTrue(fileHandler.exists(CONFIG_HOME + "/webapps/manager"));
+        assertTrue(fileHandler.exists(CONFIG_HOME + "/webapps/host-manager"));
+    }
 
 	/**
 	 * Test method for {@link org.codehaus.cargo.container.tomcat.Tomcat5xStandaloneLocalConfiguration#createResourceTokenValue()}.
@@ -54,7 +67,7 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends TestCase {
 			"          username=\"foo\"\n" +
 			"/>\n";
 		
-		Tomcat6xStandaloneLocalConfiguration conf = new Tomcat6xStandaloneLocalConfiguration("foo");
+		Tomcat6xStandaloneLocalConfiguration conf =  (Tomcat6xStandaloneLocalConfiguration)configuration;
 		Resource resource = new Resource("myDataSource", "javax.sql.DataSource");
         resource.setParameter("password", "pass");
 		resource.setParameter("username", "foo");
@@ -78,7 +91,7 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends TestCase {
 			"          username=\"gazonk\"\n" +
 			"/>\n";
 		
-		Tomcat6xStandaloneLocalConfiguration conf = new Tomcat6xStandaloneLocalConfiguration("foo");
+        Tomcat6xStandaloneLocalConfiguration conf =  (Tomcat6xStandaloneLocalConfiguration)configuration;
 
 		Resource resource = new Resource("myDataSource", "javax.sql.DataSource");
         resource.setParameter("password", "pass");
