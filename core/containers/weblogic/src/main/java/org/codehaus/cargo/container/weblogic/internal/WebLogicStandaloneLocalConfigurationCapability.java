@@ -52,10 +52,15 @@ public class WebLogicStandaloneLocalConfigurationCapability
 
         this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.supportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
-
-        this.supportsMap.put(WebLogicPropertySet.ADMIN_USER, Boolean.TRUE);
-        this.supportsMap.put(WebLogicPropertySet.ADMIN_PWD, Boolean.TRUE);
+        
+        // changing this would require generating hashes for the default 
+        // authenticator ldift files
+        this.supportsMap.put(WebLogicPropertySet.ADMIN_USER, Boolean.FALSE);
+        this.supportsMap.put(WebLogicPropertySet.ADMIN_PWD, Boolean.FALSE);
+        
         this.supportsMap.put(WebLogicPropertySet.SERVER, Boolean.TRUE);
+        this.supportsMap.put(WebLogicPropertySet.BEA_HOME, Boolean.TRUE);
+
     }
 
     /**

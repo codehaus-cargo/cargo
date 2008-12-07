@@ -53,7 +53,10 @@ public class WebLogicExistingLocalConfigurationCapability
 
         this.supportsMap.put(WebLogicPropertySet.ADMIN_USER, Boolean.TRUE);
         this.supportsMap.put(WebLogicPropertySet.ADMIN_PWD, Boolean.TRUE);
+        
         this.supportsMap.put(WebLogicPropertySet.SERVER, Boolean.TRUE);
+        this.supportsMap.put(WebLogicPropertySet.BEA_HOME, Boolean.TRUE);
+        
     }
     
     /**
