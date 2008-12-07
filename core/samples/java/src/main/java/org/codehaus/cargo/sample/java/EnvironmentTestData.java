@@ -79,6 +79,11 @@ public class EnvironmentTestData
     public String home;
 
     /**
+     * Java Home used to start the container.
+     */
+    public String javaHome;
+    
+    /**
      * Version of Cargo being built (this is required to compute the exact location of the test
      * data files in the local Maven repository)
      */
@@ -107,6 +112,7 @@ public class EnvironmentTestData
         this.installURL = createInstallURL(containerId);
         this.port = createPort(containerId);
         this.home = getSystemProperty("cargo." + containerId + ".home");
+        this.javaHome = getSystemProperty("cargo." + containerId + ".java.home");
         this.version = System.getProperty("cargo.version");
         this.containerTimeout = Long.parseLong(getSystemProperty("cargo.containers.timeout"));
     }

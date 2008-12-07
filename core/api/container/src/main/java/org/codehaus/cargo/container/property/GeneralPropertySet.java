@@ -55,4 +55,9 @@ public interface GeneralPropertySet
      * URI Encoding to set.
      */
     String URI_ENCODING = "cargo.servlet.uriencoding";
+    
+    /**
+     * The location of the jvm to use when starting/stopping containers.
+     */
+    String JAVA_HOME = "cargo.java.home";
 }

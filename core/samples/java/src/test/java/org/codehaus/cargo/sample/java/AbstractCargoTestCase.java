@@ -136,6 +136,7 @@ public class AbstractCargoTestCase extends TestCase
         }
 
         configuration.setProperty(ServletPropertySet.PORT, "" + getTestData().port);
+        configuration.setProperty(GeneralPropertySet.JAVA_HOME, getTestData().javaHome);
         configuration.setProperty(GeneralPropertySet.LOGGING, "high");
 
         configuration.setLogger(getLogger());

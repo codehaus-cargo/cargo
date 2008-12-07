@@ -312,7 +312,9 @@ public abstract class AbstractInstalledLocalContainer
         // Add a build listener to the Ant project so that we can catch what the Java task logs
         java.getProject().addBuildListener(
             new AntBuildListener(getLogger(), this.getClass().getName()));
-        
+
+        setJvmToLaunchContainerIn(java); 
+
         // Add extra container classpath entries specified by the user.
         addExtraClasspath(java);
        
@@ -327,6 +329,21 @@ public abstract class AbstractInstalledLocalContainer
         }
         
         return java;
+    }
+
+    /**
+     * Determines which java virtual machine will run the container.
+     * 
+     * @param java the java command that will start the container
+     */
+    protected void setJvmToLaunchContainerIn(Java java)
+    {
+        String javaHome = getConfiguration().getPropertyValue(GeneralPropertySet.JAVA_HOME);
+        if (javaHome != null)
+        {
+            String binDir = getFileHandler().append(javaHome, "bin");
+            java.setJvm(getFileHandler().append(binDir, "java"));
+        }
     }
 
     /**
@@ -363,7 +380,17 @@ public abstract class AbstractInstalledLocalContainer
         // include any tools.jar file to the cp.
         if (!getJdkUtils().isOSX())
         {    
-            classpath.createPathElement().setLocation(getJdkUtils().getToolsJar());
+            String javaHome = getConfiguration().getPropertyValue(GeneralPropertySet.JAVA_HOME);
+            if (javaHome == null)
+            {
+                classpath.createPathElement().setLocation(getJdkUtils().getToolsJar());
+            }  
+            else 
+            {
+                String libDir = getFileHandler().append(javaHome, "lib");
+                classpath.setLocation(new File(libDir, "tools.jar"));
+            }
+            
         }
     }
     

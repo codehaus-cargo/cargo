@@ -24,6 +24,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.resource.Resource;
 import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.FileHandler;
@@ -92,8 +93,9 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration
         this.antUtils = new AntUtils();
         this.resourceUtils = new ResourceUtils();
         this.resources = new ArrayList();
-
+        
         this.home = home;
+        setProperty(GeneralPropertySet.JAVA_HOME, System.getProperty("java.home"));
     }
 
     /**

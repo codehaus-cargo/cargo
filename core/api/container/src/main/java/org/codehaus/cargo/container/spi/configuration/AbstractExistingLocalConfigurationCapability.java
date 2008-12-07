@@ -43,5 +43,6 @@ public abstract class AbstractExistingLocalConfigurationCapability
         this.defaultSupportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
         this.defaultSupportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.defaultSupportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
+        this.defaultSupportsMap.put(GeneralPropertySet.JAVA_HOME, Boolean.TRUE);
     }
 }

@@ -298,6 +298,11 @@
                 <value>${cargo.weblogic8x.home}</value>
               </property>
 
+              <property>
+                <name>cargo.weblogic8x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
+
               <!--
                 WebLogic 9.x
 
@@ -326,6 +331,11 @@
               <property>
                 <name>cargo.weblogic9x.home</name>
                 <value>${cargo.weblogic9x.home}</value>
+              </property>
+
+              <property>
+                <name>cargo.weblogic9x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
               </property>
 
               <!--
@@ -358,6 +368,11 @@
                 <value>${cargo.weblogic10x.home}</value>
               </property>
 
+              <property>
+                <name>cargo.weblogic10x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
               <!--
                 WebLogic 10.3x
 
@@ -385,6 +400,11 @@
               <property>
                 <name>cargo.weblogic103x.home</name>
                 <value>${cargo.weblogic103x.home}</value>
+              </property>
+
+              <property>
+                <name>cargo.weblogic103x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
               </property>
 
               <!--
@@ -617,6 +637,9 @@
     <!-- Tomcat 5x requires this setting for the embedded tests -->
     <!-- TODO: fix embedded tests and remove the SAXParserFactory property -->
     <javax.xml.parsers.SAXParserFactory>com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl</javax.xml.parsers.SAXParserFactory>
+    <cargo.java.home.1_4>${java.home}</cargo.java.home.1_4>
+    <cargo.java.home.1_5>${java.home}</cargo.java.home.1_5>
+    <cargo.java.home.1_6>${java.home}</cargo.java.home.1_6>
   </properties>
   <profiles>
 
@@ -812,6 +835,12 @@
       <id>weblogic103x</id>
       <properties>
         <cargo.containers>weblogic103x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>all-weblogic</id>
+      <properties>
+        <cargo.containers>weblogic8x, weblogic9x, weblogic10x, weblogic103x</cargo.containers>
       </properties>
     </profile>
   </profiles>
