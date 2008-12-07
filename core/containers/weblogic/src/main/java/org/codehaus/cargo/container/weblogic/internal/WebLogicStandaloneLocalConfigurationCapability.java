@@ -50,7 +50,7 @@ public class WebLogicStandaloneLocalConfigurationCapability
 
         this.supportsMap = new HashMap();
 
-        this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
+        this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.supportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
 
         this.supportsMap.put(WebLogicPropertySet.ADMIN_USER, Boolean.TRUE);

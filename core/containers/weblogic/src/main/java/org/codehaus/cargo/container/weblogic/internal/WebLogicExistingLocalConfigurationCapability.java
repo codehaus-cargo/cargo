@@ -49,7 +49,7 @@ public class WebLogicExistingLocalConfigurationCapability
         
         this.supportsMap = new HashMap();
         
-        this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
+        this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
 
         this.supportsMap.put(WebLogicPropertySet.ADMIN_USER, Boolean.TRUE);
         this.supportsMap.put(WebLogicPropertySet.ADMIN_PWD, Boolean.TRUE);
