@@ -116,8 +116,8 @@ public class InstalledLocalContainerTest extends TestCase
         container.setJvmToLaunchContainerIn(java);
         //wipe out anything that would break on windows
         String binDir = container.getFileHandler().append(System.getProperty("java.home"),"bin");
-        String expected = container.getFileHandler().append(binDir,"java").replaceAll("\\\\","/");
-        String vmCmd = java.getCommandLine().getVmCommand().toString().replaceAll("\\\\","/");
+        String expected = container.getFileHandler().append(binDir,"java").replaceAll("\\\\","/").toLowerCase();
+        String vmCmd = java.getCommandLine().getVmCommand().toString().replaceAll("\\\\","/").toLowerCase();
         // in windows, it may be .exe, so we'll ignore the extension
         assertTrue(vmCmd.startsWith(expected));
     }
@@ -129,7 +129,7 @@ public class InstalledLocalContainerTest extends TestCase
         Java java = new Java();
         container.setJvmToLaunchContainerIn(java);
         //wipe out anything that would break on windows
-        String vmCmd = java.getCommandLine().getVmCommand().toString().replaceAll("\\\\","/");
+        String vmCmd = java.getCommandLine().getVmCommand().toString().replaceAll("\\\\","/").toLowerCase();
         assertEquals("/my/java/bin/java",vmCmd);
     }
 
