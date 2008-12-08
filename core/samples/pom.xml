@@ -599,7 +599,7 @@
 
               <property>
                 <name>cargo.containers.timeout</name>
-                <value>120000</value>
+                <value>${cargo.containers.timeout}</value>
               </property>
 
               <!-- Location where to download and install the containers for the tests -->
@@ -640,6 +640,7 @@
     <cargo.java.home.1_4>${java.home}</cargo.java.home.1_4>
     <cargo.java.home.1_5>${java.home}</cargo.java.home.1_5>
     <cargo.java.home.1_6>${java.home}</cargo.java.home.1_6>
+    <cargo.containers.timeout>120000</cargo.containers.timeout>
   </properties>
   <profiles>
 
