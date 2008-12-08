@@ -175,6 +175,16 @@
         <role>Java Developer</role>
       </roles>
     </developer>
+    <developer>
+      <name>Adrian Cole</name>
+      <email>ferncam1@gmail.com</email>
+      <id>adriancole</id>
+      <organization />
+      <timezone>0</timezone>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
   </developers>
   <contributors>
     <contributor>
