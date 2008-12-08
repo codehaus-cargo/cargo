@@ -22,6 +22,7 @@
  */
 package org.codehaus.cargo.container.spi;
 
+import org.apache.commons.vfs.util.Os;
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerType;
@@ -342,7 +343,12 @@ public abstract class AbstractInstalledLocalContainer
         if (javaHome != null)
         {
             String binDir = getFileHandler().append(javaHome, "bin");
-            java.setJvm(getFileHandler().append(binDir, "java"));
+            String javaPath = getFileHandler().append(binDir, "java");
+            if (Os.isFamily(Os.OS_FAMILY_WINDOWS))
+            {
+                javaPath += ".exe";
+            }
+            java.setJvm(javaPath);
         }
     }
 

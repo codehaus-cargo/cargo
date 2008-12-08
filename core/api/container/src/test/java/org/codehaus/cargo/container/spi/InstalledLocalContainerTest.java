@@ -130,7 +130,7 @@ public class InstalledLocalContainerTest extends TestCase
         container.setJvmToLaunchContainerIn(java);
         //wipe out anything that would break on windows
         String vmCmd = java.getCommandLine().getVmCommand().toString().replaceAll("\\\\","/").toLowerCase();
-        assertEquals("/my/java/bin/java",vmCmd);
+        assertTrue(vmCmd.startsWith("/my/java/bin/java"));
     }
 
 }
