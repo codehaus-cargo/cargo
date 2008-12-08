@@ -94,7 +94,7 @@ public class InstalledLocalContainerTest extends TestCase
         AbstractInstalledLocalContainer container = new AbstractInstalledLocalContainerStub(configuration);
         Path path = new Path(new Project());
         container.addToolsJarToClasspath(path);
-        assertFalse(path.toString().contains("myTestPath"));
+        assertFalse(path.toString().indexOf("myTestPath") >=0);
         
     }
 
@@ -104,7 +104,7 @@ public class InstalledLocalContainerTest extends TestCase
         AbstractInstalledLocalContainer container = new AbstractInstalledLocalContainerStub(configuration);
         Path path = new Path(new Project());
         container.addToolsJarToClasspath(path);
-        assertTrue(path.toString().contains("myTestPath"));
+        assertTrue(path.toString().indexOf("myTestPath") >=0);
     }
     
     
@@ -116,8 +116,8 @@ public class InstalledLocalContainerTest extends TestCase
         container.setJvmToLaunchContainerIn(java);
         //wipe out anything that would break on windows
         String binDir = container.getFileHandler().append(System.getProperty("java.home"),"bin");
-        String expected = container.getFileHandler().append(binDir,"java");
-        String vmCmd = java.getCommandLine().getVmCommand().toString();
+        String expected = container.getFileHandler().append(binDir,"java").replaceAll("\\\\","/");
+        String vmCmd = java.getCommandLine().getVmCommand().toString().replaceAll("\\\\","/");
         // in windows, it may be .exe, so we'll ignore the extension
         assertTrue(vmCmd.startsWith(expected));
     }
