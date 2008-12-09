@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.resource.Resource;
 import org.codehaus.cargo.container.tomcat.Tomcat5xStandaloneLocalConfiguration;
 import org.custommonkey.xmlunit.XMLAssert;
@@ -91,6 +92,26 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends Tomcat4xStandalone
 		
 		assertEquals("Resource string not correct", expected, conf.createResourceTokenValue());		
 	}
+
+    public void testCreateWindowsHsqldbDataSource()
+    {
+
+        String realUrl = "jdbc:hsqldb:c:\\temp\\db/jira-home/database";
+
+        String resourceProperty = 
+            "cargo.datasource.url="+realUrl+"|\n"+
+            "cargo.datasource.driver=org.hsqldb.jdbcDriver|\n"+
+            "cargo.datasource.username=sa|"+
+            "cargo.datasource.password=|"+
+            "cargo.datasource.type=javax.sql.DataSource|"+
+            "cargo.datasource.jndi=jdbc/JiraDS";
+        Tomcat5xStandaloneLocalConfiguration conf =
+            (Tomcat5xStandaloneLocalConfiguration) configuration;
+        configuration.setProperty(DatasourcePropertySet.DATASOURCE, resourceProperty);
+        String element = conf.createDatasourceTokenValue();
+        assertTrue(element.indexOf(realUrl) >0);
+
+    }
 	
 	public void testCreateMultipleResourceTokenValues() {
 		String expected = 
@@ -105,21 +126,21 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends Tomcat4xStandalone
 			"          username=\"gazonk\"\n" +
 			"/>\n";
 		
-		Tomcat5xStandaloneLocalConfiguration conf = (Tomcat5xStandaloneLocalConfiguration)configuration;
+		Tomcat5xStandaloneLocalConfiguration conf =
+            (Tomcat5xStandaloneLocalConfiguration) configuration;
 
-		Resource resource = new Resource("myDataSource", "javax.sql.DataSource");
+        Resource resource = new Resource("myDataSource", "javax.sql.DataSource");
         resource.setParameter("password", "pass");
-		resource.setParameter("username", "foo");
+        resource.setParameter("username", "foo");
 
+        Resource resource2 = new Resource("otherDataSource", "javax.sql.DataSource");
+        resource2.setParameter("password", "bar");
+        resource2.setParameter("username", "gazonk");
 
-		Resource resource2 = new Resource("otherDataSource", "javax.sql.DataSource");
-	    resource2.setParameter("password", "bar");
-		resource2.setParameter("username", "gazonk");
-		
-		conf.addResource(resource);
-		conf.addResource(resource2);
-		
-		assertEquals("Resource string not correct", expected, conf.createResourceTokenValue());				
+        conf.addResource(resource);
+        conf.addResource(resource2);
+
+        assertEquals("Resource string not correct", expected, conf.createResourceTokenValue());				
 	}
 
 }

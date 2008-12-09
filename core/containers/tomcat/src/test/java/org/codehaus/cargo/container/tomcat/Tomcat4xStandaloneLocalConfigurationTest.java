@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.resource.Resource;
 import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatStandaloneLocalConfigurationTest;
 import org.custommonkey.xmlunit.XMLAssert;
@@ -102,6 +103,26 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends AbstractTomcatStan
             config);
     }
 
+    public void testCreateWindowsHsqldbDataSource()
+    {
+
+        String realUrl = "jdbc:hsqldb:c:\\temp\\db/jira-home/database";
+
+        String resourceProperty = 
+            "cargo.datasource.url="+realUrl+"|\n"+
+            "cargo.datasource.driver=org.hsqldb.jdbcDriver|\n"+
+            "cargo.datasource.username=sa|"+
+            "cargo.datasource.password=|"+
+            "cargo.datasource.type=javax.sql.DataSource|"+
+            "cargo.datasource.jndi=jdbc/JiraDS";
+        Tomcat4xStandaloneLocalConfiguration conf =
+            (Tomcat4xStandaloneLocalConfiguration) configuration;
+        configuration.setProperty(DatasourcePropertySet.DATASOURCE, resourceProperty);
+        String element = conf.createDatasourceTokenValue();
+        assertTrue(element.indexOf(realUrl) >0);
+
+    }   
+    
 	/**
 	 * Test method for {@link org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration#createResourceTokenValue()}.
 	 */
