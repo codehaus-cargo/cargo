@@ -19,17 +19,11 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 
-import org.apache.tools.ant.types.FilterChain;
+import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.deployable.EAR;
-import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
@@ -85,120 +79,25 @@ public class WebLogicStandaloneLocalConfiguration extends AbstractStandaloneLoca
     {
         setupConfigurationDir();
 
-        FilterChain filterChain = createWebLogicFilterChain();
-        setupDeployables(filterChain);
-
         // make sure you use this method, as it ensures the same filehandler
         // that created the directory will be used to copy the resource.
         // This is especially important for unit testing
         getResourceUtils()
             .copyResource(RESOURCE_PATH + container.getId() + "/config.xml",
                 getFileHandler().append(getDomainHome(), "config.xml"), getFileHandler(),
-                filterChain);
+                getFilterChain());
+        
+        WebLogic8xConfigXmlInstalledLocalDeployer deployer =
+            new WebLogic8xConfigXmlInstalledLocalDeployer((InstalledLocalContainer) container);
+        deployer.setFileHandler(getFileHandler());
+        deployer.deploy(getDeployables());
 
         getResourceUtils().copyResource(
             RESOURCE_PATH + container.getId() + "/DefaultAuthenticatorInit.ldift",
             getFileHandler().append(getDomainHome(), "DefaultAuthenticatorInit.ldift"),
-            getFileHandler(), filterChain);
+            getFileHandler(), getFilterChain());
 
         deployCargoPing((WebLogicLocalContainer) container);
-    }
-
-    /**
-     * @return an Ant filter chain containing implementation for the filter tokens used in the
-     *         WebLogic configuration files
-     */
-    private FilterChain createWebLogicFilterChain()
-    {
-        FilterChain filterChain = getFilterChain();
-
-        return filterChain;
-    }
-
-    /**
-     * Add applications into the WebLogic configuration.
-     * 
-     * @param filterChain where to insert the application configuration
-     */
-    protected void setupDeployables(FilterChain filterChain)
-    {
-        StringBuffer appTokenValue = new StringBuffer(" ");
-
-        Iterator it = getDeployables().iterator();
-        while (it.hasNext())
-        {
-            Deployable deployable = (Deployable) it.next();
-
-            if (deployable.getType() == DeployableType.WAR)
-            {
-                WAR war = (WAR) deployable;
-                appTokenValue.append(getConfigElement(war));
-            }
-            else if (deployable.getType() == DeployableType.EAR)
-            {
-                EAR ear = (EAR) deployable;
-                appTokenValue.append(getConfigElement(ear));
-            }
-        }
-
-        getAntUtils().addTokenToFilterChain(filterChain, "weblogic.apps",
-            appTokenValue.toString());
-
-    }
-
-    /**
-     * insert WebLogic 8 configuration tag corresponding to the current war file.
-     * 
-     * @param war - file we want to configure
-     * @return xml element corresponding to the war file
-     */
-    private String getConfigElement(WAR war)
-    {
-        String context = war.getContext();
-        StringBuffer element = new StringBuffer();
-        element.append("<Application ");
-        element.append("Name=\"_" + context + "_app\" ");
-        element.append("Path=\"" + getFileHandler().getParent(getAbsolutePath(war)) + "\" ");
-        element.append("StagedTargets=\"" + getPropertyValue(WebLogicPropertySet.SERVER)
-            + "\" StagingMode=\"stage\" TwoPhase=\"true\"");
-        element.append(">");
-
-        element.append("<WebAppComponent ");
-        element.append("Name=\"" + context + "\" ");
-        element.append("Targets=\"" + getPropertyValue(WebLogicPropertySet.SERVER) + "\" ");
-        element.append("URI=\"" + getURI(war) + "\"");
-        element.append("/></Application>");
-        return element.toString();
-    }
-
-    /**
-     * insert WebLogic 8 configuration tag corresponding to the current ear file.
-     * 
-     * @param ear - file we want to configure
-     * @return xml element corresponding to the ear file
-     */
-    private String getConfigElement(EAR ear)
-    {
-        StringBuffer element = new StringBuffer();
-        element.append("<Application ");
-        element.append("Name=\"_" + ear.getName() + "_app\" ");
-        element.append("Deployed=\"true\" ");
-        element.append("Path=\"" + getAbsolutePath(ear) + "\" ");
-        element.append("StagedTargets=\"" + getPropertyValue(WebLogicPropertySet.SERVER)
-            + "\" StagingMode=\"stage\" TwoPhase=\"true\"");
-        element.append(">");
-        Iterator contexts = ear.getWebContexts();
-        while (contexts.hasNext())
-        {
-            String context = (String) contexts.next();
-            element.append("<WebAppComponent ");
-            element.append("Name=\"" + context + "\" ");
-            element.append("Targets=\"" + getPropertyValue(WebLogicPropertySet.SERVER) + "\" ");
-            element.append("URI=\"" + ear.getWebUri(context) + "\"");
-            element.append("/>");
-        }
-        element.append("</Application>");
-        return element.toString();
     }
 
     /**
@@ -218,29 +117,6 @@ public class WebLogicStandaloneLocalConfiguration extends AbstractStandaloneLoca
             getFileHandler().append(deployDir, "cargocpc.war"), getFileHandler());
     }
 
-    /**
-     * gets the URI from a file. This is the basic filename. ex. web.war
-     * 
-     * @param deployable - what to extract the uri from
-     * @return - uri of the deployable
-     */
-    String getURI(Deployable deployable)
-    {
-        String path = deployable.getFile();
-        return new File(path).getName();
-    }
-
-    /**
-     * gets the absolute path from a file that may be relative to the current directory.
-     * 
-     * @param deployable - what to extract the file path from
-     * @return - absolute path to the deployable
-     */
-    String getAbsolutePath(Deployable deployable)
-    {
-        String path = deployable.getFile();
-        return getFileHandler().getAbsolutePath(path);
-    }
 
     /**
      * {@inheritDoc}

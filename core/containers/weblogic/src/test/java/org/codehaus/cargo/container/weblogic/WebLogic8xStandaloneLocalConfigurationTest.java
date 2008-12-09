@@ -25,6 +25,7 @@ import java.io.InputStream;
 import junit.framework.TestCase;
 
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.util.FileHandler;
@@ -104,7 +105,15 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends TestCase
         XMLAssert.assertXpathEvaluatesTo(PORT, "//Server/@ListenPort", config);
 
     }
-
+    
+    public void testDoConfigureCreatesWar() throws Exception
+    {
+        configuration.addDeployable(new WAR("my.war"));
+        configuration.doConfigure(container);
+        String config = slurp(DOMAIN_HOME + "/config.xml");
+        XMLAssert.assertXpathEvaluatesTo("my.war", "//WebAppComponent/@URI", config);        
+    }
+    
     public void testDoConfigureSetsDefaultAddress() throws Exception
     {
         configuration.doConfigure(container);

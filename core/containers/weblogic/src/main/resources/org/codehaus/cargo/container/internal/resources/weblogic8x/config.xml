@@ -3,5 +3,4 @@
 <Domain Name="domain">
   <Server Name="server" ListenPort="@cargo.servlet.port@" ListenAddress="@cargo.hostname@"
     NativeIOEnabled="false"/>
-  @weblogic.apps@
 </Domain>
