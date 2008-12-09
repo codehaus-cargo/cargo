@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.property;
 
+import org.apache.tools.ant.util.StringUtils;
 import org.codehaus.cargo.container.internal.util.PropertyUtils;
 
 import java.util.Properties;
@@ -86,14 +87,15 @@ public class DataSource
     }
 
     /**
-     * Contruct a DataSource from a single String.
+     * Construct a DataSource from a single String.
      *
      * @param datasourceInformation A string, really a list of properties, representing a datasource
      * @see org.codehaus.cargo.container.internal.util.PropertyUtils#getDataSourceProperties(String)
      */
     public DataSource(String datasourceInformation)
     {
-        this(PropertyUtils.getDataSourceProperties(datasourceInformation));
+        this(PropertyUtils
+            .getDataSourceProperties(escapeBackSlashesIfNotNull(datasourceInformation)));
     }
 
     /**
@@ -137,6 +139,24 @@ public class DataSource
         return PropertyUtils.getDataSourceString(properties);
     }
 
+    /**
+     * Escapes backslashes so that they can parse properly.
+     * 
+     * @param in - string with backslashes
+     * @return string with backslashes escaped, or null, if passed null
+     */
+    public static String escapeBackSlashesIfNotNull(String in)
+    {
+        if (in != null)
+        {
+            return StringUtils.replace(in, "\\", "\\\\");
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
     /**
      * Sets a property value if the property is not null.
      *
