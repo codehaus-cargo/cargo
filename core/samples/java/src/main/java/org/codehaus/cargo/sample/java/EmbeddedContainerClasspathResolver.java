@@ -72,7 +72,6 @@ public class EmbeddedContainerClasspathResolver
         List tomcat5xDependencies = new ArrayList();
         tomcat5xDependencies.add("bin/*.jar");
         tomcat5xDependencies.add("common/lib/*.jar");
-        tomcat5xDependencies.add("common/endorsed/*.jar");
         tomcat5xDependencies.add("server/lib/*.jar");
 
         dependencies.put("jetty4x", jetty4xDependencies);
@@ -116,6 +115,10 @@ public class EmbeddedContainerClasspathResolver
                                 return name.endsWith(".jar");
                             }
                         });
+                    if (jars == null)
+                    {
+                        throw new FileNotFoundException("No files matched: "+folder.toString()+"/*.jar");
+                    }
                     for (int i = 0; i < jars.length; i++)
                     {
                         urls.add(jars[i].toURL());
