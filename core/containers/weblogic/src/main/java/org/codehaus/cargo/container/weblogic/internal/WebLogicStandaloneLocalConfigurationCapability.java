@@ -39,7 +39,7 @@ public class WebLogicStandaloneLocalConfigurationCapability
     /**
      * Configuration-specific supports Map.
      */
-    private Map supportsMap;
+    protected Map supportsMap;
 
     /**
      * Initialize the configuration-specific supports Map.
@@ -60,6 +60,9 @@ public class WebLogicStandaloneLocalConfigurationCapability
         
         this.supportsMap.put(WebLogicPropertySet.SERVER, Boolean.TRUE);
         this.supportsMap.put(WebLogicPropertySet.BEA_HOME, Boolean.TRUE);
+
+        // server log thresholds are not supported in WebLogic 8x
+        this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
 
     }
 

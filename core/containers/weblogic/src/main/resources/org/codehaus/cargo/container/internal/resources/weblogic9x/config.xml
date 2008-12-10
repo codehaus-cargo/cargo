@@ -31,6 +31,9 @@
 	</security-configuration>
 	<server>
 		<name>@cargo.weblogic.server@</name>
+	    <log>
+	      <log-file-severity>@cargo.weblogic.logging@</log-file-severity>
+	    </log>
 		<listen-port>@cargo.servlet.port@</listen-port>
 		<listen-address>@cargo.hostname@</listen-address>
 	</server>

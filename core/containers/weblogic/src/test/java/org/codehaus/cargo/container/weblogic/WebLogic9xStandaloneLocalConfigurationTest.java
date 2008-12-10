@@ -233,6 +233,42 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends TestCase
 
     }
 
+    public void testDoConfigureSetsDefaultLogging() throws Exception
+    {
+        configuration.doConfigure(container);
+        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        XMLAssert.assertXpathEvaluatesTo("Info", "//weblogic:log-file-severity", config);
+
+    }
+
+    public void testDoConfigureSetsHighLogging() throws Exception
+    {
+        configuration.setProperty(GeneralPropertySet.LOGGING, "high");
+        configuration.doConfigure(container);
+        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        XMLAssert.assertXpathEvaluatesTo("Debug", "//weblogic:log-file-severity", config);
+
+    }
+
+    
+    public void testDoConfigureSetsMediumLogging() throws Exception
+    {
+        configuration.setProperty(GeneralPropertySet.LOGGING, "medium");
+        configuration.doConfigure(container);
+        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        XMLAssert.assertXpathEvaluatesTo("Info", "//weblogic:log-file-severity", config);
+
+    }
+    
+    public void testDoConfigureSetsLowLogging() throws Exception
+    {
+        configuration.setProperty(GeneralPropertySet.LOGGING, "low");
+        configuration.doConfigure(container);
+        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        XMLAssert.assertXpathEvaluatesTo("Warning", "//weblogic:log-file-severity", config);
+
+    }
+    
     public void testDoConfigureSetsDefaultAddress() throws Exception
     {
         configuration.doConfigure(container);

@@ -61,4 +61,10 @@ public interface WebLogicPropertySet
      * format: 9.2.3.0.
      */
     String DOMAIN_VERSION = "cargo.weblogic.domain.version";
+    
+    /**
+     * Log level used in the server log.
+     */
+    String LOGGING = "cargo.weblogic.logging";
+
 }

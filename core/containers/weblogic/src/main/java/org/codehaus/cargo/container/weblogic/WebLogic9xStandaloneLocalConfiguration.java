@@ -136,7 +136,37 @@ public class WebLogic9xStandaloneLocalConfiguration extends AbstractStandaloneLo
         getAntUtils().addTokenToFilterChain(filterChain, WebLogicPropertySet.SERVER,
             getPropertyValue(WebLogicPropertySet.SERVER));
 
+        getAntUtils().addTokenToFilterChain(filterChain, WebLogicPropertySet.LOGGING,
+            getWebLogicLogLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
+
         return filterChain;
+    }
+
+    /**
+     * Translate Cargo logging levels into WebLogic logging levels.
+     * 
+     * @param cargoLogLevel Cargo logging level
+     * @return the corresponding WebLogic logging level
+     */
+    private String getWebLogicLogLevel(String cargoLogLevel)
+    {
+        String returnVal = "Info";
+
+        if (cargoLogLevel == null || cargoLogLevel.trim().equals("")
+            || cargoLogLevel.equalsIgnoreCase("medium"))
+        {
+            // accept default of medium/Info
+        }
+        else if (cargoLogLevel.equalsIgnoreCase("low"))
+        {
+            returnVal = "Warning";
+        }
+        else if (cargoLogLevel.equalsIgnoreCase("high"))
+        {
+            returnVal = "Debug";
+        }
+
+        return returnVal;
     }
 
     /**
