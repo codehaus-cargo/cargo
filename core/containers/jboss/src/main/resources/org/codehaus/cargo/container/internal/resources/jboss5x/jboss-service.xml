@@ -82,6 +82,12 @@
       <attribute name="Log4jQuietMode">true</attribute>
       <!-- How frequently in seconds the ConfigurationURL is checked for changes -->
       <attribute name="RefreshPeriod">60</attribute>
+      <!-- The value to assign to system property jboss.server.log.threshold
+           if it is not already set. This system property in turn controls
+           the logging threshold for the server.log file.
+           If the system property is already set when this service is created,
+           this value is ignored. -->
+      <attribute name="DefaultJBossServerLogThreshold">DEBUG</attribute>
    </mbean>
 
    <!-- ==================================================================== -->
@@ -183,6 +189,7 @@
          the caller's TCL, false if in VM lookups return the value by reference.
       -->
       <attribute name="CallByValue">false</attribute>
+
       <!-- The listening port for the bootstrap JNP service. Set this to -1
          to run the NamingService without the JNP invoker listening port.
       -->

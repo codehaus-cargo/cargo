@@ -464,7 +464,7 @@
               </property>
               <property>
                 <name>cargo.jboss5x.url</name>
-                <value>http://downloads.sourceforge.net/jboss/jboss-5.0.0.CR2.zip?big_mirror=1</value>
+                <value>http://downloads.sourceforge.net/jboss/jboss-5.0.0.GA.zip?big_mirror=1</value>
               </property>
 
               <property>
@@ -683,7 +683,7 @@
       <!-- All containers for the CI -->
       <id>all-ci</id>
       <properties>
-        <cargo.containers>resin3x, orion2x, tomcat5x, tomcat6x, jetty6x, jboss42x, jonas5x</cargo.containers>
+        <cargo.containers>resin3x, orion2x, tomcat5x, tomcat6x, jetty6x, jboss42x, jboss5x, jonas5x</cargo.containers>
       </properties>
     </profile>
     <profile>

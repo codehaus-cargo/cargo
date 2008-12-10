@@ -128,7 +128,10 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
         {
             String farmDir = getFileHandler().createDirectory(getHome(), "/farm");        
         }
-                
+       
+        String[] configFiles = new String[]
+        {"jboss-log4j.xml", "jboss-service.xml", "bindings.xml", "profile.xml"};
+        
         // Copy configuration files from cargo resources directory with token replacement
         String[] cargoConfigFiles = new String[] {"jboss-log4j.xml", "jboss-service.xml"};
         for (int i = 0; i < cargoConfigFiles.length; i++)
@@ -147,32 +150,19 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
                 new File(confBootstrapDir, cargoConfigBootstrapFiles[i]), filterChain);
         }
 
+               
         // Copy resources from jboss installation folder and exclude files
         // that already copied from cargo resources folder
-        copyExternalResources(
-            new File(jbossContainer.getConfDir(getPropertyValue(JBossPropertySet.CONFIGURATION))),
-            new File(confDir), cargoConfigFiles);
-        
-        // Copy resources from jboss installation folder and exclude files
-        // that already copied from cargo resources folder
-        copyExternalResources(
-            new File(jbossContainer.getConfDir(getPropertyValue(JBossPropertySet.CONFIGURATION)) 
-                    + "/bootstrap"),
-            new File(confBootstrapDir), cargoConfigBootstrapFiles);
+        copyExternalResources(new File(jbossContainer
+                .getConfDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(confDir),
+                configFiles);
+
         
         // Copy the files within the JBoss Deploy directory to the cargo deploy directory
         copyExternalResources(
                  new File(jbossContainer
                  .getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(
                      deployDir), new String[0]);
-        
-        //TODO: this should not be needed with the final release of JBoss AS5
-        // Copy the files within the JBoss lib-opt directory to the cargo lib-opt directory
-        String libOptDir = getFileHandler().createDirectory(getHome(), "/lib-opt");
-        copyExternalResources(
-                 new File(((JBoss5xInstalledLocalContainer) jbossContainer)
-                 .getLibOptDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(
-                     libOptDir), new String[0]);
         
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",

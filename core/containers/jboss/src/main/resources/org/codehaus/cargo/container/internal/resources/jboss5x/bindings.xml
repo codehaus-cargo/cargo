@@ -20,165 +20,152 @@
          <parameter>
             <bean name="ServiceBindingStore" class="org.jboss.services.binding.impl.PojoServiceBindingStore">
 
-               <constructor>
-                  <parameter>
-                     <map keyClass="java.lang.String" valueClass="java.util.Set">
-                        <entry>
-                            <key>cargo-default</key>
-                            <value><inject bean="PortsDefaultBindings"/></value>
-                        </entry>
-                     </map>
-                  </parameter>
-               </constructor>
+               <!-- Base bindings that are used to create bindings for each set -->
+               <property name="standardBindings"><inject bean="StandardBindings"/></property>
+               
+               <!-- The sets of bindings -->
+               <property name="serviceBindingSets">
+                  <set>
+                     <inject bean="PortsDefaultBindings"/>
+                  </set>
+               </property>
             </bean>
          </parameter>
       </constructor>
 
    </bean>
 
-   <!-- The default bindings -->
+   <!-- The cargo-default bindings are obtained by taking the base bindings and adding 0 to each port value  -->
    <bean name="PortsDefaultBindings"  class="org.jboss.services.binding.impl.ServiceBindingSet">
+      <constructor>
+         <!--  The name of the set -->
+         <parameter>cargo-default</parameter>
+         <!-- Default host name -->
+         <parameter>${jboss.bind.address}</parameter>
+         <!-- The port offset -->
+         <parameter>0</parameter>
+         <!-- Set of bindings to which the "offset by X" approach can't be applied -->
+         <parameter><null/></parameter>
+      </constructor>
+   </bean>
 
+   <!-- Base binding metadata that ServiceBindingStore uses to create bindings for each set -->
+   <bean name="StandardBindings" class="java.util.HashSet" 
+         elementClass="org.jboss.services.binding.ServiceBindingMetadata">
       <constructor>
          <parameter>
             <set>
             <!-- ********************* conf/jboss-service.xml ****************** -->
 
             <!-- Naming Service -->
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss:service=Naming</parameter>
-                  <parameter>Port</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>@cargo.rmi.port@</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss:service=Naming</property>
+               <property name="bindingName">Port</property>
+               <property name="port">@cargo.rmi.port@</property>
             </bean>
 
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss:service=Naming</parameter>
-                  <parameter>RmiPort</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>1098</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss:service=Naming</property>
+               <property name="bindingName">RmiPort</property>
+               <property name="port">1098</property>
             </bean>
 
             <!-- Remote classloading service -->
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss:service=WebService</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>8083</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss:service=WebService</property>
+               <property name="port">8083</property>
             </bean>
 
             <!-- Remoting Connector -->
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>UnifiedInvokerConnector</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>4446</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">UnifiedInvokerConnector</property>
+               <property name="port">4446</property>
             </bean>
 
-            <!-- ********************* deploy/remoting-service.xml ****************** -->
+            <!-- Used to create a multihome Remoting server.   See -->
+            <!-- deploy/remoting-jboss-beans.xml for more details. -->
+            <!--bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">UnifiedInvokerConnector:bindingHome1</property>
+               <parameter>192.168.2.2</property>
+               <property name="port">7777</property>
+            </bean-->
+            
+            <!-- Used to create a multihome Remoting server.   See -->
+            <!-- deploy/remoting-jboss-beans.xml for more details. -->
+            <!--bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">UnifiedInvokerConnector:bindingHome2</property>
+               <parameter>10.11.12.238</property>
+               <property name="port">8888</property>
+            </bean-->
+
+            <!-- ********************* deploy/legacy-invokers-service.xml ****************** -->
 
             <!-- RMI/JRMP invoker -->
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss:service=invoker,type=jrmp</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>4444</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss:service=invoker,type=jrmp</property>
+               <property name="port">4444</property>
             </bean>
 
             <!-- Pooled invoker -->
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss:service=invoker,type=pooled</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>4445</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss:service=invoker,type=pooled</property>
+               <property name="port">4445</property>
             </bean>
 
             <!-- ********************* deploy/cluster/hajndi-service.xml ****************** -->
 
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss:service=HAJNDI</parameter>
-                  <parameter>Port</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>1100</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss:service=HAJNDI</property>
+               <property name="bindingName">Port</property>
+               <property name="port">1100</property>
             </bean>
 
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss:service=HAJNDI</parameter>
-                  <parameter>RmiPort</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>1101</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss:service=HAJNDI</property>
+               <property name="bindingName">RmiPort</property>
+               <property name="port">1101</property>
             </bean>
 
             <!-- ********************* deploy/cluster/ha-legacy-service.xml ****************** -->
 
             <!-- HA RMI/JRMP invoker -->
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss:service=invoker,type=jrmpha</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>4447</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss:service=invoker,type=jrmpha</property>
+               <property name="port">4447</property>
             </bean>
 
             <!-- HA Pooled invoker -->
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss:service=invoker,type=pooledha</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>4448</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss:service=invoker,type=pooledha</property>
+               <property name="port">4448</property>
             </bean>
 
             <!-- ********************* deploy/iiop-service.xml ****************** -->
 
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss:service=CorbaORB</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>3528</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss:service=CorbaORB</property>
+               <property name="port">3528</property>
             </bean>
 
             <!-- ********************* deploy/snmp-adaptor.sar **************** -->
 
             <!-- Trap receiver that acts as an SNMP Manager -->
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss.jmx:name=SnmpAgent,service=trapd,type=logger</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>1162</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss.jmx:name=SnmpAgent,service=trapd,type=logger</property>
+               <property name="port">1162</property>
             </bean>
 
             <!-- The SNMP adaptor MBean -->
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss.jmx:name=SnmpAgent,service=snmp,type=adaptor</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>1161</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss.jmx:name=SnmpAgent,service=snmp,type=adaptor</property>
+               <property name="port">1161</property>
             </bean>
 
             <!-- ********************* deploy/jmx-remoting.sar **************** -->
 
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss.remoting:service=JMXConnectorServer,protocol=rmi</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>1090</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss.remoting:service=JMXConnectorServer,protocol=rmi</property>
+               <property name="port">1090</property>
             </bean>
 
             <!-- ********************* deploy/ejb3-connectors-service.xml **************** -->
@@ -204,12 +191,9 @@
                 jboss:service=invoker,type=http,target=HAJNDI
                 jboss.ws:service=ServiceEndpointManager
             -->
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss.web:service=WebServer</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>@cargo.servlet.port@</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss.web:service=WebServer</property>
+               <property name="port">@cargo.servlet.port@</property>
 
                <!--
                    Inject a XSLT transform configuration (see below) that describes
@@ -222,69 +206,70 @@
 
             <!-- For services like those listed above that need to know the
                  port of the HTTPS connector -->
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss.web:service=WebServer</parameter>
-                  <parameter>HttpsConnector</parameter>
-                  <!-- The address/port of the JBoss Web HTTPS Connector below -->
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>8443</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss.web:service=WebServer</property>
+               <property name="bindingName">HttpsConnector</property>
+               <property name="port">8443</property>
             </bean>
 
             <!-- ********************* deploy/messaging/remoting-bisocket-service.xml ********************** -->
 
             <!-- Standard JBM bisocket connector -->
-            <bean class="org.jboss.services.binding.ServiceBinding">
-               <constructor>
-                  <parameter>jboss.messaging:service=Connector,transport=bisocket</parameter>
-                  <parameter>${jboss.bind.address}</parameter>
-                  <parameter>4457</parameter>
-               </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss.messaging:service=Connector,transport=bisocket</property>
+               <property name="port">4457</property>
             </bean>
 
             <!-- ********************* deploy/transaction-jboss-beans.xml ********************** -->
 
             <!-- JBossTS Recovery Manager -->
-            <bean class="org.jboss.services.binding.ServiceBinding">
-                <constructor>
-                    <parameter>TransactionManager</parameter>
-                    <parameter>recoveryManager</parameter>
-                    <parameter>${jboss.bind.address}</parameter>
-                    <parameter>4712</parameter>
-                </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+                <property name="serviceName">TransactionManager</property>
+                <property name="bindingName">recoveryManager</property>
+                <property name="port">4712</property>
             </bean>
 
             <!-- JBossTS Transaction Status Manager -->
-            <bean class="org.jboss.services.binding.ServiceBinding">
-                <constructor>
-                    <parameter>TransactionManager</parameter>
-                    <parameter>transactionStatusManager</parameter>
-                    <parameter>${jboss.bind.address}</parameter>
-                    <parameter>4713</parameter>
-                </constructor>
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+                <property name="serviceName">TransactionManager</property>
+                <property name="bindingName">transactionStatusManager</property>
+                <property name="port">4713</property>
             </bean>
 
             <!-- JBossTS SocketProcessId.  The address part is ignored,
-                it will always use null/localhost/127.0.0.1. -->
-            <bean class="org.jboss.services.binding.ServiceBinding">
-                <constructor>
-                    <parameter>TransactionManager</parameter>
-                    <parameter>socketProcessId</parameter>
-                    <parameter><null/></parameter>
-                    <parameter>4714</parameter>
-                </constructor>
+                it will always use localhost/127.0.0.1. -->
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+                <property name="serviceName">TransactionManager</property>
+                <property name="bindingName">socketProcessId</property>
+                <property name="port">4714</property>
             </bean>
 
+
+            <!-- ********************* deploy/hsqldb-ds.xml **************** -->
+
+            <!-- Commented out as tcp/ip access to Hypersonic is not enabled by default -->
+            <!--
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss:service=Hypersonic</property>
+               <property name="port">1701</property>
+            </bean>
+            -->
+
+            <!-- ********************* JBoss MQ **************** -->
+
+            <!-- Commented out as JBoss MQ is not installed by default
+                 If you uncomment this and also use jboss.mq:service=InvocationLayer,type=HTTP,
+                 configure the http invocation layer using the jboss.web:service=WebServer binding above
+             -->
+            <!--
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss.mq:service=InvocationLayer,type=UIL2</property>
+               <property name="port">8093</property>
+            </bean>
+            -->
          </set>
          </parameter>
-
-         <!-- The port offset -->
-         <parameter>0</parameter>
-         <!-- Default host name -->
-         <parameter>${jboss.bind.address}</parameter>
       </constructor>
-
    </bean>
 
    <!-- Conversion of selected bindings into system properties -->

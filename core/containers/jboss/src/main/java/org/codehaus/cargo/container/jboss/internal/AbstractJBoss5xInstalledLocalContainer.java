@@ -41,14 +41,6 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
     {
         return getSpecificConfigurationDir("deployers", configurationName);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getLibOptDir(String configurationName)
-    {
-        return getSpecificConfigurationDir("lib-opt", configurationName);
-    }
     
     /**
      * {@inheritDoc}

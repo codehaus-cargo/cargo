@@ -7,7 +7,9 @@
 
    <classloader><inject bean="profile-classloader:0.0.0"/></classloader>
 
-   <classloader name="profile-classloader" xmlns="urn:jboss:classloader:1.0" export-all="NON_EMPTY" import-all="true"/>
+   <classloader name="profile-classloader" xmlns="urn:jboss:classloader:1.0" export-all="NON_EMPTY" import-all="true">
+      <root>${jboss.lib.url}jboss-profileservice-spi.jar</root>
+   </classloader>
 
    <!-- The basic profile service which relies on vfs scanners
    to determine the profile deployments. This version does not
@@ -19,15 +21,17 @@
       </constructor>
       <property name="profileRoot">${jboss.server.home.dir}</property>
       <property name="mainDeployer"><inject bean="MainDeployer"/></property>
+      <property name="deploymentFilter"><inject bean="DeploymentFilter" /></property>
       <property name="filter">
         <bean class="org.jboss.system.server.profile.basic.XmlIncludeVirtualFileFilter"/>
       </property>
    </bean>
 
    <bean name="ProfileServiceBootstrap" class="org.jboss.system.server.profileservice.ProfileServiceBootstrap">
-      <property name="kernel"><inject bean="jboss.kernel:service=Kernel"/></property>
       <property name="mainDeployer"><inject bean="MainDeployer"/></property>
       <property name="profileService"><inject bean="ProfileService"/></property>
+      <property name="mof"><inject bean="ManagedObjectFactory"/></property>
+      <property name="mgtDeploymentCreator"><inject bean="ManagedDeploymentCreator"/></property>
    </bean>
 
    <!-- A filter for excluding files from the scanner -->
