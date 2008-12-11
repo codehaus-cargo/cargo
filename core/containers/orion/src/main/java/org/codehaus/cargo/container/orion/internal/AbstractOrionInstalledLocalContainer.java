@@ -110,6 +110,9 @@ public abstract class AbstractOrionInstalledLocalContainer extends AbstractInsta
         java.createArg().setValue("-config");
         java.createArg().setFile(new File(getConfiguration().getHome(), "conf/server.xml"));
 
+        // Add the tools.jar to the classpath.
+        addToolsJarToClasspath(classpath);
+        
         AntContainerExecutorThread orionRunner = new AntContainerExecutorThread(java);
         orionRunner.start();
     }
