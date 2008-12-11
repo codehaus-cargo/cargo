@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.weblogic.internal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
@@ -64,6 +65,7 @@ public class WebLogicStandaloneLocalConfigurationCapability
         // server log thresholds are not supported in WebLogic 8x
         this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
 
+        this.supportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
     }
 
     /**

@@ -31,6 +31,8 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.property.DataSource;
+import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
 import org.codehaus.cargo.util.FileHandler;
 import org.dom4j.Document;
@@ -50,6 +52,7 @@ import org.dom4j.io.XMLWriter;
  * 
  */
 public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalledLocalDeployer
+    implements WebLogicConfigurationDeployer
 {
 
     /**
@@ -60,6 +63,9 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     public WebLogic8xConfigXmlInstalledLocalDeployer(InstalledLocalContainer container)
     {
         super(container);
+        // using the same filehandler as the container will help pass unit tests
+        FileHandler handler = ((AbstractInstalledLocalContainer) container).getFileHandler();
+        setFileHandler(handler);
     }
 
     /**
@@ -67,7 +73,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
      * 
      * @return Document corresponding with config.xml
      */
-    protected Document readConfigXml()
+    public Document readConfigXml()
     {
         Document configXml;
         try
@@ -85,7 +91,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     }
 
     /**
-     * write the domain's config.xml to disk
+     * write the domain's config.xml to disk.
      * 
      * @param configXml document to write to disk
      */
@@ -115,7 +121,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     }
 
     /**
-     * get the DOMAIN_HOME of the server
+     * get the DOMAIN_HOME of the server.
      * 
      * @return location to find files like config.xml
      */
@@ -154,6 +160,22 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     }
 
     /**
+     * {@inheritDoc}
+     * Deploys the datasource to the domain by editing the config.xml file.
+     *  
+     * @see org.codehaus.cargo.container.weblogic.WebLogicConfigurationDeployer#deploy(org.codehaus.cargo.container.property.DataSource)
+     */
+    public void deploy(DataSource ds)
+    {
+        Document configXml = readConfigXml();
+        XPath xpathSelector = DocumentHelper.createXPath("//Domain");
+        List results = xpathSelector.selectNodes(configXml);
+        Element domain = (Element) results.get(0);
+        addDataSourceToDomain(ds, domain);
+        this.writeConfigXml(configXml);
+    }    
+    
+    /**
      * {@inheritDoc} 
      * 
      * undeploys files by removing their configuration to the config.xml file of the
@@ -178,7 +200,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     }
 
     /**
-     * Insert the corresponding web app element into the domain of the WebLogic server
+     * Insert the corresponding web app element into the domain of the WebLogic server.
      * 
      * @param war - web application component to configure
      * @param domain - Domain element of the WebLogic server
@@ -197,7 +219,38 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     }
 
     /**
-     * Insert the corresponding ear element into the domain of the WebLogic server
+     * Insert the corresponding datasource element into the domain of the WebLogic server.
+     * 
+     * @param ds - datasource component to configure
+     * @param domain - Domain element of the WebLogic server
+     */
+    protected void addDataSourceToDomain(DataSource ds, Element domain)
+    {
+
+        Element connectionPool = domain.addElement("JDBCConnectionPool");
+        connectionPool.addAttribute("Name", ds.getJndiLocation());
+        connectionPool.addAttribute("Targets", getServerName());
+        connectionPool.addAttribute("URL", ds.getUrl());
+        connectionPool.addAttribute("DriverName", ds.getDriverClass());
+        connectionPool.addAttribute("Password", ds.getPassword());
+        connectionPool.addAttribute("Properties", "user=" + ds.getUsername());
+        Element dataSource = null;
+        if (ds.getDataSourceType().equals("javax.sql.XADataSource"))
+        {
+            dataSource = domain.addElement("JDBCTxDataSource");
+        }
+        else
+        {
+            dataSource = domain.addElement("JDBCDataSource");
+        }
+        dataSource.addAttribute("Name", ds.getJndiLocation());
+        dataSource.addAttribute("PoolName", ds.getJndiLocation());
+        dataSource.addAttribute("JNDIName", ds.getJndiLocation());
+        dataSource.addAttribute("Targets", getServerName());
+    }
+    
+    /**
+     * Insert the corresponding ear element into the domain of the WebLogic server.
      * 
      * @param ear - ear to configure
      * @param domain - Domain element of the WebLogic server
@@ -231,7 +284,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     }
 
     /**
-     * gets the URI from a file. This is the basic filename. ex. web.war
+     * gets the URI from a file. This is the basic filename. ex. web.war.
      * 
      * @param deployable - what to extract the uri from
      * @return - uri of the deployable
@@ -252,19 +305,5 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     {
         String path = deployable.getFile();
         return getFileHandler().getAbsolutePath(path);
-    }
-
-    /**
-     * {@inheritDoc} 
-     * 
-     * exposing this so that it can be configurable by the caller.
-     * 
-     * @see org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer#setFileHandler(org.codehaus.cargo.util.FileHandler)
-     * 
-     * @param fileHandler - filehandler used to write the config.xml file
-     */
-    public void setFileHandler(FileHandler fileHandler)
-    {
-        super.setFileHandler(fileHandler);
     }
 }

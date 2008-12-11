@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.util.FileHandler;
@@ -46,7 +47,21 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends TestCase
     private static final String HOSTNAME = "127.0.0.1";
 
     private static final String PORT = "8001";
+    
+    private static final String DS_JNDI = "jdbc/CrowdDS";
 
+    private static final String DS_TYPE_NONTX = "javax.sql.DataSource";
+
+    private static final String DS_PASSWORD = "";
+
+    private static final String DS_USER = "sa";
+
+    private static final String DS_DRIVER = "org.hsqldb.jdbcDriver";
+
+    private static final String DS_URL = "jdbc:hsqldb:mem:crowd_cargo";
+    
+    private String dataSourceProperty;
+    
     private WebLogic8xInstalledLocalContainer container;
 
     private WebLogicStandaloneLocalConfiguration configuration;
@@ -63,7 +78,15 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends TestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-
+        StringBuffer dataSource = new StringBuffer();
+        dataSource.append("cargo.datasource.url="+DS_URL+"|\n");
+        dataSource.append("cargo.datasource.driver="+DS_DRIVER+"|\n");
+        dataSource.append("cargo.datasource.username="+DS_USER+"|\n");
+        dataSource.append("cargo.datasource.password="+DS_PASSWORD+"|\n");
+        dataSource.append("cargo.datasource.type="+DS_TYPE_NONTX+"|\n");
+        dataSource.append("cargo.datasource.jndi="+DS_JNDI);
+        this.dataSourceProperty=dataSource.toString();
+        
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
@@ -131,7 +154,23 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends TestCase
         XMLAssert.assertXpathEvaluatesTo(HOSTNAME, "//Server/@ListenAddress", config);
 
     }
-
+    
+    public void testDoConfigureCreatesDataSource() throws Exception
+    {
+        configuration.setProperty(DatasourcePropertySet.DATASOURCE, this.dataSourceProperty);
+        configuration.doConfigure(container);
+        String config = slurp(DOMAIN_HOME + "/config.xml");
+        XMLAssert.assertXpathEvaluatesTo(DS_URL, "//JDBCConnectionPool/@URL", config);
+        XMLAssert.assertXpathEvaluatesTo(DS_DRIVER, "//JDBCConnectionPool/@DriverName", config);
+        XMLAssert.assertXpathEvaluatesTo("user="+DS_USER, "//JDBCConnectionPool/@Properties", config);
+        XMLAssert.assertXpathEvaluatesTo(DS_PASSWORD, "//JDBCConnectionPool/@Password", config);
+        XMLAssert.assertXpathEvaluatesTo("server", "//JDBCConnectionPool/@Targets", config);
+        XMLAssert.assertXpathEvaluatesTo(DS_JNDI, "//JDBCConnectionPool/@Name", config);
+        XMLAssert.assertXpathEvaluatesTo(DS_JNDI, "//JDBCDataSource/@Name", config);
+        XMLAssert.assertXpathEvaluatesTo(DS_JNDI, "//JDBCDataSource/@JNDIName", config);
+        XMLAssert.assertXpathEvaluatesTo(DS_JNDI, "//JDBCDataSource/@PoolName", config);
+        XMLAssert.assertXpathEvaluatesTo("server", "//JDBCDataSource/@Targets", config);
+    }
     /**
      * reads a file into a String
      * 

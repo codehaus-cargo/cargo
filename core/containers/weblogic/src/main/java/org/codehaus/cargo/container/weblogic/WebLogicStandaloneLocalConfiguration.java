@@ -24,6 +24,8 @@ import java.io.IOException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.property.DataSource;
+import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
@@ -89,8 +91,14 @@ public class WebLogicStandaloneLocalConfiguration extends AbstractStandaloneLoca
         
         WebLogic8xConfigXmlInstalledLocalDeployer deployer =
             new WebLogic8xConfigXmlInstalledLocalDeployer((InstalledLocalContainer) container);
-        deployer.setFileHandler(getFileHandler());
         deployer.deploy(getDeployables());
+
+        WebLogicConfigurationDeployer configDeployer = deployer;
+        if (getPropertyValue(DatasourcePropertySet.DATASOURCE) != null)
+        {
+            DataSource ds = new DataSource(getPropertyValue(DatasourcePropertySet.DATASOURCE));
+            configDeployer.deploy(ds);
+        }
 
         getResourceUtils().copyResource(
             RESOURCE_PATH + container.getId() + "/DefaultAuthenticatorInit.ldift",

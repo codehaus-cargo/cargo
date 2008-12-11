@@ -32,12 +32,12 @@ public class WebLogic8xSwitchableLocalDeployer extends AbstractSwitchableLocalDe
 {
 
     /**
-     * deployer used when server is up
+     * deployer used when server is up.
      */
     private Deployer hotDeployer;
 
     /**
-     * deployer used when server is down
+     * deployer used when server is down.
      */
     private Deployer coldDeployer;
 

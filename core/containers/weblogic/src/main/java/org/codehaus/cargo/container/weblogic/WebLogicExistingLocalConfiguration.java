@@ -108,7 +108,6 @@ public class WebLogicExistingLocalConfiguration extends
 
         WebLogic8xConfigXmlInstalledLocalDeployer deployer =
             new WebLogic8xConfigXmlInstalledLocalDeployer((InstalledLocalContainer) container);
-        deployer.setFileHandler(getFileHandler());
         deployer.deploy(getDeployables());
 
         // Deploy the cargocpc web-app by copying the WAR file
