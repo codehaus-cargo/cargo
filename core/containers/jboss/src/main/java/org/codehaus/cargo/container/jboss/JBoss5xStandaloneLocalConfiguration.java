@@ -116,6 +116,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
         }
 
         String deployDir = getFileHandler().createDirectory(getHome(), "/deploy");
+        String deployersDir = getFileHandler().createDirectory(getHome(), "/deployers");
         String libDir = getFileHandler().createDirectory(getHome(), "/lib");
         String confDir = getFileHandler().createDirectory(getHome(), "/conf");
         String confBootstrapDir = getFileHandler().createDirectory(getHome(), "/conf/bootstrap");
@@ -130,7 +131,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
         }
        
         String[] configFiles = new String[]
-        {"jboss-log4j.xml", "jboss-service.xml", "bindings.xml", "profile.xml"};
+        {"jboss-log4j.xml", "jboss-service.xml", "bindings.xml"};
         
         // Copy configuration files from cargo resources directory with token replacement
         String[] cargoConfigFiles = new String[] {"jboss-log4j.xml", "jboss-service.xml"};
@@ -142,7 +143,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
         }
         
         // Copy bootstrap configuration files from cargo resources directory with token replacement
-        String[] cargoConfigBootstrapFiles = new String[] {"bindings.xml", "profile.xml"};
+        String[] cargoConfigBootstrapFiles = new String[] {"bindings.xml"};
         for (int i = 0; i < cargoConfigBootstrapFiles.length; i++)
         {
             getResourceUtils().copyResource(
@@ -163,6 +164,12 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
                  new File(jbossContainer
                  .getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(
                      deployDir), new String[0]);
+        
+        // Copy the files within the JBoss Deployers directory to the cargo deployers directory
+        copyExternalResources(
+                 new File(((JBoss5xInstalledLocalContainer) jbossContainer)
+                 .getDeployersDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(
+                     deployersDir), new String[0]);
         
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
