@@ -390,11 +390,15 @@ public abstract class AbstractInstalledLocalContainer
             if (javaHome == null)
             {
                 classpath.createPathElement().setLocation(getJdkUtils().getToolsJar());
-            }  
-            else 
+            }
+            else
             {
+                if (javaHome.indexOf("jre") > 0)
+                {
+                    javaHome = getFileHandler().getParent(javaHome);
+                }
                 String libDir = getFileHandler().append(javaHome, "lib");
-                classpath.setLocation(new File(libDir, "tools.jar"));
+                classpath.createPathElement().setLocation(new File(libDir, "tools.jar"));
             }
             
         }
