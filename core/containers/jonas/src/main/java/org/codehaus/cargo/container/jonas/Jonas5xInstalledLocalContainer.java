@@ -157,7 +157,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
             new File(getHome(), "lib/bootstrap/jonas-commands.jar"));
         classpath.createPathElement().setLocation(
             new File(getHome(), "lib/bootstrap/jonas-version.jar"));
-        classpath.createPathElement().setLocation(new File(getHome(), "conf"));
+        classpath.createPathElement().setLocation(new File(getConfiguration().getHome(), "conf"));
 
         try
         {
