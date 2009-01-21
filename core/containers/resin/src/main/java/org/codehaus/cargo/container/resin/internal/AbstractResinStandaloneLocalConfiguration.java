@@ -98,10 +98,16 @@ public abstract class AbstractResinStandaloneLocalConfiguration
 
         FilterChain filterChain = createResinFilterChain();
 
-        File confDir = new File(getHome(), "conf");
-        confDir.mkdir();
-        getResourceUtils().copyResource(RESOURCE_PATH + resinContainer.getId() + "/resin.conf",
-            new File(confDir, "resin.conf"), filterChain);
+        String confDir =
+            getFileHandler().createDirectory(getHome(), "conf");
+        
+        // make sure you use this method, as it ensures the same filehandler
+        // that created the directory will be used to copy the resource.
+        // This is especially important for unit testing
+        getResourceUtils()
+            .copyResource(RESOURCE_PATH + container.getId() + "/resin.conf",
+                getFileHandler().append(confDir, "resin.conf"), getFileHandler(),
+                getFilterChain());
 
         String webappsDir = getFileHandler().createDirectory(getHome(), "webapps");
 
@@ -114,7 +120,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory.
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-            new File(webappsDir, "cargocpc.war"));
+            getFileHandler().append(webappsDir, "cargocpc.war"), getFileHandler());
 
         // Add preparation steps specific to a given container version
         prepareAdditions(resinContainer, filterChain);

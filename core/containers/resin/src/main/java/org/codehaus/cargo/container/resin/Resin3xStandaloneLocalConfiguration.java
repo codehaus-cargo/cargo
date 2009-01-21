@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.DataSource;
 import org.codehaus.cargo.container.resin.internal.AbstractResinStandaloneLocalConfiguration;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -54,7 +53,8 @@ public class Resin3xStandaloneLocalConfiguration extends AbstractResinStandalone
         throws IOException
     {
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/app-default.xml",
-            new File(getHome(), "app-default.xml"), theFilterChain);
+            getFileHandler().append(getHome(), "app-default.xml"), getFileHandler(),
+            getFilterChain());
     }
 
     /**
@@ -94,7 +94,7 @@ public class Resin3xStandaloneLocalConfiguration extends AbstractResinStandalone
             createExpandedWarTokenValue("document-directory"));
 
         // Add datasource support
-        getAntUtils().addTokenToFilterChain(filterChain, DatasourcePropertySet.DATASOURCE,
+        getAntUtils().addTokenToFilterChain(filterChain, "resin3x.datasource.xml",
             createDatasourceTokenValue());
 
         // Add token filters for authenticated users
