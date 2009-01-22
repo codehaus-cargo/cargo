@@ -155,6 +155,8 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         Path classpath = java.createClasspath();
         classpath.createPathElement().setLocation(
             new File(getHome(), "lib/common/ow_jonas_bootstrap.jar"));
+        classpath.createPathElement().setLocation(
+            new File(getHome(), "lib/commons/jonas/jakarta-commons/commons-logging-api.jar"));
         classpath.createPathElement().setLocation(new File(getConfiguration().getHome(), "conf"));
 
         try
