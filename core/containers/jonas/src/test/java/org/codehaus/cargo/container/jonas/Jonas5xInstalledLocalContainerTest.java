@@ -72,7 +72,7 @@ public class Jonas5xInstalledLocalContainerTest extends MockObjectTestCase
         Mock mockJava = mock(Java.class);
 
         DoActionConstraint constaint = new DoActionConstraint();
-        mockJava.expects(exactly(11)).method("addSysproperty").with(constaint);
+        mockJava.expects(exactly(12)).method("addSysproperty").with(constaint);
 
         container.setupSysProps((Java) mockJava.proxy());
 

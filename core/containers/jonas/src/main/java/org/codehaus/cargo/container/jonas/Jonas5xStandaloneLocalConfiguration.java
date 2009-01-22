@@ -157,14 +157,6 @@ public class Jonas5xStandaloneLocalConfiguration extends AbstractStandaloneLocal
     }
 
     /**
-     * @return The JONAS_ROOT based on the installedContainer.
-     */
-    public String getJonasRoot()
-    {
-        return installedContainer.getHome();
-    }
-
-    /**
      * Copy external resources to cargo configuration directory. This method will copy entire
      * resources in the sourceDir (recursive), if it's a directory.
      * 

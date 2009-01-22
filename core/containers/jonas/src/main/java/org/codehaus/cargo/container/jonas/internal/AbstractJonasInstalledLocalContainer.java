@@ -119,6 +119,8 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
         Map configuredSysProps = getSystemProperties();
         addSysProp(java, configuredSysProps, "install.root", new File(getHome()).getAbsolutePath()
             .replace(File.separatorChar, '/'));
+        addSysProp(java, configuredSysProps, "jonas.root", new File(getHome()).getAbsolutePath()
+            .replace(File.separatorChar, '/'));
         addSysProp(java, configuredSysProps, "jonas.base", new File(getConfiguration().getHome())
             .getAbsolutePath().replace(File.separatorChar, '/'));
         addSysProp(java, configuredSysProps, "java.endorsed.dirs", new File(getFileHandler()
