@@ -118,6 +118,8 @@ public class InstalledLocalContainerTest extends TestCase
         String binDir = container.getFileHandler().append(System.getProperty("java.home"),"bin");
         String expected = container.getFileHandler().append(binDir,"java").replaceAll("\\\\","/").toLowerCase();
         String vmCmd = java.getCommandLine().getVmCommand().toString().replaceAll("\\\\","/").toLowerCase();
+        // vmCmd may be wrapped in double quotes on windows when JAVA_HOME has spaces in it
+        vmCmd = vmCmd.replaceAll("\"","");
         // in windows, it may be .exe, so we'll ignore the extension
         assertTrue(vmCmd.startsWith(expected));
     }
