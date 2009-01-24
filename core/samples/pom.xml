@@ -213,6 +213,10 @@
                 <name>cargo.tomcat4x.url</name>
                 <value>http://apache.mirror.anlx.net/tomcat/tomcat-4/v4.1.39/bin/apache-tomcat-4.1.39-LE-jdk14.zip</value>
               </property>
+              <property>
+                <name>cargo.tomcat4x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
 
               <!--
                 Note: For Tomcat 5.5.x (requires JDK 1.5), you can use the following URL:

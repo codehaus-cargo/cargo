@@ -36,6 +36,17 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCar
         super(testName, testData);
     }
 
+    /**
+     * make sure we always stop the container
+     */
+    public void tearDown(){
+        try {
+            getLocalContainer().stop();
+        } finally {
+            super.tearDown();
+        }
+    }
+    
     public void testDeployWarStatically() throws Exception
     {
         Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
@@ -46,11 +57,8 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCar
         URL warPingURL = new URL("http://localhost:" + getTestData().port
             + "/simple-war-" + getTestData().version + "/index.jsp");
 
-        getLocalContainer().start();
-        PingUtils.assertPingTrue("simple war not started", warPingURL, getLogger());
+        startAndStop(warPingURL);
 
-        getLocalContainer().stop();
-        PingUtils.assertPingFalse("simple war not stopped", warPingURL, getLogger());
     }
 
     public void testStartWithOneExpandedWarDeployed() throws Exception
@@ -70,10 +78,19 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCar
         URL warPingURL = new URL("http://localhost:" + getTestData().port
             + "/expanded-war" + "/index.html");
 
+        startAndStop(warPingURL);
+
+    }
+    
+    /**
+     * @param warPingURL
+     */
+    public void startAndStop(URL warPingURL)
+    {
         getLocalContainer().start();
-        PingUtils.assertPingTrue("expanded war not started", warPingURL, getLogger());
+        PingUtils.assertPingTrue(warPingURL.getPath()+" not started", warPingURL, getLogger());
 
         getLocalContainer().stop();
-        PingUtils.assertPingFalse("expanded war not stopped", warPingURL,getLogger());
+        PingUtils.assertPingFalse(warPingURL.getPath()+" not stopped", warPingURL, getLogger());
     }
 }

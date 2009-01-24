@@ -85,10 +85,8 @@ public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTe
 
         URL warPingURL = new URL("http://localhost:" + getTestData().port + "/simple/index.jsp");
 
-        getLocalContainer().start();
-        PingUtils.assertPingTrue("simple war not started", warPingURL, getLogger());
+        startAndStop(warPingURL);
 
-        getLocalContainer().stop();
-        PingUtils.assertPingFalse("simple war not stopped", warPingURL, getLogger());
     }
+
 }
