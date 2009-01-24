@@ -67,7 +67,7 @@ public class Resin2xStandaloneLocalConfiguration extends AbstractResinStandalone
             createExpandedWarTokenValue("app-dir"));
 
         // Add datasource support
-        getAntUtils().addTokenToFilterChain(filterChain, DatasourcePropertySet.DATASOURCE,
+        getAntUtils().addTokenToFilterChain(filterChain, "resin2x.datasource.xml",
             createDatasourceTokenValue());
 
         // Add token filters for adding users

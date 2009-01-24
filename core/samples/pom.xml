@@ -169,6 +169,10 @@
                 <name>cargo.resin2x.url</name>
                 <value>http://www.caucho.com/download/resin-2.1.17.zip</value>
               </property>
+              <property>
+                <name>cargo.resin2x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
 
               <property>
                 <name>cargo.orion2x.port</name>
@@ -694,7 +698,7 @@
       <!-- All containers for the CI in Java 4 -->
       <id>all-ci-java-1.4</id>
       <properties>
-        <cargo.containers>resin3x, orion2x, tomcat3x, tomcat4x, jetty6x, jboss4x, jonas4x</cargo.containers>
+        <cargo.containers>resin2x, orion2x, tomcat3x, tomcat4x, jetty6x, jboss4x, jonas4x</cargo.containers>
       </properties>
     </profile>
     <profile>
