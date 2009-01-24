@@ -136,7 +136,7 @@ public class AbstractCargoTestCase extends TestCase
         }
 
         configuration.setProperty(ServletPropertySet.PORT, "" + getTestData().port);
-        if (getTestData().javaHome != null)
+        if (getTestData().javaHome != null && !getTestData().javaHome.equals(""))
         {
             configuration.setProperty(GeneralPropertySet.JAVA_HOME, getTestData().javaHome);
         }
@@ -180,8 +180,12 @@ public class AbstractCargoTestCase extends TestCase
             ((EmbeddedLocalContainer) container).setClassLoader(this.classLoader);
         }
 
-        container.setOutput(new File(new File(getTestData().targetDir).getParentFile(),
-            "output.log").getPath());
+        File logFile = new File(new File(getTestData().targetDir).getParentFile(), "output.log");
+        // delete the previous run's output, if it exists.
+        logFile.delete();
+        container.setOutput(logFile.getPath());
+        // if we don't set append, the stop command will truncate the logging made during start.
+        container.setAppend(true);
         container.setTimeout(getTestData().containerTimeout);
     }
 
