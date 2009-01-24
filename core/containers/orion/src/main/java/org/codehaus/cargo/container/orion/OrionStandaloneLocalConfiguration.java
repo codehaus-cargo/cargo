@@ -22,8 +22,6 @@ package org.codehaus.cargo.container.orion;
 import org.codehaus.cargo.container.orion.internal.AbstractOrionStandaloneLocalConfiguration;
 import org.apache.tools.ant.types.FilterChain;
 
-import java.io.File;
-
 /**
  * Orion standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} 
  * implementation.
@@ -45,10 +43,12 @@ public class OrionStandaloneLocalConfiguration extends AbstractOrionStandaloneLo
      * {@inheritDoc}
      * @see AbstractOrionStandaloneLocalConfiguration#copyCustomResources(java.io.File, org.apache.tools.ant.types.FilterChain)
      */
-    protected void copyCustomResources(File confDir, FilterChain filterChain) throws Exception
+    protected void copyCustomResources(String confDir, FilterChain filterChain) throws Exception
     {
-        getResourceUtils().copyResource(RESOURCE_PATH + "orion1x2x" + "/global-web-application.xml",
-            new File(confDir, "global-web-application.xml"), filterChain);
+        getResourceUtils().copyResource(
+            RESOURCE_PATH + "orion1x2x" + "/global-web-application.xml",
+            getFileHandler().append(confDir, "global-web-application.xml"), getFileHandler(),
+            filterChain);
     }
 
     /**

@@ -22,8 +22,6 @@ package org.codehaus.cargo.container.orion;
 import org.codehaus.cargo.container.orion.internal.AbstractOrionStandaloneLocalConfiguration;
 import org.apache.tools.ant.types.FilterChain;
 
-import java.io.File;
-
 /**
  * Oc4j9x standalone configuration implementation.
  *
@@ -44,10 +42,11 @@ public class Oc4j9xStandaloneLocalConfiguration extends AbstractOrionStandaloneL
      * {@inheritDoc}
      * @see AbstractOrionStandaloneLocalConfiguration#copyCustomResources(java.io.File, org.apache.tools.ant.types.FilterChain)
      */
-    protected void copyCustomResources(File confDir, FilterChain filterChain) throws Exception
+    protected void copyCustomResources(String confDir, FilterChain filterChain) throws Exception
     {
         getResourceUtils().copyResource(RESOURCE_PATH + "oc4j9x" + "/global-web-application.xml",
-            new File(confDir, "global-web-application.xml"), filterChain);
+            getFileHandler().append(confDir, "global-web-application.xml"), getFileHandler(),
+            filterChain);
     }
 
     /**

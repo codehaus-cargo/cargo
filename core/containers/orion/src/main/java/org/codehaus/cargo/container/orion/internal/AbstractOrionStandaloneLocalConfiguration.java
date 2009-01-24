@@ -89,28 +89,29 @@ public abstract class AbstractOrionStandaloneLocalConfiguration
         String resourcePath = RESOURCE_PATH + "orion1x2x";
 
         getResourceUtils().copyResource(resourcePath + "/server.xml",
-            new File(confDir, "server.xml"), filterChain);
+            getFileHandler().append(confDir, "server.xml"), getFileHandler(), filterChain);
         getResourceUtils().copyResource(resourcePath + "/application.xml",
-            new File(confDir, "application.xml"), filterChain);
+            getFileHandler().append(confDir, "application.xml"), getFileHandler(), filterChain);
         getResourceUtils().copyResource(resourcePath + "/default-web-site.xml",
-            new File(confDir, "default-web-site.xml"), filterChain);
+            getFileHandler().append(confDir, "default-web-site.xml"), getFileHandler(),
+            filterChain);
 
         getResourceUtils().copyResource(resourcePath + "/mime.types",
-            new File(confDir, "mime.types"), filterChain);
+            getFileHandler().append(confDir, "mime.types"), getFileHandler(), filterChain);
         getResourceUtils().copyResource(resourcePath + "/principals.xml",
-            new File(confDir, "principals.xml"), filterChain);
+            getFileHandler().append(confDir, "principals.xml"), getFileHandler(), filterChain);
         getResourceUtils().copyResource(resourcePath + "/rmi.xml",
-            new File(confDir, "rmi.xml"), filterChain);
+            getFileHandler().append(confDir, "rmi.xml"), getFileHandler(), filterChain);
         getResourceUtils().copyResource(resourcePath + "/data-sources.xml",
-            new File(confDir, "data-sources.xml"), filterChain);
+            getFileHandler().append(confDir, "data-sources.xml"), getFileHandler(), filterChain);
 
-        copyCustomResources(new File(confDir), filterChain);
+        copyCustomResources(confDir, filterChain);
 
         // Create default web app (required by Orion unfortunately...)
         String defaultWebAppDir = getFileHandler().createDirectory(getHome(),
             "default-web-app/WEB-INF");
         getResourceUtils().copyResource(resourcePath + "/web.xml",
-            new File(defaultWebAppDir, "web.xml"), filterChain);
+            getFileHandler().append(defaultWebAppDir, "web.xml"), getFileHandler(), filterChain);
 
         // Orion need to have a /persistence directory created, otherwise it
         // throws an error
@@ -143,7 +144,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-            new File(appDir, "cargocpc.war"));
+            getFileHandler().append(appDir, "cargocpc.war"), getFileHandler());
     }
 
     /**
@@ -153,7 +154,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration
      * @param filterChain the Ant filter chain to apply when copying the resources
      * @throws Exception in case of an error during the copy
      */
-    protected abstract void copyCustomResources(File confDir, FilterChain filterChain)
+    protected abstract void copyCustomResources(String confDir, FilterChain filterChain)
         throws Exception;
 
     /**
