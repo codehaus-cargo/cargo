@@ -196,6 +196,10 @@
                 <name>cargo.tomcat3x.url</name>
                 <value>http://archive.apache.org/dist/tomcat/tomcat-3/v3.3.2/bin/jakarta-tomcat-3.3.2.zip</value>
               </property>
+              <property>
+                <name>cargo.tomcat3x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
 
               <property>
                 <name>cargo.tomcat4x.port</name>
@@ -690,7 +694,7 @@
       <!-- All containers for the CI in Java 4 -->
       <id>all-ci-java-1.4</id>
       <properties>
-        <cargo.containers>resin3x, orion2x, tomcat4x, jetty6x, jboss4x, jonas4x</cargo.containers>
+        <cargo.containers>resin3x, orion2x, tomcat3x, tomcat4x, jetty6x, jboss4x, jonas4x</cargo.containers>
       </properties>
     </profile>
     <profile>
