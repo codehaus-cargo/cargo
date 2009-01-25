@@ -81,7 +81,7 @@ public class Tomcat3xInstalledLocalContainer extends AbstractTomcatInstalledLoca
         java.addSysproperty(getAntUtils().createSysProperty("tomcat.home",
              getConfiguration().getHome()));
 
-        Path classpath = java.createClasspath();
+        Path classpath = java.getCommandLine().getClasspath();
         FileSet fileSet = new FileSet();
         fileSet.setDir(new File(getHome()));
         fileSet.createInclude().setName("lib/**/*.jar");

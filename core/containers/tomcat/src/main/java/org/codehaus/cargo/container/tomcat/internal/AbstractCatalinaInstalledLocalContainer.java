@@ -120,7 +120,7 @@ public abstract class AbstractCatalinaInstalledLocalContainer
             getConfiguration().getHome()));
         File tempFile = new File(getConfiguration().getHome(), "temp");
         java.addSysproperty(getAntUtils().createSysProperty("java.io.tmpdir", tempFile));
-        Path classpath = java.createClasspath();
+        Path classpath = java.getCommandLine().getClasspath();
         classpath.createPathElement().setLocation(new File(getHome(), "bin/bootstrap.jar"));
         addToolsJarToClasspath(classpath);
         java.setClassname("org.apache.catalina.startup.Bootstrap");

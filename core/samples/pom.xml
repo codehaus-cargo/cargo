@@ -142,6 +142,12 @@
               </property>
               -->
 
+              <!-- set default parser -->
+              <property>
+                <name>javax.xml.parsers.SAXParserFactory</name>
+                <value>${javax.xml.parsers.SAXParserFactory}</value>
+              </property>
+
               <!--
                 Default locations from where to get the container installation files. If you
                 wish to use a version already downloaded on your filesystem, use the
@@ -280,38 +286,38 @@
               </property>
               <property>
                 <name>cargo.tomcat4x.url</name>
-                <value>http://apache.mirror.anlx.net/tomcat/tomcat-4/v4.1.39/bin/apache-tomcat-4.1.39-LE-jdk14.zip</value>
+                <!-- note that we want the larger download (not LE), as it contains dbcp needed for database tests -->
+                <value>http://mirror.lividpenguin.com/pub/apache/tomcat/tomcat-4/v4.1.39/bin/apache-tomcat-4.1.39.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat4x.java.home</name>
                 <value>${cargo.java.home.1_4}</value>
               </property>
 
-              <!--
-                Note: For Tomcat 5.5.x (requires JDK 1.5), you can use the following URL:
-                http://www.apache.org/dist/tomcat/tomcat-5/v5.5.17/bin/apache-tomcat-5.5.17.zip
-                -->
               <property>
                 <name>cargo.tomcat5x.port</name>
                 <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.tomcat5x.url</name>
-                <!-- <value>http://archive.apache.org/dist/tomcat/tomcat-5/v5.0.30/bin/jakarta-tomcat-5.0.30.zip</value> -->
-                <value>http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.27/bin/apache-tomcat-5.5.27.zip</value>
+                <value>http://www.smudge-it.co.uk/pub/apache/tomcat/tomcat-5/v5.5.27/bin/apache-tomcat-5.5.27.zip</value>
               </property>
-              <!-- set default parser -->
               <property>
-                <name>javax.xml.parsers.SAXParserFactory</name>
-                <value>${javax.xml.parsers.SAXParserFactory}</value>
+                <name>cargo.tomcat5x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
               </property>
+
               <property>
                 <name>cargo.tomcat6x.port</name>
                 <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.tomcat6x.url</name>
-                <value>http://www.apache.org/dist/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip</value>
+                <value>http://www.smudge-it.co.uk/pub/apache/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip</value>
+              </property>
+              <property>
+                <name>cargo.tomcat6x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
               </property>
 
               <property>
@@ -821,6 +827,12 @@
       <id>resin3x</id>
       <properties>
         <cargo.containers>resin3x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>all-tomcat</id>
+      <properties>
+        <cargo.containers>tomcat3x, tomcat4x, tomcat5x, tomcat6x</cargo.containers>
       </properties>
     </profile>
     <profile>
