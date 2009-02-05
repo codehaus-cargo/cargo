@@ -104,7 +104,8 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             java.createJvmarg().setValue("-Xms128m");
             java.createJvmarg().setValue("-Xmx512m");
         }
-        
+        java.createArg().setValue(
+            "--host=" + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));
         java.createArg().setValue(
                 "--configuration="
                         + getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION));

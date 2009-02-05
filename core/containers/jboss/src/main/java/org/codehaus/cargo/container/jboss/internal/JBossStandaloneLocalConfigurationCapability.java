@@ -50,7 +50,7 @@ public class JBossStandaloneLocalConfigurationCapability extends
         super();
 
         this.propertySupportMap = new HashMap();
-
+        this.defaultSupportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
