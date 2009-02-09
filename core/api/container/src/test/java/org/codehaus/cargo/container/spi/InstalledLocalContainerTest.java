@@ -24,6 +24,7 @@ package org.codehaus.cargo.container.spi;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.vfs.impl.StandardFileSystemManager;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
@@ -31,15 +32,26 @@ import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.resource.Resource;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
+import org.codehaus.cargo.util.FileHandler;
+import org.codehaus.cargo.util.VFSFileHandler;
 
 /**
  * provides base level of testing for subclasses of AbstractInstalledLocalContainer.
  */
 public class InstalledLocalContainerTest extends TestCase
 {
-    private LocalConfiguration configuration = null;
+    private AbstractStandaloneLocalConfiguration configuration = null;
+
+    private StandardFileSystemManager fsManager;
+
+    private FileHandler fileHandler;
+
+    private String previousFile = "ram:/Install/test1";
+
+    private String testFile = "ram:/Install/test2";
 
     protected void setUp() throws Exception
     {
@@ -53,10 +65,24 @@ public class InstalledLocalContainerTest extends TestCase
             {
                 return null;
             }
+
+            public void addResource(Resource resource)
+            {
+                // TODO Auto-generated method stub
+
+            }
         };
+        fsManager = new StandardFileSystemManager();
+        fsManager.init();
+        fileHandler = new VFSFileHandler(fsManager);
+        this.configuration.setFileHandler(fileHandler);
+        this.fileHandler.createFile(testFile);
+        this.fileHandler.createFile(previousFile);
+
     }
 
-    public class AbstractInstalledLocalContainerStub extends AbstractInstalledLocalContainer{
+    public class AbstractInstalledLocalContainerStub extends AbstractInstalledLocalContainer
+    {
 
         public AbstractInstalledLocalContainerStub(LocalConfiguration configuration)
         {
@@ -85,41 +111,48 @@ public class InstalledLocalContainerTest extends TestCase
         {
             return null;
         }
-        
-    }
-    
-    public void testDoesntSetToolsJarWhenOsX() throws Exception{
-        System.setProperty("mrj.version","is.OsX");
-        configuration.setProperty(GeneralPropertySet.JAVA_HOME, "myTestPath");
-        AbstractInstalledLocalContainer container = new AbstractInstalledLocalContainerStub(configuration);
-        Path path = new Path(new Project());
-        container.addToolsJarToClasspath(path);
-        assertFalse(path.toString().indexOf("myTestPath") >=0);
-        
+
     }
 
-    public void testSetsToolsJarWhenNotOsX() throws Exception{
-        System.getProperties().remove("mrj.version");
+    public void testDoesntSetToolsJarWhenOsX() throws Exception
+    {
+        System.setProperty("mrj.version", "is.OsX");
         configuration.setProperty(GeneralPropertySet.JAVA_HOME, "myTestPath");
-        AbstractInstalledLocalContainer container = new AbstractInstalledLocalContainerStub(configuration);
+        AbstractInstalledLocalContainer container =
+            new AbstractInstalledLocalContainerStub(configuration);
         Path path = new Path(new Project());
         container.addToolsJarToClasspath(path);
-        assertTrue(path.toString().indexOf("myTestPath") >=0);
+        assertFalse(path.toString().indexOf("myTestPath") >= 0);
+
     }
-    
-    
+
+    public void testSetsToolsJarWhenNotOsX() throws Exception
+    {
+        System.getProperties().remove("mrj.version");
+        configuration.setProperty(GeneralPropertySet.JAVA_HOME, "myTestPath");
+        AbstractInstalledLocalContainer container =
+            new AbstractInstalledLocalContainerStub(configuration);
+        Path path = new Path(new Project());
+        container.addToolsJarToClasspath(path);
+        assertTrue(path.toString().indexOf("myTestPath") >= 0);
+    }
+
     public void testSetsDefaultJavaHome() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.JAVA_HOME, null);
-        AbstractInstalledLocalContainer container = new AbstractInstalledLocalContainerStub(configuration);
+        AbstractInstalledLocalContainer container =
+            new AbstractInstalledLocalContainerStub(configuration);
         Java java = new Java();
         container.setJvmToLaunchContainerIn(java);
-        //wipe out anything that would break on windows
-        String binDir = container.getFileHandler().append(System.getProperty("java.home"),"bin");
-        String expected = container.getFileHandler().append(binDir,"java").replaceAll("\\\\","/").toLowerCase();
-        String vmCmd = java.getCommandLine().getVmCommand().toString().replaceAll("\\\\","/").toLowerCase();
+        // wipe out anything that would break on windows
+        String binDir = container.getFileHandler().append(System.getProperty("java.home"), "bin");
+        String expected =
+            container.getFileHandler().append(binDir, "java").replaceAll("\\\\", "/")
+                .toLowerCase();
+        String vmCmd =
+            java.getCommandLine().getVmCommand().toString().replaceAll("\\\\", "/").toLowerCase();
         // vmCmd may be wrapped in double quotes on windows when JAVA_HOME has spaces in it
-        vmCmd = vmCmd.replaceAll("\"","");
+        vmCmd = vmCmd.replaceAll("\"", "");
         // in windows, it may be .exe, so we'll ignore the extension
         assertTrue(vmCmd.startsWith(expected));
     }
@@ -127,12 +160,101 @@ public class InstalledLocalContainerTest extends TestCase
     public void testSetsAlternateJavaHome() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.JAVA_HOME, "/my/java");
-        AbstractInstalledLocalContainer container = new AbstractInstalledLocalContainerStub(configuration);
+        AbstractInstalledLocalContainer container =
+            new AbstractInstalledLocalContainerStub(configuration);
         Java java = new Java();
         container.setJvmToLaunchContainerIn(java);
-        //wipe out anything that would break on windows
-        String vmCmd = java.getCommandLine().getVmCommand().toString().replaceAll("\\\\","/").toLowerCase();
+        // wipe out anything that would break on windows
+        String vmCmd =
+            java.getCommandLine().getVmCommand().toString().replaceAll("\\\\", "/").toLowerCase();
         assertTrue(vmCmd.startsWith("/my/java/bin/java"));
     }
 
+    public void testSharedClasspathNotNull() throws Exception
+    {
+        AbstractInstalledLocalContainer container =
+            new AbstractInstalledLocalContainerStub(configuration);
+        assertNotNull(container.getSharedClasspath());
+        assertEquals(0, container.getSharedClasspath().length);
+    }
+
+    public void testAddSharedClasspathWorksWithNoPreviousPath() throws Exception
+    {
+        AbstractInstalledLocalContainer container =
+            new AbstractInstalledLocalContainerStub(configuration);
+        container.setFileHandler(fileHandler);
+
+        container.addSharedClasspath(testFile);
+        assertEquals(1, container.getSharedClasspath().length);
+        assertEquals(testFile, container.getSharedClasspath()[0]);
+    }
+
+    public void testAddSharedClasspathWorksWithAnotherPath() throws Exception
+    {
+        AbstractInstalledLocalContainer container =
+            new AbstractInstalledLocalContainerStub(configuration);
+        container.setFileHandler(fileHandler);
+
+        container.setSharedClasspath(new String[] {previousFile});
+        assertEquals(1, container.getSharedClasspath().length);
+        assertEquals(previousFile, container.getSharedClasspath()[0]);
+
+        container.addSharedClasspath(testFile);
+        assertEquals(2, container.getSharedClasspath().length);
+        assertEquals(previousFile, container.getSharedClasspath()[0]);
+        assertEquals(testFile, container.getSharedClasspath()[1]);
+    }
+
+    public void testExtraClasspathNotNull() throws Exception
+    {
+        AbstractInstalledLocalContainer container =
+            new AbstractInstalledLocalContainerStub(configuration);
+        assertNotNull(container.getExtraClasspath());
+        assertEquals(0, container.getExtraClasspath().length);
+    }
+
+    public void testAddExtraClasspathWorksWithNoPreviousPath() throws Exception
+    {
+        AbstractInstalledLocalContainer container =
+            new AbstractInstalledLocalContainerStub(configuration);
+        container.setFileHandler(fileHandler);
+
+        container.addExtraClasspath(testFile);
+        assertEquals(1, container.getExtraClasspath().length);
+        assertEquals(testFile, container.getExtraClasspath()[0]);
+    }
+
+    public void testAddExtraClasspathWorksWithAnotherPath() throws Exception
+    {
+        AbstractInstalledLocalContainer container =
+            new AbstractInstalledLocalContainerStub(configuration);
+        container.setFileHandler(fileHandler);
+
+        container.setExtraClasspath(new String[] {previousFile});
+        assertEquals(1, container.getExtraClasspath().length);
+        assertEquals(previousFile, container.getExtraClasspath()[0]);
+
+        container.addExtraClasspath(testFile);
+        assertEquals(2, container.getExtraClasspath().length);
+        assertEquals(previousFile, container.getExtraClasspath()[0]);
+        assertEquals(testFile, container.getExtraClasspath()[1]);
+    }
+
+    public void testSystemPropertiesNeverNull()
+    {
+        AbstractInstalledLocalContainer container =
+            new AbstractInstalledLocalContainerStub(configuration);
+        assertNotNull(container.getSystemProperties());
+        assertEquals(0, container.getSystemProperties().size());
+    }
+
+    public void testCanSetSystemProperty()
+    {
+        AbstractInstalledLocalContainer container =
+            new AbstractInstalledLocalContainerStub(configuration);
+        container.getSystemProperties().put("1", "2");
+        assertEquals(1, container.getSystemProperties().size());
+        assertEquals("2", container.getSystemProperties().get("1"));
+
+    }
 }

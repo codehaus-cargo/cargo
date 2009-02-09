@@ -21,6 +21,7 @@ package org.codehaus.cargo.container;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.RunnableContainer;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * A local container is a container that executes on the machine where Cargo is executing.
@@ -42,4 +43,9 @@ public interface LocalContainer extends Container, RunnableContainer
      * @see #setConfiguration(LocalConfiguration)
      */
     LocalConfiguration getConfiguration();
+    
+    /**
+     * @return the means by which we affect local files.
+     */
+    FileHandler getFileHandler();
 }

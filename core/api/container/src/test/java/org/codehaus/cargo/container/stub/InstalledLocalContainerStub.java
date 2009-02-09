@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.stub;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.util.FileHandler;
 
 import java.util.Map;
 
@@ -87,7 +88,12 @@ public class InstalledLocalContainerStub
     {
         throw new RuntimeException("Not implemented");
     }
-
+    
+    public void addExtraClasspath(String classpath)
+    {
+        throw new RuntimeException("Not implemented");
+    }
+    
     public void setSharedClasspath(String[] classpath)
     {
         throw new RuntimeException("Not implemented");
@@ -96,5 +102,15 @@ public class InstalledLocalContainerStub
     public void setSystemProperties(Map properties)
     {
         this.systemProperties = properties;
+    }
+
+    public FileHandler getFileHandler()
+    {
+        throw new RuntimeException("Not implemented");
+    }
+    
+    public void addSharedClasspath(String location)
+    {
+        throw new RuntimeException("Not implemented");
     }
 }

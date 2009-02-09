@@ -35,12 +35,13 @@ import org.codehaus.cargo.container.internal.util.JdkUtils;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.util.AntUtils;
-import org.codehaus.cargo.util.FileHandler;
-import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.log.Logger;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.io.FileNotFoundException;
 import java.io.File;
@@ -50,25 +51,24 @@ import java.io.File;
  * 
  * @version $Id$
  */
-public abstract class AbstractInstalledLocalContainer
-    extends AbstractLocalContainer implements InstalledLocalContainer
+public abstract class AbstractInstalledLocalContainer extends AbstractLocalContainer implements
+    InstalledLocalContainer
 {
     /**
-     * List of system properties to set in the container JVM. 
+     * List of system properties to set in the container JVM.
      */
     private Map systemProperties;
 
     /**
-     * Additional classpath entries for the classpath that will be used to 
-     * start the containers.
+     * Additional classpath entries for the classpath that will be used to start the containers.
      */
-    private String[] extraClasspath;    
+    private List extraClasspath;
 
     /**
-     * Additional classpath entries for the classpath that will be shared by
-     * the container applications.
+     * Additional classpath entries for the classpath that will be shared by the container
+     * applications.
      */
-    private String[] sharedClasspath;
+    private List sharedClasspath;
 
     /**
      * The container home installation directory.
@@ -96,28 +96,27 @@ public abstract class AbstractInstalledLocalContainer
     private ResourceUtils resourceUtils;
 
     /**
-     * File utility class.
-     */
-    private FileHandler fileHandler;
-    
-    /**
      * Default constructor.
+     * 
      * @param configuration the configuration to associate to this container. It can be changed
-     *        later on by calling {@link #setConfiguration(LocalConfiguration)}
+     *            later on by calling {@link #setConfiguration(LocalConfiguration)}
      */
     public AbstractInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
 
         this.jdkUtils = new JdkUtils();
-        this.fileHandler = new DefaultFileHandler();
         this.antUtils = new AntUtils();
         this.resourceUtils = new ResourceUtils();
         this.httpUtils = new HttpUtils();
+        extraClasspath = new ArrayList();
+        sharedClasspath = new ArrayList();
+        systemProperties = new HashMap();
     }
 
     /**
      * Overriden in order to set the logger on ancillary components.
+     * 
      * @param logger the logger to set and set in the ancillary objects
      * @see org.codehaus.cargo.util.log.Loggable#setLogger(org.codehaus.cargo.util.log.Logger)
      */
@@ -135,7 +134,7 @@ public abstract class AbstractInstalledLocalContainer
     {
         return this.httpUtils;
     }
-    
+
     /**
      * @return the JDK utility class
      */
@@ -161,26 +160,9 @@ public abstract class AbstractInstalledLocalContainer
     }
 
     /**
-     * @return the Cargo file utility class
-     */
-    public FileHandler getFileHandler()
-    {
-        return this.fileHandler;
-    }
-
-    /**
-     * @param fileHandler the Cargo file utility class to use. This method is useful for unit
-     *        testing with Mock objects as it can be passed a test file handler that doesn't perform
-     *        any real file action.
-     */
-    public void setFileHandler(FileHandler fileHandler)
-    {
-        this.fileHandler = fileHandler;
-    }
-    
-    /**
      * {@inheritDoc}
-     * @see InstalledLocalContainer#setHome(String) 
+     * 
+     * @see InstalledLocalContainer#setHome(String)
      */
     public final void setHome(String home)
     {
@@ -189,18 +171,20 @@ public abstract class AbstractInstalledLocalContainer
 
     /**
      * {@inheritDoc}
+     * 
      * @see InstalledLocalContainer#setSystemProperties
      */
     public void setSystemProperties(Map properties)
     {
         Map props = new HashMap();
         props.putAll(properties);
-        
+
         this.systemProperties = props;
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see InstalledLocalContainer#getSystemProperties()
      */
     public Map getSystemProperties()
@@ -210,42 +194,49 @@ public abstract class AbstractInstalledLocalContainer
 
     /**
      * {@inheritDoc}
+     * 
      * @see InstalledLocalContainer#setExtraClasspath(String[])
      */
     public void setExtraClasspath(String[] classpath)
     {
-        this.extraClasspath = classpath;
+        this.extraClasspath.clear();
+        this.extraClasspath.addAll(Arrays.asList(classpath));
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see InstalledLocalContainer#getExtraClasspath()
      */
     public String[] getExtraClasspath()
     {
-        return this.extraClasspath;
-    }   
+        return (String[]) this.extraClasspath.toArray(new String[0]);
+    }
 
     /**
      * {@inheritDoc}
+     * 
      * @see InstalledLocalContainer#getHome()
      */
     public void setSharedClasspath(String[] classpath)
     {
-        this.sharedClasspath = classpath;
+        this.sharedClasspath.clear();
+        this.sharedClasspath.addAll(Arrays.asList(classpath));
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see InstalledLocalContainer#getSharedClasspath()
      */
     public String[] getSharedClasspath()
     {
-        return this.sharedClasspath;
+        return (String[]) this.sharedClasspath.toArray(new String[0]);
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see InstalledLocalContainer#getHome()
      */
     public final String getHome()
@@ -256,9 +247,9 @@ public abstract class AbstractInstalledLocalContainer
     /**
      * Implementation of {@link org.codehaus.cargo.container.LocalContainer#start()} that all
      * containers extending this class must implement.
-     *
+     * 
      * @param java the predefined Ant {@link org.apache.tools.ant.taskdefs.Java} command to use to
-     *             start the container
+     *            start the container
      * @throws Exception if any error is raised during the container start
      */
     protected abstract void doStart(Java java) throws Exception;
@@ -266,7 +257,7 @@ public abstract class AbstractInstalledLocalContainer
     /**
      * Implementation of {@link org.codehaus.cargo.container.LocalContainer#stop()} that all
      * containers extending this class must implement.
-     *
+     * 
      * @param java the predefined Ant {@link Java} command to use to stop the container
      * @throws Exception if any error is raised during the container stop
      */
@@ -274,6 +265,7 @@ public abstract class AbstractInstalledLocalContainer
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#startInternal()
      */
     protected final void startInternal() throws Exception
@@ -283,6 +275,7 @@ public abstract class AbstractInstalledLocalContainer
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#stopInternal()
      */
     protected final void stopInternal() throws Exception
@@ -293,7 +286,7 @@ public abstract class AbstractInstalledLocalContainer
     /**
      * Creates a preinitialized instance of the Ant Java task to be used for starting and shutting
      * down the container.
-     *
+     * 
      * @return The created task instance
      */
     private Java createJavaTask()
@@ -314,21 +307,21 @@ public abstract class AbstractInstalledLocalContainer
         java.getProject().addBuildListener(
             new AntBuildListener(getLogger(), this.getClass().getName()));
 
-        setJvmToLaunchContainerIn(java); 
+        setJvmToLaunchContainerIn(java);
 
         // Add extra container classpath entries specified by the user.
         addExtraClasspath(java);
-       
+
         // Add system properties for the container JVM
         addSystemProperties(java);
 
         // Add JVM args if defined
-        String jvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS); 
+        String jvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
         if (jvmargs != null)
         {
             java.createJvmarg().setLine(jvmargs);
         }
-        
+
         return java;
     }
 
@@ -359,33 +352,28 @@ public abstract class AbstractInstalledLocalContainer
      */
     private void addSystemProperties(Java java)
     {
-        if (getSystemProperties() != null)
+        Iterator keys = getSystemProperties().keySet().iterator();
+        while (keys.hasNext())
         {
-            Iterator keys = getSystemProperties().keySet().iterator();
-            while (keys.hasNext())
-            {
-                String key = (String) keys.next();
-    
-                java.addSysproperty(getAntUtils().createSysProperty(key, 
-                    (String) getSystemProperties().get(key)));
-            }
+            String key = (String) keys.next();
+
+            java.addSysproperty(getAntUtils().createSysProperty(key,
+                (String) getSystemProperties().get(key)));
         }
     }
-    
+
     /**
-     * Adds the tools.jar to the classpath, except for Mac OSX as it is not
-     * needed.
+     * Adds the tools.jar to the classpath, except for Mac OSX as it is not needed.
      * 
      * @param classpath the classpath object to which to add the tools.jar
-     * @exception FileNotFoundException in case the tools.jar file cannot be
-     *            found
+     * @exception FileNotFoundException in case the tools.jar file cannot be found
      */
     protected final void addToolsJarToClasspath(Path classpath) throws FileNotFoundException
     {
-        // On OSX, the tools.jar classes are included in the classes.jar so there is no need to 
+        // On OSX, the tools.jar classes are included in the classes.jar so there is no need to
         // include any tools.jar file to the cp.
         if (!getJdkUtils().isOSX())
-        {    
+        {
             String javaHome = getConfiguration().getPropertyValue(GeneralPropertySet.JAVA_HOME);
             if (javaHome == null)
             {
@@ -400,10 +388,10 @@ public abstract class AbstractInstalledLocalContainer
                 String libDir = getFileHandler().append(javaHome, "lib");
                 classpath.createPathElement().setLocation(new File(libDir, "tools.jar"));
             }
-            
+
         }
     }
-    
+
     /**
      * Add extra container classpath entries specified by the user.
      * 
@@ -412,25 +400,28 @@ public abstract class AbstractInstalledLocalContainer
     private void addExtraClasspath(Java javaCommand)
     {
         Path classpath = javaCommand.createClasspath();
-        if (getExtraClasspath() != null)
+        if (extraClasspath.size() > 0)
         {
             Path path = new Path(getAntUtils().createProject());
 
-            for (int i = 0; i < getExtraClasspath().length; i++)
+            Iterator entries = extraClasspath.iterator();
+            while (entries.hasNext())
             {
-                Path pathElement = new Path(getAntUtils().createProject(), getExtraClasspath()[i]);
+                Path pathElement =
+                    new Path(getAntUtils().createProject(), (String) entries.next());
                 path.addExisting(pathElement);
 
                 getLogger().debug("Adding [" + pathElement + "] to execution classpath",
                     this.getClass().getName());
             }
-            
+
             classpath.addExisting(path);
-        }        
-    }    
+        }
+    }
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#verify()
      */
     protected void verify()
@@ -458,10 +449,46 @@ public abstract class AbstractInstalledLocalContainer
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.container.Container#getType()
      */
     public ContainerType getType()
     {
         return ContainerType.INSTALLED;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.SpawnedContainer#addExtraClasspath()
+     */
+    public void addExtraClasspath(String location)
+    {
+        ifPresentAddPathToList(location, extraClasspath);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.SpawnedContainer#addSharedClasspath()
+     */
+    public void addSharedClasspath(String location)
+    {
+        ifPresentAddPathToList(location, sharedClasspath);
+    }
+
+    /**
+     * adds the location to the list, if the file exists.
+     * 
+     * @param location path to add to the list
+     * @param list where to append this path
+     */
+    public void ifPresentAddPathToList(String location, List list)
+    {
+        if (location == null || !this.getFileHandler().exists(location))
+        {
+            throw new IllegalArgumentException("Invalid file path: " + location);
+        }
+        list.add(location);
     }
 }

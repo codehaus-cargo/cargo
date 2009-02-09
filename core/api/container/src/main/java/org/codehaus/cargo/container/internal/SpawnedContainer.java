@@ -35,6 +35,12 @@ public interface SpawnedContainer
     void setExtraClasspath(String[] classpath);
 
     /**
+     * @param location the extra classpath that is added to the container's classpath when it is
+     *        started.
+     */
+    void addExtraClasspath(String location);
+    
+    /**
      * @return the extra classpath that is added to the container's classpath when it is started.
      */
     String[] getExtraClasspath();
@@ -44,6 +50,12 @@ public interface SpawnedContainer
      */
     void setSharedClasspath(String[] classpath);
 
+    /**
+     * @param location the shared classpath that is added to the container's classpath when it is
+     *            started.
+     */
+    void addSharedClasspath(String location);
+    
     /**
      * @return the extra classpath that is shared by the container applications.
      */
@@ -58,4 +70,5 @@ public interface SpawnedContainer
      * @return the System properties to set in the container executing VM.
      */
     Map getSystemProperties();
+
 }

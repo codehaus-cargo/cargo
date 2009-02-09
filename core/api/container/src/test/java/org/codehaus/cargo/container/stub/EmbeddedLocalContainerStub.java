@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.stub;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Mock for {@link org.codehaus.cargo.container.EmbeddedLocalContainer}. We need a static
@@ -73,5 +74,10 @@ public class EmbeddedLocalContainerStub
             result = this.classLoader;
         }
         return result;
+    }
+    
+    public FileHandler getFileHandler()
+    {
+        throw new RuntimeException("Not implemented");
     }
 }

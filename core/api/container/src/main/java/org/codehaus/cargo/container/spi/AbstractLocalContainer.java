@@ -27,6 +27,8 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Default container implementation that all local container implementations must extend.
@@ -62,6 +64,11 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     private State state = State.UNKNOWN;
 
     /**
+     * File utility class.
+     */
+    private FileHandler fileHandler;
+    
+    /**
      * Default constructor.
      * @param configuration the configuration to associate to this container. It can be changed
      *        later on by calling {@link #setConfiguration(LocalConfiguration)}
@@ -69,6 +76,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     public AbstractLocalContainer(LocalConfiguration configuration)
     {
         this.configuration = configuration;
+        this.fileHandler = new DefaultFileHandler();
     }
 
     /**
@@ -269,5 +277,23 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     protected void setState(State state)
     {
         this.state = state;
+    }
+    
+    /**
+     * @return the Cargo file utility class
+     */
+    public FileHandler getFileHandler()
+    {
+        return this.fileHandler;
+    }
+
+    /**
+     * @param fileHandler the Cargo file utility class to use. This method is useful for unit
+     *        testing with Mock objects as it can be passed a test file handler that doesn't perform
+     *        any real file action.
+     */
+    public void setFileHandler(FileHandler fileHandler)
+    {
+        this.fileHandler = fileHandler;
     }
 }
