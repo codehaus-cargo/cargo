@@ -246,7 +246,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
                 }
                 if (isDirectory)
                 {
-                    getFileHandler().copyDirectory(fileConfig.getFile(), destFile);
+                    String destDir = getDestDirectoryLocation(fileConfig.getFile(), fileConfig.getToDir());
+                    getFileHandler().copyDirectory(fileConfig.getFile(), destDir);
                 }
                 else
                 {
@@ -302,5 +303,38 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         }
         
         return finalFile;
+    }
+    
+    /**
+     * Determines the correct path for the destination directory.
+     * @param file The path of the original file
+     * @param toDir The directory for the copied file
+     * @param toFile The file name for the copied file
+     * @return The path for the destination file
+     */
+    protected String getDestDirectoryLocation(String file, String toDir)
+    {
+        String fileName = file;
+        String finalDir = null;
+
+        if (fileName == null)
+        {
+            throw new RuntimeException("file cannot be null");
+        } 
+        else if (toDir != null)
+        {
+            finalDir = getHome() + "/" + toDir;
+        } 
+        else if (toDir == null)
+        {
+            finalDir = getHome();
+        } 
+        // replace all double slashes with a single slash
+        while (finalDir.indexOf("//") >= 0)
+        {
+            finalDir = finalDir.replaceAll("//", "/");
+        }
+        
+        return finalDir;
     }
 }
