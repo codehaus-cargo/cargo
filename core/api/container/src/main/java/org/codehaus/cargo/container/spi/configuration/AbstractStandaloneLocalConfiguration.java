@@ -19,15 +19,16 @@
  */
 package org.codehaus.cargo.container.spi.configuration;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 
@@ -41,9 +42,9 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
 {
 
     /**
-     * List of {@link Configfile}s to use for the container.
+     * List of {@link FileConfig}s to use for the container.
      */
-    private Map configfiles;
+    private List files;
 
     /**
      * The filterChain for the configuration files. This contains the tokens and what
@@ -61,8 +62,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
 
         // Add all required properties that are common to all standalone configurations
         setProperty(GeneralPropertySet.LOGGING, "medium");
-        this.configfiles = new HashMap();
-        //this.filterChain = createFilterChain();       
+        this.files = new ArrayList();
     }
 
     /**
@@ -180,68 +180,33 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration#addConfigfile(org.codehaus.cargo.container.configuration.Configfile)
+     * @see org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration#addConfigfile(org.codehaus.cargo.container.configuration.FileConfig)
      */
-    public void setFileProperty(String file, String tofile, String todir)
+    public void setFileProperty(FileConfig fileConfig)
     {
-        String fileName = file;
-        String finalFile = null;
-
-        if (fileName == null)
-        {
-            throw new RuntimeException("file cannot be null");
-        } 
-        else if (tofile == null && todir != null)
-        {
-            // get the filename and add it in the todir directory name
-            String filename = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.length());
-            finalFile = getHome() + "/" + todir + "/" + filename;
-        } 
-        else if (tofile != null && todir == null)
-        {
-            // just use the tofile filename as the final file
-            finalFile = getHome() + "/" + tofile;
-        } 
-        else if (tofile == null && todir == null)
-        {
-            // use the tofile filename and add it into the conf directory
-            String filename = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.length());
-            finalFile = getHome() + "/" + filename;
-        } 
-        else if (tofile != null && todir != null)
-        {
-            // tofile means what name to call the file in the todir directory
-            finalFile = getHome() + "/" + todir + "/" + tofile;
-        }
-
-        // replace all double slashes with a single slash
-        while (finalFile.indexOf("//") >= 0)
-        {
-            finalFile = finalFile.replaceAll("//", "/");
-        }
-        while (fileName.indexOf("//") >= 0)
-        {
-            fileName = fileName.replaceAll("//", "/");
-        }
-
-        this.configfiles.put(finalFile, fileName);
+        this.files.add(fileConfig);
     }
 
     /**
      * {@inheritDoc}
+     * @see org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration#addConfigfile(org.codehaus.cargo.container.configuration.FileConfig)
      */
-    public String getFileProperty(String tofile)
+    public void setConfigFileProperty(FileConfig fileConfig)
     {
-        return (String) this.configfiles.get(tofile);
+        // a configuration file should always overwrite the previous file if it exists
+        // since the token value could have changed during.
+        fileConfig.setOverwrite(true);
+        fileConfig.setConfigfile(true);
+        this.setFileProperty(fileConfig);
     }
     
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration#getConfigfiles()
      */
-    public Map getFileProperties()
+    public List getFileProperties()
     {
-        return this.configfiles;
+        return this.files;
     }
     
     /**
@@ -250,14 +215,92 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      */
     protected void configureFiles(FilterChain filterChain)
     {
-        Map files = getFileProperties();
-        Iterator filesIt = files.keySet().iterator();
-        while (filesIt.hasNext())
+       // List files = getFileProperties();
+        List files = this.files;
+        
+        for (int i = 0; i < files.size(); i++)
         {
-            String toFile = (String) filesIt.next();
-            String fromFile = (String) files.get(toFile);
-            getFileHandler().copyFile(fromFile, toFile, filterChain);
+            FileConfig fileConfig = (FileConfig) files.get(i);
+            boolean isDirectory = false;
+            
+            if (fileConfig.getFile() == null)
+            {
+                throw new RuntimeException("File cannot be null");
+            }
+            
+            File origFile = new File(fileConfig.getFile());
+            if (origFile.isDirectory())
+            {
+                isDirectory = true;
+            }
+              
+            String destFile = getDestFileLocation(fileConfig.getFile(), 
+                    fileConfig.getToDir(), fileConfig.getToFile());
+            
+            //we don't want to do anything if the file exists and overwrite is false
+            if (!origFile.exists()  ||  fileConfig.getOverwrite())
+            {
+                if (fileConfig.getConfigfile())
+                {
+                    getFileHandler().copyFile(fileConfig.getFile(), destFile, filterChain);
+                }
+                if (isDirectory)
+                {
+                    getFileHandler().copyDirectory(fileConfig.getFile(), destFile);
+                }
+                else
+                {
+                    getFileHandler().copyFile(fileConfig.getFile(), destFile);
+                }
+            } 
         }
     }
-  
+
+    /**
+     * Determines the correct path for the destination file.
+     * @param file The path of the original file
+     * @param toDir The directory for the copied file
+     * @param toFile The file name for the copied file
+     * @return The path for the destination file
+     */
+    protected String getDestFileLocation(String file, String toDir, String toFile)
+    {
+        String fileName = file;
+        String finalFile = null;
+
+        if (fileName == null)
+        {
+            throw new RuntimeException("file cannot be null");
+        } 
+        else if (toFile == null && toDir != null)
+        {
+            // get the filename and add it in the todir directory name
+            String filename = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.length());
+            finalFile = getHome() + "/" + toDir + "/" + filename;
+        } 
+        else if (toFile != null && toDir == null)
+        {
+            // just use the tofile filename as the final file
+            finalFile = getHome() + "/" + toFile;
+        } 
+        else if (toFile == null && toDir == null)
+        {
+            // use the tofile filename and add it into the conf directory
+            String filename = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.length());
+            finalFile = getHome() + "/" + filename;
+        } 
+        else if (toFile != null && toDir != null)
+        {
+            // tofile means what name to call the file in the todir directory
+            finalFile = getHome() + "/" + toDir + "/" + toFile;
+        }
+
+        // replace all double slashes with a single slash
+        while (finalFile.indexOf("//") >= 0)
+        {
+            finalFile = finalFile.replaceAll("//", "/");
+        }
+        
+        return finalFile;
+    }
 }

@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.configuration;
 
-import java.util.Map;
+import java.util.List;
 
 import org.apache.tools.ant.types.FilterChain;
 
@@ -36,32 +36,24 @@ public interface StandaloneLocalConfiguration extends LocalConfiguration
 {
 
     /**
-     * set the file property for a configuration. The todir and tofile are in
-     * named in relation to the containers home directory.
+     * set the config file property for a configuration. 
      * 
-     * toDir and toFile can be used independently, together, or null.
-     * 
-     * @param file The name of the file to be used
-     * @param tofile The name of the destination file
-     * @param todir The name of the destination directory
+     * @param fileConfig The FileConfig to use
      */
-    void setFileProperty(String file, String tofile, String todir);
+    void setConfigFileProperty(FileConfig fileConfig);
 
     /**
-     * Returns the file to be copied to the destination.
-     * 
-     * @param file
-     *            The destination file
-     * @return The file to be copied to the destination
+     * set the file property for a configuration. 
+     * @param fileConfig The FileConfig to use
      */
-    String getFileProperty(String file);
-
+    void setFileProperty(FileConfig fileConfig);
+    
     /**
      * Returns the file configurations.
      * 
      * @return The configuration file properies
      */
-    Map getFileProperties();
+    List getFileProperties();
 
     /**
      * Returns the filterchain for this configuration.

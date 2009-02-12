@@ -37,9 +37,9 @@ package org.codehaus.cargo.container.configuration;
  * If toDir is foo and toFile is bar, the destination of the new file will
  * be ${cargo.home}/foo/bar
  * 
- * @version $Id:$
+ * @version $Id$
  */
-public class Configfile 
+public class FileConfig 
 {
 
    /**
@@ -59,12 +59,25 @@ public class Configfile
     private String todir;
 
     /**
+     * If the file should be overwritten if the destination file exists.
+     */
+    private boolean overwrite;
+    
+    /**
+     * If the file should be considered a configuration file.
+     * If true then token replacement will occur on the file.
+     */
+    private boolean configfile;
+    
+    /**
      * Constructor.
      */
-    public Configfile()
+    public FileConfig()
     {
         this.file = null;
         this.tofile = null;
+        this.overwrite = true;
+        this.configfile = false;
     }
 
     /**
@@ -98,6 +111,24 @@ public class Configfile
     }
 
     /**
+     * Return true if the file should overwrite an existing file.
+     * @return if the file should be overwritten
+     */
+    public boolean getOverwrite()
+    {
+        return overwrite;
+    }
+    
+    /**
+     * Returns true if the file is marked as a configuration file
+     * @return If the file is a config file or not
+     */
+    public boolean getConfigfile()
+    {
+        return configfile;
+    }
+    
+    /**
      * Sets the file to be used.
      * 
      * @param file
@@ -128,4 +159,21 @@ public class Configfile
         this.todir = todir;
     }
     
+    /**
+     * Set if the destination file should be overwritten.
+     * @param overwrite Set to true if files should overwrite
+     */
+    public void setOverwrite(boolean overwrite)
+    {
+        this.overwrite = overwrite;
+    }
+    
+    /**
+     * Set if the destination should be considered a configuration file
+     * @param configfile Set to true if file is a configfile
+     */
+    public void setConfigfile(boolean configfile)
+    {
+        this.configfile = configfile;
+    }
 }

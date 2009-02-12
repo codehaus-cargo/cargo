@@ -21,11 +21,10 @@ package org.codehaus.cargo.container.stub;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.tools.ant.types.FilterChain;
-import org.codehaus.cargo.container.configuration.Configfile;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.resource.Resource;
 
@@ -52,21 +51,19 @@ public class StandaloneLocalConfigurationStub
         return ConfigurationType.STANDALONE;
     }
 
-	public Map getFileProperties() {
+	public List getFileProperties() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getFileProperty(String file) {
+	public void setConfigFileProperty(FileConfig fileConfig) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
-	public void setFileProperty(String file, String tofile, String todir) {
-		// TODO Auto-generated method stub
-		
+	public void setFileProperty(FileConfig fileConfig) {
+	    // TODO Auto-generate method stub
 	}
-
+	
 	public FilterChain getFilterChain() 
 	{
 		// TODO Auto-generated method stub
