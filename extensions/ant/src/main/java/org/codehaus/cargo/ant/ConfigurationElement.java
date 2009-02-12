@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.ant;
 
-import org.codehaus.cargo.container.configuration.Configfile;
+import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -69,7 +69,7 @@ public class ConfigurationElement
     /**
      *List of configuration files
      */
-    private List configfiles = new ArrayList();
+    private List fileConfigs = new ArrayList();
 
     /**
      * @param configurationClass the configuration class to associate to the containing container
@@ -106,20 +106,28 @@ public class ConfigurationElement
     }
 
     /**
-      * @param configfileElement the nested deployable element to deploy
+      * @param configfileElement the nested config element to deploy
    */
-    public void addConfiguredConfigfile(Configfile configfileElement)
+    public void addConfiguredConfigfile(FileConfig configfileElement)
     {
-        this.configfiles.add(configfileElement);
+        this.fileConfigs.add(configfileElement);
     }
 
+    /**
+     * @param fileConfigElement the nested file element to deploy
+     */
+    public void addConfiguredFile(FileConfig fileConfigElement)
+    {
+        this.fileConfigs.add(fileConfigElement);
+    }
+    
     /**
      * {@inheritDoc}
      * @see #addConfiguredDeployable(DeployableElement)
      */
-    protected final List getConfigfiles()
+    protected final List getFileConfigs()
     {
-        return this.configfiles;
+        return this.fileConfigs;
     }
 
     /**
@@ -222,13 +230,13 @@ public class ConfigurationElement
 
         if (configuration instanceof StandaloneLocalConfiguration)
         {
-            if (getConfigfiles() != null)
+            if (getFileConfigs() != null)
             {
-                for (int i = 0; i < getConfigfiles().size(); i++)
+                for (int i = 0; i < getFileConfigs().size(); i++)
                 {
-                    Configfile configfile = (Configfile) getConfigfiles().get(i);
-                    ((StandaloneLocalConfiguration) configuration).setFileProperty(configfile
-                            .getFile(), configfile.getToFile(), configfile.getToDir());
+                    FileConfig configfile = (FileConfig) getFileConfigs().get(i);
+                    ((StandaloneLocalConfiguration) configuration)
+                            .setConfigFileProperty(configfile);
                 }
             }
         }

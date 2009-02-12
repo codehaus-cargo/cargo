@@ -19,11 +19,16 @@
  */
 package org.codehaus.cargo.maven2.configuration;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.codehaus.cargo.container.configuration.Configfile;
+import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
@@ -50,7 +55,9 @@ public class Configuration
 
     private Deployable[] deployables;
     
-    private Configfile[] configfiles;
+    private FileConfig[] fileConfigs;
+    
+    private FileConfig[] configfiles;
     
     private Resource[] resources;
 
@@ -94,14 +101,24 @@ public class Configuration
         this.deployables = deployables;
     }
 
-    public Configfile[] getConfigfiles()
+    public FileConfig[] getConfigfiles()
     {
     	return this.configfiles;
     }
     
-    public void setConfigfiles(Configfile[] configfiles)
-    {
+    public void setConfigfiles(FileConfig[] configfiles)
+    {  
     	this.configfiles = configfiles;
+    }
+    
+    public FileConfig[] getFiles()
+    {
+        return this.fileConfigs;
+    }
+    
+    public void setFiles (FileConfig[] fileConfigs)
+    {
+        this.fileConfigs = fileConfigs;
     }
     
     public String getImplementation()
@@ -200,8 +217,17 @@ public class Configuration
         	{
         		for (int i = 0; i < getConfigfiles().length; i ++)
         		{
-        		    ((StandaloneLocalConfiguration)configuration).setFileProperty(getConfigfiles()[i].getFile(), getConfigfiles()[i].getToFile(), getConfigfiles()[i].getToDir());
+        		    FileConfig fileConfig = getConfigfiles()[i];
+        		    ((StandaloneLocalConfiguration)configuration).setConfigFileProperty(fileConfig);
         		}
+        	}
+        	if (getFiles() != null)
+        	{
+                for (int i = 0; i < getFiles().length; i ++)
+                {
+                    FileConfig fileConfig = getFiles()[i];
+                    ((StandaloneLocalConfiguration)configuration).setFileProperty(fileConfig);
+                }
         	}
         }
 
