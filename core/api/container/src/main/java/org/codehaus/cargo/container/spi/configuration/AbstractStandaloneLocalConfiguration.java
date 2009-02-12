@@ -246,7 +246,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
                 }
                 if (isDirectory)
                 {
-                    String destDir = getDestDirectoryLocation(fileConfig.getFile(), fileConfig.getToDir());
+                    String destDir = getDestDirectoryLocation(fileConfig.getFile(), fileConfig
+                            .getToDir());
                     getFileHandler().copyDirectory(fileConfig.getFile(), destDir);
                 }
                 else
@@ -309,7 +310,6 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      * Determines the correct path for the destination directory.
      * @param file The path of the original file
      * @param toDir The directory for the copied file
-     * @param toFile The file name for the copied file
      * @return The path for the destination file
      */
     protected String getDestDirectoryLocation(String file, String toDir)
