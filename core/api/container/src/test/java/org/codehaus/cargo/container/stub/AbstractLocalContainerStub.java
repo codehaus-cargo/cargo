@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.stub;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Code common to all local container stubs.
@@ -91,5 +92,15 @@ public abstract class AbstractLocalContainerStub
     public void stop()
     {
         // Voluntarily empty for testing
+    }
+
+    public void setFileHandler(FileHandler handler)
+    {
+        throw new RuntimeException("Not implemented");        
+    }
+
+    public FileHandler getFileHandler()
+    {
+        throw new RuntimeException("Not implemented");
     }
 }

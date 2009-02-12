@@ -43,6 +43,11 @@ public interface LocalContainer extends Container, RunnableContainer
      * @see #setConfiguration(LocalConfiguration)
      */
     LocalConfiguration getConfiguration();
+
+    /**
+     * @param handler means by which we affect local files.
+     */
+    void setFileHandler(FileHandler handler);
     
     /**
      * @return the means by which we affect local files.

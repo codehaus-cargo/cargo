@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.stub;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.util.FileHandler;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -72,5 +73,15 @@ public abstract class AbstractLocalConfigurationStub
     public void configure(LocalContainer container)
     {
         // Voluntarily do nothing for testing
+    }
+
+    public void setFileHandler(FileHandler handler)
+    {
+        throw new RuntimeException("Not implemented");        
+    }
+
+    public FileHandler getFileHandler()
+    {
+        throw new RuntimeException("Not implemented");
     }
 }
