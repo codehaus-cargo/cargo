@@ -77,7 +77,7 @@ public class ConfigurationTest extends TestCase
         StandaloneLocalConfigurationStub conf = (StandaloneLocalConfigurationStub) configuration;
         List resources = conf.getResources();
         assertEquals("resources not of correct size", 1, resources.size());
-        org.codehaus.cargo.container.resource.Resource r = (org.codehaus.cargo.container.resource.Resource) resources.get(0);
+        org.codehaus.cargo.container.configuration.entry.Resource r = (org.codehaus.cargo.container.configuration.entry.Resource) resources.get(0);
         assertEquals("name not correct", "name", r.getName());
         assertEquals("type not correct", "someType", r.getType());
         

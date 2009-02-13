@@ -60,9 +60,9 @@ public class Resource {
 		this.parameters = parameters;
 	}
 
-    public org.codehaus.cargo.container.resource.Resource createResource(String containerId, CargoProject project)
+    public org.codehaus.cargo.container.configuration.entry.Resource createResource(String containerId, CargoProject project)
     {
-        org.codehaus.cargo.container.resource.Resource resource = new org.codehaus.cargo.container.resource.Resource(getName(), getType());
+        org.codehaus.cargo.container.configuration.entry.Resource resource = new org.codehaus.cargo.container.configuration.entry.Resource(getName(), getType());
         resource.setParameters(getParameters());
         return resource;
     }
