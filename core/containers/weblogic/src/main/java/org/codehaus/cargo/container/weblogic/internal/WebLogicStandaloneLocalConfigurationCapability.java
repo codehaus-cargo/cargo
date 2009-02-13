@@ -29,13 +29,13 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 
 /**
- * Capabilities of the WebLogic's 
+ * Capabilities of the WebLogic's
  * {@link org.codehaus.cargo.container.weblogic.WebLogicStandaloneLocalConfiguration} configuration.
- *  
+ * 
  * @version $Id$
  */
-public class WebLogicStandaloneLocalConfigurationCapability
-    extends AbstractStandaloneLocalConfigurationCapability
+public class WebLogicStandaloneLocalConfigurationCapability extends
+    AbstractStandaloneLocalConfigurationCapability
 {
     /**
      * Configuration-specific supports Map.
@@ -53,23 +53,33 @@ public class WebLogicStandaloneLocalConfigurationCapability
 
         this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.supportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
-        
-        // changing this would require generating hashes for the default 
+
+        // changing this would require generating hashes for the default
         // authenticator ldift files
         this.supportsMap.put(WebLogicPropertySet.ADMIN_USER, Boolean.FALSE);
         this.supportsMap.put(WebLogicPropertySet.ADMIN_PWD, Boolean.FALSE);
-        
+
         this.supportsMap.put(WebLogicPropertySet.SERVER, Boolean.TRUE);
         this.supportsMap.put(WebLogicPropertySet.BEA_HOME, Boolean.TRUE);
 
         // server log thresholds are not supported in WebLogic 8x
         this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
+        supportDataSources();
+    }
 
+    /**
+     * Add capability for all DataSource implementations
+     */
+    private void supportDataSources()
+    {
         this.supportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.supportsMap.put(DatasourcePropertySet.CONNECTION_TYPE, Boolean.TRUE);
+        this.supportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     protected Map getPropertySupportMap()

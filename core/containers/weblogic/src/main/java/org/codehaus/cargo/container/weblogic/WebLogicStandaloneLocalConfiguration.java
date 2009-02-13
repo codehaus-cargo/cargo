@@ -20,15 +20,16 @@
 package org.codehaus.cargo.container.weblogic;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.property.DataSource;
-import org.codehaus.cargo.container.property.DatasourcePropertySet;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
+import org.codehaus.cargo.container.configuration.entry.Resource;
+import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
+import org.codehaus.cargo.container.weblogic.internal.WebLogic8xConfigurationBuilder;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicStandaloneLocalConfigurationCapability;
 
 /**
@@ -37,8 +38,9 @@ import org.codehaus.cargo.container.weblogic.internal.WebLogicStandaloneLocalCon
  * 
  * @version $Id$
  */
-public class WebLogicStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
-    implements WebLogicConfiguration
+public class WebLogicStandaloneLocalConfiguration extends
+    AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder implements
+    WebLogicConfiguration
 {
     /**
      * Capability of the WebLogic standalone configuration.
@@ -58,8 +60,6 @@ public class WebLogicStandaloneLocalConfiguration extends AbstractStandaloneLoca
         setProperty(WebLogicPropertySet.ADMIN_USER, "weblogic");
         setProperty(WebLogicPropertySet.ADMIN_PWD, "weblogic");
         setProperty(WebLogicPropertySet.SERVER, "server");
-        setProperty(ServletPropertySet.PORT, "7001");
-        setProperty(GeneralPropertySet.HOSTNAME, "localhost");
     }
 
     /**
@@ -75,7 +75,7 @@ public class WebLogicStandaloneLocalConfiguration extends AbstractStandaloneLoca
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractStandaloneLocalConfiguration#configure(LocalContainer)
+     * @see AbstractStandaloneLocalConfiguration#toConfigurationEntry(LocalContainer)
      */
     protected void doConfigure(LocalContainer container) throws Exception
     {
@@ -84,21 +84,13 @@ public class WebLogicStandaloneLocalConfiguration extends AbstractStandaloneLoca
         // make sure you use this method, as it ensures the same filehandler
         // that created the directory will be used to copy the resource.
         // This is especially important for unit testing
-        getResourceUtils()
-            .copyResource(RESOURCE_PATH + container.getId() + "/config.xml",
-                getFileHandler().append(getDomainHome(), "config.xml"), getFileHandler(),
-                getFilterChain());
-        
-        WebLogic8xConfigXmlInstalledLocalDeployer deployer =
-            new WebLogic8xConfigXmlInstalledLocalDeployer((InstalledLocalContainer) container);
-        deployer.deploy(getDeployables());
+        getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/config.xml",
+            getFileHandler().append(getDomainHome(), "config.xml"), getFileHandler(),
+            getFilterChain());
 
-        WebLogicConfigurationDeployer configDeployer = deployer;
-        if (getPropertyValue(DatasourcePropertySet.DATASOURCE) != null)
-        {
-            DataSource ds = new DataSource(getPropertyValue(DatasourcePropertySet.DATASOURCE));
-            configDeployer.deploy(ds);
-        }
+        WebLogic8xConfigXmlInstalledLocalDeployer deployer =
+            new WebLogic8xConfigXmlInstalledLocalDeployer(container);
+        deployer.deploy(getDeployables());
 
         getResourceUtils().copyResource(
             RESOURCE_PATH + container.getId() + "/DefaultAuthenticatorInit.ldift",
@@ -125,7 +117,6 @@ public class WebLogicStandaloneLocalConfiguration extends AbstractStandaloneLoca
             getFileHandler().append(deployDir, "cargocpc.war"), getFileHandler());
     }
 
-
     /**
      * {@inheritDoc}
      * 
@@ -142,5 +133,64 @@ public class WebLogicStandaloneLocalConfiguration extends AbstractStandaloneLoca
     public String getDomainHome()
     {
         return getHome();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected String getXpathForDataSourcesParent()
+    {
+        return "//Domain";
+    }
+
+    /**
+     * {@inheritDoc} WebLogic 8.x application servers currently use DTD, and therefore return and
+     * empty map;
+     */
+    protected Map getNamespaces()
+    {
+        return Collections.EMPTY_MAP;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see WebLogic8xConfigurationBuilder
+     */
+    protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)
+    {
+        String serverName =
+            container.getConfiguration().getPropertyValue(WebLogicPropertySet.SERVER);
+        return new WebLogic8xConfigurationBuilder(serverName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected String getOrCreateDataSourceConfigurationFile(DataSource ds,
+        LocalContainer container)
+    {
+        return getFileHandler().append(getHome(), "config.xml");
+    }
+
+    /**
+     * {@inheritDoc} This implementation throws an UnsupportedOperationException as Resource
+     * configuration is not supported in WebLogic.
+     */
+    protected String getOrCreateResourceConfigurationFile(Resource resource,
+        LocalContainer container)
+    {
+        throw new UnsupportedOperationException(
+            WebLogic8xConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED);
+    }
+
+    /**
+     * {@inheritDoc} This implementation throws an UnsupportedOperationException as Resource
+     * configuration is not supported in WebLogic.
+     */
+    protected String getXpathForResourcesParent()
+    {
+        throw new UnsupportedOperationException(
+            WebLogic8xConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED);
     }
 }

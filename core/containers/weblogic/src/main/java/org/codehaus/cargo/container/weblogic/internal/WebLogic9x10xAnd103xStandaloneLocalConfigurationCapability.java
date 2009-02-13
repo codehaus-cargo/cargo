@@ -1,7 +1,7 @@
 /* 
  * ========================================================================
  * 
- * Copyright 2005 Vincent Massol.
+ * Copyright 2004-2006 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,25 +17,29 @@
  * 
  * ========================================================================
  */
-package org.codehaus.cargo.container.weblogic;
+package org.codehaus.cargo.container.weblogic.internal;
 
-import org.codehaus.cargo.container.property.DataSource;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
- * 
- * Adds WebLogic resources such as database connection pools.
+ * Capabilities of the WebLogic's
+ * {@link org.codehaus.cargo.container.weblogic.WebLogic9xStandaloneLocalConfiguration}
+ * configuration.
  * 
  * @version $Id: $
  */
-public interface WebLogicConfigurationDeployer
+public class WebLogic9x10xAnd103xStandaloneLocalConfigurationCapability extends
+    WebLogicStandaloneLocalConfigurationCapability
 {
 
     /**
-     * deploy a datasource by adding its configuration to the config.xml file of the WebLogic
-     * server.
-     * 
-     * @param ds - datasource component to configure
+     * WebLogic 9x supports additional features not available in 8x.
      */
-    void deploy(DataSource ds);
+    public WebLogic9x10xAnd103xStandaloneLocalConfigurationCapability()
+    {
+        super();
 
+        // it is possible to set server logging thresholds in WLS 9+
+        this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.TRUE);
+    }
 }

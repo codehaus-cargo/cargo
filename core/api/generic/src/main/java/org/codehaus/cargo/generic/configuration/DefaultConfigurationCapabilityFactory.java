@@ -320,21 +320,21 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
 
         registerConfigurationCapability("weblogic9x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.weblogic.internal."
-                + "WebLogic9xStandaloneLocalConfigurationCapability");
+                + "WebLogic9x10xAnd103xStandaloneLocalConfigurationCapability");
         registerConfigurationCapability("weblogic9x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, "org.codehaus.cargo.container.weblogic.internal."
                 + "WebLogicExistingLocalConfigurationCapability");
         
         registerConfigurationCapability("weblogic10x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.weblogic.internal."
-                + "WebLogic9xStandaloneLocalConfigurationCapability");
+                + "WebLogic9x10xAnd103xStandaloneLocalConfigurationCapability");
         registerConfigurationCapability("weblogic10x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, "org.codehaus.cargo.container.weblogic.internal."
                 + "WebLogicExistingLocalConfigurationCapability");
 
         registerConfigurationCapability("weblogic103x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.weblogic.internal."
-                + "WebLogic9xStandaloneLocalConfigurationCapability");
+                + "WebLogic9x10xAnd103xStandaloneLocalConfigurationCapability");
         registerConfigurationCapability("weblogic103x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, "org.codehaus.cargo.container.weblogic.internal."
                 + "WebLogicExistingLocalConfigurationCapability");

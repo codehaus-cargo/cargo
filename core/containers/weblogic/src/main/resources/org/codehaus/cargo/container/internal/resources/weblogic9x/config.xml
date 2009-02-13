@@ -46,6 +46,5 @@
 		<credential-encrypted>{3DES}U5qCDmj6k1ikPWXdfJJ6alWSkYb0Rh0FiK0Gf5SS+VM=</credential-encrypted>
 	</embedded-ldap>
 	<configuration-version>@cargo.weblogic.configuration.version@</configuration-version>
-	@weblogic.apps@
 	<admin-server-name>@cargo.weblogic.server@</admin-server-name>
 </domain>

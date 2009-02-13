@@ -26,13 +26,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.property.DataSource;
-import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
 import org.codehaus.cargo.util.FileHandler;
 import org.dom4j.Document;
@@ -49,22 +47,19 @@ import org.dom4j.io.XMLWriter;
  * file.
  * 
  * @version $Id: $
- * 
  */
 public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalledLocalDeployer
-    implements WebLogicConfigurationDeployer
 {
-
     /**
      * {@inheritDoc}
      * 
      * @param container container to configure
      */
-    public WebLogic8xConfigXmlInstalledLocalDeployer(InstalledLocalContainer container)
+    public WebLogic8xConfigXmlInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
         // using the same filehandler as the container will help pass unit tests
-        FileHandler handler = ((AbstractInstalledLocalContainer) container).getFileHandler();
+        FileHandler handler = container.getFileHandler();
         setFileHandler(handler);
     }
 
@@ -160,25 +155,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     }
 
     /**
-     * {@inheritDoc}
-     * Deploys the datasource to the domain by editing the config.xml file.
-     *  
-     * @see org.codehaus.cargo.container.weblogic.WebLogicConfigurationDeployer#deploy(org.codehaus.cargo.container.property.DataSource)
-     */
-    public void deploy(DataSource ds)
-    {
-        Document configXml = readConfigXml();
-        XPath xpathSelector = DocumentHelper.createXPath("//Domain");
-        List results = xpathSelector.selectNodes(configXml);
-        Element domain = (Element) results.get(0);
-        addDataSourceToDomain(ds, domain);
-        this.writeConfigXml(configXml);
-    }    
-    
-    /**
-     * {@inheritDoc} 
-     * 
-     * undeploys files by removing their configuration to the config.xml file of the
+     * {@inheritDoc} undeploys files by removing their configuration to the config.xml file of the
      * WebLogic server.
      * 
      * @see org.codehaus.cargo.container.spi.deployer.AbstractDeployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
@@ -218,37 +195,6 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
         webAppComponent.addAttribute("URI", getURI(war));
     }
 
-    /**
-     * Insert the corresponding datasource element into the domain of the WebLogic server.
-     * 
-     * @param ds - datasource component to configure
-     * @param domain - Domain element of the WebLogic server
-     */
-    protected void addDataSourceToDomain(DataSource ds, Element domain)
-    {
-
-        Element connectionPool = domain.addElement("JDBCConnectionPool");
-        connectionPool.addAttribute("Name", ds.getJndiLocation());
-        connectionPool.addAttribute("Targets", getServerName());
-        connectionPool.addAttribute("URL", ds.getUrl());
-        connectionPool.addAttribute("DriverName", ds.getDriverClass());
-        connectionPool.addAttribute("Password", ds.getPassword());
-        connectionPool.addAttribute("Properties", "user=" + ds.getUsername());
-        Element dataSource = null;
-        if (ds.getDataSourceType().equals("javax.sql.XADataSource"))
-        {
-            dataSource = domain.addElement("JDBCTxDataSource");
-        }
-        else
-        {
-            dataSource = domain.addElement("JDBCDataSource");
-        }
-        dataSource.addAttribute("Name", ds.getJndiLocation());
-        dataSource.addAttribute("PoolName", ds.getJndiLocation());
-        dataSource.addAttribute("JNDIName", ds.getJndiLocation());
-        dataSource.addAttribute("Targets", getServerName());
-    }
-    
     /**
      * Insert the corresponding ear element into the domain of the WebLogic server.
      * 

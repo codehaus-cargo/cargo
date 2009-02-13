@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<jdbc-data-source xmlns="http://www.bea.com/ns/weblogic/90"
+	xmlns:sec="http://www.bea.com/ns/weblogic/90/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:wls="http://www.bea.com/ns/weblogic/90/security/wls"
+	xsi:schemaLocation="http://www.bea.com/ns/weblogic/910/domain.xsd">
+	
+	<name>@cargo.datasource.id@</name>
+	
+	<jdbc-driver-params>
+		<url>@cargo.datasource.url@</url>
+		<driver-name>@cargo.datasource.driver@</driver-name>
+		<properties>
+			<property>
+				<name>user</name>
+				<value>@cargo.datasource.username@</value>
+			</property>
+			<property>
+				<name>password</name>
+				<value>@cargo.datasource.password@</value>
+			</property>
+		</properties>
+	</jdbc-driver-params>
+
+	<jdbc-data-source-params>
+		<jndi-name>@cargo.datasource.jndi@</jndi-name>
+		<global-transactions-protocol>None</global-transactions-protocol>
+	</jdbc-data-source-params>
+
+</jdbc-data-source>

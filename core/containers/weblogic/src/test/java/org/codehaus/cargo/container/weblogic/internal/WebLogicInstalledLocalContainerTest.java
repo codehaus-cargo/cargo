@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.weblogic.WebLogic9xInstalledLocalContainer;
-import org.codehaus.cargo.container.weblogic.WebLogicStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.weblogic.WebLogic9xStandaloneLocalConfiguration;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 
@@ -70,7 +70,7 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         this.fileHandler = new VFSFileHandler(this.fsManager);
         this.fileHandler.delete(BEA_HOME);
 
-        LocalConfiguration configuration = new WebLogicStandaloneLocalConfiguration(DOMAIN_HOME);
+        LocalConfiguration configuration = new WebLogic9xStandaloneLocalConfiguration(DOMAIN_HOME);
         this.container = new WebLogic9xInstalledLocalContainer(configuration);
         this.container.setHome(WL_HOME);
     }

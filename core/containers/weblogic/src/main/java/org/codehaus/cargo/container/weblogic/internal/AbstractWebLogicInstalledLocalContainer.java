@@ -350,7 +350,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
                 "java.security.policy",
                 "=" + serverDir + "/lib/weblogic.policy"));
 
-        Path classpath = java.createClasspath();
+        Path classpath = java.getCommandLine().getClasspath();
         classpath.createPathElement().setLocation(
                 new File(serverDir, "lib/weblogic_sp.jar"));
         classpath.createPathElement().setLocation(
@@ -365,7 +365,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
 
         // Add the tools jar to the classpath so deployment will succeed due to appc compiles
         addToolsJarToClasspath(classpath);
-
+       
         java.setClassname("weblogic.Server");
 
         AntContainerExecutorThread webLogicRunner = new AntContainerExecutorThread(

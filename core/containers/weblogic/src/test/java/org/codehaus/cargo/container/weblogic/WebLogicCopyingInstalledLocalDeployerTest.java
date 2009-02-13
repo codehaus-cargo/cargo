@@ -67,7 +67,7 @@ public class WebLogicCopyingInstalledLocalDeployerTest extends TestCase
         this.fileHandler = new VFSFileHandler(this.fsManager);
         this.fileHandler.delete(BEA_HOME);
 
-        LocalConfiguration configuration = new WebLogicStandaloneLocalConfiguration(
+        LocalConfiguration configuration = new WebLogic9xStandaloneLocalConfiguration(
                 DOMAIN_HOME);
         this.container = new WebLogic9xInstalledLocalContainer(configuration);
         this.container.setHome(WL_HOME);

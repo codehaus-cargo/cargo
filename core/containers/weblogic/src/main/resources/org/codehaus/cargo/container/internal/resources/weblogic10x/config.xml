@@ -52,6 +52,5 @@ http://www.bea.com/ns/weblogic/920/domain.xsd"
 		<credential-encrypted>{3DES}JS4Qr/GzcQ+ODCTmqDZp7/s4LaSOHoNPMETdk1MCHJY=</credential-encrypted>
 	</embedded-ldap>
 	<configuration-version>@cargo.weblogic.configuration.version@</configuration-version>
-	@weblogic.apps@
 	<admin-server-name>@cargo.weblogic.server@</admin-server-name>
 </domain>

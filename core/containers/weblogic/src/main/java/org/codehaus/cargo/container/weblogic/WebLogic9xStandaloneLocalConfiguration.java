@@ -20,19 +20,27 @@
 package org.codehaus.cargo.container.weblogic;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.tools.ant.types.FilterChain;
+import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
+import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.deployable.EAR;
-import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
+import org.codehaus.cargo.container.weblogic.internal.WebLogic8xConfigurationBuilder;
+import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10xAnd103xConfigurationBuilder;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.util.Dom4JUtil;
+import org.codehaus.cargo.util.FileHandler;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 
 /**
  * WebLogic standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -40,14 +48,25 @@ import org.codehaus.cargo.container.weblogic.internal.WebLogicStandaloneLocalCon
  * 
  * @version $Id$
  */
-public class WebLogic9xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
-    implements WebLogicConfiguration
+public class WebLogic9xStandaloneLocalConfiguration extends
+    AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder implements
+    WebLogicConfiguration
 {
     /**
      * Capability of the WebLogic standalone configuration.
      */
     private static ConfigurationCapability capability =
         new WebLogicStandaloneLocalConfigurationCapability();
+
+    /**
+     * used to manipulate the config.xml document.
+     */
+    private Dom4JUtil xmlTool;
+
+    /**
+     * used to generate the weblogic configuration files
+     */
+    private HashMap namespaces;
 
     /**
      * {@inheritDoc}
@@ -65,6 +84,15 @@ public class WebLogic9xStandaloneLocalConfiguration extends AbstractStandaloneLo
         setProperty(WebLogicPropertySet.DOMAIN_VERSION, "9.2.3.0");
         setProperty(ServletPropertySet.PORT, "7001");
         setProperty(GeneralPropertySet.HOSTNAME, "localhost");
+
+        namespaces = new HashMap();
+        namespaces.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
+        namespaces.put("jdbc", "http://www.bea.com/ns/weblogic/90");
+
+        xmlTool = new Dom4JUtil();
+        xmlTool.setNamespaces(namespaces);
+        xmlTool.setFileHandler(getFileHandler());
+
     }
 
     /**
@@ -80,7 +108,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends AbstractStandaloneLo
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractStandaloneLocalConfiguration#configure(LocalContainer)
+     * @see AbstractStandaloneLocalConfiguration#toConfigurationEntry(LocalContainer)
      */
     protected void doConfigure(LocalContainer container) throws Exception
     {
@@ -88,6 +116,9 @@ public class WebLogic9xStandaloneLocalConfiguration extends AbstractStandaloneLo
 
         // in weblogic 9+ config.xml is organized under the config directory
         String configDir = getFileHandler().createDirectory(getDomainHome(), "/config");
+
+        // in weblogic 9+ datasource files are organized under the config/jdbc directory
+        getFileHandler().createDirectory(getDomainHome(), "/config/jdbc");
 
         // in weblogic 9+ sensitive files are organized under the security
         // directory
@@ -98,13 +129,16 @@ public class WebLogic9xStandaloneLocalConfiguration extends AbstractStandaloneLo
             ((WebLogicLocalContainer) container).getAutoDeployDirectory());
 
         FilterChain filterChain = createWebLogicFilterChain();
-        setupDeployables(filterChain);
 
         // make sure you use this method, as it ensures the same filehandler
         // that created the directory will be used to copy the resource.
         // This is especially important for unit testing
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/config.xml",
             getFileHandler().append(configDir, "config.xml"), getFileHandler(), filterChain);
+
+        WebLogic9xConfigXmlInstalledLocalDeployer deployer =
+            new WebLogic9xConfigXmlInstalledLocalDeployer((InstalledLocalContainer) container);
+        deployer.deploy(getDeployables());
 
         getResourceUtils().copyResource(
             RESOURCE_PATH + container.getId() + "/DefaultAuthenticatorInit.ldift",
@@ -170,59 +204,6 @@ public class WebLogic9xStandaloneLocalConfiguration extends AbstractStandaloneLo
     }
 
     /**
-     * Add applications into the WebLogic configuration.
-     * 
-     * @param filterChain where to insert the application configuration
-     */
-    protected void setupDeployables(FilterChain filterChain)
-    {
-        StringBuffer appTokenValue = new StringBuffer(" ");
-
-        Iterator it = getDeployables().iterator();
-        while (it.hasNext())
-        {
-            Deployable deployable = (Deployable) it.next();
-
-            String name = getNameFromDeployable(deployable);
-            if (name != null)
-            {
-                appTokenValue.append("<app-deployment>");
-                appTokenValue.append("<name>");
-                appTokenValue.append(name);
-                appTokenValue.append("</name>");
-                appTokenValue.append("<target>" + getPropertyValue(WebLogicPropertySet.SERVER)
-                    + "</target>");
-                appTokenValue.append("<source-path>");
-                appTokenValue.append(getAbsolutePath(deployable));
-                appTokenValue.append("</source-path>");
-                appTokenValue.append("</app-deployment>");
-            }
-        }
-        getAntUtils().addTokenToFilterChain(filterChain, "weblogic.apps",
-            appTokenValue.toString());
-    }
-
-    /**
-     * extract the name we want to call the deployable.
-     * 
-     * @param deployable - file we are going to deploy
-     * @return name we wish to use for the application or null, if not supported
-     */
-    private String getNameFromDeployable(Deployable deployable)
-    {
-        String name = null;
-        if (deployable.getType() == DeployableType.WAR)
-        {
-            name = ((WAR) deployable).getContext();
-        }
-        else if (deployable.getType() == DeployableType.EAR)
-        {
-            name = ((EAR) deployable).getName();
-        }
-        return name;
-    }
-
-    /**
      * Deploy the Cargo Ping utility to the container.
      * 
      * @param container the container to configure
@@ -237,18 +218,6 @@ public class WebLogic9xStandaloneLocalConfiguration extends AbstractStandaloneLo
         // Deploy the cargocpc web-app by copying the WAR file
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             getFileHandler().append(deployDir, "cargocpc.war"), getFileHandler());
-    }
-
-    /**
-     * gets the absolute path from a file that may be relative to the current directory.
-     * 
-     * @param deployable - what to extract the file path from
-     * @return - absolute path to the deployable
-     */
-    String getAbsolutePath(Deployable deployable)
-    {
-        String path = deployable.getFile();
-        return getFileHandler().getAbsolutePath(path);
     }
 
     /**
@@ -268,4 +237,179 @@ public class WebLogic9xStandaloneLocalConfiguration extends AbstractStandaloneLo
     {
         return getHome();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected String getXpathForDataSourcesParent()
+    {
+        return "//jdbc:jdbc-data-source";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected Map getNamespaces()
+    {
+        return namespaces;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see WebLogic8xConfigurationBuilder
+     */
+    protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)
+    {
+        String serverName =
+            container.getConfiguration().getPropertyValue(WebLogicPropertySet.SERVER);
+        return new WebLogic9x10xAnd103xConfigurationBuilder(serverName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected String getOrCreateDataSourceConfigurationFile(DataSource ds,
+        LocalContainer container)
+    {
+        String path = buildDataSourceFileName(ds);
+        createBlankDataSourceFile(path);
+        linkDataSourceToConfigXml(ds);
+        return path;
+    }
+
+    /**
+     * This will add a reference to an externally defined datasource file into the config.xml file.
+     * 
+     * @param ds - datasource to reference
+     */
+    protected void linkDataSourceToConfigXml(DataSource ds)
+    {
+        Document configXml = readConfigXml();
+        Element domain = configXml.getRootElement();
+        addDataSourceToDomain(ds, domain);
+        writeConfigXml(configXml);
+    }
+
+    /**
+     * Insert the corresponding datasource element into the domain of the WebLogic server.
+     * 
+     * @param ds - datasource component to configure
+     * @param domain - Domain element of the WebLogic server
+     */
+    protected void addDataSourceToDomain(DataSource ds, Element domain)
+    {
+        Element connectionPool = domain.addElement("jdbc-system-resource");
+        Element name = connectionPool.addElement("name");
+        name.setText(ds.getId());
+        Element target = connectionPool.addElement("target");
+        target.setText(getServerName());
+        Element descriptorFileName = connectionPool.addElement("descriptor-file-name");
+        descriptorFileName.setText("jdbc/" + ds.getId() + "-jdbc.xml");
+    }
+
+    /**
+     * return the running server's name.
+     * 
+     * @return the WebLogic server's name
+     */
+    protected String getServerName()
+    {
+        return getPropertyValue(WebLogicPropertySet.SERVER);
+    }
+
+    /**
+     * write the domain's config.xml to disk.
+     * 
+     * @param configXml document to write to disk
+     */
+    public void writeConfigXml(Document configXml)
+    {
+        String configFile = getConfigXmlPath();
+        xmlTool.saveXml(configXml, configFile);
+    }
+
+    /**
+     * read the domain's config.xml file into a Document.
+     * 
+     * @return Document corresponding with config.xml
+     */
+    public Document readConfigXml()
+    {
+        String configFile = getConfigXmlPath();
+        return xmlTool.loadXmlFromFile(configFile);
+    }
+
+    /**
+     * Create a blank datasource file with correct namespace.
+     * 
+     * @param path where to create the base file.
+     */
+    protected void createBlankDataSourceFile(String path)
+    {
+        Document document = DocumentHelper.createDocument();
+        Element dataSource = document.addElement("jdbc-data-source");
+        document.setRootElement(dataSource);
+        dataSource.addNamespace("", "http://www.bea.com/ns/weblogic/90");
+        xmlTool.saveXml(document, path);
+    }
+
+    /**
+     * Return the absolute path of the config.xml file.
+     * 
+     * @return path including config.xml
+     */
+    protected String getConfigXmlPath()
+    {
+        String configDir = getFileHandler().append(getDomainHome(), "config");
+        String configFile = getFileHandler().append(configDir, "config.xml");
+        return configFile;
+    }
+
+    /**
+     * determines the full path to store the datasource configuration file.
+     * 
+     * @param ds datasource to determine the filename of
+     * @return full path to the datasource configuration file
+     */
+    protected String buildDataSourceFileName(DataSource ds)
+    {
+        String configDir = getFileHandler().append(getDomainHome(), "config");
+        String jdbcDir = getFileHandler().append(configDir, "jdbc");
+        String file = ds.getId() + "-jdbc.xml";
+        return getFileHandler().append(jdbcDir, file);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#setFileHandler(org.codehaus.cargo.util.FileHandler)
+     */
+    public void setFileHandler(FileHandler fileHandler)
+    {
+        super.setFileHandler(fileHandler);
+        this.xmlTool.setFileHandler(fileHandler);
+    }
+
+    /**
+     * {@inheritDoc} This implementation throws an UnsupportedOperationException as Resource
+     * configuration is not supported in WebLogic.
+     */
+    protected String getOrCreateResourceConfigurationFile(Resource resource,
+        LocalContainer container)
+    {
+        throw new UnsupportedOperationException(
+            WebLogic8xConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED);
+    }
+
+    /**
+     * {@inheritDoc} This implementation throws an UnsupportedOperationException as Resource
+     * configuration is not supported in WebLogic.
+     */
+    protected String getXpathForResourcesParent()
+    {
+        throw new UnsupportedOperationException(
+            WebLogic8xConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED);
+    }
+
 }

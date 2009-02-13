@@ -1,122 +1,144 @@
-/* 
- * ========================================================================
- * 
- * Copyright 2007-2008 OW2.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * 
- * ========================================================================
- */
 package org.codehaus.cargo.container.weblogic;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
-import org.custommonkey.xmlunit.NamespaceContext;
-import org.custommonkey.xmlunit.XMLAssert;
-import org.custommonkey.xmlunit.XMLUnit;
-
-import org.apache.commons.vfs.impl.StandardFileSystemManager;
-import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
+import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.util.FileHandler;
-import org.codehaus.cargo.util.VFSFileHandler;
+import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10xAnd103xConfigurationChecker;
+import org.codehaus.cargo.util.Dom4JUtil;
+import org.custommonkey.xmlunit.NamespaceContext;
 import org.custommonkey.xmlunit.SimpleNamespaceContext;
+import org.custommonkey.xmlunit.XMLAssert;
+import org.custommonkey.xmlunit.XMLUnit;
+import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.Namespace;
+import org.dom4j.QName;
+import org.xml.sax.SAXException;
 
-/**
- * Unit tests for {@link WebLogic9xStandaloneLocalConfiguration}.
- */
-public class WebLogic9xStandaloneLocalConfigurationTest extends TestCase
+public class WebLogic9xStandaloneLocalConfigurationTest extends
+    AbstractWeblogicStandaloneConfigurationTest
 {
-    private static final String BEA_HOME = "ram:/bea";
 
-    private static final String DOMAIN_HOME = BEA_HOME + "/mydomain";
+    public LocalConfiguration createLocalConfiguration(String home)
+    {
+        return new WebLogic9xStandaloneLocalConfiguration(home);
+    }
 
-    private static final String WL_HOME = BEA_HOME + "/weblogic9";
+    public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
+    {
+        return new WebLogic9xInstalledLocalContainer(configuration);
+    }
 
-    private static final String HOSTNAME = "127.0.0.1";
+    protected ConfigurationChecker createConfigurationChecker()
+    {
+        return new WebLogic9x10xAnd103xConfigurationChecker("server");
+    }
 
-    private static final String PORT = "8001";
+    private Document document;
 
-    private static final String CONFIGURATION_VERSION = "9.2.9.0";
+    private Element domain;
 
-    private static final String DOMAIN_VERSION = "9.2.9.1";
+    private Dom4JUtil xmlUtil;
 
-    private static final String SERVER = "myserver";
+    protected String getDataSourceConfigurationFile(DataSourceFixture ds)
+    {
+        return configuration.getHome() + "/config/jdbc/" + ds.buildDataSource().getId()
+            + "-jdbc.xml";
+    }
 
-    private WebLogic9xInstalledLocalContainer container;
-
-    private WebLogic9xStandaloneLocalConfiguration configuration;
-
-    private StandardFileSystemManager fsManager;
-
-    private FileHandler fileHandler;
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#setUp()
-     */
     protected void setUp() throws Exception
     {
         super.setUp();
-
-        // setup the namespace of the weblogic config.xml file
         Map m = new HashMap();
         m.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
+        m.put("jdbc", "http://www.bea.com/ns/weblogic/90");
         NamespaceContext ctx = new SimpleNamespaceContext(m);
         XMLUnit.setXpathNamespaceContext(ctx);
 
-        this.fsManager = new StandardFileSystemManager();
-        this.fsManager.init();
-        this.fileHandler = new VFSFileHandler(this.fsManager);
-        fileHandler.mkdirs(DOMAIN_HOME);
-        fileHandler.mkdirs(WL_HOME);
-        this.configuration = new WebLogic9xStandaloneLocalConfiguration(DOMAIN_HOME);
-        this.configuration.setFileHandler(this.fileHandler);
+        this.xmlUtil = new Dom4JUtil(getFileHandler());
+        this.document = DocumentHelper.createDocument();
+        this.domain = document.addElement("domain");
+        document.setRootElement(domain);
+        domain.addNamespace("", "http://www.bea.com/ns/weblogic/920/domain");
+        QName configurationVersionQ =
+            new QName("configuration-version", new Namespace("",
+                "http://www.bea.com/ns/weblogic/920/domain"));
+        domain.addElement(configurationVersionQ);
+        QName adminServerNameQ =
+            new QName("admin-server-name", new Namespace("",
+                "http://www.bea.com/ns/weblogic/920/domain"));
+        domain.addElement(adminServerNameQ);
+        
+    }
 
-        this.container = new WebLogic9xInstalledLocalContainer(configuration);
-        this.container.setHome(WL_HOME);
-        this.container.setFileHandler(this.fileHandler);
+    protected String configureDataSourceViaPropertyAndRetrieveConfigurationFile(
+        DataSourceFixture fixture) throws Exception
+    {
+        String toReturn =
+            super.configureDataSourceViaPropertyAndRetrieveConfigurationFile(fixture);
+        checkLinkToDataSourceInConfigXml(fixture);
+        return toReturn;
+    }
 
+    protected String configureDataSourceAndRetrieveConfigurationFile(DataSourceFixture fixture)
+        throws Exception
+    {
+        String toReturn = super.configureDataSourceAndRetrieveConfigurationFile(fixture);
+        checkLinkToDataSourceInConfigXml(fixture);
+        return toReturn;
+    }
+
+    /**
+     * @param fixture
+     * @throws SAXException
+     * @throws IOException
+     * @throws XpathException
+     */
+    private void checkLinkToDataSourceInConfigXml(DataSourceFixture fixture) throws SAXException,
+        IOException, XpathException
+    {
+        String domainXml =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
+        XMLAssert.assertXpathEvaluatesTo(fixture.buildDataSource().getId(),
+            "//weblogic:jdbc-system-resource/weblogic:name", domainXml);
+        XMLAssert.assertXpathEvaluatesTo("server",
+            "//weblogic:jdbc-system-resource/weblogic:target", domainXml);
+    }
+
+    protected void setUpDataSourceFile() throws Exception
+    {
+        configuration.getFileHandler().mkdirs(configuration.getHome() + "/config/jdbc");
+        String file = configuration.getHome() + "/config/config.xml";
+        xmlUtil.saveXml(document, file);
     }
 
     public void testDoConfigureCreatesFiles() throws Exception
     {
-        configuration.doConfigure(container);
+        configuration.configure(container);
 
-        assertTrue(fileHandler.exists(DOMAIN_HOME + "/config"));
-        assertTrue(fileHandler.exists(DOMAIN_HOME + "/config/config.xml"));
-        assertTrue(fileHandler.exists(DOMAIN_HOME + "/security"));
-        assertTrue(fileHandler.exists(DOMAIN_HOME + "/security/DefaultAuthenticatorInit.ldift"));
-        assertTrue(fileHandler.exists(DOMAIN_HOME + "/security/SerializedSystemIni.dat"));
-        assertTrue(fileHandler.exists(DOMAIN_HOME + "/autodeploy/cargocpc.war"));
+        assertTrue(configuration.getFileHandler().exists(configuration.getHome() + "/config"));
+        assertTrue(configuration.getFileHandler()
+            .exists(configuration.getHome() + "/config/jdbc"));
+        assertTrue(configuration.getFileHandler().exists(
+            configuration.getHome() + "/config/config.xml"));
+        assertTrue(configuration.getFileHandler().exists(configuration.getHome() + "/security"));
+        assertTrue(configuration.getFileHandler().exists(
+            configuration.getHome() + "/security/DefaultAuthenticatorInit.ldift"));
+        assertTrue(configuration.getFileHandler().exists(
+            configuration.getHome() + "/security/SerializedSystemIni.dat"));
+        assertTrue(configuration.getFileHandler().exists(
+            configuration.getHome() + "/autodeploy/cargocpc.war"));
 
-    }
-
-    public void testGetAbsolutePathWithRelativePath() throws Exception
-    {
-        Deployable deployable = new WAR("path");
-        String path = configuration.getAbsolutePath(deployable);
-
-        assertEquals(System.getProperty("user.dir") + System.getProperty("file.separator")
-            + "path", path);
     }
 
     public void testConstructorSetsPropertyDefaults() throws Exception
@@ -132,8 +154,10 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends TestCase
 
     public void testDoConfigureCreatesRequiredElements() throws Exception
     {
-        configuration.doConfigure(container);
-        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo(configuration
             .getPropertyValue(WebLogicPropertySet.DOMAIN_VERSION), "//weblogic:domain-version",
             config);
@@ -141,8 +165,10 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends TestCase
 
     public void testDoConfigureSetsDefaultDomainVersion() throws Exception
     {
-        configuration.doConfigure(container);
-        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathExists("//weblogic:domain-version", config);
         XMLAssert.assertXpathExists("//weblogic:configuration-version", config);
         XMLAssert.assertXpathExists("//weblogic:server", config);
@@ -158,17 +184,21 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends TestCase
 
     public void testDoConfigureSetsDomainVersion() throws Exception
     {
-        configuration.setProperty(WebLogicPropertySet.DOMAIN_VERSION, DOMAIN_VERSION);
-        configuration.doConfigure(container);
-        String config = slurp(DOMAIN_HOME + "/config/config.xml");
-        XMLAssert.assertXpathEvaluatesTo(DOMAIN_VERSION, "//weblogic:domain-version", config);
+        configuration.setProperty(WebLogicPropertySet.DOMAIN_VERSION, "1.2.2.1");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
+        XMLAssert.assertXpathEvaluatesTo("1.2.2.1", "//weblogic:domain-version", config);
 
     }
 
     public void testDoConfigureSetsDefaultConfigurationVersion() throws Exception
     {
-        configuration.doConfigure(container);
-        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo(configuration
             .getPropertyValue(WebLogicPropertySet.CONFIGURATION_VERSION),
             "//weblogic:configuration-version", config);
@@ -177,19 +207,21 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends TestCase
 
     public void testDoConfigureSetsConfigurationVersion() throws Exception
     {
-        configuration.setProperty(WebLogicPropertySet.CONFIGURATION_VERSION,
-            CONFIGURATION_VERSION);
-        configuration.doConfigure(container);
-        String config = slurp(DOMAIN_HOME + "/config/config.xml");
-        XMLAssert.assertXpathEvaluatesTo(CONFIGURATION_VERSION,
-            "//weblogic:configuration-version", config);
+        configuration.setProperty(WebLogicPropertySet.CONFIGURATION_VERSION, "1.2.2.1");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
+        XMLAssert.assertXpathEvaluatesTo("1.2.2.1", "//weblogic:configuration-version", config);
 
     }
 
     public void testDoConfigureSetsDefaultAdminServer() throws Exception
     {
-        configuration.doConfigure(container);
-        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
         XMLAssert
             .assertXpathEvaluatesTo(configuration.getPropertyValue(WebLogicPropertySet.SERVER),
                 "//weblogic:admin-server-name", config);
@@ -198,10 +230,12 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends TestCase
 
     public void testDoConfigureSetsAdminServer() throws Exception
     {
-        configuration.setProperty(WebLogicPropertySet.SERVER, SERVER);
-        configuration.doConfigure(container);
-        String config = slurp(DOMAIN_HOME + "/config/config.xml");
-        XMLAssert.assertXpathEvaluatesTo(SERVER, "//weblogic:admin-server-name", config);
+        configuration.setProperty(WebLogicPropertySet.SERVER, "asda");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
+        XMLAssert.assertXpathEvaluatesTo("asda", "//weblogic:admin-server-name", config);
 
     }
 
@@ -217,8 +251,10 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends TestCase
 
     public void testDoConfigureSetsDefaultPort() throws Exception
     {
-        configuration.doConfigure(container);
-        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo(configuration.getPropertyValue(ServletPropertySet.PORT),
             "//weblogic:listen-port", config);
 
@@ -226,17 +262,21 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends TestCase
 
     public void testDoConfigureSetsPort() throws Exception
     {
-        configuration.setProperty(ServletPropertySet.PORT, PORT);
-        configuration.doConfigure(container);
-        String config = slurp(DOMAIN_HOME + "/config/config.xml");
-        XMLAssert.assertXpathEvaluatesTo(PORT, "//weblogic:listen-port", config);
+        configuration.setProperty(ServletPropertySet.PORT, "1001");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
+        XMLAssert.assertXpathEvaluatesTo("1001", "//weblogic:listen-port", config);
 
     }
 
     public void testDoConfigureSetsDefaultLogging() throws Exception
     {
-        configuration.doConfigure(container);
-        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo("Info", "//weblogic:log-file-severity", config);
 
     }
@@ -244,35 +284,42 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends TestCase
     public void testDoConfigureSetsHighLogging() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.LOGGING, "high");
-        configuration.doConfigure(container);
-        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo("Debug", "//weblogic:log-file-severity", config);
 
     }
 
-    
     public void testDoConfigureSetsMediumLogging() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.LOGGING, "medium");
-        configuration.doConfigure(container);
-        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo("Info", "//weblogic:log-file-severity", config);
 
     }
-    
+
     public void testDoConfigureSetsLowLogging() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.LOGGING, "low");
-        configuration.doConfigure(container);
-        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo("Warning", "//weblogic:log-file-severity", config);
 
     }
-    
+
     public void testDoConfigureSetsDefaultAddress() throws Exception
     {
-        configuration.doConfigure(container);
-        String config = slurp(DOMAIN_HOME + "/config/config.xml");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo(configuration
             .getPropertyValue(GeneralPropertySet.HOSTNAME), "//weblogic:listen-address", config);
 
@@ -280,29 +327,13 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends TestCase
 
     public void testDoConfigureSetsAddress() throws Exception
     {
-        configuration.setProperty(GeneralPropertySet.HOSTNAME, HOSTNAME);
-        configuration.doConfigure(container);
-        String config = slurp(DOMAIN_HOME + "/config/config.xml");
-        XMLAssert.assertXpathEvaluatesTo(HOSTNAME, "//weblogic:listen-address", config);
+        configuration.setProperty(GeneralPropertySet.HOSTNAME, "loc");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/config/config.xml");
+        XMLAssert.assertXpathEvaluatesTo("loc", "//weblogic:listen-address", config);
 
     }
 
-    /**
-     * reads a file into a String
-     * 
-     * @param in - what to read
-     * @return String contents of the file
-     * @throws IOException
-     */
-    public String slurp(String file) throws IOException
-    {
-        InputStream in = this.fsManager.resolveFile(file).getContent().getInputStream();
-        StringBuffer out = new StringBuffer();
-        byte[] b = new byte[4096];
-        for (int n; (n = in.read(b)) != -1;)
-        {
-            out.append(new String(b, 0, n));
-        }
-        return out.toString();
-    }
 }
