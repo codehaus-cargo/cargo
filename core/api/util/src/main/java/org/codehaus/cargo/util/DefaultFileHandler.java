@@ -509,6 +509,41 @@ public class DefaultFileHandler implements FileHandler
             file = new File(System.getProperty("user.dir"), file.getPath());
         }
         return file.getAbsolutePath();
-    }    
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see FileHandler#readTextFile(String)
+     */
+    public String readTextFile(String file)
+    {
+        BufferedReader in = null;
+        StringBuffer out = new StringBuffer();
+        try
+        {
+            try
+            {
+                in = new BufferedReader(new InputStreamReader(getInputStream(file)));
+                String str;
+                while ((str = in.readLine()) != null)
+                {
+                    out.append(str);
+                }
+                return out.toString();
+            }
+            finally
+            {
+                if (in != null)
+                {
+                    in.close();
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            throw new CargoException("Failed to read text from file: " + file, e);
+        }
+    }
+  
     
 }

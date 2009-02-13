@@ -203,4 +203,10 @@ public interface FileHandler
      * @return - absolute path to the file
      */
     String getAbsolutePath(String path);
+    
+    /**
+     * @param file the file for which to load into a String object.
+     * @return a String with the file's contents.
+     */
+    String readTextFile(String file);
 }
