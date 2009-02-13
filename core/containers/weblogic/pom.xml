@@ -27,12 +27,4 @@
   <name>Cargo Core WebLogic Container</name>
   <packaging>jar</packaging>
   <description>Core API implementation for WebLogic containers</description>
-  <dependencies>
-    <dependency>
-      <groupId>xmlunit</groupId>
-      <artifactId>xmlunit</artifactId>
-      <version>1.2</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
 </project>
