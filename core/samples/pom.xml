@@ -12,6 +12,14 @@
   <description>Samples that exercises the Cargo Java APIs</description>
   <dependencies>
 
+    <!-- to get access to test fixtures -->
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-container</artifactId>
+      <version>${project.version}</version>
+      <type>test-jar</type>
+    </dependency>
+
     <!-- TODO: We would like to depend only on the aggregated core jar but this feature is not yet
          available in Maven2. Refactor when it is -->
     <dependency>
@@ -71,6 +79,18 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-war</artifactId>
+      <version>${cargo.resources.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>datasource-war</artifactId>
+      <version>${cargo.resources.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>two-datasources-war</artifactId>
       <version>${cargo.resources.version}</version>
       <type>war</type>
     </dependency>
@@ -669,12 +689,24 @@
                 <value>org/codehaus/cargo/simple-war/${cargo.resources.version}/simple-war-${cargo.resources.version}.war</value>
               </property>
               <property>
+                <name>cargo.testdata.datasource-war</name>
+                <value>org/codehaus/cargo/datasource-war/${cargo.resources.version}/datasource-war-${cargo.resources.version}.war</value>
+              </property>
+              <property>
+                <name>cargo.testdata.two-datasources-war</name>
+                <value>org/codehaus/cargo/two-datasources-war/${cargo.resources.version}/two-datasources-war-${cargo.resources.version}.war</value>
+              </property>
+              <property>
                 <name>cargo.testdata.simple-ejb</name>
                 <value>org/codehaus/cargo/simple-ejb/${cargo.resources.version}/simple-ejb-${cargo.resources.version}.jar</value>
               </property>
               <property>
                 <name>cargo.testdata.tomcatcontext-war</name>
                 <value>org/codehaus/cargo/tomcatcontext-war/${cargo.resources.version}/tomcatcontext-war-${cargo.resources.version}.war</value>
+              </property>
+              <property>
+                <name>cargo.testdata.derby-jar</name>
+                <value>${basedir}/target/test-jars/derby.jar</value>
               </property>
               <property>
                 <name>cargo.testdata.xerces-jars</name>
@@ -723,6 +755,13 @@
             <phase>process-test-resources</phase>
             <configuration>
               <artifactItems>
+                <artifactItem>
+                  <groupId>org.apache.derby</groupId>
+                  <artifactId>derby</artifactId>
+                  <version>${cargo.derby.version}</version>
+                  <outputDirectory>${basedir}/target/test-jars</outputDirectory>
+                  <destFileName>derby.jar</destFileName>
+                </artifactItem>
                 <!-- to allow jdk 1.4 containers to parse schema files -->
                 <artifactItem>
                   <groupId>xerces</groupId>
@@ -765,6 +804,7 @@
     <cargo.java.home.1_5>${java.home}</cargo.java.home.1_5>
     <cargo.java.home.1_6>${java.home}</cargo.java.home.1_6>
     <cargo.containers.timeout>120000</cargo.containers.timeout>
+    <cargo.derby.version>10.4.2.0</cargo.derby.version>
   </properties>
   <profiles>
 
