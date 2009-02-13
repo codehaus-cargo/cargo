@@ -33,6 +33,17 @@
       <artifactId>ant</artifactId>
       <version>1.6.5</version>
     </dependency>
+    <dependency>
+      <groupId>xmlunit</groupId>
+      <artifactId>xmlunit</artifactId>
+      <version>1.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.4</version>
+    </dependency>  
   </dependencies>
   <build>
     <plugins>
