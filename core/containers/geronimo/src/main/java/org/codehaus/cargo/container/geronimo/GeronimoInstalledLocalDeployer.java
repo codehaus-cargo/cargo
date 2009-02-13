@@ -398,16 +398,13 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
      */
     private void addSystemProperties(Java java)
     {
-        if (getInstalledContainer().getSystemProperties() != null)
+        Iterator keys = getInstalledContainer().getSystemProperties().keySet().iterator();
+        while (keys.hasNext())
         {
-            Iterator keys = getInstalledContainer().getSystemProperties().keySet().iterator();
-            while (keys.hasNext())
-            {
-                String key = (String) keys.next();
+            String key = (String) keys.next();
 
-                java.addSysproperty(getAntUtils().createSysProperty(key,
-                    (String) getInstalledContainer().getSystemProperties().get(key)));
-            }
+            java.addSysproperty(getAntUtils().createSysProperty(key,
+                (String) getInstalledContainer().getSystemProperties().get(key)));
         }
     }
 
