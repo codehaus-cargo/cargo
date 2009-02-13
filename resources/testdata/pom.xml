@@ -14,6 +14,9 @@
     <module>empty-jar</module>
     <module>empty-ear</module>
     <module>simple-war</module>
+    <module>datasource-war</module>
+    <module>two-datasources-war</module>
+    <module>xadatasource-war</module>
     <module>simple-ejb</module>
     <module>simple-ear</module>
     <module>authentication-war</module>
