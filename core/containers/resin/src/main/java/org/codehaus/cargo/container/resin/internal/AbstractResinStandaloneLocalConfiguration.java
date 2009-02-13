@@ -19,41 +19,45 @@
  */
 package org.codehaus.cargo.container.resin.internal;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.Container;
-import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
+import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.resin.ResinInstalledLocalDeployer;
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
+import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
 
 /**
- * Common class for all Resin standalone 
- * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementations.
- *  
+ * Common class for all Resin {@link StandAloneLocalConfiguration standalone local configurations}.
+ * {@link AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder container} implementation.
+ * 
  * @version $Id$
  */
-public abstract class AbstractResinStandaloneLocalConfiguration 
-    extends AbstractStandaloneLocalConfiguration
+public abstract class AbstractResinStandaloneLocalConfiguration extends
+    AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder
 {
     /**
      * Capability of the Resin standalone configuration.
+     * 
+     * @see ResinStandaloneLocalConfigurationCapability
      */
-    private static ConfigurationCapability capability = 
+    private static ConfigurationCapability capability =
         new ResinStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     * 
+     * @see AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder#AbstractStandaloneLocalConfigurationWithDataSourcesDefinedInXml(String)
      */
     public AbstractResinStandaloneLocalConfiguration(String dir)
     {
@@ -62,15 +66,42 @@ public abstract class AbstractResinStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
+     * 
+     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
     public ConfigurationCapability getCapability()
     {
         return capability;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getOrCreateDataSourceConfigurationFile(DataSource ds, LocalContainer container)
+    {
+        return getOrCreateResourceConfigurationFile(null, container);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected String getOrCreateResourceConfigurationFile(Resource resource,
+        LocalContainer container)
+    {
+        String path = getFileHandler().append(getHome(), "conf");
+        return getFileHandler().append(path, "resin.conf");
+    }
     
     /**
-     * Allow specific version implementations to add custom preparation steps before the container 
+     * {@inheritDoc}
+     */
+    protected String getXpathForDataSourcesParent()
+    {
+        return getXpathForResourcesParent();
+    }
+
+    /**
+     * Allow specific version implementations to add custom preparation steps before the container
      * is started.
      * 
      * @param container the container to configure
@@ -81,13 +112,14 @@ public abstract class AbstractResinStandaloneLocalConfiguration
         throws IOException;
 
     /**
-     * @return an Ant filter chain containing implementation for the filter tokens used in the 
-     *         Resin configuration files
+     * @return an Ant filter chain containing implementation for the filter tokens used in the Resin
+     *         configuration files
      */
     protected abstract FilterChain createResinFilterChain();
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
     protected void doConfigure(LocalContainer container) throws Exception
@@ -98,16 +130,13 @@ public abstract class AbstractResinStandaloneLocalConfiguration
 
         FilterChain filterChain = createResinFilterChain();
 
-        String confDir =
-            getFileHandler().createDirectory(getHome(), "conf");
-        
+        String confDir = getFileHandler().createDirectory(getHome(), "conf");
+
         // make sure you use this method, as it ensures the same filehandler
         // that created the directory will be used to copy the resource.
         // This is especially important for unit testing
-        getResourceUtils()
-            .copyResource(RESOURCE_PATH + container.getId() + "/resin.conf",
-                getFileHandler().append(confDir, "resin.conf"), getFileHandler(),
-                getFilterChain());
+        getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/resin.conf",
+            getFileHandler().append(confDir, "resin.conf"), getFileHandler(), getFilterChain());
 
         String webappsDir = getFileHandler().createDirectory(getHome(), "webapps");
 
@@ -127,11 +156,9 @@ public abstract class AbstractResinStandaloneLocalConfiguration
     }
 
     /**
-     * @param dirAttribute name of attribute used in <code>resin.conf</code>
-     *        to specify where the war is located. This Attribute is different
-     *        for different versions of Resin.
-     * @return the value for the <code>resin3x.expanded.webapps</code> filter
-     *         token 
+     * @param dirAttribute name of attribute used in <code>resin.conf</code> to specify where the
+     *            war is located. This Attribute is different for different versions of Resin.
+     * @return the value for the <code>resin3x.expanded.webapps</code> filter token
      */
     protected String createExpandedWarTokenValue(String dirAttribute)
     {
@@ -151,7 +178,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration
                     // do it for us.
                     File tmp = new File(getHome(), "tmp/" + ((WAR) deployable).getContext());
                     File work = new File(getHome(), "work/" + ((WAR) deployable).getContext());
-                            
+
                     expandedWarValue.append("<web-app id='");
                     expandedWarValue.append(((WAR) deployable).getContext());
                     expandedWarValue.append("' " + dirAttribute + "='");
@@ -175,15 +202,16 @@ public abstract class AbstractResinStandaloneLocalConfiguration
     protected String getSecurityToken(String prefix, String suffix)
     {
         StringBuffer token = new StringBuffer(" ");
-        
+
         // Add token filters for authenticated users
         if (getPropertyValue(ServletPropertySet.USERS) != null)
         {
-            Iterator users = User.parseUsers(getPropertyValue(ServletPropertySet.USERS)).iterator();
+            Iterator users =
+                User.parseUsers(getPropertyValue(ServletPropertySet.USERS)).iterator();
             while (users.hasNext())
             {
                 User user = (User) users.next();
-                
+
                 token.append(prefix);
                 token.append(user.getName());
                 token.append(':');
@@ -203,16 +231,18 @@ public abstract class AbstractResinStandaloneLocalConfiguration
                 token.append(suffix);
             }
         }
-        
+
         return token.toString();
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see Object#toString()
      */
     public String toString()
     {
         return "Resin Standalone Configuration";
     }
+
 }

@@ -23,31 +23,28 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.resin.internal.AbstractResinStandaloneLocalConfigurationTest;
-import org.codehaus.cargo.container.resin.internal.Resin3xConfigurationChecker;
+import org.codehaus.cargo.container.resin.internal.Resin2xConfigurationChecker;
 import org.codehaus.cargo.util.Dom4JUtil;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
 
-public class Resin3xStandaloneLocalConfigurationTest extends
+public class Resin2xStandaloneLocalConfigurationTest extends
     AbstractResinStandaloneLocalConfigurationTest
 {
 
     public LocalConfiguration createLocalConfiguration(String home)
     {
-        return new Resin3xStandaloneLocalConfiguration(home);
+        return new Resin2xStandaloneLocalConfiguration(home);
     }
 
     public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
-        return new Resin3xInstalledLocalContainer(configuration);
+        return new Resin2xInstalledLocalContainer(configuration);
     }
 
-    public void testConfigure() throws Exception
+    protected ConfigurationChecker createDataSourceConfigurationChecker()
     {
-        super.testConfigure();
-        assertTrue(configuration.getFileHandler().exists(
-            configuration.getHome() + "/app-default.xml"));
+        return new Resin2xConfigurationChecker();
     }
 
     protected void setUpDataSourceFile() throws Exception
@@ -55,15 +52,14 @@ public class Resin3xStandaloneLocalConfigurationTest extends
         Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
         String file = configuration.getHome() + "/conf/resin.conf";
         Document document = DocumentHelper.createDocument();
-        Element root = document.addElement("resin");
-        document.setRootElement(root);
-        root.addNamespace("", "http://caucho.com/ns/resin");
+        document.addElement("caucho.com");
         xmlUtil.saveXml(document, file);
     }
 
     protected ConfigurationChecker createConfigurationChecker()
     {
-        return new Resin3xConfigurationChecker();
+        return new Resin2xConfigurationChecker();
     }
+
 
 }

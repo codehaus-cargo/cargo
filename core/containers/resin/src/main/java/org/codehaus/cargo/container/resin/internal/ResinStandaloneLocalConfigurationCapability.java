@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
+import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 /**
@@ -53,6 +54,7 @@ public class ResinStandaloneLocalConfigurationCapability
         this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
         this.supportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.supportsMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
     }
 
     /**

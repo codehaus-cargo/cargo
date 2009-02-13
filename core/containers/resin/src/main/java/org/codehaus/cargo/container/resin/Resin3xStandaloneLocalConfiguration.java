@@ -19,25 +19,36 @@
  */
 package org.codehaus.cargo.container.resin;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.Container;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.DatasourcePropertySet;
-import org.codehaus.cargo.container.property.DataSource;
 import org.codehaus.cargo.container.resin.internal.AbstractResinStandaloneLocalConfiguration;
-
-import java.io.IOException;
+import org.codehaus.cargo.container.resin.internal.Resin3xConfigurationBuilder;
 
 /**
- * Resin 3.x standalone 
+ * Resin 3.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
- *  
+ * 
  * @version $Id$
  */
-public class Resin3xStandaloneLocalConfiguration extends AbstractResinStandaloneLocalConfiguration
+public class Resin3xStandaloneLocalConfiguration extends
+    AbstractResinStandaloneLocalConfiguration
 {
     /**
+     * Where elements for resources will be inserted. This expression evaluates to: {@value
+     * XML_PARENT_OF_RESOURCES}
+     */
+    public static final String XML_PARENT_OF_RESOURCES = "//resin:resin";
+
+    /**
      * {@inheritDoc}
+     * 
      * @see AbstractResinStandaloneLocalConfiguration#AbstractResinStandaloneLocalConfiguration(String)
      */
     public Resin3xStandaloneLocalConfiguration(String dir)
@@ -47,6 +58,36 @@ public class Resin3xStandaloneLocalConfiguration extends AbstractResinStandalone
 
     /**
      * {@inheritDoc}
+     * 
+     * @see Resin3xConfigurationBuilder
+     */
+    protected ConfigurationBuilder createConfigurationBuilder(
+        LocalContainer container)
+    {
+        return new Resin3xConfigurationBuilder();
+    }
+
+    /**
+     * This expression evaluates to: {@value XML_PARENT_OF_RESOURCES} {@inheritDoc}
+     */
+    protected String getXpathForResourcesParent()
+    {
+        return "//resin:resin";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected Map getNamespaces()
+    {
+        Map namespaces = new HashMap();
+        namespaces.put("resin", "http://caucho.com/ns/resin");
+        return namespaces;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see AbstractResinStandaloneLocalConfiguration#prepareAdditions(Container, FilterChain)
      */
     protected void prepareAdditions(Container container, FilterChain theFilterChain)
@@ -83,6 +124,7 @@ public class Resin3xStandaloneLocalConfiguration extends AbstractResinStandalone
 
     /**
      * {@inheritDoc}
+     * 
      * @see AbstractResinStandaloneLocalConfiguration#createResinFilterChain()
      */
     protected FilterChain createResinFilterChain()
@@ -92,10 +134,6 @@ public class Resin3xStandaloneLocalConfiguration extends AbstractResinStandalone
         // Add expanded WAR support
         getAntUtils().addTokenToFilterChain(filterChain, "resin.expanded.webapps",
             createExpandedWarTokenValue("document-directory"));
-
-        // Add datasource support
-        getAntUtils().addTokenToFilterChain(filterChain, "resin3x.datasource.xml",
-            createDatasourceTokenValue());
 
         // Add token filters for authenticated users
         getAntUtils().addTokenToFilterChain(filterChain, "resin3x.users",
@@ -108,31 +146,4 @@ public class Resin3xStandaloneLocalConfiguration extends AbstractResinStandalone
         return filterChain;
     }
 
-    /**
-     * @return   A datasource xml fragment that can be embedded directly into the resin.conf file
-     */
-    protected String createDatasourceTokenValue()
-    {
-        final String dataSourceProperty = getPropertyValue(DatasourcePropertySet.DATASOURCE);
-        getLogger().info("Datasource property value [" + dataSourceProperty + "]",
-            this.getClass().getName());
-
-        if (dataSourceProperty == null)
-        {
-            // have to return a non-empty string, as Ant's token stuff doesn't work otherwise
-            return " ";
-        }
-        else
-        {
-            DataSource ds = new DataSource(dataSourceProperty);
-            return
-                "<database jndi-name='" + ds.getJndiLocation() + "'>\n"
-                + "  <driver type=\"" + ds.getDriverClass() + "\">\n"
-                + "    <url>" + ds.getUrl() + "</url>\n"
-                + "    <user>" + ds.getUsername() + "</user>\n"
-                + "    <password>" + ds.getPassword() + "</password>\n"
-                + "  </driver>\n"
-                + "</database>";
-        }
-    }
 }

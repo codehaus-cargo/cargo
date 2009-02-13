@@ -19,24 +19,35 @@
  */
 package org.codehaus.cargo.container.resin;
 
-import org.apache.tools.ant.types.FilterChain;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.DatasourcePropertySet;
-import org.codehaus.cargo.container.property.DataSource;
-import org.codehaus.cargo.container.resin.internal.AbstractResinStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.Container;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
+
+import org.apache.tools.ant.types.FilterChain;
+import org.codehaus.cargo.container.Container;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.resin.internal.AbstractResinStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.resin.internal.Resin2xConfigurationBuilder;
 
 /**
- * Resin 2.x standalone 
+ * Resin 2.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
- *  
+ * 
  * @version $Id$
  */
-public class Resin2xStandaloneLocalConfiguration extends AbstractResinStandaloneLocalConfiguration
+public class Resin2xStandaloneLocalConfiguration extends
+    AbstractResinStandaloneLocalConfiguration
 {
     /**
+     * Where elements for resources will be inserted.
+     */
+    public static final String XML_PARENT_OF_RESOURCES = "//caucho.com";
+
+    /**
      * {@inheritDoc}
+     * 
      * @see AbstractResinStandaloneLocalConfiguration#AbstractResinStandaloneLocalConfiguration(String)
      */
     public Resin2xStandaloneLocalConfiguration(String dir)
@@ -46,6 +57,35 @@ public class Resin2xStandaloneLocalConfiguration extends AbstractResinStandalone
 
     /**
      * {@inheritDoc}
+     */
+    protected String getXpathForResourcesParent()
+    {
+        return "//caucho.com";
+    }
+
+    /**
+     * {@inheritDoc} Resin2x application servers currently use DTD, and therefore return and empty
+     * map;
+     */
+    protected Map getNamespaces()
+    {
+        return Collections.EMPTY_MAP;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see Resin2xConfigurationBuilder
+     */
+    protected ConfigurationBuilder createConfigurationBuilder(
+        LocalContainer container)
+    {
+        return new Resin2xConfigurationBuilder();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see AbstractResinStandaloneLocalConfiguration#prepareAdditions(Container, FilterChain)
      */
     protected void prepareAdditions(Container container, FilterChain theFilterChain)
@@ -56,6 +96,7 @@ public class Resin2xStandaloneLocalConfiguration extends AbstractResinStandalone
 
     /**
      * {@inheritDoc}
+     * 
      * @see AbstractResinStandaloneLocalConfiguration#createResinFilterChain()
      */
     protected FilterChain createResinFilterChain()
@@ -65,10 +106,6 @@ public class Resin2xStandaloneLocalConfiguration extends AbstractResinStandalone
         // Add expanded WAR support
         getAntUtils().addTokenToFilterChain(filterChain, "resin.expanded.webapps",
             createExpandedWarTokenValue("app-dir"));
-
-        // Add datasource support
-        getAntUtils().addTokenToFilterChain(filterChain, "resin2x.datasource.xml",
-            createDatasourceTokenValue());
 
         // Add token filters for adding users
         getAntUtils().addTokenToFilterChain(filterChain, "resin2x.users",
@@ -89,28 +126,4 @@ public class Resin2xStandaloneLocalConfiguration extends AbstractResinStandalone
         return filterChain;
     }
 
-    /**
-     * @return a datasource xml fragment that can be embedded directly into the resin.conf file
-     */
-    protected String createDatasourceTokenValue()
-    {
-        final String dataSourceProperty = getPropertyValue(DatasourcePropertySet.DATASOURCE);
-        if (dataSourceProperty == null)
-        {
-            // have to return a non-empty string, as Ant's token stuff doesn't work otherwise
-            return " ";
-        }
-        else
-        {
-            DataSource ds = new DataSource(dataSourceProperty);
-            return "<resource-ref>\n"
-                + "      <res-ref-name>" + ds.getJndiLocation() + "</res-ref-name>\n"
-                + "      <res-type>" + ds.getDataSourceType() + "</res-type>\n"
-                + "      <init-param driver-name=\"" + ds.getDriverClass() + "\"/>\n"
-                + "      <init-param url=\"" + ds.getUrl() + "\"/>\n"
-                + "      <init-param user=\"" + ds.getUsername() + "\"/>\n"
-                + "      <init-param password=\"" + ds.getPassword() + "\"/>\n"
-                + "</resource-ref>";
-        }
-    }
 }
