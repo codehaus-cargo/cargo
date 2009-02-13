@@ -18,6 +18,7 @@
     <module>two-datasources-war</module>
     <module>xadatasource-war</module>
     <module>datasource-cmt-local-war</module>
+    <module>classpath-war</module>
     <module>simple-ejb</module>
     <module>simple-ear</module>
     <module>authentication-war</module>
