@@ -24,6 +24,9 @@
         @tomcat.webapps@
 
       </Host>
+      
+      <DefaultContext>
+      </DefaultContext>
 
     </Engine>
 

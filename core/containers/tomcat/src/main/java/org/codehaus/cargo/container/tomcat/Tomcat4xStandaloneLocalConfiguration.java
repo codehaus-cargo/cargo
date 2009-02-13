@@ -19,32 +19,43 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import java.util.Iterator;
-import java.util.Set;
+import java.util.Properties;
 
-import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.property.DatasourcePropertySet;
-import org.codehaus.cargo.container.property.DataSource;
-import org.codehaus.cargo.container.resource.Resource;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
+import org.codehaus.cargo.container.configuration.entry.Resource;
+import org.codehaus.cargo.container.internal.util.PropertyUtils;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat4xConfigurationBuilder;
 
 /**
- * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
- * implementation.
- *
+ * StandAloneLocalConfiguration that is appropriate for Tomcat 4.x containers.
+ * 
  * @version $Id$
  */
-public class Tomcat4xStandaloneLocalConfiguration
-    extends AbstractCatalinaStandaloneLocalConfiguration
+public class Tomcat4xStandaloneLocalConfiguration extends
+    AbstractCatalinaStandaloneLocalConfiguration
 {
     /**
      * {@inheritDoc}
+     * 
      * @see AbstractCatalinaStandaloneLocalConfiguration#AbstractCatalinaStandaloneLocalConfiguration(String)
      */
     public Tomcat4xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see Tomcat4xConfigurationBuilder
+     */
+    protected ConfigurationBuilder createConfigurationBuilder(
+        LocalContainer container)
+    {
+        return new Tomcat4xConfigurationBuilder();
     }
 
     /**
@@ -60,109 +71,53 @@ public class Tomcat4xStandaloneLocalConfiguration
             to + "/server/webapps/manager");
         getFileHandler().copyFile(from + "/server/lib/catalina.jar",
             to + "/server/lib/catalina.jar");
-        getFileHandler().copyFile(from + "/webapps/manager.xml", 
-            to + "/webapps/manager.xml");
-    }
-
-    /**
-     * @return the XML to be put into the <code>server.xml</code> file
-     */
-    protected String createDatasourceTokenValue()
-    {
-        getLogger().debug("Tomcat 4x createDatasourceTokenValue", this.getClass().getName());
-
-        final String dataSourceProperty = getPropertyValue(DatasourcePropertySet.DATASOURCE);
-        getLogger().debug("Datasource property value [" + dataSourceProperty + "]",
-            this.getClass().getName());
-
-        if (dataSourceProperty == null)
-        {
-            // have to return a non-empty string, as Ant's token stuff doesn't work otherwise
-            return " ";
-        }
-        else
-        {
-            DataSource ds = new DataSource(dataSourceProperty);
-            return
-                "  <Resource name='" + ds.getJndiLocation() + "' auth='Container' "
-                    + "type='" + ds.getDataSourceType() + "'/>\n"
-                    + "  <ResourceParams name='" + ds.getJndiLocation() + "'>\n"
-                    + "    <parameter>\n"
-                    + "      <name>driverClassName</name>\n"
-                    + "      <value>" + ds.getDriverClass() + "</value>\n"
-                    + "    </parameter>\n"
-                    + "    <parameter>\n"
-                    + "      <name>url</name>\n"
-                    + "      <value>" + ds.getUrl() + "</value>\n"
-                    + "    </parameter>\n"
-                    + "    <parameter>\n"
-                    + "      <name>username</name>\n"
-                    + "      <value>" + ds.getUsername() + "</value>\n"
-                    + "    </parameter>\n"
-                    + "    <parameter>\n"
-                    + "      <name>password</name>\n"
-                    + "      <value>" + ds.getPassword() + "</value>\n"
-                    + "    </parameter>\n"
-                    + "    <parameter>\n"
-                    + "      <name>factory</name>\n"
-                    + "      <value>org.apache.commons.dbcp.BasicDataSourceFactory</value>\n"
-                    + "    </parameter>\n"
-                    + "  </ResourceParams>\n"
-                    // As we are using a database - we will likely need a transaction factory too.
-                    + "  <Resource name='UserTransaction' "
-                    + "type='javax.transaction.UserTransaction' auth='Container'>\n"
-                    + "  </Resource>\n"
-                    + "  <ResourceParams name='UserTransaction'>\n"
-                    + "    <parameter>\n"
-                    + "      <name>factory</name>\n"
-                    + "      <value>org.objectweb.jotm.UserTransactionFactory</value>\n"
-                    + "    </parameter>\n"
-                    + "    <parameter>\n"
-                    + "      <name>jotm.timeout</name>\n"
-                    + "      <value>60</value>\n"
-                    + "    </parameter>\n"
-                    + "</ResourceParams>";
-        }
-    }
-    
-    /**
-     * Create a resource token value.
-     * @return The resource token
-     */
-    protected String createResourceTokenValue()
-    {
-        String out = "";
-        Iterator it = getResources().iterator();
-        while (it.hasNext())
-        {
-            Resource r = (Resource) it.next();
-            out = out + "<Resource name=\"" + r.getName() + "\"\n" + "          type=\""
-                    + r.getType() + "\"\n" + "          auth=\"Container\"\n" + "/>\n";
-            Set parameterNames = r.getParameterNames();
-            if (parameterNames.size() > 0)
-            {
-                out = out + "<ResourceParams name=\"" + r.getName() + "\">\n";
-
-                Iterator pit = parameterNames.iterator();
-                while (pit.hasNext())
-                {
-                    String paramName = (String) pit.next();
-                    out = out + "  <parameter>\n" + "    <name>" + paramName + "</name>\n"
-                            + "    <value>" + r.getParameter(paramName) + "</value>\n"
-                            + "  </parameter>\n";
-                }
-                out = out + "</ResourceParams>\n";
-            }
-        }
-        return out;
+        getFileHandler().copyFile(from + "/webapps/manager.xml", to + "/webapps/manager.xml");
     }
 
     /**
      * {@inheritDoc}
+     * Adds the transaction manager into the set of resources assigned to this configuration.
+     */
+    protected void setupTransactionManager()
+    {
+        Resource transactionManagerResource =
+            new Resource("UserTransaction", "javax.transaction.UserTransaction");
+
+        Properties parameters = new Properties();
+        PropertyUtils.setPropertyIfNotNull(parameters, "jotm.timeout", "60");
+        PropertyUtils.setPropertyIfNotNull(parameters, "factory",
+            "org.objectweb.jotm.UserTransactionFactory");
+        transactionManagerResource.setParameters(parameters);
+        getResources().add(transactionManagerResource);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    protected String getXpathForResourcesParent()
+    {
+        return "//Engine/DefaultContext";
+    }
+    
+    /**
+     * {@inheritDoc}
+     * 
      * @see Object#toString()
      */
     public String toString()
     {
         return "Tomcat 4.x Standalone Configuration";
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected String getOrCreateResourceConfigurationFile(Resource rs, LocalContainer container)
+    {
+        String confDir = getFileHandler().createDirectory(getHome(), "conf");
+        return getFileHandler().append(confDir, "server.xml");
+    }
+
+
+
 }

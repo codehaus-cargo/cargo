@@ -19,39 +19,57 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
+import org.codehaus.cargo.container.configuration.entry.ResourceSupport;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.User;
+import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
+import org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalContainer;
+import org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalDeployer;
 import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 import org.codehaus.cargo.container.tomcat.TomcatWAR;
-import org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalDeployer;
-import org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalContainer;
-
-import java.io.File;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
- *
+ * 
  * @version $Id$
  */
-public abstract class AbstractCatalinaStandaloneLocalConfiguration
-    extends AbstractTomcatStandaloneLocalConfiguration
+public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
+    AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder implements ResourceSupport
 {
+
     /**
      * {@inheritDoc}
-     * @see AbstractTomcatStandaloneLocalConfiguration#AbstractTomcatStandaloneLocalConfiguration(String)
+     * 
+     * @see TomcatStandaloneLocalConfigurationCapability
+     */
+    private static ConfigurationCapability capability =
+        new TomcatStandaloneLocalConfigurationCapability();
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder#AbstractStandaloneLocalConfigurationWithDataSourceSupport(String)
      */
     public AbstractCatalinaStandaloneLocalConfiguration(String dir)
     {
@@ -65,6 +83,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
     protected void doConfigure(LocalContainer container) throws Exception
@@ -93,7 +112,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
         }
 
         setupConfFiles(container, filterChain);
-        
+
         setupManager(container);
 
         // deploy the web-app by copying the WAR file
@@ -101,9 +120,26 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc} note that if there is any datasource configured, this will imply an addition of
+     * the transaction manager.
      * 
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractTomcatStandaloneLocalConfiguration#getConfFiles()
+     * @see #setupTransactionManager()
+     */
+    public void configureDataSources(LocalContainer container)
+    {
+        super.configureDataSources(container);
+        this.setupTransactionManager();
+    }
+
+    /**
+     * Adds an implementation of UserTransaction to the configuration.
+     */
+    protected abstract void setupTransactionManager();
+
+    /**
+     * files that should be copied to the conf directory for the server to operate.
+     * 
+     * @return set of filenames to copy upon doConfigure
      */
     protected Set getConfFiles()
     {
@@ -113,22 +149,22 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
         confFiles.add("web.xml");
         return confFiles;
     }
-    
+
     /**
      * Setup the manager webapp.
-     *
+     * 
      * @param container the container to configure
      */
     protected abstract void setupManager(LocalContainer container);
 
     /**
      * Setup the web apps directory and deploy applications.
-     *
+     * 
      * @param container the container to configure
      */
     private void setupWebApps(LocalContainer container)
     {
-        try 
+        try
         {
             if (container instanceof EmbeddedLocalContainer)
             {
@@ -163,7 +199,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
 
     /**
      * Translate Cargo logging levels into Tomcat logging levels.
-     *
+     * 
      * @param cargoLoggingLevel Cargo logging level
      * @return the corresponding Tomcat logging level
      */
@@ -189,14 +225,15 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#createFilterChain()
      */
     protected FilterChain createTomcatFilterChain()
     {
         FilterChain filterChain = getFilterChain();
-        
+
         // Add logging property tokens
-        getAntUtils().addTokenToFilterChain(filterChain, "catalina.logging.level", 
+        getAntUtils().addTokenToFilterChain(filterChain, "catalina.logging.level",
             getTomcatLoggingLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
 
         // Add Tomcat shutdown port token
@@ -206,23 +243,24 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
         // Add AJP connector port token
         getAntUtils().addTokenToFilterChain(filterChain, TomcatPropertySet.AJP_PORT,
             getPropertyValue(TomcatPropertySet.AJP_PORT));
-        
+
         // Add Catalina secure token, set to true if the protocol is https, false otherwise
-        getAntUtils().addTokenToFilterChain(filterChain, "catalina.secure",
-            String.valueOf("https".equalsIgnoreCase(getPropertyValue(
-                GeneralPropertySet.PROTOCOL))));
+        getAntUtils().addTokenToFilterChain(
+            filterChain,
+            "catalina.secure",
+            String.valueOf("https"
+                .equalsIgnoreCase(getPropertyValue(GeneralPropertySet.PROTOCOL))));
 
         // Add token filters for authenticated users
         getAntUtils().addTokenToFilterChain(filterChain, "tomcat.users", getSecurityToken());
-        
+
         getAntUtils().addTokenToFilterChain(filterChain, "catalina.servlet.uriencoding",
-                getPropertyValue(GeneralPropertySet.URI_ENCODING));
-        
+            getPropertyValue(GeneralPropertySet.URI_ENCODING));
 
         // Add webapp contexts in order to explicitely point to where the
         // wars are located.
         StringBuffer webappTokenValue = new StringBuffer(" ");
-        
+
         Iterator it = getDeployables().iterator();
         while (it.hasNext())
         {
@@ -233,7 +271,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
                 throw new ContainerException("Only WAR archives are supported for deployment "
                     + "in Tomcat. Got [" + deployable.getFile() + "]");
             }
-           
+
             // Do not create tokens for WARs containing a context file as they
             // are copied to the webapps directory.
             if (deployable instanceof TomcatWAR)
@@ -245,31 +283,19 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
                 }
             }
 
-            webappTokenValue.append(createContextToken((WAR) deployable));    
+            webappTokenValue.append(createContextToken((WAR) deployable));
         }
-        
+
         getAntUtils().addTokenToFilterChain(filterChain, "tomcat.webapps",
             webappTokenValue.toString());
-        
+
         return filterChain;
     }
 
     /**
-     * @return The XML that should be inserted into the server.xml file.  If no datasource,
-     * return " ".  Do not return empty string, as 'ant' cannot handle this.
-     */
-    protected abstract String createDatasourceTokenValue();
-
-    /**
-     * @return The XML that should be inserted into the server.xml file. If no datasource,
-     * return "". Do not return empty string, as 'ant' cannot handle this.
-     */
-    protected abstract String createResourceTokenValue();
-    
-    /**
      * @param deployable the WAR to deploy
-     * @return the "context" XML element to instert in the Tomcat <code>server.xml</code> 
-     *         configuration file 
+     * @return the "context" XML element to instert in the Tomcat <code>server.xml</code>
+     *         configuration file
      */
     protected String createContextToken(WAR deployable)
     {
@@ -283,24 +309,119 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration
         contextTokenValue.append(new File(deployable.getFile()).getAbsolutePath());
 
         contextTokenValue.append("\" debug=\"");
-        contextTokenValue.append(getTomcatLoggingLevel(
-            getPropertyValue(GeneralPropertySet.LOGGING)));
+        contextTokenValue
+            .append(getTomcatLoggingLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
         contextTokenValue.append("\">");
 
-        contextTokenValue.append("\n" + createDatasourceTokenValue() + "\n");
-
-        contextTokenValue.append("\n" + createResourceTokenValue() + "\n");
-        
         contextTokenValue.append("</Context>");
         return contextTokenValue.toString();
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see Object#toString()
      */
     public String toString()
     {
         return "Catalina Standalone Configuration";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
+     */
+    public ConfigurationCapability getCapability()
+    {
+        return capability;
+    }
+
+    /**
+     * @return an Ant filter token containing all the user-defined users
+     */
+    protected String getSecurityToken()
+    {
+        StringBuffer token = new StringBuffer(" ");
+
+        // Add token filters for authenticated users
+        if (getPropertyValue(ServletPropertySet.USERS) != null)
+        {
+            Iterator users =
+                User.parseUsers(getPropertyValue(ServletPropertySet.USERS)).iterator();
+            while (users.hasNext())
+            {
+                User user = (User) users.next();
+                token.append("<user ");
+                token.append("name=\"" + user.getName() + "\" ");
+                token.append("password=\"" + user.getPassword() + "\" ");
+
+                token.append("roles=\"");
+                Iterator roles = user.getRoles().iterator();
+                while (roles.hasNext())
+                {
+                    String role = (String) roles.next();
+                    token.append(role);
+                    if (roles.hasNext())
+                    {
+                        token.append(',');
+                    }
+                }
+                token.append("\"/>");
+            }
+        }
+
+        return token.toString();
+    }
+
+    /**
+     * copy files to the conf directory, replacing tokens based on the filterchain parameter.
+     * 
+     * @param container - type of container configuration we are using.
+     * @param filterChain - holds tokenization details
+     * @throws IOException - if we cannot copy a file to the 'conf' directory
+     */
+    protected void setupConfFiles(LocalContainer container, FilterChain filterChain)
+        throws IOException
+    {
+        String confDir = getFileHandler().createDirectory(getHome(), "conf");
+        Iterator confFiles = getConfFiles().iterator();
+        while (confFiles.hasNext())
+        {
+            String file = (String) confFiles.next();
+            getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/" + file,
+                getFileHandler().append(confDir, file), getFileHandler(), filterChain);
+        }
+    }
+
+    /**
+     * Resource entries must be stored in the xml configuration file. Under which element do we
+     * insert the entries? example: //Engine/DefaultContext
+     * 
+     * @return path the the parent element resources should be inserted under.
+     */
+    protected String getXpathForDataSourcesParent()
+    {
+        return getXpathForResourcesParent();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getOrCreateDataSourceConfigurationFile(DataSource ds, LocalContainer container)
+    {
+        return getOrCreateResourceConfigurationFile(null, container);
+    }
+
+    /**
+     * Implementations should avoid passing null, and instead pass
+     * <code>Collections.EMPTY_MAP</code>, if the document is DTD bound.
+     * 
+     * @return a map of prefixes to the url namespaces used in the datasource or resource
+     *         configuration file.
+     */
+    protected Map getNamespaces()
+    {
+        return Collections.EMPTY_MAP;
     }
 }

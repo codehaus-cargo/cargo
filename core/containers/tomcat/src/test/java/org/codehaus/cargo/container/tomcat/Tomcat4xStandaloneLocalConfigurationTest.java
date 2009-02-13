@@ -19,77 +19,108 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import org.codehaus.cargo.container.property.DatasourcePropertySet;
-import org.codehaus.cargo.container.resource.Resource;
-import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatStandaloneLocalConfigurationTest;
+import java.io.IOException;
+
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
+import org.codehaus.cargo.container.configuration.entry.Resource;
+import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
+import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfigurationTest;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat4xConfigurationChecker;
+import org.codehaus.cargo.util.Dom4JUtil;
 import org.custommonkey.xmlunit.XMLAssert;
+import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.xml.sax.SAXException;
 
 /**
- *  Tests for the Tomcat 4 implementation of StandaloneLocalConfigurationTest 
+ * Tests for the Tomcat 4 implementation of StandaloneLocalConfigurationTest
  */
-public class Tomcat4xStandaloneLocalConfigurationTest extends AbstractTomcatStandaloneLocalConfigurationTest {
+public class Tomcat4xStandaloneLocalConfigurationTest extends
+    AbstractCatalinaStandaloneLocalConfigurationTest
+{
 
-    protected String getTestHome()
+    protected String AJP_PORT = "8001";
+
+    public LocalConfiguration createLocalConfiguration(String home)
     {
-        return "ram:/tomcat4xconfig";
-    }
-    
-    protected void setUpContainerDefaults()
-    {
-        this.configuration = new Tomcat4xStandaloneLocalConfiguration(CONFIG_HOME);
-        this.container = new Tomcat4xInstalledLocalContainer(configuration);
-    }
-    
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        setUpManager();
+        return new Tomcat4xStandaloneLocalConfiguration(home);
     }
 
+    public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
+    {
+        return new Tomcat4xInstalledLocalContainer(configuration);
+    }
+
+    protected ConfigurationChecker createConfigurationChecker()
+    {
+        return new Tomcat4xConfigurationChecker();
+    }
+
+    protected String getResourceConfigurationFile(ResourceFixture fixture)
+    {
+        return configuration.getHome() + "/conf/server.xml";
+    }
+    
+    protected void setUpResourceFile() throws Exception
+    {
+        Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
+        String file = getResourceConfigurationFile(null);
+        Document document = DocumentHelper.createDocument();
+        document.addElement("Engine").addElement("DefaultContext");
+        xmlUtil.saveXml(document, file);
+    }
+    
     protected void setUpManager()
     {
-        fileHandler.mkdirs(CONTAINER_HOME + "/webapps");
-        fileHandler.mkdirs(CONTAINER_HOME + "/server/lib");
-        fileHandler.mkdirs(CONTAINER_HOME + "/server/webapps/manager");
-        fileHandler.createFile(CONTAINER_HOME + "/webapps/manager.xml");
-        fileHandler.createFile(CONTAINER_HOME + "/server/lib/catalina.jar");
+        configuration.getFileHandler().mkdirs(container.getHome() + "/webapps");
+        configuration.getFileHandler().mkdirs(container.getHome() + "/server/lib");
+        configuration.getFileHandler().mkdirs(container.getHome() + "/server/webapps/manager");
+        configuration.getFileHandler().createFile(container.getHome() + "/webapps/manager.xml");
+        //seems copy needs to have a file present
+        configuration.getFileHandler().createFile(container.getHome() + "/server/webapps/manager/touch.txt");
+        configuration.getFileHandler().createFile(
+        container.getHome() + "/server/lib/catalina.jar");
     }
 
     public void testConfigureManager()
     {
         configuration.configure(container);
-        assertTrue(fileHandler.exists(CONFIG_HOME + "/webapps/manager.xml"));
-        assertTrue(fileHandler.exists(CONFIG_HOME + "/server/lib/catalina.jar"));
-        assertTrue(fileHandler.exists(CONFIG_HOME + "/server/webapps/manager"));
+        assertTrue(configuration.getFileHandler().exists(
+            configuration.getHome() + "/webapps/manager.xml"));
+        assertTrue(configuration.getFileHandler().exists(
+            configuration.getHome() + "/server/lib/catalina.jar"));
+        assertTrue(configuration.getFileHandler().exists(
+            configuration.getHome() + "/server/webapps/manager"));
     }
-    
+
     public void testConfigure() throws Exception
     {
         configuration.configure(container);
 
-        assertTrue(fileHandler.exists(CONFIG_HOME + "/temp"));
-        assertTrue(fileHandler.exists(CONFIG_HOME + "/logs"));
-        assertTrue(fileHandler.exists(CONFIG_HOME + "/conf/server.xml"));
-        assertTrue(fileHandler.exists(CONFIG_HOME + "/conf/web.xml"));
-        assertTrue(fileHandler.exists(CONFIG_HOME + "/conf/tomcat-users.xml"));
-        assertTrue(fileHandler.exists(CONFIG_HOME + "/webapps/cargocpc.war"));
+        assertTrue(configuration.getFileHandler().exists(configuration.getHome() + "/temp"));
+        assertTrue(configuration.getFileHandler().exists(configuration.getHome() + "/logs"));
+        assertTrue(configuration.getFileHandler().exists(
+            configuration.getHome() + "/conf/server.xml"));
+        assertTrue(configuration.getFileHandler().exists(
+            configuration.getHome() + "/conf/web.xml"));
+        assertTrue(configuration.getFileHandler().exists(
+            configuration.getHome() + "/conf/tomcat-users.xml"));
+        assertTrue(configuration.getFileHandler().exists(
+            configuration.getHome() + "/webapps/cargocpc.war"));
         testConfigureManager();
     }
-    
-    public void testConfigureSetsCorrectAJPConnectorIdentifier() throws Exception
-    {
-        configuration.configure(container);
-        String config = slurp(CONFIG_HOME + "/conf/server.xml");
-        XMLAssert.assertXpathEvaluatesTo("org.apache.ajp.tomcat4.Ajp13Connector", "//Connector[2]/@className", config);
 
-    }
-    
     public void testConfigureSetsDefaultAJPPort() throws Exception
     {
         configuration.configure(container);
-        String config = slurp(CONFIG_HOME + "/conf/server.xml");
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/conf/server.xml");
         XMLAssert.assertXpathEvaluatesTo(configuration
-            .getPropertyValue(TomcatPropertySet.AJP_PORT), "//Connector[2]/@port", config);
+            .getPropertyValue(TomcatPropertySet.AJP_PORT), "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port", config);
 
     }
 
@@ -97,61 +128,71 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends AbstractTomcatStan
     {
         configuration.setProperty(TomcatPropertySet.AJP_PORT, AJP_PORT);
         configuration.configure(container);
-        String config = slurp(CONFIG_HOME + "/conf/server.xml");
-        XMLAssert.assertXpathEvaluatesTo(AJP_PORT,
-            "//Connector[2]/@port",
-            config);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/conf/server.xml");
+        XMLAssert.assertXpathEvaluatesTo(AJP_PORT, "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port", config);
     }
 
-    public void testCreateWindowsHsqldbDataSource()
+    public void checkTransactionManagerToken(String xml) throws SAXException, IOException,
+        XpathException
     {
+        XMLAssert.assertXpathEvaluatesTo("javax.transaction.UserTransaction",
+            "//Engine/DefaultContext/Resource[@name='UserTransaction']/@type", xml);
+        XMLAssert.assertXpathEvaluatesTo("Container",
+            "//Engine/DefaultContext/Resource[@name='UserTransaction']/@auth", xml);
+        XMLAssert
+            .assertXpathEvaluatesTo(
+                "org.objectweb.jotm.UserTransactionFactory",
+                "//Engine/DefaultContext/ResourceParams[@name='UserTransaction']/parameter[name='factory']/value",
+                xml);
+        XMLAssert
+            .assertXpathEvaluatesTo(
+                "60",
+                "//Engine/DefaultContext/ResourceParams[@name='UserTransaction']/parameter[name='jotm.timeout']/value",
+                xml);
+    }
 
-        String realUrl = "jdbc:hsqldb:c:\\temp\\db/jira-home/database";
-
-        String resourceProperty = 
-            "cargo.datasource.url="+realUrl+"|\n"+
-            "cargo.datasource.driver=org.hsqldb.jdbcDriver|\n"+
-            "cargo.datasource.username=sa|"+
-            "cargo.datasource.password=|"+
-            "cargo.datasource.type=javax.sql.DataSource|"+
-            "cargo.datasource.jndi=jdbc/JiraDS";
+    public void testCreateMultipleResourceTokenValues() throws Exception
+    {
+        setUpResourceFile();
         Tomcat4xStandaloneLocalConfiguration conf =
             (Tomcat4xStandaloneLocalConfiguration) configuration;
-        configuration.setProperty(DatasourcePropertySet.DATASOURCE, resourceProperty);
-        String element = conf.createDatasourceTokenValue();
-        assertTrue(element.indexOf(realUrl) >0);
 
-    }   
-    
-	/**
-	 * Test method for {@link org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration#createResourceTokenValue()}.
-	 */
-	public void testCreateResourceTokenValue() {
-        Tomcat4xStandaloneLocalConfiguration conf = 
-            (Tomcat4xStandaloneLocalConfiguration)configuration;
-		String expected = 
-			"<Resource name=\"myDataSource\"\n" +
-			"          type=\"javax.sql.DataSource\"\n" +
-			"          auth=\"Container\"\n" +
-			"/>\n" +
-			"<ResourceParams name=\"myDataSource\">\n" +
-			"  <parameter>\n" +
-			"    <name>password</name>\n" +
-			"    <value>pass</value>\n" +
-			"  </parameter>\n" +
-			"  <parameter>\n" +
-			"    <name>username</name>\n" +
-			"    <value>foo</value>\n" +
-			"  </parameter>\n" +
-			"</ResourceParams>\n";
-		
-		Resource resource = new Resource("myDataSource", "javax.sql.DataSource");
-		resource.setParameter("password" , "pass");
-		resource.setParameter("username", "foo");
-		conf.addResource(resource);
-		assertEquals("Resource string not correct", expected, 
-		    conf.createResourceTokenValue());		
-		
-	}
+        Resource resource = new Resource("myDataSource", "javax.sql.DataSource");
+        resource.setParameter("password", "pass");
+        resource.setParameter("username", "foo");
+
+        Resource resource2 = new Resource("otherDataSource", "javax.sql.DataSource");
+        resource2.setParameter("password", "bar");
+        resource2.setParameter("username", "gazonk");
+
+        conf.addResource(resource);
+        conf.addResource(resource2);
+
+        conf.configureResources(container);
+        String xml =
+            configuration.getFileHandler().readTextFile(getDataSourceConfigurationFile(null));
+
+        XMLAssert.assertXpathEvaluatesTo("javax.sql.DataSource",
+            "//Resource[@name='myDataSource']/@type", xml);
+        XMLAssert.assertXpathEvaluatesTo("Container", "//Resource[@name='myDataSource']/@auth",
+            xml);
+
+        XMLAssert.assertXpathEvaluatesTo("foo",
+            "//ResourceParams[@name='myDataSource']/parameter[name='username']/value", xml);
+        XMLAssert.assertXpathEvaluatesTo("pass",
+            "//ResourceParams[@name='myDataSource']/parameter[name='password']/value", xml);
+
+        XMLAssert.assertXpathEvaluatesTo("javax.sql.DataSource",
+            "//Resource[@name='otherDataSource']/@type", xml);
+        XMLAssert.assertXpathEvaluatesTo("Container",
+            "//Resource[@name='otherDataSource']/@auth", xml);
+
+        XMLAssert.assertXpathEvaluatesTo("gazonk",
+            "//ResourceParams[@name='otherDataSource']/parameter[name='username']/value", xml);
+        XMLAssert.assertXpathEvaluatesTo("bar",
+            "//ResourceParams[@name='otherDataSource']/parameter[name='password']/value", xml);
+    }
 
 }

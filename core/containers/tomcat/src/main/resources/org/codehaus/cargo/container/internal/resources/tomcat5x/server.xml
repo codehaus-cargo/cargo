@@ -35,9 +35,6 @@
             pattern="common" resolveHosts="false"/>
           
       </Host>
-
     </Engine>
-
   </Service>
-
 </Server>

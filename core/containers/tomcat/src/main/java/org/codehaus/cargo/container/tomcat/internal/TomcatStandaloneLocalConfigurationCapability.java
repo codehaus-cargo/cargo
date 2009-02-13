@@ -25,15 +25,15 @@ import java.util.Map;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
+import org.codehaus.cargo.container.property.ResourcePropertySet;
 
 /**
- * Capabilities of Tomcat's {@link AbstractTomcatStandaloneLocalConfiguration} 
- * configuration.
- *  
+ * Capabilities of Tomcat's {@link AbstractTomcatStandaloneLocalConfiguration} configuration.
+ * 
  * @version $Id$
  */
-public class TomcatStandaloneLocalConfigurationCapability
-    extends AbstractStandaloneLocalConfigurationCapability
+public class TomcatStandaloneLocalConfigurationCapability extends
+    AbstractStandaloneLocalConfigurationCapability
 {
     /**
      * Configuration-specific supports Map.
@@ -48,12 +48,14 @@ public class TomcatStandaloneLocalConfigurationCapability
         super();
 
         this.supportsMap = new HashMap();
-        this.supportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.supportsMap.put(TomcatPropertySet.AJP_PORT, Boolean.TRUE);
+        this.supportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.supportsMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     protected Map getPropertySupportMap()

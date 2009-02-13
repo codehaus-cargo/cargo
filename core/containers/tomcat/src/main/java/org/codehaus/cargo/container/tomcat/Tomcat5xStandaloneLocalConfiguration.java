@@ -19,33 +19,37 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.property.DataSource;
-import org.codehaus.cargo.container.property.DatasourcePropertySet;
-import org.codehaus.cargo.container.resource.Resource;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
+import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat5And6xConfigurationBuilder;
 
 /**
- * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
- * implementation.
- *
+ * StandAloneLocalConfiguration that is appropriate for Tomcat 5.x containers.
  * <p>
- * This code needs to work with both {@link Tomcat5xInstalledLocalContainer}
- * and {@link Tomcat5xEmbeddedLocalContainer}.
- *  
+ * This code needs to work with both {@link Tomcat5xInstalledLocalContainer} and
+ * {@link Tomcat5xEmbeddedLocalContainer}.
+ * 
  * @version $Id$
  */
-public class Tomcat5xStandaloneLocalConfiguration
-    extends AbstractCatalinaStandaloneLocalConfiguration
+public class Tomcat5xStandaloneLocalConfiguration extends
+    AbstractCatalinaStandaloneLocalConfiguration
 {
+
+    /**
+     * used to insert DataSources and Resources into the configuration file.
+     */
+    private Tomcat5And6xConfigurationBuilder configurationBuilder;
+
     /**
      * {@inheritDoc}
+     * 
      * @see AbstractCatalinaStandaloneLocalConfiguration#AbstractCatalinaStandaloneLocalConfiguration(String)
      */
     public Tomcat5xStandaloneLocalConfiguration(String dir)
@@ -53,12 +57,22 @@ public class Tomcat5xStandaloneLocalConfiguration
         super(dir);
 
         setProperty(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH, "true");
+        configurationBuilder = new Tomcat5And6xConfigurationBuilder();
+
     }
-    
+
     /**
      * {@inheritDoc}
      * 
-     * this does not deploy the manager, if the application is embedded.
+     * @see Tomcat5And6xConfigurationBuilder
+     */
+    protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)
+    {
+        return configurationBuilder;
+    }
+
+    /**
+     * {@inheritDoc} this does not deploy the manager, if the application is embedded.
      * 
      * @see AbstractCatalinaStandaloneLocalConfiguration#setupManager(org.codehaus.cargo.container.LocalContainer)
      */
@@ -81,78 +95,11 @@ public class Tomcat5xStandaloneLocalConfiguration
                 to + "/conf/Catalina/localhost/manager.xml");
         }
     }
-    
-    /**
-     * @return the XML to be put into the server.xml file
-     */
-    protected String createDatasourceTokenValue()
-    {
-        getLogger().debug("Tomcat 5x createDatasourceTokenValue", this.getClass().getName());
-
-        final String dataSourceProperty = getPropertyValue(DatasourcePropertySet.DATASOURCE);
-        getLogger().debug("Datasource property value [" + dataSourceProperty + "]",
-            this.getClass().getName());
-
-        if (dataSourceProperty == null)
-        {
-            // have to return a non-empty string, as Ant's token stuff doesn't work otherwise
-            return " ";
-        }
-        else
-        {
-            DataSource ds = new DataSource(dataSourceProperty);
-            return
-                "<Resource name='" + ds.getJndiLocation() + "'\n"
-                    + "    auth='Container'\n"
-                    + "    type='" + ds.getDataSourceType() + "'\n"
-                    + "    username='" + ds.getUsername() + "'\n"
-                    + "    password='" + ds.getPassword() + "'\n"
-                    + "    driverClassName='" + ds.getDriverClass() + "'\n"
-                    + "    url='" + ds.getUrl() + "'\n"
-                    + "/>\n"
-                    // As we are using a database - we will likely need a transaction factory too.
-                    + "<Resource jotm.timeout='60' " 
-                    + "    factory='org.objectweb.jotm.UserTransactionFactory' "
-                    + "    name='UserTransaction' "
-                    + "    type='javax.transaction.UserTransaction' "
-                    + "    auth='Container'>\n"
-                    + "</Resource>";
-        }
-    }
-    
-    /**
-     * @return the XML to be put into the server.xml file.
-     */
-    protected String createResourceTokenValue()
-    {
-        getLogger().debug("createResourceTokenValue", this.getClass().getName());
-
-        String out = "";
-        Iterator it = getResources().iterator();
-
-        while (it.hasNext())
-        {
-            Resource r = (Resource) it.next();
-            out = out + "<Resource name=\"" + r.getName() + "\"\n" + "          type=\""
-                    + r.getType() + "\"\n";
-            Set parameterNames = r.getParameterNames();
-            Iterator pit = parameterNames.iterator();
-            while (pit.hasNext())
-            {
-                String pName = (String) pit.next();
-                out = out + "          " + pName + "=\"" + r.getParameter(pName) + "\"\n";
-            }
-            out = out + "/>\n";
-        }
-        return out;
-    }
-
 
     /**
-     * Configure the emptySessionPath property token on the filter chain for the
-     * server.xml configuration file.
-     *
-     * {@inheritDoc}
+     * Configure the emptySessionPath property token on the filter chain for the server.xml
+     * configuration file. {@inheritDoc}
+     * 
      * @see AbstractCatalinaStandaloneLocalConfiguration#createTomcatFilterChain()
      */
     protected FilterChain createTomcatFilterChain()
@@ -167,6 +114,7 @@ public class Tomcat5xStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
+     * 
      * @see Object#toString()
      */
     public String toString()
@@ -183,6 +131,34 @@ public class Tomcat5xStandaloneLocalConfiguration
     {
         Set files = super.getConfFiles();
         files.add("catalina.properties");
+        files.add("context.xml");
         return files;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected void setupTransactionManager()
+    {
+        writeConfigurationToXpath(getOrCreateResourceConfigurationFile(null, null),
+            "<Transaction factory=\"org.objectweb.jotm.UserTransactionFactory\" />", "//Context");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected String getXpathForResourcesParent()
+    {
+        return "//Context";
+    }
+
+    /**
+     * {@inheritDoc} In Tomcat 5.5+, we use context.xml to avoid configuration problems.
+     */
+    protected String getOrCreateResourceConfigurationFile(Resource rs, LocalContainer container)
+    {
+        String confDir = getFileHandler().createDirectory(getHome(), "conf");
+        return getFileHandler().append(confDir, "context.xml");
+    }
+
 }

@@ -44,7 +44,7 @@ public class Tomcat6xStandaloneLocalConfiguration
     /**
      * {@inheritDoc}
      * 
-     * the path to find the manager application is different between v5 and v6
+     * the path to find the manager application is different between v5 and v6.
      * 
      * @see Tomcat5xStandaloneLocalConfiguration#setupManager(org.codehaus.cargo.container.LocalContainer)
      */

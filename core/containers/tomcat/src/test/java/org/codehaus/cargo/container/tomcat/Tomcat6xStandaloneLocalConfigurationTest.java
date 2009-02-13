@@ -19,30 +19,32 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import org.codehaus.cargo.container.resource.Resource;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
- *  Tests for the Tomcat 6 implementation of StandaloneLocalConfigurationTest 
+ * Tests for the Tomcat 6 implementation of StandaloneLocalConfigurationTest
  */
-public class Tomcat6xStandaloneLocalConfigurationTest extends Tomcat5xStandaloneLocalConfigurationTest {
+public class Tomcat6xStandaloneLocalConfigurationTest extends
+    Tomcat5xStandaloneLocalConfigurationTest
+{
 
-    protected String getTestHome()
+    public LocalConfiguration createLocalConfiguration(String home)
     {
-        return "ram:/tomcat6xconfig";
+        return new Tomcat6xStandaloneLocalConfiguration(home);
     }
-    
-    protected void setUpContainerDefaults()
+
+    public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
-        this.configuration = new Tomcat6xStandaloneLocalConfiguration(CONFIG_HOME);
-        this.container = new Tomcat6xInstalledLocalContainer(configuration);
+        return new Tomcat6xInstalledLocalContainer(configuration);
     }
 
     protected void setUpManager()
     {
-        fileHandler.mkdirs(CONTAINER_HOME + "/lib");
-        fileHandler.createFile(CONTAINER_HOME + "/lib/catalina.jar");
-        fileHandler.mkdirs(CONTAINER_HOME + "/webapps/manager");
-        fileHandler.mkdirs(CONTAINER_HOME + "/webapps/host-manager");
+        configuration.getFileHandler().mkdirs(container.getHome() + "/lib");
+        configuration.getFileHandler().createFile(container.getHome() + "/lib/catalina.jar");
+        configuration.getFileHandler().mkdirs(container.getHome() + "/webapps/manager");
+        configuration.getFileHandler().mkdirs(container.getHome() + "/webapps/host-manager");
     }
 
     /**
@@ -51,61 +53,12 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends Tomcat5xStandalone
     public void testConfigureManager()
     {
         configuration.configure(container);
-        assertTrue(fileHandler.exists(CONFIG_HOME + "/lib/catalina.jar"));
-        assertTrue(fileHandler.exists(CONFIG_HOME + "/webapps/manager"));
-        assertTrue(fileHandler.exists(CONFIG_HOME + "/webapps/host-manager"));
+        assertTrue(configuration.getFileHandler().exists(
+            configuration.getHome() + "/lib/catalina.jar"));
+        assertTrue(configuration.getFileHandler().exists(
+            configuration.getHome() + "/webapps/manager"));
+        assertTrue(configuration.getFileHandler().exists(
+            configuration.getHome() + "/webapps/host-manager"));
     }
 
-	/**
-	 * Test method for {@link org.codehaus.cargo.container.tomcat.Tomcat5xStandaloneLocalConfiguration#createResourceTokenValue()}.
-	 */
-	public void testCreateResourceTokenValue() {
-		String expected = 
-			"<Resource name=\"myDataSource\"\n" +
-			"          type=\"javax.sql.DataSource\"\n" +
-			"          password=\"pass\"\n" +
-			"          username=\"foo\"\n" +
-			"/>\n";
-		
-		Tomcat6xStandaloneLocalConfiguration conf =  (Tomcat6xStandaloneLocalConfiguration)configuration;
-		Resource resource = new Resource("myDataSource", "javax.sql.DataSource");
-        resource.setParameter("password", "pass");
-		resource.setParameter("username", "foo");
-
-		
-		conf.addResource(resource);
-		
-		assertEquals("Resource string not correct", expected, conf.createResourceTokenValue());		
-	}
-	
-	public void testCreateMultipleResourceTokenValues() {
-		String expected = 
-			"<Resource name=\"myDataSource\"\n" +
-			"          type=\"javax.sql.DataSource\"\n" +
-			"          password=\"pass\"\n" +
-			"          username=\"foo\"\n" +
-			"/>\n" +
-			"<Resource name=\"otherDataSource\"\n" +
-			"          type=\"javax.sql.DataSource\"\n" +
-			"          password=\"bar\"\n" +
-			"          username=\"gazonk\"\n" +
-			"/>\n";
-		
-        Tomcat6xStandaloneLocalConfiguration conf =  (Tomcat6xStandaloneLocalConfiguration)configuration;
-
-		Resource resource = new Resource("myDataSource", "javax.sql.DataSource");
-        resource.setParameter("password", "pass");
-		resource.setParameter("username", "foo");
-
-		Resource resource2 = new Resource("otherDataSource", "javax.sql.DataSource");
-        resource2.setParameter("password", "bar");
-		resource2.setParameter("username", "gazonk");
-		
-		conf.addResource(resource);
-		conf.addResource(resource2);
-		
-		assertEquals("Resource string not correct", expected, conf.createResourceTokenValue());				
-	}
-
-	
 }
