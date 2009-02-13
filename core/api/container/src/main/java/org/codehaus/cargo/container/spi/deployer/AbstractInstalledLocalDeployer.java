@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployer.DeployerType;
 
 /**
@@ -33,7 +33,7 @@ public abstract class AbstractInstalledLocalDeployer extends AbstractLocalDeploy
      * {@inheritDoc}
      * @see AbstractLocalDeployer#AbstractLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public AbstractInstalledLocalDeployer(InstalledLocalContainer container)
+    public AbstractInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
     }

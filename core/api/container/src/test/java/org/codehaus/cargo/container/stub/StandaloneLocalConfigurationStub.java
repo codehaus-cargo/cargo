@@ -26,7 +26,7 @@ import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
-import org.codehaus.cargo.container.resource.Resource;
+import org.codehaus.cargo.container.configuration.entry.Resource;
 
 /**
  * Mock for {@link org.codehaus.cargo.container.configuration.LocalConfiguration}. We need a static

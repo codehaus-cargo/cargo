@@ -20,6 +20,8 @@
 package org.codehaus.cargo.container.stub;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
+import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.util.FileHandler;
@@ -38,6 +40,10 @@ public abstract class AbstractLocalConfigurationStub
     private String home;
 
     private List deployables = new ArrayList();
+
+    private List resources = new ArrayList();
+
+    private List dataSources = new ArrayList();
 
     public AbstractLocalConfigurationStub()
     {
@@ -70,11 +76,31 @@ public abstract class AbstractLocalConfigurationStub
         return this.deployables;
     }
 
+    public void addResource(Resource Resource)
+    {
+        this.resources.add(Resource);
+    }
+
+    public List getResources()
+    {
+        return this.resources;
+    }
+    
+    public void addDataSource(DataSource DataSource)
+    {
+        this.dataSources.add(DataSource);
+    }
+
+    public List getDataSources()
+    {
+        return this.dataSources;
+    }
+    
     public void configure(LocalContainer container)
     {
         // Voluntarily do nothing for testing
     }
-
+    
     public void setFileHandler(FileHandler handler)
     {
         throw new RuntimeException("Not implemented");        

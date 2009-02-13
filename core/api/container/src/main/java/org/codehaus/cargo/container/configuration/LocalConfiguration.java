@@ -20,8 +20,8 @@
 package org.codehaus.cargo.container.configuration;
 
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.resource.Resource;
 import org.codehaus.cargo.util.FileHandler;
 
 import java.util.List;
