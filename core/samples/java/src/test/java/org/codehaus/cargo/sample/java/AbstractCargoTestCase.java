@@ -270,8 +270,7 @@ public class AbstractCargoTestCase extends TestCase
      */
     private void setUpXercesIfJDK14(Configuration configuration, InstalledLocalContainer container)
     {
-        if (System.getProperty("cargo.java.home.1_4").equals(
-            configuration.getPropertyValue(GeneralPropertySet.JAVA_HOME)))
+        if (System.getProperty("java.specification.version").startsWith("1.4"))
         {
 
             String xerces = System.getProperty("cargo.testdata.xerces-jars");
@@ -297,8 +296,7 @@ public class AbstractCargoTestCase extends TestCase
      */
     private void setUpXercesIfJDK15(Configuration configuration, InstalledLocalContainer container)
     {
-        if (System.getProperty("cargo.java.home.1_5").equals(
-            configuration.getPropertyValue(GeneralPropertySet.JAVA_HOME)))
+        if (System.getProperty("java.specification.version").startsWith("1.5"))
         {
             container.getSystemProperties().put("javax.xml.parsers.SAXParserFactory",
                 "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
