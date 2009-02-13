@@ -57,4 +57,5 @@ public class Oc4j9xStandaloneLocalConfiguration extends AbstractOrionStandaloneL
     {
         return "OC4J Standalone Configuration";
     }
+
 }

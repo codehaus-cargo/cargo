@@ -19,35 +19,48 @@
  */
 package org.codehaus.cargo.container.orion.internal;
 
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.property.User;
-import org.codehaus.cargo.container.property.DatasourcePropertySet;
-import org.codehaus.cargo.container.property.DataSource;
-import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.deployable.EAR;
-import org.apache.tools.ant.util.FileUtils;
-import org.apache.tools.ant.types.FilterChain;
-import org.apache.tools.ant.filters.ReplaceTokens;
-
 import java.io.File;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tools.ant.filters.ReplaceTokens;
+import org.apache.tools.ant.types.FilterChain;
+import org.apache.tools.ant.util.FileUtils;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
+import org.codehaus.cargo.container.configuration.entry.Resource;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.EAR;
+import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.User;
+import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
+
 /**
- * Standalone configuration methods common to both Orion and Oc4j9x.
- *
+ * Standalone configuration methods common to both Orion and Oc4j containers.
+ * 
  * @version $Id$
  */
-public abstract class AbstractOrionStandaloneLocalConfiguration
-    extends AbstractStandaloneLocalConfiguration
+public abstract class AbstractOrionStandaloneLocalConfiguration extends
+    AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder
 {
+    /**
+     * Where elements for resources will be inserted. This expression evaluates to: {@value
+     * XML_PARENT_OF_RESOURCES}
+     */
+    public static final String XML_PARENT_OF_RESOURCES = "//data-sources";
+
+    /**
+     * Where to find resources for this configuration.
+     */
+    private static final String ORION_RESOURCE_PATH = RESOURCE_PATH + "orion1x2x";
+
     /**
      * Capability of the Orion standalone configuration.
      */
@@ -55,8 +68,9 @@ public abstract class AbstractOrionStandaloneLocalConfiguration
         new OrionStandaloneLocalConfigurationCapability();
 
     /**
-     * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     * construct the instance and set the rmi port.
+     * 
+     * @param dir - home of this configuration
      */
     public AbstractOrionStandaloneLocalConfiguration(String dir)
     {
@@ -66,8 +80,28 @@ public abstract class AbstractOrionStandaloneLocalConfiguration
     }
 
     /**
+     * {@inheritDoc} This implementation throws an UnsupportedOperationException as Resource
+     * configuration is not supported in Orion.
+     */
+    protected String getOrCreateResourceConfigurationFile(Resource resource,
+        LocalContainer container)
+    {
+        throw new UnsupportedOperationException(
+            OrionConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED);
+    }
+
+    /**
+     * {@inheritDoc} This implementation throws an UnsupportedOperationException as Resource
+     * configuration is not supported in Orion.
+     */
+    protected String getXpathForResourcesParent()
+    {
+        throw new UnsupportedOperationException(
+            OrionConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED);
+    }
+
+    /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
     public ConfigurationCapability getCapability()
     {
@@ -76,7 +110,43 @@ public abstract class AbstractOrionStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#configure(org.codehaus.cargo.container.LocalContainer)
+     * 
+     * @see OrionConfigurationBuilder
+     */
+    protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)
+    {
+        return new OrionConfigurationBuilder();
+    }
+
+    /**
+     * {@inheritDoc} In this implementation, we will return the <code>data-sources.xml</code> file.
+     */
+    public String getOrCreateDataSourceConfigurationFile(DataSource ds, LocalContainer container)
+    {
+        String confDir = getFileHandler().createDirectory(getHome(), "conf");
+        return getFileHandler().append(confDir, "data-sources.xml");
+
+    }
+
+    /**
+     * {@inheritDoc} Orion application servers currently use DTD, and therefore return and empty
+     * map;
+     */
+    protected Map getNamespaces()
+    {
+        return Collections.EMPTY_MAP;
+    }
+
+    /**
+     * This expression evaluates to: {@value XML_PARENT_OF_RESOURCES} {@inheritDoc}
+     */
+    protected String getXpathForDataSourcesParent()
+    {
+        return XML_PARENT_OF_RESOURCES;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     protected void doConfigure(LocalContainer container) throws Exception
     {
@@ -86,31 +156,32 @@ public abstract class AbstractOrionStandaloneLocalConfiguration
         FilterChain filterChain = createOrionFilterChain();
 
         String confDir = getFileHandler().createDirectory(getHome(), "conf");
-        String resourcePath = RESOURCE_PATH + "orion1x2x";
 
-        getResourceUtils().copyResource(resourcePath + "/server.xml",
+        getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/server.xml",
             getFileHandler().append(confDir, "server.xml"), getFileHandler(), filterChain);
-        getResourceUtils().copyResource(resourcePath + "/application.xml",
+        getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/application.xml",
             getFileHandler().append(confDir, "application.xml"), getFileHandler(), filterChain);
-        getResourceUtils().copyResource(resourcePath + "/default-web-site.xml",
+        getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/default-web-site.xml",
             getFileHandler().append(confDir, "default-web-site.xml"), getFileHandler(),
             filterChain);
 
-        getResourceUtils().copyResource(resourcePath + "/mime.types",
+        getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/mime.types",
             getFileHandler().append(confDir, "mime.types"), getFileHandler(), filterChain);
-        getResourceUtils().copyResource(resourcePath + "/principals.xml",
+        getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/principals.xml",
             getFileHandler().append(confDir, "principals.xml"), getFileHandler(), filterChain);
-        getResourceUtils().copyResource(resourcePath + "/rmi.xml",
+        getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/rmi.xml",
             getFileHandler().append(confDir, "rmi.xml"), getFileHandler(), filterChain);
-        getResourceUtils().copyResource(resourcePath + "/data-sources.xml",
+
+        // create a default data-sources.xml file/
+        getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/data-sources.xml",
             getFileHandler().append(confDir, "data-sources.xml"), getFileHandler(), filterChain);
 
         copyCustomResources(confDir, filterChain);
 
         // Create default web app (required by Orion unfortunately...)
-        String defaultWebAppDir = getFileHandler().createDirectory(getHome(),
-            "default-web-app/WEB-INF");
-        getResourceUtils().copyResource(resourcePath + "/web.xml",
+        String defaultWebAppDir =
+            getFileHandler().createDirectory(getHome(), "default-web-app/WEB-INF");
+        getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/web.xml",
             getFileHandler().append(defaultWebAppDir, "web.xml"), getFileHandler(), filterChain);
 
         // Orion need to have a /persistence directory created, otherwise it
@@ -133,15 +204,13 @@ public abstract class AbstractOrionStandaloneLocalConfiguration
             Deployable deployable = (Deployable) it.next();
 
             if ((deployable.getType() != DeployableType.WAR)
-                || ((deployable.getType() == DeployableType.WAR)
-                    && !((WAR) deployable).isExpandedWar()))
+                || ((deployable.getType() == DeployableType.WAR) && !((WAR) deployable)
+                    .isExpandedWar()))
             {
                 fileUtils.copyFile(new File(deployable.getFile()).getAbsoluteFile(),
-                    new File(appDir, new File(deployable.getFile()).getName()),
-                    null, true);
+                    new File(appDir, new File(deployable.getFile()).getName()), null, true);
             }
         }
-
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             getFileHandler().append(appDir, "cargocpc.war"), getFileHandler());
@@ -149,7 +218,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration
 
     /**
      * Copy resources that are different between the different standalone implementations.
-     *
+     * 
      * @param confDir the configuration dir where to copy the resources to
      * @param filterChain the Ant filter chain to apply when copying the resources
      * @throws Exception in case of an error during the copy
@@ -158,8 +227,8 @@ public abstract class AbstractOrionStandaloneLocalConfiguration
         throws Exception;
 
     /**
-     * @return an Ant filter chain containing implementation for the filter
-     *         tokens used in the Orion configuration files
+     * @return an Ant filter chain containing implementation for the filter tokens used in the Orion
+     *         configuration files
      */
     private FilterChain createOrionFilterChain()
     {
@@ -175,10 +244,6 @@ public abstract class AbstractOrionStandaloneLocalConfiguration
             getAntUtils().addTokenToFilterChain(filterChain, "orion.users", getUserToken());
             getAntUtils().addTokenToFilterChain(filterChain, "orion.roles", getRoleToken());
         }
-
-        // Replace datasource token
-        getAntUtils().addTokenToFilterChain(filterChain, "orion.datasource",
-            createDatasourceTokenValue());
 
         // Add application deployment tokens
 
@@ -288,7 +353,8 @@ public abstract class AbstractOrionStandaloneLocalConfiguration
         // Add token filters for authenticated users
         if (getPropertyValue(ServletPropertySet.USERS) != null)
         {
-            Iterator users = User.parseUsers(getPropertyValue(ServletPropertySet.USERS)).iterator();
+            Iterator users =
+                User.parseUsers(getPropertyValue(ServletPropertySet.USERS)).iterator();
             while (users.hasNext())
             {
                 User user = (User) users.next();
@@ -335,37 +401,4 @@ public abstract class AbstractOrionStandaloneLocalConfiguration
         return token.toString();
     }
 
-    /**
-     * @return the XML to be put into the server.xml file
-     */
-    protected String createDatasourceTokenValue()
-    {
-        getLogger().debug("Orion createDatasourceTokenValue", this.getClass().getName());
-
-        final String dataSourceProperty = getPropertyValue(DatasourcePropertySet.DATASOURCE);
-        getLogger().debug("Datasource property value [" + dataSourceProperty + "]",
-            this.getClass().getName());
-
-        if (dataSourceProperty == null)
-        {
-            // have to return a non-empty string, as Ant's token stuff doesn't work otherwise
-            return " ";
-        }
-        else
-        {
-            DataSource ds = new DataSource(dataSourceProperty);
-            return " <data-source\n"
-                + "    class='com.evermind.sql.DriverManagerDataSource' \n "
-                + "    name='Cargo-Datasource' \n"
-                + "    location='" + ds.getJndiLocation() + "' \n"
-                + "    xa-location='" + ds.getJndiLocation() + "XA'\n"
-                + "    ejb-location='" + ds.getJndiLocation() + "EJB'\n"
-                + "    connection-driver='" + ds.getDriverClass() + "'\n"
-                + "    username='" + ds.getUsername() + "'\n"
-                + "    password='" + ds.getPassword() + "'\n"
-                + "    url='" + ds.getUrl() + "'\n"
-                + "    inactivity-timeout='30' \n"
-                + "/>";
-        }
-    }
 }
