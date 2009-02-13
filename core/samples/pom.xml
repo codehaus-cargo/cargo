@@ -108,6 +108,12 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
+      <artifactId>classpath-war</artifactId>
+      <version>${cargo.resources.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-ejb</artifactId>
       <version>${cargo.resources.version}</version>
       <type>ejb</type>
@@ -715,6 +721,10 @@
               <property>
                 <name>cargo.testdata.datasource-cmt-local-war</name>
                 <value>org/codehaus/cargo/datasource-cmt-local-war/${cargo.resources.version}/datasource-cmt-local-war-${cargo.resources.version}.war</value>
+              </property>
+              <property>
+                <name>cargo.testdata.classpath-war</name>
+                <value>org/codehaus/cargo/classpath-war/${cargo.resources.version}/classpath-war-${cargo.resources.version}.war</value>
               </property>
               <property>
                 <name>cargo.testdata.simple-ejb</name>
