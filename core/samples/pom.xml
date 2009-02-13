@@ -10,9 +10,8 @@
   <packaging>pom</packaging>
   <name>Cargo Samples</name>
   <description>Samples that exercises the Cargo Java APIs</description>
+  <!-- to get access to test fixtures -->
   <dependencies>
-
-    <!-- to get access to test fixtures -->
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-api-container</artifactId>
@@ -153,6 +152,12 @@
   <build>
     <pluginManagement>
       <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.4.3</version>
+      </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
@@ -180,6 +185,22 @@
               </property>
               -->
 
+              <!-- pass locations of java homes to the test classes so that they can 
+                   look them up and determine if a container is running on jdk 1.4, 
+                   1.5, etc. --> 
+              <property>
+                <name>cargo.java.home.1_4</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
+              <property>
+                <name>cargo.java.home.1_5</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+              <property>
+                <name>cargo.java.home.1_6</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
               <!-- set default parser -->
               <property>
                 <name>javax.xml.parsers.SAXParserFactory</name>
@@ -195,15 +216,6 @@
                 "cargo.[container name].home" property in your settings.xml file.
                 For example: c:/apps/resin-3.0.19
                 -->
-              
-              <property>
-                <name>cargo.resin3x.port</name>
-                <value>${cargo.samples.port}</value>
-              </property>
-              <property>
-                <name>cargo.resin3x.url</name>
-                <value>http://www.caucho.com/download/resin-3.0.26.zip</value>
-              </property>
 
               <property>
                 <name>cargo.resin2x.port</name>
@@ -217,24 +229,253 @@
                 <name>cargo.resin2x.java.home</name>
                 <value>${cargo.java.home.1_4}</value>
               </property>
-
-    
+              
               <property>
-                <name>cargo.orion1x.port</name>
+                <name>cargo.resin3x.port</name>
                 <value>${cargo.samples.port}</value>
               </property>
               <property>
-                <name>cargo.orion1x.url</name>
-                <value>http://www.orionserver.com/distributions/orion1.6.0b.zip</value>
+                <name>cargo.resin3x.url</name>
+                <value>http://www.caucho.com/download/resin-3.0.27.zip</value>
+              </property>
+              <property>
+                <name>cargo.resin3x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
               </property>
 
               <property>
-                <name>cargo.orion2x.port</name>
+                <name>cargo.tomcat4x.port</name>
                 <value>${cargo.samples.port}</value>
               </property>
               <property>
-                <name>cargo.orion2x.url</name>
-                <value>http://www.orionserver.com/distributions/orion2.0.7.zip</value>
+                <name>cargo.tomcat4x.url</name>
+                <!-- note that we want the larger download (not LE), as it contains dbcp needed for database tests -->
+                <value>http://mirror.lividpenguin.com/pub/apache/tomcat/tomcat-4/v4.1.39/bin/apache-tomcat-4.1.39.zip</value>
+              </property>
+              <property>
+                <name>cargo.tomcat4x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
+
+              <property>
+                <name>cargo.tomcat5x.port</name>
+                <value>${cargo.samples.port}</value>
+              </property>
+              <property>
+                <name>cargo.tomcat5x.url</name>
+                <value>http://www.smudge-it.co.uk/pub/apache/tomcat/tomcat-5/v5.5.27/bin/apache-tomcat-5.5.27.zip</value>
+              </property>
+              <property>
+                <name>cargo.tomcat5x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <property>
+                <name>cargo.tomcat6x.port</name>
+                <value>${cargo.samples.port}</value>
+              </property>
+              <property>
+                <name>cargo.tomcat6x.url</name>
+                <value>http://www.smudge-it.co.uk/pub/apache/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip</value>
+              </property>
+              <property>
+                <name>cargo.tomcat6x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <property>
+                <name>cargo.jetty4x.port</name>
+                <value>${cargo.samples.port}</value>
+              </property>
+              <property>
+                <name>cargo.jetty4x.url</name>
+                <value>http://dist.codehaus.org/jetty/jetty-4.2.x/jetty-4.2.27.zip</value>
+              </property>
+              <property>
+                <name>cargo.jetty4x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
+
+              <property>
+                <name>cargo.jetty5x.port</name>
+                <value>${cargo.samples.port}</value>
+              </property>
+              <property>
+                <name>cargo.jetty5x.url</name>
+                <value>http://dist.codehaus.org/jetty/jetty-5.1.x/jetty-5.1.14.tgz</value>
+              </property>
+              <property>
+                <name>cargo.jetty5x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
+
+              <property>
+                <name>cargo.jetty6x.port</name>
+                <value>${cargo.samples.port}</value>
+              </property>
+              <property>
+                <name>cargo.jetty6x.url</name>
+                <value>http://dist.codehaus.org/jetty/jetty-6.1.14/jetty-6.1.14.zip</value>
+              </property>
+              <property>
+                <name>cargo.jetty6x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <property>
+                <name>cargo.jetty7x.port</name>
+                <value>${cargo.samples.port}</value>
+              </property>
+              <property>
+                <name>cargo.jetty7x.url</name>
+                <value>http://dist.codehaus.org/jetty/jetty-7.0.0-prereleases/jetty-7.0.0pre3/jetty-assembly-7.0.0pre3.zip</value>
+              </property>
+              <property>
+                <name>cargo.jetty7x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <property>
+                <name>cargo.geronimo1x.port</name>
+                <value>${cargo.samples.port}</value>
+              </property>
+              <property>
+                <name>cargo.geronimo1x.url</name>
+                <value>http://archive.eu.apache.org/dist/geronimo/1.1.1/geronimo-jetty-j2ee-1.1.1.zip</value>
+              </property>
+              <property>
+                <name>cargo.geronimo1x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
+
+              <!--
+                WebLogic 8.x
+
+                Notes: 
+                
+                WebLogic 8.1SP6 and below only run on JDK 1.4
+                
+                There is no non-interactive download link for WL 8.x.  Here is a link that requires license agreement:
+                   * http://commerce.bea.com/showproduct.jsp?family=WLS&major=8.1&minor=6
+ 
+                Once you install this, set the cargo.weblogic8x.home property accordingly.
+                
+                For example:
+
+                  <property>
+                    <name>cargo.weblogic8x.home</name>
+                    <value>c:/bea/weblogic81</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.weblogic8x.port</name>
+                <value>${cargo.samples.port}</value>
+              </property>
+              <property>
+                <name>cargo.weblogic8x.home</name>
+                <value>${cargo.weblogic8x.home}</value>
+              </property>
+              <property>
+                <name>cargo.weblogic8x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
+
+              <!--
+                WebLogic 9.x
+
+                Notes: 
+                
+                WebLogic 9.2MP3 and below only run on JDK 1.5
+                
+                There is no non-interactive download link for WL 9.x.  Here are links that require license agreement:
+                   * http://commerce.bea.com/showproduct.jsp?family=WLS&major=9.2&minor=3
+                   * http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html
+
+                Once you install this, set the cargo.weblogic9x.home property accordingly.
+                
+                For example:
+
+                  <property>
+                    <name>cargo.weblogic9x.home</name>
+                    <value>c:/bea/weblogic92</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.weblogic9x.port</name>
+                <value>${cargo.samples.port}</value>
+              </property>
+              <property>
+                <name>cargo.weblogic9x.home</name>
+                <value>${cargo.weblogic9x.home}</value>
+              </property>
+              <property>
+                <name>cargo.weblogic9x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <!--
+                WebLogic 10.x
+
+                Notes: 
+                
+                WebLogic 10.0MP1 and below only run on JDK 1.5
+                
+                There is no non-interactive download link for WL 10.x.  Here are links that require license agreement:
+                   * http://commerce.bea.com/showallversions.jsp?family=WLS
+                   * http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html
+
+                Once you install this, set the cargo.weblogic10x.home property accordingly.
+                
+                For example:
+
+                  <property>
+                    <name>cargo.weblogic10x.home</name>
+                    <value>c:/bea/wlserver_10.0</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.weblogic10x.port</name>
+                <value>${cargo.samples.port}</value>
+              </property>
+              <property>
+                <name>cargo.weblogic10x.home</name>
+                <value>${cargo.weblogic10x.home}</value>
+              </property>
+              <property>
+                <name>cargo.weblogic10x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <!--
+                WebLogic 10.3x
+
+                Notes: 
+                
+                WebLogic 10.3 only runs on JDK 1.6
+                
+                There is no non-interactive download link for WL 10.3x.  Here is is a link that requires license agreement:
+                   * http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html
+
+                Once you install this, set the cargo.weblogic10x.home property accordingly.
+                
+                For example:
+
+                  <property>
+                    <name>cargo.weblogic103x.home</name>
+                    <value>c:/bea/wlserver_10.3</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.weblogic103x.port</name>
+                <value>${cargo.samples.port}</value>
+              </property>
+              <property>
+                <name>cargo.weblogic103x.home</name>
+                <value>${cargo.weblogic103x.home}</value>
+              </property>
+              <property>
+                <name>cargo.weblogic103x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
               </property>
 
               <!--
@@ -306,254 +547,16 @@
               </property>
 
               <property>
-                <name>cargo.tomcat3x.port</name>
-                <value>${cargo.samples.port}</value>
-              </property>
-              <property>
-                <name>cargo.tomcat3x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-3/v3.3.2/bin/jakarta-tomcat-3.3.2.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomcat3x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-
-              <property>
-                <name>cargo.tomcat4x.port</name>
-                <value>${cargo.samples.port}</value>
-              </property>
-              <property>
-                <name>cargo.tomcat4x.url</name>
-                <!-- note that we want the larger download (not LE), as it contains dbcp needed for database tests -->
-                <value>http://mirror.lividpenguin.com/pub/apache/tomcat/tomcat-4/v4.1.39/bin/apache-tomcat-4.1.39.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomcat4x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-
-              <property>
-                <name>cargo.tomcat5x.port</name>
-                <value>${cargo.samples.port}</value>
-              </property>
-              <property>
-                <name>cargo.tomcat5x.url</name>
-                <value>http://www.smudge-it.co.uk/pub/apache/tomcat/tomcat-5/v5.5.27/bin/apache-tomcat-5.5.27.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomcat5x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
-
-              <property>
-                <name>cargo.tomcat6x.port</name>
-                <value>${cargo.samples.port}</value>
-              </property>
-              <property>
-                <name>cargo.tomcat6x.url</name>
-                <value>http://www.smudge-it.co.uk/pub/apache/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomcat6x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
-
-              <property>
-                <name>cargo.jetty4x.port</name>
-                <value>${cargo.samples.port}</value>
-              </property>
-              <property>
-                <name>cargo.jetty4x.url</name>
-                <value>http://dist.codehaus.org/jetty/jetty-4.2.x/jetty-4.2.27.zip</value>
-              </property>
-
-              <property>
-                <name>cargo.jetty5x.port</name>
-                <value>${cargo.samples.port}</value>
-              </property>
-              <property>
-                <name>cargo.jetty5x.url</name>
-                <value>http://dist.codehaus.org/jetty/jetty-5.1.x/jetty-5.1.14.tgz</value>
-              </property>
-
-              <property>
-                <name>cargo.jetty6x.port</name>
-                <value>${cargo.samples.port}</value>
-              </property>
-              <property>
-                <name>cargo.jetty6x.url</name>
-                <value>http://dist.codehaus.org/jetty/jetty-6.1.x/jetty-6.1.3.zip</value>
-              </property>
-
-              <property>
-                <name>cargo.jetty7x.port</name>
-                <value>${cargo.samples.port}</value>
-              </property>
-              <property>
-                <name>cargo.jetty7x.url</name>
-                <value>http://dist.codehaus.org/jetty/jetty-7.0.0-prereleases/jetty-7.0.0pre3/jetty-assembly-7.0.0pre3.zip</value>
-              </property>
-
-              <!--
-                WebLogic 8.x
-
-                Notes: 
-                
-                WebLogic 8.1SP6 and below only run on JDK 1.4
-                
-                There is no non-interactive download link for WL 8.x.  Here is a link that requires license agreement:
-                   * http://commerce.bea.com/showproduct.jsp?family=WLS&major=8.1&minor=6
- 
-                Once you install this, set the cargo.weblogic8x.home property accordingly.
-                
-                For example:
-
-                  <property>
-                    <name>cargo.weblogic8x.home</name>
-                    <value>c:/bea/weblogic81</value>
-                  </property>
-                -->
-              <property>
-                <name>cargo.weblogic8x.port</name>
-                <value>${cargo.samples.port}</value>
-              </property>
-
-              <property>
-                <name>cargo.weblogic8x.home</name>
-                <value>${cargo.weblogic8x.home}</value>
-              </property>
-
-              <property>
-                <name>cargo.weblogic8x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-
-              <!--
-                WebLogic 9.x
-
-                Notes: 
-                
-                WebLogic 9.2MP3 and below only run on JDK 1.5
-                
-                There is no non-interactive download link for WL 9.x.  Here are links that require license agreement:
-                   * http://commerce.bea.com/showproduct.jsp?family=WLS&major=9.2&minor=3
-                   * http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html
-
-                Once you install this, set the cargo.weblogic9x.home property accordingly.
-                
-                For example:
-
-                  <property>
-                    <name>cargo.weblogic9x.home</name>
-                    <value>c:/bea/weblogic92</value>
-                  </property>
-                -->
-              <property>
-                <name>cargo.weblogic9x.port</name>
-                <value>${cargo.samples.port}</value>
-              </property>
-
-              <property>
-                <name>cargo.weblogic9x.home</name>
-                <value>${cargo.weblogic9x.home}</value>
-              </property>
-
-              <property>
-                <name>cargo.weblogic9x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
-
-              <!--
-                WebLogic 10.x
-
-                Notes: 
-                
-                WebLogic 10.0MP1 and below only run on JDK 1.5
-                
-                There is no non-interactive download link for WL 10.x.  Here are links that require license agreement:
-                   * http://commerce.bea.com/showallversions.jsp?family=WLS
-                   * http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html
-
-                Once you install this, set the cargo.weblogic10x.home property accordingly.
-                
-                For example:
-
-                  <property>
-                    <name>cargo.weblogic10x.home</name>
-                    <value>c:/bea/wlserver_10.0</value>
-                  </property>
-                -->
-              <property>
-                <name>cargo.weblogic10x.port</name>
-                <value>${cargo.samples.port}</value>
-              </property>
-
-              <property>
-                <name>cargo.weblogic10x.home</name>
-                <value>${cargo.weblogic10x.home}</value>
-              </property>
-
-              <property>
-                <name>cargo.weblogic10x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
-
-              <!--
-                WebLogic 10.3x
-
-                Notes: 
-                
-                WebLogic 10.3 only runs on JDK 1.6
-                
-                There is no non-interactive download link for WL 10.3x.  Here is is a link that requires license agreement:
-                   * http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html
-
-                Once you install this, set the cargo.weblogic10x.home property accordingly.
-                
-                For example:
-
-                  <property>
-                    <name>cargo.weblogic103x.home</name>
-                    <value>c:/bea/wlserver_10.3</value>
-                  </property>
-                -->
-              <property>
-                <name>cargo.weblogic103x.port</name>
-                <value>${cargo.samples.port}</value>
-              </property>
-
-              <property>
-                <name>cargo.weblogic103x.home</name>
-                <value>${cargo.weblogic103x.home}</value>
-              </property>
-
-              <property>
-                <name>cargo.weblogic103x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
-
-              <!--
-                Note: There is no direct download link for OC4J 9.x. Thus you have to manually
-                install it on your machine and specify where it is installed using the
-                cargo.oc4j9x.home property.
-                For example:
-                  <property>
-                    <name>cargo.oc4j9x.home</name>
-                    <value>c:/apps/oc4j-9.0.4</value>
-                  </property>
-                -->
-              <property>
-                <name>cargo.oc4j9x.port</name>
-                <value>${cargo.samples.port}</value>
-              </property>
-
-              <property>
                 <name>cargo.jo1x.port</name>
                 <value>${cargo.samples.port}</value>
               </property>
               <property>
                 <name>cargo.jo1x.url</name>
                 <value>http://www.tagtraum.com/download/jo1.1beta1.zip</value>
+              </property>
+              <property>
+                <name>cargo.jo1x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
               </property>
 
               <property>
@@ -564,6 +567,10 @@
                 <name>cargo.jboss3x.url</name>
                 <value>http://ovh.dl.sourceforge.net/sourceforge/jboss/jboss-3.2.8.SP1.zip</value>
               </property>
+              <property>
+                <name>cargo.jboss3x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
 
               <property>
                 <name>cargo.jboss4x.port</name>
@@ -572,6 +579,10 @@
               <property>
                 <name>cargo.jboss4x.url</name>
                 <value>http://downloads.sourceforge.net/jboss/jboss-4.0.5.GA.zip?big_mirror=1</value>
+              </property>
+              <property>
+                <name>cargo.jboss4x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
               </property>
 
               <property>
@@ -582,6 +593,10 @@
                 <name>cargo.jboss42x.url</name>
                 <value>http://downloads.sourceforge.net/jboss/jboss-4.2.2.GA.zip?big_mirror=1</value>
               </property>
+              <property>
+                <name>cargo.jboss42x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
 
               <property>
                 <name>cargo.jboss5x.port</name>
@@ -590,6 +605,10 @@
               <property>
                 <name>cargo.jboss5x.url</name>
                 <value>http://downloads.sourceforge.net/jboss/jboss-5.0.0.GA.zip?big_mirror=1</value>
+              </property>
+              <property>
+                <name>cargo.jboss5x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
               </property>
 
               <property>
@@ -600,7 +619,10 @@
                 <name>cargo.jonas4x.port</name>
                 <value>${cargo.samples.port}</value>
               </property>
-
+              <property>
+                <name>cargo.jonas4x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
               <!-- additional required properties to make the samples work correctly -->
               <property>
                 <name>cargo.jonas4x.configuration.cargo.jonas.realm.name</name>
@@ -627,7 +649,10 @@
                 <name>cargo.jonas5x.port</name>
                 <value>${cargo.samples.port}</value>
               </property>
-
+              <property>
+                <name>cargo.jonas5x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
               <!-- additional required properties to make the samples work correctly -->
               <property>
                 <name>cargo.jonas5x.configuration.cargo.jonas.realm.name</name>
@@ -780,7 +805,7 @@
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
-            <!-- Copy the designated jdbc driver to an area where the containers can reference
+            <!-- Copy the designated jdbc driver to an area where the containers can reference 
                  it -->
             <phase>process-test-resources</phase>
             <configuration>
@@ -815,9 +840,11 @@
       </plugin>
     </plugins>
   </build>
+
   <modules>
     <module>java</module>
   </modules>
+
   <properties>
     <!-- By default, only test on Jetty 6 on port 8285 -->
     <cargo.containers>jetty6x</cargo.containers>
@@ -835,14 +862,13 @@
     <cargo.java.home.1_6>${java.home}</cargo.java.home.1_6>
     <cargo.containers.timeout>120000</cargo.containers.timeout>
     <cargo.derby.version>10.4.2.0</cargo.derby.version>
-  </properties>
+   </properties>
   <profiles>
 
     <profile>
       <!-- Java 4 doesn't have com.sun.org.apache.xerces.internal -->
       <id>java-1.4-setup-xerces</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
         <jdk>1.4</jdk>
       </activation>
       <dependencies>
@@ -877,39 +903,47 @@
       <!-- All containers for the CI -->
       <id>all-ci</id>
       <properties>
-        <cargo.containers>resin3x, orion2x, tomcat5x, tomcat6x, jetty6x, jboss42x, jboss5x, jonas5x</cargo.containers>
+        <cargo.containers>resin3x, tomcat5x, tomcat6x, jetty6x, jboss42x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <!-- All unstable containers -->
+      <id>all-unstable-downloadable</id>
+      <properties>
+        <cargo.containers>geronimo1x, jetty7x,  jboss5x, jonas5x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <!-- All stable containers -->
+      <id>all-stable-downloadable</id>
+      <properties>
+        <cargo.containers>resin2x, resin3x, tomcat4x,tomcat5x, tomcat6x,  jetty4x, jetty5x, jetty6x, jboss3x, jboss4x, jboss42x, jo1x, jonas4x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <!-- All containers for the CI in Java 4 -->
       <id>all-ci-java-1.4</id>
       <properties>
-        <cargo.containers>resin2x, orion1x, tomcat3x, tomcat4x, jetty6x, jboss4x, jonas4x</cargo.containers>
+        <cargo.containers>resin2x, tomcat4x, jetty4x, jetty5x, jboss3x, jboss4x,  jo1x, jonas4x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <!-- All containers that have a distribution which can be downloaded automatically -->
       <id>all-downloadable</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, orion1x, orion2x, tomcat3x, tomcat4x, tomcat5x, tomcat6x, jetty4x, jetty5x, jetty6x, jetty7x, geronimo1x, jboss3x, jboss4x, jboss42x, jboss5x, jo1x, jonas4x, jonas5x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, jetty4x, jetty5x, jetty6x, jetty7x, geronimo1x, jboss3x, jboss4x, jboss42x, jboss5x, jo1x, jonas4x, jonas5x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>all-datasource</id>
+      <properties>
+        <cargo.containers>resin2x, resin3x, oc4j9x, tomcat4x, tomcat5x, tomcat6x, weblogic8x, weblogic9x, weblogic10x, weblogic103x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <id>all-orion</id>
       <properties>
-        <cargo.containers>orion1x, orion2x, oc4j9x, oc4j10x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>orion1x</id>
-      <properties>
-        <cargo.containers>orion1x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>orion2x</id>
-      <properties>
-        <cargo.containers>orion2x</cargo.containers>
+        <cargo.containers>oc4j9x, oc4j10x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -922,6 +956,12 @@
       <id>oc4j10x</id>
       <properties>
         <cargo.containers>oc4j10x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>all-resin</id>
+      <properties>
+        <cargo.containers>resin2x,resin3x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -939,13 +979,7 @@
     <profile>
       <id>all-tomcat</id>
       <properties>
-        <cargo.containers>tomcat3x, tomcat4x, tomcat5x, tomcat6x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>tomcat3x</id>
-      <properties>
-        <cargo.containers>tomcat3x</cargo.containers>
+        <cargo.containers>tomcat4x, tomcat5x, tomcat6x</cargo.containers>
       </properties>
     </profile>
     <profile>
