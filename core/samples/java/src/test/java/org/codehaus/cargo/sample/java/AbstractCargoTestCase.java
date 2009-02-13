@@ -51,7 +51,8 @@ public class AbstractCargoTestCase extends TestCase
 {
     private static final ContainerFactory CONTAINER_FACTORY = new DefaultContainerFactory();
 
-    private static final ConfigurationFactory CONFIGURATION_FACTORY = new DefaultConfigurationFactory();
+    private static final ConfigurationFactory CONFIGURATION_FACTORY =
+        new DefaultConfigurationFactory();
 
     private static final DeployerFactory DEPLOYER_FACTORY = new DefaultDeployerFactory();
 
@@ -66,8 +67,7 @@ public class AbstractCargoTestCase extends TestCase
 
     private ClassLoader classLoader;
 
-    public AbstractCargoTestCase(String testName, EnvironmentTestData testData)
-        throws Exception
+    public AbstractCargoTestCase(String testName, EnvironmentTestData testData) throws Exception
     {
         super(testName);
 
@@ -77,8 +77,9 @@ public class AbstractCargoTestCase extends TestCase
         // Ensure target dir exists so that we can create the log file
         new File(getTestData().targetDir).mkdirs();
 
-        this.logger = new FileLogger(new File(new File(getTestData().targetDir).getParentFile(),
-            "cargo.log"), false);
+        this.logger =
+            new FileLogger(new File(new File(getTestData().targetDir).getParentFile(),
+                "cargo.log"), false);
         this.logger.setLevel(LogLevel.DEBUG);
     }
 
@@ -126,13 +127,15 @@ public class AbstractCargoTestCase extends TestCase
 
         if (type != ConfigurationType.RUNTIME)
         {
-            configuration = CONFIGURATION_FACTORY.createConfiguration(getTestData().containerId,
-                getTestData().containerType, type, targetDir);
+            configuration =
+                CONFIGURATION_FACTORY.createConfiguration(getTestData().containerId,
+                    getTestData().containerType, type, targetDir);
         }
         else
         {
-            configuration = CONFIGURATION_FACTORY.createConfiguration(getTestData().containerId,
-                getTestData().containerType, type);
+            configuration =
+                CONFIGURATION_FACTORY.createConfiguration(getTestData().containerId,
+                    getTestData().containerType, type);
         }
 
         configuration.setProperty(ServletPropertySet.PORT, "" + getTestData().port);
@@ -154,30 +157,32 @@ public class AbstractCargoTestCase extends TestCase
 
     public Container createContainer(ContainerType type, Configuration configuration)
     {
-        Container container = CONTAINER_FACTORY.createContainer(getTestData().containerId,
-            type, configuration);
+        Container container =
+            CONTAINER_FACTORY.createContainer(getTestData().containerId, type, configuration);
 
         container.setLogger(getLogger());
 
         // Set up local container-specific settings
         if (container.getType().isLocal())
         {
-            setUpLocalSettings((LocalContainer) container);
+            setUpLocalSettings(configuration, (LocalContainer) container);
         }
 
         return container;
     }
 
-    private void setUpLocalSettings(LocalContainer container)
+    private void setUpLocalSettings(Configuration configuration, LocalContainer container)
     {
-        if (container.getType() == ContainerType.INSTALLED)
+        if (container.getType() == ContainerType.EMBEDDED)
+        {
+            ((EmbeddedLocalContainer) container).setClassLoader(this.classLoader);
+        }
+        else if (container.getType() == ContainerType.INSTALLED)
         {
             setUpHome((InstalledLocalContainer) container);
             setUpClover((InstalledLocalContainer) container);
-        }
-        else if (container.getType() == ContainerType.EMBEDDED)
-        {
-            ((EmbeddedLocalContainer) container).setClassLoader(this.classLoader);
+            setUpXercesIfJDK14(configuration, (InstalledLocalContainer) container);
+            setUpXercesIfJDK15(configuration, (InstalledLocalContainer) container);
         }
 
         File logFile = new File(new File(getTestData().targetDir).getParentFile(), "output.log");
@@ -204,7 +209,8 @@ public class AbstractCargoTestCase extends TestCase
 
     public String getName()
     {
-        return super.getName() + " (" + getTestData().containerId + "," + getTestData().containerType + ")";
+        return super.getName() + " (" + getTestData().containerId + ","
+            + getTestData().containerType + ")";
     }
 
     protected void setUp() throws Exception
@@ -226,15 +232,16 @@ public class AbstractCargoTestCase extends TestCase
     {
         // Reset context classloader. See the comment in setUp().
         Thread.currentThread().setContextClassLoader(null);
-        
+
         // Stop any local container that is still running
         if ((this.container != null) && this.container.getType().isLocal())
         {
             LocalContainer container = (LocalContainer) this.container;
             if ((container.getState().isStarted()) || (container.getState().isStarting()))
             {
-                getLogger().info("Container is in the [" + container.getState() + "] state"
-                    + ", shutting it down now", this.getClass().getName());
+                getLogger().info(
+                    "Container is in the [" + container.getState() + "] state"
+                        + ", shutting it down now", this.getClass().getName());
                 container.stop();
             }
         }
@@ -242,25 +249,68 @@ public class AbstractCargoTestCase extends TestCase
     }
 
     /**
-     * Add the Clover jar to the container classpath to support Clovering the tests and set up 
-     * the Clover license.
+     * Add the Clover jar to the container classpath to support Clovering the tests and set up the
+     * Clover license.
      */
     private void setUpClover(InstalledLocalContainer container)
     {
         if (System.getProperty("cargo.clover.jar") != null)
         {
-            container.setExtraClasspath(new String[] { System.getProperty("cargo.clover.jar") });
+            container.addExtraClasspath(System.getProperty("cargo.clover.jar"));
             if (System.getProperty("cargo.clover.license") != null)
             {
-                System.setProperty("clover.license.path",
-                    System.getProperty("cargo.clover.license"));
+                System.setProperty("clover.license.path", System
+                    .getProperty("cargo.clover.license"));
             }
         }
     }
 
     /**
-     * Use the home dir if specified by the user or download the container distribution and 
-     * installs it if an install URL has been specified.
+     * need a modern parser that may not be present in JDK 1.4
+     */
+    private void setUpXercesIfJDK14(Configuration configuration, InstalledLocalContainer container)
+    {
+        if (System.getProperty("cargo.java.home.1_4").equals(
+            configuration.getPropertyValue(GeneralPropertySet.JAVA_HOME)))
+        {
+
+            String xerces = System.getProperty("cargo.testdata.xerces-jars");
+            if (xerces != null)
+            {
+                String[] jars = container.getFileHandler().getChildren(xerces);
+                for (int i = 0; i < jars.length; i++)
+                {
+                    container.addExtraClasspath(jars[i]);
+                }
+                container.getSystemProperties().put("javax.xml.parsers.SAXParserFactory",
+                    "org.apache.xerces.jaxp.SAXParserFactoryImpl");
+                container.getSystemProperties().put("javax.xml.parsers.DocumentBuilderFactory",
+                    "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl");
+            }
+
+        }
+
+    }
+
+    /**
+     * some old containers (orion2x) include old versions of crimson that cannot parse schema
+     */
+    private void setUpXercesIfJDK15(Configuration configuration, InstalledLocalContainer container)
+    {
+        if (System.getProperty("cargo.java.home.1_5").equals(
+            configuration.getPropertyValue(GeneralPropertySet.JAVA_HOME)))
+        {
+            container.getSystemProperties().put("javax.xml.parsers.SAXParserFactory",
+                "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
+            container.getSystemProperties().put("javax.xml.parsers.DocumentBuilderFactory",
+                "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl");
+        }
+
+    }
+
+    /**
+     * Use the home dir if specified by the user or download the container distribution and installs
+     * it if an install URL has been specified.
      */
     private void setUpHome(InstalledLocalContainer container)
     {
