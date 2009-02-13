@@ -25,6 +25,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.tools.ant.util.StringUtils;
+
 /**
  * A class to convert properties to strings and back.
  *
@@ -33,10 +35,15 @@ import java.util.Properties;
 public final class PropertyUtils
 {
     /**
-     * The separator to use to separate the properties in a string.
+     * The default delimiter that separates the properties in a string.
      */
-    private static final char SEPARATOR = '|';
+    private static final char PIPE = '|';
 
+    /**
+     * The default delimiter that separates the properties in a string.
+     */
+    private static final char SEMICOLON = ';';
+    
     /**
      *  Private constructor to prevent getting an instance.
      */
@@ -51,18 +58,51 @@ public final class PropertyUtils
      * Example: "abc=def|car=bmw" gets converted to "abc" -> "def", and "car" -> "bmw"
      * </p>
      *
-     * @param datasource The string value to convert to properties, pipe separated
+     * @param toSplit The string value to convert to properties, pipe separated
+     * @return the list of properties
+     * @see getPropertiesFromDelimitedString
+     */
+    public static Properties splitPropertiesOnPipe(String toSplit)
+    {
+        return splitPropertiesOnDelimiter(toSplit, PIPE);
+    }
+    
+    /**
+     * Construct a Properties object from a single string, converting ';' symbols to end of line
+     * characters for parsing.
+     * <p>
+     * Example: "abc=def;car=bmw" gets converted to "abc" -> "def", and "car" -> "bmw"
+     * </p>
+     *
+     * @param toSplit The string value to convert to properties, semicolon separated
+     * @return the list of properties
+     * @see getPropertiesFromDelimitedString
+     */
+    public static Properties splitPropertiesOnSemicolon(String toSplit)
+    {
+        return splitPropertiesOnDelimiter(toSplit, SEMICOLON);
+    }
+    
+    /**
+     * Construct a Properties object from a single string, by splitting it on a specified delimiter.
+     * <p>
+     * Example: "abc=def;car=bmw" gets converted to "abc" -> "def", and "car" -> "bmw"
+     * where: delimiter = ;
+     * </p>
+     * 
+     * @param toSplit The string value to convert to properties
+     * @param delimiter The delimiter of the string
      * @return the list of properties
      */
-    public static Properties getDataSourceProperties(String datasource)
+    public static Properties splitPropertiesOnDelimiter(String toSplit, char delimiter)
     {
         Properties properties = new Properties();
 
-        String datasourceAsProperties = datasource.replace(SEPARATOR, '\n');
+        String newLineSeparated = toSplit.replace(delimiter, '\n');
 
         try
         {
-            properties.load(new ByteArrayInputStream(datasourceAsProperties.getBytes()));
+            properties.load(new ByteArrayInputStream(newLineSeparated.getBytes()));
             return properties;
         }
         catch (IOException e)
@@ -76,14 +116,37 @@ public final class PropertyUtils
     /**
      * Convert properties to a string representation.
      *
-     * @param properties A list of properties to convert
-     * @return the properties as a string, pipe separated
+     * @param toJoin A list of properties to convert
+     * @return the properties as a string, pipe delimited
      */
-    public static String getDataSourceString(Properties properties)
+    public static String joinOnPipe(Map toJoin)
+    {
+        return joinOnDelimiter(toJoin, PIPE);
+    }
+
+    /**
+     * Convert properties to a string representation.
+     *
+     * @param toJoin A list of properties to convert
+     * @return the properties as a string, pipe delimited
+     */
+    public static String joinOnSemicolon(Map toJoin)
+    {
+        return joinOnDelimiter(toJoin, SEMICOLON);
+    }
+    
+    /**
+     * Convert properties to a string representation, based on the specified delimiter.
+     *
+     * @param toJoin object to serialize as a string
+     * @param delimiter how to separate entries from each other
+     * @return the properties as a string, delimited by the above
+     */
+    public static String joinOnDelimiter(Map toJoin, char delimiter)
     {
         StringBuffer buf = new StringBuffer();
 
-        for (Iterator it = properties.entrySet().iterator(); it.hasNext();)
+        for (Iterator it = toJoin.entrySet().iterator(); it.hasNext();)
         {
             Map.Entry e = (Map.Entry) it.next();
             String key = (String) e.getKey();
@@ -93,10 +156,43 @@ public final class PropertyUtils
             buf.append(value);
             if (it.hasNext())
             {
-                buf.append(SEPARATOR);
+                buf.append(delimiter);
             }
         }
 
         return buf.toString();
+    }
+    
+    /**
+     * Sets a property value if the property is not null.
+     *
+     * @param properties the properties object to store the property into
+     * @param property the property to set
+     * @param value the value to set
+     */
+    public static void setPropertyIfNotNull(Properties properties, String property, Object value)
+    {
+        if (value != null)
+        {
+            properties.setProperty(property, value.toString());
+        }
+    }
+    
+    /**
+     * Escapes backslashes so that they can parse properly.
+     * 
+     * @param in - string with backslashes
+     * @return string with backslashes escaped, or null, if passed null
+     */
+    public static String escapeBackSlashesIfNotNull(String in)
+    {
+        if (in != null)
+        {
+            return StringUtils.replace(in, "\\", "\\\\");
+        }
+        else
+        {
+            return null;
+        }
     }
 }
