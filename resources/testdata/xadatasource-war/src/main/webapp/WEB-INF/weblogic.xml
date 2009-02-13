@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE weblogic-web-app
+  PUBLIC "-//BEA Systems, Inc.//DTD Web Application 8.1//EN"
+  "http://www.bea.com/servers/wls810/dtd/weblogic810-web-jar.dtd">
+<weblogic-web-app>
+	<reference-descriptor>
+		<resource-description>
+			<res-ref-name>jdbc/CargoDS</res-ref-name>
+			<jndi-name>jdbc/CargoDS</jndi-name>
+		</resource-description>
+	</reference-descriptor>
+</weblogic-web-app>
