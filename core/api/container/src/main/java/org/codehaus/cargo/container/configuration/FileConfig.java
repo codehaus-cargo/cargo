@@ -163,9 +163,27 @@ public class FileConfig
      * Set if the destination file should be overwritten.
      * @param overwrite Set to true if files should overwrite
      */
+    public void setOverwrite(String overwrite)
+    {
+        this.overwrite = Boolean.parseBoolean(overwrite);
+    }
+    
+    /**
+     * Set if the destination file should be overwritten.
+     * @param overwrite Set to true if files should overwrite
+     */
     public void setOverwrite(boolean overwrite)
     {
         this.overwrite = overwrite;
+    }
+    
+    /**
+     * Set if the destination should be considered a configuration file
+     * @param configfile Set to true if file is a configfile
+     */
+    public void setConfigfile(String configfile)
+    {
+        this.configfile = Boolean.parseBoolean(configfile);
     }
     
     /**

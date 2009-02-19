@@ -252,7 +252,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
                 }
                 else
                 {
-                    getFileHandler().copyFile(fileConfig.getFile(), destFile);
+                    getFileHandler().copyFile(fileConfig.getFile(), destFile,
+                            fileConfig.getOverwrite());
                 }
             } 
         }

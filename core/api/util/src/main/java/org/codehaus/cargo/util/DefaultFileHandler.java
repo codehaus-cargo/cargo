@@ -109,6 +109,24 @@ public class DefaultFileHandler implements FileHandler
                 + target + "]", e);
         }
     }
+    
+    /**
+     * {@inheritDoc}
+     * @see FileHandler#copyFile(String, String)
+     */
+    public void copyFile(String source, String target, boolean overwrite)
+    {
+        try
+        {
+            getFileUtils().copyFile(new File(source).getAbsolutePath(),
+                    new File(target).getAbsolutePath(), null, overwrite);
+        }
+        catch (IOException e)
+        {
+            throw new CargoException("Failed to copy source file [" + source + "] to ["
+                + target + "]", e);
+        }
+    }
 
     /**
      * {@inheritDoc}

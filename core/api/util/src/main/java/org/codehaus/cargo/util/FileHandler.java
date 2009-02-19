@@ -44,6 +44,16 @@ public interface FileHandler
     void copyFile(String source, String target);
     
     /**
+     * Copy a file from a source to a destination specifying if source files may overwrite newer
+     * destination files.
+     *
+     * @param source the file to copy from. Must not be <code>null</code>.
+     * @param target the file to copy to. Must not be <code>null</code>.
+     * @param overwrite to overwrite the file if it already exists.
+     */
+    void copyFile(String source, String target, boolean overwrite);
+    
+    /**
      * Copy a file from a source to a destination using a filterchain to specify token replacement.
      * 
      * @param source the file to copy from. Must not be <code>null</code>
