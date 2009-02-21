@@ -86,7 +86,14 @@ public class Resin3xConfigurationBuilder extends Resin2xConfigurationBuilder
         resourceString.append("<resource>\n" + "      <jndi-name>" + resource.getName()
             + "</jndi-name>\n");
 
-        resourceString.append("      <type>" + resource.getClassName() + "</type>\n");
+        if (resource.getClassName() != null)
+        {
+            resourceString.append("      <type>" + resource.getClassName() + "</type>\n");
+        }
+        else
+        {
+            resourceString.append("      <type>" + resource.getType() + "</type>\n");
+        }
 
         Iterator i = resource.getParameterNames().iterator();
         while (i.hasNext())

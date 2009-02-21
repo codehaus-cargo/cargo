@@ -19,20 +19,24 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.net.MalformedURLException;
+import java.util.Collections;
+
 import junit.framework.Test;
 
+import org.codehaus.cargo.container.Container;
+import org.codehaus.cargo.container.ContainerType;
+import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.sample.java.validator.HasResourceSupportValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import java.net.MalformedURLException;
-import java.util.Collections;
+import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
+import org.codehaus.cargo.sample.java.validator.Validator;
 
 public class ResourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
@@ -47,6 +51,28 @@ public class ResourceOnStandaloneConfigurationTest extends
     {
         super.setUp();
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
+    }
+
+    public Container createContainer(ContainerType type, Configuration configuration)
+    {
+        InstalledLocalContainer container =
+            (InstalledLocalContainer) super.createContainer(type, configuration);
+        addMailJarsToExtraClasspath(container);
+        return container;
+
+    }
+
+    private void addMailJarsToExtraClasspath(InstalledLocalContainer container)
+    {
+        String mail = System.getProperty("cargo.testdata.mail-jars");
+        if (mail != null)
+        {
+            String[] jars = container.getFileHandler().getChildren(mail);
+            for (int i = 0; i < jars.length; i++)
+            {
+                container.addExtraClasspath(jars[i]);
+            }
+        }
     }
 
     public static Test suite() throws Exception
@@ -64,16 +90,27 @@ public class ResourceOnStandaloneConfigurationTest extends
     }
 
     /**
-     * User configures javax.sql.DataSource -> container provides that same javax.sql.DataSource
+     * User configures javax.sql.XADataSource -> container provides that same javax.sql.XADataSource
      */
     public void testUserConfiguresXADataSourceAsResource() throws MalformedURLException
     {
-        ResourceFixture fixture =
-            ConfigurationFixtureFactory.createXADataSourceAsResource();
+        ResourceFixture fixture = ConfigurationFixtureFactory.createXADataSourceAsResource();
 
         addResourceToConfigurationViaProperty(fixture);
 
         testWar("xadatasource");
+    }
+
+    /**
+     * User configures javax.mail.Session -> container provides that same javax.mail.Session
+     */
+    public void testUserConfiguresMailSessionAsResource() throws MalformedURLException
+    {
+        ResourceFixture fixture = ConfigurationFixtureFactory.createMailSessionAsResource();
+
+        addResourceToConfigurationViaProperty(fixture);
+
+        testWar("mailsession");
     }
 
     private void addResourceToConfigurationViaProperty(ResourceFixture fixture)

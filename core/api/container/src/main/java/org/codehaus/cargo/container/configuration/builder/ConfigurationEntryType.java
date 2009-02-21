@@ -27,23 +27,33 @@ package org.codehaus.cargo.container.configuration.builder;
 public interface ConfigurationEntryType
 {
     /**
-     * {@value}
+     * Standard DataSource, most often used by application code directly.
      */
     String DATASOURCE = "javax.sql.DataSource";
 
     /**
-     * {@value}
+     * ConnectionPool DataSource, used by frameworks who manage their own database connections.
      */
     String CONNECTIONPOOL_DATASOURCE = "javax.sql.ConnectionPoolDataSource";
 
     /**
-     * {@value}
+     * XADataSource, typically used to configure DataSource objects.
      */
     String XA_DATASOURCE = "javax.sql.XADataSource";
-   
+
     /**
-     * {@value}
+     * Driver, typically used to configure DataSource objects.
      */
     String JDBC_DRIVER = "java.sql.Driver";
+
+    /**
+     * Used to obtain connections to outgoing and incoming mail resources.
+     */
+    String MAIL_SESSION = "javax.mail.Session";
+
+    /**
+     * object which can be used for sending email using SMTP.
+     */
+    String MIMETYPE_DATASOURCE = "javax.mail.internet.MimePartDataSource";
 
 }

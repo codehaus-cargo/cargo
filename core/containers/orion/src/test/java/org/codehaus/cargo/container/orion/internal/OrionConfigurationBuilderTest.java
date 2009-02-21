@@ -39,11 +39,11 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
         return new OrionConfigurationChecker();
     }
 
-    public void testBuildConfigurationEntryForResource() throws Exception
+    public void testBuildConfigurationEntryForXADataSourceConfiguredResource() throws Exception
     {
         try
         {
-            super.testBuildConfigurationEntryForResource();
+            super.testBuildConfigurationEntryForXADataSourceConfiguredResource();
             fail("should have received an exception");
 
         }
@@ -53,5 +53,19 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
                 .getMessage());
         }
     }
+    
+    public void testBuildConfigurationEntryForMailSessionConfiguredResource() throws Exception
+    {
+        try
+        {
+            super.testBuildConfigurationEntryForMailSessionConfiguredResource();
+            fail("should have received an exception");
 
+        }
+        catch (UnsupportedOperationException e)
+        {
+            assertEquals(OrionConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED, e
+                .getMessage());
+        }
+    }
 }

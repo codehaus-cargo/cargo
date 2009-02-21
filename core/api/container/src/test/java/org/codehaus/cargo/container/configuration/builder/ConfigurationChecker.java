@@ -71,8 +71,11 @@ public interface ConfigurationChecker
     void checkConfigurationForXADataSourceConfiguredDataSourceMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception;
 
-    void checkConfigurationMatchesResourceFixture(String configuration,
+    void checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(String configuration,
         ResourceFixture resourceFixture) throws Exception;
-
+    
+    void checkConfigurationForMailSessionConfiguredResourceMatchesResourceFixture(String configuration,
+        ResourceFixture resourceFixture) throws Exception;
+    
     String insertConfigurationEntryIntoContext(String dataSourceEntry);
 }

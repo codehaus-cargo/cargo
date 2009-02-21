@@ -131,7 +131,6 @@ public class OrionConfigurationChecker implements ConfigurationChecker
 
     }
 
-
     public void checkConfigurationForDriverConfiguredDataSourceWithLocalTransactionSupportMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws XpathException,
         SAXException, IOException
@@ -148,9 +147,8 @@ public class OrionConfigurationChecker implements ConfigurationChecker
         validateDataSource(configuration, dataSourceFixture, id);
     }
 
-    public void checkConfigurationForDataSourceMatchesDataSourceFixture(
-        String configuration, DataSourceFixture dataSourceFixture) throws XpathException,
-        SAXException, IOException
+    public void checkConfigurationForDataSourceMatchesDataSourceFixture(String configuration,
+        DataSourceFixture dataSourceFixture) throws XpathException, SAXException, IOException
     {
         String id = getDataSourceId(dataSourceFixture);
         XMLAssert.assertXpathEvaluatesTo("com.evermind.sql.DriverManagerDataSource",
@@ -196,11 +194,16 @@ public class OrionConfigurationChecker implements ConfigurationChecker
         return correctContext.toString();
     }
 
-
-    public void checkConfigurationMatchesResourceFixture(String configuration,
-        ResourceFixture resourceFixture) throws Exception
+    public void checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
+        String configuration, ResourceFixture resourceFixture) throws Exception
     {
-       throw new RuntimeException("TODO");    
+        throw new RuntimeException("TODO");
+    }
+
+    public void checkConfigurationForMailSessionConfiguredResourceMatchesResourceFixture(
+        String configuration, ResourceFixture resourceFixture) throws Exception
+    {
+        throw new RuntimeException("TODO");
     }
 
 }

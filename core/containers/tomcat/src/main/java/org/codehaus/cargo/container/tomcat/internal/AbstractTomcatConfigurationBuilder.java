@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
@@ -36,6 +38,24 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurat
  */
 public abstract class AbstractTomcatConfigurationBuilder extends AbstractConfigurationBuilder
 {
+    /**
+     * contains a mapping of resource types to the factory they use. There should always be a key
+     * "default" which can be used for unknown objects.
+     */
+    protected Map typeToFactory;
+
+    /**
+     * generates {@link #typeToFactory}
+     */
+    public AbstractTomcatConfigurationBuilder()
+    {
+        typeToFactory = new HashMap();
+        typeToFactory.put("default", "org.apache.naming.factory.BeanFactory");
+        typeToFactory.put(ConfigurationEntryType.MIMETYPE_DATASOURCE,
+            "org.apache.naming.factory.SendMailFactory");
+        typeToFactory.put(ConfigurationEntryType.MAIL_SESSION,
+            "org.apache.naming.factory.MailSessionFactory");
+    }
 
     /**
      * {@inheritDoc} this implementation first converts the DataSource to a Resource before
@@ -80,16 +100,23 @@ public abstract class AbstractTomcatConfigurationBuilder extends AbstractConfigu
 
         Resource resource = new Resource(ds.getJndiLocation(), ConfigurationEntryType.DATASOURCE);
         resource.setParameters(parameters);
-
-        PropertyUtils.setPropertyIfNotNull(parameters, "factory", getDataSourceFactoryClass());
         PropertyUtils.setPropertyIfNotNull(parameters, "driverClassName", ds.getDriverClass());
         return resource;
     }
 
     /**
-     * @return the <code>factory</code> responsible for looking creating the connection pool.
+     * @return the <code>factory</code> responsible for creating the objects.
+     * @param type the type of object we are creating
      */
-    protected abstract String getDataSourceFactoryClass();
+    protected String getFactoryClassFor(String type)
+    {
+        String returnVal = (String) typeToFactory.get(type);
+        if (returnVal == null)
+        {
+            returnVal = (String) typeToFactory.get("default");
+        }
+        return returnVal;
+    }
 
     /**
      * {@inheritDoc} This throws an UnsupportedOperationException as Tomcat is not transactional.

@@ -120,8 +120,15 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
             ConfigurationEntryType.XA_DATASOURCE);
     }
 
-    public void checkConfigurationMatchesResourceFixture(String configuration,
-        ResourceFixture resourceFixture) throws Exception
+    public void checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
+        String configuration, ResourceFixture resourceFixture) throws Exception
+    {
+        Resource resource = resourceFixture.buildResource();
+        checkConfigurationMatchesResource(configuration, resource);
+    }
+
+    public void checkConfigurationForMailSessionConfiguredResourceMatchesResourceFixture(
+        String configuration, ResourceFixture resourceFixture) throws Exception
     {
         Resource resource = resourceFixture.buildResource();
         checkConfigurationMatchesResource(configuration, resource);

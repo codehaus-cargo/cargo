@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.tomcat.internal;
 
 import java.util.Iterator;
 
+import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 
 /**
@@ -32,6 +33,16 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
  */
 public class Tomcat5And6xConfigurationBuilder extends AbstractTomcatConfigurationBuilder
 {
+
+    /**
+     * generates {@link #typeToFactory}
+     */
+    public Tomcat5And6xConfigurationBuilder()
+    {
+        super();
+        typeToFactory.put(ConfigurationEntryType.DATASOURCE,
+            "org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory");
+    }
 
     /**
      * {@inheritDoc} in Tomcat 5-6.x, Resources are elements where all configuration are attributes.
@@ -56,7 +67,7 @@ public class Tomcat5And6xConfigurationBuilder extends AbstractTomcatConfiguratio
         buff.append("          auth='").append("Container").append("'\n");
         if (resource.getParameter("factory") == null)
         {
-            resource.setParameter("factory", "org.apache.naming.factory.BeanFactory");
+            resource.setParameter("factory", getFactoryClassFor(resource.getType()));
         }
         Iterator parameterNames = resource.getParameterNames().iterator();
         while (parameterNames.hasNext())
@@ -67,14 +78,6 @@ public class Tomcat5And6xConfigurationBuilder extends AbstractTomcatConfiguratio
         }
         buff.append("/>\n");
         return buff.toString();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected String getDataSourceFactoryClass()
-    {
-        return "org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory";
     }
 
 }

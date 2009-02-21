@@ -58,10 +58,13 @@ public class ResourceConverter
     {
         String name = properties.getProperty(ResourcePropertySet.RESOURCE_NAME);
         String type = properties.getProperty(ResourcePropertySet.RESOURCE_TYPE);
-        String className = properties.getProperty(ResourcePropertySet.RESOURCE_CLASS);
-
         Resource data = new Resource(name, type);
-        data.setClassName(className);
+
+        if (properties.containsKey(ResourcePropertySet.RESOURCE_CLASS))
+        {
+            String className = properties.getProperty(ResourcePropertySet.RESOURCE_CLASS);
+            data.setClassName(className);
+        }
 
         String parametersAsASemicolonDelimitedString =
             properties.getProperty(ResourcePropertySet.PARAMETERS);

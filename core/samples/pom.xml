@@ -101,6 +101,12 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
+      <artifactId>mailsession-war</artifactId>
+      <version>${cargo.resources.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
       <artifactId>datasource-cmt-local-war</artifactId>
       <version>${cargo.resources.version}</version>
       <type>war</type>
@@ -744,6 +750,10 @@
                 <value>org/codehaus/cargo/xadatasource-war/${cargo.resources.version}/xadatasource-war-${cargo.resources.version}.war</value>
               </property>
               <property>
+                <name>cargo.testdata.mailsession-war</name>
+                <value>org/codehaus/cargo/mailsession-war/${cargo.resources.version}/mailsession-war-${cargo.resources.version}.war</value>
+              </property>
+              <property>
                 <name>cargo.testdata.datasource-cmt-local-war</name>
                 <value>org/codehaus/cargo/datasource-cmt-local-war/${cargo.resources.version}/datasource-cmt-local-war-${cargo.resources.version}.war</value>
               </property>
@@ -766,6 +776,10 @@
               <property>
                 <name>cargo.testdata.xerces-jars</name>
                 <value>${basedir}/target/xerces-jars</value>
+              </property>
+              <property>
+                <name>cargo.testdata.mail-jars</name>
+                <value>${basedir}/target/mail-jars</value>
               </property>
 
               <!-- Version used to compute the location of the test data files in the local Maven
@@ -829,6 +843,19 @@
                   <artifactId>xml-apis</artifactId>
                   <version>1.3.04</version>
                   <outputDirectory>${basedir}/target/xerces-jars</outputDirectory>
+                </artifactItem>
+                <!-- to get sun licensed jars needed for tomcat to work with mail sessions -->
+                <artifactItem>
+                  <groupId>javax.activation</groupId>
+                  <artifactId>activation</artifactId>
+                  <version>1.1</version>
+                  <outputDirectory>${basedir}/target/mail-jars</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>javax.mail</groupId>
+                  <artifactId>mail</artifactId>
+                  <version>1.4</version>
+                  <outputDirectory>${basedir}/target/mail-jars</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>
@@ -974,6 +1001,12 @@
       <id>resin3x</id>
       <properties>
         <cargo.containers>resin3x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>all-resource</id>
+      <properties>
+        <cargo.containers>resin2x,resin3x, tomcat4x, tomcat5x, tomcat6x</cargo.containers>
       </properties>
     </profile>
     <profile>

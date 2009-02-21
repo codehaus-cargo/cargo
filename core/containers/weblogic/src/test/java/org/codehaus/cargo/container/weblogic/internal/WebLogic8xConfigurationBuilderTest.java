@@ -39,11 +39,11 @@ public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBui
         return new WebLogic8xConfigurationChecker("server");
     }
 
-    public void testBuildConfigurationEntryForResource() throws Exception
+    public void testBuildConfigurationEntryForXADataSourceConfiguredResource() throws Exception
     {
         try
         {
-            super.testBuildConfigurationEntryForResource();
+            super.testBuildConfigurationEntryForXADataSourceConfiguredResource();
             fail("should have received an exception");
 
         }
@@ -53,5 +53,19 @@ public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBui
                 .getMessage());
         }
     }
+    
+    public void testBuildConfigurationEntryForMailSessionConfiguredResource() throws Exception
+    {
+        try
+        {
+            super.testBuildConfigurationEntryForMailSessionConfiguredResource();
+            fail("should have received an exception");
 
+        }
+        catch (UnsupportedOperationException e)
+        {
+            assertEquals(WebLogic8xConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED, e
+                .getMessage());
+        }
+    }
 }

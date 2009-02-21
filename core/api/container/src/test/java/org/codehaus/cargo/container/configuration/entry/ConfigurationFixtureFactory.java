@@ -111,7 +111,15 @@ public class ConfigurationFixtureFactory
             "org.apache.derby.jdbc.EmbeddedXADataSource",
             "createDatabase=create;databaseName=derbyDB");
     }
-
+    
+    public static ResourceFixture createMailSessionAsResource()
+    {
+        return new ResourceFixture("mail/Session",
+            ConfigurationEntryType.MAIL_SESSION,
+            null,
+            "mail.smtp.host=localhost");
+    }
+    
     public static DataSourceFixture createDataSourceWithWindowsPath()
     {
         return new DataSourceFixture(null,

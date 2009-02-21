@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.tomcat.internal;
 
 import java.util.Iterator;
 
+import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 
 /**
@@ -32,6 +33,16 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
  */
 public class Tomcat4xConfigurationBuilder extends AbstractTomcatConfigurationBuilder
 {
+
+    /**
+     * generates {@link #typeToFactory}
+     */
+    public Tomcat4xConfigurationBuilder()
+    {
+        super();
+        typeToFactory.put(ConfigurationEntryType.DATASOURCE,
+            "org.apache.commons.dbcp.BasicDataSourceFactory");
+    }
 
     /**
      * @param resource what do generate XML based upon
@@ -56,7 +67,7 @@ public class Tomcat4xConfigurationBuilder extends AbstractTomcatConfigurationBui
         buff.append("          ").append("/>\n");
         if (resource.getParameter("factory") == null)
         {
-            resource.setParameter("factory", "org.apache.naming.factory.BeanFactory");
+            resource.setParameter("factory", getFactoryClassFor(resource.getType()));
         }
         Iterator parameterNames = resource.getParameterNames().iterator();
         if (parameterNames.hasNext())

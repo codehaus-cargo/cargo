@@ -20,7 +20,6 @@
 package org.codehaus.cargo.container.tomcat.internal;
 
 import java.util.Iterator;
-
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
@@ -127,11 +126,19 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
         notExists(configuration, dataSourceFixture);
     }
 
-    public void checkConfigurationMatchesResourceFixture(String configuration,
-        ResourceFixture resourceFixture) throws Exception
+    public void checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
+        String configuration, ResourceFixture resourceFixture) throws Exception
     {
         Resource resource = resourceFixture.buildResource();
         resource.setParameter("factory", "org.apache.naming.factory.BeanFactory");
+        checkConfigurationMatchesResource(configuration, resource);
+    }
+
+    public void checkConfigurationForMailSessionConfiguredResourceMatchesResourceFixture(
+        String configuration, ResourceFixture resourceFixture) throws Exception
+    {
+        Resource resource = resourceFixture.buildResource();
+        resource.setParameter("factory", "org.apache.naming.factory.MailSessionFactory");
         checkConfigurationMatchesResource(configuration, resource);
     }
 

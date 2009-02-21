@@ -176,7 +176,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
         ResourceFixture resourceFixture =
             ConfigurationFixtureFactory.createXADataSourceAsResource();
         String configuration = configureResourceAndRetrieveConfigurationFile(resourceFixture);
-        configurationChecker.checkConfigurationMatchesResourceFixture(configuration,
+        configurationChecker.checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(configuration,
             resourceFixture);
     }
 
@@ -190,9 +190,9 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
             ConfigurationFixtureFactory.createConnectionPoolDataSourceAsResource();
         String configuration =
             configureResourceViaPropertyAndRetrieveConfigurationFile(resourceFixture2);
-        configurationChecker.checkConfigurationMatchesResourceFixture(configuration,
+        configurationChecker.checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(configuration,
             resourceFixture1);
-        configurationChecker.checkConfigurationMatchesResourceFixture(configuration,
+        configurationChecker.checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(configuration,
             resourceFixture2);
     }
 }

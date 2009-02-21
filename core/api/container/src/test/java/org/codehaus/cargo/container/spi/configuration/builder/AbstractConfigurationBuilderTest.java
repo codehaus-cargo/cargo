@@ -99,14 +99,24 @@ public abstract class AbstractConfigurationBuilderTest extends TestCase implemen
 
     }
 
-    public void testBuildConfigurationEntryForResource() throws Exception
+    public void testBuildConfigurationEntryForXADataSourceConfiguredResource() throws Exception
     {
         ResourceFixture ResourceFixture =
             ConfigurationFixtureFactory.createXADataSourceAsResource();
         String ResourceEntry = builder.toConfigurationEntry(ResourceFixture.buildResource());
         String configuration = checker.insertConfigurationEntryIntoContext(ResourceEntry);
-        checker.checkConfigurationMatchesResourceFixture(configuration, ResourceFixture);
+        checker.checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
+            configuration, ResourceFixture);
+    }
 
+    public void testBuildConfigurationEntryForMailSessionConfiguredResource() throws Exception
+    {
+        ResourceFixture ResourceFixture =
+            ConfigurationFixtureFactory.createMailSessionAsResource();
+        String ResourceEntry = builder.toConfigurationEntry(ResourceFixture.buildResource());
+        String configuration = checker.insertConfigurationEntryIntoContext(ResourceEntry);
+        checker.checkConfigurationForMailSessionConfiguredResourceMatchesResourceFixture(
+            configuration, ResourceFixture);
     }
 
 }

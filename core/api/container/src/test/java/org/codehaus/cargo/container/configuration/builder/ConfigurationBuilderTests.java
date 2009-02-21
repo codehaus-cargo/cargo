@@ -38,6 +38,6 @@ public interface ConfigurationBuilderTests
 
     void testBuildConfigurationEntryForXADataSourceConfiguredDataSource() throws Exception;
 
-    void testBuildConfigurationEntryForResource() throws Exception;
+    void testBuildConfigurationEntryForXADataSourceConfiguredResource() throws Exception;
 
 }

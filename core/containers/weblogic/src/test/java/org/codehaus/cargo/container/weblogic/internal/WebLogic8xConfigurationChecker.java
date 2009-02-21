@@ -180,9 +180,15 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
         return "<Domain>" + dataSourceEntry + "</Domain>";
     }
 
-    public void checkConfigurationMatchesResourceFixture(String configuration,
+    public void checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(String configuration,
         ResourceFixture resourceFixture) throws Exception
     {
         notConfigured(configuration, resourceFixture);
+    }
+
+    public void checkConfigurationForMailSessionConfiguredResourceMatchesResourceFixture(
+        String configuration, ResourceFixture resourceFixture) throws Exception
+    {
+        notConfigured(configuration, resourceFixture);       
     }
 }

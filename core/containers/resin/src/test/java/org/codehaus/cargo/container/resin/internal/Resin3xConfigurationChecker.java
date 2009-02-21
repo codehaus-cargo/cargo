@@ -109,8 +109,8 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
     public void checkConfigurationMatchesResource(String configuration, Resource resource)
     {
         String pathToResource =
-            "//" + NS_PREFIX + "resource[" + NS_PREFIX + "jndi-name='"
-                + resource.getName() + "']";
+            "//" + NS_PREFIX + "resource[" + NS_PREFIX + "jndi-name='" + resource.getName()
+                + "']";
         try
         {
             if (resource.getClassName() != null)
@@ -171,8 +171,15 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
         checkConfigurationMatchesDataSourceFixture(configuration, dataSourceFixture);
     }
 
-    public void checkConfigurationMatchesResourceFixture(String configuration,
-        ResourceFixture resourceFixture) throws Exception
+    public void checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
+        String configuration, ResourceFixture resourceFixture) throws Exception
+    {
+        Resource resource = resourceFixture.buildResource();
+        checkConfigurationMatchesResource(configuration, resource);
+    }
+
+    public void checkConfigurationForMailSessionConfiguredResourceMatchesResourceFixture(
+        String configuration, ResourceFixture resourceFixture) throws Exception
     {
         Resource resource = resourceFixture.buildResource();
         checkConfigurationMatchesResource(configuration, resource);
@@ -187,4 +194,5 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
         configurationContext.append("</resin>");
         return configurationContext.toString();
     }
+
 }
