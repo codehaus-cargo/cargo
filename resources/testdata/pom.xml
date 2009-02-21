@@ -17,6 +17,7 @@
     <module>datasource-war</module>
     <module>two-datasources-war</module>
     <module>xadatasource-war</module>
+    <module>mailsession-war</module>
     <module>datasource-cmt-local-war</module>
     <module>classpath-war</module>
     <module>simple-ejb</module>
