@@ -165,7 +165,7 @@ public class FileConfig
      */
     public void setOverwrite(String overwrite)
     {
-        this.overwrite = Boolean.parseBoolean(overwrite);
+        this.overwrite = Boolean.getBoolean(overwrite);
     }
     
     /**
@@ -183,7 +183,7 @@ public class FileConfig
      */
     public void setConfigfile(String configfile)
     {
-        this.configfile = Boolean.parseBoolean(configfile);
+        this.configfile = Boolean.getBoolean(configfile);
     }
     
     /**
