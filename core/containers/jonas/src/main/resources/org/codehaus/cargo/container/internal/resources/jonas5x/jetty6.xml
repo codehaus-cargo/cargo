@@ -124,6 +124,11 @@
             <Arg>@cargo.jonas.realm.name@</Arg>
           </New>
         </Item>
+        <Item>
+          <New class="org.ow2.jonas.web.jetty6.security.Realm">
+            <Arg>MEJB Authentication Area</Arg>
+          </New>
+        </Item>
       </Array>
     </Set>
 
