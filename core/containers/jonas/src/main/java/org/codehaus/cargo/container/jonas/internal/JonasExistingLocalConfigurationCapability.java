@@ -42,6 +42,7 @@ public class JonasExistingLocalConfigurationCapability extends
         super();
         this.defaultSupportsMap.put(GeneralPropertySet.JVMARGS, Boolean.TRUE);
         this.defaultSupportsMap.put(JonasPropertySet.JONAS_SERVER_NAME, Boolean.TRUE);
+        this.defaultSupportsMap.put(JonasPropertySet.JONAS_DOMAIN_NAME, Boolean.TRUE);
     }
 
     /**

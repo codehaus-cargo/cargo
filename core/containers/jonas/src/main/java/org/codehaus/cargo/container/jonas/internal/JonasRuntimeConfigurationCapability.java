@@ -41,9 +41,20 @@ public class JonasRuntimeConfigurationCapability extends AbstractRuntimeConfigur
     {
         super();
         this.defaultSupportsMap.put(RemotePropertySet.URI, Boolean.TRUE);
-        this.defaultSupportsMap.put(JonasPropertySet.JONAS_DEPLOYABLE_IDENTIFIER, Boolean.TRUE);
+        this.defaultSupportsMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
+        this.defaultSupportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
+
         this.defaultSupportsMap.put(JonasPropertySet.JONAS_SERVER_NAME, Boolean.TRUE);
         this.defaultSupportsMap.put(JonasPropertySet.JONAS_DOMAIN_NAME, Boolean.TRUE);
+        this.defaultSupportsMap.put(JonasPropertySet.JONAS_CLUSTER_NAME, Boolean.TRUE);
+
+        this.defaultSupportsMap.put(JonasPropertySet.JONAS_DEPLOYABLE_IDENTIFIER, Boolean.TRUE);
+
+        this.defaultSupportsMap.put(JonasPropertySet.JONAS_MEJB_JNDI_PATH, Boolean.TRUE);
+        this.defaultSupportsMap.put(JonasPropertySet.JONAS_MEJB_JAAS_FILE, Boolean.TRUE);
+        this.defaultSupportsMap.put(JonasPropertySet.JONAS_MEJB_JAAS_ENTRY, Boolean.TRUE);
+        this.defaultSupportsMap.put(JonasPropertySet.JONAS_MEJB_JNDI_INIT_CTX_FACT, Boolean.TRUE);
+        this.defaultSupportsMap.put(JonasPropertySet.JONAS_DEPLOYABLE_IDENTIFIER, Boolean.TRUE);
     }
 
     /**
