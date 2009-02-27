@@ -25,6 +25,7 @@ import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
+import org.ow2.jonas.tools.configurator.api.JonasConfigurator;
 
 /**
  * JOnAS existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
@@ -41,6 +42,11 @@ public abstract class AbstractJonasExistingLocalConfiguration extends
         new JonasExistingLocalConfigurationCapability();
 
     /**
+     * JOnAS configurator.
+     */
+    private JonasConfigurator configurator;
+
+    /**
      * Version information.
      */
     private String toString;
@@ -48,7 +54,7 @@ public abstract class AbstractJonasExistingLocalConfiguration extends
     /**
      * Creates the configuration.
      * 
-     * @param dir Configuration directory.
+     * @param dir JONAS_ROOT directory.
      * @param version JOnAS container version.
      * 
      * @see AbstractExistingLocalConfiguration#AbstractExistingLocalConfiguration(String)
@@ -61,6 +67,7 @@ public abstract class AbstractJonasExistingLocalConfiguration extends
         setProperty(ServletPropertySet.PORT, "9000");
         setProperty(GeneralPropertySet.JVMARGS, "-Xms128m -Xmx512m");
         setProperty(JonasPropertySet.JONAS_SERVER_NAME, "jonas");
+        setProperty(JonasPropertySet.JONAS_DOMAIN_NAME, "jonas");
         this.toString = "JOnAS " + version + " Existing Local Configuration";
     }
 
@@ -86,8 +93,8 @@ public abstract class AbstractJonasExistingLocalConfiguration extends
 
         if (!exists)
         {
-            throw new ContainerException("Invalid existing configuration: The [" + path
-                + "] directory does not exist");
+            throw new ContainerException("Invalid existing configuration: directory [" + path
+                + "] does not exist in JONAS_BASE");
         }
     }
 

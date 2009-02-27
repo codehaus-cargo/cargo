@@ -27,19 +27,12 @@ package org.codehaus.cargo.container.jonas;
 public class JonasPropertySet
 {
     /**
-     * Defines a deployable identifier for remote deployment, this identifier will be used within
-     * JOnAS to identify a deployed application When not specified, the file name of the deployable
-     * is used as the identifier.
-     */
-    public static final String JONAS_DEPLOYABLE_IDENTIFIER = "cargo.jonas.deployable.identifier";
-
-    /**
-     * The JOnAS target server name to be used for remote deployment, defaults to "jonas".
+     * The JOnAS target server name, defaults to "jonas".
      */
     public static final String JONAS_SERVER_NAME = "cargo.jonas.server.name";
 
     /**
-     * The JOnAS target domain name to be used for remote deployment, defaults to "jonas".
+     * The JOnAS target domain name, defaults to "jonas".
      */
     public static final String JONAS_DOMAIN_NAME = "cargo.jonas.domain.name";
 
@@ -49,32 +42,6 @@ public class JonasPropertySet
      * If not null, the target server must be set to the Domain Master's.
      */
     public static final String JONAS_CLUSTER_NAME = "cargo.jonas.cluster.name";
-
-    /**
-     * The JOnAS realm name for a standalone configuration, defaults to "memrlm_1", useful setting
-     * for webapps using a custom authentication realm name.
-     */
-    public static final String JONAS_REALM_NAME = "cargo.jonas.realm.name";
-
-    /**
-     * The JOnAS realm name for a standalone configuration, defaults to "memrlm_1", useful setting
-     * for webapps using a custom authentication realm name.
-     */
-    public static final String JONAS_LOGGING_LEVEL = "cargo.jonas.logging";
-
-    /**
-     * The JOnAS web container class name implementation to be used for standalone configuration,
-     * will be autodetected when no setting provided.
-     */
-    public static final String JONAS_WEBCONTAINER_CLASS_NAME =
-        "cargo.jonas.webcontainer.class.name";
-
-    /**
-     * The JOnAS available datasources configs names(comma delimited) for standalone configuration,
-     * defaults to "HSQL1". You will still have to configure manually in your JOnAS install home the
-     * datasource.properties files. HSLQ1 should always be provided.
-     */
-    public static final String JONAS_AVAILABLES_DATASOURCES = "cargo.jonas.datasources.name";
 
     /**
      * For MEJB remote deployment only, defines the path in the JNDI tree of the MEJB remote object,
@@ -101,6 +68,20 @@ public class JonasPropertySet
      */
     public static final String JONAS_MEJB_JNDI_INIT_CTX_FACT =
         "cargo.jonas.jndi.initial.context.factory";
+
+    /**
+     * Defines a deployable identifier for remote deployment, this identifier will be used within
+     * JOnAS to identify a deployed application. When not specified, the file name of the deployable
+     * is used as the identifier.
+     */
+    public static final String JONAS_DEPLOYABLE_IDENTIFIER = "cargo.jonas.deployable.identifier";
+
+    /**
+     * The list of JOnAS services to launch. Used in a standalone local configuration.
+     * Note that this list is highly dependent on JOnAS versions. Check out your JOnAS
+     * documentation for details.
+     */
+    public static final String JONAS_SERVICES_LIST = "cargo.jonas.services.list";
 
     /**
      * Utility classes don't have a public constructor.

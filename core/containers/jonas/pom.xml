@@ -53,6 +53,12 @@
 	  <artifactId>geronimo-ejb_2.1_spec</artifactId>
 	  <version>1.1</version>
 	</dependency>
+  	
+  	<dependency>
+	  <groupId>org.ow2.jonas.tools.configurator</groupId>
+	  <artifactId>configurator</artifactId>
+	  <version>1.0.2</version>
+	</dependency>
   </dependencies>
   
   <profiles>
