@@ -70,6 +70,8 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
         registerJO();
 
         registerJOnAS();
+        
+        registerJRun();
 
         registerOrion();
 
@@ -136,7 +138,7 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
         registerContainerCapability("jo1x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
     }
-
+    
     /**
      * Register OW2 JOnAS
      */
@@ -148,6 +150,16 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
         registerContainerCapability("jonas5x",
             "org.codehaus.cargo.container.jonas.internal.JonasContainerCapability");
     }
+    
+    /**
+     * Register JRun
+     */
+    public void registerJRun()
+    {
+        // TODO: add JRunContainerCapability
+        registerContainerCapability("jrun4x",
+            "org.codehaus.cargo.container.internal.J2EEContainerCapability");        
+    }    
 
     /**
      * Register Orion

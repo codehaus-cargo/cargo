@@ -16,6 +16,7 @@
         <include>org.codehaus.cargo:cargo-core-container-jboss</include>
         <include>org.codehaus.cargo:cargo-core-container-jetty</include>
         <include>org.codehaus.cargo:cargo-core-container-jo</include>
+        <include>org.codehaus.cargo:cargo-core-container-jrun</include>
         <include>org.codehaus.cargo:cargo-core-container-resin</include>
         <include>org.codehaus.cargo:cargo-core-container-tomcat</include>
         <include>org.codehaus.cargo:cargo-core-container-orion</include>

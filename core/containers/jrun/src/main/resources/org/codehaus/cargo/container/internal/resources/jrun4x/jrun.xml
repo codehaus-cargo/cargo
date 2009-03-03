@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jrun-server PUBLIC "-//Macromedia, Inc.//DTD jrun-server 4.0//EN" "http://jrun.macromedia.com/dtds/jrun-server.dtd">
+<jrun-server>
+  <!-- ============================================================= -->
+  <!--                     JRun Core Services                        -->
+  <!-- ============================================================= -->
+  <!-- ============================================================= -->
+  <!-- ================================================================== -->
+  <!-- This Service handles server identity attributes                    -->
+  <!-- ================================================================== -->
+  <service class="jrunx.kernel.JRunServer" name="JRunServer">
+    <attribute name="bindToJNDI">true</attribute>
+    <!-- ================================================================== -->
+    <!-- This Service facilitates service clustering, and encapsulates      -->
+    <!-- the JINI lookup service. If enabled, this server's host MUST       -->
+    <!-- HAVE ACCESS TO THE NETWORK. For local usage, disable this service. -->
+    <!-- ================================================================== -->
+    <service class="jrunx.cluster.ClusterManager" name="ClusterManager">
+      <attribute name="bindToJNDI">true</attribute>
+      <attribute name="enabled">false</attribute>
+      <attribute name="clusterDomain">default</attribute>
+      <!-- While we will discover nearby peers automatically without prior knowledge   -->
+      <!-- of them, you can also add as many specific hosts as you wish; these unicast -->
+      <!-- peers do not need to be nearby or reachable via multicast.                  -->
+      <!--EXAMPLE: <attribute name="unicastPeer">sneville</attribute>                  -->
+      <service class="jrunx.cluster.ClusterDeployerService" name="ClusterDeployerService">
+        <attribute name="deployDirectory">{jrun.server.rootdir}/SERVER-INF/cluster</attribute>
+        <attribute name="deactivated">true</attribute>
+      </service>
+    </service>
+  </service>
+  <!-- ================================================================ -->
+  <!-- This Service creats a common RMI Broker for use by all JRun RMI. -->
+  <!-- It is a Clusterable Service.                                     -->
+  <!-- ================================================================ -->
+  <service class="jrunx.rmi.RMIBroker" name="JRunRMIBroker">
+    <attribute name="bindToJNDI">true</attribute>
+    <attribute name="clusterAlgorithm" type="jrunx.cluster.RoundRobinAlgorithm"/>
+    <!--
+      <attribute name="port">0</attribute>
+      <attribute name="serverSocketFactoryClass"></attribute>
+      <attribute name="clientSocketFactoryClass"></attribute>
+    -->
+  </service>
+  <!-- ================================================================== -->
+  <!-- This Service represents JRun's Runtime SecurityManager             -->
+  <!-- ================================================================== -->
+  <service class="jrun.security.JRunSecurityManagerService" name="JRunSecurityManager">
+    <attribute name="bindToJNDI">true</attribute>
+    <attribute name="authConfig">{jrun.server.rootdir}/SERVER-INF/auth.config</attribute>
+    <attribute name="securityDomain">defaultUser</attribute>
+    <attribute name="roleMappingDomain">defaultRole</attribute>
+    <attribute name="userTimeout">7200</attribute>
+  </service>
+  <!-- ================================================================== -->
+  <!-- This Service handles the default XML user management facility      -->
+  <!-- ================================================================== -->
+  <service class="jrun.security.JRunUserManagerService" name="JRunUserManager">
+    <attribute name="bindToJNDI">true</attribute>
+    <attribute name="securityStore">{jrun.server.rootdir}/SERVER-INF/jrun-users.xml</attribute>
+  </service>
+  <!-- comment out the above service and uncomment the service below to use the
+       3.x security adapter
+  <service class="jrun.security.JRun31UserManagerService" name="JRunUserManager">
+    <attribute name="bindToJNDI">true</attribute>
+    <attribute name="authenticationManager">your.authentication.ClassName</attribute>
+    <attribute name="authenticationInterface">your.authentication.ClassName</attribute>
+  </service>       
+  -->
+  <!-- ===========================================================================  -->
+  <!-- This service handle JRUN Authorization                                       -->
+  <!-- ============================================================================ -->
+  <!-- <service class="jrun.security.authorization.JRunAuthorizationManager" name="JRunAuthorizationManager">
+     <service class="jrun.security.authorization.JRunAuthorizationProvider" name="JRunAuthorizationProvider">
+      <attribute name="AuthorizationPolicyStore">{jrun.server.rootdir}/SERVER-INF/jrun-security-policy.xml</attribute>
+      <attribute name="PolicyConfigurationFactoryName">jrun.security.authorization.JRunPolicyConfigurationFactory</attribute>
+    </service>
+  </service> -->
+  <!-- ======================================================================== -->
+  <!--  This is JRun server identity service                                   -->
+  <!-- ======================================================================== -->
+  <!--<service class="jrunx.kernel.security.JRunIdentityService" name="JRunIdentityService">
+    <attribute name="identityScheme">simple</attribute>
+    <attribute name="identityAttributes" type="jrunx.kernel.security.ServerIdentityPropertiesInfo">
+      <attribute name="identity-name">admin</attribute>
+      <attribute name="identity-password">admin</attribute>
+    </attribute>
+  </service> -->
+
+  <!-- ======================================================================= -->
+  <!-- This Service starts the Distributed Transaction Managers                -->
+  <!-- ======================================================================= -->
+  <!-- You may look up the default TM under java:/TransactionManager           -->
+  <!-- You may look up the default UserTransaction under java:/UserTransaction -->
+  <!-- Any domain-specific TM and UserTransaction can be found under:          -->
+  <!--   java:[txDomainName]/TransactionManager                                -->
+  <!--   java:[txDomainName]/UserTransaction                                   -->
+  <!-- Resources are assigned a domain via the <transactionDomain> tag in      -->
+  <!-- jrun-resources.xml, and EJB's are assigned a domain via the same tag    -->
+  <!-- in jrun-ejb-jar.xml. If the tag doesn't exist, then the default domain  -->
+  <!-- is assumed.                                                             -->
+  <!-- ======================================================================= -->
+  <service class="jrun.transaction.JRunTransactionService" name="JRunTransactionService">
+    <attribute name="bindToJNDI">true</attribute>
+    <!-- The first domain, regardless of its name, is treated internally as the default -->
+    <service class="jrun.transaction.TXDomainService" name="DefaultDomain">
+      <attribute name="bindToJNDI">true</attribute>
+      <attribute name="maximumTimeout">600</attribute>
+      <attribute name="timeout">30</attribute>
+      <attribute name="maximum">0</attribute>
+      <attribute name="waitTime">0</attribute>
+      <attribute name="clusterEnabled">false</attribute>
+    </service>
+    <!-- Private Tx domain for use by JMS persistent manager. Do Not Use for anything else! -->
+    <service class="jrun.transaction.TXDomainService" name="PrivateJmsDomain">
+      <attribute name="bindToJNDI">true</attribute>
+      <attribute name="timeout">120</attribute>
+      <attribute name="maximum">0</attribute>
+      <attribute name="waitTime">0</attribute>
+      <attribute name="clusterEnabled">false</attribute>
+    </service>
+  </service>
+  <!-- ================================================================== -->
+  <!-- This Service manages the licensing of the product                  -->
+  <!-- ================================================================== -->
+  <service class="jrunx.license.LicenseService" name="LicenseService"/>
+  <!-- ================================================================== -->
+  <!-- This Service provides metrics information                          -->
+  <!-- ================================================================== -->
+  <!--  To enable metrics: uncomment this service
+        and in LoggerService set metricsEnabled to true -->
+  <!--
+  <service class="jrunx.metrics.MetricsService" name="MetricsService">
+    <attribute name="bindToJNDI">true</attribute>
+  </service>
+  -->
+
+  <!-- ================================================================== -->
+  <!-- This Service creates the runnable scheduler                        -->
+  <!-- ================================================================== -->
+  <service class="jrunx.scheduler.SchedulerService" name="SchedulerService">
+    <attribute name="bindToJNDI">true</attribute>
+  <attribute name="activeHandlerThreads">25</attribute><attribute name="minHandlerThreads">20</attribute><attribute name="maxHandlerThreads">1000</attribute><attribute name="threadWaitTimeout">180</attribute><attribute name="timeout">600</attribute></service>
+  <!-- ================================================================== -->
+  <!-- This Service represents JRun's logging facility                    -->
+  <!-- ================================================================== -->
+  <service class="jrunx.logger.LoggerService" name="LoggerService">
+    <attribute name="format">{server.date} {log.level} {log.message}{log.exception}</attribute>
+    <!-- You can modify format to suit your need. -->
+    <!-- EXAMPLE: <attribute name="format">{date MM/dd HH:mm:ss} {log.message}{log.exception}</attribute> -->
+    <attribute name="errorEnabled">true</attribute>
+    <attribute name="warningEnabled">true</attribute>
+    <attribute name="infoEnabled">true</attribute>
+    <attribute name="debugEnabled">false</attribute>
+    <!-- You may also need to uncomment MetricsService if you want metrics enabled -->
+    <attribute name="metricsEnabled">false</attribute>
+    <attribute name="metricsLogFrequency">60</attribute>
+    <attribute name="metricsFormat">Web threads (busy/total): {jrpp.busyTh}/{jrpp.totalTh} Sessions: {sessions} Total Memory={totalMemory} Free={freeMemory}</attribute>
+    <service class="jrunx.logger.ThreadedLogEventHandler" name="ThreadedLogEventHandler">
+      <service class="jrunx.logger.ConsoleLogEventHandler" name=":service=ConsoleLogEventHandler"/>
+      <service class="jrunx.logger.FileLogEventHandler" name="FileLogEventHandler">
+        <attribute name="filename">{jrun.rootdir}/logs/{jrun.server.name}-event.log</attribute>
+        <attribute name="rotationSize">200k</attribute>
+        <attribute name="rotationFiles">3</attribute>
+        <!-- Use heading to specify an alternate log heading for system event log. -->
+        <!-- EXAMPLE: <attribute name="heading"># Created by JRun on {date MM/dd HH:mm:ss}</attribute> -->
+        <attribute name="closeDelay">5000</attribute>
+        <attribute name="deleteOnExit">false</attribute>
+      </service>
+    </service>
+  </service>
+  <!-- ===================================================================== -->
+  <!-- This service handles file resources. -->
+  <!-- ===================================================================== -->
+  <service class="jrunx.resource.ResourceService" name="ResourceService"/>
+  <!-- ========================================================================= -->
+  <!-- This service sets up JRun's servlet engine                                -->
+  <!-- ========================================================================= -->
+  <service class="jrun.servlet.ServletEngineService" name="ServletEngineService">
+    <attribute name="mimeTypesPath">/lib/mime.types</attribute>
+    <service class="jrun.servlet.session.SessionIdGeneratorService" name="SessionIdGeneratorService"/>
+  </service>
+
+  <!-- =========================================================================== -->
+  <!-- This service starts all JMS related services of JRUN server                 -->
+  <!-- =========================================================================== -->
+  <service class="jrun.jms.JRunJMS" name="JRunJMS">
+    <!-- =========================================================================== -->
+    <!-- This service starts the JMS SecurityManager.                                -->
+    <!-- =========================================================================== -->
+    <service class="jrun.jms.security.JMSSecurityManager" name="JMSSecurityManager"/>
+    <!-- =========================================================================== -->
+    <!-- This service starts the JMS provider. (JRun built-in) -->
+    <!-- =========================================================================== -->
+    <service class="jrun.jms.adapter.JRunMQAdapter" name="JMSAdapter">
+      <attribute name="ConfigFileName">jrun-jms.xml</attribute>
+      <attribute name="bindToJNDI">true</attribute>
+    </service>
+    <!-- ==================================================================== -->
+    <!--  This service provides JMS access for j2ee clients (JRun built-in)   -->
+    <!-- ==================================================================== -->
+    <service class="jrun.jms.wrapper.JRunMQServiceWrapper" name="JMSServiceWrapper">
+      <attribute name="bindToJNDI">true</attribute>
+      <attribute name="DefaultQCFName">QueueConnectionFactory</attribute>
+      <attribute name="DefaultTCFName">TopicConnectionFactory</attribute>
+      <attribute name="DefaultTransport">RMI</attribute>
+      <attribute name="JMSUrl">none</attribute>
+      <attribute name="JMSContextFactoryName">none</attribute>
+      <!-- adapter type attribute specifies if "remote" or "local" adapter should be used by wrapper -->
+      <attribute name="AdapterType">local</attribute>
+      <attribute name="AdapterServerName">none</attribute>
+    </service>
+    <!-- ==================================================================      -->
+    <!--   This service starts jms adapter for SonicMQ.                          -->
+    <!--   (you have to install SonicMQ locally and recofigure attributes        -->
+    <!--   in order to start it. Support only local installation.                -->
+    <!-- ==================================================================      -->
+    <!--	<service class="jrun.jms.adapter.SonicMQAdapter" name="JMSAdapter">
+                  <attribute name="bindToJNDI">true</attribute>
+ 		  <attribute name="ConfigFileName">broker.ini</attribute>
+ 		  <attribute name="HomeDir">!!!Sonic home dir!!!</attribute>
+  		  <attribute name="ClassPath">!!!Sonic class path!!!</attribute>
+  		  <attribute name="Host">localhost</attribute>
+  		  <attribute name="Port">2506</attribute>
+  		</service>-->
+    <!-- ==================================================================== -->
+    <!--  This service provides JMS access for j2ee clients for SonicMQ JMS   -->
+    <!-- ==================================================================== -->
+    <!--	<service class="jrun.jms.wrapper.SonicMQServiceWrapper" name="JMSServiceWrapper">
+                <attribute name="bindToJNDI">true</attribute>
+   		<attribute name="DefaultQCFName">QueueConnectionFactory</attribute>
+   		<attribute name="DefaultTCFName">TopicConnectionFactory</attribute>
+   		<attribute name="DefaultTransport">TCPIP</attribute>
+   		<attribute name="JMSUrl">none</attribute>
+   		<attribute name="JMSContextFactoryName">none</attribute>
+   		<attribute name="AdapterType">local</attribute>
+        <attribute name="AdapterServerName">none</attribute>
+  		</service> -->
+    <!-- ===================================================================== -->
+    <!-- This service provides JMS ASF functionality                           -->
+    <!-- ===================================================================== -->
+    <!--  <service class="jrun.jms.asf.JRunServerSessionPoolService" name="JMSASF">
+     		<attribute name="_maxPoolSize">10</attribute>
+     		<attribute name="_minPoolSize">3</attribute>
+    		<attribute name="_maxMessageNumber">1</attribute>
+    		<attribute name="_serverSessionPoolFactoryName">JRunDefaultSSPFactory</attribute>
+    		<attribute name="_serverSessionPoolImplCN">none</attribute>
+  	       </service> -->
+  </service>
+  <!-- ======================================================================== -->
+  <!-- This service handles creation of JavaMail Sessions.                      -->
+  <!-- ======================================================================== -->
+  <service class="jrun.mail.MailService" name="MailService">
+    <attribute name="bindToJNDI">true</attribute>
+    <!-- Optional entries for server-wide mail session defaults -->
+    <attribute name="mailSessionDefaults" type="jrun.mail.DefaultSessionInfo">
+      <!-- JavaMail store protocol (pop or imap) -->
+      <attribute name="store_protocol">imap</attribute>
+      <!-- JavaMail transport protocol (smtp) -->
+      <attribute name="transport_protocol">smtp</attribute>
+      <!-- Default mail server host name -->
+      <attribute name="host"/>
+      <!-- Default username -->
+      <attribute name="user"/>
+      <!-- Default smtp mail server name -->
+      <attribute name="smtp_host">mail.allaire.com</attribute>
+      <!-- Default smtp user name -->
+      <attribute name="smtp_user"/>
+      <!-- Default imap mail server name -->
+      <attribute name="imap_host"/>
+      <!-- Default imap user name -->
+      <attribute name="imap_user"/>
+      <!-- Default pop3 mail server name -->
+      <attribute name="pop3_host"/>
+      <!-- Default pop3 user name -->
+      <attribute name="pop3_user"/>
+      <!-- Default sender email addresss -->
+      <attribute name="from"/>
+      <!-- Enable debug messages (true or false) -->
+      <attribute name="debug">false</attribute>
+    </attribute>
+  </service>
+  <!-- ==================================================================== -->
+  <!-- This Service deploys DataSources, pools and JMS Connection Factories -->
+  <!-- from jrun-resources.xml                                              -->
+  <!-- ==================================================================== -->
+  <service class="jrun.deployment.resource.ResourceDeployer" name="ResourceDeployer"/>
+  <!-- =========================================================================== -->
+  <!-- This service automates XDoclet generation of EJB interfaces and descriptors -->
+  <!-- =========================================================================== -->
+  <service class="jrunx.xdoclet.XDocletService" name="XDocletService">
+    <!-- Add as many EJB and WAR directories as you'd like for XDoclet to monitor   -->
+    <!-- The following commented-out entries are provided as examples:              -->
+
+    <!--
+    <attribute name="watchedEJBDirectory">{jrun.server.rootdir}/xdoclet-src/ejb</attribute>
+    <attribute name="watchedWARDirectory">{jrun.server.rootdir}/xdoclet-src/war</attribute>
+    -->
+
+    <!-- Any java source file ending in this suffix in a watched EJB                -->
+    <!-- directory is assumed to be an enterprise bean with doclet info             -->
+    <!-- that xdoclet can use to create the EJBHome, EJBObject, ejb-jar.xml,        -->
+    <!-- and jrun-ejb-jar.xml                                                       -->
+    <attribute name="ejbSourceFiles">*Bean.java</attribute>
+    <!-- Changes to files with these suffixes in a web app directory will           -->
+    <!-- cause a fresh invocation of the web doclet targets on the directory        -->
+    <attribute name="warSourceFiles">*Servlet.java</attribute>
+    <attribute name="warSourceFiles">*Tag.java</attribute>
+    <attribute name="warSourceFiles">*Filter.java</attribute>
+
+    <!-- Set these attributes to "true" to automatically generate EJB descriptors   -->
+    <!-- descriptors for WebLogic and/or WebSphere                                  -->
+    <attribute name="webLogicExport">false</attribute>
+    <attribute name="webSphereExport">false</attribute>
+
+    <!-- Change this attribute to get more or less info from the XDoclet            -->
+    <!-- Ant-based build process                                                    -->
+    <!-- VALID VALUES: quiet (default), standard, verbose, and debug                -->
+    <attribute name="antMessageLevel">quiet</attribute>
+
+    <!-- The complete path name of the ant build file to use. As would be the case  -->
+    <!-- in a typical XDoclet development scenario, JRun's XDoclet service uses Ant -->
+    <!-- to do the real work of runnning XDoclet, compiling source files and        -->
+    <!-- managing the resulting class and descriptor files. Since you may already   -->
+    <!-- have an XDoclet Ant build file (created as part of your use of XDoclet     -->
+    <!-- apart from JRun) you may use this attribute to tell the XDoclet service    -->
+    <!-- to use your file in place of its default. When using your own build file,  -->
+    <!-- however, be sure to make note of the specifically-named ant properties used-->
+    <!-- by the XDoclet service to pass parameters to Ant, and use them in your own -->
+    <!-- build file. These properties are listed at the top of JRun's default ant   -->
+    <!-- build file, "{jrun.rootdir}/lib/xdoclet.xml". See that file for details.   -->
+    <attribute name="antBuildFile">{jrun.rootdir}/lib/xdoclet.xml</attribute>
+
+    <!-- Set the names of the two top-level Ant targets (one for EJBs and one for   -->
+    <!-- WARs) that this service will use to start its Ant builds. Adjusting these  -->
+    <!-- target names is only useful if you are using an Ant build file developed   -->
+    <!-- apart from JRun and do not wish to adjust that build file's target names.  -->
+    <!-- The default target names used in JRun's build file are: "ejb" and "war".   -->
+    <attribute name="antTargetForEJBs">ejb</attribute>
+    <attribute name="antTargetForWARs">war</attribute>
+
+    <!-- Use the following multi-field attribute to pass arbitrary key/value pairs  -->
+    <!-- to the underlying Ant build file. These key value pairs will be set in     -->
+    <!-- Ant's invocation environment and can, therefore, be picked up and used as  -->
+    <!-- by Ant as "properties". This is primarily useful if you are using a custom -->
+    <!-- Ant build file which expects specific enviroment parameters. Although, for -->
+    <!-- convenience, some behavior in JRun's default Ant build file can also be    -->
+    <!-- configured in this manner. Values for properties defined here may refer to -->
+    <!-- other properties defined here using the Ant's usual property substitution  -->
+    <!-- syntax. (Of course, JRun's variable substitution syntax, used throughout   -->
+    <!-- this file, also works too.) Entries may also refer to the Ant property     -->
+    <!-- "xdoclet.working.dir" (using Ant's variable substitution syntax) which is  -->
+    <!-- automatically set by the service to be the watched directory currently     -->
+    <!-- being processed. Note that this value will change as the service works     -->
+    <!-- through the list of watched EJB and WAR directories. Ant properties set    -->
+    <!-- here will override properties of the same name set in the build file.      -->
+    <attribute name="antProperties" type="jrunx.xdoclet.AntPropertiesInfo">
+        <attribute name="xdoclet.ejb.generate.all.interfaces">true</attribute>
+        <attribute name="xdoclet.ejb.stage.dir">{jrun.server.rootdir}/xdoclet-ejb</attribute>
+        <attribute name="xdoclet.war.stage.dir">{jrun.server.rootdir}/xdoclet-war</attribute>
+        <attribute name="build.compiler">jrunx.compiler.AntCompiler</attribute>
+        <attribute name="xdoclet.jar.list">{jrun.rootdir}/lib/jrun-xdoclet.jar</attribute>
+    </attribute>
+  </service>
+  <!-- ================================================================== -->
+  <!-- This Service handles application deployment                        -->
+  <!-- ================================================================== -->
+  <service class="jrun.deployment.DeployerService" name="DeployerService">
+    <attribute name="bindToJNDI">true</attribute>
+    <attribute name="deployDirectory">{jrun.server.rootdir}</attribute>
+    <attribute name="temporaryDirectory">{jrun.server.rootdir}/SERVER-INF/temp</attribute>
+    <attribute name="persistXML">false</attribute>
+    <attribute name="validateXML">false</attribute>
+    <attribute name="file">{jrun.home}/lib/jrun-comp.ear</attribute>
+    <attribute name="file">{jrun.home}/lib/flashgateway.ear</attribute>
+    <!-- Deployer that can handle EJB jar's created for the Sun J2EE Reference Implementation -->
+    <service name="RI EJB Container Factory" class="jrunx.ri.EJBContainerFactory">
+      <attribute name="mandatoryFingerPrint">META-INF/ejb-jar.xml</attribute>
+      <attribute name="potentialFingerPrint">{jarFileName}.runtime.xml</attribute>
+       <attribute name="potentialFingerPrint">META-INF/sun-j2ee-ri.xml</attribute>
+    </service>
+    <!-- Deployer that can handle war's created for the Sun J2EE Reference Implementation -->
+    <service name="RI Web Application Factory" class="jrunx.ri.WebApplicationFactory">
+      <attribute name="mandatoryFingerPrint">WEB-INF/web.xml</attribute>
+      <attribute name="potentialFingerPrint">{warFileName}.runtime.xml</attribute>
+      <attribute name="potentialFingerPrint">META-INF/sun-j2ee-ri.xml</attribute>
+    </service>
+    <!-- Deployer that can handle EAR's created for the Sun J2EE Reference Implementation -->
+    <service name="RI Enterprise Application Factory" class="jrunx.ri.EnterpriseApplicationFactory">
+      <attribute name="mandatoryFingerPrint">META-INF/application.xml</attribute>
+      <attribute name="potentialFingerPrint">{earFileName}_client.runtime.xml</attribute>
+      <attribute name="potentialFingerPrint">{earFileName}_ejb.runtime.xml</attribute>
+      <attribute name="potentialFingerPrint">{earFileName}_web.runtime.xml</attribute>
+      <attribute name="potentialFingerPrint">{earFileName}_servlet.runtime.xml</attribute>
+      <attribute name="potentialFingerPrint">META-INF/sun-j2ee-ri.xml</attribute>
+    </service>
+    <!-- Deployer that can handle Web Apps created for JRun 3.X -->
+    <service name="JRun 3.X Web Application Factory" class="jrunx.jrun3.WebApplicationFactory">
+      <attribute name="mandatoryFingerPrint">WEB-INF/webapp.properties</attribute>
+    </service>
+    <!-- Deployer that can handle EJB Jars created for JRun 3.X -->
+    <service name="JRun 3.X EJB Container Factory" class="jrunx.jrun3.EJBContainerFactory">
+      <attribute name="mandatoryFingerPrint">META-INF/ejb-jar.xml</attribute>
+    </service>
+    <!-- Deployer that can handle ears created for JRun 3.X -->
+    <service name="JRun 3.X Enterprise Application Factory" class="jrunx.jrun3.EnterpriseApplicationFactory">
+      <attribute name="mandatoryFingerPrint">META-INF/application.xml</attribute>
+    </service>
+  </service>
+  <!-- ================================================================== -->
+  <!-- This is the built-in JRun Web Server                               -->
+  <!-- ================================================================== -->
+  <service class="jrun.servlet.http.WebService" name="WebService">
+    <attribute name="activeHandlerThreads">25</attribute>
+    <attribute name="backlog">500</attribute>
+    <attribute name="interface">*</attribute>
+    <attribute name="keepAlive">false</attribute>
+    <attribute name="maxHandlerThreads">1000</attribute>
+    <attribute name="minHandlerThreads">1</attribute>
+    <attribute name="port">@cargo.servlet.port@</attribute>
+    <attribute name="threadWaitTimeout">300</attribute>
+    <attribute name="timeout">300</attribute>
+  </service>
+
+  <!-- Uncomment this service to use SSL with the JRun Web Server
+       Note that you MUST create your own keystore before using this service
+  <service class="jrun.servlet.http.SSLService" name="SSLService">
+    <attribute name="port">9100</attribute>
+    <attribute name="keyStore">{jrun.rootdir}/lib/keystore</attribute>
+    <attribute name="keyStorePassword">changeit</attribute>
+    <attribute name="trustStore">{jrun.rootdir}/lib/trustStore</attribute>
+    <attribute name="socketFactoryName">jrun.servlet.http.JRunSSLServerSocketFactory</attribute>
+  </service>
+   -->
+
+  <!-- ========================================================================= -->
+  <!-- This service is for communicating with a native (IIS, Apache, Netscape)   -->
+  <!-- web server.                                                               -->
+  <!-- To run this service in a secure mode via SSL, set the keyStore,           -->
+  <!-- keyStorePassWord, trustStore and socketFactoryName attributes.            -->
+  <!-- ========================================================================= -->
+  <service class="jrun.servlet.jrpp.JRunProxyService" name="ProxyService">
+    <attribute name="activeHandlerThreads">25</attribute>
+    <attribute name="backlog">500</attribute>
+    <attribute name="deactivated">true</attribute>
+    <attribute name="interface">*</attribute>
+    <attribute name="maxHandlerThreads">1000</attribute>
+    <attribute name="minHandlerThreads">1</attribute>
+    <attribute name="port">51000</attribute>
+    <attribute name="threadWaitTimeout">300</attribute>
+    <attribute name="timeout">300</attribute>
+    <!--
+    <attribute name="keyStore">{jrun.rootdir}/lib/keystore</attribute>
+    <attribute name="keyStorePassword">changeit</attribute>
+    <attribute name="trustStore">{jrun.rootdir}/lib/trustStore</attribute>
+    <attribute name="socketFactoryName">jrun.servlet.jrpp.JRunProxySSLServerSocketFactory</attribute>
+    -->
+  <attribute name="mapCheck">0</attribute></service>
+  <!-- ======================================================================= -->
+  <!-- This Service starts the code instrumentor (which is disabled by default: -->
+  <!-- uncomment below to activate). The instrumentation service       -->
+  <!-- consists of any number of sub-services (or interceptors) which are      -->
+  <!-- allowed to modify the raw bytes of a loaded (but not yet resolved)      -->
+  <!-- class. Each sub-service must implement the                              -->
+  <!-- jrunx.instrument.Instrumentor interface                                 -->
+  <!-- ======================================================================= -->
+  <!--
+  uncomment this section to use instrumentation
+  <service class="jrunx.instrument.InstrumentationService" name="InstrumentationService">
+    <service class="jrunx.instrument.MethodInstrumentor" name="MethodInstrumentor">
+      <attribute name="excludeCallsTo">java.*</attribute>
+      <attribute name="excludeCallsTo">javax.*</attribute>
+      <attribute name="excludeCallsto">sun.*</attribute>
+      <attribute name="className">javax.servlet.http.HttpServlet</attribute>
+      <attribute name="directSubclasses">true</attribute>
+      <attribute name="instrumentMethods">false</attribute>
+      <attribute name="instrumentMethod">doGet</attribute>
+      <attribute name="instrumentMethod">doPost</attribute>
+      <attribute name="instrumentCalls">false</attribute>
+      <attribute name="instrumentCallsTo">*</attribute>
+      <attribute name="instrumentCallsTo">javax.sql.*</attribute>
+      <attribute name="outputToStandardLogger">true</attribute>
+      <attribute name="outputToRequestThread">true</attribute>
+    </service>
+  -->
+      <!--
+      an example of a custom instrumentor
+      <service class="jrunx.instrument.CustomInstrumentor" name="CustomInstrumentor">
+        <attribute name="someAttribute">Some Value</attribute>
+      </service>
+      -->
+  <!--
+  uncomment this section to use instrumentation
+  </service>
+  -->
+  <!-- ======================================================================== -->
+  <!-- This service is the RI's HTML Adaptor for the JMX agent.  It can be used -->
+  <!-- to browse JMX from your browser                                          -->
+  <!-- ======================================================================== -->
+  <!--
+  <service class="jrunx.kernel.agents.HtmlAgentService" name="HtmlAgentService">
+    <attribute name="MaxActiveClients">10</attribute>
+    <attribute name="Port">8082</attribute>
+    <attribute name="adminUsers">admin:admin,tester:tester</attribute>
+  </service>
+  -->
+  <!-- ==================================================================== -->
+  <!-- This service allows remote access to the MBeanServer's invoke method -->
+  <!-- ==================================================================== -->
+  <service class="jrunx.kernel.agents.JRunAdminService" name="JRunAdminService">
+    <attribute name="bindToJNDI">true</attribute>
+  </service>
+</jrun-server>

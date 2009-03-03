@@ -31,6 +31,7 @@ import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationCapabilityFactory;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
+import org.codehaus.cargo.container.jrun.JRun4xPropertySet;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 import org.codehaus.cargo.container.geronimo.GeronimoPropertySet;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
@@ -538,6 +539,7 @@ public class ConfluenceContainerDocumentationGenerator
             GeronimoPropertySet.class,
             WebLogicPropertySet.class,
             JBossPropertySet.class,
+            JRun4xPropertySet.class
         };
 
         for (int i = 0; i < propertySetClasses.length; i++)

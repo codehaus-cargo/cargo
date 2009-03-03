@@ -90,6 +90,8 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
         registerJO();
 
         registerJOnAS();
+        
+        registerJRun();
 
         registerOrion();
 
@@ -169,7 +171,7 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
         registerContainer("jo1x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.jo.Jo1xInstalledLocalContainer");
     }
-
+    
     /**
      * Register OW2 JOnAS
      */
@@ -185,6 +187,15 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
         registerContainer("jonas5x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.jonas.Jonas5xInstalledLocalContainer");
     }
+    
+    /**
+     * Register JRun
+     */
+    public void registerJRun()
+    {
+        registerContainer("jrun4x", ContainerType.INSTALLED,
+            "org.codehaus.cargo.container.jrun.JRun4xInstalledLocalContainer");
+    }    
 
     /**
      * Register Orion

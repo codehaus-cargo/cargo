@@ -55,6 +55,11 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-jrun</artifactId>
+      <version>${project.version}</version>
+    </dependency>    
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-orion</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -561,11 +566,10 @@
                 <value>http://www.tagtraum.com/download/jo1.1beta1.zip</value>
               </property>
               <property>
-                <name>cargo.jo1x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-
-              <property>
+                <name>cargo.jo1x.java.home</name>                
+                <value>${cargo.java.home.1_4}</value>              
+              </property>              
+              <property>                
                 <name>cargo.jboss3x.port</name>
                 <value>${cargo.samples.port}</value>
               </property>
@@ -629,6 +633,34 @@
                 <name>cargo.jonas4x.java.home</name>
                 <value>${cargo.java.home.1_4}</value>
               </property>
+		
+              <!--
+                Note: There is no direct download link for JRun 4.x as the download page 
+                requires free account registration and login: 
+
+                * http://www.adobe.com/products/jrun/download               	                
+                Once manually installed on your machine you must specify where it is                 
+                installed using the cargo.jrun4x.home property.			
+                For example:
+
+                <property>
+                  <name>cargo.jrun4x.home</name>                    
+                  <value>C:/JRun4</value>
+                </property>
+              -->
+              <property>
+                <name>cargo.jrun4x.port</name>
+                <value>8301</value>
+              </property>
+              <property>
+                <name>cargo.jrun4x.home</name>
+                <value>${cargo.jrun4x.home}</value>
+              </property>
+              <property>
+                <name>cargo.jrun4x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
               <!-- additional required properties to make the samples work correctly -->
               <property>
                 <name>cargo.jonas4x.configuration.cargo.jonas.realm.name</name>
@@ -964,7 +996,7 @@
     <profile>
       <id>all-datasource</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, oc4j9x, tomcat4x, tomcat5x, tomcat6x, weblogic8x, weblogic9x, weblogic10x, weblogic103x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, oc4j9x, tomcat4x, tomcat5x, tomcat6x, weblogic8x, weblogic9x, weblogic10x, weblogic103x, jrun4x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -1097,6 +1129,12 @@
       <id>jonas5x</id>
       <properties>
         <cargo.containers>jonas5x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jrun4x</id>
+      <properties>
+        <cargo.containers>jrun4x</cargo.containers>
       </properties>
     </profile>
     <profile>

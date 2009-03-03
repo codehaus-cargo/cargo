@@ -72,6 +72,8 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerJO();
 
         registerJOnAS();
+        
+        registerJRun();
 
         registerOrion();
 
@@ -213,6 +215,20 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("jonas5x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jonas.internal."
                 + "JonasStandaloneLocalConfigurationCapability");
+    }
+
+    /**
+     * Register JRun
+     */
+    public void registerJRun()
+    {
+        registerConfigurationCapability("jrun4x", ContainerType.INSTALLED, 
+            ConfigurationType.EXISTING, "org.codehaus.cargo.container.jrun.internal."
+                + "JRun4xStandaloneLocalConfigurationCapability");
+
+        registerConfigurationCapability("jrun4x", ContainerType.INSTALLED, 
+            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jrun.internal."
+                + "JRun4xStandaloneLocalConfigurationCapability");
     }
 
     /**

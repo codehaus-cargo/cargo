@@ -90,6 +90,8 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
         registerJO();
 
         registerJOnAS();
+        
+        registerJRun();
 
         registerOrion();
 
@@ -169,7 +171,7 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
         registerDeployer("jo1x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.jo.Jo1xInstalledLocalDeployer");
     }
-
+    
     /**
      * Register OW2 JOnAS
      */
@@ -184,6 +186,15 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
             "org.codehaus.cargo.container.jonas.Jonas5xJsr160RemoteDeployer");
         registerDeployer("jonas5x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.jonas.Jonas5xInstalledLocalDeployer");
+    }
+    
+    /**
+     * Register JRun
+     */
+    public void registerJRun()
+    {
+        registerDeployer("jrun4x", DeployerType.INSTALLED,
+            "org.codehaus.cargo.container.jrun.JRun4xInstalledLocalDeployer");
     }
 
     /**

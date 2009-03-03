@@ -91,8 +91,10 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
         registerJetty();
 
         registerJO();
-
+        
         registerJOnAS();
+        
+        registerJRun();
 
         registerOrion();
 
@@ -207,6 +209,18 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
         registerConfiguration("jonas5x", ContainerType.REMOTE, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.jonas.Jonas5xStandaloneLocalConfiguration");
     }
+    
+    /**
+     * Register JRun
+     */
+    public void registerJRun()
+    {
+        registerConfiguration("jrun4x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            "org.codehaus.cargo.container.jrun.JRun4xExistingLocalConfiguration");
+        
+        registerConfiguration("jrun4x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            "org.codehaus.cargo.container.jrun.JRun4xStandaloneLocalConfiguration");
+    }    
 
     /**
      * Register Orion
