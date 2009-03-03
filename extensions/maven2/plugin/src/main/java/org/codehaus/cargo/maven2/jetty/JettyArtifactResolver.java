@@ -113,6 +113,7 @@ public class JettyArtifactResolver
         jetty6xDependencies.add(new Dependency("xerces", "xercesImpl","2.6.2"));
         jetty6xDependencies.add(new Dependency("xerces", "xmlParserAPIs","2.6.2"));
         jetty6xDependencies.add(new Dependency("commons-logging", "commons-logging","1.0.4"));
+        jetty6xDependencies.add(new Dependency("log4j", "log4j", "1.2.14"));
 
         this.jettyDependencies.put("jetty4x", jetty4xDependencies);
         this.jettyDependencies.put("jetty5x", jetty5xDependencies);
