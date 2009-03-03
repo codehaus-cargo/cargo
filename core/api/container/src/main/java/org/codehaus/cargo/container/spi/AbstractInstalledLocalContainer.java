@@ -299,7 +299,12 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         // we're configuring Ant with our own custom build listener (see below).
         if (getOutput() != null)
         {
-            java.setOutput(new File(getOutput()));
+            File outputFile = new File(getOutput());
+            
+            // Ensure that directories where the output file will go are created
+            outputFile.getParentFile().mkdirs();
+            
+            java.setOutput(outputFile);
             java.setAppend(isAppend());
         }
 

@@ -89,6 +89,7 @@ public class FileLogger extends AbstractLogger
         try
         {
             this.output.write(msg.getBytes());
+            this.output.flush();
         }
         catch (IOException e)
         {
