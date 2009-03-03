@@ -91,6 +91,11 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-jrun</artifactId>
+      <version>${cargo.core.version}</version>
+    </dependency>    
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-orion</artifactId>
       <version>${cargo.core.version}</version>
     </dependency>
