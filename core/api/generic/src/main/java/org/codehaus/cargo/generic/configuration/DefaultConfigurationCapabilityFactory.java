@@ -277,14 +277,7 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
      * Register Tomcat
      */
     public void registerTomcat()
-    {
-        registerConfigurationCapability("tomcat3x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.tomcat.internal."
-                + "Tomcat3xStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("tomcat3x", ContainerType.INSTALLED,
-            ConfigurationType.EXISTING, "org.codehaus.cargo.container.tomcat.internal."
-                + "TomcatExistingLocalConfigurationCapability");
-        
+    {        
         registerConfigurationCapability("tomcat4x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.tomcat.internal."
                 + "TomcatStandaloneLocalConfigurationCapability");

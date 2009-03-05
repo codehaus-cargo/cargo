@@ -232,9 +232,6 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
      */
     public void registerTomcat()
     {
-        registerContainer("tomcat3x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.tomcat.Tomcat3xInstalledLocalContainer");
-
         registerContainer("tomcat4x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.tomcat.Tomcat4xInstalledLocalContainer");
         registerContainer("tomcat4x", ContainerType.REMOTE,

@@ -197,9 +197,6 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
      */
     public void registerTomcat()
     {
-        registerContainerCapability("tomcat3x",
-            "org.codehaus.cargo.container.internal.ServletContainerCapability");
-
         registerContainerCapability("tomcat4x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
 

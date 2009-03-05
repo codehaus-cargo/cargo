@@ -261,11 +261,7 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
      */
     public void registerTomcat()
     {
-        registerConfiguration("tomcat3x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.tomcat.Tomcat3xStandaloneLocalConfiguration");
-        registerConfiguration("tomcat3x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration");
-        
+     
         registerConfiguration("tomcat4x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.tomcat.Tomcat4xStandaloneLocalConfiguration");
         registerConfiguration("tomcat4x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
