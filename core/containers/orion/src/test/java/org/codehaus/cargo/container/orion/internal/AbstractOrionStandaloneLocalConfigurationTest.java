@@ -4,7 +4,7 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
-import org.codehaus.cargo.container.orion.OrionStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.orion.Oc4j9xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfigurationWithConfigurationBuilderTest;
 import org.codehaus.cargo.util.Dom4JUtil;
@@ -17,7 +17,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
 
     public LocalConfiguration createLocalConfiguration(String home)
     {
-        return new OrionStandaloneLocalConfiguration(home);
+        return new Oc4j9xStandaloneLocalConfiguration(home);
     }
 
     protected ConfigurationChecker createConfigurationChecker()
