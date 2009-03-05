@@ -923,41 +923,6 @@
     <cargo.derby.version>10.4.2.0</cargo.derby.version>
    </properties>
   <profiles>
-
-    <profile>
-      <!-- Java 4 doesn't have com.sun.org.apache.xerces.internal -->
-      <id>java-1.4-setup-xerces</id>
-      <activation>
-        <jdk>1.4</jdk>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>xerces</groupId>
-          <artifactId>xercesImpl</artifactId>
-          <version>2.9.1</version>
-          <scope>test</scope>
-        </dependency>
-      </dependencies>
-      <properties>
-        <!-- childDelegation needed in jdk4 or else xml parser won't be found in the classpath -->
-        <surefire.childDelegation>true</surefire.childDelegation>
-        <surefire.useManifestOnlyJar>true</surefire.useManifestOnlyJar>
-        <surefire.useSystemClassLoader>false</surefire.useSystemClassLoader>
-        <javax.xml.parsers.SAXParserFactory>org.apache.xerces.jaxp.SAXParserFactoryImpl</javax.xml.parsers.SAXParserFactory>
-      </properties>
-    </profile>
-
-    <profile>
-      <!-- Set different port numbers for different JDKs (Codehaus CI-specific) -->
-      <id>java-1.4</id>
-      <activation>
-        <jdk>1.4</jdk>
-      </activation>
-      <properties>
-         <!-- If on Java 4, test on port 8284 -->
-        <cargo.samples.port>8284</cargo.samples.port>
-      </properties>
-    </profile>
     <profile>
       <!-- All containers for the CI -->
       <id>all-ci</id>
