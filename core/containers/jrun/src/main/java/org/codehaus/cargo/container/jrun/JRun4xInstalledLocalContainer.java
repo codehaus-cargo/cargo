@@ -84,10 +84,6 @@ public class JRun4xInstalledLocalContainer extends AbstractJRunInstalledLocalCon
         java.addSysproperty(getAntUtils()
             .createSysProperty("java.home", System.getProperty("java.home")));
         
-        // Add the jrun_home/lib directory to the library path
-//        java.addSysproperty(getAntUtils().createSysProperty(
-//            "java.library.path", new File(getHome(), "lib")));
-
         // Add the tools.jar to the classpath.
         addToolsJarToClasspath(classpath);
     }    

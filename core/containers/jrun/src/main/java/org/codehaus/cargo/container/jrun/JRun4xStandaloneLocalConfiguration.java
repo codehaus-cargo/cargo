@@ -23,11 +23,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tools.ant.filters.ReplaceTokens;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
@@ -38,19 +36,13 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.entry.ResourceSupport;
 import org.codehaus.cargo.container.jrun.internal.JRun4xConfigurationBuilder;
 import org.codehaus.cargo.container.jrun.internal.JRun4xStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-
 
 /**
  * JRun standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
  *
- * @version $Id: JRun4xStandaloneLocalConfiguration.java $
+ * @version $Id: JRun4xStandaloneLocalConfiguration.java rconnolly $
  */
 public class JRun4xStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder implements ResourceSupport 
@@ -69,6 +61,7 @@ public class JRun4xStandaloneLocalConfiguration extends
     public JRun4xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+        getServerName();
     }
 
     /**
@@ -88,16 +81,11 @@ public class JRun4xStandaloneLocalConfiguration extends
     { 
         setupConfigurationDir();
         
-        // set default server instance name if not set
-        if (getPropertyValue(JRun4xPropertySet.SERVER_NAME) == null)
-        {
-            setProperty(JRun4xPropertySet.SERVER_NAME, JRun4xPropertySet.DEFAULT_SERVER_NAME);
-        }
-
         filterResources(container);
         
         String to = getHome();
-        String from = ((InstalledLocalContainer) container).getHome();        
+        String from = ((InstalledLocalContainer) container).getHome();
+        
         // copy required server files
         List requiredFiles = getRequiredFiles();
         for (int i = 0; i < requiredFiles.size(); i++)
@@ -134,13 +122,26 @@ public class JRun4xStandaloneLocalConfiguration extends
     }
     
     /**
+     * Get the JRun server name for this configuration.
+     * @return the JRun server name.
+     */
+    private String getServerName()
+    {
+        // set default server instance name if not set
+        if (getPropertyValue(JRun4xPropertySet.SERVER_NAME) == null)
+        {
+            setProperty(JRun4xPropertySet.SERVER_NAME, JRun4xPropertySet.DEFAULT_SERVER_NAME);
+        }
+        return getPropertyValue(JRun4xPropertySet.SERVER_NAME);
+    }
+    
+    /**
      * The list of required files needed to start up JRun4.
      * @return the list of files required to start JRun4.
      */
     private List getRequiredFiles()
     {
-        String serverName = getPropertyValue(JRun4xPropertySet.SERVER_NAME);
-        String serverInfDirectory = "/servers/" + serverName + "/SERVER-INF/";
+        String serverInfDirectory = "/servers/" + getServerName() + "/SERVER-INF/";
 
         List files = new ArrayList();
         files.add(serverInfDirectory + "auth.config");
@@ -163,7 +164,6 @@ public class JRun4xStandaloneLocalConfiguration extends
         return files;
     }
     
-        
     /**
      * Filter configuration files.
      * @param container the current {@link LocalContainer}.
@@ -171,194 +171,34 @@ public class JRun4xStandaloneLocalConfiguration extends
      */
     private void filterResources(LocalContainer container) throws IOException
     {
-        FilterChain chain = getFilterChain();
+        FilterChain chain = new JRun4xFilterChain(container);
         
         String to = getHome();
         String libDir = getFileHandler().createDirectory(to, "lib");
         String resourcePath = RESOURCE_PATH + container.getId();
         
         // filter server name in servers.xml
-        chain.addReplaceTokens(createServerNameToken());
         getResourceUtils().copyResource(resourcePath + "/servers.xml", 
             new File(libDir, "/servers.xml"), chain);
         
         // filter VM config in jvm.config
         getFileHandler().createDirectory(to, "bin");
-        chain.addReplaceTokens(createJvmConfigTokens(container));
         getResourceUtils().copyResource(resourcePath + "/jvm.config", 
             new File(to + "/bin/jvm.config"), chain);
 
         
-        String serverName = getPropertyValue(JRun4xPropertySet.SERVER_NAME);
-        String serverInf = "servers/" + serverName + "/SERVER-INF";
+        String serverInf = "servers/" + getServerName() + "/SERVER-INF";
         String serverInfDir = getFileHandler().createDirectory(getHome(), serverInf);
         
-        // filter port in jrun.xml
-        chain.addReplaceTokens(createPortToken());
+        // filter port and logging level in jrun.xml
         getResourceUtils().copyResource(resourcePath + "/jrun.xml",
             new File(serverInfDir, "/jrun.xml"), chain);
         
         // filter users in jrun-users.xml
-        chain.addReplaceTokens(createUserToken());
         getResourceUtils().copyResource(resourcePath + "/jrun-users.xml",
             new File(serverInfDir, "/jrun-users.xml"), chain);
-        
-        
-    }
-     
-    /**
-     * Creates tokens for the JRun Server Name.
-     *
-     * @return serverName token
-     */
-    private ReplaceTokens createServerNameToken()
-    {
-        ReplaceTokens.Token tokenServerName = new ReplaceTokens.Token();
-        tokenServerName.setKey(JRun4xPropertySet.SERVER_NAME);
+    }    
 
-        String serverName = getPropertyValue(JRun4xPropertySet.SERVER_NAME);
-        tokenServerName.setValue(serverName);
-        ReplaceTokens replaceHostname = new ReplaceTokens();
-        replaceHostname.addConfiguredToken(tokenServerName);
-        
-        return replaceHostname;
-    }
-    
-    /**
-     * Creates the port token.
-     *
-     * @return port token
-     */
-    private ReplaceTokens createPortToken()
-    {
-        ReplaceTokens.Token tokenPort = new ReplaceTokens.Token();
-        tokenPort.setKey(ServletPropertySet.PORT);
-
-        String port = getPropertyValue(ServletPropertySet.PORT);
-        // default to 8100
-        if (port == null)
-        {
-            port = JRun4xPropertySet.DEFAULT_PORT;
-        }
-
-        tokenPort.setValue(port);
-        ReplaceTokens replacePort = new ReplaceTokens();
-        replacePort.addConfiguredToken(tokenPort);
-        
-        return replacePort;
-    }
-    
-    /**
-     * Creates classpath token for the jvm.config file needed for extra classpath entries.
-     * @param container  the current {@link LocalContainer} instance.
-     * @return classpath token
-     */
-    private ReplaceTokens createJvmConfigTokens(LocalContainer container)
-    {
-        // the java.home token needs to be formatted just right or jrun fails to start.
-        ReplaceTokens.Token tokenJavaHome = new ReplaceTokens.Token();
-        tokenJavaHome.setKey("jrun.java.home");
-        String javaHome = 
-            container.getConfiguration().getPropertyValue(GeneralPropertySet.JAVA_HOME);
-        tokenJavaHome.setValue(javaHome.replace('\\', '/'));
-        
-        InstalledLocalContainer jrunContainer = (InstalledLocalContainer) container;
-        
-        // classpath token
-        StringBuffer sb = new StringBuffer();
-        sb.append(jrunContainer.getHome() + "/servers/lib,");
-        sb.append(jrunContainer.getHome() + "/lib/macromedia_drivers.jar,");
-        sb.append(jrunContainer.getHome() + "/lib/webservices.jar");
-        if (jrunContainer.getExtraClasspath().length > 0)
-        {
-            sb.append(",");
-            String[] extraPaths = jrunContainer.getExtraClasspath();
-            for (int i = 0; i < extraPaths.length; i++)
-            {
-                sb.append(extraPaths[i].replace('\\', '/'));
-                if (i < (extraPaths.length - 1))
-                {
-                    sb.append(",");
-                }
-            }
-        }
-        ReplaceTokens.Token tokenClasspath = new ReplaceTokens.Token();
-        tokenClasspath.setKey(JRun4xPropertySet.JRUN_CLASSPATH);
-        tokenClasspath.setValue(sb.toString());
-
-        // vm args token
-        StringBuffer jvmArgs = new StringBuffer();
-        File hotFixJar = new File(jrunContainer.getHome() + "/servers/lib/54101.jar");
-        if (hotFixJar.exists())
-        {
-            jvmArgs.append("-Djava.rmi.server.RMIClassLoaderSpi=jrunx.util.JRunRMIClassLoaderSpi ");
-        }
-        jvmArgs.append("-Dsun.io.useCanonCaches=false ");
-        jvmArgs.append("-Djmx.invoke.getters=true ");
-        jvmArgs.append("-Xms32m ");
-        jvmArgs.append("-Xmx128m ");
-        
-        ReplaceTokens.Token tokenVmArgs = new ReplaceTokens.Token();
-        tokenVmArgs.setKey("jrun.jvm.args");
-        tokenVmArgs.setValue(jvmArgs.toString());
-        
-        
-        ReplaceTokens replaceConfig = new ReplaceTokens();
-        replaceConfig.addConfiguredToken(tokenClasspath);
-        replaceConfig.addConfiguredToken(tokenJavaHome);
-        replaceConfig.addConfiguredToken(tokenVmArgs);
-        
-        return replaceConfig;
-    }
-    
-    /**
-     * @return an Ant filter token containing all the user-defined users
-     */
-    protected ReplaceTokens createUserToken()
-    {
-        StringBuffer token = new StringBuffer();
-
-        // Add token filters for authenticated users
-        if (getPropertyValue(ServletPropertySet.USERS) != null)
-        {
-            Iterator users = 
-                User.parseUsers(getPropertyValue(ServletPropertySet.USERS)).iterator();
-            
-            while (users.hasNext())
-            {
-                User user = (User) users.next();
-                
-                // create user elements
-                Element userElement = DocumentHelper.createDocument().addElement("user");
-                userElement.addElement("user-name").setText(user.getName());
-                userElement.addElement("password").setText(user.getPassword());
-                
-                token.append(userElement.asXML());
-                
-                // add role elements
-                Iterator roles = user.getRoles().iterator();
-                while (roles.hasNext())
-                {
-                    String role = (String) roles.next();
-                    Element roleElement = DocumentHelper.createDocument().addElement("role");
-                    roleElement.addElement("role-name").setText(role);
-                    roleElement.addElement("user-name").setText(user.getName());
-
-                    token.append(roleElement.asXML());
-                }
-            }
-        }
-
-        ReplaceTokens.Token tokenUsers = new ReplaceTokens.Token();
-        tokenUsers.setKey("jrun.users");
-        tokenUsers.setValue(token.toString());
-        
-        ReplaceTokens replaceUsers = new ReplaceTokens();
-        replaceUsers.addConfiguredToken(tokenUsers);
-        
-        return replaceUsers;
-    }
-    
     /**
      * {@inheritDoc}
      * @see Object#toString()
@@ -436,11 +276,8 @@ public class JRun4xStandaloneLocalConfiguration extends
      */
     private String getResourceFile(LocalContainer container)
     {
-        String serverName = 
-            container.getConfiguration().getPropertyValue(JRun4xPropertySet.SERVER_NAME);
-
         return getFileHandler().append(getHome(), 
-                "servers/" + serverName + "/SERVER-INF/jrun-resources.xml");
+                "servers/" + getServerName() + "/SERVER-INF/jrun-resources.xml");
     }
 
     /**

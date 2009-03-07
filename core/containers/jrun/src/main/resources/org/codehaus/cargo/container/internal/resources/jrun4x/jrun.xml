@@ -148,10 +148,7 @@
     <attribute name="format">{server.date} {log.level} {log.message}{log.exception}</attribute>
     <!-- You can modify format to suit your need. -->
     <!-- EXAMPLE: <attribute name="format">{date MM/dd HH:mm:ss} {log.message}{log.exception}</attribute> -->
-    <attribute name="errorEnabled">true</attribute>
-    <attribute name="warningEnabled">true</attribute>
-    <attribute name="infoEnabled">true</attribute>
-    <attribute name="debugEnabled">false</attribute>
+    @cargo.jrun.logging@
     <!-- You may also need to uncomment MetricsService if you want metrics enabled -->
     <attribute name="metricsEnabled">false</attribute>
     <attribute name="metricsLogFrequency">60</attribute>

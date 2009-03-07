@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * Capabilities of the JRun's {@link JRunExistingLocalConfigurationCapability} configuration.
  *
- * @version $Id:$
+ * @version $Id: JRun4xStandaloneLocalConfigurationCapability.java rconnolly $
  */
 public class JRun4xStandaloneLocalConfigurationCapability
     extends AbstractExistingLocalConfigurationCapability
@@ -48,16 +48,16 @@ public class JRun4xStandaloneLocalConfigurationCapability
     public JRun4xStandaloneLocalConfigurationCapability()
     {
         super();
-
         this.supportsMap = new HashMap();
         
         this.supportsMap.put(ResourcePropertySet.RESOURCE, Boolean.FALSE);
-        this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
         
-        this.supportsMap.put(ServletPropertySet.USERS, Boolean.TRUE);
+        this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.TRUE);
+        
         this.supportsMap.put(JRun4xPropertySet.SERVER_NAME, Boolean.TRUE);
         this.supportsMap.put(JRun4xPropertySet.JRUN_HOME, Boolean.TRUE);
 
+        this.supportsMap.put(ServletPropertySet.USERS, Boolean.TRUE);
         this.supportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
                     
         supportDataSources();
@@ -71,7 +71,7 @@ public class JRun4xStandaloneLocalConfigurationCapability
         this.supportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.supportsMap.put(DatasourcePropertySet.CONNECTION_TYPE, Boolean.FALSE);
         this.supportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.FALSE);
-    }    
+    }
     
     /**
      * {@inheritDoc}

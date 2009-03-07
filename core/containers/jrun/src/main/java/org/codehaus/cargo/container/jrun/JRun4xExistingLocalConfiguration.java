@@ -30,7 +30,7 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
 /**
  * Resin existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
  *  
- * @version $Id: JRunExistingLocalConfiguration.java $
+ * @version $Id: JRunExistingLocalConfiguration.java rconnolly $
  */
 public class JRun4xExistingLocalConfiguration extends AbstractExistingLocalConfiguration 
 {
