@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.jrun.internal.JRun4xExistingLocalConfigurati
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 
 /**
- * Resin existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
+ * JRun existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
  *  
  * @version $Id: JRunExistingLocalConfiguration.java rconnolly $
  */

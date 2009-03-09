@@ -74,6 +74,7 @@ public class JRun4xFilterChain extends FilterChain
         jrunTokens.addConfiguredToken(createPortToken());
         jrunTokens.addConfiguredToken(createLoggingToken());
         jrunTokens.addConfiguredToken(createUserToken());
+        jrunTokens.addConfiguredToken(createRmiPortToken());
         
         this.addReplaceTokens(jrunTokens);
         this.addReplaceTokens(createJvmConfigTokens());
@@ -283,6 +284,23 @@ public class JRun4xFilterChain extends FilterChain
         return tokenUsers;
     }
     
+    /**
+     * Creates rmi port token for jndi.properties.
+     * @return rmiPort token.
+     */
+    private ReplaceTokens.Token createRmiPortToken()
+    {
+        if (getPropertyValue(GeneralPropertySet.RMI_PORT) == null)
+        {
+            configuration.setProperty(GeneralPropertySet.RMI_PORT, "2999");
+        }
+        String rmiPort = getPropertyValue(GeneralPropertySet.RMI_PORT);
+        ReplaceTokens.Token tokenRmiPort = new ReplaceTokens.Token();
+        tokenRmiPort.setKey(GeneralPropertySet.RMI_PORT);
+        tokenRmiPort.setValue(rmiPort);
+        
+        return tokenRmiPort;
+    }
     
     /**
      * Convenience method for retrieving the {@link LocalConfiguration}'s property value.

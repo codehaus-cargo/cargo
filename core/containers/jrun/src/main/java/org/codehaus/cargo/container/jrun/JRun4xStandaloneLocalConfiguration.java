@@ -197,6 +197,10 @@ public class JRun4xStandaloneLocalConfiguration extends
         // filter users in jrun-users.xml
         getResourceUtils().copyResource(resourcePath + "/jrun-users.xml",
             new File(serverInfDir, "/jrun-users.xml"), chain);
+        
+        // filter rmi port in jndi.propertiess
+        getResourceUtils().copyResource(resourcePath + "/jndi.properties",
+            new File(serverInfDir, "/jndi.properties"), chain);
     }    
 
     /**

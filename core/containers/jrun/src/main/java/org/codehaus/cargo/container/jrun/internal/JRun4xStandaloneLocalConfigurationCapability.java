@@ -23,8 +23,7 @@ import org.codehaus.cargo.container.jrun.JRun4xPropertySet;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +34,7 @@ import java.util.Map;
  * @version $Id: JRun4xStandaloneLocalConfigurationCapability.java rconnolly $
  */
 public class JRun4xStandaloneLocalConfigurationCapability
-    extends AbstractExistingLocalConfigurationCapability
+    extends AbstractStandaloneLocalConfigurationCapability
 {
     /**
      * Configuration-specific supports Map.
@@ -50,24 +49,19 @@ public class JRun4xStandaloneLocalConfigurationCapability
         super();
         this.supportsMap = new HashMap();
         
-        this.supportsMap.put(ResourcePropertySet.RESOURCE, Boolean.FALSE);
-        
-        this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.TRUE);
-        
-        this.supportsMap.put(JRun4xPropertySet.SERVER_NAME, Boolean.TRUE);
+        // container properties.
         this.supportsMap.put(JRun4xPropertySet.JRUN_HOME, Boolean.TRUE);
+        this.supportsMap.put(JRun4xPropertySet.SERVER_NAME, Boolean.TRUE);        
 
-        this.supportsMap.put(ServletPropertySet.USERS, Boolean.TRUE);
-        this.supportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
-                    
-        supportDataSources();
-    }
+        // general property support.
+        this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
+        this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
+        this.supportsMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
 
-    /**
-     * Add capability for DataSource implementations.
-     */
-    private void supportDataSources()
-    {
+        // resource support.
+        this.supportsMap.put(ResourcePropertySet.RESOURCE, Boolean.FALSE);
+
+        // datasource support.
         this.supportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.supportsMap.put(DatasourcePropertySet.CONNECTION_TYPE, Boolean.FALSE);
         this.supportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.FALSE);

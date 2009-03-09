@@ -25,9 +25,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Capabilities of the JRun's {@link ResinExistingLocalConfigurationCapability} configuration.
+ * Capabilities of the JRun's {@link JRun4xExistingLocalConfigurationCapability} configuration.
  *
- * @version $Id: ResinExistingLocalConfigurationCapability.java $
+ * @version $Id: JRun4xExistingLocalConfigurationCapability.java rconnolly $
  */
 public class JRun4xExistingLocalConfigurationCapability
     extends AbstractExistingLocalConfigurationCapability

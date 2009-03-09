@@ -29,6 +29,7 @@ import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jrun.internal.AbstractJRunInstalledLocalContainer;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
  * Special container support for the Adobe JRun4.x servlet container.
@@ -57,16 +58,8 @@ public class JRun4xInstalledLocalContainer extends AbstractJRunInstalledLocalCon
      */
     protected void startUpAdditions(Java java, Path classpath) throws FileNotFoundException
     {
-        // TODO: these 2 props may only be for java >= 1.5.
-        // JRun 4.x requires the following property to be set in order to start...
-        if (System.getProperty("os.name").toLowerCase().indexOf("windows") != -1)
-        {
-            java.addSysproperty(getAntUtils().createSysProperty(
-                "sun.io.useCanonCaches", "false"));
-        }
-        java.addSysproperty(getAntUtils().createSysProperty(
-            "jmx.invoke.getters", "true"));
-        
+        java.addSysproperty(getAntUtils().createSysProperty("sun.io.useCanonCaches", "false"));
+        java.addSysproperty(getAntUtils().createSysProperty("jmx.invoke.getters", "true"));
 
         // If getHome() contains spaces a hot fix is required in order for jrun to be able to 
         // stop itself. The following property is needed along with the hot fix.
@@ -78,8 +71,24 @@ public class JRun4xInstalledLocalContainer extends AbstractJRunInstalledLocalCon
                 "-Djava.rmi.server.RMIClassLoaderSpi", "jrunx.util.JRunRMIClassLoaderSpi"));
         }
        
-        java.createJvmarg().setValue("-Xms32m");
-        java.createJvmarg().setValue("-Xmx128m");
+        // if the jvmArgs don't already contain memory settings add defaults.
+        String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+        if (jvmArgs != null)
+        {
+            if (jvmArgs.indexOf("-Xms") == -1)
+            {
+                java.createJvmarg().setValue("-Xms32m");
+            }
+            if (jvmArgs.indexOf("-Xmx") == -1)
+            {
+                java.createJvmarg().setValue("-Xmx128m");
+            }
+        } 
+        else
+        {
+            java.createJvmarg().setValue("-Xms32m");
+            java.createJvmarg().setValue("-Xmx128m");
+        }        
                 
         java.addSysproperty(getAntUtils()
             .createSysProperty("java.home", System.getProperty("java.home")));
