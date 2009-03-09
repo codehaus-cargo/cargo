@@ -52,9 +52,9 @@
       </properties>
     </profile>
     <profile>
-      <id>orion2x</id>
+      <id>tomcat6x</id>
       <properties>
-        <home>${installDir}/orion2.0.5/orion</home>
+        <home>${installDir}/apache-tomcat-6.0.18/apache-tomcat-6.0.18</home>
       </properties>
     </profile>
   </profiles>

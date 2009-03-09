@@ -73,15 +73,15 @@
                 <configuration>
                   <wait>false</wait>
                   <container>
-                    <containerId>orion2x</containerId>
-                    <log>${project.build.directory}/orion2x/cargo.log</log>
+                    <containerId>tomcat6x</containerId>
+                    <log>${project.build.directory}/tomcat6x/cargo.log</log>
                     <zipUrlInstaller>
-                      <url>http://www.orionserver.com/distributions/orion2.0.5.zip</url>
+                      <url>http://www.smudge-it.co.uk/pub/apache/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip</url>
                       <installDir>${installDir}</installDir>
                     </zipUrlInstaller>
                   </container>
                   <configuration>
-                    <home>${project.build.directory}/orion2x/container</home>
+                    <home>${project.build.directory}/tomcat6x/container</home>
                     <properties>
                       <cargo.servlet.port>${port}</cargo.servlet.port>
                       <cargo.logging>high</cargo.logging>

@@ -31,13 +31,6 @@
       </properties>
     </profile>
     <profile>
-      <id>orion2x</id>
-      <properties>
-        <containerId>orion2x</containerId>
-        <downloadUrl>http://www.orionserver.com/distributions/orion2.0.7.zip</downloadUrl>
-      </properties>
-    </profile>
-    <profile>
       <id>resin3x</id>
       <properties>
         <containerId>resin3x</containerId>
