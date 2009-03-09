@@ -540,7 +540,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             // Ensure that the directories where the log will go are created
             getContainerElement().getLog().getParentFile().mkdirs();
 
-            logger = new FileLogger(getContainerElement().getLog(), false);
+            logger = new FileLogger(getContainerElement().getLog(), true);
         }
         else
         {

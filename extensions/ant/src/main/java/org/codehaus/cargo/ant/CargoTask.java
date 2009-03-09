@@ -427,7 +427,7 @@ public class CargoTask extends Task
     {
         if (getLog() != null)
         {
-            this.logger = new FileLogger(getLog(), false);
+            this.logger = new FileLogger(getLog(), true);
         }
         else
         {
