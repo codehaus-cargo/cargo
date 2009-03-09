@@ -185,6 +185,15 @@
         <role>Java Developer</role>
       </roles>
     </developer>
+    <developer>
+      <name>Ryan Connolly</name>
+      <email>rynam0@gmail.com</email>
+      <id>rynam0</id>
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
   </developers>
   <contributors>
     <contributor>
