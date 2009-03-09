@@ -79,7 +79,7 @@ public class AbstractCargoTestCase extends TestCase
 
         this.logger =
             new FileLogger(new File(new File(getTestData().targetDir).getParentFile(),
-                "cargo.log"), false);
+                "cargo.log"), true);
         this.logger.setLevel(LogLevel.DEBUG);
     }
 
