@@ -90,6 +90,8 @@ public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstal
 
         AntContainerExecutorThread jrunRunner = new AntContainerExecutorThread(java);
         jrunRunner.start();
+        
+        Thread.sleep(10000);
     }
     
     /**
@@ -106,6 +108,8 @@ public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstal
 
         AntContainerExecutorThread jrunRunner = new AntContainerExecutorThread(java);
         jrunRunner.start();
+        
+        Thread.sleep(10000);
     }
 
     /**
@@ -121,8 +125,8 @@ public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstal
         java.addSysproperty(getAntUtils().createSysProperty("jrun.home", 
             getConfiguration().getHome()));
         
-        java.setClassname("jrunx.kernel.JRun");        
-                
+        java.setClassname("jrunx.kernel.JRun");
+
         Path classPath = java.createClasspath();   
         classPath.setPath(getConfiguration().getHome() + "/lib/jrun.jar");
         
