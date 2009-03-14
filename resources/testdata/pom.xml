@@ -13,6 +13,7 @@
   <modules>
     <module>empty-jar</module>
     <module>empty-ear</module>
+    <module>simple-jar</module>
     <module>simple-war</module>
     <module>datasource-war</module>
     <module>two-datasources-war</module>

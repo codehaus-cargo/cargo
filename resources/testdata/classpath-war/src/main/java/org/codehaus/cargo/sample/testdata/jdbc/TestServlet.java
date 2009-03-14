@@ -39,7 +39,7 @@ public class TestServlet extends HttpServlet
 
         try
         {
-            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+            Class.forName("org.codehaus.cargo.simple.SimpleClass");
             PrintWriter out = response.getWriter();
             out.print("Got class!");
             out.close();
