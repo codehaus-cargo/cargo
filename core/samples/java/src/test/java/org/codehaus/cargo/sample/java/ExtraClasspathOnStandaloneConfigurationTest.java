@@ -21,18 +21,32 @@ package org.codehaus.cargo.sample.java;
 
 import junit.framework.Test;
 
+import org.codehaus.cargo.container.Container;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployer.DeployableMonitor;
+import org.codehaus.cargo.container.deployer.Deployer;
+import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
+import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
+import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
+import org.codehaus.cargo.util.CargoException;
+
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collections;
 
 public class ExtraClasspathOnStandaloneConfigurationTest extends
-    AbstractDataSourceWarCapabilityContainerTestCase
+    AbstractCargoTestCase
 {
+    
     public ExtraClasspathOnStandaloneConfigurationTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
@@ -43,11 +57,6 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
     {
         super.setUp();
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
-    }
-
-    public void addDataSourceToConfigurationViaProperty(DataSourceFixture fixture)
-    {
-        // do nothing as we don't intend to deploy a datasource, only use its driver
     }
     
     public static Test suite() throws Exception
@@ -63,9 +72,46 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
         return suite;
     }
 
+    /**
+     * Tests that a servlet has access to a class in added to the extraclasspath 
+     * @throws MalformedURLException
+     */
     public void testLoadClass() throws MalformedURLException
     {
-        _testServletThatIssuesGetConnectionFrom(null, "classpath");
+        Deployable war =
+            new DefaultDeployableFactory().createDeployable(getContainer().getId(), getTestData()
+                .getTestDataFileFor("classpath-war"), DeployableType.WAR);
+        
+        getLocalContainer().getConfiguration().addDeployable(war);
+        
+        URL warPingURL =
+            new URL("http://localhost:" + getTestData().port + "/" + "classpath-war-"
+                + getTestData().version + "/test");
+        
+        getLocalContainer().start();
+        
+        PingUtils.assertPingTrue("simple war should have been started at this point", warPingURL,
+            getLogger());
+
+        getLocalContainer().stop();
+        
+        PingUtils.assertPingFalse("simple war should have been stopped at this point", warPingURL,
+                getLogger());
     }
 
+    public Container createContainer(Configuration configuration)
+    {
+        InstalledLocalContainer container =
+            (InstalledLocalContainer) super.createContainer(configuration);
+        
+        String simpleJar = System.getProperty("cargo.testdata.simple-jar");
+        if (simpleJar != null)
+        {
+            container.addExtraClasspath(simpleJar);
+        } else {
+            throw new CargoException("Please set property [cargo.testdata.simple-jar] to a valid location of simple-jar");
+        }
+        return container;
+    }
+    
 }

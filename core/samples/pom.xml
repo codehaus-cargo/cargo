@@ -158,7 +158,11 @@
       <version>${cargo.resources.version}</version>
       <type>ear</type>
     </dependency>
-
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>simple-jar</artifactId>
+      <version>${cargo.resources.version}</version>
+    </dependency> 
   </dependencies>
   <build>
     <pluginManagement>
@@ -806,6 +810,10 @@
                 <value>${basedir}/target/test-jars/derby.jar</value>
               </property>
               <property>
+                <name>cargo.testdata.simple-jar</name>
+                <value>${basedir}/target/test-jars/simple.jar</value>
+              </property>
+              <property>
                 <name>cargo.testdata.xerces-jars</name>
                 <value>${basedir}/target/xerces-jars</value>
               </property>
@@ -862,6 +870,13 @@
                   <version>${cargo.derby.version}</version>
                   <outputDirectory>${basedir}/target/test-jars</outputDirectory>
                   <destFileName>derby.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>simple-jar</artifactId>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${basedir}/target/test-jars</outputDirectory>
+                  <destFileName>simple.jar</destFileName>
                 </artifactItem>
                 <!-- to allow jdk 1.4 containers to parse schema files -->
                 <artifactItem>
@@ -941,7 +956,7 @@
       <!-- All stable containers -->
       <id>all-stable-downloadable</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, tomcat4x,tomcat5x, tomcat6x,  jetty4x, jetty5x, jetty6x, jboss3x, jboss4x, jboss42x, jo1x, jonas4x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, tomcat4x,tomcat5x, tomcat6x,  jetty4x, jetty5x, jetty6x, jboss4x, jboss42x, jo1x, jonas4x</cargo.containers>
       </properties>
     </profile>
     <profile>
