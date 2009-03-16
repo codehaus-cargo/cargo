@@ -113,8 +113,19 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         doAction(java);
         doServerAndDomainNameArgs(java);
         java.createArg().setValue("-halt");
+
         // Call java.execute directly since ClientAdmin.halt is synchronous
         java.execute();
+
+        // Sleep a bit to ensure the CAROL container is stopped
+        try
+        {
+            Thread.sleep(2500);
+        }
+        catch (InterruptedException e)
+        {
+            throw new IllegalStateException("Thread.sleep failed");
+        }
     }
 
     /**

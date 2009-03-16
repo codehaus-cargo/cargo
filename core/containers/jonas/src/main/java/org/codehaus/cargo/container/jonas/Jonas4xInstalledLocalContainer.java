@@ -115,6 +115,16 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         {
             throw new IllegalStateException("Cannot stop server. Check JOnAS logs for details.");
         }
+
+        // Sleep a bit to ensure the CAROL container is stopped
+        try
+        {
+            Thread.sleep(2500);
+        }
+        catch (InterruptedException e)
+        {
+            throw new IllegalStateException("Thread.sleep failed");
+        }
     }
 
     /**
