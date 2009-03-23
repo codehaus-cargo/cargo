@@ -129,8 +129,7 @@ public class JettyArtifactResolver
         {
             List dependencies = (List) this.jettyDependencies.get(jettyContainerId);
 
-            URL[] urls = new URL[dependencies.size() + 1];
-            int i = 0;
+            List urls = new ArrayList(dependencies.size() + 1);
             Iterator it = dependencies.iterator();
             while (it.hasNext())
             {
@@ -138,23 +137,24 @@ public class JettyArtifactResolver
                 Artifact artifact = this.artifactFactory.createArtifact(dependency.groupId,
                     dependency.artifactId, dependency.version, "compile", "jar");
                 this.artifactResolver.resolve(artifact, this.repositories, this.localRepository );
-                urls[i++] = artifact.getFile().toURL();
+                urls.add(artifact.getFile().toURL());
             }
 
             // On OSX, the tools.jar classes are included in the classes.jar so there is no need to
             // include any tools.jar file to the cp.
             if (!this.jdkUtils.isOSX())
             {
-                urls[i++] = this.jdkUtils.getToolsJar().toURL();
+                urls.add(this.jdkUtils.getToolsJar().toURL());
             }
 
+            URL[] urlArray = (URL[]) urls.toArray(new URL[urls.size()]);
             if (parent == null)
             {
-                classloader = new URLClassLoader(urls);
+                classloader = new URLClassLoader(urlArray);
             }
             else
             {
-                classloader = new URLClassLoader(urls, parent);
+                classloader = new URLClassLoader(urlArray, parent);
             }
         }
         catch (Exception e)
