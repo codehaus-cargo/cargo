@@ -818,7 +818,7 @@
                    repository. -->
               <property>
                 <name>cargo.version</name>
-                <value>1.0</value>
+                <value>1.0.1-SNAPSHOT</value>
               </property>
 
               <property>
