@@ -244,7 +244,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
                 {
                     getFileHandler().copyFile(fileConfig.getFile(), destFile, filterChain);
                 }
-                if (isDirectory)
+                else if (isDirectory)
                 {
                     String destDir = getDestDirectoryLocation(fileConfig.getFile(), fileConfig
                             .getToDir());
