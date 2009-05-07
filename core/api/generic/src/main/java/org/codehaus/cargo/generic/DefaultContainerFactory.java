@@ -135,6 +135,11 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
             "org.codehaus.cargo.container.jboss.JBoss5xInstalledLocalContainer");
         registerContainer("jboss5x", ContainerType.REMOTE,
             "org.codehaus.cargo.container.jboss.JBoss5xRemoteContainer");
+
+        registerContainer("jboss51x", ContainerType.INSTALLED,
+            "org.codehaus.cargo.container.jboss.JBoss51xInstalledLocalContainer");
+        registerContainer("jboss51x", ContainerType.REMOTE,
+            "org.codehaus.cargo.container.jboss.JBoss51xRemoteContainer");
     }
 
     /**

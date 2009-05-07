@@ -109,6 +109,10 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
 
         registerContainerCapability("jboss5x",
             "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
+
+        registerContainerCapability("jboss51x",
+            "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
+
     }
 
     /**

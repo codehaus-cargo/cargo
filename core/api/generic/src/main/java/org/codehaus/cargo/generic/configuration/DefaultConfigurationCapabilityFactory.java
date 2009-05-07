@@ -143,6 +143,16 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("jboss5x", ContainerType.REMOTE,
                 ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jboss.internal."
                     + "JBossRuntimeConfigurationCapability");
+
+        registerConfigurationCapability("jboss51x", ContainerType.INSTALLED,
+            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jboss.internal."
+                + "JBossStandaloneLocalConfigurationCapability");
+        registerConfigurationCapability("jboss51x", ContainerType.INSTALLED,
+             ConfigurationType.EXISTING, "org.codehaus.cargo.container.jboss.internal."
+                + "JBossExistingLocalConfigurationCapability");
+        registerConfigurationCapability("jboss51x", ContainerType.REMOTE,
+                ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jboss.internal."
+                    + "JBossRuntimeConfigurationCapability");
     }
 
     /**
