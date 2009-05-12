@@ -390,7 +390,9 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
         java.setClassname("weblogic.Admin");
         java.createArg().setValue("-url");
         java.createArg().setValue(
-                "t3://localhost:"
+                "t3://" + getConfiguration().getPropertyValue(
+                GeneralPropertySet.HOSTNAME)
+                        + ":"
                         + getConfiguration().getPropertyValue(
                                 ServletPropertySet.PORT));
         java.createArg().setValue("-username");
