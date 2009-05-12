@@ -47,7 +47,7 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 
 /**
  * Common code used by Cargo MOJOs requiring <code>&lt;container&gt;</code> and
- * <code>&lt;configuration&gt;</code> elements and supportig the notion of Auto-deployable.
+ * <code>&lt;configuration&gt;</code> elements and supporting the notion of Auto-deployable.
  *
  * @version $Id$
  */
