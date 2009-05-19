@@ -133,6 +133,17 @@ public abstract class AbstractJBossInstalledLocalContainer extends
         java.createArg().setValue(
             "--server=" + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
                 + getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
+        
+        String jbossUser = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_USER);
+        String jbossPassword = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_PASSWORD);
+        if (jbossUser != null)
+        {
+            java.createArg().setValue("--user=" + jbossUser);
+            if (jbossPassword != null)
+            {
+                java.createArg().setValue("--password=" + jbossPassword);
+            }
+        }
 
         AntContainerExecutorThread jbossRunner = new AntContainerExecutorThread(java);
         jbossRunner.start();
