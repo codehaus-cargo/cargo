@@ -319,6 +319,9 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
         // Add system properties for the container JVM
         addSystemProperties(java);
+        
+        // Add runtime arguments if present
+        addRuntimeArgs(java);
 
         // Add JVM args if defined
         String jvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
@@ -424,6 +427,23 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         }
     }
 
+    /**
+     * Add command line arguments to the java command.
+     * @param javacommand The java command
+     */
+    private void addRuntimeArgs(Java javacommand)
+    {
+        String runtimeArgs = getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS);
+        if (runtimeArgs != null)
+        {
+            String[] arguments = runtimeArgs.split(" ");
+            for (int i = 0; i < arguments.length; i++)
+            {
+                javacommand.createArg().setValue(arguments[i]);
+            }
+        }
+    }
+    
     /**
      * {@inheritDoc}
      * 

@@ -47,6 +47,11 @@ public interface GeneralPropertySet
     String JVMARGS = "cargo.jvmargs";
 
     /**
+     * Runtime args to be used when starting/stopping containers (ex: "-userThreads").
+     */
+    String RUNTIME_ARGS = "cargo.runtime.args";
+
+    /**
      * The port to use when communicating with this server, for example to start and stop it.
      */
     String RMI_PORT = "cargo.rmi.port";

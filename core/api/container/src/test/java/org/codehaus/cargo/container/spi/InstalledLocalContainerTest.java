@@ -84,6 +84,8 @@ public class InstalledLocalContainerTest extends TestCase
     public class AbstractInstalledLocalContainerStub extends AbstractInstalledLocalContainer
     {
 
+    	Java java;
+    	
         public AbstractInstalledLocalContainerStub(LocalConfiguration configuration)
         {
             super(configuration);
@@ -91,6 +93,7 @@ public class InstalledLocalContainerTest extends TestCase
 
         protected void doStart(Java java) throws Exception
         {
+        	this.java = java;
         }
 
         protected void doStop(Java java) throws Exception
@@ -112,6 +115,12 @@ public class InstalledLocalContainerTest extends TestCase
             return null;
         }
 
+        // method for testing to retrieve the java command created
+        public Java getJava()
+        {
+        	return this.java;
+        }
+        
     }
 
     public void testDoesntSetToolsJarWhenOsX() throws Exception
@@ -255,6 +264,23 @@ public class InstalledLocalContainerTest extends TestCase
         container.getSystemProperties().put("1", "2");
         assertEquals(1, container.getSystemProperties().size());
         assertEquals("2", container.getSystemProperties().get("1"));
-
     }
+    
+    public void testRuntimArgs()
+    {
+    	AbstractInstalledLocalContainerStub container =
+    		new AbstractInstalledLocalContainerStub(configuration);
+    	try
+    	{
+    		container.getConfiguration().setProperty("cargo.runtime.args", "hello -world");
+    		container.startInternal();
+    		Java java = container.getJava();
+    		assertTrue("Expected runtime arguments not contained in the java commandline.", java.getCommandLine().toString().contains("hello -world"));
+    	} 
+    	catch (Exception e)
+    	{
+    		assertNull("An exception occured while getting the java object", true);
+    	}
+    }
+    
 }
