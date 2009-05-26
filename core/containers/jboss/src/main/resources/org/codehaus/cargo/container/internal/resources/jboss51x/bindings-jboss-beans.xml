@@ -1,43 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <deployment xmlns="urn:jboss:bean-deployer:2.0">
-
-   <classloader><inject bean="bindings-classloader:0.0.0"/></classloader>
-
-   <classloader name="bindings-classloader" xmlns="urn:jboss:classloader:1.0" export-all="NON_EMPTY" import-all="true">
-      <root>${jboss.common.lib.url}jboss-bindingservice.jar</root>
-   </classloader>
-
+   
+   <!-- The actual SBM from which services obtain binding information -->
    <bean name="ServiceBindingManager" class="org.jboss.services.binding.ServiceBindingManager">
 
       <annotation>@org.jboss.aop.microcontainer.aspects.jmx.JMX(name="jboss.system:service=ServiceBindingManager", exposedInterface=org.jboss.services.binding.ServiceBindingManagerMBean.class, registerDirectly=true)</annotation>
-            
-      <constructor>
-         <!-- The name of the set of bindings to use for this server -->
-         <parameter>${jboss.service.binding.set:ports-default}</parameter>
-
-         <!-- The named sets of bindings -->
-         <parameter>
-            <bean name="ServiceBindingStore" class="org.jboss.services.binding.impl.PojoServiceBindingStore">
-
-               <!-- Base bindings that are used to create bindings for each set -->
-               <property name="standardBindings"><inject bean="StandardBindings"/></property>
-               
-               <!-- The sets of bindings -->
-               <property name="serviceBindingSets">
-                  <set>
-                     <inject bean="PortsDefaultBindings"/>
-                     <inject bean="Ports01Bindings"/>
-                     <inject bean="Ports02Bindings"/>
-                     <inject bean="Ports03Bindings"/>
-                  </set>
-               </property>
-            </bean>
-         </parameter>
+      
+      <!-- Here we use the ServiceBindingManagementObject as a factory to create the SBM -->
+      <constructor factoryMethod="getServiceBindingManager">     
+         <factory bean="ServiceBindingManagementObject"/>
       </constructor>
 
    </bean>
 
+   <!-- Provides management tools with a ProfileService ManagementView 
+        interface to the SBM and its components -->
+   <bean name="ServiceBindingManagementObject" 
+         class="org.jboss.services.binding.managed.ServiceBindingManagementObject">
+         
+      <constructor>
+         <!-- The name of the set of bindings to use for this server -->
+         <parameter>${jboss.service.binding.set:ports-default}</parameter>
+          
+         <!--  The binding sets -->
+         <parameter>
+            <set>
+               <inject bean="PortsDefaultBindings"/>
+               <inject bean="Ports01Bindings"/>
+               <inject bean="Ports02Bindings"/>
+               <inject bean="Ports03Bindings"/>
+            </set>
+         </parameter>
+         
+         <!-- Base binding metadata that is used to create bindings for each set -->
+         <parameter><inject bean="StandardBindings"/></parameter>
+         
+      </constructor>
+   </bean>
+   
+   
    <!-- The ports-default bindings are obtained by taking the base bindings and adding 0 to each port value  -->
    <bean name="PortsDefaultBindings"  class="org.jboss.services.binding.impl.ServiceBindingSet">
       <constructor>
@@ -182,23 +184,24 @@
 
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss:service=HAJNDI</property>
-               <property name="bindingName">AutoDiscoveryMulticastAddress</property>
+               <property name="bindingName">AutoDiscovery</property>
                <property name="hostName">${jboss.partition.udpGroup:230.0.0.4}</property>
+               <property name="port">1102</property>
                <property name="description">Multicast socket on which HA-JNDI listens for auto-discovery requests from clients</property>
                <!-- This address should not be changed between different 
                     binding sets; all nodes need to listen on the same 
                     multicast address -->
                <property name="fixedHostName">true</property>
+               <!-- This port should not be changed between different 
+                    binding sets; all nodes need to listen on the same port -->
+               <property name="fixedPort">true</property>
             </bean>
 
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss:service=HAJNDI</property>
-               <property name="bindingName">AutoDiscoveryPort</property>
-               <property name="port">1102</property>
-               <property name="description">Multicast socket on which HA-JNDI listens for auto-discovery requests from clients</property>
-               <!-- This port should not be changed between different 
-                    binding sets; all nodes need to listen on the same port -->
-               <property name="fixedPort">true</property>
+               <property name="bindingName">AutoDiscoveryInterface</property>
+               <property name="hostName">${jboss.bind.address}</property>
+               <property name="description">Interface for multicast socket on which HA-JNDI listens for auto-discovery requests from clients</property>
             </bean>
 
             <!-- ********************* deploy/cluster/ha-legacy-service.xml ****************** -->

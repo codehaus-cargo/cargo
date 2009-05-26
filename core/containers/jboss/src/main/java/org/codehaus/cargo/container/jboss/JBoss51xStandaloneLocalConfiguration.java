@@ -130,11 +130,10 @@ public class JBoss51xStandaloneLocalConfiguration extends JBossStandaloneLocalCo
         }
        
         String[] configFiles = new String[]
-        {"jboss-log4j.xml", "jboss-service.xml", "bindings-jboss-beans.xml"};
+        {"jboss-log4j.xml", "jboss-service.xml"};
         
         // Copy configuration files from cargo resources directory with token replacement
-        String[] cargoConfigFiles = new String[] {"jboss-log4j.xml", "jboss-service.xml", 
-            "bindings-jboss-beans.xml"};
+        String[] cargoConfigFiles = new String[] {"jboss-log4j.xml", "jboss-service.xml"};
         for (int i = 0; i < cargoConfigFiles.length; i++)
         {
             getResourceUtils().copyResource(
@@ -157,6 +156,11 @@ public class JBoss51xStandaloneLocalConfiguration extends JBossStandaloneLocalCo
         getResourceUtils().copyResource(
                RESOURCE_PATH + jbossContainer.getId() + "/" + "server.xml",
                new File(deployDir + "/jbossweb.sar/", "server.xml"), filterChain);
+        
+        getResourceUtils().copyResource(
+                RESOURCE_PATH + jbossContainer.getId() + "/" + "bindings-jboss-beans.xml",
+                new File(confDir + "/bindingservice.beans/META-INF", 
+                        "bindings-jboss-beans.xml"), filterChain);
  
         // Copy the files within the JBoss Deployers directory to the cargo deployers directory
         copyExternalResources(
