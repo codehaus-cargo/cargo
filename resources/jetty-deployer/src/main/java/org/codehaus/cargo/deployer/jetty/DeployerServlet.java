@@ -79,8 +79,15 @@ public class DeployerServlet extends HttpServlet
     public DeployerServlet(Server server)
     {
         this.server = server;
-        //TODO find a better means of determining the configuration and webapp directories
-        this.configHome = System.getProperty("config.home");
+        //TODO find a better means of determining the configuration and webapp directories        
+        if (System.getProperty("jetty.home") != null)
+        {
+        	this.configHome = System.getProperty("jetty.home");
+        } 
+        else
+        {
+        	this.configHome = System.getProperty("config.home");
+        }
         this.webAppDirectory = configHome + "/webapps";
         
         // TODO there could potentially be more than one context handler
@@ -221,7 +228,7 @@ public class DeployerServlet extends HttpServlet
             WebAppContext webappcontext = new WebAppContext();
             webappcontext.setContextPath(contextPath);
             webappcontext.setWar(webappLocation);
-            webappcontext.setDefaultsDescriptor(System.getProperty("config.home") + "/etc/webdefault.xml");
+            webappcontext.setDefaultsDescriptor(configHome + "/etc/webdefault.xml");
             chc.addHandler(webappcontext);
             try
             {
