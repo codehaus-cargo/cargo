@@ -95,6 +95,10 @@ public class WebLogic9x10xAnd103xConfigurationBuilder extends
         {
             dataSourceElement.addElement("global-transactions-protocol").setText("None");
         }
+        if (ds.getPassword() != null)
+        {
+            driverElement.addElement("password-encrypted").setText(ds.getPassword());
+        }
         StringBuffer out = new StringBuffer();
         out.append(nameElement.asXML());
         out.append("\n");
