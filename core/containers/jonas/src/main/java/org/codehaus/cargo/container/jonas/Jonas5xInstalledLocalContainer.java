@@ -112,7 +112,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     {
         doAction(java);
         doServerAndDomainNameArgs(java);
-        java.createArg().setValue("stop");
+        java.createArg().setValue("-stop");
 
         // Call java.execute directly since ClientAdmin.stop is synchronous
         java.execute();
