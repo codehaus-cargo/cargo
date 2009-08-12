@@ -62,10 +62,10 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
         java.reconfigure();
 
         int returnCode = java.executeJava();
-        if (returnCode != 0 && returnCode != 1)
+        if (returnCode != -1 && returnCode != 0 && returnCode != 1)
         {
             throw new IllegalStateException("JonasAdmin ping returned " + returnCode
-                    + ", the only values allowed are 0 and 1");
+                    + ", the only values allowed are -1, 0 and 1");
         }
         return returnCode == 0;
     }

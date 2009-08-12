@@ -91,10 +91,10 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
             }
 
             int returnCode = ping.executeJava();
-            if (returnCode != 0 && returnCode != 1 && returnCode != 2)
+            if (returnCode != -1 && returnCode != 0 && returnCode != 1 && returnCode != 2)
             {
                 throw new IllegalStateException("JonasAdmin ping returned " + returnCode
-                        + ", the only values allowed are 0, 1 and 2");
+                        + ", the only values allowed are -1, 0, 1 and 2");
             }
             if (returnCode == 0)
             {
