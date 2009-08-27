@@ -70,6 +70,11 @@ public class ConfigurationElement
      *List of configuration files
      */
     private List fileConfigs = new ArrayList();
+    
+    /**
+     * List of files
+     */
+    private List files = new ArrayList();
 
     /**
      * @param configurationClass the configuration class to associate to the containing container
@@ -118,16 +123,25 @@ public class ConfigurationElement
      */
     public void addConfiguredFile(FileConfig fileConfigElement)
     {
-        this.fileConfigs.add(fileConfigElement);
+        this.files.add(fileConfigElement);
     }
     
     /**
-     * {@inheritDoc}
-     * @see #addConfiguredDeployable(DeployableElement)
+     * Get the list of configFiles
+     * @return the configFiles
      */
     protected final List getFileConfigs()
     {
         return this.fileConfigs;
+    }
+    
+    /**
+     * Get the list of files
+     * @return the files
+     */
+    protected final List getFiles()
+    {
+    	return this.files;
     }
 
     /**
@@ -237,6 +251,15 @@ public class ConfigurationElement
                     FileConfig configfile = (FileConfig) getFileConfigs().get(i);
                     ((StandaloneLocalConfiguration) configuration)
                             .setConfigFileProperty(configfile);
+                }
+            }
+            if (getFiles() != null)
+            {
+                for (int i = 0; i < getFiles().size(); i++)
+                {
+                    FileConfig configfile = (FileConfig) getFiles().get(i);
+                    ((StandaloneLocalConfiguration) configuration)
+                            .setFileProperty(configfile);
                 }
             }
         }
