@@ -141,7 +141,7 @@ public class ConfigurationElement
      */
     protected final List getFiles()
     {
-    	return this.files;
+        return this.files;
     }
 
     /**
