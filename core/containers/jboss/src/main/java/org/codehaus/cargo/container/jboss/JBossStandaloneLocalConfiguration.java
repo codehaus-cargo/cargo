@@ -216,7 +216,9 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
                     {
                         FileOutputStream fops = new FileOutputStream(new File(destDir,
                                 sourceFiles[i].getName()));
-                        getFileHandler().copy(new FileInputStream(sourceFiles[i]), fops);
+                        FileInputStream fips = new FileInputStream(sourceFiles[i]);
+                        getFileHandler().copy(fips, fops);
+                        fips.close();
                         fops.close();
                     }
 
