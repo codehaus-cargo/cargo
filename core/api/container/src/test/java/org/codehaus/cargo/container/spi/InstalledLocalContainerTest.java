@@ -279,7 +279,7 @@ public class InstalledLocalContainerTest extends TestCase
     	} 
     	catch (Exception e)
     	{
-    		assertNull("An exception occured while getting the java object", true);
+    		assertFalse("An exception occured while getting the java object", true);
     	}
     }
     

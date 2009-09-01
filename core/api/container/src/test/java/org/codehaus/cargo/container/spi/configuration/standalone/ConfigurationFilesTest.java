@@ -89,8 +89,9 @@ public class ConfigurationFilesTest extends TestCase
 	protected void tearDown() throws Exception {
 		// set all the files to delete on exit
 		File home = new File(configuration.getHome());
-		for (File file : home.listFiles())
+		for (int i = 0 ; i < home.listFiles().length; i ++)
 		{
+			File file = home.listFiles()[i];
 			file.deleteOnExit();
 		}
 		
