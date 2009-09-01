@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1-alpha-1</version>
   </parent>
   <artifactId>empty-jar</artifactId>
   <name>Cargo Empty JAR test data for samples</name>
