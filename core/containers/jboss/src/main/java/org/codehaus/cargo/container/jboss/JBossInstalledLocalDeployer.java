@@ -24,6 +24,7 @@ import java.io.File;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
@@ -52,7 +53,7 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
     public String getDeployableDir()
     {  
         String clustered = getContainer().getConfiguration().
-                getPropertyValue(JBossPropertySet.CLUSTERED);
+                                 getPropertyValue(JBossPropertySet.CLUSTERED);
         
         if (Boolean.valueOf(clustered).booleanValue())
         {
@@ -102,22 +103,34 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
      */
     public void undeploy(Deployable deployable)
     {
-        if (deployable.getType() != DeployableType.WAR)
+        if (deployable.getType() == DeployableType.WAR)
+        {
+            WAR war = (WAR) deployable;
+            undeployFile(getDeployableDir(), war.getContext() + ".war");
+        }
+
+        else if (deployable.getType() == DeployableType.EAR)
+        {
+            EAR ear = (EAR) deployable;
+            undeployFile(getDeployableDir(), ear.getName() + ".ear");
+        }
+
+        else if (deployable.getType() == DeployableType.FILE
+                || deployable.getType() == DeployableType.SAR)
+        {
+            String fileName = getFileHandler().getName(deployable.getFile());
+            undeployFile(getDeployableDir(), fileName);
+        }
+
+        else
         {
             super.undeploy(deployable);
             return;
         }
-        WAR war = (WAR) deployable;
-        String fileName = getFileHandler().append(getDeployableDir(), war.getContext() + ".war");
-        if (fileExists(fileName))
-        {
-            getLogger().info("Undeploying [" + fileName + "]...", this.getClass().getName());
-            getFileHandler().delete(fileName);
-        }
     }
 
     /**
-     * Checks whether file or dir represented by string exists
+     * Checks whether file or dir represented by string exists.
      *
      * @param fileName path to check
      * @return true if file/dir exists
@@ -127,5 +140,26 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
         return new File(fileName).exists();
     }
 
-    
+    /**
+     *Undeploy the file in specified directory with the specified file name.
+     *
+     *@param directory The directory name
+     *@param file The file name
+     */
+    private void undeployFile(String directory, String file)
+    {
+        String fileName = getFileHandler().append(directory, file); 
+        if (fileExists(fileName))
+        {
+            getLogger().info("Undeploying [" + fileName + "]...", this.getClass().getName());
+            getFileHandler().delete(fileName);
+        }
+        else
+        {
+            getLogger().info(
+                    "Couldn't not find file to undeploy [" + fileName + "]",
+                    this.getClass().getName());
+        }
+    }
+
 }
