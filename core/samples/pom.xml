@@ -654,7 +654,7 @@
 
               <property>
                 <name>cargo.jonas5x.url</name>
-                <value>http://download.fr.forge.objectweb.org/jonas/jonas-osgi-5.1.0-M5-bin.tar.gz</value>
+                <value>http://download.fr.forge.objectweb.org/jonas/jonas-osgi-5.1.0-bin.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jonas5x.port</name>
