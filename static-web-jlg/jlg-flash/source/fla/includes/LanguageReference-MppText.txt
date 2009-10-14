@@ -1,0 +1,154 @@
+Language Reference  - MppText - TextInput Component for AS1 and FlashPlayer 6 
+
+
+Just Include it using the #include since AS1 doesn't support the import method for importing classes.
+
+#include "includes/components/MppText.as"
+
+
+Constructor
+
+var mytxt = new MppText( container, depth);
+
+container - Any type of movieclip including root, this is where the textbox will appear.
+
+depth - Depth of the textbox.
+
+
+
+////////////////////////////////////////////////////////////////////
+///////////////////////////////Public Methods///////////////////////
+////////////////////////////////////////////////////////////////////
+
+
+setTextValue(value) - set the text the TextBox
+
+parameter
+
+value - the actual text that will be display in the TextBox
+
+
+----------------------------------------------------------------
+
+getTextValue() - get the displayed text of in the TextBox
+
+
+---------------------------------------------------------------
+setDimension(X, Y) - set the dimension of the TextBox
+
+parameter
+
+X - x coordinate 
+
+Y - y coordinate
+----------------------------------------------------------------
+
+
+setEnable(bool) - Enable or disable the TextBox
+
+bool -  true to enable the MppText
+        false to disable the Text
+--------------------------------------------------------------
+
+
+setWidth(Value) - set the Width of the TextBox
+
+Value - the actual witdth of the TextBox
+
+
+----------------------------------------------------------
+setTextStyle(font, size, color, disablecolor, embedded) - set the font and style of the textBox 
+
+------------------------------------------------------------
+
+setSkin(boxcolor, boxcolordisable, framecolor, shadowcolor, lightcolor, glowcolor)
+
+boxcolor - the bg color of the textbox
+boxclordisable - the bg color of the textbox when it is disable
+framecolor - the color of the frame
+shadowcolor - the color of the shadow of the textbox
+lightcolor - the color of the lighter parts of the textbox
+glowcolor - the color of the text when it receives the focus
+
+-------------------------------------------------------------
+
+setMaxChar(value) - set the max char length of the textbox
+
+value - the max length of the the textbox
+
+-------------------------------------------------------------
+
+setTextAsPassword(boolean) - set Textbox as a password text box
+
+boolean - if true  it will be a password type textbox, wherein the text will be displayed as *;
+
+-------------------------------------------------------------
+
+
+visualize() - to make the textbox appear on the screen
+
+
+Note: to see your custom configuration, you must set the properties before calling this method, except for the setDimension and setEnable method..
+
+
+////////////////////////////////////////////////////////////////////
+///////////////////////////////EVENtS///////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+EVENTS--
+
+onEnter - when the enter key was hit while the textbox is on focus.
+
+gotFocus - whent the textbox receives the focus.
+
+lostFocus - when the textbox looses its focus.
+
+onTextChange - when the textbox is in use.
+
+
+to listen to the events you must create an object that will listen and add the object as listener using the addListener method..
+
+Example
+
+#-----------------------------------------------------------------------------------------------------#
+
+#-----------------------------------------------------------------------------------------------------#
+
+#-----------------------------------------------------------------------------------------------------#
+
+#include "includes/components/MppText.as" 
+// make sure the the includes directory is located in the same directory with the  main flash application.
+
+var mytxt = new MppText(_root,1); // this will instantiate the textbox.
+
+mytxt.setTextStyle("Comic Sans MS", 11, 0x00000); // set the font style of the textbox
+mytxt.visualize(); // it will make the text box appear on screen..
+
+mytxt.setDimension(100, 100); // set cooridinates of the TextBox
+
+var listener = new Object(); // the object that will listen to diferent event of the textbox
+
+
+listener.onTextChange = function(){
+	trace("You're typing to your textbox");
+}
+
+listener.gotFocus = function(){
+	trace("Got it, the focus!");
+}
+
+listener.lostFocus = function(){
+	trace("I'd just loose the focus");
+}
+
+listener.onEnter = function(){
+	trace(" MyText is in focus and you've pressed the enter key");
+}
+
+mytxt.addListener(listener);
+
+#-----------------------------------------------------------------------------------------------------#
+
+#-----------------------------------------------------------------------------------------------------#
+
+#-----------------------------------------------------------------------------------------------------#
