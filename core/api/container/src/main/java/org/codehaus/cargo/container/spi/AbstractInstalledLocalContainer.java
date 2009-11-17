@@ -302,7 +302,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             File outputFile = new File(getOutput());
             
             // Ensure that directories where the output file will go are created
-            outputFile.getParentFile().mkdirs();
+            outputFile.getAbsoluteFile().getParentFile().mkdirs();
             
             java.setOutput(outputFile);
             java.setAppend(isAppend());
