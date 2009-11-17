@@ -88,7 +88,7 @@ public class DeployerServlet extends HttpServlet
         {
         	this.configHome = System.getProperty("config.home");
         }
-        this.webAppDirectory = configHome + "/webapps";
+        this.webAppDirectory = configHome + File.separator + "webapps";
         
         // TODO there could potentially be more than one context handler
         // collection
@@ -266,8 +266,8 @@ public class DeployerServlet extends HttpServlet
             fileName = contextPath;
         }
         
-        File webappArchive = new File(webAppDirectory + "/" + fileName + ".war");
-        File webappDirectory = new File(webAppDirectory + "/" + fileName);
+        File webappArchive = new File(webAppDirectory + File.separator + fileName + ".war");
+        File webappDirectory = new File(webAppDirectory + File.separator + fileName);
         
         File returnedFile = null;
 
