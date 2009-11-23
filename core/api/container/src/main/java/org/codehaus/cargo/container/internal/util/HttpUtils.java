@@ -74,7 +74,7 @@ public class HttpUtils extends LoggedObject
      */
     public final boolean ping(URL pingURL)
     {
-        return isAvailable(testConnectivity(pingURL, null));
+        return isAvailable(testConnectivity(pingURL, null, 0L));
     }
 
     /**
@@ -93,13 +93,40 @@ public class HttpUtils extends LoggedObject
      * Ping a URL and store the detailed result in a {@link HttpResult} object.
      *
      * @param pingURL the URL to ping
+     * @param result the detailed ping result
+     * @param timeout the timeout to wait for, 0 if waiting to infinity
+     * @return true if the URL can be ping or false otherwise
+     */
+    public final boolean ping(URL pingURL, HttpResult result, long timeout)
+    {
+        return ping(pingURL, null, result, timeout);
+    }
+
+    /**
+     * Ping a URL and store the detailed result in a {@link HttpResult} object.
+     *
+     * @param pingURL the URL to ping
      * @param requestProperties optional request properties to add to the connection (can be null)
      * @param result the detailed ping result
      * @return true if the URL can be ping or false otherwise
      */
     public final boolean ping(URL pingURL, Map requestProperties, HttpResult result)
     {
-        HttpResult responseResult = testConnectivity(pingURL, requestProperties);
+        return ping(pingURL, requestProperties, result, 0L);
+    }
+
+    /**
+     * Ping a URL and store the detailed result in a {@link HttpResult} object.
+     *
+     * @param pingURL the URL to ping
+     * @param requestProperties optional request properties to add to the connection (can be null)
+     * @param result the detailed ping result
+     * @param timeout the timeout to wait for, 0 if waiting to infinity
+     * @return true if the URL can be ping or false otherwise
+     */
+    public final boolean ping(URL pingURL, Map requestProperties, HttpResult result, long timeout)
+    {
+        HttpResult responseResult = testConnectivity(pingURL, requestProperties, timeout);
         result.responseBody = responseResult.responseBody;
         result.responseCode = responseResult.responseCode;
         result.responseMessage = responseResult.responseMessage;
@@ -112,10 +139,11 @@ public class HttpUtils extends LoggedObject
      *
      * @param url the URL to check
      * @param requestProperties optional request properties to add to the connection (can be null)
+     * @param timeout the timeout in ms, 0 for infinity
      * @return the HTTP(S) result containing -1 as response code if no connection could be
      *         established
      */
-    private HttpResult testConnectivity(URL url, Map requestProperties)
+    private HttpResult testConnectivity(URL url, Map requestProperties, long timeout)
     {
         HttpResult result = new HttpResult();
         try
@@ -139,6 +167,11 @@ public class HttpUtils extends LoggedObject
             }
 
             connection.setRequestProperty("Connection", "close");
+            if (timeout != 0)
+            {
+                connection.setReadTimeout((int) timeout);
+                connection.setConnectTimeout((int) timeout);
+            }
 
             // Add optional request properties specified by the caller
             if (requestProperties != null)

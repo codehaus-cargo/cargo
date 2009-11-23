@@ -106,7 +106,7 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
 
         // We check if the deployable is servicing requests by pinging a URL specified by the user
         HttpUtils.HttpResult results = new HttpUtils.HttpResult();
-        boolean isDeployed = this.httpUtils.ping(this.pingURL, results);
+        boolean isDeployed = this.httpUtils.ping(this.pingURL, results, getTimeout());
 
         getLogger().debug("URL [" + this.pingURL + "] is " + (isDeployed ? "" : "not ")
             + "responding...", this.getClass().getName());
