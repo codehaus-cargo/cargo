@@ -291,7 +291,7 @@
               </property>
               <property>
                 <name>cargo.tomcat6x.url</name>
-                <value>http://www.smudge-it.co.uk/pub/apache/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip</value>
+                <value>http://www.alliedquotes.com/mirrors/apache/tomcat/tomcat-6/v6.0.20/bin/apache-tomcat-6.0.20.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat6x.java.home</name>
