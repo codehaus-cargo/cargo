@@ -163,11 +163,13 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
      */
     protected final void invokeContainer(String action, Java java) throws Exception
     {
-        java.addSysproperty(getAntUtils().createSysProperty("catalina.home", getHome()));
+        java.addSysproperty(getAntUtils().createSysProperty("catalina.home",
+            getFileHandler().getAbsolutePath(getHome())));
         java.addSysproperty(getAntUtils().createSysProperty("catalina.base",
-            getConfiguration().getHome()));
+                 getFileHandler().getAbsolutePath(getConfiguration().getHome())));
         File tempFile = new File(getConfiguration().getHome(), "temp");
-        java.addSysproperty(getAntUtils().createSysProperty("java.io.tmpdir", tempFile));
+        java.addSysproperty(getAntUtils().createSysProperty("java.io.tmpdir", 
+                 getFileHandler().getAbsolutePath(tempFile.getAbsolutePath())));
         Path classpath = java.getCommandLine().getClasspath();
         classpath.createPathElement().setLocation(new File(getHome(), "bin/bootstrap.jar"));
         addToolsJarToClasspath(classpath);

@@ -22,6 +22,7 @@
  */
 package org.codehaus.cargo.util;
 
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Target;
@@ -90,6 +91,7 @@ public class DefaultAntTaskFactory implements AntTaskFactory
      */
     public Task createTask(String theName)
     {
+        ifSshLoadTaskDef(theName);
         Task retVal = this.currentProject.createTask(theName);
         if (retVal != null)
         {
@@ -98,5 +100,35 @@ public class DefaultAntTaskFactory implements AntTaskFactory
             retVal.setOwningTarget(this.currentOwningTarget);
         }
         return retVal;
+    }
+    
+    /**
+     * 
+     * Checks to ensure the ssh task is present before proceeding.
+     * 
+     * @param taskName name of the task
+     */
+    private void ifSshLoadTaskDef(String taskName)
+    {
+        if (taskName.equals("sshjava"))
+        {
+            if (!currentProject.getTaskDefinitions().containsKey("sshjava"))
+            {
+                try
+                {
+                    currentProject.addTaskDefinition("sshjava",
+                        Class.forName("org.jclouds.tools.ant.taskdefs.sshjava.SSHJava"));
+                }
+                catch (BuildException e)
+                {
+                    throw new CargoException("Error adding sshjava task", e);
+                }
+                catch (ClassNotFoundException e)
+                {
+                    throw new CargoException(
+                        "Please ensure jclouds-antcontrib is in the classpath", e);
+                }
+            }
+        }
     }
 }

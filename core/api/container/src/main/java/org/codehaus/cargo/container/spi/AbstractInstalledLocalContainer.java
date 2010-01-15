@@ -25,15 +25,18 @@ package org.codehaus.cargo.container.spi;
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.taskdefs.condition.Os;
 import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.types.Environment.Variable;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.internal.util.AntBuildListener;
 import org.codehaus.cargo.container.internal.util.HttpUtils;
 import org.codehaus.cargo.container.internal.util.JdkUtils;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.SSHPropertySet;
 import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.log.Logger;
 
@@ -43,6 +46,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Map.Entry;
 import java.io.FileNotFoundException;
 import java.io.File;
 
@@ -291,7 +296,18 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      */
     private Java createJavaTask()
     {
-        Java java = (Java) getAntUtils().createAntTask("java");
+        boolean isSsh = getConfiguration().getPropertyValue(SSHPropertySet.HOST) != null;
+
+        Java java;
+        if (isSsh)
+        {
+            java = (Java) getAntUtils().createAntTask("sshjava");
+            addSshProperties(java);
+        }
+        else
+        {
+            java = (Java) getAntUtils().createAntTask("java");
+        }
         java.setFork(true);
 
         // If the user has not specified any output file then the process's output will be logged
@@ -331,6 +347,53 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         }
 
         return java;
+    }
+
+    /**
+     * Adds in parameters necessary to identify this as a cargo-launched container.
+     * 
+     * @param java the java command that will start the container
+     */
+    private void addSshProperties(Java java)
+    {
+        // setup working directory
+        java.setDir(new File(getFileHandler().getAbsolutePath(getConfiguration().getHome())));
+ 
+        if (getConfiguration().getDeployables() != null)
+        {
+            for (Object object : getConfiguration().getDeployables())
+            {
+                Deployable toDeploy = (Deployable) object;
+                Variable deployable = new Variable();
+                deployable.setKey("sshjava.shift."
+                         + getFileHandler().getAbsolutePath(toDeploy.getFile()));
+                deployable.setValue("deployables/" + new File(toDeploy.getFile()).getName());
+                java.addSysproperty(deployable);
+            }
+        }
+      
+        if (getHome() != null)
+        {
+            Variable home = new Variable();
+            home.setKey("sshjava.shift." + getFileHandler().getAbsolutePath(getHome()));
+            home.setValue("containers/" + getId());
+            java.addSysproperty(home);
+        }
+        
+        Properties properties = new Properties();
+        properties.put("sshjava.username", SSHPropertySet.USERNAME);
+        properties.put("sshjava.host", SSHPropertySet.HOST);
+        properties.put("sshjava.password", SSHPropertySet.PASSWORD);
+        properties.put("sshjava.keyfile", SSHPropertySet.KEYFILE);
+        properties.put("sshjava.remotebase", SSHPropertySet.REMOTEBASE);
+        
+        for (Entry entry : properties.entrySet())
+        {
+            Variable var = new Variable();
+            var.setKey(entry.getKey().toString());
+            var.setValue(getConfiguration().getPropertyValue(entry.getValue().toString()));
+            java.addSysproperty(var);
+        }
     }
 
     /**
