@@ -80,13 +80,13 @@ public class DeployerServlet extends HttpServlet
     {
         this.server = server;
         //TODO find a better means of determining the configuration and webapp directories        
-        if (System.getProperty("jetty.home") != null)
+        if (System.getProperty("config.home") != null)
         {
-        	this.configHome = System.getProperty("jetty.home");
+        	this.configHome = System.getProperty("config.home");
         } 
         else
         {
-        	this.configHome = System.getProperty("config.home");
+        	this.configHome = System.getProperty("jetty.home");
         }
         this.webAppDirectory = configHome + File.separator + "webapps";
         
@@ -196,13 +196,7 @@ public class DeployerServlet extends HttpServlet
         else if (getContextHandler(contextPath) != null)
         {
             sendError(response, "The webapp context path is already in use");
-        } 
-        else if (getFile(contextPath) != null)
-        {
-            sendError(response,
-                    "There already exists a file with a name that matches the context path ("
-                            + contextPath + ") in the webapp directory");
-        } 
+        }
         else
         {
             Log.debug("trying to get the remote web archive");
