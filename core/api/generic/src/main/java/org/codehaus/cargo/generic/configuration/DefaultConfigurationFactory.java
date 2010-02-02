@@ -155,6 +155,14 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
             "org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration");
         registerConfiguration("jboss51x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
             "org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration");
+
+        registerConfiguration("jboss6x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            "org.codehaus.cargo.container.jboss.JBoss6xStandaloneLocalConfiguration");
+        registerConfiguration("jboss6x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            "org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration");
+        registerConfiguration("jboss6x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            "org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration");
+
     }
 
     /**
