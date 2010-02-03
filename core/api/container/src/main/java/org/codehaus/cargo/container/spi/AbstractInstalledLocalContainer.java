@@ -361,8 +361,10 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
  
         if (getConfiguration().getDeployables() != null)
         {
-            for (Object object : getConfiguration().getDeployables())
+            Iterator iterator = getConfiguration().getDeployables().iterator();
+            while (iterator.hasNext())
             {
+                Object object = iterator.next();
                 Deployable toDeploy = (Deployable) object;
                 Variable deployable = new Variable();
                 deployable.setKey("sshjava.shift."
@@ -387,8 +389,10 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         properties.put("sshjava.keyfile", SSHPropertySet.KEYFILE);
         properties.put("sshjava.remotebase", SSHPropertySet.REMOTEBASE);
         
-        for (Entry entry : properties.entrySet())
+        Iterator iterator = properties.entrySet().iterator();
+        while (iterator.hasNext())
         {
+            Entry entry = (Entry) iterator.next();
             Variable var = new Variable();
             var.setKey(entry.getKey().toString());
             var.setValue(getConfiguration().getPropertyValue(entry.getValue().toString()));
