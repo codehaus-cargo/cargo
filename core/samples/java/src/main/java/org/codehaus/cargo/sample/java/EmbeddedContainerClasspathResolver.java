@@ -63,11 +63,9 @@ public class EmbeddedContainerClasspathResolver
 
         List jetty7xDependencies = new ArrayList();
         jetty7xDependencies.add("lib/*.jar");
-        jetty7xDependencies.add("lib/jsp-2.0/*.jar");
-        jetty7xDependencies.add("lib/management/*.jar");
-        jetty7xDependencies.add("lib/naming/*.jar");
-        jetty7xDependencies.add("lib/plus/*.jar");
-        jetty7xDependencies.add("lib/xbean/*.jar");
+        jetty7xDependencies.add("lib/jndi/*.jar");
+        // JSP support not packaged by default
+        // jetty7xDependencies.add("lib/jsp-2.1/*.jar");
 
         List tomcat5xDependencies = new ArrayList();
         tomcat5xDependencies.add("bin/*.jar");

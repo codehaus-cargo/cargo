@@ -28,12 +28,12 @@ import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalDep
 /**
  * A deployer for webapps that deploys to a Jetty 7.x instance running embedded.
  * 
- * @version $Id:$
+ * @version $Id$
  */
 public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDeployer
 {
     /**
-     * The class representing org.mortbay.jetty.webapp.WebAppContext.
+     * The class representing org.eclipse.jetty.webapp.WebAppContext.
      */
     private Class webAppContextClass;
 
@@ -49,7 +49,7 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
         {
             webAppContextClass =
                 ((Jetty7xEmbeddedLocalContainer) getContainer()).getClassLoader().loadClass(
-                    "org.mortbay.jetty.webapp.WebAppContext");
+                    "org.eclipse.jetty.webapp.WebAppContext");
         }
         catch (Exception e)
         {

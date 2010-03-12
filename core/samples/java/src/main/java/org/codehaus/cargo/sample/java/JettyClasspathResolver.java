@@ -99,26 +99,39 @@ public class JettyClasspathResolver
         jetty6xDependencies.add("lib/xbean/jetty-xbean.jar");
 
         List jetty7xDependencies = new ArrayList();
-        jetty7xDependencies.add("lib/jetty.jar");
-        jetty7xDependencies.add("lib/jetty-util.jar");
+        jetty7xDependencies.add("lib/jetty-ajp-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-annotations-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-client-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-continuation-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-deploy-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-http-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-io-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-jmx-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-jndi-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-plus-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-policy-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-rewrite-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-security-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-server-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-servlet-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-servlets-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-util-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-webapp-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-websocket-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jetty-xml-7.0.1.v20091125.jar");
+        jetty7xDependencies.add("lib/jndi/activation-1.1.jar");
+        jetty7xDependencies.add("lib/jndi/mail-1.4.jar");
         jetty7xDependencies.add("lib/servlet-api-2.5.jar");
-        jetty7xDependencies.add("lib/jsp-2.0/jsp-api-2.0.jar");
-        jetty7xDependencies.add("lib/jsp-2.0/jasper-compiler-jdt-5.5.15.jar");
-        jetty7xDependencies.add("lib/jsp-2.0/jasper-compiler-5.5.15.jar");
-        jetty7xDependencies.add("lib/jsp-2.0/jasper-runtime-5.5.15.jar");
-        jetty7xDependencies.add("lib/jsp-2.0/xercesImpl-2.6.2.jar");
-        jetty7xDependencies.add("lib/jsp-2.0/xmlParserAPIs-2.6.2.jar");
-        jetty7xDependencies.add("lib/jsp-2.0/commons-el-1.0.jar");
-        jetty7xDependencies.add("lib/jsp-2.0/jcl104-over-slf4j-1.0-rc5.jar");
-        jetty7xDependencies.add("lib/jsp-2.0/slf4j-simple-1.0-rc5.jar");
-        jetty7xDependencies.add("lib/management/jetty-management.jar");
-        jetty7xDependencies.add("lib/management/mx4j-3.0.1.jar");
-        jetty7xDependencies.add("lib/management/mx4j-tools-2.1.1.jar");
-        jetty7xDependencies.add("lib/naming/jetty-naming.jar");
-        jetty7xDependencies.add("lib/plus/jetty-plus.jar");
-        jetty7xDependencies.add("lib/xbean/jetty-xbean.jar");
-
-
+        // JSP support is not packaged with Jetty7x by default
+//        jetty7xDependencies.add("lib/jsp-2.1/ant-1.6.5.jar");
+//        jetty7xDependencies.add("lib/jsp-2.1/core-3.1.1.jar");
+//        jetty7xDependencies.add("lib/jsp-2.1/jsp-2.1-glassfish-9.1.1.B60.25.p2.jar");
+//        jetty7xDependencies.add("lib/jsp-2.1/jsp-api-2.1-glassfish-9.1.1.B60.25.p2.jar");
+//        jetty7xDependencies.add("lib/policy/jetty.policy");
+        // setuid support is OS specific due to native library
+//        jetty7xDependencies.add("lib/ext/jetty-setuid-java-7.0.2.5824.jar");
+//        jetty7xDependencies.add("libsetuid.so");
+        
         this.jettyDependencies.put("jetty4x", jetty4xDependencies);
         this.jettyDependencies.put("jetty5x", jetty5xDependencies);
         this.jettyDependencies.put("jetty6x", jetty6xDependencies);

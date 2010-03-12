@@ -343,7 +343,7 @@
               </property>
               <property>
                 <name>cargo.jetty7x.url</name>
-                <value>http://dist.codehaus.org/jetty/jetty-7.0.0-prereleases/jetty-7.0.0pre3/jetty-assembly-7.0.0pre3.zip</value>
+                <value>http://download.eclipse.org/jetty/7.0.1.v20091125/dist/jetty-distribution-7.0.1.v20091125.zip</value>
               </property>
               <property>
                 <name>cargo.jetty7x.java.home</name>
@@ -631,7 +631,7 @@
               </property>
               <property>
                 <name>cargo.jboss6x.url</name>
-                <value>http://downloads.sourceforge.net/jboss/jboss-6.0.0.M1.zip?big_mirror=1</value>
+                <value>http://downloads.sourceforge.net/jboss/jboss-6.0.0.M2.zip?big_mirror=1</value>
               </property>
               <property>
                 <name>cargo.jboss6x.java.home</name>

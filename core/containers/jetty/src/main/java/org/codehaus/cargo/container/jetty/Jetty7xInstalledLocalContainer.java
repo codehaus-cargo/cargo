@@ -137,6 +137,10 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
 
         if (isGettingStarted)
         {
+            // TODO: enable JSP compilation from Jetty 7x with following
+            // requires that JSP support is packaged with Jetty7x
+            // java.createArg().setValue("OPTIONS=Server,jsp-2.1");
+
             java.createArg().setValue(
                 getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml"));
         }
@@ -151,6 +155,11 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
                 java.getCommandLine().getClasspath()));
         
         AntContainerExecutorThread jettyRunner = new AntContainerExecutorThread(java);
+        
+        // integration tests need to let us verify how we're running
+        this.getLogger().info("Running Jetty As: " + java.getCommandLine(), 
+                this.getClass().getName());
+        
         jettyRunner.start();
     }
 

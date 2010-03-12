@@ -33,10 +33,9 @@
   <!-- ==================================================================== -->
   <!-- Context params to control Session Cookies                            -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-  <!-- UNCOMMENT TO ACTIVATE -->
-<!--
+  <!-- UNCOMMENT TO ACTIVATE
   <context-param>
-    <param-name>org.mortbay.jetty.servlet.SessionDomain</param-name>
+    <param-name>org.eclipse.jetty.servlet.SessionDomain</param-name>
     <param-value>127.0.0.1</param-value>
   </context-param>
 -->
@@ -45,23 +44,23 @@
 
 <!-- 
   <context-param>
-    <param-name>org.mortbay.jetty.servlet.SessionPath</param-name>
+    <param-name>org.eclipse.jetty.servlet.SessionPath</param-name>
     <param-value>/</param-value>
   </context-param>
--->
 
-<!--
   <context-param>
-    <param-name>org.mortbay.jetty.servlet.MaxAge</param-name>
+    <param-name>org.eclipse.jetty.servlet.MaxAge</param-name>
     <param-value>-1</param-value>
   </context-param>
--->
+  -->
 
   <!-- control which jars from the container's classpath will be scanned for .tlds -->
+  <!--
   <context-param>
-    <param-name>org.mortbay.jetty.webapp.ContainerIncludeTLDJarPattern</param-name>
+    <param-name>org.eclipse.jetty.server.webapp.ContainerIncludeTLDJarPattern</param-name>
     <param-value>jsp-api-.*\.jar|jsp-.*\.jar</param-value>
   </context-param>
+  -->
             
   <!-- control which jars from the container's classpath will be scanned for   -->
   <!-- annotations. If this property is empty, NO JARS from the container      -->
@@ -70,11 +69,12 @@
   <!-- can also control which jars in their WEB-INF/lib will be scanned by     -->
   <!-- setting a context-param in web.xml called:                              -->
   <!--                 org.mortbay.jetty.webapp.WebInfIncludeAnnotationPattern -->
+  <!--
   <context-param>
-    <param-name>org.mortbay.jetty.webapp.ContainerIncludeAnnotationJarPattern</param-name>
+    <param-name>org.eclipse.jetty.server.webapp.ContainerIncludeAnnotationJarPattern</param-name>
     <param-value></param-value>
   </context-param>
-
+  -->
 
   <!-- ==================================================================== -->
   <!-- The default servlet.                                                 -->
@@ -87,6 +87,10 @@
   <!--                                                                      -->
   <!--   dirAllowed       If true, directory listings are returned if no    -->
   <!--                    welcome file is found. Else 403 Forbidden.        -->
+  <!--                                                                      -->
+  <!--   welcomeServlets  If true, attempt to dispatch to welcome files     -->
+  <!--                    that are servlets, if no matching static          -->
+  <!--                    resources can be found.                           -->
   <!--                                                                      -->
   <!--   redirectWelcome  If true, redirect welcome file requests           -->
   <!--                    else use request dispatcher forwards              -->
@@ -127,7 +131,7 @@
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   <servlet>
     <servlet-name>default</servlet-name>
-    <servlet-class>org.mortbay.jetty.servlet.DefaultServlet</servlet-class>
+    <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
     <init-param>
       <param-name>acceptRanges</param-name>
       <param-value>true</param-value>
@@ -136,6 +140,10 @@
       <param-name>dirAllowed</param-name>
       <param-value>true</param-value>
     </init-param>
+    <init-param>
+      <param-name>welcomeServlets</param-name>
+ 	    <param-value>false</param-value>
+ 	  </init-param>
     <init-param>
       <param-name>redirectWelcome</param-name>
       <param-value>false</param-value>
@@ -319,7 +327,7 @@
   <!-- Uncomment for dynamic invocation
   <servlet>
     <servlet-name>invoker</servlet-name>
-    <servlet-class>org.mortbay.jetty.servlet.Invoker</servlet-class>
+    <servlet-class>org.eclipse.jetty.servlet.Invoker</servlet-class>
     <init-param>
       <param-name>verbose</param-name>
       <param-value>false</param-value>
@@ -348,7 +356,7 @@
   <!-- ==================================================================== -->
   <!-- Default MIME mappings                                                -->
   <!-- The default MIME mappings are provided by the mime.properties        -->
-  <!-- resource in the org.mortbay.jetty.jar file.  Additional or modified  -->
+  <!-- resource in the org.eclipse.jetty.server.jar file.  Additional or modified  -->
   <!-- mappings may be specified here                                       -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   <!-- UNCOMMENT TO ACTIVATE
