@@ -107,7 +107,7 @@
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss:service=Naming</property>
                <property name="bindingName">Port</property>
-               <property name="port">@cargo.rmi.port@</property>
+               <property name="port">1099</property>
                <property name="description">The listening socket for the Naming service</property>
             </bean>
 
@@ -157,13 +157,6 @@
                <property name="serviceName">jboss:service=invoker,type=jrmp</property>
                <property name="port">4444</property>
                <property name="description">Socket for the legacy RMI/JRMP invoker</property>
-            </bean>
-
-            <!-- Pooled invoker -->
-            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
-               <property name="serviceName">jboss:service=invoker,type=pooled</property>
-               <property name="port">4445</property>
-               <property name="description">Socket for the legacy Pooled invoker</property>
             </bean>
 
             <!-- ********************* deploy/cluster/hajndi-service.xml ****************** -->
@@ -244,13 +237,20 @@
                <property name="description">Socket for the SNMP adaptor MBean</property>
             </bean>
 
-            <!-- ********************* deploy/jmx-remoting.sar **************** -->
+            <!-- ********************* deploy/jmx-jboss-beans.xml **************** -->
 
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss.remoting:service=JMXConnectorServer,protocol=rmi</property>
-               <property name="port">1090</property>
+               <property name="port">@cargo.rmi.port@</property>
                <property name="description">RMI/JRMP socket for connecting to the JMX MBeanServer</property>
             </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss.remoting:service=JMXConnectorServer,protocol=rmiServer</property>
+               <property name="port">1091</property>
+               <property name="description">RMI server socket</property>
+            </bean>
+
 
             <!-- ********************* deploy/ejb3-connectors-service.xml **************** -->
 
@@ -266,7 +266,6 @@
 
                 Same binding config can be used by the following services, or really
                 anything else that needs to point to the JBoss Web HTTP connector
-                but doesn't need an XSL Transform
 
                 jboss:service=invoker,type=http
                 jboss:service=invoker,type=http,target=Naming
@@ -277,16 +276,13 @@
             -->
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss.web:service=WebServer</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss.web:service=WebServer</property>
+               <property name="bindingName">HttpConnector</property>
                <property name="port">@cargo.servlet.port@</property>
                <property name="description">JBoss Web HTTP connector socket; also drives the values for the HTTPS and AJP sockets</property>
-
-               <!--
-                   Inject a XSLT transform configuration (see below) that describes
-                   how to transform server.xml
-                   If the binding value request doesn't require an XSL Transform, this config
-                   will be ignored.
-               -->
-               <property name="serviceBindingValueSourceConfig"><inject bean="JBossWebConnectorXSLTConfig"/></property>
             </bean>
 
             <!-- For services like those listed above that need to know the
@@ -298,6 +294,15 @@
                <property name="description">JBoss Web HTTPS connector socket</property>
             </bean>
 
+            <!-- For services like those listed above that need to know the
+                 port of the AJP connector -->
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">jboss.web:service=WebServer</property>
+               <property name="bindingName">AjpConnector</property>
+               <property name="port">8009</property>
+               <property name="description">JBoss Web AJP connector socket</property>
+            </bean>
+
             <!-- ********************* deploy/messaging/remoting-bisocket-service.xml ********************** -->
 
             <!-- Standard JBM bisocket connector -->
@@ -307,20 +312,20 @@
                <property name="description">Socket for JBoss Messaging 1.x</property>
             </bean>
 
-            <!-- ********************* JBoss Messaging 2 **************** -->
+            <!-- ********************* HornetQ          **************** -->
 
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
-                <property name="serviceName">JBM2</property>
+                <property name="serviceName">HornetQ</property>
                 <property name="bindingName">netty-port</property>
                 <property name="port">5445</property>
-                <property name="description">Socket for JBoss Messaging 2.x</property>
+                <property name="description">Socket for HornetQ</property>
             </bean>
 
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
-                <property name="serviceName">JBM2</property>
+                <property name="serviceName">HornetQ</property>
                 <property name="bindingName">netty-ssl-port</property>
                 <property name="port">5446</property>
-                <property name="description">SSL socket for JBoss Messaging 2.x</property>
+                <property name="description">SSL socket for HornetQ</property>
             </bean>
 
             <!-- ********************* deploy/transaction-jboss-beans.xml ********************** -->
@@ -398,6 +403,22 @@
                <property name="description">UIL2 socket for JBossMQ</property>
             </bean>
             -->
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">Remoting</property>
+               <property name="bindingName">tcp</property>
+               <property name="port">5500</property>
+               <property name="hostName">${jboss.bind.address}</property>
+               <property name="description">The port used for clear/non-SSL Remoting connections</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">Remoting</property>
+               <property name="bindingName">tcp+ssl</property>
+               <property name="port">5501</property>
+               <property name="hostName">${jboss.bind.address}</property>
+               <property name="description">The port used for SSL (encrypted) Remoting connections</property>
+            </bean>
          </set>
          </parameter>
       </constructor>
@@ -419,26 +440,62 @@
                      </parameter>
                   </constructor>
                </bean>
-               <!-- JBM2 netty connector -->
+               <!-- HornetQ netty connector -->
                <bean class="org.jboss.services.binding.SystemPropertyBinding">
                   <constructor>
-                     <parameter>jbm.remoting.netty.port</parameter>
+                     <parameter>hornetq.remoting.netty.port</parameter>
                      <parameter class="int">
                         <value-factory bean="ServiceBindingManager" method="getIntBinding">
-                             <parameter>JBM2</parameter>
+                             <parameter>HornetQ</parameter>
                              <parameter>netty-port</parameter>
                         </value-factory>
                      </parameter>
                   </constructor>
                </bean>
-               <!-- JBM2 netty ssl connector  -->
+               <!-- HornetQ netty ssl connector  -->
                <bean class="org.jboss.services.binding.SystemPropertyBinding">
                   <constructor>
-                     <parameter>jbm.remoting.netty.ssl.port</parameter>
+                     <parameter>hornetq.remoting.netty.ssl.port</parameter>
                      <parameter class="int">
                         <value-factory bean="ServiceBindingManager" method="getIntBinding">
-                             <parameter>JBM2</parameter>
+                             <parameter>HornetQ</parameter>
                              <parameter>netty-ssl-port</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <!-- Web HTTP connector -->
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.web.http.port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>jboss.web:service=WebServer</parameter>
+                             <parameter>HttpConnector</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <!-- Web HTTPS connector -->
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.web.https.port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>jboss.web:service=WebServer</parameter>
+                             <parameter>HttpsConnector</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <!-- Web AJP connector -->
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.web.ajp.port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>jboss.web:service=WebServer</parameter>
+                             <parameter>AjpConnector</parameter>
                         </value-factory>
                      </parameter>
                   </constructor>
@@ -447,61 +504,6 @@
          </parameter>
       </constructor>
 
-   </bean>
-
-   <!-- XSL Transform to apply to server.xml -->
-   <bean name="JBossWebConnectorXSLTConfig"
-         class="org.jboss.services.binding.impl.XSLTServiceBindingValueSourceConfig">
-
-      <constructor>
-          <parameter><![CDATA[
-   <xsl:stylesheet
-         xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='1.0'>
-
-     <xsl:output method="xml" />
-     <xsl:param name="port"/>
-
-     <xsl:variable name="portAJP" select="$port - 71"/>
-     <xsl:variable name="portHttps" select="$port + 363"/>
-
-     <xsl:template match="/">
-       <xsl:apply-templates/>
-     </xsl:template>
-
-      <xsl:template match = "Connector">
-         <Connector>
-            <xsl:for-each select="@*">
-            <xsl:choose>
-               <xsl:when test="(name() = 'port' and . = '@cargo.servlet.port@')">
-                  <xsl:attribute name="port"><xsl:value-of select="$port" /></xsl:attribute>
-               </xsl:when>
-               <xsl:when test="(name() = 'port' and . = '8009')">
-                  <xsl:attribute name="port"><xsl:value-of select="$portAJP" /></xsl:attribute>
-               </xsl:when>
-               <xsl:when test="(name() = 'redirectPort')">
-                  <xsl:attribute name="redirectPort"><xsl:value-of select="$portHttps" /></xsl:attribute>
-               </xsl:when>
-               <xsl:when test="(name() = 'port' and . = '8443')">
-                  <xsl:attribute name="port"><xsl:value-of select="$portHttps" /></xsl:attribute>
-               </xsl:when>
-               <xsl:otherwise>
-                  <xsl:attribute name="{name()}"><xsl:value-of select="." /></xsl:attribute>
-               </xsl:otherwise>
-            </xsl:choose>
-            </xsl:for-each>
-            <xsl:apply-templates/>
-         </Connector>
-      </xsl:template>
-
-     <xsl:template match="*|@*">
-       <xsl:copy>
-         <xsl:apply-templates select="@*|node()"/>
-       </xsl:copy>
-     </xsl:template>
-   </xsl:stylesheet>
-   ]]>
-          </parameter>
-      </constructor>
    </bean>
 
 </deployment>

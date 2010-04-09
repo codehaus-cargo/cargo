@@ -19,8 +19,14 @@
  */
 package org.codehaus.cargo.container.jboss;
 
+import java.io.File;
+
+import org.apache.tools.ant.taskdefs.Java;
+import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.jboss.internal.AbstractJBoss5xInstalledLocalContainer;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
  * JBoss 6.x series container implementation.
@@ -59,5 +65,44 @@ public class JBoss6xInstalledLocalContainer extends AbstractJBoss5xInstalledLoca
     public String getName()
     {
         return "JBoss " + getVersion("6x");
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    protected void doStop(Java java) throws Exception
+    {
+        Path classPath = java.createClasspath();
+        classPath.createPathElement().setLocation(new File(getHome(), "bin/shutdown.jar"));
+        java.setClassname("org.jboss.Shutdown");
+
+        java.createArg().setValue(
+            "--server=service:jmx:rmi:///jndi/rmi://" 
+                + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
+                + getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT) + "/jmxrmi");
+        
+        String jbossUser = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_USER);
+        String jbossPassword = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_PASSWORD);
+        if (jbossUser != null)
+        {
+            java.createArg().setValue("--user=" + jbossUser);
+            if (jbossPassword != null)
+            {
+                java.createArg().setValue("--password=" + jbossPassword);
+            }
+        }
+
+        AntContainerExecutorThread jbossRunner = new AntContainerExecutorThread(java);
+        jbossRunner.start();
+
+        jbossRunner.join(5000L);
+        if (jbossRunner.isAlive())
+        {
+            getLogger().warn("Stopping server, not finished after 5 seconds.", 
+                    this.getClass().getName());
+        }
+        // Sleep some extra time to fully ensure JBoss is stopped before giving back the control
+        // to the user.
+        Thread.sleep(5000L);
     }
 }

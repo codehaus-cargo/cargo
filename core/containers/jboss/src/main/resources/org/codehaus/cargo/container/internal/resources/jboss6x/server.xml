@@ -5,7 +5,7 @@
    <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
    <!--Initialize Jasper prior to webapps are loaded. Documentation at /docs/jasper-howto.html -->
    <Listener className="org.apache.catalina.core.JasperListener" />
-   <!-- Required for mod_cluster integration -->
+   <!-- Required for mod_cluster integration, will be ignored if mod_cluster is not enabled -->
    <Listener className="org.jboss.web.tomcat.service.deployers.MicrocontainerIntegrationLifecycleListener"
              delegateBeanName="ModClusterListener" failIfBeanMissing="false" warnIfBeanMissing="false"/>
 
@@ -13,7 +13,7 @@
 
       <!-- A HTTP/1.1 Connector on port @cargo.servlet.port@ -->
       <Connector protocol="HTTP/1.1" port="@cargo.servlet.port@" address="${jboss.bind.address}" 
-               connectionTimeout="20000" redirectPort="8443" />
+               connectionTimeout="20000" redirectPort="${jboss.web.https.port}" />
 
       <!-- Add this option to the connector to avoid problems with 
           .NET clients that don't implement HTTP/1.1 correctly 
@@ -21,12 +21,12 @@
       -->
 
       <!-- A AJP 1.3 Connector on port 8009 -->
-      <Connector protocol="AJP/1.3" port="8009" address="${jboss.bind.address}"
-         redirectPort="8443" />
+      <Connector protocol="AJP/1.3" port="${jboss.web.ajp.port}" address="${jboss.bind.address}"
+         redirectPort="${jboss.web.https.port}" />
 
       <!-- SSL/TLS Connector configuration using the admin devl guide keystore
       <Connector protocol="HTTP/1.1" SSLEnabled="true" 
-           port="8443" address="${jboss.bind.address}"
+           port="${jboss.web.https.port}" address="${jboss.bind.address}"
            scheme="https" secure="true" clientAuth="false" 
            keystoreFile="${jboss.server.home.dir}/conf/chap8.keystore"
            keystorePass="rmi+ssl" sslProtocol = "TLS" />
