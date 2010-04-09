@@ -19,6 +19,10 @@
  */
 package org.codehaus.cargo.container.internal;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
+
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Java;
 
 /**
@@ -32,6 +36,12 @@ public class AntContainerExecutorThread extends Thread
      * The Ant java command to execute.
      */
     private Java java;
+    
+    /** Build exception. */
+    private AtomicReference ex = new AtomicReference();
+    
+    /** Finished flag. */
+    private AtomicBoolean finishedFlag = new AtomicBoolean(false);
 
     /**
      * @param java the Ant java command to execute
@@ -42,13 +52,69 @@ public class AntContainerExecutorThread extends Thread
     }
 
     /**
+     * Returns a build exception.
+     * @return the build exception
+     */
+    public BuildException getBuildException()
+    {
+        return (BuildException) this.ex.get();
+    }
+
+    /**
+     * Set the build exception.
+     * @param ex The build exception
+     */
+    private void setBuildException(BuildException ex)
+    {
+        this.ex.set(ex);
+    }
+
+    /**
+     * Determine if its finished or not
+     * @return If its finished or not
+     */
+    public boolean isFinished()
+    {
+        return finishedFlag.get();
+    }
+
+    /**
+     * Set if the its finished or not
+     * @param b sets finish state
+     */
+    public void setFinished(boolean b)
+    {
+        finishedFlag.set(b);
+    }
+
+    /**
      * Execute the Ant's java command.
      */
     public void run()
-    {
-        // Blocking call
-        this.java.execute();
-        
+    {        
+        // This makes Ant Java task to throw an exception when something goes
+        // wrong.
+        this.java.setFailonerror(true);
+
+        try
+        {
+            // Blocking call
+            this.java.execute();
+        }
+        catch (BuildException ex)
+        {
+            if (ex.getMessage().contains("Java returned: 1"))
+            {
+                ex = new BuildException(ex.getMessage()
+                    + "  See Cargo log for details.", ex.getCause(), ex.getLocation());
+            }
+            this.setBuildException(ex);
+        }
+        finally
+        {
+            this.setFinished(true);
+        }
+
         // Only reach here when the container is stopped
-    }   
+    }
 }

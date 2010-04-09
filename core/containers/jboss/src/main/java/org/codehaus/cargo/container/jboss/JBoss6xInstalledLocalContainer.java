@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
 
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -104,5 +105,15 @@ public class JBoss6xInstalledLocalContainer extends AbstractJBoss5xInstalledLoca
         // Sleep some extra time to fully ensure JBoss is stopped before giving back the control
         // to the user.
         Thread.sleep(5000L);
+        
+        BuildException buildException = jbossRunner.getBuildException();
+        if (null != buildException)
+        {
+            // Stopping failed: in cargo code: Java returned: 1
+            // Can't get much more information if Java is forked :(
+            getLogger().warn("Stopping failed: " + buildException.getMessage(), 
+                    this.getClass().getName());
+            throw buildException;
+        }
     }
 }
