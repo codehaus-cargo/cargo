@@ -968,7 +968,7 @@
       <!-- All containers for the CI in Java 4 -->
       <id>all-ci-java-1.4</id>
       <properties>
-        <cargo.containers>resin2x, tomcat4x, jetty4x, jetty5x, jboss3x, jboss4x,  jo1x, jonas4x</cargo.containers>
+        <cargo.containers>resin2x, tomcat4x, jetty4x, jetty5x, jboss3x, jboss4x, jo1x, jonas4x</cargo.containers>
       </properties>
     </profile>
     <profile>
