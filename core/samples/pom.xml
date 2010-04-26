@@ -1005,7 +1005,7 @@
     <profile>
       <id>all-resin</id>
       <properties>
-        <cargo.containers>resin2x,resin3x</cargo.containers>
+        <cargo.containers>resin2x, resin3x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -1023,7 +1023,7 @@
     <profile>
       <id>all-resource</id>
       <properties>
-        <cargo.containers>resin2x,resin3x, tomcat4x, tomcat5x, tomcat6x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x</cargo.containers>
       </properties>
     </profile>
     <profile>
