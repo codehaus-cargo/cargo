@@ -65,7 +65,6 @@ public abstract class AbstractJonasExistingLocalConfiguration extends
         setProperty(GeneralPropertySet.PROTOCOL, "http");
         setProperty(GeneralPropertySet.HOSTNAME, "localhost");
         setProperty(ServletPropertySet.PORT, "9000");
-        setProperty(GeneralPropertySet.JVMARGS, "-Xms128m -Xmx512m");
         setProperty(JonasPropertySet.JONAS_SERVER_NAME, "jonas");
         setProperty(JonasPropertySet.JONAS_DOMAIN_NAME, "jonas");
         this.toString = "JOnAS " + version + " Existing Local Configuration";

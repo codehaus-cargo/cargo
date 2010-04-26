@@ -282,5 +282,104 @@ public class InstalledLocalContainerTest extends TestCase
     		assertFalse("An exception occured while getting the java object", true);
     	}
     }
-    
+
+    public void testDefaultMemoryArguments() throws Exception
+    {
+        AbstractInstalledLocalContainerStub container =
+            new AbstractInstalledLocalContainerStub(configuration);
+
+        container.startInternal();
+        Java java = container.getJava();
+        String commandLine = java.getCommandLine().toString();
+        checkString(commandLine, "-Xms128m");
+        checkString(commandLine, "-Xmx512m");
+        checkString(commandLine, "-XX:PermSize=48m");
+        checkString(commandLine, "-XX:MaxPermSize=128m");
+    }
+
+    public void testXmsMemoryArgumentOverride() throws Exception
+    {
+        AbstractInstalledLocalContainerStub container =
+            new AbstractInstalledLocalContainerStub(configuration);
+
+        container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-Xms256m");
+
+        container.startInternal();
+        Java java = container.getJava();
+        String commandLine = java.getCommandLine().toString();
+        checkString(commandLine, "-Xms256m");
+        checkString(commandLine, "-Xmx512m");
+        checkString(commandLine, "-XX:PermSize=48m");
+        checkString(commandLine, "-XX:MaxPermSize=128m");
+    }
+
+    public void testXmxMemoryArgumentOverride() throws Exception
+    {
+        AbstractInstalledLocalContainerStub container =
+            new AbstractInstalledLocalContainerStub(configuration);
+
+        container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-Xmx256m");
+
+        container.startInternal();
+        Java java = container.getJava();
+        String commandLine = java.getCommandLine().toString();
+        checkString(commandLine, "-Xms128m");
+        checkString(commandLine, "-Xmx256m");
+        checkString(commandLine, "-XX:PermSize=48m");
+        checkString(commandLine, "-XX:MaxPermSize=128m");
+    }
+
+    public void testXXPermSizeMemoryArgumentOverride() throws Exception
+    {
+        AbstractInstalledLocalContainerStub container =
+            new AbstractInstalledLocalContainerStub(configuration);
+
+        container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-XX:PermSize=256m");
+
+        container.startInternal();
+        Java java = container.getJava();
+        String commandLine = java.getCommandLine().toString();
+        checkString(commandLine, "-Xms128m");
+        checkString(commandLine, "-Xmx512m");
+        checkString(commandLine, "-XX:PermSize=256m");
+        checkString(commandLine, "-XX:MaxPermSize=128m");
+    }
+
+    public void testXXMaxPermSizeMemoryArgumentOverride() throws Exception
+    {
+        AbstractInstalledLocalContainerStub container =
+            new AbstractInstalledLocalContainerStub(configuration);
+
+        container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-XX:MaxPermSize=256m");
+
+        container.startInternal();
+        Java java = container.getJava();
+        String commandLine = java.getCommandLine().toString();
+        checkString(commandLine, "-Xms128m");
+        checkString(commandLine, "-Xmx512m");
+        checkString(commandLine, "-XX:PermSize=48m");
+        checkString(commandLine, "-XX:MaxPermSize=256m");
+    }
+
+    public void testAllMemoryArgumentOverride() throws Exception
+    {
+        AbstractInstalledLocalContainerStub container =
+            new AbstractInstalledLocalContainerStub(configuration);
+
+        container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS,
+                "-Xms256m -Xmx256m -XX:PermSize=256m -XX:MaxPermSize=256m");
+
+        container.startInternal();
+        Java java = container.getJava();
+        String commandLine = java.getCommandLine().toString();
+        checkString(commandLine, "-Xms256m");
+        checkString(commandLine, "-Xmx256m");
+        checkString(commandLine, "-XX:PermSize=256m");
+        checkString(commandLine, "-XX:MaxPermSize=256m");
+    }
+
+    private void checkString(String haystack, String needle)
+    {
+        assertTrue("Expected argument \"" + needle + "\", got \"" + haystack + "\"", haystack.contains(needle));
+    }
 }

@@ -83,9 +83,6 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
      */
     protected void doStart(Java java) throws Exception
     {
-        java.createJvmarg().setValue("-Xms128m");
-        java.createJvmarg().setValue("-Xmx512m");
-
         java.setJar(new File(getHome(), "bin/server.jar"));
 
         java.addSysproperty(getAntUtils().createSysProperty("org.apache.geronimo.base.dir",

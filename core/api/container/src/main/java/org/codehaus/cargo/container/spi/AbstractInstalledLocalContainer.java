@@ -275,7 +275,36 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      */
     protected final void startInternal() throws Exception
     {
-        doStart(createJavaTask());
+        Java java = createJavaTask();
+        addMemoryArguments(java);
+        doStart(java);
+    }
+
+    /**
+     * Adds the JVM memory arguments.
+     *
+     * @param java the predefined Ant {@link Java} command on which to add memory-related arguments
+     */
+    protected void addMemoryArguments(Java java)
+    {
+        // if the jvmArgs don't alread contain memory settings add the default
+        String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+        if (jvmArgs == null || jvmArgs.indexOf("-Xms") == -1)
+        {
+            java.createJvmarg().setValue("-Xms128m");
+        }
+        if (jvmArgs == null || jvmArgs.indexOf("-Xmx") == -1)
+        {
+            java.createJvmarg().setValue("-Xmx512m");
+        }
+        if (jvmArgs == null || jvmArgs.indexOf("-XX:PermSize") == -1)
+        {
+            java.createJvmarg().setValue("-XX:PermSize=48m");
+        }
+        if (jvmArgs == null || jvmArgs.indexOf("-XX:MaxPermSize") == -1)
+        {
+            java.createJvmarg().setValue("-XX:MaxPermSize=128m");
+        }
     }
 
     /**

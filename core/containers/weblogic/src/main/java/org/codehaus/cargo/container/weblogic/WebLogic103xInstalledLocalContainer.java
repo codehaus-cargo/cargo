@@ -19,7 +19,6 @@ package org.codehaus.cargo.container.weblogic;
 
 import java.util.List;
 
-import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer;
 
@@ -85,16 +84,4 @@ public class WebLogic103xInstalledLocalContainer extends AbstractWebLogicInstall
         beaHomeDirs.add(getFileHandler().append(getBeaHome(), "modules"));
         return beaHomeDirs;
     }
-    
-    /**
-     * {@inheritDoc}
-     * 
-     */
-    protected void addDefaultMemArgs(Java java)
-    {
-        java.createJvmarg().setValue("-Xms256m");
-        java.createJvmarg().setValue("-Xmx512m");
-        java.createJvmarg().setValue("-XX:PermSize=48m");
-        java.createJvmarg().setValue("-XX:MaxPermSize=128m");
-    }  
 }

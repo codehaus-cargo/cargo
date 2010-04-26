@@ -29,7 +29,6 @@ import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jrun.internal.AbstractJRunInstalledLocalContainer;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
  * Special container support for the Adobe JRun4.x servlet container.
@@ -70,26 +69,7 @@ public class JRun4xInstalledLocalContainer extends AbstractJRunInstalledLocalCon
             java.addSysproperty(getAntUtils().createSysProperty(
                 "-Djava.rmi.server.RMIClassLoaderSpi", "jrunx.util.JRunRMIClassLoaderSpi"));
         }
-       
-        // if the jvmArgs don't already contain memory settings add defaults.
-        String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
-        if (jvmArgs != null)
-        {
-            if (jvmArgs.indexOf("-Xms") == -1)
-            {
-                java.createJvmarg().setValue("-Xms32m");
-            }
-            if (jvmArgs.indexOf("-Xmx") == -1)
-            {
-                java.createJvmarg().setValue("-Xmx128m");
-            }
-        } 
-        else
-        {
-            java.createJvmarg().setValue("-Xms32m");
-            java.createJvmarg().setValue("-Xmx128m");
-        }        
-                
+        
         java.addSysproperty(getAntUtils()
             .createSysProperty("java.home", System.getProperty("java.home")));
         

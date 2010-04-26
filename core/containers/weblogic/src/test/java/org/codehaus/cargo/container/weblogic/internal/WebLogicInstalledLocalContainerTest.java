@@ -185,27 +185,4 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         this.container.verifyWeblogicHome();
     }
 
-    public void testMemArgsProvidedAsASystemProperty()
-    {
-        assertFalse(this.container.memArgsProvidedAsASystemProperty());
-        this.container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-Xms512m");
-        assertTrue(this.container.memArgsProvidedAsASystemProperty());
-
-    }
-
-    public void testDoesntSetDefaultMemArgsWhenProvidedAsASystemProperty() throws Exception
-    {
-        Java java = new Java();
-        this.container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-Xms512m");
-        this.container.addDefaultMemArgsIfNotProvidedAsASystemProperty(java);
-        assertTrue(java.getCommandLine().getVmCommand().getArguments().length == 0);
-    }
-
-    public void testSetsDefaultMemArgsWhenNotProvidedAsASystemProperty() throws Exception
-    {
-        Java java = new Java();
-        this.container.addDefaultMemArgsIfNotProvidedAsASystemProperty(java);
-        assertTrue(java.getCommandLine().getVmCommand().getArguments().length == 3);
-    }
-
 }

@@ -255,43 +255,6 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
         }
 
     }
-
-    /**
-     * Users can override memory defaults through setting them via a system property.
-     * 
-     * @param java - object to insert mem arguments if required
-     */
-    public void addDefaultMemArgsIfNotProvidedAsASystemProperty(Java java)
-    {
-        if (!memArgsProvidedAsASystemProperty())
-        {
-            addDefaultMemArgs(java);
-        }
-    }
-
-    /**
-     * Scan the System properties provided by the user and determine if memory args are present.
-     * 
-     * @return - true if jvm args were passed and contain memory arguments
-     */
-    public boolean memArgsProvidedAsASystemProperty()
-    {
-        String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
-        if (jvmArgs != null)
-        {
-            // this will match either min or max memory args
-            if (jvmArgs.indexOf("-Xm") > -1)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @param java - runtime configuration to insert default memory args into
-     */
-    protected abstract void addDefaultMemArgs(Java java);    
     
     /**
      * {@inheritDoc}
@@ -299,9 +262,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      */
     public final void doStart(final Java java) throws Exception
     {
-        initBeaHome();
-
-        addDefaultMemArgsIfNotProvidedAsASystemProperty(java);        
+        initBeaHome();      
         
         // Weblogic looks for files relative to the domain home, which is not
         // necessarily relative
