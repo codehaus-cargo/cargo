@@ -1,23 +1,23 @@
-/* 
+/*
  * ========================================================================
- * 
+ *
  * Copyright 2003-2004 The Apache Software Foundation. Code from this file
  * was originally imported from the Jakarta Cactus project.
- * 
+ *
  * Copyright 2004-2006 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ========================================================================
  */
 package org.codehaus.cargo.container.spi;
@@ -83,9 +83,8 @@ public class InstalledLocalContainerTest extends TestCase
 
     public class AbstractInstalledLocalContainerStub extends AbstractInstalledLocalContainer
     {
+        Java java;
 
-    	Java java;
-    	
         public AbstractInstalledLocalContainerStub(LocalConfiguration configuration)
         {
             super(configuration);
@@ -93,7 +92,7 @@ public class InstalledLocalContainerTest extends TestCase
 
         protected void doStart(Java java) throws Exception
         {
-        	this.java = java;
+            this.java = java;
         }
 
         protected void doStop(Java java) throws Exception
@@ -118,9 +117,9 @@ public class InstalledLocalContainerTest extends TestCase
         // method for testing to retrieve the java command created
         public Java getJava()
         {
-        	return this.java;
+            return this.java;
         }
-        
+
     }
 
     public void testDoesntSetToolsJarWhenOsX() throws Exception
@@ -265,30 +264,25 @@ public class InstalledLocalContainerTest extends TestCase
         assertEquals(1, container.getSystemProperties().size());
         assertEquals("2", container.getSystemProperties().get("1"));
     }
-    
-    public void testRuntimeArgs()
-    {
-    	AbstractInstalledLocalContainerStub container =
-    		new AbstractInstalledLocalContainerStub(configuration);
-    	try
-    	{
-    		container.getConfiguration().setProperty("cargo.runtime.args", "hello -world");
-    		container.startInternal();
-    		Java java = container.getJava();
-    		assertTrue("Expected runtime arguments not contained in the java commandline.", java.getCommandLine().toString().contains("hello -world"));
-    	} 
-    	catch (Exception e)
-    	{
-    		assertFalse("An exception occured while getting the java object", true);
-    	}
-    }
-    
-    public void testJvmArgs()
+
+    public void testRuntimeArgs() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
             new AbstractInstalledLocalContainerStub(configuration);
 
-  	    container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-Dx.y=z\n\r\t\t-Du.v=w");
+        container.getConfiguration().setProperty("cargo.runtime.args", "hello -world");
+        container.startInternal();
+        Java java = container.getJava();
+        assertTrue("Expected runtime arguments not contained in the java commandline.",
+            java.getCommandLine().toString().contains("hello -world"));
+    }
+
+    public void testJvmArgs() throws Exception
+    {
+        AbstractInstalledLocalContainerStub container =
+            new AbstractInstalledLocalContainerStub(configuration);
+
+        container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-Dx.y=z\n\r\t\t-Du.v=w");
 
         container.startInternal();
         Java java = container.getJava();
@@ -375,23 +369,6 @@ public class InstalledLocalContainerTest extends TestCase
         checkString(commandLine, "-Xms128m");
         checkString(commandLine, "-Xmx512m");
         checkString(commandLine, "-XX:PermSize=48m");
-        checkString(commandLine, "-XX:MaxPermSize=256m");
-    }
-
-    public void testAllMemoryArgumentOverride() throws Exception
-    {
-        AbstractInstalledLocalContainerStub container =
-            new AbstractInstalledLocalContainerStub(configuration);
-
-        container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS,
-                "-Xms256m -Xmx256m -XX:PermSize=256m -XX:MaxPermSize=256m");
-
-        container.startInternal();
-        Java java = container.getJava();
-        String commandLine = java.getCommandLine().toString();
-        checkString(commandLine, "-Xms256m");
-        checkString(commandLine, "-Xmx256m");
-        checkString(commandLine, "-XX:PermSize=256m");
         checkString(commandLine, "-XX:MaxPermSize=256m");
     }
 
