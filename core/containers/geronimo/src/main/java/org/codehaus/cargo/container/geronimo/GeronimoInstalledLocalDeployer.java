@@ -294,15 +294,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         addSystemProperties(java);
 
         // Add JVM args if defined
-        String jvmargs = getContainer().getConfiguration().getPropertyValue(
-            GeneralPropertySet.JVMARGS);
-        if (jvmargs != null)
-        {
-            jvmargs = jvmargs.replace("\n", " ");
-            jvmargs = jvmargs.replace("\r", " ");
-            jvmargs = jvmargs.replace("\t", " ");
-            java.createJvmarg().setLine(jvmargs);
-        }
+        addJvmArgs(java);
 
         return java;
     }
@@ -408,6 +400,22 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
 
             java.addSysproperty(getAntUtils().createSysProperty(key,
                 (String) getInstalledContainer().getSystemProperties().get(key)));
+        }
+    }
+
+    /**
+     * Add the @link{GeneralPropertySet#JVMARGS} arguments to the java command.
+     * @param javacommand The java command
+     */
+    private void addJvmArgs(Java javacommand)
+    {
+        String jvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+        if (jvmargs != null)
+        {
+            jvmargs = jvmargs.replace("\n", " ");
+            jvmargs = jvmargs.replace("\r", " ");
+            jvmargs = jvmargs.replace("\t", " ");
+            javacommand.createJvmarg().setLine(jvmargs);
         }
     }
 
