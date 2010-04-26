@@ -266,7 +266,7 @@ public class InstalledLocalContainerTest extends TestCase
         assertEquals("2", container.getSystemProperties().get("1"));
     }
     
-    public void testRuntimArgs()
+    public void testRuntimeArgs()
     {
     	AbstractInstalledLocalContainerStub container =
     		new AbstractInstalledLocalContainerStub(configuration);
@@ -281,6 +281,23 @@ public class InstalledLocalContainerTest extends TestCase
     	{
     		assertFalse("An exception occured while getting the java object", true);
     	}
+    }
+    
+    public void testJvmArgs()
+    {
+        AbstractInstalledLocalContainerStub container =
+            new AbstractInstalledLocalContainerStub(configuration);
+
+  	    container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-Dx.y=z\n\r\t\t-Du.v=w");
+
+        container.startInternal();
+        Java java = container.getJava();
+        String commandLine = java.getCommandLine().toString();
+        checkString(commandLine, "-Dx.y=z ");
+        checkString(commandLine, "-Du.v=w");
+        assertFalse("check new lines", commandLine.contains("\n"));
+        assertFalse("check new lines", commandLine.contains("\r"));
+        assertFalse("check tabs", commandLine.contains("\t"));
     }
 
     public void testDefaultMemoryArguments() throws Exception
@@ -358,6 +375,23 @@ public class InstalledLocalContainerTest extends TestCase
         checkString(commandLine, "-Xms128m");
         checkString(commandLine, "-Xmx512m");
         checkString(commandLine, "-XX:PermSize=48m");
+        checkString(commandLine, "-XX:MaxPermSize=256m");
+    }
+
+    public void testAllMemoryArgumentOverride() throws Exception
+    {
+        AbstractInstalledLocalContainerStub container =
+            new AbstractInstalledLocalContainerStub(configuration);
+
+        container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS,
+                "-Xms256m -Xmx256m -XX:PermSize=256m -XX:MaxPermSize=256m");
+
+        container.startInternal();
+        Java java = container.getJava();
+        String commandLine = java.getCommandLine().toString();
+        checkString(commandLine, "-Xms256m");
+        checkString(commandLine, "-Xmx256m");
+        checkString(commandLine, "-XX:PermSize=256m");
         checkString(commandLine, "-XX:MaxPermSize=256m");
     }
 

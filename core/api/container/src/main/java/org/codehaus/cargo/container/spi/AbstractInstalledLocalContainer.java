@@ -281,33 +281,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     }
 
     /**
-     * Adds the JVM memory arguments.
-     *
-     * @param java the predefined Ant {@link Java} command on which to add memory-related arguments
-     */
-    protected void addMemoryArguments(Java java)
-    {
-        // if the jvmArgs don't alread contain memory settings add the default
-        String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
-        if (jvmArgs == null || jvmArgs.indexOf("-Xms") == -1)
-        {
-            java.createJvmarg().setValue("-Xms128m");
-        }
-        if (jvmArgs == null || jvmArgs.indexOf("-Xmx") == -1)
-        {
-            java.createJvmarg().setValue("-Xmx512m");
-        }
-        if (jvmArgs == null || jvmArgs.indexOf("-XX:PermSize") == -1)
-        {
-            java.createJvmarg().setValue("-XX:PermSize=48m");
-        }
-        if (jvmArgs == null || jvmArgs.indexOf("-XX:MaxPermSize") == -1)
-        {
-            java.createJvmarg().setValue("-XX:MaxPermSize=128m");
-        }
-    }
-
-    /**
      * {@inheritDoc}
      * 
      * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#stopInternal()
@@ -367,17 +340,10 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         
         // Add runtime arguments if present
         addRuntimeArgs(java);
-
+        
         // Add JVM args if defined
-        String jvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
-        if (jvmargs != null)
-        {
-            jvmargs = jvmargs.replace("\n", " ");
-            jvmargs = jvmargs.replace("\r", " ");
-            jvmargs = jvmargs.replace("\t", " ");
-            java.createJvmarg().setLine(jvmargs);
-        }
-
+        addJvmArgs(java);
+        
         return java;
     }
 
@@ -540,6 +506,49 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             {
                 javacommand.createArg().setValue(arguments[i]);
             }
+        }
+    }
+
+    /**
+     * Add the @link{GeneralPropertySet#JVMARGS} arguments to the java command.
+     * @param javacommand The java command
+     */
+    private void addJvmArgs(Java javacommand)
+    {
+        String jvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+        if (jvmargs != null)
+        {
+            jvmargs = jvmargs.replace("\n", " ");
+            jvmargs = jvmargs.replace("\r", " ");
+            jvmargs = jvmargs.replace("\t", " ");
+            javacommand.createJvmarg().setLine(jvmargs);
+        }
+    }
+
+    /**
+     * Adds the JVM memory arguments.
+     *
+     * @param java the predefined Ant {@link Java} command on which to add memory-related arguments
+     */
+    protected void addMemoryArguments(Java java)
+    {
+        // if the jvmArgs don't alread contain memory settings add the default
+        String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+        if (jvmArgs == null || jvmArgs.indexOf("-Xms") == -1)
+        {
+            java.createJvmarg().setValue("-Xms128m");
+        }
+        if (jvmArgs == null || jvmArgs.indexOf("-Xmx") == -1)
+        {
+            java.createJvmarg().setValue("-Xmx512m");
+        }
+        if (jvmArgs == null || jvmArgs.indexOf("-XX:PermSize") == -1)
+        {
+            java.createJvmarg().setValue("-XX:PermSize=48m");
+        }
+        if (jvmArgs == null || jvmArgs.indexOf("-XX:MaxPermSize") == -1)
+        {
+            java.createJvmarg().setValue("-XX:MaxPermSize=128m");
         }
     }
     
