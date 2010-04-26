@@ -372,6 +372,8 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         String jvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
         if (jvmargs != null)
         {
+            jvmargs = jvmargs.replace("\n", " ");
+            jvmargs = jvmargs.replace("\r", " ");
             java.createJvmarg().setLine(jvmargs);
         }
 

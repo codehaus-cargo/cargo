@@ -298,6 +298,8 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
             GeneralPropertySet.JVMARGS);
         if (jvmargs != null)
         {
+            jvmargs = jvmargs.replace("\n", " ");
+            jvmargs = jvmargs.replace("\r", " ");
             java.createJvmarg().setLine(jvmargs);
         }
 
