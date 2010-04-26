@@ -640,7 +640,7 @@
 
               <property>
                 <name>cargo.jonas4x.url</name>
-                <value>http://download.fr.forge.objectweb.org/jonas/jonas4.10.1-tomcat5.5.26.tgz</value>
+                <value>http://download.fr.forge.objectweb.org/jonas/jonas4.10.7-tomcat5.5.28.tgz</value>
               </property>
               <property>
                 <name>cargo.jonas4x.port</name>
@@ -947,21 +947,21 @@
       <!-- All containers for the CI -->
       <id>all-ci</id>
       <properties>
-        <cargo.containers>resin3x, tomcat5x, tomcat6x, jetty6x, jboss42x</cargo.containers>
+        <cargo.containers>resin3x, tomcat5x, tomcat6x, jetty6x, jboss42x, jonas5x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <!-- All unstable containers -->
       <id>all-unstable-downloadable</id>
       <properties>
-        <cargo.containers>geronimo1x, jetty7x,  jboss5x, jonas5x</cargo.containers>
+        <cargo.containers>geronimo1x, jetty7x, jboss5x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <!-- All stable containers -->
       <id>all-stable-downloadable</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, tomcat4x,tomcat5x, tomcat6x,  jetty4x, jetty5x, jetty6x, jboss4x, jboss42x, jo1x, jonas4x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, jetty4x, jetty5x, jetty6x, jboss4x, jboss42x, jo1x, jonas4x, jonas5x</cargo.containers>
       </properties>
     </profile>
     <profile>
