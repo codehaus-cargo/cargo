@@ -409,7 +409,9 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
      */
     private void addJvmArgs(Java javacommand)
     {
-        String jvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+        String jvmargs = getContainer().getConfiguration().getPropertyValue(
+            GeneralPropertySet.JVMARGS);
+
         if (jvmargs != null)
         {
             jvmargs = jvmargs.replace("\n", " ");
