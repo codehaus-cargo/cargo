@@ -300,6 +300,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         {
             jvmargs = jvmargs.replace("\n", " ");
             jvmargs = jvmargs.replace("\r", " ");
+            jvmargs = jvmargs.replace("\t", " ");
             java.createJvmarg().setLine(jvmargs);
         }
 
