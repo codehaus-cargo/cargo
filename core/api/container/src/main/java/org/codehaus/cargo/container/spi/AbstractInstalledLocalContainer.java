@@ -518,6 +518,8 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         String jvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
         if (jvmargs != null)
         {
+            // Replace new lines and tabs, so that Maven or ANT plugins can
+            // specify multiline JVM arguments in their XML files
             jvmargs = jvmargs.replace("\n", " ");
             jvmargs = jvmargs.replace("\r", " ");
             jvmargs = jvmargs.replace("\t", " ");
