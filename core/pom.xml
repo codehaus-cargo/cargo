@@ -87,4 +87,10 @@
     <module>samples</module>
     <module>documentation</module>
   </modules>
+  <repositories>
+    <repository>
+      <id>codehaus-snapshots</id>
+      <url>http://snapshots.repository.codehaus.org/</url>
+    </repository>
+  </repositories>
 </project>

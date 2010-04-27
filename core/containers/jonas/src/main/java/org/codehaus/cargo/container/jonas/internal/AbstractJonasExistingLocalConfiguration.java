@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
-import org.ow2.jonas.tools.configurator.api.JonasConfigurator;
 
 /**
  * JOnAS existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
@@ -40,11 +39,6 @@ public abstract class AbstractJonasExistingLocalConfiguration extends
      */
     private static ConfigurationCapability capability =
         new JonasExistingLocalConfigurationCapability();
-
-    /**
-     * JOnAS configurator.
-     */
-    private JonasConfigurator configurator;
 
     /**
      * Version information.
