@@ -52,7 +52,6 @@ public class Jetty7xStandaloneLocalConfigurationCapability
 
         this.addProperty(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.addProperty(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
-        this.addProperty(GeneralPropertySet.JVMARGS, Boolean.FALSE);
 
         this.addProperty(ServletPropertySet.PORT, Boolean.FALSE);
         this.addProperty(ServletPropertySet.USERS, Boolean.FALSE);

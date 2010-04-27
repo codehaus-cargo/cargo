@@ -50,7 +50,6 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfigurationCapabilit
         this.supportsMap = new HashMap();
 
         this.addProperty(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
-        this.addProperty(GeneralPropertySet.JVMARGS, Boolean.FALSE);
         this.addProperty(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
     }
 
