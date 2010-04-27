@@ -83,7 +83,7 @@ public class ConfigurationFilesTest extends TestCase
 		File confHome = createDirectory(testDir, "home");
 		configFileDirectory = createDirectory (testDir, "files");
 		
-	    configuration = new TestableAbstractStandaloneConfiguration(confHome.getAbsolutePath());
+		configuration = new TestableAbstractStandaloneConfiguration(getAbsolutePath(confHome));
 	}
 	
 	protected void tearDown() throws Exception {
@@ -118,7 +118,7 @@ public class ConfigurationFilesTest extends TestCase
 		File file1 = createFile(configFileDirectory, fileName, fileContents);
 		
 		FileConfig configFile = new FileConfig();
-		configFile.setFile(file1.getAbsolutePath());
+		configFile.setFile(getAbsolutePath(file1));
 		
 		testCopy(configFile, fileName, "@foo@");
 	}
@@ -131,7 +131,7 @@ public class ConfigurationFilesTest extends TestCase
 		File file1 = createFile(configFileDirectory, fileName, fileContents);
 		
 		FileConfig configFile = new FileConfig();
-		configFile.setFile(file1.getAbsolutePath());
+		configFile.setFile(getAbsolutePath(file1));
 		
 		//set the property so that "@foo@" is replaced with "bar"
 		configuration.setProperty("token1", "value1");
@@ -155,7 +155,7 @@ public class ConfigurationFilesTest extends TestCase
 		File file1 = createFile(configFileDirectory, fileName, fileContents);
 		
 		FileConfig configFile = new FileConfig();
-		configFile.setFile(file1.getAbsolutePath());
+		configFile.setFile(getAbsolutePath(file1));
 		configFile.setToFile("existingfile");
 		configFile.setOverwrite("true");
 		
@@ -176,7 +176,7 @@ public class ConfigurationFilesTest extends TestCase
 		File file1 = createFile(configFileDirectory, fileName, fileContents);
 		
 		FileConfig configFile = new FileConfig();
-		configFile.setFile(file1.getAbsolutePath());
+		configFile.setFile(getAbsolutePath(file1));
 		configFile.setToFile("existingfile2");
 		configFile.setOverwrite("true");
 		configFile.setConfigfile("true");
@@ -194,7 +194,7 @@ public class ConfigurationFilesTest extends TestCase
 		File file1 = createFile(configFileDirectory, fileName, fileContents);
 		
 		FileConfig configFile = new FileConfig();
-		configFile.setFile(file1.getAbsolutePath());
+		configFile.setFile(getAbsolutePath(file1));
 		
 		// test with a null tofile and todir
 		testCopy(configFile, fileName, fileContents);
@@ -234,7 +234,7 @@ public class ConfigurationFilesTest extends TestCase
 	
 		// test that copying to the root directory works
 		FileConfig configFile = new FileConfig();
-		configFile.setFile(configFileDirectory.getAbsolutePath());
+		configFile.setFile(getAbsolutePath(configFileDirectory));
 		
 		configuration.setFileProperty(configFile);
 		configuration.doConfigure(null);
@@ -275,7 +275,7 @@ public class ConfigurationFilesTest extends TestCase
 		File file = createFile(configFileDirectory, fileName, fileContents);
 		
 		FileConfig configFile = new FileConfig();
-		configFile.setFile(file.getAbsolutePath());
+		configFile.setFile(getAbsolutePath(file));
 		
 		configFile.setToFile("existingfile");
 		// if using the setConfigFilePropery then its should always be set
@@ -321,6 +321,16 @@ public class ConfigurationFilesTest extends TestCase
 	
 	protected String readFile(File file)
 	{
-		return configuration.getFileHandler().readTextFile(file.getAbsolutePath());
+		return configuration.getFileHandler().readTextFile(getAbsolutePath(file));
+	}
+	
+	protected String getAbsolutePath(File file)
+	{
+		String absolutePath = file.getAbsolutePath();
+		absolutePath = absolutePath.replace('\\', '/');
+		if (!absolutePath.startsWith("/")) {
+			absolutePath = "/" + absolutePath;
+		}
+		return absolutePath;
 	}
 }
