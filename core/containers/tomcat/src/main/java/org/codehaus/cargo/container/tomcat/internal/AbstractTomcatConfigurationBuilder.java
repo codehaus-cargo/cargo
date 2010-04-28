@@ -93,7 +93,7 @@ public abstract class AbstractTomcatConfigurationBuilder extends AbstractConfigu
     {
         Properties parameters = new Properties();
         PropertyUtils.setPropertyIfNotNull(parameters, "url", ds.getUrl());
-        PropertyUtils.setPropertyIfNotNull(parameters, "user", ds.getUsername());
+        PropertyUtils.setPropertyIfNotNull(parameters, "username", ds.getUsername());
         PropertyUtils.setPropertyIfNotNull(parameters, "password", ds.getPassword());
 
         parameters.putAll(ds.getConnectionProperties());
