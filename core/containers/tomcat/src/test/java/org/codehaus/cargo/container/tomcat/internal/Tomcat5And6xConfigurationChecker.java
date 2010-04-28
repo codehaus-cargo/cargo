@@ -73,8 +73,16 @@ public class Tomcat5And6xConfigurationChecker extends Tomcat4xConfigurationCheck
         while (i.hasNext())
         {
             String propertyName = i.next().toString();
+
+            String propertyNameInTomcatXML = propertyName;
+            if ("user".equals(propertyName))
+            {
+                // see: http://jira.codehaus.org/browse/CARGO-705
+                propertyNameInTomcatXML = "username";
+            }
+
             XMLAssert.assertXpathEvaluatesTo(resource.getParameter(propertyName), pathToResource
-                + "/@" + propertyName, configuration);
+                + "/@" + propertyNameInTomcatXML, configuration);
         }
     }
 

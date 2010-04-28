@@ -65,14 +65,15 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
         {
             String propertyName = i.next().toString();
 
+            String propertyNameInTomcatXML = propertyName;
             if ("user".equals(propertyName))
             {
                 // see: http://jira.codehaus.org/browse/CARGO-705
-                propertyName = "username";
+                propertyNameInTomcatXML = "username";
             }
 
             XMLAssert.assertXpathEvaluatesTo(resource.getParameter(propertyName),
-                pathToResourceParams + "/parameter[name='" + propertyName + "']/value",
+                pathToResourceParams + "/parameter[name='" + propertyNameInTomcatXML + "']/value",
                 configuration);
         }
     }
