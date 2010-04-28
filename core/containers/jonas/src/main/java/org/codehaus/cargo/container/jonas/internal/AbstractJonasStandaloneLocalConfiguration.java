@@ -22,11 +22,13 @@ package org.codehaus.cargo.container.jonas.internal;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.ow2.jonas.tools.configurator.Jonas;
+import org.ow2.jonas.tools.configurator.api.JDBCConfiguration;
 import org.ow2.jonas.tools.configurator.api.JonasConfigurator;
 
 /**
@@ -102,6 +104,23 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
         configurator.setHost(getPropertyValue(GeneralPropertySet.HOSTNAME));
         configurator.setProtocolsJrmpPort(getPropertyValue(GeneralPropertySet.RMI_PORT));
         configurator.setHttpPort(getPropertyValue(ServletPropertySet.PORT));
+
+        for (int i = 0; i < getDataSources().size(); i++)
+        {
+            DataSource datasource = (DataSource) getDataSources().get(i);
+
+            JDBCConfiguration configuration = new JDBCConfiguration();
+
+            configuration.driverName = datasource.getDriverClass();
+            // datasource.getConnectionType();
+            configuration.jndiName = datasource.getJndiLocation();
+            configuration.password = datasource.getPassword();
+            // datasource.getTransactionSupport();
+            configuration.url = datasource.getUrl();
+            configuration.user = datasource.getUsername();
+
+            configurator.addJdbcRA(datasource.getId(), configuration);
+        }
 
         // Run
         configurator.execute();
