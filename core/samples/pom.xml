@@ -265,7 +265,7 @@
               <property>
                 <name>cargo.tomcat4x.url</name>
                 <!-- note that we want the larger download (not LE), as it contains dbcp needed for database tests -->
-                <value>http://mirror.lividpenguin.com/pub/apache/tomcat/tomcat-4/v4.1.39/bin/apache-tomcat-4.1.39.zip</value>
+                <value>http://mirror.lividpenguin.com/pub/apache/tomcat/tomcat-4/v4.1.40/bin/apache-tomcat-4.1.40.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat4x.java.home</name>
@@ -278,7 +278,7 @@
               </property>
               <property>
                 <name>cargo.tomcat5x.url</name>
-                <value>http://www.smudge-it.co.uk/pub/apache/tomcat/tomcat-5/v5.5.27/bin/apache-tomcat-5.5.27.zip</value>
+                <value>http://apache.multidist.com/tomcat/tomcat-5/v5.5.29/bin/apache-tomcat-5.5.29.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat5x.java.home</name>
@@ -291,7 +291,7 @@
               </property>
               <property>
                 <name>cargo.tomcat6x.url</name>
-                <value>http://www.alliedquotes.com/mirrors/apache/tomcat/tomcat-6/v6.0.20/bin/apache-tomcat-6.0.20.zip</value>
+                <value>http://apache.multidist.com/tomcat/tomcat-6/v6.0.26/bin/apache-tomcat-6.0.26.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat6x.java.home</name>
@@ -317,7 +317,7 @@
               </property>
               <property>
                 <name>cargo.jetty5x.url</name>
-                <value>http://dist.codehaus.org/jetty/jetty-5.1.x/jetty-5.1.14.tgz</value>
+                <value>http://dist.codehaus.org/jetty/jetty-5.1.x/jetty-5.1.15.tgz</value>
               </property>
               <property>
                 <name>cargo.jetty5x.java.home</name>
@@ -330,7 +330,7 @@
               </property>
               <property>
                 <name>cargo.jetty6x.url</name>
-                <value>http://dist.codehaus.org/jetty/jetty-6.1.14/jetty-6.1.14.zip</value>
+                <value>http://dist.codehaus.org/jetty/jetty-6.1.24/jetty-6.1.24.zip</value>
               </property>
               <property>
                 <name>cargo.jetty6x.java.home</name>
@@ -343,7 +343,7 @@
               </property>
               <property>
                 <name>cargo.jetty7x.url</name>
-                <value>http://download.eclipse.org/jetty/7.0.1.v20091125/dist/jetty-distribution-7.0.1.v20091125.zip</value>
+                <value>http://download.eclipse.org/jetty/7.0.2.v20100331/dist/jetty-distribution-7.0.2.v20100331.zip</value>
               </property>
               <property>
                 <name>cargo.jetty7x.java.home</name>
@@ -640,7 +640,7 @@
 
               <property>
                 <name>cargo.jonas4x.url</name>
-                <value>http://download.fr.forge.objectweb.org/jonas/jonas4.10.7-tomcat5.5.28.tgz</value>
+                <value>http://download.fr.forge.objectweb.org/jonas/jonas4.10.8-tomcat5.5.28.tgz</value>
               </property>
               <property>
                 <name>cargo.jonas4x.port</name>
@@ -667,7 +667,7 @@
 
               <property>
                 <name>cargo.jonas5x.url</name>
-                <value>http://download.fr.forge.objectweb.org/jonas/jonas-full-5.1.0-bin.tar.gz</value>
+                <value>http://download.fr.forge.objectweb.org/jonas/jonas-full-5.1.2-bin.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jonas5x.port</name>
