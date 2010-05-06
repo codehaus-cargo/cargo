@@ -119,6 +119,10 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         setupWebApps(container);
     }
 
+
+    /**
+     * Escapes a Windows path: backslashes become slashes, drive paths get prefixed with a slash.
+     */
     protected String escapePath(String path)
     {
         if (path.indexOf('\\') != -1)
