@@ -99,7 +99,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         {
             InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
             String[] sharedClassPath = installedContainer.getSharedClasspath();
-            StringBuffer tmp = new StringBuffer();
+            StringBuilder tmp = new StringBuilder();
             if (sharedClassPath != null)
             {
                 for (int i = 0; i < sharedClassPath.length; i++)
@@ -259,7 +259,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
 
         // Add webapp contexts in order to explicitely point to where the
         // wars are located.
-        StringBuffer webappTokenValue = new StringBuffer(" ");
+        StringBuilder webappTokenValue = new StringBuilder(" ");
 
         Iterator it = getDeployables().iterator();
         while (it.hasNext())
@@ -299,7 +299,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      */
     protected String createContextToken(WAR deployable)
     {
-        StringBuffer contextTokenValue = new StringBuffer();
+        StringBuilder contextTokenValue = new StringBuilder();
 
         contextTokenValue.append("<Context path=\"");
         contextTokenValue.append("/" + deployable.getContext());
@@ -342,7 +342,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      */
     protected String getSecurityToken()
     {
-        StringBuffer token = new StringBuffer(" ");
+        StringBuilder token = new StringBuilder(" ");
 
         // Add token filters for authenticated users
         if (getPropertyValue(ServletPropertySet.USERS) != null)
