@@ -104,7 +104,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
             {
                 for (int i = 0; i < sharedClassPath.length; i++)
                 {
-                    tmp.append(',').append(sharedClassPath[i]);
+                    tmp.append(',').append(escapePath(sharedClassPath[i]));
                 }
             }
             getAntUtils().addTokenToFilterChain(filterChain, "catalina.common.loader",
@@ -117,6 +117,23 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
 
         // deploy the web-app by copying the WAR file
         setupWebApps(container);
+    }
+
+    protected String escapePath(String path)
+    {
+        if (path.indexOf('\\') != -1)
+        {
+            // This is a Windows that needs to be converted
+            if (path.indexOf(":\\") != -1)
+            {
+                // This is a path with a drive letter,
+                // that needs to be prefixed
+                path = '/' + path;
+            }
+            path = path.replace('\\', '/');
+        }
+
+        return path;
     }
 
     /**

@@ -24,6 +24,36 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         return getResourceConfigurationFile(null);
     }
 
+    private void testEscapePath(String path, String expectedEscapedPath)
+    {
+        AbstractCatalinaStandaloneLocalConfiguration configuration =
+                (AbstractCatalinaStandaloneLocalConfiguration) this.configuration;
+
+        String escapedPath = configuration.escapePath(path);
+
+        assertEquals(path, expectedEscapedPath, escapedPath);
+    }
+
+    public void testEscapePathWithFullUNIXPath()
+    {
+        testEscapePath("/usr/bin/java", "/usr/bin/java");
+    }
+
+    public void testEscapePathWithPartialUNIXPath()
+    {
+        testEscapePath("Documents/java", "Documents/java");
+    }
+
+    public void testEscapePathWithFullWindowsPath()
+    {
+        testEscapePath("C:\\Windows\\SYSTEM32\\java.exe", "/C:/Windows/SYSTEM32/java.exe");
+    }
+
+    public void testEscapePathWithPartialWindowsPath()
+    {
+        testEscapePath("Documents\\java", "Documents/java");
+    }
+
     public void testCreateTomcatFilterChainWhenTryingToDeployAnEar()
     {
         Tomcat4xStandaloneLocalConfiguration configuration =
