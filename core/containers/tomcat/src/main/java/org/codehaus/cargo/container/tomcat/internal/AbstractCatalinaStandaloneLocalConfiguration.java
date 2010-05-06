@@ -122,6 +122,9 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
 
     /**
      * Escapes a Windows path: backslashes become slashes, drive paths get prefixed with a slash.
+     *
+     * @param path Path to escape.
+     * @return Escaped path.
      */
     protected String escapePath(String path)
     {
