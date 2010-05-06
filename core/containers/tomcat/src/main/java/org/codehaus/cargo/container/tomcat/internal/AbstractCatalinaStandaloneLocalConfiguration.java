@@ -127,19 +127,21 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      */
     protected String escapePath(String path)
     {
-        if (path.indexOf('\\') != -1)
+        String escapedPath = path;
+
+        if (escapedPath.indexOf('\\') != -1)
         {
             // This is a Windows that needs to be converted
-            if (path.indexOf(":\\") != -1)
+            if (escapedPath.indexOf(":\\") != -1)
             {
                 // This is a path with a drive letter,
                 // that needs to be prefixed
-                path = '/' + path;
+                escapedPath = '/' + escapedPath;
             }
-            path = path.replace('\\', '/');
+            escapedPath = escapedPath.replace('\\', '/');
         }
 
-        return path;
+        return escapedPath;
     }
 
     /**
