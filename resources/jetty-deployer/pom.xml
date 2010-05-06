@@ -21,11 +21,11 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-resources</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1-beta-1</version>
   </parent>
   <artifactId>cargo-jetty-deployer</artifactId>
   <packaging>war</packaging>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1-beta-1</version>
   <name>Cargo Remote Deployer for Jetty</name>
   <description>Webapp used by Cargo to remotely deploy applications of a Jetty server</description>
   <url>http://maven.apache.org</url>

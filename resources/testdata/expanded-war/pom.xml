@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1-beta-1</version>
   </parent>
   <artifactId>expanded-war</artifactId>
   <name>Cargo Expanded WAR test data for samples</name>
