@@ -112,7 +112,9 @@ public abstract class AbstractDependency
             if (artifact.getGroupId().equals(getGroupId())
                 && artifact.getArtifactId().equals(getArtifactId())
                 && (artifact.getClassifier() == getClassifier() 
-                || (artifact.getClassifier() != null && artifact.getClassifier().equals(getClassifier()))))
+                || (artifact.getClassifier() != null && artifact.getClassifier().equals(getClassifier())))
+                && (artifact.getType() == getType()
+                || (artifact.getType() != null && artifact.getType().equals(getType()))))
             {
                 resolvedArtifact = artifact;
                 break;
