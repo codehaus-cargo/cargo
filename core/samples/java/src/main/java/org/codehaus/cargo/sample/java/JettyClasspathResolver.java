@@ -161,7 +161,7 @@ public class JettyClasspathResolver
             // include any tools.jar file to the cp.
             if (!this.jdkUtils.isOSX())
             {
-                urls[i++] = this.jdkUtils.getToolsJar().toURL();
+                urls[i++] = this.jdkUtils.getToolsJar().toURI().toURL();
             }
 
             // We pass null as the parent to ensure no jars outside of the ones we've added are

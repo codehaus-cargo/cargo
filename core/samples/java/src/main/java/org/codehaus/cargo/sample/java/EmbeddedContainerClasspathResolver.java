@@ -134,7 +134,7 @@ public class EmbeddedContainerClasspathResolver
             // include any tools.jar file to the cp.
             if (!this.jdkUtils.isOSX())
             {
-                urls.add(this.jdkUtils.getToolsJar().toURL());
+                urls.add(this.jdkUtils.getToolsJar().toURI().toURL());
             }
 
             classloader = null;
