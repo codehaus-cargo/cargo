@@ -170,7 +170,7 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
             try
             {
                 URLClassLoader classloader = new URLClassLoader(
-                    new URL[] {new File(getHome(), "/lib/resin.jar").toURL()});
+                    new URL[] {new File(getHome(), "/lib/resin.jar").toURI().toURL()});
                 version = new ResinUtil().getResinVersion(classloader);
                 getLogger().info("Found Resin version [" + version + "]",
                     this.getClass().getName());

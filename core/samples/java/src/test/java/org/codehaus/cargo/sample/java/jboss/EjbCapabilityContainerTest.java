@@ -84,7 +84,7 @@ public class EjbCapabilityContainerTest extends AbstractCargoTestCase
 
         File allClientJar =
             new File(getInstalledLocalContainer().getHome(), "client/jbossall-client.jar");
-        URL[] urls = new URL[] { allClientJar.toURL() };
+        URL[] urls = new URL[] { allClientJar.toURI().toURL() };
         URLClassLoader classloader = new URLClassLoader(urls, getClass().getClassLoader());
         
         // Ensure that the container's initial context factory implementation will be loaded using

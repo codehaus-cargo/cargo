@@ -289,7 +289,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         File libDir =
             new File(container.getLibDir(getPropertyValue(JBossPropertySet.CONFIGURATION)));
         getAntUtils().addTokenToFilterChain(filterChain, "cargo.server.lib.url",
-            libDir.toURL().toString());
+            libDir.toURI().toURL().toString());
 
         // String representation of scanned folder and archive
         StringBuffer buffer = new StringBuffer();
@@ -298,7 +298,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         // directory and existing jboss deploy directory
         File deployDir =
             new File(container.getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION)));
-        buffer.append("deploy/, ").append(deployDir.toURL().toString());
+        buffer.append("deploy/, ").append(deployDir.toURI().toURL().toString());
         
         // just use the original deploy directory and copy all the deployables from the server
         // deploy directory to the cargo one. This is due to JBoss having deployers and sars in 

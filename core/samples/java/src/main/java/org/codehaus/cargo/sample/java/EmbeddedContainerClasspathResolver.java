@@ -119,14 +119,14 @@ public class EmbeddedContainerClasspathResolver
                     }
                     for (int i = 0; i < jars.length; i++)
                     {
-                        urls.add(jars[i].toURL());
+                        urls.add(jars[i].toURI().toURL());
                     }
                 }
                 else
                 {
                     // single jar file or directory
                     File dependencyPath = new File(containerHome, dependencyRelativePath);
-                    urls.add(dependencyPath.toURL());
+                    urls.add(dependencyPath.toURI().toURL());
                 }
             }
 

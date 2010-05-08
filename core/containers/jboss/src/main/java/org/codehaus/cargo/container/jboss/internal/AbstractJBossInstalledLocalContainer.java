@@ -79,13 +79,13 @@ public abstract class AbstractJBossInstalledLocalContainer extends
         java.addSysproperty(getAntUtils().createSysProperty("jboss.server.home.dir",
             getConfiguration().getHome()));
         java.addSysproperty(getAntUtils().createSysProperty("jboss.server.home.url",
-            new File(getConfiguration().getHome()).toURL().toString()));
+            new File(getConfiguration().getHome()).toURI().toURL().toString()));
         java.addSysproperty(getAntUtils().createSysProperty("jboss.server.name",
                 getLibDir(getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION))));
         java.addSysproperty(getAntUtils().createSysProperty(
             "jboss.server.lib.url",
             new File(getLibDir(getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)))
-                .toURL().toString()));
+                .toURI().toURL().toString()));
 
         java.createArg().setValue(
             "--host=" + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));

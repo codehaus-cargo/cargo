@@ -30,7 +30,7 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
     {
         java.addSysproperty(getAntUtils().createSysProperty(
                 "jboss.common.lib.url",
-                new File(getCommonLibDir()).toURL().toString()));
+                new File(getCommonLibDir()).toURI().toURL().toString()));
         super.doStart(java);
     }
     

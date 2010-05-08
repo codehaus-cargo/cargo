@@ -154,7 +154,7 @@ public class JettyClasspathResolver
             {
                 String dependencyRelativePath = (String) it.next();
                 File dependencyPath = new File(containerHome, dependencyRelativePath);
-                urls[i++] = dependencyPath.toURL();
+                urls[i++] = dependencyPath.toURI().toURL();
             }
 
             // On OSX, the tools.jar classes are included in the classes.jar so there is no need to

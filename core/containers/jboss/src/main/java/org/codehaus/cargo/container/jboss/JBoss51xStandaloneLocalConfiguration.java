@@ -59,12 +59,12 @@ public class JBoss51xStandaloneLocalConfiguration extends JBossStandaloneLocalCo
         File deployersDir =
             new File(container.getDeployersDir(getPropertyValue(JBossPropertySet.CONFIGURATION)));
         getAntUtils().addTokenToFilterChain(filterChain, "cargo.jboss.deployers.url",
-            deployersDir.toURL().toString());
+            deployersDir.toURI().toURL().toString());
         // add the deploy directory needed for JBoss51x
         File deployDir =
             new File(container.getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION)));
         getAntUtils().addTokenToFilterChain(filterChain, "cargo.jboss.deploy.url",
-            deployDir.toURL().toString());
+            deployDir.toURI().toURL().toString());
         
         return filterChain;
     }

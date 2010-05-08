@@ -477,7 +477,7 @@ public class DefaultFileHandler implements FileHandler
         URL result;
         try
         {
-            result = new File(path).toURL();
+            result = new File(path).toURI().toURL();
         }
         catch (MalformedURLException e)
         {
