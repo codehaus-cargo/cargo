@@ -954,7 +954,7 @@
       <!-- All unstable containers -->
       <id>all-unstable-downloadable</id>
       <properties>
-        <cargo.containers>geronimo1x, jetty7x, jboss5x</cargo.containers>
+        <cargo.containers>geronimo1x, jetty7x, jboss5x, jboss6x</cargo.containers>
       </properties>
     </profile>
     <profile>
