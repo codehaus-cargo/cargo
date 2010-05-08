@@ -88,10 +88,11 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
     public void doServerAndDomainNameArgs(final Java java)
     {
         String serverName = getConfiguration().getPropertyValue(JonasPropertySet.JONAS_SERVER_NAME);
-        if (serverName != null && serverName.trim().length() != 0)
+        if (serverName == null || serverName.trim().length() == 0)
         {
-            java.createJvmarg().setValue("-Djonas.name=" + serverName);
+            serverName = "jonas";
         }
+        java.createJvmarg().setValue("-Djonas.name=" + serverName);
         doDomainNameArgs(java);
     }
 
@@ -103,10 +104,11 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
     private void doDomainNameArgs(final Java java)
     {
         String domainName = getConfiguration().getPropertyValue(JonasPropertySet.JONAS_DOMAIN_NAME);
-        if (domainName != null && domainName.trim().length() != 0)
+        if (domainName == null || domainName.trim().length() == 0)
         {
-            java.createJvmarg().setValue("-Ddomain.name=" + domainName);
+            domainName = "jonas";
         }
+        java.createJvmarg().setValue("-Ddomain.name=" + domainName);
     }
 
     /**
