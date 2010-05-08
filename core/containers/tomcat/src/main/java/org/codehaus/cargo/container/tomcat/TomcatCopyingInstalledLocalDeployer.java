@@ -20,7 +20,10 @@
 package org.codehaus.cargo.container.tomcat;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
@@ -142,6 +145,67 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
             {
                 super.deployExpandedWar(deployableDir, war);
             }
+        }
+    }
+
+    /**
+     * Undeploy WAR deployables by deleting the local file from the Tomcat webapps directory.
+     *
+     * {@inheritDoc}
+     * @see AbstractCopyingInstalledLocalDeployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
+     */
+    public void undeploy(Deployable deployable)
+    {
+        // Check that the container supports the deployable type to undeploy
+        if (!getContainer().getCapability().supportsDeployableType(deployable.getType()))
+        {
+            throw new ContainerException(getContainer().getName() + " doesn't support ["
+                + deployable.getType().getType().toUpperCase() + "] archives. Got ["
+                + deployable.getFile() + "]");
+        }
+
+        String deployableDir = getDeployableDir();
+        try
+        {
+            if (deployable.getType() == DeployableType.WAR)
+            {
+                WAR war = (WAR) deployable;
+                String context = war.getContext();
+                getLogger().info("Undeploying context [" + context + "] from [" + deployableDir
+                    + "]...", this.getClass().getName());
+
+                // Delete either the WAR file or the expanded WAR directory.
+                String warLocation;
+                if (war.isExpandedWar())
+                {
+                    warLocation = getFileHandler().append(deployableDir, context);
+                }
+                else
+                {
+                    warLocation = getFileHandler().append(deployableDir, context + ".war");
+                }
+
+                if (getFileHandler().exists(warLocation))
+                {
+                    getLogger().info("Trying to delete WAR from [" + warLocation + "]...",
+                        this.getClass().getName());
+                    getFileHandler().delete(warLocation);
+                }
+                else
+                {
+                    throw new ContainerException("Failed to undeploy as there is no WAR at ["
+                        + warLocation + "]");
+                }
+            }
+            else
+            {
+                throw new ContainerException("Only WAR undeployment is currently supported");
+            }
+        }
+        catch (Exception e)
+        {
+            throw new ContainerException("Failed to undeploy [" + deployable.getFile()
+                + "] from [" + deployableDir + "]", e);
         }
     }
 }
