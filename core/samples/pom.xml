@@ -981,7 +981,7 @@
     <profile>
       <id>all-datasource</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, oc4j9x, tomcat4x, tomcat5x, tomcat6x, weblogic8x, weblogic9x, weblogic10x, weblogic103x, jrun4x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, oc4j9x, tomcat4x, tomcat5x, tomcat6x, weblogic8x, weblogic9x, weblogic10x, weblogic103x, jrun4x, jonas4x, jonas5x</cargo.containers>
       </properties>
     </profile>
     <profile>
