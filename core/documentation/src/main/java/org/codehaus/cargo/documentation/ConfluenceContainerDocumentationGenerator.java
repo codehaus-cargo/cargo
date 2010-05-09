@@ -311,6 +311,26 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(LINE_SEPARATOR);
 
         if (this.containerCapabilityFactory.createContainerCapability(
+            containerId).supportsDeployableType(DeployableType.EJB))
+        {
+            if (containerId.equals("geronimo1x"))
+            {
+                output.append("| [Static deployment of EJB]              | (x) | (x) | (x) | (x) "
+                    + "| Geronimo does not support static deployments |");
+            }
+            else
+            {
+                output.append(
+                    "| [Static deployment of EJB]              | (/) | (/) | (/) | (/) | |");
+            }
+        }
+        else
+        {
+            output.append("| [Static deployment of EJB]              | (x) | (x) | (x) | (x) | |");
+        }
+        output.append(LINE_SEPARATOR);
+
+        if (this.containerCapabilityFactory.createContainerCapability(
             containerId).supportsDeployableType(DeployableType.EAR))
         {
             if (containerId.equals("geronimo1x"))
@@ -327,6 +347,26 @@ public class ConfluenceContainerDocumentationGenerator
         else
         {
             output.append("| [Static deployment of EAR]              | (x) | (x) | (x) | (x) | |");
+        }
+        output.append(LINE_SEPARATOR);
+
+        if (this.containerCapabilityFactory.createContainerCapability(
+            containerId).supportsDeployableType(DeployableType.RAR))
+        {
+            if (containerId.equals("geronimo1x"))
+            {
+                output.append("| [Static deployment of RAR]              | (x) | (x) | (x) | (x) "
+                    + "| Geronimo does not support static deployments |");
+            }
+            else
+            {
+                output.append(
+                    "| [Static deployment of RAR]              | (/) | (/) | (/) | (/) | |");
+            }
+        }
+        else
+        {
+            output.append("| [Static deployment of RAR]              | (x) | (x) | (x) | (x) | |");
         }
         output.append(LINE_SEPARATOR);
 
