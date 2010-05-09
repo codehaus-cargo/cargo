@@ -257,14 +257,6 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
      */
     public void registerOrion()
     {
-        registerConfigurationCapability("orion1x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.orion.internal."
-                + "OrionStandaloneLocalConfigurationCapability");
-
-        registerConfigurationCapability("orion2x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.orion.internal."
-                + "OrionStandaloneLocalConfigurationCapability");
-
         registerConfigurationCapability("oc4j9x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, "org.codehaus.cargo.container.orion.internal."
                 + "OrionStandaloneLocalConfigurationCapability");

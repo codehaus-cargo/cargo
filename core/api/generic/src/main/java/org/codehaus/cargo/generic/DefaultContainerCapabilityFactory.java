@@ -173,12 +173,6 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
      */
     public void registerOrion()
     {
-        registerContainerCapability("orion1x",
-            "org.codehaus.cargo.container.internal.J2EEContainerCapability");
-
-        registerContainerCapability("orion2x",
-            "org.codehaus.cargo.container.internal.J2EEContainerCapability");
-
         registerContainerCapability("oc4j9x",
             "org.codehaus.cargo.container.internal.J2EEContainerCapability");
 

@@ -293,7 +293,7 @@ public class AbstractCargoTestCase extends TestCase
     }
 
     /**
-     * some old containers (orion2x) include old versions of crimson that cannot parse schema
+     * some old containers include old versions of crimson that cannot parse schema
      */
     private void setUpXercesIfJDK15(Configuration configuration, InstalledLocalContainer container)
     {

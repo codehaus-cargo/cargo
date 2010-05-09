@@ -242,12 +242,6 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
      */
     public void registerOrion()
     {
-        registerConfiguration("orion1x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.orion.OrionStandaloneLocalConfiguration");
-
-        registerConfiguration("orion2x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.orion.OrionStandaloneLocalConfiguration");
-
         registerConfiguration("oc4j9x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             "org.codehaus.cargo.container.orion.Oc4j9xStandaloneLocalConfiguration");
 

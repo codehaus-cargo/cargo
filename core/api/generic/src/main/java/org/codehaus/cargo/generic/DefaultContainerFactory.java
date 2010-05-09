@@ -212,12 +212,6 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
      */
     public void registerOrion()
     {
-        registerContainer("orion1x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.orion.Orion1xInstalledLocalContainer");
-
-        registerContainer("orion2x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.orion.Orion2xInstalledLocalContainer");
-
         registerContainer("oc4j9x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.orion.Oc4j9xInstalledLocalContainer");
 

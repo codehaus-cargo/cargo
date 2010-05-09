@@ -59,7 +59,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
     /**
      * Where to find resources for this configuration.
      */
-    private static final String ORION_RESOURCE_PATH = RESOURCE_PATH + "orion1x2x";
+    private static final String ORION_RESOURCE_PATH = RESOURCE_PATH + "oc4j9x10x";
 
     /**
      * Capability of the Orion standalone configuration.
