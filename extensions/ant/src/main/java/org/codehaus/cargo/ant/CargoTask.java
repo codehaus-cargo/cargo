@@ -55,6 +55,12 @@ import java.util.ResourceBundle;
 public class CargoTask extends Task
 {
     /**
+     * Represents a configure container action.
+     * @see #setAction(String)
+     */
+    private static final String ACTION_CONFIGURE = "configure";
+
+    /**
      * Represents a start container action.
      * @see #setAction(String)
      */
@@ -490,9 +496,11 @@ public class CargoTask extends Task
                 throw new BuildException("Only local containers can execute actions");
             }
 
+            LocalContainer localContainer = (LocalContainer) getContainer();
+
             if (getAction().equalsIgnoreCase(ACTION_START))
             {
-                ((LocalContainer) getContainer()).start();
+                localContainer.start();
 
                 if (getWait())
                 {
@@ -502,7 +510,11 @@ public class CargoTask extends Task
             }
             else if (getAction().equalsIgnoreCase(ACTION_STOP))
             {
-                ((LocalContainer) getContainer()).stop();
+                localContainer.stop();
+            }
+            else if (getAction().equalsIgnoreCase(ACTION_CONFIGURE))
+            {
+                localContainer.getConfiguration().configure(localContainer);
             }
         }
     }
@@ -821,15 +833,16 @@ public class CargoTask extends Task
         if ((getId() == null) && (getAction() == null))
         {
             throw new BuildException("You must specify an [action] attribute with values ["
-                + ACTION_START + "] or [" + ACTION_STOP + "]");
+                + ACTION_CONFIGURE + "], [" + ACTION_START + "] or [" + ACTION_STOP + "]");
         }
 
         if ((getAction() != null)
             && (!getAction().equalsIgnoreCase(ACTION_START)
-                && !getAction().equalsIgnoreCase(ACTION_STOP)))
+                && !getAction().equalsIgnoreCase(ACTION_STOP)
+                && !getAction().equalsIgnoreCase(ACTION_CONFIGURE)))
         {
-            throw new BuildException("Valid actions are: [" + ACTION_START + "] and ["
-                + ACTION_STOP + "]");
+            throw new BuildException("Valid actions are: [" + ACTION_CONFIGURE + "], ["
+                    + ACTION_START + "] and [" + ACTION_STOP + "]");
         }
 
         if ((getHome() == null) && (getZipURLInstaller() == null))

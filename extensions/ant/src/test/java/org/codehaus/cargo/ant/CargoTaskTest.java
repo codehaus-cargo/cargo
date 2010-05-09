@@ -128,7 +128,7 @@ public class CargoTaskTest extends TestCase
         }
         catch (BuildException expected)
         {
-            assertEquals("You must specify an [action] attribute with values [start] or [stop]",
+            assertEquals("You must specify an [action] attribute with values [configure], [start] or [stop]",
                 expected.getMessage());
         }
     }
@@ -143,7 +143,7 @@ public class CargoTaskTest extends TestCase
         }
         catch (BuildException expected)
         {
-            assertEquals("Valid actions are: [start] and [stop]", expected.getMessage());
+            assertEquals("Valid actions are: [configure], [start] and [stop]", expected.getMessage());
         }
     }
 
