@@ -327,7 +327,11 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         StringBuilder contextTokenValue = new StringBuilder();
 
         contextTokenValue.append("<Context path=\"");
-        contextTokenValue.append("/" + deployable.getContext());
+        // Tomcat requires a context path equal to a zero-length string for default web application
+        if (!"".equals(deployable.getContext()) && !"/".equals(deployable.getContext()))
+        {
+            contextTokenValue.append("/" + deployable.getContext());
+        }
         contextTokenValue.append("\" docBase=\"");
 
         // Tomcat requires an absolute path for the "docBase" attribute.
