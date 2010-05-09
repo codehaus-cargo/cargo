@@ -20,11 +20,13 @@
 package org.codehaus.cargo.container.tomcat;
 
 import java.util.Set;
+import java.util.Properties;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.internal.util.PropertyUtils;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
@@ -140,8 +142,15 @@ public class Tomcat5xStandaloneLocalConfiguration extends
      */
     protected void setupTransactionManager()
     {
-        writeConfigurationToXpath(getOrCreateResourceConfigurationFile(null, null),
-            "<Transaction factory=\"org.objectweb.jotm.UserTransactionFactory\" />", "//Context");
+        Resource transactionManagerResource =
+            new Resource("UserTransaction", "javax.transaction.UserTransaction");
+
+        Properties parameters = new Properties();
+        PropertyUtils.setPropertyIfNotNull(parameters, "jotm.timeout", "60");
+        PropertyUtils.setPropertyIfNotNull(parameters, "factory",
+            "org.objectweb.jotm.UserTransactionFactory");
+        transactionManagerResource.setParameters(parameters);
+        getResources().add(transactionManagerResource);
     }
 
     /**
