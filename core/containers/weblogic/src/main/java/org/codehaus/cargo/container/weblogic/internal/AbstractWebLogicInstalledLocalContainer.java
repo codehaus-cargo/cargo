@@ -232,6 +232,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     /**
      * Check the WLS installation directory setting and if the beaHome attribute
      * is not set, guess it.
+     * @throws ContainerException If WL_HOME not set.
      */
     public final void initBeaHome() throws ContainerException
     {
