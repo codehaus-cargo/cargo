@@ -64,6 +64,8 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
         setProperty(GeneralPropertySet.PROTOCOL, "http");
         setProperty(GeneralPropertySet.HOSTNAME, "localhost");
         setProperty(ServletPropertySet.PORT, "9000");
+        setProperty(JonasPropertySet.JONAS_SERVER_NAME, "jonas");
+        setProperty(JonasPropertySet.JONAS_DOMAIN_NAME, "jonas");
     }
 
     /**
