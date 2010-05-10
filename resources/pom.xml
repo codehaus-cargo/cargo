@@ -21,18 +21,18 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-parent</artifactId>
-    <version>4.3-SNAPSHOT</version>
+    <version>4.2</version>
     <relativePath>../pom/pom.xml</relativePath>
   </parent>
   <artifactId>cargo-resources</artifactId>
   <name>Cargo Shared Resources</name>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1-beta-2</version>
   <packaging>pom</packaging>
   <description>Cargo Shared Resources (License files, Checkstyle configuration files, etc)</description>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk</url>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/tags/cargo-resources-1.0.1-beta-2</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/tags/cargo-resources-1.0.1-beta-2</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/resources/tags/cargo-resources-1.0.1-beta-2</url>
   </scm>
   <modules>
     <module>build-tools</module>
