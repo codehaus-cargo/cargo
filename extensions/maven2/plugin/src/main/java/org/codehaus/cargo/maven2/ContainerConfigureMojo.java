@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.spi.util.ContainerUtils;
  * Configure a container using Cargo.
  * 
  * @version $Id$
- * @goal start
+ * @goal configure
  * @requiresDependencyResolution compile
  */
 public class ContainerConfigureMojo extends AbstractCargoMojo
