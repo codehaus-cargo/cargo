@@ -93,7 +93,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
         // As a result, allow the --host or -b to be different than GeneralPropertySet.HOSTNAME
         final String runtimeArguments = getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS);
         if (runtimeArguments == null ||
-           (!runtimeArguments.contains("--host 0.0.0.0") && !runtimeArguments.contains("--b 0.0.0.0")))
+           (!runtimeArguments.contains("--host 0.0.0.0") && !runtimeArguments.contains("-b 0.0.0.0")))
         {
             java.createArg().setValue(
                 "--host=" + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));
