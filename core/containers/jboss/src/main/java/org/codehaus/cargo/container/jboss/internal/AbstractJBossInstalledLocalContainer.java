@@ -284,8 +284,9 @@ public abstract class AbstractJBossInstalledLocalContainer extends
 
     /**
      * Verify that the JBoss directory structure is valid and throw a ContainerException if not.
+     * @throws ContainerException If directory structure is invalid.
      */
-    protected void verifyJBossHome()
+    protected void verifyJBossHome() throws ContainerException
     {
         List requiredDirs = new ArrayList();
         requiredDirs.add(getFileHandler().append(getHome(), "bin"));
