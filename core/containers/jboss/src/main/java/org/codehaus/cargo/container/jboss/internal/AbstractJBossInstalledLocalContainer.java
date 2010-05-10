@@ -87,7 +87,13 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             new File(getLibDir(getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)))
                 .toURI().toURL().toString()));
 
-        if (!getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS).contains("--host"))
+        // CARGO-758: To allow JBoss to be accessed from remote machines,
+        // it must be started with the arguments -b 0.0.0.0 or --host 0.0.0.0
+        //
+        // As a result, allow the --host or -b to be different than GeneralPropertySet.HOSTNAME
+        final String runtimeArguments = getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS);
+        if (runtimeArguments == null ||
+           (!runtimeArguments.contains("--host 0.0.0.0") && !runtimeArguments.contains("--b 0.0.0.0")))
         {
             java.createArg().setValue(
                 "--host=" + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));
