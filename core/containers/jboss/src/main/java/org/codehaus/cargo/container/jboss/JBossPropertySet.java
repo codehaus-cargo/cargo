@@ -42,7 +42,7 @@ public interface JBossPropertySet
     String JBOSS_USER = "cargo.jboss.user";
     
     /**
-     * The password to use when calling JBoss server commands; 
+     * The password to use when calling JBoss server commands.
      */
     String JBOSS_PASSWORD = "cargo.jboss.password";
 }
