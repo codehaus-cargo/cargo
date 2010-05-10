@@ -147,7 +147,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      * @throws ContainerException
      *                 if any
      */
-    protected void verifyWeblogicHome()
+    protected void verifyWeblogicHome() throws ContainerException
     {
         List requiredDirs = this.getWeblogicHomeDirs();
         List requiredFiles = this.getWeblogicHomeFiles();
@@ -165,7 +165,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      * @throws ContainerException
      *                 if any
      */
-    protected void verifyBeaHome()
+    protected void verifyBeaHome() throws ContainerException
     {
         List requiredDirs = this.getBeaHomeDirs();
         List requiredFiles = this.getBeaHomeFiles();
@@ -194,7 +194,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      *                 if a file or directory isn't present as expected
      */
     protected void verify(String errorPrefix, String errorSuffix,
-            List requiredDirs, List requiredFiles)
+            List requiredDirs, List requiredFiles) throws ContainerException
     {
         for (Iterator it = requiredDirs.iterator(); it.hasNext();)
         {
@@ -233,7 +233,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      * Check the WLS installation directory setting and if the beaHome attribute
      * is not set, guess it.
      */
-    public final void initBeaHome()
+    public final void initBeaHome() throws ContainerException
     {
 
         if (this.getHome() == null)
