@@ -87,8 +87,11 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             new File(getLibDir(getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)))
                 .toURI().toURL().toString()));
 
-        java.createArg().setValue(
-            "--host=" + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));
+        if (!getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS).contains("--host"))
+        {
+            java.createArg().setValue(
+                "--host=" + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));
+        }
         java.createArg().setValue(
                 "--configuration="
                         + getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION));
