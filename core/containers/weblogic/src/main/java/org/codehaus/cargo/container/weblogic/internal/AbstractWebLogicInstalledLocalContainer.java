@@ -143,11 +143,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     /**
      * Verify that the Weblogic home directory structure is valid and throw a
      * ContainerException if not.
-     * 
-     * @throws ContainerException
-     *                 if any
      */
-    protected void verifyWeblogicHome() throws ContainerException
+    protected void verifyWeblogicHome()
     {
         List requiredDirs = this.getWeblogicHomeDirs();
         List requiredFiles = this.getWeblogicHomeFiles();
@@ -161,11 +158,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     /**
      * Verify that the Bea home directory structure is valid and throw a
      * ContainerException if not.
-     * 
-     * @throws ContainerException
-     *                 if any
      */
-    protected void verifyBeaHome() throws ContainerException
+    protected void verifyBeaHome()
     {
         List requiredDirs = this.getBeaHomeDirs();
         List requiredFiles = this.getBeaHomeFiles();
@@ -189,12 +183,9 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      *                Directories that are required to exist
      * @param requiredFiles -
      *                Files that are required to exist
-     * 
-     * @throws ContainerException -
-     *                 if a file or directory isn't present as expected
      */
     protected void verify(String errorPrefix, String errorSuffix,
-            List requiredDirs, List requiredFiles) throws ContainerException
+            List requiredDirs, List requiredFiles)
     {
         for (Iterator it = requiredDirs.iterator(); it.hasNext();)
         {
@@ -232,9 +223,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     /**
      * Check the WLS installation directory setting and if the beaHome attribute
      * is not set, guess it.
-     * @throws ContainerException If WL_HOME not set.
      */
-    public final void initBeaHome() throws ContainerException
+    public final void initBeaHome()
     {
 
         if (this.getHome() == null)
