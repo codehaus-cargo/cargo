@@ -979,13 +979,6 @@
    </properties>
   <profiles>
     <profile>
-      <!-- All containers for the CI -->
-      <id>all-ci</id>
-      <properties>
-        <cargo.containers>resin3x, tomcat5x, tomcat6x, jetty6x, jboss42x, jonas5x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
       <!-- All unstable containers -->
       <id>all-unstable-downloadable</id>
       <properties>
@@ -997,13 +990,6 @@
       <id>all-stable-downloadable</id>
       <properties>
         <cargo.containers>resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, jetty4x, jetty5x, jetty6x, jetty7x, jboss4x, jboss42x, jo1x, jonas4x, jonas5x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <!-- All containers for the CI in Java 4 -->
-      <id>all-ci-java-1.4</id>
-      <properties>
-        <cargo.containers>resin2x, tomcat4x, jetty4x, jetty5x, jboss3x, jboss4x, jo1x, jonas4x</cargo.containers>
       </properties>
     </profile>
     <profile>
