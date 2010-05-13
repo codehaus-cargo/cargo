@@ -303,15 +303,14 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
         String earName = ear.getName();
         if (earName == null)
         {
-            earName = ear.getFile();
+            earName = getFileHandler().getName(ear.getFile());
         }
         if (!earName.toLowerCase().contains(".ear"))
         {
             earName = earName + ".ear";
         }
 
-        getFileHandler().copyFile(ear.getFile(),
-            getFileHandler().append(deployableDir, getFileHandler().getName(earName)));
+        getFileHandler().copyFile(ear.getFile(), getFileHandler().append(deployableDir, earName));
     }
     
     /**
