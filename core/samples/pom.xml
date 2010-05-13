@@ -961,6 +961,7 @@
   </modules>
 
   <properties>
+    <!-- By default, only test on Jetty 6 -->
     <cargo.containers>jetty6x</cargo.containers>
     <!-- default from surefire -->
     <surefire.childDelegation>false</surefire.childDelegation>
