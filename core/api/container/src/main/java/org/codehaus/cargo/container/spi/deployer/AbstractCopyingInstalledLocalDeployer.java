@@ -299,8 +299,19 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      */
     protected void deployEar(String deployableDir, EAR ear)
     {
+        // CARGO-598: If the EAR has a name property, use that one (instead of the EAR file name)
+        String earName = ear.getName();
+        if (earName == null)
+        {
+            earName = ear.getFile();
+        }
+        if (!earName.toLowerCase().contains(".ear"))
+        {
+            earName = earName + ".ear";
+        }
+
         getFileHandler().copyFile(ear.getFile(),
-            getFileHandler().append(deployableDir, getFileHandler().getName(ear.getFile())));
+            getFileHandler().append(deployableDir, getFileHandler().getName(earName)));
     }
     
     /**
@@ -311,7 +322,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     protected void deploySar(String deployableDir, SAR sar)
     {
         getFileHandler().copyFile(sar.getFile(),
-                getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())));
+            getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())));
     }
     
     /**
@@ -322,7 +333,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     protected void deployRar(String deployableDir, RAR rar)
     {
         getFileHandler().copyFile(rar.getFile(),
-                getFileHandler().append(deployableDir, getFileHandler().getName(rar.getFile())));
+            getFileHandler().append(deployableDir, getFileHandler().getName(rar.getFile())));
     }
     
     /**
