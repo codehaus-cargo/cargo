@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.jonas.internal;
 import java.util.Map;
 
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
-import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;

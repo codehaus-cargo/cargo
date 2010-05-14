@@ -22,13 +22,11 @@ package org.codehaus.cargo.container.jonas.internal;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.ow2.jonas.tools.configurator.Jonas;
-import org.ow2.jonas.tools.configurator.api.JDBCConfiguration;
 import org.ow2.jonas.tools.configurator.api.JonasConfigurator;
 
 /**
