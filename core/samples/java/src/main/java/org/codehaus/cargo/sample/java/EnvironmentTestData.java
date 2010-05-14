@@ -60,7 +60,7 @@ public class EnvironmentTestData
     /**
      * Port on which to start the web container.
      */
-    public int servletPort;
+    public int port;
 
     /**
      * Port on which to start RMI.
@@ -115,7 +115,7 @@ public class EnvironmentTestData
         this.installDir = getSystemProperty("cargo.install.dir");
         this.proxy = createProxyElement();
         this.installURL = createInstallURL(containerId);
-        this.servletPort = createPort(containerId, "servlet");
+        this.port = createPort(containerId, "servlet");
         this.rmiPort = createPort(containerId, "rmi");
         this.home = getSystemProperty("cargo." + containerId + ".home");
         this.javaHome = getSystemProperty("cargo." + containerId + ".java.home");
