@@ -139,7 +139,7 @@ public class AbstractCargoTestCase extends TestCase
         }
 
         configuration.setProperty(ServletPropertySet.PORT, "" + getTestData().servletPort);
-        configuration.setProperty(ServletPropertySet.RMI_PORT, "" + getTestData().rmiPort);
+        configuration.setProperty(GeneralPropertySet.RMI_PORT, "" + getTestData().rmiPort);
         if (getTestData().javaHome != null && !getTestData().javaHome.equals(""))
         {
             configuration.setProperty(GeneralPropertySet.JAVA_HOME, getTestData().javaHome);
