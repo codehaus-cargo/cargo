@@ -219,6 +219,11 @@
                 <value>${cargo.java.home.1_6}</value>
               </property>
 
+              <property>
+                <name>cargo.rmi.port</name>
+                <value>${cargo.samples.rmi.port}</value>
+              </property>
+
               <!-- set default parser -->
               <property>
                 <name>javax.xml.parsers.SAXParserFactory</name>
@@ -978,7 +983,6 @@
     <cargo.java.home.1_4>${java.home}</cargo.java.home.1_4>
     <cargo.java.home.1_5>${java.home}</cargo.java.home.1_5>
     <cargo.java.home.1_6>${java.home}</cargo.java.home.1_6>
-    <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
     <cargo.containers.timeout>120000</cargo.containers.timeout>
     <cargo.derby.version>10.4.2.0</cargo.derby.version>
    </properties>
