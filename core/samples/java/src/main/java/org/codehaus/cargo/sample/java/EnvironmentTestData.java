@@ -60,7 +60,12 @@ public class EnvironmentTestData
     /**
      * Port on which to start the web container.
      */
-    public int port;
+    public int servletPort;
+
+    /**
+     * Port on which to start RMI.
+     */
+    public int rmiPort;
 
     /**
      * Timeout to test if a container is correctly started or stopped.
@@ -110,7 +115,8 @@ public class EnvironmentTestData
         this.installDir = getSystemProperty("cargo.install.dir");
         this.proxy = createProxyElement();
         this.installURL = createInstallURL(containerId);
-        this.port = createPort(containerId);
+        this.httpPort = createPort(containerId, "servlet");
+        this.rmiPort = createPort(containerId, "rmi");
         this.home = getSystemProperty("cargo." + containerId + ".home");
         this.javaHome = getSystemProperty("cargo." + containerId + ".java.home");
         this.version = System.getProperty("cargo.version");
@@ -118,12 +124,17 @@ public class EnvironmentTestData
     }
 
     /**
-     * @param containerName the container's name
+     * @param containerId the container's id
+     * @param type Port type
      * @return the port to use for the specified container
      */
-    private int createPort(String containerName)
+    private int createPort(String containerId, String type)
     {
-        String portString = getSystemProperty("cargo." + containerName + ".port");
+        String portString = getSystemProperty("cargo." + containerId + "." + type + ".port");
+        if (portString == null)
+        {
+            portString = getSystemProperty("cargo." + type + ".port");
+        }
         return Integer.parseInt(portString);
     }
 

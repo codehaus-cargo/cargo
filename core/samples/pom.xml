@@ -236,8 +236,8 @@
                 -->
 
               <property>
-                <name>cargo.resin2x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.resin2x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.resin2x.url</name>
@@ -249,8 +249,8 @@
               </property>
 
               <property>
-                <name>cargo.resin3x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.resin3x.servlet.portƒhttp</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.resin3x.url</name>
@@ -262,8 +262,8 @@
               </property>
 
               <property>
-                <name>cargo.tomcat4x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.tomcat4x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.tomcat4x.url</name>
@@ -276,8 +276,8 @@
               </property>
 
               <property>
-                <name>cargo.tomcat5x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.tomcat5x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.tomcat5x.url</name>
@@ -289,8 +289,8 @@
               </property>
 
               <property>
-                <name>cargo.tomcat6x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.tomcat6x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.tomcat6x.url</name>
@@ -302,8 +302,8 @@
               </property>
 
               <property>
-                <name>cargo.jetty4x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.jetty4x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.jetty4x.url</name>
@@ -315,8 +315,8 @@
               </property>
 
               <property>
-                <name>cargo.jetty5x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.jetty5x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.jetty5x.url</name>
@@ -328,8 +328,8 @@
               </property>
 
               <property>
-                <name>cargo.jetty6x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.jetty6x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.jetty6x.url</name>
@@ -341,8 +341,8 @@
               </property>
 
               <property>
-                <name>cargo.jetty7x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.jetty7x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.jetty7x.url</name>
@@ -354,8 +354,8 @@
               </property>
 
               <property>
-                <name>cargo.geronimo1x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.geronimo1x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.geronimo1x.url</name>
@@ -386,8 +386,8 @@
                   </property>
                 -->
               <property>
-                <name>cargo.weblogic8x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.weblogic8x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.weblogic8x.home</name>
@@ -419,8 +419,8 @@
                   </property>
                 -->
               <property>
-                <name>cargo.weblogic9x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.weblogic9x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.weblogic9x.home</name>
@@ -452,8 +452,8 @@
                   </property>
                 -->
               <property>
-                <name>cargo.weblogic10x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.weblogic10x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.weblogic10x.home</name>
@@ -484,8 +484,8 @@
                   </property>
                 -->
               <property>
-                <name>cargo.weblogic103x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.weblogic103x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.weblogic103x.home</name>
@@ -516,8 +516,8 @@
                   </property>
                 -->
               <property>
-                <name>cargo.oc4j9x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.oc4j9x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.oc4j9x.home</name>
@@ -552,8 +552,8 @@
                   </property>
                 -->
               <property>
-                <name>cargo.oc4j10x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.oc4j10x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.oc4j10x.home</name>
@@ -565,8 +565,8 @@
               </property>
 
               <property>
-                <name>cargo.jo1x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.jo1x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.jo1x.url</name>
@@ -577,8 +577,8 @@
                 <value>${cargo.java.home.1_4}</value>
               </property>
               <property>
-                <name>cargo.jboss3x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.jboss3x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.jboss3x.url</name>
@@ -590,8 +590,8 @@
               </property>
 
               <property>
-                <name>cargo.jboss4x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.jboss4x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.jboss4x.url</name>
@@ -603,8 +603,8 @@
               </property>
 
               <property>
-                <name>cargo.jboss42x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.jboss42x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.jboss42x.url</name>
@@ -616,7 +616,7 @@
               </property>
 
               <property>
-                <name>cargo.jboss5x.port</name>
+                <name>cargo.jboss5x.servlet.port</name>
                 <value>8080</value>
               </property>
               <property>
@@ -629,7 +629,7 @@
               </property>
 
               <property>
-                <name>cargo.jboss51x.port</name>
+                <name>cargo.jboss51x.servlet.port</name>
                 <value>8080</value>
               </property>
               <property>
@@ -642,8 +642,8 @@
               </property>
 
               <property>
-                <name>cargo.jboss6x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.jboss6x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.jboss6x.url</name>
@@ -659,8 +659,8 @@
                 <value>http://download.fr.forge.objectweb.org/jonas/jonas4.10.8-tomcat5.5.28.tgz</value>
               </property>
               <property>
-                <name>cargo.jonas4x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.jonas4x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.jonas4x.java.home</name>
@@ -686,8 +686,8 @@
                 <value>http://download.fr.forge.objectweb.org/jonas/jonas-full-5.1.2-bin.tar.gz</value>
               </property>
               <property>
-                <name>cargo.jonas5x.port</name>
-                <value>${cargo.samples.port}</value>
+                <name>cargo.jonas5x.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.jonas5x.java.home</name>
@@ -722,7 +722,7 @@
                 </property>
               -->
               <property>
-                <name>cargo.jrun4x.port</name>
+                <name>cargo.jrun4x.servlet.port</name>
                 <value>8301</value>
               </property>
               <property>
@@ -743,7 +743,7 @@
                     <value>[proxy host]</value>
                   </property>
                   <property>
-                    <name>cargo.proxy.port</name>
+                    <name>cargo.proxy.servlet.port</name>
                     <value>[proxy port]</value>
                   </property>
                   <property>
@@ -950,7 +950,8 @@
             </goals>
             <configuration>
               <portNames>
-                <portName>cargo.samples.port</portName>
+                <portName>cargo.samples.servlet.port</portName>
+                <portName>cargo.samples.rmi.port</portName>
               </portNames>
             </configuration>
           </execution>
@@ -977,6 +978,7 @@
     <cargo.java.home.1_4>${java.home}</cargo.java.home.1_4>
     <cargo.java.home.1_5>${java.home}</cargo.java.home.1_5>
     <cargo.java.home.1_6>${java.home}</cargo.java.home.1_6>
+    <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
     <cargo.containers.timeout>120000</cargo.containers.timeout>
     <cargo.derby.version>10.4.2.0</cargo.derby.version>
    </properties>
