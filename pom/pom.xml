@@ -25,8 +25,11 @@
   <version>4.3-SNAPSHOT</version>
   <url>http://cargo.codehaus.org</url>
   <prerequisites>
-    <!-- The way we run some tests require Maven 2.2 -->
-    <maven>2.2</maven>
+    <!--
+      There are some issues with Maven 2.0.4 that have been fixed in Maven 2.0.5
+      See: MNG-1952
+      -->
+    <maven>2.0.5</maven>
   </prerequisites>
   <inceptionYear>2004</inceptionYear>
   <issueManagement>
