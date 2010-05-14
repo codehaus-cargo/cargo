@@ -91,6 +91,11 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
                 "Currently, the CARGO JOnAS container only supports HTTP");
         }
 
+        // TODO: make this list configurable
+        //
+        // See: http://jorm.ow2.org/doc/mappers.html
+        final String rdbMappers = "rdb.hsql,rdb.mysql,rdb.oracle,rdb.postgres";
+
         this.installedContainer = (InstalledLocalContainer) container;
         setupConfigurationDir();
 
@@ -113,6 +118,7 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
 
             JDBCConfiguration configuration = new JDBCConfiguration();
 
+            configuration.mappername = rdbMappers;
             configuration.driverName = datasource.getDriverClass();
             // datasource.getConnectionType();
             configuration.jndiName = datasource.getJndiLocation();
