@@ -9,7 +9,10 @@
   <version>1.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Cargo Samples</name>
-  <description>Samples that exercises the Cargo Java APIs</description>
+  <description>Samples that exercises the Cargo Java APIs</description>  <prerequisites>
+    <!-- The way we run some tests require Maven 2.1 -->
+    <maven>2.1</maven>
+  </prerequisites>
   <!-- to get access to test fixtures -->
   <dependencies>
     <dependency>
