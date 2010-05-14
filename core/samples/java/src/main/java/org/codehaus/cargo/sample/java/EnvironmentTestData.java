@@ -115,7 +115,7 @@ public class EnvironmentTestData
         this.installDir = getSystemProperty("cargo.install.dir");
         this.proxy = createProxyElement();
         this.installURL = createInstallURL(containerId);
-        this.httpPort = createPort(containerId, "servlet");
+        this.servletPort = createPort(containerId, "servlet");
         this.rmiPort = createPort(containerId, "rmi");
         this.home = getSystemProperty("cargo." + containerId + ".home");
         this.javaHome = getSystemProperty("cargo." + containerId + ".java.home");
