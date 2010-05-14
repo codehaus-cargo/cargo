@@ -91,11 +91,6 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
                 "Currently, the CARGO JOnAS container only supports HTTP");
         }
 
-        // TODO: make this list configurable
-        //
-        // See: http://jorm.ow2.org/doc/mappers.html
-        final String rdbMappers = "rdb.hsql,rdb.mysql,rdb.oracle,rdb.postgres";
-
         this.installedContainer = (InstalledLocalContainer) container;
         setupConfigurationDir();
 
@@ -111,24 +106,6 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
         configurator.setHost(getPropertyValue(GeneralPropertySet.HOSTNAME));
         configurator.setProtocolsJrmpPort(getPropertyValue(GeneralPropertySet.RMI_PORT));
         configurator.setHttpPort(getPropertyValue(ServletPropertySet.PORT));
-
-        for (int i = 0; i < getDataSources().size(); i++)
-        {
-            DataSource datasource = (DataSource) getDataSources().get(i);
-
-            JDBCConfiguration configuration = new JDBCConfiguration();
-
-            configuration.mappername = rdbMappers;
-            configuration.driverName = datasource.getDriverClass();
-            // datasource.getConnectionType();
-            configuration.jndiName = datasource.getJndiLocation();
-            configuration.password = datasource.getPassword();
-            // datasource.getTransactionSupport();
-            configuration.url = datasource.getUrl();
-            configuration.user = datasource.getUsername();
-
-            configurator.addJdbcRA(datasource.getId(), configuration);
-        }
 
         // Run
         configurator.execute();

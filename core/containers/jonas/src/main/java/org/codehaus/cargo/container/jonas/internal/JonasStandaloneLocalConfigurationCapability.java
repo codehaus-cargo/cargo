@@ -50,8 +50,6 @@ public class JonasStandaloneLocalConfigurationCapability extends
         this.defaultSupportsMap.put(JonasPropertySet.JONAS_SERVER_NAME, Boolean.TRUE);
         this.defaultSupportsMap.put(JonasPropertySet.JONAS_DOMAIN_NAME, Boolean.TRUE);
         this.defaultSupportsMap.put(JonasPropertySet.JONAS_SERVICES_LIST, Boolean.TRUE);
-
-        this.defaultSupportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
     }
 
     /**

@@ -54,7 +54,6 @@ public class JonasRuntimeConfigurationCapability extends AbstractRuntimeConfigur
         this.defaultSupportsMap.put(JonasPropertySet.JONAS_MEJB_JAAS_FILE, Boolean.TRUE);
         this.defaultSupportsMap.put(JonasPropertySet.JONAS_MEJB_JAAS_ENTRY, Boolean.TRUE);
         this.defaultSupportsMap.put(JonasPropertySet.JONAS_MEJB_JNDI_INIT_CTX_FACT, Boolean.TRUE);
-        this.defaultSupportsMap.put(JonasPropertySet.JONAS_DEPLOYABLE_IDENTIFIER, Boolean.TRUE);
     }
 
     /**
