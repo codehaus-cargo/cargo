@@ -254,7 +254,7 @@
               </property>
 
               <property>
-                <name>cargo.resin3x.servlet.portƒhttp</name>
+                <name>cargo.resin3x.servlet.port</name>
                 <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
