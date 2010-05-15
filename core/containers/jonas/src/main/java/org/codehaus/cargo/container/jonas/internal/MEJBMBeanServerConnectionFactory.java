@@ -56,6 +56,7 @@ import javax.security.auth.login.LoginContext;
 
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.util.log.Logger;
 
@@ -475,6 +476,18 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
         if (jndiUrl == null || jndiUrl.trim().length() == 0)
         {
             jndiUrl = DEFAULT_PROVIDER_URI;
+
+            String port = configuration.getPropertyValue(GeneralPropertySet.RMI_PORT);
+            if (port != null)
+            {
+                jndiUrl = jndiUrl.replace("1099", port);
+            }
+
+            String hostname = configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
+            if (hostname != null)
+            {
+                jndiUrl = jndiUrl.replace("localhost", hostname);
+            }
         }
 
         if (mejbJndiPath == null)

@@ -29,6 +29,7 @@ import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 
 /**
@@ -64,6 +65,18 @@ public class JSR160MBeanServerConnectionFactory implements MBeanServerConnection
         if (jmxRemoteURL == null || jmxRemoteURL.trim().length() == 0)
         {
             jmxRemoteURL = DEFAULT_URI;
+
+            String port = configuration.getPropertyValue(GeneralPropertySet.RMI_PORT);
+            if (port != null)
+            {
+                jmxRemoteURL = jmxRemoteURL.replace("1099", port);
+            }
+
+            String hostname = configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
+            if (hostname != null)
+            {
+                jmxRemoteURL = jmxRemoteURL.replace("localhost", hostname);
+            }
         }
 
         Map environment = new HashMap();
