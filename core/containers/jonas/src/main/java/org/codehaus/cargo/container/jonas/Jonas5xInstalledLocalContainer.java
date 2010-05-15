@@ -115,7 +115,12 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         java.createArg().setValue("-stop");
 
         // Call java.execute directly since ClientAdmin.stop is synchronous
-        java.execute();
+        int returnCode = java.executeJava();
+        if (returnCode != 0 && returnCode != 2)
+        {
+            throw new IllegalStateException("JonasAdmin stop returned " + returnCode
+                    + ", the only values allowed are 0 and 2");
+        }
 
         // Sleep a bit to ensure the CAROL container is stopped
         try

@@ -111,10 +111,6 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
             throw new IllegalStateException("JonasAdmin stop returned " + returnCode
                     + ", the only values allowed are 0 and 2");
         }
-        if (returnCode != 0)
-        {
-            throw new IllegalStateException("Cannot stop server. Check JOnAS logs for details.");
-        }
 
         // Sleep a bit to ensure the CAROL container is stopped
         try
