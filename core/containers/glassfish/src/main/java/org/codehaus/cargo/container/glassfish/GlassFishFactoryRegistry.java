@@ -42,7 +42,8 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
     /**
      * Container identifiers.
      *
-     * SJSAS = Sun Java System Application Server SGES = Sun GlassFish Enterprise Server
+     * SJSAS = Sun Java System Application Server
+     * SGES = Sun GlassFish Enterprise Server
      */
     private static final String[] IDS =
     {

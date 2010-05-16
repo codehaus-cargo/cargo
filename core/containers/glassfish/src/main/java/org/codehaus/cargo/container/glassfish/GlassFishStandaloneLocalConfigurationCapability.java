@@ -44,7 +44,6 @@ public final class GlassFishStandaloneLocalConfigurationCapability extends
 
         // unsupported
         this.defaultSupportsMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
-        this.defaultSupportsMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
         this.defaultSupportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
 
         // recognize those

@@ -25,14 +25,9 @@ import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.deployer.DeployableMonitor;
-import org.codehaus.cargo.container.deployer.Deployer;
-import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
@@ -41,7 +36,8 @@ import org.codehaus.cargo.util.CargoException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collections;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class ExtraClasspathOnStandaloneConfigurationTest extends
     AbstractCargoTestCase
@@ -64,11 +60,16 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
         CargoTestSuite suite =
             new CargoTestSuite("Tests that run on local containers to test extra classpath");
 
-        // Note: We exclude geronimo1x container as it doesn't support static deployments yet.
+        // We exclude geronimo1x container as it doesn't support static deployments yet.
+        // We exclude glassfish3x container as it doesn't support extra classpath yet.
+        // We exclude jetty7x container as it doesn't support extra classpath yet.
+        Set excludedContainerIds = new TreeSet();
+        excludedContainerIds.add("geronimo1x");
+        excludedContainerIds.add("glassfish3x");
+        excludedContainerIds.add("jetty7x");
         suite.addTestSuite(ExtraClasspathOnStandaloneConfigurationTest.class, new Validator[] {
         new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator(),
-        new HasWarSupportValidator()}, Collections
-            .singleton("geronimo1x"));
+        new HasWarSupportValidator()}, excludedContainerIds);
         return suite;
     }
 
