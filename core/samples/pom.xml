@@ -382,7 +382,7 @@
               </property>
               <property>
                 <name>cargo.glassfish2x.home</name>
-                <value>C:/Glassfish_2.1.1/</value>
+                <value>/Users/alitokmen/Documents/CARGO/glassfish-2.1.1-b31g-macos</value>
               </property>
               <property>
                 <name>cargo.glassfish2x.java.home</name>

@@ -21,6 +21,8 @@ package org.codehaus.cargo.container.glassfish;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -33,6 +35,7 @@ import org.apache.tools.ant.taskdefs.PumpStreamHandler;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.util.CargoException;
@@ -68,55 +71,13 @@ public class GlassFishInstalledLocalContainer extends AbstractInstalledLocalCont
      */
     /* package */ void invokeAsAdmin(boolean async, String[] args)
     {
-        File exec = this.getAsadminExecutable();
-
-        List cmds = new ArrayList();
-        cmds.add(exec.getAbsolutePath());
-        for (String arg : args)
-        {
-            cmds.add(arg);
-        }
-
-        try
-        {
-            Execute exe = new Execute(new PumpStreamHandler(), new ExecuteWatchdog(30 * 1000L));
-            exe.setAntRun(new Project());
-            String[] arguments = new String[cmds.size()];
-            cmds.toArray(arguments);
-            exe.setCommandline(arguments);
-            if (async)
-            {
-                exe.spawn();
-            }
-            else
-            {
-                int exitCode = exe.execute();
-                if (exitCode != 0 && exitCode != 1)
-                {
-                    // the first token is the command
-                    throw new CargoException(cmds + " failed. asadmin exited " + exitCode);
-                }
-            }
-        }
-        catch (IOException e)
-        {
-            throw new CargoException("Failed to invoke asadmin", e);
-        }
-    }
-
-    /**
-     * Gets the adadmin executable.
-     *
-     * @return The adadmin executable
-     */
-    private File getAsadminExecutable()
-    {
         String home = this.getHome();
         if (home == null || !this.getFileHandler().isDirectory(home))
         {
-            throw new CargoException("Glassfish home directory is not set");
+            throw new CargoException("GlassFish home directory is not set");
         }
 
+        // TODO: don't launch the command, launch the JAR instead
         File exec;
 
         if (File.pathSeparatorChar == ';')
@@ -154,7 +115,38 @@ public class GlassFishInstalledLocalContainer extends AbstractInstalledLocalCont
             }
         }
 
-        return exec;
+        List cmds = new ArrayList();
+        cmds.add(exec.getAbsolutePath());
+        for (String arg : args)
+        {
+            cmds.add(arg);
+        }
+
+        try
+        {
+            Execute exe = new Execute(new PumpStreamHandler(), new ExecuteWatchdog(30 * 1000L));
+            exe.setAntRun(new Project());
+            String[] arguments = new String[cmds.size()];
+            cmds.toArray(arguments);
+            exe.setCommandline(arguments);
+            if (async)
+            {
+                exe.spawn();
+            }
+            else
+            {
+                int exitCode = exe.execute();
+                if (exitCode != 0 && exitCode != 1)
+                {
+                    // the first token is the command
+                    throw new CargoException(cmds + " failed. asadmin exited " + exitCode);
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            throw new CargoException("Failed to invoke asadmin", e);
+        }
     }
 
     /**
@@ -182,9 +174,32 @@ public class GlassFishInstalledLocalContainer extends AbstractInstalledLocalCont
             "cargo-domain"
         });
 
-        // to workaround GF bug, the above needs to be async,
-        // so give it some time to make the admin port available
-        Thread.sleep(20 * 1000);
+        // wait for the server to start
+        boolean started = false;
+        URL adminURL = new URL("http://"
+            + this.getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
+            + this.getConfiguration().getPropertyValue(GlassFishPropertySet.ADMIN_PORT) + "/");
+        long timeout = System.currentTimeMillis() + this.getTimeout() * 1000;
+        while (System.currentTimeMillis() < timeout)
+        {
+            try
+            {
+                InputStream is = adminURL.openConnection().getInputStream();
+                is.close();
+                started = true;
+                break;
+            }
+            catch (IOException e)
+            {
+                // Keep on waiting
+                Thread.sleep(1000);
+            }
+        }
+        if (!started)
+        {
+            throw new CargoException("GlassFish server admin still not accessible on " + adminURL
+                + " after " + this.getTimeout() + " seconds!");
+        }
 
         // deploy scheduled deployables
         GlassFishInstalledLocalDeployer deployer = new GlassFishInstalledLocalDeployer(this);
