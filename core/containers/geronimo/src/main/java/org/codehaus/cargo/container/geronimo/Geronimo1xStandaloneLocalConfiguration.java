@@ -152,12 +152,20 @@ public class Geronimo1xStandaloneLocalConfiguration extends AbstractStandaloneLo
     private void copyExtraStuffTemporarily(File containerHome)
     {
         // The config store needs to exist before the container starts
-        Copy copyStore = (Copy) getAntUtils().createAntTask("copy");
-        FileSet fileSetStore = new FileSet();
-        fileSetStore.setDir(new File(containerHome, "config-store"));
-        copyStore.addFileset(fileSetStore);
-        copyStore.setTodir(new File(getHome(), "config-store"));
-        copyStore.execute();
+        File configStore = new File(containerHome, "config-store");
+        if (configStore.isDirectory())
+        {
+            Copy copyStore = (Copy) getAntUtils().createAntTask("copy");
+            FileSet fileSetStore = new FileSet();
+            fileSetStore.setDir(new File(containerHome, "config-store"));
+            copyStore.addFileset(fileSetStore);
+            copyStore.setTodir(new File(getHome(), "config-store"));
+            copyStore.execute();
+        }
+        else
+        {
+            new File(getHome(), "config-store").mkdirs();
+        }
 
         // Create the Geronimo repository by copying it.
         Copy copyRepo = (Copy) getAntUtils().createAntTask("copy");
