@@ -118,8 +118,9 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
 
         args.add(new File(deployable.getFile()).getAbsolutePath());
 
-        this.getLocalContainer().invokeAsAdmin(false,
-            (String[]) args.toArray(new String[args.size()]));
+        String[] arguments = new String[args.size()];
+        args.toArray(arguments);
+        this.getLocalContainer().invokeAsAdmin(false, arguments);
     }
 
     /**
@@ -136,8 +137,9 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
         // not too sure how asadmin determines 'name'
         args.add(this.cutExtension(this.getFileHandler().getName(deployable.getFile())));
 
-        this.getLocalContainer().invokeAsAdmin(false,
-            (String[]) args.toArray(new String[args.size()]));
+        String[] arguments = new String[args.size()];
+        args.toArray(arguments);
+        this.getLocalContainer().invokeAsAdmin(false, arguments);
     }
 
     /**

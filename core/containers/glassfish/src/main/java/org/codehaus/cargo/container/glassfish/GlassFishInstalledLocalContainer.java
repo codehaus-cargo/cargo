@@ -91,7 +91,7 @@ public class GlassFishInstalledLocalContainer extends AbstractInstalledLocalCont
             else
             {
                 int exitCode = exe.execute();
-                if (exitCode != 0)
+                if (exitCode != 0 && exitCode != 1)
                 {
                     // the first token is the command
                     throw new CargoException(cmds + " failed. asadmin exited " + exitCode);
@@ -133,6 +133,25 @@ public class GlassFishInstalledLocalContainer extends AbstractInstalledLocalCont
         if (!exec.exists())
         {
             throw new CargoException("asadmin command not found at " + exec);
+        }
+
+        // Make sure the extracted ZIP's executables are set as executable
+        if (File.pathSeparatorChar == ';')
+        {
+            // Unix
+            try
+            {
+                Process p = Runtime.getRuntime().exec("chmod +x " + exec.getAbsolutePath());
+                p.waitFor();
+            }
+            catch (InterruptedException ignored)
+            {
+                // Ignored
+            }
+            catch (IOException ignored)
+            {
+                // Ignored
+            }
         }
 
         return exec;

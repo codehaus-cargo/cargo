@@ -129,7 +129,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
             "--interactive=false",
             "--adminport",
             this.getPropertyValue(GlassFishPropertySet.ADMIN_PORT),
-            "--adminuser",
+            "--user",
             this.getPropertyValue(RemotePropertySet.USERNAME),
             "--passwordfile",
             this.getPasswordFile().getAbsolutePath(),
@@ -144,7 +144,8 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
                 + this.getPropertyValueString(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT) + ':'
                 + this.getPropertyValueString(GlassFishPropertySet.JMX_ADMIN_PORT),
 
-            "--domaindir", this.getHome()/* .getAbsolutePath() */,
+            "--domaindir",
+            this.getHome(),
 
             // it looks like domain name can be anything,
             // but check with the dev
