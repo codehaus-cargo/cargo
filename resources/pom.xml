@@ -39,24 +39,11 @@
     <module>testdata</module>
     <module>jetty-deployer</module>
   </modules>
-  <!-- We need this for now because Maven is not able to build from the top level without
-       querying the remote repository. This is probably a Maven bug. Remove this when it
-       is fixed -->
+
   <repositories>
     <repository>
-      <id>codehaus.snapshots</id>
-      <name>Codehaus Snapshots</name>
-      <url>http://snapshots.repository.codehaus.org</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>codehaus</id>
-      <name>Codehaus</name>
+      <!-- Codehaus mirror -->
+      <id>codehaus-releases</id>
       <url>http://repository.codehaus.org</url>
       <releases>
         <enabled>true</enabled>
@@ -65,5 +52,17 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <!-- Codehaus SNAPSHOT versions -->
+      <id>codehaus-snapshots</id>
+      <url>http://snapshots.repository.codehaus.org</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
   </repositories>
+
 </project>
