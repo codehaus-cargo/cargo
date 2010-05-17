@@ -120,4 +120,30 @@
     <module>maven</module>
     <module>maven2</module>
   </modules>
+
+  <repositories>
+    <repository>
+      <!-- Codehaus mirror -->
+      <id>codehaus-releases</id>
+      <url>http://repository.codehaus.org</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <!-- Codehaus SNAPSHOT versions -->
+      <id>codehaus-snapshots</id>
+      <url>http://snapshots.repository.codehaus.org</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
 </project>
