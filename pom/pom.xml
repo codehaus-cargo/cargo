@@ -278,6 +278,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
       </plugin>
       <!-- disabled due to: http://jira.codehaus.org/browse/MCLIRR-7 -->
+      <!--
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>clirr-maven-plugin</artifactId>
@@ -296,11 +297,14 @@
           </excludes>
         </configuration>
       </plugin>
-<!-- Disabling the clover plugin until the license is renewed -->
-<!--      <plugin>
+       -->
+      <!-- Disabling the clover plugin until the license is renewed -->
+      <!--
+        <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clover-plugin</artifactId>
-      </plugin> -->
+      </plugin>
+       -->
     </plugins>
   </reporting>
 
