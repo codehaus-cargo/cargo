@@ -121,16 +121,12 @@ public class JettyClasspathResolver
         jetty7xDependencies.add("lib/jetty-xml-7.0.1.v20091125.jar");
         jetty7xDependencies.add("lib/jndi/activation-1.1.jar");
         jetty7xDependencies.add("lib/jndi/mail-1.4.jar");
-        jetty7xDependencies.add("lib/servlet-api-2.5.jar");
         jetty7xDependencies.add("lib/jsp/ant-1.6.5.jar");
         jetty7xDependencies.add("lib/jsp/core-3.1.1.jar");
         jetty7xDependencies.add("lib/jsp/jetty-jsp-2.1-7.0.1.v20091125.jar");
         jetty7xDependencies.add("lib/jsp/jsp-2.1-glassfish-9.1.1.B60.25.p2.jar");
         jetty7xDependencies.add("lib/jsp/jsp-api-2.1-glassfish-9.1.1.B60.25.p2.jar");
-//        jetty7xDependencies.add("lib/policy/jetty.policy");
-        // setuid support is OS specific due to native library
-//        jetty7xDependencies.add("lib/ext/jetty-setuid-java-7.0.2.5824.jar");
-//        jetty7xDependencies.add("libsetuid.so");
+        jetty7xDependencies.add("lib/servlet-api-2.5.jar");
         
         this.jettyDependencies.put("jetty4x", jetty4xDependencies);
         this.jettyDependencies.put("jetty5x", jetty5xDependencies);
@@ -154,6 +150,10 @@ public class JettyClasspathResolver
             {
                 String dependencyRelativePath = (String) it.next();
                 File dependencyPath = new File(containerHome, dependencyRelativePath);
+                if (dependencyPath.isFile())
+                {
+                    throw new FileNotFoundException("Cannot find file: " + dependencyPath.getName());
+                }
                 urls[i++] = dependencyPath.toURI().toURL();
             }
 

@@ -357,6 +357,7 @@
               <property>
                 <name>cargo.jetty7x.url</name>
                 <!-- note that we want the larger download (hightide), as it contains JSP needed for tests -->
+                <!-- if you change version for Jetty 7.x, also remember to update the JAR list in JettyClasspathResolver.java -->
                 <value>http://dist.codehaus.org/jetty/jetty-hightide-7.0.1/jetty-hightide-7.0.1.v20091125.tar.gz</value>
               </property>
               <property>
