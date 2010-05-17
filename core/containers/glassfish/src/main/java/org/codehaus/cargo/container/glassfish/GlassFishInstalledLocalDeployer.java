@@ -27,6 +27,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.DeployerType;
+import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalContainer;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
 
@@ -53,9 +54,9 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
      *
      * @return Cast container.
      */
-    private GlassFishInstalledLocalContainer getLocalContainer()
+    private AbstractGlassFishInstalledLocalContainer getLocalContainer()
     {
-        return (GlassFishInstalledLocalContainer) super.getContainer();
+        return (AbstractGlassFishInstalledLocalContainer) super.getContainer();
     }
 
     /**

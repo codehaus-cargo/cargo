@@ -40,20 +40,6 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
 {
 
     /**
-     * Container identifiers.
-     *
-     * SJSAS = Sun Java System Application Server
-     * SGES = Sun GlassFish Enterprise Server
-     */
-    private static final String[] IDS =
-    {
-        "glassfish2x",
-        "glassfish3x",
-        "sges2x",
-        "sjsas91x"
-    };
-
-    /**
      * Register deployable factory. Doesn't register anything.
      *
      * @param deployableFactory Factory on which to register.
@@ -71,12 +57,13 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ConfigurationCapabilityFactory configurationCapabilityFactory)
     {
-        for (String id : IDS)
-        {
-            configurationCapabilityFactory.registerConfigurationCapability(id,
-                ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-                GlassFishStandaloneLocalConfigurationCapability.class);
-        }
+        configurationCapabilityFactory.registerConfigurationCapability("glassfish2x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            GlassFishStandaloneLocalConfigurationCapability.class);
+
+        configurationCapabilityFactory.registerConfigurationCapability("glassfish3x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            GlassFishStandaloneLocalConfigurationCapability.class);
     }
 
     /**
@@ -87,11 +74,11 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ConfigurationFactory configurationFactory)
     {
-        for (String id : IDS)
-        {
-            configurationFactory.registerConfiguration(id, ContainerType.INSTALLED,
-                ConfigurationType.STANDALONE, GlassFishStandaloneLocalConfiguration.class);
-        }
+        configurationFactory.registerConfiguration("glassfish2x", ContainerType.INSTALLED,
+            ConfigurationType.STANDALONE, GlassFishStandaloneLocalConfiguration.class);
+
+        configurationFactory.registerConfiguration("glassfish3x", ContainerType.INSTALLED,
+            ConfigurationType.STANDALONE, GlassFishStandaloneLocalConfiguration.class);
     }
 
     /**
@@ -102,11 +89,11 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(DeployerFactory deployerFactory)
     {
-        for (String id : IDS)
-        {
-            deployerFactory.registerDeployer(id, DeployerType.INSTALLED,
-                GlassFishInstalledLocalDeployer.class);
-        }
+        deployerFactory.registerDeployer("glassfish2x", DeployerType.INSTALLED,
+            GlassFishInstalledLocalDeployer.class);
+
+        deployerFactory.registerDeployer("glassfish3x", DeployerType.INSTALLED,
+            GlassFishInstalledLocalDeployer.class);
     }
 
     /**
@@ -127,11 +114,11 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ContainerFactory containerFactory)
     {
-        for (String id : IDS)
-        {
-            containerFactory.registerContainer(id, ContainerType.INSTALLED,
-                GlassFishInstalledLocalContainer.class);
-        }
+        containerFactory.registerContainer("glassfish2x", ContainerType.INSTALLED,
+            GlassFish2xInstalledLocalContainer.class);
+
+        containerFactory.registerContainer("glassfish3x", ContainerType.INSTALLED,
+            GlassFish3xInstalledLocalContainer.class);
     }
 
     /**
@@ -142,11 +129,11 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ContainerCapabilityFactory containerCapabilityFactory)
     {
-        for (String id : IDS)
-        {
-            containerCapabilityFactory.registerContainerCapability(id,
-                GlassFishContainerCapability.class);
-        }
+        containerCapabilityFactory.registerContainerCapability("glassfish2x",
+            GlassFishContainerCapability.class);
+
+        containerCapabilityFactory.registerContainerCapability("glassfish3x",
+            GlassFishContainerCapability.class);
     }
 
 }

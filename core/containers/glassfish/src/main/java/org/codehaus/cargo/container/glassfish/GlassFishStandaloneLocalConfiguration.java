@@ -26,6 +26,7 @@ import java.io.IOException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalContainer;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
@@ -123,7 +124,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
         DefaultFileHandler fileHandler = new DefaultFileHandler();
         fileHandler.delete(this.getHome());
 
-        ((GlassFishInstalledLocalContainer) container).invokeAsAdmin(false, new String[]
+        ((AbstractGlassFishInstalledLocalContainer) container).invokeAsAdmin(false, new String[]
         {
             "create-domain",
             "--interactive=false",
