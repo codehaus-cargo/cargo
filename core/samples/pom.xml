@@ -356,7 +356,7 @@
               </property>
               <property>
                 <name>cargo.jetty7x.url</name>
-                <value>http://download.eclipse.org/jetty/7.0.2.v20100331/dist/jetty-distribution-7.0.2.v20100331.zip</value>
+                <value>http://dist.codehaus.org/jetty/jetty-hightide-7.0.1/jetty-hightide-7.0.1.v20091125.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty7x.java.home</name>

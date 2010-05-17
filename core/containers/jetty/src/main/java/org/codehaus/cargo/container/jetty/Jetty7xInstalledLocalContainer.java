@@ -137,9 +137,17 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
 
         if (isGettingStarted)
         {
-            // TODO: enable JSP compilation from Jetty 7x with following
-            // requires that JSP support is packaged with Jetty7x
-            // java.createArg().setValue("OPTIONS=Server,jsp-2.1");
+            // Enable JSP compilation from Jetty 7x
+            File jspLib = new File(getHome(), "lib/jsp");
+            if (jspLib.isDirectory())
+            {
+                java.createArg().setValue("OPTIONS=Server,jsp");
+            }
+            else
+            {
+                getLogger().warn("JSP librairies not found in " + jspLib
+                    + ", JSP support will be disabled", this.getClass().getName());
+            }
 
             java.createArg().setValue(
                 getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml"));
