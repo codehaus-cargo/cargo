@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-parent</artifactId>
-    <version>4.3</version>
+    <version>4.4-SNAPSHOT</version>
     <relativePath>../pom/pom.xml</relativePath>
   </parent>
   <artifactId>cargo-extensions</artifactId>
@@ -36,7 +36,7 @@
   </scm>
   <properties>
     <!-- define this variable for core version because of potentially different release cycles -->
-    <cargo.core.version>1.0.1-beta-3</cargo.core.version>
+    <cargo.core.version>1.0.1-SNAPSHOT</cargo.core.version>
   </properties>
   <build>
     <pluginManagement>
