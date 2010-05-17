@@ -357,7 +357,6 @@
               <property>
                 <name>cargo.jetty7x.url</name>
                 <!-- note that we want the larger download (hightide), as it contains JSP needed for tests -->
-                <!-- if you change version for Jetty 7.x, also remember to update the JAR list in JettyClasspathResolver.java -->
                 <value>http://dist.codehaus.org/jetty/jetty-hightide-7.0.1/jetty-hightide-7.0.1.v20091125.tar.gz</value>
               </property>
               <property>
@@ -1010,7 +1009,7 @@
     <surefire.useManifestOnlyJar>true</surefire.useManifestOnlyJar>
     <surefire.useSystemClassLoader>true</surefire.useSystemClassLoader>
     <cargo.install.dir>${java.io.tmpdir}/cargo/installs</cargo.install.dir>
-    <!-- Tomcat 5x requires this setting for the embedded tests -->
+    <!-- Tomcat 5x and Jetty 7x require this setting for the embedded tests -->
     <!-- TODO: fix embedded tests and remove the SAXParserFactory property -->
     <javax.xml.parsers.SAXParserFactory>com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl</javax.xml.parsers.SAXParserFactory>
     <cargo.java.home.1_4>${java.home}</cargo.java.home.1_4>

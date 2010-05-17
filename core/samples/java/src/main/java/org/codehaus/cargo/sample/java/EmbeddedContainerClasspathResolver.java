@@ -64,8 +64,7 @@ public class EmbeddedContainerClasspathResolver
         List jetty7xDependencies = new ArrayList();
         jetty7xDependencies.add("lib/*.jar");
         jetty7xDependencies.add("lib/jndi/*.jar");
-        // JSP support not packaged by default
-        // jetty7xDependencies.add("lib/jsp-2.1/*.jar");
+        jetty7xDependencies.add("lib/jsp/*.jar");
 
         List tomcat5xDependencies = new ArrayList();
         tomcat5xDependencies.add("bin/*.jar");
@@ -77,7 +76,6 @@ public class EmbeddedContainerClasspathResolver
         dependencies.put("jetty6x", jetty6xDependencies);
         dependencies.put("jetty7x", jetty7xDependencies);
         dependencies.put("tomcat5x", tomcat5xDependencies);
-
     }
 
     private JdkUtils jdkUtils = new JdkUtils();
@@ -99,6 +97,25 @@ public class EmbeddedContainerClasspathResolver
         try
         {
             List urls = new ArrayList();
+
+            if (containerId.equals("jetty7x"))
+            {
+                String xerces = System.getProperty("cargo.testdata.xerces-jars");
+                if (xerces == null)
+                {
+                    throw new IllegalArgumentException("cargo.testdata.xerces-jars not defined");
+                }
+                File[] xercesJARs = new File(xerces).listFiles();
+                if (xercesJARs == null)
+                {
+                    throw new FileNotFoundException("Directory not found: " + xerces);
+                }
+                for (File xercesJAR : xercesJARs)
+                {
+                    urls.add(xercesJAR.toURI().toURL());
+                }
+            }
+
             Iterator it = depList.iterator();
             while (it.hasNext())
             {
@@ -159,7 +176,7 @@ public class EmbeddedContainerClasspathResolver
                     So when we load Tomcat 5.x classes (URLClassLoader below), this
                     classloader nees to delegate to the system class loader, so that
                     both tomcat implementation and web application loads the servlet API
-                    from the same place. Ohtherwise you get ClassCastException.
+                    from the same place. Otherwise you get ClassCastException.
                     So that's why we set "getClass().getClassLoader()" as the parent.
 
                     However, that causes another problem in a separate place. Now, with
