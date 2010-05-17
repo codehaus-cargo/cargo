@@ -21,12 +21,12 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-core-containers</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1-beta-3</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>cargo-core-container-glassfish</artifactId>
   <name>Cargo Core GlassFish Container</name>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1-beta-3</version>
   <packaging>jar</packaging>
   <description>Core API implementation for GlassFish containers</description>
 
