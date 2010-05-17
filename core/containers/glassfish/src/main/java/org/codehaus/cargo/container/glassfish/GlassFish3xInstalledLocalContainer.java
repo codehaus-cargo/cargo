@@ -24,6 +24,7 @@ import java.io.File;
 import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalContainer;
+import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -46,8 +47,6 @@ public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstall
 
     /**
      * {@inheritDoc}
-     *
-     * The <b>async</b> argument is ignored.
      */
     @Override
     public void invokeAsAdmin(boolean async, Java java, String[] args)
@@ -71,10 +70,15 @@ public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstall
             java.createArg().setValue(arg);
         }
 
-        int exitCode = java.executeJava();
-
-        if (!async)
+        if (async)
         {
+            AntContainerExecutorThread glassFishRunner = new AntContainerExecutorThread(java);
+            glassFishRunner.start();
+        }
+        else
+        {
+            int exitCode = java.executeJava();
+
             if (exitCode != 0 && exitCode != 1)
             {
                 throw new CargoException("Command " + args[0] + " failed: asadmin exited "
