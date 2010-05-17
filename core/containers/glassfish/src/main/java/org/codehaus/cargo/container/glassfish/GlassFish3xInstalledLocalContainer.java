@@ -20,14 +20,8 @@
 package org.codehaus.cargo.container.glassfish;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Execute;
-import org.apache.tools.ant.taskdefs.ExecuteWatchdog;
-import org.apache.tools.ant.taskdefs.PumpStreamHandler;
+import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalContainer;
 import org.codehaus.cargo.util.CargoException;
@@ -52,9 +46,11 @@ public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstall
 
     /**
      * {@inheritDoc}
+     *
+     * The <b>async</b> argument is ignored.
      */
     @Override
-    public void invokeAsAdmin(boolean async, String[] args)
+    public void invokeAsAdmin(boolean async, Java java, String[] args)
     {
         String home = this.getHome();
         if (home == null || !this.getFileHandler().isDirectory(home))
@@ -62,75 +58,28 @@ public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstall
             throw new CargoException("GlassFish home directory is not set");
         }
 
-        // TODO: don't launch the command, launch the JAR instead
-        File exec;
-
-        if (File.pathSeparatorChar == ';')
+        File adminCli = new File(home, "glassfish/modules/admin-cli.jar");
+        if (!adminCli.isFile())
         {
-            // on Windows
-            exec = new File(home, "bin/asadmin.bat");
-        }
-        else
-        {
-            // on other systems
-            exec = new File(home, "bin/asadmin");
+            throw new CargoException("Cannot find the GlassFish admin CLI JAR: "
+                + adminCli.getName());
         }
 
-        if (!exec.exists())
-        {
-            throw new CargoException("asadmin command not found at " + exec);
-        }
-
-        // Make sure the extracted ZIP's executables are set as executable
-        if (File.pathSeparatorChar == ';')
-        {
-            // Unix
-            try
-            {
-                Process p = Runtime.getRuntime().exec("chmod +x " + exec.getAbsolutePath());
-                p.waitFor();
-            }
-            catch (InterruptedException ignored)
-            {
-                // Ignored
-            }
-            catch (IOException ignored)
-            {
-                // Ignored
-            }
-        }
-
-        List cmds = new ArrayList();
-        cmds.add(exec.getAbsolutePath());
+        java.setJar(adminCli);
         for (String arg : args)
         {
-            cmds.add(arg);
+            java.createArg().setValue(arg);
         }
 
-        try
+        int exitCode = java.executeJava();
+
+        if (!async)
         {
-            Execute exe = new Execute(new PumpStreamHandler(), new ExecuteWatchdog(30 * 1000L));
-            exe.setAntRun(new Project());
-            String[] arguments = new String[cmds.size()];
-            cmds.toArray(arguments);
-            exe.setCommandline(arguments);
-            if (async)
+            if (exitCode != 0 && exitCode != 1)
             {
-                exe.spawn();
+                throw new CargoException("Command " + args[0] + " failed: asadmin exited "
+                    + exitCode);
             }
-            else
-            {
-                int exitCode = exe.execute();
-                if (exitCode != 0 && exitCode != 1)
-                {
-                    // the first token is the command
-                    throw new CargoException(cmds + " failed. asadmin exited " + exitCode);
-                }
-            }
-        }
-        catch (IOException e)
-        {
-            throw new CargoException("Failed to invoke asadmin", e);
         }
     }
 

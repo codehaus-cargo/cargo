@@ -296,7 +296,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * 
      * @return The created task instance
      */
-    private Java createJavaTask()
+    protected Java createJavaTask()
     {
         boolean isSsh = getConfiguration().getPropertyValue(SSHPropertySet.HOST) != null;
 

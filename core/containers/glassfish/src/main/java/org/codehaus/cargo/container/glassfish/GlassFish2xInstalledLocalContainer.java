@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.taskdefs.Execute;
 import org.apache.tools.ant.taskdefs.ExecuteWatchdog;
 import org.apache.tools.ant.taskdefs.PumpStreamHandler;
@@ -54,7 +55,7 @@ public class GlassFish2xInstalledLocalContainer extends AbstractGlassFishInstall
      * {@inheritDoc}
      */
     @Override
-    public void invokeAsAdmin(boolean async, String[] args)
+    public void invokeAsAdmin(boolean async, Java java, String[] args)
     {
         String home = this.getHome();
         if (home == null || !this.getFileHandler().isDirectory(home))

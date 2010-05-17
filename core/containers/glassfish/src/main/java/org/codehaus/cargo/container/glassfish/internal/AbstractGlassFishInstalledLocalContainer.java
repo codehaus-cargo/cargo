@@ -41,7 +41,8 @@ import org.codehaus.cargo.util.CargoException;
  * 
  * @version $Id$
  */
-public abstract class AbstractGlassFishInstalledLocalContainer extends AbstractInstalledLocalContainer
+public abstract class AbstractGlassFishInstalledLocalContainer
+    extends AbstractInstalledLocalContainer
 {
 
     /**
@@ -65,7 +66,21 @@ public abstract class AbstractGlassFishInstalledLocalContainer extends AbstractI
      * @param async Asynchronous invoke?
      * @param args Invoke arguments.
      */
-    public abstract void invokeAsAdmin(boolean async, String[] args);
+    public void invokeAsAdmin(boolean async, String[] args)
+    {
+        Java java = this.createJavaTask();
+        addMemoryArguments(java);
+        invokeAsAdmin(async, java, args);
+    }
+
+    /**
+     * Invokes asadmin using a Java container.
+     *
+     * @param async Asynchronous invoke?
+     * @param java ANT Java container task.
+     * @param args Invoke arguments.
+     */
+    public abstract void invokeAsAdmin(boolean async, Java java, String[] args);
 
     /**
      * {@inheritDoc}
