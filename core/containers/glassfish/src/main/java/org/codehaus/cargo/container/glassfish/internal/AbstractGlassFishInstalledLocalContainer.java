@@ -98,7 +98,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
 
         // see https://glassfish.dev.java.net/issues/show_bug.cgi?id=885
         // needs to spawn
-        this.invokeAsAdmin(true, new String[]
+        this.invokeAsAdmin(true, java, new String[]
         {
             "start-domain",
             "--interactive=false",
@@ -149,29 +149,13 @@ public abstract class AbstractGlassFishInstalledLocalContainer
     @Override
     protected void doStop(Java java) throws Exception
     {
-        this.invokeAsAdmin(false, new String[]
+        this.invokeAsAdmin(false, java, new String[]
         {
             "stop-domain",
             "--domaindir",
             this.getConfiguration().getHome(),
             "cargo-domain"
         });
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getId()
-    {
-        return "glassfish";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getName()
-    {
-        return "GlassFish";
     }
 
     /**

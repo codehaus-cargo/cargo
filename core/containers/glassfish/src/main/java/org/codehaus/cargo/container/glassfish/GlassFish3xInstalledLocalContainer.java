@@ -87,4 +87,20 @@ public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstall
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public String getId()
+    {
+        return "glassfish3x";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getName()
+    {
+        return "GlassFish 3.x";
+    }
+
 }

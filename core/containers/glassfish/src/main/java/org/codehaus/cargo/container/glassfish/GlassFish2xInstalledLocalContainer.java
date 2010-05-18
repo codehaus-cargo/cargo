@@ -135,4 +135,20 @@ public class GlassFish2xInstalledLocalContainer extends AbstractGlassFishInstall
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public String getId()
+    {
+        return "glassfish2x";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getName()
+    {
+        return "GlassFish 2.x";
+    }
+
 }
