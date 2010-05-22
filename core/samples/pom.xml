@@ -1015,7 +1015,7 @@
     <cargo.java.home.1_4>${java.home}</cargo.java.home.1_4>
     <cargo.java.home.1_5>${java.home}</cargo.java.home.1_5>
     <cargo.java.home.1_6>${java.home}</cargo.java.home.1_6>
-    <cargo.containers.timeout>30000</cargo.containers.timeout>
+    <cargo.containers.timeout>60000</cargo.containers.timeout>
     <cargo.derby.version>10.4.2.0</cargo.derby.version>
    </properties>
   <profiles>
