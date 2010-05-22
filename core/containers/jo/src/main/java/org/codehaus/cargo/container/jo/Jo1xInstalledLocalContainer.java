@@ -112,8 +112,7 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
         java.createArg().setValue("9090");
         java.createArg().setValue("MetaServer");
 
-        AntContainerExecutorThread joRunner = new AntContainerExecutorThread(java);
-        joRunner.start();
+        java.execute();
     }
 
     /**
