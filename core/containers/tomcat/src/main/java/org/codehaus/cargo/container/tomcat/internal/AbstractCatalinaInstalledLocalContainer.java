@@ -82,10 +82,8 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
                 // installation, so we need to try multiple paths here
 
                 // Tomcat 4.1.0 and later includes a ServerInfo.properties
-                // resource in catalina.jar
-                // that contains the version number. If that resource doesn't
-                // exist, we're on
-                // Tomcat 4.0.x
+                // resource in catalina.jar that contains the version number. If
+                // that resource doesn't exist, we're on Tomcat 4.0.x
                 JarFile catalinaJar = new JarFile(new File(getHome(), "server/lib/catalina.jar"));
                 ZipEntry entry =
                     catalinaJar.getEntry("org/apache/catalina/util/ServerInfo.properties");
@@ -136,7 +134,7 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
      * 
      * @see AbstractInstalledLocalContainer#doStart(Java)
      */
-    public final void doStart(Java java) throws Exception
+    public void doStart(Java java) throws Exception
     {
         // Invoke the server main class
         invokeContainer("start", java);
@@ -147,7 +145,7 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
      * 
      * @see AbstractInstalledLocalContainer#doStop(Java)
      */
-    public final void doStop(Java java) throws Exception
+    public void doStop(Java java) throws Exception
     {
         // invoke the main class
         invokeContainer("stop", java);
@@ -161,7 +159,7 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
      * @param java the prepared Ant Java command that will be executed
      * @exception Exception in case of container invocation error
      */
-    protected final void invokeContainer(String action, Java java) throws Exception
+    protected void invokeContainer(String action, Java java) throws Exception
     {
         java.addSysproperty(getAntUtils().createSysProperty("catalina.home",
             getFileHandler().getAbsolutePath(getHome())));
