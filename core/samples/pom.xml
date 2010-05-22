@@ -295,7 +295,7 @@
               </property>
               <property>
                 <name>cargo.tomcat5x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
+                <value>${cargo.java.home.1_4}</value>
               </property>
 
               <property>
@@ -613,6 +613,7 @@
                 <name>cargo.jo1x.java.home</name>
                 <value>${cargo.java.home.1_4}</value>
               </property>
+
               <property>
                 <name>cargo.jboss3x.servlet.port</name>
                 <value>${cargo.samples.servlet.port}</value>
@@ -636,7 +637,7 @@
               </property>
               <property>
                 <name>cargo.jboss4x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
+                <value>${cargo.java.home.1_4}</value>
               </property>
 
               <property>
@@ -704,20 +705,6 @@
                 <value>${cargo.java.home.1_4}</value>
               </property>
 
-              <!-- additional required properties to make the samples work correctly -->
-              <property>
-                <name>cargo.jonas4x.configuration.cargo.jonas.remote.deployer.skip.module.removal</name>
-                <value>true</value>
-              </property>
-              <property>
-                <name>cargo.jonas4x.configuration.cargo.remote.username</name>
-                <value>jonas</value>
-              </property>
-              <property>
-                <name>cargo.jonas4x.configuration.cargo.remote.password</name>
-                <value>jonas</value>
-              </property>
-
               <property>
                 <name>cargo.jonas5x.url</name>
                 <value>http://download.fr.forge.objectweb.org/jonas/jonas-full-5.1.2-bin.tar.gz</value>
@@ -729,19 +716,6 @@
               <property>
                 <name>cargo.jonas5x.java.home</name>
                 <value>${cargo.java.home.1_5}</value>
-              </property>
-              <!-- additional required properties to make the samples work correctly -->
-              <property>
-                <name>cargo.jonas5x.configuration.cargo.jonas.remote.deployer.skip.module.removal</name>
-                <value>true</value>
-              </property>
-              <property>
-                <name>cargo.jonas5x.configuration.cargo.remote.username</name>
-                <value>jonas</value>
-              </property>
-              <property>
-                <name>cargo.jonas5x.configuration.cargo.remote.password</name>
-                <value>jonas</value>
               </property>
 
               <!--
