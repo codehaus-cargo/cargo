@@ -29,7 +29,6 @@ import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
-import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerCapability;
@@ -139,30 +138,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             }
         }
 
-        AntContainerExecutorThread jbossRunner = new AntContainerExecutorThread(java);
-        jbossRunner.start();
-
-        // Wait for the Ant thread to finish.
-        jbossRunner.join(5000L);
-        if (jbossRunner.isAlive())
-        {
-            getLogger().warn("Stopping the server not finished after 5 seconds.",
-                    this.getClass().getName());
-        }
-
-        // Sleep some extra time to fully ensure JBoss is stopped before giving back the control
-        // to the user.
-        Thread.sleep(5000L);
-        
-        BuildException buildException = jbossRunner.getBuildException();
-        if (null != buildException)
-        {
-            // Stopping failed: in cargo code: Java returned: 1
-            // Can't get much more information if Java is forked :(
-            getLogger().warn("Stopping failed: " + buildException.getMessage(), 
-                    this.getClass().getName());
-            throw buildException;
-        }
+        java.execute();
     }
 
     /**
