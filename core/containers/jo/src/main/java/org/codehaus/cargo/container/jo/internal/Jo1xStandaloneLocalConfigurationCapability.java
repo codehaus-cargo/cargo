@@ -42,6 +42,7 @@ public class Jo1xStandaloneLocalConfigurationCapability
         super();
 
         this.defaultSupportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
+        this.defaultSupportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
 
         this.defaultSupportsMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
     }
