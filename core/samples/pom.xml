@@ -1021,11 +1021,12 @@
       </properties>
     </profile>
     <profile>
-      <id>all-orion</id>
+      <id>all-resource</id>
       <properties>
-        <cargo.containers>oc4j9x, oc4j10x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x</cargo.containers>
       </properties>
     </profile>
+
     <profile>
       <id>oc4j9x</id>
       <properties>
@@ -1039,11 +1040,12 @@
       </properties>
     </profile>
     <profile>
-      <id>all-resin</id>
+      <id>all-orion</id>
       <properties>
-        <cargo.containers>resin2x, resin3x</cargo.containers>
+        <cargo.containers>oc4j9x, oc4j10x</cargo.containers>
       </properties>
     </profile>
+
     <profile>
       <id>resin2x</id>
       <properties>
@@ -1057,17 +1059,12 @@
       </properties>
     </profile>
     <profile>
-      <id>all-resource</id>
+      <id>all-resin</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x</cargo.containers>
+        <cargo.containers>resin2x, resin3x</cargo.containers>
       </properties>
     </profile>
-    <profile>
-      <id>all-tomcat</id>
-      <properties>
-        <cargo.containers>tomcat4x, tomcat5x, tomcat6x</cargo.containers>
-      </properties>
-    </profile>
+
     <profile>
       <id>tomcat4x</id>
       <properties>
@@ -1087,11 +1084,12 @@
       </properties>
     </profile>
     <profile>
-      <id>all-jetty</id>
+      <id>all-tomcat</id>
       <properties>
-        <cargo.containers>jetty4x, jetty5x, jetty6x, jetty7x</cargo.containers>
+        <cargo.containers>tomcat4x, tomcat5x, tomcat6x</cargo.containers>
       </properties>
     </profile>
+
     <profile>
       <id>jetty4x</id>
       <properties>
@@ -1117,11 +1115,12 @@
       </properties>
     </profile>
     <profile>
-      <id>all-jboss</id>
+      <id>all-jetty</id>
       <properties>
-        <cargo.containers>jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x</cargo.containers>
+        <cargo.containers>jetty4x, jetty5x, jetty6x, jetty7x</cargo.containers>
       </properties>
     </profile>
+
     <profile>
       <id>jboss3x</id>
       <properties>
@@ -1159,11 +1158,12 @@
        </properties>
     </profile>
     <profile>
-      <id>all-jo</id>
+      <id>all-jboss</id>
       <properties>
-        <cargo.containers>jo1x</cargo.containers>
+        <cargo.containers>jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x</cargo.containers>
       </properties>
     </profile>
+
     <profile>
       <id>jo1x</id>
       <properties>
@@ -1171,11 +1171,12 @@
       </properties>
     </profile>
     <profile>
-      <id>all-jonas</id>
+      <id>all-jo</id>
       <properties>
-        <cargo.containers>jonas4x, jonas5x</cargo.containers>
+        <cargo.containers>jo1x</cargo.containers>
       </properties>
     </profile>
+
     <profile>
       <id>jonas4x</id>
       <properties>
@@ -1189,11 +1190,12 @@
       </properties>
     </profile>
     <profile>
-      <id>all-geronimo</id>
+      <id>all-jonas</id>
       <properties>
-        <cargo.containers>geronimo1x</cargo.containers>
+        <cargo.containers>jonas4x, jonas5x</cargo.containers>
       </properties>
     </profile>
+
     <profile>
       <id>geronimo1x</id>
       <properties>
@@ -1201,11 +1203,12 @@
       </properties>
     </profile>
     <profile>
-      <id>all-glassfish</id>
+      <id>all-geronimo</id>
       <properties>
-        <cargo.containers>glassfish2x, glassfish3x</cargo.containers>
+        <cargo.containers>geronimo1x</cargo.containers>
       </properties>
     </profile>
+
     <profile>
       <id>glassfish2x</id>
       <properties>
@@ -1219,17 +1222,25 @@
       </properties>
     </profile>
     <profile>
-      <id>all-jrun</id>
+      <id>all-glassfish</id>
       <properties>
-        <cargo.containers>jrun4x</cargo.containers>
+        <cargo.containers>glassfish2x, glassfish3x</cargo.containers>
       </properties>
     </profile>
+
     <profile>
       <id>jrun4x</id>
       <properties>
         <cargo.containers>jrun4x</cargo.containers>
       </properties>
     </profile>
+    <profile>
+      <id>all-jrun</id>
+      <properties>
+        <cargo.containers>jrun4x</cargo.containers>
+      </properties>
+    </profile>
+
     <profile>
       <id>weblogic8x</id>
       <properties>
