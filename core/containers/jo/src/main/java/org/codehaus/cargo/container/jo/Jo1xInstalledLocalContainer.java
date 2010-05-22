@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.jo;
 
+import java.io.File;
+
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
@@ -28,8 +30,6 @@ import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
-
-import java.io.File;
 
 /**
  * jo! 1.1 container implementation.
@@ -109,7 +109,7 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
         fileSet.createInclude().setName("lib/*.jar");
         classpath.addFileset(fileSet);
         java.setClassname("com.tagtraum.metaserver.StopServer");
-        java.createArg().setValue("localhost");
+        java.createArg().setValue(getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));
         java.createArg().setValue(getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
         java.createArg().setValue("MetaServer");
 

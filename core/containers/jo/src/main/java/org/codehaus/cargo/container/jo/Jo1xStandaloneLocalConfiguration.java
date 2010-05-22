@@ -19,6 +19,10 @@
  */
 package org.codehaus.cargo.container.jo;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.util.Iterator;
+
 import org.apache.tools.ant.filters.ReplaceTokens;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.LocalContainer;
@@ -30,10 +34,6 @@ import org.codehaus.cargo.container.jo.internal.Jo1xStandaloneLocalConfiguration
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-
-import java.io.File;
-import java.net.MalformedURLException;
-import java.util.Iterator;
 
 /**
  * jo! standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} 
