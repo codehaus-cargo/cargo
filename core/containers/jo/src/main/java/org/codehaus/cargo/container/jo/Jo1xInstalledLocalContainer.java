@@ -26,6 +26,7 @@ import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 
 import java.io.File;
@@ -109,7 +110,7 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
         classpath.addFileset(fileSet);
         java.setClassname("com.tagtraum.metaserver.StopServer");
         java.createArg().setValue("localhost");
-        java.createArg().setValue("9090");
+        java.createArg().setValue(getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
         java.createArg().setValue("MetaServer");
 
         java.execute();

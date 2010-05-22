@@ -96,6 +96,8 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
     public Jo1xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+
+        setProperty(GeneralPropertySet.RMI_PORT, DEFAULT_METASERVER_PORT);
     }
 
     /**
@@ -365,10 +367,10 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
         tokenPort.setKey(GeneralPropertySet.RMI_PORT);
 
         String port = getPropertyValue(GeneralPropertySet.RMI_PORT);
-        // default to 9090
         if (port == null)
         {
-            port = DEFAULT_METASERVER_PORT;
+            throw new IllegalArgumentException("Property " + GeneralPropertySet.RMI_PORT
+                + " not set!");
         }
 
         tokenPort.setValue(port);
