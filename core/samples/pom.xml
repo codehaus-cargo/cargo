@@ -685,11 +685,11 @@
               </property>
               <property>
                 <name>cargo.jboss6x.url</name>
-                <value>http://downloads.sourceforge.net/jboss/jboss-6.0.0.M2.zip?big_mirror=1</value>
+                <value>http://downloads.sourceforge.net/jboss/jboss-as-distribution-6.0.0.20100429-M3.zip?big_mirror=1</value>
               </property>
               <property>
                 <name>cargo.jboss6x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
+                <value>${cargo.java.home.1_6}</value>
               </property>
 
               <property>
