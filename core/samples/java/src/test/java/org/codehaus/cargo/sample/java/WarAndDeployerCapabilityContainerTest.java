@@ -56,8 +56,10 @@ public class WarAndDeployerCapabilityContainerTest extends AbstractCargoTestCase
             "Tests that run on local containers supporting WAR deployments using a local Deployer");
 
         // We exclude glassfish3x container as it doesn't support hot deployment yet.
+        // We exclude tomcat4x container as it doesn't support hot deployment.
         Set excludedContainerIds = new TreeSet();
         excludedContainerIds.add("glassfish3x");
+        excludedContainerIds.add("tomcat4x");
 
         suite.addTestSuite(WarAndDeployerCapabilityContainerTest.class, new Validator[] {
             new IsLocalContainerValidator(),
