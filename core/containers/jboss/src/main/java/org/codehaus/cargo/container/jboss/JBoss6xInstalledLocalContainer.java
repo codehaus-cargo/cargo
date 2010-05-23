@@ -21,11 +21,9 @@ package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
 
-import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.jboss.internal.AbstractJBoss5xInstalledLocalContainer;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 
