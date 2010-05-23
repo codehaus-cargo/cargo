@@ -93,27 +93,6 @@ public class JBoss6xInstalledLocalContainer extends AbstractJBoss5xInstalledLoca
             }
         }
 
-        AntContainerExecutorThread jbossRunner = new AntContainerExecutorThread(java);
-        jbossRunner.start();
-
-        jbossRunner.join(5000L);
-        if (jbossRunner.isAlive())
-        {
-            getLogger().warn("Stopping server, not finished after 5 seconds.", 
-                    this.getClass().getName());
-        }
-        // Sleep some extra time to fully ensure JBoss is stopped before giving back the control
-        // to the user.
-        Thread.sleep(5000L);
-        
-        BuildException buildException = jbossRunner.getBuildException();
-        if (null != buildException)
-        {
-            // Stopping failed: in cargo code: Java returned: 1
-            // Can't get much more information if Java is forked :(
-            getLogger().warn("Stopping failed: " + buildException.getMessage(), 
-                    this.getClass().getName());
-            throw buildException;
-        }
+        java.execute();
     }
 }
