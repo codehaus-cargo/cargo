@@ -65,8 +65,6 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
 
         registerJBoss();
 
-        registerJetty();
-
         registerJO();
 
         registerJRun();
@@ -113,25 +111,6 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
 
         registerContainerCapability("jboss6x",
             "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
-
-    }
-
-    /**
-     * Register Jetty
-     */
-    public void registerJetty()
-    {
-        registerContainerCapability("jetty4x",
-            "org.codehaus.cargo.container.internal.ServletContainerCapability");
-
-        registerContainerCapability("jetty5x",
-            "org.codehaus.cargo.container.internal.ServletContainerCapability");
-
-        registerContainerCapability("jetty6x",
-            "org.codehaus.cargo.container.internal.ServletContainerCapability");
-
-        registerContainerCapability("jetty7x",
-            "org.codehaus.cargo.container.internal.ServletContainerCapability");
 
     }
 

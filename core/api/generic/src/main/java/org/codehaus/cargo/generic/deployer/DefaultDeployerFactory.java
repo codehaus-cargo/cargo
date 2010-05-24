@@ -85,8 +85,6 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
 
         registerJBoss();
 
-        registerJetty();
-
         registerJO();
 
         registerJRun();
@@ -144,32 +142,6 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
         registerDeployer("jboss6x", DeployerType.REMOTE,
             "org.codehaus.cargo.container.jboss.JBossRemoteDeployer");
 
-    }
-
-    /**
-     * Register Jetty
-     */
-    public void registerJetty()
-    {
-        registerDeployer("jetty4x", DeployerType.EMBEDDED,
-            "org.codehaus.cargo.container.jetty.Jetty4xEmbeddedLocalDeployer");
-
-        registerDeployer("jetty5x", DeployerType.EMBEDDED,
-            "org.codehaus.cargo.container.jetty.Jetty5xEmbeddedLocalDeployer");
-
-        registerDeployer("jetty6x", DeployerType.EMBEDDED,
-            "org.codehaus.cargo.container.jetty.Jetty6xEmbeddedLocalDeployer");
-        registerDeployer("jetty6x", DeployerType.INSTALLED,
-            "org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalDeployer");
-        registerDeployer("jetty6x", DeployerType.REMOTE,
-            "org.codehaus.cargo.container.jetty.JettyRemoteDeployer");
-
-        registerDeployer("jetty7x", DeployerType.EMBEDDED,
-            "org.codehaus.cargo.container.jetty.Jetty7xEmbeddedLocalDeployer");
-        registerDeployer("jetty7x", DeployerType.INSTALLED,
-            "org.codehaus.cargo.container.jetty.Jetty7xInstalledLocalDeployer");
-        registerDeployer("jetty7x", DeployerType.REMOTE,
-            "org.codehaus.cargo.container.jetty.JettyRemoteDeployer");
     }
 
     /**

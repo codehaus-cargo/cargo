@@ -88,8 +88,6 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
         registerJBoss();
 
-        registerJetty();
-
         registerJO();
         
         registerJRun();
@@ -160,33 +158,6 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
             "org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration");
         registerConfiguration("jboss6x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
             "org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration");
-
-    }
-
-    /**
-     * Register Jetty
-     */
-    public void registerJetty()
-    {
-        registerConfiguration("jetty4x", ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jetty.Jetty4xEmbeddedStandaloneLocalConfiguration");
-
-        registerConfiguration("jetty5x", ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jetty.Jetty5xEmbeddedStandaloneLocalConfiguration");
-
-        registerConfiguration("jetty6x", ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jetty.Jetty6xEmbeddedStandaloneLocalConfiguration");
-        registerConfiguration("jetty6x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jetty.Jetty6xStandaloneLocalConfiguration");
-        registerConfiguration("jetty6x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            "org.codehaus.cargo.container.jetty.JettyRuntimeConfiguration");
-
-        registerConfiguration("jetty7x", ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jetty.Jetty7xEmbeddedStandaloneLocalConfiguration");
-        registerConfiguration("jetty7x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jetty.Jetty7xStandaloneLocalConfiguration");
-        registerConfiguration("jetty7x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            "org.codehaus.cargo.container.jetty.JettyRuntimeConfiguration");
 
     }
 

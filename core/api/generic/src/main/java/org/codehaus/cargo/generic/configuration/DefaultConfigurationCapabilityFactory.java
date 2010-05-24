@@ -67,8 +67,6 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
 
         registerJBoss();
 
-        registerJetty();
-
         registerJO();
 
         registerJRun();
@@ -161,42 +159,6 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("jboss6x", ContainerType.REMOTE,
                 ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jboss.internal."
                     + "JBossRuntimeConfigurationCapability");
-
-    }
-
-    /**
-     * Register Jetty
-     */
-    public void registerJetty()
-    {
-        registerConfigurationCapability("jetty4x", ContainerType.EMBEDDED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jetty.internal."
-                + "Jetty4xEmbeddedStandaloneLocalConfigurationCapability");
-
-        registerConfigurationCapability("jetty5x", ContainerType.EMBEDDED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jetty.internal."
-                + "Jetty5xEmbeddedStandaloneLocalConfigurationCapability");
-
-        registerConfigurationCapability("jetty6x", ContainerType.EMBEDDED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jetty.internal."
-                + "Jetty6xEmbeddedStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("jetty6x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jetty.internal."
-                + "Jetty6xStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("jetty6x", ContainerType.REMOTE,
-            ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jetty.internal."
-                + "JettyRuntimeConfigurationCapability");
- 
-        registerConfigurationCapability("jetty7x", ContainerType.EMBEDDED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jetty.internal."
-                + "Jetty7xEmbeddedStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("jetty7x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jetty.internal."
-                + "Jetty7xStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("jetty7x", ContainerType.REMOTE,
-            ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jetty.internal."
-                + "JettyRuntimeConfigurationCapability");
-
 
     }
 

@@ -85,8 +85,6 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
         registerJBoss();
 
-        registerJetty();
-
         registerJO();
 
         registerJRun();
@@ -143,32 +141,6 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
             "org.codehaus.cargo.container.jboss.JBoss6xInstalledLocalContainer");
         registerContainer("jboss6x", ContainerType.REMOTE,
             "org.codehaus.cargo.container.jboss.JBoss6xRemoteContainer");
-    }
-
-    /**
-     * Register Jetty
-     */
-    public void registerJetty()
-    {
-        registerContainer("jetty4x", ContainerType.EMBEDDED,
-            "org.codehaus.cargo.container.jetty.Jetty4xEmbeddedLocalContainer");
-
-        registerContainer("jetty5x", ContainerType.EMBEDDED,
-            "org.codehaus.cargo.container.jetty.Jetty5xEmbeddedLocalContainer");
-
-        registerContainer("jetty6x", ContainerType.EMBEDDED,
-            "org.codehaus.cargo.container.jetty.Jetty6xEmbeddedLocalContainer");
-        registerContainer("jetty6x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer");
-        registerContainer("jetty6x", ContainerType.REMOTE,
-            "org.codehaus.cargo.container.jetty.Jetty6xRemoteContainer");
-
-        registerContainer("jetty7x", ContainerType.EMBEDDED,
-            "org.codehaus.cargo.container.jetty.Jetty7xEmbeddedLocalContainer");
-        registerContainer("jetty7x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.jetty.Jetty7xInstalledLocalContainer");
-        registerContainer("jetty7x", ContainerType.REMOTE,
-            "org.codehaus.cargo.container.jetty.Jetty7xRemoteContainer");
     }
 
     /**
