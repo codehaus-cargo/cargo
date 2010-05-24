@@ -17,18 +17,13 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.geronimo;
+package org.codehaus.cargo.container.jrun;
 
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployer.DeployerType;
-import org.codehaus.cargo.container.geronimo.deployable.GeronimoEAR;
-import org.codehaus.cargo.container.geronimo.deployable.GeronimoEJB;
-import org.codehaus.cargo.container.geronimo.deployable.GeronimoWAR;
-import org.codehaus.cargo.container.geronimo.internal.GeronimoExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.geronimo.internal.GeronimoStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
+import org.codehaus.cargo.container.jrun.internal.JRun4xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
@@ -39,29 +34,21 @@ import org.codehaus.cargo.generic.deployer.DeployerFactory;
 import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
- * Registers Geronimo support into default factories.
+ * Registers JRun support into default factories.
  * 
  * @version $Id$
  */
-public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
+public class JRunFactoryRegistry extends AbstractFactoryRegistry
 {
 
     /**
-     * Register deployable factory.
+     * Register deployable factory. Doesn't register anything.
      *
      * @param deployableFactory Factory on which to register.
      */
     @Override
     protected void register(DeployableFactory deployableFactory)
     {
-        deployableFactory.registerDeployable("geronimo1x", DeployableType.WAR,
-            GeronimoWAR.class);
-
-        deployableFactory.registerDeployable("geronimo1x", DeployableType.EAR,
-            GeronimoEAR.class);
-
-        deployableFactory.registerDeployable("geronimo1x", DeployableType.EJB,
-            GeronimoEJB.class);
     }
 
     /**
@@ -72,12 +59,12 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ConfigurationCapabilityFactory configurationCapabilityFactory)
     {
-        configurationCapabilityFactory.registerConfigurationCapability("geronimo1x",
+        configurationCapabilityFactory.registerConfigurationCapability("jrun4x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            GeronimoStandaloneLocalConfigurationCapability.class);
-        configurationCapabilityFactory.registerConfigurationCapability("geronimo1x",
+            JRun4xStandaloneLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("jrun4x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            GeronimoExistingLocalConfigurationCapability.class);
+            JRun4xStandaloneLocalConfigurationCapability.class);
     }
 
     /**
@@ -88,12 +75,12 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ConfigurationFactory configurationFactory)
     {
-        configurationFactory.registerConfiguration("geronimo1x",
+        configurationFactory.registerConfiguration("jrun4x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            Geronimo1xStandaloneLocalConfiguration.class);
-        configurationFactory.registerConfiguration("geronimo1x",
+            JRun4xExistingLocalConfiguration.class);
+        configurationFactory.registerConfiguration("jrun4x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            Geronimo1xExistingLocalConfiguration.class);
+            JRun4xExistingLocalConfiguration.class);
     }
 
     /**
@@ -104,8 +91,8 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(DeployerFactory deployerFactory)
     {
-        deployerFactory.registerDeployer("geronimo1x", DeployerType.INSTALLED,
-            GeronimoInstalledLocalDeployer.class);
+        deployerFactory.registerDeployer("jrun4x", DeployerType.INSTALLED,
+            JRun4xInstalledLocalDeployer.class);
     }
 
     /**
@@ -126,8 +113,8 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ContainerFactory containerFactory)
     {
-        containerFactory.registerContainer("geronimo1x", ContainerType.INSTALLED,
-            Geronimo1xInstalledLocalContainer.class);
+        containerFactory.registerContainer("jrun4x", ContainerType.INSTALLED,
+            JRun4xInstalledLocalContainer.class);
     }
 
     /**
@@ -138,7 +125,7 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ContainerCapabilityFactory containerCapabilityFactory)
     {
-        containerCapabilityFactory.registerContainerCapability("geronimo1x",
+        containerCapabilityFactory.registerContainerCapability("jrun4x",
             J2EEContainerCapability.class);
     }
 
