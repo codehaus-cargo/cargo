@@ -46,11 +46,4 @@
       <version>3.8.1</version>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
 </project>

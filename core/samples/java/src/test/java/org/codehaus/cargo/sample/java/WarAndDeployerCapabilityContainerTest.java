@@ -84,7 +84,7 @@ public class WarAndDeployerCapabilityContainerTest extends AbstractCargoTestCase
         PingUtils.assertPingFalse("simple war should not be started at this point", warPingURL,
             getLogger());
 
-        Deployer deployer = new DefaultDeployerFactory().createDeployer(getContainer());
+        Deployer deployer = createDeployer(getContainer());
         DeployableMonitor deployableMonitor = new URLDeployableMonitor(warPingURL);
         deployableMonitor.setLogger(this.logger);
         deployer.deploy(war, deployableMonitor);

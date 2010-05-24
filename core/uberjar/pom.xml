@@ -25,96 +25,91 @@
   </parent>
   <artifactId>cargo-core-uberjar</artifactId>
   <version>1.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
   <name>Cargo Core Uberjar</name>
   <description>The Cargo Core Uberjar</description>
   <dependencies>
-    <!-- All dependencoes are defined with a test scope. Ideally they should be using a provided
-         scope but doing this make them not being included in the uberjar. The reason we don't
-         want a compile scope is because otherwise users of the uberjar will find their m2 build
-         depending transitively on the individual dependencies thus getting the Cargo classes
-         twice in their classpaths... -->
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-api-generic</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-api-util</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-geronimo</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-glassfish</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-jboss</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-jetty</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-jo</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-jonas</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-jrun</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
     </dependency>    
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-orion</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-resin</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-tomcat</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-container-orion</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-weblogic</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptor>src/assemble/main.xml</descriptor>
-        </configuration>
+        <artifactId>maven-shade-plugin</artifactId>
         <executions>
           <execution>
             <phase>package</phase>
             <goals>
-              <goal>single</goal>
+              <goal>shade</goal>
             </goals>
+            <configuration>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <includes>
+                    <include>org/codehaus/cargo/**</include>
+                    <include>**/org.codehaus.cargo.*</include>
+                    <include>**/org.codehaus.cargo/**</include>
+                  </includes>
+                </filter>
+              </filters>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+              </transformers>
+            </configuration>
           </execution>
         </executions>
       </plugin>

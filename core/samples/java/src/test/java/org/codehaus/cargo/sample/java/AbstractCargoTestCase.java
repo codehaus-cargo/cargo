@@ -116,6 +116,14 @@ public class AbstractCargoTestCase extends TestCase
         return deployer;
     }
 
+    public Deployer createDeployer(Container container)
+    {
+        Deployer deployer = DEPLOYER_FACTORY.createDeployer(container);
+        deployer.setLogger(getLogger());
+
+        return deployer;
+    }
+
     public Configuration createConfiguration(ConfigurationType type)
     {
         return createConfiguration(type, getTestData().targetDir);
