@@ -386,7 +386,9 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     }
 
     /**
-     * @return the configured DataSources for this container.
+     * {@inheritDoc}
+     * 
+     * @see LocalConfiguration#getDataSources()
      */
     public List getDataSources()
     {

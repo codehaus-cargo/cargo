@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.configuration;
 
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.util.FileHandler;
@@ -77,6 +78,18 @@ public interface LocalConfiguration extends Configuration
      * it is started.
      */
     List getResources();
+
+    /**
+     * Add data source the container can take advantage of.
+     * 
+     * @param dataSource the {@link DataSource} to add.
+     */
+    void addDataSource(DataSource dataSource);
+
+    /**
+     * @return the configured DataSources for this container.
+     */
+    List getDataSources();
     
     /**
      * @param handler means by which we affect local files.
