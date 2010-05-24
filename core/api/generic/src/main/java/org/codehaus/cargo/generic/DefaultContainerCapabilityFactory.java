@@ -63,8 +63,6 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
         // Note: Sorted by container id alphabetical order
         registerGeronimo();
 
-        registerJO();
-
         registerJRun();
 
         registerOrion();
@@ -86,20 +84,10 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
     }
 
     /**
-     * Register JO!
-     */
-    public void registerJO()
-    {
-        registerContainerCapability("jo1x",
-            "org.codehaus.cargo.container.internal.ServletContainerCapability");
-    }
-    
-    /**
      * Register JRun
      */
     public void registerJRun()
     {
-        // TODO: add JRunContainerCapability
         registerContainerCapability("jrun4x",
             "org.codehaus.cargo.container.internal.J2EEContainerCapability");        
     }    

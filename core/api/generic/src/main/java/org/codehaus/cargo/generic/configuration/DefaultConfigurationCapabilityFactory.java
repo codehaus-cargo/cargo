@@ -65,8 +65,6 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         // Note: Sorted by container id alphabetical order
         registerGeronimo();
 
-        registerJO();
-
         registerJRun();
 
         registerOrion();
@@ -89,16 +87,6 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("geronimo1x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, "org.codehaus.cargo.container.geronimo.internal."
                 + "GeronimoExistingLocalConfigurationCapability");
-    }
-
-    /**
-     * Register JO!
-     */
-    public void registerJO()
-    {
-        registerConfigurationCapability("jo1x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jo.internal."
-                + "Jo1xStandaloneLocalConfigurationCapability");
     }
 
     /**

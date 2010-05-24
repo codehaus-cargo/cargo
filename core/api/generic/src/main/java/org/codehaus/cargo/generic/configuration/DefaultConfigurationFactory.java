@@ -86,8 +86,6 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
         // Note: Sorted by container id alphabetical order
         registerGeronimo();
 
-        registerJO();
-        
         registerJRun();
 
         registerOrion();
@@ -108,15 +106,6 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
             "org.codehaus.cargo.container.geronimo.Geronimo1xStandaloneLocalConfiguration");
         registerConfiguration("geronimo1x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.geronimo.Geronimo1xExistingLocalConfiguration");
-    }
-
-    /**
-     * Register JO!
-     */
-    public void registerJO()
-    {
-        registerConfiguration("jo1x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jo.Jo1xStandaloneLocalConfiguration");
     }
 
     /**

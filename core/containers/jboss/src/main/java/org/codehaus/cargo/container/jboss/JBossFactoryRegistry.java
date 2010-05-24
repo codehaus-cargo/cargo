@@ -45,7 +45,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
 {
 
     /**
-     * Register deployable factory. Doesn't register anything.
+     * Register deployable factory.
      *
      * @param deployableFactory Factory on which to register.
      */

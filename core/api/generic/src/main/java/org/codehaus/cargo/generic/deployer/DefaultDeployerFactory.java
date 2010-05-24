@@ -83,8 +83,6 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
         // Note: Sorted by container id alphabetical order
         registerGeronimo();
 
-        registerJO();
-
         registerJRun();
 
         registerOrion();
@@ -105,15 +103,6 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
             "org.codehaus.cargo.container.geronimo.GeronimoInstalledLocalDeployer");
     }
 
-    /**
-     * Register JO!
-     */
-    public void registerJO()
-    {
-        registerDeployer("jo1x", DeployerType.INSTALLED,
-            "org.codehaus.cargo.container.jo.Jo1xInstalledLocalDeployer");
-    }
-    
     /**
      * Register JRun
      */
