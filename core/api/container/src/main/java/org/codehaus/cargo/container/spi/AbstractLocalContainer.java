@@ -204,6 +204,16 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
         setState(State.STOPPED);
         getLogger().info(getName() + " is stopped", this.getClass().getName());
+
+        // Sleep a bit to ensure the Java EE server is fully stopped
+        try
+        {
+            Thread.sleep(2500);
+        }
+        catch (InterruptedException e)
+        {
+            throw new IllegalStateException("Thread.sleep failed");
+        }
     }
 
     /**

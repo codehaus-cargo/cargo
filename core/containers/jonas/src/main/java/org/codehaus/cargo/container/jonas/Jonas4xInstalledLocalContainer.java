@@ -70,7 +70,8 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         jonasRunner.start();
 
         // Wait for JOnAS to start by pinging (to ensure all modules are deployed and ready)
-        while (true)
+        long timeout = System.currentTimeMillis() + this.getTimeout() * 1000;
+        while (System.currentTimeMillis() < timeout)
         {
             try
             {
@@ -110,16 +111,6 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         {
             throw new IllegalStateException("JonasAdmin stop returned " + returnCode
                     + ", the only values allowed are 0 and 2");
-        }
-
-        // Sleep a bit to ensure the CAROL container is stopped
-        try
-        {
-            Thread.sleep(2500);
-        }
-        catch (InterruptedException e)
-        {
-            throw new IllegalStateException("Thread.sleep failed");
         }
     }
 
