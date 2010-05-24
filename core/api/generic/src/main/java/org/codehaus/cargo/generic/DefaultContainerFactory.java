@@ -79,24 +79,6 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
     }
 
     /**
-     * Register BEA/Oracle Weblogic
-     */
-    public void registerWeblogic()
-    {
-        registerContainer("weblogic8x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.weblogic.WebLogic8xInstalledLocalContainer");
-
-        registerContainer("weblogic9x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.weblogic.WebLogic9xInstalledLocalContainer");
-
-        registerContainer("weblogic10x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.weblogic.WebLogic10xInstalledLocalContainer");
-
-        registerContainer("weblogic103x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.weblogic.WebLogic103xInstalledLocalContainer");
-    }
-
-    /**
      * {@inheritDoc}
      * @see ContainerFactory#isContainerRegistered(String, ContainerType)
      */

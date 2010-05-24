@@ -62,41 +62,6 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
     }
 
     /**
-     * Register BEA/Oracle Weblogic
-     */
-    public void registerWeblogic()
-    {
-        registerConfigurationCapability("weblogic8x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.weblogic.internal."
-                + "WebLogicStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("weblogic8x", ContainerType.INSTALLED,
-            ConfigurationType.EXISTING, "org.codehaus.cargo.container.weblogic.internal."
-                + "WebLogicExistingLocalConfigurationCapability");
-
-        registerConfigurationCapability("weblogic9x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.weblogic.internal."
-                + "WebLogic9x10xAnd103xStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("weblogic9x", ContainerType.INSTALLED,
-            ConfigurationType.EXISTING, "org.codehaus.cargo.container.weblogic.internal."
-                + "WebLogicExistingLocalConfigurationCapability");
-        
-        registerConfigurationCapability("weblogic10x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.weblogic.internal."
-                + "WebLogic9x10xAnd103xStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("weblogic10x", ContainerType.INSTALLED,
-            ConfigurationType.EXISTING, "org.codehaus.cargo.container.weblogic.internal."
-                + "WebLogicExistingLocalConfigurationCapability");
-
-        registerConfigurationCapability("weblogic103x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.weblogic.internal."
-                + "WebLogic9x10xAnd103xStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("weblogic103x", ContainerType.INSTALLED,
-            ConfigurationType.EXISTING, "org.codehaus.cargo.container.weblogic.internal."
-                + "WebLogicExistingLocalConfigurationCapability");
-        
-    }
-
-    /**
      * {@inheritDoc}
      * @see ConfigurationCapabilityFactory#registerConfigurationCapability
      */

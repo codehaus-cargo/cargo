@@ -13,6 +13,7 @@
         <include>org.codehaus.cargo:cargo-core-api-util</include>
         <include>org.codehaus.cargo:cargo-core-api-generic</include>
         <include>org.codehaus.cargo:cargo-core-container-geronimo</include>
+        <include>org.codehaus.cargo:cargo-core-container-glassfish</include>
         <include>org.codehaus.cargo:cargo-core-container-jboss</include>
         <include>org.codehaus.cargo:cargo-core-container-jetty</include>
         <include>org.codehaus.cargo:cargo-core-container-jo</include>

@@ -59,24 +59,6 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
     }
 
     /**
-     * Register BEA/Oracle Weblogic
-     */
-    public void registerWeblogic()
-    {
-        registerContainerCapability("weblogic8x",
-            "org.codehaus.cargo.container.internal.J2EEContainerCapability");
-
-        registerContainerCapability("weblogic9x",
-            "org.codehaus.cargo.container.internal.J2EEContainerCapability");
-        
-        registerContainerCapability("weblogic10x",
-            "org.codehaus.cargo.container.internal.J2EEContainerCapability");
-
-        registerContainerCapability("weblogic103x",
-            "org.codehaus.cargo.container.internal.J2EEContainerCapability");    
-    }
-
-    /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.generic.ContainerCapabilityFactory#registerContainerCapability(String, Class)
      */
