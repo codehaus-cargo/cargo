@@ -70,7 +70,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         jonasRunner.start();
 
         // Wait for JOnAS to start by pinging (to ensure all modules are deployed and ready)
-        long timeout = System.currentTimeMillis() + this.getTimeout() * 1000;
+        long timeout = System.currentTimeMillis() + this.getTimeout();
         while (System.currentTimeMillis() < timeout)
         {
             try

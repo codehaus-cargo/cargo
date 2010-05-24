@@ -112,7 +112,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
         URL adminURL = new URL("http://"
             + this.getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
             + this.getConfiguration().getPropertyValue(GlassFishPropertySet.ADMIN_PORT) + "/");
-        long timeout = System.currentTimeMillis() + this.getTimeout() * 1000;
+        long timeout = System.currentTimeMillis() + this.getTimeout();
         while (System.currentTimeMillis() < timeout)
         {
             try
@@ -131,7 +131,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
         if (!started)
         {
             throw new CargoException("GlassFish server admin still not accessible on " + adminURL
-                + " after " + this.getTimeout() + " seconds!");
+                + " after " + this.getTimeout() + " milliseconds!");
         }
 
         // deploy scheduled deployables
