@@ -65,8 +65,6 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         // Note: Sorted by container id alphabetical order
         registerGeronimo();
 
-        registerJBoss();
-
         registerJO();
 
         registerJRun();
@@ -91,73 +89,6 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("geronimo1x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, "org.codehaus.cargo.container.geronimo.internal."
                 + "GeronimoExistingLocalConfigurationCapability");
-    }
-
-    /**
-     * Register JBoss
-     */
-    public void registerJBoss()
-    {
-        registerConfigurationCapability("jboss3x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jboss.internal."
-                + "JBossStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("jboss3x", ContainerType.INSTALLED,
-            ConfigurationType.EXISTING, "org.codehaus.cargo.container.jboss.internal."
-                + "JBossExistingLocalConfigurationCapability");
-        registerConfigurationCapability("jboss3x", ContainerType.INSTALLED,
-            ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jboss.internal."
-                + "JBossRuntimeConfigurationCapability");
-
-        registerConfigurationCapability("jboss4x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jboss.internal."
-                + "JBossStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("jboss4x", ContainerType.INSTALLED,
-            ConfigurationType.EXISTING, "org.codehaus.cargo.container.jboss.internal."
-                + "JBossExistingLocalConfigurationCapability");
-        registerConfigurationCapability("jboss4x", ContainerType.REMOTE,
-            ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jboss.internal."
-                + "JBossRuntimeConfigurationCapability");
-
-        registerConfigurationCapability("jboss42x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jboss.internal."
-                + "JBossStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("jboss42x", ContainerType.INSTALLED,
-            ConfigurationType.EXISTING, "org.codehaus.cargo.container.jboss.internal."
-                + "JBossExistingLocalConfigurationCapability");
-        registerConfigurationCapability("jboss42x", ContainerType.REMOTE,
-                ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jboss.internal."
-                    + "JBossRuntimeConfigurationCapability");
-
-        registerConfigurationCapability("jboss5x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jboss.internal."
-                + "JBossStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("jboss5x", ContainerType.INSTALLED,
-             ConfigurationType.EXISTING, "org.codehaus.cargo.container.jboss.internal."
-                + "JBossExistingLocalConfigurationCapability");
-        registerConfigurationCapability("jboss5x", ContainerType.REMOTE,
-                ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jboss.internal."
-                    + "JBossRuntimeConfigurationCapability");
-
-        registerConfigurationCapability("jboss51x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jboss.internal."
-                + "JBossStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("jboss51x", ContainerType.INSTALLED,
-             ConfigurationType.EXISTING, "org.codehaus.cargo.container.jboss.internal."
-                + "JBossExistingLocalConfigurationCapability");
-        registerConfigurationCapability("jboss51x", ContainerType.REMOTE,
-                ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jboss.internal."
-                    + "JBossRuntimeConfigurationCapability");
-
-        registerConfigurationCapability("jboss6x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.jboss.internal."
-                + "JBossStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("jboss6x", ContainerType.INSTALLED,
-             ConfigurationType.EXISTING, "org.codehaus.cargo.container.jboss.internal."
-                + "JBossExistingLocalConfigurationCapability");
-        registerConfigurationCapability("jboss6x", ContainerType.REMOTE,
-                ConfigurationType.RUNTIME, "org.codehaus.cargo.container.jboss.internal."
-                    + "JBossRuntimeConfigurationCapability");
-
     }
 
     /**

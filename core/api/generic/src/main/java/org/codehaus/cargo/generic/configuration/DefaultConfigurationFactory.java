@@ -86,8 +86,6 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
         // Note: Sorted by container id alphabetical order
         registerGeronimo();
 
-        registerJBoss();
-
         registerJO();
         
         registerJRun();
@@ -110,53 +108,6 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
             "org.codehaus.cargo.container.geronimo.Geronimo1xStandaloneLocalConfiguration");
         registerConfiguration("geronimo1x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.geronimo.Geronimo1xExistingLocalConfiguration");
-    }
-
-    /**
-     * Register JBoss
-     */
-    public void registerJBoss()
-    {
-        registerConfiguration("jboss3x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration");
-        registerConfiguration("jboss3x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration");
-
-        registerConfiguration("jboss4x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration");
-        registerConfiguration("jboss4x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration");
-        registerConfiguration("jboss4x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            "org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration");
-
-        registerConfiguration("jboss42x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration");
-        registerConfiguration("jboss42x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration");
-        registerConfiguration("jboss42x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            "org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration");
-
-        registerConfiguration("jboss5x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jboss.JBoss5xStandaloneLocalConfiguration");
-        registerConfiguration("jboss5x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration");
-        registerConfiguration("jboss5x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            "org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration");
-
-        registerConfiguration("jboss51x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jboss.JBoss51xStandaloneLocalConfiguration");
-        registerConfiguration("jboss51x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration");
-        registerConfiguration("jboss51x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            "org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration");
-
-        registerConfiguration("jboss6x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jboss.JBoss6xStandaloneLocalConfiguration");
-        registerConfiguration("jboss6x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration");
-        registerConfiguration("jboss6x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            "org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration");
-
     }
 
     /**

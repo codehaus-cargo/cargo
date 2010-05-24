@@ -83,8 +83,6 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
         // Note: Sorted by container id alphabetical order
         registerGeronimo();
 
-        registerJBoss();
-
         registerJO();
 
         registerJRun();
@@ -105,41 +103,6 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
     {
         registerDeployer("geronimo1x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.geronimo.GeronimoInstalledLocalDeployer");
-    }
-
-    /**
-     * Register JBoss
-     */
-    public void registerJBoss()
-    {
-        registerDeployer("jboss3x", DeployerType.INSTALLED,
-            "org.codehaus.cargo.container.jboss.JBossInstalledLocalDeployer");
-
-        registerDeployer("jboss4x", DeployerType.INSTALLED,
-            "org.codehaus.cargo.container.jboss.JBossInstalledLocalDeployer");
-        registerDeployer("jboss4x", DeployerType.REMOTE,
-            "org.codehaus.cargo.container.jboss.JBossRemoteDeployer");
-
-        registerDeployer("jboss42x", DeployerType.INSTALLED,
-            "org.codehaus.cargo.container.jboss.JBossInstalledLocalDeployer");
-        registerDeployer("jboss42x", DeployerType.REMOTE,
-            "org.codehaus.cargo.container.jboss.JBossRemoteDeployer");
-
-        registerDeployer("jboss5x", DeployerType.INSTALLED,
-            "org.codehaus.cargo.container.jboss.JBossInstalledLocalDeployer");
-        registerDeployer("jboss5x", DeployerType.REMOTE,
-            "org.codehaus.cargo.container.jboss.JBossRemoteDeployer");
-
-        registerDeployer("jboss51x", DeployerType.INSTALLED,
-            "org.codehaus.cargo.container.jboss.JBossInstalledLocalDeployer");
-        registerDeployer("jboss51x", DeployerType.REMOTE,
-            "org.codehaus.cargo.container.jboss.JBossRemoteDeployer");
-
-        registerDeployer("jboss6x", DeployerType.INSTALLED,
-            "org.codehaus.cargo.container.jboss.JBossInstalledLocalDeployer");
-        registerDeployer("jboss6x", DeployerType.REMOTE,
-            "org.codehaus.cargo.container.jboss.JBossRemoteDeployer");
-
     }
 
     /**

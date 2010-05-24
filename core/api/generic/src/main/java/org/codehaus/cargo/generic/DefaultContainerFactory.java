@@ -83,8 +83,6 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
         // Note: Sorted by container id alphabetical order
         registerGeronimo();
 
-        registerJBoss();
-
         registerJO();
 
         registerJRun();
@@ -105,40 +103,6 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
     {
         registerContainer("geronimo1x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.geronimo.Geronimo1xInstalledLocalContainer");
-    }
-
-    /**
-     * Register JBoss
-     */
-    public void registerJBoss()
-    {
-        registerContainer("jboss3x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.jboss.JBoss3xInstalledLocalContainer");
-
-        registerContainer("jboss4x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.jboss.JBoss4xInstalledLocalContainer");
-        registerContainer("jboss4x", ContainerType.REMOTE,
-            "org.codehaus.cargo.container.jboss.JBoss4xRemoteContainer");
-
-        registerContainer("jboss42x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.jboss.JBoss42xInstalledLocalContainer");
-        registerContainer("jboss42x", ContainerType.REMOTE,
-            "org.codehaus.cargo.container.jboss.JBoss42xRemoteContainer");
-
-        registerContainer("jboss5x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.jboss.JBoss5xInstalledLocalContainer");
-        registerContainer("jboss5x", ContainerType.REMOTE,
-            "org.codehaus.cargo.container.jboss.JBoss5xRemoteContainer");
-
-        registerContainer("jboss51x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.jboss.JBoss51xInstalledLocalContainer");
-        registerContainer("jboss51x", ContainerType.REMOTE,
-            "org.codehaus.cargo.container.jboss.JBoss51xRemoteContainer");
-
-        registerContainer("jboss6x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.jboss.JBoss6xInstalledLocalContainer");
-        registerContainer("jboss6x", ContainerType.REMOTE,
-            "org.codehaus.cargo.container.jboss.JBoss6xRemoteContainer");
     }
 
     /**

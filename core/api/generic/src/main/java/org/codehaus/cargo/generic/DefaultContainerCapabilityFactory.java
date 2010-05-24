@@ -63,8 +63,6 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
         // Note: Sorted by container id alphabetical order
         registerGeronimo();
 
-        registerJBoss();
-
         registerJO();
 
         registerJRun();
@@ -85,31 +83,6 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
     {
         registerContainerCapability("geronimo1x",
             "org.codehaus.cargo.container.internal.J2EEContainerCapability");
-    }
-
-    /**
-     * Register JBoss
-     */
-    public void registerJBoss()
-    {
-        registerContainerCapability("jboss3x",
-            "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
-
-        registerContainerCapability("jboss4x",
-            "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
-
-        registerContainerCapability("jboss42x",
-            "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
-
-        registerContainerCapability("jboss5x",
-            "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
-
-        registerContainerCapability("jboss51x",
-            "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
-
-        registerContainerCapability("jboss6x",
-            "org.codehaus.cargo.container.jboss.internal.JBossContainerCapability");
-
     }
 
     /**
