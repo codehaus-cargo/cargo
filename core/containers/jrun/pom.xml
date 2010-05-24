@@ -27,6 +27,4 @@
   <name>Cargo Core JRun Container</name>
   <packaging>jar</packaging>
   <description>Core API implementation for JRun containers</description>
-  <dependencies>
-  </dependencies>
 </project>

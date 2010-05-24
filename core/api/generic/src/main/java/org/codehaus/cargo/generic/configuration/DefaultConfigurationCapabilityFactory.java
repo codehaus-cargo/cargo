@@ -75,8 +75,6 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
 
         registerResin();
 
-        registerTomcat();
-
         registerWeblogic();
 
         AbstractFactoryRegistry.register(classLoader, this);
@@ -218,48 +216,6 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
         registerConfigurationCapability("resin3x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, "org.codehaus.cargo.container.resin.internal."
                 + "ResinExistingLocalConfigurationCapability");
-    }
-
-    /**
-     * Register Tomcat
-     */
-    public void registerTomcat()
-    {        
-        registerConfigurationCapability("tomcat4x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.tomcat.internal."
-                + "TomcatStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("tomcat4x", ContainerType.INSTALLED,
-            ConfigurationType.EXISTING, "org.codehaus.cargo.container.tomcat.internal."
-                + "TomcatExistingLocalConfigurationCapability");
-        registerConfigurationCapability("tomcat4x", ContainerType.REMOTE,
-            ConfigurationType.RUNTIME, "org.codehaus.cargo.container.tomcat.internal."
-                + "TomcatRuntimeConfigurationCapability");
-
-        registerConfigurationCapability("tomcat5x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.tomcat.internal."
-                + "TomcatStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("tomcat5x", ContainerType.EMBEDDED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.tomcat.internal."
-                + "TomcatStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("tomcat5x", ContainerType.INSTALLED,
-            ConfigurationType.EXISTING, "org.codehaus.cargo.container.tomcat.internal."
-                + "TomcatExistingLocalConfigurationCapability");
-        registerConfigurationCapability("tomcat5x", ContainerType.EMBEDDED,
-            ConfigurationType.EXISTING, "org.codehaus.cargo.container.tomcat.internal."
-                + "TomcatExistingLocalConfigurationCapability");
-        registerConfigurationCapability("tomcat5x", ContainerType.REMOTE,
-            ConfigurationType.RUNTIME, "org.codehaus.cargo.container.tomcat.internal."
-                + "TomcatRuntimeConfigurationCapability");
-
-        registerConfigurationCapability("tomcat6x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, "org.codehaus.cargo.container.tomcat.internal."
-                + "TomcatStandaloneLocalConfigurationCapability");
-        registerConfigurationCapability("tomcat6x", ContainerType.INSTALLED,
-            ConfigurationType.EXISTING, "org.codehaus.cargo.container.tomcat.internal."
-                + "TomcatExistingLocalConfigurationCapability");
-        registerConfigurationCapability("tomcat6x", ContainerType.REMOTE,
-            ConfigurationType.RUNTIME, "org.codehaus.cargo.container.tomcat.internal."
-                + "TomcatRuntimeConfigurationCapability");
     }
 
     /**

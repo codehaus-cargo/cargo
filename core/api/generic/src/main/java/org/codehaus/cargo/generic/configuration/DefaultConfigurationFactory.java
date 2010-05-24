@@ -96,8 +96,6 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
         registerResin();
 
-        registerTomcat();
-
         registerWeblogic();
 
         AbstractFactoryRegistry.register(classLoader, this);
@@ -208,38 +206,6 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
             "org.codehaus.cargo.container.resin.Resin3xStandaloneLocalConfiguration");
         registerConfiguration("resin3x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
             "org.codehaus.cargo.container.resin.ResinExistingLocalConfiguration");
-    }
-
-    /**
-     * Register Tomcat
-     */
-    public void registerTomcat()
-    {
-     
-        registerConfiguration("tomcat4x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.tomcat.Tomcat4xStandaloneLocalConfiguration");
-        registerConfiguration("tomcat4x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration");
-        registerConfiguration("tomcat4x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            "org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration");
-
-        registerConfiguration("tomcat5x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.tomcat.Tomcat5xStandaloneLocalConfiguration");
-        registerConfiguration("tomcat5x", ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.tomcat.Tomcat5xStandaloneLocalConfiguration");
-        registerConfiguration("tomcat5x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration");
-        registerConfiguration("tomcat5x", ContainerType.EMBEDDED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration");
-        registerConfiguration("tomcat5x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            "org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration");
-
-        registerConfiguration("tomcat6x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.tomcat.Tomcat6xStandaloneLocalConfiguration");
-        registerConfiguration("tomcat6x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration");
-        registerConfiguration("tomcat6x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            "org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration");
     }
 
     /**

@@ -27,13 +27,4 @@
   <name>Cargo Core Jetty Container</name>
   <packaging>jar</packaging>
   <description>Core API implementation for Jetty containers</description>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-api-generic</artifactId>
-      <version>${project.parent.version}</version>
-    </dependency>
-  </dependencies>
-
 </project>

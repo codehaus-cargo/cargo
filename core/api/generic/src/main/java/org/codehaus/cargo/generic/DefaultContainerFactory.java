@@ -93,8 +93,6 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
         registerResin();
 
-        registerTomcat();
-
         registerWeblogic();
 
         AbstractFactoryRegistry.register(classLoader, this);
@@ -183,29 +181,6 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
         registerContainer("resin3x", ContainerType.INSTALLED,
             "org.codehaus.cargo.container.resin.Resin3xInstalledLocalContainer");
-    }
-
-    /**
-     * Register Tomcat
-     */
-    public void registerTomcat()
-    {
-        registerContainer("tomcat4x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.tomcat.Tomcat4xInstalledLocalContainer");
-        registerContainer("tomcat4x", ContainerType.REMOTE,
-            "org.codehaus.cargo.container.tomcat.Tomcat4xRemoteContainer");
-
-        registerContainer("tomcat5x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.tomcat.Tomcat5xInstalledLocalContainer");
-        registerContainer("tomcat5x", ContainerType.REMOTE,
-            "org.codehaus.cargo.container.tomcat.Tomcat5xRemoteContainer");
-        registerContainer("tomcat5x", ContainerType.EMBEDDED,
-            "org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalContainer");
-
-        registerContainer("tomcat6x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.tomcat.Tomcat6xInstalledLocalContainer");
-        registerContainer("tomcat6x", ContainerType.REMOTE,
-            "org.codehaus.cargo.container.tomcat.Tomcat6xRemoteContainer");
     }
 
     /**

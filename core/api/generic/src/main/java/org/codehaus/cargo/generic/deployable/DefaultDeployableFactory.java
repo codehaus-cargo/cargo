@@ -89,22 +89,6 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.SAR, SAR.class);
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.RAR, RAR.class);
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.FILE, File.class);
-        
-        // Register container-specific mappings
-
-        registerDeployable("tomcat5x", DeployableType.WAR,
-            "org.codehaus.cargo.container.tomcat.TomcatWAR");
-        registerDeployable("tomcat6x", DeployableType.WAR,
-            "org.codehaus.cargo.container.tomcat.TomcatWAR");
-
-        registerDeployable("geronimo1x", DeployableType.WAR,
-            "org.codehaus.cargo.container.geronimo.deployable.GeronimoWAR");
-        registerDeployable("geronimo1x", DeployableType.EJB,
-            "org.codehaus.cargo.container.geronimo.deployable.GeronimoEJB");
-        registerDeployable("geronimo1x", DeployableType.EAR,
-            "org.codehaus.cargo.container.geronimo.deployable.GeronimoEAR");
-
-        // TODO: Register JBossWAR here when we add JBoss support
 
         AbstractFactoryRegistry.register(classLoader, this);
     }

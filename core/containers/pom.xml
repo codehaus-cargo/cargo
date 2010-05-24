@@ -30,6 +30,12 @@
   <description>Core API Container Implementations</description>
   <dependencies>
     <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-generic</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>xmlunit</groupId>
       <artifactId>xmlunit</artifactId>
       <version>1.2</version>

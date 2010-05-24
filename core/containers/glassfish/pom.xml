@@ -29,13 +29,4 @@
   <version>1.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <description>Core API implementation for GlassFish containers</description>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-api-generic</artifactId>
-      <version>${project.parent.version}</version>
-    </dependency>
-  </dependencies>
-
 </project>

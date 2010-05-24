@@ -93,8 +93,6 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
 
         registerResin();
 
-        registerTomcat();
-
         registerWeblogic();
 
         AbstractFactoryRegistry.register(classLoader, this);
@@ -180,30 +178,6 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
 
         registerDeployer("resin3x", DeployerType.INSTALLED,
             "org.codehaus.cargo.container.resin.ResinInstalledLocalDeployer");
-    }
-
-    /**
-     * Register Tomcat
-     */
-    public void registerTomcat()
-    {
-        registerDeployer("tomcat4x", DeployerType.INSTALLED,
-            "org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer");
-
-        registerDeployer("tomcat4x", DeployerType.REMOTE,
-            "org.codehaus.cargo.container.tomcat.Tomcat4xRemoteDeployer");
-
-        registerDeployer("tomcat5x", DeployerType.INSTALLED,
-            "org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer");
-        registerDeployer("tomcat5x", DeployerType.REMOTE,
-            "org.codehaus.cargo.container.tomcat.Tomcat5xRemoteDeployer");
-        registerDeployer("tomcat5x", DeployerType.EMBEDDED,
-            "org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalDeployer");
-
-        registerDeployer("tomcat6x", DeployerType.INSTALLED,
-             "org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer");
-        registerDeployer("tomcat6x", DeployerType.REMOTE,
-            "org.codehaus.cargo.container.tomcat.Tomcat6xRemoteDeployer");
     }
 
     /**

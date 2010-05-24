@@ -73,8 +73,6 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
 
         registerResin();
 
-        registerTomcat();
-
         registerWeblogic();
 
         AbstractFactoryRegistry.register(classLoader, this);
@@ -155,21 +153,6 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
 
         registerContainerCapability("resin3x",
-            "org.codehaus.cargo.container.internal.ServletContainerCapability");
-    }
-
-    /**
-     * Register Tomcat
-     */
-    public void registerTomcat()
-    {
-        registerContainerCapability("tomcat4x",
-            "org.codehaus.cargo.container.internal.ServletContainerCapability");
-
-        registerContainerCapability("tomcat5x",
-            "org.codehaus.cargo.container.internal.ServletContainerCapability");
-
-        registerContainerCapability("tomcat6x",
             "org.codehaus.cargo.container.internal.ServletContainerCapability");
     }
 

@@ -71,15 +71,6 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
     {
         super();
 
-        // Note: Sorted by container id alphabetical order
-
-        registerPackager("tomcat4x", PackagerType.DIRECTORY,
-            "org.codehaus.cargo.container.tomcat.TomcatDirectoryPackager");
-        registerPackager("tomcat5x", PackagerType.DIRECTORY,
-            "org.codehaus.cargo.container.tomcat.TomcatDirectoryPackager");
-        registerPackager("tomcat6x", PackagerType.DIRECTORY,
-            "org.codehaus.cargo.container.tomcat.TomcatDirectoryPackager");
-
         AbstractFactoryRegistry.register(classLoader, this);
     }
 

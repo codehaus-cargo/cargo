@@ -29,11 +29,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-api-generic</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.apache.geronimo.specs</groupId>
       <artifactId>geronimo-j2ee-management_1.0_spec</artifactId>
       <version>1.1</version>
@@ -43,6 +38,7 @@
       <artifactId>geronimo-ejb_2.1_spec</artifactId>
       <version>1.1</version>
     </dependency>
+
     <dependency>
       <groupId>org.ow2.jonas.tools.configurator</groupId>
       <artifactId>configurator</artifactId>
