@@ -208,7 +208,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         // Sleep a bit to ensure the Java EE server is fully stopped
         try
         {
-            Thread.sleep(2500);
+            Thread.sleep(5000);
         }
         catch (InterruptedException e)
         {
