@@ -60,9 +60,6 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
         // user to use the generic API and choose what container implementation jar he wants to use
         // without having to add all container implementations jars in the classpath.
 
-        // Note: Sorted by container id alphabetical order
-        registerGeronimo();
-
         registerJRun();
 
         registerOrion();
@@ -72,15 +69,6 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
         registerWeblogic();
 
         AbstractFactoryRegistry.register(classLoader, this);
-    }
-
-    /**
-     * Register Apache Geronimo
-     */
-    public void registerGeronimo()
-    {
-        registerContainerCapability("geronimo1x",
-            "org.codehaus.cargo.container.internal.J2EEContainerCapability");
     }
 
     /**

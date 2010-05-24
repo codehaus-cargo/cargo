@@ -80,9 +80,6 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
         // to use the generic API and choose what container implementation jar he wants to use
         // without having to add all container implementations jars in the classpath.
 
-        // Note: Sorted by container id alphabetical order
-        registerGeronimo();
-
         registerJRun();
 
         registerOrion();
@@ -92,15 +89,6 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
         registerWeblogic();
 
         AbstractFactoryRegistry.register(classLoader, this);
-    }
-
-    /**
-     * Register Apache Geronimo
-     */
-    public void registerGeronimo()
-    {
-        registerDeployer("geronimo1x", DeployerType.INSTALLED,
-            "org.codehaus.cargo.container.geronimo.GeronimoInstalledLocalDeployer");
     }
 
     /**
