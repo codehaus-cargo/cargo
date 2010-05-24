@@ -63,10 +63,12 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
         // We exclude geronimo1x container as it doesn't support static deployments yet.
         // We exclude glassfish3x container as it doesn't support extra classpath yet.
         // We exclude jetty7x container as it doesn't support extra classpath yet.
+        // We exclude jonas5x container as it doesn't support extra classpath yet.
         Set excludedContainerIds = new TreeSet();
         excludedContainerIds.add("geronimo1x");
         excludedContainerIds.add("glassfish3x");
         excludedContainerIds.add("jetty7x");
+        excludedContainerIds.add("jonas5x");
         suite.addTestSuite(ExtraClasspathOnStandaloneConfigurationTest.class, new Validator[] {
         new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator(),
         new HasWarSupportValidator()}, excludedContainerIds);
