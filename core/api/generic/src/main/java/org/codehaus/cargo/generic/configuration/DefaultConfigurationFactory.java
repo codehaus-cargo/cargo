@@ -92,8 +92,6 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
         registerJO();
         
-        registerJOnAS();
-        
         registerJRun();
 
         registerOrion();
@@ -201,30 +199,6 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
             "org.codehaus.cargo.container.jo.Jo1xStandaloneLocalConfiguration");
     }
 
-    /**
-     * Register OW2 JOnAS
-     */
-    public void registerJOnAS()
-    {
-        registerConfiguration("jonas4x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            "org.codehaus.cargo.container.jonas.JonasRuntimeConfiguration");
-        registerConfiguration("jonas4x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.jonas.Jonas4xExistingLocalConfiguration");
-        registerConfiguration("jonas4x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jonas.Jonas4xStandaloneLocalConfiguration");
-        registerConfiguration("jonas4x", ContainerType.REMOTE, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jonas.Jonas4xStandaloneLocalConfiguration");
-
-        registerConfiguration("jonas5x", ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            "org.codehaus.cargo.container.jonas.JonasRuntimeConfiguration");
-        registerConfiguration("jonas5x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.jonas.Jonas5xExistingLocalConfiguration");
-        registerConfiguration("jonas5x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jonas.Jonas5xStandaloneLocalConfiguration");
-        registerConfiguration("jonas5x", ContainerType.REMOTE, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jonas.Jonas5xStandaloneLocalConfiguration");
-    }
-    
     /**
      * Register JRun
      */
