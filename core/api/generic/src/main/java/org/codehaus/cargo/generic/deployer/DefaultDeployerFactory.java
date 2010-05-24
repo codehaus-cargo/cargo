@@ -75,37 +75,7 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
     {
         super();
 
-        // Note: We register containers using introspection so that we don't have to depend on
-        // those containers at build time nor at runtime. More specifically this allows a user
-        // to use the generic API and choose what container implementation jar he wants to use
-        // without having to add all container implementations jars in the classpath.
-
-        registerJRun();
-
-        registerOrion();
-
-        registerResin();
-
-        registerWeblogic();
-
         AbstractFactoryRegistry.register(classLoader, this);
-    }
-
-    /**
-     * Register JRun
-     */
-    public void registerJRun()
-    {
-        registerDeployer("jrun4x", DeployerType.INSTALLED,
-            "org.codehaus.cargo.container.jrun.JRun4xInstalledLocalDeployer");
-    }
-
-    /**
-     * Register Orion
-     */
-    public void registerOrion()
-    {
-        // TODO: this is empty...
     }
 
     /**

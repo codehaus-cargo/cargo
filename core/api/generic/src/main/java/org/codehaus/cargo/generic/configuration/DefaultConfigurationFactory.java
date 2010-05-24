@@ -78,33 +78,8 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
     {
         super();
 
-        // Note: We register containers using introspection so that we don't have to depend on
-        // those containers at build time nor at runtime. More specifically this allows a user
-        // to use the generic API and choose what container implementation jar he wants to use
-        // without having to add all container implementations jars in the classpath.
-
-        registerJRun();
-
-        registerOrion();
-
-        registerResin();
-
-        registerWeblogic();
-
         AbstractFactoryRegistry.register(classLoader, this);
     }
-
-    /**
-     * Register JRun
-     */
-    public void registerJRun()
-    {
-        registerConfiguration("jrun4x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.jrun.JRun4xExistingLocalConfiguration");
-        
-        registerConfiguration("jrun4x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.jrun.JRun4xStandaloneLocalConfiguration");
-    }    
 
     /**
      * Register Orion

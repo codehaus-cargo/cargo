@@ -55,30 +55,8 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
     {
         super();
 
-        // Note: We register container capabilities using introspection so that we don't have to
-        // depend on those classes at build time nor at runtime. More specifically this allows a
-        // user to use the generic API and choose what container implementation jar he wants to use
-        // without having to add all container implementations jars in the classpath.
-
-        registerJRun();
-
-        registerOrion();
-
-        registerResin();
-
-        registerWeblogic();
-
         AbstractFactoryRegistry.register(classLoader, this);
     }
-
-    /**
-     * Register JRun
-     */
-    public void registerJRun()
-    {
-        registerContainerCapability("jrun4x",
-            "org.codehaus.cargo.container.internal.J2EEContainerCapability");        
-    }    
 
     /**
      * Register Orion
