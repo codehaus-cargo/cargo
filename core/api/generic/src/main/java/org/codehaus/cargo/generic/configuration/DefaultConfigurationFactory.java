@@ -82,34 +82,6 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
     }
 
     /**
-     * Register Orion
-     */
-    public void registerOrion()
-    {
-        registerConfiguration("oc4j9x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.orion.Oc4j9xStandaloneLocalConfiguration");
-
-        registerConfiguration("oc4j10x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.orion.Oc4j10xExistingLocalConfiguration");
-    }
-
-    /**
-     * Register Resin
-     */
-    public void registerResin()
-    {
-        registerConfiguration("resin2x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.resin.Resin2xStandaloneLocalConfiguration");
-        registerConfiguration("resin2x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.resin.ResinExistingLocalConfiguration");
-
-        registerConfiguration("resin3x", ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            "org.codehaus.cargo.container.resin.Resin3xStandaloneLocalConfiguration");
-        registerConfiguration("resin3x", ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            "org.codehaus.cargo.container.resin.ResinExistingLocalConfiguration");
-    }
-
-    /**
      * Register BEA/Oracle Weblogic
      */
     public void registerWeblogic()

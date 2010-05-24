@@ -79,30 +79,6 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
     }
 
     /**
-     * Register Orion
-     */
-    public void registerOrion()
-    {
-        registerContainer("oc4j9x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.orion.Oc4j9xInstalledLocalContainer");
-
-        registerContainer("oc4j10x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.orion.Oc4j10xInstalledLocalContainer");
-    }
-
-    /**
-     * Register Resin
-     */
-    public void registerResin()
-    {
-        registerContainer("resin2x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.resin.Resin2xInstalledLocalContainer");
-
-        registerContainer("resin3x", ContainerType.INSTALLED,
-            "org.codehaus.cargo.container.resin.Resin3xInstalledLocalContainer");
-    }
-
-    /**
      * Register BEA/Oracle Weblogic
      */
     public void registerWeblogic()

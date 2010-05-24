@@ -59,31 +59,6 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
     }
 
     /**
-     * Register Orion
-     */
-    public void registerOrion()
-    {
-        registerContainerCapability("oc4j9x",
-            "org.codehaus.cargo.container.internal.J2EEContainerCapability");
-
-        registerContainerCapability("oc4j10x",
-            "org.codehaus.cargo.container.internal.J2EEContainerCapability");
-
-    }
-
-    /**
-     * Register Resin
-     */
-    public void registerResin()
-    {
-        registerContainerCapability("resin2x",
-            "org.codehaus.cargo.container.internal.ServletContainerCapability");
-
-        registerContainerCapability("resin3x",
-            "org.codehaus.cargo.container.internal.ServletContainerCapability");
-    }
-
-    /**
      * Register BEA/Oracle Weblogic
      */
     public void registerWeblogic()

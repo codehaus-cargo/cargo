@@ -79,18 +79,6 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
     }
 
     /**
-     * Register Resin
-     */
-    public void registerResin()
-    {
-        registerDeployer("resin2x", DeployerType.INSTALLED,
-            "org.codehaus.cargo.container.resin.ResinInstalledLocalDeployer");
-
-        registerDeployer("resin3x", DeployerType.INSTALLED,
-            "org.codehaus.cargo.container.resin.ResinInstalledLocalDeployer");
-    }
-
-    /**
      * Register BEA/Oracle Weblogic
      */
     public void registerWeblogic()
