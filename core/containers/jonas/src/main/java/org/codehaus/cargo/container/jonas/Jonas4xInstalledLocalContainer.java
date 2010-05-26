@@ -82,11 +82,14 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
                 throw new IllegalStateException("Thread.sleep failed");
             }
 
-            if (jonasAdmin.isServerRunning())
+            if (jonasAdmin.isServerRunning("ping", 0))
             {
-                break;
+                return;
             }
         }
+
+        throw new ContainerException("Server did not start after " + Long.toString(timeout)
+                + " milliseconds!");
     }
 
     /**
@@ -112,6 +115,28 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
             throw new IllegalStateException("JonasAdmin stop returned " + returnCode
                     + ", the only values allowed are 0 and 2");
         }
+
+        // Wait for JOnAS to stop by listing JNDI
+        long timeout = System.currentTimeMillis() + this.getTimeout();
+        while (System.currentTimeMillis() < timeout)
+        {
+            try
+            {
+                Thread.sleep(1000);
+            }
+            catch (InterruptedException e)
+            {
+                throw new IllegalStateException("Thread.sleep failed");
+            }
+
+            if (jonasAdmin.isServerRunning("j", 2))
+            {
+                return;
+            }
+        }
+
+        throw new ContainerException("Server did not stop after " + Long.toString(timeout)
+                + " milliseconds!");
     }
 
     /**

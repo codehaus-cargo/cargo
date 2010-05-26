@@ -57,6 +57,11 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
     private long timeout;
 
     /**
+     * String that must be contained in the HTTP response.
+     */
+    private String contains;
+
+    /**
      * @param pingURL the URL to be pinged and which will tell when the 
      *        {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
      */
@@ -72,10 +77,22 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
      */
     public URLDeployableMonitor(URL pingURL, long timeout)
     {
+        this(pingURL, timeout, null);
+    }
+
+    /**
+     * @param pingURL the URL to be pinged and which will tell when the
+     *        {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
+     * @param timeout the timeout after which we stop monitoring the deployment
+     * @param contains a string that must be contained
+     */
+    public URLDeployableMonitor(URL pingURL, long timeout, String contains)
+    {
         this.listeners = new ArrayList();
         this.httpUtils = new HttpUtils();
         this.timeout = timeout;
         this.pingURL = pingURL;
+        this.contains = contains;
     }
 
     /**
@@ -107,6 +124,10 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
         // We check if the deployable is servicing requests by pinging a URL specified by the user
         HttpUtils.HttpResult results = new HttpUtils.HttpResult();
         boolean isDeployed = this.httpUtils.ping(this.pingURL, results, getTimeout());
+        if (isDeployed && this.contains != null && results.responseBody != null)
+        {
+            isDeployed = results.responseBody.contains(this.contains);
+        }
 
         getLogger().debug("URL [" + this.pingURL + "] is " + (isDeployed ? "" : "not ")
             + "responding...", this.getClass().getName());

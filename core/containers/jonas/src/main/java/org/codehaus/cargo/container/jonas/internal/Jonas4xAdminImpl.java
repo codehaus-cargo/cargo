@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.jonas.internal;
 
 import org.apache.tools.ant.taskdefs.Java;
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.jonas.Jonas4xInstalledLocalContainer;
 import org.codehaus.cargo.util.AntUtils;
 
@@ -46,7 +47,7 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
     /**
      * {@inheritDoc}
      */
-    public boolean isServerRunning()
+    public boolean isServerRunning(String command, int expectedReturnCode)
     {
         Java java = (Java) new AntUtils().createAntTask("java");
         java.setFork(true);
@@ -54,7 +55,7 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
         targetContainer.doAction(java);
         java.createArg().setValue("org.objectweb.jonas.adm.JonasAdmin");
         targetContainer.doServerAndDomainNameParam(java);
-        java.createArg().setValue("-ping");
+        java.createArg().setValue("-" + command);
         // IMPORTANT: impose timeout since default is 100 seconds
         //            the argument is in seconds in JOnAS 4
         java.createArg().setValue("-timeout");
@@ -62,12 +63,12 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
         java.reconfigure();
 
         int returnCode = java.executeJava();
-        if (returnCode != -1 && returnCode != 0 && returnCode != 1)
+        if (returnCode != -1 && returnCode != 0 && returnCode != 1 && returnCode != 2)
         {
-            throw new IllegalStateException("JonasAdmin ping returned " + returnCode
-                    + ", the only values allowed are -1, 0 and 1");
+            throw new ContainerException("JonasAdmin ping returned " + returnCode
+                    + ", the only values allowed are -1, 0, 1 and 2");
         }
-        return returnCode == 0;
+        return returnCode == expectedReturnCode;
     }
 
     /**

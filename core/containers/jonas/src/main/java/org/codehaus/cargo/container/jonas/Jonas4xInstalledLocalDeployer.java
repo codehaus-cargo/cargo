@@ -116,7 +116,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      */
     protected void deployExpandedWar(String deployableDir, WAR war) throws CargoException
     {
-        if (admin.isServerRunning())
+        if (admin.isServerRunning("ping", 0))
         {
             getLogger()
                 .warn("Hot deployment of expanded war impossible", this.getClass().getName());
@@ -171,7 +171,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
         }
         boolean isRunning = false;
 
-        isRunning = admin.isServerRunning();
+        isRunning = admin.isServerRunning("ping", 0);
         if (isRunning)
         {
             boolean undeployed = admin.unDeploy(fileName);
@@ -194,7 +194,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
         boolean isRunning = false;
         String targetDirectory = targetDir;
 
-        isRunning = admin.isServerRunning();
+        isRunning = admin.isServerRunning("ping", 0);
         if (!isRunning)
         {
             targetDirectory += "/autoload";

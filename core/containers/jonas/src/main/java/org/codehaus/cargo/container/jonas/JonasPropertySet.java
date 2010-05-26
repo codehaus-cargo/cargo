@@ -84,6 +84,11 @@ public class JonasPropertySet
     public static final String JONAS_SERVICES_LIST = "cargo.jonas.services.list";
 
     /**
+     * Whether to enable development mode.
+     */
+    public static final String JONAS_DEVELOPMENT = "cargo.jonas.development.mode";
+
+    /**
      * Utility classes don't have a public constructor.
      */
     protected JonasPropertySet()

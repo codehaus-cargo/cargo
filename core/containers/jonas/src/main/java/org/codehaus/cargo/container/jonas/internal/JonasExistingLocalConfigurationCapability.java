@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
 /**
- * Capabilities of the JOnAS {@link JonasExistingLocalConfigurationCapability} configuration.
+ * Capabilities of the JOnAS existing local configuration.
  * 
  * @version $Id$
  */

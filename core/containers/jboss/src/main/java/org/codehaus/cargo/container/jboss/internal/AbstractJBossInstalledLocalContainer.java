@@ -86,6 +86,11 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             new File(getLibDir(getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)))
                 .toURI().toURL().toString()));
 
+        java.addSysproperty(getAntUtils().createSysProperty("jboss.server.exitonshutdown",
+            "false"));
+        java.addSysproperty(getAntUtils().createSysProperty("jboss.server.blockingshutdown",
+            "true"));
+
         // CARGO-758: To allow JBoss to be accessed from remote machines,
         // it must be started with the arguments -b 0.0.0.0 or --host 0.0.0.0
         //
@@ -126,7 +131,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
         java.createArg().setValue(
             "--server=" + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
                 + getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
-        
+
         String jbossUser = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_USER);
         String jbossPassword = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_PASSWORD);
         if (jbossUser != null)

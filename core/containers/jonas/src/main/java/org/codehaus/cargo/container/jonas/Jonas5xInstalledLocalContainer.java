@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalContainer;
-import org.codehaus.cargo.util.AntUtils;
 
 /**
  * Support for the JOnAS JEE container.
@@ -63,45 +62,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
         jonasRunner.start();
 
-        // Wait for JOnAS to start by pinging (to ensure all modules are deployed and ready)
-        long timeout = System.currentTimeMillis() + this.getTimeout();
-        while (System.currentTimeMillis() < timeout)
-        {
-            Java ping = (Java) new AntUtils().createAntTask("java");
-            ping.setFork(true);
-
-            doAction(ping);
-            doServerAndDomainNameArgs(ping);
-            ping.createArg().setValue("-ping");
-            // IMPORTANT: impose timeout since default is 120 seconds
-            //            the argument is in milliseconds in JOnAS 5
-            ping.createArg().setValue("-timeout");
-            ping.createArg().setValue("2000");
-            // Precise the aimed state for ping
-            ping.createArg().setValue("-manageable.state");
-            ping.createArg().setValue("j2ee.state.running");
-            ping.reconfigure();
-            ping.setTimeout(new Long(10000));
-            try
-            {
-                Thread.sleep(1000);
-            }
-            catch (InterruptedException e)
-            {
-                throw new IllegalStateException("Thread.sleep failed");
-            }
-
-            int returnCode = ping.executeJava();
-            if (returnCode != -1 && returnCode != 0 && returnCode != 1 && returnCode != 2)
-            {
-                throw new IllegalStateException("JonasAdmin ping returned " + returnCode
-                        + ", the only values allowed are -1, 0, 1 and 2");
-            }
-            if (returnCode == 0)
-            {
-                break;
-            }
-        }
+        this.ping(0);
     }
 
     /**
@@ -119,9 +80,61 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         int returnCode = java.executeJava();
         if (returnCode != 0 && returnCode != 2)
         {
-            throw new IllegalStateException("JonasAdmin stop returned " + returnCode
+            throw new ContainerException("JonasAdmin stop returned " + returnCode
                     + ", the only values allowed are 0 and 2");
         }
+
+        this.ping(1);
+    }
+
+    /**
+     * Wait for the JOnAS server to reach a given state.
+     *
+     * @param expectedReturnCode expected return code.
+     */
+    protected void ping(int expectedReturnCode)
+    {
+        int returnCode = -1;
+
+        // Wait for JOnAS to start by pinging (to ensure all modules are deployed and ready)
+        long timeout = System.currentTimeMillis() + this.getTimeout();
+        while (System.currentTimeMillis() < timeout)
+        {
+            Java ping = createJavaTask();
+            ping.setFork(true);
+
+            doAction(ping);
+            doServerAndDomainNameArgs(ping);
+            ping.createArg().setValue("-ping");
+            // IMPORTANT: impose timeout since default is 120 seconds
+            //            the argument is in milliseconds in JOnAS 5
+            ping.createArg().setValue("-timeout");
+            ping.createArg().setValue("2000");
+            ping.reconfigure();
+            ping.setTimeout(new Long(10000));
+            try
+            {
+                Thread.sleep(1000);
+            }
+            catch (InterruptedException e)
+            {
+                throw new ContainerException("Thread.sleep failed", e);
+            }
+
+            returnCode = ping.executeJava();
+            if (returnCode != -1 && returnCode != 0 && returnCode != 1 && returnCode != 2)
+            {
+                throw new ContainerException("JonasAdmin ping returned " + returnCode
+                        + ", the only values allowed are -1, 0, 1 and 2");
+            }
+            if (returnCode == expectedReturnCode)
+            {
+                return;
+            }
+        }
+
+        throw new ContainerException("Server did not reach wanted state after "
+                + Long.toString(timeout) + " milliseconds (code " + returnCode + ")");
     }
 
     /**

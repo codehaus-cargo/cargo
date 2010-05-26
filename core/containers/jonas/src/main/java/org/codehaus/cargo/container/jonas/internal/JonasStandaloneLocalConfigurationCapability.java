@@ -27,8 +27,7 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 /**
- * Capabilities of the JOnAS 4.x
- * {@link org.codehaus.cargo.container.jonas.Jonas4xStandaloneLocalConfiguration} configuration.
+ * Capabilities of the JOnAS standalone local configuration.
  * 
  * @version $Id$
  */

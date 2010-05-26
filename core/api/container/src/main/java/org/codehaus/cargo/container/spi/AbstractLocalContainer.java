@@ -204,16 +204,6 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
         setState(State.STOPPED);
         getLogger().info(getName() + " is stopped", this.getClass().getName());
-
-        // Sleep a bit to ensure the Java EE server is fully stopped
-        try
-        {
-            Thread.sleep(10000);
-        }
-        catch (InterruptedException e)
-        {
-            throw new IllegalStateException("Thread.sleep failed");
-        }
     }
 
     /**
@@ -226,14 +216,9 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
     {
         DeployerWatchdog watchdog = new DeployerWatchdog(
-            new URLDeployableMonitor(ContainerUtils.getCPCURL(getConfiguration()), getTimeout()));
+            new URLDeployableMonitor(ContainerUtils.getCPCURL(getConfiguration()), getTimeout(),
+                "Cargo Ping Component used to verify if the container is started."));
         watchdog.watch(waitForStarting);
-
-        // Wait for some time before considering the container a started or stopped. This seems to
-        // be required for most containers.
-        // TODO: It would be nice to remove this limitation as we can never be sure what the right
-        // value is...
-        Thread.sleep(3000);
     }
 
     /**

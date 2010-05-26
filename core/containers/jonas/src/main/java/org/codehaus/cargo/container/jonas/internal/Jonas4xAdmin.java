@@ -30,9 +30,12 @@ public interface Jonas4xAdmin
     /**
      * Look if a local server instance is running.
      *
-     * @return true if a local server instance is running
+     * @param command Command to execute, for example <code>ping</code> (to check if server is
+     *                started), <code>j</code> (to check if JNDI is accessible), etc.
+     * @param expectedReturnCode Expected return code.
+     * @return true if the command matches the result
      */
-    boolean isServerRunning();
+    boolean isServerRunning(String command, int expectedReturnCode);
 
     /**
      * Undeploys the given bean name.
