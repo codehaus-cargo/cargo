@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaInstalledLocalContainer;
 
 /**
- * Special container support for the Apache Tomcat 4.x servlet container.
+ * Special container support for the Apache Tomcat 6.x servlet container.
  * 
  * @version $Id$
  */
