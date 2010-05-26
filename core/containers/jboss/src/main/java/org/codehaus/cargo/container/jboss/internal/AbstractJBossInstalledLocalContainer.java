@@ -86,11 +86,6 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             new File(getLibDir(getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)))
                 .toURI().toURL().toString()));
 
-        java.addSysproperty(getAntUtils().createSysProperty("jboss.server.exitonshutdown",
-            "false"));
-        java.addSysproperty(getAntUtils().createSysProperty("jboss.server.blockingshutdown",
-            "true"));
-
         // CARGO-758: To allow JBoss to be accessed from remote machines,
         // it must be started with the arguments -b 0.0.0.0 or --host 0.0.0.0
         //
@@ -144,6 +139,25 @@ public abstract class AbstractJBossInstalledLocalContainer extends
         }
 
         java.execute();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see AbstractLocalContainer#waitForCompletion(boolean)
+     */
+    @Override
+    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
+    {
+        super.waitForCompletion(waitForStarting);
+
+        if (!waitForStarting)
+        {
+            // JBoss stop is not synchronous, therefore sleep a bit after the
+            // CARGO ping component has stopped in order to allow some time for
+            // the server to stop completely
+            Thread.sleep(10000);
+        }
     }
 
     /**

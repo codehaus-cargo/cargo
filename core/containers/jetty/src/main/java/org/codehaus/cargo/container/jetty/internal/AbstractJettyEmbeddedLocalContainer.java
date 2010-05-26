@@ -40,7 +40,7 @@ public abstract class AbstractJettyEmbeddedLocalContainer
     protected Object server;
 
     /**
-     * Capability of the Jetty 4.x Embedded container.
+     * Capability of the Jetty Embedded container.
      */
     private ContainerCapability capability = new ServletContainerCapability();
 
@@ -100,4 +100,24 @@ public abstract class AbstractJettyEmbeddedLocalContainer
         jettyRunner.setLogger(getLogger());
         jettyRunner.start();
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see AbstractLocalContainer#waitForCompletion(boolean)
+     */
+    @Override
+    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
+    {
+        super.waitForCompletion(waitForStarting);
+
+        if (!waitForStarting)
+        {
+            // Jetty stop is not synchronous, therefore sleep a bit after the
+            // CARGO ping component has stopped in order to allow some time for
+            // the server to stop completely
+            Thread.sleep(10000);
+        }
+    }
+
 }
