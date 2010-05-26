@@ -68,28 +68,6 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
         jonasRunner.start();
-
-        // Wait for JOnAS to start by pinging (to ensure all modules are deployed and ready)
-        long timeout = System.currentTimeMillis() + this.getTimeout();
-        while (System.currentTimeMillis() < timeout)
-        {
-            try
-            {
-                Thread.sleep(1000);
-            }
-            catch (InterruptedException e)
-            {
-                throw new IllegalStateException("Thread.sleep failed");
-            }
-
-            if (jonasAdmin.isServerRunning("ping", 0))
-            {
-                return;
-            }
-        }
-
-        throw new ContainerException("Server did not start after " + Long.toString(timeout)
-                + " milliseconds!");
     }
 
     /**
@@ -115,8 +93,16 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
             throw new IllegalStateException("JonasAdmin stop returned " + returnCode
                     + ", the only values allowed are 0 and 2");
         }
+    }
 
-        // Wait for JOnAS to stop by listing JNDI
+    /**
+     * {@inheritDoc}
+     *
+     * @see AbstractLocalContainer#waitForCompletion(boolean)
+     */
+    @Override
+    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
+    {
         long timeout = System.currentTimeMillis() + this.getTimeout();
         while (System.currentTimeMillis() < timeout)
         {
@@ -129,14 +115,28 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
                 throw new IllegalStateException("Thread.sleep failed");
             }
 
-            if (jonasAdmin.isServerRunning("j", 2))
+            if (waitForStarting)
             {
-                return;
+                // Wait for JOnAS to start by pinging
+                // (to ensure all modules are deployed and ready)
+                if (jonasAdmin.isServerRunning("ping", 0))
+                {
+                    return;
+                }
+            }
+            else
+            {
+                // Wait for JOnAS to stop by listing JNDI
+                if (jonasAdmin.isServerRunning("j", 2))
+                {
+                    return;
+                }
             }
         }
 
-        throw new ContainerException("Server did not stop after " + Long.toString(timeout)
-                + " milliseconds!");
+        throw new ContainerException("Server.waitForCompletion not finished after "
+                + Long.toString(timeout) + " milliseconds!");
+
     }
 
     /**

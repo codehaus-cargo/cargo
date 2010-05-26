@@ -61,8 +61,6 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
         jonasRunner.start();
-
-        this.ping(0);
     }
 
     /**
@@ -83,8 +81,27 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
             throw new ContainerException("JonasAdmin stop returned " + returnCode
                     + ", the only values allowed are 0 and 2");
         }
+    }
 
-        this.ping(1);
+    /**
+     * {@inheritDoc}
+     *
+     * @see AbstractLocalContainer#waitForCompletion(boolean)
+     */
+    @Override
+    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
+    {
+        if (waitForStarting)
+        {
+            // Wait for JOnAS to start by pinging
+            // (to ensure all modules are deployed and ready)
+            this.ping(0);
+        }
+        else
+        {
+            // Wait for JOnAS to stop by listing JNDI
+            this.ping(1);
+        }
     }
 
     /**
