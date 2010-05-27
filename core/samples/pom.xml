@@ -228,6 +228,10 @@
                 <name>cargo.rmi.port</name>
                 <value>${cargo.samples.rmi.port}</value>
               </property>
+              <property>
+                <name>cargo.servlet.port</name>
+                <value>${cargo.samples.servlet.port}</value>
+              </property>
 
               <!-- set default parser -->
               <property>
@@ -246,10 +250,6 @@
                 -->
 
               <property>
-                <name>cargo.resin2x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
-              <property>
                 <name>cargo.resin2x.url</name>
                 <value>http://www.caucho.com/download/resin-2.1.17.zip</value>
               </property>
@@ -259,10 +259,6 @@
               </property>
 
               <property>
-                <name>cargo.resin3x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
-              <property>
                 <name>cargo.resin3x.url</name>
                 <value>http://www.caucho.com/download/resin-3.0.27.zip</value>
               </property>
@@ -271,10 +267,6 @@
                 <value>${cargo.java.home.1_5}</value>
               </property>
 
-              <property>
-                <name>cargo.tomcat4x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
               <property>
                 <name>cargo.tomcat4x.url</name>
                 <!-- note that we want the larger download (not LE), as it contains dbcp needed for database tests -->
@@ -286,10 +278,6 @@
               </property>
 
               <property>
-                <name>cargo.tomcat5x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
-              <property>
                 <name>cargo.tomcat5x.url</name>
                 <value>http://apache.multidist.com/tomcat/tomcat-5/v5.5.29/bin/apache-tomcat-5.5.29.zip</value>
               </property>
@@ -298,10 +286,6 @@
                 <value>${cargo.java.home.1_4}</value>
               </property>
 
-              <property>
-                <name>cargo.tomcat6x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
               <property>
                 <name>cargo.tomcat6x.url</name>
                 <value>http://apache.multidist.com/tomcat/tomcat-6/v6.0.26/bin/apache-tomcat-6.0.26.zip</value>
@@ -312,10 +296,6 @@
               </property>
 
               <property>
-                <name>cargo.jetty4x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
-              <property>
                 <name>cargo.jetty4x.url</name>
                 <value>http://dist.codehaus.org/jetty/jetty-4.2.x/jetty-4.2.27.zip</value>
               </property>
@@ -324,10 +304,6 @@
                 <value>${cargo.java.home.1_4}</value>
               </property>
 
-              <property>
-                <name>cargo.jetty5x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
               <property>
                 <name>cargo.jetty5x.url</name>
                 <value>http://dist.codehaus.org/jetty/jetty-5.1.x/jetty-5.1.12.zip</value>
@@ -338,10 +314,6 @@
               </property>
 
               <property>
-                <name>cargo.jetty6x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
-              <property>
                 <name>cargo.jetty6x.url</name>
                 <value>http://dist.codehaus.org/jetty/jetty-6.1.24/jetty-6.1.24.zip</value>
               </property>
@@ -350,10 +322,6 @@
                 <value>${cargo.java.home.1_5}</value>
               </property>
 
-              <property>
-                <name>cargo.jetty7x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
               <property>
                 <name>cargo.jetty7x.url</name>
                 <!-- note that we want the larger download (hightide), as it contains JSP needed for tests -->
@@ -365,10 +333,6 @@
               </property>
 
               <property>
-                <name>cargo.geronimo1x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
-              <property>
                 <name>cargo.geronimo1x.url</name>
                 <value>http://archive.eu.apache.org/dist/geronimo/1.1.1/geronimo-jetty-j2ee-1.1.1.zip</value>
               </property>
@@ -378,10 +342,6 @@
               </property>
 
               <property>
-                <name>cargo.glassfish2x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
-              <property>
                 <name>cargo.glassfish2x.home</name>
                 <value>/Users/alitokmen/Documents/CARGO/servers/glassfish-2.1.1-b31g-macos</value>
               </property>
@@ -390,10 +350,6 @@
                 <value>${cargo.java.home.1_5}</value>
               </property>
 
-              <property>
-                <name>cargo.glassfish3x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
               <property>
                 <name>cargo.glassfish3x.url</name>
                 <value>http://download.java.net/glassfish/v3/release/glassfish-v3-web.zip</value>
@@ -422,10 +378,6 @@
                     <value>c:/bea/weblogic81</value>
                   </property>
                 -->
-              <property>
-                <name>cargo.weblogic8x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
               <property>
                 <name>cargo.weblogic8x.home</name>
                 <value>${cargo.weblogic8x.home}</value>
@@ -456,10 +408,6 @@
                   </property>
                 -->
               <property>
-                <name>cargo.weblogic9x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
-              <property>
                 <name>cargo.weblogic9x.home</name>
                 <value>${cargo.weblogic9x.home}</value>
               </property>
@@ -489,10 +437,6 @@
                   </property>
                 -->
               <property>
-                <name>cargo.weblogic10x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
-              <property>
                 <name>cargo.weblogic10x.home</name>
                 <value>${cargo.weblogic10x.home}</value>
               </property>
@@ -521,10 +465,6 @@
                   </property>
                 -->
               <property>
-                <name>cargo.weblogic103x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
-              <property>
                 <name>cargo.weblogic103x.home</name>
                 <value>${cargo.weblogic103x.home}</value>
               </property>
@@ -552,10 +492,6 @@
                     <value>c:/oracle/oc4j_extended_904</value>
                   </property>
                 -->
-              <property>
-                <name>cargo.oc4j9x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
               <property>
                 <name>cargo.oc4j9x.home</name>
                 <value>${cargo.oc4j9x.home}</value>
@@ -589,10 +525,6 @@
                   </property>
                 -->
               <property>
-                <name>cargo.oc4j10x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
-              <property>
                 <name>cargo.oc4j10x.home</name>
                 <value>${cargo.oc4j10x.home}</value>
               </property>
@@ -601,10 +533,6 @@
                 <value>${cargo.java.home.1_5}</value>
               </property>
 
-              <property>
-                <name>cargo.jo1x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
               <property>
                 <name>cargo.jo1x.url</name>
                 <value>http://www.tagtraum.com/download/jo1.1beta1.zip</value>
@@ -615,10 +543,6 @@
               </property>
 
               <property>
-                <name>cargo.jboss3x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
-              <property>
                 <name>cargo.jboss3x.url</name>
                 <value>http://ovh.dl.sourceforge.net/sourceforge/jboss/jboss-3.2.8.SP1.zip</value>
               </property>
@@ -627,10 +551,6 @@
                 <value>${cargo.java.home.1_4}</value>
               </property>
 
-              <property>
-                <name>cargo.jboss4x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
               <property>
                 <name>cargo.jboss4x.url</name>
                 <value>http://downloads.sourceforge.net/jboss/jboss-4.0.5.GA.zip?big_mirror=1</value>
@@ -641,10 +561,6 @@
               </property>
 
               <property>
-                <name>cargo.jboss42x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
-              <property>
                 <name>cargo.jboss42x.url</name>
                 <value>http://downloads.sourceforge.net/jboss/jboss-4.2.2.GA.zip?big_mirror=1</value>
               </property>
@@ -653,10 +569,6 @@
                 <value>${cargo.java.home.1_5}</value>
               </property>
 
-              <property>
-                <name>cargo.jboss5x.servlet.port</name>
-                <value>8080</value>
-              </property>
               <property>
                 <name>cargo.jboss5x.url</name>
                 <value>http://downloads.sourceforge.net/jboss/jboss-5.0.1.GA.zip?big_mirror=1</value>
@@ -667,10 +579,6 @@
               </property>
 
               <property>
-                <name>cargo.jboss51x.servlet.port</name>
-                <value>8080</value>
-              </property>
-              <property>
                 <name>cargo.jboss51x.url</name>
                 <value>http://downloads.sourceforge.net/jboss/jboss-5.1.0.GA.zip?big_mirror=1</value>
               </property>
@@ -679,10 +587,6 @@
                 <value>${cargo.java.home.1_5}</value>
               </property>
 
-              <property>
-                <name>cargo.jboss6x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
               <property>
                 <name>cargo.jboss6x.url</name>
                 <value>http://downloads.sourceforge.net/jboss/jboss-as-distribution-6.0.0.20100429-M3.zip?big_mirror=1</value>
@@ -697,10 +601,6 @@
                 <value>http://download.fr.forge.objectweb.org/jonas/jonas4.10.8-tomcat5.5.28.tgz</value>
               </property>
               <property>
-                <name>cargo.jonas4x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
-              <property>
                 <name>cargo.jonas4x.java.home</name>
                 <value>${cargo.java.home.1_4}</value>
               </property>
@@ -708,10 +608,6 @@
               <property>
                 <name>cargo.jonas5x.url</name>
                 <value>http://download.fr.forge.objectweb.org/jonas/jonas-full-5.1.2-bin.tar.gz</value>
-              </property>
-              <property>
-                <name>cargo.jonas5x.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
               </property>
               <property>
                 <name>cargo.jonas5x.java.home</name>
@@ -732,10 +628,6 @@
                   <value>C:/JRun4</value>
                 </property>
               -->
-              <property>
-                <name>cargo.jrun4x.servlet.port</name>
-                <value>8301</value>
-              </property>
               <property>
                 <name>cargo.jrun4x.home</name>
                 <value>${cargo.jrun4x.home}</value>

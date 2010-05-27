@@ -46,6 +46,8 @@ import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.LogLevel;
 
 import java.io.File;
+import java.util.Map.Entry;
+import java.util.Properties;
 
 public class AbstractCargoTestCase extends TestCase
 {
@@ -148,6 +150,14 @@ public class AbstractCargoTestCase extends TestCase
 
         configuration.setProperty(ServletPropertySet.PORT, "" + getTestData().port);
         configuration.setProperty(GeneralPropertySet.RMI_PORT, "" + getTestData().rmiPort);
+        Properties allProperties = System.getProperties();
+        for (Entry property : allProperties.entrySet()) {
+            if (property.getKey() != null && property.getValue() != null)
+            {
+                configuration.setProperty(property.getKey().toString(),
+                    property.getValue().toString());
+            }
+        }
         if (getTestData().javaHome != null && !getTestData().javaHome.equals(""))
         {
             configuration.setProperty(GeneralPropertySet.JAVA_HOME, getTestData().javaHome);
