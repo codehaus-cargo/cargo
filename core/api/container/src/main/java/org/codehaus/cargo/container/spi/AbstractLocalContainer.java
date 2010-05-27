@@ -164,6 +164,18 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         }
         catch (Exception e)
         {
+            try
+            {
+                // Start failed, attempt to stop whatever has been started
+                stop();
+            }
+            catch (Throwable t)
+            {
+                // Ignored
+                getLogger().debug(getName() + " start failed, stop also failed: " + t.getMessage(),
+                    this.getClass().getName());
+            }
+
             setState(State.UNKNOWN);
             throw new ContainerException("Failed to start the " + getName() + " container."
                 + ((getOutput() == null) ? "" : " Check the [" + getOutput() + "] file "
