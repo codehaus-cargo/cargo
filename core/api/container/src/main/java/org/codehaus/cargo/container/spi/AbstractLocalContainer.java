@@ -208,6 +208,19 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         }
         catch (Exception e)
         {
+            try
+            {
+                // Stop failed once, attempt to stop again and return if OK
+                stop();
+                return;
+            }
+            catch (Throwable t)
+            {
+                // Ignored
+                getLogger().debug(getName() + " stop failed twice: " + t.getMessage(),
+                    this.getClass().getName());
+            }
+
             setState(State.UNKNOWN);
             throw new ContainerException("Failed to stop the " + getName() + " container."
                 + ((getOutput() == null) ? "" : " Check the [" + getOutput() + "] file "
