@@ -129,11 +129,6 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
                 // Wait for JOnAS to stop by listing JNDI
                 if (jonasAdmin.isServerRunning("j", 2))
                 {
-                    // JOnAS 4 will stay alive a few seconds after JNDI is
-                    // closed, therefore sleep a bit for JOnAS to stop
-                    // completely
-                    Thread.sleep(10000);
-
                     return;
                 }
             }
