@@ -54,7 +54,6 @@ public class JBossStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_NAMING_PORT, Boolean.TRUE);
 
         this.defaultSupportsMap.put(JBossPropertySet.JBOSS_USER, Boolean.TRUE);
         this.defaultSupportsMap.put(JBossPropertySet.JBOSS_PASSWORD, Boolean.TRUE);

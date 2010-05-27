@@ -50,9 +50,8 @@ public class JBossExistingLocalConfiguration extends AbstractExistingLocalConfig
     {
         super(dir);
 
-        setProperty(GeneralPropertySet.RMI_PORT, "1098");
+        setProperty(GeneralPropertySet.RMI_PORT, "1299");
         setProperty(JBossPropertySet.CONFIGURATION, "default");
-        setProperty(JBossPropertySet.JBOSS_NAMING_PORT, "1099");
     }
 
     /**

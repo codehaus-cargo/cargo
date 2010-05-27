@@ -44,12 +44,18 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
  */
 public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
 {
+
     /**
      * JBoss container capability.
      */
     private static ConfigurationCapability capability =
         new JBossStandaloneLocalConfigurationCapability();
     
+    /**
+     * Log file name.
+     */
+    protected String logFileName = "log4j.xml";
+
     /**
      * JBoss container instance.
      */
@@ -144,7 +150,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         
 
         // Copy configuration files from cargo resources directory with token replacement
-        String[] cargoFiles = new String[] {"cargo-binding.xml", "log4j.xml",
+        String[] cargoFiles = new String[] {"cargo-binding.xml", this.logFileName,
             "jboss-service.xml"};
         for (int i = 0; i < cargoFiles.length; i++)
         {
@@ -279,9 +285,6 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
         getAntUtils().addTokenToFilterChain(filterChain, GeneralPropertySet.RMI_PORT,
             getPropertyValue(GeneralPropertySet.RMI_PORT));
-
-        getAntUtils().addTokenToFilterChain(filterChain, JBossPropertySet.JBOSS_NAMING_PORT,
-            getPropertyValue(JBossPropertySet.JBOSS_NAMING_PORT));
 
         getAntUtils().addTokenToFilterChain(filterChain, ServletPropertySet.PORT,
             getPropertyValue(ServletPropertySet.PORT));

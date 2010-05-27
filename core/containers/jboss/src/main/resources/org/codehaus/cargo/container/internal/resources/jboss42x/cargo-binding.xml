@@ -115,7 +115,7 @@
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate"
          >
          <delegate-config portName="URLPort"/>
-         <binding port="8080"/>
+         <binding port="@cargo.servlet.port@"/>
       </service-config>
 
       <!-- ********************* hajndi-jms-ds.xml **************** -->
@@ -159,7 +159,7 @@
             MUST BE THE SAME AS
             TOMCAT HTTP CONNECTOR BELOW !!!
              -->
-         <binding port="8080"/>
+         <binding port="@cargo.servlet.port@"/>
       </service-config>
 
       <!-- EJB3 Remoting Connector ejb3.deployer/META-INF/jboss-service.xml -->
@@ -183,7 +183,7 @@
             MUST BE THE SAME AS
             TOMCAT HTTP CONNECTOR BELOW !!!
              -->
-         <binding port="8080"/>
+         <binding port="@cargo.servlet.port@"/>
       </service-config>
 
         <!-- readonly JMXInvoker -->
@@ -197,7 +197,7 @@
             MUST BE THE SAME AS
             TOMCAT HTTP CONNECTOR BELOW !!!
              -->
-         <binding port="8080"/>
+         <binding port="@cargo.servlet.port@"/>
       </service-config>
 
     <!-- **************** httpha-invoker.sar*************** -->
@@ -208,7 +208,7 @@
          <delegate-config>
             <attribute name="InvokerURLSuffix">:${port}/invoker/EJBInvokerHAServlet</attribute>
         </delegate-config>
-         <binding port="8080"/>
+         <binding port="@cargo.servlet.port@"/>
       </service-config>
 
       <!-- JMXInvokerHA -->
@@ -218,7 +218,7 @@
          <delegate-config>
             <attribute name="InvokerURLSuffix">:${port}/invoker/JMXInvokerHAServlet</attribute>
         </delegate-config>
-         <binding port="8080"/>
+         <binding port="@cargo.servlet.port@"/>
       </service-config>
 
 
@@ -229,7 +229,7 @@
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate"
          >
         <delegate-config portName="WebServicePort" hostName="WebServiceHost"/>
-        <binding port="8080" host="${jboss.bind.address}"/>
+        <binding port="@cargo.servlet.port@" host="${jboss.bind.address}"/>
       </service-config>
 
       <!-- ********************* remoting **************** -->

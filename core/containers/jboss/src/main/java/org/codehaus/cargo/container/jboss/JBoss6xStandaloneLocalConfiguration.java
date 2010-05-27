@@ -129,8 +129,7 @@ public class JBoss6xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
             String farmDir = getFileHandler().createDirectory(getHome(), "/farm");        
         }
        
-        String[] configFiles = new String[]
-        {"jboss-service.xml"};
+        String[] configFiles = new String[] {"jboss-service.xml", "jboss-logging.xml"};
         
         // Copy configuration files from cargo resources directory with token replacement
         String[] cargoConfigFiles = new String[] {"jboss-service.xml"};
@@ -152,16 +151,12 @@ public class JBoss6xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
                  new File(jbossContainer
                  .getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(
                      deployDir), new String[0]);
-       
-//        getResourceUtils().copyResource(
-//               RESOURCE_PATH + jbossContainer.getId() + "/" + "server.xml",
-//               new File(deployDir + "/jbossweb.sar/", "server.xml"), filterChain);
         
         getResourceUtils().copyResource(
                 RESOURCE_PATH + jbossContainer.getId() + "/" + "bindings-jboss-beans.xml",
                 new File(confDir + "/bindingservice.beans/META-INF", 
                         "bindings-jboss-beans.xml"), filterChain);
- 
+        
         // Copy the files within the JBoss Deployers directory to the cargo deployers directory
         copyExternalResources(
                  new File(((JBoss5xInstalledLocalContainer) jbossContainer)

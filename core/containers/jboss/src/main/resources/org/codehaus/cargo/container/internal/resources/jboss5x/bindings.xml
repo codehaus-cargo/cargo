@@ -317,7 +317,7 @@
          <Connector>
             <xsl:for-each select="@*">
             <xsl:choose>
-               <xsl:when test="(name() = 'port' and . = '@cargo.servlet.port@')">
+               <xsl:when test="(name() = 'port' and . = '8080')">
                   <xsl:attribute name="port"><xsl:value-of select="$port" /></xsl:attribute>
                </xsl:when>
                <xsl:when test="(name() = 'port' and . = '8009')">

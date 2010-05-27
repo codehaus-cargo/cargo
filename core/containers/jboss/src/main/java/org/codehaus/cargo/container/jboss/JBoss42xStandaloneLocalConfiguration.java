@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2006 Vincent Massol.
+ * Copyright 2005-2006 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,29 +20,21 @@
 package org.codehaus.cargo.container.jboss;
 
 /**
- * JBoss-specific properties.
+ * Implementation of a standalone {@link org.codehaus.cargo.container.configuration.Configuration}
+ * for JBoss 4.2.x series.
  *
  * @version $Id$
  */
-public interface JBossPropertySet
+public class JBoss42xStandaloneLocalConfiguration extends JBossStandaloneLocalConfiguration
 {
+
     /**
-     * The JBoss configuration selected. Examples of valid values: "default", "all", "minimal".
+     * {@inheritDoc}
+     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String) 
      */
-    String CONFIGURATION = "cargo.jboss.configuration";
-    
-    /**
-     * Whether the JBoss Configuration should be clustered.
-     */
-    String CLUSTERED = "cargo.jboss.clustered";
-    
-    /**
-     * The user to use when calling JBoss server commands.
-     */
-    String JBOSS_USER = "cargo.jboss.user";
-    
-    /**
-     * The password to use when calling JBoss server commands.
-     */
-    String JBOSS_PASSWORD = "cargo.jboss.password";
+    public JBoss42xStandaloneLocalConfiguration(String dir)
+    {
+        super(dir);
+        this.logFileName = "jboss-log4j.xml";
+    }
 }
