@@ -11,9 +11,9 @@
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate"
          >
          <delegate-config portName="Port" hostName="BindAddress">
-            <attribute name="RmiPort">@cargo.jboss.naming.port@</attribute>
+            <attribute name="RmiPort">@cargo.rmi.port@</attribute>
          </delegate-config>
-         <binding port="@cargo.rmi.port@" host="${jboss.bind.address}"/>
+         <binding port="@cargo.jboss.naming.port@" host="${jboss.bind.address}"/>
       </service-config>
 
 
@@ -21,7 +21,7 @@
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate"
          >
          <delegate-config portName="Port"/>
-         <binding port="8283"/>
+         <binding port="@cargo.servlet.port@"/>
       </service-config>
 
 
