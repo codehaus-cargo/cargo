@@ -280,6 +280,9 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         getAntUtils().addTokenToFilterChain(filterChain, GeneralPropertySet.RMI_PORT,
             getPropertyValue(GeneralPropertySet.RMI_PORT));
 
+        getAntUtils().addTokenToFilterChain(filterChain, JBossPropertySet.JBOSS_NAMING_PORT,
+            getPropertyValue(JBossPropertySet.JBOSS_NAMING_PORT));
+
         getAntUtils().addTokenToFilterChain(filterChain, ServletPropertySet.PORT,
             getPropertyValue(ServletPropertySet.PORT));
 

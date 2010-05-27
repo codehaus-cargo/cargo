@@ -45,4 +45,9 @@ public interface JBossPropertySet
      * The password to use when calling JBoss server commands.
      */
     String JBOSS_PASSWORD = "cargo.jboss.password";
+    
+    /**
+     * The port used for JBoss naming services.
+     */
+    String JBOSS_NAMING_PORT = "cargo.jboss.naming.port";
 }

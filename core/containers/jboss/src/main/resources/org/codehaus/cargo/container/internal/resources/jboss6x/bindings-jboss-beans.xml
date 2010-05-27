@@ -114,7 +114,7 @@
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss:service=Naming</property>
                <property name="bindingName">RmiPort</property>
-               <property name="port">1098</property>
+               <property name="port">@cargo.jboss.naming.port@</property>
                <property name="description">Socket Naming service uses to receive RMI requests from client proxies</property>
             </bean>
 
