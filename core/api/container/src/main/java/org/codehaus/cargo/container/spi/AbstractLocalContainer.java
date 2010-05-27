@@ -166,6 +166,9 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         {
             try
             {
+                getLogger().info(getName() + " startup failed, stopping...",
+                    this.getClass().getName());
+
                 // Start failed, attempt to stop whatever has been started
                 stop();
             }
@@ -210,6 +213,9 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         {
             try
             {
+                getLogger().info(getName() + " stop failed, trying again...",
+                    this.getClass().getName());
+
                 // Stop failed once, attempt to stop again and return if OK
                 stop();
                 return;
