@@ -164,21 +164,6 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         }
         catch (Exception e)
         {
-            try
-            {
-                getLogger().info(getName() + " startup failed, stopping...",
-                    this.getClass().getName());
-
-                // Start failed, attempt to stop whatever has been started
-                stop();
-            }
-            catch (Throwable t)
-            {
-                // Ignored
-                getLogger().debug(getName() + " start failed, stop also failed: " + t.getMessage(),
-                    this.getClass().getName());
-            }
-
             setState(State.UNKNOWN);
             throw new ContainerException("Failed to start the " + getName() + " container."
                 + ((getOutput() == null) ? "" : " Check the [" + getOutput() + "] file "
@@ -211,22 +196,6 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         }
         catch (Exception e)
         {
-            try
-            {
-                getLogger().info(getName() + " stop failed, trying again...",
-                    this.getClass().getName());
-
-                // Stop failed once, attempt to stop again and return if OK
-                stop();
-                return;
-            }
-            catch (Throwable t)
-            {
-                // Ignored
-                getLogger().debug(getName() + " stop failed twice: " + t.getMessage(),
-                    this.getClass().getName());
-            }
-
             setState(State.UNKNOWN);
             throw new ContainerException("Failed to stop the " + getName() + " container."
                 + ((getOutput() == null) ? "" : " Check the [" + getOutput() + "] file "
