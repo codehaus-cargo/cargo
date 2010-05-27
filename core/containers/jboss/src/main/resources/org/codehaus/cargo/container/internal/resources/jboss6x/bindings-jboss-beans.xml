@@ -107,21 +107,21 @@
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss:service=Naming</property>
                <property name="bindingName">Port</property>
-               <property name="port">@cargo.jboss.naming.port@</property>
+               <property name="port">1099</property>
                <property name="description">The listening socket for the Naming service</property>
             </bean>
 
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss:service=Naming</property>
                <property name="bindingName">RmiPort</property>
-               <property name="port">@cargo.rmi.port@</property>
+               <property name="port">1098</property>
                <property name="description">Socket Naming service uses to receive RMI requests from client proxies</property>
             </bean>
 
             <!-- Remote classloading service -->
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss:service=WebService</property>
-               <property name="port">@cargo.servlet.port@</property>
+               <property name="port">8083</property>
                <property name="description">Socket for dynamic class and resource loading</property>
             </bean>
 

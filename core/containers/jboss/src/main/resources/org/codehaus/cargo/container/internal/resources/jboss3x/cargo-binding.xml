@@ -11,9 +11,9 @@
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate"
          >
          <delegate-config portName="Port" hostName="BindAddress">
-            <attribute name="RmiPort">@cargo.rmi.port@</attribute>
+            <attribute name="RmiPort">1298</attribute>
          </delegate-config>
-         <binding port="@cargo.jboss.naming.port@" host="${jboss.bind.address}"/>
+         <binding port="@cargo.rmi.port@" host="${jboss.bind.address}"/>
       </service-config>
 
 
@@ -21,7 +21,7 @@
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate"
          >
          <delegate-config portName="Port"/>
-         <binding port="@cargo.servlet.port@"/>
+         <binding port="8283"/>
       </service-config>
 
 
@@ -185,7 +185,7 @@
          <Connector>
             <xsl:for-each select="@*">
             <xsl:choose>
-               <xsl:when test="(name() = 'port' and . = '@cargo.servlet.port@')">
+               <xsl:when test="(name() = 'port' and . = '8080')">
                   <xsl:attribute name="port"><xsl:value-of select="$port" /></xsl:attribute>
                </xsl:when>
                <xsl:when test="(name() = 'port' and . = '8009')">

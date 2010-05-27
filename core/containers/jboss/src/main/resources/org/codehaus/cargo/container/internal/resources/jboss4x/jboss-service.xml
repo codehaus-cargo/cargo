@@ -158,7 +158,7 @@
 
    <mbean code="org.jboss.web.WebService"
       name="jboss:service=WebService">
-      <attribute name="Port">@cargo.servlet.port@</attribute>
+      <attribute name="Port">8083</attribute>
       <!-- Should resources and non-EJB classes be downloadable -->
       <attribute name="DownloadServerClasses">true</attribute>
       <attribute name="Host">${jboss.bind.address}</attribute>
@@ -179,13 +179,13 @@
       <!-- The listening port for the bootstrap JNP service. Set this to -1
         to run the NamingService without the JNP invoker listening port.
       -->
-      <attribute name="Port">@cargo.jboss.naming.port@</attribute>
+      <attribute name="Port">1099</attribute>
       <!-- The bootstrap JNP server bind address. This also sets the default
       RMI service bind address. Empty == all addresses
        -->
       <attribute name="BindAddress">${jboss.bind.address}</attribute>
       <!-- The port of the RMI naming service, 0 == anonymous -->
-      <attribute name="RmiPort">@cargo.rmi.port@</attribute>
+      <attribute name="RmiPort">1098</attribute>
       <!-- The RMI service bind address. Empty == all addresses
        -->
       <attribute name="RmiBindAddress">${jboss.bind.address}</attribute>

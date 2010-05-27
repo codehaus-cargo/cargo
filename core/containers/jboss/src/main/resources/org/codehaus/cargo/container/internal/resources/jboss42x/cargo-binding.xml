@@ -11,9 +11,9 @@
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate"
          >
          <delegate-config portName="Port" hostName="BindAddress">
-            <attribute name="RmiPort">@cargo.rmi.port@</attribute>
+            <attribute name="RmiPort">1098</attribute>
          </delegate-config>
-         <binding port="@cargo.jboss.naming.port@" host="${jboss.bind.address}"/>
+         <binding port="@cargo.rmi.port@" host="${jboss.bind.address}"/>
       </service-config>
 
 
@@ -21,7 +21,7 @@
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate"
          >
          <delegate-config portName="Port"/>
-         <binding port="@cargo.servlet.port@"/>
+         <binding port="8083"/>
       </service-config>
 
 
@@ -45,7 +45,7 @@
       <service-config name="jboss:service=HAJNDI"
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate">
          <delegate-config portName="Port" hostName="BindAddress">
-            <attribute name="RmiPort">@cargo.rmi.port@</attribute>
+            <attribute name="RmiPort">1101</attribute>
          </delegate-config>
          <binding port="1100" host="${jboss.bind.address}"/>
       </service-config>
@@ -115,7 +115,7 @@
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate"
          >
          <delegate-config portName="URLPort"/>
-         <binding port="@cargo.servlet.port@"/>
+         <binding port="8080"/>
       </service-config>
 
       <!-- ********************* hajndi-jms-ds.xml **************** -->
@@ -159,7 +159,7 @@
             MUST BE THE SAME AS
             TOMCAT HTTP CONNECTOR BELOW !!!
              -->
-         <binding port="@cargo.servlet.port@"/>
+         <binding port="8080"/>
       </service-config>
 
       <!-- EJB3 Remoting Connector ejb3.deployer/META-INF/jboss-service.xml -->
@@ -183,7 +183,7 @@
             MUST BE THE SAME AS
             TOMCAT HTTP CONNECTOR BELOW !!!
              -->
-         <binding port="@cargo.servlet.port@"/>
+         <binding port="8080"/>
       </service-config>
 
         <!-- readonly JMXInvoker -->
@@ -197,7 +197,7 @@
             MUST BE THE SAME AS
             TOMCAT HTTP CONNECTOR BELOW !!!
              -->
-         <binding port="@cargo.servlet.port@"/>
+         <binding port="8080"/>
       </service-config>
 
     <!-- **************** httpha-invoker.sar*************** -->
@@ -208,7 +208,7 @@
          <delegate-config>
             <attribute name="InvokerURLSuffix">:${port}/invoker/EJBInvokerHAServlet</attribute>
         </delegate-config>
-         <binding port="@cargo.servlet.port@"/>
+         <binding port="8080"/>
       </service-config>
 
       <!-- JMXInvokerHA -->
@@ -218,7 +218,7 @@
          <delegate-config>
             <attribute name="InvokerURLSuffix">:${port}/invoker/JMXInvokerHAServlet</attribute>
         </delegate-config>
-         <binding port="@cargo.servlet.port@"/>
+         <binding port="8080"/>
       </service-config>
 
 
@@ -229,7 +229,7 @@
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate"
          >
         <delegate-config portName="WebServicePort" hostName="WebServiceHost"/>
-        <binding port="@cargo.servlet.port@" host="${jboss.bind.address}"/>
+        <binding port="8080" host="${jboss.bind.address}"/>
       </service-config>
 
       <!-- ********************* remoting **************** -->
@@ -333,7 +333,7 @@
          <Connector>
             <xsl:for-each select="@*">
             <xsl:choose>
-               <xsl:when test="(name() = 'port' and . = '@cargo.servlet.port@')">
+               <xsl:when test="(name() = 'port' and . = '8080')">
                   <xsl:attribute name="port"><xsl:value-of select="$port" /></xsl:attribute>
                </xsl:when>
                <xsl:when test="(name() = 'port' and . = '8009')">
