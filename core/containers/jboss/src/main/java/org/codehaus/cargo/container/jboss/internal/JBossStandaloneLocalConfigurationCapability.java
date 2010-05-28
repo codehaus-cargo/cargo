@@ -55,7 +55,8 @@ public class JBossStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_NAMING_PORT, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT,
+            Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, Boolean.TRUE);
 
