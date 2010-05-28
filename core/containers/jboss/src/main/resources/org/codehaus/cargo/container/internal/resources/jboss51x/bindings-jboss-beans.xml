@@ -329,7 +329,7 @@
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                 <property name="serviceName">TransactionManager</property>
                 <property name="bindingName">recoveryManager</property>
-                <property name="port">4712</property>
+                <property name="port">@cargo.jboss.transaction.recoveryManager.port@</property>
                 <property name="description">Socket for JBossTS Recovery Manager</property>
             </bean>
 
@@ -337,7 +337,7 @@
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                 <property name="serviceName">TransactionManager</property>
                 <property name="bindingName">transactionStatusManager</property>
-                <property name="port">4713</property>
+                <property name="port">@cargo.jboss.transaction.statusManager.port@</property>
                 <property name="description">Socket for JBossTS Transaction Status Manager</property>
             </bean>
 

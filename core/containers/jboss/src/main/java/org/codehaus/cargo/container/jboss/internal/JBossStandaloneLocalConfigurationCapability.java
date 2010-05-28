@@ -59,6 +59,10 @@ public class JBossStandaloneLocalConfigurationCapability extends
             Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT,
+            Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT,
+            Boolean.TRUE);
 
         this.defaultSupportsMap.put(JBossPropertySet.JBOSS_USER, Boolean.TRUE);
         this.defaultSupportsMap.put(JBossPropertySet.JBOSS_PASSWORD, Boolean.TRUE);

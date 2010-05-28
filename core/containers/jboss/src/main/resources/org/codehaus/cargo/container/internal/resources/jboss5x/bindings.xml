@@ -226,14 +226,14 @@
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                 <property name="serviceName">TransactionManager</property>
                 <property name="bindingName">recoveryManager</property>
-                <property name="port">4712</property>
+                <property name="port">@cargo.jboss.transaction.recoveryManager.port@</property>
             </bean>
 
             <!-- JBossTS Transaction Status Manager -->
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                 <property name="serviceName">TransactionManager</property>
                 <property name="bindingName">transactionStatusManager</property>
-                <property name="port">4713</property>
+                <property name="port">@cargo.jboss.transaction.statusManager.port@</property>
             </bean>
 
             <!-- JBossTS SocketProcessId.  The address part is ignored,

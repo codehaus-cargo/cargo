@@ -56,6 +56,8 @@ public class JBossExistingLocalConfiguration extends AbstractExistingLocalConfig
         setProperty(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT, "8083");
         setProperty(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT, "4444");
         setProperty(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, "4446");
+        setProperty(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT, "4712");
+        setProperty(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, "4713");
     }
 
     /**

@@ -66,4 +66,15 @@ public interface JBossPropertySet
      */
     String JBOSS_REMOTING_TRANSPORT_PORT = "cargo.jboss.remoting.transport.port";
 
+    /**
+     * The port used for the JBossTS Recovery Manager.
+     */
+    String JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT =
+        "cargo.jboss.transaction.recoveryManager.port";
+
+    /**
+     * The port used for the JBossTS Transaction Status Manager.
+     */
+    String JBOSS_TRANSACTION_STATUS_MANAGER_PORT = "cargo.jboss.transaction.statusManager.port";
+
 }
