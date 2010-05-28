@@ -232,10 +232,6 @@
                 <name>cargo.servlet.port</name>
                 <value>${cargo.samples.servlet.port}</value>
               </property>
-              <property>
-                <name>cargo.jboss.naming.port</name>
-                <value>${cargo.samples.jboss.naming.port}</value>
-              </property>
 
               <!-- set default parser -->
               <property>
@@ -859,7 +855,6 @@
               <portNames>
                 <portName>cargo.samples.servlet.port</portName>
                 <portName>cargo.samples.rmi.port</portName>
-                <portName>cargo.samples.jboss.naming.port</portName>
               </portNames>
             </configuration>
           </execution>
