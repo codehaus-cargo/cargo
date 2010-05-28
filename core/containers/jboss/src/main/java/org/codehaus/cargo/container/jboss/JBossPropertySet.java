@@ -45,4 +45,25 @@ public interface JBossPropertySet
      * The password to use when calling JBoss server commands.
      */
     String JBOSS_PASSWORD = "cargo.jboss.password";
+
+    /**
+     * The port used for JBoss naming service.
+     */
+    String JBOSS_NAMING_PORT = "cargo.jboss.naming.port";
+
+    /**
+     * The port used for the mini webserver used for dynamic and class and resource loading.
+     */
+    String JBOSS_CLASSLOADING_WEBSERVICE_PORT = "cargo.jboss.classloading.webservice.port";
+
+    /**
+     * The port used for the JRMP invoker.
+     */
+    String JBOSS_JRMP_INVOKER_PORT = "cargo.jboss.jrmp.invoker.port";
+
+    /**
+     * The port used for the JBoss remoting transport connector.
+     */
+    String JBOSS_REMOTING_TRANSPORT_PORT = "cargo.jboss.remoting.transport.port";
+
 }

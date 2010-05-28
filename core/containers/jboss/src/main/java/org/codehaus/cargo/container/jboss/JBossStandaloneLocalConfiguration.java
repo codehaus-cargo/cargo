@@ -69,8 +69,12 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
     {
         super(dir);
 
-        setProperty(GeneralPropertySet.RMI_PORT, "1299");
+        setProperty(GeneralPropertySet.RMI_PORT, "1099");
         setProperty(JBossPropertySet.CONFIGURATION, "default");
+        setProperty(JBossPropertySet.JBOSS_NAMING_PORT, "1098");
+        setProperty(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT, "8083");
+        setProperty(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT, "4444");
+        setProperty(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, "4446");
     }
 
     /**
@@ -285,6 +289,20 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
         getAntUtils().addTokenToFilterChain(filterChain, GeneralPropertySet.RMI_PORT,
             getPropertyValue(GeneralPropertySet.RMI_PORT));
+
+        getAntUtils().addTokenToFilterChain(filterChain, JBossPropertySet.JBOSS_NAMING_PORT,
+            getPropertyValue(JBossPropertySet.JBOSS_NAMING_PORT));
+
+        getAntUtils().addTokenToFilterChain(filterChain,
+            JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT,
+            getPropertyValue(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT));
+
+        getAntUtils().addTokenToFilterChain(filterChain, JBossPropertySet.JBOSS_JRMP_INVOKER_PORT,
+            getPropertyValue(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT));
+
+        getAntUtils().addTokenToFilterChain(filterChain,
+            JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT,
+            getPropertyValue(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT));
 
         getAntUtils().addTokenToFilterChain(filterChain, ServletPropertySet.PORT,
             getPropertyValue(ServletPropertySet.PORT));

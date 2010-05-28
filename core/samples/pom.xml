@@ -233,6 +233,24 @@
                 <value>${cargo.samples.servlet.port}</value>
               </property>
 
+              <!-- ports required for JBoss tests to pass -->
+              <property>
+                <name>cargo.jboss.naming.port</name>
+                <value>${cargo.samples.jboss.naming.port}</value>
+              </property>
+              <property>
+                <name>cargo.jboss.classloading.webservice.port</name>
+                <value>${cargo.samples.jboss.classloading.webservice.port}</value>
+              </property>
+              <property>
+                <name>cargo.jboss.jrmp.invoker.port</name>
+                <value>${cargo.samples.jboss.jrmp.invoker.port}</value>
+              </property>
+              <property>
+                <name>cargo.jboss.remoting.transport.port</name>
+                <value>${cargo.samples.jboss.remoting.transport.port}</value>
+              </property>
+
               <!-- set default parser -->
               <property>
                 <name>javax.xml.parsers.SAXParserFactory</name>
@@ -855,6 +873,10 @@
               <portNames>
                 <portName>cargo.samples.servlet.port</portName>
                 <portName>cargo.samples.rmi.port</portName>
+                <portName>cargo.samples.jboss.naming.port</portName>
+                <portName>cargo.samples.jboss.classloading.webservice.port</portName>
+                <portName>cargo.samples.jboss.jrmp.invoker.port</portName>
+                <portName>cargo.samples.jboss.remoting.transport.port</portName>
               </portNames>
             </configuration>
           </execution>

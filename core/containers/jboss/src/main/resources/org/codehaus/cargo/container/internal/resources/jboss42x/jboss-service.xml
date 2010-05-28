@@ -209,7 +209,7 @@
       name="jboss:service=WebService">
       <!-- The Bind address and Port -->
       <attribute name="BindAddress">${jboss.bind.address}</attribute>
-      <attribute name="Port">8083</attribute>
+      <attribute name="Port">@cargo.jboss.classloading.webservice.port@</attribute>
       <!--  The address to use for the host portion of the RMI codebase URL -->
       <attribute name="Host">${java.rmi.server.hostname}</attribute>
       <!-- Should non-EJB .class files be downloadable -->
@@ -250,13 +250,13 @@
       <!-- The listening port for the bootstrap JNP service. Set this to -1
          to run the NamingService without the JNP invoker listening port.
       -->
-      <attribute name="Port">1099</attribute>
+      <attribute name="Port">@cargo.rmi.port@</attribute>
       <!-- The bootstrap JNP server bind address. This also sets the default
          RMI service bind address. Empty == all addresses
       -->
       <attribute name="BindAddress">${jboss.bind.address}</attribute>
       <!-- The port of the RMI naming service, 0 == anonymous -->
-      <attribute name="RmiPort">1098</attribute>
+      <attribute name="RmiPort">@cargo.jboss.naming.port@</attribute>
       <!-- The RMI service bind address. Empty == all addresses
       -->
       <attribute name="RmiBindAddress">${jboss.bind.address}</attribute>
@@ -425,7 +425,7 @@
    <!-- RMI/JRMP invoker -->
    <mbean code="org.jboss.invocation.jrmp.server.JRMPInvoker"
       name="jboss:service=invoker,type=jrmp">
-      <attribute name="RMIObjectPort">4444</attribute>
+      <attribute name="RMIObjectPort">@cargo.jboss.jrmp.invoker.port@</attribute>
       <attribute name="ServerAddress">${jboss.bind.address}</attribute>
       <!--
       <attribute name="RMIClientSocketFactory">custom</attribute>
@@ -490,7 +490,7 @@
 
        <!-- Remember that if you do use more than one param on the uri, will have to include as a CDATA, -->
        <!-- otherwise, parser will complain. -->
-       <!-- <attribute name="InvokerLocator"><![CDATA[socket://${jboss.bind.address}:4446/?datatype=invocation]]></attribute> -->
+       <!-- <attribute name="InvokerLocator"><![CDATA[socket://${jboss.bind.address}:@cargo.jboss.remoting.transport.port@/?datatype=invocation]]></attribute> -->
 
       <attribute name="Configuration">
          <!-- Using the following <invoker> element instead of the InvokerLocator above because specific attributes needed. -->
@@ -509,7 +509,7 @@
                <!-- <attribute name="clientMaxPoolSize" isParam="true">304</attribute>-->
                <attribute name="socketTimeout" isParam="true">600000</attribute>
                <attribute name="serverBindAddress">${jboss.bind.address}</attribute>
-               <attribute name="serverBindPort">4446</attribute>
+               <attribute name="serverBindPort">@cargo.jboss.remoting.transport.port@</attribute>
                <!-- <attribute name="clientConnectAddress">216.23.33.2</attribute> -->
                <!-- <attribute name="clientConnectPort">7777</attribute> -->
                <attribute name="enableTcpNoDelay" isParam="true">true</attribute>

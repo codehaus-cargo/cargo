@@ -160,7 +160,7 @@
 
   <mbean code="org.jboss.web.WebService"
      name="jboss:service=WebService">
-     <attribute name="Port">8083</attribute>
+     <attribute name="Port">@cargo.jboss.classloading.webservice.port@</attribute>
      <!-- Should resources and non-EJB classes be downloadable -->
      <attribute name="DownloadServerClasses">true</attribute>
      <attribute name="Host">${jboss.bind.address}</attribute>
@@ -181,13 +181,13 @@
      <!-- The listening port for the bootstrap JNP service. Set this to -1
        to run the NamingService without the JNP invoker listening port.
      -->
-     <attribute name="Port">1099</attribute>
+     <attribute name="Port">@cargo.rmi.port@</attribute>
      <!-- The bootstrap JNP server bind address. This also sets the default
      RMI service bind address. Empty == all addresses
       -->
      <attribute name="BindAddress">${jboss.bind.address}</attribute>
      <!-- The port of the RMI naming service, 0 == anonymous -->
-     <attribute name="RmiPort">1098</attribute>
+     <attribute name="RmiPort">@cargo.jboss.naming.port@</attribute>
      <!-- The RMI service bind address. Empty == all addresses
       -->
      <attribute name="RmiBindAddress">${jboss.bind.address}</attribute>
@@ -310,7 +310,7 @@
   <!-- RMI/JRMP invoker -->
   <mbean code="org.jboss.invocation.jrmp.server.JRMPInvoker"
      name="jboss:service=invoker,type=jrmp">
-     <attribute name="RMIObjectPort">4444</attribute>
+     <attribute name="RMIObjectPort">@cargo.jboss.jrmp.invoker.port@</attribute>
      <attribute name="ServerAddress">${jboss.bind.address}</attribute>
      <!--
      <attribute name="RMIClientSocketFactory">custom</attribute>

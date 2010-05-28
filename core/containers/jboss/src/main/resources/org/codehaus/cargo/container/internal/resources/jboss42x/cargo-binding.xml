@@ -11,7 +11,7 @@
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate"
          >
          <delegate-config portName="Port" hostName="BindAddress">
-            <attribute name="RmiPort">1098</attribute>
+            <attribute name="RmiPort">@cargo.jboss.naming.port@</attribute>
          </delegate-config>
          <binding port="@cargo.rmi.port@" host="${jboss.bind.address}"/>
       </service-config>
@@ -21,7 +21,7 @@
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate"
          >
          <delegate-config portName="Port"/>
-         <binding port="8083"/>
+         <binding port="@cargo.jboss.classloading.webservice.port@"/>
       </service-config>
 
 
@@ -29,7 +29,7 @@
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate"
          >
          <delegate-config portName="RMIObjectPort"/>
-         <binding port="4444"/>
+         <binding port="@cargo.jboss.jrmp.invoker.port@"/>
       </service-config>
 
       <service-config name="jboss:service=invoker,type=pooled"
@@ -53,7 +53,7 @@
       <service-config name="jboss:service=invoker,type=jrmpha"
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate">
          <delegate-config portName="RMIObjectPort"/>
-         <binding port="4444"/>
+         <binding port="@cargo.jboss.jrmp.invoker.port@"/>
       </service-config>
 
       <service-config name="jboss:service=invoker,type=pooledha"
@@ -261,7 +261,7 @@
           ]]>
           </xslt-config>
           </delegate-config>
-          <binding port="4446" />
+          <binding port="@cargo.jboss.remoting.transport.port@" />
        </service-config>
 
 

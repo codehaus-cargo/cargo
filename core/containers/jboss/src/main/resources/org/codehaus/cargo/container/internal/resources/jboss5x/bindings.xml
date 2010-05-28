@@ -67,19 +67,19 @@
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss:service=Naming</property>
                <property name="bindingName">RmiPort</property>
-               <property name="port">1098</property>
+               <property name="port">@cargo.jboss.naming.port@</property>
             </bean>
 
             <!-- Remote classloading service -->
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss:service=WebService</property>
-               <property name="port">8083</property>
+               <property name="port">@cargo.jboss.classloading.webservice.port@</property>
             </bean>
 
             <!-- Remoting Connector -->
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">UnifiedInvokerConnector</property>
-               <property name="port">4446</property>
+               <property name="port">@cargo.jboss.remoting.transport.port@</property>
             </bean>
 
             <!-- Used to create a multihome Remoting server.   See -->
@@ -103,7 +103,7 @@
             <!-- RMI/JRMP invoker -->
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss:service=invoker,type=jrmp</property>
-               <property name="port">4444</property>
+               <property name="port">@cargo.jboss.jrmp.invoker.port@</property>
             </bean>
 
             <!-- Pooled invoker -->
