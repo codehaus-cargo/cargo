@@ -630,6 +630,10 @@
                 <name>cargo.jonas4x.java.home</name>
                 <value>${cargo.java.home.1_4}</value>
               </property>
+              <property>
+                <name>cargo.samples.jonas4x.jonas.services.list</name>
+                <value>registry,jmx,security,web,ear</value>
+              </property>
 
               <property>
                 <name>cargo.jonas5x.url</name>
@@ -638,6 +642,10 @@
               <property>
                 <name>cargo.jonas5x.java.home</name>
                 <value>${cargo.java.home.1_5}</value>
+              </property>
+              <property>
+                <name>cargo.samples.jonas5x.jonas.services.list</name>
+                <value>security,web,ear,depmonitor</value>
               </property>
 
               <!--

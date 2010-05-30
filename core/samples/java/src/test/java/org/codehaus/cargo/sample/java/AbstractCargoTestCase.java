@@ -154,8 +154,15 @@ public class AbstractCargoTestCase extends TestCase
         for (Entry property : allProperties.entrySet()) {
             if (property.getKey() != null && property.getValue() != null)
             {
-                configuration.setProperty(property.getKey().toString(),
-                    property.getValue().toString());
+                String key = property.getKey().toString();
+                String value = property.getValue().toString();
+                String containerIdentifier = "cargo.samples." + getTestData().containerId;
+
+                if (key.startsWith(containerIdentifier))
+                {
+                    key = key.replace(containerIdentifier, "cargo");
+                }
+                configuration.setProperty(key, value);
             }
         }
         if (getTestData().javaHome != null && !getTestData().javaHome.equals(""))
