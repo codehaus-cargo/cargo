@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-parent</artifactId>
-    <version>4.4-SNAPSHOT</version>
+    <version>4.3</version>
     <relativePath>../pom/pom.xml</relativePath>
   </parent>
   <artifactId>cargo-resources</artifactId>
