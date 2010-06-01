@@ -107,9 +107,12 @@
                   <artifact>*:*</artifact>
                   <includes>
                     <include>org/codehaus/cargo/**</include>
-                    <include>org/ow2/jonas/tools/configurator/**</include>
                     <include>**/org.codehaus.cargo.*</include>
                     <include>**/org.codehaus.cargo/**</include>
+
+                    <!-- The JOnAS container uses the OW2 API -->
+                    <include>org/ow2/jonas/tools/configurator/**</include>
+                    <include>configurator-impl.jar</include>
                   </includes>
                 </filter>
               </filters>
