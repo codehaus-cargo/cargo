@@ -33,12 +33,7 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-ant</artifactId>
-      <version>0.9</version>
-    </dependency>
-    <dependency>
-      <groupId>ant</groupId>
-      <artifactId>ant</artifactId>
-      <version>1.6.5</version>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
   <build>

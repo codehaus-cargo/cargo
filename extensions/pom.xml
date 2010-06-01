@@ -35,12 +35,23 @@
     <url>http://svn.cargo.codehaus.org/cargo/extensions/trunk</url>
   </scm>
   <properties>
-    <!-- define this variable for core version because of potentially different release cycles -->
+    <!-- define these variables because of potentially different release cycles -->
+    <cargo.resources.version>1.0.1-SNAPSHOT</cargo.resources.version>
     <cargo.core.version>1.0.1-SNAPSHOT</cargo.core.version>
   </properties>
   <build>
     <pluginManagement>
       <plugins>
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-build-tools</artifactId>
+            <version>${cargo.resources.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
         <plugin>
           <artifactId>maven-release-plugin</artifactId>
           <configuration>
@@ -50,74 +61,29 @@
       </plugins>
     </pluginManagement>
   </build>
+
   <dependencies>
     <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.6.5</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-discovery</groupId>
+      <artifactId>commons-discovery</artifactId>
+      <version>0.4</version>
+    </dependency>
+    <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-api-generic</artifactId>
+      <artifactId>cargo-core-uberjar</artifactId>
       <version>${cargo.core.version}</version>
     </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
-    </dependency>
-    
-    <!-- Container implementations -->
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-container-geronimo</artifactId>
-      <version>${cargo.core.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-container-glassfish</artifactId>
-      <version>${cargo.core.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-container-jboss</artifactId>
-      <version>${cargo.core.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-container-jetty</artifactId>
-      <version>${cargo.core.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-container-jo</artifactId>
-      <version>${cargo.core.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-container-jonas</artifactId>
-      <version>${cargo.core.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-container-jrun</artifactId>
-      <version>${cargo.core.version}</version>
-    </dependency>    
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-container-orion</artifactId>
-      <version>${cargo.core.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-container-resin</artifactId>
-      <version>${cargo.core.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-container-tomcat</artifactId>
-      <version>${cargo.core.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-container-weblogic</artifactId>
-      <version>${cargo.core.version}</version>
     </dependency>
   </dependencies>
   <modules>
