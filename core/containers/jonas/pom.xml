@@ -42,8 +42,21 @@
     <dependency>
       <groupId>org.ow2.jonas.tools.configurator</groupId>
       <artifactId>configurator</artifactId>
-      <version>1.2.0</version>
+      <version>1.2.1</version>
     </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>ow2-release</id>
+      <url>http://maven.ow2.org/maven2</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 
 </project>
