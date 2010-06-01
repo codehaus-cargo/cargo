@@ -59,6 +59,8 @@ public class Resin3xStandaloneLocalConfigurationTest extends
         document.setRootElement(root);
         root.addNamespace("", "http://caucho.com/ns/resin");
         xmlUtil.saveXml(document, file);
+
+        System.gc();
     }
 
     protected ConfigurationChecker createConfigurationChecker()
