@@ -327,8 +327,20 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         }
 
         // Add a build listener to the Ant project so that we can catch what the Java task logs
-        java.getProject().addBuildListener(
-            new AntBuildListener(getLogger(), this.getClass().getName()));
+        boolean foundBuildListener = false;
+        for (Object listenerObject : java.getProject().getBuildListeners())
+        {
+            if (listenerObject instanceof AntBuildListener)
+            {
+                foundBuildListener = true;
+                break;
+            }
+        }
+        if (!foundBuildListener)
+        {
+            java.getProject().addBuildListener(
+                new AntBuildListener(getLogger(), this.getClass().getName()));
+        }
 
         setJvmToLaunchContainerIn(java);
 
