@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalContainer;
+import org.codehaus.cargo.util.AntUtils;
 
 /**
  * Support for the JOnAS JEE container.
@@ -117,7 +118,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         long timeout = System.currentTimeMillis() + this.getTimeout();
         while (System.currentTimeMillis() < timeout)
         {
-            Java ping = createJavaTask();
+            Java ping = (Java) new AntUtils().createAntTask("java");
             ping.setFork(true);
 
             doAction(ping);

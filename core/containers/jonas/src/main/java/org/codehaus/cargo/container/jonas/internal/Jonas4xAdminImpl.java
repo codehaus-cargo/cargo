@@ -49,20 +49,20 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
      */
     public boolean isServerRunning(String command, int expectedReturnCode)
     {
-        Java java = (Java) new AntUtils().createAntTask("java");
-        java.setFork(true);
+        Java ping = (Java) new AntUtils().createAntTask("java");
+        ping.setFork(true);
 
-        targetContainer.doAction(java);
-        java.createArg().setValue("org.objectweb.jonas.adm.JonasAdmin");
-        targetContainer.doServerAndDomainNameParam(java);
-        java.createArg().setValue("-" + command);
+        targetContainer.doAction(ping);
+        ping.createArg().setValue("org.objectweb.jonas.adm.JonasAdmin");
+        targetContainer.doServerAndDomainNameParam(ping);
+        ping.createArg().setValue("-" + command);
         // IMPORTANT: impose timeout since default is 100 seconds
         //            the argument is in seconds in JOnAS 4
-        java.createArg().setValue("-timeout");
-        java.createArg().setValue("1");
-        java.reconfigure();
+        ping.createArg().setValue("-timeout");
+        ping.createArg().setValue("1");
+        ping.reconfigure();
 
-        int returnCode = java.executeJava();
+        int returnCode = ping.executeJava();
         if (returnCode != -1 && returnCode != 0 && returnCode != 1 && returnCode != 2)
         {
             throw new ContainerException("JonasAdmin ping returned " + returnCode
