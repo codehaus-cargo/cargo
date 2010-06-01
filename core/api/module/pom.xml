@@ -46,7 +46,7 @@
       <groupId>dom4j</groupId>
       <artifactId>dom4j</artifactId>
       <version>1.4</version>
-    </dependency>    
+    </dependency>
     <dependency>
       <groupId>jdom</groupId>
       <artifactId>jdom</artifactId>

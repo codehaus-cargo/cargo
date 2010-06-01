@@ -30,6 +30,12 @@
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-generic</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-geronimo</artifactId>
       <version>${project.version}</version>
     </dependency>
