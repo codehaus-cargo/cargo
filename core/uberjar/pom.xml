@@ -107,6 +107,7 @@
                   <artifact>*:*</artifact>
                   <includes>
                     <include>org/codehaus/cargo/**</include>
+                    <include>org/ow2/jonas/tools/configurator/**</include>
                     <include>**/org.codehaus.cargo.*</include>
                     <include>**/org.codehaus.cargo/**</include>
                   </includes>
