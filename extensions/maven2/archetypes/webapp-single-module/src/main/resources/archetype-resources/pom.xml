@@ -100,7 +100,7 @@
       </build>
     </profile>
     <profile>
-      <id>tomcat5x</id>
+      <id>tomcat6x</id>
       <build>
         <plugins>
           <plugin>
@@ -108,9 +108,9 @@
             <artifactId>cargo-maven2-plugin</artifactId>
             <configuration>
               <container>
-                <containerId>tomcat5x</containerId>
+                <containerId>tomcat6x</containerId>
                 <zipUrlInstaller>
-                  <url>http://www.apache.org/dist/tomcat/tomcat-5/v5.0.30/bin/jakarta-tomcat-5.0.30.zip</url>
+                  <url>http://apache.multidist.com/tomcat/tomcat-6/v6.0.26/bin/apache-tomcat-6.0.26.zip</url>
                 </zipUrlInstaller>
               </container>
             </configuration>
