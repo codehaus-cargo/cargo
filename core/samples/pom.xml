@@ -730,7 +730,7 @@
                    repository. -->
               <property>
                 <name>cargo.version</name>
-                <value>1.0.1-SNAPSHOT</value>
+                <value>${cargo.resources.version}</value>
               </property>
 
               <property>
