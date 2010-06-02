@@ -21,11 +21,11 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-core</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
   </parent>
   <artifactId>cargo-documentation</artifactId>
   <name>Cargo Website Resources</name>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <packaging>jar</packaging>
   <description>Cargo Website Resources</description>
   <dependencies>
