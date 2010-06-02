@@ -1,4 +1,4 @@
-package montreal.demo;
+package ${package};
 
 import junit.framework.TestCase;
 
