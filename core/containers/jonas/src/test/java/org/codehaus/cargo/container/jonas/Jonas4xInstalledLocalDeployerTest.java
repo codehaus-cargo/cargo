@@ -167,6 +167,8 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
             "ram:///test.war", DeployableType.WAR);
         war.setContext("testContext");
 
+        System.gc();
+
         setupAdminColdDeployment();
         deployer.deployWar(deployer.getDeployableDir(), war);
         assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/webapps/autoload/test.war"));
