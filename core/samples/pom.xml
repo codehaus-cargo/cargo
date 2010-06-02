@@ -904,6 +904,12 @@
         <cargo.containers>resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x</cargo.containers>
       </properties>
     </profile>
+    <profile>
+      <id>no-container</id>
+      <properties>
+        <cargo.containers></cargo.containers>
+      </properties>
+    </profile>
 
     <profile>
       <id>oc4j9x</id>
