@@ -119,7 +119,7 @@ public class EnvironmentTestData
         this.rmiPort = createPort(containerId, "rmi");
         this.home = getSystemProperty("cargo." + containerId + ".home");
         this.javaHome = getSystemProperty("cargo." + containerId + ".java.home");
-        this.version = System.getProperty("cargo.version");
+        this.version = System.getProperty("cargo.resources.version");
         this.containerTimeout = Long.parseLong(getSystemProperty("cargo.containers.timeout"));
     }
 

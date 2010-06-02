@@ -729,7 +729,7 @@
               <!-- Version used to compute the location of the test data files in the local Maven
                    repository. -->
               <property>
-                <name>cargo.version</name>
+                <name>cargo.resources.version</name>
                 <value>${cargo.resources.version}</value>
               </property>
 
