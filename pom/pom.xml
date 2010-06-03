@@ -266,6 +266,19 @@
       <url>dav:https://dav.codehaus.org/cargo/maven-site/</url>
     </site>
   </distributionManagement>
+  <profiles>
+    <profile>
+      <!-- See: http://docs.codehaus.org/display/HAUSMATES/Continuous+Integration+-+Snapshots -->
+      <id>bamboo-deploy</id>
+      <distributionManagement>
+        <snapshotRepository>
+          <id>cargo-snapshot-bamboo</id>
+          <name>Cargo's snapshot repository on Bamboo</name>
+          <url>file:///opt/ci.repository.codehaus.org/</url>
+        </snapshotRepository>
+      </distributionManagement>
+    </profile>
+  </profiles>
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/cargo/pom/trunk</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/cargo/pom/trunk</developerConnection>
@@ -353,9 +366,9 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>clirr-maven-plugin</artifactId>
-	<configuration>
-	  <failOnError>false</failOnError>
-	</configuration>
+        <configuration>
+          <failOnError>false</failOnError>
+        </configuration>
         <executions>
           <execution>
             <goals>
@@ -376,9 +389,9 @@
           </excludes>
         </configuration>
       </plugin>
-
-<!-- Disabling the clover plugin until the clover license is renewed -->
-<!--      <plugin>
+      <!-- Disabling the clover plugin until the clover license is renewed -->
+      <!--
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clover-plugin</artifactId>
         <executions>
@@ -390,7 +403,8 @@
             </goals>
           </execution>
         </executions>
-      </plugin> -->
+      </plugin>
+      -->
     </plugins>
 
     <!-- Codehaus is now using WebDav so we need to use the correct Maven Wagon to access it -->
