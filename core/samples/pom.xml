@@ -860,7 +860,7 @@
     <surefire.childDelegation>false</surefire.childDelegation>
     <surefire.useManifestOnlyJar>true</surefire.useManifestOnlyJar>
     <surefire.useSystemClassLoader>true</surefire.useSystemClassLoader>
-    <cargo.install.dir>${java.io.tmpdir}/cargo/installs</cargo.install.dir>
+    <cargo.install.dir>${settings.localRepository}/org/codehaus/cargo/installs</cargo.install.dir>
     <!-- Tomcat 5x and Jetty 7x require this setting for the embedded tests -->
     <!-- TODO: fix embedded tests and remove the SAXParserFactory property -->
     <javax.xml.parsers.SAXParserFactory>com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl</javax.xml.parsers.SAXParserFactory>
