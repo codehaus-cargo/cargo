@@ -29,14 +29,19 @@
   <description>Cargo Maven 2 Plugin</description>
   <dependencies>
     <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.4</version>
+    </dependency>
+    <dependency>
       <groupId>jdom</groupId>
       <artifactId>jdom</artifactId>
       <version>1.0</version>
     </dependency>
     <dependency>
-      <groupId>dom4j</groupId>
-      <artifactId>dom4j</artifactId>
-      <version>1.4</version>
+      <groupId>jaxen</groupId>
+      <artifactId>jaxen</artifactId>
+      <version>1.0-FCS</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
