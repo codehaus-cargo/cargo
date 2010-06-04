@@ -861,7 +861,7 @@
     <surefire.useSystemClassLoader>true</surefire.useSystemClassLoader>
     <!-- TODO: rather use ${settings.localRepository}/org/codehaus/cargo/installs
                but the Maven surefire plugin doesn't handle that properly -->
-    <cargo.install.dir>${project.build.directory}</cargo.install.dir>
+    <cargo.install.dir>${basedir}/installs</cargo.install.dir>
     <!-- Tomcat 5x and Jetty 7x require this setting for the embedded tests -->
     <!-- TODO: fix embedded tests and remove the SAXParserFactory property -->
     <javax.xml.parsers.SAXParserFactory>com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl</javax.xml.parsers.SAXParserFactory>
