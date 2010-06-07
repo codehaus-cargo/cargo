@@ -68,7 +68,8 @@ public class ResourceConverter
 
         String parametersAsASemicolonDelimitedString =
             properties.getProperty(ResourcePropertySet.PARAMETERS);
-        data.setParameters(getParametersFromString(parametersAsASemicolonDelimitedString));
+        data.setParameters(getParametersFromString(
+            PropertyUtils.escapeBackSlashesIfNotNull(parametersAsASemicolonDelimitedString)));
         return data;
     }
 

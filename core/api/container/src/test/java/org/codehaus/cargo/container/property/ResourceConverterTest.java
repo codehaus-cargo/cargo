@@ -76,6 +76,23 @@ public class ResourceConverterTest extends TestCase
 
         }
     }
+    
+    public void testGetParametersAsStringContainingBackslashes() {
+        String propertyString = "user=APP;path=c:\\users\\me";
+        String driverPropertyString = ResourcePropertySet.PARAMETERS + "=" + propertyString;
+        Resource ds = ResourceConverter.fromPropertyString(driverPropertyString);
+        try
+        {
+            assertEquals(propertyString, ResourceConverter
+                .getParametersAsASemicolonDelimitedString(ds));
+        }
+        catch (ComparisonFailure e)
+        {
+            assertEquals("path=c:\\users\\me;user=APP", ResourceConverter
+                .getParametersAsASemicolonDelimitedString(ds));
+
+        }
+    }
 
     public void testGetEmptyParameters()
     {
