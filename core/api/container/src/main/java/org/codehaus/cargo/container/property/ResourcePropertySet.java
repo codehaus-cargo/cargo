@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.property;
 /**
  * Gathers all resource properties valid for all types of containers.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public interface ResourcePropertySet
 {

@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.jboss.internal.JBoss5xInstalledLocalContaine
 
 /**
  * 
- *@version $Id: JBoss5xStandaloneLocalConfiguration.java 1850 2008-12-11 19:30:42Z mwringe $
+ *@version $Id$
  */
 public class JBoss51xStandaloneLocalConfiguration extends JBossStandaloneLocalConfiguration
 {

@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
  * Contains XML logic used to validate the XML output of a Tomcat 5 and 6.x DataSource
  * configuration.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class Tomcat5And6xConfigurationChecker extends Tomcat4xConfigurationChecker
 {

@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.property.TransactionSupport;
 /**
  * Fixture used to provide inputs for DataSource testing.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class DataSourceFixture
 {

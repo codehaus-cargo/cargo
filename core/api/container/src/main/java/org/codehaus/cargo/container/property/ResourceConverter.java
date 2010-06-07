@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.internal.util.PropertyUtils;
  * A Resource is a representation of an object bound to JNDI. This converter will take a property
  * and convert it to a Resource and visa versa.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class ResourceConverter
 {

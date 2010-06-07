@@ -31,7 +31,7 @@ import java.util.Map;
 /**
  * Capabilities of the JRun's {@link JRunExistingLocalConfigurationCapability} configuration.
  *
- * @version $Id: JRun4xStandaloneLocalConfigurationCapability.java rconnolly $
+ * @version $Id$
  */
 public class JRun4xStandaloneLocalConfigurationCapability
     extends AbstractStandaloneLocalConfigurationCapability

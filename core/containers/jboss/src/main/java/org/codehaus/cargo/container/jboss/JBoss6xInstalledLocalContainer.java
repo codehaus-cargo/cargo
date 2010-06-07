@@ -30,7 +30,7 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 /**
  * JBoss 6.x series container implementation.
  * 
- * @version $Id: JBoss5xInstalledLocalContainer.java 1705 2008-09-02 13:14:55Z adriana $
+ * @version $Id$
  */
 public class JBoss6xInstalledLocalContainer extends AbstractJBoss5xInstalledLocalContainer
 {

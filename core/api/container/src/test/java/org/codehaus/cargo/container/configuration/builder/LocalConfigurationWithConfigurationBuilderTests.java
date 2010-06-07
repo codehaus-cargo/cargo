@@ -24,7 +24,7 @@ package org.codehaus.cargo.container.configuration.builder;
  * Configuration.configure(Container).
  * 
  * @see ConfigurationBuilderTests
- * @version $Id: $
+ * @version $Id$
  */
 public interface LocalConfigurationWithConfigurationBuilderTests
 {

@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.configuration.builder;
 /**
  * Represents the type of a resource, such as a <code>javax.sql.DataSource</code>.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public interface ConfigurationEntryType
 {

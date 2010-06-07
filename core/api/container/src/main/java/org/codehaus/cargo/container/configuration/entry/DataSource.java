@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.property.TransactionSupport;
  * A Datasource is a representation of a JDBC datasource. If supported by the container, this
  * property is used to setup a datasource.
  * 
- * @version $Id: DataSource.java 1840 2008-12-09 00:26:10Z adriancole $
+ * @version $Id$
  */
 public class DataSource
 {

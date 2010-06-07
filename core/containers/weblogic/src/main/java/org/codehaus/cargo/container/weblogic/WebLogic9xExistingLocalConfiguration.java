@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
  * WebLogic existing configuration implementation for WebLogic9x style domains. The configuration
  * home must point to a valid WebLogic domain directory.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class WebLogic9xExistingLocalConfiguration extends WebLogicExistingLocalConfiguration
 {

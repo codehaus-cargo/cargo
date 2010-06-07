@@ -31,7 +31,7 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
  * Static deployer that deploys WARs to the WebLogic auto-deploy directory. EARs
  * and RARs are not supported, yet.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class WebLogicCopyingInstalledLocalDeployer extends
         AbstractCopyingInstalledLocalDeployer

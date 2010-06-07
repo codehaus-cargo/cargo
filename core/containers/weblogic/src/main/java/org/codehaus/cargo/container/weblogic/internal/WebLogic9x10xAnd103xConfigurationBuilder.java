@@ -31,7 +31,7 @@ import org.dom4j.Element;
  * Constructs xml elements needed to configure a normal or XA compliant DataSource for WebLogic
  * 9-10.3.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class WebLogic9x10xAnd103xConfigurationBuilder extends
     WebLogic8xConfigurationBuilder

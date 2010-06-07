@@ -24,7 +24,7 @@ package org.codehaus.cargo.container.weblogic;
  * which provides method to find out the location of key directories needed to
  * operate WebLogic.
  * 
- * @version $Id:$
+ * @version $Id$
  */
 public interface WebLogicConfiguration
 {

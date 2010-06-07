@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.jrun;
 /**
  * Gathers all JRun properties.
  * 
- * @version $Id: JRunPropertySet.java $
+ * @version $Id$
  */
 public interface JRun4xPropertySet
 {

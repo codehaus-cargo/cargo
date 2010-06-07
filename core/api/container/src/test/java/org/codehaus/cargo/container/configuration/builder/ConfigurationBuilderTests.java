@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.configuration.builder;
 /**
  * Marker interface to ensure all methods of <code>ConfigurationBuilder</code> are tested.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public interface ConfigurationBuilderTests
 {

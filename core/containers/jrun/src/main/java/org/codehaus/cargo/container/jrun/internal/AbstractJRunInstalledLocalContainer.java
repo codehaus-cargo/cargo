@@ -41,7 +41,7 @@ import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 /**
  * Common support for all JRun container versions.
  * 
- * @version $Id: AbstractJRunInstalledLocalContainer.java $
+ * @version $Id$
  */
 public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstalledLocalContainer
 {

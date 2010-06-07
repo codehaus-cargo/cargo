@@ -24,7 +24,7 @@ import org.codehaus.cargo.container.LocalContainer;
 /**
  * Designates support of DataSource configuration.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public interface DataSourceSupport
 {

@@ -30,7 +30,7 @@ import org.dom4j.Element;
 /**
  * Contains the xml elements used to build a normal or XA compliant DataSource for WebLogic.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class WebLogic8xConfigurationBuilder extends AbstractConfigurationBuilder
 {

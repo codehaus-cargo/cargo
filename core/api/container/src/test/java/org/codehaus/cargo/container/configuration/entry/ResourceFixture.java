@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.property.ResourcePropertySet;
 /**
  * Fixture used to provide inputs for Resource testing.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class ResourceFixture
 {

@@ -24,7 +24,7 @@ import org.codehaus.cargo.container.ContainerException;
 /**
  * Exception thrown when a container encounters a problem with a deployable.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class DeployableException extends ContainerException
 {

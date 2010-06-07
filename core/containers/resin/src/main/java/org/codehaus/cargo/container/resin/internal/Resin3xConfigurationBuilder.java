@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 /**
  * Constructs xml elements needed to configure a normal or XA compliant DataSource for Resin 3.x.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class Resin3xConfigurationBuilder extends Resin2xConfigurationBuilder
 {

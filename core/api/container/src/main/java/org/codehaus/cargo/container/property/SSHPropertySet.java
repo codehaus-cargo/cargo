@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.property;
 /**
  * Gathers all ssh properties valid for all types of containers.
  * 
- * @version $Id: DatasourcePropertySet.java 1877 2009-02-13 14:09:28Z adriancole $
+ * @version $Id$
  */
 public interface SSHPropertySet
 {   

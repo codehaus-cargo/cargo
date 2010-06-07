@@ -30,7 +30,7 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurat
 /**
  * Contains the xml elements used to build a normal or XA compliant DataSource for Resin.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class Resin2xConfigurationBuilder extends AbstractConfigurationBuilder
 {

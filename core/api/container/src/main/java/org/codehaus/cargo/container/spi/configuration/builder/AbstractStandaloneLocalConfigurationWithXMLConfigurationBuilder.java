@@ -46,7 +46,7 @@ import org.codehaus.cargo.util.XmlFileBuilder;
  * configuration?</li>
  * </ol>
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public abstract class AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder extends
     AbstractStandaloneLocalConfiguration implements DataSourceSupport, ResourceSupport

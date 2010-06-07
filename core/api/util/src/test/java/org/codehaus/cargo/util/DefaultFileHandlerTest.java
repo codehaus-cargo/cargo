@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 /**
  * Unit tests for {@link DefaultFileHandler}.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class DefaultFileHandlerTest extends TestCase
 {

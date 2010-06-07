@@ -33,7 +33,7 @@ import org.codehaus.cargo.container.jrun.internal.AbstractJRunInstalledLocalCont
 /**
  * Special container support for the Adobe JRun4.x servlet container.
  * 
- * @version $Id: JRun4xInstalledLocalContainer.java rconnolly $
+ * @version $Id$
  */
 public class JRun4xInstalledLocalContainer extends AbstractJRunInstalledLocalContainer
 {

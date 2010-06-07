@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
  * Builds String representations a Resource configuration. These may be JSON or
  * XML or Properties that the <code>Container</code> will know what to do with.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public interface ConfigurationBuilder
 {
