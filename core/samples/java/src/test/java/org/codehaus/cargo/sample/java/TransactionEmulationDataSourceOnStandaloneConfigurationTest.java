@@ -19,7 +19,10 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.net.MalformedURLException;
+
 import junit.framework.Test;
+
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
@@ -29,9 +32,6 @@ import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidat
 import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasDataSourceSupportValidator;
-
-import java.net.MalformedURLException;
-import java.util.Collections;
 
 public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
@@ -53,14 +53,13 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
         CargoTestSuite suite =
             new CargoTestSuite("Tests that run on local containers supporting DataSource and WAR deployments");
 
-        // Note: We exclude geronimo1x container as it doesn't support static deployments yet.
         suite.addTestSuite(TransactionEmulationDataSourceOnStandaloneConfigurationTest.class,
-            new Validator[] {new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(), new HasEarSupportValidator(),// transaction
-                                                                                    // support
+            new Validator[] {
+            new IsInstalledLocalContainerValidator(),
+            new HasStandaloneConfigurationValidator(),
+            new HasEarSupportValidator(),
             new HasDataSourceSupportValidator(ConfigurationType.STANDALONE),
-            new HasXAEmulationValidator(ConfigurationType.STANDALONE)}, Collections
-                .singleton("geronimo1x"));
+            new HasXAEmulationValidator(ConfigurationType.STANDALONE)});
         return suite;
     }
 

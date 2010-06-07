@@ -19,7 +19,11 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.io.File;
+import java.net.URL;
+
 import junit.framework.Test;
+
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
@@ -30,10 +34,6 @@ import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.apache.tools.ant.taskdefs.Copy;
-
-import java.util.Collections;
-import java.io.File;
-import java.net.URL;
 
 public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTestCase
 {
@@ -54,11 +54,10 @@ public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTe
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that run on local containers supporting WAR deployments");
 
-        // Note: We exclude geronimo1x container as it doesn't support static deployments yet.
         suite.addTestSuite(WarCapabilityContainerTest.class, new Validator[] {
             new IsLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),
-            new HasWarSupportValidator()}, Collections.singleton("geronimo1x"));
+            new HasWarSupportValidator()});
         return suite;
     }
 

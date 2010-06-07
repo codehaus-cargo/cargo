@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.net.MalformedURLException;
+
 import junit.framework.Test;
 
 import org.codehaus.cargo.container.configuration.Configuration;
@@ -31,9 +33,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasDataSourceSupportValidator;
-
-import java.net.MalformedURLException;
-import java.util.Collections;
 
 public class DataSourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
@@ -55,12 +54,11 @@ public class DataSourceOnStandaloneConfigurationTest extends
         CargoTestSuite suite =
             new CargoTestSuite("Tests that run on local containers supporting DataSource and WAR deployments");
 
-        // Note: We exclude geronimo1x container as it doesn't support static deployments yet.
         suite.addTestSuite(DataSourceOnStandaloneConfigurationTest.class, new Validator[] {
-        new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator(),
-        new HasWarSupportValidator(),
-        new HasDataSourceSupportValidator(ConfigurationType.STANDALONE)}, Collections
-            .singleton("geronimo1x"));
+            new IsInstalledLocalContainerValidator(),
+            new HasStandaloneConfigurationValidator(),
+            new HasWarSupportValidator(),
+            new HasDataSourceSupportValidator(ConfigurationType.STANDALONE)});
         return suite;
     }
 

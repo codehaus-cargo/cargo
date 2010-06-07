@@ -20,6 +20,7 @@
 package org.codehaus.cargo.sample.java;
 
 import junit.framework.Test;
+
 import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
@@ -27,8 +28,6 @@ import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasExistingConfigurationValidator;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-
-import java.util.Collections;
 
 public class ExistingConfigurationTest extends AbstractWarCapabilityContainerTestCase
 {
@@ -43,12 +42,11 @@ public class ExistingConfigurationTest extends AbstractWarCapabilityContainerTes
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that verify that existing configuration work by doing local WAR deployments");
 
-        // Note: We exclude geronimo1x container as it doesn't support static deployments yet.
         suite.addTestSuite(ExistingConfigurationTest.class, new Validator[] {
             new IsLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),
             new HasExistingConfigurationValidator(),
-            new HasWarSupportValidator()}, Collections.singleton("geronimo1x"));
+            new HasWarSupportValidator()});
         return suite;
     }
 

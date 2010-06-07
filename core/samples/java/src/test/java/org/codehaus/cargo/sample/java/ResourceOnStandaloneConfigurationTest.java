@@ -20,7 +20,6 @@
 package org.codehaus.cargo.sample.java;
 
 import java.net.MalformedURLException;
-import java.util.Collections;
 
 import junit.framework.Test;
 
@@ -80,12 +79,11 @@ public class ResourceOnStandaloneConfigurationTest extends
         CargoTestSuite suite =
             new CargoTestSuite("Tests that run on local containers supporting Resource and WAR deployments");
 
-        // Note: We exclude geronimo1x container as it doesn't support static deployments yet.
         suite.addTestSuite(ResourceOnStandaloneConfigurationTest.class, new Validator[] {
-        new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator(),
-        new HasWarSupportValidator(),
-        new HasResourceSupportValidator(ConfigurationType.STANDALONE)}, Collections
-            .singleton("geronimo1x"));
+            new IsInstalledLocalContainerValidator(),
+            new HasStandaloneConfigurationValidator(),
+            new HasWarSupportValidator(),
+            new HasResourceSupportValidator(ConfigurationType.STANDALONE)});
         return suite;
     }
 

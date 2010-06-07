@@ -19,6 +19,10 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.net.URL;
+import java.util.Set;
+import java.util.TreeSet;
+
 import junit.framework.Test;
 
 import org.codehaus.cargo.container.State;
@@ -30,10 +34,6 @@ import org.codehaus.cargo.sample.java.validator.HasEarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-
-import java.net.URL;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class EarCapabilityContainerTest extends AbstractCargoTestCase
 {
@@ -48,10 +48,8 @@ public class EarCapabilityContainerTest extends AbstractCargoTestCase
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that run on containers supporting EAR deployments");
 
-        // We exclude geronimo1x container as it doesn't support static deployments yet.
         // We exclude glassfish3x container as it doesn't support hot deployment yet.
         Set excludedContainerIds = new TreeSet();
-        excludedContainerIds.add("geronimo1x");
         excludedContainerIds.add("glassfish3x");
 
         suite.addTestSuite(EarCapabilityContainerTest.class, new Validator[] {

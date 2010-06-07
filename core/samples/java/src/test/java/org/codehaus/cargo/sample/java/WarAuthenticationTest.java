@@ -19,6 +19,12 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.util.Map;
+import java.util.HashMap;
+import java.net.URL;
+
+import junit.framework.Test;
+
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -30,12 +36,6 @@ import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasAuthenticationSupportValidator;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.apache.commons.codec.binary.Base64;
-import junit.framework.Test;
-
-import java.util.Collections;
-import java.util.Map;
-import java.util.HashMap;
-import java.net.URL;
 
 public class WarAuthenticationTest extends AbstractCargoTestCase
 {
@@ -50,13 +50,11 @@ public class WarAuthenticationTest extends AbstractCargoTestCase
         CargoTestSuite suite = new CargoTestSuite("Tests that run on local containers supporting "
             + "WAR deployments and which support authentication");
 
-        // Note: We exclude geronimo1x container as it doesn't support static deployments yet.
         suite.addTestSuite(WarAuthenticationTest.class, new Validator[] {
             new IsLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),
             new HasWarSupportValidator(),
-            new HasAuthenticationSupportValidator(ConfigurationType.STANDALONE)},
-            Collections.singleton("geronimo1x"));
+            new HasAuthenticationSupportValidator(ConfigurationType.STANDALONE)});
         return suite;
     }
 

@@ -81,8 +81,8 @@ public class CargoTestSuite extends TestSuite
         {
             String containerId = (String) it.next();
 
-            // Skip container ids that are excluded by the user. Note: This feature is useful for
-            // example to exclude geronimo1x as it doesn't support static deployments yet.
+            // Skip container ids that are excluded by the user, as some containers don't support
+            // everything. for example, OSGi containers cannot support shared class loaders.
             if ((excludedContainerIds != null) && excludedContainerIds.contains(containerId))
             {
                 continue;
