@@ -306,7 +306,8 @@
 
               <property>
                 <name>cargo.geronimo1x.url</name>
-                <value>http://archive.eu.apache.org/dist/geronimo/1.1.1/geronimo-jetty-j2ee-1.1.1.zip</value>
+                <!-- the default cargo.geronimo.servlet.containerId is tomcat, therefore use Tomcat -->
+                <value>http://archive.eu.apache.org/dist/geronimo/1.1.1/geronimo-tomcat-minimal-1.1.1.zip</value>
               </property>
               <property>
                 <name>cargo.geronimo1x.java.home</name>
