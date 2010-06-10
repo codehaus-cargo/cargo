@@ -159,8 +159,12 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         {
             startInternal();
 
-            // Wait until the container is fully started
-            waitForCompletion(true);
+            // CARGO-712: If timeout is 0, don't wait at all
+            if (getTimeout() != 0)
+            {
+                // Wait until the container is fully started
+                waitForCompletion(true);
+            }
         }
         catch (Exception e)
         {
@@ -191,8 +195,12 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         {
             stopInternal();
 
-            // Wait until the container is fully stopped
-            waitForCompletion(false);
+            // CARGO-712: If timeout is 0, don't wait at all
+            if (getTimeout() != 0)
+            {
+                // Wait until the container is fully stopped
+                waitForCompletion(false);
+            }
         }
         catch (Exception e)
         {
