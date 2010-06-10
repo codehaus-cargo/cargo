@@ -342,6 +342,22 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         Get getTask = (Get) this.antUtils.createAntTask("get");
         getTask.setUseTimestamp(true);
         getTask.setSrc(this.remoteLocation);
+        String userInfo = this.remoteLocation.getUserInfo();
+        if (userInfo != null)
+        {
+            int separator = userInfo.indexOf(":");
+            if (separator > 0)
+            {
+                String username = userInfo.substring(0, separator);
+                getTask.setUsername(username);
+                String password = userInfo.substring(separator + 1);
+                getTask.setPassword(password);
+            }
+            else
+            {
+                getTask.setUsername(userInfo);
+            }
+        }
         getTask.setDest(new File(getDestinationDir(), getSourceFileName()));
         getTask.execute();
     }
