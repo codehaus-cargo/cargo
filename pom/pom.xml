@@ -197,6 +197,16 @@
         <role>Java Developer</role>
       </roles>
     </developer>
+    <developer>
+      <name>Anders Hammar</name>
+      <email>anders@hammar.net</email>
+      <id>afloom</id>
+      <organization />
+      <timezone>+1</timezone>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
   </developers>
   <contributors>
     <contributor>
