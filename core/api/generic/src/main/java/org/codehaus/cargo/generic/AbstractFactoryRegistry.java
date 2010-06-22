@@ -250,31 +250,46 @@ public abstract class AbstractFactoryRegistry
      */
     private static List list(ClassLoader classLoader)
     {
-        ClassLoader cl = classLoader;
-        if (cl == null)
+        ClassLoader cl;
+        ClassLoaders loaders = new ClassLoaders();
+
+        cl = classLoader;
+        if (cl != null)
         {
-            cl = Thread.currentThread().getContextClassLoader();
+            loaders.put(cl);
         }
-        if (cl == null)
+
+        cl = Thread.currentThread().getContextClassLoader();
+        if (cl != null)
         {
-            cl = AbstractFactoryRegistry.class.getClassLoader();
+            loaders.put(cl);
         }
-        if (cl == null)
+
+        cl = AbstractFactoryRegistry.class.getClassLoader();
+        if (cl != null)
         {
-            cl = JDKHooks.getJDKHooks().getSystemClassLoader();
+            loaders.put(cl);
         }
-        if (cl == null)
+
+        cl = JDKHooks.getJDKHooks().getSystemClassLoader();
+        if (cl != null)
+        {
+            loaders.put(cl);
+        }
+
+        if (loaders.size() == 0)
         {
             // this is not our day. bail out.
             return Collections.EMPTY_LIST;
         }
 
-        ClassLoaders loaders = new ClassLoaders();
-        loaders.put(cl);
-
         List registries = new ArrayList();
         Enumeration providers = Service.providers(
                 new SPInterface(AbstractFactoryRegistry.class), loaders);
+        if (!providers.hasMoreElements())
+        {
+            throw new IllegalStateException("No containers found!");
+        }
         while (providers.hasMoreElements())
         {
             Object provider = providers.nextElement();
