@@ -99,7 +99,7 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
 
         // Perform deployment action on all deployables defined in the deployer config element
         // (if any).
-        if (getDeployerElement() != null)
+        if (getDeployerElement() != null && getDeployerElement().getDeployables() != null)
         {
             for (int i = 0; i < getDeployerElement().getDeployables().length; i++)
             {
