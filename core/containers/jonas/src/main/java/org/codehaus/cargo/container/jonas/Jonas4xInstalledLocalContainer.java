@@ -135,7 +135,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         }
 
         throw new ContainerException("Server.waitForCompletion not finished after "
-                + Long.toString(timeout) + " milliseconds!");
+                + Long.toString(this.getTimeout()) + " milliseconds!");
 
     }
 

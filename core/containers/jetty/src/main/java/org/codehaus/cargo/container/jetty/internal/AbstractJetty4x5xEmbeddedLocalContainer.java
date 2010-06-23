@@ -158,7 +158,7 @@ public abstract class AbstractJetty4x5xEmbeddedLocalContainer
             }
 
             throw new ContainerException("Server did not start after "
-                    + Long.toString(timeout) + " milliseconds");
+                    + Long.toString(this.getTimeout()) + " milliseconds");
         }
         else
         {
