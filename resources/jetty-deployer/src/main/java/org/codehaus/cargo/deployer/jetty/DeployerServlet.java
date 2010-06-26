@@ -97,11 +97,11 @@ public class DeployerServlet extends HttpServlet
         // context. These situations should be looked after but are currently
         // not.
         Handler[] handles = server.getChildHandlers();
-        for (int i = 0; i < handles.length; i++)
+        for (Handler handle : handles)
         {
-            if (handles[i] instanceof ContextHandlerCollection)
+            if (handle instanceof ContextHandlerCollection)
             {
-                chc = (ContextHandlerCollection) handles[i];
+                chc = (ContextHandlerCollection) handle;
                 break;
             }
         }
@@ -114,6 +114,7 @@ public class DeployerServlet extends HttpServlet
      * @throws ServletException If a servlet exception occurs
      * @throws IOException If an io exception occurs
      */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
@@ -157,6 +158,7 @@ public class DeployerServlet extends HttpServlet
      * @throws ServletException If a servlet exception occurs
      * @throws IOException If an io exception occurs
      */
+    @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
@@ -503,9 +505,9 @@ public class DeployerServlet extends HttpServlet
         if (webAppFile.isDirectory())
         {
             File[] children = webAppFile.listFiles();
-            for (int i = 0; i < children.length; i++)
+            for (File element : children)
             {
-                deleteDirectory(children[i]);
+                deleteDirectory(element);
             }
             webAppFile.delete();
         } 
@@ -583,13 +585,13 @@ public class DeployerServlet extends HttpServlet
         // work. It would have been nice if they used a map and a context could
         // have been used to retrieve the handler.
         Handler[] handlers = chc.getHandlers();
-        for (int i = 0; i < handlers.length; i++)
+        for (Handler handler : handlers)
         {
-            if (handlers[i] instanceof ContextHandler)
+            if (handler instanceof ContextHandler)
             {
-                if (((ContextHandler) handlers[i]).getContextPath().equals(context))
+                if (((ContextHandler) handler).getContextPath().equals(context))
                 {
-                    return (ContextHandler) handlers[i];
+                    return (ContextHandler) handler;
                 }
             }
         }

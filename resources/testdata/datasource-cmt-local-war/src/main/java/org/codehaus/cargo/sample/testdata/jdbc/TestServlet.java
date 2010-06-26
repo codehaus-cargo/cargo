@@ -47,6 +47,7 @@ public class TestServlet extends HttpServlet
 
     private DerbyDao dao;
 
+    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
@@ -75,6 +76,7 @@ public class TestServlet extends HttpServlet
         out.close();
     }
 
+    @Override
     public void init(ServletConfig config) throws ServletException
     {
         super.init(config);
@@ -86,6 +88,7 @@ public class TestServlet extends HttpServlet
         dao.createTable();
     }
 
+    @Override
     public void destroy()
     {
         dao.dropTable();
