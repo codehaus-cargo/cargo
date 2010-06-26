@@ -50,6 +50,7 @@ public class JonasRuntimeConfiguration extends AbstractRuntimeConfiguration
      * 
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "JOnAS Runtime Configuration";

@@ -39,6 +39,7 @@ public class DefaultConfigurationFactoryTest extends TestCase
 {
     private ConfigurationFactory factory;
     
+    @Override
     protected void setUp()
     {
         this.factory = new DefaultConfigurationFactory();        

@@ -46,6 +46,7 @@ public class LocalConfigurationTest extends TestCase
             this.supportedProperties = supportedProperties;
         }
 
+        @Override
         protected void doConfigure(LocalContainer container) throws Exception
         {
         }

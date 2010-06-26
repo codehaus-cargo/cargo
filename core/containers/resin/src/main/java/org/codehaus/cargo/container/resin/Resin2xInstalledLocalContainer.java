@@ -54,6 +54,7 @@ public class Resin2xInstalledLocalContainer extends AbstractResinInstalledLocalC
      * {@inheritDoc}
      * @see AbstractResinInstalledLocalContainer#startUpAdditions(Java, Path)
      */
+    @Override
     protected void startUpAdditions(Java theJavaContainer, Path theClasspath)
         throws FileNotFoundException
     {

@@ -55,6 +55,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
      *
      * @see AbstractInstalledLocalContainer#doStart(Java)
      */
+    @Override
     public abstract void doStart(Java java);
 
     /**
@@ -62,6 +63,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
      *
      * @see AbstractInstalledLocalContainer#doStart(Java)
      */
+    @Override
     public abstract void doStop(Java java);
 
     /**

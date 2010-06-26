@@ -33,6 +33,7 @@ public class JBossContainerCapability extends J2EEContainerCapability
      * {@inheritDoc}
      * @see J2EEContainerCapability#supportsDeployableType(DeployableType)
      */
+    @Override
     public boolean supportsDeployableType(DeployableType type)
     {
         return (type == DeployableType.EJB || type == DeployableType.SAR 

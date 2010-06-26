@@ -87,6 +87,7 @@ public final class WebXmlIo extends AbstractDescriptorIo
     /**
      * @return the configured entity resolver
      */
+    @Override
     protected EntityResolver getEntityResolver()
     {
         return new WebXmlEntityResolver();

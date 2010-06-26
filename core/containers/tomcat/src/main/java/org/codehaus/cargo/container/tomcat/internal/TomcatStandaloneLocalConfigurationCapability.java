@@ -58,6 +58,7 @@ public class TomcatStandaloneLocalConfigurationCapability extends
      * 
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
+    @Override
     protected Map getPropertySupportMap()
     {
         return this.supportsMap;

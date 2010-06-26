@@ -49,6 +49,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
         super(name);
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();

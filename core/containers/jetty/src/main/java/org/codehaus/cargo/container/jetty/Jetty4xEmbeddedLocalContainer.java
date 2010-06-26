@@ -65,6 +65,7 @@ public class Jetty4xEmbeddedLocalContainer extends AbstractJetty4x5xEmbeddedLoca
      * {@inheritDoc}
      * @see AbstractJetty4x5xEmbeddedLocalContainer#performExtraSetupOnDeployable(Object)
      */
+    @Override
     protected void performExtraSetupOnDeployable(Object webapp)
     {
         // Nothing to do for Jetty 4.x

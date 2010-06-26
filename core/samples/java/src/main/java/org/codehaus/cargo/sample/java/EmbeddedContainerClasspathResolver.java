@@ -134,9 +134,9 @@ public class EmbeddedContainerClasspathResolver
                     {
                         throw new FileNotFoundException("No files matched: "+folder.toString()+"/*.jar");
                     }
-                    for (int i = 0; i < jars.length; i++)
+                    for (File jar : jars)
                     {
-                        urls.add(jars[i].toURI().toURL());
+                        urls.add(jar.toURI().toURL());
                     }
                 }
                 else
@@ -193,6 +193,7 @@ public class EmbeddedContainerClasspathResolver
                 */
                 classloader = new URLClassLoader(new URL[0], getClass().getClassLoader())
                 {
+                    @Override
                     protected synchronized Class loadClass(String name, boolean resolve)
                         throws ClassNotFoundException
                     {

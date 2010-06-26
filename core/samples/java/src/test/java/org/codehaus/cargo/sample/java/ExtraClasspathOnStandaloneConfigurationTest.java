@@ -49,6 +49,7 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
         super(testName, testData);
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -100,6 +101,7 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
                 getLogger());
     }
 
+    @Override
     public Container createContainer(Configuration configuration)
     {
         InstalledLocalContainer container =

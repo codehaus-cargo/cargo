@@ -73,14 +73,16 @@ public class StandaloneLocalConfigurationStub
 	/* (non-Javadoc)
 	 * @see org.codehaus.cargo.container.configuration.LocalConfiguration#addResource(org.codehaus.cargo.container.resource.Resource)
 	 */
-	public void addResource(Resource resource) {
+	@Override
+    public void addResource(Resource resource) {
 		this.resources.add(resource);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.codehaus.cargo.container.configuration.LocalConfiguration#getResources()
 	 */
-	public List getResources() {
+	@Override
+    public List getResources() {
 		return resources;
 	}
 

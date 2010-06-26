@@ -113,6 +113,7 @@ public final class User
      * {@inheritDoc}
      * @see Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object userObject)
     {
         boolean result = false;
@@ -133,6 +134,7 @@ public final class User
      * {@inheritDoc}
      * @see Object#hashCode()
      */
+    @Override
     public int hashCode()
     {
         return (getName() + getPassword()).hashCode();

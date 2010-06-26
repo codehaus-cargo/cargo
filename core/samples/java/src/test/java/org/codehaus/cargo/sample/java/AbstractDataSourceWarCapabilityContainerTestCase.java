@@ -76,6 +76,7 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
      * org.codehaus.cargo.sample.java.AbstractCargoTestCase#createContainer(org.codehaus.cargo.container
      * .configuration.Configuration)
      */
+    @Override
     public Container createContainer(Configuration configuration)
     {
         InstalledLocalContainer container =
@@ -119,6 +120,7 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
     /**
      * make sure we always stop the container
      */
+    @Override
     public void tearDown()
     {
         try

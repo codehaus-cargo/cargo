@@ -27,6 +27,7 @@ public class Oc4j9xStandaloneLocalConfigurationTest extends
     AbstractOrionStandaloneLocalConfigurationTest
 {
 
+    @Override
     public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new Oc4j9xInstalledLocalContainer(configuration);

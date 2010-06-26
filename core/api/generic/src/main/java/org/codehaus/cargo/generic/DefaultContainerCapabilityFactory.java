@@ -96,6 +96,7 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
      * {@inheritDoc}
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor
      */
+    @Override
     protected Constructor getConstructor(Class containerCapabilityClass, String hint,
         GenericParameters parameters) throws NoSuchMethodException
     {
@@ -106,6 +107,7 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
      * {@inheritDoc}
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
+    @Override
     protected Object createInstance(Constructor constructor, String hint,
         GenericParameters parameters) throws Exception
     {

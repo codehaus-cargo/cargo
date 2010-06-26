@@ -63,6 +63,7 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         if (container instanceof Tomcat5xEmbeddedLocalContainer)
@@ -100,6 +101,7 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.ContainerConfiguration#verify()
      */
+    @Override
     public void verify()
     {
         // Nothing to verify right now...
@@ -109,6 +111,7 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "Tomcat Existing Configuration";

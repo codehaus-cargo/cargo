@@ -43,6 +43,7 @@ public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTe
         super(testName, testData);
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();

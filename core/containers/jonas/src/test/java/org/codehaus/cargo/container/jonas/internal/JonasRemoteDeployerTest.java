@@ -46,6 +46,7 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
 
     private AbstractJonasRemoteDeployer deployer;
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -198,6 +199,7 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
             super(container);
         }
 
+        @Override
         public MBeanServerConnectionFactory getMBeanServerConnectionFactory()
         {
             return null;

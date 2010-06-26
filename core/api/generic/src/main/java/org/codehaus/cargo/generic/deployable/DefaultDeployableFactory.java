@@ -163,6 +163,7 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
      * {@inheritDoc}
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor
      */
+    @Override
     protected Constructor getConstructor(Class deployableClass, String hint,
         GenericParameters parameters) throws NoSuchMethodException
     {
@@ -173,6 +174,7 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
      * {@inheritDoc}
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
+    @Override
     protected Object createInstance(Constructor constructor, String hint,
         GenericParameters parameters) throws Exception
     {

@@ -46,6 +46,7 @@ public class Jetty4xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#deploy(Deployable)
      */
+    @Override
     public Object deployWebApp(Deployable deployable)
     {
         getLogger().info("Deploying [" + deployable.getFile() + "]", this.getClass().getName());
@@ -83,6 +84,7 @@ public class Jetty4xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(Deployable)
      */
+    @Override
     public void undeployWebApp(Deployable deployable)
     {
         throw new ContainerException("Not supported");

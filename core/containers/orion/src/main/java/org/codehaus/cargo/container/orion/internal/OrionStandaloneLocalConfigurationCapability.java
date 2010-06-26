@@ -66,6 +66,7 @@ public class OrionStandaloneLocalConfigurationCapability
      * {@inheritDoc}
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
+    @Override
     protected Map getPropertySupportMap()
     {
         return this.supportsMap;

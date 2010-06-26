@@ -86,6 +86,7 @@ public class WebXmlMerger  extends XmlMerger
      * {@inheritDoc}
      * @see #init(Descriptor)
      */
+    @Override
     public void init(Descriptor base)
     {
         this.webXml = (WebXml) base;     
@@ -97,6 +98,7 @@ public class WebXmlMerger  extends XmlMerger
      * {@inheritDoc}
      * @see #merge(Descriptor)
      */
+    @Override
     public final void merge(Descriptor theMerge)
     {
         try

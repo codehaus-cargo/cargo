@@ -53,6 +53,7 @@ public abstract class AbstractJettyStandaloneLocalConfiguration extends
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.LocalConfiguration#configure(LocalContainer)
      */
+    @Override
     public void doConfigure(LocalContainer container) throws Exception
     {
         try

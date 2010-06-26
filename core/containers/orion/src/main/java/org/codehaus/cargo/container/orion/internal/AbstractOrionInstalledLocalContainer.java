@@ -68,6 +68,7 @@ public abstract class AbstractOrionInstalledLocalContainer extends AbstractInsta
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#doStop(Java)
      */
+    @Override
     public final void doStop(Java java)
     {
         // invoke the main class
@@ -97,6 +98,7 @@ public abstract class AbstractOrionInstalledLocalContainer extends AbstractInsta
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#doStart(Java)
      */
+    @Override
     public final void doStart(Java java) throws Exception
     {
         // Invoke the main class

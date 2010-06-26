@@ -29,16 +29,19 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
 
     ConfigurationChecker checker;
 
+    @Override
     protected ConfigurationBuilder createConfigurationBuilder()
     {
         return new OrionConfigurationBuilder();
     }
 
+    @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
         return new OrionConfigurationChecker();
     }
 
+    @Override
     public void testBuildConfigurationEntryForXADataSourceConfiguredResource() throws Exception
     {
         try
@@ -54,6 +57,7 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
         }
     }
     
+    @Override
     public void testBuildConfigurationEntryForMailSessionConfiguredResource() throws Exception
     {
         try

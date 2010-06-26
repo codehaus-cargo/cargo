@@ -54,6 +54,7 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
      *
      * @return Deployable the directory to deploy to
      */
+    @Override
     public String getDeployableDir()
     {
         return getFileHandler().append(getContainer().getConfiguration().getHome(), "webapps");
@@ -79,6 +80,7 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
      * {@inheritDoc}
      * @see AbstractCopyingInstalledLocalDeployer#deployWar(String, org.codehaus.cargo.container.deployable.WAR)
      */
+    @Override
     protected void deployWar(String deployableDir, WAR war)
     {
         if (war instanceof TomcatWAR)
@@ -111,6 +113,7 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
      * {@inheritDoc}
      * @see AbstractCopyingInstalledLocalDeployer#deployExpandedWar(String, org.codehaus.cargo.container.deployable.WAR)
      */
+    @Override
     protected void deployExpandedWar(String deployableDir, WAR war)
     {
         if (war instanceof TomcatWAR)
@@ -154,6 +157,7 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
      * {@inheritDoc}
      * @see AbstractCopyingInstalledLocalDeployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void undeploy(Deployable deployable)
     {
         // Check that the container supports the deployable type to undeploy

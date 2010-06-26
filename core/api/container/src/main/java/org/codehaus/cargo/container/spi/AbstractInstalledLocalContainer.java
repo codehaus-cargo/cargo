@@ -125,6 +125,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * @param logger the logger to set and set in the ancillary objects
      * @see org.codehaus.cargo.util.log.Loggable#setLogger(org.codehaus.cargo.util.log.Logger)
      */
+    @Override
     public void setLogger(Logger logger)
     {
         super.setLogger(logger);
@@ -273,6 +274,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * 
      * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#startInternal()
      */
+    @Override
     protected final void startInternal() throws Exception
     {
         Java java = createJavaTask();
@@ -285,6 +287,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * 
      * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#stopInternal()
      */
+    @Override
     protected final void stopInternal() throws Exception
     {
         doStop(createJavaTask());
@@ -514,9 +517,9 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         if (runtimeArgs != null)
         {
             String[] arguments = runtimeArgs.split(" ");
-            for (int i = 0; i < arguments.length; i++)
+            for (String argument : arguments)
             {
-                javacommand.createArg().setValue(arguments[i]);
+                javacommand.createArg().setValue(argument);
             }
         }
     }
@@ -571,6 +574,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * 
      * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#verify()
      */
+    @Override
     protected void verify()
     {
         super.verify();

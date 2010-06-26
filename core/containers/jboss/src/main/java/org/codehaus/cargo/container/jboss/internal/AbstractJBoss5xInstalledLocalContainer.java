@@ -26,6 +26,7 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
     /**
      * {@inheritDoc}
      */
+    @Override
     protected void doStart(Java java) throws Exception
     {
         java.addSysproperty(getAntUtils().createSysProperty(

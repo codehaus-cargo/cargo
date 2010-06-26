@@ -47,6 +47,7 @@ public class WebLogic10xStandaloneLocalConfiguration extends
      * 
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "WebLogic 10x Standalone Configuration";

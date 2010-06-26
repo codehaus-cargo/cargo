@@ -90,6 +90,7 @@ public class AntContainerExecutorThread extends Thread
     /**
      * Execute the Ant's java command.
      */
+    @Override
     public void run()
     {        
         // This makes Ant Java task to throw an exception when something goes

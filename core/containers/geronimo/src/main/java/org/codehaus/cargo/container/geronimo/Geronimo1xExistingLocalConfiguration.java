@@ -67,6 +67,7 @@ public class Geronimo1xExistingLocalConfiguration extends AbstractExistingLocalC
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "Geronimo Existing Configuration";
@@ -78,6 +79,7 @@ public class Geronimo1xExistingLocalConfiguration extends AbstractExistingLocalC
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.LocalConfiguration#addDeployable(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public synchronized void addDeployable(Deployable newDeployable)
     {
         getLogger().warn("Geronimo doesn't support static deployments. Ignoring deployable ["
@@ -88,6 +90,7 @@ public class Geronimo1xExistingLocalConfiguration extends AbstractExistingLocalC
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(org.codehaus.cargo.container.LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         String deployDir = getFileHandler().createDirectory(getHome(), "deploy");

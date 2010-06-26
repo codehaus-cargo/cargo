@@ -33,16 +33,19 @@ public class Resin3xStandaloneLocalConfigurationTest extends
     AbstractResinStandaloneLocalConfigurationTest
 {
 
+    @Override
     public LocalConfiguration createLocalConfiguration(String home)
     {
         return new Resin3xStandaloneLocalConfiguration(home);
     }
 
+    @Override
     public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new Resin3xInstalledLocalContainer(configuration);
     }
 
+    @Override
     public void testConfigure() throws Exception
     {
         super.testConfigure();
@@ -50,6 +53,7 @@ public class Resin3xStandaloneLocalConfigurationTest extends
             configuration.getHome() + "/app-default.xml"));
     }
 
+    @Override
     protected void setUpDataSourceFile() throws Exception
     {
         Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
@@ -63,6 +67,7 @@ public class Resin3xStandaloneLocalConfigurationTest extends
         System.gc();
     }
 
+    @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
         return new Resin3xConfigurationChecker();

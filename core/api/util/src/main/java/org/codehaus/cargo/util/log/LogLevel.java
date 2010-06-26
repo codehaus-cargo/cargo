@@ -106,6 +106,7 @@ public final class LogLevel implements Comparable
      * {@inheritDoc}
      * @see Object#equals(Object)
      */
+    @Override
     public boolean equals(Object object)
     {
         boolean result = false;
@@ -125,6 +126,7 @@ public final class LogLevel implements Comparable
      * {@inheritDoc}
      * @see Object#hashCode()
      */
+    @Override
     public int hashCode()
     {
         return this.level.hashCode();
@@ -174,6 +176,7 @@ public final class LogLevel implements Comparable
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return getLevel();

@@ -48,6 +48,7 @@ public class JBossRuntimeConfiguration extends AbstractRuntimeConfiguration
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "JBoss Runtime Configuration";

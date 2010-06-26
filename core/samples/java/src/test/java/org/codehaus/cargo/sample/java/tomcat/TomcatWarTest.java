@@ -57,6 +57,7 @@ public class TomcatWarTest extends AbstractCargoTestCase
         return suite;
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();

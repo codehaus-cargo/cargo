@@ -43,6 +43,7 @@ public class CopyingDeployerTest extends MockObjectTestCase
     private StandardFileSystemManager fsManager;
     private FileHandler fileHandler;
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -52,6 +53,7 @@ public class CopyingDeployerTest extends MockObjectTestCase
         this.fileHandler = new VFSFileHandler(this.fsManager);
     }
 
+    @Override
     protected void tearDown() throws Exception
     {
         super.tearDown();
@@ -64,6 +66,7 @@ public class CopyingDeployerTest extends MockObjectTestCase
             super(container);
         }
 
+        @Override
         public String getDeployableDir()
         {
             return "ram:///webapps";

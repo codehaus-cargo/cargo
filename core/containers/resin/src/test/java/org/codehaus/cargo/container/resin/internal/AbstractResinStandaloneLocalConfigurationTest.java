@@ -27,11 +27,13 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest
 {
 
+    @Override
     protected String getDataSourceConfigurationFile(DataSourceFixture fixture)
     {
         return configuration.getHome() + "/conf/resin.conf";
     }
 
+    @Override
     protected String getResourceConfigurationFile(ResourceFixture fixture)
     {
         return getDataSourceConfigurationFile(null);
@@ -49,6 +51,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
 
     protected abstract void setUpDataSourceFile() throws Exception;
 
+    @Override
     protected String configureDataSourceViaPropertyAndRetrieveConfigurationFile(
         DataSourceFixture fixture) throws Exception
     {
@@ -56,6 +59,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
         return super.configureDataSourceViaPropertyAndRetrieveConfigurationFile(fixture);
     }
 
+    @Override
     protected String configureDataSourceAndRetrieveConfigurationFile(DataSourceFixture fixture)
         throws Exception
     {
@@ -63,6 +67,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
         return super.configureDataSourceAndRetrieveConfigurationFile(fixture);
     }
 
+    @Override
     public void testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithLocalTransactionSupport()
         throws Exception
     {
@@ -80,6 +85,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
         }
     }
 
+    @Override
     public void testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithXaTransactionSupport()
         throws Exception
     {
@@ -102,11 +108,13 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
         // TODO Resource support is currently unimplemented
     }
 
+    @Override
     public void testConfigureCreatesResource() throws Exception
     {
         // TODO Resource support is currently unimplemented
     }
 
+    @Override
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
     {
         // TODO Resource support is currently unimplemented

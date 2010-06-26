@@ -102,6 +102,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
          *
          * @see Object#equals(Object)
          */
+        @Override
         public boolean equals(Object object)
         {
             boolean result = false;
@@ -121,6 +122,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
          *
          * @see Object#hashCode()
          */
+        @Override
         public int hashCode()
         {
             return this.type.hashCode();
@@ -139,6 +141,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
          *
          * @see Object#toString()
          */
+        @Override
         public String toString()
         {
             return this.type;
@@ -178,6 +181,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
          *
          * @see Object#equals(Object)
          */
+        @Override
         public boolean equals(Object object)
         {
             boolean result = false;
@@ -197,6 +201,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
          *
          * @see Object#hashCode()
          */
+        @Override
         public int hashCode()
         {
             return this.type.hashCode();
@@ -215,6 +220,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
          *
          * @see Object#toString()
          */
+        @Override
         public String toString()
         {
             return this.type;
@@ -243,6 +249,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
      *
      * @see org.codehaus.cargo.container.deployer.Deployer#deploy(Deployable)
      */
+    @Override
     public void deploy(Deployable deployable)
     {
         if (deployable.getType() == DeployableType.WAR)
@@ -337,6 +344,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
      *
      * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable)
      */
+    @Override
     public void redeploy(Deployable deployable)
     {
         try
@@ -355,6 +363,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
      *
      * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(Deployable)
      */
+    @Override
     public void undeploy(Deployable deployable)
     {
         RemoteDeployerConfig config = getConfig();

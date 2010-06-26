@@ -64,6 +64,7 @@ public class JBossExistingLocalConfigurationCapability extends
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
+    @Override
     protected Map getPropertySupportMap()
     {
         return this.propertySupportMap;

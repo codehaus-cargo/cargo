@@ -16,21 +16,25 @@ import org.dom4j.DocumentHelper;
 public class WebLogic8xStandaloneLocalConfigurationTest extends
     AbstractWeblogicStandaloneConfigurationTest
 {
+    @Override
     public LocalConfiguration createLocalConfiguration(String home)
     {
         return new WebLogicStandaloneLocalConfiguration(home);
     }
 
+    @Override
     public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new WebLogic8xInstalledLocalContainer(configuration);
     }
 
+    @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
         return new WebLogic8xConfigurationChecker("server");
     }
 
+    @Override
     protected String getDataSourceConfigurationFile(DataSourceFixture fixture)
     {
         return configuration.getHome() + "/config.xml";
@@ -97,6 +101,7 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
 
     }
 
+    @Override
     protected void setUpDataSourceFile() throws Exception
     {
         Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());

@@ -33,6 +33,7 @@ public class ResourceConverterTest extends TestCase
 
     private ResourceConverter ResourceConverter;
 
+    @Override
     public void setUp() throws Exception
     {
         super.setUp();

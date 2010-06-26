@@ -67,6 +67,7 @@ public class Jetty6xStandaloneLocalConfiguration extends AbstractStandaloneLocal
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         setupConfigurationDir();
@@ -116,6 +117,7 @@ public class Jetty6xStandaloneLocalConfiguration extends AbstractStandaloneLocal
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "Jetty 6.x Standalone Configuration";

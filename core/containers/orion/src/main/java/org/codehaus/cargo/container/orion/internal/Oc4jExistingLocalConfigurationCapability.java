@@ -57,6 +57,7 @@ public class Oc4jExistingLocalConfigurationCapability extends
      * {@inheritDoc}
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
+    @Override
     protected Map getPropertySupportMap()
     {
         return this.supportsMap;

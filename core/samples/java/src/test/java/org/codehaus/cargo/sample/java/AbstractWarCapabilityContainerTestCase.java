@@ -39,6 +39,7 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCar
     /**
      * make sure we always stop the container
      */
+    @Override
     public void tearDown(){
         try {
             getLocalContainer().stop();

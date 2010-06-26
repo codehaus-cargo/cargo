@@ -156,6 +156,7 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
      * {@inheritDoc}
      * @see org.jdom.JDOMFactory#element(java.lang.String)
      */
+    @Override
     public Element element(String arg0)
     {
         DescriptorTag tag = (DescriptorTag) getTagByName(arg0);
@@ -177,6 +178,7 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
     /**
      * {@inheritDoc}
      */
+    @Override
     public Element element(String name, Namespace namespace) 
     {
         DescriptorTag tag = (DescriptorTag) getTagByName(name);
@@ -205,6 +207,7 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
      * @param rootElement the root element for the document
      * @return the document created
      */
+    @Override
     public Document document(Element rootElement)
     {
         if (this.descriptorClass != null)

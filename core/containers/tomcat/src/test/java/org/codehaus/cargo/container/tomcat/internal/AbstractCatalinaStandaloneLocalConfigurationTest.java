@@ -11,6 +11,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest
 {
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -19,6 +20,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
 
     abstract protected void setUpManager();
 
+    @Override
     protected String getDataSourceConfigurationFile(DataSourceFixture fixture)
     {
         return getResourceConfigurationFile(null);
@@ -73,6 +75,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         }
     }
 
+    @Override
     protected String configureDataSourceViaPropertyAndRetrieveConfigurationFile(
         DataSourceFixture fixture) throws Exception
     {
@@ -80,6 +83,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         return super.configureDataSourceViaPropertyAndRetrieveConfigurationFile(fixture);
     }
 
+    @Override
     protected String configureDataSourceAndRetrieveConfigurationFile(DataSourceFixture fixture)
         throws Exception
     {
@@ -87,6 +91,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         return super.configureDataSourceAndRetrieveConfigurationFile(fixture);
     }
 
+    @Override
     protected String configureResourceViaPropertyAndRetrieveConfigurationFile(
         ResourceFixture fixture) throws Exception
     {
@@ -96,6 +101,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
 
     abstract protected void setUpResourceFile() throws Exception;
 
+    @Override
     protected String configureResourceAndRetrieveConfigurationFile(ResourceFixture fixture)
         throws Exception
     {
@@ -103,6 +109,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         return super.configureResourceAndRetrieveConfigurationFile(fixture);
     }
 
+    @Override
     public void testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithXaTransactionSupport()
         throws Exception
     {
@@ -120,6 +127,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         }
     }
 
+    @Override
     public void testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithLocalTransactionSupport()
         throws Exception
     {
@@ -137,6 +145,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         }
     }
 
+    @Override
     public void testConfigureCreatesDataSourceForXADataSourceConfiguredDataSource()
         throws Exception
     {

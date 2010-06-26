@@ -28,11 +28,13 @@ public class Resin2xConfigurationBuilderTest extends AbstractResinConfigurationB
 
     ConfigurationChecker checker;
 
+    @Override
     protected ConfigurationBuilder createConfigurationBuilder()
     {
         return new Resin2xConfigurationBuilder();
     }
 
+    @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
         return new Resin2xConfigurationChecker();

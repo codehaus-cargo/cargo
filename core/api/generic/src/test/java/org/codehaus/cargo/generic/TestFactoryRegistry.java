@@ -35,29 +35,36 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
  */
 public class TestFactoryRegistry extends AbstractFactoryRegistry
 {
+    @Override
     protected void register(DeployableFactory factory)
     {
         factory.registerDeployable("super-container", DeployableType.WAR, SuperContainerWar.class);
     }
 
+    @Override
     protected void register(ConfigurationCapabilityFactory factory)
     {
         factory.registerConfigurationCapability("super-container", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, SuperConfigurationCapability.class);
     }
 
+    @Override
     protected void register(ConfigurationFactory factory) {
     }
 
+    @Override
     protected void register(DeployerFactory factory) {
     }
 
+    @Override
     protected void register(PackagerFactory factory) {
     }
 
+    @Override
     protected void register(ContainerFactory factory) {
     }
 
+    @Override
     protected void register(ContainerCapabilityFactory factory) {
     }
 }

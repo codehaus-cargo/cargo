@@ -56,6 +56,7 @@ public class WebLogic8xSwitchableLocalDeployer extends AbstractSwitchableLocalDe
     /**
      * {@inheritDoc}
      */
+    @Override
     protected Deployer getColdDeployer()
     {
         return coldDeployer;
@@ -64,6 +65,7 @@ public class WebLogic8xSwitchableLocalDeployer extends AbstractSwitchableLocalDe
     /**
      * {@inheritDoc}
      */
+    @Override
     protected Deployer getHotDeployer()
     {
         return hotDeployer;

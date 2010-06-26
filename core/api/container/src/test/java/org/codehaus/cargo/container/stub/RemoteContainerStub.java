@@ -50,6 +50,7 @@ public class RemoteContainerStub extends AbstractContainerStub implements Remote
         setName(NAME);
     }
 
+    @Override
     public ContainerCapability getCapability()
     {
         throw new RuntimeException("Not implemented");

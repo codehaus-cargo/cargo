@@ -62,6 +62,7 @@ public class TomcatWAR extends WAR
      *         If there is no <code>context.xml</code> or if it doesn't
      *         define any root context, then return {@link WAR#getContext()}.
      */
+    @Override
     public synchronized String getContext()
     {
         String result = parseTomcatContextXml();

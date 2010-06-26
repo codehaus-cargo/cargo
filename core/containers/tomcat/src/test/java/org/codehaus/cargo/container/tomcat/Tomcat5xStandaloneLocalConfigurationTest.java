@@ -42,26 +42,31 @@ AbstractCatalinaStandaloneLocalConfigurationTest
 {
     private Tomcat5And6xConfigurationChecker checker = new Tomcat5And6xConfigurationChecker();
     
+    @Override
     public LocalConfiguration createLocalConfiguration(String home)
     {
         return new Tomcat5xStandaloneLocalConfiguration(home);
     }
 
+    @Override
     public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new Tomcat5xInstalledLocalContainer(configuration);
     }
 
+    @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
         return checker;
     }
 
+    @Override
     protected String getResourceConfigurationFile(ResourceFixture fixture)
     {
         return configuration.getHome() + "/conf/context.xml";
     }
     
+    @Override
     protected void setUpResourceFile() throws Exception
     {
         Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
@@ -80,6 +85,7 @@ AbstractCatalinaStandaloneLocalConfigurationTest
             configuration.getHome() + "/conf/context.xml"));
     }
 
+    @Override
     protected void setUpManager()
     {
         configuration.getFileHandler().mkdirs(container.getHome() + "/webapps");

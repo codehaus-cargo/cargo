@@ -56,6 +56,7 @@ public class FullContainerIdentity extends SimpleContainerIdentity
      * {@inheritDoc}
      * @see Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object identity)
     {
         boolean result = false;
@@ -77,6 +78,7 @@ public class FullContainerIdentity extends SimpleContainerIdentity
      * {@inheritDoc}
      * @see Object#hashCode()
      */
+    @Override
     public int hashCode()
     {
         return (getId() + getType()).hashCode();
@@ -86,6 +88,7 @@ public class FullContainerIdentity extends SimpleContainerIdentity
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "id = [" + getId() + "], type = [" + getType().getType() + "]";

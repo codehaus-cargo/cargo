@@ -158,6 +158,7 @@ public final class WebXmlVersion implements Comparable
      * {@inheritDoc}
      * @see java.lang.Object#toString
      */
+    @Override
     public String toString()
     {
         return getVersion();

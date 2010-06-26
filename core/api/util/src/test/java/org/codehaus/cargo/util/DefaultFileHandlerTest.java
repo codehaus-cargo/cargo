@@ -31,6 +31,7 @@ public class DefaultFileHandlerTest extends TestCase
 
     private FileHandler fileHandler;
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();

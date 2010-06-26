@@ -107,10 +107,8 @@ public final class Base64
         int count = 0;
         int carry = 0;
 
-        for (int i = 0; i < bytes.length; i++)
+        for (byte b : bytes)
         {
-            byte b = bytes[i];
-
             switch (count++ % 3)
             {
                 // first byte of 24-bits: write 6-bits and carry 2-bits

@@ -94,6 +94,7 @@ public class Jetty5xEmbeddedLocalContainer extends AbstractJetty4x5xEmbeddedLoca
      * {@inheritDoc}
      * @see AbstractJetty4x5xEmbeddedLocalContainer#performExtraSetupOnDeployable(Object)
      */
+    @Override
     protected void performExtraSetupOnDeployable(Object webapp) throws Exception
     {
         setDefaultRealm(webapp);

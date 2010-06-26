@@ -78,6 +78,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * @see AbstractCopyingInstalledLocalDeployer#deployEar(String,
      *      org.codehaus.cargo.container.deployable.EAR)
      */
+    @Override
     protected void deployEar(String deployableDir, EAR ear) throws CargoException
     {
         deploy(deployableDir + "/apps", ear, getFileHandler().getName(ear.getFile()),
@@ -90,6 +91,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * @see AbstractCopyingInstalledLocalDeployer#deployEjb(String,
      *      org.codehaus.cargo.container.deployable.EJB)
      */
+    @Override
     protected void deployEjb(String deployableDir, EJB ejb) throws CargoException
     {
         deploy(deployableDir + "/ejbjars", ejb, getFileHandler().getName(ejb.getFile()),
@@ -102,6 +104,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * @see AbstractCopyingInstalledLocalDeployer#deployRar(String,
      *      org.codehaus.cargo.container.deployable.RAR)
      */
+    @Override
     protected void deployRar(String deployableDir, RAR rar) throws CargoException
     {
         deploy(deployableDir + "/rars", rar, getFileHandler().getName(rar.getFile()),
@@ -114,6 +117,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * @see AbstractCopyingInstalledLocalDeployer#deployExpandedWar(String,
      *      org.codehaus.cargo.container.deployable.WAR)
      */
+    @Override
     protected void deployExpandedWar(String deployableDir, WAR war) throws CargoException
     {
         if (admin.isServerRunning("ping", 0))
@@ -131,6 +135,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * @see AbstractCopyingInstalledLocalDeployer#deployWar(String,
      *      org.codehaus.cargo.container.deployable.WAR)
      */
+    @Override
     protected void deployWar(String deployableDir, WAR war) throws CargoException
     {
         deploy(deployableDir + "/webapps", war, war.getContext() + ".war", new CopyingDeployable()
@@ -151,6 +156,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * 
      * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable)
      */
+    @Override
     public void redeploy(Deployable deployable) throws CargoException
     {
         undeploy(deployable);
@@ -162,6 +168,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * 
      * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(Deployable)
      */
+    @Override
     public void undeploy(Deployable deployable) throws CargoException
     {
         String fileName = getFileHandler().getName(deployable.getFile());
@@ -218,6 +225,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * 
      * @see AbstractCopyingInstalledLocalDeployer#getDeployableDir()
      */
+    @Override
     public String getDeployableDir()
     {
         // not the real exact deployment dir since under JOnAS they depends on the

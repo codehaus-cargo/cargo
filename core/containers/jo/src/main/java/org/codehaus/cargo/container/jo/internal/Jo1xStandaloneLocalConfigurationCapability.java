@@ -51,6 +51,7 @@ public class Jo1xStandaloneLocalConfigurationCapability
      * {@inheritDoc}
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
+    @Override
     protected Map getPropertySupportMap()
     {
         return this.defaultSupportsMap;

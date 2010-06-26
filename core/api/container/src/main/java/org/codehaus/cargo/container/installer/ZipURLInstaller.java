@@ -213,12 +213,12 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         String[] files = getFileHandler().getChildren(targetDir);
         int nbDirectories = 0;
         String foundDirectory = null;
-        for (int i = 0; i < files.length; i++)
+        for (String file : files)
         {
-            if (getFileHandler().isDirectory(files[i]))
+            if (getFileHandler().isDirectory(file))
             {
                 nbDirectories++;
-                foundDirectory = files[i]; 
+                foundDirectory = file; 
             }
         }
 
@@ -384,9 +384,9 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     {
         String name = getSourceFileName();
         
-        for (int i = 0; i < ARCHIVE_ENDINGS.length; i++)
+        for (String element : ARCHIVE_ENDINGS)
         {
-            int dotPos = name.lastIndexOf(ARCHIVE_ENDINGS[i]);
+            int dotPos = name.lastIndexOf(element);
             if (dotPos > -1)
             {
                 name = name.substring(0, dotPos);

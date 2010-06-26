@@ -26,11 +26,13 @@ public class Resin3xConfigurationBuilderTest extends
     Resin2xConfigurationBuilderTest
 {
 
+    @Override
     protected ConfigurationBuilder createConfigurationBuilder()
     {
         return new Resin3xConfigurationBuilder();
     }
 
+    @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
         return new Resin3xConfigurationChecker();

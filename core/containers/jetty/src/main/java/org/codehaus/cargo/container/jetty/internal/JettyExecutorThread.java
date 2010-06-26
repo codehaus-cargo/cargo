@@ -59,6 +59,7 @@ public class JettyExecutorThread extends Thread implements Loggable
     /**
      * Start or stop Jetty by introspection.
      */
+    @Override
     public void run()
     {
         try

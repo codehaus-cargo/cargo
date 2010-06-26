@@ -51,6 +51,7 @@ public class JRun4xExistingLocalConfigurationCapability
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
+    @Override
     protected Map getPropertySupportMap()
     {
         return this.supportsMap;

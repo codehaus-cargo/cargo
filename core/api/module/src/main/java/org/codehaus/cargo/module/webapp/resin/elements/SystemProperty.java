@@ -65,6 +65,7 @@ public class SystemProperty extends DescriptorElement
      * 
      * @return the value
      */
+    @Override
     public String getValue()
     {
         return ((Attribute) getAttributes().get(0)).getValue();

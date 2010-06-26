@@ -43,6 +43,7 @@ public final class JarArchiveTest extends AbstractResourceTest
 
     private StandardFileSystemManager fsManager;
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -51,6 +52,7 @@ public final class JarArchiveTest extends AbstractResourceTest
         this.fsManager.init();
     }
 
+    @Override
     protected void tearDown() throws Exception
     {
         super.tearDown();

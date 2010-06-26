@@ -61,6 +61,7 @@ public abstract class AbstractSwitchableLocalDeployer extends AbstractInstalledL
      * @see org.codehaus.cargo.container.spi.deployer.AbstractDeployer#deploy(org.codehaus.cargo.container.deployable.Deployable)
      * @param deployable - what to deploy
      */
+    @Override
     public void deploy(Deployable deployable)
     {
         if (isRunning())
@@ -91,6 +92,7 @@ public abstract class AbstractSwitchableLocalDeployer extends AbstractInstalledL
      * @see org.codehaus.cargo.container.spi.deployer.AbstractDeployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
      * @param deployable - what to undeploy
      */
+    @Override
     public void undeploy(Deployable deployable)
     {
         if (isRunning())

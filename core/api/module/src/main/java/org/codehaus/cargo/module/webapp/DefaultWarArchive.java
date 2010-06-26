@@ -200,6 +200,7 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
      *
      * @throws java.io.IOException If an I/O error occurred reading the archive
      */
+    @Override
     public final boolean containsClass(String className) throws IOException
     {
         boolean containsClass = false;

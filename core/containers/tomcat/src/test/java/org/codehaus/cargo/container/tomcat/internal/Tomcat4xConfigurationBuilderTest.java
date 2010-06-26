@@ -25,16 +25,19 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurat
 
 public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuilderTest
 {
+    @Override
     protected ConfigurationBuilder createConfigurationBuilder()
     {
         return new Tomcat4xConfigurationBuilder();
     }
 
+    @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
         return new Tomcat4xConfigurationChecker();
     }
 
+    @Override
     public void testBuildConfigurationEntryForDriverConfiguredDataSourceWithLocalTransactionSupport()
         throws Exception
     {
@@ -52,6 +55,7 @@ public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuild
         }
     }
 
+    @Override
     public void testBuildConfigurationEntryForDriverConfiguredDataSourceWithXaTransactionSupport()
         throws Exception
     {
@@ -69,6 +73,7 @@ public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuild
         }
     }
 
+    @Override
     public void testBuildConfigurationEntryForXADataSourceConfiguredDataSource() throws Exception
     {
         try

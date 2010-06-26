@@ -61,6 +61,7 @@ public class Jetty7xStandaloneLocalConfigurationCapability
      * {@inheritDoc}
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
+    @Override
     protected Map getPropertySupportMap()
     {
         return this.supportsMap;

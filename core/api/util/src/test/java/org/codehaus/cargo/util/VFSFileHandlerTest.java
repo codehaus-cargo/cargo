@@ -34,6 +34,7 @@ public class VFSFileHandlerTest extends TestCase
     private StandardFileSystemManager fsManager;
     private FileHandler fileHandler;
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -43,6 +44,7 @@ public class VFSFileHandlerTest extends TestCase
         this.fileHandler = new VFSFileHandler(this.fsManager);
     }
 
+    @Override
     protected void tearDown() throws Exception
     {
         super.tearDown();

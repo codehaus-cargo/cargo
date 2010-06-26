@@ -64,6 +64,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      * 
      * @return JDOM Document
      */
+    @Override
     public Document getDocument()
     {
         return this;

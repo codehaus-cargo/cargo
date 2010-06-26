@@ -29,16 +29,19 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
     Tomcat5xStandaloneLocalConfigurationTest
 {
 
+    @Override
     public LocalConfiguration createLocalConfiguration(String home)
     {
         return new Tomcat6xStandaloneLocalConfiguration(home);
     }
 
+    @Override
     public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new Tomcat6xInstalledLocalContainer(configuration);
     }
 
+    @Override
     protected void setUpManager()
     {
         configuration.getFileHandler().mkdirs(container.getHome() + "/lib");
@@ -50,6 +53,7 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
     /**
      * note that manager is under webapps, not server/webapps in 5x.
      */
+    @Override
     public void testConfigureManager()
     {
         configuration.configure(container);

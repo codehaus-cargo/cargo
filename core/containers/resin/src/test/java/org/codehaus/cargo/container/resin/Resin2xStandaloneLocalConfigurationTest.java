@@ -32,11 +32,13 @@ public class Resin2xStandaloneLocalConfigurationTest extends
     AbstractResinStandaloneLocalConfigurationTest
 {
 
+    @Override
     public LocalConfiguration createLocalConfiguration(String home)
     {
         return new Resin2xStandaloneLocalConfiguration(home);
     }
 
+    @Override
     public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new Resin2xInstalledLocalContainer(configuration);
@@ -47,6 +49,7 @@ public class Resin2xStandaloneLocalConfigurationTest extends
         return new Resin2xConfigurationChecker();
     }
 
+    @Override
     protected void setUpDataSourceFile() throws Exception
     {
         Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
@@ -56,6 +59,7 @@ public class Resin2xStandaloneLocalConfigurationTest extends
         xmlUtil.saveXml(document, file);
     }
 
+    @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
         return new Resin2xConfigurationChecker();

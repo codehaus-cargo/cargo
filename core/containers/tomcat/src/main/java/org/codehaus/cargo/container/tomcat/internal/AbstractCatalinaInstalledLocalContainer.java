@@ -134,6 +134,7 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
      * 
      * @see AbstractInstalledLocalContainer#doStart(Java)
      */
+    @Override
     public void doStart(Java java) throws Exception
     {
         // Invoke the server main class
@@ -145,6 +146,7 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
      * 
      * @see AbstractInstalledLocalContainer#doStop(Java)
      */
+    @Override
     public void doStop(Java java) throws Exception
     {
         // invoke the main class

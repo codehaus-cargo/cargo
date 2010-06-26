@@ -106,6 +106,7 @@ public final class ApplicationXmlVersion implements Comparable
      * {@inheritDoc}
      * @see java.lang.Object#toString
      */
+    @Override
     public boolean equals(Object theOther)
     {
         return super.equals(theOther);
@@ -115,6 +116,7 @@ public final class ApplicationXmlVersion implements Comparable
      * {@inheritDoc}
      * @see java.lang.Object#hashCode
      */
+    @Override
     public int hashCode()
     {
         return super.hashCode();
@@ -154,6 +156,7 @@ public final class ApplicationXmlVersion implements Comparable
      * {@inheritDoc}
      * @see java.lang.Object#toString
      */
+    @Override
     public String toString()
     {
         return getVersion();

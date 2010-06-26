@@ -52,6 +52,7 @@ public class SimpleContainerIdentity implements ContainerIdentity
      * {@inheritDoc}
      * @see Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object identity)
     {
         boolean result = false;
@@ -73,6 +74,7 @@ public class SimpleContainerIdentity implements ContainerIdentity
      * {@inheritDoc}
      * @see Object#hashCode()
      */
+    @Override
     public int hashCode()
     {
         return getId().hashCode();
@@ -82,6 +84,7 @@ public class SimpleContainerIdentity implements ContainerIdentity
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "id = [" + getId() + "]";

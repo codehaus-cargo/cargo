@@ -77,6 +77,7 @@ public class WebLogicStandaloneLocalConfiguration extends
      * 
      * @see AbstractStandaloneLocalConfiguration#toConfigurationEntry(LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         setupConfigurationDir();
@@ -122,6 +123,7 @@ public class WebLogicStandaloneLocalConfiguration extends
      * 
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "WebLogic Standalone Configuration";
@@ -138,6 +140,7 @@ public class WebLogicStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     protected String getXpathForDataSourcesParent()
     {
         return "//Domain";
@@ -147,6 +150,7 @@ public class WebLogicStandaloneLocalConfiguration extends
      * {@inheritDoc} WebLogic 8.x application servers currently use DTD, and therefore return and
      * empty map;
      */
+    @Override
     protected Map getNamespaces()
     {
         return Collections.EMPTY_MAP;
@@ -157,6 +161,7 @@ public class WebLogicStandaloneLocalConfiguration extends
      * 
      * @see WebLogic8xConfigurationBuilder
      */
+    @Override
     protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)
     {
         String serverName =
@@ -167,6 +172,7 @@ public class WebLogicStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     protected String getOrCreateDataSourceConfigurationFile(DataSource ds,
         LocalContainer container)
     {
@@ -177,6 +183,7 @@ public class WebLogicStandaloneLocalConfiguration extends
      * {@inheritDoc} This implementation throws an UnsupportedOperationException as Resource
      * configuration is not supported in WebLogic.
      */
+    @Override
     protected String getOrCreateResourceConfigurationFile(Resource resource,
         LocalContainer container)
     {
@@ -188,6 +195,7 @@ public class WebLogicStandaloneLocalConfiguration extends
      * {@inheritDoc} This implementation throws an UnsupportedOperationException as Resource
      * configuration is not supported in WebLogic.
      */
+    @Override
     protected String getXpathForResourcesParent()
     {
         throw new UnsupportedOperationException(

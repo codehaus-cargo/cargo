@@ -201,6 +201,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      * 
      * @see ContainerConfiguration#verify()
      */
+    @Override
     public void verify()
     {
         collectUnsupportedResourcesAndThrowException();

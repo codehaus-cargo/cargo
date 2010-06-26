@@ -35,6 +35,7 @@ import java.net.URI;
  * @deprecated use {@link FileHandler} instead
  * @version $Id$
  */
+@Deprecated
 public class FileUtils
 {
     /**
@@ -167,9 +168,9 @@ public class FileUtils
         if (item.isDirectory())
         {
             File[] children = item.listFiles();
-            for (int i = 0; i < children.length; i++)
+            for (File element : children)
             {
-                delete(children[i]);
+                delete(element);
             }
         }
         item.delete();

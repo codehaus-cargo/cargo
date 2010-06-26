@@ -110,6 +110,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
      * 
      * @see AbstractStandaloneLocalConfiguration#toConfigurationEntry(LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         setupConfigurationDir();
@@ -225,6 +226,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
      * 
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "WebLogic 9x Standalone Configuration";
@@ -241,6 +243,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     protected String getXpathForDataSourcesParent()
     {
         return "//jdbc:jdbc-data-source";
@@ -249,6 +252,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     protected Map getNamespaces()
     {
         return namespaces;
@@ -259,6 +263,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
      * 
      * @see WebLogic8xConfigurationBuilder
      */
+    @Override
     protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)
     {
         String serverName =
@@ -269,6 +274,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     protected String getOrCreateDataSourceConfigurationFile(DataSource ds,
         LocalContainer container)
     {
@@ -385,6 +391,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
      * 
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#setFileHandler(org.codehaus.cargo.util.FileHandler)
      */
+    @Override
     public void setFileHandler(FileHandler fileHandler)
     {
         super.setFileHandler(fileHandler);
@@ -395,6 +402,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
      * {@inheritDoc} This implementation throws an UnsupportedOperationException as Resource
      * configuration is not supported in WebLogic.
      */
+    @Override
     protected String getOrCreateResourceConfigurationFile(Resource resource,
         LocalContainer container)
     {
@@ -406,6 +414,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
      * {@inheritDoc} This implementation throws an UnsupportedOperationException as Resource
      * configuration is not supported in WebLogic.
      */
+    @Override
     protected String getXpathForResourcesParent()
     {
         throw new UnsupportedOperationException(

@@ -36,6 +36,7 @@ public class RemoteDeployerTest extends TestCase
 {
     private class TestableAbstractRemoteDeployer extends AbstractRemoteDeployer
     {
+        @Override
         public void deploy(Deployable deployable)
         {
             // This ensures we don't perform any real deployment - This is for testing

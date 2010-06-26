@@ -327,9 +327,9 @@ public class DefaultFileHandler implements FileHandler
         if (pathAsFile.isDirectory())
         {
             File[] children = pathAsFile.listFiles();
-            for (int i = 0; i < children.length; i++)
+            for (File element : children)
             {
-                delete(children[i].getPath());
+                delete(element.getPath());
             }
         }
         pathAsFile.delete();

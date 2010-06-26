@@ -29,11 +29,13 @@ public class WebLogic9x10xAnd103xConfigurationBuilderTest extends
 
     ConfigurationChecker checker;
 
+    @Override
     protected ConfigurationBuilder createConfigurationBuilder()
     {
         return new WebLogic9x10xAnd103xConfigurationBuilder("server");
     }
 
+    @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
         return new WebLogic9x10xAnd103xConfigurationChecker("server");

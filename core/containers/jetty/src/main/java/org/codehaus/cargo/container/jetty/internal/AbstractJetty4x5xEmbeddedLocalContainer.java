@@ -55,6 +55,7 @@ public abstract class AbstractJetty4x5xEmbeddedLocalContainer
      * @todo Extract code for standalone configuration and put it in
      * {@link AbstractJettyStandaloneLocalConfiguration}
      */
+    @Override
     protected void doStart() throws Exception
     {
         createServerObject();

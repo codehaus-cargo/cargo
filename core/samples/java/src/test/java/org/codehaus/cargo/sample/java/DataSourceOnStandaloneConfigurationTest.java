@@ -43,6 +43,7 @@ public class DataSourceOnStandaloneConfigurationTest extends
         super(testName, testData);
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();

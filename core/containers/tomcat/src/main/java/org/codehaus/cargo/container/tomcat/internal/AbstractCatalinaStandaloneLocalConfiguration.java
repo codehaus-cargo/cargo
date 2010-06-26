@@ -86,6 +86,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      * 
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         setupConfigurationDir();
@@ -102,9 +103,9 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
             StringBuilder tmp = new StringBuilder();
             if (sharedClassPath != null)
             {
-                for (int i = 0; i < sharedClassPath.length; i++)
+                for (String element : sharedClassPath)
                 {
-                    tmp.append(',').append(escapePath(sharedClassPath[i]));
+                    tmp.append(',').append(escapePath(element));
                 }
             }
             getAntUtils().addTokenToFilterChain(filterChain, "catalina.common.loader",
@@ -150,6 +151,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      * 
      * @see #setupTransactionManager()
      */
+    @Override
     public void configureDataSources(LocalContainer container)
     {
         super.configureDataSources(container);
@@ -351,6 +353,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      * 
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "Catalina Standalone Configuration";
@@ -429,6 +432,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      * 
      * @return path the the parent element resources should be inserted under.
      */
+    @Override
     protected String getXpathForDataSourcesParent()
     {
         return getXpathForResourcesParent();
@@ -437,6 +441,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getOrCreateDataSourceConfigurationFile(DataSource ds, LocalContainer container)
     {
         return getOrCreateResourceConfigurationFile(null, container);
@@ -449,6 +454,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      * @return a map of prefixes to the url namespaces used in the datasource or resource
      *         configuration file.
      */
+    @Override
     protected Map getNamespaces()
     {
         return Collections.EMPTY_MAP;

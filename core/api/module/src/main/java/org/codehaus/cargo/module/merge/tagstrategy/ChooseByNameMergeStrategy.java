@@ -71,6 +71,7 @@ public class ChooseByNameMergeStrategy extends AbstractChoiceMergeStrategy
      * @see org.codehaus.cargo.module.merge.strategy.AbstractChoiceMergeStrategy#getApplicableStrategy(org.codehaus.cargo.module.merge.AbstractMergeSet,
      *      org.w3c.dom.Element)
      */
+    @Override
     MergeStrategy getApplicableStrategy(Descriptor set, DescriptorElement element)
     {
         Identifier id = element.getTag().getIdentifier();

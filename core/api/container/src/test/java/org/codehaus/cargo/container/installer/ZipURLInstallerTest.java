@@ -47,6 +47,7 @@ public class ZipURLInstallerTest extends TestCase
 
     private class HarmlessGet extends Get
     {
+        @Override
         public void execute() throws BuildException
         {
             // Do nothing
@@ -55,12 +56,14 @@ public class ZipURLInstallerTest extends TestCase
 
     private class FailingGet extends Get
     {
+        @Override
         public void execute() throws BuildException
         {
             throw new BuildException("Failed to download file...");
         }
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -73,6 +76,7 @@ public class ZipURLInstallerTest extends TestCase
         this.installer.setFileHandler(this.fileHandler);
     }
 
+    @Override
     protected void tearDown() throws Exception
     {
         super.tearDown();

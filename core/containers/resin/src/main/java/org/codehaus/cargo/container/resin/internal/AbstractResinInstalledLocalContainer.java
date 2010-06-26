@@ -77,6 +77,7 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#doStart(Java)
      */
+    @Override
     public void doStart(Java java) throws Exception
     {
         Path classpath = doAction(java);
@@ -98,6 +99,7 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#doStop(Java)
      */
+    @Override
     public void doStop(Java java) throws Exception
     {
         doAction(java);

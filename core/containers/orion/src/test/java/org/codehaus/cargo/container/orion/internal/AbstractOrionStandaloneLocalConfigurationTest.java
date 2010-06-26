@@ -15,16 +15,19 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest
 {
 
+    @Override
     public LocalConfiguration createLocalConfiguration(String home)
     {
         return new Oc4j9xStandaloneLocalConfiguration(home);
     }
 
+    @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
         return new OrionConfigurationChecker();
     }
 
+    @Override
     protected String getDataSourceConfigurationFile(DataSourceFixture fixture)
     {
         return configuration.getHome() + "/conf/data-sources.xml";
@@ -88,6 +91,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
         xmlUtil.saveXml(document, file);
     }
 
+    @Override
     protected String configureDataSourceViaPropertyAndRetrieveConfigurationFile(
         DataSourceFixture fixture) throws Exception
     {
@@ -95,6 +99,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
         return super.configureDataSourceViaPropertyAndRetrieveConfigurationFile(fixture);
     }
 
+    @Override
     protected String configureDataSourceAndRetrieveConfigurationFile(DataSourceFixture fixture)
         throws Exception
     {
@@ -102,6 +107,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
         return super.configureDataSourceAndRetrieveConfigurationFile(fixture);
     }
 
+    @Override
     protected String getResourceConfigurationFile(ResourceFixture fixture)
     {
         // Orion does not currently support Resources
@@ -113,12 +119,14 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
         // Orion does not currently support Resources
     }
 
+    @Override
     public void testConfigureCreatesResource() throws Exception
     {
         // Orion does not currently support Resources
 
     }
 
+    @Override
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
     {
         // Orion does not currently support Resources

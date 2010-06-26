@@ -48,6 +48,7 @@ public class Jonas5xStandaloneLocalConfiguration extends AbstractJonasStandalone
      * 
      * @see AbstractJonasStandaloneLocalConfiguration#configure(LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         super.doConfigure(container);
@@ -67,6 +68,7 @@ public class Jonas5xStandaloneLocalConfiguration extends AbstractJonasStandalone
      * 
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "JOnAS 5.x Standalone Configuration";

@@ -94,6 +94,7 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContain
      * {@inheritDoc}
      * @see AbstractEmbeddedLocalContainer#doStart()
      */
+    @Override
     protected void doStart() throws Exception
     {
         Tomcat5xEmbedded wrapper = new Tomcat5xEmbedded(getClassLoader());
@@ -155,6 +156,7 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContain
      *
      * @param waitForStarting never used
      */
+    @Override
     protected void waitForCompletion(boolean waitForStarting)
     {
         // Nothing to do here as Tomcat start/stop methods are synchronous.
@@ -174,6 +176,7 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContain
      * {@inheritDoc}
      * @see AbstractEmbeddedLocalContainer#doStop()
      */
+    @Override
     protected void doStop() throws Exception
     {
         if (controller != null)

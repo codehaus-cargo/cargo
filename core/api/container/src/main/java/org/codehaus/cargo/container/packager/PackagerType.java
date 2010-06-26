@@ -71,6 +71,7 @@ public class PackagerType
      * {@inheritDoc}
      * @see Object#equals(Object)
      */
+    @Override
     public boolean equals(Object object)
     {
         boolean result = false;
@@ -90,6 +91,7 @@ public class PackagerType
      * {@inheritDoc}
      * @see Object#hashCode()
      */
+    @Override
     public int hashCode()
     {
         return this.type.hashCode();
@@ -107,6 +109,7 @@ public class PackagerType
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return getType();

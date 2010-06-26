@@ -70,6 +70,7 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends AbstractIns
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#doStop(Java)
      */
+    @Override
     public final void doStop(Java java)
     {
         File adminClientJar = new File(getHome() + "/j2ee/home/admin_client.jar");
@@ -94,6 +95,7 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends AbstractIns
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#doStart(Java)
      */
+    @Override
     public final void doStart(Java java) throws Exception
     {
         // Invoke the main class

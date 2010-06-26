@@ -24,11 +24,13 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 
 public class Tomcat5And6xConfigurationBuilderTest extends Tomcat4xConfigurationBuilderTest
 {
+    @Override
     protected ConfigurationBuilder createConfigurationBuilder()
     {
         return new Tomcat5And6xConfigurationBuilder();
     }
 
+    @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
         return new Tomcat5And6xConfigurationChecker();

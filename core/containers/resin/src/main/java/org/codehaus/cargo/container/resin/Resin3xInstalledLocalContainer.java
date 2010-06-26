@@ -55,6 +55,7 @@ public class Resin3xInstalledLocalContainer extends AbstractResinInstalledLocalC
      * {@inheritDoc}
      * @see AbstractResinInstalledLocalContainer#startUpAdditions(Java, Path)
      */
+    @Override
     protected void startUpAdditions(Java java, Path classpath) throws FileNotFoundException
     {
         // It seems Resin 3.x requires the following property to be 

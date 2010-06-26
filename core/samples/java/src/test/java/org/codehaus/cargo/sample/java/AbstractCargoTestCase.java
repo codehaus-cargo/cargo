@@ -233,12 +233,14 @@ public class AbstractCargoTestCase extends TestCase
         return this.logger;
     }
 
+    @Override
     public String getName()
     {
         return super.getName() + " (" + getTestData().containerId + ","
             + getTestData().containerType + ")";
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         getLogger().info("Starting test [" + getName() + "]", this.getClass().getName());
@@ -254,6 +256,7 @@ public class AbstractCargoTestCase extends TestCase
         }
     }
 
+    @Override
     protected void tearDown()
     {
         // Reset context classloader. See the comment in setUp().
@@ -304,9 +307,9 @@ public class AbstractCargoTestCase extends TestCase
             if (xerces != null)
             {
                 String[] jars = container.getFileHandler().getChildren(xerces);
-                for (int i = 0; i < jars.length; i++)
+                for (String jar : jars)
                 {
-                    container.addExtraClasspath(jars[i]);
+                    container.addExtraClasspath(jar);
                 }
                 container.getSystemProperties().put("javax.xml.parsers.SAXParserFactory",
                     "org.apache.xerces.jaxp.SAXParserFactoryImpl");

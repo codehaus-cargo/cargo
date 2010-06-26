@@ -53,10 +53,12 @@ public class InstalledLocalContainerTest extends TestCase
 
     private String testFile = "ram:/Install/test2";
 
+    @Override
     protected void setUp() throws Exception
     {
         this.configuration = new AbstractStandaloneLocalConfiguration("/some/path")
         {
+            @Override
             protected void doConfigure(LocalContainer container) throws Exception
             {
             }
@@ -66,6 +68,7 @@ public class InstalledLocalContainerTest extends TestCase
                 return null;
             }
 
+            @Override
             public void addResource(Resource resource)
             {
                 // TODO Auto-generated method stub
@@ -90,11 +93,13 @@ public class InstalledLocalContainerTest extends TestCase
             super(configuration);
         }
 
+        @Override
         protected void doStart(Java java) throws Exception
         {
             this.java = java;
         }
 
+        @Override
         protected void doStop(Java java) throws Exception
         {
         }

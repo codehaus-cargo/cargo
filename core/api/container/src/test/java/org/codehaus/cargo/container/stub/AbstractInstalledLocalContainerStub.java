@@ -45,12 +45,14 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
         
     }
 
+    @Override
     public FileHandler getFileHandler()
     {
         // TODO Auto-generated method stub
         return null;
     }
 
+    @Override
     public void setFileHandler(FileHandler handler)
     {
         // TODO Auto-generated method stub

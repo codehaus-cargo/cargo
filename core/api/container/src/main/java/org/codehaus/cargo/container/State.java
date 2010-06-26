@@ -67,6 +67,7 @@ public final class State
     /**
      * @return the textual representation of the state
      */
+    @Override
     public String toString()
     {
         return this.stateText;

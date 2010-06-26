@@ -115,6 +115,7 @@ public final class DeployableType
      * {@inheritDoc}
      * @see Object#equals(Object)
      */
+    @Override
     public boolean equals(Object object)
     {
         boolean result = false;
@@ -133,6 +134,7 @@ public final class DeployableType
      * {@inheritDoc}
      * @see Object#hashCode()
      */
+    @Override
     public int hashCode()
     {
         return this.type.hashCode();
@@ -150,6 +152,7 @@ public final class DeployableType
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return this.type;

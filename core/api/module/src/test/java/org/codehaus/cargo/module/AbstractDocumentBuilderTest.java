@@ -64,6 +64,7 @@ public abstract class AbstractDocumentBuilderTest extends TestCase
     /**
      * @see TestCase#setUp
      */
+    @Override
     protected void setUp() throws ParserConfigurationException
     {
         this.factory = DocumentBuilderFactory.newInstance();

@@ -52,6 +52,7 @@ public class Tomcat4xStandaloneLocalConfiguration extends
      * 
      * @see Tomcat4xConfigurationBuilder
      */
+    @Override
     protected ConfigurationBuilder createConfigurationBuilder(
         LocalContainer container)
     {
@@ -63,6 +64,7 @@ public class Tomcat4xStandaloneLocalConfiguration extends
      * 
      * @see AbstractCatalinaStandaloneLocalConfiguration#setupManager(org.codehaus.cargo.container.LocalContainer)
      */
+    @Override
     protected void setupManager(LocalContainer container)
     {
         String from = ((InstalledLocalContainer) container).getHome();
@@ -78,6 +80,7 @@ public class Tomcat4xStandaloneLocalConfiguration extends
      * {@inheritDoc}
      * Adds the transaction manager into the set of resources assigned to this configuration.
      */
+    @Override
     protected void setupTransactionManager()
     {
         Resource transactionManagerResource =
@@ -94,6 +97,7 @@ public class Tomcat4xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     protected String getXpathForResourcesParent()
     {
         return "//Engine/DefaultContext";
@@ -104,6 +108,7 @@ public class Tomcat4xStandaloneLocalConfiguration extends
      * 
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "Tomcat 4.x Standalone Configuration";
@@ -112,6 +117,7 @@ public class Tomcat4xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     protected String getOrCreateResourceConfigurationFile(Resource rs, LocalContainer container)
     {
         String confDir = getFileHandler().createDirectory(getHome(), "conf");

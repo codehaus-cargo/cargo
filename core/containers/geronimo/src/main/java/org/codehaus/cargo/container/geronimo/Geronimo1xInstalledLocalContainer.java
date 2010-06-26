@@ -81,6 +81,7 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStart(org.apache.tools.ant.taskdefs.Java)
      */
+    @Override
     protected void doStart(Java java) throws Exception
     {
         java.setJar(new File(getHome(), "bin/server.jar"));
@@ -98,6 +99,7 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStop(org.apache.tools.ant.taskdefs.Java)
      */
+    @Override
     protected void doStop(Java java) throws Exception
     {
         java.setJar(new File(getHome(), "bin/shutdown.jar"));
@@ -125,6 +127,7 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#waitForCompletion(boolean)
      */
+    @Override
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
     {
         boolean exitCondition;

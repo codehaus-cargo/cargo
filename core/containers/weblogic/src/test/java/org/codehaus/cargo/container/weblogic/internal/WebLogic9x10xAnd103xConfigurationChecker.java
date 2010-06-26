@@ -52,6 +52,7 @@ public class WebLogic9x10xAnd103xConfigurationChecker extends
         XMLUnit.setXpathNamespaceContext(ctx);
     }
 
+    @Override
     public void checkConfigurationForDriverConfiguredDataSourceWithLocalTransactionSupportMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -66,6 +67,7 @@ public class WebLogic9x10xAnd103xConfigurationChecker extends
 
     }
 
+    @Override
     public void checkConfigurationForDataSourceMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -79,6 +81,7 @@ public class WebLogic9x10xAnd103xConfigurationChecker extends
 
     }
 
+    @Override
     public void checkConfigurationForDriverConfiguredDataSourceWithXaTransactionSupportMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -92,6 +95,7 @@ public class WebLogic9x10xAnd103xConfigurationChecker extends
 
     }
 
+    @Override
     public void checkConfigurationForXADataSourceConfiguredDataSourceMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -104,6 +108,7 @@ public class WebLogic9x10xAnd103xConfigurationChecker extends
                 + NS_PREFIX + "global-transactions-protocol", configuration);
     }
 
+    @Override
     protected void checkDataSource(String configuration, DataSourceFixture dataSourceFixture)
     {
 
@@ -143,6 +148,7 @@ public class WebLogic9x10xAnd103xConfigurationChecker extends
 
     }
 
+    @Override
     public String insertConfigurationEntryIntoContext(String dataSourceEntry)
     {
         return "<jdbc-data-source xmlns=\"http://www.bea.com/ns/weblogic/90\">" + dataSourceEntry

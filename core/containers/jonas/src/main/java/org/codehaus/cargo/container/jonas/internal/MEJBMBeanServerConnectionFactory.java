@@ -606,9 +606,8 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
      */
     public void handle(Callback[] callbacks) throws UnsupportedCallbackException
     {
-        for (int i = 0; i < callbacks.length; i++)
+        for (Callback callback : callbacks)
         {
-            Callback callback = callbacks[i];
             if (callback instanceof NameCallback)
             {
                 if (this.username == null)

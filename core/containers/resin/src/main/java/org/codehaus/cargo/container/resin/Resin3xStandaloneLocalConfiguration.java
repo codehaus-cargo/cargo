@@ -61,6 +61,7 @@ public class Resin3xStandaloneLocalConfiguration extends
      * 
      * @see Resin3xConfigurationBuilder
      */
+    @Override
     protected ConfigurationBuilder createConfigurationBuilder(
         LocalContainer container)
     {
@@ -70,6 +71,7 @@ public class Resin3xStandaloneLocalConfiguration extends
     /**
      * This expression evaluates to: {@value XML_PARENT_OF_RESOURCES} {@inheritDoc}
      */
+    @Override
     protected String getXpathForResourcesParent()
     {
         return "//resin:resin";
@@ -78,6 +80,7 @@ public class Resin3xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     protected Map getNamespaces()
     {
         Map namespaces = new HashMap();
@@ -90,6 +93,7 @@ public class Resin3xStandaloneLocalConfiguration extends
      * 
      * @see AbstractResinStandaloneLocalConfiguration#prepareAdditions(Container, FilterChain)
      */
+    @Override
     protected void prepareAdditions(Container container, FilterChain theFilterChain)
         throws IOException
     {
@@ -127,6 +131,7 @@ public class Resin3xStandaloneLocalConfiguration extends
      * 
      * @see AbstractResinStandaloneLocalConfiguration#createResinFilterChain()
      */
+    @Override
     protected FilterChain createResinFilterChain()
     {
         FilterChain filterChain = getFilterChain();

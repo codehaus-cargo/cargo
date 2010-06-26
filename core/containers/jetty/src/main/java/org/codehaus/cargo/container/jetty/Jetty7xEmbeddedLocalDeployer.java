@@ -62,6 +62,7 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
      * 
      * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalDeployer#deployWebApp(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public Object deployWebApp(Deployable deployable)
     {
         getLogger().info("Deploying [" + deployable.getFile() + "]", this.getClass().getName());
@@ -126,6 +127,7 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
      * 
      * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalDeployer#undeployWebApp(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void undeployWebApp(Deployable deployable)
     {
         stop(deployable);
@@ -147,6 +149,7 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
      * 
      * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void redeploy(Deployable deployable)
     {
         undeploy(deployable);
@@ -158,6 +161,7 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
      * 
      * @see org.codehaus.cargo.container.deployer.Deployer#start(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void start(Deployable deployable)
     {
         try
@@ -176,6 +180,7 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
      * 
      * @see org.codehaus.cargo.container.deployer.Deployer#stop(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void stop(Deployable deployable)
     {
         try

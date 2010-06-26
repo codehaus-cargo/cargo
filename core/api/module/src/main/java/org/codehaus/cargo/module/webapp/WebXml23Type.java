@@ -56,6 +56,7 @@ public class WebXml23Type extends WebXmlType
     /** 
      * {@inheritDoc}
      */
+    @Override
     public WebXmlVersion getVersion()
     {
         return WebXmlVersion.V2_3;

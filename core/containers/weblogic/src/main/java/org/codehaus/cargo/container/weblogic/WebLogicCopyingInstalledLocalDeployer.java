@@ -55,6 +55,7 @@ public class WebLogicCopyingInstalledLocalDeployer extends
      * 
      * @return Deployable directory for the container
      */
+    @Override
     public String getDeployableDir()
     {
         WebLogicLocalContainer container = (WebLogicLocalContainer) getContainer();
@@ -82,6 +83,7 @@ public class WebLogicCopyingInstalledLocalDeployer extends
      * </p>
      * 
      */
+    @Override
     protected void deployExpandedWar(String deployableDir, WAR war)
     {
         getFileHandler().copyDirectory(
@@ -96,6 +98,7 @@ public class WebLogicCopyingInstalledLocalDeployer extends
      * @param deployable
      *                artifact to redeploy
      */
+    @Override
     public void redeploy(Deployable deployable)
     {
         undeploy(deployable);
@@ -108,6 +111,7 @@ public class WebLogicCopyingInstalledLocalDeployer extends
      * @param deployable
      *                artifact to undeploy
      */
+    @Override
     public void undeploy(Deployable deployable)
     {
         if (deployable.getType() != DeployableType.WAR)

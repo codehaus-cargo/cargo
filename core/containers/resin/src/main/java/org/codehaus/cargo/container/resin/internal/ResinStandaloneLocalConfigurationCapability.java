@@ -61,6 +61,7 @@ public class ResinStandaloneLocalConfigurationCapability
      * {@inheritDoc}
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
+    @Override
     protected Map getPropertySupportMap()
     {
         return this.supportsMap;

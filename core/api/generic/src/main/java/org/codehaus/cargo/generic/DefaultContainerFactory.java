@@ -142,6 +142,7 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
      * {@inheritDoc}
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor
      */
+    @Override
     protected Constructor getConstructor(Class containerClass, String containerType,
         GenericParameters parameters) throws NoSuchMethodException
     {
@@ -169,6 +170,7 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
      * {@inheritDoc}
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
+    @Override
     protected Object createInstance(Constructor constructor, String containerType,
         GenericParameters parameters) throws Exception
     {

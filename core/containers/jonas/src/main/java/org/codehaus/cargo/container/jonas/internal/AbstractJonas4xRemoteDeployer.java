@@ -48,6 +48,7 @@ public abstract class AbstractJonas4xRemoteDeployer extends AbstractJonasRemoteD
      * 
      * @see AbstractJonasRemoteDeployer#getOperationName(ActionType, DeployableType, TargetType)
      */
+    @Override
     protected String getOperationName(ActionType actionType, DeployableType deployableType,
         TargetType targetType)
     {
@@ -99,6 +100,7 @@ public abstract class AbstractJonas4xRemoteDeployer extends AbstractJonasRemoteD
      * 
      * @see AbstractJonasRemoteDeployer#getRemoteFileName(Deployable, String, boolean)
      */
+    @Override
     protected String getRemoteFileName(Deployable deployable, String deployableIdentifier,
         boolean askFromServer)
     {

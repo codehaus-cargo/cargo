@@ -106,6 +106,7 @@ public class WebLogic8xConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String buildEntryForDriverConfiguredDataSourceWithLocalTx(DataSource ds)
     {
         return configureDataSourceWithImplementationClass(ds, ds.getDriverClass());
@@ -114,6 +115,7 @@ public class WebLogic8xConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String buildEntryForDriverConfiguredDataSourceWithNoTx(DataSource ds)
     {
         return configureDataSourceWithImplementationClass(ds, ds.getDriverClass());
@@ -123,6 +125,7 @@ public class WebLogic8xConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String buildEntryForDriverConfiguredDataSourceWithXaTx(DataSource ds)
     {
         return configureDataSourceWithImplementationClass(ds, ds.getDriverClass());
@@ -132,6 +135,7 @@ public class WebLogic8xConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String buildConfigurationEntryForXADataSourceConfiguredDataSource(DataSource ds)
     {
         return configureDataSourceWithImplementationClass(ds, ds.getDriverClass());

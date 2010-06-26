@@ -93,6 +93,7 @@ public abstract class AbstractJettyEmbeddedLocalContainer
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.AbstractEmbeddedLocalContainer#doStop()
      */
+    @Override
     protected void doStop() throws Exception
     {
         createServerObject();

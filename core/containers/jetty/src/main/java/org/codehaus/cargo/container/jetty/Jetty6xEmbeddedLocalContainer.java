@@ -133,6 +133,7 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
      * 
      * @see AbstractJettyEmbeddedLocalContainer#doStart()
      */
+    @Override
     protected void doStart() throws Exception
     {
         // Server server = new Server();
@@ -379,6 +380,7 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalContainer#createServerObject()
      */
+    @Override
     protected synchronized void createServerObject() throws Exception
     {
         if (this.server == null)

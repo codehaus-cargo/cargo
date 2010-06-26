@@ -50,6 +50,7 @@ public class TomcatRuntimeConfiguration extends AbstractRuntimeConfiguration
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "Tomcat Runtime Configuration";

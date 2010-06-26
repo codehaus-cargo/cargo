@@ -41,7 +41,8 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
 {
 	private MEJBMBeanServerConnectionFactory factory;
 
-	protected void setUp() throws Exception
+	@Override
+    protected void setUp() throws Exception
 	{
 		super.setUp();
 		factory = new MEJBMBeanServerConnectionFactory();

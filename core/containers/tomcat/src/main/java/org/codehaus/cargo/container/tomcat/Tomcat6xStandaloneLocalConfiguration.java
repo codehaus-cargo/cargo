@@ -48,6 +48,7 @@ public class Tomcat6xStandaloneLocalConfiguration
      * 
      * @see Tomcat5xStandaloneLocalConfiguration#setupManager(org.codehaus.cargo.container.LocalContainer)
      */
+    @Override
     protected void setupManager(LocalContainer container)
     {
         if (container instanceof EmbeddedLocalContainer)
@@ -72,6 +73,7 @@ public class Tomcat6xStandaloneLocalConfiguration
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "Tomcat 6.x Standalone Configuration";

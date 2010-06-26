@@ -91,6 +91,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#deploy(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void deploy(Deployable deployable)
     {
         String file = deployable.getFile();
@@ -114,6 +115,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void undeploy(Deployable deployable)
     {
         String file = deployable.getFile();
@@ -159,6 +161,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void redeploy(Deployable deployable)
     {
         String file = deployable.getFile();
@@ -192,6 +195,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#start(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void start(Deployable deployable)
     {
         String file = deployable.getFile();
@@ -224,6 +228,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#stop(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void stop(Deployable deployable)
     {
         String file = deployable.getFile();

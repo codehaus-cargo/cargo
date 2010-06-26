@@ -79,6 +79,7 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#doStart(Java)
      */
+    @Override
     public final void doStart(Java java) throws Exception
     {
         invoke(java, true);
@@ -88,6 +89,7 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#doStop(Java)
      */
+    @Override
     public final void doStop(Java java) throws Exception
     {
         invoke(java, false);

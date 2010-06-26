@@ -75,6 +75,7 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
      * {@inheritDoc}
      * @see AbstractLocalDeployer#deploy(org.codehaus.cargo.container.deployable.Deployable) 
      */
+    @Override
     public void deploy(Deployable deployable)
     {
         if (container.getController() == null)
@@ -169,6 +170,7 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
      * {@inheritDoc}
      * @see AbstractLocalDeployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void undeploy(Deployable deployable)
     {
         Tomcat5xEmbedded.Context context = getExistingContext(deployable);
@@ -180,6 +182,7 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
      * {@inheritDoc}
      * @see AbstractLocalDeployer#redeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void redeploy(Deployable deployable)
     {
         Tomcat5xEmbedded.Context context = getExistingContext(deployable);
@@ -190,6 +193,7 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
      * {@inheritDoc}
      * @see AbstractLocalDeployer#start(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void start(Deployable deployable)
     {
         getExistingContext(deployable).setAvailable(true);
@@ -199,6 +203,7 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
      * {@inheritDoc}
      * @see AbstractLocalDeployer#stop(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void stop(Deployable deployable)
     {
         getExistingContext(deployable).setAvailable(false);

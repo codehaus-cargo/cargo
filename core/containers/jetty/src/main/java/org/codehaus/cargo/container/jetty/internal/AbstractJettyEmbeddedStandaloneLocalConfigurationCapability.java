@@ -57,6 +57,7 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfigurationCapabilit
      * {@inheritDoc}
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
+    @Override
     protected Map getPropertySupportMap()
     {
         return this.supportsMap;

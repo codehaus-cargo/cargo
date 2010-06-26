@@ -51,6 +51,7 @@ public class JettyRuntimeConfigurationCapability extends AbstractRuntimeConfigur
      * {@inheritDoc}
      * @see AbstractRuntimeConfigurationCapability#getPropertySupportMap()
      */
+    @Override
     protected Map getPropertySupportMap()
     {
         return this.supportsMap;

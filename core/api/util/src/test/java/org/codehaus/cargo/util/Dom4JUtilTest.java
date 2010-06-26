@@ -13,6 +13,7 @@ public class Dom4JUtilTest extends TestCase
 
     private Element testElement;
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();

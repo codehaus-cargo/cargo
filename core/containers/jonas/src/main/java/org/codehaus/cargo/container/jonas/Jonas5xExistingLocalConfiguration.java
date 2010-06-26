@@ -45,6 +45,7 @@ public class Jonas5xExistingLocalConfiguration extends AbstractJonasExistingLoca
      * 
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#doConfigure(org.codehaus.cargo.container.LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         InstalledLocalContainer jonasContainer = (InstalledLocalContainer) container;

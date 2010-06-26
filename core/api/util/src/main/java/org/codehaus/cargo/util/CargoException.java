@@ -64,6 +64,7 @@ public class CargoException extends RuntimeException
     /**
      * Print the full stack trace, including the original exception.
      */
+    @Override
     public void printStackTrace()
     {
         printStackTrace(System.err);
@@ -74,6 +75,7 @@ public class CargoException extends RuntimeException
      *
      * @param ps the byte stream in which to print the stack trace
      */
+    @Override
     public void printStackTrace(PrintStream ps)
     {
         super.printStackTrace(ps);
@@ -89,6 +91,7 @@ public class CargoException extends RuntimeException
      *
      * @param pw the character stream in which to print the stack trace
      */
+    @Override
     public void printStackTrace(PrintWriter pw)
     {
         super.printStackTrace(pw);

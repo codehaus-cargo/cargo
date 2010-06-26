@@ -86,6 +86,7 @@ public class Geronimo1xStandaloneLocalConfiguration extends AbstractStandaloneLo
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.LocalConfiguration#addDeployable(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public synchronized void addDeployable(Deployable newDeployable)
     {
         getLogger().warn("Geronimo doesn't support static deployments. Ignoring deployable ["
@@ -96,6 +97,7 @@ public class Geronimo1xStandaloneLocalConfiguration extends AbstractStandaloneLo
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         setupConfigurationDir();

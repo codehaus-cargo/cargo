@@ -113,6 +113,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
      * {@inheritDoc}
      * @see AbstractStandaloneLocalConfiguration#configure(LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         setupConfigurationDir();
@@ -383,6 +384,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "jo! 1.x Standalone Configuration";

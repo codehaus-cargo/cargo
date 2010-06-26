@@ -60,6 +60,7 @@ public class WebLogicExistingLocalConfiguration extends
      * {@inheritDoc}
      * @see AbstractExistingLocalConfiguration#configure(LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         setupDeployables((WebLogicLocalContainer) container);
@@ -78,6 +79,7 @@ public class WebLogicExistingLocalConfiguration extends
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "WebLogic Existing Configuration";

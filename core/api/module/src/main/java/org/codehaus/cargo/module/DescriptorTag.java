@@ -105,6 +105,7 @@ public class DescriptorTag
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public boolean equals(Object other)
     {
         boolean eq = false;
@@ -123,6 +124,7 @@ public class DescriptorTag
      * {@inheritDoc}
      * @see Object#hashCode()
      */
+    @Override
     public int hashCode()
     {
         return this.getTagName().hashCode();
@@ -184,6 +186,7 @@ public class DescriptorTag
      * {@inheritDoc}
      * @see java.lang.Object#toString
      */
+    @Override
     public String toString()
     {
         return getTagName();
@@ -205,9 +208,8 @@ public class DescriptorTag
         {
             Constructor[] constructors = implementationClass.getConstructors();
           
-            for (int i = 0; i < constructors.length; i++)
+            for (Constructor cons : constructors)
             {
-                Constructor cons = constructors[i];
                 if (cons.getParameterTypes().length == 1)
                 {
                     try

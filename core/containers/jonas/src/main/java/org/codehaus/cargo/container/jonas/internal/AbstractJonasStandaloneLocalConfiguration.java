@@ -81,6 +81,7 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
      * 
      * @see AbstractLocalConfiguration#configure(LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         if (!"http".equals(getPropertyValue(GeneralPropertySet.PROTOCOL)))

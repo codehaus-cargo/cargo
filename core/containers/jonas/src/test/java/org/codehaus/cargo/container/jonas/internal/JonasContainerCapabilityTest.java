@@ -30,6 +30,7 @@ public class JonasContainerCapabilityTest extends MockObjectTestCase
 {
     ContainerCapability capability;
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();

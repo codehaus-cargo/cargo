@@ -63,6 +63,7 @@ public class ResinExistingLocalConfiguration extends AbstractExistingLocalConfig
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#doConfigure(org.codehaus.cargo.container.LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         InstalledLocalContainer resinContainer = (InstalledLocalContainer) container;
@@ -87,6 +88,7 @@ public class ResinExistingLocalConfiguration extends AbstractExistingLocalConfig
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "Resin Existing Configuration";

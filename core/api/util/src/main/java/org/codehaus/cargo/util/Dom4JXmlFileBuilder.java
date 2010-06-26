@@ -102,6 +102,7 @@ public class Dom4JXmlFileBuilder implements XmlFileBuilder
         final Namespace namespaceOfParent = parent.getNamespace();
         element.accept(new VisitorSupport()
         {
+            @Override
             public void visit(Element node)
             {
                 QName nameOfElementWithCorrectNamespace =

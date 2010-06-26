@@ -54,6 +54,7 @@ public class TomcatRuntimeConfigurationCapability extends AbstractRuntimeConfigu
      * {@inheritDoc}
      * @see AbstractRuntimeConfigurationCapability#getPropertySupportMap()
      */
+    @Override
     protected Map getPropertySupportMap()
     {
         return this.supportsMap;

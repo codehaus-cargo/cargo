@@ -46,6 +46,7 @@ public class Jonas5xMEJBRemoteDeployer extends AbstractJonas5xRemoteDeployer
      * 
      * @see org.codehaus.cargo.container.jonas.internal#getMBeanServerConnectionFactory()
      */
+    @Override
     public MBeanServerConnectionFactory getMBeanServerConnectionFactory()
     {
         return new MEJBMBeanServerConnectionFactory();

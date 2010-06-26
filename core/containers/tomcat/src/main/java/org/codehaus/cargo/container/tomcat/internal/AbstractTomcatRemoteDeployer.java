@@ -48,6 +48,7 @@ public abstract class AbstractTomcatRemoteDeployer extends AbstractTomcatManager
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerDeployer#getConfiguration()
      */
+    @Override
     protected Configuration getConfiguration()
     {
         return this.container.getConfiguration();

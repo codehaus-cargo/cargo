@@ -63,6 +63,7 @@ public class WebLogicExistingLocalConfigurationCapability
      * {@inheritDoc}
      * @see AbstractExistingLocalConfigurationCapability#getPropertySupportMap()
      */
+    @Override
     protected Map getPropertySupportMap()
     {
         return this.supportsMap;

@@ -39,6 +39,7 @@ public class DefaultDeployerFactoryTest extends TestCase
 {
     private DeployerFactory factory;
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();

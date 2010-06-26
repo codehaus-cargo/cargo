@@ -44,6 +44,7 @@ public class Jonas5xJsr160RemoteDeployer extends AbstractJonas5xRemoteDeployer
     /**
      * {@inheritDoc}
      */
+    @Override
     public MBeanServerConnectionFactory getMBeanServerConnectionFactory()
     {
         return new JSR160MBeanServerConnectionFactory();

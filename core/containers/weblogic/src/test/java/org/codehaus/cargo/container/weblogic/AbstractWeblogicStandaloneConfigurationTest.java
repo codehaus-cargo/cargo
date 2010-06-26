@@ -18,6 +18,7 @@ public abstract class AbstractWeblogicStandaloneConfigurationTest extends
         super(name);
     }
 
+    @Override
     protected String configureDataSourceViaPropertyAndRetrieveConfigurationFile(
         DataSourceFixture fixture) throws Exception
     {
@@ -27,6 +28,7 @@ public abstract class AbstractWeblogicStandaloneConfigurationTest extends
 
     abstract protected void setUpDataSourceFile() throws Exception;
 
+    @Override
     protected String configureDataSourceAndRetrieveConfigurationFile(DataSourceFixture fixture)
         throws Exception
     {
@@ -34,6 +36,7 @@ public abstract class AbstractWeblogicStandaloneConfigurationTest extends
         return super.configureDataSourceAndRetrieveConfigurationFile(fixture);
     }
 
+    @Override
     protected String getResourceConfigurationFile(ResourceFixture fixture)
     {
         // WebLogic does not currently support Resources
@@ -45,12 +48,14 @@ public abstract class AbstractWeblogicStandaloneConfigurationTest extends
         // WebLogic does not currently support Resources
     }
 
+    @Override
     public void testConfigureCreatesResource() throws Exception
     {
         // WebLogic does not currently support Resources
 
     }
 
+    @Override
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
     {
         // WebLogic Resources

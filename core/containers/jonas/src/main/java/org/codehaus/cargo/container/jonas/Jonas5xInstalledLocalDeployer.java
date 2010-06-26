@@ -65,6 +65,7 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * 
      * @see AbstractCopyingInstalledLocalDeployer#getDeployableDir()
      */
+    @Override
     public String getDeployableDir()
     {
         return getContainer().getConfiguration().getHome() + "/deploy";
@@ -75,6 +76,7 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * 
      * @see AbstractCopyingInstalledLocalDeployer#deployRar(String, RAR)
      */
+    @Override
     public void deployRar(String deployableDir, RAR rar)
     {
         super.deployRar(deployableDir, rar);
@@ -85,6 +87,7 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * 
      * @see AbstractCopyingInstalledLocalDeployer#deployWar(String, WAR)
      */
+    @Override
     public void deployWar(String deployableDir, WAR war)
     {
         super.deployWar(deployableDir, war);
@@ -95,6 +98,7 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * 
      * @see AbstractCopyingInstalledLocalDeployer#deployEjb(String, EJB)
      */
+    @Override
     public void deployEjb(String deployableDir, EJB ejb)
     {
         super.deployEjb(deployableDir, ejb);
@@ -105,6 +109,7 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * 
      * @see AbstractCopyingInstalledLocalDeployer#deployEar(String, EAR)
      */
+    @Override
     public void deployEar(String deployableDir, EAR ear)
     {
         super.deployEar(deployableDir, ear);
@@ -118,6 +123,7 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      *        for deployments
      * @param war the expanded WAR war
      */
+    @Override
     public void deployExpandedWar(String deployableDir, WAR war)
     {
         getFileHandler().copyDirectory(

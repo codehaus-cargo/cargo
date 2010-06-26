@@ -81,6 +81,7 @@ public class JRun4xConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String buildEntryForDriverConfiguredDataSourceWithLocalTx(DataSource ds)
     {
         return configureDataSourceWithImplementationClass(ds, ds.getDriverClass());
@@ -89,6 +90,7 @@ public class JRun4xConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String buildEntryForDriverConfiguredDataSourceWithNoTx(DataSource ds)
     {
         return configureDataSourceWithImplementationClass(ds, ds.getDriverClass());
@@ -98,6 +100,7 @@ public class JRun4xConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String buildEntryForDriverConfiguredDataSourceWithXaTx(DataSource ds)
     {
         return configureDataSourceWithImplementationClass(ds, ds.getDriverClass());
@@ -107,6 +110,7 @@ public class JRun4xConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String buildConfigurationEntryForXADataSourceConfiguredDataSource(DataSource ds)
     {
         return configureDataSourceWithImplementationClass(ds, ds.getDriverClass());

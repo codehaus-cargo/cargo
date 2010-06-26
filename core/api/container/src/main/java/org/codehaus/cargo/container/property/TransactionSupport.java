@@ -63,6 +63,7 @@ public final class TransactionSupport
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toString()
     {
         return transactionSupport;
@@ -71,6 +72,7 @@ public final class TransactionSupport
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean equals(Object obj)
     {
         if (obj != null && obj instanceof TransactionSupport)
@@ -86,6 +88,7 @@ public final class TransactionSupport
     /**
      * {@inheritDoc}
      */
+    @Override
     public int hashCode()
     {
         return transactionSupport.hashCode();

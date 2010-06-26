@@ -73,11 +73,13 @@ public class VFSFileHandler extends DefaultFileHandler
         this.fileSystemManager = fileSystemManager;
     }
 
+    @Override
     public void copyFile(String source, String target)
     {
         copyDirectory(source, target);
     }
 
+    @Override
     public void copyDirectory(String source, String target)
     {
         try
@@ -92,11 +94,13 @@ public class VFSFileHandler extends DefaultFileHandler
         }
     }
 
+    @Override
     public void copyDirectory(String source, String target, List excludes)
     {
         throw new RuntimeException("Not implemented yet");
     }
 
+    @Override
     public void createFile(String file)
     {
         try
@@ -109,6 +113,7 @@ public class VFSFileHandler extends DefaultFileHandler
         }
     }
 
+    @Override
     public String createDirectory(String parent, String file)
     {
         if (file == null)
@@ -135,6 +140,7 @@ public class VFSFileHandler extends DefaultFileHandler
         }
     }
 
+    @Override
     public boolean exists(String path)
     {
         boolean result;
@@ -149,6 +155,7 @@ public class VFSFileHandler extends DefaultFileHandler
         return result;
     }
 
+    @Override
     public String getParent(String path)
     {
         String result;
@@ -163,6 +170,7 @@ public class VFSFileHandler extends DefaultFileHandler
         return result;
     }
 
+    @Override
     public void mkdirs(String path)
     {
         try
@@ -175,6 +183,7 @@ public class VFSFileHandler extends DefaultFileHandler
         }
     }
 
+    @Override
     public OutputStream getOutputStream(String file)
     {
         OutputStream result;
@@ -189,6 +198,7 @@ public class VFSFileHandler extends DefaultFileHandler
         return result;
     }
 
+    @Override
     public InputStream getInputStream(String file)
     {
         InputStream result;
@@ -203,6 +213,7 @@ public class VFSFileHandler extends DefaultFileHandler
         return result;
     }
 
+    @Override
     public boolean isDirectoryEmpty(String dir)
     {
         boolean isEmpty;
@@ -217,6 +228,7 @@ public class VFSFileHandler extends DefaultFileHandler
         return isEmpty;
     }
 
+    @Override
     public void delete(String path)
     {
         try
@@ -235,6 +247,7 @@ public class VFSFileHandler extends DefaultFileHandler
      * {@inheritDoc}
      * @see FileHandler#isDirectory(String)
      */
+    @Override
     public boolean isDirectory(String path)
     {
         boolean isDirectory;
@@ -254,6 +267,7 @@ public class VFSFileHandler extends DefaultFileHandler
      * {@inheritDoc}
      * @see FileHandler#getName(String)
      */
+    @Override
     public String getName(String file)
     {
         String name;
@@ -268,6 +282,7 @@ public class VFSFileHandler extends DefaultFileHandler
         return name;
     }
 
+    @Override
     public String[] getChildren(String directory)
     {
         String[] results;

@@ -68,6 +68,7 @@ public class Oc4j9xInstalledLocalContainer extends AbstractOrionInstalledLocalCo
      * {@inheritDoc}
      * @see AbstractOrionInstalledLocalContainer#getStartClassname()
      */
+    @Override
     protected String getStartClassname()
     {
         return "com.evermind.server.OC4JServer";
@@ -77,6 +78,7 @@ public class Oc4j9xInstalledLocalContainer extends AbstractOrionInstalledLocalCo
      * {@inheritDoc}
      * @see AbstractOrionInstalledLocalContainer#getStopClassname()
      */
+    @Override
     protected String getStopClassname()
     {
         return "com.evermind.client.orion.Oc4jAdminConsole";
@@ -86,6 +88,7 @@ public class Oc4j9xInstalledLocalContainer extends AbstractOrionInstalledLocalCo
      * {@inheritDoc}
      * @see AbstractOrionInstalledLocalContainer#getContainerClasspathIncludes()
      */
+    @Override
     protected String getContainerClasspathIncludes()
     {
         return "j2ee/home/*.jar";

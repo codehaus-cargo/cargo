@@ -55,6 +55,7 @@ public class JRun4xInstalledLocalContainer extends AbstractJRunInstalledLocalCon
      * {@inheritDoc}
      * @see AbstractJRunInstalledLocalContainer#startUpAdditions(Java, Path)
      */
+    @Override
     protected void startUpAdditions(Java java, Path classpath) throws FileNotFoundException
     {
         java.addSysproperty(getAntUtils().createSysProperty("sun.io.useCanonCaches", "false"));

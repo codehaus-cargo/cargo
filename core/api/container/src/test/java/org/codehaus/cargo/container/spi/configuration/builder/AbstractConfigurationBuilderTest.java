@@ -35,6 +35,7 @@ public abstract class AbstractConfigurationBuilderTest extends TestCase implemen
 
     ConfigurationChecker checker;
 
+    @Override
     public void setUp()
     {
         builder = createConfigurationBuilder();

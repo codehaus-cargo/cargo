@@ -33,6 +33,7 @@ public class LoggerTest extends TestCase
     {
         private String message;
 
+        @Override
         protected void doLog(LogLevel level, String message, String category)
         {
             this.message = "[" + level.getLevel() + "][" + category + "][" + message + "]";

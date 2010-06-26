@@ -44,6 +44,7 @@ public class ResinInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
      *
      * @return Deployable directory
      */
+    @Override
     public String getDeployableDir()
     {
         return getFileHandler().append(getContainer().getConfiguration().getHome(), "webapps");

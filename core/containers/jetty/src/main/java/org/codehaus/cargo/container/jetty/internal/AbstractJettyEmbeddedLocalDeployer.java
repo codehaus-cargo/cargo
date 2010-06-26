@@ -90,6 +90,7 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#deploy(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void deploy(Deployable deployable)
     {
         Object o = deployWebApp(deployable);
@@ -100,6 +101,7 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void undeploy(Deployable deployable)
     {
         undeployWebApp(deployable);
@@ -110,6 +112,7 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#getType()
      */
+    @Override
     public DeployerType getType()
     {
         return DeployerType.EMBEDDED;

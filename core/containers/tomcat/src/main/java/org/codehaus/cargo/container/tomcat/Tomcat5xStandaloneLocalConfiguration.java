@@ -68,6 +68,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
      * 
      * @see Tomcat5And6xConfigurationBuilder
      */
+    @Override
     protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)
     {
         return configurationBuilder;
@@ -78,6 +79,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
      * 
      * @see AbstractCatalinaStandaloneLocalConfiguration#setupManager(org.codehaus.cargo.container.LocalContainer)
      */
+    @Override
     protected void setupManager(LocalContainer container)
     {
         if (container instanceof EmbeddedLocalContainer)
@@ -104,6 +106,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
      * 
      * @see AbstractCatalinaStandaloneLocalConfiguration#createTomcatFilterChain()
      */
+    @Override
     protected FilterChain createTomcatFilterChain()
     {
         FilterChain filterChain = super.createTomcatFilterChain();
@@ -119,6 +122,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
      * 
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "Tomcat 5.x Standalone Configuration";
@@ -129,6 +133,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
      * 
      * @see AbstractCatalinaStandaloneLocalConfiguration#setupManager(org.codehaus.cargo.container.LocalContainer)
      */
+    @Override
     protected Set getConfFiles()
     {
         Set files = super.getConfFiles();
@@ -140,6 +145,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     protected void setupTransactionManager()
     {
         Resource transactionManagerResource =
@@ -156,6 +162,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     protected String getXpathForResourcesParent()
     {
         return "//Context";
@@ -164,6 +171,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc} In Tomcat 5.5+, we use context.xml to avoid configuration problems.
      */
+    @Override
     protected String getOrCreateResourceConfigurationFile(Resource rs, LocalContainer container)
     {
         String confDir = getFileHandler().createDirectory(getHome(), "conf");

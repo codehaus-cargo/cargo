@@ -86,6 +86,7 @@ public final class EjbJarXmlVersion implements Comparable
      * {@inheritDoc}
      * @see java.lang.Object#toString
      */
+    @Override
     public boolean equals(Object other)
     {
         return super.equals(other);
@@ -95,6 +96,7 @@ public final class EjbJarXmlVersion implements Comparable
      * {@inheritDoc}
      * @see java.lang.Object#hashCode
      */
+    @Override
     public int hashCode()
     {
         return super.hashCode();
@@ -134,6 +136,7 @@ public final class EjbJarXmlVersion implements Comparable
      * {@inheritDoc}
      * @see java.lang.Object#toString
      */
+    @Override
     public String toString()
     {
         return getVersion();

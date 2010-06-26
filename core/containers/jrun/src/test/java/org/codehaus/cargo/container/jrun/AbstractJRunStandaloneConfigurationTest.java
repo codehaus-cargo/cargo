@@ -18,6 +18,7 @@ public abstract class AbstractJRunStandaloneConfigurationTest extends
         super(name);
     }
 
+    @Override
     protected String configureDataSourceViaPropertyAndRetrieveConfigurationFile(
         DataSourceFixture fixture) throws Exception
     {
@@ -27,6 +28,7 @@ public abstract class AbstractJRunStandaloneConfigurationTest extends
 
     abstract protected void setUpDataSourceFile() throws Exception;
 
+    @Override
     protected String configureDataSourceAndRetrieveConfigurationFile(DataSourceFixture fixture)
         throws Exception
     {
@@ -34,6 +36,7 @@ public abstract class AbstractJRunStandaloneConfigurationTest extends
         return super.configureDataSourceAndRetrieveConfigurationFile(fixture);
     }
 
+    @Override
     protected String getResourceConfigurationFile(ResourceFixture fixture)
     {
         return null;
@@ -44,12 +47,14 @@ public abstract class AbstractJRunStandaloneConfigurationTest extends
         // JRun does not currently support Resources
     }
 
+    @Override
     public void testConfigureCreatesResource() throws Exception
     {
         // JRun does not currently support Resources
 
     }
 
+    @Override
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
     {
     	// JRun does not currently support Resources

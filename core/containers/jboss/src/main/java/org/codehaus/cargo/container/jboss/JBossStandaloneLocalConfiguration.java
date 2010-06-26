@@ -100,6 +100,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         getLogger().info("Configuring JBoss using the ["
@@ -124,10 +125,10 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
             StringBuffer tmp = new StringBuffer();
             if (sharedClassPath != null)
             {
-                for (int i = 0; i < sharedClassPath.length; i++)
+                for (String element : sharedClassPath)
                 {
-                    String fileName = getFileHandler().getName(sharedClassPath[i]);
-                    String directoryName = getFileHandler().getParent(sharedClassPath[i]);
+                    String fileName = getFileHandler().getName(element);
+                    String directoryName = getFileHandler().getParent(element);
 
                     tmp.append("<classpath codebase=\"" + directoryName + "\" archives=\""
                             + fileName + "\"/>");
@@ -158,11 +159,11 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         // Copy configuration files from cargo resources directory with token replacement
         String[] cargoFiles = new String[] {"cargo-binding.xml", this.logFileName,
             "jboss-service.xml"};
-        for (int i = 0; i < cargoFiles.length; i++)
+        for (String cargoFile : cargoFiles)
         {
             getResourceUtils().copyResource(
-                RESOURCE_PATH + jbossContainer.getId() + "/" + cargoFiles[i],
-                new File(confDir, cargoFiles[i]), filterChain);
+                RESOURCE_PATH + jbossContainer.getId() + "/" + cargoFile,
+                new File(confDir, cargoFile), filterChain);
         }
 
         // Copy resources from jboss installation folder and exclude files
@@ -186,6 +187,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#verify()
      */
+    @Override
     public void verify()
     {
         super.verify();
@@ -248,9 +250,9 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
      */
     private boolean isExcluded(String[] cargoFiles, String filename)
     {
-        for (int i = 0; i < cargoFiles.length; i++)
+        for (String cargoFile : cargoFiles)
         {
-            if (cargoFiles[i].equals(filename))
+            if (cargoFile.equals(filename))
             {
                 return true;
             }
@@ -374,6 +376,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "JBoss Standalone Configuration";

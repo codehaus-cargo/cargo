@@ -70,6 +70,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStart(Java)
      */
+    @Override
     protected void doStart(Java java) throws Exception
     {
         java.addSysproperty(getAntUtils().createSysProperty("java.endorsed.dirs",
@@ -117,6 +118,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStop(Java)
      */
+    @Override
     protected void doStop(Java java) throws Exception
     {
         Path classPath = java.createClasspath();
@@ -163,6 +165,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
     /**
      * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#verify()
      */
+    @Override
     protected final void verify()
     {
         super.verify();
@@ -316,9 +319,9 @@ public abstract class AbstractJBossInstalledLocalContainer extends
 
         // Verify minimal jars for doStart() and doStop()
         String[] requiredJars = new String[]{"bin/run.jar", "bin/shutdown.jar"};
-        for (int i = 0; i < requiredJars.length; i++)
+        for (String requiredJar : requiredJars)
         {
-            String jarFile = getFileHandler().append(getHome(), requiredJars[i]);
+            String jarFile = getFileHandler().append(getHome(), requiredJar);
             if (!getFileHandler().exists(jarFile))
             {
                 throw new ContainerException(errorPrefix + "The [" + jarFile

@@ -77,6 +77,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getOrCreateDataSourceConfigurationFile(DataSource ds, LocalContainer container)
     {
         return getOrCreateResourceConfigurationFile(null, container);
@@ -85,6 +86,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     protected String getOrCreateResourceConfigurationFile(Resource resource,
         LocalContainer container)
     {
@@ -95,6 +97,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     protected String getXpathForDataSourcesParent()
     {
         return getXpathForResourcesParent();
@@ -122,6 +125,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
      * 
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         setupConfigurationDir();
@@ -240,6 +244,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
      * 
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "Resin Standalone Configuration";

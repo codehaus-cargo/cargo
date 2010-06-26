@@ -921,9 +921,9 @@ public final class WebXmlUtils
 
         if (dispatchers != null)
         {
-            for (int i = 0; i < dispatchers.length; i++)
+            for (String dispatcher : dispatchers)
             {
-                filterMappingElement.addDispatcher(dispatchers[i]);
+                filterMappingElement.addDispatcher(dispatcher);
             }
         }
 

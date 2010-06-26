@@ -123,6 +123,7 @@ public class WebLogic9xConfigXmlInstalledLocalDeployer extends AbstractInstalled
      * 
      * @see org.codehaus.cargo.container.spi.deployer.AbstractDeployer#deploy(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void deploy(Deployable deployable)
     {
         Document configXml = readConfigXml();
@@ -137,6 +138,7 @@ public class WebLogic9xConfigXmlInstalledLocalDeployer extends AbstractInstalled
      * 
      * @see org.codehaus.cargo.container.spi.deployer.AbstractDeployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void undeploy(Deployable deployable)
     {
         Document configXml = readConfigXml();

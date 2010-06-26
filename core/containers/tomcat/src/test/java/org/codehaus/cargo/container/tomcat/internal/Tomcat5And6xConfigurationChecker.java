@@ -36,11 +36,13 @@ import org.xml.sax.SAXException;
  */
 public class Tomcat5And6xConfigurationChecker extends Tomcat4xConfigurationChecker
 {
+    @Override
     protected String getDataSourceFactory()
     {
         return "org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory";
     }
 
+    @Override
     protected void notExists(String configuration, DataSourceFixture dataSourceFixture)
         throws Exception
     {
@@ -51,6 +53,7 @@ public class Tomcat5And6xConfigurationChecker extends Tomcat4xConfigurationCheck
 
     }
 
+    @Override
     protected void checkConfigurationMatchesResource(String configuration, Resource resource)
         throws Exception
     {
@@ -86,6 +89,7 @@ public class Tomcat5And6xConfigurationChecker extends Tomcat4xConfigurationCheck
         }
     }
 
+    @Override
     public String insertConfigurationEntryIntoContext(String dataSourceEntry)
     {
         return "<Context>" + dataSourceEntry + "</Context>";

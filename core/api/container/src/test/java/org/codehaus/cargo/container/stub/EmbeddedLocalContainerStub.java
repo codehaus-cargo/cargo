@@ -76,6 +76,7 @@ public class EmbeddedLocalContainerStub
         return result;
     }
     
+    @Override
     public FileHandler getFileHandler()
     {
         throw new RuntimeException("Not implemented");

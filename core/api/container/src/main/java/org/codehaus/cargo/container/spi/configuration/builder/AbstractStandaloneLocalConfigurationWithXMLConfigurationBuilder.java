@@ -117,6 +117,7 @@ public abstract class AbstractStandaloneLocalConfigurationWithXMLConfigurationBu
      * 
      * @param container the container to configure
      */
+    @Override
     public void configure(LocalContainer container)
     {
         super.configure(container);

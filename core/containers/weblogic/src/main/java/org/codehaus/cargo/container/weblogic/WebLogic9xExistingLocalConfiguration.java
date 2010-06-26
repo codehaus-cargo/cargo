@@ -48,6 +48,7 @@ public class WebLogic9xExistingLocalConfiguration extends WebLogicExistingLocalC
      * @param container the container to configure
      * @throws IOException if the cargo ping deployment fails
      */
+    @Override
     protected void setupDeployables(WebLogicLocalContainer container) throws IOException
     {
         WebLogicLocalContainer weblogicContainer = container;

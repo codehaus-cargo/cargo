@@ -42,6 +42,7 @@ public class Oc4j9xStandaloneLocalConfiguration extends AbstractOrionStandaloneL
      * {@inheritDoc}
      * @see AbstractOrionStandaloneLocalConfiguration#copyCustomResources(java.io.File, org.apache.tools.ant.types.FilterChain)
      */
+    @Override
     protected void copyCustomResources(String confDir, FilterChain filterChain) throws Exception
     {
         getResourceUtils().copyResource(RESOURCE_PATH + "oc4j9x" + "/global-web-application.xml",
@@ -53,6 +54,7 @@ public class Oc4j9xStandaloneLocalConfiguration extends AbstractOrionStandaloneL
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "OC4J Standalone Configuration";

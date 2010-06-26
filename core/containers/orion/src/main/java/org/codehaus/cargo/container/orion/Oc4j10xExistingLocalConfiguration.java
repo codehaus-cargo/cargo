@@ -63,6 +63,7 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
     /**
      * {@inheritDoc}
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         FileUtils fileUtils = FileUtils.newFileUtils();

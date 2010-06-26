@@ -79,6 +79,7 @@ public class FileLogger extends AbstractLogger
      * {@inheritDoc}
      * @see AbstractLogger#doLog(LogLevel, String, String)
      */
+    @Override
     protected void doLog(LogLevel level, String message, String category)
     {
         final String formattedCategory = category.length() > 20

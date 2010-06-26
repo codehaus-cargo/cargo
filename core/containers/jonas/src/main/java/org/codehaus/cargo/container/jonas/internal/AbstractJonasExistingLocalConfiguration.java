@@ -96,6 +96,7 @@ public abstract class AbstractJonasExistingLocalConfiguration extends
      * 
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return toString;

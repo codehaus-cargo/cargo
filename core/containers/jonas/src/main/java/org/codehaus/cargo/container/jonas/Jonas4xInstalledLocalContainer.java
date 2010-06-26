@@ -60,6 +60,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      *
      * @see AbstractJonasInstalledLocalContainer#doStart(Java)
      */
+    @Override
     public void doStart(final Java java)
     {
         doAction(java);
@@ -75,6 +76,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      *
      * @see AbstractJonasInstalledLocalContainer#doStop(Java)
      */
+    @Override
     public void doStop(final Java java)
     {
         // Wait until JonasAdmin stop succeeds, throw exception if anything bad occurs
@@ -144,6 +146,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      *
      * @see AbstractJonasInstalledLocalContainer#setupExtraSysProps(Java, Map)
      */
+    @Override
     protected void setupExtraSysProps(final Java java, final Map configuredSysProps)
     {
         addSysProp(java, configuredSysProps, "jonas.default.classloader", "true");

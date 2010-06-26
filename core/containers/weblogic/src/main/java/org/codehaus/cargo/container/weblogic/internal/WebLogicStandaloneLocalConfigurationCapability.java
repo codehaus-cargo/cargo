@@ -82,6 +82,7 @@ public class WebLogicStandaloneLocalConfigurationCapability extends
      * 
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
+    @Override
     protected Map getPropertySupportMap()
     {
         return this.supportsMap;

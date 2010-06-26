@@ -69,6 +69,7 @@ public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -86,6 +87,7 @@ public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration#activateLogging(org.codehaus.cargo.container.LocalContainer)
      */
+    @Override
     protected void activateLogging(LocalContainer container) throws Exception
     {
         ClassLoader cl = ((EmbeddedLocalContainer) container).getClassLoader();
@@ -128,6 +130,7 @@ public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "Jetty 5.x Embedded Standalone Configuration";

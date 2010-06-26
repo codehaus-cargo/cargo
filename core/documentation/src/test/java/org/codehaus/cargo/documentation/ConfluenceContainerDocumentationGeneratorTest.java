@@ -37,6 +37,7 @@ public class ConfluenceContainerDocumentationGeneratorTest extends TestCase
 {
     private ConfluenceContainerDocumentationGenerator generator;
 
+    @Override
     protected void setUp()
     {
         this.generator = new ConfluenceContainerDocumentationGenerator();

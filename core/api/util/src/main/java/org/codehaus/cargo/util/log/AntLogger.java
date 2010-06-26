@@ -105,6 +105,7 @@ public class AntLogger extends AbstractLogger
      * {@inheritDoc}
      * @see AbstractLogger#doLog(LogLevel, String, String)
      */
+    @Override
     protected void doLog(LogLevel level, String message, String category)
     {
         int antLogLevel = ((Integer) this.levelMapper.get(level)).intValue();

@@ -31,6 +31,7 @@ public class Dom4JXmlFileBuilderTest extends TestCase
 
     private Map namespaces;
 
+    @Override
     public void setUp() throws Exception
     {
         this.fsManager = new StandardFileSystemManager();
@@ -49,6 +50,7 @@ public class Dom4JXmlFileBuilderTest extends TestCase
      * 
      * @see junit.framework.TestCase#tearDown()
      */
+    @Override
     protected void tearDown() throws Exception
     {
         if (fsManager != null)

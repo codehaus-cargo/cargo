@@ -220,6 +220,7 @@ public class Proxy extends LoggedObject
          * {@inheritDoc}
          * @see java.net.Authenticator#getPasswordAuthentication()
          */
+        @Override
         protected PasswordAuthentication getPasswordAuthentication()
         {
             return this.authentication;

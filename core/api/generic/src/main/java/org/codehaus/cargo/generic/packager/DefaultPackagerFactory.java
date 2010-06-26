@@ -127,6 +127,7 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
      * {@inheritDoc}
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor(Class, String, org.codehaus.cargo.generic.spi.AbstractGenericHintFactory.GenericParameters)
      */
+    @Override
     protected Constructor getConstructor(Class deployerClass, String hint,
         GenericParameters parameters) throws NoSuchMethodException
     {
@@ -150,6 +151,7 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
      * {@inheritDoc}
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
+    @Override
     protected Object createInstance(Constructor constructor, String hint,
         GenericParameters parameters) throws Exception
     {

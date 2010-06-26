@@ -54,7 +54,8 @@ public class ConfigurationFilesTest extends TestCase
 			super(dir);
 		}
 
-		protected void doConfigure(LocalContainer container) {
+		@Override
+        protected void doConfigure(LocalContainer container) {
 			configureFiles(getFilterChain());
 		}
 
@@ -72,7 +73,8 @@ public class ConfigurationFilesTest extends TestCase
 	}
 
 
-	protected void setUp() throws Exception
+	@Override
+    protected void setUp() throws Exception
 	{
 		File testDir = File.createTempFile("cargo-config-file-test", null);
 		// Delete and then recreate temporary directory since File doesn't support creating a temporary directory
@@ -86,7 +88,8 @@ public class ConfigurationFilesTest extends TestCase
 		configuration = new TestableAbstractStandaloneConfiguration(getAbsolutePath(confHome));
 	}
 	
-	protected void tearDown() throws Exception {
+	@Override
+    protected void tearDown() throws Exception {
 		// set all the files to delete on exit
 		File home = new File(configuration.getHome());
 		for (int i = 0 ; i < home.listFiles().length; i ++)

@@ -62,6 +62,7 @@ public class JRun4xExistingLocalConfiguration extends AbstractExistingLocalConfi
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#doConfigure(org.codehaus.cargo.container.LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         // set default server instance if none defined.
@@ -83,6 +84,7 @@ public class JRun4xExistingLocalConfiguration extends AbstractExistingLocalConfi
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "JRun 4x Existing Configuration";

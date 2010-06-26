@@ -11,6 +11,7 @@ public abstract class AbstractResinConfigurationBuilderTest extends
         super();
     }
 
+    @Override
     public void testBuildConfigurationEntryForDriverConfiguredDataSourceWithLocalTransactionSupport()
         throws Exception
     {
@@ -26,6 +27,7 @@ public abstract class AbstractResinConfigurationBuilderTest extends
         }
     }
 
+    @Override
     public void testBuildConfigurationEntryForDriverConfiguredDataSourceWithXaTransactionSupport()
         throws Exception
     {

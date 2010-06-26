@@ -68,6 +68,7 @@ public class GeronimoStandaloneLocalConfigurationCapability
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
+    @Override
     protected Map getPropertySupportMap()
     {
         return this.propertySupportMap;

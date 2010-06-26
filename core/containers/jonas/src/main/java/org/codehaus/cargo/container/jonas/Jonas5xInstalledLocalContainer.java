@@ -54,6 +54,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      *
      * @see AbstractJonasInstalledLocalContainer#doStart(Java)
      */
+    @Override
     public void doStart(final Java java)
     {
         doAction(java);
@@ -69,6 +70,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      *
      * @see AbstractJonasInstalledLocalContainer#doStop(Java)
      */
+    @Override
     public void doStop(final Java java)
     {
         doAction(java);
@@ -160,6 +162,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      *
      * @see AbstractJonasInstalledLocalContainer#setupExtraSysProps(Java, Map)
      */
+    @Override
     protected void setupExtraSysProps(final Java java, final Map configuredSysProps)
     {
         addSysProp(java, configuredSysProps, "org.omg.CORBA.ORBClass", "org.jacorb.orb.ORB");

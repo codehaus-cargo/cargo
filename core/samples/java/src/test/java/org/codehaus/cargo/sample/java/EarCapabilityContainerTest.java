@@ -59,6 +59,7 @@ public class EarCapabilityContainerTest extends AbstractCargoTestCase
         return suite;
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();

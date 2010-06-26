@@ -86,6 +86,7 @@ public class ResinRun extends DefaultServerRun
      * {@inheritDoc}
      * @see DefaultServerRun#doStartServer
      */
+    @Override
     protected final void doStartServer(String[] args)
     {
         try
@@ -168,6 +169,7 @@ public class ResinRun extends DefaultServerRun
         // Resin stops.
         Thread keepaliveThread = new Thread()
         {
+            @Override
             public void run()
             {
                 try
@@ -202,6 +204,7 @@ public class ResinRun extends DefaultServerRun
      * {@inheritDoc}
      * @see DefaultServerRun#doStopServer
      */
+    @Override
     protected final void doStopServer(String[] args)
     {
         try
@@ -289,6 +292,7 @@ public class ResinRun extends DefaultServerRun
          * {@inheritDoc}
          * @see Thread#run()
          */
+        @Override
         public void run()
         {
             try

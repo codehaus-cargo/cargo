@@ -48,6 +48,7 @@ public class StandaloneConfigurationTest extends TestCase
             super(dir);
         }
 
+        @Override
         protected void doConfigure(LocalContainer container)
         {
             // Do nothing voluntarily for testing

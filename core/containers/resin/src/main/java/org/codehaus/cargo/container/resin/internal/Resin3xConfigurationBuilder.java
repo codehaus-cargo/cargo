@@ -38,6 +38,7 @@ public class Resin3xConfigurationBuilder extends Resin2xConfigurationBuilder
      * @param ds datasource to configure
      * @return String representing the <datasource/> entry.
      */
+    @Override
     protected String toResinConfigurationEntry(DataSource ds)
     {
 
@@ -80,6 +81,7 @@ public class Resin3xConfigurationBuilder extends Resin2xConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toConfigurationEntry(Resource resource)
     {
         StringBuffer resourceString = new StringBuffer();

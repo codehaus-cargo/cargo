@@ -69,6 +69,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      * Configure the specified container.
      * @param container the container to configure
      */
+    @Override
     public void configure(LocalContainer container)
     {
         super.configure(container);
@@ -134,6 +135,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      * {@inheritDoc}
      * @see ContainerConfiguration#verify()
      */
+    @Override
     public void verify()
     {
         super.verify();

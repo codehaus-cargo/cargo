@@ -56,6 +56,7 @@ public class WebXml25Type extends WebXmlType
     /** 
      * {@inheritDoc}
      */
+    @Override
     public WebXmlVersion getVersion()
     {
         return WebXmlVersion.V2_5;

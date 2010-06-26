@@ -101,6 +101,7 @@ public class Resin2xConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String buildEntryForDriverConfiguredDataSourceWithNoTx(DataSource ds)
     {
         return toResinConfigurationEntry(ds);
@@ -109,6 +110,7 @@ public class Resin2xConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String buildEntryForDriverConfiguredDataSourceWithLocalTx(DataSource ds)
     {
         throw new UnsupportedOperationException(TRANSACTIONS_WITH_XA_OR_JCA_ONLY);
@@ -117,6 +119,7 @@ public class Resin2xConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String buildEntryForDriverConfiguredDataSourceWithXaTx(DataSource ds)
     {
         throw new UnsupportedOperationException(TRANSACTIONS_WITH_XA_OR_JCA_ONLY);
@@ -126,6 +129,7 @@ public class Resin2xConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String buildConfigurationEntryForXADataSourceConfiguredDataSource(DataSource ds)
     {
         return toResinConfigurationEntry(ds);

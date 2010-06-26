@@ -90,6 +90,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     /**
      * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#verify()
      */
+    @Override
     protected final void verify()
     {
         super.verify();
@@ -251,6 +252,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#doStart(Java)
      */
+    @Override
     public final void doStart(final Java java) throws Exception
     {
         initBeaHome();      
@@ -329,6 +331,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#doStop(Java)
      */
+    @Override
     public final void doStop(final Java java) throws Exception
     {
         File serverDir = new File(this.getHome(), "server");

@@ -201,6 +201,7 @@ public class DefaultServerRun extends Thread
      * Sets up a listener socket and wait until we receive a request on it to
      * stop the running server.
      */
+    @Override
     public void run()
     {
         ServerSocket serverSocket = setUpListenerSocket();

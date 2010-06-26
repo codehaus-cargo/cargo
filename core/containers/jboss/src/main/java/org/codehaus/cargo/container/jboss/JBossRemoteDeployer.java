@@ -131,6 +131,7 @@ public class JBossRemoteDeployer extends AbstractRemoteDeployer
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#deploy(Deployable)
      */
+    @Override
     public void deploy(Deployable deployable)
     {
         invokeURL(createJBossRemoteURL(deployable, this.deployURL));
@@ -140,6 +141,7 @@ public class JBossRemoteDeployer extends AbstractRemoteDeployer
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(Deployable)
      */
+    @Override
     public void undeploy(Deployable deployable)
     {
         invokeURL(createJBossRemoteURL(deployable, this.undeployURL));
@@ -149,6 +151,7 @@ public class JBossRemoteDeployer extends AbstractRemoteDeployer
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable)
      */
+    @Override
     public void redeploy(Deployable deployable)
     {
         invokeURL(createJBossRemoteURL(deployable, this.redeployURL));

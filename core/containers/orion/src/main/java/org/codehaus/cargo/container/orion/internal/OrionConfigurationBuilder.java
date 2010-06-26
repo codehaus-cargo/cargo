@@ -217,6 +217,7 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String buildEntryForDriverConfiguredDataSourceWithNoTx(DataSource ds)
     {
         this.ds = ds;
@@ -233,6 +234,7 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String buildEntryForDriverConfiguredDataSourceWithLocalTx(DataSource ds)
     {
         this.ds = ds;
@@ -249,6 +251,7 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String buildEntryForDriverConfiguredDataSourceWithXaTx(DataSource ds)
     {
         this.ds = ds;
@@ -265,6 +268,7 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
      * {@inheritDoc} This implementation will create two elements, one for the XA DataSource, and
      * another that proxies that. The jndi location users will use will be to the proxy.
      */
+    @Override
     public String buildConfigurationEntryForXADataSourceConfiguredDataSource(DataSource ds)
     {
         this.ds = ds;

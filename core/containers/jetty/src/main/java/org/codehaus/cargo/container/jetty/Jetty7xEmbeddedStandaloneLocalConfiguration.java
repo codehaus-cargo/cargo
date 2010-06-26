@@ -51,6 +51,7 @@ public class Jetty7xEmbeddedStandaloneLocalConfiguration extends
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -60,6 +61,7 @@ public class Jetty7xEmbeddedStandaloneLocalConfiguration extends
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration#activateLogging(org.codehaus.cargo.container.LocalContainer)
      */
+    @Override
     protected void activateLogging(LocalContainer container)
     {
         getLogger().info("Jetty7x log configuration not implemented",
@@ -70,6 +72,7 @@ public class Jetty7xEmbeddedStandaloneLocalConfiguration extends
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "Jetty 7.x Embedded Standalone Configuration";

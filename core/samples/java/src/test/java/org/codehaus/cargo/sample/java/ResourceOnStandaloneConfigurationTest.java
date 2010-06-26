@@ -46,12 +46,14 @@ public class ResourceOnStandaloneConfigurationTest extends
         super(testName, testData);
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
     }
 
+    @Override
     public Container createContainer(ContainerType type, Configuration configuration)
     {
         InstalledLocalContainer container =
@@ -67,9 +69,9 @@ public class ResourceOnStandaloneConfigurationTest extends
         if (mail != null)
         {
             String[] jars = container.getFileHandler().getChildren(mail);
-            for (int i = 0; i < jars.length; i++)
+            for (String jar : jars)
             {
-                container.addExtraClasspath(jars[i]);
+                container.addExtraClasspath(jar);
             }
         }
     }

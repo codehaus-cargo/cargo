@@ -96,6 +96,7 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
     /**
      * {@inheritDoc}
      */
+    @Override
     public void deploy(Deployable deployable)
     {
         try
@@ -125,6 +126,7 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
      * NOTE: THIS WILL DELETE THE WAR FROM THE WEBAPP DIRECTORY
      * @param deployable The deployable to be undeployed
      */
+    @Override
     public void undeploy(Deployable deployable)
     {
         try
@@ -147,6 +149,7 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
     /**
      * {@inheritDoc}
      */
+    @Override
     public void redeploy(Deployable deployable)
     {
         undeploy(deployable);

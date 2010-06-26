@@ -63,6 +63,7 @@ public abstract class AbstractTomcatConfigurationBuilder extends AbstractConfigu
      * 
      * @see #convertDataSourceToResourceAndGetXMLEntry(DataSource)
      */
+    @Override
     public String buildEntryForDriverConfiguredDataSourceWithNoTx(DataSource ds)
     {
         return convertDataSourceToResourceAndGetXMLEntry(ds);
@@ -121,6 +122,7 @@ public abstract class AbstractTomcatConfigurationBuilder extends AbstractConfigu
     /**
      * {@inheritDoc} This throws an UnsupportedOperationException as Tomcat is not transactional.
      */
+    @Override
     public String buildConfigurationEntryForXADataSourceConfiguredDataSource(DataSource ds)
     {
         throw new UnsupportedOperationException("Tomcat does not support "
@@ -130,6 +132,7 @@ public abstract class AbstractTomcatConfigurationBuilder extends AbstractConfigu
     /**
      * {@inheritDoc} This throws an UnsupportedOperationException as Tomcat is not transactional.
      */
+    @Override
     public String buildEntryForDriverConfiguredDataSourceWithLocalTx(DataSource ds)
     {
         throw new UnsupportedOperationException("Tomcat does not support "
@@ -139,6 +142,7 @@ public abstract class AbstractTomcatConfigurationBuilder extends AbstractConfigu
     /**
      * {@inheritDoc} This throws an UnsupportedOperationException as Tomcat is not transactional.
      */
+    @Override
     public String buildEntryForDriverConfiguredDataSourceWithXaTx(DataSource ds)
     {
         throw new UnsupportedOperationException("Tomcat does not support "

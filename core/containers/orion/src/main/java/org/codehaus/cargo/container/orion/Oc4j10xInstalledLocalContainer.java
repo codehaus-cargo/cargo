@@ -52,6 +52,7 @@ public class Oc4j10xInstalledLocalContainer extends AbstractOc4j10xInstalledLoca
     /**
      * {@inheritDoc}
      */
+    @Override
     protected String getStartClassname()
     {
         return "oracle.oc4j.loader.boot.BootStrap";
@@ -60,6 +61,7 @@ public class Oc4j10xInstalledLocalContainer extends AbstractOc4j10xInstalledLoca
     /**
      * {@inheritDoc}
      */
+    @Override
     protected String getStopClassname()
     {
         return "oracle.oc4j.admin.deploy.cmdline.Oc4jAdminCmdline";
@@ -68,6 +70,7 @@ public class Oc4j10xInstalledLocalContainer extends AbstractOc4j10xInstalledLoca
     /**
      * {@inheritDoc}
      */
+    @Override
     protected Set getContainerClasspathIncludes()
     {
         Set classpath = new HashSet();

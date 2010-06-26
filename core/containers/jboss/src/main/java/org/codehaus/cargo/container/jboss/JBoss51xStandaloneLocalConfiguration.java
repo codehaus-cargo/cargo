@@ -73,6 +73,7 @@ public class JBoss51xStandaloneLocalConfiguration extends JBossStandaloneLocalCo
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         getLogger().info("Configuring JBoss using the ["
@@ -98,10 +99,10 @@ public class JBoss51xStandaloneLocalConfiguration extends JBossStandaloneLocalCo
             StringBuffer tmp = new StringBuffer();
             if (sharedClassPath != null)
             {
-                for (int i = 0; i < sharedClassPath.length; i++)
+                for (String element : sharedClassPath)
                 {
-                    String fileName = getFileHandler().getName(sharedClassPath[i]);
-                    String directoryName = getFileHandler().getParent(sharedClassPath[i]);
+                    String fileName = getFileHandler().getName(element);
+                    String directoryName = getFileHandler().getParent(element);
 
                     tmp.append("<classpath codebase=\"" + directoryName + "\" archives=\""
                             + fileName + "\"/>");
@@ -133,11 +134,11 @@ public class JBoss51xStandaloneLocalConfiguration extends JBossStandaloneLocalCo
         
         // Copy configuration files from cargo resources directory with token replacement
         String[] cargoConfigFiles = new String[] {"jboss-log4j.xml", "jboss-service.xml"};
-        for (int i = 0; i < cargoConfigFiles.length; i++)
+        for (String cargoConfigFile : cargoConfigFiles)
         {
             getResourceUtils().copyResource(
-                RESOURCE_PATH + jbossContainer.getId() + "/" + cargoConfigFiles[i],
-                new File(confDir, cargoConfigFiles[i]), filterChain);
+                RESOURCE_PATH + jbossContainer.getId() + "/" + cargoConfigFile,
+                new File(confDir, cargoConfigFile), filterChain);
         }
         
         // Copy resources from jboss installation folder and exclude files

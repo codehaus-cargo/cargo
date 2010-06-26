@@ -74,6 +74,7 @@ public class RegistrationKey
      * {@inheritDoc}
      * @see Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object registrationKey)
     {
         boolean result = false;
@@ -97,6 +98,7 @@ public class RegistrationKey
      * {@inheritDoc}
      * @see Object#hashCode()
      */
+    @Override
     public int hashCode()
     {
         return getContainerIdentity().hashCode() + getHint().hashCode();

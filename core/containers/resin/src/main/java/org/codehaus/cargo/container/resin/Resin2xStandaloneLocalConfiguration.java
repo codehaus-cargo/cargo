@@ -58,6 +58,7 @@ public class Resin2xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     protected String getXpathForResourcesParent()
     {
         return "//caucho.com";
@@ -67,6 +68,7 @@ public class Resin2xStandaloneLocalConfiguration extends
      * {@inheritDoc} Resin2x application servers currently use DTD, and therefore return and empty
      * map;
      */
+    @Override
     protected Map getNamespaces()
     {
         return Collections.EMPTY_MAP;
@@ -77,6 +79,7 @@ public class Resin2xStandaloneLocalConfiguration extends
      * 
      * @see Resin2xConfigurationBuilder
      */
+    @Override
     protected ConfigurationBuilder createConfigurationBuilder(
         LocalContainer container)
     {
@@ -88,6 +91,7 @@ public class Resin2xStandaloneLocalConfiguration extends
      * 
      * @see AbstractResinStandaloneLocalConfiguration#prepareAdditions(Container, FilterChain)
      */
+    @Override
     protected void prepareAdditions(Container container, FilterChain theFilterChain)
         throws IOException
     {
@@ -99,6 +103,7 @@ public class Resin2xStandaloneLocalConfiguration extends
      * 
      * @see AbstractResinStandaloneLocalConfiguration#createResinFilterChain()
      */
+    @Override
     protected FilterChain createResinFilterChain()
     {
         FilterChain filterChain = getFilterChain();

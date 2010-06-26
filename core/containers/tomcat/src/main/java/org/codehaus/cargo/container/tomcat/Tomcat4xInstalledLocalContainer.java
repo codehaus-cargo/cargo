@@ -75,6 +75,7 @@ public class Tomcat4xInstalledLocalContainer extends AbstractCatalinaInstalledLo
      *
      * @see AbstractInstalledLocalContainer#doStart(Java)
      */
+    @Override
     public void doStart(Java java) throws Exception
     {
         File commonLibDirectory = new File(getHome(), "common/lib");

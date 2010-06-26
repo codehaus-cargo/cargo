@@ -63,6 +63,7 @@ public class JBossWAR extends WAR
      *         If there is no <code>jboss-web.xml</code> or if it doesn't
      *         define any root context, then return {@link WAR#getContext()}.
      */
+    @Override
     public synchronized String getContext()
     {
         String result = parseJbossWebXml();

@@ -127,6 +127,7 @@ public class WebXml22Type extends WebXmlType
    * Get the web xml version for his type.
    * @return the version for this type
    */
+    @Override
     public WebXmlVersion getVersion()
     {
         return WebXmlVersion.V2_2;

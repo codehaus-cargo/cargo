@@ -135,11 +135,11 @@ public class CargoTestSuite extends TestSuite
     {
         // Find all methods starting with "test" and add them
         Method[] methods = testClass.getMethods();
-        for (int i = 0; i < methods.length; i++)
+        for (Method method : methods)
         {
-            if (methods[i].getName().startsWith("test"))
+            if (method.getName().startsWith("test"))
             {
-                addContainerToTest(containerId, type, methods[i].getName(), testClass);
+                addContainerToTest(containerId, type, method.getName(), testClass);
             }
         }
     }

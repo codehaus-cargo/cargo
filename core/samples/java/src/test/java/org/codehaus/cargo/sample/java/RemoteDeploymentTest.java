@@ -88,6 +88,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         return suite;
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -122,6 +123,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         this.deployer = createDeployer(DeployerType.REMOTE, getRemoteContainer());
     }
 
+    @Override
     protected void tearDown()
     {
         this.localContainer.stop();

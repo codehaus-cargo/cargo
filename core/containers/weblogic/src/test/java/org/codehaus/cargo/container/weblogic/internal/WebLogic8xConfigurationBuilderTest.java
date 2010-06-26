@@ -29,16 +29,19 @@ public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBui
 
     ConfigurationChecker checker;
 
+    @Override
     protected ConfigurationBuilder createConfigurationBuilder()
     {
         return new WebLogic8xConfigurationBuilder("server");
     }
 
+    @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
         return new WebLogic8xConfigurationChecker("server");
     }
 
+    @Override
     public void testBuildConfigurationEntryForXADataSourceConfiguredResource() throws Exception
     {
         try
@@ -54,6 +57,7 @@ public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBui
         }
     }
     
+    @Override
     public void testBuildConfigurationEntryForMailSessionConfiguredResource() throws Exception
     {
         try

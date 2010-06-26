@@ -170,6 +170,7 @@ public class WebXmlTypeAwareParser extends DefaultHandler
     /**
      * {@inheritDoc}
      */
+    @Override
     public void notationDecl(String namespaceURI, String sName, String qName) throws SAXException
     {
 
@@ -178,6 +179,7 @@ public class WebXmlTypeAwareParser extends DefaultHandler
     /**
      * {@inheritDoc}
      */
+    @Override
     public void unparsedEntityDecl(java.lang.String arg0, java.lang.String arg1,
             java.lang.String arg2, java.lang.String arg3) throws org.xml.sax.SAXException
     {      
@@ -187,6 +189,7 @@ public class WebXmlTypeAwareParser extends DefaultHandler
     /**
      * {@inheritDoc}
      */
+    @Override
     public void startElement(String namespaceURI, String sName, String qName, Attributes attrs)
         throws org.xml.sax.SAXException
     {

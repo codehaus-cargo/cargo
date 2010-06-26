@@ -130,6 +130,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#deploy(Deployable)
      */
+    @Override
     public synchronized void deploy(Deployable deployable)
     {
         if (!canBeDeployed(deployable))

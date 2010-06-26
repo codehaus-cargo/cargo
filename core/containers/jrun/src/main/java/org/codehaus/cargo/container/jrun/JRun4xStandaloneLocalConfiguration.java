@@ -77,6 +77,7 @@ public class JRun4xStandaloneLocalConfiguration extends
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     { 
         setupConfigurationDir();
@@ -207,6 +208,7 @@ public class JRun4xStandaloneLocalConfiguration extends
      * {@inheritDoc}
      * @see Object#toString()
      */
+    @Override
     public String toString()
     {
         return "JRun 4.x Standalone Configuration";
@@ -217,6 +219,7 @@ public class JRun4xStandaloneLocalConfiguration extends
      * @param container the current Container.
      * @return the {@link ConfigurationBuilder}.
      */
+    @Override
     protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container) 
     {
         return new JRun4xConfigurationBuilder();
@@ -226,6 +229,7 @@ public class JRun4xStandaloneLocalConfiguration extends
      * The xml namespaces.
      * @return an empty Map. 
      */
+    @Override
     protected Map getNamespaces() 
     {
         return Collections.EMPTY_MAP;
@@ -235,6 +239,7 @@ public class JRun4xStandaloneLocalConfiguration extends
      * Returns the Xpath for the parent element of the datasource xml.
      * @return the Xpath for the parent element of the datasource xml.
      */
+    @Override
     protected String getXpathForDataSourcesParent() 
     {
         return getResourceXPath();
@@ -246,6 +251,7 @@ public class JRun4xStandaloneLocalConfiguration extends
      * @param container the current Container.
      * @return the file to insert Datasource Configuraton into.
      */
+    @Override
     protected String getOrCreateDataSourceConfigurationFile(DataSource ds, 
             LocalContainer container) 
     {
@@ -258,6 +264,7 @@ public class JRun4xStandaloneLocalConfiguration extends
      * @param container the current Container.
      * @return the file to insert Resource Configuraton into.
      */
+    @Override
     protected String getOrCreateResourceConfigurationFile(Resource resource, 
             LocalContainer container) 
     {
@@ -268,6 +275,7 @@ public class JRun4xStandaloneLocalConfiguration extends
      * The XPath of the parent Element of resource configuration.
      * @return XPath of the parent Element of resource configuration.
      */
+    @Override
     protected String getXpathForResourcesParent() 
     {
         return getResourceXPath();

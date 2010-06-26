@@ -44,26 +44,31 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
 
     protected String AJP_PORT = "8001";
 
+    @Override
     public LocalConfiguration createLocalConfiguration(String home)
     {
         return new Tomcat4xStandaloneLocalConfiguration(home);
     }
 
+    @Override
     public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new Tomcat4xInstalledLocalContainer(configuration);
     }
 
+    @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
         return new Tomcat4xConfigurationChecker();
     }
 
+    @Override
     protected String getResourceConfigurationFile(ResourceFixture fixture)
     {
         return configuration.getHome() + "/conf/server.xml";
     }
     
+    @Override
     protected void setUpResourceFile() throws Exception
     {
         Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
@@ -73,6 +78,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         xmlUtil.saveXml(document, file);
     }
     
+    @Override
     protected void setUpManager()
     {
         configuration.getFileHandler().mkdirs(container.getHome() + "/webapps");

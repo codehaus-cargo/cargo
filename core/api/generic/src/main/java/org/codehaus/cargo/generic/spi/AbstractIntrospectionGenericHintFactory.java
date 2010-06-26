@@ -77,6 +77,7 @@ public abstract class AbstractIntrospectionGenericHintFactory extends AbstractGe
      * {@inheritDoc}
      * @see AbstractGenericHintFactory#createImplementation
      */
+    @Override
     protected Object createImplementation(RegistrationKey key, GenericParameters parameters,
         String implementationConceptName)
     {

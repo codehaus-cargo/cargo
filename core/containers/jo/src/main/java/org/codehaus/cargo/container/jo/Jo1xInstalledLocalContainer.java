@@ -70,6 +70,7 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
      * @param java the predefined Ant {@link Java} command to use to start the container
      * @throws Exception if any error is raised during the container start
      */
+    @Override
     public void doStart(Java java) throws Exception
     {
         // Invoke the main class
@@ -101,6 +102,7 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
      * @param java the predefined Ant {@link Java} command to use to stop the container
      * @throws Exception if any error is raised during the container stop
      */
+    @Override
     public void doStop(Java java) throws Exception
     {
         Path classpath = java.createClasspath();

@@ -53,6 +53,7 @@ public class WebLogic9x10xAnd103xConfigurationBuilder extends
      * This method creates the definition of the datasource. This file must be linked to the
      * config.xml to become useful.
      */
+    @Override
     protected String configureDataSourceWithImplementationClass(DataSource ds, String className)
     {
 

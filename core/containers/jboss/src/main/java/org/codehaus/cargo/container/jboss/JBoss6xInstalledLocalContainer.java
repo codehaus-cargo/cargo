@@ -69,6 +69,7 @@ public class JBoss6xInstalledLocalContainer extends AbstractJBoss5xInstalledLoca
     /**
      * {@inheritDoc}
      */
+    @Override
     protected void doStop(Java java) throws Exception
     {
         Path classPath = java.createClasspath();

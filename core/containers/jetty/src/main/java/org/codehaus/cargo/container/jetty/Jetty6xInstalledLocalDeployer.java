@@ -49,6 +49,7 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      *
      * @return Deployable the directory to deploy to
      */
+    @Override
     public String getDeployableDir()
     {
         return getFileHandler().append(getContainer().getConfiguration().getHome(), "webapps");
@@ -62,6 +63,7 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      *
      * @see AbstractCopyingInstalledLocalDeployer#deployWar(String, org.codehaus.cargo.container.deployable.WAR) 
      */
+    @Override
     protected void deployWar(String deployableDir, WAR war)
     {
         super.deployWar(deployableDir, war);

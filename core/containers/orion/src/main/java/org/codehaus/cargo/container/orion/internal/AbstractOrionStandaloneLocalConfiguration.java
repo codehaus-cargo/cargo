@@ -83,6 +83,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
      * {@inheritDoc} This implementation throws an UnsupportedOperationException as Resource
      * configuration is not supported in Orion.
      */
+    @Override
     protected String getOrCreateResourceConfigurationFile(Resource resource,
         LocalContainer container)
     {
@@ -94,6 +95,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
      * {@inheritDoc} This implementation throws an UnsupportedOperationException as Resource
      * configuration is not supported in Orion.
      */
+    @Override
     protected String getXpathForResourcesParent()
     {
         throw new UnsupportedOperationException(
@@ -113,6 +115,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
      * 
      * @see OrionConfigurationBuilder
      */
+    @Override
     protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)
     {
         return new OrionConfigurationBuilder();
@@ -121,6 +124,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc} In this implementation, we will return the <code>data-sources.xml</code> file.
      */
+    @Override
     public String getOrCreateDataSourceConfigurationFile(DataSource ds, LocalContainer container)
     {
         String confDir = getFileHandler().createDirectory(getHome(), "conf");
@@ -132,6 +136,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
      * {@inheritDoc} Orion application servers currently use DTD, and therefore return and empty
      * map;
      */
+    @Override
     protected Map getNamespaces()
     {
         return Collections.EMPTY_MAP;
@@ -140,6 +145,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
     /**
      * This expression evaluates to: {@value XML_PARENT_OF_RESOURCES} {@inheritDoc}
      */
+    @Override
     protected String getXpathForDataSourcesParent()
     {
         return XML_PARENT_OF_RESOURCES;
@@ -148,6 +154,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         setupConfigurationDir();

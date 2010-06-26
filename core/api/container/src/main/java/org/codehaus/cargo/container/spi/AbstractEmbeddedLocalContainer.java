@@ -54,6 +54,7 @@ public abstract class AbstractEmbeddedLocalContainer
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#startInternal()
      */
+    @Override
     protected final void startInternal() throws Exception
     {
         doStart();
@@ -63,6 +64,7 @@ public abstract class AbstractEmbeddedLocalContainer
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#stopInternal()
      */
+    @Override
     protected final void stopInternal() throws Exception
     {
         doStop();

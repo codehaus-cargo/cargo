@@ -50,6 +50,7 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
      * 
      * @return Deployable directory for the container
      */
+    @Override
     public String getDeployableDir()
     {  
         String clustered = getContainer().getConfiguration().
@@ -79,6 +80,7 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
      * JBoss documentation for AbstractWebDeployer</a>.</p>
      *
      */
+    @Override
     protected void deployExpandedWar(String deployableDir, WAR war)
     {
         getFileHandler().copyDirectory(
@@ -90,6 +92,7 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
      *
      * @param deployable artifact to redeploy
      */
+    @Override
     public void redeploy(Deployable deployable)
     {
         undeploy(deployable);
@@ -101,6 +104,7 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
      *
      * @param deployable artifact to undeploy
      */
+    @Override
     public void undeploy(Deployable deployable)
     {
         if (deployable.getType() == DeployableType.WAR)

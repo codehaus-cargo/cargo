@@ -52,10 +52,8 @@ public final class JarUtils
 
         File[] filesToAdd = directory.listFiles();
 
-        for (int i = 0; i < filesToAdd.length; i++)
+        for (File fileToAdd : filesToAdd)
         {
-            File fileToAdd = filesToAdd[i];
-
             if (fileToAdd.isDirectory())
             {
                 createJarFromDirectory(root, fileToAdd, jarStream);

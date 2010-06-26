@@ -28,16 +28,19 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     AbstractWeblogicStandaloneConfigurationTest
 {
 
+    @Override
     public LocalConfiguration createLocalConfiguration(String home)
     {
         return new WebLogic9xStandaloneLocalConfiguration(home);
     }
 
+    @Override
     public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new WebLogic9xInstalledLocalContainer(configuration);
     }
 
+    @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
         return new WebLogic9x10xAnd103xConfigurationChecker("server");
@@ -49,12 +52,14 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
 
     private Dom4JUtil xmlUtil;
 
+    @Override
     protected String getDataSourceConfigurationFile(DataSourceFixture ds)
     {
         return configuration.getHome() + "/config/jdbc/" + ds.buildDataSource().getId()
             + "-jdbc.xml";
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -80,6 +85,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         
     }
 
+    @Override
     protected String configureDataSourceViaPropertyAndRetrieveConfigurationFile(
         DataSourceFixture fixture) throws Exception
     {
@@ -89,6 +95,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         return toReturn;
     }
 
+    @Override
     protected String configureDataSourceAndRetrieveConfigurationFile(DataSourceFixture fixture)
         throws Exception
     {
@@ -115,6 +122,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             "//weblogic:jdbc-system-resource/weblogic:target", domainXml);
     }
 
+    @Override
     protected void setUpDataSourceFile() throws Exception
     {
         configuration.getFileHandler().mkdirs(configuration.getHome() + "/config/jdbc");

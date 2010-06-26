@@ -159,6 +159,7 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
      * {@inheritDoc}
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor(Class, String, GenericParameters)
      */
+    @Override
     protected Constructor getConstructor(Class configurationClass, String hint,
         GenericParameters parameters) throws NoSuchMethodException
     {
@@ -186,6 +187,7 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
      * {@inheritDoc}
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
+    @Override
     protected Object createInstance(Constructor constructor, String hint,
         GenericParameters parameters) throws Exception
     {

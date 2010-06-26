@@ -586,9 +586,9 @@ public class ConfluenceContainerDocumentationGenerator
             ResourcePropertySet.class
         };
 
-        for (int i = 0; i < propertySetClasses.length; i++)
+        for (Class propertySetClasse : propertySetClasses)
         {
-            result = findPropertySetFieldName(propertyValue, propertySetClasses[i]);
+            result = findPropertySetFieldName(propertyValue, propertySetClasse);
             if (result != null)
             {
                 break;
@@ -604,14 +604,14 @@ public class ConfluenceContainerDocumentationGenerator
         String result = null;
 
         Field[] fields = propertySetClass.getFields();
-        for (int i = 0; i < fields.length; i++)
+        for (Field field : fields)
         {
-            String value = (String) fields[i].get(null);
+            String value = (String) field.get(null);
             if (value.equals(propertyValue))
             {
                 result = propertySetClass.getName().substring(
                     propertySetClass.getName().lastIndexOf(".") + 1) + "."
-                        + fields[i].getName();
+                        + field.getName();
                 break;
             }
         }
