@@ -39,12 +39,14 @@ public class CargoMojoTest extends TestCase
          * {@inheritDoc}
          * @see org.codehaus.cargo.maven2.AbstractCargoMojo#doExecute()
          */
+        @Override
         public void doExecute() throws MojoExecutionException
         {
             // Do nothing voluntarily for the test
         }
     }
     
+    @Override
     protected void setUp()
     {
         this.mojo = new TestableAbstractCargoMojo();

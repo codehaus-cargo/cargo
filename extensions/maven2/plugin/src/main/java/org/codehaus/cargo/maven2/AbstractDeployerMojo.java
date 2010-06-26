@@ -39,6 +39,7 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
      * {@inheritDoc}
      * @see org.codehaus.cargo.maven2.AbstractCargoMojo#doExecute()
      */
+    @Override
     public void doExecute() throws MojoExecutionException
     {
         if (getDeployerElement() == null || getDeployerElement().getDeployables() == null

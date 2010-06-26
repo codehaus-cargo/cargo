@@ -35,6 +35,7 @@ public class DeployableElementTest extends TestCase
 {
     private DeployableElement element;
     
+    @Override
     protected void setUp()
     {
         this.element = new DeployableElement();

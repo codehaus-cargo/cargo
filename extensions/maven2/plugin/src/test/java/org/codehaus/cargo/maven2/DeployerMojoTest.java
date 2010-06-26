@@ -39,6 +39,7 @@ public class DeployerMojoTest extends TestCase
 {
     private class TestableDeployerMojo extends AbstractDeployerMojo
     {
+        @Override
         protected void performDeployerActionOnSingleDeployable(
             org.codehaus.cargo.container.deployer.Deployer deployer,
             org.codehaus.cargo.container.deployable.Deployable deployable, URL pingURL,

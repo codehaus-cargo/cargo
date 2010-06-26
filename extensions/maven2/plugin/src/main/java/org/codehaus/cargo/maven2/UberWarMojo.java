@@ -159,6 +159,7 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
      *
      * @throws MojoExecutionException if an error occured while building the webapp
      */
+    @Override
     public void execute() throws MojoExecutionException
     {
         Reader r = null;

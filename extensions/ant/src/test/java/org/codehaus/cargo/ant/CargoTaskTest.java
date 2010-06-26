@@ -42,6 +42,7 @@ public class CargoTaskTest extends TestCase
     private CargoTask task;
     private ConfigurationElement configurationElement;
 
+    @Override
     protected void setUp()
     {
         this.task = new CargoTask();

@@ -334,9 +334,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
                         Xpp3Dom[] globalConfigurationOptions = ((Xpp3Dom) server.getConfiguration())
                             .getChildren();
-                        for (int i = 0; i < globalConfigurationOptions.length; i++)
+                        for (Xpp3Dom option : globalConfigurationOptions)
                         {
-                            Xpp3Dom option = globalConfigurationOptions[i];
                             if (properties.get(option.getName()) == null)
                             {
                                 properties.put(option.getName(), option.getValue());
@@ -501,9 +500,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     {
         boolean found = false;
 
-        for (int i = 0; i < deployableElements.length; i++)
+        for (Deployable deployableElement : deployableElements)
         {
-            Deployable deployableElement = deployableElements[i];
             if (deployableElement.getGroupId().equals(getCargoProject().getGroupId())
                 && deployableElement.getArtifactId().equals(getCargoProject().getArtifactId()))
             {

@@ -37,6 +37,7 @@ public class ConfigureMojo extends AbstractCargoMojo
      * {@inheritDoc}
      * @see org.codehaus.cargo.maven2.AbstractCargoMojo#doExecute()
      */
+    @Override
     public void doExecute() throws MojoExecutionException
     {
         Container container = createContainer();

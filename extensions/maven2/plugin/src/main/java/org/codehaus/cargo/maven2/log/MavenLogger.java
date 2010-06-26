@@ -47,6 +47,7 @@ public class MavenLogger extends AbstractLogger
      * {@inheritDoc}
      * @see AbstractLogger#doLog(org.codehaus.cargo.util.log.LogLevel, String, String)
      */
+    @Override
     protected void doLog(LogLevel level, String message, String category)
     {
         String formattedMessage = formatMessage(message, category);

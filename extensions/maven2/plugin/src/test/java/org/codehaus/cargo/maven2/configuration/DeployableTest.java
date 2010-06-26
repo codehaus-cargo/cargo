@@ -39,6 +39,7 @@ public class DeployableTest extends MockObjectTestCase
 {
     private Mock mockLog;
 
+    @Override
     protected void setUp()
     {
         this.mockLog = mock(Log.class);

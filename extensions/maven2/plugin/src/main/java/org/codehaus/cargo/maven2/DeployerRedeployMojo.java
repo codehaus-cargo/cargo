@@ -30,6 +30,7 @@ import java.net.URL;
  */
 public class DeployerRedeployMojo extends AbstractDeployerMojo
 {
+    @Override
     protected void performDeployerActionOnSingleDeployable(
         org.codehaus.cargo.container.deployer.Deployer deployer,
         org.codehaus.cargo.container.deployable.Deployable deployable,

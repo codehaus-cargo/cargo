@@ -71,10 +71,8 @@ public class MergeWebXml implements MergeProcessorFactory
       DescriptorMergerByTag dmt = (DescriptorMergerByTag)webXmlMerger.getMergers().get(0);
 
       Xpp3Dom[] tags = defaultNode.getChildren("tag");
-      for(int i=0; i<tags.length;i++)
-      {
-        Xpp3Dom tag = tags[i];
-        
+      for (Xpp3Dom tag : tags)
+    {
         String tagName = tag.getAttribute("name");
         Xpp3Dom strategy = tag.getChild("strategy");
         MergeStrategy ms = makeStrategy(strategy);
@@ -112,9 +110,8 @@ public class MergeWebXml implements MergeProcessorFactory
           ChooseByNameMergeStrategy cbnms = new ChooseByNameMergeStrategy(makeStrategy(def));
 
           Xpp3Dom[] items = config.getChildren();
-          for(int i=0; i<items.length;i++)
-          {
-              Xpp3Dom item = items[i];
+          for (Xpp3Dom item : items)
+        {
               if( item.getName().equals("choice") )
               {
                   cbnms.addStrategyForName(item.getAttribute("name"), makeStrategy(item.getChild(0)));

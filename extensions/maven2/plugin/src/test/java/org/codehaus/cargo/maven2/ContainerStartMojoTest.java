@@ -45,6 +45,7 @@ public class ContainerStartMojoTest extends MockObjectTestCase
     {
         public org.codehaus.cargo.container.Container createdContainer;
 
+        @Override
         protected org.codehaus.cargo.container.Container createContainer()
             throws MojoExecutionException
         {
