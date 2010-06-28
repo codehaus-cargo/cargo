@@ -38,12 +38,12 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
         configuration.setProperty(ServletPropertySet.USERS, "u1:p1:r1,r2|u2:p2:r2,r3");
 
         String token = ((AbstractOrionStandaloneLocalConfiguration) configuration).getRoleToken();
-        assertTrue(token.indexOf("<security-role-mapping name=\"r1\">"
-            + "<user name=\"u1\"/></security-role-mapping>") > -1);
-        assertTrue(token.indexOf("<security-role-mapping name=\"r2\">"
-            + "<user name=\"u1\"/><user name=\"u2\"/></security-role-mapping>") > -1);
-        assertTrue(token.indexOf("<security-role-mapping name=\"r3\">"
-            + "<user name=\"u2\"/></security-role-mapping>") > -1);
+        assertTrue(token.contains("<security-role-mapping name=\"r1\">"
+            + "<user name=\"u1\"/></security-role-mapping>"));
+        assertTrue(token.contains("<security-role-mapping name=\"r2\">"
+            + "<user name=\"u1\"/><user name=\"u2\"/></security-role-mapping>"));
+        assertTrue(token.contains("<security-role-mapping name=\"r3\">"
+            + "<user name=\"u2\"/></security-role-mapping>"));
     }
 
     public void testGetUserToken()

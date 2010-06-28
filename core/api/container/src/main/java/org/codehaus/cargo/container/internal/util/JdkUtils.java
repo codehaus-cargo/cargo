@@ -45,7 +45,7 @@ public class JdkUtils
     public final File getToolsJar() throws FileNotFoundException
     {
         String javaHome = System.getProperty("java.home");
-        if (javaHome.indexOf("jre") > 0)
+        if (javaHome.contains("jre"))
         {
             javaHome = new File(javaHome).getParent();
         }

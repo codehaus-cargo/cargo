@@ -469,7 +469,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             }
             else
             {
-                if (javaHome.indexOf("jre") > 0)
+                if (javaHome.contains("jre"))
                 {
                     javaHome = getFileHandler().getParent(javaHome);
                 }
@@ -551,19 +551,19 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     {
         // if the jvmArgs don't alread contain memory settings add the default
         String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
-        if (jvmArgs == null || jvmArgs.indexOf("-Xms") == -1)
+        if (jvmArgs == null || !jvmArgs.contains("-Xms"))
         {
             java.createJvmarg().setValue("-Xms128m");
         }
-        if (jvmArgs == null || jvmArgs.indexOf("-Xmx") == -1)
+        if (jvmArgs == null || !jvmArgs.contains("-Xmx"))
         {
             java.createJvmarg().setValue("-Xmx512m");
         }
-        if (jvmArgs == null || jvmArgs.indexOf("-XX:PermSize") == -1)
+        if (jvmArgs == null || !jvmArgs.contains("-XX:PermSize"))
         {
             java.createJvmarg().setValue("-XX:PermSize=48m");
         }
-        if (jvmArgs == null || jvmArgs.indexOf("-XX:MaxPermSize") == -1)
+        if (jvmArgs == null || !jvmArgs.contains("-XX:MaxPermSize"))
         {
             java.createJvmarg().setValue("-XX:MaxPermSize=128m");
         }

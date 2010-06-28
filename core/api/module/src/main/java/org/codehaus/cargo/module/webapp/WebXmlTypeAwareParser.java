@@ -96,15 +96,15 @@ public class WebXmlTypeAwareParser extends DefaultHandler
         
         while (line != null && this.version == null)
         {
-            if (line.indexOf(WebXmlVersion.V2_2.getPublicId()) != -1)
+            if (line.contains(WebXmlVersion.V2_2.getPublicId()))
             {
                 version = WebXmlVersion.V2_2;
             }
-            if (line.indexOf(WebXmlVersion.V2_3.getPublicId()) != -1)
+            if (line.contains(WebXmlVersion.V2_3.getPublicId()))
             {
                 version = WebXmlVersion.V2_3;
             }
-            if (line.indexOf("<web-app") != -1)
+            if (line.contains("<web-app"))
             {
                 break;
             }

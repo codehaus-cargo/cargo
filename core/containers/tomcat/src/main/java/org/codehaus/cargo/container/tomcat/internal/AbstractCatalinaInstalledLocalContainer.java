@@ -92,9 +92,10 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
                     Properties props = new Properties();
                     props.load(catalinaJar.getInputStream(entry));
                     String serverInfo = props.getProperty("server.info");
-                    if (serverInfo.indexOf('/') > 0)
+                    int slashPos = serverInfo.indexOf('/');
+                    if (slashPos > 0)
                     {
-                        version = serverInfo.substring(serverInfo.indexOf('/') + 1);
+                        version = serverInfo.substring(slashPos + 1);
                     }
                 }
                 else

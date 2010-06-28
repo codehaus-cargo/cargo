@@ -104,7 +104,7 @@ public class JRun4xStandaloneLocalConfiguration extends
         }                
 
         // get the required binary
-        if (System.getProperty("os.name").toLowerCase().indexOf("windows") != -1)
+        if (System.getProperty("os.name").toLowerCase().contains("windows"))
         {
             getFileHandler().copyFile(from + "/bin/jrun.exe", to + "/bin/jrun.exe");
         }

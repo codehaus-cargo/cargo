@@ -301,7 +301,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         }
 
         // replace all double slashes with a single slash
-        while (finalFile.indexOf("//") >= 0)
+        while (finalFile.contains("//"))
         {
             finalFile = finalFile.replaceAll("//", "/");
         }
@@ -333,7 +333,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
             finalDir = getHome();
         } 
         // replace all double slashes with a single slash
-        while (finalDir.indexOf("//") >= 0)
+        while (finalDir.contains("//"))
         {
             finalDir = finalDir.replaceAll("//", "/");
         }

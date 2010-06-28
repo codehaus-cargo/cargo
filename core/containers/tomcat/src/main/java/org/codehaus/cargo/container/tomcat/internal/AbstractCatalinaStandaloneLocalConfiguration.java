@@ -130,10 +130,10 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     {
         String escapedPath = path;
 
-        if (escapedPath.indexOf('\\') != -1)
+        if (escapedPath.contains("\\"))
         {
             // This is a Windows that needs to be converted
-            if (escapedPath.indexOf(":\\") != -1)
+            if (escapedPath.contains(":\\"))
             {
                 // This is a path with a drive letter,
                 // that needs to be prefixed

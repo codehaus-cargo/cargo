@@ -69,7 +69,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
             XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.driverClass, pathToConnectionPool
                 + "/@DriverName", configuration);
 
-            Assert.assertTrue(configuration.indexOf("user=" + dataSourceFixture.username) > -1);
+            Assert.assertTrue(configuration.contains("user=" + dataSourceFixture.username));
             XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.password, pathToConnectionPool
                 + "/@Password", configuration);
             XMLAssert.assertXpathEvaluatesTo("server", pathToConnectionPool + "/@Targets",

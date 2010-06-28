@@ -135,7 +135,7 @@ public class InstalledLocalContainerTest extends TestCase
             new AbstractInstalledLocalContainerStub(configuration);
         Path path = new Path(new Project());
         container.addToolsJarToClasspath(path);
-        assertFalse(path.toString().indexOf("myTestPath") >= 0);
+        assertFalse(path.toString().contains("myTestPath"));
 
     }
 
@@ -147,7 +147,7 @@ public class InstalledLocalContainerTest extends TestCase
             new AbstractInstalledLocalContainerStub(configuration);
         Path path = new Path(new Project());
         container.addToolsJarToClasspath(path);
-        assertTrue(path.toString().indexOf("myTestPath") >= 0);
+        assertTrue(path.toString().contains("myTestPath"));
     }
 
     public void testSetsDefaultJavaHome() throws Exception
