@@ -239,6 +239,10 @@
 
     <!--module name="MissingCtor"/-->
 
+    <module name="MissingOverride">
+      <property name="javaFiveCompatibility" value="true"/>
+    </module>
+
     <module name="MissingSwitchDefault"/>
 
     <!-- Checkstyle 3.5 check. Maven 1.0.2 ships with CS 3.4 dependency.
