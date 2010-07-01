@@ -268,6 +268,15 @@
               </property>
 
               <property>
+                <name>cargo.tomcat7x.url</name>
+                <value>http://mirror.veriportal.com/apache/tomcat/tomcat-7/v7.0.0-beta/bin/apache-tomcat-7.0.0.zip</value>
+              </property>
+              <property>
+                <name>cargo.tomcat7x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <property>
                 <name>cargo.jetty4x.url</name>
                 <value>http://dist.codehaus.org/jetty/jetty-4.2.x/jetty-4.2.27.zip</value>
               </property>
@@ -885,26 +894,26 @@
       <!-- All stable containers -->
       <id>all-stable-downloadable</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, tomcat5x, tomcat6x, jetty4x, jetty5x, jetty6x, jetty7x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jo1x, jonas4x, jonas5x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, tomcat5x, tomcat6x, tomcat7x, jetty4x, jetty5x, jetty6x, jetty7x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jo1x, jonas4x, jonas5x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <!-- All containers that have a distribution which can be downloaded automatically -->
       <id>all-downloadable</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, jetty4x, jetty5x, jetty6x, jetty7x, geronimo1x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jo1x, jonas4x, jonas5x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, tomcat7x, jetty4x, jetty5x, jetty6x, jetty7x, geronimo1x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jo1x, jonas4x, jonas5x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <id>all-datasource</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, oc4j9x, tomcat4x, tomcat5x, tomcat6x, weblogic8x, weblogic9x, weblogic10x, weblogic103x, jrun4x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, oc4j9x, tomcat4x, tomcat5x, tomcat6x, tomcat7x, weblogic8x, weblogic9x, weblogic10x, weblogic103x, jrun4x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <id>all-resource</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -971,9 +980,15 @@
       </properties>
     </profile>
     <profile>
+      <id>tomcat7x</id>
+      <properties>
+        <cargo.containers>tomcat7x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
       <id>all-tomcat</id>
       <properties>
-        <cargo.containers>tomcat4x, tomcat5x, tomcat6x</cargo.containers>
+        <cargo.containers>tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
       </properties>
     </profile>
 
