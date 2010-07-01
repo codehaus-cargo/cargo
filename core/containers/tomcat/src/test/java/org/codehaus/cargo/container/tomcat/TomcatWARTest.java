@@ -76,15 +76,4 @@ public class TomcatWARTest extends AbstractResourceTest
         war.setContext("context");
         assertEquals("testcontext", war.getContext());
     }
-    
-    /**
-     * Test the war file using the multi-level context pattern. This feature was enabled in Tomcat 5.5.27 and Tomcat
-     * 6.0.18.
-     * 
-     * @throws Exception
-     */
-    public void testGetPathContextWhenContextIsMultiLevelContextName() throws Exception {
-        TomcatWAR war = new TomcatWAR(getResourcePath(PACKAGE_PATH + "tomcat#tomcat-empty.war"));
-        assertEquals("tomcat/multi", war.getContext());
-    }
 }
