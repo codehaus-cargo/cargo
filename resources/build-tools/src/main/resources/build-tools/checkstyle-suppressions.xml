@@ -5,11 +5,19 @@
     "http://www.puppycrawl.com/dtds/suppressions_1_0.dtd">
 
 <suppressions>
-    <suppress checks="GenericIllegalRegexp"
+    <!-- SimpleLogger can write to System.err -->
+    <suppress checks="RegexpMultiline"
               files="SimpleLogger.java"/>
+
+    <!-- CargoException can printStackTrace -->
+    <suppress checks="RegexpMultiline"
+              files="CargoException.java"/>
+
+    <!-- WebXmlType has a weird abstraction method -->
     <suppress checks="AbstractClassName"
               files="WebXmlType.java"/>
-    <!-- TODO: figure out the proper checks name for "Utility classes should not have a public or default constructor" -->
-    <suppress checks=".*"
+
+    <!-- Tomcat5xEmbedded is not a real utility class -->
+    <suppress checks="HideUtilityClassConstructor"
               files="Tomcat5xEmbedded.java"/>
 </suppressions>

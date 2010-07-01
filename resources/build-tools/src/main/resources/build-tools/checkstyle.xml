@@ -6,16 +6,44 @@
 <!-- Checkstyle properties for Cargo projects -->
 <module name="Checker">
 
-  <!-- Other modules -->
-  <module name="SuppressionFilter">
-    <property name="file" value="${checkstyle.suppressions.file}"/>
-  </module>
-
   <!--
      ======================================================================================
        Checks that do not require a TreeWalker (sorted alphabetically)
      ======================================================================================
   -->
+
+  <module name="FileLength"/>
+
+  <module name="FileTabCharacter"/>
+
+  <!-- Avoid finalizers (this will not find violations that contain linebreaks) -->
+  <module name="RegexpMultiline">
+    <property name="format" value="((public)|(protected))\s+void\s+finalize\(\s*\)"/>
+    <property name="message" value="Avoid finalizers"/>
+  </module>
+
+  <!-- No direct printing to System.out or System.err -->
+  <module name="RegexpMultiline">
+    <property name="format" value="System\.(out|err)\."/>
+    <property name="message" value="Don't write directly to System.out our System.err"/>
+  </module>
+
+  <!-- No printStackTrace -->
+  <module name="RegexpMultiline">
+    <property name="format" value="printStackTrace"/>
+    <property name="message" value="Don't printStackTrace, use a logger instead"/>
+  </module>
+
+  <!-- No @author tags -->
+  <module name="RegexpMultiline">
+    <property name="format" value="@author"/>
+    <property name="message" value="No @author tag allowed"/>
+  </module>
+
+  <!-- Other modules -->
+  <module name="SuppressionFilter">
+    <property name="file" value="${checkstyle.suppressions.file}"/>
+  </module>
 
   <!-- Subversion has a config file in which you specify how to treat end of lines/end of files.
        The recommendation is to use "svn:eol-style=native".
@@ -38,6 +66,7 @@
        Checks that require a TreeWalker (sorted alphabetically)
      ======================================================================================
   -->
+
   <module name="TreeWalker">
 
     <!-- Note: for some checks we have defined a warning severity instead of the default error
@@ -98,8 +127,6 @@
 
     <module name="EmptyStatement"/>
 
-    <module name="j2ee.EntityBean"/>
-
     <module name="EqualsHashCode"/>
 
     <module name="ExecutableStatementCount">
@@ -110,33 +137,11 @@
 
     <module name="FallThrough"/>
 
-    <module name="FileLength"/>
-
     <module name="FinalClass"/>
 
     <!--module name="FinalLocalVariable"/-->
 
     <!--module name="FinalParameters"/-->
-
-    <module name="j2ee.FinalStatic"/>
-
-    <!-- Avoid finalizers (this will not find violations that contain linebreaks) -->
-    <module name="GenericIllegalRegexp">
-      <property name="format" value="((public)|(protected))\s+void\s+finalize\(\s*\)"/>
-      <property name="message" value="Avoid finalizers"/>
-    </module>
-
-    <!-- No direct printing to System.out or System.err -->
-    <module name="GenericIllegalRegexp">
-      <property name="format" value="System\.(out|err)\."/>
-      <property name="message" value="Don't write directly to System.out our System.err"/>
-    </module>
-
-    <!-- No @author tags -->
-    <module name="GenericIllegalRegexp">
-      <property name="format" value="@author"/>
-      <property name="message" value="No @author tag allowed"/>
-    </module>
 
     <!-- Need to put this back when we find a way of making it work
     <module name="Header">
@@ -216,17 +221,11 @@
 
     <module name="LocalFinalVariableName"/>
 
-    <module name="j2ee.LocalHomeInterface"/>
-
-    <module name="j2ee.LocalInterface"/>
-
     <module name="LocalVariableName"/>
 
     <!--module name="MagicNumber"/-->
 
     <module name="MemberName"/>
-
-    <module name="j2ee.MessageBean"/>
 
     <module name="MethodLength"/>
 
@@ -301,10 +300,6 @@
 
     <!--module name="RegexpHeader"/-->
 
-    <module name="j2ee.RemoteHomeInterface"/>
-
-    <module name="j2ee.RemoteInterface"/>
-
     <!-- Seems there's a bug in the Checkstyle 3.4 implementation
     <module name="RequireThis">
       <property name="checkMethods" value="false"/>
@@ -318,8 +313,6 @@
     <module name="RightCurly">
       <property name="option" value="alone"/>
     </module>
-
-    <module name="j2ee.SessionBean"/>
 
     <module name="SimplifyBooleanExpression"/>
 
@@ -336,12 +329,6 @@
     <module name="SuperClone"/>
 
     <module name="SuperFinalize"/>
-
-    <module name="TabCharacter"/>
-
-    <module name="j2ee.ThisParameter"/>
-
-    <module name="j2ee.ThisReturn"/>
 
     <!--module name="ThrowsCount"-->
 
