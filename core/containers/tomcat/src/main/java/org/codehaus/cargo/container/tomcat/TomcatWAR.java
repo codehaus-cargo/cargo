@@ -1,3 +1,4 @@
+
 /* 
  * ========================================================================
  * 
@@ -84,7 +85,7 @@ public class TomcatWAR extends WAR
      */
     protected String fixForMultiLevelContext(String context) 
     {
-        return context.replaceAll("#", "/");
+        return context.replace('#', '/');
     }
 
     /**
