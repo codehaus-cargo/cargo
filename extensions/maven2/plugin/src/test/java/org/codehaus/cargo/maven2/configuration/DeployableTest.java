@@ -123,6 +123,62 @@ public class DeployableTest extends MockObjectTestCase
         assertTrue(location.endsWith("projectFinalName.war"));
     }
 
+    public void testComputeLocationWhenJBossSarPackaging() throws Exception
+    {
+        Deployable deployableElement = new Deployable();
+        deployableElement.setGroupId("projectGroupId");
+        deployableElement.setArtifactId("projectArtifactId");
+        deployableElement.setType("sar");
+
+        // Verify that the log warning has not been raised
+        this.mockLog.expects(never()).method("warn");
+
+        String location = deployableElement.computeLocation(createDefaultProject("jboss-sar", null));
+        assertTrue(location, location.endsWith("projectFinalName.sar"));
+    }
+
+    public void testComputeLocationWhenJBossHarPackaging() throws Exception
+    {
+        Deployable deployableElement = new Deployable();
+        deployableElement.setGroupId("projectGroupId");
+        deployableElement.setArtifactId("projectArtifactId");
+        deployableElement.setType("har");
+
+        // Verify that the log warning has not been raised
+        this.mockLog.expects(never()).method("warn");
+
+        String location = deployableElement.computeLocation(createDefaultProject("jboss-har", null));
+        assertTrue(location, location.endsWith("projectFinalName.har"));
+    }
+
+    public void testComputeLocationWhenJBossSpringPackaging() throws Exception
+    {
+        Deployable deployableElement = new Deployable();
+        deployableElement.setGroupId("projectGroupId");
+        deployableElement.setArtifactId("projectArtifactId");
+        deployableElement.setType("spring");
+
+        // Verify that the log warning has not been raised
+        this.mockLog.expects(never()).method("warn");
+
+        String location = deployableElement.computeLocation(createDefaultProject("jboss-spring", null));
+        assertTrue(location, location.endsWith("projectFinalName.spring"));
+    }
+
+    public void testComputeLocationWhenJBossEsbPackaging() throws Exception
+    {
+        Deployable deployableElement = new Deployable();
+        deployableElement.setGroupId("projectGroupId");
+        deployableElement.setArtifactId("projectArtifactId");
+        deployableElement.setType("esb");
+
+        // Verify that the log warning has not been raised
+        this.mockLog.expects(never()).method("warn");
+
+        String location = deployableElement.computeLocation(createDefaultProject("jboss-esb", null));
+        assertTrue(location, location.endsWith("projectFinalName.esb"));
+    }
+
     /**
      * Setting a Null property is the way Maven2 operates when the user specifies an empty property.
      * We need to verify that the Cargo plugin intercepts that and replaces the Null with an

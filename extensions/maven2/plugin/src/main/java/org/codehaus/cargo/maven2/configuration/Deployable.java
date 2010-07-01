@@ -41,6 +41,12 @@ import org.codehaus.cargo.maven2.util.CargoProject;
  */
 public class Deployable extends AbstractDependency
 {
+    private final static String UBERWAR = "uberwar";
+
+    // JBoss needs special checks, see https://jira.codehaus.org/browse/CARGO-710
+    private final static String JBOSS = "jboss-";
+    private final static int JBOSS_STRIP = Deployable.JBOSS.length();
+
     private URL pingURL;
 
     private Long pingTimeout;
@@ -229,7 +235,9 @@ public class Deployable extends AbstractDependency
 
         if (getType().equalsIgnoreCase(project.getPackaging())
             ||  (getType().equalsIgnoreCase("war")
-                && project.getPackaging().equalsIgnoreCase("uberwar")))
+                && project.getPackaging().equalsIgnoreCase(Deployable.UBERWAR))
+            ||  (project.getPackaging().startsWith(Deployable.JBOSS)
+                && getType().equalsIgnoreCase(project.getPackaging().substring(Deployable.JBOSS_STRIP))))
         {
             isMatching = true;
         }
@@ -248,9 +256,13 @@ public class Deployable extends AbstractDependency
         {
             extension = "jar";
         }
-        else if (packaging.equalsIgnoreCase("uberwar"))
+        else if (packaging.equalsIgnoreCase(Deployable.UBERWAR))
         {
             extension = "war";
+        }
+        else if (packaging.startsWith(Deployable.JBOSS))
+        {
+            extension = packaging.substring(Deployable.JBOSS_STRIP);
         }
         else
         {
