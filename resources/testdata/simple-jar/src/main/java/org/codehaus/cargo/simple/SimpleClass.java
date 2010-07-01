@@ -1,7 +1,7 @@
 /* 
  * ========================================================================
  * 
- * Copyright 2009 Vincent Massol.
+ * Codehaus CARGO, copyright 2004-2010 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,25 +17,24 @@
  * 
  * ========================================================================
  */
-
 package org.codehaus.cargo.simple;
 
 public class SimpleClass
 {
-  
-  protected String message;
 
-  public SimpleClass()
-  {
-  }
+    protected String message;
 
-  public void setMessage(String message)
-  {
-     this.message = message;
-  }
- 
-  public String getMessage()
-  {
-     return message;
-  }
+    public SimpleClass()
+    {
+    }
+
+    public void setMessage(String message)
+    {
+        this.message = message;
+    }
+
+    public String getMessage()
+    {
+        return message;
+    }
 } 
