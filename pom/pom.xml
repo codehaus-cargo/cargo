@@ -340,21 +340,18 @@
           <artifactId>maven-antrun-plugin</artifactId>
           <version>1.3</version>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <version>2.2-beta-2</version>
-        </plugin>
-        <!-- Apply checkstyle rules and fail the build in case of errors. The checkstyle config
-             files are taken from the build-tools JAR module -->
+        <!--
+          Checkstyle 2.5 cannot be used because of bug MCHECKSTYLE-130
+          -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.5</version>
+          <version>2.4</version>
           <dependencies>
             <dependency>
-              <groupId>org.codehaus.cargo</groupId>
-              <artifactId>cargo-build-tools</artifactId>
+              <groupId>checkstyle</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>5.0</version>
             </dependency>
           </dependencies>
           <configuration>
