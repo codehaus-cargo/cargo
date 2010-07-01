@@ -1,9 +1,10 @@
 /* 
  * ========================================================================
- * 
- * Copyright 2005-2006 Vincent Massol.
+ *
  * Copyright 2005 Jeff Genender for some portions of the code below which
  * was inspired/copied from the JBoss Maven2 plugin (dated 1st Feb 2006)
+ *
+ * Codehaus CARGO, copyright 2004-2010 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
