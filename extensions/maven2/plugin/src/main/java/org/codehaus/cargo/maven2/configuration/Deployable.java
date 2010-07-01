@@ -41,6 +41,8 @@ import org.codehaus.cargo.maven2.util.CargoProject;
  */
 public class Deployable extends AbstractDependency
 {
+    private final static String EJB = "ejb";
+
     private final static String UBERWAR = "uberwar";
 
     // JBoss needs special checks, see https://jira.codehaus.org/browse/CARGO-710
@@ -252,7 +254,7 @@ public class Deployable extends AbstractDependency
     protected String computeExtension(String packaging)
     {
         String extension;
-        if (packaging.equalsIgnoreCase("ejb"))
+        if (packaging.equalsIgnoreCase(Deployable.EJB))
         {
             extension = "jar";
         }
