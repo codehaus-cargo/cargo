@@ -68,12 +68,25 @@ public class TomcatWAR extends WAR
         String result = parseTomcatContextXml();
         if (result == null)
         {
-            result = super.getContext();
+            result = fixForMultiLevelContext(super.getContext());
         }
         
         return result;
     }
     
+    /**
+     * Fix the context name to specify multi-level contexts appropriately.  
+     * The multi-level context pattern was defined as of Tomcat 5.5.27 and Tomcat 6.0.18.
+     * See the introduction of {@link http://tomcat.apache.org/tomcat-5.5-doc/config/context.html}
+     * for more information.
+     * @param context The original application context
+     * @return The application context fixed for multi-level contexts.
+     */
+    protected String fixForMultiLevelContext(String context) 
+    {
+        return context.replaceAll("#", "/");
+    }
+
     /**
      * @return the context from Tomcat's <code>context.xml</code> if
      *         it is defined or <code>null</code> otherwise.
