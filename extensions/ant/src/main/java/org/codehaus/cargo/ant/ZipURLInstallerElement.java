@@ -48,8 +48,7 @@ public class ZipURLInstallerElement
     private Proxy proxy;
     
     /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.installer.Installer#install()
+     * @param installDir the install directory
      */
     public final void setInstallDir(String installDir)
     {
@@ -57,8 +56,7 @@ public class ZipURLInstallerElement
     }
 
     /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.installer.Installer#install()
+     * @param installURL the install URL to download container from
      */
     public final void setInstallURL(URL installURL)
     {
@@ -66,8 +64,7 @@ public class ZipURLInstallerElement
     }
     
     /**
-     * {@inheritDoc}
-     * @see #setInstallDir(String)
+     * @return the install directory
      */
     public final String getInstallDir()
     {
@@ -75,8 +72,7 @@ public class ZipURLInstallerElement
     }
     
     /**
-     * {@inheritDoc}
-     * @see #setInstallURL(URL)
+     * @return the install URL to download container from
      */
     public final URL getInstallURL()
     {
@@ -84,8 +80,7 @@ public class ZipURLInstallerElement
     }
 
     /**
-     * {@inheritDoc}
-     * @see #createProxy()
+     * @return proxy properties.
      */
     public final Proxy getProxy()
     {

@@ -85,8 +85,7 @@ public class ConfigurationElement
     }
 
     /**
-     * {@inheritDoc}
-     * @see #setClass(Class)
+     * @return the configuration class associated with the containing container
      */
     protected final Class getConfigurationClass()
     {
@@ -102,8 +101,7 @@ public class ConfigurationElement
     }
 
     /**
-     * {@inheritDoc}
-     * @see #addConfiguredDeployable(DeployableElement)
+     * @return the nested deployable elements to deploy
      */
     protected final List getDeployables()
     {
@@ -111,8 +109,8 @@ public class ConfigurationElement
     }
 
     /**
-      * @param configfileElement the nested config element to deploy
-   */
+     * @param configfileElement the nested config element to deploy
+     */
     public void addConfiguredConfigfile(FileConfig configfileElement)
     {
         this.fileConfigs.add(configfileElement);
@@ -145,8 +143,7 @@ public class ConfigurationElement
     }
 
     /**
-     * {@inheritDoc}
-     * @see #addConfiguredProperty(Property)
+     * @return the list of container properties
      */
     protected final List getProperties()
     {
@@ -175,8 +172,7 @@ public class ConfigurationElement
     }
 
     /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#getHome()
+     * @param home the home directory to set
      */
     public final void setHome(String home)
     {
@@ -184,8 +180,7 @@ public class ConfigurationElement
     }
 
     /**
-     * {@inheritDoc}
-     * @see #setType(String)
+     * @return the configuration type
      */
     public final ConfigurationType getType()
     {
@@ -193,8 +188,7 @@ public class ConfigurationElement
     }
     
     /**
-     * {@inheritDoc}
-     * @see #setHome(String)
+     * @return the home directory
      */
     public final String getHome()
     {

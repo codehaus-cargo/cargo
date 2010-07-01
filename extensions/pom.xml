@@ -39,28 +39,6 @@
     <cargo.resources.version>1.0.2-SNAPSHOT</cargo.resources.version>
     <cargo.core.version>1.0.2-SNAPSHOT</cargo.core.version>
   </properties>
-  <build>
-    <pluginManagement>
-      <plugins>
-      <plugin>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <groupId>org.codehaus.cargo</groupId>
-            <artifactId>cargo-build-tools</artifactId>
-            <version>${cargo.resources.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-        <plugin>
-          <artifactId>maven-release-plugin</artifactId>
-          <configuration>
-            <tagBase>https://svn.codehaus.org/cargo/extensions/tags</tagBase>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
 
   <dependencies>
     <dependency>
@@ -86,11 +64,27 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
   <modules>
     <module>ant</module>
     <module>maven</module>
     <module>maven2</module>
   </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-build-tools</artifactId>
+            <version>${cargo.resources.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
 
   <repositories>
     <repository>

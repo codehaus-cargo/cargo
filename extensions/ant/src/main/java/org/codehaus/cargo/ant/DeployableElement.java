@@ -189,8 +189,7 @@ public class DeployableElement
     }
     
     /**
-     * {@inheritDoc}
-     * @see #addConfiguredProperty(Property)
+     * @return the list of deployable properties
      */
     public final List getProperties()
     {

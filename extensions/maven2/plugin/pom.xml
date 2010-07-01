@@ -80,10 +80,6 @@
   </dependencies>
   <build>
     <plugins>
-      <!--plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-      </plugin-->
       <plugin>
         <groupId>org.codehaus.modello</groupId>
         <artifactId>modello-maven-plugin</artifactId>
@@ -109,7 +105,15 @@
           <goalPrefix>cargo</goalPrefix>
         </configuration>
       </plugin>
-     </plugins>
+
+      <!-- TODO: For now, don't checkstyle the maven2 plugin -->
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
   <profiles>
     <profile>

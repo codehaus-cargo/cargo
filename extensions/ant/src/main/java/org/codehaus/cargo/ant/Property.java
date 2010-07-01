@@ -53,8 +53,7 @@ public class Property
     }
 
     /**
-     * {@inheritDoc}
-     * @see #setName(String)
+     * @return the property name
      */
     public String getName()
     {
@@ -62,8 +61,7 @@ public class Property
     }
 
     /**
-     * {@inheritDoc}
-     * @see #setValue(String)
+     * @return the property value
      */
     public String getValue()
     {
