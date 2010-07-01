@@ -91,4 +91,23 @@ public class Tomcat4xInstalledLocalContainer extends AbstractCatalinaInstalledLo
 
         super.doStart(java);
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see AbstractLocalContainer#waitForCompletion(boolean)
+     */
+    @Override
+    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
+    {
+        super.waitForCompletion(waitForStarting);
+
+        if (!waitForStarting)
+        {
+            // Tomcat 4 stop is not synchronous, therefore sleep a bit after the
+            // CARGO ping component has stopped in order to allow some time for
+            // the server to stop completely
+            Thread.sleep(10000);
+        }
+    }
 }
