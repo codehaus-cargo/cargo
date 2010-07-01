@@ -84,7 +84,7 @@ public class TomcatWARTest extends AbstractResourceTest
      * @throws Exception
      */
     public void testGetPathContextWhenContextIsMultiLevelContextName() throws Exception {
-        TomcatWAR war = new TomcatWAR(getResourcePath(PACKAGE_PATH + "tomcat#multi.war"));
+        TomcatWAR war = new TomcatWAR(getResourcePath(PACKAGE_PATH + "tomcat#tomcat-empty.war"));
         assertEquals("tomcat/multi", war.getContext());
     }
 }
