@@ -57,9 +57,11 @@ public class WarAndDeployerCapabilityContainerTest extends AbstractCargoTestCase
 
         // We exclude glassfish3x container as it doesn't support hot deployment yet.
         // We exclude tomcat4x container as it doesn't support hot deployment.
+        // We exclude tomcat7x container as because of Tomcat 7.0.0 bug 49536.
         Set excludedContainerIds = new TreeSet();
         excludedContainerIds.add("glassfish3x");
         excludedContainerIds.add("tomcat4x");
+        excludedContainerIds.add("tomcat7x");
 
         suite.addTestSuite(WarAndDeployerCapabilityContainerTest.class, new Validator[] {
             new IsLocalContainerValidator(),
