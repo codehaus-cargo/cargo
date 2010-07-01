@@ -131,8 +131,8 @@ public class DescriptorTag
     }
 
     /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.module.DescriptorTag#getTagName()
+     * Get tag name.
+     * @return the name of the tag.
      */
     public String getTagName()
     {
@@ -149,8 +149,8 @@ public class DescriptorTag
     }
     
     /**
-     * {@inheritDoc}
-     * @see DescriptorTag#isMultipleAllowed()
+     * Is this tag allowed multiple times?
+     * @return whether the tag is allowed multiple times.
      */
     public boolean isMultipleAllowed()
     {

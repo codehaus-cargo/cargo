@@ -28,6 +28,7 @@
   <name>Cargo Core API</name>
   <packaging>pom</packaging>
   <description>The Cargo Core API</description>
+
   <modules>
     <module>util</module>
     <module>module</module>

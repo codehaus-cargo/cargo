@@ -105,8 +105,8 @@ public class RegistrationKey
     }
 
     /**
-     * {@inheritDoc}
-     * @see Object#toString()
+     * @param implementationConceptName implementation concept name.
+     * @return string with container identity, concept name and hint.
      */
     public String toString(String implementationConceptName)
     {

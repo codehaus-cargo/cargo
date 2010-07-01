@@ -286,7 +286,7 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
         } 
         catch (Exception e)
         {
-            e.printStackTrace();
+            getLogger().warn("Exception while getting response: " + e, getClass().getName());
         }
         return response;
     }

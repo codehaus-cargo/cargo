@@ -107,9 +107,8 @@ public final class PropertyUtils
         }
         catch (IOException e)
         {
-            e.printStackTrace();
             // this should never happen!
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(e);
         }
     }
 

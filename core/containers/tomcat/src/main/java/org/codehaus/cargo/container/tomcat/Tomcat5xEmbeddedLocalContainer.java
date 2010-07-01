@@ -215,57 +215,6 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContain
         return capability;
     }
 
-    // there's no easy way to use this just with reflection
-
-//    /**
-//     * Receives logs from Tomcat and then send them to Cargo logger.
-//     */
-//    private class LoggerAdapter extends LoggerBase
-//    {
-//        private Logger logger;
-//
-//        public LoggerAdapter(Logger logger)
-//        {
-//            this.logger = logger;
-//            setVerbosity(DEBUG);
-//        }
-//
-//        public void log(String message, int verbosity)
-//        {
-//            if (verbosity <= WARNING)
-//            {
-//                logger.warn(message, "");
-//                return;
-//            }
-//            if (verbosity <= INFORMATION)
-//            {
-//                logger.info(message, "");
-//                return;
-//            }
-//            logger.debug(message, "");
-//        }
-//
-//        public void log(String message, Throwable throwable, int verbosity)
-//        {
-//            StringWriter w = new StringWriter();
-//            PrintWriter pw = new PrintWriter(w);
-//            pw.println(message);
-//            throwable.printStackTrace(pw);
-//
-//            log(w.toString(), verbosity);
-//        }
-//
-//        public void log(String msg)
-//        {
-//            logger.debug(msg, "");
-//        }
-//
-//        public void log(String msg, Throwable throwable)
-//        {
-//            log(msg, throwable, WARNING);
-//        }
-//    }
-
     /**
      * Used by {@link Tomcat5xEmbeddedLocalDeployer} to register {@link Deployable}s
      * that are to be deployed once the container is started.

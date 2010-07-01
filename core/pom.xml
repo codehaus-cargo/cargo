@@ -63,23 +63,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <dependencies>
-            <dependency>
-              <groupId>org.codehaus.cargo</groupId>
-              <artifactId>cargo-build-tools</artifactId>
-              <version>${cargo.resources.version}</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
+
   <modules>
     <module>api</module>
     <module>containers</module>
@@ -87,6 +71,21 @@
     <module>samples</module>
     <module>documentation</module>
   </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-build-tools</artifactId>
+            <version>${cargo.resources.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
 
   <repositories>
     <repository>

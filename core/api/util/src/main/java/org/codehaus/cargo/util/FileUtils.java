@@ -65,8 +65,14 @@ public class FileUtils
     }
 
     /**
-     * {@inheritDoc}
-     * @see #createDirectory(URI, String)
+     * Convenience method for creating a new directory inside another one.
+     *
+     * @param parentDir The directory in which the new directory should be created
+     * @param name The name of the directory to create
+     *
+     * @return The new directory
+     *
+     * @throws IOException If the directory could not be created
      */
     public final File createDirectory(File parentDir, String name) throws IOException
     {

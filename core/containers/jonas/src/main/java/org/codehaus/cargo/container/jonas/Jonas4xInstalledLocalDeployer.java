@@ -191,9 +191,14 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#deploy(String, Deployable, String, CopyingDeployable)
+     * Deploy a deployable to JOnAS.
+     *
+     * @param targetDir target directory
+     * @param deployable deployable name
+     * @param fileName deployable file name
+     * @param copying deployable that copies files in the file system
+     *
+     * @throws CargoException if deployment fails
      */
     private void deploy(String targetDir, Deployable deployable, String fileName,
         CopyingDeployable copying) throws CargoException
