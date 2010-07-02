@@ -38,6 +38,7 @@
     <module>build-tools</module>
     <module>testdata</module>
     <module>jetty-deployer</module>
+    <module>jetty-7-and-onwards-deployer</module>
   </modules>
 
   <repositories>
