@@ -223,6 +223,12 @@
                 <value>${cargo.samples.jboss.transaction.statusManager.port}</value>
               </property>
 
+              <!-- avoid port number clashes in Tomcat -->
+              <property>
+                <name>cargo.tomcat.ajp.port</name>
+                <value>${cargo.samples.tomcat.ajp.port}</value>
+              </property>
+
               <!-- set default parser -->
               <property>
                 <name>javax.xml.parsers.SAXParserFactory</name>
@@ -868,6 +874,7 @@
                 <portName>cargo.samples.jboss.remoting.transport.port</portName>
                 <portName>cargo.samples.jboss.transaction.recoveryManager.port</portName>
                 <portName>cargo.samples.jboss.transaction.statusManager.port</portName>
+                <portName>cargo.samples.tomcat.ajp.port</portName>
               </portNames>
             </configuration>
           </execution>
