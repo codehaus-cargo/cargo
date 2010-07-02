@@ -104,6 +104,14 @@
                fully qualified name on the command line -->
           <goalPrefix>cargo</goalPrefix>
         </configuration>
+        <executions>
+          <execution>
+            <id>generated-helpmojo</id>
+            <goals>
+              <goal>helpmojo</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <!-- TODO: For now, don't checkstyle the maven2 plugin -->
@@ -120,41 +128,41 @@
       <id>integration-test</id>
       <build>
         <plugins>
-	      <plugin>
-	        <artifactId>maven-invoker-plugin</artifactId>
-	        <executions>
-	          <execution>
-	            <id>default</id>
-	            <phase>integration-test</phase>
-	            <goals>
-	              <goal>run</goal>
-	            </goals>
-	            <configuration>
-	              <goals>
-	                <goal>clean</goal>
-	                <goal>integration-test</goal>
-	              </goals>
-	              <pomIncludes>
-	                <pomInclude>*/pom.xml</pomInclude>
-	              </pomIncludes>
-	              <pomExcludes>
-	                <!-- these tests needs fixing -->
-	                <pomExclude>testStartAndAutoDeploy/pom.xml</pomExclude>
-	                <!-- will have to run on container with ear support -->
-	                <pomExclude>testStartWithOneWarOneEarDeployed/pom.xml</pomExclude>
-	                <!-- disable these for now as these tests need some javacode and to be
-	                executed by the embedder plugin instead -->              
-	                <pomExclude>testRemoteDeploy/pom.xml</pomExclude>
-	                <pomExclude>testStartInplaceDevelopment/pom.xml</pomExclude>
-	                <pomExclude>testStartMultipleContainers/pom.xml</pomExclude>
-	                <pomExclude>testStartUsingAlreadyInstalledContainer/pom.xml</pomExclude>
-	                <pomExclude>testStartWithNoDeployableAndInBlockingMode/pom.xml</pomExclude>
-	                <pomExclude>testStopEmbeddedContainerInAnotherExecution/pom.xml</pomExclude>
-	              </pomExcludes>
-	            </configuration>
-	          </execution>
-	        </executions>
-	      </plugin>          
+          <plugin>
+            <artifactId>maven-invoker-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>default</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <goals>
+                    <goal>clean</goal>
+                    <goal>integration-test</goal>
+                  </goals>
+                  <pomIncludes>
+                    <pomInclude>*/pom.xml</pomInclude>
+                  </pomIncludes>
+                  <pomExcludes>
+                    <!-- these tests needs fixing -->
+                    <pomExclude>testStartAndAutoDeploy/pom.xml</pomExclude>
+                    <!-- will have to run on container with ear support -->
+                    <pomExclude>testStartWithOneWarOneEarDeployed/pom.xml</pomExclude>
+                    <!-- disable these for now as these tests need some javacode and to be
+                    executed by the embedder plugin instead -->
+                    <pomExclude>testRemoteDeploy/pom.xml</pomExclude>
+                    <pomExclude>testStartInplaceDevelopment/pom.xml</pomExclude>
+                    <pomExclude>testStartMultipleContainers/pom.xml</pomExclude>
+                    <pomExclude>testStartUsingAlreadyInstalledContainer/pom.xml</pomExclude>
+                    <pomExclude>testStartWithNoDeployableAndInBlockingMode/pom.xml</pomExclude>
+                    <pomExclude>testStopEmbeddedContainerInAnotherExecution/pom.xml</pomExclude>
+                  </pomExcludes>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
       </build>
     </profile>
