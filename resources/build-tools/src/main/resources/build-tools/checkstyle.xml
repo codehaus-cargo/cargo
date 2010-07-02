@@ -33,6 +33,16 @@
 
   <module name="FileTabCharacter"/>
 
+  <!--
+    For some reason, this check goes crazy like:
+    Missing a header - not enough lines in file
+
+  <module name="RegexpHeader">
+    <property name="headerFile" value="${checkstyle.header.file}"/>
+    <property name="multiLines" value="4,5,6"/>
+  </module>
+   -->
+
   <!-- Avoid finalizers (this will not find violations that contain linebreaks) -->
   <module name="RegexpMultiline">
     <property name="format" value="((public)|(protected))\s+void\s+finalize\(\s*\)"/>
@@ -159,13 +169,6 @@
     <!--module name="FinalLocalVariable"/-->
 
     <!--module name="FinalParameters"/-->
-
-    <!-- Need to put this back when we find a way of making it work
-    <module name="Header">
-      <property name="headerFile" value="${checkstyle.header.file}"/>
-      <property name="ignoreLines" value="4,5,6,7"/>
-    </module>
-    -->
 
     <!--module name="HiddenField"/-->
 
@@ -314,8 +317,6 @@
     <module name="RedundantModifier"/>
 
     <!--module name="Regexp"/-->
-
-    <!--module name="RegexpHeader"/-->
 
     <!-- Seems there's a bug in the Checkstyle 3.4 implementation
     <module name="RequireThis">
