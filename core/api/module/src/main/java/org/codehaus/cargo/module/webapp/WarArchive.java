@@ -1,6 +1,6 @@
-/* 
+/*
  * ========================================================================
- * 
+ *
  * Codehaus CARGO, copyright 2004-2010 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

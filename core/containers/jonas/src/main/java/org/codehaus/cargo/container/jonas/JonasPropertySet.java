@@ -1,9 +1,9 @@
-/* 
+/*
  * ========================================================================
- * 
- * Copyright 2007-2008 OW2. Code from this file was originally imported
- * from the OW2 JOnAS project.
- * 
+ *
+ * Copyright 2007-2008 OW2. Code from this file
+ * was originally imported from the OW2 JOnAS project.
+ *
  * Codehaus CARGO, copyright 2004-2010 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
