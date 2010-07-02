@@ -16,8 +16,8 @@
   ~ limitations under the License.
   -->
 
-<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
-<Configure class="org.mortbay.jetty.webapp.WebAppContext">
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.eclipse.org/configure.dtd">
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
 
   <Get id="serverObject" name="server"/>
 
@@ -25,7 +25,7 @@
      <Arg><Ref id="serverObject"/></Arg>
   </New>
 
-  <New id="servletholder" class="org.mortbay.jetty.servlet.ServletHolder">
+  <New id="servletholder" class="org.eclipse.jetty.servlet.ServletHolder">
      <Arg><Ref id="deployerservlet"/></Arg>
   </New>
 
