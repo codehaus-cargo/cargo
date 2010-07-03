@@ -25,7 +25,7 @@
   </parent>
   <artifactId>cargo-archetype-webapp-single-module</artifactId>
   <name>Cargo Maven 2 Archetype Single Webapp Module</name>
-  <packaging>maven-plugin</packaging>
+  <packaging>maven-archetype</packaging>
   <description>
     Sample Maven 2 Archetypes showing how to configure Cargo and Maven to run functional tests
     directly from a single webapp module.
