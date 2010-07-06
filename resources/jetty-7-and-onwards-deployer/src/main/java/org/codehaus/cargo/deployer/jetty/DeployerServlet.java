@@ -38,6 +38,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.util.log.Log;
+import org.eclipse.jetty.webapp.WebAppClassLoader;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 /**
@@ -48,6 +49,11 @@ import org.eclipse.jetty.webapp.WebAppContext;
  */
 public class DeployerServlet extends HttpServlet
 {
+
+    /**
+     * The context.
+     */
+    private WebAppContext context;
 
     /**
      * The server object.
@@ -77,6 +83,9 @@ public class DeployerServlet extends HttpServlet
      */
     public DeployerServlet(Server server)
     {
+        WebAppClassLoader cl = (WebAppClassLoader) this.getClass().getClassLoader();
+        this.context = (WebAppContext) cl.getContext();
+
         this.server = server;
         //TODO find a better means of determining the configuration and webapp directories        
         if (System.getProperty("config.home") != null)
@@ -117,37 +126,46 @@ public class DeployerServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
+        String[] serverClasses = this.context.getServerClasses();
 
-        String contextPath = request.getParameter("path");
-        String warURL = request.getParameter("war");
+        try
+        {
+            this.context.setServerClasses(null);
 
-        String command = request.getServletPath();
+            String contextPath = request.getParameter("path");
+            String warURL = request.getParameter("war");
 
-        if (command.equals("/deploy"))
-        {
-            deploy(response, contextPath, warURL);
-        } 
-        else if (command.equals("/undeploy"))
-        {
-            undeploy(response, contextPath);
-        } 
-        else if (command.equals("/stop"))
-        {
-            stop(response, contextPath);
-        } 
-        else if (command.equals("/start"))
-        {
-            start(response, contextPath);
-        } 
-        else if (command.equals("/reload"))
-        {
-            reload(response, contextPath);
-        } 
-        else
-        {
-            response.sendError(400, "Command " + command + " is unknown");
-        }
+            String command = request.getServletPath();
 
+            if (command.equals("/deploy"))
+            {
+                deploy(response, contextPath, warURL);
+            }
+            else if (command.equals("/undeploy"))
+            {
+                undeploy(response, contextPath);
+            }
+            else if (command.equals("/stop"))
+            {
+                stop(response, contextPath);
+            }
+            else if (command.equals("/start"))
+            {
+                start(response, contextPath);
+            }
+            else if (command.equals("/reload"))
+            {
+                reload(response, contextPath);
+            }
+            else
+            {
+                response.sendError(400, "Command " + command + " is unknown");
+            }
+       }
+       finally
+       {
+           this.context.setServerClasses(serverClasses);
+       }
     }
 
     /**
@@ -161,17 +179,27 @@ public class DeployerServlet extends HttpServlet
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
+        String[] serverClasses = this.context.getServerClasses();
 
-        String command = request.getServletPath();
-        if (command.equals("/deploy"))
+        try
         {
-            String contextPath = request.getParameter("path");
-            deployArchive(request, response, contextPath);
-        } 
-        else
-        {
-            sendError(response, "Command " + command + " is not reconized with PUT");
-        }
+            this.context.setServerClasses(null);
+
+            String command = request.getServletPath();
+            if (command.equals("/deploy"))
+            {
+                String contextPath = request.getParameter("path");
+                deployArchive(request, response, contextPath);
+            }
+            else
+            {
+                sendError(response, "Command " + command + " is not reconized with PUT");
+            }
+       }
+       finally
+       {
+           this.context.setServerClasses(serverClasses);
+       }
     }
 
     /**
