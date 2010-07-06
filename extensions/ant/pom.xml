@@ -24,7 +24,6 @@
     <version>1.0.2-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-extensions-ant</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
   <name>Cargo Extensions - ANT</name>
   <packaging>pom</packaging>
   <description>Cargo Extensions for ANT</description>
