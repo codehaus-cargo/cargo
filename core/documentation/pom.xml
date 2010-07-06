@@ -25,7 +25,6 @@
   </parent>
   <artifactId>cargo-documentation</artifactId>
   <name>Cargo Website Resources</name>
-  <version>1.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
   <description>Cargo Website Resources</description>
   <dependencies>

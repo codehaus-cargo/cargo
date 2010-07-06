@@ -26,7 +26,6 @@
   </parent>
   <artifactId>cargo-core-container-glassfish</artifactId>
   <name>Cargo Core GlassFish Container</name>
-  <version>1.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
   <description>Core API implementation for GlassFish containers</description>
 </project>

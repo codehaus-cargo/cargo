@@ -24,7 +24,6 @@
     <version>1.0.2-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-core-containers</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
   <name>Cargo Core Containers</name>
   <packaging>pom</packaging>
   <description>Core API Container Implementations</description>

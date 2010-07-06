@@ -24,7 +24,6 @@
     <version>1.0.2-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-core-uberjar</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
   <name>Cargo Core Uberjar</name>
   <description>The Cargo Core Uberjar</description>
   <dependencies>
