@@ -337,6 +337,10 @@
     </plugins>
   </reporting>
 
+  <properties>
+    <cargo.derby.version>10.4.2.0</cargo.derby.version>
+  </properties>
+
   <build>
     <pluginManagement>
       <plugins>
