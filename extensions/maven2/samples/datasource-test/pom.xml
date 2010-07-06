@@ -60,7 +60,9 @@
           <configuration>
             <home>${project.build.directory}/catalina-base</home>
             <properties>
-              <cargo.servlet.port>8080</cargo.servlet.port>
+              <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+              <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
+              <cargo.tomcat.ajp.port>${cargo.samples.tomcat.ajp.port}</cargo.tomcat.ajp.port>
               <cargo.datasource.datasource.derby>
                 cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedDriver|
                 cargo.datasource.url=jdbc:derby:derbyDB;create=true|
@@ -112,7 +114,7 @@
               <systemProperties>
                 <property>
                   <name>http.port</name>
-                  <value>${http.port}</value>
+                  <value>${cargo.samples.servlet.port}</value>
                 </property>
               </systemProperties>
             </configuration>

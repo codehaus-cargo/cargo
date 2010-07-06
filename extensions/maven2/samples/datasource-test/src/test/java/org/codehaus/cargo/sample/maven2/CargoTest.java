@@ -32,7 +32,7 @@ public class CargoTest extends TestCase {
     Logger logger = new SimpleLogger();
 
     public void testCargo() throws Exception {
-        final URL url = new URL("http://localhost:8080/cargocpc/index.html");
+        final URL url = new URL("http://localhost:" + System.getProperty("http.port") + "/cargocpc/index.html");
         final String expected = "Cargo Ping Component used to verify if the container is started.";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
