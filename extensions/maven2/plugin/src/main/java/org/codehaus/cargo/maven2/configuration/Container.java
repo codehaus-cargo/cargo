@@ -87,6 +87,11 @@ public class Container
         return this.timeout;
     }
 
+    public void setTimeout(Long timeout)
+    {
+        this.timeout = timeout;
+    }
+
     public Dependency[] getDependencies()
     {
         return this.dependencies;
@@ -132,14 +137,29 @@ public class Container
         return this.output;
     }
 
+    public void setOutput(String output)
+    {
+        this.output = output;
+    }
+
     public ZipUrlInstaller getZipUrlInstaller()
     {
         return this.zipUrlInstaller;
     }
 
+    public void setZipUrlInstaller(ZipUrlInstaller zipUrlInstaller)
+    {
+        this.zipUrlInstaller = zipUrlInstaller;
+    }
+
     public boolean shouldAppend()
     {
         return this.append;
+    }
+
+    public void setAppend(boolean append)
+    {
+        this.append = append;
     }
 
     public void setLog(File log)
@@ -319,15 +339,15 @@ public class Container
     }
 
     /**
-     * Set up a home dir (possibly using a ZipURLInstaller).
+     * Set up a home dir of container (possibly including installing the container, by a
+     * ZipURLInstaller).
      */
     private void setupHome(InstalledLocalContainer container)
     {
-        if (getHome() != null)
-        {
-            container.setHome(getHome());
-        }
-        else if (getZipUrlInstaller() != null)
+        String tmpHome = null;
+
+        // if a ZipUrlInstaller is specified, use it to install
+        if (getZipUrlInstaller() != null)
         {
             ZipURLInstaller installer = getZipUrlInstaller().createInstaller();
             if (getLog() != null)
@@ -335,7 +355,17 @@ public class Container
                 installer.setLogger(container.getLogger());
             }
             installer.install();
-            container.setHome(installer.getHome());
+            tmpHome = installer.getHome();
+        }
+        if (getHome() != null)
+        {
+            // this will override a home provided by Installer
+            tmpHome = getHome();
+        }
+
+        if (tmpHome != null)
+        {
+            container.setHome(tmpHome);
         }
     }
 

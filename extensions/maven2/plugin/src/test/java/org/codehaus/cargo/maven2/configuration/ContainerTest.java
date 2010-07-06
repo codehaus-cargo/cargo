@@ -19,32 +19,34 @@
  */
 package org.codehaus.cargo.maven2.configuration;
 
-import org.codehaus.cargo.maven2.util.CargoProject;
-import org.codehaus.cargo.maven2.configuration.*;
-import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
-import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
-import org.codehaus.cargo.container.stub.EmbeddedLocalContainerStub;
-import org.codehaus.cargo.container.*;
-import org.codehaus.cargo.util.log.NullLogger;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
-import org.apache.maven.plugin.logging.Log;
-import org.apache.maven.artifact.DefaultArtifact;
-import org.apache.maven.artifact.handler.DefaultArtifactHandler;
-import org.apache.maven.artifact.versioning.VersionRange;
-
-import java.util.HashSet;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.zip.ZipOutputStream;
-import java.util.zip.ZipEntry;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import org.apache.maven.artifact.DefaultArtifact;
+import org.apache.maven.artifact.handler.DefaultArtifactHandler;
+import org.apache.maven.artifact.versioning.VersionRange;
+import org.apache.maven.plugin.logging.Log;
+import org.codehaus.cargo.container.EmbeddedLocalContainer;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.installer.ZipURLInstaller;
+import org.codehaus.cargo.container.stub.EmbeddedLocalContainerStub;
+import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
+import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
+import org.codehaus.cargo.maven2.util.CargoProject;
+import org.codehaus.cargo.util.log.NullLogger;
+import org.jmock.Mock;
+import org.jmock.cglib.MockObjectTestCase;
 
 /**
  * Unit tests for the {@link org.codehaus.cargo.maven2.configuration.Container} class.
@@ -163,6 +165,67 @@ public class ContainerTest extends MockObjectTestCase
         assertEquals(resourceValue, getResource(Thread.currentThread().getContextClassLoader(),
             resourceName));
     }
+    
+    public void testCreateInstalledLocalContainerWithInstallerAndHome() throws Exception
+    {
+        org.codehaus.cargo.maven2.configuration.Container containerElement = setUpContainerElement(new InstalledLocalContainerStub());
+        final String containerHome = "container/overriding_home";
+        containerElement.setHome(containerHome);
+        final Mock mockInstaller = mock(ZipURLInstaller.class, new Class[]{URL.class}, new Object[]{new URL("http://whatever")});
+        mockInstaller.expects(once()).method("install"); // install method should be called
+        mockInstaller.stubs().method("getHome").will(returnValue("container/incorrect_home")); // home provided by installer should not be used
+        containerElement.setZipUrlInstaller(new org.codehaus.cargo.maven2.configuration.ZipUrlInstaller()
+            {
+               @Override
+               public ZipURLInstaller createInstaller()
+               {
+                   return (ZipURLInstaller) mockInstaller.proxy();
+               }
+            });
+        
+        org.codehaus.cargo.container.InstalledLocalContainer container =
+            (InstalledLocalContainer) containerElement.createContainer(
+                new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
+                createTestCargoProject("whatever"));
+        assertEquals("Specified home didn't override home defined by installer", containerHome, container.getHome());
+    }
+
+    public void testCreateInstalledLocalContainerWithHome() throws Exception
+    {
+        org.codehaus.cargo.maven2.configuration.Container containerElement = setUpContainerElement(new InstalledLocalContainerStub());
+        final String containerHome = "container/home";
+        containerElement.setHome(containerHome);
+        
+        org.codehaus.cargo.container.InstalledLocalContainer container =
+            (InstalledLocalContainer) containerElement.createContainer(
+                new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
+                createTestCargoProject("whatever"));
+        assertEquals("Specified home not used", containerHome, container.getHome());
+    }
+
+    public void testCreateInstalledLocalContainerWithInstaller() throws Exception
+    {
+        org.codehaus.cargo.maven2.configuration.Container containerElement = setUpContainerElement(new InstalledLocalContainerStub());
+        containerElement.setHome(null);
+        final Mock mockInstaller = mock(ZipURLInstaller.class, new Class[]{URL.class}, new Object[]{new URL("http://whatever")});
+        mockInstaller.expects(once()).method("install"); // install method should be called
+        final String containerHome = "container/installer_home";
+        mockInstaller.stubs().method("getHome").will(returnValue(containerHome));
+        containerElement.setZipUrlInstaller(new org.codehaus.cargo.maven2.configuration.ZipUrlInstaller()
+            {
+               @Override
+               public ZipURLInstaller createInstaller()
+               {
+                   return (ZipURLInstaller) mockInstaller.proxy();
+               }
+            });
+        
+        org.codehaus.cargo.container.InstalledLocalContainer container =
+            (InstalledLocalContainer) containerElement.createContainer(
+                new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
+                createTestCargoProject("whatever"));
+        assertEquals("Home specified by installer not used", containerHome, container.getHome());
+    }
 
     protected org.codehaus.cargo.maven2.configuration.Container setUpContainerElement(org.codehaus.cargo.container.Container container)
     {
@@ -201,4 +264,20 @@ public class ContainerTest extends MockObjectTestCase
         return new BufferedReader(
             new InputStreamReader(classLoader.getResourceAsStream(resourceName))).readLine();
     }
+    
+    /*private class ZipURLInstallerStub extends ZipUrlInstaller
+    {
+        public boolean installMethodCalled = false;
+        
+        public ZipURLInstallerStub(URL remoteLocation)
+        {
+            super(remoteLocation);
+        }
+
+        @Override
+        public void install()
+        {
+            installMethodCalled = true;
+        }
+    }*/
 }
