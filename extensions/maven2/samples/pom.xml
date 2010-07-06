@@ -20,16 +20,14 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
-    <artifactId>cargo-extensions</artifactId>
+    <artifactId>cargo-extensions-maven2</artifactId>
     <version>1.0.2-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-extensions-maven2</artifactId>
-  <name>Cargo Extensions - Maven 2</name>
+  <artifactId>cargo-samples-maven2</artifactId>
+  <name>Cargo Samples - Maven 2</name>
   <packaging>pom</packaging>
-  <description>Cargo Extensions for Maven 2</description>
+  <description>Cargo Samples for Maven 2</description>
   <modules>
-    <module>plugin</module>
-    <module>archetypes</module>
-    <module>samples</module>
+    <module>datasource-test</module>
   </modules>
 </project>
