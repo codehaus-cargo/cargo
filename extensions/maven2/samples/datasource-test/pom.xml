@@ -36,6 +36,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+      <version>${cargo.derby.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>datasource-war</artifactId>
       <version>${cargo.resources.version}</version>
@@ -56,6 +61,12 @@
               <url>http://apache.multidist.com/tomcat/tomcat-6/v6.0.26/bin/apache-tomcat-6.0.26.zip</url>
               <installDir>${basedir}/../installs</installDir>
             </zipUrlInstaller>
+            <dependencies>
+              <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derby</artifactId>
+              </dependency>
+            </dependencies>
           </container>
           <configuration>
             <home>${project.build.directory}/catalina-base</home>
@@ -115,6 +126,10 @@
                 <property>
                   <name>http.port</name>
                   <value>${cargo.samples.servlet.port}</value>
+                </property>
+                <property>
+                  <name>cargo.resources.version</name>
+                  <value>${cargo.resources.version}</value>
                 </property>
               </systemProperties>
             </configuration>
