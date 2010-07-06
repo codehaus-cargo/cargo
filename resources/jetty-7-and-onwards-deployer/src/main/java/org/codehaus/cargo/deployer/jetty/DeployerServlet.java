@@ -26,8 +26,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -39,6 +37,7 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 /**
@@ -49,11 +48,6 @@ import org.eclipse.jetty.webapp.WebAppContext;
  */
 public class DeployerServlet extends HttpServlet
 {
-
-    /**
-     * Logger.
-     */
-    private Logger logger = Logger.getLogger(DeployerServlet.class.getName());
 
     /**
      * The server object.
@@ -190,7 +184,7 @@ public class DeployerServlet extends HttpServlet
     protected void deployArchive(HttpServletRequest request, HttpServletResponse response,
             String contextPath) throws IOException
     {
-        logger.finest("Remotely deploying a remote web archive with context " + contextPath);
+        Log.debug("Remotely deploying a remote web archive with context " + contextPath);
 
         if (contextPath == null)
         {
@@ -206,7 +200,7 @@ public class DeployerServlet extends HttpServlet
         }
         else
         {
-            logger.finest("trying to get the remote web archive");
+            Log.debug("trying to get the remote web archive");
             String webappLocation = webAppDirectory + contextPath
                     + (contextPath.equals("/") ? "ROOT" : "") + ".war";
             File webappFile = new File(webappLocation);
@@ -238,7 +232,7 @@ public class DeployerServlet extends HttpServlet
             catch (Exception e)
             {
                 sendError(response, "Unexpected error when trying to start the webapp");
-                logger.log(Level.WARNING, "Unexpected error when trying to start the webapp", e);
+                Log.warn(e);
                 return;
             }
         }
@@ -396,7 +390,7 @@ public class DeployerServlet extends HttpServlet
             catch (Exception e)
             {
                 sendError(response, "Unexpected error when trying to start the webapp");
-                logger.log(Level.WARNING, "Unexpected error when trying to start the webapp", e);
+                Log.warn(e);
                 return;
             }
         }
