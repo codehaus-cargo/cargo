@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Codehaus CARGO, copyright 2004-2010 Vincent Massol.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-samples-ant</artifactId>
+    <version>1.0.2-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-sample-ant-datasource-test</artifactId>
+  <name>Cargo Samples - ANT - Datasource test</name>
+  <packaging>jar</packaging>
+  <description>Sample application that exercises the Cargo ANT tasks with a container and a datasource</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-sample-java</artifactId>
+      <version>${cargo.core.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <properties>
+    <cargo-ant-tasks.directory>
+      ${project.build.directory}/cargo-ant-tasks
+    </cargo-ant-tasks.directory>
+    <cargo-ant-buildfiles.directory>
+      ${project.build.directory}/cargo-ant-buildfiles
+    </cargo-ant-buildfiles.directory>
+    <cargo-test-applications.directory>
+      ${project.build.directory}/cargo-test-applications
+    </cargo-test-applications.directory>
+  </properties>
+  <build>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/build.xml</include>
+        </includes>
+        <targetPath>${cargo-ant-buildfiles.directory}</targetPath>
+      </testResource>
+    </testResources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-ant-tasks</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${cargo-ant-tasks.directory}</outputDirectory>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-ant</artifactId>
+                  <version>${project.version}</version>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-core-uberjar</artifactId>
+                  <version>${cargo.core.version}</version>
+                </artifactItem>
+
+                <artifactItem>
+                  <groupId>commons-discovery</groupId>
+                  <artifactId>commons-discovery</artifactId>
+                  <version>0.4</version>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>commons-logging</groupId>
+                  <artifactId>commons-logging</artifactId>
+                  <version>1.1.1</version>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>dom4j</groupId>
+                  <artifactId>dom4j</artifactId>
+                  <version>1.4</version>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-test-deployables</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${cargo-test-applications.directory}</outputDirectory>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.apache.derby</groupId>
+                  <artifactId>derby</artifactId>
+                  <version>${cargo.derby.version}</version>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>datasource-war</artifactId>
+                  <version>${cargo.resources.version}</version>
+                  <type>war</type>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>start</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <ant antfile="${cargo-ant-buildfiles.directory}/build.xml">
+                  <target name="start"/>
+                </ant>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>stop</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <ant antfile="${cargo-ant-buildfiles.directory}/build.xml">
+                  <target name="stop"/>
+                </ant>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+        <executions>
+          <execution>
+            <id>surefire-it</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <skip>${maven.test.skip}</skip>
+              <systemProperties>
+                <property>
+                  <name>http.port</name>
+                  <value>${cargo.samples.servlet.port}</value>
+                </property>
+              </systemProperties>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

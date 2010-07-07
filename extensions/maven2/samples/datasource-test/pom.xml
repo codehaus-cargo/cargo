@@ -23,7 +23,7 @@
     <artifactId>cargo-samples-maven2</artifactId>
     <version>1.0.2-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-sample-datasource-test</artifactId>
+  <artifactId>cargo-sample-maven2-datasource-test</artifactId>
   <name>Cargo Samples - Maven 2 - Datasource test</name>
   <packaging>jar</packaging>
   <description>Sample application that exercises the Cargo Maven2 plugin with a container and a datasource</description>
@@ -94,10 +94,10 @@
                 cargo.datasource.username=APP|
                 cargo.datasource.password=nonemptypassword
               </cargo.datasource.datasource.derby>
-                <property>
-                  <name>derby.system.home</name>
-                  <value>${project.build.directory}/derby</value>
-                </property>
+              <property>
+                <name>derby.system.home</name>
+                <value>${project.build.directory}/derby</value>
+              </property>
             </properties>
             <deployables>
               <deployable>
