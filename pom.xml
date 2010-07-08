@@ -36,4 +36,18 @@
     <module>core</module>
     <module>extensions</module>
   </modules>
+
+  <repositories>
+    <repository>
+      <!-- Codehaus mirror -->
+      <id>codehaus-releases</id>
+      <url>http://repository.codehaus.org</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 </project>
