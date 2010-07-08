@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-ant</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
   </parent>
   <artifactId>cargo-sample-ant-datasource-test</artifactId>
   <name>Cargo Samples - ANT - Datasource test</name>
@@ -137,7 +137,7 @@
             <configuration>
               <tasks>
                 <ant antfile="${cargo-ant-buildfiles.directory}/build.xml">
-                  <target name="start"/>
+                  <target name="start" />
                 </ant>
               </tasks>
             </configuration>
@@ -151,7 +151,7 @@
             <configuration>
               <tasks>
                 <ant antfile="${cargo-ant-buildfiles.directory}/build.xml">
-                  <target name="stop"/>
+                  <target name="stop" />
                 </ant>
               </tasks>
             </configuration>
