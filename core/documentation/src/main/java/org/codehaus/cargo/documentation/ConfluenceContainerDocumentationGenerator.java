@@ -120,6 +120,11 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | (x) "
                     + "| OSGi applications servers do not support changing the container classpath |");
             }
+            else if (containerId.equals("jetty7x"))
+            {
+                output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | (x) "
+                    + "| Changing the the container classpath is not supported on Jetty 7.x yet |");
+            }
             else
             {
                 output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (x) | (/) | |");
