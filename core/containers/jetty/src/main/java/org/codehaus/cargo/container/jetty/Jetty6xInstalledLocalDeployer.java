@@ -83,12 +83,22 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
                 + "<!DOCTYPE Configure PUBLIC \"-//Mort Bay Consulting//DTD Configure//EN\" "
                     + "\"http://jetty.mortbay.org/configure.dtd\">\n"
                 + "<Configure class=\"org.mortbay.jetty.webapp.WebAppContext\">\n"
+
+                + "  <Array id=\"plusConfig\" type=\"java.lang.String\">\n"
+                + "    <Item>org.mortbay.jetty.webapp.WebInfConfiguration</Item>\n"
+                + "    <Item>org.mortbay.jetty.plus.webapp.EnvConfiguration</Item>\n"
+                + "    <Item>org.mortbay.jetty.plus.webapp.Configuration</Item>\n"
+                + "    <Item>org.mortbay.jetty.webapp.JettyWebXmlConfiguration</Item>\n"
+                + "    <Item>org.mortbay.jetty.webapp.TagLibConfiguration</Item>\n"
+                + "  </Array>\n"
+
                 + "  <Set name=\"contextPath\">/" + war.getContext() + "</Set>\n"
                 + "  <Set name=\"war\"><SystemProperty name=\"config.home\" "
                     + "default=\".\"/>/webapps/" + war.getContext() + ".war</Set>\n"
                 + "  <Set name=\"extractWAR\">true</Set>\n"
                 + "  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
                    + "default=\".\"/>/etc/webdefault.xml</Set>\n"
+                + "  <Set name=\"ConfigurationClasses\"><Ref id=\"plusConfig\"/></Set>\n"
                 + "</Configure>").getBytes());
             out.close();
         }
