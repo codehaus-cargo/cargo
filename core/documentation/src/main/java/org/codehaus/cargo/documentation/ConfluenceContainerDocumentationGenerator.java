@@ -115,7 +115,15 @@ public class ConfluenceContainerDocumentationGenerator
         {
             output.append("| [Local Container]                       | (/) | (/) | (/) | (/) | |");
             output.append(LINE_SEPARATOR);
-            output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (x) | (/) | |");
+            if (containerId.equals("glassfish3x") || containerId.equals("jonas5x"))
+            {
+                output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | (x) "
+                    + "| OSGi applications servers do not support changing the container classpath |");
+            }
+            else
+            {
+                output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (x) | (/) | |");
+            }
             output.append(LINE_SEPARATOR);
             output.append("| &nbsp; [Container Start]                | (/) | (/) | (/) | (/) | |");
             output.append(LINE_SEPARATOR);
