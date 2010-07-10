@@ -349,7 +349,7 @@
 
               <property>
                 <name>cargo.glassfish3x.url</name>
-                <value>http://download.java.net/glassfish/3.0.1/release/glassfish-3.0.1-web.zip</value>
+                <value>http://download.java.net/glassfish/3.0.1/release/glassfish-3.0.1.zip</value>
               </property>
               <property>
                 <name>cargo.glassfish3x.java.home</name>

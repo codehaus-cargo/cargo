@@ -48,14 +48,10 @@ public class EarCapabilityContainerTest extends AbstractCargoTestCase
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that run on containers supporting EAR deployments");
 
-        // We exclude glassfish3x container as it doesn't support hot deployment yet.
-        Set excludedContainerIds = new TreeSet();
-        excludedContainerIds.add("glassfish3x");
-
         suite.addTestSuite(EarCapabilityContainerTest.class, new Validator[] {
             new IsLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),
-            new HasEarSupportValidator()}, excludedContainerIds);
+            new HasEarSupportValidator()});
         return suite;
     }
 
