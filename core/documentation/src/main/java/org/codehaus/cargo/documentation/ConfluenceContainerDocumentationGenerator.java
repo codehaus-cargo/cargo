@@ -136,7 +136,7 @@ public class ConfluenceContainerDocumentationGenerator
             if (containerId.equals("glassfish3x") || containerId.equals("jonas5x"))
             {
                 output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | (x) "
-                    + "| OSGi applications servers do not support changing the container classpath |");
+                    + "| OSGi application servers do not support changing the container classpath |");
             }
             else if (containerId.equals("jetty7x"))
             {
