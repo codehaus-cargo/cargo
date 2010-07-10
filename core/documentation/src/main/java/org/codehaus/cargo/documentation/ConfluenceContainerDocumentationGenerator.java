@@ -79,6 +79,24 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(LINE_SEPARATOR);
         output.append(LINE_SEPARATOR);
 
+        if (containerId.equals("geronimo1x"))
+        {
+            output.append("{note}The Geronimo 1.x CARGO container is not very stable yet. "
+                + "Use it at your own risk or contribute to "
+                + "[CARGO-802|https://jira.codehaus.org/browse/CARGO-802]."
+                + "{note}");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+        }
+        else if (containerId.equals("tomcat4x"))
+        {
+            output.append("{note}The Tomcat 4.x CARGO container or maybe Tomcat 4.x itself is "
+                + "not very stable nowadays. Consider upgrading your Tomcat version."
+                + "{note}");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+        }
+
         output.append(generateContainerFeaturesText(containerId));
         output.append(LINE_SEPARATOR);
         output.append(generateConfigurationFeaturesText(containerId));
