@@ -88,9 +88,9 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
     File getPasswordFile()
     {
         String password = this.getPropertyValue(RemotePropertySet.PASSWORD);
-        if (password.length() < 8)
+        if (password == null)
         {
-            throw new CargoException("password needs to be 8 characters or longer");
+            password = "";
         }
 
         try
