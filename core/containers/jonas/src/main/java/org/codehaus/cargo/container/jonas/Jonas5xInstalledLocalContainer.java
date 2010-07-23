@@ -32,6 +32,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalContainer;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.util.AntUtils;
 
 /**
@@ -63,6 +64,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         doAction(java);
         doServerAndDomainNameArgs(java);
         java.createArg().setValue("-start");
+        doUsernameAndPasswordArgs(java);
 
         AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
         jonasRunner.start();
@@ -79,6 +81,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         doAction(java);
         doServerAndDomainNameArgs(java);
         java.createArg().setValue("-stop");
+        doUsernameAndPasswordArgs(java);
 
         // Call java.execute directly since ClientAdmin.stop is synchronous
         int returnCode = java.executeJava();
@@ -133,6 +136,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
             //            the argument is in milliseconds in JOnAS 5
             ping.createArg().setValue("-timeout");
             ping.createArg().setValue("2000");
+            doUsernameAndPasswordArgs(ping);
             ping.reconfigure();
             ping.setTimeout(new Long(10000));
             try
@@ -176,6 +180,26 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
             "org.jacorb.orb.standardInterceptors.IORInterceptorInitializer");
         addSysProp(java, configuredSysProps, "com.sun.CORBA.ORBDynamicStubFactoryFactoryClass",
             "com.sun.corba.se.impl.presentation.rmi.StubFactoryFactoryStaticImpl");
+    }
+
+    /**
+     * Setup of the username and password for the JOnAS admin command call.
+     *
+     * @param java the target java ant task to setup
+     */
+    protected void doUsernameAndPasswordArgs(final Java java)
+    {
+        String username = getConfiguration().getPropertyValue(RemotePropertySet.USERNAME);
+        String password = getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD);
+
+        if (username != null && username.trim().length() != 0
+            && password != null && password.trim().length() != 0)
+        {
+            java.createArg().setValue("-username");
+            java.createArg().setValue(username);
+            java.createArg().setValue("-password");
+            java.createArg().setValue(password);
+        }
     }
 
     /**
