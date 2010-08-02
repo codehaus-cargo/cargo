@@ -79,7 +79,7 @@ public class Jetty7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         if (sessionPath != null)
         {
             sessionContextParam = "  <context-param>\n"
-                    + "    <param-name>org.mortbay.jetty.servlet.SessionPath</param-name>\n"
+                    + "    <param-name>org.eclipse.jetty.servlet.SessionPath</param-name>\n"
                     + "    <param-value>" + sessionPath + "</param-value>\n"
                     + "  </context-param>\n";
         }

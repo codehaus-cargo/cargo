@@ -139,20 +139,32 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
 
         if (isGettingStarted)
         {
-            // Enable JSP compilation from Jetty 7x
-            File jspLib = new File(getHome(), "lib/jsp");
-            if (jspLib.isDirectory())
+            // if RUNTIME_ARGS specified, use'm, otherwise use jetty7.1.5 default OPTIONS
+            if (getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS) == null)
             {
-                java.createArg().setValue("OPTIONS=Server,jsp");
-            }
-            else
-            {
-                getLogger().warn("JSP librairies not found in " + jspLib
-                    + ", JSP support will be disabled", this.getClass().getName());
-            }
+                // sample: OPTIONS=Server,jsp,jmx,resources,websocket,ext
+                StringBuilder options = new StringBuilder("OPTIONS=Server");
+                // Enable JSP compilation from Jetty 7x
+                File jspLib = new File(getHome(), "lib/jsp");
+                if (jspLib.isDirectory())
+                {
+                    options.append(",jsp");
+                }
+                else
+                {
+                    getLogger().warn("JSP librairies not found in " + jspLib
+                        + ", JSP support will be disabled", this.getClass().getName());
+                }
+    
+                options.append(",jmx,resources,websocket,ext");
+                java.createArg().setValue(options.toString());
 
-            java.createArg().setValue(
-                getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml"));
+                // ignore everything in the start.ini file
+                java.createArg().setValue("--ini");
+    
+                java.createArg().setValue(
+                    getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml"));
+            }
         }
         else
         {

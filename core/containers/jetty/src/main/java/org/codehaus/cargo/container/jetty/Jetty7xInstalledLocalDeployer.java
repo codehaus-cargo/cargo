@@ -80,8 +80,8 @@ public class Jetty7xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
         try
         {
             out.write(("<?xml version=\"1.0\"  encoding=\"ISO-8859-1\"?>\n"
-                + "<!DOCTYPE Configure PUBLIC \"-//Mort Bay Consulting//DTD Configure//EN\" "
-                    + "\"http://jetty.mortbay.org/configure.dtd\">\n"
+                + "<!DOCTYPE Configure PUBLIC \"-//Jetty//Configure//EN\" "
+                    + "\"http://www.eclipse.org/jetty/configure.dtd\">\n"
                 + "<Configure class=\"org.eclipse.jetty.webapp.WebAppContext\">\n"
                 + "  <Set name=\"contextPath\">/" + war.getContext() + "</Set>\n"
                 + "  <Set name=\"war\"><SystemProperty name=\"config.home\" "
