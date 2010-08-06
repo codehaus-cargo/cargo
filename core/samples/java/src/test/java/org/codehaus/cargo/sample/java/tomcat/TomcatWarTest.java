@@ -51,7 +51,7 @@ public class TomcatWarTest extends AbstractCargoTestCase
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that can run on Tomcat containers supporting META-INF/context.xml files");
         suite.addTestSuite(TomcatWarTest.class, new Validator[] {
-            new StartsWithContainerValidator("tomcat5x"),
+            new StartsWithContainerValidator("tomcat"),
             new IsLocalContainerValidator(),
             new HasStandaloneConfigurationValidator()});
         return suite;
