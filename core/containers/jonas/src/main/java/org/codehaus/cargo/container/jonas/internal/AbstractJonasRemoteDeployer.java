@@ -354,9 +354,10 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
         {
             undeploy(deployable);
         }
-        catch (Exception ignored)
+        catch (Exception e)
         {
-            // Failed undeploying, probably because the application was not deployed yet.
+            this.getLogger().warn("Undeploying failed when redeploying: " + e.toString(),
+                this.getClass().getName());
         }
         deploy(deployable);
     }

@@ -47,8 +47,6 @@ import java.net.URL;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class RemoteDeploymentTest extends AbstractCargoTestCase
 {
@@ -70,10 +68,6 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that perform remote deployments on remote containers");
 
-        // We exclude jonas4x container as it has issues with redeployment.
-        Set excludedContainerIds = new TreeSet();
-        excludedContainerIds.add("jonas4x");
-
         suite.addTestSuite(RemoteDeploymentTest.class, new Validator[] {
             new IsRemoteContainerValidator(),
             new HasRuntimeConfigurationValidator(),
@@ -83,7 +77,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             // Ensure the container can be installed locally so that we can start it and consider
             // it as our remote container for the tests.
             new HasInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator()}, excludedContainerIds);
+            new HasStandaloneConfigurationValidator()});
 
         return suite;
     }
