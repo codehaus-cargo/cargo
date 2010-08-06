@@ -187,7 +187,7 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
 
     public String insertConfigurationEntryIntoContext(String dataSourceEntry)
     {
-        StringBuffer configurationContext = new StringBuffer();
+        StringBuilder configurationContext = new StringBuilder();
         configurationContext.append("<resin xmlns=\"http://caucho.com/ns/resin\"\n");
         configurationContext.append("       xmlnsresin=\"http://caucho.com/ns/resin/core\">");
         configurationContext.append(dataSourceEntry);

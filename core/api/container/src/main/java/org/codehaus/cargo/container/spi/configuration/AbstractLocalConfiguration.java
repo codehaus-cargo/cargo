@@ -218,7 +218,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
         if (getResources().size() > 0
             && !this.getCapability().supportsProperty(ResourcePropertySet.RESOURCE))
         {
-            StringBuffer errorMessage = new StringBuffer();
+            StringBuilder errorMessage = new StringBuilder();
             Iterator resourceIterator = getResources().iterator();
             while (resourceIterator.hasNext())
             {
@@ -244,7 +244,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      */
     public void collectUnsupportedDataSourcesAndThrowException()
     {
-        StringBuffer errorMessage = new StringBuffer();
+        StringBuilder errorMessage = new StringBuilder();
 
         Iterator dataSourceIterator = getDataSources().iterator();
         while (dataSourceIterator.hasNext())

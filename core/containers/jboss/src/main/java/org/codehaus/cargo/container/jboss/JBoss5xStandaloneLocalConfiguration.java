@@ -96,7 +96,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
         {
             InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
             String[] sharedClassPath = installedContainer.getSharedClasspath();
-            StringBuffer tmp = new StringBuffer();
+            StringBuilder tmp = new StringBuilder();
             if (sharedClassPath != null)
             {
                 for (String element : sharedClassPath)

@@ -143,7 +143,7 @@ public final class PropertyUtils
      */
     public static String joinOnDelimiter(Map toJoin, char delimiter)
     {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
 
         for (Iterator it = toJoin.entrySet().iterator(); it.hasNext();)
         {

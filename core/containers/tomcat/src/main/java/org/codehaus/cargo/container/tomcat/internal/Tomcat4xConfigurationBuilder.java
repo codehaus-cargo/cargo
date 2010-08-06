@@ -50,7 +50,7 @@ public class Tomcat4xConfigurationBuilder extends AbstractTomcatConfigurationBui
      */
     public String toConfigurationEntry(Resource resource)
     {
-        StringBuffer buff = new StringBuffer();
+        StringBuilder buff = new StringBuilder();
         buff.append("<Resource ").append("name=\"").append(resource.getName()).append("\"\n");
         if (resource.getClassName() != null)
         {

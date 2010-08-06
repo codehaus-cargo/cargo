@@ -100,7 +100,7 @@ public class WebLogic9x10xAnd103xConfigurationBuilder extends
         {
             driverElement.addElement("password-encrypted").setText(ds.getPassword());
         }
-        StringBuffer out = new StringBuffer();
+        StringBuilder out = new StringBuilder();
         out.append(nameElement.asXML());
         out.append("\n");
         out.append(driverElement.asXML());

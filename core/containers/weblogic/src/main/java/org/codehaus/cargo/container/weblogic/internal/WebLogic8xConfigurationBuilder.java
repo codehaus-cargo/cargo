@@ -96,7 +96,7 @@ public class WebLogic8xConfigurationBuilder extends AbstractConfigurationBuilder
         dataSource.addAttribute("PoolName", ds.getJndiLocation());
         dataSource.addAttribute("JNDIName", ds.getJndiLocation());
         dataSource.addAttribute("Targets", getServerName());
-        StringBuffer out = new StringBuffer();
+        StringBuilder out = new StringBuilder();
         out.append(connectionPool.asXML());
         out.append("\n");
         out.append(dataSource.asXML());

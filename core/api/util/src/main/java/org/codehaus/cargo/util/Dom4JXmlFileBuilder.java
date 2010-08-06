@@ -77,7 +77,7 @@ public class Dom4JXmlFileBuilder implements XmlFileBuilder
     {
         Element parent = xmlUtil.selectElementMatchingXPath(xpath, document.getRootElement());
 
-        StringBuffer nested = new StringBuffer();
+        StringBuilder nested = new StringBuilder();
         nested.append("<parent>");
         nested.append(elementsToParse);
         nested.append("</parent>");

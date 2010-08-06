@@ -167,8 +167,8 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
     protected String createExpandedWarTokenValue(String dirAttribute)
     {
         // Note: An Ant filter token cannot be an empty string hence the single
-        // character used for initializing the StringBuffer.
-        StringBuffer expandedWarValue = new StringBuffer(" ");
+        // character used for initializing the StringBuilder.
+        StringBuilder expandedWarValue = new StringBuilder(" ");
         Iterator it = getDeployables().iterator();
         while (it.hasNext())
         {
@@ -205,7 +205,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
      */
     protected String getSecurityToken(String prefix, String suffix)
     {
-        StringBuffer token = new StringBuffer(" ");
+        StringBuilder token = new StringBuilder(" ");
 
         // Add token filters for authenticated users
         if (getPropertyValue(ServletPropertySet.USERS) != null)

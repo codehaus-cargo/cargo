@@ -122,7 +122,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         {
             InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
             String[] sharedClassPath = installedContainer.getSharedClasspath();
-            StringBuffer tmp = new StringBuffer();
+            StringBuilder tmp = new StringBuilder();
             if (sharedClassPath != null)
             {
                 for (String element : sharedClassPath)
@@ -328,7 +328,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
             libDir.toURI().toURL().toString());
 
         // String representation of scanned folder and archive
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         // Initiate the value of scanned folder or archive with cargo deploy
         // directory and existing jboss deploy directory

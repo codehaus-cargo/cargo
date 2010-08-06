@@ -331,7 +331,7 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
     {
         InputStreamReader reader = new InputStreamReader(in, charset);
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         char[] chars = new char[1024];
         int n;
         while ((n = reader.read(chars, 0, chars.length)) != -1)
@@ -354,7 +354,7 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
      */
     protected static String toAuthorization(String username, String password)
     {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append(username).append(':');
         if (password != null)
         {

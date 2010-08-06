@@ -536,7 +536,7 @@ public class DefaultFileHandler implements FileHandler
     public String readTextFile(String file)
     {
         BufferedReader in = null;
-        StringBuffer out = new StringBuffer();
+        StringBuilder out = new StringBuilder();
         try
         {
             try

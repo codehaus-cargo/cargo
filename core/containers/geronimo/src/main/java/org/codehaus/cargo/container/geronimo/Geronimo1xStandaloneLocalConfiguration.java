@@ -221,8 +221,8 @@ public class Geronimo1xStandaloneLocalConfiguration extends AbstractStandaloneLo
     private String[] getUserTokens()
     {
         String[] tokens = new String[]{" ", " "};
-        StringBuffer usersToken = new StringBuffer("");
-        StringBuffer groupsToken = new StringBuffer("");
+        StringBuilder usersToken = new StringBuilder("");
+        StringBuilder groupsToken = new StringBuilder("");
 
         // Add token filters for authenticated users
         String usersString = getPropertyValue(GeronimoPropertySet.GERONIMO_USERS);

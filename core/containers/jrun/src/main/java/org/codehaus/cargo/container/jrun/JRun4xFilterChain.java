@@ -137,7 +137,7 @@ public class JRun4xFilterChain extends FilterChain
         {
             debugEnabled = "true";
         }
-        StringBuffer logging = new StringBuffer();
+        StringBuilder logging = new StringBuilder();
         logging.append("<!-- cargo logging level: " + cargoLogLevel + " --> \n");
         logging.append("<attribute name=\"errorEnabled\">" + errorEnabled + "</attribute>\n");
         logging.append("<attribute name=\"warningEnabled\">" + warningEnabled + "</attribute>\n");
@@ -191,7 +191,7 @@ public class JRun4xFilterChain extends FilterChain
      */
     private Token createClassPathToken()
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append(jrunContainer.getHome() + "/servers/lib,");
         sb.append(jrunContainer.getHome() + "/lib/macromedia_drivers.jar,");
         sb.append(jrunContainer.getHome() + "/lib/webservices.jar");
@@ -221,7 +221,7 @@ public class JRun4xFilterChain extends FilterChain
      */
     private Token createVmArgsToken()
     {
-        StringBuffer jvmArgs = new StringBuffer();
+        StringBuilder jvmArgs = new StringBuilder();
         File hotFixJar = new File(jrunContainer.getHome() + "/servers/lib/54101.jar");
         if (hotFixJar.exists())
         {
@@ -244,7 +244,7 @@ public class JRun4xFilterChain extends FilterChain
      */
     protected ReplaceTokens.Token createUserToken()
     {
-        StringBuffer token = new StringBuffer();
+        StringBuilder token = new StringBuilder();
 
         // Add token filters for authenticated users
         if (getPropertyValue(ServletPropertySet.USERS) != null)

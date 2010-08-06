@@ -265,9 +265,9 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
 
         // Note: The following values must never be empty string as otherwise
         // the Ant filtering code fails.
-        StringBuffer keyApplications = new StringBuffer(" ");
-        StringBuffer keyWebModules = new StringBuffer(" ");
-        StringBuffer keyWebApps = new StringBuffer(" ");
+        StringBuilder keyApplications = new StringBuilder(" ");
+        StringBuilder keyWebModules = new StringBuilder(" ");
+        StringBuilder keyWebApps = new StringBuilder(" ");
 
         Iterator it = getDeployables().iterator();
         while (it.hasNext())
@@ -355,7 +355,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
      */
     protected String getUserToken()
     {
-        StringBuffer token = new StringBuffer(" ");
+        StringBuilder token = new StringBuilder(" ");
 
         // Add token filters for authenticated users
         if (getPropertyValue(ServletPropertySet.USERS) != null)
@@ -380,7 +380,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
      */
     protected String getRoleToken()
     {
-        StringBuffer token = new StringBuffer(" ");
+        StringBuilder token = new StringBuilder(" ");
 
         List users = User.parseUsers(getPropertyValue(ServletPropertySet.USERS));
         Map roles = User.createRoleMap(users);

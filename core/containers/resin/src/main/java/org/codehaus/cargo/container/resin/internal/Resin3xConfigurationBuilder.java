@@ -42,7 +42,7 @@ public class Resin3xConfigurationBuilder extends Resin2xConfigurationBuilder
     protected String toResinConfigurationEntry(DataSource ds)
     {
 
-        StringBuffer dataSourceString = new StringBuffer();
+        StringBuilder dataSourceString = new StringBuilder();
         dataSourceString.append("<database>\n");
         dataSourceString.append("  <jndi-name>").append(ds.getJndiLocation()).append(
             "</jndi-name>\n");
@@ -84,7 +84,7 @@ public class Resin3xConfigurationBuilder extends Resin2xConfigurationBuilder
     @Override
     public String toConfigurationEntry(Resource resource)
     {
-        StringBuffer resourceString = new StringBuffer();
+        StringBuilder resourceString = new StringBuilder();
         resourceString.append("<resource>\n" + "      <jndi-name>" + resource.getName()
             + "</jndi-name>\n");
 

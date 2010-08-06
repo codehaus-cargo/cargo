@@ -543,7 +543,7 @@ public class TomcatManager extends LoggedObject
     private void deployImpl(String path, URL config, URL war, InputStream data, boolean update,
         String tag) throws TomcatManagerException, IOException
     {
-        StringBuffer buffer = new StringBuffer("/deploy");
+        StringBuilder buffer = new StringBuilder("/deploy");
         buffer.append("?path=").append(URLEncoder.encode(path, this.charset));
         if (config != null)
         {
@@ -574,7 +574,7 @@ public class TomcatManager extends LoggedObject
      */
     private static String toAuthorization(String username, String password)
     {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append(username).append(':');
         if (password != null)
         {
@@ -617,7 +617,7 @@ public class TomcatManager extends LoggedObject
     {
         InputStreamReader reader = new InputStreamReader(in, charset);
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         char[] chars = new char[1024];
         int n;
         while ((n = reader.read(chars, 0, chars.length)) != -1)

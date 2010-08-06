@@ -285,7 +285,7 @@ public class HttpUtils extends LoggedObject
      */
     private String readStreamData(InputStream stream) throws IOException
     {
-        StringBuffer body = new StringBuffer();
+        StringBuilder body = new StringBuilder();
         byte[] buf = new byte[256];
 
         // Make sure we read all the data in the stream

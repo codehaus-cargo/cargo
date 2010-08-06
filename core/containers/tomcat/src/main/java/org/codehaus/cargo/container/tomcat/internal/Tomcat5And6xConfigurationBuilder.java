@@ -52,7 +52,7 @@ public class Tomcat5And6xConfigurationBuilder extends AbstractTomcatConfiguratio
      */
     public String toConfigurationEntry(Resource resource)
     {
-        StringBuffer buff = new StringBuffer();
+        StringBuilder buff = new StringBuilder();
 
         buff.append("<Resource name='").append(resource.getName()).append("'\n");
         if (resource.getClassName() != null)

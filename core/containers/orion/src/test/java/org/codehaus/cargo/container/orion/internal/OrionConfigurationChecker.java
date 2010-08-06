@@ -188,7 +188,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
 
     public String insertConfigurationEntryIntoContext(String dataSourceEntry)
     {
-        StringBuffer correctContext = new StringBuffer("<data-sources>");
+        StringBuilder correctContext = new StringBuilder("<data-sources>");
         correctContext.append(dataSourceEntry);
         correctContext.append("</data-sources>");
         return correctContext.toString();

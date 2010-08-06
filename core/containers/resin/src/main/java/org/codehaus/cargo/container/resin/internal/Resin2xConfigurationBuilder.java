@@ -50,7 +50,7 @@ public class Resin2xConfigurationBuilder extends AbstractConfigurationBuilder
      */
     public String toConfigurationEntry(Resource resource)
     {
-        StringBuffer resourceString = new StringBuffer();
+        StringBuilder resourceString = new StringBuilder();
         resourceString.append("<resource-ref>\n" + "      <res-ref-name>" + resource.getName()
             + "</res-ref-name>\n");
 

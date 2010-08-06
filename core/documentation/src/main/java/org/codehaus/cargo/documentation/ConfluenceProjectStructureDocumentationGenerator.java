@@ -69,7 +69,7 @@ public class ConfluenceProjectStructureDocumentationGenerator
      */
     public String generateDocumentation() throws Exception
     {
-        StringBuffer markup = new StringBuffer();
+        StringBuilder markup = new StringBuilder();
         markup.append(getPageHeader());
 
         // create markup for the base maven build and all modules.
@@ -96,7 +96,7 @@ public class ConfluenceProjectStructureDocumentationGenerator
      */
     private String getPageHeader()
     {
-        StringBuffer markup = new StringBuffer();
+        StringBuilder markup = new StringBuilder();
         markup.append("Cargo's directory organization can be daunting for a newcomer. "
                 + "So here's some information on how the project is organized.");
         markup.append(LINE_SEPARATOR);
@@ -121,7 +121,7 @@ public class ConfluenceProjectStructureDocumentationGenerator
      */
     private String getProjectInfo(MavenProject aProject, int treeIndex)
     {
-        StringBuffer markup = new StringBuffer("");
+        StringBuilder markup = new StringBuilder("");
 
         markup.append(ASTERISK);
         markup.append(" ");
@@ -149,7 +149,7 @@ public class ConfluenceProjectStructureDocumentationGenerator
      */
     private String getModuleTree(MavenProject aProject, int treeIndex)
     {
-        StringBuffer markup = new StringBuffer();
+        StringBuilder markup = new StringBuilder();
         List modules = aProject.getModules();
         int newTreeIndex = (modules.size() > 0) ? (treeIndex + 1) : treeIndex;
         for (Object moduleArtifactId : modules)

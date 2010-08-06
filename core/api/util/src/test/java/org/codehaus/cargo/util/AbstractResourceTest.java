@@ -88,7 +88,7 @@ public class AbstractResourceTest extends TestCase
         // TODO: this method should perform the same full encoding as per
         // sun.net.www.ParseUtil.encodePath(String)
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         for (int i = 0; i < path.length(); i++)
         {
             char c = path.charAt(i);

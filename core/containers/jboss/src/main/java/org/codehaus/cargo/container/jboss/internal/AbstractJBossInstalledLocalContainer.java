@@ -204,7 +204,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
                 {
                     Properties properties = new Properties();
                     properties.load(jarFile.getInputStream(entry));
-                    StringBuffer buffer = new StringBuffer();
+                    StringBuilder buffer = new StringBuilder();
                     buffer.append(properties.getProperty("version.major"));
                     buffer.append(".");
                     buffer.append(properties.getProperty("version.minor"));

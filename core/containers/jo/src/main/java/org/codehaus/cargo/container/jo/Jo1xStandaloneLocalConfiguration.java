@@ -193,7 +193,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
         ReplaceTokens.Token tokenWebApps = new ReplaceTokens.Token();
         tokenWebApps.setKey(TOKEN_KEY_WEBAPP);
 
-        StringBuffer keyWebApps = new StringBuffer();
+        StringBuilder keyWebApps = new StringBuilder();
 
         Iterator it = getDeployables().iterator();
         while (it.hasNext())
