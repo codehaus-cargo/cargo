@@ -23,18 +23,27 @@
 package org.codehaus.cargo.container.jboss;
 
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.URL;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.RemoteContainer;
-import org.codehaus.cargo.container.jboss.internal.HttpURLConnection;
-import org.codehaus.cargo.container.jboss.internal.JdkHttpURLConnection;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.jboss.internal.HttpURLConnection;
+import org.codehaus.cargo.container.jboss.internal.JdkHttpURLConnection;
+import org.codehaus.cargo.container.jboss.internal.ISimpleHttpFileServer;
+import org.codehaus.cargo.container.jboss.internal.SimpleHttpFileServer;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
+import org.codehaus.cargo.util.CargoException;
+import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Remote deployer that uses JMX to deploy to JBoss.
@@ -82,6 +91,21 @@ public class JBossRemoteDeployer extends AbstractRemoteDeployer
     private HttpURLConnection connection;
 
     /**
+     * Location remote JBoss servers will look for files.
+     */
+    private InetSocketAddress deployableServerSocketAddress;
+
+    /**
+     * Used to perform file checks.
+     */
+    private FileHandler fileHandler;
+
+    /**
+     * Serves the deployable file to JBoss.
+     */
+    private ISimpleHttpFileServer fileServer;
+
+    /**
      * Use the {@link JdkHttpURLConnection} class to connect the JBoss remote URLs.
      * 
      * @param container the container containing the configuration to use to find the deployer
@@ -89,19 +113,24 @@ public class JBossRemoteDeployer extends AbstractRemoteDeployer
      */
     public JBossRemoteDeployer(RemoteContainer container)
     {
-        this(container, new JdkHttpURLConnection());
+        this(container, new JdkHttpURLConnection(), new SimpleHttpFileServer());
     }
 
     /**
      * @param container the container containing the configuration to use to find the deployer
      *        properties such as url, user name and password to use to connect to the deployer
      * @param connection the connection class to use
+     * @param fileServer http file server to use
      */
-    protected JBossRemoteDeployer(RemoteContainer container, HttpURLConnection connection)
+    protected JBossRemoteDeployer(RemoteContainer container, HttpURLConnection connection,
+        ISimpleHttpFileServer fileServer)
     {
         super();
         this.configuration = container.getConfiguration();
         this.connection = connection;
+        this.deployableServerSocketAddress = buildSocketAddressForDeployableServer();
+        this.fileHandler = new DefaultFileHandler();
+        this.fileServer = fileServer;
     }
 
     /**
@@ -135,7 +164,7 @@ public class JBossRemoteDeployer extends AbstractRemoteDeployer
     @Override
     public void deploy(Deployable deployable)
     {
-        invokeURL(createJBossRemoteURL(deployable, this.deployURL));
+        invokeRemotely(deployable, this.deployURL, true);
     }
 
     /**
@@ -145,7 +174,7 @@ public class JBossRemoteDeployer extends AbstractRemoteDeployer
     @Override
     public void undeploy(Deployable deployable)
     {
-        invokeURL(createJBossRemoteURL(deployable, this.undeployURL));
+        invokeRemotely(deployable, this.undeployURL, false);
     }
 
     /**
@@ -155,9 +184,67 @@ public class JBossRemoteDeployer extends AbstractRemoteDeployer
     @Override
     public void redeploy(Deployable deployable)
     {
-        invokeURL(createJBossRemoteURL(deployable, this.redeployURL));
+        invokeRemotely(deployable, this.redeployURL, true);
     }
-    
+
+    /**
+     * @param deployable deployable to deploy
+     * @param jmxConsoleURL URL to jmx console
+     * @param expectDownload expect deployable to be downloaded
+     */
+    private void invokeRemotely(Deployable deployable, String jmxConsoleURL,
+        boolean expectDownload)
+    {
+        this.fileServer.setLogger(this.getLogger());
+        this.fileServer.setFile(this.fileHandler, deployable.getFile());
+        this.fileServer.setListeningParameters(this.deployableServerSocketAddress,
+            configuration.getPropertyValue(JBossPropertySet.REMOTEDEPLOY_HOSTNAME));
+
+        try
+        {
+            this.fileServer.start();
+            String encodedURL = encodeURLLocation(this.fileServer.getURL());
+            invokeURL(createJBossRemoteURL(deployable, jmxConsoleURL, encodedURL));
+            if (this.fileServer.getCallCount() == 0 && expectDownload)
+            {
+                throw new CargoException("Application server didn't request the file");
+            }
+        } 
+        finally
+        {
+            this.fileServer.stop();
+        }
+    }
+
+    /**
+     * return the socket address used for serving deployables to remote JBoss servers
+     * 
+     * @return socket address used for remote deployment
+     */
+    protected InetSocketAddress buildSocketAddressForDeployableServer()
+    {
+        String portStr = configuration.getPropertyValue(JBossPropertySet.REMOTEDEPLOY_PORT);
+        if (portStr == null)
+        {
+            portStr = "1" + configuration.getPropertyValue(ServletPropertySet.PORT);
+        }
+
+        String addressStr = configuration.getPropertyValue(JBossPropertySet.REMOTEDEPLOY_HOSTNAME);
+        if (addressStr == null)
+        {
+            try
+            {
+                addressStr = InetAddress.getLocalHost().getCanonicalHostName();
+            }
+            catch (UnknownHostException e)
+            {
+                throw new CargoException("Could not get hostname for remote deployer", e);
+            }
+        }
+
+        return new InetSocketAddress(addressStr, Integer.parseInt(portStr));
+    }
+
     /**
      * @param url the JBoss JMX URL to invoke
      */
@@ -168,15 +255,17 @@ public class JBossRemoteDeployer extends AbstractRemoteDeployer
 
         if (username == null)
         {
-            getLogger().info("No remote username specified, using default [" + DEFAULT_USERNAME
-                + "]", this.getClass().getName());
+            getLogger().info(
+                "No remote username specified, using default [" + DEFAULT_USERNAME + "]",
+                this.getClass().getName());
             username = DEFAULT_USERNAME;
         }
 
         if (password == null)
         {
-            getLogger().info("No remote password specified, using default [" + DEFAULT_PASSWORD
-                + "]", this.getClass().getName());
+            getLogger().info(
+                "No remote password specified, using default [" + DEFAULT_PASSWORD + "]",
+                this.getClass().getName());
             password = DEFAULT_PASSWORD;
         }
 
@@ -184,21 +273,21 @@ public class JBossRemoteDeployer extends AbstractRemoteDeployer
     }
 
     /**
-     * @param deployable the deployable for which we'll URL-encode the location
+     * @param url url to encode
      * @return the URL-encoded location that can be passed in a URL
      */
-    private String encodeDeployableLocation(Deployable deployable)
+    private String encodeURLLocation(URL url)
     {
         String encodedString;
 
         try
         {
-            encodedString = URLEncoder.encode(deployable.getFile(), "UTF-8");
+            encodedString = URLEncoder.encode(url.toExternalForm(), "UTF-8");
         }
         catch (UnsupportedEncodingException e)
         {
-            throw new ContainerException("Failed to encode Deployable location ["
-                + deployable.getFile() + "] using an [UTF-8] encoding", e);
+            throw new ContainerException("Failed to encode Deployable location [" + url
+                + "] using an [UTF-8] encoding", e);
         }
 
         return encodedString;
@@ -206,19 +295,16 @@ public class JBossRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * Compute the JBoss deploy/undeploy URL.
-     *
+     * 
      * @param deployable the file to deploy/undeploy
      * @param urlPrefix the JBoss static part of the deploy§undeploy URL
+     * @param httpURL URL for JBoss to call back on
      * @return the full deploy/undeploy URL
      */
-    protected String createJBossRemoteURL(Deployable deployable, String urlPrefix)
+    protected String createJBossRemoteURL(Deployable deployable, String urlPrefix, String httpURL)
     {
         return this.configuration.getPropertyValue(GeneralPropertySet.PROTOCOL) + "://"
-            + this.configuration.getPropertyValue(GeneralPropertySet.HOSTNAME)
-            + ":"
-            + this.configuration.getPropertyValue(ServletPropertySet.PORT)
-            + urlPrefix
-            + "file:"
-            + encodeDeployableLocation(deployable);
+            + this.configuration.getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
+            + this.configuration.getPropertyValue(ServletPropertySet.PORT) + urlPrefix + httpURL;
     }
 }

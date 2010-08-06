@@ -213,6 +213,10 @@
                 <name>cargo.jboss.transaction.statusManager.port</name>
                 <value>${cargo.samples.jboss.transaction.statusManager.port}</value>
               </property>
+              <property>
+                <name>cargo.jboss.remotedeploy.port</name>
+                <value>${cargo.samples.jboss.remotedeploy.port}</value>
+              </property>
 
               <!-- avoid port number clashes in Tomcat -->
               <property>
@@ -863,6 +867,7 @@
                 <portName>cargo.samples.jboss.remoting.transport.port</portName>
                 <portName>cargo.samples.jboss.transaction.recoveryManager.port</portName>
                 <portName>cargo.samples.jboss.transaction.statusManager.port</portName>
+                <portName>cargo.samples.jboss.remotedeploy.port</portName>
                 <portName>cargo.samples.tomcat.ajp.port</portName>
               </portNames>
             </configuration>

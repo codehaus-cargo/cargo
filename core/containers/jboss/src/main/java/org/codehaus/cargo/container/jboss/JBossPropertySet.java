@@ -77,4 +77,20 @@ public interface JBossPropertySet
      */
     String JBOSS_TRANSACTION_STATUS_MANAGER_PORT = "cargo.jboss.transaction.statusManager.port";
 
+
+    /**
+     * Port number to serve deployable through. Default is <code>1 +
+     * {@link ServletPropertySet#PORT}</code> (for example, <code>18080</code> if the JBoss servlet
+     * port was <code>8080</code>). This will be used by remote deployers who do not share
+     * filesystem with cargo.
+     */
+    String REMOTEDEPLOY_PORT = "cargo.jboss.remotedeploy.port";
+
+    /**
+     * Address to serve deployable through. Default is
+     * <code>InetAddress.getLocalHost().getCanonicalHostName()</code>. This will be used by remote
+     * deployers who do not share filesystem with cargo.
+     */
+    String REMOTEDEPLOY_HOSTNAME = "cargo.jboss.remotedeploy.hostname";
+
 }

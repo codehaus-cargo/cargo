@@ -19,14 +19,16 @@
  */
 package org.codehaus.cargo.container.jboss;
 
+import java.net.URL;
+import java.net.URLEncoder;
+
 import org.jmock.MockObjectTestCase;
 import org.jmock.Mock;
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.jboss.internal.HttpURLConnection;
+import org.codehaus.cargo.container.jboss.internal.ISimpleHttpFileServer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-
-import java.io.File;
 
 /**
  * Unit tests for {@link JBossRemoteDeployer}.
@@ -35,19 +37,23 @@ import java.io.File;
  */
 public class JBossRemoteDeployerTest extends MockObjectTestCase
 {
-    public void testCreateJBossRemoteURLForDeploy()
+    public void testCreateJBossRemoteURLForDeploy() throws Throwable
     {
         Mock mockConfiguration = mock(RuntimeConfiguration.class);
         mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.protocol"))
             .will(returnValue("http"));
         mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.hostname"))
-            .will(returnValue("localhost"));
+            .will(returnValue("remotehost"));
         mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.servlet.port"))
             .will(returnValue("8888"));
         mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.remote.username"))
             .will(returnValue("john"));
         mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.remote.password"))
             .will(returnValue("doe"));
+        mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.jboss.remotedeploy.port"))
+            .will(returnValue("9999"));
+        mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.jboss.remotedeploy.hostname"))
+            .will(returnValue("localhost"));
 
         Mock mockContainer = mock(RemoteContainer.class);
         mockContainer.stubs().method("getConfiguration")
@@ -57,15 +63,26 @@ public class JBossRemoteDeployerTest extends MockObjectTestCase
         mockDeployable.stubs().method("getFile").will(
             returnValue("c:/Something With Space/dummy.war"));
 
+        String mockURL = "http://localhost:9999/Something+With+Space";
+        Mock mockHttpFileServer = mock(ISimpleHttpFileServer.class);
+        mockHttpFileServer.stubs().method("setLogger");
+        mockHttpFileServer.stubs().method("setFile").after("setLogger");
+        mockHttpFileServer.stubs().method("setListeningParameters").after("setFile");
+        mockHttpFileServer.stubs().method("start").after("setListeningParameters");
+        mockHttpFileServer.stubs().method("getURL").after("start").will(returnValue(
+            new URL(mockURL)));
+        mockHttpFileServer.stubs().method("getCallCount").will(returnValue(0));
+        mockHttpFileServer.stubs().method("getCallCount").after("start").will(returnValue(1));
+        mockHttpFileServer.stubs().method("stop").after("start");
+
         Mock mockConnection = mock(HttpURLConnection.class);
-        String expectedURLPortion1 = "http://localhost:8888/";
-        String expectedURLPortion2 = "Something+With+Space";
-        mockConnection.expects(once()).method("connect")
-            .with(and(stringContains(expectedURLPortion1), stringContains(expectedURLPortion2)),
-                eq("john"), eq("doe"));
+        String expectedURLPortion = URLEncoder.encode(mockURL, "UTF-8");
+        mockConnection.expects(once()).method("connect").with(stringContains(expectedURLPortion),
+            eq("john"), eq("doe"));
 
         JBossRemoteDeployer deployer = new JBossRemoteDeployer((RemoteContainer) mockContainer.proxy(),
-            (HttpURLConnection) mockConnection.proxy());
+            (HttpURLConnection) mockConnection.proxy(),
+            (ISimpleHttpFileServer) mockHttpFileServer.proxy());
         deployer.deploy((Deployable) mockDeployable.proxy());
     }
 }
