@@ -155,7 +155,8 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
         catch (Exception e)
         {
             throw new ContainerException("Failed to create " + implementationConceptName
-                + " for the parameters (" + key.toString(implementationConceptName) + ").", e);
+                + " with implementation " + implementationClass + " for the parameters ("
+                + key.toString(implementationConceptName) + ").", e);
         }
 
         return implementation;

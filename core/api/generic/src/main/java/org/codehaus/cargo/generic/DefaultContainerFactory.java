@@ -176,7 +176,15 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
     {
         Configuration configuration = ((ContainerFactoryParameters) parameters).configuration;
 
-        return constructor.newInstance(new Object[] {configuration});
+        try
+        {
+            return constructor.newInstance(new Object[] {configuration});
+        }
+        catch (Throwable t)
+        {
+            throw new IllegalArgumentException(t.getMessage() + ", configuration "
+                + configuration.getClass(), t);
+        }
     }
 
     /**
