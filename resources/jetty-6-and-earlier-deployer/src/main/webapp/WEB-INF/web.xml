@@ -24,6 +24,9 @@
 
   <display-name>Jetty Remote Deployer for Cargo</display-name>
 
+  <!--
+    Uncomment in order to activate security
+
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Jetty Remote Deployer</web-resource-name>
@@ -38,5 +41,6 @@
     <auth-method>BASIC</auth-method>
     <realm-name>Test Realm</realm-name>
   </login-config>
+   -->
 
 </web-app>
