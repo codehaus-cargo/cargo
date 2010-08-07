@@ -102,9 +102,6 @@ public class JonasFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("jonas4x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Jonas4xStandaloneLocalConfiguration.class);
-        configurationFactory.registerConfiguration("jonas4x",
-            ContainerType.REMOTE, ConfigurationType.STANDALONE,
-            Jonas4xStandaloneLocalConfiguration.class);
 
         configurationFactory.registerConfiguration("jonas5x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
@@ -114,9 +111,6 @@ public class JonasFactoryRegistry extends AbstractFactoryRegistry
             Jonas5xExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("jonas5x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            Jonas5xStandaloneLocalConfiguration.class);
-        configurationFactory.registerConfiguration("jonas5x",
-            ContainerType.REMOTE, ConfigurationType.STANDALONE,
             Jonas5xStandaloneLocalConfiguration.class);
     }
 

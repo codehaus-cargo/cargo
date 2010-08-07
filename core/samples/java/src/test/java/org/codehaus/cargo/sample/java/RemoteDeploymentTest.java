@@ -22,8 +22,8 @@ package org.codehaus.cargo.sample.java;
 import junit.framework.Test;
 import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
+import org.codehaus.cargo.sample.java.validator.HasRemoteContainerValidator;
 import org.codehaus.cargo.sample.java.validator.HasRemoteDeployerValidator;
-import org.codehaus.cargo.sample.java.validator.IsRemoteContainerValidator;
 import org.codehaus.cargo.sample.java.validator.HasRuntimeConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
@@ -36,6 +36,8 @@ import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.generic.ContainerFactory;
+import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.DefaultFileHandler;
@@ -50,6 +52,8 @@ import java.io.FileWriter;
 
 public class RemoteDeploymentTest extends AbstractCargoTestCase
 {
+    private ContainerFactory factory = new DefaultContainerFactory();
+
     private FileHandler fileHandler = new DefaultFileHandler();
 
     private InstalledLocalContainer localContainer;
@@ -69,15 +73,15 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             "Tests that perform remote deployments on remote containers");
 
         suite.addTestSuite(RemoteDeploymentTest.class, new Validator[] {
-            new IsRemoteContainerValidator(),
+            new HasRemoteContainerValidator(),
             new HasRuntimeConfigurationValidator(),
             new HasRemoteDeployerValidator(),
             new HasWarSupportValidator(),
 
-            // Ensure the container can be installed locally so that we can start it and consider
-            // it as our remote container for the tests.
-            new HasInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator()});
+            // We cannot add the HasInstalledLocalContainerValidator and
+            // HasStandaloneConfigurationValidator, else the Remote container would need to
+            // implement a Standalone configration, which doesn't make sense
+        });
 
         return suite;
     }
@@ -87,17 +91,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
     {
         super.setUp();
 
-        // First install a local container and start it. This is the container into which we'll
-        // deploy into. It'll act as a remote container, already running.
-        this.localContainer = (InstalledLocalContainer) createContainer(
-            ContainerType.INSTALLED, createConfiguration(ConfigurationType.STANDALONE));
-
-        // Set up credentials for securing the manager app in the host container. This is for
-        // Tomcat.
-        this.localContainer.getConfiguration().setProperty(ServletPropertySet.USERS,
-            "cargo:password:manager");
-
-        this.localContainer.start();
+        this.startLocalContainer();
 
         // Now create the remote container used by the tests
         setContainer(createContainer(createConfiguration(ConfigurationType.RUNTIME)));
@@ -115,6 +109,33 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             + "/simple-war-" + getTestData().version + "/index.jsp");
 
         this.deployer = createDeployer(DeployerType.REMOTE, getRemoteContainer());
+    }
+
+    private void startLocalContainer() throws Exception
+    {
+        final String message = "You have implemented the Remote container. Please also implement a "
+            + "standalone local container for the CARGO samples to pass.";
+        assertTrue(message, new HasInstalledLocalContainerValidator().validate(
+            getTestData().containerId, ContainerType.INSTALLED));
+        assertTrue(message, new HasStandaloneConfigurationValidator().validate(
+            getTestData().containerId, ContainerType.INSTALLED));
+
+        final ContainerType oldContainerType = getTestData().containerType;
+        getTestData().containerType = ContainerType.INSTALLED;
+
+        // First install a local container and start it. This is the container into which we'll
+        // deploy into. It'll act as a remote container, already running.
+        this.localContainer = (InstalledLocalContainer) createContainer(createConfiguration(
+            ConfigurationType.STANDALONE));
+
+        // Set up credentials for securing the manager app in the host container. This is for
+        // Tomcat.
+        this.localContainer.getConfiguration().setProperty(ServletPropertySet.USERS,
+            "cargo:password:manager");
+
+        this.localContainer.start();
+
+        getTestData().containerType = oldContainerType;
     }
 
     @Override

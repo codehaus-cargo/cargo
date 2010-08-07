@@ -80,9 +80,6 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
         configurationCapabilityFactory.registerConfigurationCapability("jboss3x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             JBossExistingLocalConfigurationCapability.class);
-        configurationCapabilityFactory.registerConfigurationCapability("jboss3x",
-            ContainerType.INSTALLED, ConfigurationType.RUNTIME,
-            JBossRuntimeConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("jboss4x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,

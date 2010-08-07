@@ -19,21 +19,25 @@
  */
 package org.codehaus.cargo.sample.java.validator;
 
+import org.codehaus.cargo.generic.ContainerFactory;
+import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.container.ContainerType;
 
 /**
- * Validate that a container is a remote container.
+ * Validate that a container has a remote container.
  *
  * @version $Id$
  */
-public class IsRemoteContainerValidator implements Validator
+public class HasRemoteContainerValidator implements Validator
 {
+    private ContainerFactory factory = new DefaultContainerFactory();
+
     /**
      * @return true if the container has a remote container implementation available, false
      *              otherwise
      */
     public boolean validate(String containerId, ContainerType type)
     {
-        return (type == ContainerType.REMOTE);
+        return this.factory.isContainerRegistered(containerId, ContainerType.REMOTE);
     }
 }
