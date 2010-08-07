@@ -134,6 +134,20 @@
       <artifactId>simple-jar</artifactId>
       <version>${cargo.resources.version}</version>
     </dependency>
+
+    <!-- Deployment helper applications for some remote containers -->
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-jetty-6-and-earlier-deployer</artifactId>
+      <version>${cargo.resources.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-jetty-7-and-onwards-deployer</artifactId>
+      <version>${cargo.resources.version}</version>
+      <type>war</type>
+    </dependency>
   </dependencies>
   <build>
     <pluginManagement>
@@ -735,6 +749,14 @@
               <property>
                 <name>cargo.testdata.tomcatcontext-war</name>
                 <value>org/codehaus/cargo/tomcatcontext-war/${cargo.resources.version}/tomcatcontext-war-${cargo.resources.version}.war</value>
+              </property>
+              <property>
+                <name>cargo.testdata.cargo-jetty-6-and-earlier-deployer</name>
+                <value>org/codehaus/cargo/cargo-jetty-6-and-earlier-deployer/${cargo.resources.version}/cargo-jetty-6-and-earlier-deployer-${cargo.resources.version}.war</value>
+              </property>
+              <property>
+                <name>cargo.testdata.cargo-jetty-7-and-onwards-deployer</name>
+                <value>org/codehaus/cargo/cargo-jetty-7-and-onwards-deployer/${cargo.resources.version}/cargo-jetty-7-and-onwards-deployer-${cargo.resources.version}.war</value>
               </property>
               <property>
                 <name>cargo.testdata.derby-jar</name>

@@ -36,6 +36,7 @@ import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
@@ -91,10 +92,11 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
     {
         super.setUp();
 
-        this.startLocalContainer();
-
-        // Now create the remote container used by the tests
+        // Create the remote container used by the tests
         setContainer(createContainer(createConfiguration(ConfigurationType.RUNTIME)));
+
+        // Start the local container that this remote container will access
+        this.startLocalContainer();
 
         // Set up deployment credentials
         getRemoteContainer().getConfiguration().setProperty(RemotePropertySet.USERNAME,
@@ -128,14 +130,45 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         this.localContainer = (InstalledLocalContainer) createContainer(createConfiguration(
             ConfigurationType.STANDALONE));
 
+        getTestData().containerType = oldContainerType;
+
+        // Jetty requires its deployer application
+        if (getTestData().containerId.startsWith("jetty"))
+        {
+            int jettyVersion = Integer.parseInt(getTestData().containerId.substring(5,
+                getTestData().containerId.length() - 1));
+
+            final Deployable jettyDeployerApplication;
+            if (jettyVersion <= 6)
+            {
+                jettyDeployerApplication = new DefaultDeployableFactory().createDeployable(
+                    this.localContainer.getId(), getTestData().getTestDataFileFor(
+                    "cargo-jetty-6-and-earlier-deployer"), DeployableType.WAR);
+            }
+            else
+            {
+                jettyDeployerApplication = new DefaultDeployableFactory().createDeployable(
+                    this.localContainer.getId(), getTestData().getTestDataFileFor(
+                    "cargo-jetty-7-and-onwards-deployer"), DeployableType.WAR);
+            }
+
+            this.localContainer.getConfiguration().addDeployable(jettyDeployerApplication);
+
+            final String deployerApplicationFile = jettyDeployerApplication.getFile();
+            final String deployerApplicationURL = "http://localhost:"
+                + this.localContainer.getConfiguration().getPropertyValue(ServletPropertySet.PORT)
+                + deployerApplicationFile.substring(deployerApplicationFile.lastIndexOf("/"),
+                deployerApplicationFile.length() - 4);
+            getRemoteContainer().getConfiguration().setProperty(JettyPropertySet.DEPLOYER_URL,
+                deployerApplicationURL);
+        }
+
         // Set up credentials for securing the manager app in the host container. This is for
         // Tomcat.
         this.localContainer.getConfiguration().setProperty(ServletPropertySet.USERS,
             "cargo:password:manager");
 
         this.localContainer.start();
-
-        getTestData().containerType = oldContainerType;
     }
 
     @Override
