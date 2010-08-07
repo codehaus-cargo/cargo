@@ -38,6 +38,8 @@ import org.codehaus.cargo.util.AntUtils;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class TomcatWarTest extends AbstractCargoTestCase
 {   
@@ -48,12 +50,16 @@ public class TomcatWarTest extends AbstractCargoTestCase
 
     public static Test suite() throws Exception
     {
+        // We exclude tomcat7x container as it seems to have issues with context.xml files
+        Set excludedContainerIds = new TreeSet();
+        excludedContainerIds.add("tomcat7x");
+
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that can run on Tomcat containers supporting META-INF/context.xml files");
         suite.addTestSuite(TomcatWarTest.class, new Validator[] {
             new StartsWithContainerValidator("tomcat"),
             new IsLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator()});
+            new HasStandaloneConfigurationValidator()}, excludedContainerIds);
         return suite;
     }
 
