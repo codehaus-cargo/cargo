@@ -111,7 +111,7 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
 
             if (!response.startsWith("OK -"))
             {
-                throw new ContainerException(response);
+                throw new ContainerException("Response was: " + response);
             }
         
         }
