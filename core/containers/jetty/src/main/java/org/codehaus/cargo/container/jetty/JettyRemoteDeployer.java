@@ -111,7 +111,8 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
 
             if (!response.startsWith("OK -"))
             {
-                throw new ContainerException("Response was: " + response);
+                throw new ContainerException("Response when calling " + connection.getURL()
+                    + " was: " + response);
             }
         
         }
