@@ -70,7 +70,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     /**
      * TCP socket.
      */
-    protected ServerSocket socket;
+    protected ServerSocket serverSocket;
 
     /**
      * Call count.
@@ -111,6 +111,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
         String baseDir = handler.getParent(filePath);
         String fileName = handler.getName(filePath);
 
+        this.filePath = filePath;
         this.fileHandler = handler;
         this.remotePath = "/" + fileName;
     }
@@ -145,7 +146,8 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
 
         try
         {
-            this.socket = new ServerSocket(listenSocket.getPort(), 0, listenSocket.getAddress());
+            this.serverSocket = new ServerSocket(listenSocket.getPort(), 0,
+                listenSocket.getAddress());
         }
         catch (IOException e)
         {
@@ -184,7 +186,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
             throw new CargoException("Please call setLogger first!");
         }
 
-        if (this.socket == null)
+        if (this.serverSocket == null)
         {
             throw new CargoException("Please call setListeningParameters first!");
         }
@@ -204,7 +206,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
 
         try
         {
-            this.socket.close();
+            this.serverSocket.close();
         }
         catch (IOException e)
         {
@@ -227,6 +229,10 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
             {
                 this.logger.warn("Error in the embedded HTTP server: " + t.toString(),
                     this.getClass().getName());
+                for (StackTraceElement ste : t.getStackTrace())
+                {
+                    this.logger.warn(ste.toString(), this.getClass().getName());
+                }
             }
         }
     }
@@ -246,7 +252,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
             try
             {
                 // wait for a connection
-                socket = this.socket.accept();
+                socket = this.serverSocket.accept();
 
                 boolean error = false;
                 BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -265,8 +271,6 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
                 {
                     line = in.readLine();
                 }
-                in.close();
-                in = null;
 
                 BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
                 if (error)
@@ -314,6 +318,8 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
                 out.flush();
                 out.close();
                 out = null;
+                in.close();
+                in = null;
             }
             finally
             {
