@@ -39,7 +39,8 @@ public class Tomcat7xRemoteDeployer extends AbstractTomcatRemoteDeployer
      */
     public Tomcat7xRemoteDeployer(RemoteContainer container)
     {
-        super(container); 
+        super(container);
+        this.managerContext += "/text";
     }
 
     /**

@@ -163,7 +163,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
                 deployerApplicationURL);
         }
         // Tomcat requires the servlet users to have a manager
-        // Tomcat 7 needs the manager to be a manager-jmx
+        // Tomcat 7 needs the manager to be a manager-script
         else if (getTestData().containerId.startsWith("tomcat"))
         {
             int tomcatVersion = Integer.parseInt(getTestData().containerId.substring(6,
@@ -177,7 +177,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             else
             {
                 this.localContainer.getConfiguration().setProperty(ServletPropertySet.USERS,
-                    "cargo:password:manager-jmx");
+                    "cargo:password:manager-script");
             }
         }
 

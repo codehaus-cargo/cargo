@@ -55,6 +55,11 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
     private static final String VERSION = "1.0-SNAPSHOT";
 
     /**
+     * Context where the Tomcat manager lives.
+     */
+    protected String managerContext = "/manager";
+
+    /**
      * The Tomcat manager wrapper.
      */
     private TomcatManager manager;
@@ -325,8 +330,13 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
         {
             managerURL = configuration.getPropertyValue(GeneralPropertySet.PROTOCOL) + "://"
                 + configuration.getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
-                + configuration.getPropertyValue(ServletPropertySet.PORT) + "/manager";
+                + configuration.getPropertyValue(ServletPropertySet.PORT) + this.managerContext;
+
+            getLogger().debug("Setting Tomcat Manager URL to " + managerURL,
+                this.getClass().getName());
         }
+
+        getLogger().debug("Tomcat Manager URL is " + managerURL, this.getClass().getName());
 
         try
         {
