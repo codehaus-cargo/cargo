@@ -162,11 +162,24 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             getRemoteContainer().getConfiguration().setProperty(JettyPropertySet.DEPLOYER_URL,
                 deployerApplicationURL);
         }
+        // Tomcat requires the servlet users to have a manager
+        // Tomcat 7 needs the manager to be a manager-jmx
+        else if (getTestData().containerId.startsWith("tomcat"))
+        {
+            int tomcatVersion = Integer.parseInt(getTestData().containerId.substring(6,
+                getTestData().containerId.length() - 1));
 
-        // Set up credentials for securing the manager app in the host container. This is for
-        // Tomcat.
-        this.localContainer.getConfiguration().setProperty(ServletPropertySet.USERS,
-            "cargo:password:manager");
+            if (tomcatVersion < 7)
+            {
+                this.localContainer.getConfiguration().setProperty(ServletPropertySet.USERS,
+                    "cargo:password:manager");
+            }
+            else
+            {
+                this.localContainer.getConfiguration().setProperty(ServletPropertySet.USERS,
+                    "cargo:password:manager-jmx");
+            }
+        }
 
         this.localContainer.start();
     }
