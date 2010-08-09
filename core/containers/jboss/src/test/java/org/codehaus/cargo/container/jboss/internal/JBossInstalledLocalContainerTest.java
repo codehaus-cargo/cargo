@@ -19,9 +19,6 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import junit.framework.TestCase;
 
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
