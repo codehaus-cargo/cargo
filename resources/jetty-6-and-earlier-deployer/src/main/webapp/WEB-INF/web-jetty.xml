@@ -19,6 +19,8 @@
 <!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
 <Configure class="org.mortbay.jetty.webapp.WebAppContext">
 
+  <Set name="contextPath">/cargo-jetty-deployer</Set>
+
   <Get id="serverObject" name="server"/>
 
   <New id="deployerservlet" class="org.codehaus.cargo.deployer.jetty.DeployerServlet">
