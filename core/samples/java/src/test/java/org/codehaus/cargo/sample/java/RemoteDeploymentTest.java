@@ -154,13 +154,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
             this.localContainer.getConfiguration().addDeployable(jettyDeployerApplication);
 
-            final String deployerApplicationFile = jettyDeployerApplication.getFile();
-            final String deployerApplicationURL = "http://localhost:"
-                + this.localContainer.getConfiguration().getPropertyValue(ServletPropertySet.PORT)
-                + deployerApplicationFile.substring(deployerApplicationFile.lastIndexOf("/"),
-                deployerApplicationFile.length() - 4);
-            getRemoteContainer().getConfiguration().setProperty(JettyPropertySet.DEPLOYER_URL,
-                deployerApplicationURL);
+            // As of CARGO-820, the Jetty remote deployer is on context /cargo-jetty-deployer
         }
         // Tomcat requires the servlet users to have a manager
         // Tomcat 7 needs the manager to be a manager-script
