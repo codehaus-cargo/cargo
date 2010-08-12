@@ -50,7 +50,7 @@ public class JBossStandaloneLocalConfigurationCapability extends
         super();
 
         this.propertySupportMap = new HashMap();
-        this.defaultSupportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
@@ -64,9 +64,8 @@ public class JBossStandaloneLocalConfigurationCapability extends
             Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT,
             Boolean.TRUE);
-
-        this.defaultSupportsMap.put(JBossPropertySet.JBOSS_USER, Boolean.TRUE);
-        this.defaultSupportsMap.put(JBossPropertySet.JBOSS_PASSWORD, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_USER, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_PASSWORD, Boolean.TRUE);
     }
 
     /**
