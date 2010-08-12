@@ -115,6 +115,14 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     private List repositories;
 
     /**
+     * Set this to 'true' to bypass cargo execution.
+     * 
+     * @parameter expression="${cargo.maven.skip}" default-value="false"
+     * @since 1.0.3
+     */
+    private boolean skip;
+    
+    /**
      * The artifact factory is used to create valid Maven
      * {@link org.apache.maven.artifact.Artifact} objects. This is used to pass Maven artifacts to
      * the artifact resolver so that it can download the required JARs to put in the embedded
@@ -248,6 +256,11 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      */
     public final void execute() throws MojoExecutionException
     {
+        if (this.skip)
+        {
+            getLog().info( "Skipping cargo execution" );
+            return;
+        }
         if (this.cargoProject == null)
         {
             this.cargoProject = new CargoProject(getProject(), getLog());
