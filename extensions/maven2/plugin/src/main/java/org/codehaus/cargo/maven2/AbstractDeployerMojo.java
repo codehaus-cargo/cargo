@@ -42,11 +42,14 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
     @Override
     public void doExecute() throws MojoExecutionException
     {
-        if (getDeployerElement() == null || getDeployerElement().getDeployables() == null
-            || getDeployerElement().getDeployables().length == 0)
+        if ((getCargoProject().getPackaging() == null) || !getCargoProject().isJ2EEPackaging())
         {
-            getLog().debug("There's nothing to deploy");
-            return;
+            if (getDeployerElement() == null || getDeployerElement().getDeployables() == null
+                || getDeployerElement().getDeployables().length == 0)
+            {
+                getLog().info("There's nothing to deploy or undeploy");
+                return;
+            }
         }
 
         org.codehaus.cargo.container.Container container = createContainer();
