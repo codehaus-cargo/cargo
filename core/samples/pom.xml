@@ -73,8 +73,8 @@
             <useFile>true</useFile>
             <reportFormat>plain</reportFormat>
 
-            <!-- 20 minutes -->
-            <forkedProcessTimeoutInSeconds>1200</forkedProcessTimeoutInSeconds>
+            <!-- 30 minutes -->
+            <forkedProcessTimeoutInSeconds>1800</forkedProcessTimeoutInSeconds>
 
             <systemProperties>
 
