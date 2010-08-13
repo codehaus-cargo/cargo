@@ -96,10 +96,25 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
      */
     private void checkFailed(DeploymentProgress progress) throws Exception
     {
+        final int timeout = 30;
         DeploymentStatus status = progress.getDeploymentStatus();
+        for (int i = 0; i < 30; i++)
+        {
+            Thread.sleep(1000);
+            if (status.isCompleted() || status.isFailed())
+            {
+                break;
+            }
+            if (i == timeout - 1)
+            {
+                throw new Exception("Operation timed out");
+            }
+        }
         if (status.isFailed())
         {
-            throw new Exception("Remote action failed: " + status.getMessage());
+            Exception cause = status.getFailure();
+            throw new Exception("Remote action failed: " + status.getMessage()
+                + " (" + cause.getMessage() + ")", cause);
         }
     }
 
