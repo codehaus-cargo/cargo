@@ -124,32 +124,16 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
      */
     private DeploymentManager getDeploymentManager() throws Exception
     {
-        ProfileService ps = getProfileService();
-        return ps.getDeploymentManager();
-    }
-
-    /**
-     * @return The JBoss profile service.
-     * @throws Exception If anything fails.
-     */
-    private ProfileService getProfileService() throws Exception
-    {
-        InitialContext ctx = getInitialContext();
-        return (ProfileService) ctx.lookup("ProfileService");
-    }
-
-    /**
-     * @return A Java initial context that points to JBoss.
-     * @throws Exception If anything fails.
-     */
-    private InitialContext getInitialContext() throws Exception
-    {
         Properties props = new Properties();
         props.setProperty(
             Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
         props.put(Context.PROVIDER_URL, this.providerURL);
         props.put(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
-        return new InitialContext(props);
+        Context ctx = new InitialContext(props);
+
+        ProfileService ps = (ProfileService) ctx.lookup("ProfileService");
+
+        return ps.getDeploymentManager();
     }
 
 }
