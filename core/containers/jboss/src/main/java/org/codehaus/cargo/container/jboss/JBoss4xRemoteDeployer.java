@@ -46,11 +46,11 @@ import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 
 /**
- * Remote deployer that uses JMX to deploy to JBoss.
+ * Remote deployer that uses the JMX console to deploy to JBoss.
  * 
  * @version $Id$
  */
-public class JBossRemoteDeployer extends AbstractRemoteDeployer
+public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
 {
     /**
      * The default username to use when authenticating with JBoss server.
@@ -111,7 +111,7 @@ public class JBossRemoteDeployer extends AbstractRemoteDeployer
      * @param container the container containing the configuration to use to find the deployer
      *        properties such as url, user name and password to use to connect to the deployer
      */
-    public JBossRemoteDeployer(RemoteContainer container)
+    public JBoss4xRemoteDeployer(RemoteContainer container)
     {
         this(container, new JdkHttpURLConnection(), new SimpleHttpFileServer());
     }
@@ -122,7 +122,7 @@ public class JBossRemoteDeployer extends AbstractRemoteDeployer
      * @param connection the connection class to use
      * @param fileServer http file server to use
      */
-    protected JBossRemoteDeployer(RemoteContainer container, HttpURLConnection connection,
+    protected JBoss4xRemoteDeployer(RemoteContainer container, HttpURLConnection connection,
         ISimpleHttpFileServer fileServer)
     {
         super();

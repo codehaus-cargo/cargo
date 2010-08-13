@@ -20,20 +20,20 @@
 package org.codehaus.cargo.container.jboss;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss5xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
-import org.codehaus.cargo.container.jboss.internal.JBossRuntimeConfigurationCapability;
 
 /**
  * Configuration to use when using a JBoss remote container.
  *  
  * @version $Id$
  */
-public class JBossRuntimeConfiguration extends AbstractRuntimeConfiguration
+public class JBoss5xRuntimeConfiguration extends AbstractRuntimeConfiguration
 {
     /**
      * Capability of the JBoss runtime configuration.
      */
-    private static ConfigurationCapability capability = new JBossRuntimeConfigurationCapability();
+    private static ConfigurationCapability capability = new JBoss5xRuntimeConfigurationCapability();
 
     /**
      * {@inheritDoc}

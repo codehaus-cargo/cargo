@@ -31,11 +31,11 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 
 /**
- * Unit tests for {@link JBossRemoteDeployer}.
+ * Unit tests for {@link JBoss4xRemoteDeployer}.
  *
  * @version $Id$
  */
-public class JBossRemoteDeployerTest extends MockObjectTestCase
+public class JBoss4xRemoteDeployerTest extends MockObjectTestCase
 {
     public void testCreateJBossRemoteURLForDeploy() throws Throwable
     {
@@ -50,10 +50,10 @@ public class JBossRemoteDeployerTest extends MockObjectTestCase
             .will(returnValue("john"));
         mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.remote.password"))
             .will(returnValue("doe"));
-        mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.jboss.remotedeploy.port"))
-            .will(returnValue("9999"));
-        mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.jboss.remotedeploy.hostname"))
-            .will(returnValue("localhost"));
+        mockConfiguration.stubs().method("getPropertyValue").with(
+            eq("cargo.jboss.remotedeploy.port")).will(returnValue("9999"));
+        mockConfiguration.stubs().method("getPropertyValue").with(
+            eq("cargo.jboss.remotedeploy.hostname")).will(returnValue("localhost"));
 
         Mock mockContainer = mock(RemoteContainer.class);
         mockContainer.stubs().method("getConfiguration")
@@ -80,8 +80,8 @@ public class JBossRemoteDeployerTest extends MockObjectTestCase
         mockConnection.expects(once()).method("connect").with(stringContains(expectedURLPortion),
             eq("john"), eq("doe"));
 
-        JBossRemoteDeployer deployer = new JBossRemoteDeployer((RemoteContainer) mockContainer.proxy(),
-            (HttpURLConnection) mockConnection.proxy(),
+        JBoss4xRemoteDeployer deployer = new JBoss4xRemoteDeployer((RemoteContainer)
+            mockContainer.proxy(), (HttpURLConnection) mockConnection.proxy(),
             (ISimpleHttpFileServer) mockHttpFileServer.proxy());
         deployer.deploy((Deployable) mockDeployable.proxy());
     }

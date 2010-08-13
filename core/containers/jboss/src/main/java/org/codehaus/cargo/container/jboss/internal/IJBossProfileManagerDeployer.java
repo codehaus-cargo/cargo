@@ -19,41 +19,32 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
-import java.util.HashMap;
-import java.util.Map;
 
-import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
+import java.io.File;
 
 /**
- * Capabilities of JBoss's {@link org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration}
- * configuration.
- *  
+ * The generic interface for a JBoss deployer that uses the JBoss profile manager.
+ *
  * @version $Id$
  */
-public class JBossRuntimeConfigurationCapability extends AbstractRuntimeConfigurationCapability
+public interface IJBossProfileManagerDeployer
 {
-    /**
-     * Configuration-specific supports Map.
-     */
-    private Map supportsMap;
 
     /**
-     * Initialize the configuration-specific supports Map.
+     * Deploys an application.
+     * 
+     * @param deploymentFile File to deploy from local.
+     * @param deploymentName Name of the deployment on the remote server.
+     * @throws Exception If anything bad occurs.
      */
-    public JBossRuntimeConfigurationCapability()
-    {
-        super();
-
-        this.supportsMap = new HashMap();
-    }
+    void deploy(File deploymentFile, String deploymentName) throws Exception;
 
     /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
+     * Undeploys an application.
+     *
+     * @param deploymentName Name of the deployment on the remote server.
+     * @throws Exception If anything bad occurs.
      */
-    @Override
-    protected Map getPropertySupportMap()
-    {
-        return this.supportsMap;
-    }
+    void undeploy(String deploymentName) throws Exception;
+
 }

@@ -23,9 +23,10 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployer.DeployerType;
+import org.codehaus.cargo.container.jboss.internal.JBoss4xRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss5xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBossContainerCapability;
 import org.codehaus.cargo.container.jboss.internal.JBossExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.jboss.internal.JBossRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBossStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
@@ -89,7 +90,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
             JBossExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jboss4x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            JBossRuntimeConfigurationCapability.class);
+            JBoss4xRuntimeConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("jboss42x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -99,7 +100,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
             JBossExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jboss42x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            JBossRuntimeConfigurationCapability.class);
+            JBoss4xRuntimeConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("jboss5x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -109,7 +110,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
             JBossExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jboss5x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            JBossRuntimeConfigurationCapability.class);
+            JBoss5xRuntimeConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("jboss51x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -119,7 +120,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
             JBossExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jboss51x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            JBossRuntimeConfigurationCapability.class);
+            JBoss5xRuntimeConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("jboss6x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -129,7 +130,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
             JBossExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jboss6x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            JBossRuntimeConfigurationCapability.class);
+            JBoss5xRuntimeConfigurationCapability.class);
     }
 
     /**
@@ -155,7 +156,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
             JBossExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("jboss4x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            JBossRuntimeConfiguration.class);
+            JBoss4xRuntimeConfiguration.class);
 
         configurationFactory.registerConfiguration("jboss42x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -165,7 +166,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
             JBossExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("jboss42x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            JBossRuntimeConfiguration.class);
+            JBoss4xRuntimeConfiguration.class);
 
         configurationFactory.registerConfiguration("jboss5x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -175,7 +176,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
             JBossExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("jboss5x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            JBossRuntimeConfiguration.class);
+            JBoss5xRuntimeConfiguration.class);
 
         configurationFactory.registerConfiguration("jboss51x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -185,7 +186,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
             JBossExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("jboss51x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            JBossRuntimeConfiguration.class);
+            JBoss5xRuntimeConfiguration.class);
 
         configurationFactory.registerConfiguration("jboss6x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -195,7 +196,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
             JBossExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("jboss6x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            JBossRuntimeConfiguration.class);
+            JBoss5xRuntimeConfiguration.class);
     }
 
     /**
@@ -212,27 +213,27 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
         deployerFactory.registerDeployer("jboss4x", DeployerType.INSTALLED,
             JBossInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jboss4x", DeployerType.REMOTE,
-            JBossRemoteDeployer.class);
+            JBoss4xRemoteDeployer.class);
 
         deployerFactory.registerDeployer("jboss42x", DeployerType.INSTALLED,
             JBossInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jboss42x", DeployerType.REMOTE,
-            JBossRemoteDeployer.class);
+            JBoss4xRemoteDeployer.class);
 
         deployerFactory.registerDeployer("jboss5x", DeployerType.INSTALLED,
             JBossInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jboss5x", DeployerType.REMOTE,
-            JBossRemoteDeployer.class);
+            JBoss5xRemoteDeployer.class);
 
         deployerFactory.registerDeployer("jboss51x", DeployerType.INSTALLED,
             JBossInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jboss51x", DeployerType.REMOTE,
-            JBossRemoteDeployer.class);
+            JBoss5xRemoteDeployer.class);
 
         deployerFactory.registerDeployer("jboss6x", DeployerType.INSTALLED,
             JBossInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jboss6x", DeployerType.REMOTE,
-            JBossRemoteDeployer.class);
+            JBoss5xRemoteDeployer.class);
     }
 
     /**
