@@ -536,6 +536,13 @@ public class ConfluenceContainerDocumentationGenerator
             ContainerType.REMOTE, ConfigurationType.RUNTIME))
         {
             output.append("h4.Runtime Configuration Properties");
+            if (containerId.startsWith("jboss"))
+            {
+                output.append(LINE_SEPARATOR);
+                output.append(LINE_SEPARATOR);
+                output.append("{info}Before using the JBoss remote deployer, ");
+                output.append("please read: [JBoss Remote Deployer]{info}");
+            }
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
             output.append(generateConfigurationPropertiesForConfigurationTypeForContainerType(
