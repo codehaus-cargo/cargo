@@ -50,103 +50,12 @@
       <type>test-jar</type>
     </dependency>
 
-    <!-- Test data artifacts -->
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>simple-war</artifactId>
-      <version>${cargo.resources.version}</version>
-      <type>war</type>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>datasource-war</artifactId>
-      <version>${cargo.resources.version}</version>
-      <type>war</type>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>two-datasources-war</artifactId>
-      <version>${cargo.resources.version}</version>
-      <type>war</type>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>xadatasource-war</artifactId>
-      <version>${cargo.resources.version}</version>
-      <type>war</type>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>mailsession-war</artifactId>
-      <version>${cargo.resources.version}</version>
-      <type>war</type>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>datasource-cmt-local-war</artifactId>
-      <version>${cargo.resources.version}</version>
-      <type>war</type>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>classpath-war</artifactId>
-      <version>${cargo.resources.version}</version>
-      <type>war</type>
-    </dependency>
+    <!-- The EJB includes its API -->
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-ejb</artifactId>
       <version>${cargo.resources.version}</version>
       <type>ejb</type>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>expanded-war</artifactId>
-      <version>${cargo.resources.version}</version>
-      <type>war</type>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>authentication-war</artifactId>
-      <version>${cargo.resources.version}</version>
-      <type>war</type>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>tomcatcontext-war</artifactId>
-      <version>${cargo.resources.version}</version>
-      <type>war</type>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>simple-ear</artifactId>
-      <version>${cargo.resources.version}</version>
-      <type>ear</type>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>empty-ear</artifactId>
-      <version>${cargo.resources.version}</version>
-      <type>ear</type>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>simple-jar</artifactId>
-      <version>${cargo.resources.version}</version>
-    </dependency>
-
-    <!-- Deployment helper applications for some remote containers -->
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-jetty-6-and-earlier-deployer</artifactId>
-      <version>${cargo.resources.version}</version>
-      <type>war</type>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-jetty-7-and-onwards-deployer</artifactId>
-      <version>${cargo.resources.version}</version>
-      <type>war</type>
     </dependency>
   </dependencies>
   <build>
@@ -163,6 +72,9 @@
             <forkMode>pertest</forkMode>
             <useFile>true</useFile>
             <reportFormat>plain</reportFormat>
+
+            <!-- 20 minutes -->
+            <forkedProcessTimeoutInSeconds>1200</forkedProcessTimeoutInSeconds>
 
             <systemProperties>
 
@@ -757,6 +669,14 @@
               <property>
                 <name>cargo.testdata.cargo-jetty-7-and-onwards-deployer</name>
                 <value>org/codehaus/cargo/cargo-jetty-7-and-onwards-deployer/${cargo.resources.version}/cargo-jetty-7-and-onwards-deployer-${cargo.resources.version}.war</value>
+              </property>
+              <property>
+                <name>cargo.testdata.cargo-core-tools-jboss-deployer-5</name>
+                <value>org/codehaus/cargo/cargo-core-tools-jboss-deployer-5/${project.version}/cargo-core-tools-jboss-deployer-5-${project.version}.jar</value>
+              </property>
+              <property>
+                <name>cargo.testdata.cargo-core-tools-jboss-deployer-5.1-and-onwards</name>
+                <value>org/codehaus/cargo/cargo-core-tools-jboss-deployer-5.1-and-onwards/${project.version}/cargo-core-tools-jboss-deployer-5.1-and-onwards-${project.version}.jar</value>
               </property>
               <property>
                 <name>cargo.testdata.derby-jar</name>

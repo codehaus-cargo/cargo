@@ -19,7 +19,16 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.net.URL;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.Test;
+
 import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasRemoteContainerValidator;
@@ -36,9 +45,6 @@ import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.jetty.JettyPropertySet;
-import org.codehaus.cargo.generic.ContainerFactory;
-import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.DefaultFileHandler;
@@ -46,15 +52,8 @@ import org.codehaus.cargo.util.FileHandler;
 import org.apache.tools.ant.taskdefs.War;
 import org.apache.tools.ant.types.FileSet;
 
-import java.net.URL;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-
 public class RemoteDeploymentTest extends AbstractCargoTestCase
 {
-    private ContainerFactory factory = new DefaultContainerFactory();
-
     private FileHandler fileHandler = new DefaultFileHandler();
 
     private InstalledLocalContainer localContainer;
@@ -132,8 +131,51 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
         getTestData().containerType = oldContainerType;
 
+        // JBoss 5+ requires a huge classpath
+        if (getTestData().containerId.startsWith("jboss"))
+        {
+            int jbossVersion = Integer.parseInt(getTestData().containerId.substring(5,
+                getTestData().containerId.length() - 1));
+
+            if (jbossVersion >= 5)
+            {
+                List<URL> urls = new ArrayList<URL>();
+
+                if (jbossVersion == 5)
+                {
+                    urls.add(new File(getTestData().getTestDataFileFor(
+                        "cargo-core-tools-jboss-deployer-5")).toURI().toURL());
+                }
+                else
+                {
+                    urls.add(new File(getTestData().getTestDataFileFor(
+                        "cargo-core-tools-jboss-deployer-5.1-and-onwards")).toURI().toURL());
+                }
+
+                for (File jar : new File(this.localContainer.getHome(), "lib").listFiles())
+                {
+                    if (jar.isFile())
+                    {
+                        urls.add(jar.toURI().toURL());
+                    }
+                }
+                for (File jar : new File(this.localContainer.getHome(), "common/lib").listFiles())
+                {
+                    if (jar.isFile())
+                    {
+                        urls.add(jar.toURI().toURL());
+                    }
+                }
+
+                URL[] urlsArray = new URL[urls.size()];
+                urlsArray = urls.toArray(urlsArray);
+                URLClassLoader classLoader = new URLClassLoader(urlsArray,
+                    Thread.currentThread().getContextClassLoader());
+                Thread.currentThread().setContextClassLoader(classLoader);
+            }
+        }
         // Jetty requires its deployer application
-        if (getTestData().containerId.startsWith("jetty"))
+        else if (getTestData().containerId.startsWith("jetty"))
         {
             int jettyVersion = Integer.parseInt(getTestData().containerId.substring(5,
                 getTestData().containerId.length() - 1));
