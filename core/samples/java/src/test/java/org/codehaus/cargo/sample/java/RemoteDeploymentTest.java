@@ -137,7 +137,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             int jbossVersion = Integer.parseInt(getTestData().containerId.substring(5,
                 getTestData().containerId.length() - 1));
 
-            if (jbossVersion >= 5)
+            if ((jbossVersion < 10 && jbossVersion >= 5) || jbossVersion >= 50)
             {
                 List<URL> urls = new ArrayList<URL>();
 
