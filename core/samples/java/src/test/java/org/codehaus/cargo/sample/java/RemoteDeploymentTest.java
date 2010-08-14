@@ -242,6 +242,13 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         deployer.deploy(this.war);
         PingUtils.assertPingTrue("simple war not correctly redeployed", this.warPingURL, getLogger());
 
+        if ("jonas4x".equals(getTestData().containerId))
+        {
+            // JOnAS 4.x has trouble redeploying modified WARs,
+            // applications indeed need to be EARs in order to be successfully redeployed
+            return;
+        }
+
         // Redeploy the WAR after modifying its content
         Deployable modifiedDeployable = modifyWar(this.war);
         File modifiedWar = new File(modifiedDeployable.getFile());
