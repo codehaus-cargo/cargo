@@ -47,6 +47,11 @@ public interface JBossPropertySet
     String JBOSS_PASSWORD = "cargo.jboss.password";
 
     /**
+     * The port used for the JRMP service.
+     */
+    String JBOSS_JRMP_PORT = "cargo.jboss.jrmp.port";
+
+    /**
      * The port used for JBoss naming service.
      */
     String JBOSS_NAMING_PORT = "cargo.jboss.naming.port";

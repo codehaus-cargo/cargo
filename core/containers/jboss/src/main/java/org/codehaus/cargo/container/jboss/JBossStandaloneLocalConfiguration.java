@@ -73,6 +73,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         setProperty(JBossPropertySet.CONFIGURATION, "default");
         setProperty(JBossPropertySet.JBOSS_NAMING_PORT, "1098");
         setProperty(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT, "8083");
+        setProperty(JBossPropertySet.JBOSS_JRMP_PORT, "1090");
         setProperty(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT, "4444");
         setProperty(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, "4446");
         setProperty(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT, "4712");
@@ -300,6 +301,9 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         getAntUtils().addTokenToFilterChain(filterChain,
             JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT,
             getPropertyValue(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT));
+
+        getAntUtils().addTokenToFilterChain(filterChain, JBossPropertySet.JBOSS_JRMP_PORT,
+            getPropertyValue(JBossPropertySet.JBOSS_JRMP_PORT));
 
         getAntUtils().addTokenToFilterChain(filterChain, JBossPropertySet.JBOSS_JRMP_INVOKER_PORT,
             getPropertyValue(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT));

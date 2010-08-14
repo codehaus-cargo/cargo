@@ -165,7 +165,7 @@
 
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss.remoting:service=JMXConnectorServer,protocol=rmi</property>
-               <property name="port">1090</property>
+               <property name="port">@cargo.jboss.jrmp.port@</property>
             </bean>
 
             <!-- ********************* deploy/ejb3-connectors-service.xml **************** -->

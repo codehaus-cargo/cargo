@@ -39,8 +39,6 @@ import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -56,16 +54,12 @@ public class EjbCapabilityContainerTest extends AbstractCargoTestCase
 
     public static Test suite() throws Exception
     {
-        // We exclude jboss6x container as it seems to have issues with EJB2s
-        Set excludedContainerIds = new TreeSet();
-        excludedContainerIds.add("jboss6x");
-
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that can run on containers supporting EJB deployments");
         suite.addTestSuite(EjbCapabilityContainerTest.class, new Validator[] {
             new StartsWithContainerValidator("jboss"),
             new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator()}, excludedContainerIds);
+            new HasStandaloneConfigurationValidator()});
         return suite;
     }
 

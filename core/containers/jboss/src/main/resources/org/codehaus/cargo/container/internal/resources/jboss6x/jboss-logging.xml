@@ -1,626 +1,678 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <!-- ===================================================================== -->
 <!--                                                                       -->
-<!--  Log4j Configuration                                                  -->
+<!--  Logging System Configuration                                         -->
 <!--                                                                       -->
 <!-- ===================================================================== -->
 
-<!-- $Id$ -->
-
-<!--
-   | For more configuration information and examples see the Jakarta Log4j
-   | owebsite: http://jakarta.apache.org/log4j
- -->
-
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+<logging xmlns="urn:jboss:logging:6.0" xmlns:b="urn:jboss:bean-deployer:2.0">
 
    <!-- ================================= -->
    <!-- Preserve messages in a local file -->
    <!-- ================================= -->
 
-   <!-- A time/date based rolling appender -->
-   <appender name="FILE" class="org.jboss.logging.appender.DailyRollingFileAppender">
-      <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
-      <param name="File" value="${jboss.server.log.dir}/server.log"/>
-      <param name="Append" value="true"/>
-      <!-- In AS 5.0.x the server log threshold was set by a system
-           property. In 5.1 and later we are instead using the system
-           property to set the priority on the root logger (see <root/> below)
-      <param name="Threshold" value="${jboss.server.log.threshold}"/>
-      -->
-      
-      <!-- Rollover at midnight each day -->
-      <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+   <!-- A time/date based rolling handler -->
 
-      <!-- Rollover at the top of each hour
-      <param name="DatePattern" value="'.'yyyy-MM-dd-HH"/>
-      -->
+   <periodic-rotating-file-handler
+         file-name="${jboss.server.log.dir}/server.log"
+         name="FILE"
+         autoflush="true"
+         append="true"
+         suffix=".yyyy-MM-dd">  <!-- To roll over at the top of each hour, use ".yyyy-MM-dd-HH" instead -->
 
-      <layout class="org.apache.log4j.PatternLayout">
-         <!-- The default pattern: Date Priority [Category] (Thread) Message\n -->
-         <param name="ConversionPattern" value="%d %-5p [%c] (%t) %m%n"/>
+      <error-manager>
+         <only-once/>
+      </error-manager>
 
-         <!-- The full pattern: Date MS Priority [Category] (Thread:NDC) Message\n
-         <param name="ConversionPattern" value="%d %-5r %-5p [%c] (%t:%x) %m%n"/>
-          -->
-      </layout>
-   </appender>
+      <formatter>
+         <!-- To revert back to simple stack traces without JAR versions, change "%E" to "%e" below. -->
+         <!-- Uncomment this to get the class name in the log as well as the category
+         <pattern-formatter pattern="%d %-5p [%c] %C{1} (%t) %s%E%n"/>
+         -->
+         <!-- Uncomment this to log without the class name in the log -->
+         <pattern-formatter pattern="%d %-5p [%c] (%t) %s%E%n"/>
+      </formatter>
+   </periodic-rotating-file-handler>
 
    <!-- A size based file rolling appender
-   <appender name="FILE" class="org.jboss.logging.appender.RollingFileAppender">
-     <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
-     <param name="File" value="${jboss.server.log.dir}/server.log"/>
-     <param name="Append" value="false"/>
-     <param name="MaxFileSize" value="500KB"/>
-     <param name="MaxBackupIndex" value="1"/>
 
-     <layout class="org.apache.log4j.PatternLayout">
-       <param name="ConversionPattern" value="%d %-5p [%c] %m%n"/>
-     </layout>	    
-   </appender>
+   <size-rotating-file-handler
+         file-name="${jboss.server.log.dir}/server.log"
+         name="FILE"
+         autoflush="true"
+         append="true"
+         rotate-size="500k"
+         max-backup-index="5">
+
+      <error-manager>
+         <only-once/>
+      </error-manager>
+
+      <formatter>
+         <pattern-formatter pattern="%d %-5p [%c] (%t) %m%n"/>
+      </formatter>
+   </size-rotating-file-handler>
    -->
 
    <!-- ============================== -->
    <!-- Append messages to the console -->
    <!-- ============================== -->
 
-   <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
-      <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
-      <param name="Target" value="System.out"/>
-      <param name="Threshold" value="INFO"/>
+   <console-handler name="CONSOLE" autoflush="true" target="System.out">
+      <error-manager>
+         <only-once/>
+      </error-manager>
 
-      <layout class="org.apache.log4j.PatternLayout">
-         <!-- The default pattern: Date Priority [Category] Message\n -->
-         <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{1}] %m%n"/>
-      </layout>
-   </appender>
+      <level name="@cargo.logging@"/>
+
+      <formatter>
+         <pattern-formatter pattern="%d{HH:mm:ss,SSS} %-5p [%c] %s%E%n"/>
+      </formatter>
+   </console-handler>
 
    <!-- ====================== -->
    <!-- More Appender examples -->
    <!-- ====================== -->
 
    <!-- Buffer events and log them asynchronously
-   <appender name="ASYNC" class="org.apache.log4j.AsyncAppender">
-     <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
-     <appender-ref ref="FILE"/>
-     <appender-ref ref="CONSOLE"/>
-     <appender-ref ref="SMTP"/>
-   </appender>
+
+   <async-handler name="ASYNC">
+      <error-manager>
+         <only-once/>
+      </error-manager>
+
+      <sub-handlers>
+         <handler-ref name="FILE"/>
+         <handler-ref name="CONSOLE"/>
+         <handler-ref name="SMTP"/>
+      </sub-handlers>
+   </async-handler>
    -->
 
    <!-- EMail events to an administrator
-   <appender name="SMTP" class="org.apache.log4j.net.SMTPAppender">
-     <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
-     <param name="Threshold" value="ERROR"/>
-     <param name="To" value="admin@myhost.domain.com"/>
-     <param name="From" value="nobody@myhost.domain.com"/>
-     <param name="Subject" value="JBoss Sever Errors"/>
-     <param name="SMTPHost" value="localhost"/>
-     <param name="BufferSize" value="10"/>
-     <layout class="org.apache.log4j.PatternLayout">
-       <param name="ConversionPattern" value="[%d{ABSOLUTE},%c{1}] %m%n"/>
-     </layout>
-   </appender>
+
+   <log4j-appender name="SMTP" class="org.apache.log4j.net.SMTPAppender">
+      <error-manager>
+         <only-once/>
+      </error-manager>
+
+      <level name="ERROR"/>
+
+      <properties>
+         <property name="to">admin@myhost.domain.com</property>
+         <property name="from">nobody@myhost.domain.com</property>
+         <property name="subject">JBoss Sever Errors</property>
+         <property name="sMTPHost">localhost</property>
+         <property name="bufferSize">10</property>
+      </properties>
+
+      <formatter>
+         <pattern-formatter pattern="%d %-5p [%c] (%t) %m%n"/>
+      </formatter>
+   </log4j-appender>
    -->
 
    <!-- Syslog events
-   <appender name="SYSLOG" class="org.apache.log4j.net.SyslogAppender">
-     <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
-     <param name="Facility" value="LOCAL7"/>
-     <param name="FacilityPrinting" value="true"/>
-     <param name="SyslogHost" value="localhost"/>
-     <layout class="org.apache.log4j.PatternLayout">
-       <param name="ConversionPattern" value="[%d{ABSOLUTE},%c{1}] %m%n"/>
-     </layout>
-   </appender>
+
+   <log4j-appender name="SYSLOG" class="org.apache.log4j.net.SyslogAppender">
+      <error-manager>
+         <only-once/>
+      </error-manager>
+
+      <properties>
+         <property name="facility">LOCAL7</property>
+         <property name="facilityPrinting">true</property>
+         <property name="syslogHost">localhost</property>
+      </properties>
+
+      <formatter>
+         <pattern-formatter pattern="[%d,%c{1}] %m%n"/>
+      </formatter>
+   </log4j-appender>
    -->
 
    <!-- Log events to JMS (requires a topic to be created)
-   <appender name="JMS" class="org.apache.log4j.net.JMSAppender">
-     <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
-     <param name="Threshold" value="ERROR"/>
-     <param name="TopicConnectionFactoryBindingName" value="java:/ConnectionFactory"/>
-     <param name="TopicBindingName" value="topic/MyErrorsTopic"/>
-   </appender>
+
+   <log4j-appender name="JMS" class="org.apache.log4j.net.JMSAppender">
+      <error-manager>
+         <only-once/>
+      </error-manager>
+
+      <level name="ERROR"/>
+
+      <properties>
+         <property name="topicConnectionFactoryBindingName">
+            --><!-- Use injection so that an implicit dependency is formed - TODO: get the correct property name --><!--
+            <b:inject bean="myTopicBiding" property="name"/>
+         </property>
+         <property name="topicBindingName">topic/MyErrorsTopic</property>
+      </properties>
+   </log4j-appender>
    -->
 
    <!-- Log events through SNMP
-   <appender name="TRAP_LOG" class="org.apache.log4j.ext.SNMPTrapAppender">
-     <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
-     <param name="ImplementationClassName" value="org.apache.log4j.ext.JoeSNMPTrapSender"/>
-     <param name="ManagementHost" value="127.0.0.1"/>
-     <param name="ManagementHostTrapListenPort" value="162"/>
-     <param name="EnterpriseOID" value="1.3.6.1.4.1.24.0"/>
-     <param name="LocalIPAddress" value="127.0.0.1"/>
-     <param name="LocalTrapSendPort" value="161"/>
-     <param name="GenericTrapType" value="6"/>
-     <param name="SpecificTrapType" value="12345678"/>
-     <param name="CommunityString" value="public"/>
-     <param name="ForwardStackTraceWithTrap" value="true"/>
-     <param name="Threshold" value="DEBUG"/>
-     <param name="ApplicationTrapOID" value="1.3.6.1.4.1.24.12.10.22.64"/>
-     <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d,%p,[%t],[%c],%m%n"/>
-     </layout>
-   </appender>
+
+   <log4j-appender name="TRAP_LOG" class="org.apache.log4j.ext.SNMPTrapAppender">
+      <error-manager>
+         <only-once/>
+      </error-manager>
+
+      <level name="DEBUG"/>
+
+      <properties>
+         <property name="implementationClassName">org.apache.log4j.ext.JoeSNMPTrapSender</property>
+         <property name="managementHost">127.0.0.1</property>
+         <property name="managementHostTrapListenPort">162</property>
+         <property name="enterpriseOID">1.3.6.1.4.1.24.0</property>
+         <property name="localIPAddress">127.0.0.1</property>
+         <property name="localTrapSendPort">161</property>
+         <property name="genericTrapType">6</property>
+         <property name="specificTrapType">12345678</property>
+         <property name="communityString">public</property>
+         <property name="forwardStackTraceWithTrap">true</property>
+         <property name="applicationTrapOID">1.3.6.1.4.1.24.12.10.22.64</property>
+      </properties>
+      <formatter>
+         <pattern-formatter pattern="%d,%p,[%t],[%c],%m%n"/>
+      </formatter>
+   </log4j-appender>
    -->
 
-   <!--  Emit events as JMX notifications
-   <appender name="JMX" class="org.jboss.monitor.services.JMXNotificationAppender">
-      <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
-      
-      <param name="Threshold" value="WARN"/>
-      <param name="ObjectName" value="jboss.system:service=Logging,type=JMXNotificationAppender"/>
-      
-      <layout class="org.apache.log4j.PatternLayout">
-         <param name="ConversionPattern" value="%d %-5p [%c] %m"/>
-      </layout>
-   </appender>
+   <!-- Emit events as JMX notifications
+
+   <log4j-appender name="JMX" class="org.jboss.monitor.services.JMXNotificationAppender">
+      <error-manager>
+         <only-once/>
+      </error-manager>
+
+      <level name="WARN"/>
+
+      <properties>
+         <property name="objectName">jboss.system:service=Logging,type=JMXNotificationAppender</property>
+      </properties>
+
+      <formatter>
+         <pattern-formatter pattern="%d %-5p [%c] %m"/>
+      </formatter>
+   </log4j-appender>
    -->
 
    <!-- Security AUDIT Appender
-   <appender name="AUDIT" class="org.jboss.logging.appender.DailyRollingFileAppender">
-      <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
-      <param name="File" value="${jboss.server.log.dir}/audit.log"/>
-      <param name="Append" value="true"/>
-      <param name="DatePattern" value="'.'yyyy-MM-dd"/>
-      <layout class="org.apache.log4j.PatternLayout">
-         <param name="ConversionPattern" value="%d %-5p [%c] (%t:%x) %m%n"/>
-      </layout>
-   </appender>
+
+   <periodic-rotating-file-handler
+         name="AUDIT"
+         autoflush="true"
+         file-name="${jboss.server.log.dir}/audit.log"
+         suffix=".yyyy-MM-dd"
+         append="true">
+
+      <error-manager>
+         <only-once/>
+      </error-manager>
+
+      <formatter>
+         <pattern-formatter pattern="%d %-5p [%c] (%t:%x) %m%n"/>
+      </formatter>
+   </periodic-rotating-file-handler>
    -->
-   
+
    <!-- =============================================== -->
    <!-- Limit categories                                -->
-   <!-- If enabling "trace" at root logger level,       -->
+   <!-- if enabling "trace" at root logger level,       -->
    <!-- use limit category settings to disable trace    -->
    <!-- for packages that you don't want to trace       -->
    <!-- =============================================== -->
 
    <!-- Limit the org.apache category to INFO as its DEBUG is verbose -->
-   <category name="org.apache">
-      <priority value="INFO"/>
-   </category>
-   
-   <!-- Make Admin Console more quiet -->
-   <category name="org.apache.myfaces">
-      <priority value="WARN"/>
-   </category>
+   <logger category="org.apache">
+      <level name="INFO"/>
+   </logger>
 
-   <category name="facelets.compiler">
-      <priority value="FATAL" class="org.jboss.logging.log4j.JDKLevel"/>
-   </category>
-   
    <!-- Limit the jacorb category to WARN as its INFO is verbose -->
-   <category name="jacorb">
-      <priority value="WARN"/>
-   </category>
-   
-   <!-- Set the logging level of the JSF implementation that uses
-      | java.util.logging. The jdk logging levels can be controlled
-      | through the org.jboss.logging.log4j.JDKLevel class that
-      | in addition to the standard log4j levels it adds support for
-      | SEVERE, WARNING, CONFIG, FINE, FINER, FINEST
-   -->
-   <category name="javax.enterprise.resource.webcontainer.jsf">
-     <priority value="INFO" class="org.jboss.logging.log4j.JDKLevel"/>
-   </category>
-   
+   <logger category="jacorb">
+      <level name="WARN"/>
+   </logger>
+
+   <!-- Limit JSF to INFO as its FINE is verbose -->
+   <logger category="javax.enterprise.resource.webcontainer.jsf">
+      <level name="INFO"/>
+   </logger>
+
    <!-- Limit the org.jgroups category to WARN as its INFO is verbose -->
-   <category name="org.jgroups">
-      <priority value="WARN"/>
-   </category>
-   
+   <logger category="org.jgroups">
+      <level name="WARN"/>
+   </logger>
+
    <!-- Limit the org.quartz category to INFO as its DEBUG is verbose -->
-   <category name="org.quartz">
-      <priority value="INFO"/>
-   </category>
-   
+   <logger category="org.quartz">
+      <level name="INFO"/>
+   </logger>
+
    <!-- Limit the com.sun category to INFO as its FINE is verbose -->
-   <category name="com.sun">
-      <priority value="INFO"/>
-   </category>
-   
+   <logger category="com.sun">
+      <level name="INFO"/>
+   </logger>
+
    <!-- Limit the sun category to INFO as its FINE is verbose -->
-   <category name="sun">
-      <priority value="INFO"/>
-   </category>
-   
+   <logger category="sun">
+      <level name="INFO"/>
+   </logger>
+
    <!-- Limit the javax.xml.bind category to INFO as its FINE is verbose -->
-   <category name="javax.xml.bind">
-      <priority value="INFO"/>
-   </category>
-    
+   <logger category="javax.xml.bind">
+      <level name="INFO"/>
+   </logger>
+
    <!-- Limit the springframework category to WARN-->
-   <category name="org.springframework">
-     <priority value="WARN"/>
-   </category>
-  
+   <logger category="org.springframework">
+      <level name="WARN"/>
+   </logger>
+
    <!-- Limit JBoss categories
-   <category name="org.jboss">
-      <priority value="INFO"/>
-   </category>
+   <logger category="org.jboss">
+      <level name="INFO"/>
+   </logger>
    -->
 
    <!-- Or limit individual JBoss categories
-   <category name="org.jboss.web">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.web">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.tm">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.tm">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.jdbc">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.jdbc">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.on">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.on">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.services">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.services">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.bootstrap">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.bootstrap">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.kernel">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.kernel">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.beans">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.beans">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.injection">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.injection">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.annotation">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.annotation">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.system">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.system">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.mx">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.mx">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.jmx">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.jmx">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.invocation">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.invocation">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.classloader">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.classloader">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.classloading">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.classloading">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.deployment">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.deployment">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.deployers">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.deployers">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.dependency">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.dependency">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.metadata">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.metadata">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.detailed">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.detailed">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.logging">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.logging">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.logbridge">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.logbridge">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.aop">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.aop">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.joinpoint">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.joinpoint">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.util">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.util">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.ha">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.ha">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.resource">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.resource">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.varia">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.varia">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.net">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.net">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.security">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.security">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.console">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.console">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.wsf">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.wsf">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.ejb">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.ejb">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.ejb3">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.ejb3">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.jpa">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.jpa">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.virtual">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.vfs">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.xb">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.xb">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.naming">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.naming">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.wsf">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.wsf">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.ws">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.ws">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.mail">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.mail">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.monitor">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.monitor">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.remoting">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.remoting">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.profileservice">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.profileservice">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.cache">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.cache">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.proxy">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.proxy">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.jms">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.jms">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.messaging">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.messaging">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.webbeans">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.webbeans">
+     <level name="INFO" />
+   </logger>
 
-   <category name="org.jboss.managed">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.jboss.managed">
+     <level name="INFO" />
+   </logger>
    -->
 
-   <!-- Limit Arjuna transaction manager
-   <category name="com.arjuna">
-     <priority value="INFO" />
-   </category>
-   -->
+   <!-- Limit Arjuna transaction manager -->
+   <logger category="com.arjuna.ats">
+     <level name="INFO" />
+   </logger>
 
-   <!-- Limit Hibernate 
-   <category name="org.hibernate">
-     <priority value="INFO" />
-   </category>
+   <!-- Limit Hibernate
+   <logger category="org.hibernate">
+     <level name="INFO" />
+   </logger>
    -->
 
    <!-- Limit Ajax4jsf
-   <category name="org.ajax4jsf">
-     <priority value="INFO" />
-   </category>
+   <logger category="org.ajax4jsf">
+     <level name="INFO" />
+   </logger>
    -->
 
    <!-- Limit JNP
-   <category name="org.jnp">
-     <priority value="INFO" />
-   </category>
-  -->  
+    <logger category="org.jnp">
+      <level name="INFO" />
+    </logger>
+   -->
 
 
    <!-- Limit the JSR77 categories -->
-   <category name="org.jboss.management">
-      <priority value="INFO"/>
-   </category>
+   <logger category="org.jboss.management">
+      <level name="INFO"/>
+   </logger>
 
-   <!-- Limit the verbose facelets compiler 
-   <category name="facelets.compiler">
-      <priority value="WARN"/>
-   </category>
-   -->
+   <!-- Limit the verbose facelets compiler -->
+   <!-- Also suppress error with legacy facelets (JBAS-7600) -->
+   <logger category="facelets.compiler">
+      <level name="WARN"/>
+      <filter>
+         <not>
+            <match pattern="Error\sLoading\sLibrary.*jsf-libs/jsf-impl"/>
+         </not>
+      </filter>
+   </logger>
    
+
    <!-- Limit the verbose ajax4jsf cache initialization
-   <category name="org.ajax4jsf.cache">
-      <priority value="WARN"/>
-   </category>
+   <logger category="org.ajax4jsf.cache">
+      <level name="WARN"/>
+   </logger>
    -->
    <!-- Limit the verbose embedded jopr categories
-   <category name="org.rhq">
-      <priority value="WARN"/>
-   </category>
+   <logger category="org.rhq">
+      <level name="WARN"/>
+   </logger>
    -->
    <!-- Limit the verbose seam categories
-   <category name="org.jboss.seam">
-      <priority value="WARN"/>
-   </category>
+   <logger category="org.jboss.seam">
+      <level name="WARN"/>
+   </logger>
    -->
 
    <!-- Show the evolution of the DataSource pool in the logs [inUse/Available/Max]
-   <category name="org.jboss.resource.connectionmanager.JBossManagedConnectionPool">
-     <priority value="TRACE"/>
-   </category>
+   <logger category="org.jboss.resource.connectionmanager.JBossManagedConnectionPool">
+     <level name="TRACE"/>
+   </logger>
    -->
 
-   <!-- Category specifically for Security Audit Provider 
-   <category name="org.jboss.security.audit.providers.LogAuditProvider" additivity="false">
-     <priority value="TRACE"/>
+   <!-- Category specifically for Security Audit Provider
+   <logger category="org.jboss.security.audit.providers.LogAuditProvider" additivity="false">
+     <level name="TRACE"/>
      <appender-ref ref="AUDIT"/>
-   </category>
+   </logger>
    -->
-   
+
    <!-- Limit the org.jboss.serial (jboss-serialization) to INFO as its DEBUG is verbose -->
-   <category name="org.jboss.serial">
-      <priority value="INFO"/>
-   </category>
-  
+   <logger category="org.jboss.serial">
+      <level name="INFO"/>
+   </logger>
+
    <!-- Decrease the priority threshold for the org.jboss.varia category
-   <category name="org.jboss.varia">
-     <priority value="DEBUG"/>
-   </category>
+   <logger category="org.jboss.varia">
+     <level name="DEBUG"/>
+   </logger>
    -->
-   
+
    <!-- Enable JBossWS message tracing
-   <category name="org.jboss.ws.core.MessageTrace">
-     <priority value="TRACE"/>
-   </category>
+   <logger category="org.jboss.ws.core.MessageTrace">
+     <level name="TRACE"/>
+   </logger>
    -->
-   
-   <!--
-      | An example of enabling the custom TRACE level priority that is used
-      | by the JBoss internals to diagnose low level details. This example
-      | turns on TRACE level msgs for the org.jboss.ejb.plugins package and its
-      | subpackages. This will produce A LOT of logging output.
-      |
-      | Note: since jboss AS 4.2.x, the trace level is supported natively by
-      | log4j, so although the custom org.jboss.logging.XLevel priority will
-      | still work, there is no need to use it. The two examples that follow
-      | will both enable trace logging.
-   <category name="org.jboss.system">
-     <priority value="TRACE" class="org.jboss.logging.XLevel"/>
-   </category>
-   <category name="org.jboss.ejb.plugins">
-     <priority value="TRACE"/>
-   </category>
+
+   <!-- Enable System log message tracing
+   <logger category="org.jboss.system">
+     <level name="TRACE"/>
+   </logger>
+   <logger category="org.jboss.ejb.plugins">
+     <level name="TRACE"/>
+   </logger>
    -->
-  
+
    <!--
        | Logs these events to SNMP:
            - server starts/stops
            - cluster evolution (node death/startup)
            - When an EJB archive is deployed (and associated verified messages)
            - When an EAR archive is deployed
-      	 
-   <category name="org.jboss.system.server.Server">
-     <priority value="INFO" />
-     <appender-ref ref="TRAP_LOG"/>
-   </category>
-  
-   <category name="org.jboss.ha.framework.interfaces.HAPartition.lifecycle">
-     <priority value="INFO" />
-     <appender-ref ref="TRAP_LOG"/>
-   </category>
 
-   <category name="org.jboss.deployment.MainDeployer">
-     <priority value="ERROR" />
-     <appender-ref ref="TRAP_LOG"/>
-   </category>
-   
-   <category name="org.jboss.ejb.EJBDeployer">
-     <priority value="INFO" />
-     <appender-ref ref="TRAP_LOG"/>
-   </category>
-   
-   <category name="org.jboss.deployment.EARDeployer">
-     <priority value="INFO" />
-     <appender-ref ref="TRAP_LOG"/>
-   </category>
+   <logger category="org.jboss.system.server.Server">
+      <level name="INFO"/>
+      <handlers>
+         <handler-ref name="TRAP_LOG"/>
+      </handlers>
+   </logger>
+
+   <logger category="org.jboss.ha.framework.interfaces.HAPartition.lifecycle">
+      <level name="INFO"/>
+      <handlers>
+         <handler-ref name="TRAP_LOG"/>
+      </handlers>
+   </logger>
+
+   <logger category="org.jboss.deployment.MainDeployer">
+      <level name="ERROR"/>
+      <handlers>
+         <handler-ref name="TRAP_LOG"/>
+      </handlers>
+   </logger>
+
+   <logger category="org.jboss.ejb.EJBDeployer">
+      <level name="INFO"/>
+      <handlers>
+         <handler-ref name="TRAP_LOG"/>
+      </handlers>
+   </logger>
+
+   <logger category="org.jboss.deployment.EARDeployer">
+      <level name="INFO"/>
+      <handlers>
+         <handler-ref name="TRAP_LOG"/>
+      </handlers>
+   </logger>
    -->
 
    <!-- Clustering logging -->
    <!-- Uncomment the following to redirect the org.jgroups and
       org.jboss.ha categories to a cluster.log file.
 
-   <appender name="CLUSTER" class="org.jboss.logging.appender.RollingFileAppender">
-     <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
-     <param name="File" value="${jboss.server.log.dir}/cluster.log"/>
-     <param name="Append" value="false"/>
-     <param name="MaxFileSize" value="500KB"/>
-     <param name="MaxBackupIndex" value="1"/>
+   <size-rotating-file-handler
+         file-name="${jboss.server.log.dir}/cluster.log"
+         name="CLUSTER"
+         append="false"
+         rotate-size="500k"
+         max-backup-index="5"
+         autoflush="true">
 
-     <layout class="org.apache.log4j.PatternLayout">
-       <param name="ConversionPattern" value="%d %-5p [%c] %m%n"/>
-     </layout>
-   </appender>
-   <category name="org.jgroups">
-     <priority value="DEBUG" />
-     <appender-ref ref="CLUSTER"/>
-   </category>
-   <category name="org.jboss.ha">
-     <priority value="DEBUG" />
-     <appender-ref ref="CLUSTER"/>
-   </category>
+      <error-manager>
+         <only-once/>
+      </error-manager>
+
+      <formatter>
+         <pattern-formatter pattern="%d %-5p [%c] %m%n"/>
+      </formatter>
+   </size-rotating-file-handler>
+
+   <logger category="org.jgroups">
+      <level name="DEBUG" />
+      <handlers>
+         <handler-ref name="CLUSTER"/>
+      </handlers>
+   </logger>
+
+   <logger category="org.jboss.ha">
+      <level name="DEBUG" />
+      <handlers>
+         <handler-ref name="CLUSTER"/>
+      </handlers>
+   </logger>
    -->
-   
+
+   <!-- This is a temporary workaround for https://jira.jboss.org/jira/browse/EMBJOPR-280 and
+        should be removed once that bug if fixed in the bundled admin-console war. -->
+   <logger category="org.rhq.plugins.jbossas5.ApplicationServerComponent">
+      <level name="FATAL"/>
+   </logger>
+
    <!-- ======================= -->
    <!-- Setup the Root category -->
    <!-- ======================= -->
 
-   <root>
-      <!-- 
-         Set the root logger priority via a system property. Note this is parsed by log4j,
-         so the full JBoss system property format is not supported; e.g.
-         setting a default via ${jboss.server.log.threshold:WARN} will not work.         
-       -->
-      <priority value="${jboss.server.log.threshold}"/>
-      <appender-ref ref="CONSOLE"/>
-      <appender-ref ref="FILE"/>
-   </root>
+   <root-logger>
+      <!-- Set the root logger priority via a system property, with a default value. -->
+      <level name="${jboss.server.log.threshold:@cargo.logging@}"/>
+      <handlers>
+         <handler-ref name="CONSOLE"/>
+         <handler-ref name="FILE"/>
+      </handlers>
+   </root-logger>
 
-</log4j:configuration>
+</logging>

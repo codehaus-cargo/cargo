@@ -125,7 +125,7 @@
                <property name="description">Socket for dynamic class and resource loading</property>
             </bean>
 
-            <!-- Remoting Connector -->
+            <!-- Remoting 2 Connector -->
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">UnifiedInvokerConnector</property>
                <property name="port">@cargo.jboss.remoting.transport.port@</property>
@@ -241,7 +241,7 @@
 
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss.remoting:service=JMXConnectorServer,protocol=rmi</property>
-               <property name="port">@cargo.rmi.port@</property>
+               <property name="port">@cargo.jboss.jrmp.port@</property>
                <property name="description">RMI/JRMP socket for connecting to the JMX MBeanServer</property>
             </bean>
 
@@ -328,6 +328,20 @@
                 <property name="description">SSL socket for HornetQ</property>
             </bean>
 
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+                <property name="serviceName">HornetQ</property>
+                <property name="bindingName">netty-batch-port</property>
+                <property name="port">5455</property>
+                <property name="description">Socket for throughput connection factory</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+                <property name="serviceName">HornetQ</property>
+                <property name="bindingName">netty-ssl-port</property>
+                <property name="port">5446</property>
+                <property name="description">SSL socket for HornetQ</property>
+            </bean>
+
             <!-- ********************* deploy/transaction-jboss-beans.xml ********************** -->
 
             <!-- JBossTS Recovery Manager -->
@@ -390,19 +404,7 @@
             </bean>
             -->
 
-            <!-- ********************* JBoss MQ **************** -->
-
-            <!-- Commented out as JBoss MQ is not installed by default
-                 If you uncomment this and also use jboss.mq:service=InvocationLayer,type=HTTP,
-                 configure the http invocation layer using the jboss.web:service=WebServer binding above
-             -->
-            <!--
-            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
-               <property name="serviceName">jboss.mq:service=InvocationLayer,type=UIL2</property>
-               <property name="port">8093</property>
-               <property name="description">UIL2 socket for JBossMQ</property>
-            </bean>
-            -->
+            <!-- *************** deploy/remoting3-jboss-beans.xml ********** -->
 
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">Remoting</property>
@@ -419,6 +421,164 @@
                <property name="hostName">${jboss.bind.address}</property>
                <property name="description">The port used for SSL (encrypted) Remoting connections</property>
             </bean>
+            
+            <!-- ******** deploy/cluster/jgroups-channelfactory.sar ******** -->
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">udp-bind_port</property>
+               <property name="port">55200</property>
+               <property name="hostName">${jboss.jgroups.bind.address,jboss.bind.address}</property>
+               <property name="description">The port used for the JGroups 'udp' stack</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">udp-mcast</property>
+               <property name="hostName">${jboss.partition.udpGroup:230.0.0.4}</property>
+               <property name="port">45688</property>
+               <property name="description">Multicast socket on which JGroups 'udp' stack communicates</property>
+               <!-- This address should not be changed between different 
+                    binding sets; all nodes need to listen on the same 
+                    multicast address -->
+               <property name="fixedHostName">true</property>
+               <!-- This port should not be changed between different 
+                    binding sets; all nodes need to listen on the same port -->
+               <property name="fixedPort">true</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">udp-fd_sock</property>
+               <property name="port">54200</property>
+               <property name="hostName">${jboss.jgroups.bind.address,jboss.bind.address}</property>
+               <property name="description">The port used by the FD_SOCK protocol in the JGroups 'udp' stack</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">tcp-bind_port</property>
+               <property name="port">7600</property>
+               <property name="hostName">${jboss.jgroups.bind.address,jboss.bind.address}</property>
+               <property name="description">The port used for the JGroups 'tcp' stack</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">tcp-mping</property>
+               <property name="hostName">${jboss.partition.udpGroup:230.0.0.4}</property>
+               <property name="port">45700</property>
+               <property name="description">Multicast socket on which JGroups 'tcp' stack performs discovery</property>
+               <!-- This address should not be changed between different 
+                    binding sets; all nodes need to listen on the same 
+                    multicast address -->
+               <property name="fixedHostName">true</property>
+               <!-- This port should not be changed between different 
+                    binding sets; all nodes need to listen on the same port -->
+               <property name="fixedPort">true</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">tcp-fd_sock</property>
+               <property name="port">57600</property>
+               <property name="hostName">${jboss.jgroups.bind.address,jboss.bind.address}</property>
+               <property name="description">The port used by the FD_SOCK protocol in the JGroups 'udp' stack</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">diagnostics</property>
+               <property name="hostName">224.0.75.75</property>
+               <property name="port">7500</property>
+               <property name="description">Multicast socket on which JGroups listens for diagnostic requests from its Probe utility</property>
+               <!-- This address should not be changed between different 
+                    binding sets; all nodes need to listen on the same 
+                    multicast address -->
+               <property name="fixedHostName">true</property>
+               <!-- This port should not be changed between different 
+                    binding sets; all nodes need to listen on the same port -->
+               <property name="fixedPort">true</property>
+            </bean>
+<!-- 
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">udp_async-bind_port</property>
+               <property name="port">55225</property>
+               <property name="hostName">${jboss.jgroups.bind.address,jboss.bind.address}</property>
+               <property name="description">The port used for the JGroups 'udp_async' stack</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">udp_async-fd_sock</property>
+               <property name="port">54225</property>
+               <property name="hostName">${jboss.jgroups.bind.address,jboss.bind.address}</property>
+               <property name="description">The port used by the FD_SOCK protocol in the JGroups 'udp-async' stack</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">udp_sync-bind_port</property>
+               <property name="port">55250</property>
+               <property name="hostName">${jboss.jgroups.bind.address,jboss.bind.address}</property>
+               <property name="description">The port used for the JGroups 'udp_sync' stack</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">udp_sync-fd_sock</property>
+               <property name="port">54250</property>
+               <property name="hostName">${jboss.jgroups.bind.address,jboss.bind.address}</property>
+               <property name="description">The port used by the FD_SOCK protocol in the JGroups 'udp-sync' stack</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">tcp_sync-bind_port</property>
+               <property name="port">7650</property>
+               <property name="hostName">${jboss.jgroups.bind.address,jboss.bind.address}</property>
+               <property name="description">The port used for the JGroups 'tcp_sync' stack</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">tcp_sync-fd_sock</property>
+               <property name="port">57650</property>
+               <property name="hostName">${jboss.jgroups.bind.address,jboss.bind.address}</property>
+               <property name="description">The port used by the FD_SOCK protocol in the JGroups 'tcp-sync' stack</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">udp_async-mcast</property>
+               <property name="hostName">${jboss.partition.udpGroup:230.0.0.4}</property>
+               <property name="port">45689</property>
+               <property name="description">Multicast socket on which JGroups 'udp-async' stack communicates</property>
+               <property name="fixedHostName">true</property>
+               <property name="fixedPort">true</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">udp_sync-mcast</property>
+               <property name="hostName">${jboss.partition.udpGroup:230.0.0.4}</property>
+               <property name="port">45699</property>
+               <property name="description">Multicast socket on which JGroups 'udp-sync' stack communicates</property>
+               <property name="fixedHostName">true</property>
+               <property name="fixedPort">true</property>
+            </bean>
+
+            <bean class="org.jboss.services.binding.ServiceBindingMetadata">
+               <property name="serviceName">JGroups</property>
+               <property name="bindingName">tcp_sync-mping</property>
+               <property name="hostName">${jboss.partition.udpGroup:230.0.0.4}</property>
+               <property name="port">45701</property>
+               <property name="description">Multicast socket on which JGroups 'tcp-sync' stack performs discovery</property>
+               <property name="fixedHostName">true</property>
+               <property name="fixedPort">true</property>
+            </bean>
+-->            
          </set>
          </parameter>
       </constructor>
@@ -448,6 +608,18 @@
                         <value-factory bean="ServiceBindingManager" method="getIntBinding">
                              <parameter>HornetQ</parameter>
                              <parameter>netty-port</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+              <!-- HornetQ netty throughput connector -->
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>hornetq.remoting.netty.batch.port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>HornetQ</parameter>
+                             <parameter>netty-batch-port</parameter>
                         </value-factory>
                      </parameter>
                   </constructor>
@@ -500,6 +672,258 @@
                      </parameter>
                   </constructor>
                </bean>
+               
+               <!-- JGroups -->
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.udp.bind_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>udp-bind_port</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.udp.mcast_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>udp-mcast</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.udp.mcast_addr</parameter>
+                     <parameter class="java.lang.String">
+                        <value-factory bean="ServiceBindingManager" method="getStringBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>udp-mcast</parameter>
+                             <parameter><null/></parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.udp.fd_sock_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>udp-fd_sock</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.tcp.tcp_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>tcp-bind_port</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.tcp.mping_mcast_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>tcp-mping</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.tcp.mping_mcast_addr</parameter>
+                     <parameter class="java.lang.String">
+                        <value-factory bean="ServiceBindingManager" method="getStringBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>tcp-mping</parameter>
+                             <parameter><null/></parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.tcp.fd_sock_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>tcp-fd_sock</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.diagnostics_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>diagnostics</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.diagnostics_addr</parameter>
+                     <parameter class="java.lang.String">
+                        <value-factory bean="ServiceBindingManager" method="getStringBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>diagnostics</parameter>
+                             <parameter><null/></parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+<!--                <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.udp_async.bind_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>udp_async-bind_port</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.udp_sync.bind_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>udp_sync-bind_port</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.tcp_sync.tcp_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>tcp_sync-bind_port</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.udp_async.mcast_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>udp_async-mcast</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.udp_async.mcast_addr</parameter>
+                     <parameter class="java.lang.String">
+                        <value-factory bean="ServiceBindingManager" method="getStringBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>udp_async-mcast</parameter>
+                             <parameter><null/></parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.udp_async.fd_sock_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>udp_async-fd_sock</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.udp_sync.mcast_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>udp_sync-mcast</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.udp_sync.mcast_addr</parameter>
+                     <parameter class="java.lang.String">
+                        <value-factory bean="ServiceBindingManager" method="getStringBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>udp_sync-mcast</parameter>
+                             <parameter><null/></parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.udp_sync.fd_sock_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>udp_sync-fd_sock</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.tcp_sync.mping_mcast_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>tcp_sync-mping</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.tcp_sync.mping_mcast_addr</parameter>
+                     <parameter class="java.lang.String">
+                        <value-factory bean="ServiceBindingManager" method="getStringBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>tcp_sync-mping</parameter>
+                             <parameter><null/></parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+               <bean class="org.jboss.services.binding.SystemPropertyBinding">
+                  <constructor>
+                     <parameter>jboss.jgroups.tcp_sync.fd_sock_port</parameter>
+                     <parameter class="int">
+                        <value-factory bean="ServiceBindingManager" method="getIntBinding">
+                             <parameter>JGroups</parameter>
+                             <parameter>tcp_sync-fd_sock</parameter>
+                        </value-factory>
+                     </parameter>
+                  </constructor>
+               </bean>
+-->               
+               
             </set>
          </parameter>
       </constructor>

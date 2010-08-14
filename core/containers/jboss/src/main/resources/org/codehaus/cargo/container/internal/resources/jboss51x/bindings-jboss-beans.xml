@@ -248,7 +248,7 @@
 
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss.remoting:service=JMXConnectorServer,protocol=rmi</property>
-               <property name="port">1090</property>
+               <property name="port">@cargo.jboss.jrmp.port@</property>
                <property name="description">RMI/JRMP socket for connecting to the JMX MBeanServer</property>
             </bean>
 

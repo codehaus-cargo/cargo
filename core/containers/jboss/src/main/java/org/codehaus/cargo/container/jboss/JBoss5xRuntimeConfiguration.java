@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.jboss;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss5xRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
 
 /**
@@ -34,6 +35,15 @@ public class JBoss5xRuntimeConfiguration extends AbstractRuntimeConfiguration
      * Capability of the JBoss runtime configuration.
      */
     private static ConfigurationCapability capability = new JBoss5xRuntimeConfigurationCapability();
+
+    /**
+     * Set the default values for various port numbers.
+     */
+    public JBoss5xRuntimeConfiguration()
+    {
+        setProperty(GeneralPropertySet.HOSTNAME, "localhost");
+        setProperty(GeneralPropertySet.RMI_PORT, "1099");
+    }
 
     /**
      * {@inheritDoc}

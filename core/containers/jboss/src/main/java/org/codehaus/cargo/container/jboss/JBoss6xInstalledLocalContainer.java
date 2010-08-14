@@ -41,7 +41,7 @@ public class JBoss6xInstalledLocalContainer extends AbstractJBoss5xInstalledLoca
 
     /**
      * {@inheritDoc}
-     * @see AbstractJBossInstalledLocalContainer#AbstractJBossInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see AbstractJBoss5xInstalledLocalContainer#AbstractJBoss5xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public JBoss6xInstalledLocalContainer(LocalConfiguration configuration)
     {
@@ -79,7 +79,8 @@ public class JBoss6xInstalledLocalContainer extends AbstractJBoss5xInstalledLoca
         java.createArg().setValue(
             "--server=service:jmx:rmi:///jndi/rmi://" 
                 + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
-                + getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT) + "/jmxrmi");
+                + getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_JRMP_PORT)
+                + "/jmxrmi");
         
         String jbossUser = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_USER);
         String jbossPassword = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_PASSWORD);
