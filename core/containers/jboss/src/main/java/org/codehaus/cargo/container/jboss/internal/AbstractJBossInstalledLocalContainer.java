@@ -159,7 +159,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             // JBoss stop is not synchronous, therefore sleep a bit after the
             // CARGO ping component has stopped in order to allow some time for
             // the server to stop completely
-            Thread.sleep(10000);
+            Thread.sleep(20000);
         }
     }
 
