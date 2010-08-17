@@ -27,6 +27,8 @@ package org.codehaus.cargo.container.jboss;
  */
 public class JBoss42xStandaloneLocalConfiguration extends JBossStandaloneLocalConfiguration
 {
+    /* The existence of this implementation is due to that JBoss 4.2.x used to require specific
+       handling, which has now been removed/refactored. */
 
     /**
      * {@inheritDoc}
@@ -35,6 +37,5 @@ public class JBoss42xStandaloneLocalConfiguration extends JBossStandaloneLocalCo
     public JBoss42xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
-        this.logFileName = "jboss-log4j.xml";
     }
 }

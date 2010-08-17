@@ -87,6 +87,8 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             "jboss.server.lib.url",
             new File(getLibDir(getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)))
                 .toURI().toURL().toString()));
+        java.addSysproperty(getAntUtils().createSysProperty("jboss.server.log.threshold",
+            getJBossLogLevel(getConfiguration().getPropertyValue(GeneralPropertySet.LOGGING))));
 
         // CARGO-758: To allow JBoss to be accessed from remote machines,
         // it must be started with the arguments -b 0.0.0.0 or --host 0.0.0.0
@@ -330,4 +332,33 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             }
         }
     }
+    
+    /**
+     * Translate Cargo logging levels into JBoss logging levels. The default implementation
+     * is for log4j, but can be overridden by a sub-class should JBoss change logging framework.
+     * 
+     * @param cargoLogLevel Cargo logging level
+     * @return the corresponding JBoss (log4j) logging level
+     */
+    protected String getJBossLogLevel(String cargoLogLevel)
+    {
+        String returnVal = "INFO";
+
+        if (cargoLogLevel == null || cargoLogLevel.trim().equals("")
+            || cargoLogLevel.equalsIgnoreCase("medium"))
+        {
+            // accept default of medium/Info
+        }
+        else if (cargoLogLevel.equalsIgnoreCase("low"))
+        {
+            returnVal = "WARN";
+        }
+        else if (cargoLogLevel.equalsIgnoreCase("high"))
+        {
+            returnVal = "DEBUG";
+        }
+
+        return returnVal;
+    }
+
 }

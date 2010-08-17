@@ -130,10 +130,8 @@ public class JBoss51xStandaloneLocalConfiguration extends JBossStandaloneLocalCo
             String farmDir = getFileHandler().createDirectory(getHome(), "/farm");        
         }
        
-        String[] configFiles = new String[] {"jboss-log4j.xml", "jboss-service.xml"};
-        
         // Copy configuration files from cargo resources directory with token replacement
-        String[] cargoConfigFiles = new String[] {"jboss-log4j.xml", "jboss-service.xml"};
+        String[] cargoConfigFiles = new String[] {"jboss-service.xml"};
         for (String cargoConfigFile : cargoConfigFiles)
         {
             getResourceUtils().copyResource(
@@ -145,7 +143,7 @@ public class JBoss51xStandaloneLocalConfiguration extends JBossStandaloneLocalCo
         // that already copied from cargo resources folder
         copyExternalResources(new File(jbossContainer
                 .getConfDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(confDir),
-                configFiles);
+                cargoConfigFiles);
         
         // Copy the files within the JBoss Deploy directory to the cargo deploy directory
         copyExternalResources(

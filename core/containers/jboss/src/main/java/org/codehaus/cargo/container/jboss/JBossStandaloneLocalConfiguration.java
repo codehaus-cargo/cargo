@@ -52,11 +52,6 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         new JBossStandaloneLocalConfigurationCapability();
     
     /**
-     * Log file name.
-     */
-    protected String logFileName = "log4j.xml";
-
-    /**
      * JBoss container instance.
      */
     protected JBossInstalledLocalContainer jbossContainer;
@@ -156,10 +151,8 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
             String farmDir = getFileHandler().createDirectory(getHome(), "/farm");        
         }
         
-
         // Copy configuration files from cargo resources directory with token replacement
-        String[] cargoFiles = new String[] {"cargo-binding.xml", this.logFileName,
-            "jboss-service.xml"};
+        String[] cargoFiles = new String[] {"cargo-binding.xml", "jboss-service.xml"};
         for (String cargoFile : cargoFiles)
         {
             getResourceUtils().copyResource(
