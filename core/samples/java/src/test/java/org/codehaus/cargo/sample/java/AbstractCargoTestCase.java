@@ -215,8 +215,6 @@ public class AbstractCargoTestCase extends TestCase
         // delete the previous run's output, if it exists.
         logFile.delete();
         container.setOutput(logFile.getPath());
-        // if we don't set append, the stop command will truncate the logging made during start.
-        container.setAppend(true);
         container.setTimeout(getTestData().containerTimeout);
     }
 

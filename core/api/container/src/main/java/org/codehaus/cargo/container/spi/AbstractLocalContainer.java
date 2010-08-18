@@ -44,9 +44,12 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * Whether output of the container should be appended to an existing file,
-     * or the existing file should be truncated.
+     * or the existing file should be truncated.<br/>
+     * <br/>
+     * The default value for this is <code>true</code>, see the JIRA issue:
+     * https://jira.codehaus.org/browse/CARGO-520
      */
-    private boolean append;
+    private boolean append = true;
 
     /**
      * Default timeout for starting/stopping the container.
