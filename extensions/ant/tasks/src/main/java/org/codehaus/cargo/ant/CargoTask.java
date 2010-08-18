@@ -546,11 +546,7 @@ public class CargoTask extends Task
         if (getOutput() != null)
         {
             ((LocalContainer) getContainer()).setOutput(getOutput());
-        }
-
-        if (isAppend())
-        {
-            ((LocalContainer) getContainer()).setAppend(true);
+            ((LocalContainer) getContainer()).setAppend(isAppend());
         }
     }
 
