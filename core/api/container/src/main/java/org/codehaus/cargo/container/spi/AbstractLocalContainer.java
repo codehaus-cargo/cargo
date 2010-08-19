@@ -46,7 +46,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      * Whether output of the container should be appended to an existing file,
      * or the existing file should be truncated.
      */
-    private boolean append = false;
+    private boolean append;
 
     /**
      * Default timeout for starting/stopping the container.
@@ -75,6 +75,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      */
     public AbstractLocalContainer(LocalConfiguration configuration)
     {
+        this.append = false;
         this.configuration = configuration;
         this.fileHandler = new DefaultFileHandler();
     }
