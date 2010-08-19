@@ -44,12 +44,9 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * Whether output of the container should be appended to an existing file,
-     * or the existing file should be truncated.<br/>
-     * <br/>
-     * The default value for this is <code>true</code>, see the JIRA issue:
-     * https://jira.codehaus.org/browse/CARGO-520
+     * or the existing file should be truncated.
      */
-    private boolean append = true;
+    private boolean append = false;
 
     /**
      * Default timeout for starting/stopping the container.
@@ -194,8 +191,13 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         getLogger().info(getName() + " is stopping...", this.getClass().getName());
         setState(State.STOPPING);
 
+        final boolean isAppend = isAppend();
+
         try
         {
+            // CARGO-520: Always set append to "true" when stopping
+            setAppend(true);
+
             stopInternal();
 
             // CARGO-712: If timeout is 0, don't wait at all
@@ -211,6 +213,10 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
             throw new ContainerException("Failed to stop the " + getName() + " container."
                 + ((getOutput() == null) ? "" : " Check the [" + getOutput() + "] file "
                 + "containing the container logs for more details."), e);
+        }
+        finally
+        {
+            setAppend(isAppend);
         }
 
         setState(State.STOPPED);
