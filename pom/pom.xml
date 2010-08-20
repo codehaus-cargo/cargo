@@ -266,16 +266,6 @@
     <url>http://codehaus.org/</url>
   </organization>
   <distributionManagement>
-    <repository>
-      <id>cargo-release</id>
-      <name>Cargo's release repository</name>
-      <url>dav:https://dav.codehaus.org/repository/cargo/</url>
-    </repository>
-    <snapshotRepository>
-      <id>cargo-snapshot</id>
-      <name>Cargo's snapshot repository</name>
-      <url>dav:https://dav.codehaus.org/snapshots.repository/cargo/</url>
-    </snapshotRepository>
     <site>
       <id>cargo-website</id>
       <url>dav:https://dav.codehaus.org/cargo/maven-site/</url>
