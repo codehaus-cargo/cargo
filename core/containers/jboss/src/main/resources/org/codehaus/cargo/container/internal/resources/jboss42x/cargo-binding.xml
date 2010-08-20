@@ -36,7 +36,7 @@
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate"
          >
          <delegate-config portName="ServerBindPort"/>
-         <binding port="4445"/>
+         <binding port="@cargo.jboss.invoker.pool.port@"/>
       </service-config>
 
 

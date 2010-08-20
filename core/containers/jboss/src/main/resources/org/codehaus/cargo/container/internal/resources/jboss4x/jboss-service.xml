@@ -324,7 +324,7 @@
       <attribute name="ClientMaxPoolSize">300</attribute>
       <attribute name="SocketTimeout">60000</attribute>
       <attribute name="ServerBindAddress">${jboss.bind.address}</attribute>
-      <attribute name="ServerBindPort">4445</attribute>
+      <attribute name="ServerBindPort">@cargo.jboss.invoker.pool.port@</attribute>
       <attribute name="ClientConnectAddress">${jboss.bind.address}</attribute>
       <attribute name="ClientConnectPort">0</attribute>
       <attribute name="EnableTcpNoDelay">false</attribute>

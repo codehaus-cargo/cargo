@@ -67,6 +67,11 @@ public interface JBossPropertySet
     String JBOSS_JRMP_INVOKER_PORT = "cargo.jboss.jrmp.invoker.port";
 
     /**
+     * The port used for the invoker pool.
+     */
+    String JBOSS_INVOKER_POOL_PORT = "cargo.jboss.invoker.pool.port";
+
+    /**
      * The port used for the JBoss remoting transport connector.
      */
     String JBOSS_REMOTING_TRANSPORT_PORT = "cargo.jboss.remoting.transport.port";

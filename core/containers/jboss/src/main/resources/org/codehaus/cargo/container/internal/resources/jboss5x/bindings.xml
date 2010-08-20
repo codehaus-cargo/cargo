@@ -109,7 +109,7 @@
             <!-- Pooled invoker -->
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss:service=invoker,type=pooled</property>
-               <property name="port">4445</property>
+               <property name="port">@cargo.jboss.invoker.pool.port@</property>
             </bean>
 
             <!-- ********************* deploy/cluster/hajndi-service.xml ****************** -->
