@@ -40,7 +40,7 @@ public class JBossStandaloneLocalConfigurationCapability extends
     /**
      * JBoss-specific configuration Map.
      */
-    private Map propertySupportMap;
+    protected Map propertySupportMap;
 
     /**
      * Initialize JBoss-specific configuration Map.
@@ -61,6 +61,7 @@ public class JBossStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(JBossPropertySet.JBOSS_JRMP_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT,
             Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT,

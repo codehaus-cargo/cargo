@@ -72,6 +72,11 @@ public interface JBossPropertySet
     String JBOSS_REMOTING_TRANSPORT_PORT = "cargo.jboss.remoting.transport.port";
 
     /**
+     * The port used for the JBoss EJB3 remoting.
+     */
+    String JBOSS_EJB3_REMOTING_PORT = "cargo.jboss.ejb3.remoting.port";
+
+    /**
      * The port used for the JBossTS Recovery Manager.
      */
     String JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT =

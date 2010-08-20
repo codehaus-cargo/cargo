@@ -136,6 +136,10 @@
                 <value>${cargo.samples.jboss.remoting.transport.port}</value>
               </property>
               <property>
+                <name>cargo.jboss.ejb3.remoting.port</name>
+                <value>${cargo.samples.jboss.ejb3.remoting.port}</value>
+              </property>
+              <property>
                 <name>cargo.jboss.transaction.recoveryManager.port</name>
                 <value>${cargo.samples.jboss.transaction.recoveryManager.port}</value>
               </property>
@@ -812,6 +816,7 @@
                 <portName>cargo.samples.jboss.jrmp.port</portName>
                 <portName>cargo.samples.jboss.jrmp.invoker.port</portName>
                 <portName>cargo.samples.jboss.remoting.transport.port</portName>
+                <portName>cargo.samples.jboss.ejb3.remoting.port</portName>
                 <portName>cargo.samples.jboss.transaction.recoveryManager.port</portName>
                 <portName>cargo.samples.jboss.transaction.statusManager.port</portName>
                 <portName>cargo.samples.jboss.remotedeploy.port</portName>

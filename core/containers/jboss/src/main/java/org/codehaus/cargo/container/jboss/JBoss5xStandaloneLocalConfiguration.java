@@ -150,8 +150,16 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
                 RESOURCE_PATH + jbossContainer.getId() + "/" + cargoConfigBootstrapFile,
                 new File(confBootstrapDir, cargoConfigBootstrapFile), filterChain);
         }
-
-               
+        
+        // Copy deploy configuration files from cargo resources directory with token replacement
+        String[] cargoConfigDeployFiles = new String[] {"ejb3-connectors-jboss-beans.xml"};
+        for (String cargoConfigDeployFile : cargoConfigDeployFiles)
+        {
+            getResourceUtils().copyResource(
+                RESOURCE_PATH + jbossContainer.getId() + "/" + cargoConfigDeployFile,
+                new File(deployDir, cargoConfigDeployFile), filterChain);
+        }
+        
         // Copy resources from jboss installation folder and exclude files
         // that already copied from cargo resources folder
         copyExternalResources(new File(jbossContainer
@@ -163,7 +171,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
         copyExternalResources(
                  new File(jbossContainer
                  .getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(
-                     deployDir), new String[0]);
+                     deployDir), cargoConfigDeployFiles);
         
         // Copy the files within the JBoss Deployers directory to the cargo deployers directory
         copyExternalResources(
