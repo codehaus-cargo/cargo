@@ -36,8 +36,6 @@ import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasLocalDeployerValidator;
 
 import java.net.URL;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Validates local hot deployment of WAR archives.
@@ -55,15 +53,11 @@ public class WarAndDeployerCapabilityContainerTest extends AbstractCargoTestCase
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that run on local containers supporting WAR deployments using a local Deployer");
 
-        // We exclude tomcat7x container as because of Tomcat 7.0.0 bug 49536.
-        Set excludedContainerIds = new TreeSet();
-        excludedContainerIds.add("tomcat7x");
-
         suite.addTestSuite(WarAndDeployerCapabilityContainerTest.class, new Validator[] {
             new IsLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),
             new HasWarSupportValidator(),
-            new HasLocalDeployerValidator()}, excludedContainerIds);
+            new HasLocalDeployerValidator()});
         return suite;
     }
     

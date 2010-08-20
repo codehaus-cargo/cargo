@@ -218,7 +218,7 @@
 
               <property>
                 <name>cargo.tomcat7x.url</name>
-                <value>http://mirror.veriportal.com/apache/tomcat/tomcat-7/v7.0.0-beta/bin/apache-tomcat-7.0.0.zip</value>
+                <value>http://mirror.veriportal.com/apache/tomcat/tomcat-7/v7.0.2-beta/bin/apache-tomcat-7.0.2.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat7x.java.home</name>
