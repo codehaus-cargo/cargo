@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import org.apache.tools.ant.util.StringUtils;
 
@@ -98,7 +99,12 @@ public final class PropertyUtils
     {
         Properties properties = new Properties();
 
-        String newLineSeparated = toSplit.replace(delimiter, '\n');
+        // Be careful on double-escapes since escapeBackSlashesIfNotNull is always called before.
+        String toSplitHalfEscaped = toSplit.replace("\\\\" + delimiter, "\\" + delimiter);
+
+        // CARGO-829: Allow escaping of delimiter in property values using the \ character.
+        String newLineSeparated = toSplitHalfEscaped.replaceAll("([^\\\\])"
+            + Pattern.quote(String.valueOf(delimiter)), "$1\n");
 
         try
         {

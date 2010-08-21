@@ -188,6 +188,19 @@ public class PropertyUtilsTest extends TestCase
     
     public void testCanEscapeWindowsSlashes()
     {
-        assertEquals("c:\test", PropertyUtils.escapeBackSlashesIfNotNull("c:\test"));
+        assertEquals("c:\\\\test", PropertyUtils.escapeBackSlashesIfNotNull("c:\\test"));
+    }
+
+    public void testSplitEscapedSemicolons()
+    {
+        Properties inner = PropertyUtils.splitPropertiesOnSemicolon(
+            PropertyUtils.escapeBackSlashesIfNotNull(
+                "foo=bar;baz=blorple\\;zot;windows=c:\\test;glorg=gluux"));
+
+        assertEquals(4, inner.size());
+        assertEquals("bar", inner.getProperty("foo"));
+        assertEquals("blorple;zot", inner.getProperty("baz"));
+        assertEquals("gluux", inner.getProperty("glorg"));
+        assertEquals("c:\\test", inner.getProperty("windows"));
     }
 }
