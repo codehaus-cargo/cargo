@@ -203,4 +203,12 @@ public class PropertyUtilsTest extends TestCase
         assertEquals("gluux", inner.getProperty("glorg"));
         assertEquals("c:\\test", inner.getProperty("windows"));
     }
+
+    public void testJoinEscapesSemicolons()
+    {
+        Properties inner = new Properties();
+        inner.setProperty("baz", "blorple;zot");
+
+        assertEquals("baz=blorple\\;zot", PropertyUtils.joinOnSemicolon(inner));
+    }
 }

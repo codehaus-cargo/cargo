@@ -156,6 +156,11 @@ public final class PropertyUtils
             Map.Entry e = (Map.Entry) it.next();
             String key = (String) e.getKey();
             String value = (String) e.getValue();
+            if (value.indexOf(delimiter) != -1)
+            {
+                // CARGO-829: Delimiter in property values are escaped using the \ character.
+                value = value.replace(String.valueOf(delimiter), "\\" + delimiter);
+            }
             buf.append(key);
             buf.append("=");
             buf.append(value);
