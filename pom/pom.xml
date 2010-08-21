@@ -56,6 +56,7 @@
       <organization>Codehaus</organization>
       <roles>
         <role>Java Developer</role>
+        <role>Project Manager</role>
       </roles>
       <timezone>+1</timezone>
     </developer>
@@ -188,6 +189,7 @@
       <organizationUrl>www.redhat.com</organizationUrl>
       <roles>
         <role>Java Developer</role>
+        <role>Project Manager</role>
       </roles>
     </developer>
     <developer>
@@ -198,6 +200,16 @@
       <timezone>0</timezone>
       <roles>
         <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>S. Ali Tokmen</name>
+      <email>nospam@alishomepage.com</email>
+      <id>alitokmen</id>
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+        <role>Project Manager</role>
       </roles>
     </developer>
     <developer>
@@ -259,9 +271,6 @@
     </contributor>
     <contributor>
       <name>Cedric Munger</name>
-    </contributor>
-    <contributor>
-      <name>Savas Ali Tokmen (OW2)</name>
     </contributor>
     <contributor>
       <name>Adriana Danes (OW2)</name>
