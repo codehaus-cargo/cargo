@@ -87,7 +87,7 @@ public class JSR160MBeanServerConnectionFactory implements MBeanServerConnection
         if (username != null && username.trim().length() > 0 && password != null
             && password.trim().length() > 0)
         {
-            Object credentials = new Object[]
+            Object credentials = new String[]
             {
                 username, password
             };
