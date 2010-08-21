@@ -29,6 +29,13 @@
   <packaging>pom</packaging>
   <version>4.5-SNAPSHOT</version>
   <url>http://cargo.codehaus.org</url>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
   <prerequisites>
     <!--
       There are some issues with Maven 2.0.4 that have been fixed in Maven 2.0.5
