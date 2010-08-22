@@ -26,7 +26,9 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.management.Attribute;
 import javax.management.MBeanServerConnection;
+import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
 import org.codehaus.cargo.container.ContainerException;
@@ -132,6 +134,156 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
         {
             throw new IllegalArgumentException("Unsupported Target type: " + targetType);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see org.codehaus.cargo.container.jonas.internal.AbstractJonasRemoteDeployer#deploy(Deployable)
+     */
+    @Override
+    public void deploy(Deployable deployable)
+    {
+        RemoteDeployerConfig config = getConfig();
+        if (config.getClusterName() == null)
+        {
+            MBeanServerConnectionFactory factory = null;
+            try
+            {
+                factory = getMBeanServerConnectionFactory();
+                MBeanServerConnection mbsc = factory.getServerConnection(configuration);
+
+                ObjectName depmonitorServiceMBeanName = getDepmonitorServiceMBeanName(
+                    config.getDomainName());
+
+                Boolean development = (Boolean) mbsc.getAttribute(depmonitorServiceMBeanName,
+                    "development");
+
+                mbsc.setAttribute(depmonitorServiceMBeanName, new Attribute("development",
+                    Boolean.FALSE));
+
+                try
+                {
+                    super.deploy(deployable);
+                }
+                finally
+                {
+                    mbsc.setAttribute(depmonitorServiceMBeanName, new Attribute("development",
+                        development));
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex instanceof ContainerException)
+                {
+                    throw (ContainerException) ex;
+                }
+
+                throw new ContainerException("Deployment error", ex);
+            }
+            finally
+            {
+                if (factory != null)
+                {
+                    factory.destroy();
+                }
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see org.codehaus.cargo.container.jonas.internal.AbstractJonasRemoteDeployer#undeploy(Deployable)
+     */
+    @Override
+    public void undeploy(Deployable deployable)
+    {
+        RemoteDeployerConfig config = getConfig();
+        if (config.getClusterName() == null)
+        {
+            MBeanServerConnectionFactory factory = null;
+            try
+            {
+                factory = getMBeanServerConnectionFactory();
+                MBeanServerConnection mbsc = factory.getServerConnection(configuration);
+
+                ObjectName depmonitorServiceMBeanName = getDepmonitorServiceMBeanName(
+                    config.getDomainName());
+
+                Boolean development = (Boolean) mbsc.getAttribute(depmonitorServiceMBeanName,
+                    "development");
+
+                mbsc.setAttribute(depmonitorServiceMBeanName, new Attribute("development",
+                    Boolean.FALSE));
+
+                try
+                {
+                    super.undeploy(deployable);
+
+                    if (development)
+                    {
+                        getLogger().info(
+                            "The target JOnAS server is running in development mode. "
+                            + "CARGO will now delete the undeployed module.",
+                            this.getClass().getName());
+
+                        ObjectName serverMBeanName = getServerMBeanName(config.getDomainName(),
+                            config.getServerName());
+
+                        String remoteFileName = getRemoteFileName(deployable,
+                            config.getDeployableIdentifier(), true);
+
+                        mbsc.invoke(serverMBeanName, "removeModuleFile", new Object[]
+                        {
+                            remoteFileName
+                        }, new String[]
+                        {
+                            String.class.getName()
+                        });
+                    }
+                }
+                finally
+                {
+                    mbsc.setAttribute(depmonitorServiceMBeanName, new Attribute("development",
+                        development));
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex instanceof ContainerException)
+                {
+                    throw (ContainerException) ex;
+                }
+
+                throw new ContainerException("Deployment error", ex);
+            }
+            finally
+            {
+                if (factory != null)
+                {
+                    factory.destroy();
+                }
+            }
+        }
+    }
+
+    /**
+     * Get the depmonitor service MBean.
+     *
+     * @param domainName domain Name
+     * @return the depmonitor service MBean Name
+     * @throws MalformedObjectNameException throwing when object name is wrong
+     */
+    protected ObjectName getDepmonitorServiceMBeanName(String domainName)
+        throws MalformedObjectNameException
+    {
+        if (domainName == null || domainName.trim().length() == 0)
+        {
+            throw new MalformedObjectNameException("Empty domain name provided");
+        }
+
+        return new ObjectName(domainName + ":type=service,name=depmonitor");
     }
 
     /**
