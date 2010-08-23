@@ -23,10 +23,13 @@
 package org.codehaus.cargo.container.jonas.internal;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.management.Attribute;
+import javax.management.AttributeNotFoundException;
+import javax.management.JMException;
 import javax.management.MBeanServerConnection;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
@@ -156,10 +159,13 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                 ObjectName depmonitorServiceMBeanName = getDepmonitorServiceMBeanName(
                     config.getDomainName());
 
-                Boolean development = (Boolean) mbsc.getAttribute(depmonitorServiceMBeanName,
-                    "development");
+                String developmentName = getDeploymentAttributeName(depmonitorServiceMBeanName,
+                    mbsc);
 
-                mbsc.setAttribute(depmonitorServiceMBeanName, new Attribute("development",
+                Boolean development = (Boolean) mbsc.getAttribute(depmonitorServiceMBeanName,
+                    developmentName);
+
+                mbsc.setAttribute(depmonitorServiceMBeanName, new Attribute(developmentName,
                     Boolean.FALSE));
 
                 try
@@ -168,7 +174,7 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                 }
                 finally
                 {
-                    mbsc.setAttribute(depmonitorServiceMBeanName, new Attribute("development",
+                    mbsc.setAttribute(depmonitorServiceMBeanName, new Attribute(developmentName,
                         development));
                 }
             }
@@ -211,10 +217,13 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                 ObjectName depmonitorServiceMBeanName = getDepmonitorServiceMBeanName(
                     config.getDomainName());
 
-                Boolean development = (Boolean) mbsc.getAttribute(depmonitorServiceMBeanName,
-                    "development");
+                String developmentName = getDeploymentAttributeName(depmonitorServiceMBeanName,
+                    mbsc);
 
-                mbsc.setAttribute(depmonitorServiceMBeanName, new Attribute("development",
+                Boolean development = (Boolean) mbsc.getAttribute(depmonitorServiceMBeanName,
+                    developmentName);
+
+                mbsc.setAttribute(depmonitorServiceMBeanName, new Attribute(developmentName,
                     Boolean.FALSE));
 
                 try
@@ -245,7 +254,7 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                 }
                 finally
                 {
-                    mbsc.setAttribute(depmonitorServiceMBeanName, new Attribute("development",
+                    mbsc.setAttribute(depmonitorServiceMBeanName, new Attribute(developmentName,
                         development));
                 }
             }
@@ -284,6 +293,34 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
         }
 
         return new ObjectName(domainName + ":type=service,name=depmonitor");
+    }
+
+    /**
+     * Get the attribute name for the "development" attribute. That name depends on the exact
+     * server version (<code>developmentMode</code> on JonAS 5.0.x and 5.1.x,
+     * <code>development</code> on JOnAS 5.2.x and afterwards).
+     *
+     * @param depmonitor Object name of the depmonitor service.
+     * @param mbsc MBean server connection.
+     * @return the attribute name for the "development" attribute.
+     * @throws JMException MBean exception.
+     * @throws IOException Communication exception.
+     */
+    protected String getDeploymentAttributeName(ObjectName depmonitor, MBeanServerConnection mbsc)
+        throws JMException, IOException
+    {
+        try
+        {
+            // JOnAS 5.0.x and 5.1.x
+            mbsc.getAttribute(depmonitor, "developmentMode");
+            return "developmentMode";
+        }
+        catch (AttributeNotFoundException e)
+        {
+            // JOnAS 5.2.x
+            mbsc.getAttribute(depmonitor, "development");
+            return "development";
+        }
     }
 
     /**
