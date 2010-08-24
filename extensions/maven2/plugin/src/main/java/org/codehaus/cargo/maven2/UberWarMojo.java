@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.maven2;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -30,9 +29,10 @@ import java.io.Reader;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-
+import org.apache.maven.archiver.MavenArchiveConfiguration;
+import org.apache.maven.archiver.MavenArchiver;
 import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.installer.ArtifactInstaller;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -41,28 +41,27 @@ import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectBuilder;
+import org.codehaus.cargo.maven2.io.xpp3.UberWarXpp3Reader;
+import org.codehaus.cargo.maven2.merge.MergeWebXml;
+import org.codehaus.cargo.maven2.merge.MergeXslt;
+import org.codehaus.cargo.module.merge.DocumentStreamAdapter;
 import org.codehaus.cargo.module.merge.MergeException;
 import org.codehaus.cargo.module.merge.MergeProcessor;
-
-import org.codehaus.cargo.module.merge.DocumentStreamAdapter;
-import org.codehaus.cargo.module.webapp.WarArchive;
 import org.codehaus.cargo.module.webapp.DefaultWarArchive;
-import org.codehaus.cargo.module.webapp.WebXmlIo;
+import org.codehaus.cargo.module.webapp.merge.MergedWarArchive;
 import org.codehaus.cargo.module.webapp.merge.WarArchiveMerger;
 import org.codehaus.plexus.PlexusConstants;
 import org.codehaus.plexus.PlexusContainer;
+import org.codehaus.plexus.archiver.ArchiverException;
+import org.codehaus.plexus.archiver.jar.ManifestException;
+import org.codehaus.plexus.archiver.war.WarArchiver;
 import org.codehaus.plexus.configuration.PlexusConfiguration;
 import org.codehaus.plexus.context.Context;
 import org.codehaus.plexus.context.ContextException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Contextualizable;
-import org.codehaus.plexus.util.xml.*;
-import org.codehaus.plexus.util.xml.pull.*;
-import org.codehaus.cargo.maven2.io.xpp3.UberWarXpp3Reader;
-import org.codehaus.cargo.maven2.merge.MergeProcessorFactory;
-import org.codehaus.cargo.maven2.merge.MergeWebXml;
-import org.codehaus.cargo.maven2.merge.MergeXslt;
+import org.codehaus.plexus.util.xml.Xpp3Dom;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.jdom.JDOMException;
-import org.xml.sax.SAXException;
 
 /**
  * Build an uberwar
@@ -140,6 +139,14 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
 
 	/** @parameter expression="${project}" */
 	private MavenProject mavenProject;
+
+    /**
+     * The archive configuration to use.
+     * See <a href="http://maven.apache.org/shared/maven-archiver/index.html">Maven Archiver Reference</a>.
+     *
+     * @parameter
+     */
+    private MavenArchiveConfiguration archive = new MavenArchiveConfiguration();
 
 	/** @component */
 	private MavenProjectBuilder mavenProjectBuilder;
@@ -227,18 +234,25 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
                 Merge merge = (Merge)i.next();
                 doMerge( wam, merge );
             }
-
-            //WebXml merge = root.getWebXml();
-            //doWebXmlMerge(wam, merge);
-
+            
+            File assembleDir = new File(this.outputDirectory, this.warName);
             File warFile = new File(this.outputDirectory, this.warName + ".war");
 
-            WarArchive output = (WarArchive) wam.performMerge();
-            output.store(warFile);
+            // Merge to directory
+            MergedWarArchive output = (MergedWarArchive) wam.performMerge();
+            output.merge(assembleDir.getAbsolutePath());
+
+            // Archive to WAR file
+            WarArchiver warArchiver = new WarArchiver();
+            warArchiver.addDirectory(assembleDir);
+            warArchiver.setIgnoreWebxml(false);
+
+            MavenArchiver mar = new MavenArchiver();
+            mar.setArchiver(warArchiver);
+            mar.setOutputFile(warFile);
+            mar.createArchive(mavenProject, archive);
 
             getProject().getArtifact().setFile(warFile);
-
-
         }
         catch(XmlPullParserException e)
         {
@@ -255,6 +269,18 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
         catch (MergeException e)
         {
             throw new MojoExecutionException("Merging exception creating UBERWAR", e);
+        }
+        catch (ArchiverException e)
+        {
+            throw new MojoExecutionException("Archiver exception creating UBERWAR", e);
+        }
+        catch (ManifestException e)
+        {
+            throw new MojoExecutionException("Manifest exception creating UBERWAR", e);
+        }
+        catch (DependencyResolutionRequiredException e)
+        {
+            throw new MojoExecutionException("Dependency resolution exception creating UBERWAR", e);
         }
         
     }
