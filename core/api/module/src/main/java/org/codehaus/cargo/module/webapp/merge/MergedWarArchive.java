@@ -183,14 +183,37 @@ public class MergedWarArchive implements WarArchive
     }
 
     /**
-     * The actual merging takes place on the store() method, which writes combined
-     * archive out into the new location.
+     * Here we do actual merge and store resulting war file into the new location.
      * {@inheritDoc}
-     * @throws JDOMException 
+     * @see {@link #merge(String)}
      * @see org.codehaus.cargo.module.webapp.WarArchive#store(java.io.File)
      */
     public void store(File warFile) throws MergeException, IOException, 
         JDOMException
+    {
+        DefaultFileHandler fileHandler = new DefaultFileHandler();
+        
+        // Create place for merge
+        String assembleDir = fileHandler.createUniqueTmpDirectory();
+        
+        // Do actual merge
+        merge(assembleDir);
+        
+        // Create a jar file
+        new JarUtils().createJarFromDirectory(assembleDir, warFile);
+
+        // Delete temp directory.
+        fileHandler.delete(assembleDir);
+    }
+
+    /**
+     * Here we write combined archive file structure out into the new location.
+     * @param assembleDir target directory to write to
+     * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
+     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
+     * @throws MergeException If one of merge processors fails
+     */
+    public void merge(String assembleDir) throws MergeException, IOException, JDOMException
     {
         DefaultFileHandler fileHandler = new DefaultFileHandler();
 
@@ -198,8 +221,6 @@ public class MergedWarArchive implements WarArchive
         WebXml mergedWebXml = getWebXml();
 
         // 2. Expand everything in order somewhere temporary
-        String assembleDir = fileHandler.createUniqueTmpDirectory();
-
         expandToPath(assembleDir);
 
         if (!mergeJarFiles)
@@ -223,14 +244,6 @@ public class MergedWarArchive implements WarArchive
             .getAbsolutePath(), File.separator + "WEB-INF"));
 
         executeMergeProcessors(new File(assembleDir));
-
-        JarUtils jarUtils = new JarUtils();
-
-        // Create a jar file
-        jarUtils.createJarFromDirectory(assembleDir, warFile);
-
-        // Delete temp directory.
-        fileHandler.delete(assembleDir);
     }
 
     /**
