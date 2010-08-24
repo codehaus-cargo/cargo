@@ -232,24 +232,27 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
 
                     if (development)
                     {
-                        getLogger().info(
-                            "The target JOnAS server is running in development mode. "
-                            + "CARGO will now delete the undeployed module.",
-                            this.getClass().getName());
-
-                        ObjectName serverMBeanName = getServerMBeanName(config.getDomainName(),
-                            config.getServerName());
-
-                        String remoteFileName = getRemoteFileName(deployable,
+                        String remoteFileName = findRemoteFileName(deployable,
                             config.getDeployableIdentifier(), true);
 
-                        mbsc.invoke(serverMBeanName, "removeModuleFile", new Object[]
+                        if (remoteFileName != null)
                         {
-                            remoteFileName
-                        }, new String[]
-                        {
-                            String.class.getName()
-                        });
+                            getLogger().info(
+                                "The target JOnAS server is running in development mode. "
+                                + "CARGO will now delete the undeployed module.",
+                                this.getClass().getName());
+
+                            ObjectName serverMBeanName = getServerMBeanName(config.getDomainName(),
+                                config.getServerName());
+
+                            mbsc.invoke(serverMBeanName, "removeModuleFile", new Object[]
+                            {
+                                remoteFileName
+                            }, new String[]
+                            {
+                                String.class.getName()
+                            });
+                        }
                     }
                 }
                 finally
@@ -324,12 +327,13 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractJonasRemoteDeployer#getRemoteFileName(Deployable, String, boolean)
+     * Finds a deployable file on the remote server.
+     * @param deployable Deployable to look for.
+     * @param deployableIdentifier Deployable identifier.
+     * @param askFromServer Whether to ask from server, only <code>false</code> during tests.
+     * @return String if found, <code>null</code> if nothing found.
      */
-    @Override
-    protected String getRemoteFileName(Deployable deployable, String deployableIdentifier,
+    protected String findRemoteFileName(Deployable deployable, String deployableIdentifier,
         boolean askFromServer)
     {
         String deployableId = deployableIdentifier;
@@ -412,7 +416,7 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
             }
             catch (Exception ex)
             {
-                throw new ContainerException("Undeployment error", ex);
+                throw new ContainerException("Failed looking for deployable" + deployable, ex);
             }
             finally
             {
@@ -427,10 +431,23 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
             result = localFileName;
         }
 
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see AbstractJonasRemoteDeployer#getRemoteFileName(Deployable, String, boolean)
+     */
+    @Override
+    protected String getRemoteFileName(Deployable deployable, String deployableIdentifier,
+        boolean askFromServer)
+    {
+        String result = this.findRemoteFileName(deployable, deployableIdentifier, askFromServer);
         if (result == null)
         {
-            throw new ContainerException("Cannot find file \"" + localFileName
-                + "\" in JONAS_BASE");
+            throw new ContainerException("Cannot find deployable " + deployable
+                + " in JONAS_BASE");
         }
         return result;
     }
