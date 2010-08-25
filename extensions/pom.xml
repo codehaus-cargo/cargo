@@ -28,11 +28,11 @@
   <name>Cargo Extensions</name>
   <packaging>pom</packaging>
   <description>Cargo Extensions</description>
-  <version>1.0.3</version>
+  <version>1.0.4-SNAPSHOT</version>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/extensions/tags/cargo-extensions-1.0.3</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/tags/cargo-extensions-1.0.3</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/extensions/tags/cargo-extensions-1.0.3</url>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/extensions/trunk</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/trunk</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/extensions/trunk</url>
   </scm>
   <properties>
     <!-- define these variables because of potentially different release cycles -->
