@@ -37,7 +37,7 @@
   <properties>
     <!-- define these variables because of potentially different release cycles -->
     <cargo.resources.version>1.0.3</cargo.resources.version>
-    <cargo.core.version>1.0.3-SNAPSHOT</cargo.core.version>
+    <cargo.core.version>1.0.3</cargo.core.version>
   </properties>
 
   <dependencies>
