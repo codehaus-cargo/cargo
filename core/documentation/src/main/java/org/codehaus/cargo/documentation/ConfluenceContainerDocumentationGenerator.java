@@ -19,6 +19,12 @@
  */
 package org.codehaus.cargo.documentation;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerCapabilityFactory;
@@ -47,10 +53,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 
-import java.util.Map;
-import java.util.Iterator;
-import java.lang.reflect.Field;
-
 /**
  * Generate container documentation using Confluence markup language. The generated text is
  * meant to be copied on the Cargo Confluence web site.
@@ -60,6 +62,39 @@ import java.lang.reflect.Field;
 public class ConfluenceContainerDocumentationGenerator
 {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
+    private static final List<String> JAVA4_CONTAINERS = Arrays.asList(new String[]
+        {
+            "geronimo1x",
+            "jboss3x",
+            "jboss4x",
+            "jetty4x",
+            "jetty5x",
+            "jo1x",
+            "jonas4x",
+            "oc4j9x",
+            "resin2x",
+            "tomcat4x",
+            "tomcat5x",
+            "weblogic8x"
+        });
+
+    private static final List<String> JAVA5_CONTAINERS = Arrays.asList(new String[]
+        {
+            "glassfish2x",
+            "jboss42x",
+            "jboss5x",
+            "jboss51x",
+            "jetty6x",
+            "jetty7x",
+            "jonas5x",
+            "jrun4x",
+            "oc4j10x",
+            "resin3x",
+            "tomcat6x",
+            "weblogic9x",
+            "weblogic10x"
+        });
 
     private ContainerFactory containerFactory = new DefaultContainerFactory();
     private ConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
@@ -594,8 +629,29 @@ public class ConfluenceContainerDocumentationGenerator
                 "[" + findPropertySetFieldName(property) + "|Configuration properties] | ");
             boolean supported = ((Boolean) properties.get(property)).booleanValue();
             output.append(supported ? "(/)" : "(x)");
-            output.append(" | " + (slc.getPropertyValue(property) == null ? "N/A"
-                : slc.getPropertyValue(property)) + " | |");
+            if (GeneralPropertySet.JAVA_HOME.equals(property))
+            {
+                String javaVersion;
+                if (JAVA4_CONTAINERS.contains(containerId))
+                {
+                    javaVersion = "1.4";
+                }
+                else if(JAVA5_CONTAINERS.contains(containerId))
+                {
+                    javaVersion = "1.5";
+                }
+                else
+                {
+                    javaVersion = "1.6";
+                }
+
+                output.append(" | {_}JAVA_HOME version " + javaVersion + " or newer{_} | |");
+            }
+            else
+            {
+                output.append(" | " + (slc.getPropertyValue(property) == null ? "N/A"
+                    : slc.getPropertyValue(property)) + " | |");
+            }
             output.append(LINE_SEPARATOR);
         }
 
