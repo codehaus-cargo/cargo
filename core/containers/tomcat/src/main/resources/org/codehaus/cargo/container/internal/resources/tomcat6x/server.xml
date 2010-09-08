@@ -15,6 +15,7 @@
                redirectPort="8443" 
                scheme="@cargo.protocol@"
                secure="@catalina.secure@"
+               SSLEnabled="@catalina.secure@"
                debug="@catalina.logging.level@"
                emptySessionPath="@catalina.connector.emptySessionPath@"
                URIEncoding="@catalina.servlet.uriencoding@" />
