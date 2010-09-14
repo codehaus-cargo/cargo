@@ -134,8 +134,8 @@ public final class ResourceUtils extends LoggedObject
      *        for system default encoding
      * @throws IOException If an I/O error occurs while copying the resource
      */
-    public void copyResource(String resourceName, File destFile, FilterChain filterChain, String encoding) 
-        throws IOException
+    public void copyResource(String resourceName, File destFile, FilterChain filterChain,
+        String encoding) throws IOException
     {
         copyResource(resourceName, destFile.getPath(), defaultFileHandler, filterChain, encoding);
     }
