@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Vector;
@@ -122,6 +123,24 @@ public final class ResourceUtils extends LoggedObject
     }
     
     /**
+     * Copies a container resource from the JAR into the specified file, thereby applying the 
+     * specified filters.
+     * 
+     * @param resourceName The name of the resource, relative to the
+     *        org.apache.cactus.integration.ant.container package
+     * @param destFile The file to which the contents of the resource should be copied
+     * @param filterChain The ordered list of filter readers that should be applied while copying
+     * @param encoding The encoding that should be used when copying the resource. Use null 
+     *        for system default encoding
+     * @throws IOException If an I/O error occurs while copying the resource
+     */
+    public void copyResource(String resourceName, File destFile, FilterChain filterChain, String encoding) 
+        throws IOException
+    {
+        copyResource(resourceName, destFile.getPath(), defaultFileHandler, filterChain, encoding);
+    }
+       
+    /**
      * Copies a container resource from the JAR into the specified file, using the specified
      * file handler thereby applying the specified filters.
      * 
@@ -135,6 +154,26 @@ public final class ResourceUtils extends LoggedObject
     public void copyResource(String resourceName, String destFile, FileHandler handler,
         FilterChain filterChain) throws IOException
     {
+        copyResource(resourceName, destFile, handler, filterChain, null);
+    }
+       
+    
+    /**
+     * Copies a container resource from the JAR into the specified file, using the specified
+     * file handler thereby applying the specified filters.
+     * 
+     * @param resourceName The name of the resource, relative to the
+     *        org.apache.cactus.integration.ant.container package
+     * @param destFile The file to which the contents of the resource should be copied
+     * @param handler The file handler to be used for file copy
+     * @param filterChain The ordered list of filter readers that should be applied while copying
+     * @param encoding The encoding that should be used when copying the resource. Use null 
+     *        for system default encoding  
+     * @throws IOException If an I/O error occurs while copying the resource
+     */
+    public void copyResource(String resourceName, String destFile, FileHandler handler,
+        FilterChain filterChain, String encoding) throws IOException
+    {
         InputStream resource = ResourceUtils.class.getResourceAsStream(resourceName);
         if (resource == null)
         {
@@ -147,7 +186,7 @@ public final class ResourceUtils extends LoggedObject
         {
             ChainReaderHelper helper = new ChainReaderHelper();
             helper.setBufferSize(8192);
-            helper.setPrimaryReader(new BufferedReader(new InputStreamReader(resource)));
+            helper.setPrimaryReader(new BufferedReader(createReader(resource, encoding)));
             Vector filterChains = new Vector();
             filterChains.add(filterChain);
             helper.setFilterChains(filterChains);
@@ -180,6 +219,29 @@ public final class ResourceUtils extends LoggedObject
                 out.close();
             }
         }
+    }
+    
+    /**
+     * Creates a new InputStreamReader with provide encoding
+     * @param is the stream used to create the reader 
+     * @param encoding the encoding used to create the reader. 
+     *        If it is <tt>null</tt> then the default system encoding
+     *        will be used.
+     * @return a new reader for provided stream and encoding
+     * @throws UnsupportedEncodingException If the named charset is not supported
+     */
+    private InputStreamReader createReader(InputStream is, String encoding) throws UnsupportedEncodingException 
+    {
+        InputStreamReader r;
+        if (encoding != null) 
+        {
+            r = new InputStreamReader(is, encoding);
+        } 
+        else 
+        {
+            r = new InputStreamReader(is);
+        }
+        return r;
     }
     
     /**
