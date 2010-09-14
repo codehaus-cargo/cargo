@@ -230,7 +230,8 @@ public final class ResourceUtils extends LoggedObject
      * @return a new reader for provided stream and encoding
      * @throws UnsupportedEncodingException If the named charset is not supported
      */
-    private InputStreamReader createReader(InputStream is, String encoding) throws UnsupportedEncodingException 
+    private InputStreamReader createReader(InputStream is, String encoding)
+        throws UnsupportedEncodingException
     {
         InputStreamReader r;
         if (encoding != null) 
