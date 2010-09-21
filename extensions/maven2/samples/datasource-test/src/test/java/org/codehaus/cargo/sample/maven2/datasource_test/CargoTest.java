@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.sample.ant;
+package org.codehaus.cargo.sample.maven2.datasource_test;
 
 import java.net.URL;
 

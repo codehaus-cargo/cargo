@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.sample.maven2;
+package org.codehaus.cargo.sample.maven2.jetty7x_embedded;
 
 import java.net.URL;
 
@@ -27,14 +27,14 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
-public class DataSourceTest extends TestCase {
+public class JspTest extends TestCase {
 
     Logger logger = new SimpleLogger();
 
-    public void testDataSource() throws Exception {
-        final URL url = new URL("http://localhost:" + System.getProperty("http.port") + "/datasource-war-"
-            + System.getProperty("cargo.resources.version") + "/test");
-        final String expected = "Got connection!";
+    public void testJsp() throws Exception {
+        final URL url = new URL("http://localhost:" + System.getProperty("http.port")
+            + "/simple-war-" + System.getProperty("cargo.resources.version") + "/index.jsp");
+        final String expected = "Sample page for testing";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }

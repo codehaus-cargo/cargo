@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.sample.maven2;
+package org.codehaus.cargo.sample.maven2.datasource_test;
 
 import java.net.URL;
 
@@ -27,13 +27,14 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
-public class CargoTest extends TestCase {
+public class DataSourceTest extends TestCase {
 
     Logger logger = new SimpleLogger();
 
-    public void testCargo() throws Exception {
-        final URL url = new URL("http://localhost:" + System.getProperty("http.port") + "/cargocpc/index.html");
-        final String expected = "Cargo Ping Component used to verify if the container is started.";
+    public void testDataSource() throws Exception {
+        final URL url = new URL("http://localhost:" + System.getProperty("http.port") + "/datasource-war-"
+            + System.getProperty("cargo.resources.version") + "/test");
+        final String expected = "Got connection!";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }
