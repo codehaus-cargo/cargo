@@ -96,12 +96,12 @@ public class JettyArtifactResolver
         jetty5xDependencies.add(new Dependency("commons-logging", "commons-logging", "1.0.4"));
 
         List jetty6xDependencies = new ArrayList();
-        jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jsp-api-2.0", "6.1.1rc1"));
-        jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "servlet-api-2.5", "6.1.1rc1"));
-        jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jetty", "6.1.1rc1"));
-        jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jetty-util", "6.1.1rc1"));
-        jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jetty-naming", "6.1.1rc1"));
-        jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jetty-plus", "6.1.1rc1"));
+        jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jsp-api-2.0", "6.1.25"));
+        jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "servlet-api-2.5", "6.1.25"));
+        jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jetty", "6.1.25"));
+        jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jetty-util", "6.1.25"));
+        jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jetty-naming", "6.1.25"));
+        jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jetty-plus", "6.1.25"));
         jetty6xDependencies.add(new Dependency("ant", "ant", "1.6.5"));
         jetty6xDependencies.add(new Dependency("commons-el", "commons-el", "1.0"));
         jetty6xDependencies.add(new Dependency("tomcat", "jasper-compiler", "5.5.15"));
@@ -115,9 +115,38 @@ public class JettyArtifactResolver
         jetty6xDependencies.add(new Dependency("commons-logging", "commons-logging","1.0.4"));
         jetty6xDependencies.add(new Dependency("log4j", "log4j", "1.2.14"));
 
+        List jetty7xDependencies = new ArrayList();
+        jetty7xDependencies.add(new Dependency("javax.servlet", "servlet-api", "2.5"));
+        jetty7xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj", "3.5.1"));
+        jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-continuation",
+            "7.1.6.v20100715"));
+        jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http",
+            "7.1.6.v20100715"));
+        jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io",
+            "7.1.6.v20100715"));
+        jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jsp-2.1",
+            "7.1.6.v20100715"));
+        jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-util",
+            "7.1.6.v20100715"));
+        jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-security",
+            "7.1.6.v20100715"));
+        jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-server",
+            "7.1.6.v20100715"));
+        jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-servlet",
+            "7.1.6.v20100715"));
+        jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-webapp",
+            "7.1.6.v20100715"));
+        jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml",
+            "7.1.6.v20100715"));
+        jetty7xDependencies.add(new Dependency("org.mortbay.jetty", "jsp-2.1-glassfish",
+            "2.1.v20100127"));
+        jetty7xDependencies.add(new Dependency("org.mortbay.jetty", "jsp-api-2.1-glassfish",
+            "2.1.v20100127"));
+
         this.jettyDependencies.put("jetty4x", jetty4xDependencies);
         this.jettyDependencies.put("jetty5x", jetty5xDependencies);
         this.jettyDependencies.put("jetty6x", jetty6xDependencies);
+        this.jettyDependencies.put("jetty7x", jetty7xDependencies);
     }
 
     public ClassLoader resolveDependencies(String jettyContainerId, ClassLoader parent)
