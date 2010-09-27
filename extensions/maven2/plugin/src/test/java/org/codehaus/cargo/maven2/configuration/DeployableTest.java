@@ -179,6 +179,20 @@ public class DeployableTest extends MockObjectTestCase
         assertTrue(location, location.endsWith("projectFinalName.esb"));
     }
 
+    public void testComputeLocationWhenAnyPackagingWithDeployableTypeFile() throws Exception
+    {
+        Deployable deployableElement = new Deployable();
+        deployableElement.setGroupId("projectGroupId");
+        deployableElement.setArtifactId("projectArtifactId");
+        deployableElement.setType("file");
+
+        // Verify that the log warning has not been raised
+        this.mockLog.expects(never()).method("warn");
+
+        String location = deployableElement.computeLocation(createDefaultProject("somerandompackaging", null));
+        assertTrue(location, location.endsWith("projectFinalName.somerandompackaging"));
+    }
+
     /**
      * Setting a Null property is the way Maven2 operates when the user specifies an empty property.
      * We need to verify that the Cargo plugin intercepts that and replaces the Null with an

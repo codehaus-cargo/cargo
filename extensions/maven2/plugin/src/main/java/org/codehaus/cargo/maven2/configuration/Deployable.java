@@ -239,7 +239,8 @@ public class Deployable extends AbstractDependency
             ||  (getType().equalsIgnoreCase("war")
                 && project.getPackaging().equalsIgnoreCase(Deployable.UBERWAR))
             ||  (project.getPackaging().startsWith(Deployable.JBOSS)
-                && getType().equalsIgnoreCase(project.getPackaging().substring(Deployable.JBOSS_STRIP))))
+                && getType().equalsIgnoreCase(project.getPackaging().substring(Deployable.JBOSS_STRIP)))
+            ||  getType().equalsIgnoreCase("file"))
         {
             isMatching = true;
         }
