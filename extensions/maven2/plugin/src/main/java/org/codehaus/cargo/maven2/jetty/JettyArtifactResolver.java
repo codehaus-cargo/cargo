@@ -166,14 +166,14 @@ public class JettyArtifactResolver
                 Artifact artifact = this.artifactFactory.createArtifact(dependency.groupId,
                     dependency.artifactId, dependency.version, "compile", "jar");
                 this.artifactResolver.resolve(artifact, this.repositories, this.localRepository );
-                urls.add(artifact.getFile().toURL());
+                urls.add(artifact.getFile().toURI().toURL());
             }
 
             // On OSX, the tools.jar classes are included in the classes.jar so there is no need to
             // include any tools.jar file to the cp.
             if (!this.jdkUtils.isOSX())
             {
-                urls.add(this.jdkUtils.getToolsJar().toURL());
+                urls.add(this.jdkUtils.getToolsJar().toURI().toURL());
             }
 
             URL[] urlArray = (URL[]) urls.toArray(new URL[urls.size()]);
