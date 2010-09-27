@@ -39,6 +39,7 @@ public class Jonas5xContainerCapability extends Jonas4xContainerCapability
     @Override
     public boolean supportsDeployableType(DeployableType type)
     {
-        return (type == DeployableType.BUNDLE) || super.supportsDeployableType(type);
+        return (type == DeployableType.BUNDLE) || (type == DeployableType.FILE)
+            || super.supportsDeployableType(type);
     }
 }

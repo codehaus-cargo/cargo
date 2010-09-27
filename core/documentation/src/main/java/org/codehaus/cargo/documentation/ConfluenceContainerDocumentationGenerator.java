@@ -437,6 +437,26 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(LINE_SEPARATOR);
 
         if (this.containerCapabilityFactory.createContainerCapability(
+            containerId).supportsDeployableType(DeployableType.FILE))
+        {
+            if (containerId.equals("geronimo1x"))
+            {
+                output.append("| [Static deployment of files]              | (x) | (x) | (x) | (x) "
+                    + "| Geronimo does not support static deployments |");
+            }
+            else
+            {
+                output.append(
+                    "| [Static deployment of files]              | (/) | (/) | (/) | (/) | |");
+            }
+        }
+        else
+        {
+            output.append("| [Static deployment of files]              | (x) | (x) | (x) | (x) | |");
+        }
+        output.append(LINE_SEPARATOR);
+
+        if (this.containerCapabilityFactory.createContainerCapability(
             containerId).supportsDeployableType(DeployableType.BUNDLE))
         {
             if (containerId.equals("geronimo1x"))
