@@ -25,10 +25,8 @@ import java.net.URL;
 import java.util.Iterator;
 
 import org.apache.tools.ant.taskdefs.Java;
-import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.glassfish.GlassFishContainerCapability;
 import org.codehaus.cargo.container.glassfish.GlassFishInstalledLocalDeployer;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
@@ -44,11 +42,6 @@ import org.codehaus.cargo.util.CargoException;
 public abstract class AbstractGlassFishInstalledLocalContainer
     extends AbstractInstalledLocalContainer
 {
-
-    /**
-     * Container capability instance.
-     */
-    private static final ContainerCapability CAPABILITY = new GlassFishContainerCapability();
 
     /**
      * Calls parent constructor, which saves the configuration.
@@ -156,14 +149,6 @@ public abstract class AbstractGlassFishInstalledLocalContainer
             this.getConfiguration().getHome(),
             "cargo-domain"
         });
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public ContainerCapability getCapability()
-    {
-        return CAPABILITY;
     }
 
 }

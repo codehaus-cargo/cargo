@@ -55,6 +55,11 @@ public final class DeployableType
      * The File deployable type.
      */
     public static final DeployableType FILE = new DeployableType("file");
+
+    /**
+     * The OSGi Bundle deployable type.
+     */
+    public static final DeployableType BUNDLE = new DeployableType("bundle");
     
     /**
      * A unique id that identifies a deployable type.
@@ -102,6 +107,10 @@ public final class DeployableType
         else if (typeAsString.equalsIgnoreCase(FILE.type))
         {
             type = FILE;
+        }
+        else if (typeAsString.equalsIgnoreCase(BUNDLE.type))
+        {
+            type = BUNDLE;
         }
         else
         {

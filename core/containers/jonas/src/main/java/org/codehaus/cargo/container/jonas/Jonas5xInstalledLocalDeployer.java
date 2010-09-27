@@ -23,15 +23,17 @@
 package org.codehaus.cargo.container.jonas;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.EJB;
+import org.codehaus.cargo.container.deployable.File;
 import org.codehaus.cargo.container.deployable.RAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.util.FileHandler;
 
 /**
- * Static deployer that deploys WAR, EAR, EJB and RAR to JOnAS.
+ * Static deployer that deploys WAR, EAR, EJB, RAR, File and Bundle to JOnAS.
  * 
  * @version $Id$
  */
@@ -116,6 +118,28 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     public void deployEar(String deployableDir, EAR ear)
     {
         super.deployEar(deployableDir, ear);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see AbstractCopyingInstalledLocalDeployer#deployFile(String, File)
+     */
+    @Override
+    public void deployFile(String deployableDir, File file)
+    {
+        super.deployFile(deployableDir, file);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see AbstractCopyingInstalledLocalDeployer#deployBundle(String, Bundle)
+     */
+    @Override
+    public void deployBundle(String deployableDir, Bundle bundle)
+    {
+        super.deployBundle(deployableDir, bundle);
     }
 
     /**

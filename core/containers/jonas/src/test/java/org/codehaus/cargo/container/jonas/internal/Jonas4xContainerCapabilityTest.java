@@ -27,9 +27,9 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.jmock.MockObjectTestCase;
 
 /**
- * Unit tests for {@link JonasContainerCapability}.
+ * Unit tests for {@link Jonas4xContainerCapabilityTest}.
  */
-public class JonasContainerCapabilityTest extends MockObjectTestCase
+public class Jonas4xContainerCapabilityTest extends MockObjectTestCase
 {
     ContainerCapability capability;
 
@@ -38,7 +38,7 @@ public class JonasContainerCapabilityTest extends MockObjectTestCase
     {
         super.setUp();
 
-        this.capability = new JonasContainerCapability();
+        this.capability = new Jonas4xContainerCapability();
     }
 
     /**

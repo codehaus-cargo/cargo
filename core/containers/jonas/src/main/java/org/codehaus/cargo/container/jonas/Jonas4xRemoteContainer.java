@@ -24,7 +24,7 @@ package org.codehaus.cargo.container.jonas;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-import org.codehaus.cargo.container.jonas.internal.JonasContainerCapability;
+import org.codehaus.cargo.container.jonas.internal.Jonas4xContainerCapability;
 import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
 
 /**
@@ -42,7 +42,7 @@ public class Jonas4xRemoteContainer extends AbstractRemoteContainer
     /**
      * the Capability of the JOnAS container.
      */
-    private ContainerCapability capability = new JonasContainerCapability();
+    private ContainerCapability capability = new Jonas4xContainerCapability();
 
     /**
      * Constructor.

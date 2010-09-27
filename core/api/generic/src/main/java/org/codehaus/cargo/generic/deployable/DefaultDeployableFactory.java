@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.generic.deployable;
 
+import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EJB;
@@ -89,6 +90,7 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.SAR, SAR.class);
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.RAR, RAR.class);
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.FILE, File.class);
+        registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.BUNDLE, Bundle.class);
 
         AbstractFactoryRegistry.register(classLoader, this);
     }

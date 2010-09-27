@@ -28,10 +28,12 @@ import java.util.Map;
 
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
+import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalContainer;
+import org.codehaus.cargo.container.jonas.internal.Jonas5xContainerCapability;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.util.AntUtils;
 
@@ -42,6 +44,11 @@ import org.codehaus.cargo.util.AntUtils;
  */
 public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalContainer
 {
+
+    /**
+     * Container capability instance.
+     */
+    private static final ContainerCapability CAPABILITY = new Jonas5xContainerCapability();
 
     /**
      * {@inheritDoc}
@@ -232,6 +239,14 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         java.setClassname("org.ow2.jonas.commands.admin.ClientAdmin");
 
         java.setDir(new File(getConfiguration().getHome()));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public ContainerCapability getCapability()
+    {
+        return CAPABILITY;
     }
 
     /**

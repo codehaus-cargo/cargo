@@ -23,6 +23,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.EJB;
 import org.codehaus.cargo.container.deployable.File;
@@ -198,6 +199,10 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
             else if (deployable.getType() == DeployableType.FILE)
             {
                 deployFile(deployableDir, (File) deployable);
+            }
+            else if (deployable.getType() == DeployableType.BUNDLE)
+            {
+                deployBundle(deployableDir, (Bundle) deployable);
             }
             else
             {
@@ -421,5 +426,17 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
                     getFileHandler()
                             .append(deployableDir, getFileHandler().getName(file.getFile())));
         }
+    }
+    
+    /**
+     * Copy the OSGi bundle file to the deployable directory.
+     *
+     * @param deployableDir the container's deployable directory
+     * @param bundle the OSGi bundle deployable
+     */
+    protected void deployBundle(String deployableDir, Bundle bundle)
+    {
+        getFileHandler().copyFile(bundle.getFile(),
+            getFileHandler().append(deployableDir, getFileHandler().getName(bundle.getFile())));
     }
 }

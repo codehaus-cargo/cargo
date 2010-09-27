@@ -28,12 +28,14 @@ import java.util.Map;
 
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
+import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalContainer;
 import org.codehaus.cargo.container.jonas.internal.Jonas4xAdmin;
 import org.codehaus.cargo.container.jonas.internal.Jonas4xAdminImpl;
+import org.codehaus.cargo.container.jonas.internal.Jonas4xContainerCapability;
 
 /**
  * Support for the JOnAS JEE container.
@@ -42,6 +44,12 @@ import org.codehaus.cargo.container.jonas.internal.Jonas4xAdminImpl;
  */
 public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalContainer
 {
+
+    /**
+     * Container capability instance.
+     */
+    private static final ContainerCapability CAPABILITY = new Jonas4xContainerCapability();
+
     /**
      * The jonas admin.
      */
@@ -197,6 +205,14 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         }
 
         java.setDir(new File(getConfiguration().getHome()));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public ContainerCapability getCapability()
+    {
+        return CAPABILITY;
     }
 
     /**

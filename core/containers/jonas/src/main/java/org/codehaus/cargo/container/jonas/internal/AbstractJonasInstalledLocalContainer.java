@@ -26,7 +26,6 @@ import java.io.File;
 import java.util.Map;
 
 import org.apache.tools.ant.taskdefs.Java;
-import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
@@ -38,11 +37,6 @@ import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
  */
 public abstract class AbstractJonasInstalledLocalContainer extends AbstractInstalledLocalContainer
 {
-    /**
-     * Capability of the JOnAS container.
-     */
-    private ContainerCapability capability = new JonasContainerCapability();
-
     /**
      * {@inheritDoc}
      *
@@ -167,15 +161,5 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
         {
             java.addSysproperty(getAntUtils().createSysProperty(name, value));
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.codehaus.cargo.container.Container#getCapability()
-     */
-    public ContainerCapability getCapability()
-    {
-        return capability;
     }
 }

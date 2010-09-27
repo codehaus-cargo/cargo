@@ -22,25 +22,41 @@
  */
 package org.codehaus.cargo.container.jonas.internal;
 
+import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.internal.J2EEContainerCapability;
+import org.jmock.MockObjectTestCase;
 
 /**
- * Capabilities of the JOnAS container.
- * 
- * @version $Id$
+ * Unit tests for {@link JonasContainerCapability}.
  */
-public class JonasContainerCapability extends J2EEContainerCapability
+public class Jonas5xContainerCapabilityTest extends Jonas4xContainerCapabilityTest
 {
-    /**
-     * Add support for EJB and RAR deployable types. {@inheritDoc}
-     * 
-     * @see J2EEContainerCapability#supportsDeployableType(DeployableType)
-     */
+    ContainerCapability capability;
+
     @Override
-    public boolean supportsDeployableType(DeployableType type)
+    protected void setUp() throws Exception
     {
-        return (type == DeployableType.EJB) || (type == DeployableType.RAR)
-            || super.supportsDeployableType(type);
+        super.setUp();
+
+        this.capability = new Jonas5xContainerCapability();
+    }
+
+    /**
+     * test the list of Supported Deployable Types
+     */
+    public void testSupportedDeployableTypes()
+    {
+        super.testSupportedDeployableTypes();
+
+        testSupportedDeployableType(DeployableType.BUNDLE);
+    }
+
+    /**
+     * test one DeployableType
+     */
+    private void testSupportedDeployableType(DeployableType type)
+    {
+        assertTrue("DeployableType " + type + " is not supported", capability
+            .supportsDeployableType(type));
     }
 }

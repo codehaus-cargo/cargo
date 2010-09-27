@@ -24,9 +24,11 @@ package org.codehaus.cargo.container.jonas;
 
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.EJB;
+import org.codehaus.cargo.container.deployable.File;
 import org.codehaus.cargo.container.deployable.RAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
@@ -120,5 +122,23 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
 
         deployer.deployRar(deployer.getDeployableDir(), rar);
         assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.rar"));
+    }
+
+    public void testDeployFile()
+    {
+        this.fileHandler.createFile("ram:///test.extension");
+        File file = (File) factory.createDeployable("jonas5x", "ram:///test.extension", DeployableType.FILE);
+
+        deployer.deployFile(deployer.getDeployableDir(), file);
+        assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.extension"));
+    }
+
+    public void testDeployBundle()
+    {
+        this.fileHandler.createFile("ram:///test.jar");
+        Bundle bundle = (Bundle) factory.createDeployable("jonas5x", "ram:///test.jar", DeployableType.BUNDLE);
+
+        deployer.deployBundle(deployer.getDeployableDir(), bundle);
+        assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.jar"));
     }
 }

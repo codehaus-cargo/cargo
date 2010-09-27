@@ -25,7 +25,8 @@ package org.codehaus.cargo.container.jonas;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployer.DeployerType;
-import org.codehaus.cargo.container.jonas.internal.JonasContainerCapability;
+import org.codehaus.cargo.container.jonas.internal.Jonas4xContainerCapability;
+import org.codehaus.cargo.container.jonas.internal.Jonas5xContainerCapability;
 import org.codehaus.cargo.container.jonas.internal.JonasExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.jonas.internal.JonasRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jonas.internal.JonasStandaloneLocalConfigurationCapability;
@@ -171,10 +172,10 @@ public class JonasFactoryRegistry extends AbstractFactoryRegistry
     protected void register(ContainerCapabilityFactory containerCapabilityFactory)
     {
         containerCapabilityFactory.registerContainerCapability("jonas4x",
-            JonasContainerCapability.class);
+            Jonas4xContainerCapability.class);
 
         containerCapabilityFactory.registerContainerCapability("jonas5x",
-            JonasContainerCapability.class);
+            Jonas5xContainerCapability.class);
     }
 
 }

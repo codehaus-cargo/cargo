@@ -117,7 +117,8 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
             {
                 operationSuffix = "Ear";
             }
-            else if (deployableType == DeployableType.EJB)
+            else if (deployableType == DeployableType.EJB
+                || deployableType == DeployableType.BUNDLE)
             {
                 operationSuffix = "Jar";
             }

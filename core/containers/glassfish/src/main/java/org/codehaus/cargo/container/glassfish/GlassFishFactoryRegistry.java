@@ -130,10 +130,10 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
     protected void register(ContainerCapabilityFactory containerCapabilityFactory)
     {
         containerCapabilityFactory.registerContainerCapability("glassfish2x",
-            GlassFishContainerCapability.class);
+            GlassFish2xContainerCapability.class);
 
         containerCapabilityFactory.registerContainerCapability("glassfish3x",
-            GlassFishContainerCapability.class);
+            GlassFish3xContainerCapability.class);
     }
 
 }

@@ -29,6 +29,7 @@ import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.taskdefs.Execute;
 import org.apache.tools.ant.taskdefs.ExecuteWatchdog;
 import org.apache.tools.ant.taskdefs.PumpStreamHandler;
+import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalContainer;
 import org.codehaus.cargo.util.CargoException;
@@ -40,6 +41,11 @@ import org.codehaus.cargo.util.CargoException;
  */
 public class GlassFish2xInstalledLocalContainer extends AbstractGlassFishInstalledLocalContainer
 {
+
+    /**
+     * Container capability instance.
+     */
+    private static final ContainerCapability CAPABILITY = new GlassFish2xContainerCapability();
 
     /**
      * Calls parent constructor, which saves the configuration.
@@ -133,6 +139,14 @@ public class GlassFish2xInstalledLocalContainer extends AbstractGlassFishInstall
         {
             throw new CargoException("Failed to invoke asadmin", e);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public ContainerCapability getCapability()
+    {
+        return CAPABILITY;
     }
 
     /**
