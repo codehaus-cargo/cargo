@@ -675,6 +675,10 @@
                 <value>org/codehaus/cargo/tomcatcontext-war/${cargo.resources.version}/tomcatcontext-war-${cargo.resources.version}.war</value>
               </property>
               <property>
+                <name>cargo.testdata.simple-bundle</name>
+                <value>org/codehaus/cargo/simple-bundle/${cargo.resources.version}/simple-bundle-${cargo.resources.version}.jar</value>
+              </property>
+              <property>
                 <name>cargo.testdata.cargo-jetty-6-and-earlier-deployer</name>
                 <value>org/codehaus/cargo/cargo-jetty-6-and-earlier-deployer/${cargo.resources.version}/cargo-jetty-6-and-earlier-deployer-${cargo.resources.version}.war</value>
               </property>

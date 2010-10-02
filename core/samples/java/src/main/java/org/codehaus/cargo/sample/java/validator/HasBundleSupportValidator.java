@@ -17,25 +17,25 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.glassfish;
+package org.codehaus.cargo.sample.java.validator;
 
+import org.codehaus.cargo.generic.ContainerCapabilityFactory;
+import org.codehaus.cargo.generic.DefaultContainerCapabilityFactory;
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 
 /**
- * GlassFish 3.x container capability.
- * 
+ * Validate that a container supports OSGi bundles.
+ *
  * @version $Id$
  */
-public class GlassFish3xContainerCapability extends GlassFish2xContainerCapability
+public class HasBundleSupportValidator implements Validator
 {
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean supportsDeployableType(DeployableType type)
-    {
-        // type == DeployableType.BUNDLE seems not to be working, see tests
-        return super.supportsDeployableType(type);
-    }
+    private ContainerCapabilityFactory factory = new DefaultContainerCapabilityFactory();
 
+    public boolean validate(String containerId, ContainerType type)
+    {
+        return this.factory.createContainerCapability(containerId).supportsDeployableType(
+            DeployableType.BUNDLE);
+    }
 }
