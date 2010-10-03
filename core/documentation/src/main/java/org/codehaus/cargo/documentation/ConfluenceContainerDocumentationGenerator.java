@@ -581,6 +581,22 @@ public class ConfluenceContainerDocumentationGenerator
                     ContainerType.EMBEDDED));
                 output.append(LINE_SEPARATOR);
             }
+
+            if (containerId.startsWith("jboss"))
+            {
+                output.append(LINE_SEPARATOR);
+                output.append(LINE_SEPARATOR);
+                output.append("{info}A side note on the JBoss ports:");
+                output.append(LINE_SEPARATOR);
+                output.append("* The {{cargo.rmi.port}} corresponds to the {{Port}} parameter of");
+                output.append(" the {{jboss:service=Naming}} bean.");
+                output.append(LINE_SEPARATOR);
+                output.append("* The {{cargo.jboss.naming.port}} corresponds to the {{RmiPort}}");
+                output.append(" parameter of the {{jboss:service=Naming}} bean.");
+                output.append(LINE_SEPARATOR);
+                output.append("{info}");
+                output.append(LINE_SEPARATOR);
+            }
         }
 
         if (this.configurationFactory.isConfigurationRegistered(containerId,
