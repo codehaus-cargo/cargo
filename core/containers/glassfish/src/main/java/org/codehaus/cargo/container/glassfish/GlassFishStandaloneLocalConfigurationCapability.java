@@ -51,6 +51,13 @@ public final class GlassFishStandaloneLocalConfigurationCapability extends
         this.defaultSupportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
         this.defaultSupportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.defaultSupportsMap.put(GeneralPropertySet.JVMARGS, Boolean.TRUE);
+        this.defaultSupportsMap.put(GlassFishPropertySet.ADMIN_PORT, Boolean.TRUE);
+        this.defaultSupportsMap.put(GlassFishPropertySet.JMS_PORT, Boolean.TRUE);
+        this.defaultSupportsMap.put(GlassFishPropertySet.IIOP_PORT, Boolean.TRUE);
+        this.defaultSupportsMap.put(GlassFishPropertySet.HTTPS_PORT, Boolean.TRUE);
+        this.defaultSupportsMap.put(GlassFishPropertySet.IIOPS_PORT, Boolean.TRUE);
+        this.defaultSupportsMap.put(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT, Boolean.TRUE);
+        this.defaultSupportsMap.put(GlassFishPropertySet.JMX_ADMIN_PORT, Boolean.TRUE);
 
         // this.defaultSupportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
     }
