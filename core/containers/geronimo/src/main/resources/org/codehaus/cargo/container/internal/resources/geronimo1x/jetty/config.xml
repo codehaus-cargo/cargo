@@ -6,9 +6,8 @@
 <!-- any comments added to this file will be lost.            -->
 <!-- ======================================================== -->
 
-<attributes xmlns="http://geronimo.apache.org/xml/ns/attributes">
-
-    <configuration name="geronimo/rmi-naming/1.0/car">
+<attributes xmlns="http://geronimo.apache.org/xml/ns/attributes-1.1">
+    <module name="geronimo/rmi-naming/1.1.1/car">
         <gbean name="RMIRegistry">
             <attribute name="port">@cargo.rmi.port@</attribute>
         </gbean>
@@ -16,23 +15,33 @@
             <!-- Check whether this really works if host name is 0.0.0.0 -->
             <attribute name="namingProviderUrl">rmi://0.0.0.0:@cargo.rmi.port@</attribute>
         </gbean>
-    </configuration>
-    <configuration name="geronimo/j2ee-server/1.0/car">
-        <gbean name="geronimo:name=EJB,type=NetworkService">
-            <attribute name="host">0.0.0.0</attribute>
-            <attribute name="port">4201</attribute>
+        <gbean name="DownloadedPluginRepos">
+          <attribute name="repositoryList">http://people.apache.org/~ammulder/plugin-repository-list-1.1.txt</attribute>
+          <attribute name="userRepositories">[]</attribute>
         </gbean>
-    </configuration>
-    <configuration name="geronimo/j2ee-security/1.0/car">
-        <gbean name="geronimo.remoting:target=JaasLoginServiceRemotingServer">
+    </module>
+    <module name="geronimo/j2ee-server/1.1.1/car">
+    </module>
+    <module name="geronimo/j2ee-security/1.1.1/car">
+        <gbean name="JaasLoginServiceRemotingServer">
             <attribute name="host">0.0.0.0</attribute>
             <attribute name="port">4242</attribute>
         </gbean>
         <gbean name="JMXService">
-            <attribute name="url">service:jmx:rmi://0.0.0.0/jndi/rmi://localhost:@cargo.rmi.port@/JMXConnector</attribute>
+            <attribute name="protocol">rmi</attribute>
+            <attribute name="host">0.0.0.0</attribute>
+            <attribute name="port">9999</attribute>
+            <attribute name="urlPath">/jndi/rmi://0.0.0.0:@cargo.rmi.port@/JMXConnector</attribute>
         </gbean>
-    </configuration>
-    <configuration name="geronimo/j2ee-corba/1.0/car" load="false">
+    </module>
+    <module name="geronimo/axis/1.1.1/car"/>
+    <module name="geronimo/openejb/1.1.1/car">
+        <gbean name="EJBNetworkService">
+            <attribute name="host">0.0.0.0</attribute>
+            <attribute name="port">4201</attribute>
+        </gbean>
+    </module>
+    <module name="geronimo/j2ee-corba/1.1.1/car" load="false">
         <gbean name="NameServer">
             <attribute name="dbDir">var/cosnaming.db</attribute>
             <attribute name="port">1050</attribute>
@@ -43,28 +52,21 @@
         <gbean name="UnprotectedServer">
             <attribute name="args">-ORBInitRef, NameService=corbaloc::localhost:1050/NameService</attribute>
         </gbean>
-    </configuration>
-    <configuration name="geronimo/activemq-broker/1.0/car">
-        <gbean name="ActiveMQ.tcp.default">
-            <attribute name="host">0.0.0.0</attribute>
-            <attribute name="port">61616</attribute>
-        </gbean>
-    </configuration>
-    <configuration name="geronimo/activemq/1.0/car"/>
-    <configuration name="geronimo/system-database/1.0/car">
+    </module>
+    <module name="geronimo/system-database/1.1.1/car">
         <gbean name="DerbyNetwork">
             <attribute name="host">0.0.0.0</attribute>
             <attribute name="port">1527</attribute>
         </gbean>
-    </configuration>
-    <configuration name="geronimo/directory/1.0/car">
-        <gbean name="geronimo.server:name=DirectoryService">
+    </module>
+    <module name="geronimo/activemq-broker/1.1.1/car">
+        <gbean name="ActiveMQ.tcp.default">
             <attribute name="host">0.0.0.0</attribute>
-            <attribute name="port">1389</attribute>
+            <attribute name="port">61616</attribute>
         </gbean>
-    </configuration>
-    <configuration name="geronimo/ldap-realm/1.0/car"/>
-    <configuration name="geronimo/jetty/1.0/car">
+    </module>
+    <module name="geronimo/activemq/1.1.1/car"/>
+    <module name="geronimo/jetty/1.1.1/car">
         <gbean name="JettyWebConnector">
             <attribute name="host">0.0.0.0</attribute>
             <attribute name="port">@cargo.servlet.port@</attribute>
@@ -74,26 +76,44 @@
             <attribute name="host">0.0.0.0</attribute>
             <attribute name="port">8443</attribute>
         </gbean>
-    </configuration>
-    <configuration name="geronimo/geronimo-gbean-deployer/1.0/car"/>
-    <configuration name="geronimo/j2ee-deployer/1.0/car">
+        <gbean name="JettyAJP13Connector">
+            <attribute name="host">0.0.0.0</attribute>
+            <attribute name="port">8009</attribute>
+        </gbean>
+    </module>
+    <!-- n.b. be sure the gbean deployer is explicitly loaded before j2ee-deployer so that defaultEnvironment
+    overrides work properly -->
+    <module name="geronimo/geronimo-gbean-deployer/1.1.1/car"/>
+    <module name="geronimo/j2ee-deployer/1.1.1/car">
         <gbean name="WebBuilder">
-            <attribute name="defaultNamespace">http://geronimo.apache.org/xml/ns/j2ee/web/jetty-1.0</attribute>
+            <attribute name="defaultNamespace">http://geronimo.apache.org/xml/ns/j2ee/web/jetty-1.1</attribute>
         </gbean>
+    </module>
+    <module name="geronimo/openejb-deployer/1.1.1/car">
         <gbean name="EJBBuilder">
-            <attribute name="listener">geronimo.server:J2EEApplication=null,J2EEModule=geronimo/jetty/1.0/car,J2EEServer=geronimo,j2eeType=GBean,name=JettyWebContainer</attribute>
+            <attribute name="listener">?name=JettyWebContainer</attribute>
         </gbean>
-    </configuration>
-    <configuration name="geronimo/javamail/1.0/car" load="false">
+    </module>
+    <module name="geronimo/client-deployer/1.1.1/car"/>
+    <module name="geronimo/axis-deployer/1.1.1/car"/>
+    <module name="geronimo/javamail/1.1.1/car" load="false">
         <gbean name="SMTPTransport">
             <attribute name="host">localhost</attribute>
             <attribute name="port">25</attribute>
         </gbean>
-    </configuration>
-    <configuration name="geronimo/jetty-deployer/1.0/car"/>
-    <configuration name="geronimo/webconsole-jetty/1.0/car"/>
-    <configuration name="geronimo/uddi-jetty/1.0/car"/>
-    <configuration name="geronimo/jmxdebug-jetty/1.0/car"/>
-    <configuration name="geronimo/remote-deploy-jetty/1.0/car"/>
-    <configuration name="geronimo/hot-deployer/1.0/car" />
+    </module>
+
+    <module name="geronimo/sharedlib/1.1.1/car">
+        <gbean name="SharedLib">
+            <attribute name="classesDirs">var/shared/classes</attribute>
+            <attribute name="libDirs">var/shared/lib</attribute>
+        </gbean>
+    </module>
+
+    <module name="geronimo/jetty-deployer/1.1.1/car"/>
+    <module name="geronimo/welcome-jetty/1.1.1/car"/>
+    <module name="geronimo/webconsole-jetty/1.1.1/car"/>
+    <module name="geronimo/uddi-jetty/1.1.1/car" load="false"/>
+    <module name="geronimo/remote-deploy-jetty/1.1.1/car" />
+    <module name="geronimo/hot-deployer/1.1.1/car" />
 </attributes>

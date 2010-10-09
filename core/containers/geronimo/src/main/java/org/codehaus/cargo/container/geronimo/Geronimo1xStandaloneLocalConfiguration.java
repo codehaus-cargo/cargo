@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.geronimo;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
@@ -81,19 +80,6 @@ public class Geronimo1xStandaloneLocalConfiguration extends AbstractStandaloneLo
     }
 
     /**
-     * Geronimo does not support static deployments, warn the user.
-     *
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#addDeployable(org.codehaus.cargo.container.deployable.Deployable)
-     */
-    @Override
-    public synchronized void addDeployable(Deployable newDeployable)
-    {
-        getLogger().warn("Geronimo doesn't support static deployments. Ignoring deployable ["
-            + newDeployable.getFile() + "].", this.getClass().getName());
-    }
-
-    /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
@@ -123,8 +109,9 @@ public class Geronimo1xStandaloneLocalConfiguration extends AbstractStandaloneLo
             new File(securityDir, "users.properties"), filterChain);
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/groups.properties",
             new File(securityDir, "groups.properties"), filterChain);
+        String keystoresDir = getFileHandler().createDirectory(securityDir, "keystores");
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/keystore",
-            new File(securityDir, "keystore"));
+            new File(keystoresDir, "geronimo-default"));
 
         // Copy log settings
         String logDir = getFileHandler().createDirectory(getHome(), "/var/log");
@@ -164,10 +151,22 @@ public class Geronimo1xStandaloneLocalConfiguration extends AbstractStandaloneLo
             copyStore.setTodir(new File(getHome(), "config-store"));
             copyStore.execute();
         }
-        else
-        {
-            new File(getHome(), "config-store").mkdirs();
-        }
+
+        // Create the Geronimo bin directory by copying it.
+        Copy copyBin = (Copy) getAntUtils().createAntTask("copy");
+        FileSet fileSetBin = new FileSet();
+        fileSetBin.setDir(new File(containerHome, "bin"));
+        copyBin.addFileset(fileSetBin);
+        copyBin.setTodir(new File(getHome(), "bin"));
+        copyBin.execute();
+
+        // Create the Geronimo lib directory by copying it.
+        Copy copyLib = (Copy) getAntUtils().createAntTask("copy");
+        FileSet fileSetLib = new FileSet();
+        fileSetLib.setDir(new File(containerHome, "lib"));
+        copyLib.addFileset(fileSetLib);
+        copyLib.setTodir(new File(getHome(), "lib"));
+        copyLib.execute();
 
         // Create the Geronimo repository by copying it.
         Copy copyRepo = (Copy) getAntUtils().createAntTask("copy");
@@ -176,6 +175,14 @@ public class Geronimo1xStandaloneLocalConfiguration extends AbstractStandaloneLo
         copyRepo.addFileset(fileSetRepo);
         copyRepo.setTodir(new File(getHome(), "repository"));
         copyRepo.execute();
+
+        // Create the Geronimo schema directory by copying it.
+        Copy copySchema = (Copy) getAntUtils().createAntTask("copy");
+        FileSet fileSetSchema = new FileSet();
+        fileSetSchema.setDir(new File(containerHome, "schema"));
+        copySchema.addFileset(fileSetSchema);
+        copySchema.setTodir(new File(getHome(), "schema"));
+        copySchema.execute();
     }
 
     /**

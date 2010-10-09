@@ -118,10 +118,7 @@ public class ConfluenceContainerDocumentationGenerator
 
         if (containerId.equals("geronimo1x"))
         {
-            output.append("{note}The Geronimo 1.x CARGO container is not very stable yet. "
-                + "Use it at your own risk or contribute to "
-                + "[CARGO-802|https://jira.codehaus.org/browse/CARGO-802]."
-                + "{note}");
+            output.append("{note}The Geronimo 1.x CARGO container REQUIRES Geronimo 1.1.1.{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
@@ -348,29 +345,17 @@ public class ConfluenceContainerDocumentationGenerator
         if (this.containerCapabilityFactory.createContainerCapability(
             containerId).supportsDeployableType(DeployableType.WAR))
         {
-            if (containerId.equals("geronimo1x"))
+            output.append("| [Static deployment of WAR]              | (/) | (/) | (/) | (/) | ");
+            if (containerId.equals("tomcat4x"))
             {
-                output.append("| [Static deployment of WAR]              | (x) | (x) | (x) | (x) "
-                    + "| Geronimo does not support static deployments |");
-                output.append(LINE_SEPARATOR);
-                output.append("| [Static deployment of expanded WAR]     | (x) | (x) | (x) | (x) "
-                    + "| Geronimo does not support static deployments |");
+                output.append("Does not support {{META-INF/context.xml}} files yet ");
             }
-            else
-            {
-                output.append(
-                    "| [Static deployment of WAR]              | (/) | (/) | (/) | (/) | ");
-                if (containerId.equals("tomcat4x"))
-                {
-                    output.append("Does not support {{META-INF/context.xml}} files yet ");
-                }
-                output.append("|");
-                output.append(LINE_SEPARATOR);
+            output.append("|");
+            output.append(LINE_SEPARATOR);
 
-                // TODO: Need to introduce expanded WAR as a proper deployable type
-                output.append(
-                    "| [Static deployment of expanded WAR]     | (/) | (/) | (/) | (/) | |");
-            }
+            // TODO: Need to introduce expanded WAR as a proper deployable type
+            output.append(
+                "| [Static deployment of expanded WAR]     | (/) | (/) | (/) | (/) | |");
         }
         else
         {
@@ -381,16 +366,7 @@ public class ConfluenceContainerDocumentationGenerator
         if (this.containerCapabilityFactory.createContainerCapability(
             containerId).supportsDeployableType(DeployableType.EJB))
         {
-            if (containerId.equals("geronimo1x"))
-            {
-                output.append("| [Static deployment of EJB]              | (x) | (x) | (x) | (x) "
-                    + "| Geronimo does not support static deployments |");
-            }
-            else
-            {
-                output.append(
-                    "| [Static deployment of EJB]              | (/) | (/) | (/) | (/) | |");
-            }
+            output.append("| [Static deployment of EJB]              | (/) | (/) | (/) | (/) | |");
         }
         else
         {
@@ -401,16 +377,7 @@ public class ConfluenceContainerDocumentationGenerator
         if (this.containerCapabilityFactory.createContainerCapability(
             containerId).supportsDeployableType(DeployableType.EAR))
         {
-            if (containerId.equals("geronimo1x"))
-            {
-                output.append("| [Static deployment of EAR]              | (x) | (x) | (x) | (x) "
-                    + "| Geronimo does not support static deployments |");
-            }
-            else
-            {
-                output.append(
-                    "| [Static deployment of EAR]              | (/) | (/) | (/) | (/) | |");
-            }
+            output.append("| [Static deployment of EAR]              | (/) | (/) | (/) | (/) | |");
         }
         else
         {
@@ -421,16 +388,7 @@ public class ConfluenceContainerDocumentationGenerator
         if (this.containerCapabilityFactory.createContainerCapability(
             containerId).supportsDeployableType(DeployableType.RAR))
         {
-            if (containerId.equals("geronimo1x"))
-            {
-                output.append("| [Static deployment of RAR]              | (x) | (x) | (x) | (x) "
-                    + "| Geronimo does not support static deployments |");
-            }
-            else
-            {
-                output.append(
-                    "| [Static deployment of RAR]              | (/) | (/) | (/) | (/) | |");
-            }
+            output.append("| [Static deployment of RAR]              | (/) | (/) | (/) | (/) | |");
         }
         else
         {
@@ -441,40 +399,26 @@ public class ConfluenceContainerDocumentationGenerator
         if (this.containerCapabilityFactory.createContainerCapability(
             containerId).supportsDeployableType(DeployableType.FILE))
         {
-            if (containerId.equals("geronimo1x"))
-            {
-                output.append("| [Static deployment of files]              | (x) | (x) | (x) | (x) "
-                    + "| Geronimo does not support static deployments |");
-            }
-            else
-            {
-                output.append(
-                    "| [Static deployment of files]              | (/) | (/) | (/) | (/) | |");
-            }
+            output.append(
+                "| [Static deployment of files]              | (/) | (/) | (/) | (/) | |");
         }
         else
         {
-            output.append("| [Static deployment of files]              | (x) | (x) | (x) | (x) | |");
+            output.append(
+                "| [Static deployment of files]              | (x) | (x) | (x) | (x) | |");
         }
         output.append(LINE_SEPARATOR);
 
         if (this.containerCapabilityFactory.createContainerCapability(
             containerId).supportsDeployableType(DeployableType.BUNDLE))
         {
-            if (containerId.equals("geronimo1x"))
-            {
-                output.append("| [Static deployment of OSGi Bundles]              | (x) | (x) | (x) | (x) "
-                    + "| Geronimo does not support static deployments |");
-            }
-            else
-            {
-                output.append(
-                    "| [Static deployment of OSGi Bundles]              | (/) | (/) | (/) | (/) | |");
-            }
+            output.append(
+                "| [Static deployment of OSGi Bundles]              | (/) | (/) | (/) | (/) | |");
         }
         else
         {
-            output.append("| [Static deployment of OSGi Bundles]              | (x) | (x) | (x) | (x) | |");
+            output.append(
+                "| [Static deployment of OSGi Bundles]              | (x) | (x) | (x) | (x) | |");
         }
         output.append(LINE_SEPARATOR);
 

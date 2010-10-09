@@ -340,6 +340,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         java.createArg().setValue("--password");
         java.createArg().setValue(getContainer().getConfiguration()
             .getPropertyValue(RemotePropertySet.PASSWORD));
+        java.createArg().setValue("--offline");
 
         java.setJar(new File(getInstalledContainer().getHome(), "bin/deployer.jar"));
         java.createArg().setValue(action);

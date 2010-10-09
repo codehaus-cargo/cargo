@@ -84,7 +84,7 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
     @Override
     protected void doStart(Java java) throws Exception
     {
-        java.setJar(new File(getHome(), "bin/server.jar"));
+        java.setJar(new File(getConfiguration().getHome(), "bin/server.jar"));
 
         java.addSysproperty(getAntUtils().createSysProperty("org.apache.geronimo.base.dir",
             getConfiguration().getHome()));
@@ -102,7 +102,7 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
     @Override
     protected void doStop(Java java) throws Exception
     {
-        java.setJar(new File(getHome(), "bin/shutdown.jar"));
+        java.setJar(new File(getConfiguration().getHome(), "bin/shutdown.jar"));
 
         java.addSysproperty(getAntUtils().createSysProperty("org.apache.geronimo.base.dir",
             getConfiguration().getHome()));
@@ -134,11 +134,6 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
 
         GeronimoUtils geronimoUtils = new GeronimoUtils();
 
-        ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
-        ClassLoader geronimoClassLoader = geronimoUtils.createGeronimoURLClassloader(
-            new File(getHome()));
-        Thread.currentThread().setContextClassLoader(geronimoClassLoader);
-
         getLogger().debug("Checking if Geronimo is started using:"
             + " hostname [" + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME)
             + "], RMI port [" + getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT)
@@ -146,43 +141,31 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
             + "], password [" + getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD)
             + "]", this.getClass().getName());
 
-        try
+        long startTime = System.currentTimeMillis();
+        boolean isStarted;
+        do
         {
-            long startTime = System.currentTimeMillis();
-            boolean isStarted;
-            do
+            if ((System.currentTimeMillis() - startTime) > getTimeout())
             {
-                if ((System.currentTimeMillis() - startTime) > getTimeout())
-                {
-                    setState(State.UNKNOWN);
-                    String message = "Container failed to start within "
-                        + "the timeout period [" + getTimeout()
-                        + "]. The Container state is thus unknown.";
-                    getLogger().info(message, this.getClass().getName());
-                    throw new ContainerException(message);
-                }
+                setState(State.UNKNOWN);
+                String message = "Container failed to start within "
+                    + "the timeout period [" + getTimeout()
+                    + "]. The Container state is thus unknown.";
+                getLogger().info(message, this.getClass().getName());
+                throw new ContainerException(message);
+            }
 
-                Thread.sleep(100);
+            Thread.sleep(1000);
 
-                isStarted = geronimoUtils.isGeronimoStarted(
-                    getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME),
-                    getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT),
-                    getConfiguration().getPropertyValue(RemotePropertySet.USERNAME),
-                    getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD));
+            isStarted = geronimoUtils.isGeronimoStarted(
+                getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME),
+                getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT),
+                getConfiguration().getPropertyValue(RemotePropertySet.USERNAME),
+                getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD));
 
-                exitCondition = waitForStarting ? !isStarted : isStarted;
+            exitCondition = waitForStarting ? !isStarted : isStarted;
 
-            } while (exitCondition);
-        }
-        catch (InterruptedException e)
-        {
-            setState(State.UNKNOWN);
-            throw new ContainerException("Failed to monitor container", e);
-        }
-        finally
-        {
-            Thread.currentThread().setContextClassLoader(oldClassLoader);
-        }
+        } while (exitCondition);
     }
 
     /**
