@@ -36,11 +36,13 @@ import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationCapabilityFactory;
 import org.codehaus.cargo.container.ContainerType;
+import org.codehaus.cargo.container.geronimo.GeronimoPropertySet;
+import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.jrun.JRun4xPropertySet;
-import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
-import org.codehaus.cargo.container.geronimo.GeronimoPropertySet;
+import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
+import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
@@ -731,6 +733,8 @@ public class ConfluenceContainerDocumentationGenerator
             GeronimoPropertySet.class,
             WebLogicPropertySet.class,
             JBossPropertySet.class,
+            JonasPropertySet.class,
+            GlassFishPropertySet.class,
             JRun4xPropertySet.class,
             DatasourcePropertySet.class,
             ResourcePropertySet.class
