@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.geronimo;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.geronimo.internal.GeronimoExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -71,19 +70,6 @@ public class Geronimo1xExistingLocalConfiguration extends AbstractExistingLocalC
     public String toString()
     {
         return "Geronimo Existing Configuration";
-    }
-
-    /**
-     * Geronimo does not support static deployments, warn the user.
-     *
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#addDeployable(org.codehaus.cargo.container.deployable.Deployable)
-     */
-    @Override
-    public synchronized void addDeployable(Deployable newDeployable)
-    {
-        getLogger().warn("Geronimo doesn't support static deployments. Ignoring deployable ["
-            + newDeployable.getFile() + "].", this.getClass().getName());
     }
 
     /**

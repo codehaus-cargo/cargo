@@ -19,14 +19,14 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.net.URL;
+import java.io.File;
+
+import org.apache.tools.ant.taskdefs.Expand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.util.AntUtils;
-import org.apache.tools.ant.taskdefs.Expand;
-
-import java.net.URL;
-import java.io.File;
 
 public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCargoTestCase
 {
@@ -64,6 +64,12 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCar
 
     public void testStartWithOneExpandedWarDeployed() throws Exception
     {
+        if ("geronimo1x".equals(getContainer().getId()))
+        {
+            // The Apache Geronimo server doesn't support expanded WARs
+            return;
+        }
+
         // Copy the war from the Maven local repository in order to expand it
         File artifactDir = new File(getTestData().targetDir).getParentFile();
         Expand expandTask = (Expand) new AntUtils().createProject().createTask("unwar");

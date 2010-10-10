@@ -20,8 +20,6 @@
 package org.codehaus.cargo.sample.java;
 
 import java.net.URL;
-import java.util.Set;
-import java.util.TreeSet;
 
 import junit.framework.Test;
 
@@ -64,6 +62,12 @@ public class EarCapabilityContainerTest extends AbstractCargoTestCase
 
     public void testStartWithOneEmptyEarDeployed() throws Exception
     {
+        if ("geronimo1x".equals(getContainer().getId()))
+        {
+            // The Apache Geronimo server doesn't like empty EARs
+            return;
+        }
+
         Deployable ear = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
             getTestData().getTestDataFileFor("empty-ear"), DeployableType.EAR);
 

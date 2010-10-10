@@ -19,19 +19,21 @@
  */
 package org.codehaus.cargo.container.geronimo;
 
+import java.io.File;
+import java.util.Iterator;
+
 import org.apache.tools.ant.taskdefs.Java;
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
-import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.State;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.geronimo.internal.GeronimoUtils;
+import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
+import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
-
-import java.io.File;
 
 /**
  * Geronimo 1.x series container implementation.
@@ -93,6 +95,16 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
 
         AntContainerExecutorThread geronimoStarter = new AntContainerExecutorThread(java);
         geronimoStarter.start();
+
+        waitForCompletion(true);
+
+        // deploy scheduled deployables
+        GeronimoInstalledLocalDeployer deployer = new GeronimoInstalledLocalDeployer(this, false);
+        for (Iterator iterator = this.getConfiguration().getDeployables().iterator(); iterator
+            .hasNext();)
+        {
+            deployer.deploy((Deployable) iterator.next());
+        }
     }
 
     /**
@@ -166,6 +178,8 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
             exitCondition = waitForStarting ? !isStarted : isStarted;
 
         } while (exitCondition);
+
+        Thread.sleep(5000);
     }
 
     /**
