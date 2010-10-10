@@ -884,14 +884,14 @@
       <!-- All unstable containers -->
       <id>all-unstable-downloadable</id>
       <properties>
-        <cargo.containers>geronimo2x, tomcat4x</cargo.containers>
+        <cargo.containers>tomcat4x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <!-- All stable containers -->
       <id>all-stable-downloadable</id>
       <properties>
-        <cargo.containers>geronimo1x, jetty4x, jetty5x, jetty6x, jetty7x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jo1x, jonas4x, jonas5x, resin2x, resin3x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
+        <cargo.containers>geronimo1x, geronimo2x, jetty4x, jetty5x, jetty6x, jetty7x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jo1x, jonas4x, jonas5x, resin2x, resin3x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
       </properties>
     </profile>
     <profile>

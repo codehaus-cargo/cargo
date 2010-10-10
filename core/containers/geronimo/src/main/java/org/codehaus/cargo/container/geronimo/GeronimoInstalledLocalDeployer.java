@@ -382,6 +382,12 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         {
             WAR warDeployable = (WAR) deployable;
 
+            if (warDeployable.isExpandedWar())
+            {
+                throw new ContainerException(
+                    "The Apache Geronimo container does not support expanded WARs");
+            }
+
             if (warDeployable.getContext() != null)
             {
                 File toFile = new File(getContainer().getConfiguration().getHome(), "var/temp/"
@@ -522,12 +528,6 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         if (deployable instanceof WAR)
         {
             WAR warDeployable = (WAR) deployable;
-
-            if (warDeployable.isExpandedWar())
-            {
-                throw new ContainerException(
-                    "The Apache Geronimo container does not support expanded WARs");
-            }
 
             if (warDeployable.getContext() != null)
             {

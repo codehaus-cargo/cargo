@@ -64,9 +64,10 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
         // We exclude glassfish3x container (OSGi) as it cannot support extra classpath.
         // We exclude jonas5x container (OSGi) as it cannot support extra classpath.
         // We exclude jetty7x as it doesn't support extra classpath yet: see CARGO-807.
-        // We exclude geronimo1x as it doesn't support extra classpath
+        // We exclude geronimo1x and geronimo2x as it doesn't support extra classpath
         Set excludedContainerIds = new TreeSet();
         excludedContainerIds.add("geronimo1x");
+        excludedContainerIds.add("geronimo2x");
         excludedContainerIds.add("glassfish3x");
         excludedContainerIds.add("jonas5x");
         excludedContainerIds.add("jetty7x");

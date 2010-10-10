@@ -102,6 +102,9 @@ public class Geronimo2xStandaloneLocalConfiguration extends AbstractStandaloneLo
                 new File(securityDir, "users.properties"), filterChain);
             getResourceUtils().copyResource(RESOURCE_PATH + container.getId()
                 + "/groups.properties", new File(securityDir, "groups.properties"), filterChain);
+            String keystoresDir = getFileHandler().createDirectory(securityDir, "var/keystores");
+            getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/keystore",
+                new File(keystoresDir, "geronimo-default"));
 
             getFileHandler().createDirectory(getHome(), "/var/deploy");
             getFileHandler().createDirectory(getHome(), "/var/temp");

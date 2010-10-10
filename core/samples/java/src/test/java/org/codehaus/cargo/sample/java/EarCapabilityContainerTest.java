@@ -62,7 +62,7 @@ public class EarCapabilityContainerTest extends AbstractCargoTestCase
 
     public void testStartWithOneEmptyEarDeployed() throws Exception
     {
-        if ("geronimo1x".equals(getContainer().getId()))
+        if (getContainer().getId().startsWith("geronimo"))
         {
             // The Apache Geronimo server doesn't like empty EARs
             return;

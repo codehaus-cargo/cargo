@@ -90,15 +90,7 @@ public class GeronimoUtils
         }
         catch (SecurityException e)
         {
-            Throwable cause = e.getCause();
-            if (cause != null && cause instanceof IOException)
-            {
-                // Connection error, assume container not started
-            }
-            else
-            {
-                throw e;
-            }
+            // Security error, happens when container is starting
         }
         catch (Exception e)
         {
