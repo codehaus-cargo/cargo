@@ -161,9 +161,12 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
 
                 // ignore everything in the start.ini file
                 java.createArg().setValue("--ini");
-    
+
                 java.createArg().setValue(
                     getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml"));
+
+                // Extra classpath
+                java.createArg().setValue("path=" + java.getCommandLine().getClasspath());
             }
         }
         else
@@ -171,11 +174,6 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
             java.createArg().setValue("--stop");
         }
 
-        // For Jetty to pick up on the extra classpath it needs to export
-        // the classpath as an environment variable 'CLASSPATH'
-        java.addSysproperty(getAntUtils().createSysProperty("CLASSPATH",
-                java.getCommandLine().getClasspath()));
-        
         AntContainerExecutorThread jettyRunner = new AntContainerExecutorThread(java);
         
         // integration tests need to let us verify how we're running
