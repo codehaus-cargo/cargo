@@ -118,7 +118,15 @@ public class GeronimoUtils
         }
         finally
         {
-            connector.close();
+            try
+            {
+                connector.close();
+            }
+            catch (IOException ignored)
+            {
+                // Ignored
+            }
+
             connector = null;
             System.gc();
         }

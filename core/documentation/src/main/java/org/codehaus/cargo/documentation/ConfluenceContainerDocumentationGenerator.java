@@ -167,7 +167,12 @@ public class ConfluenceContainerDocumentationGenerator
         {
             output.append("| [Local Container]                       | (/) | (/) | (/) | (/) | |");
             output.append(LINE_SEPARATOR);
-            if (containerId.equals("glassfish3x") || containerId.equals("jonas5x"))
+            if (containerId.startsWith("geronimo"))
+            {
+                output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | (x) "
+                    + "| Changing the the container classpath is not supported on Apache Geronimo |");
+            }
+            else if(containerId.equals("glassfish3x") || containerId.equals("jonas5x"))
             {
                 output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | (x) "
                     + "| OSGi application servers do not support changing the container classpath |");
