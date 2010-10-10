@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.Iterator;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerException;
@@ -30,6 +31,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.geronimo.deployable.GeronimoDeployable;
+import org.codehaus.cargo.container.geronimo.internal.GeronimoUtils;
 import org.codehaus.cargo.container.internal.util.AntBuildListener;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -49,9 +51,9 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     private AntUtils antUtils;
 
     /**
-     * Whether to perform deploy/undeploy operations offline.
+     * Geronimo utilities.
      */
-    private boolean offline;
+    private GeronimoUtils geronimoUtils;
 
     /**
      * {@inheritDoc}
@@ -59,19 +61,9 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
      */
     public GeronimoInstalledLocalDeployer(InstalledLocalContainer container)
     {
-        this(container, true);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @param offline whether to perform deploy/undeploy operations offline.
-     * @see AbstractInstalledLocalDeployer#AbstractInstalledLocalDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
-     */
-    public GeronimoInstalledLocalDeployer(InstalledLocalContainer container, boolean offline)
-    {
         super(container);
         this.antUtils = new AntUtils();
-        this.offline = offline;
+        this.geronimoUtils = new GeronimoUtils(container.getConfiguration());
     }
 
     /**
@@ -357,15 +349,18 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         java.createArg().setValue("--password");
         java.createArg().setValue(getContainer().getConfiguration()
             .getPropertyValue(RemotePropertySet.PASSWORD));
-        if (offline)
+        if (geronimoUtils.isGeronimoStarted())
         {
-            java.createArg().setValue("--offline");
-        }
-        else
-        {
+            java.createArg().setValue("--host");
+            java.createArg().setValue(getContainer().getConfiguration()
+                .getPropertyValue(GeneralPropertySet.HOSTNAME));
             java.createArg().setValue("--port");
             java.createArg().setValue(getContainer().getConfiguration()
                 .getPropertyValue(GeneralPropertySet.RMI_PORT));
+        }
+        else
+        {
+            java.createArg().setValue("--offline");
         }
 
         java.setJar(new File(getInstalledContainer().getHome(), "bin/deployer.jar"));
@@ -381,8 +376,29 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
      */
     private void addPathArgument(Java java, Deployable deployable)
     {
+        String deployableFile = deployable.getFile();
+
+        if (deployable instanceof WAR)
+        {
+            WAR warDeployable = (WAR) deployable;
+
+            if (warDeployable.getContext() != null)
+            {
+                File toFile = new File(getContainer().getConfiguration().getHome(), "var/temp/"
+                    + warDeployable.getContext() + ".war");
+
+                Copy copyWar = (Copy) getAntUtils().createAntTask("copy");
+                copyWar.setFile(new File(deployableFile));
+                copyWar.setTofile(toFile);
+                copyWar.setOverwrite(true);
+                copyWar.execute();
+
+                deployableFile = toFile.getPath();
+            }
+        }
+
         //add deployable path
-        java.createArg().setValue(deployable.getFile());
+        java.createArg().setValue(deployableFile);
 
         //add deployable plan
         if (deployable instanceof GeronimoDeployable)
@@ -495,8 +511,12 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         if (getFileHandler().exists(archiveFile))
         {
             //TODO: verify how Geronimo computes the default moduleId (i.e. NO plan)
-            moduleId = new File(archiveFile).getName().substring(0,
-                new File(archiveFile).getName().lastIndexOf("."));
+            moduleId = new File(archiveFile).getName();
+            int lastDot = moduleId.lastIndexOf('.');
+            if (lastDot != -1)
+            {
+                moduleId = moduleId.substring(0, lastDot);
+            }
         }
 
         if (deployable instanceof WAR)
@@ -508,9 +528,13 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
                 throw new ContainerException(
                     "The Apache Geronimo container does not support expanded WARs");
             }
-        }
 
-        if (deployable instanceof GeronimoDeployable)
+            if (warDeployable.getContext() != null)
+            {
+                moduleId = warDeployable.getContext();
+            }
+        }
+        else if (deployable instanceof GeronimoDeployable)
         {
             GeronimoDeployable geronimoDeployable = (GeronimoDeployable) deployable;
 

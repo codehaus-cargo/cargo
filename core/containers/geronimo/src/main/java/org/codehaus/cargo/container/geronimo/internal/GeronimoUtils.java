@@ -31,6 +31,9 @@ import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 
 import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 
 /**
  * Various utility methods such as checking is Geronimo is started.
@@ -40,13 +43,40 @@ import org.codehaus.cargo.container.ContainerException;
 public class GeronimoUtils
 {
     /**
-     * @param host the host where Geronimo is executing
-     * @param rmiPort the RMI port to use to connect to the executing Geronimo server
-     * @param username the username to authenticate against the executing Geronimo Server
-     * @param password the password to authenticate against the executing Geronimo Server
+     * Host name.
+     */
+    private String host;
+
+    /**
+     * RMI port.
+     */
+    private String rmiPort;
+
+    /**
+     * User name.
+     */
+    private String username;
+
+    /**
+     * Password.
+     */
+    private String password;
+
+    /**
+     * @param configuration Configuration to use.
+     */
+    public GeronimoUtils(Configuration configuration)
+    {
+        host = configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
+        rmiPort = configuration.getPropertyValue(GeneralPropertySet.RMI_PORT);
+        username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
+        password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
+    }
+
+    /**
      * @return true if Geronimo is fully started or false otherwise
      */
-    public boolean isGeronimoStarted(String host, String rmiPort, String username, String password)
+    public boolean isGeronimoStarted()
     {
         boolean isStarted = false;
 
@@ -57,6 +87,18 @@ public class GeronimoUtils
         catch (IOException e)
         {
             // Connection error, assume container not started
+        }
+        catch (SecurityException e)
+        {
+            Throwable cause = e.getCause();
+            if (cause != null && cause instanceof IOException)
+            {
+                // Connection error, assume container not started
+            }
+            else
+            {
+                throw e;
+            }
         }
         catch (Exception e)
         {

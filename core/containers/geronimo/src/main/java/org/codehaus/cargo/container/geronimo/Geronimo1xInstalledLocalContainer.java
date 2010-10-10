@@ -53,12 +53,18 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
     private ContainerCapability capability = new J2EEContainerCapability();
 
     /**
+     * Geronimo utilities.
+     */
+    private GeronimoUtils geronimoUtils;
+
+    /**
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#AbstractInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Geronimo1xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
+        this.geronimoUtils = new GeronimoUtils(configuration);
     }
 
     /**
@@ -99,7 +105,7 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
         waitForCompletion(true);
 
         // deploy scheduled deployables
-        GeronimoInstalledLocalDeployer deployer = new GeronimoInstalledLocalDeployer(this, false);
+        GeronimoInstalledLocalDeployer deployer = new GeronimoInstalledLocalDeployer(this);
         for (Iterator iterator = this.getConfiguration().getDeployables().iterator(); iterator
             .hasNext();)
         {
@@ -144,8 +150,6 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
     {
         boolean exitCondition;
 
-        GeronimoUtils geronimoUtils = new GeronimoUtils();
-
         getLogger().debug("Checking if Geronimo is started using:"
             + " hostname [" + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME)
             + "], RMI port [" + getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT)
@@ -169,11 +173,7 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
 
             Thread.sleep(1000);
 
-            isStarted = geronimoUtils.isGeronimoStarted(
-                getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME),
-                getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT),
-                getConfiguration().getPropertyValue(RemotePropertySet.USERNAME),
-                getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD));
+            isStarted = geronimoUtils.isGeronimoStarted();
 
             exitCondition = waitForStarting ? !isStarted : isStarted;
 
