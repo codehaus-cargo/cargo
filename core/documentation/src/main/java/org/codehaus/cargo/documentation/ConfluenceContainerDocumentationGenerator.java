@@ -359,8 +359,17 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
 
             // TODO: Need to introduce expanded WAR as a proper deployable type
-            output.append(
-                "| [Static deployment of expanded WAR]     | (/) | (/) | (/) | (/) | |");
+            if (containerId.startsWith("geronimo"))
+            {
+                output.append(
+                    "| [Static deployment of expanded WAR]     | (x) | (x) | (x) | (x) | "
+                    + "The Apache Geronimo container does not support expanded WARs |");
+            }
+            else
+            {
+                output.append(
+                    "| [Static deployment of expanded WAR]     | (/) | (/) | (/) | (/) | |");
+            }
         }
         else
         {
