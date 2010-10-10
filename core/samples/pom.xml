@@ -280,6 +280,16 @@
               </property>
 
               <property>
+                <name>cargo.geronimo2x.url</name>
+                <!-- the default cargo.geronimo.servlet.containerId is tomcat, therefore use Tomcat -->
+                <value>http://archive.eu.apache.org/dist/geronimo/2.1.6/geronimo-tomcat6-javaee5-2.1.6-bin.zip</value>
+              </property>
+              <property>
+                <name>cargo.geronimo2x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <property>
                 <name>cargo.glassfish2x.home</name>
                 <value>/Users/alitokmen/Documents/CARGO/servers/glassfish-2.1.1-b31g-macos</value>
               </property>
@@ -874,27 +884,27 @@
       <!-- All unstable containers -->
       <id>all-unstable-downloadable</id>
       <properties>
-        <cargo.containers>tomcat4x, geronimo1x</cargo.containers>
+        <cargo.containers>geronimo2x, tomcat4x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <!-- All stable containers -->
       <id>all-stable-downloadable</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, tomcat5x, tomcat6x, tomcat7x, jetty4x, jetty5x, jetty6x, jetty7x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jo1x, jonas4x, jonas5x</cargo.containers>
+        <cargo.containers>geronimo1x, jetty4x, jetty5x, jetty6x, jetty7x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jo1x, jonas4x, jonas5x, resin2x, resin3x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <!-- All containers that have a distribution which can be downloaded automatically -->
       <id>all-downloadable</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, tomcat7x, jetty4x, jetty5x, jetty6x, jetty7x, geronimo1x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jo1x, jonas4x, jonas5x</cargo.containers>
+        <cargo.containers>geronimo1x, geronimo2x, glassfish3x, jetty4x, jetty5x, jetty6x, jetty7x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jo1x, jonas4x, jonas5x, resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <id>all-datasource</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, oc4j9x, tomcat4x, tomcat5x, tomcat6x, tomcat7x, weblogic8x, weblogic9x, weblogic10x, weblogic103x, jrun4x</cargo.containers>
+        <cargo.containers>jrun4x, oc4j9x, resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, tomcat7x, weblogic8x, weblogic9x, weblogic10x, weblogic103x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -1092,9 +1102,15 @@
       </properties>
     </profile>
     <profile>
+      <id>geronimo2x</id>
+      <properties>
+        <cargo.containers>geronimo2x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
       <id>all-geronimo</id>
       <properties>
-        <cargo.containers>geronimo1x</cargo.containers>
+        <cargo.containers>geronimo1x, geronimo2x</cargo.containers>
       </properties>
     </profile>
 

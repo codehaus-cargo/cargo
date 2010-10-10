@@ -23,48 +23,32 @@ import java.io.File;
 import java.util.Iterator;
 
 import org.apache.tools.ant.taskdefs.Java;
-import org.codehaus.cargo.container.ContainerCapability;
-import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.geronimo.internal.GeronimoUtils;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
-import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 
 /**
- * Geronimo 1.x series container implementation.
+ * Geronimo 2.x series container implementation.
  *
  * @version $Id$
  */
-public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
+public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalContainer
 {
     /**
      * Geronimo 1.x series unique id.
      */
-    public static final String ID = "geronimo1x";
-
-    /**
-     * Capability of the Geronimo Container.
-     */
-    private ContainerCapability capability = new J2EEContainerCapability();
-
-    /**
-     * Geronimo utilities.
-     */
-    private GeronimoUtils geronimoUtils;
+    public static final String ID = "geronimo2x";
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#AbstractInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see Geronimo1xInstalledLocalContainer#Geronimo1xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
-    public Geronimo1xInstalledLocalContainer(LocalConfiguration configuration)
+    public Geronimo2xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
-        this.geronimoUtils = new GeronimoUtils(configuration);
     }
 
     /**
@@ -82,22 +66,44 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
      */
     public String getName()
     {
-        return "Geronimo " + getVersion("1.x");
+        return "Geronimo " + getVersion("2.x");
     }
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStart(org.apache.tools.ant.taskdefs.Java)
+     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStop(org.apache.tools.ant.taskdefs.Java)
      */
     @Override
     protected void doStart(Java java) throws Exception
     {
-        java.setJar(new File(getConfiguration().getHome(), "bin/server.jar"));
+        java.setJar(new File(getHome(), "bin/server.jar"));
 
+        // -javaagent:$GERONIMO_HOME/bin/jpa.jar
+        // -D=...:$JAVA_HOME/lib/endorsed
+        // -Djava.ext.dirs=$GERONIMO_HOME/lib/ext:$JAVA_HOME/lib/ext
+
+        java.addSysproperty(getAntUtils().createSysProperty("org.apache.geronimo.home.dir",
+            getHome()));
         java.addSysproperty(getAntUtils().createSysProperty("org.apache.geronimo.server.dir",
             getConfiguration().getHome()));
+        java.addSysproperty(getAntUtils().createSysProperty("java.endorsed.dirs",
+            new File(getHome(), "lib/endorsed").getAbsolutePath().replace(File.separatorChar,
+                '/')));
         java.addSysproperty(getAntUtils().createSysProperty("java.io.tmpdir",
-            new File(getConfiguration().getHome(), "/var/temp").getPath()));
+            new File(getConfiguration().getHome(), "/var/temp").getAbsolutePath().replace(
+                File.separatorChar, '/')));
+
+        java.addSysproperty(getAntUtils().createSysProperty(
+            "org.apache.geronimo.config.substitution.NamingPort",
+            getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT)));
+        java.addSysproperty(getAntUtils().createSysProperty(
+            "org.apache.geronimo.config.substitution.HTTPPort",
+            getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
+        java.addSysproperty(getAntUtils().createSysProperty(
+            "org.apache.geronimo.config.substitution.EndPointURI",
+            "http://localhost:" + getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
+
+        // --long
 
         AntContainerExecutorThread geronimoStarter = new AntContainerExecutorThread(java);
         geronimoStarter.start();
@@ -120,7 +126,7 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
     @Override
     protected void doStop(Java java) throws Exception
     {
-        java.setJar(new File(getConfiguration().getHome(), "bin/shutdown.jar"));
+        java.setJar(new File(getHome(), "bin/shutdown.jar"));
 
         java.addSysproperty(getAntUtils().createSysProperty("org.apache.geronimo.server.dir",
             getConfiguration().getHome()));
@@ -140,65 +146,10 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
     }
 
     /**
-     * Replace default CPC progress monitor by a log progress monitor.
-     *
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#waitForCompletion(boolean)
+     * @see Geronimo1xInstalledLocalContainer#getVersion(String)
      */
     @Override
-    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
-    {
-        boolean exitCondition;
-
-        getLogger().debug("Checking if Geronimo is started using:"
-            + " hostname [" + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME)
-            + "], RMI port [" + getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT)
-            + "], username [" + getConfiguration().getPropertyValue(RemotePropertySet.USERNAME)
-            + "], password [" + getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD)
-            + "]", this.getClass().getName());
-
-        long startTime = System.currentTimeMillis();
-        boolean isStarted;
-        do
-        {
-            if ((System.currentTimeMillis() - startTime) > getTimeout())
-            {
-                setState(State.UNKNOWN);
-                String message = "Container failed to start within "
-                    + "the timeout period [" + getTimeout()
-                    + "]. The Container state is thus unknown.";
-                getLogger().info(message, this.getClass().getName());
-                throw new ContainerException(message);
-            }
-
-            Thread.sleep(1000);
-
-            isStarted = geronimoUtils.isGeronimoStarted();
-
-            exitCondition = waitForStarting ? !isStarted : isStarted;
-
-        } while (exitCondition);
-
-        Thread.sleep(5000);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
-     */
-    public ContainerCapability getCapability()
-    {
-        return this.capability;
-    }
-
-    /**
-     * Parse installed Geronimo version.
-     *
-     * @return the Geronimo version, or <code>defaultVersion</code> if the version number could not
-     *         be determined
-     * @param defaultVersion the default version used if the exact Geronimo version can't be
-     * determined
-     */
     protected String getVersion(String defaultVersion)
     {
         //TODO get actual version of installed Geronimo server

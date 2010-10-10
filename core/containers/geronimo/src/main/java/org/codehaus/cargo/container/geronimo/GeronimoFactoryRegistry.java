@@ -62,6 +62,15 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
 
         deployableFactory.registerDeployable("geronimo1x", DeployableType.EJB,
             GeronimoEJB.class);
+
+        deployableFactory.registerDeployable("geronimo2x", DeployableType.WAR,
+            GeronimoWAR.class);
+
+        deployableFactory.registerDeployable("geronimo2x", DeployableType.EAR,
+            GeronimoEAR.class);
+
+        deployableFactory.registerDeployable("geronimo2x", DeployableType.EJB,
+            GeronimoEJB.class);
     }
 
     /**
@@ -78,6 +87,10 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
         configurationCapabilityFactory.registerConfigurationCapability("geronimo1x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             GeronimoExistingLocalConfigurationCapability.class);
+
+        configurationCapabilityFactory.registerConfigurationCapability("geronimo2x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            GeronimoStandaloneLocalConfigurationCapability.class);
     }
 
     /**
@@ -94,6 +107,10 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("geronimo1x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             Geronimo1xExistingLocalConfiguration.class);
+
+        configurationFactory.registerConfiguration("geronimo2x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            Geronimo2xStandaloneLocalConfiguration.class);
     }
 
     /**
@@ -105,6 +122,9 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
     protected void register(DeployerFactory deployerFactory)
     {
         deployerFactory.registerDeployer("geronimo1x", DeployerType.INSTALLED,
+            GeronimoInstalledLocalDeployer.class);
+
+        deployerFactory.registerDeployer("geronimo2x", DeployerType.INSTALLED,
             GeronimoInstalledLocalDeployer.class);
     }
 
@@ -128,6 +148,9 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
     {
         containerFactory.registerContainer("geronimo1x", ContainerType.INSTALLED,
             Geronimo1xInstalledLocalContainer.class);
+
+        containerFactory.registerContainer("geronimo2x", ContainerType.INSTALLED,
+            Geronimo2xInstalledLocalContainer.class);
     }
 
     /**
@@ -139,6 +162,9 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
     protected void register(ContainerCapabilityFactory containerCapabilityFactory)
     {
         containerCapabilityFactory.registerContainerCapability("geronimo1x",
+            J2EEContainerCapability.class);
+
+        containerCapabilityFactory.registerContainerCapability("geronimo2x",
             J2EEContainerCapability.class);
     }
 

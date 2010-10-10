@@ -83,6 +83,7 @@ public class ConfluenceContainerDocumentationGenerator
 
     private static final List<String> JAVA5_CONTAINERS = Arrays.asList(new String[]
         {
+            "geronimo2x",
             "glassfish2x",
             "jboss42x",
             "jboss5x",
