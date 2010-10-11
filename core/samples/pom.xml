@@ -199,7 +199,7 @@
               <property>
                 <name>cargo.tomcat4x.url</name>
                 <!-- note that we want the larger download (not LE), as it contains dbcp needed for database tests -->
-                <value>http://mirror.lividpenguin.com/pub/apache/tomcat/tomcat-4/v4.1.40/bin/apache-tomcat-4.1.40.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-4/v4.1.40/bin/apache-tomcat-4.1.40.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat4x.java.home</name>
