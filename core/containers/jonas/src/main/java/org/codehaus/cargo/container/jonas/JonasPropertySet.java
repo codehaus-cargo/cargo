@@ -87,6 +87,11 @@ public class JonasPropertySet
     public static final String JONAS_SERVICES_LIST = "cargo.jonas.services.list";
 
     /**
+     * JMS port used by JOnAS.
+     */
+    public static final String JONAS_JMS_PORT = "cargo.jonas.jms.port";
+
+    /**
      * Utility classes don't have a public constructor.
      */
     protected JonasPropertySet()

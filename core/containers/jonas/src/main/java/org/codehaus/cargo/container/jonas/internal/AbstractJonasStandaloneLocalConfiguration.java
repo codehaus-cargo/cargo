@@ -67,6 +67,7 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
         setProperty(ServletPropertySet.PORT, "9000");
         setProperty(JonasPropertySet.JONAS_SERVER_NAME, "jonas");
         setProperty(JonasPropertySet.JONAS_DOMAIN_NAME, "jonas");
+        setProperty(JonasPropertySet.JONAS_JMS_PORT, "16010");
     }
 
     /**
@@ -108,6 +109,7 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
         configurator.setHost(getPropertyValue(GeneralPropertySet.HOSTNAME));
         configurator.setProtocolsJrmpPort(getPropertyValue(GeneralPropertySet.RMI_PORT));
         configurator.setHttpPort(getPropertyValue(ServletPropertySet.PORT));
+        configurator.setJmsPort(getPropertyValue(JonasPropertySet.JONAS_JMS_PORT));
 
         // Run
         configurator.execute();
