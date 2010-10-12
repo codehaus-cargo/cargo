@@ -90,5 +90,7 @@ public class Tomcat4xInstalledLocalContainer extends AbstractCatalinaInstalledLo
         }
 
         super.doStart(java);
+
+        Thread.sleep(5000);
     }
 }
