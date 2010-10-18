@@ -32,6 +32,7 @@ import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
+import org.codehaus.cargo.container.internal.util.AntBuildListener;
 import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalContainer;
 import org.codehaus.cargo.container.jonas.internal.Jonas5xContainerCapability;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -135,6 +136,22 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         {
             Java ping = (Java) new AntUtils().createAntTask("java");
             ping.setFork(true);
+
+            // Add a build listener to the Ant project so that we can catch what the Java task logs
+            boolean foundBuildListener = false;
+            for (Object listenerObject : ping.getProject().getBuildListeners())
+            {
+                if (listenerObject instanceof AntBuildListener)
+                {
+                    foundBuildListener = true;
+                    break;
+                }
+            }
+            if (!foundBuildListener)
+            {
+                ping.getProject().addBuildListener(
+                    new AntBuildListener(getLogger(), this.getClass().getName()));
+            }
 
             doAction(ping);
             doServerAndDomainNameArgs(ping);
