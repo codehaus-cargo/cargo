@@ -36,8 +36,8 @@
   </scm>
   <properties>
     <!-- define these variables because of potentially different release cycles -->
-    <cargo.resources.version>1.0.4-SNAPSHOT</cargo.resources.version>
-    <cargo.core.version>1.0.4-SNAPSHOT</cargo.core.version>
+    <cargo.resources.version>${project.version}</cargo.resources.version>
+    <cargo.core.version>${project.version}</cargo.core.version>
   </properties>
 
   <dependencies>
