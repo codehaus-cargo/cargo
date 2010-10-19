@@ -27,7 +27,7 @@
   </parent>
   <artifactId>cargo-trunks</artifactId>
   <name>Cargo Trunks</name>
-  <version>1.2</version>
+  <version>1.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>Top level POM to build all other Cargo modules</description>
   <modules>
