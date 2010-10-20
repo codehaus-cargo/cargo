@@ -30,6 +30,7 @@
   <modules>
     <module>datasource-test</module>
     <module>jetty7x-embedded-test</module>
+    <module>tomcat7x-context-test</module>
   </modules>
 
   <build>
