@@ -81,7 +81,7 @@
                 <type>war</type>
                 <properties>
                   <context>/user-context-test</context>
-              </properties>
+                </properties>
               </deployable>
             </deployables>
           </configuration>
