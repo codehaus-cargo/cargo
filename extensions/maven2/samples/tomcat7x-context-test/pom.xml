@@ -53,7 +53,7 @@
           <container>
             <containerId>tomcat7x</containerId>
             <zipUrlInstaller>
-              <url>http://mirror.veriportal.com/apache/tomcat/tomcat-7/v7.0.2-beta/bin/apache-tomcat-7.0.2.zip</url>
+              <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.2-beta/bin/apache-tomcat-7.0.2.zip</url>
               <installDir>${basedir}/../../../../core/samples/java/installs</installDir>
               <!--
                 If required, enter your proxy server settings here.
