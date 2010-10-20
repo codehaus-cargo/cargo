@@ -208,7 +208,7 @@
 
               <property>
                 <name>cargo.tomcat5x.url</name>
-                <value>http://apache.multidist.com/tomcat/tomcat-5/v5.5.29/bin/apache-tomcat-5.5.29.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.31/bin/apache-tomcat-5.5.31.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat5x.java.home</name>
@@ -217,7 +217,7 @@
 
               <property>
                 <name>cargo.tomcat6x.url</name>
-                <value>http://apache.multidist.com/tomcat/tomcat-6/v6.0.26/bin/apache-tomcat-6.0.26.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.29/bin/apache-tomcat-6.0.29.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat6x.java.home</name>
@@ -226,7 +226,7 @@
 
               <property>
                 <name>cargo.tomcat7x.url</name>
-                <value>http://mirror.veriportal.com/apache/tomcat/tomcat-7/v7.0.2-beta/bin/apache-tomcat-7.0.2.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.2-beta/bin/apache-tomcat-7.0.2.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat7x.java.home</name>
