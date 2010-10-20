@@ -30,7 +30,6 @@
   <modules>
     <module>datasource-test</module>
     <module>jetty7x-embedded-test</module>
-    <module>tomcat7x-context-test</module>
   </modules>
 
   <build>
@@ -60,4 +59,17 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <!-- Tomcat7 requires JDK 6 -->
+    <profile>
+      <activation>
+        <jdk>1.6</jdk>
+      </activation>
+      <modules>
+        <module>tomcat7x-context-test</module>
+      </modules>
+    </profile>
+  </profiles>
+
 </project>
