@@ -123,14 +123,6 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        else if (containerId.equals("tomcat4x"))
-        {
-            output.append("{note}The Tomcat 4.x CARGO container or maybe Tomcat 4.x itself is "
-                + "not very stable nowadays. Consider upgrading your Tomcat version."
-                + "{note}");
-            output.append(LINE_SEPARATOR);
-            output.append(LINE_SEPARATOR);
-        }
 
         output.append(generateContainerFeaturesText(containerId));
         output.append(LINE_SEPARATOR);
