@@ -293,6 +293,9 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
                     answer.append("\r\n");
                     answer.append("Content-Type: application/octet-stream");
                     answer.append("\r\n");
+                    answer.append("Content-Length: ");
+                    answer.append(Long.toString(this.fileHandler.getSize(this.filePath)));
+                    answer.append("\r\n");
                     answer.append("\r\n");
 
                     out.write(answer.toString().getBytes("US-ASCII"));

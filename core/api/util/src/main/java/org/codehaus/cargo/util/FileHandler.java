@@ -130,6 +130,12 @@ public interface FileHandler
     void delete(String path);
 
     /**
+     * @param file the file for which to get the size
+     * @return long Size of the file, in bytes
+     */
+    long getSize(String file);
+
+    /**
      * @param file the file for which to get an InputStream for
      * @return an InputStream pointing to the file
      */

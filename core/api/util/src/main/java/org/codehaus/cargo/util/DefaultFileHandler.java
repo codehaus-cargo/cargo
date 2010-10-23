@@ -337,6 +337,20 @@ public class DefaultFileHandler implements FileHandler
 
     /**
      * {@inheritDoc}
+     * @see org.codehaus.cargo.util.FileHandler#getSize(String)
+     */
+    public long getSize(String file)
+    {
+        File fileObject = new File(file).getAbsoluteFile();
+        if (!fileObject.isFile())
+        {
+            throw new CargoException("File [" + file + "] is not a file");
+        }
+        return fileObject.length();
+    }
+
+    /**
+     * {@inheritDoc}
      * @see org.codehaus.cargo.util.FileHandler#getInputStream(String)
      */
     public InputStream getInputStream(String file)
