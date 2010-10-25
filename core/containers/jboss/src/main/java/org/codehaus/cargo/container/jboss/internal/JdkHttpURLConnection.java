@@ -35,6 +35,20 @@ import java.io.InputStreamReader;
 public class JdkHttpURLConnection implements HttpURLConnection
 {
     /**
+     * Socket read timeout, in milliseconds
+     */
+    private int timeout;
+
+    /**
+     * {@inheritDoc}
+     * @see HttpURLConnection#setTimeout(long)
+     */
+    public void setTimeout(int timeout)
+    {
+        this.timeout = timeout;
+    }
+
+    /**
      * {@inheritDoc}
      * @see HttpURLConnection#connect(String, String, String)
      */
@@ -47,6 +61,10 @@ public class JdkHttpURLConnection implements HttpURLConnection
             connection.setInstanceFollowRedirects(false);
             connection.setRequestProperty("Authorization",
                 getBasicAuthorizationHeader(username, password));
+            if (timeout > 0)
+            {
+                connection.setReadTimeout(timeout);
+            }
 
             BufferedReader reader =
                 new BufferedReader(new InputStreamReader(connection.getInputStream()));

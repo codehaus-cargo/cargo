@@ -25,6 +25,7 @@ package org.codehaus.cargo.container.jboss;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
@@ -131,6 +132,9 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
         this.deployableServerSocketAddress = buildSocketAddressForDeployableServer();
         this.fileHandler = new DefaultFileHandler();
         this.fileServer = fileServer;
+
+        // Set a timeout in order to avoid CARGO-859
+        this.connection.setTimeout(120000);
     }
 
     /**
@@ -209,7 +213,21 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
             {
                 throw new CargoException("Application server didn't request the file");
             }
-        } 
+        }
+        catch (ContainerException e)
+        {
+            if (e.getCause() != null && e.getCause() instanceof SocketTimeoutException)
+            {
+                Throwable realCause = this.fileServer.getException();
+                if (realCause != null)
+                {
+                    throw new ContainerException("The CARGO embedded HTTP server failed",
+                        realCause);
+                }
+            }
+
+            throw e;
+        }
         finally
         {
             this.fileServer.stop();

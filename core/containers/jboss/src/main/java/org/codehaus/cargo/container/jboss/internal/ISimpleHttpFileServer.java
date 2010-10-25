@@ -67,6 +67,11 @@ public interface ISimpleHttpFileServer
     int getCallCount();
 
     /**
+     * @return exception, if any occured.
+     */
+    Throwable getException();
+
+    /**
      * stops the server.
      */
     void stop();

@@ -27,6 +27,11 @@ package org.codehaus.cargo.container.jboss.internal;
 public interface HttpURLConnection
 {
     /**
+     * @param timeout socket read timeout, in milliseconds
+     */
+    void setTimeout(int timeout);
+
+    /**
      * @param url authenticated URL to connect to (basic authentication)
      * @param username the username to use for authentication
      * @param password the password to use for authentication

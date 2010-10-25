@@ -19,15 +19,16 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.URL;
 
 import org.codehaus.cargo.util.CargoException;
@@ -81,6 +82,11 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
      * Has stop been called?
      */
     protected boolean stopped;
+
+    /**
+     * Last exception.
+     */
+    protected Throwable lastException;
 
     /**
      * create the simple http file server.
@@ -177,6 +183,14 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     }
 
     /**
+     * @return exception, if any occured.
+     */
+    public Throwable getException()
+    {
+        return this.lastException;
+    }
+
+    /**
      * starts the server.
      */
     public void start()
@@ -227,6 +241,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
         {
             if (!this.stopped)
             {
+                this.lastException = t;
                 this.logger.warn("Error in the embedded HTTP server: " + t.toString(),
                     this.getClass().getName());
                 for (StackTraceElement ste : t.getStackTrace())
@@ -251,8 +266,14 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
 
             try
             {
+                this.logger.debug("Waiting for connection on socket " + this.serverSocket,
+                    this.getClass().getName());
+
                 // wait for a connection
                 socket = this.serverSocket.accept();
+
+                this.logger.debug("Handling request on socket " + socket,
+                    this.getClass().getName());
 
                 boolean error = false;
                 BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -272,7 +293,9 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
                     line = in.readLine();
                 }
 
-                BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
+                this.logger.debug("Got HTTP request line " + line, this.getClass().getName());
+
+                OutputStream out = socket.getOutputStream();
                 if (error)
                 {
                     StringBuilder answer = new StringBuilder();
@@ -283,6 +306,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
                     answer.append("\r\n");
 
                     out.write(answer.toString().getBytes("US-ASCII"));
+                    out.flush();
                 }
                 else
                 {
@@ -299,14 +323,18 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
                     answer.append("\r\n");
 
                     out.write(answer.toString().getBytes("US-ASCII"));
+                    out.flush();
+
+                    byte[] fileBytes = new byte[socket.getSendBufferSize()];
 
                     InputStream file = this.fileHandler.getInputStream(this.filePath);
                     try
                     {
                         int read;
-                        while ((read = file.read()) != -1)
+                        while ((read = file.read(fileBytes)) > 0)
                         {
-                            out.write(read);
+                            out.write(fileBytes, 0, read);
+                            out.flush();
                         }
                     }
                     finally
@@ -318,11 +346,18 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
                     this.callCount++;
                 }
 
+                this.logger.debug("Finished responding to HTTP request line " + line,
+                    this.getClass().getName());
+
                 out.flush();
                 out.close();
                 out = null;
                 in.close();
                 in = null;
+            }
+            catch (SocketException ignored)
+            {
+                // Ignored
             }
             finally
             {

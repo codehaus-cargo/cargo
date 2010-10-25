@@ -79,6 +79,7 @@ public class JBoss4xRemoteDeployerTest extends MockObjectTestCase
         String expectedURLPortion = URLEncoder.encode(mockURL, "UTF-8");
         mockConnection.expects(once()).method("connect").with(stringContains(expectedURLPortion),
             eq("john"), eq("doe"));
+        mockConnection.stubs().method("setTimeout");
 
         JBoss4xRemoteDeployer deployer = new JBoss4xRemoteDeployer((RemoteContainer)
             mockContainer.proxy(), (HttpURLConnection) mockConnection.proxy(),
