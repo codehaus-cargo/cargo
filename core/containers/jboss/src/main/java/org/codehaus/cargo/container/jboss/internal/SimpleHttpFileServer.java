@@ -357,7 +357,8 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
             }
             catch (SocketException ignored)
             {
-                // Ignored
+                // Ignored exception. Not ignoring will break the while loop, end the sending
+                // thread and result in the CARGO-859 (JBoss timing out with big files)
             }
             finally
             {
