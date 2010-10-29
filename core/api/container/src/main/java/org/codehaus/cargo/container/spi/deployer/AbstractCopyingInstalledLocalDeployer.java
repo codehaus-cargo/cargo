@@ -337,8 +337,17 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      */
     protected void deployRar(String deployableDir, RAR rar)
     {
+        String rarName = rar.getName();
+        if (rarName == null)
+        {
+            rarName = getFileHandler().getName(rar.getName());
+        }
+        if (!rarName.toLowerCase().contains(".rar"))
+        {
+            rarName = rarName + ".rar";
+        }
         getFileHandler().copyFile(rar.getFile(),
-            getFileHandler().append(deployableDir, getFileHandler().getName(rar.getFile())));
+            getFileHandler().append(deployableDir, rarName));
     }
     
     /**
