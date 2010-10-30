@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5-SNAPSHOT</version>
   </parent>
   <artifactId>empty-ear</artifactId>
   <name>Cargo Empty EAR test data for samples</name>
