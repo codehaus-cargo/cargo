@@ -114,6 +114,12 @@
                 <value>${cargo.samples.servlet.port}</value>
               </property>
 
+              <!-- ports required for Glassfish domain to be created -->
+              <property>
+                <name>cargo.glassfish.adminPort</name>
+                <value>${cargo.samples.glassfish.adminPort}</value>
+              </property>
+
               <!-- ports required for JBoss tests to pass -->
               <property>
                 <name>cargo.jboss.naming.port</name>
@@ -829,6 +835,7 @@
               <portNames>
                 <portName>cargo.samples.servlet.port</portName>
                 <portName>cargo.samples.rmi.port</portName>
+                <portName>cargo.samples.glassfish.adminPort</portName>
                 <portName>cargo.samples.jboss.naming.port</portName>
                 <portName>cargo.samples.jboss.classloading.webservice.port</portName>
                 <portName>cargo.samples.jboss.jrmp.port</portName>
