@@ -48,7 +48,7 @@ public class Uberjar
 
         ps.print("Welcome to Codehaus Cargo");
         String version = Uberjar.class.getPackage().getImplementationVersion();
-        if (version != null && !version.isEmpty())
+        if (version != null && version.length() > 0)
         {
             ps.print(" version " + version);
         }
