@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-core</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.4</version>
   </parent>
   <artifactId>cargo-samples</artifactId>
   <packaging>pom</packaging>
@@ -892,7 +892,7 @@
       <id>all-unstable-downloadable</id>
       <properties>
         <!-- Well... We currently have NO unstable containers; Bamboo says everything is green! -->
-        <cargo.containers></cargo.containers>
+        <cargo.containers />
       </properties>
     </profile>
     <profile>
