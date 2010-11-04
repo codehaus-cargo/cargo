@@ -255,7 +255,8 @@ public class Deployable extends AbstractDependency
     protected String computeExtension(String packaging)
     {
         String extension;
-        if (packaging.equalsIgnoreCase(Deployable.EJB))
+        if (packaging.equalsIgnoreCase(Deployable.EJB)
+            || packaging.equalsIgnoreCase(Deployable.BUNDLE))
         {
             extension = "jar";
         }
