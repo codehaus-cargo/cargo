@@ -43,6 +43,8 @@ public class Deployable extends AbstractDependency
 {
     private final static String EJB = "ejb";
 
+    private final static String BUNDLE = "bundle";
+
     private final static String UBERWAR = "uberwar";
 
     // JBoss needs special checks, see https://jira.codehaus.org/browse/CARGO-710
