@@ -106,7 +106,8 @@ public class CargoProject
             || getPackaging().equalsIgnoreCase("ear")
             || getPackaging().equalsIgnoreCase("ejb")
             || getPackaging().equalsIgnoreCase("uberwar")
-            || getPackaging().equalsIgnoreCase("rar"));
+            || getPackaging().equalsIgnoreCase("rar")
+            || getPackaging().equalsIgnoreCase("bundle"));
     }
 
     public void setEmbeddedClassLoader(ClassLoader classLoader)
