@@ -77,7 +77,8 @@ public class DeployerServlet extends HttpServlet
     private String webAppDirectory;
 
     /**
-     * Initialize servlet.
+     * Initialize the DeployerServlet and obtain a reference to the server in which it is deployed.
+     * This gives the servlet access to the server internals which allows for deployment control.
      * @throws ServletException If any exception occurs.
      */
     @Override
