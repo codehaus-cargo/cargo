@@ -21,19 +21,4 @@
 
   <Set name="contextPath">/cargo-jetty-deployer</Set>
 
-  <Get id="serverObject" name="server"/>
-
-  <New id="deployerservlet" class="org.codehaus.cargo.deployer.jetty.DeployerServlet">
-     <Arg><Ref id="serverObject"/></Arg>
-  </New>
-
-  <New id="servletholder" class="org.eclipse.jetty.servlet.ServletHolder">
-     <Arg><Ref id="deployerservlet"/></Arg>
-  </New>
-
-  <Call name="addServlet">
-     <Arg><Ref id="servletholder"/></Arg>
-     <Arg>/</Arg>
-  </Call>
-
 </Configure>

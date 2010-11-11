@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -76,28 +77,38 @@ public class DeployerServlet extends HttpServlet
     private String webAppDirectory;
 
     /**
-     * Creates the DeployerServlet and gives the servlet reference to the server in which it is 
-     * deployed.This gives the servlet access to the server internals which allows for deployment 
-     * control.
-     * @param server The server object for the currently running server
+     * Initialize servlet.
+     * @throws ServletException If any exception occurs.
      */
-    public DeployerServlet(Server server)
-    {
-        WebAppClassLoader cl = (WebAppClassLoader) this.getClass().getClassLoader();
-        this.context = (WebAppContext) cl.getContext();
+    @Override
+    public void init() throws ServletException {
+        super.init();
 
-        this.server = server;
-        //TODO find a better means of determining the configuration and webapp directories        
+        WebAppClassLoader cl = (WebAppClassLoader) this.getClass().getClassLoader();
+        // We need to extract the getContext method since its return signature changed between
+        // Jetty 7.1.x and Jetty 7.2.x.
+        try
+        {
+            Method getContextMethod = cl.getClass().getMethod("getContext");
+            this.context = WebAppContext.class.cast(getContextMethod.invoke(cl));
+        }
+        catch (Exception e)
+        {
+            throw new IllegalStateException("Cannot get the Jetty Web application context", e);
+        }
+
+        this.server = this.context.getServer();
+        //TODO find a better means of determining the configuration and webapp directories
         if (System.getProperty("config.home") != null)
         {
         	this.configHome = System.getProperty("config.home");
-        } 
+        }
         else
         {
         	this.configHome = System.getProperty("jetty.home");
         }
         this.webAppDirectory = configHome + File.separator + "webapps";
-        
+
         // TODO there could potentially be more than one context handler
         // collection
         // and there is also the chance that a web application can be deployed
@@ -113,6 +124,8 @@ public class DeployerServlet extends HttpServlet
                 break;
             }
         }
+
+        Log.debug("Started the CARGO Jetty deployer servlet with context " + this.context);
     }
 
     /**
