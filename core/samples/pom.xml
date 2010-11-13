@@ -259,7 +259,7 @@
 
               <property>
                 <name>cargo.jetty6x.url</name>
-                <value>http://dist.codehaus.org/jetty/jetty-6.1.24/jetty-6.1.24.zip</value>
+                <value>http://dist.codehaus.org/jetty/jetty-6.1.26/jetty-6.1.26.zip</value>
               </property>
               <property>
                 <name>cargo.jetty6x.java.home</name>
