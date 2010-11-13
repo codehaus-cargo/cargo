@@ -295,9 +295,26 @@
                 <value>${cargo.java.home.1_5}</value>
               </property>
 
+              <!--
+                GlassFish 2.x
+
+                Notes:
+
+                GlassFish 2.x needs to be installed manually.
+
+                Once you install this, set the cargo.glassfish2x.home accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.glassfish2x.home</name>
+                    <value>/Users/alitokmen/Documents/CARGO/core/samples/java/installs/glassfish-2.1.1</value>
+                  </property>
+                -->
+
               <property>
                 <name>cargo.glassfish2x.home</name>
-                <value>/Users/alitokmen/Documents/CARGO/servers/glassfish-2.1.1-b31g-macos</value>
+                <value>/Users/alitokmen/Documents/CARGO/core/samples/java/installs/glassfish-2.1.1</value>
               </property>
               <property>
                 <name>cargo.glassfish2x.java.home</name>
