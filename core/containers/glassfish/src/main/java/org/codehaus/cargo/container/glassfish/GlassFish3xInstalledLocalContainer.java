@@ -26,6 +26,7 @@ import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalContainer;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
+import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -91,6 +92,15 @@ public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstall
                     + exitCode);
             }
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected AbstractLocalDeployer getDeployer()
+    {
+        return new GlassFish3xInstalledLocalDeployer(this);
     }
 
     /**

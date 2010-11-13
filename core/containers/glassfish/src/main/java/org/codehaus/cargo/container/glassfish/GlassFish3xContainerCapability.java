@@ -34,8 +34,7 @@ public class GlassFish3xContainerCapability extends GlassFish2xContainerCapabili
     @Override
     public boolean supportsDeployableType(DeployableType type)
     {
-        // type == DeployableType.BUNDLE seems not to be working, see tests
-        return super.supportsDeployableType(type);
+        return super.supportsDeployableType(type) || DeployableType.BUNDLE.equals(type);
     }
 
 }

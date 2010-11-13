@@ -32,11 +32,12 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
 
 /**
- * GlassFish installed local deployer.
+ * GlassFish 2.x installed local deployer, which uses the GlassFish asadmin to deploy and undeploy
+ * applications.
  * 
  * @version $Id$
  */
-public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
+public class GlassFish2xInstalledLocalDeployer extends AbstractLocalDeployer
 {
 
     /**
@@ -44,7 +45,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
      *
      * @param localContainer Container.
      */
-    public GlassFishInstalledLocalDeployer(InstalledLocalContainer localContainer)
+    public GlassFish2xInstalledLocalDeployer(InstalledLocalContainer localContainer)
     {
         super(localContainer);
     }
@@ -54,7 +55,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
      *
      * @return Cast container.
      */
-    private AbstractGlassFishInstalledLocalContainer getLocalContainer()
+    protected AbstractGlassFishInstalledLocalContainer getLocalContainer()
     {
         return (AbstractGlassFishInstalledLocalContainer) super.getContainer();
     }
@@ -101,7 +102,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
      * @param deployable Deployable to deploy.
      * @param overwrite Whether to overwrite.
      */
-    private void doDeploy(Deployable deployable, boolean overwrite)
+    protected void doDeploy(Deployable deployable, boolean overwrite)
     {
         List args = new ArrayList();
         args.add("deploy");
@@ -149,7 +150,6 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
     @Override
     public void start(Deployable deployable)
     {
-        // TODO
         super.start(deployable);
     }
 
@@ -159,7 +159,6 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
     @Override
     public void stop(Deployable deployable)
     {
-        // TODO
         super.stop(deployable);
     }
 

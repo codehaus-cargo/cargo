@@ -58,6 +58,7 @@ public final class GlassFishStandaloneLocalConfigurationCapability extends
         this.defaultSupportsMap.put(GlassFishPropertySet.IIOPS_PORT, Boolean.TRUE);
         this.defaultSupportsMap.put(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT, Boolean.TRUE);
         this.defaultSupportsMap.put(GlassFishPropertySet.JMX_ADMIN_PORT, Boolean.TRUE);
+        this.defaultSupportsMap.put(GlassFishPropertySet.DOMAIN_NAME, Boolean.TRUE);
 
         // this.defaultSupportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
     }

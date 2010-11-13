@@ -27,11 +27,11 @@ import java.util.Iterator;
 import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.glassfish.GlassFishInstalledLocalDeployer;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -97,7 +97,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
             "--interactive=false",
             "--domaindir",
             this.getConfiguration().getHome(),
-            "cargo-domain"
+            this.getConfiguration().getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
         });
 
         // wait for the server to start
@@ -128,11 +128,10 @@ public abstract class AbstractGlassFishInstalledLocalContainer
         }
 
         // deploy scheduled deployables
-        GlassFishInstalledLocalDeployer deployer = new GlassFishInstalledLocalDeployer(this);
         for (Iterator iterator = this.getConfiguration().getDeployables().iterator(); iterator
             .hasNext();)
         {
-            deployer.deploy((Deployable) iterator.next());
+            this.getDeployer().deploy((Deployable) iterator.next());
         }
     }
 
@@ -147,8 +146,13 @@ public abstract class AbstractGlassFishInstalledLocalContainer
             "stop-domain",
             "--domaindir",
             this.getConfiguration().getHome(),
-            "cargo-domain"
+            this.getConfiguration().getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
         });
     }
+
+    /**
+     * @return The deployer.
+     */
+    protected abstract AbstractLocalDeployer getDeployer();
 
 }

@@ -26,8 +26,10 @@ import junit.framework.Test;
 
 import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.validator.HasBundleSupportValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
@@ -64,8 +66,20 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
     public void testStartWithBundleDeployed() throws Exception
     {
         BufferedReader reader;
-        File bundleOutput = new File(getLocalContainer().getConfiguration().getHome(),
-            "bundle-output.txt");
+        File bundleOutput;
+        if (getContainer().getId().startsWith("glassfish"))
+        {
+            // In GlassFish, the server runs in the domain's "config" directory
+            LocalConfiguration configuration = getLocalContainer().getConfiguration();
+            bundleOutput = new File(configuration.getHome() + "/"
+                + configuration.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME) + "/config",
+               "bundle-output.txt");
+        }
+        else
+        {
+            bundleOutput = new File(getLocalContainer().getConfiguration().getHome(),
+               "bundle-output.txt");
+        }
         assertFalse(bundleOutput + " already exists!", bundleOutput.isFile());
 
         Deployable bundle = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
@@ -75,6 +89,12 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
 
         getLocalContainer().start();
         assertEquals(State.STARTED, getContainer().getState());
+        final long timeout = System.currentTimeMillis() + 30 * 1000;
+        while (!bundleOutput.isFile() && System.currentTimeMillis() < timeout)
+        {
+            // Wait up to timeout while the bundle output is not here
+            Thread.sleep(1000);
+        }
         assertTrue(bundleOutput + " does not exist!", bundleOutput.isFile());
         reader = new BufferedReader(new FileReader(bundleOutput));
         assertEquals("Hello, World", reader.readLine());

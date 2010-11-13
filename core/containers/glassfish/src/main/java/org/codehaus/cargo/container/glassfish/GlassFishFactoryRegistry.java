@@ -90,10 +90,10 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
     protected void register(DeployerFactory deployerFactory)
     {
         deployerFactory.registerDeployer("glassfish2x", DeployerType.INSTALLED,
-            GlassFishInstalledLocalDeployer.class);
+            GlassFish2xInstalledLocalDeployer.class);
 
         deployerFactory.registerDeployer("glassfish3x", DeployerType.INSTALLED,
-            GlassFishInstalledLocalDeployer.class);
+            GlassFish3xInstalledLocalDeployer.class);
     }
 
     /**

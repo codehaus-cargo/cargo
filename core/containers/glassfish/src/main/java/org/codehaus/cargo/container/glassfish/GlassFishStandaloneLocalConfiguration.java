@@ -68,6 +68,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
         this.setProperty(GlassFishPropertySet.IIOPS_PORT, "3820");
         this.setProperty(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT, "3920");
         this.setProperty(GlassFishPropertySet.JMX_ADMIN_PORT, "8686");
+        this.setProperty(GlassFishPropertySet.DOMAIN_NAME, "cargo-domain");
 
         // ServletPropertySet.PORT default set to 8080 by the super class
     }
@@ -147,10 +148,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
 
             "--domaindir",
             this.getHome(),
-
-            // it looks like domain name can be anything,
-            // but check with the dev
-            "cargo-domain"
+            this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
         });
 
         // schedule cargocpc for deployment

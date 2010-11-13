@@ -64,4 +64,9 @@ public interface GlassFishPropertySet
      * JMX admin port. Defaults to 8686.
      */
     String JMX_ADMIN_PORT = "cargo.glassfish.domain.jmxPort";
+
+    /**
+     * Glassfish domain name.
+     */
+    String DOMAIN_NAME = "cargo.glassfish.domain.name";
 }
