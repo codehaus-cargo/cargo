@@ -19,12 +19,12 @@
 <archetype>
   <id>cargo-archetype-webapp-functional-tests-module</id>
   <resources>
-    <resource>functional-tests/pom.xml</resource>
-    <resource>functional-tests/src/test/java/WebappTest.java</resource>
-    <resource>webapp/pom.xml</resource>
-    <resource>webapp/src/main/java/SomeClass.java</resource>
-    <resource>webapp/src/main/webapp/WEB-INF/web.xml</resource>
-    <resource>webapp/src/main/webapp/index.jsp</resource>
-    <resource>webapp/src/test/java/SomeClassTest.java</resource>
+    <resource encoding="UTF-8">functional-tests/pom.xml</resource>
+    <resource encoding="UTF-8">functional-tests/src/test/java/WebappTest.java</resource>
+    <resource encoding="UTF-8">webapp/pom.xml</resource>
+    <resource encoding="UTF-8">webapp/src/main/java/SomeClass.java</resource>
+    <resource encoding="UTF-8">webapp/src/main/webapp/WEB-INF/web.xml</resource>
+    <resource encoding="UTF-8">webapp/src/main/webapp/index.jsp</resource>
+    <resource encoding="UTF-8">webapp/src/test/java/SomeClassTest.java</resource>
   </resources>
 </archetype>
