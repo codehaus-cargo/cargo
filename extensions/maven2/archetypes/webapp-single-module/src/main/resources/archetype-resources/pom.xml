@@ -1,13 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>${groupId}</groupId>
-  <artifactId>${artifactId}</artifactId>
+  <groupId>\${groupId}</groupId>
+  <artifactId>\${artifactId}</artifactId>
   <packaging>war</packaging>
-  <version>${version}</version>
+  <version>\${version}</version>
   <name>Maven Webapp</name>
-  <url>http://maven.apache.org</url>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -16,12 +17,27 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
   <build>
-    <finalName>${artifactId}</finalName>
+    <finalName>\${artifactId}</finalName>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.cargo</groupId>
+          <artifactId>cargo-maven2-plugin</artifactId>
+          <version>${project.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.6</version>
         <configuration>
           <!-- Exclude all integration tests so that they are not executed during the test phase.
                This is because of a limitation in Maven 2.0.x which only supports compiling a
@@ -83,6 +99,7 @@
       </plugin>
     </plugins>
   </build>
+
   <profiles>
     <profile>
       <id>jetty6x</id>
