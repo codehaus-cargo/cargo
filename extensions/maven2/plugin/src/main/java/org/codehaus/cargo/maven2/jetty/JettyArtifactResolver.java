@@ -97,7 +97,7 @@ public class JettyArtifactResolver
 
         List jetty6xDependencies = new ArrayList();
         jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jsp-api-2.0", "6.1.26"));
-        jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "servlet-api-2.5", "6.1.26"));
+        jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "servlet-api-2.5", "6.1.14"));
         jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jetty", "6.1.26"));
         jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jetty-util", "6.1.26"));
         jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jetty-naming", "6.1.26"));
