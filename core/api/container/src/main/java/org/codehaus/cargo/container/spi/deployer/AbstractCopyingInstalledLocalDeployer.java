@@ -372,8 +372,16 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      */
     protected void deployWar(String deployableDir, WAR war)
     {
+        String context = war.getContext();
+        if ("".equals(context) || "/".equals(context))
+        {
+            getLogger().info("The WAR file has its context set to / and will therefore be "
+                + "deployed as ROOT.war", this.getClass().getName());
+            context = "ROOT";
+        }
+
         getFileHandler().copyFile(
-            war.getFile(), getFileHandler().append(deployableDir, war.getContext() + ".war"));
+            war.getFile(), getFileHandler().append(deployableDir, context + ".war"));
     }
 
     /**
@@ -386,8 +394,16 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      */
     protected void deployExpandedWar(String deployableDir, WAR war)
     {
+        String context = war.getContext();
+        if ("".equals(context) || "/".equals(context))
+        {
+            getLogger().info("The expanded WAR has its context set to / and will therefore be "
+                + "deployed as ROOT", this.getClass().getName());
+            context = "ROOT";
+        }
+
         getFileHandler().copyDirectory(
-            war.getFile(), getFileHandler().append(deployableDir, war.getContext()));
+            war.getFile(), getFileHandler().append(deployableDir, context));
     }
     
     /**
