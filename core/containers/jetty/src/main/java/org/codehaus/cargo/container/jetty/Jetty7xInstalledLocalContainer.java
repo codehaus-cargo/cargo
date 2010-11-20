@@ -185,25 +185,6 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     *
-     * @see AbstractLocalContainer#waitForCompletion(boolean)
-     */
-    @Override
-    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
-    {
-        super.waitForCompletion(waitForStarting);
-
-        if (!waitForStarting)
-        {
-            // Jetty 7 stop is not synchronous, therefore sleep a bit after the
-            // CARGO ping component has stopped in order to allow some time for
-            // the server to stop completely
-            Thread.sleep(10000);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getCapability()
      */
     public ContainerCapability getCapability()
