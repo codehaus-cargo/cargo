@@ -27,6 +27,7 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 
@@ -233,9 +234,13 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      */
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
     {
-        DeployerWatchdog watchdog = new DeployerWatchdog(
-            new URLDeployableMonitor(ContainerUtils.getCPCURL(getConfiguration()), getTimeout(),
-                "Cargo Ping Component used to verify if the container is started."));
+        DeployableMonitor monitor = new URLDeployableMonitor(ContainerUtils.getCPCURL(
+            getConfiguration()), getTimeout(),
+            "Cargo Ping Component used to verify if the container is started.");
+        monitor.setLogger(getLogger());
+        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
+        watchdog.setLogger(getLogger());
+
         watchdog.watch(waitForStarting);
     }
 
