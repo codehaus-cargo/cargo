@@ -228,6 +228,20 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     }
 
     /**
+     * {@inheritDoc}
+     * @see AbstractJettyEmbeddedLocalContainer#doStop()
+     */
+    @Override
+    protected void doStop() throws Exception
+    {
+        super.doStop();
+
+        // Starting with Jetty 7.2.x, sleep a bit in order to avoid a 90-second hang in the HTTP
+        // ping component just after shutdown
+        Thread.sleep(5000);
+    }
+
+    /**
      * Create a WebAppContext for the Deployable. NB also force the defaultRealm to be set on it if
      * one is present.
      * 
