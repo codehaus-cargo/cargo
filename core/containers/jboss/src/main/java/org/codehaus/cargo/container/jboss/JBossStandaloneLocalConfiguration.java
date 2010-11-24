@@ -271,11 +271,34 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         FilterChain filterChain = createFilterChain();
         
         String[] version = jbossContainer.getName().split(" ");
-        String mayorVersion = version[1].substring(0, 1);
+        if (version.length < 2)
+        {
+            throw new IllegalArgumentException("Cannot read JBoss version number from name "
+                + jbossContainer.getName());
+        }
+
+        if (version[1].length() < 1)
+        {
+            throw new IllegalArgumentException("Cannot get the major version for version "
+                + version[1]);
+        }
+        String majorVersion = version[1].substring(0, 1);
+
+        if (version[1].length() < 3)
+        {
+            throw new IllegalArgumentException("Cannot get the minor version for version "
+                + version[1]);
+        }
         String minorVersion = version[1].substring(2, 3);
+
+        if (version[1].length() < 5)
+        {
+            throw new IllegalArgumentException("Cannot get the revision for version "
+                + version[1]);
+        }
         String revisionVersion = version[1].substring(4, 5);
         
-        if (!((Integer.valueOf(mayorVersion).intValue() <= 3)
+        if (!((Integer.valueOf(majorVersion).intValue() <= 3)
             && (Integer.valueOf(minorVersion).intValue() <= 2)
             && (Integer.valueOf(revisionVersion).intValue() <= 7)))
         {
