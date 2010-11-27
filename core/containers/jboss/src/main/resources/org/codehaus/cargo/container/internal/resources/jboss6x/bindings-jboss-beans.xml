@@ -213,7 +213,7 @@
                <property name="description">Socket for high availability version of the legacy Pooled invoker</property>
             </bean>
 
-            <!-- ********************* deploy/iiop-service.xml ****************** -->
+            <!-- ********************* deploy/iiop-jboss-beans.xml ****************** -->
 
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">jboss:service=CorbaORB</property>
