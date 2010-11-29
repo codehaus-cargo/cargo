@@ -189,7 +189,15 @@
               <container>
                 <containerId>glassfish3x</containerId>
                 <zipUrlInstaller>
-                  <url>http://download.java.net/glassfish/v3/release/glassfish-v3-web.zip</url>
+                  <url>http://download.java.net/glassfish/3.0.1/release/glassfish-3.0.1-web.zip</url>
+                  <!--
+                    On MacOS X, the default installDir defaults to something like:
+                      /var/folders/ZR/ZRsat8n-H6qoVq+LK+r86U+++TI/-Tmp-
+                    which makes the GlassFish startup sequence fail. Please make sure you
+                    specify an installDir to avoid that issue:
+
+                  <installDir>installs/glassfish</installDir>
+                    -->
                 </zipUrlInstaller>
               </container>
             </configuration>
