@@ -38,7 +38,7 @@
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-deploy</artifactId>
-      <version>7.2.0.v20101020</version>
+      <version>7.2.1.v20101111</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
