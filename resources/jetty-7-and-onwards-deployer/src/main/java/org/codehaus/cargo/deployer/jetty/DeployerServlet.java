@@ -79,12 +79,9 @@ public class DeployerServlet extends HttpServlet
     /**
      * Initialize the DeployerServlet and obtain a reference to the server in which it is deployed.
      * This gives the servlet access to the server internals which allows for deployment control.
-     * @throws ServletException If any exception occurs.
+     * @throws Exception If any exception occurs.
      */
-    @Override
-    public void init() throws ServletException {
-        super.init();
-
+    public DeployerServlet() throws Exception {
         WebAppClassLoader cl = (WebAppClassLoader) this.getClass().getClassLoader();
         // We need to extract the getContext method since its return signature changed between
         // Jetty 7.1.x and Jetty 7.2.x.
@@ -99,7 +96,7 @@ public class DeployerServlet extends HttpServlet
         }
 
         this.server = this.context.getServer();
-        //TODO find a better means of determining the configuration and webapp directories
+        // TODO find a better means of determining the configuration and webapp directories
         if (System.getProperty("config.home") != null)
         {
         	this.configHome = System.getProperty("config.home");
