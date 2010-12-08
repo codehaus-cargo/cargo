@@ -268,6 +268,9 @@
 
               <property>
                 <name>cargo.jetty7x.url</name>
+                <!--
+                <value>http://download.eclipse.org/jetty/7.1.6.v20100715/dist/jetty-distribution-7.1.6.v20100715.tar.gz</value>
+                 -->
                 <value>http://download.eclipse.org/jetty/7.2.1.v20101111/dist/jetty-distribution-7.2.1.v20101111.tar.gz</value>
               </property>
               <property>
