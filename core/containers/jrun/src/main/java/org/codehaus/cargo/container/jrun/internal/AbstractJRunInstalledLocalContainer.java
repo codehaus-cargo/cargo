@@ -135,25 +135,6 @@ public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstal
         
         return classPath;
     }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see AbstractLocalContainer#waitForCompletion(boolean)
-     */
-    @Override
-    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
-    {
-        super.waitForCompletion(waitForStarting);
-
-        if (!waitForStarting)
-        {
-            // JRun stop is not synchronous, therefore sleep a bit after the
-            // CARGO ping component has stopped in order to allow some time for
-            // the server to stop completely
-            Thread.sleep(10000);
-        }
-    }
     
     /**
      * Allow specific version implementations to add custom settings to the 

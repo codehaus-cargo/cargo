@@ -147,25 +147,6 @@ public abstract class AbstractJBossInstalledLocalContainer extends
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @see AbstractLocalContainer#waitForCompletion(boolean)
-     */
-    @Override
-    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
-    {
-        super.waitForCompletion(waitForStarting);
-
-        if (!waitForStarting)
-        {
-            // JBoss stop is not synchronous, therefore sleep a bit after the
-            // CARGO ping component has stopped in order to allow some time for
-            // the server to stop completely
-            Thread.sleep(15000);
-        }
-    }
-
-    /**
      * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#verify()
      */
     @Override
