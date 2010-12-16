@@ -47,22 +47,6 @@ public class JBoss4xInstalledLocalContainer extends AbstractJBossInstalledLocalC
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getId()
      */
-    @Override
-    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
-    {
-        super.waitForCompletion(waitForStarting);
-
-        if (!waitForStarting)
-        {
-            // JBoss 4.0.x stop is not synchronous, wait a bit to ensure stopping is OK
-            Thread.sleep(10000);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
-     */
     public String getId()
     {
         return ID;
