@@ -62,7 +62,6 @@ public abstract class AbstractGlassFishInstalledLocalContainer
     public void invokeAsAdmin(boolean async, String[] args)
     {
         Java java = this.createJavaTask();
-        addMemoryArguments(java);
         invokeAsAdmin(async, java, args);
     }
 

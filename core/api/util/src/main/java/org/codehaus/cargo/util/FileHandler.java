@@ -22,6 +22,7 @@ package org.codehaus.cargo.util;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.tools.ant.types.FilterChain;
 
@@ -106,6 +107,16 @@ public interface FileHandler
      * @param out OutputStream to copy data to
      */
     void copy(InputStream in, OutputStream out);
+
+    /**
+     * Replaces using a map of replacements in a given file.
+     *
+     * @param file File to replace in.
+     * @param replacements Map containing replacements.
+     * @throws CargoException If anything fails, most notably if one of the replacements does not
+     * exist in the file.
+     */
+    void replaceInFile(String file, Map<String, String> replacements) throws CargoException;
 
     /**
      * Compute the location of a temporary directory.

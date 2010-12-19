@@ -22,6 +22,8 @@ package org.codehaus.cargo.container.glassfish;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -151,6 +153,27 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
             this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
         });
 
+        String jvmArgs = this.getPropertyValue(GeneralPropertySet.JVMARGS);
+        if (jvmArgs != null)
+        {
+            Map<String, String> domainXmlReplacements = new HashMap<String, String>();
+
+            String xmx = this.getJvmArg(jvmArgs, "-Xmx");
+            if (xmx != null)
+            {
+                domainXmlReplacements.put("-Xmx512m", xmx);
+            }
+
+            String maxPermSize = this.getJvmArg(jvmArgs, "-XX:MaxPermSize");
+            if (maxPermSize != null)
+            {
+                domainXmlReplacements.put("-XX:MaxPermSize=192m", maxPermSize);
+            }
+
+            this.replaceInFile(this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
+                + "/config/domain.xml", domainXmlReplacements);
+        }
+
         // schedule cargocpc for deployment
         String cpcWar = this.getFileHandler().append(this.getHome(), "cargocpc.war");
         this.getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war", new File(cpcWar));
@@ -161,12 +184,34 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
      * Returns a system property value string.
      *
      * @param key Key to look for.
-     * @return Associaed value.
+     * @return Associated value.
      */
     private String getPropertyValueString(String key)
     {
         String value = this.getPropertyValue(key);
         return key.substring("cargo.glassfish.".length()) + '=' + value;
+    }
+
+    /**
+     * Extracts a JVM argument.
+     *
+     * @param jvmArgs JVM arguments list.
+     * @param key Key to look for.
+     * @return Associated value, null if not found.
+     */
+    private String getJvmArg(String jvmArgs, String key)
+    {
+        int startIndex = jvmArgs.indexOf(key);
+        if (startIndex == -1)
+        {
+            return null;
+        }
+        int endIndex = jvmArgs.indexOf(' ', startIndex);
+        if (endIndex == -1)
+        {
+            endIndex = jvmArgs.length();
+        }
+        return jvmArgs.substring(startIndex, endIndex);
     }
 
 }

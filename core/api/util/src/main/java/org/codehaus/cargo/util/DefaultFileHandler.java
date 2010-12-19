@@ -35,6 +35,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
 
@@ -136,9 +137,6 @@ public class DefaultFileHandler implements FileHandler
     {
         try
         {
-            getFileUtils().copyFile(new File(source).getAbsolutePath(),
-                    new File(target).getAbsolutePath());
-
             InputStream fileIS = new FileInputStream(source);
             if (fileIS == null)
             {
@@ -282,6 +280,43 @@ public class DefaultFileHandler implements FileHandler
     public void copy(InputStream in, OutputStream out)
     {
         copy(in, out, 1024);
+    }
+
+    /**
+     * {@inheritDoc}.
+     * @see FileHandler#replaceInFile(String, Map)
+     */
+    public void replaceInFile(String file, Map<String, String> replacements) throws CargoException
+    {
+        String fileContents = readTextFile(file);
+
+        for (Map.Entry<String, String> replacement : replacements.entrySet())
+        {
+            if (!fileContents.contains(replacement.getKey()))
+            {
+                throw new CargoException("File " + file + " does not contain replacement key "
+                    + replacement.getKey());
+            }
+
+            fileContents = fileContents.replace(replacement.getKey(), replacement.getValue());
+        }
+
+        try
+        {
+            FileWriter fw = new FileWriter(file, false);
+            try
+            {
+                fw.write(fileContents);
+            }
+            finally
+            {
+                fw.close();
+            }
+        }
+        catch (IOException e)
+        {
+            throw new CargoException("Cannot write file " + file, e);
+        }
     }
 
     /**
@@ -559,6 +594,10 @@ public class DefaultFileHandler implements FileHandler
                 String str;
                 while ((str = in.readLine()) != null)
                 {
+                    if (out.length() > 0)
+                    {
+                        out.append(System.getProperty("line.separator"));
+                    }
                     out.append(str);
                 }
                 return out.toString();

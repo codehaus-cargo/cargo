@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
@@ -31,6 +32,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Base implementation for a standalone local configuration.
@@ -339,5 +341,20 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         }
         
         return finalDir;
+    }
+
+    /**
+     * Replaces using a map of replacements in a given file.
+     *
+     * @param file File to replace in.
+     * @param replacements Map containing replacements.
+     * @throws CargoException If anything fails, most notably if one of the replacements does not
+     * exist in the file.
+     */
+    protected void replaceInFile(String file, Map<String, String> replacements)
+        throws CargoException
+    {
+        String path = getHome() + "/" + file;
+        getFileHandler().replaceInFile(path, replacements);
     }
 }
