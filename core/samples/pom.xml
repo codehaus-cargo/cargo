@@ -563,7 +563,7 @@
 
               <property>
                 <name>cargo.jboss6x.url</name>
-                <value>http://downloads.sourceforge.net/jboss/jboss-as-distribution-6.0.0.20101110-CR1.zip?big_mirror=1</value>
+                <value>http://downloads.sourceforge.net/jboss/jboss-as-distribution-6.0.0.Final.zip?big_mirror=1</value>
               </property>
               <property>
                 <name>cargo.jboss6x.java.home</name>
