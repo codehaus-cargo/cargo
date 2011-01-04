@@ -287,7 +287,10 @@ public class Container
             for (Iterator iter = getSystemProperties().entrySet().iterator(); iter.hasNext();)
             {
                 Map.Entry entry = (Map.Entry) iter.next();
-                System.setProperty((String)entry.getKey(), (String)entry.getValue());
+                if (entry.getValue() != null)
+                {
+                    System.setProperty((String)entry.getKey(), (String)entry.getValue());
+                }
             }
         }
     }
