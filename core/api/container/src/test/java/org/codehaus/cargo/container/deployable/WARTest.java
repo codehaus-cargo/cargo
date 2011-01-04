@@ -54,6 +54,13 @@ public class WARTest extends TestCase
         assertEquals("", war.getContext());
     }
 
+    public void testGetContextWhenOverrideAndMiddleSlash()
+    {
+        WAR war = new WAR("c:/some/path/to/war/test.war");
+        war.setContext("/a/b");
+        assertEquals("a/b", war.getContext());
+    }
+
     public void testLoggerWhenCallingGetContext()
     {
         MockLogger logger = new MockLogger();

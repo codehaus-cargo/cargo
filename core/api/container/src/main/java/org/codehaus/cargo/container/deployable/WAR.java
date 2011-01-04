@@ -51,7 +51,11 @@ public class WAR extends AbstractDeployable
     public synchronized void setContext(String context)
     {
         // Ensure the context is also well-formed by removing any extra leading "/".
-        this.context = context.replace('/', ' ').trim();
+        this.context = context.trim();
+        if (this.context.startsWith("/")) 
+        {
+            this.context = this.context.substring(1); 
+        }
     }
 
     /**
