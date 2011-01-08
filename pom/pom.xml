@@ -369,13 +369,10 @@
           <artifactId>maven-assembly-plugin</artifactId>
           <version>2.1</version>
         </plugin>
-        <!--
-          Checkstyle plugin 2.5 cannot be used because of bug MCHECKSTYLE-130
-          -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.4</version>
+          <version>2.6</version>
           <dependencies>
             <dependency>
               <groupId>checkstyle</groupId>
