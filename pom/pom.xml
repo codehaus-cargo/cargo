@@ -378,7 +378,12 @@
             <configLocation>build-tools/checkstyle.xml</configLocation>
             <headerLocation>build-tools/checkstyle.license</headerLocation>
             <suppressionsLocation>build-tools/checkstyle-suppressions.xml</suppressionsLocation>
-            <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+
+            <!-- See: http://jira.codehaus.org/browse/MCHECKSTYLE-134 -->
+            <suppressionsFileExpression>checkstyle.suppressions.file.donothing</suppressionsFileExpression>
+            <propertyExpansion>
+              checkstyle.suppressions.file=${project.build.directory}/checkstyle-suppressions.xml
+            </propertyExpansion>
           </configuration>
           <executions>
             <execution>
