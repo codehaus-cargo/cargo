@@ -72,7 +72,18 @@ public abstract class AbstractGlassFishInstalledLocalContainer
      * @param java ANT Java container task.
      * @param args Invoke arguments.
      */
-    public abstract void invokeAsAdmin(boolean async, Java java, String[] args);
+    public void invokeAsAdmin(boolean async, Java java, String[] args)
+    {
+        AbstractAsAdmin asadmin = getAsAdmin();
+        asadmin.invokeAsAdmin(async, java, args);
+    }
+
+    /**
+     * Returns the asadmin for the GlassFish server.
+     *
+     * @return AsAdmin for the GlassFish server.
+     */
+    protected abstract AbstractAsAdmin getAsAdmin();
 
     /**
      * {@inheritDoc}

@@ -19,14 +19,11 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import java.io.File;
-
-import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.glassfish.internal.AbstractAsAdmin;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalContainer;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
-import org.codehaus.cargo.util.CargoException;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish3xAsAdmin;
 
 /**
  * GlassFish 3.x installed local container.
@@ -54,43 +51,9 @@ public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstall
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void invokeAsAdmin(boolean async, Java java, String[] args)
+    protected AbstractAsAdmin getAsAdmin()
     {
-        String home = this.getHome();
-        if (home == null || !this.getFileHandler().isDirectory(home))
-        {
-            throw new CargoException("GlassFish home directory is not set");
-        }
-
-        File adminCli = new File(home, "glassfish/modules/admin-cli.jar");
-        if (!adminCli.isFile())
-        {
-            throw new CargoException("Cannot find the GlassFish admin CLI JAR: "
-                + adminCli.getName());
-        }
-
-        java.setJar(adminCli);
-        for (String arg : args)
-        {
-            java.createArg().setValue(arg);
-        }
-
-        if (async)
-        {
-            AntContainerExecutorThread glassFishRunner = new AntContainerExecutorThread(java);
-            glassFishRunner.start();
-        }
-        else
-        {
-            int exitCode = java.executeJava();
-
-            if (exitCode != 0 && exitCode != 1)
-            {
-                throw new CargoException("Command " + args[0] + " failed: asadmin exited "
-                    + exitCode);
-            }
-        }
+        return new GlassFish3xAsAdmin(this.getHome());
     }
 
     /**
