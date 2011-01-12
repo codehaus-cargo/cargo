@@ -32,7 +32,8 @@ public interface ContainerCapabilityFactory
      * @param containerId the id of the container to register
      * @param containerCapabilityClass the container capability implementation class to register
      */
-    void registerContainerCapability(String containerId, Class containerCapabilityClass);
+    void registerContainerCapability(String containerId,
+        Class<? extends ContainerCapability> containerCapabilityClass);
 
     /**
      * Create a {@link ContainerCapability} instance.

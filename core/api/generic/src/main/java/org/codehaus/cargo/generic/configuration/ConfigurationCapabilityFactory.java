@@ -40,7 +40,8 @@ public interface ConfigurationCapabilityFactory
      *        register
      */
     void registerConfigurationCapability(String containerId, ContainerType containerType,
-        ConfigurationType configurationType, Class configurationCapabilityClass);
+        ConfigurationType configurationType,
+        Class<? extends ConfigurationCapability> configurationCapabilityClass);
 
     /**
      * Create a {@link org.codehaus.cargo.container.configuration.ConfigurationCapability} instance

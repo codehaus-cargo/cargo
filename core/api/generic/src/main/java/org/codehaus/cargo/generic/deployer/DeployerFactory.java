@@ -37,7 +37,8 @@ public interface DeployerFactory
      * @param deployerType the deployer's type (local, remote, etc)
      * @param deployerClass the deployer implementation class to register
      */
-    void registerDeployer(String containerId, DeployerType deployerType, Class deployerClass);
+    void registerDeployer(String containerId, DeployerType deployerType,
+        Class<? extends Deployer> deployerClass);
 
     /**
      * @param containerId the container attached to this deployer class

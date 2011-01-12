@@ -38,7 +38,8 @@ public interface ContainerFactory
      *        {@link ContainerType#EMBEDDED} or {@link ContainerType#REMOTE})
      * @param containerClass the container implementation class to register
      */
-    void registerContainer(String containerId, ContainerType containerType, Class containerClass);
+    void registerContainer(String containerId, ContainerType containerType,
+        Class<? extends Container> containerClass);
 
     /**
      * @param containerId the id of the container for which to retrieve the implementation class

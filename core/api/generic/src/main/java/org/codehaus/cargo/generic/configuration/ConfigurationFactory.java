@@ -43,7 +43,7 @@ public interface ConfigurationFactory
      * @param configurationClass the configuration implementation class to register
      */
     void registerConfiguration(String containerId, ContainerType containerType,
-        ConfigurationType configurationType, Class configurationClass);
+        ConfigurationType configurationType, Class<? extends Configuration> configurationClass);
 
     /**
      * @param containerId the container id attached to this configuration class

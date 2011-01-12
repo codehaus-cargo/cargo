@@ -36,7 +36,8 @@ public interface PackagerFactory
      * @param packagerType the packager's type (directory, zip, etc)
      * @param packagerClass the packager implementation class to register
      */
-    void registerPackager(String containerId, PackagerType packagerType, Class packagerClass);
+    void registerPackager(String containerId, PackagerType packagerType,
+        Class<? extends Packager> packagerClass);
 
     /**
      * @param containerId the container attached to this packager class

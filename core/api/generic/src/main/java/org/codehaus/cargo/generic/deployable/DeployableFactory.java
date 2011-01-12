@@ -38,7 +38,7 @@ public interface DeployableFactory
      * @param deployableClass the deployable implementation class to register
      */
     void registerDeployable(String containerId, DeployableType deployableType,
-        Class deployableClass);
+        Class<? extends Deployable> deployableClass);
 
     /**
      * @param containerId the container attached to the deployable type class
