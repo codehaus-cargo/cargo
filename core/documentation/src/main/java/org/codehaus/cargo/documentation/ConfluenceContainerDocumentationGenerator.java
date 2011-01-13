@@ -265,7 +265,7 @@ public class ConfluenceContainerDocumentationGenerator
         {
             output.append("| [Remote Container]                      | ");
             output.append("(/) {{" + computedFQCN(this.containerFactory.getContainerClass(
-                containerId, ContainerType.REMOTE).getName()) + "}} | (/) | (x) | (/) | |");
+                containerId, ContainerType.REMOTE).getName()) + "}} | (/) | (/) | (/) | |");
         }
         else
         {
@@ -346,7 +346,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("| [Runtime Configuration]                 | ");
             output.append("(/) {{" + computedFQCN(this.configurationFactory.getConfigurationClass(
                 containerId, ContainerType.REMOTE, ConfigurationType.RUNTIME).getName())
-                + "}} | (/) | (x) | (/) | |");
+                + "}} | (/) | (/) | (/) | |");
         }
         else
         {
