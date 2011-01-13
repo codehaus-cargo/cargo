@@ -64,6 +64,9 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
         configurationCapabilityFactory.registerConfigurationCapability("glassfish3x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             GlassFishStandaloneLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("glassfish3x",
+            ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            GlassFish3xRuntimeConfigurationCapability.class);
     }
 
     /**
@@ -79,6 +82,8 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
 
         configurationFactory.registerConfiguration("glassfish3x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, GlassFishStandaloneLocalConfiguration.class);
+        configurationFactory.registerConfiguration("glassfish3x", ContainerType.REMOTE,
+            ConfigurationType.RUNTIME, GlassFish3xRuntimeConfiguration.class);
     }
 
     /**
@@ -94,6 +99,8 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
 
         deployerFactory.registerDeployer("glassfish3x", DeployerType.INSTALLED,
             GlassFishInstalledLocalDeployer.class);
+        deployerFactory.registerDeployer("glassfish3x", DeployerType.REMOTE,
+            GlassFish3xRemoteDeployer.class);
     }
 
     /**
@@ -119,6 +126,8 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
 
         containerFactory.registerContainer("glassfish3x", ContainerType.INSTALLED,
             GlassFish3xInstalledLocalContainer.class);
+        containerFactory.registerContainer("glassfish3x", ContainerType.REMOTE,
+            GlassFish3xRemoteContainer.class);
     }
 
     /**

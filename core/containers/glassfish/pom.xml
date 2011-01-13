@@ -28,4 +28,32 @@
   <name>Cargo Core GlassFish Container</name>
   <packaging>jar</packaging>
   <description>Core API implementation for GlassFish containers</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-j2ee-deployment_1.1_spec</artifactId>
+      <version>1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.glassfish.deployment</groupId>
+      <artifactId>deployment-client</artifactId>
+      <version>3.0.1</version>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>glassfish</id>
+      <url>http://download.java.net/maven/glassfish</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
 </project>

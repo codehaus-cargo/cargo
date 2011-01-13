@@ -97,11 +97,15 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         // Start the local container that this remote container will access
         this.startLocalContainer();
 
-        // Set up deployment credentials
-        getRemoteContainer().getConfiguration().setProperty(RemotePropertySet.USERNAME,
-            "cargo");
-        getRemoteContainer().getConfiguration().setProperty(RemotePropertySet.PASSWORD,
-            "password");
+        // Warning: the GlassFish configuration generation cannot change password
+        if (!getRemoteContainer().getId().startsWith("glassfish"))
+        {
+            // Set up deployment credentials
+            getRemoteContainer().getConfiguration().setProperty(RemotePropertySet.USERNAME,
+                "cargo");
+            getRemoteContainer().getConfiguration().setProperty(RemotePropertySet.PASSWORD,
+                "password");
+        }
 
         this.war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
             getTestData().getTestDataFileFor("simple-war"), DeployableType.WAR);
