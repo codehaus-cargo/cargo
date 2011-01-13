@@ -346,7 +346,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("| [Runtime Configuration]                 | ");
             output.append("(/) {{" + computedFQCN(this.configurationFactory.getConfigurationClass(
                 containerId, ContainerType.REMOTE, ConfigurationType.RUNTIME).getName())
-                + "}} | (x) | (x) | (/) | |");
+                + "}} | (/) | (x) | (/) | |");
         }
         else
         {
