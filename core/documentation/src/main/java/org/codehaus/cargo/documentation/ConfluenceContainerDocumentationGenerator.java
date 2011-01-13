@@ -265,7 +265,7 @@ public class ConfluenceContainerDocumentationGenerator
         {
             output.append("| [Remote Container]                      | ");
             output.append("(/) {{" + computedFQCN(this.containerFactory.getContainerClass(
-                containerId, ContainerType.REMOTE).getName()) + "}} | (x) | (x) | (/) | |");
+                containerId, ContainerType.REMOTE).getName()) + "}} | (/) | (x) | (/) | |");
         }
         else
         {
