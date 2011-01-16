@@ -27,8 +27,6 @@ import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractJsr88Deployer;
-import org.codehaus.cargo.util.CargoException;
-import org.glassfish.deployapi.SunDeploymentFactory;
 
 /**
  * GlassFish remote deployer, which uses the JSR-88 to deploy and undeploy applications.
@@ -49,16 +47,23 @@ public class GlassFish3xRemoteDeployer extends AbstractJsr88Deployer
     }
 
     /**
+     * @return The class name of the JSR-88 deployment factory.
+     */
+    @Override
+    protected String getDeploymentFactoryClassName()
+    {
+        return "org.glassfish.deployapi.SunDeploymentFactory";
+    }
+
+    /**
+     * @param dfm JSR-88 deployment factory manager with the target deployer factory registered.
      * @return The JSR-88 deployment manager for the target server.
-     * @throws CargoException If some parameters are incorrect.
      * @throws DeploymentManagerCreationException If deployment manager creation fails.
      */
-    protected DeploymentManager getDeploymentManager() throws CargoException,
-        DeploymentManagerCreationException
+    @Override
+    protected DeploymentManager getDeploymentManager(DeploymentFactoryManager dfm)
+        throws DeploymentManagerCreationException
     {
-        DeploymentFactoryManager dfm = DeploymentFactoryManager.getInstance();
-        dfm.registerDeploymentFactory(new SunDeploymentFactory());
-
         String hostname = this.getRuntimeConfiguration().getPropertyValue(
             GeneralPropertySet.HOSTNAME);
         String port = this.getRuntimeConfiguration().getPropertyValue(

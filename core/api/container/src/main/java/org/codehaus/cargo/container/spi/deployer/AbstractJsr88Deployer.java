@@ -20,12 +20,15 @@
 package org.codehaus.cargo.container.spi.deployer;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 
 import javax.enterprise.deploy.shared.ModuleType;
+import javax.enterprise.deploy.shared.factories.DeploymentFactoryManager;
 import javax.enterprise.deploy.spi.DeploymentManager;
 import javax.enterprise.deploy.spi.TargetModuleID;
 import javax.enterprise.deploy.spi.exceptions.DeploymentManagerCreationException;
 import javax.enterprise.deploy.spi.exceptions.TargetException;
+import javax.enterprise.deploy.spi.factories.DeploymentFactory;
 import javax.enterprise.deploy.spi.status.DeploymentStatus;
 import javax.enterprise.deploy.spi.status.ProgressObject;
 
@@ -66,15 +69,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
     @Override
     public void deploy(Deployable deployable)
     {
-        DeploymentManager deploymentManager;
-        try
-        {
-            deploymentManager = this.getDeploymentManager();
-        }
-        catch (DeploymentManagerCreationException e)
-        {
-            throw new CargoException("Cannot create the DeploymentManager", e);
-        }
+        DeploymentManager deploymentManager = this.getDeploymentManager();
 
         ProgressObject progressObject = deploymentManager.distribute(
             deploymentManager.getTargets(), new File(deployable.getFile()), null);
@@ -92,15 +87,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
     @Override
     public void undeploy(Deployable deployable)
     {
-        DeploymentManager deploymentManager;
-        try
-        {
-            deploymentManager = this.getDeploymentManager();
-        }
-        catch (DeploymentManagerCreationException e)
-        {
-            throw new CargoException("Cannot create the DeploymentManager", e);
-        }
+        DeploymentManager deploymentManager = this.getDeploymentManager();
 
         TargetModuleID[] targetModules;
         try
@@ -127,15 +114,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
     @Override
     public void redeploy(Deployable deployable)
     {
-        DeploymentManager deploymentManager;
-        try
-        {
-            deploymentManager = this.getDeploymentManager();
-        }
-        catch (DeploymentManagerCreationException e)
-        {
-            throw new CargoException("Cannot create the DeploymentManager", e);
-        }
+        DeploymentManager deploymentManager = this.getDeploymentManager();
 
         TargetModuleID[] targetModules = null;
         try
@@ -171,15 +150,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
     @Override
     public void start(Deployable deployable)
     {
-        DeploymentManager deploymentManager;
-        try
-        {
-            deploymentManager = this.getDeploymentManager();
-        }
-        catch (DeploymentManagerCreationException e)
-        {
-            throw new CargoException("Cannot create the DeploymentManager", e);
-        }
+        DeploymentManager deploymentManager = this.getDeploymentManager();
 
         TargetModuleID[] targetModules = null;
         try
@@ -203,15 +174,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
     @Override
     public void stop(Deployable deployable)
     {
-        DeploymentManager deploymentManager;
-        try
-        {
-            deploymentManager = this.getDeploymentManager();
-        }
-        catch (DeploymentManagerCreationException e)
-        {
-            throw new CargoException("Cannot create the DeploymentManager", e);
-        }
+        DeploymentManager deploymentManager = this.getDeploymentManager();
 
         TargetModuleID[] targetModules = null;
         try
@@ -272,11 +235,73 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 
     /**
      * @return The JSR-88 deployment manager for the target server.
-     * @throws CargoException If some parameters are incorrect.
+     * @throws CargoException If anything fails.
+     */
+    private DeploymentManager getDeploymentManager() throws CargoException
+    {
+        DeploymentFactoryManager dfm = DeploymentFactoryManager.getInstance();
+
+        String deploymentFactoryClassName = this.getDeploymentFactoryClassName();
+        try
+        {
+            Class<?> deploymentFactoryClass = null;
+            final ClassLoader tcccl = Thread.currentThread().getContextClassLoader();
+            if (tcccl != null)
+            {
+                try
+                {
+                    deploymentFactoryClass = tcccl.loadClass(deploymentFactoryClassName);
+                }
+                catch (ClassNotFoundException e)
+                {
+                    deploymentFactoryClass = null;
+                }
+            }
+            if (deploymentFactoryClass == null)
+            {
+                deploymentFactoryClass = this.getClass().getClassLoader().loadClass(
+                    deploymentFactoryClassName);
+            }
+
+            Constructor<?> deploymentFactoryConstructor = deploymentFactoryClass.getConstructor();
+            DeploymentFactory deploymentFactoryInstance = (DeploymentFactory)
+                deploymentFactoryConstructor.newInstance();
+            dfm.registerDeploymentFactory(deploymentFactoryInstance);
+        }
+        catch (ClassNotFoundException e)
+        {
+            throw new CargoException(
+                "Cannot locate the JSR-88 deployer class " + deploymentFactoryClassName + "\n"
+                + "Make sure the target server's librarires are in CARGO's classpath.\n"
+                + "More information on: http://cargo.codehaus.org/JSR88", e);
+        }
+        catch (Throwable t)
+        {
+            throw new CargoException("Cannot create a JSR-88 deployer: " + t.getMessage(), t);
+        }
+
+        try
+        {
+            return this.getDeploymentManager(dfm);
+        }
+        catch (DeploymentManagerCreationException e)
+        {
+            throw new CargoException("Cannot create the DeploymentManager", e);
+        }
+    }
+
+    /**
+     * @return The class name of the JSR-88 deployment factory.
+     */
+    protected abstract String getDeploymentFactoryClassName();
+
+    /**
+     * @param dfm JSR-88 deployment factory manager with the target deployer factory registered.
+     * @return The JSR-88 deployment manager for the target server.
      * @throws DeploymentManagerCreationException If deployment manager creation fails.
      */
-    protected abstract DeploymentManager getDeploymentManager() throws CargoException,
-        DeploymentManagerCreationException;
+    protected abstract DeploymentManager getDeploymentManager(DeploymentFactoryManager dfm)
+        throws DeploymentManagerCreationException;
 
     /**
      * Finds a JSR-88 module

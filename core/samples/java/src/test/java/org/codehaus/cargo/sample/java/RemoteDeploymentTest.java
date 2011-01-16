@@ -97,8 +97,65 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         // Start the local container that this remote container will access
         this.startLocalContainer();
 
-        // Warning: the GlassFish configuration generation cannot change password
-        if (!getRemoteContainer().getId().startsWith("glassfish"))
+        // The GlassFish 3.x JSR88 container requires a huge classpath
+        List<File> filesToAddToClasspath = new ArrayList<File>();
+        if (getTestData().containerId.equals("glassfish3x"))
+        {
+            for (File jar : new File(this.localContainer.getHome(),
+                "glassfish/modules").listFiles())
+            {
+                if (jar.isFile())
+                {
+                    filesToAddToClasspath.add(jar);
+                }
+            }
+        }
+        // JBoss 5+ requires a huge classpath
+        else if (getTestData().containerId.startsWith("jboss"))
+        {
+            int jbossVersion = Integer.parseInt(getTestData().containerId.substring(5,
+                getTestData().containerId.length() - 1));
+
+            if ((jbossVersion < 10 && jbossVersion >= 5) || jbossVersion >= 50)
+            {
+                if (jbossVersion == 5)
+                {
+                    filesToAddToClasspath.add(new File(getTestData().getTestDataFileFor(
+                        "cargo-core-tools-jboss-deployer-5")));
+                }
+                else
+                {
+                    filesToAddToClasspath.add(new File(getTestData().getTestDataFileFor(
+                        "cargo-core-tools-jboss-deployer-5.1-and-onwards")));
+                }
+
+                for (File jar : new File(this.localContainer.getHome(), "lib").listFiles())
+                {
+                    if (jar.isFile())
+                    {
+                        filesToAddToClasspath.add(jar);
+                    }
+                }
+                for (File jar : new File(this.localContainer.getHome(), "common/lib").listFiles())
+                {
+                    if (jar.isFile())
+                    {
+                        filesToAddToClasspath.add(jar);
+                    }
+                }
+            }
+        }
+        URL[] urlsArray = new URL[filesToAddToClasspath.size()];
+        for (int i = 0; i < filesToAddToClasspath.size(); i++)
+        {
+            urlsArray[i] = filesToAddToClasspath.get(i).toURI().toURL();
+        }
+        URLClassLoader classLoader = new URLClassLoader(urlsArray,
+            Thread.currentThread().getContextClassLoader());
+        Thread.currentThread().setContextClassLoader(classLoader);
+
+        // Warning: the GlassFish 3.x configuration generation cannot change password
+        if (!getRemoteContainer().getId().equals("glassfish3x"))
         {
             // Set up deployment credentials
             getRemoteContainer().getConfiguration().setProperty(RemotePropertySet.USERNAME,
@@ -135,51 +192,8 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
         getTestData().containerType = oldContainerType;
 
-        // JBoss 5+ requires a huge classpath
-        if (getTestData().containerId.startsWith("jboss"))
-        {
-            int jbossVersion = Integer.parseInt(getTestData().containerId.substring(5,
-                getTestData().containerId.length() - 1));
-
-            if ((jbossVersion < 10 && jbossVersion >= 5) || jbossVersion >= 50)
-            {
-                List<URL> urls = new ArrayList<URL>();
-
-                if (jbossVersion == 5)
-                {
-                    urls.add(new File(getTestData().getTestDataFileFor(
-                        "cargo-core-tools-jboss-deployer-5")).toURI().toURL());
-                }
-                else
-                {
-                    urls.add(new File(getTestData().getTestDataFileFor(
-                        "cargo-core-tools-jboss-deployer-5.1-and-onwards")).toURI().toURL());
-                }
-
-                for (File jar : new File(this.localContainer.getHome(), "lib").listFiles())
-                {
-                    if (jar.isFile())
-                    {
-                        urls.add(jar.toURI().toURL());
-                    }
-                }
-                for (File jar : new File(this.localContainer.getHome(), "common/lib").listFiles())
-                {
-                    if (jar.isFile())
-                    {
-                        urls.add(jar.toURI().toURL());
-                    }
-                }
-
-                URL[] urlsArray = new URL[urls.size()];
-                urlsArray = urls.toArray(urlsArray);
-                URLClassLoader classLoader = new URLClassLoader(urlsArray,
-                    Thread.currentThread().getContextClassLoader());
-                Thread.currentThread().setContextClassLoader(classLoader);
-            }
-        }
         // Jetty requires its deployer application
-        else if (getTestData().containerId.startsWith("jetty"))
+        if (getTestData().containerId.startsWith("jetty"))
         {
             int jettyVersion = Integer.parseInt(getTestData().containerId.substring(5,
                 getTestData().containerId.length() - 1));

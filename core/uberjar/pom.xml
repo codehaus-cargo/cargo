@@ -110,12 +110,11 @@
                     <include>**/org.codehaus.cargo.*</include>
                     <include>**/org.codehaus.cargo/**</include>
 
+                    <!-- JSR-88 -->
+                    <include>javax/enterprise/deploy/**</include>
+
                     <!-- The JOnAS container uses the OW2 API -->
                     <include>org/ow2/jonas/tools/configurator/**</include>
-
-                    <!-- The GlassFish JSR-88 deployer, over HTTP or HTTPS -->
-                    <include>org/glassfish/deployapi/**</include>
-                    <include>javax/enterprise/deploy/**</include>
                   </includes>
                 </filter>
               </filters>

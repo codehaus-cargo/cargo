@@ -601,6 +601,13 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("{info}Before using the JBoss remote deployer, ");
                 output.append("please read: [JBoss Remote Deployer]{info}");
             }
+            else if (containerId.equals("glassfish3x"))
+            {
+                output.append(LINE_SEPARATOR);
+                output.append(LINE_SEPARATOR);
+                output.append("{info}Before using the GlassFish remote deployer, ");
+                output.append("please read: [JSR88]{info}");
+            }
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
             output.append(generateConfigurationPropertiesForConfigurationTypeForContainerType(
