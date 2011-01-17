@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-parent</artifactId>
-    <version>4.7-SNAPSHOT</version>
+    <version>4.7</version>
     <relativePath>../pom/pom.xml</relativePath>
   </parent>
   <artifactId>cargo-extensions</artifactId>
@@ -36,8 +36,8 @@
   </scm>
   <properties>
     <!-- define these variables because of potentially different release cycles -->
-    <cargo.resources.version>${project.version}</cargo.resources.version>
-    <cargo.core.version>${project.version}</cargo.core.version>
+    <cargo.resources.version>1.0.6</cargo.resources.version>
+    <cargo.core.version>1.0.6</cargo.core.version>
   </properties>
 
   <dependencies>
@@ -67,26 +67,9 @@
 
   <modules>
     <module>ant</module>
+    <module>maven</module>
     <module>maven2</module>
   </modules>
-
-  <profiles>
-    <!-- Maven1 plugin can only be built on Maven2 (not Maven3) -->
-    <profile>
-      <activation>
-        <file>
-          <!--
-            This employs that the basedir expression is only recognized by Maven 3.x
-            See MNG-2363 and most importantly MNG-4760
-            -->
-          <missing>${basedir}</missing>
-        </file>
-      </activation>
-      <modules>
-        <module>maven</module>
-      </modules>
-    </profile>
-  </profiles>
 
   <build>
     <pluginManagement>
