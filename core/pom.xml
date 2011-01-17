@@ -34,9 +34,9 @@
     <cargo.resources.version>${project.version}</cargo.resources.version>
   </properties>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk</url>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/core/branches/cargo-core-1.0.x</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/branches/cargo-core-1.0.x</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/core/branches/cargo-core-1.0.x</url>
   </scm>
   <dependencies>
     <dependency>
