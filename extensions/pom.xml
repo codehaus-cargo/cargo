@@ -30,9 +30,9 @@
   <description>Cargo Extensions</description>
   <version>1.0.7-SNAPSHOT</version>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/extensions/trunk</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/trunk</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/extensions/trunk</url>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/extensions/branches/cargo-extensions-1.0.x</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/extensions/branches/cargo-extensions-1.0.x</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/extensions/branches/cargo-extensions-1.0.x</url>
   </scm>
   <properties>
     <!-- define these variables because of potentially different release cycles -->
