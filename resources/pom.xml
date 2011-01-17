@@ -30,9 +30,9 @@
   <packaging>pom</packaging>
   <description>Cargo Shared Resources (License files, Checkstyle configuration files, etc)</description>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk</url>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/branches/cargo-resources-1.0.x</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/branches/cargo-resources-1.0.x</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/resources/branches/cargo-resources-1.0.x</url>
   </scm>
   <modules>
     <module>build-tools</module>
