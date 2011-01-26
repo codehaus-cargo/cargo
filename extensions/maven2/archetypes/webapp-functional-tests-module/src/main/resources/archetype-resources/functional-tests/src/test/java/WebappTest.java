@@ -1,4 +1,4 @@
-package $package;
+package ${package};
 
 import junit.framework.TestCase;
 
@@ -9,7 +9,7 @@ public class WebappTest extends TestCase
 {
     public void testCallIndexPage() throws Exception
     {
-        URL url = new URL("http://localhost:8080/${artifactId}");
+        URL url = new URL("http://localhost:8080/${rootArtifactId}");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.connect();
         assertEquals(200, connection.getResponseCode());

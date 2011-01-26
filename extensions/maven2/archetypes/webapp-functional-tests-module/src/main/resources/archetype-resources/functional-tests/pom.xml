@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>${groupId}</groupId>
-    <artifactId>${artifactId}</artifactId>
+    <artifactId>${rootArtifactId}</artifactId>
     <version>${version}</version>
   </parent>
-  <artifactId>${artifactId}-functional-tests</artifactId>
+  <artifactId>${artifactId}</artifactId>
   <packaging>pom</packaging>
   <name>Maven Functional Tests</name>
  
@@ -21,7 +21,7 @@
     </dependency>
     <dependency>
       <groupId>${groupId}</groupId>
-      <artifactId>${artifactId}-webapp</artifactId>
+      <artifactId>${rootArtifactId}-webapp</artifactId>
       <version>${version}</version>
       <type>war</type>
     </dependency>
@@ -69,10 +69,10 @@
             <deployables>
               <deployable>
                 <groupId>${groupId}</groupId>
-                <artifactId>${artifactId}-webapp</artifactId>
+                <artifactId>${rootArtifactId}-webapp</artifactId>
                 <type>war</type>
                 <properties>
-                  <context>${artifactId}</context>
+                  <context>${rootArtifactId}</context>
                 </properties>
               </deployable>
             </deployables>

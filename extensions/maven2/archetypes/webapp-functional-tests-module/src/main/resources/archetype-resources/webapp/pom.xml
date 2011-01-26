@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>${groupId}</groupId>
-    <artifactId>${artifactId}</artifactId>
+    <artifactId>${rootArtifactId}</artifactId>
     <version>${version}</version>
   </parent>
-  <artifactId>${artifactId}-webapp</artifactId>
+  <artifactId>${artifactId}</artifactId>
   <packaging>war</packaging>
   <name>Maven Webapp</name>
 
@@ -22,6 +22,6 @@
   </dependencies>
 
   <build>
-    <finalName>${artifactId}</finalName>
+    <finalName>${rootArtifactId}</finalName>
   </build>
 </project>

@@ -24,11 +24,30 @@
     <version>1.1.0-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-maven2-archetypes</artifactId>
-  <name>Cargo Maven 2 Archetypes</name>
+  <name>Cargo Maven Archetypes</name>
   <packaging>pom</packaging>
-  <description>Sample Maven 2 Archetypes for using Cargo</description>
+  <description>Sample Maven archetypes for using Cargo</description>
+
   <modules>
     <module>webapp-single-module</module>
     <module>webapp-functional-tests-module</module>
   </modules>
+
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.archetype</groupId>
+        <artifactId>archetype-packaging</artifactId>
+        <version>2.0</version>
+      </extension>
+    </extensions>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-archetype-plugin</artifactId>
+          <version>2.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>
