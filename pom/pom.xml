@@ -22,6 +22,7 @@
       <groupId>org.codehaus</groupId>
       <artifactId>codehaus-parent</artifactId>
       <version>3</version>
+      <relativePath/>
     </parent>
   <groupId>org.codehaus.cargo</groupId>
   <artifactId>cargo-parent</artifactId>
