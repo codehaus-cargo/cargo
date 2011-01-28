@@ -19,9 +19,13 @@
  */
 package org.codehaus.cargo.deployer.jetty;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
@@ -243,8 +247,8 @@ public class DeployerServlet extends HttpServlet
             String webappLocation = webAppDirectory + contextPath
                     + (contextPath.equals("/") ? "ROOT" : "") + ".war";
             File webappFile = new File(webappLocation);
-            ServletInputStream inputStream = request.getInputStream();
-            FileOutputStream outputStream = new FileOutputStream(webappFile);
+            InputStream inputStream = new BufferedInputStream(request.getInputStream());
+            OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(webappFile), 8096);
 
             // transfer the data across
             int i = inputStream.read();
