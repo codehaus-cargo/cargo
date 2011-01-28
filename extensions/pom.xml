@@ -70,24 +70,6 @@
     <module>maven2</module>
   </modules>
 
-  <profiles>
-    <!-- Maven1 plugin can only be built on Maven2 (not Maven3) -->
-    <profile>
-      <activation>
-        <file>
-          <!--
-            This employs that the basedir expression is only recognized by Maven 3.x
-            See MNG-2363 and most importantly MNG-4760
-            -->
-          <missing>${basedir}</missing>
-        </file>
-      </activation>
-      <modules>
-        <module>maven</module>
-      </modules>
-    </profile>
-  </profiles>
-
   <build>
     <pluginManagement>
       <plugins>
