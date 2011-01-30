@@ -100,17 +100,21 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * The local Maven repository. This is used by the artifact resolver to download resolved
-     * JARs and put them in the local repository so that they won't have to be fetched again next
+     * artifacts and put them in the local repository so that they won't have to be fetched again next
      * time the plugin is executed.
      *
      * @parameter expression="${localRepository}"
+     * @required
+     * @readonly
      */
     private ArtifactRepository localRepository;
 
     /**
-     * The remote Maven repositories used by the artifact resolver to look for JARs.
+     * The remote Maven repositories used by the artifact resolver to look for artifacts.
      *
      * @parameter expression="${project.remoteArtifactRepositories}"
+     * @required
+     * @readonly
      */
     private List repositories;
 
@@ -141,6 +145,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * Maven settings, injected automatically.
      * 
      * @parameter expression="${settings}"
+     * @required
      * @readonly
      */
     private Settings settings;

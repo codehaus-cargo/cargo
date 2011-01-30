@@ -131,13 +131,25 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
 	/** @component */
 	private ArtifactResolver resolver;
 
-	/** @parameter expression="${localRepository}" */
+	/**
+	 * @parameter expression="${localRepository}"
+     * @required
+     * @readonly
+	 */
 	private ArtifactRepository localRepository;
 
-	/** @parameter expression="${project.remoteArtifactRepositories}" */
+	/**
+	 * @parameter expression="${project.remoteArtifactRepositories}"
+     * @required
+     * @readonly
+	 */
 	private List remoteRepositories;
 
-	/** @parameter expression="${project}" */
+	/**
+	 * @parameter expression="${project}"
+     * @required
+     * @readonly
+	 */
 	private MavenProject mavenProject;
 
     /**
