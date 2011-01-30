@@ -3,11 +3,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>\${groupId}</groupId>
-  <artifactId>\${artifactId}</artifactId>
-  <version>\${version}</version>
-  <packaging>war</packaging>
-  <name>Maven Webapp</name>
+  <parent>
+    <groupId>${groupId}</groupId>
+    <artifactId>${rootArtifactId}</artifactId>
+    <version>${version}</version>
+  </parent>
+  <artifactId>${artifactId}</artifactId>
+  <packaging>pom</packaging>
+  <name>Maven Functional Tests</name>
 
   <dependencies>
     <dependency>
@@ -16,11 +19,13 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>${rootArtifactId}-webapp</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
   </dependencies>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
 
   <build>
     <pluginManagement>
@@ -28,21 +33,15 @@
         <plugin>
           <groupId>org.codehaus.cargo</groupId>
           <artifactId>cargo-maven2-plugin</artifactId>
-          <version>${project.version}</version>
           <configuration>
             <configuration>
               <deployables>
-                <!--
-                  The project's artifact is automatically deployed if no deployable
-                  is defined. However, we define it here so that we can specify the
-                  context (we don't want the version to be included in the context).
-                -->
                 <deployable>
-                  <groupId>\${project.groupId}</groupId>
-                  <artifactId>\${project.artifactId}</artifactId>
+                  <groupId>${project.groupId}</groupId>
+                  <artifactId>${rootArtifactId}-webapp</artifactId>
                   <type>war</type>
                   <properties>
-                    <context>\${project.artifactId}</context>
+                    <context>${rootArtifactId}-webapp</context>
                   </properties>
                 </deployable>
               </deployables>
@@ -56,7 +55,7 @@
                 which makes startup sequence fail for some containers.
                 To avoid this, make sure you specify:
 
-              <home>\${project.build.directory}/cargo/container</home>
+              <home>${project.build.directory}/cargo/container</home>
               -->              
             </configuration>
           </configuration>
@@ -64,38 +63,32 @@
       </plugins>
     </pluginManagement>
     <plugins>
+      <!--
+        We need to force the compiler plugin to compile tests and the surefire plugin to execute
+        them because we're using a pom packaging that doesn't have those mapped in its lifecycle.
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>testCompile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.6</version>
-        <configuration>
-          <!-- Exclude all integration tests so that they are not executed during the test phase.
-               This is because of a limitation in Maven 2.0.x which only supports compiling a
-               single test source tree. The recommendation is to create a separate module for
-               functional tests as is done in the cargo-archetype-webapp-functional-test-module -->
-          <excludes>
-            <exclude>**/it/**</exclude>
-          </excludes>
-        </configuration>
         <executions>
           <execution>
             <phase>integration-test</phase>
             <goals>
               <goal>test</goal>
             </goals>
-            <configuration>
-              <!-- Include only integration tests so that they are executed during the
-                   integration-test phase. Again this this is because of a limitation in
-                   Maven 2.0.x which only supports compiling a single test source tree. The
-                   recommendation is to create a separate module for functional tests as is done
-                   in the cargo-archetype-webapp-functional-test-module -->
-              <excludes>
-                <exclude>none</exclude>
-              </excludes>
-              <includes>
-                <include>**/it/**</include>
-              </includes>
-            </configuration>
           </execution>
         </executions>
       </plugin>

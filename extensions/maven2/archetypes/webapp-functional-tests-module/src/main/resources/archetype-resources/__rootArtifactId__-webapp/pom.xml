@@ -20,8 +20,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <build>
-    <finalName>${rootArtifactId}</finalName>
-  </build>
 </project>
