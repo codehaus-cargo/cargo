@@ -26,7 +26,7 @@ import org.apache.maven.project.MavenProject;
 public abstract class AbstractUberWarMojo extends AbstractMojo
 {
     /**
-     * The maven project.
+     * The Maven project.
      *
      * @parameter expression="${project}"
      * @required
@@ -40,7 +40,8 @@ public abstract class AbstractUberWarMojo extends AbstractMojo
     public abstract void execute() throws MojoExecutionException;
 
     /**
-     * get the configured project
+     * Gets the configured project.
+     * 
      * @return the maven project
      */
     public MavenProject getProject()
@@ -49,7 +50,8 @@ public abstract class AbstractUberWarMojo extends AbstractMojo
     }
 
     /**
-     * set the configured project
+     * Sets the configured project.
+     * 
      * @param project the project to use
      */
     public void setProject(MavenProject project)

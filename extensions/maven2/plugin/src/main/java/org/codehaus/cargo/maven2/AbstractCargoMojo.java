@@ -68,6 +68,10 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     private FileHandler fileHandler = new DefaultFileHandler();
     
     /**
+     * Configures a Cargo {@link org.codehaus.cargo.container.configuration.Configuration}.
+     * See the <a href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin
+     * reference guide</a> for more details.
+     * 
      * @parameter
      * @see #getConfigurationElement()
      */
@@ -83,6 +87,10 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     private Container container;
 
     /**
+     * Configures a Cargo {@link org.codehaus.cargo.container.deployer.Deployer}.
+     * See the <a href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin
+     * reference guide</a> for more details.
+     * 
      * @parameter
      * @see #getDeployerElement()
      */
@@ -90,7 +98,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * The artifact resolver is used to dynamically resolve JARs that have to be in the embedded
-     * container's classpaths. Another solution would have been to statitically define them a
+     * container's classpaths. Another solution would have been to statically define them a
      * dependencies in the plugin's POM. Resolving them in a dynamic manner is much better as only
      * the required JARs for the defined embedded container are downloaded.
      *
@@ -204,8 +212,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * @param configurationElement the
-              {@link org.codehaus.cargo.container.configuration.Configuration} configuration
-              defined by the user
+     *        {@link org.codehaus.cargo.container.configuration.Configuration} configuration
+     *        defined by the user
      * @see #getConfigurationElement()
      */
     protected void setConfigurationElement(Configuration configurationElement)

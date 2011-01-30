@@ -31,6 +31,8 @@ import org.apache.maven.project.MavenProject;
 public abstract class AbstractCommonMojo extends AbstractMojo
 {
     /**
+     * The Maven project.
+     * 
      * @parameter expression="${project}"
      * @required
      * @readonly

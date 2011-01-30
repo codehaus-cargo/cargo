@@ -64,7 +64,7 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.jdom.JDOMException;
 
 /**
- * Build an uberwar
+ * Builds an uber war.
  *
  * @version
  * @goal uberwar
@@ -82,7 +82,7 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
     private String outputDirectory;
 
     /**
-     * The name of the generated war.
+     * The name of the generated WAR.
      *
      * @parameter expression="${project.build.finalName}"
      * @required
@@ -90,7 +90,7 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
     private String warName;
 
     /**
-     * The file name to use for the merge descriptor
+     * The file name to use for the merge descriptor.
      *
      * @parameter
      */
@@ -105,21 +105,21 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
     private boolean resolveDependencies = false;
     
     /**
-     * The id to use for the merge descriptor
+     * The id to use for the merge descriptor.
      *
      * @parameter
      */
     private String descriptorId;
 
     /**
-     * The list of WAR files to use (in order)
+     * The list of WAR files to use (in order).
      *
      * @parameter
      */
     private List wars;
 
    /**
-     * The settings to use when building the uber war
+     * The settings to use when building the uber war.
      *
      * @parameter
      */
@@ -132,6 +132,8 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
 	private ArtifactResolver resolver;
 
 	/**
+	 * The local Maven repository.
+	 * 
 	 * @parameter expression="${localRepository}"
      * @required
      * @readonly
@@ -139,6 +141,8 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
 	private ArtifactRepository localRepository;
 
 	/**
+	 * The remote Maven repositories.
+	 * 
 	 * @parameter expression="${project.remoteArtifactRepositories}"
      * @required
      * @readonly
@@ -146,6 +150,8 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
 	private List remoteRepositories;
 
 	/**
+	 * The Maven project.
+	 * 
 	 * @parameter expression="${project}"
      * @required
      * @readonly
@@ -375,6 +381,7 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
     /**
      * Add all the JAR files specified into the merge - these will appear
      * in the WEB-INF/lib directory.
+     * 
      * @param wam
      * @throws MojoExecutionException 
      */
