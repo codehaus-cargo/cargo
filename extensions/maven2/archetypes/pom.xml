@@ -49,5 +49,113 @@
         </plugin>
       </plugins>
     </pluginManagement>
+
+    <plugins>
+      <!--
+        Make sure tests always use randomly assigned and available ports
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-port-numbers</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>reserve-network-port</goal>
+            </goals>
+            <configuration>
+              <portNames>
+                <portName>cargo.samples.servlet.port</portName>
+              </portNames>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Use the maven-invoker-plugin to test the archetypes -->
+      <plugin>
+        <artifactId>maven-invoker-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>install-archetypes</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>install</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>generate-project-based-on-archetypes</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <goals>
+                <goal>org.apache.maven.plugins:maven-archetype-plugin:generate</goal>
+              </goals>
+              <pomIncludes>
+                <pomInclude>*</pomInclude>
+              </pomIncludes>
+              <properties>
+                <archetypeArtifactId>${project.artifactId}</archetypeArtifactId>
+                <archetypeGroupId>${project.groupId}</archetypeGroupId>
+                <archetypeRepository>local</archetypeRepository>
+                <archetypeVersion>${project.version}</archetypeVersion>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}-itests</artifactId>
+                <version>${project.version}</version>
+                <package>${project.groupId}.extensions.maven2.archetypes.itests</package>
+                <interactiveMode>false</interactiveMode>
+              </properties>
+            </configuration>
+          </execution>
+          <execution>
+            <id>clean-and-install-generated-project</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+              </goals>
+              <projectsDirectory>
+                ${project.build.directory}/it/projects/maven/${project.artifactId}-itests
+              </projectsDirectory>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <projectsDirectory>${basedir}/src/main/resources/META-INF</projectsDirectory>
+          <cloneProjectsTo>${project.build.directory}/it/projects</cloneProjectsTo>
+          <skipInstallation>${maven.test.skip}</skipInstallation>
+          <skipInvocation>${maven.test.skip}</skipInvocation>
+          <streamLogs>true</streamLogs>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>change-port-numbers-of-generated-project</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <mkdir dir="${project.build.directory}/it/projects" />
+                <replace dir="${project.build.directory}/it/projects" includes="**/pom.xml **/*.java">
+                  <replacefilter token="8080" value="${cargo.samples.servlet.port}" />
+                </replace>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 </project>
