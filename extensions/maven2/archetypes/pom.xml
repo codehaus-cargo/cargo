@@ -119,11 +119,16 @@
             <configuration>
               <goals>
                 <goal>clean</goal>
-                <goal>install</goal>
+                <goal>verify</goal>
               </goals>
               <projectsDirectory>
                 ${project.build.directory}/it/projects/maven/${project.artifactId}-itests
               </projectsDirectory>
+              <pomIncludes>
+                <pomInclude>
+                  pom.xml
+                </pomInclude>
+              </pomIncludes>
             </configuration>
           </execution>
         </executions>
