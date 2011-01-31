@@ -86,7 +86,7 @@
           </execution>
           <execution>
             <id>generate-project-based-on-archetypes</id>
-            <phase>generate-test-sources</phase>
+            <phase>pre-integration-test</phase>
             <goals>
               <goal>run</goal>
             </goals>
