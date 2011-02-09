@@ -16,7 +16,8 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
@@ -44,123 +45,62 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-archetype-plugin</artifactId>
           <version>2.0</version>
         </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <executions>
+            <execution>
+                <!-- Make sure tests use randomly assigned and available port. -->
+              <id>generate-port-numbers</id>
+              <phase>pre-integration-test</phase>
+              <goals>
+                <goal>reserve-network-port</goal>
+              </goals>
+              <configuration>
+                <portNames>
+                  <portName>cargo.itest.servlet.port</portName>
+                </portNames>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-invoker-plugin</artifactId>
+          <configuration>
+            <debug>true</debug>
+            <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+            <!-- Can't use a cloned local repo as the cargo maven plugin isn't installed
+                 in the clone process. See issue MINVOKER-115.
+            <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath> -->
+            <pomIncludes>
+              <pomInclude>*</pomInclude>
+            </pomIncludes>
+            <properties>
+              <interactiveMode>false</interactiveMode>
+              <archetypeCatalog>local</archetypeCatalog>
+              <archetypeGroupId>${project.groupId}</archetypeGroupId>
+              <archetypeArtifactId>${project.artifactId}</archetypeArtifactId>
+              <archetypeVersion>${project.version}</archetypeVersion>
+              <servlet.port>${cargo.itest.servlet.port}</servlet.port>
+            </properties>
+          </configuration>
+          <executions>
+            <execution>
+              <id>integration-test</id>
+              <goals>
+                <goal>install</goal>
+                <goal>run</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
-
-    <plugins>
-      <!--
-        Make sure tests always use randomly assigned and available ports
-      -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>generate-port-numbers</id>
-            <phase>generate-test-sources</phase>
-            <goals>
-              <goal>reserve-network-port</goal>
-            </goals>
-            <configuration>
-              <portNames>
-                <portName>cargo.samples.servlet.port</portName>
-              </portNames>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Use the maven-invoker-plugin to test the archetypes -->
-      <plugin>
-        <artifactId>maven-invoker-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>install-archetypes</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>install</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>generate-project-based-on-archetypes</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <goals>
-                <goal>org.apache.maven.plugins:maven-archetype-plugin:generate</goal>
-              </goals>
-              <pomIncludes>
-                <pomInclude>*</pomInclude>
-              </pomIncludes>
-              <properties>
-                <archetypeArtifactId>${project.artifactId}</archetypeArtifactId>
-                <archetypeGroupId>${project.groupId}</archetypeGroupId>
-                <archetypeRepository>local</archetypeRepository>
-                <archetypeVersion>${project.version}</archetypeVersion>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>${project.artifactId}-itests</artifactId>
-                <version>${project.version}</version>
-                <package>${project.groupId}.extensions.maven2.archetypes.itests</package>
-                <interactiveMode>false</interactiveMode>
-              </properties>
-            </configuration>
-          </execution>
-          <execution>
-            <id>clean-and-install-generated-project</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <goals>
-                <goal>clean</goal>
-                <goal>verify</goal>
-              </goals>
-              <projectsDirectory>
-                ${project.build.directory}/it/projects/maven/${project.artifactId}-itests
-              </projectsDirectory>
-              <pomIncludes>
-                <pomInclude>
-                  pom.xml
-                </pomInclude>
-              </pomIncludes>
-            </configuration>
-          </execution>
-        </executions>
-        <configuration>
-          <projectsDirectory>${basedir}/src/main/resources/META-INF</projectsDirectory>
-          <cloneProjectsTo>${project.build.directory}/it/projects</cloneProjectsTo>
-          <skipInstallation>${maven.test.skip}</skipInstallation>
-          <skipInvocation>${maven.test.skip}</skipInvocation>
-          <streamLogs>true</streamLogs>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>change-port-numbers-of-generated-project</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <mkdir dir="${project.build.directory}/it/projects" />
-                <replace dir="${project.build.directory}/it/projects" includes="**/pom.xml **/*.java">
-                  <replacefilter token="8080" value="${cargo.samples.servlet.port}" />
-                </replace>
-              </tasks>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
   </build>
 </project>

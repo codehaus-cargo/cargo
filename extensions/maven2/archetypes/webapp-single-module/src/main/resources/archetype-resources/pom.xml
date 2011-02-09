@@ -20,6 +20,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <servlet.port>8080</servlet.port>
   </properties>
 
   <build>
@@ -47,17 +48,16 @@
                 </deployable>
               </deployables>
               <properties>
-                <cargo.servlet.port>8080</cargo.servlet.port>
+                <cargo.servlet.port>\${servlet.port}</cargo.servlet.port>
               </properties>
               <!--
                 On MacOS X, the default location where a standalone configuration
                 is created is something like:
                  /var/folders/ZR/ZRsat8n-H6qoVq+LK+r86U+++TI/-Tmp-/cargo/conf
                 which makes startup sequence fail for some containers.
-                To avoid this, make sure you specify:
-
+                To avoid this, we specify a folder in the build directory:
+              -->
               <home>\${project.build.directory}/cargo/container</home>
-              -->              
             </configuration>
           </configuration>
         </plugin>
@@ -95,6 +95,12 @@
               <includes>
                 <include>**/it/**</include>
               </includes>
+              <systemProperties>
+                <property>
+                  <name>servlet.port</name>
+                  <value>${servlet.port}</value>
+                </property>
+              </systemProperties>
             </configuration>
           </execution>
         </executions>
