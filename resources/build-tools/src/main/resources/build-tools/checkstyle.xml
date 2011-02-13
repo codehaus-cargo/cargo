@@ -55,6 +55,16 @@
     <property name="message" value="Don't write directly to System.out our System.err"/>
   </module>
 
+  <!-- Require the use of generics -->
+  <module name="RegexpMultiline">
+    <property name="format" value="(((public|private|protected|final|\s)\s(abstract\s)?(static\s)?(final\s)?)|\(|(,\s*))(Collection|Iterator|List|Map|Map\.Entry|Set)\s"/>
+    <property name="message" value="Use generics in attributes and parameters when available"/>
+  </module>
+  <module name="RegexpMultiline">
+    <property name="format" value="new\s\w*(List|Map)\s*\("/>
+    <property name="message" value="Use generics in variables when available"/>
+  </module>
+
   <!-- No printStackTrace -->
   <module name="RegexpMultiline">
     <property name="format" value="printStackTrace"/>
