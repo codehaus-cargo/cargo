@@ -223,6 +223,7 @@
 
     <module name="JavadocStyle">
       <property name="severity" value="warning"/>
+      <property name="checkFirstSentence" value="false"/>
     </module>
 
     <module name="JavadocType">
