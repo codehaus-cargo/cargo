@@ -21,7 +21,6 @@ package org.codehaus.cargo.ant;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.tools.ant.BuildException;
@@ -60,7 +59,7 @@ public class DeployableElement
     /**
      * Deployable properties.
      */
-    private List properties = new ArrayList();
+    private List<Property> properties = new ArrayList<Property>();
     
     /**
      * @param file the deployable file to wrap
@@ -121,10 +120,9 @@ public class DeployableElement
         Deployable deployable = this.factory.createDeployable(containerId, getFile(), getType());
         
         // Set user-defined properties on the created deployable.
-        Iterator props = getProperties().iterator();
-        while (props.hasNext())
+        for (Property property : getProperties())
         {
-            callMethodForProperty(deployable, (Property) props.next());
+            callMethodForProperty(deployable, property);
         }
         
         return deployable; 
@@ -191,7 +189,7 @@ public class DeployableElement
     /**
      * @return the list of deployable properties
      */
-    public final List getProperties()
+    public final List<Property> getProperties()
     {
         return this.properties;
     }

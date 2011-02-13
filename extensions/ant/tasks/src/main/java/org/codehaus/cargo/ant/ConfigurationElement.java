@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.ant;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
@@ -27,10 +30,6 @@ import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Nested Ant element to wrap the
@@ -54,7 +53,7 @@ public class ConfigurationElement
     /**
      * Configuration properties.
      */
-    private List properties = new ArrayList();
+    private List<Property> properties = new ArrayList<Property>();
 
     /**
      * Custom configuration class to associate to the containing container.
@@ -64,17 +63,17 @@ public class ConfigurationElement
     /**
      * List of deployables to deploy.
      */
-    private List deployables = new ArrayList();
+    private List<DeployableElement> deployables = new ArrayList<DeployableElement>();
 
     /**
-     *List of configuration files
+     * List of configuration files
      */
-    private List fileConfigs = new ArrayList();
+    private List<FileConfig> fileConfigs = new ArrayList<FileConfig>();
     
     /**
      * List of files
      */
-    private List files = new ArrayList();
+    private List<FileConfig> files = new ArrayList<FileConfig>();
 
     /**
      * @param configurationClass the configuration class to associate to the containing container
@@ -103,7 +102,7 @@ public class ConfigurationElement
     /**
      * @return the nested deployable elements to deploy
      */
-    protected final List getDeployables()
+    protected final List<DeployableElement> getDeployables()
     {
         return this.deployables;
     }
@@ -128,7 +127,7 @@ public class ConfigurationElement
      * Get the list of configFiles
      * @return the configFiles
      */
-    protected final List getFileConfigs()
+    protected final List<FileConfig> getFileConfigs()
     {
         return this.fileConfigs;
     }
@@ -137,7 +136,7 @@ public class ConfigurationElement
      * Get the list of files
      * @return the files
      */
-    protected final List getFiles()
+    protected final List<FileConfig> getFiles()
     {
         return this.files;
     }
@@ -145,7 +144,7 @@ public class ConfigurationElement
     /**
      * @return the list of container properties
      */
-    protected final List getProperties()
+    protected final List<Property> getProperties()
     {
         return this.properties;
     }
@@ -223,10 +222,8 @@ public class ConfigurationElement
         }
 
         // Set all container properties
-        Iterator itProperties = getProperties().iterator();
-        while (itProperties.hasNext())
+        for (Property property : getProperties())
         {
-            Property property = (Property) itProperties.next();
             configuration.setProperty(property.getName(), property.getValue());
         }
 
@@ -240,20 +237,17 @@ public class ConfigurationElement
         {
             if (getFileConfigs() != null)
             {
-                for (int i = 0; i < getFileConfigs().size(); i++)
+                for (FileConfig configfile : getFileConfigs())
                 {
-                    FileConfig configfile = (FileConfig) getFileConfigs().get(i);
                     ((StandaloneLocalConfiguration) configuration)
                             .setConfigFileProperty(configfile);
                 }
             }
             if (getFiles() != null)
             {
-                for (int i = 0; i < getFiles().size(); i++)
+                for (FileConfig file : getFiles())
                 {
-                    FileConfig configfile = (FileConfig) getFiles().get(i);
-                    ((StandaloneLocalConfiguration) configuration)
-                            .setFileProperty(configfile);
+                    ((StandaloneLocalConfiguration) configuration).setFileProperty(file);
                 }
             }
         }
@@ -269,10 +263,8 @@ public class ConfigurationElement
      */
     private void addStaticDeployables(String containerId, LocalConfiguration configuration)
     {
-        Iterator deps = getDeployables().iterator();
-        while (deps.hasNext())
+        for (DeployableElement deployableElement : getDeployables())
         {
-            DeployableElement deployableElement = (DeployableElement) deps.next();
             configuration.addDeployable(deployableElement.createDeployable(containerId));
         }
     }

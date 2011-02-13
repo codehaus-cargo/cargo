@@ -102,7 +102,7 @@ public class CargoTask extends Task
     /**
      * List of system properties to set in the container JVM. 
      */
-    private Map systemProperties = new HashMap();
+    private Map<String, String> systemProperties = new HashMap<String, String>();
 
     /**
      * Additional classpath entries for the classpath that will be used to start the containers.
@@ -621,7 +621,7 @@ public class CargoTask extends Task
      * {@inheritDoc}
      * @see #addSysproperty(Environment.Variable)
      */
-    protected final Map getSystemProperties()
+    protected final Map<String, String> getSystemProperties()
     {
         return this.systemProperties;
     }
