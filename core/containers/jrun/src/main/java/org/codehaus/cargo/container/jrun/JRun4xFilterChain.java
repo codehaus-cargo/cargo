@@ -20,7 +20,6 @@
 package org.codehaus.cargo.container.jrun;
 
 import java.io.File;
-import java.util.Iterator;
 
 import org.apache.tools.ant.filters.ReplaceTokens;
 import org.apache.tools.ant.filters.ReplaceTokens.Token;
@@ -35,7 +34,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 /**
- * JRun {@link FilterChain} for {@link StandaloneLocalConfiguration} implementation.
+ * JRun {@link FilterChain} for {@link JRun4xStandaloneLocalConfiguration} implementation.
  *
  * @version $Id$
  */
@@ -249,13 +248,8 @@ public class JRun4xFilterChain extends FilterChain
         // Add token filters for authenticated users
         if (getPropertyValue(ServletPropertySet.USERS) != null)
         {
-            Iterator users = 
-                User.parseUsers(getPropertyValue(ServletPropertySet.USERS)).iterator();
-            
-            while (users.hasNext())
+            for (User user : User.parseUsers(getPropertyValue(ServletPropertySet.USERS)))
             {
-                User user = (User) users.next();
-                
                 // create user elements
                 Element userElement = DocumentHelper.createDocument().addElement("user");
                 userElement.addElement("user-name").setText(user.getName());
@@ -264,10 +258,8 @@ public class JRun4xFilterChain extends FilterChain
                 token.append(userElement.asXML());
                 
                 // add role elements
-                Iterator roles = user.getRoles().iterator();
-                while (roles.hasNext())
+                for (String role : user.getRoles())
                 {
-                    String role = (String) roles.next();
                     Element roleElement = DocumentHelper.createDocument().addElement("role");
                     roleElement.addElement("role-name").setText(role);
                     roleElement.addElement("user-name").setText(user.getName());

@@ -21,7 +21,6 @@ package org.codehaus.cargo.module.merge;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -123,7 +122,7 @@ public class DescriptorMergerByTag implements DescriptorMerger
     /**
      * Various Strategies for merging the individual descriptor tags.
      */
-    private Map mapDescriptorTagToStrategy;
+    private Map<String, MergeStrategy> mapDescriptorTagToStrategy;
 
     /**
      * the default merging strategy.
@@ -135,7 +134,7 @@ public class DescriptorMergerByTag implements DescriptorMerger
      */
     public DescriptorMergerByTag()
     {
-        this.mapDescriptorTagToStrategy = new HashMap();
+        this.mapDescriptorTagToStrategy = new HashMap<String, MergeStrategy>();
     }
 
     /**
@@ -165,10 +164,8 @@ public class DescriptorMergerByTag implements DescriptorMerger
     public void merge(Descriptor other)
     {
 
-        for (Iterator i = descriptorTagFactory.getAllTags().iterator(); i.hasNext();)
+        for (DescriptorTag tag : descriptorTagFactory.getAllTags())
         {
-            DescriptorTag tag = (DescriptorTag) i.next();
-
             Identifier identifier = tag.getIdentifier();
             if (identifier != null)
             {
@@ -177,14 +174,14 @@ public class DescriptorMergerByTag implements DescriptorMerger
                 Descriptor left = baseDescriptor;
                 Descriptor right = other;
 
-                List itemsL = new ArrayList(left.getTags(tag));
-                List itemsR = new ArrayList(right.getTags(tag));
+                List<Element> itemsL = new ArrayList<Element>(left.getTags(tag));
+                List<Element> itemsR = new ArrayList<Element>(right.getTags(tag));
 
                 try
                 {
-                    for (Iterator l = itemsL.iterator(); l.hasNext();)
+                    for (Element itemL : itemsL)
                     {
-                        DescriptorElement lElement = (DescriptorElement) l.next();
+                        DescriptorElement lElement = (DescriptorElement) itemL;
                         DescriptorElement rElement =
                             (DescriptorElement) right.getTagByIdentifier(tag, identifier
                                 .getIdentifier(lElement));
@@ -199,9 +196,9 @@ public class DescriptorMergerByTag implements DescriptorMerger
                         }
                     }
 
-                    for (Iterator r = itemsR.iterator(); r.hasNext();)
+                    for (Element itemR : itemsR)
                     {
-                        DescriptorElement rElement = (DescriptorElement) r.next();
+                        DescriptorElement rElement = (DescriptorElement) itemR;
                         DescriptorElement lElement =
                             (DescriptorElement) left.getTagByIdentifier(tag, identifier
                                 .getIdentifier(rElement));
@@ -222,19 +219,18 @@ public class DescriptorMergerByTag implements DescriptorMerger
                 Descriptor left = baseDescriptor;
                 Descriptor right = other;
 
-                List itemsL = left.getTags(tag);
-                List itemsR = new ArrayList(right.getTags(tag));
+                List<Element> itemsL = left.getTags(tag);
+                List<Element> itemsR = new ArrayList<Element>(right.getTags(tag));
 
                 if (tag.isMultipleAllowed())
                 {
                     // If multiple items are allowed, but there's no way of
                     // identifying tags
                     // From each other, then the best we can do is merge them
-                    // together by
-                    // addition...
-                    for (Iterator it = itemsR.iterator(); it.hasNext();)
+                    // together by addition...
+                    for (Element itemR : itemsR)
                     {
-                        DescriptorElement rightElement = (DescriptorElement) it.next();
+                        DescriptorElement rightElement = (DescriptorElement) itemR;
                         left.addElement(tag, rightElement, left.getRootElement());
                     }
                 } 
@@ -282,7 +278,7 @@ public class DescriptorMergerByTag implements DescriptorMerger
      */
     protected MergeStrategy getMergeStrategy(String tag)
     {
-        MergeStrategy strategy = (MergeStrategy) mapDescriptorTagToStrategy.get(tag);
+        MergeStrategy strategy = mapDescriptorTagToStrategy.get(tag);
         if (strategy == null)
         {
             return defaultStrategyIfNoneSpecified;

@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.orion.internal;
 
 import java.io.File;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -129,7 +128,6 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
     {
         String confDir = getFileHandler().createDirectory(getHome(), "conf");
         return getFileHandler().append(confDir, "data-sources.xml");
-
     }
 
     /**
@@ -137,9 +135,9 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
      * map;
      */
     @Override
-    protected Map getNamespaces()
+    protected Map<String, String> getNamespaces()
     {
-        return Collections.EMPTY_MAP;
+        return Collections.emptyMap();
     }
 
     /**
@@ -205,11 +203,8 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
         getFileHandler().createDirectory(getHome(), "log");
 
         // Deploy all deployables into the applications directory
-        Iterator it = getDeployables().iterator();
-        while (it.hasNext())
+        for (Deployable deployable : getDeployables())
         {
-            Deployable deployable = (Deployable) it.next();
-
             if ((deployable.getType() != DeployableType.WAR)
                 || ((deployable.getType() == DeployableType.WAR) && !((WAR) deployable)
                     .isExpandedWar()))
@@ -269,11 +264,8 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
         StringBuilder keyWebModules = new StringBuilder(" ");
         StringBuilder keyWebApps = new StringBuilder(" ");
 
-        Iterator it = getDeployables().iterator();
-        while (it.hasNext())
+        for (Deployable deployable : getDeployables())
         {
-            Deployable deployable = (Deployable) it.next();
-
             if (deployable.getType() == DeployableType.EAR)
             {
                 keyApplications.append("  <application name=\"");
@@ -282,11 +274,9 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
                 keyApplications.append(new File(deployable.getFile()).getName());
                 keyApplications.append("\"/>");
 
-                Iterator itContexts = ((EAR) deployable).getWebContexts();
-                while (itContexts.hasNext())
+                List<String> webContexts = ((EAR) deployable).getWebContexts();
+                for (String webContext : webContexts)
                 {
-                    String webContext = (String) itContexts.next();
-
                     keyWebApps.append("<web-app application=\"");
                     keyWebApps.append(((EAR) deployable).getName());
                     keyWebApps.append("\" name=\"");
@@ -360,11 +350,8 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
         // Add token filters for authenticated users
         if (getPropertyValue(ServletPropertySet.USERS) != null)
         {
-            Iterator users =
-                User.parseUsers(getPropertyValue(ServletPropertySet.USERS)).iterator();
-            while (users.hasNext())
+            for (User user : User.parseUsers(getPropertyValue(ServletPropertySet.USERS)))
             {
-                User user = (User) users.next();
                 token.append("<user deactivated=\"false\" ");
                 token.append("username=\"" + user.getName() + "\" ");
                 token.append("password=\"" + user.getPassword() + "\"");
@@ -382,22 +369,16 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
     {
         StringBuilder token = new StringBuilder(" ");
 
-        List users = User.parseUsers(getPropertyValue(ServletPropertySet.USERS));
-        Map roles = User.createRoleMap(users);
+        List<User> users = User.parseUsers(getPropertyValue(ServletPropertySet.USERS));
+        Map<String, List<User>> roles = User.createRoleMap(users);
 
-        Iterator roleIt = roles.keySet().iterator();
-        while (roleIt.hasNext())
+        for (Map.Entry<String, List<User>> role : roles.entrySet())
         {
-            String role = (String) roleIt.next();
-
             token.append("<security-role-mapping ");
-            token.append("name=\"" + role + "\">");
+            token.append("name=\"" + role.getKey() + "\">");
 
-            Iterator userIt = ((List) roles.get(role)).iterator();
-            while (userIt.hasNext())
+            for (User user : role.getValue())
             {
-                User user = (User) userIt.next();
-
                 token.append("<user name=\"" + user.getName() + "\"/>");
             }
 

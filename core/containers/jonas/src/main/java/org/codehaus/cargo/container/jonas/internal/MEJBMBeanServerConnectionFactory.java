@@ -346,7 +346,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#queryMBeans(ObjectName, QueryExp)
          */
-        public Set queryMBeans(ObjectName arg0, QueryExp arg1) throws IOException
+        public Set<ObjectInstance> queryMBeans(ObjectName arg0, QueryExp arg1) throws IOException
         {
             throw new UnsupportedOperationException("MEJB proxy does not support this method call");
         }
@@ -356,7 +356,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#queryNames(ObjectName, QueryExp)
          */
-        public Set queryNames(ObjectName arg0, QueryExp arg1) throws IOException
+        public Set<ObjectName> queryNames(ObjectName arg0, QueryExp arg1) throws IOException
         {
             return mejb.queryNames(arg0, arg1);
         }

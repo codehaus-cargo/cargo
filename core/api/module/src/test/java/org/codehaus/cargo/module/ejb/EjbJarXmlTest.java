@@ -20,7 +20,7 @@
 package org.codehaus.cargo.module.ejb;
 
 import java.io.ByteArrayInputStream;
-import java.util.Iterator;
+import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 
@@ -59,12 +59,11 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
 
 
         EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes()), null);
-        Iterator i = ejbJar.getSessionEjbs();
-        Session ejb = (Session) i.next();
-        assertEquals("MyFirstSession", ejb.getName());
-        ejb = (Session) i.next();
-        assertEquals("MySecondSession", ejb.getName());
-        assertFalse(i.hasNext());
+
+        List<Session> ejbs = ejbJar.getSessionEjbs();
+        assertEquals(2, ejbs.size());
+        assertEquals("MyFirstSession", ejbs.get(0).getName());
+        assertEquals("MySecondSession", ejbs.get(1).getName());
     }
 
     /**
@@ -96,10 +95,10 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
 
 
         EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes()), null);
-        Iterator i = ejbJar.getEntityEjbs();
-        Entity ejb = (Entity) i.next();
-        assertEquals("MyEntity", ejb.getName());
-        assertFalse(i.hasNext());
+
+        List<Entity> ejbs = ejbJar.getEntityEjbs();
+        assertEquals(1, ejbs.size());
+        assertEquals("MyEntity", ejbs.get(0).getName());
     }
 
     /**

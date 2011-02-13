@@ -22,7 +22,7 @@
  */
 package org.codehaus.cargo.module.webapp.merge;
 
-import java.util.Iterator;
+import java.util.List;
 
 import org.codehaus.cargo.module.Descriptor;
 import org.codehaus.cargo.module.XmlMerger;
@@ -134,9 +134,9 @@ public class WebXmlMerger  extends XmlMerger
      */
     protected VendorWebAppDescriptor getVendorWebAppDescriptor(WebXml theWebXml, Class clazz)
     {
-        for (Iterator i = theWebXml.getVendorDescriptors(); i.hasNext();)
+        for (Descriptor d : theWebXml.getVendorDescriptors())
         {
-            VendorWebAppDescriptor descriptor = (VendorWebAppDescriptor) i.next();
+            VendorWebAppDescriptor descriptor = (VendorWebAppDescriptor) d;
             if (clazz.isInstance(descriptor))
             {
                 return descriptor;
@@ -172,11 +172,10 @@ public class WebXmlMerger  extends XmlMerger
      */
     protected final void mergeFilters(WebXml theWebXml)
     {
-        Iterator filterNames = WebXmlUtils.getFilterNames(theWebXml);
+        List<String> filterNames = WebXmlUtils.getFilterNames(theWebXml);
         int count = 0;
-        while (filterNames.hasNext())
+        for (String filterName : filterNames)
         {
-            String filterName = (String) filterNames.next();
             if (!WebXmlUtils.hasFilter(webXml, filterName))
             {
                 WebXmlUtils.addFilter(this.webXml, 
@@ -185,11 +184,10 @@ public class WebXmlMerger  extends XmlMerger
             else
             {
                 // merge the parameters
-                Iterator filterInitParamNames =
+                List<String> filterInitParamNames =
                     WebXmlUtils.getFilterInitParamNames(theWebXml, filterName);
-                while (filterInitParamNames.hasNext())
+                for (String paramName : filterInitParamNames)
                 {
-                    String paramName = (String) filterInitParamNames.next();
                     String paramValue =
                         WebXmlUtils.getFilterInitParam(theWebXml, filterName, paramName);
                     WebXmlUtils.addFilterInitParam(this.webXml,
@@ -197,10 +195,10 @@ public class WebXmlMerger  extends XmlMerger
                 }
             }
             // merge the mappings
-            Iterator filterMappings = WebXmlUtils.getFilterMappingElements(theWebXml, filterName);
-            while (filterMappings.hasNext())
+            List<FilterMapping> mappings = WebXmlUtils.getFilterMappingElements(theWebXml,
+                filterName);
+            for (FilterMapping mapping : mappings)
             {
-                FilterMapping mapping = (FilterMapping) filterMappings.next();
                 WebXmlUtils.addFilterMapping(this.webXml, mapping);
             }
             count++;
@@ -226,11 +224,10 @@ public class WebXmlMerger  extends XmlMerger
     {
         try
         {
-            Iterator servletNames = WebXmlUtils.getServletNames(theWebXml);
+            List<String> servletNames = WebXmlUtils.getServletNames(theWebXml);
             int count = 0;
-            while (servletNames.hasNext())
+            for (String servletName : servletNames)
             {
-                String servletName = (String) servletNames.next();
                 if (!WebXmlUtils.hasServlet(this.webXml, servletName))
                 {
                     WebXmlUtils.addServlet(this.webXml, 
@@ -239,11 +236,10 @@ public class WebXmlMerger  extends XmlMerger
                 else
                 {
                     // merge the parameters
-                    Iterator servletInitParamNames =
+                    List<String> servletInitParamNames =
                         WebXmlUtils.getServletInitParamNames(theWebXml, servletName);
-                    while (servletInitParamNames.hasNext())
+                    for (String paramName : servletInitParamNames)
                     {
-                        String paramName = (String) servletInitParamNames.next();
                         String paramValue =
                             WebXmlUtils.getServletInitParam(theWebXml, servletName, paramName);
                         WebXmlUtils.addServletInitParam(this.webXml,
@@ -257,11 +253,10 @@ public class WebXmlMerger  extends XmlMerger
                     }
                 }
                 // merge the mappings
-                Iterator servletMappings =
+                List<String> servletMappings =
                     WebXmlUtils.getServletMappings(theWebXml, servletName);
-                while (servletMappings.hasNext())
+                for (String urlPattern : servletMappings)
                 {
-                    String urlPattern = (String) servletMappings.next();
                     WebXmlUtils.addServletMapping(this.webXml, servletName, urlPattern);
                 }
                 count++;
@@ -285,11 +280,10 @@ public class WebXmlMerger  extends XmlMerger
      */
     protected final void mergeSecurityRoles(WebXml theWebXml)
     {
-        Iterator securityRoleNames = WebXmlUtils.getSecurityRoleNames(theWebXml);
+        List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(theWebXml);
         int count = 0;
-        while (securityRoleNames.hasNext())
+        for (String securityRoleName : securityRoleNames)
         {
-            String securityRoleName = (String) securityRoleNames.next();
             if (!WebXmlUtils.hasSecurityRole(this.webXml, securityRoleName))
             {
                 WebXmlUtils.addSecurityRole(this.webXml, securityRoleName);

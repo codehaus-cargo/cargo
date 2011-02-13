@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.resin.internal;
 
-import java.util.Iterator;
-
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
@@ -60,10 +58,9 @@ public class Resin3xConfigurationBuilder extends Resin2xConfigurationBuilder
         dataSourceString.append("    <password>" + ds.getPassword() + "</password>\n");
         if (ds.getConnectionProperties() != null && ds.getConnectionProperties().size() != 0)
         {
-            Iterator i = ds.getConnectionProperties().keySet().iterator();
-            while (i.hasNext())
+            for (Object parameter : ds.getConnectionProperties().keySet())
             {
-                String key = i.next().toString();
+                String key = parameter.toString();
                 dataSourceString.append("    <").append(key);
                 dataSourceString.append(">")
                     .append(ds.getConnectionProperties().getProperty(key));
@@ -97,11 +94,8 @@ public class Resin3xConfigurationBuilder extends Resin2xConfigurationBuilder
             resourceString.append("      <type>" + resource.getType() + "</type>\n");
         }
 
-        Iterator i = resource.getParameterNames().iterator();
-        while (i.hasNext())
+        for (String key : resource.getParameterNames())
         {
-
-            String key = i.next().toString();
             resourceString.append("    <init ").append(key);
             resourceString.append("=\"").append(resource.getParameter(key));
             resourceString.append("\" />\n");

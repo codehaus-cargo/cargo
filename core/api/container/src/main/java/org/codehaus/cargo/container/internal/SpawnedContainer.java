@@ -64,11 +64,11 @@ public interface SpawnedContainer
     /**
      * @param properties the System properties to set in the container executing VM.
      */
-    void setSystemProperties(Map properties);
+    void setSystemProperties(Map<String, String> properties);
 
     /**
      * @return the System properties to set in the container executing VM.
      */
-    Map getSystemProperties();
+    Map<String, String> getSystemProperties();
 
 }

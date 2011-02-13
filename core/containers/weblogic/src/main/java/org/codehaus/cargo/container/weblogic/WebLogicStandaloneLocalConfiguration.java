@@ -151,9 +151,9 @@ public class WebLogicStandaloneLocalConfiguration extends
      * empty map;
      */
     @Override
-    protected Map getNamespaces()
+    protected Map<String, String> getNamespaces()
     {
-        return Collections.EMPTY_MAP;
+        return Collections.emptyMap();
     }
 
     /**

@@ -23,7 +23,6 @@
 package org.codehaus.cargo.module;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.jdom.Comment;
@@ -76,7 +75,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      * @param tag type of elements to find
      * @return list of tags
      */
-    public List getTags(DescriptorTag tag)
+    public List<Element> getTags(DescriptorTag tag)
     {
         return getRootElement().getChildren(tag.getTagName(), tag.getTagNamespace());
     }
@@ -87,36 +86,34 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      * @param tagName type of elements to find
      * @return list of tags
      */
-    public List getTags(String tagName)
+    public List<Element> getTags(String tagName)
     {
         return getTags(getDescriptorType().getTagByName(tagName));
     }
     
     /**
-     * Returns an iterator over the elements that match the specified tag.
+     * Returns a list of the elements that match the specified tag.
      * 
      * @param tag The descriptor tag of which the elements should be returned
-     * @return An iterator over the elements matching the tag, in the order they occur in the
-     *         descriptor
+     * @return A list of the elements matching the tag, in the order they occur in the descriptor
      */
-    public Iterator getElements(DescriptorTag tag)
+    public List<Element> getElements(DescriptorTag tag)
     {
         if (tag == null)
         {
             throw new IllegalArgumentException("tag must not be null");
         }
 
-        return getChildElements(getRootElement(), tag, new ArrayList()).iterator();
+        return getChildElements(getRootElement(), tag, new ArrayList<Element>());
     }
 
     /**
-     * Returns an iterator over the elements that match the specified tag.
+     * Returns a list of the elements that match the specified tag.
      * 
      * @param tagName The name of a descriptor tag of which the elements should be returned
-     * @return An iterator over the elements matching the tag, in the order they occur in the
-     *         descriptor
+     * @return A list of the elements matching the tag, in the order they occur in the descriptor
      */
-    public Iterator getElements(String tagName)
+    public List<Element> getElements(String tagName)
     {
         if (tagName == null)
         {
@@ -134,7 +131,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      * @param items collection of items found so far
      * @return List of elements
      */
-    private List getChildElements(Element element, DescriptorTag tag, List items)
+    private List<Element> getChildElements(Element element, DescriptorTag tag, List<Element> items)
     {
         if (element == null || tag == null || items == null)
         {
@@ -142,10 +139,10 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
         }
         
         items.addAll(element.getChildren(tag.getTagName(), tag.getTagNamespace()));
-        for (Iterator i = element.getChildren().iterator(); i.hasNext();)
+        List<Element> children = element.getChildren();
+        for (Element child : children)
         {
-            Element e2 = (Element) i.next();
-            getChildElements(e2, tag, items);
+            getChildElements(child, tag, items);
         }
         return items;
     }
@@ -167,23 +164,17 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
     }
 
     /**
-     * Returns an iterator over the child elements of the specified element that match the specified
-     * tag.
+     * Returns a list of the child elements of the specified element that match the specified tag.
      * 
      * @param parent The element of which the nested elements should be retrieved
      * @param tag The descriptor tag of which the elements should be returned
-     * @return An iterator over the elements matching the tag, in the order they occur in the
+     * @return A copy of the list of the elements matching the tag, in the order they occur in the
      *         descriptor
      */
-    protected Iterator getNestedElements(Element parent, DescriptorTag tag)
+    protected List<Element> getNestedElements(Element parent, DescriptorTag tag)
     {
-        List elements = new ArrayList();
-        List nodeList = parent.getChildren(tag.getTagName(), tag.getTagNamespace());
-        for (int i = 0; i < nodeList.size(); i++)
-        {
-            elements.add(nodeList.get(i));
-        }
-        return elements.iterator();
+        List<Element> nodeList = parent.getChildren(tag.getTagName(), tag.getTagNamespace());
+        return new ArrayList<Element>(nodeList);
     }
 
     /**
@@ -211,10 +202,10 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
     protected String getNestedText(Element parent, DescriptorTag tag)
     {
         String text = null;
-        List nestedElements = parent.getChildren(tag.getTagName(), tag.getTagNamespace());
+        List<Element> nestedElements = parent.getChildren(tag.getTagName(), tag.getTagNamespace());
         if (nestedElements.size() > 0)
         {
-            text = getText((Element) nestedElements.get(0));
+            text = getText(nestedElements.get(0));
         }
         return text;
     }
@@ -240,10 +231,9 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
     protected Element getImmediateChild(Element parent, DescriptorTag tag)
     {
         Element e = null;
-        List nl = parent.getChildren();
-        for (int i = 0; i < nl.size(); i++)
+        List<Element> nl = parent.getChildren();
+        for (Element n : nl)
         {
-            Element n = (Element) nl.get(i);
             if (n.getName().equals(tag.getTagName()))
             {
                 e = (Element) n;
@@ -317,27 +307,6 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
         return importedNode;
     }
 
-    //
-    // /**
-    // * Replaces all elements of the specified tag with the provided element.
-    // *
-    // * @param tag The descriptor tag
-    // * @param child The element to replace the current elements with
-    // * @param parent The parent element to add the child to
-    // *
-    // * @return the replaced element
-    // */
-    // public Element replaceElement(DescriptorTag tag, Element child, Element parent)
-    // {
-    // Iterator elements = getElements(tag);
-    // while (elements.hasNext())
-    // {
-    // Element e = (Element) elements.next();
-    // e.getParentNode().removeChild(e);
-    // }
-    // return addElement(tag, child, parent);
-    // }
-    //
     /**
      * Returns the node before which the specified tag should be inserted, or <code>null</code> if
      * the node should be inserted at the end of the descriptor.
@@ -348,21 +317,22 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      */
     protected Element getInsertionPointFor(DescriptorTag tag, String parent)
     {
-        List elementOrder = this.getDescriptorType().getGrammar().getElementOrder(parent);
+        List<DescriptorTag> elementOrder =
+            this.getDescriptorType().getGrammar().getElementOrder(parent);
         for (int i = 0; i < elementOrder.size(); i++)
         {
-            DescriptorTag orderTag = (DescriptorTag) elementOrder.get(i);
+            DescriptorTag orderTag = elementOrder.get(i);
             if (orderTag.equals(tag))
             {
                 for (int j = i + 1; j < elementOrder.size(); j++)
                 {
                     DescriptorTag theTag = (DescriptorTag) elementOrder.get(j);
-                    List elements =
+                    List<Element> elements =
                         getRootElement().getChildren(
                             theTag.getTagName(), theTag.getTagNamespace());
                     if (elements.size() > 0)
                     {
-                        Element result = (Element) elements.get(0);
+                        Element result = elements.get(0);
                         return result;
                     }
                 }
@@ -396,11 +366,10 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
         Identifier id = tag.getIdentifier();
         if (id != null)
         {
-            List tags = getTags(tag);
+            List<Element> tags = getTags(tag);
 
-            for (Iterator i = tags.iterator(); i.hasNext();)
+            for (Element e : tags)
             {
-                Element e = (Element) i.next();
                 if (value.equals(id.getIdentifier(e)))
                 {
                     return e;

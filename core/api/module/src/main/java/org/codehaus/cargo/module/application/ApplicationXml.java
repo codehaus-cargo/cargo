@@ -23,10 +23,10 @@
 package org.codehaus.cargo.module.application;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
+import org.codehaus.cargo.module.Descriptor;
 import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.J2eeDescriptor;
 import org.jdom.DocType;
@@ -44,7 +44,7 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
     /**
      * List of vendor descriptors associated with this application.xml.
      */
-    private List vendorDescriptors = new ArrayList();
+    private List<Descriptor> vendorDescriptors = new ArrayList<Descriptor>();
 
     /**
      * Constructor.
@@ -84,15 +84,14 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
         {
             throw new NullPointerException();
         }
-        Iterator moduleElements = getElements(ApplicationXmlTag.MODULE);
-        while (moduleElements.hasNext())
+        List<Element> moduleElements = getElements(ApplicationXmlTag.MODULE);
+        for (Element moduleElement : moduleElements)
         {
-            Element moduleElement = (Element) moduleElements.next();
-            Iterator webElements = getNestedElements(moduleElement,  
+            List<Element> webElements = getNestedElements(moduleElement,
                 getDescriptorType().getTagByName(ApplicationXmlTag.WEB));
-            if (webElements.hasNext())
+            if (!webElements.isEmpty())
             {
-                Element webElement = (Element) webElements.next(); 
+                Element webElement = webElements.get(0);
                 if (webUri.equals(getNestedText(webElement, 
                     getDescriptorType().getTagByName(ApplicationXmlTag.WEB_URI))))
                 {
@@ -121,22 +120,21 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
     }
 
     /**
-     * Returns an iterator over the URIs of the web modules defined in the descriptor.
+     * Returns a list of the URIs of the web modules defined in the descriptor.
      *
-     * @return An iterator over the URIs of the web modules
+     * @return A list of the URIs of the web modules
      */
-    public Iterator getWebModuleUris()
+    public List<String> getWebModuleUris()
     {
-        List webUris = new ArrayList();
-        Iterator moduleElements = getElements(ApplicationXmlTag.MODULE);
-        while (moduleElements.hasNext())
+        List<String> webUris = new ArrayList<String>();
+        List<Element> moduleElements = getElements(ApplicationXmlTag.MODULE);
+        for (Element moduleElement : moduleElements)
         {
-            Element moduleElement = (Element) moduleElements.next();
-            Iterator webElements = getNestedElements(
-                moduleElement, getDescriptorType().getTagByName(ApplicationXmlTag.WEB));
-            if (webElements.hasNext())
+            List<Element> webElements = getNestedElements(moduleElement,
+                getDescriptorType().getTagByName(ApplicationXmlTag.WEB));
+            if (!webElements.isEmpty())
             {
-                Element webElement = (Element) webElements.next(); 
+                Element webElement = webElements.get(0);
                 String webUri = getNestedText(
                     webElement, getDescriptorType().getTagByName(ApplicationXmlTag.WEB_URI));
                 if (webUri != null)
@@ -145,21 +143,20 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
                 }
             }
         }
-        return webUris.iterator();
+        return webUris;
     }
 
     /**
-     * Returns an iterator over the ejb modules defined in the descriptor.
+     * Returns a list of the ejb modules defined in the descriptor.
      *
-     * @return An iterator of Strings over the ejb modules
+     * @return A list of Strings over the ejb modules
      */
-    public Iterator getEjbModules()
+    public List<String> getEjbModules()
     {
-        List modules = new ArrayList();
-        Iterator moduleElements = getElements(ApplicationXmlTag.MODULE);
-        while (moduleElements.hasNext())
+        List<String> modules = new ArrayList<String>();
+        List<Element> moduleElements = getElements(ApplicationXmlTag.MODULE);
+        for (Element moduleElement : moduleElements)
         {
-            Element moduleElement = (Element) moduleElements.next();
             String ejb = getNestedText(
                 moduleElement, getDescriptorType().getTagByName(ApplicationXmlTag.EJB));
             if (ejb != null)
@@ -167,17 +164,16 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
                 modules.add(ejb);
             }
         }
-        return modules.iterator();
+        return modules;
     }
     
     /**
-     * Returns an iterator over the elements that match the specified tag.
+     * Returns a list of the elements that match the specified tag.
      *
      * @param tag The descriptor tag of which the elements should be returned
-     * @return An iterator over the elements matching the tag, in the order they occur in the
-     *         descriptor
+     * @return A list of the elements matching the tag, in the order they occur in the descriptor
      */
-    public Iterator getElements(ApplicationXmlTag tag)
+    public List<Element> getElements(ApplicationXmlTag tag)
     {
         return super.getElements(tag);
     }
@@ -219,9 +215,9 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
      * {@inheritDoc}
      * @see org.codehaus.cargo.module.J2eeDescriptor#getVendorDescriptors()
      */
-    public Iterator getVendorDescriptors()
+    public List<Descriptor> getVendorDescriptors()
     {
-        return this.vendorDescriptors.iterator();
+        return this.vendorDescriptors;
     }
 
     /**

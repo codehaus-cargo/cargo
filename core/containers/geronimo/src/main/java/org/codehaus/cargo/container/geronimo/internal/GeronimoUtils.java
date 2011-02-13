@@ -114,7 +114,7 @@ public class GeronimoUtils
         JMXServiceURL jmxServiceURL = new JMXServiceURL("service:jmx:rmi://" + host
             + "/jndi/rmi://" + host + ":" + rmiPort + "/JMXConnector");
 
-        Map map = new HashMap();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put(JMXConnector.CREDENTIALS, new String[] {username, password});
 
         JMXConnector connector = JMXConnectorFactory.connect(jmxServiceURL, map);

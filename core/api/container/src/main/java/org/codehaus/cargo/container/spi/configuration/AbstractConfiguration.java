@@ -41,14 +41,14 @@ public abstract class AbstractConfiguration extends LoggedObject
     /**
      * List of all configuration properties (port, logs, etc).
      */
-    private Map properties;
+    private Map<String, String> properties;
 
     /**
      * Default setup.
      */
     public AbstractConfiguration()
     {
-        this.properties = new HashMap();
+        this.properties = new HashMap<String, String>();
 
         // Add all required properties that are common to all configurations
         setProperty(GeneralPropertySet.PROTOCOL, "http");
@@ -60,7 +60,7 @@ public abstract class AbstractConfiguration extends LoggedObject
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.Configuration#setProperty(String, String)
      */
-    public void setProperty(String name, String value)
+    public final void setProperty(String name, String value)
     {
         getLogger().debug("Setting property [" + name + "] = [" + value + "]",
             this.getClass().getName());
@@ -71,7 +71,7 @@ public abstract class AbstractConfiguration extends LoggedObject
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.Configuration#getProperties()
      */
-    public Map getProperties()
+    public final Map<String, String> getProperties()
     {
         return this.properties;
     }
@@ -80,9 +80,9 @@ public abstract class AbstractConfiguration extends LoggedObject
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.Configuration#getPropertyValue(String)
      */
-    public String getPropertyValue(String name)
+    public final String getPropertyValue(String name)
     {
-        return (String) this.properties.get(name);
+        return this.properties.get(name);
     }
 
     /**

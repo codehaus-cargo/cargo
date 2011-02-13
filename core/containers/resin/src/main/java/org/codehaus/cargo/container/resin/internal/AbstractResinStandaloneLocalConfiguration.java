@@ -169,11 +169,8 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
         // Note: An Ant filter token cannot be an empty string hence the single
         // character used for initializing the StringBuilder.
         StringBuilder expandedWarValue = new StringBuilder(" ");
-        Iterator it = getDeployables().iterator();
-        while (it.hasNext())
+        for (Deployable deployable : getDeployables())
         {
-            Deployable deployable = (Deployable) it.next();
-
             if (deployable.getType() == DeployableType.WAR)
             {
                 if (((WAR) deployable).isExpandedWar())
@@ -210,22 +207,18 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
         // Add token filters for authenticated users
         if (getPropertyValue(ServletPropertySet.USERS) != null)
         {
-            Iterator users =
-                User.parseUsers(getPropertyValue(ServletPropertySet.USERS)).iterator();
-            while (users.hasNext())
+            for (User user : User.parseUsers(getPropertyValue(ServletPropertySet.USERS)))
             {
-                User user = (User) users.next();
-
                 token.append(prefix);
                 token.append(user.getName());
                 token.append(':');
                 token.append(user.getPassword());
                 token.append(':');
 
-                Iterator roles = user.getRoles().iterator();
+                Iterator<String> roles = user.getRoles().iterator();
                 while (roles.hasNext())
                 {
-                    String role = (String) roles.next();
+                    String role = roles.next();
                     token.append(role);
                     if (roles.hasNext())
                     {

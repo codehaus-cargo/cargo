@@ -36,7 +36,7 @@ public class TomcatRuntimeConfigurationCapability extends AbstractRuntimeConfigu
     /**
      * Configuration-specific supports Map.
      */
-    private Map supportsMap;
+    private Map<String, Boolean> supportsMap;
 
     /**
      * Initialize the configuration-specific supports Map.
@@ -45,7 +45,7 @@ public class TomcatRuntimeConfigurationCapability extends AbstractRuntimeConfigu
     {
         super();
 
-        this.supportsMap = new HashMap();
+        this.supportsMap = new HashMap<String, Boolean>();
 
         this.supportsMap.put(TomcatPropertySet.MANAGER_URL, Boolean.TRUE);
     }
@@ -55,7 +55,7 @@ public class TomcatRuntimeConfigurationCapability extends AbstractRuntimeConfigu
      * @see AbstractRuntimeConfigurationCapability#getPropertySupportMap()
      */
     @Override
-    protected Map getPropertySupportMap()
+    protected Map<String, Boolean> getPropertySupportMap()
     {
         return this.supportsMap;
     }

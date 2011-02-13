@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.util;
 
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.dom4j.Document;
@@ -82,11 +82,10 @@ public class Dom4JXmlFileBuilder implements XmlFileBuilder
         nested.append(elementsToParse);
         nested.append("</parent>");
         Element nestedElements = xmlUtil.parseIntoElement(nested.toString());
-        Iterator elements = nestedElements.elements().iterator();
+        List<Element> elements = nestedElements.elements();
 
-        while (elements.hasNext())
+        for (Element element : elements)
         {
-            Element element = (Element) elements.next();
             setNamespaceOfElementToTheSameAsParent(element, parent);
             nestedElements.remove(element);
             parent.add(element);
@@ -131,7 +130,7 @@ public class Dom4JXmlFileBuilder implements XmlFileBuilder
     /**
      * {@inheritDoc}
      */
-    public void setNamespaces(Map namespaces)
+    public void setNamespaces(Map<String, String> namespaces)
     {
         xmlUtil.setNamespaces(namespaces);
     }

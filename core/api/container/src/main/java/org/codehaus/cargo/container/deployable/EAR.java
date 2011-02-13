@@ -19,8 +19,9 @@
  */
 package org.codehaus.cargo.container.deployable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.codehaus.cargo.container.ContainerException;
@@ -45,7 +46,7 @@ public class EAR extends AbstractDeployable
     /**
      * List of webapps that have been found during parsing inside the wrapped EAR.
      */
-    private Map webapps;    
+    private Map<String, String> webapps;
 
     /**
      * {@inheritDoc}
@@ -86,15 +87,13 @@ public class EAR extends AbstractDeployable
     {
         if (this.webapps == null)
         {
-            Map webapps = new HashMap(); 
+            Map<String, String> webapps = new HashMap<String, String>();
             try
             {
                 EarArchive ear = new DefaultEarArchive(getFile());
                 ApplicationXml applicationXml = ear.getApplicationXml();
-                for (Iterator it = applicationXml.getWebModuleUris(); it.hasNext();)
+                for (String webUri : applicationXml.getWebModuleUris())
                 {
-                    String webUri = (String) it.next();
-
                     String context = applicationXml.getWebModuleContextRoot(webUri);
 
                     if (context == null)
@@ -148,10 +147,10 @@ public class EAR extends AbstractDeployable
     /**
      * @return the list of Web contexts of all WAR files contained in the wrapped EAR
      */
-    public synchronized Iterator getWebContexts()
+    public synchronized List<String> getWebContexts()
     {
         parseWebApps();
-        return this.webapps.keySet().iterator();
+        return new ArrayList<String>(this.webapps.keySet());
     }
 
     /**

@@ -42,14 +42,14 @@ public abstract class AbstractTomcatConfigurationBuilder extends AbstractConfigu
      * contains a mapping of resource types to the factory they use. There should always be a key
      * "default" which can be used for unknown objects.
      */
-    protected Map typeToFactory;
+    protected Map<String, String> typeToFactory;
 
     /**
      * generates {@link #typeToFactory}
      */
     public AbstractTomcatConfigurationBuilder()
     {
-        typeToFactory = new HashMap();
+        typeToFactory = new HashMap<String, String>();
         typeToFactory.put("default", "org.apache.naming.factory.BeanFactory");
         typeToFactory.put(ConfigurationEntryType.MIMETYPE_DATASOURCE,
             "org.apache.naming.factory.SendMailFactory");
@@ -100,8 +100,8 @@ public abstract class AbstractTomcatConfigurationBuilder extends AbstractConfigu
         parameters.putAll(ds.getConnectionProperties());
 
         Resource resource = new Resource(ds.getJndiLocation(), ConfigurationEntryType.DATASOURCE);
-        resource.setParameters(parameters);
         PropertyUtils.setPropertyIfNotNull(parameters, "driverClassName", ds.getDriverClass());
+        resource.setParameters(PropertyUtils.toMap(parameters));
         return resource;
     }
 

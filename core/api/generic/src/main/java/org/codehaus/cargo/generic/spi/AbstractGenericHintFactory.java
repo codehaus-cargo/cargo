@@ -19,17 +19,16 @@
  */
 package org.codehaus.cargo.generic.spi;
 
-import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.generic.internal.util.RegistrationKey;
-import org.codehaus.cargo.generic.internal.util.ContainerIdentity;
-import org.codehaus.cargo.util.log.LoggedObject;
-
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
-import java.util.Iterator;
 import java.util.ArrayList;
+
+import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.generic.internal.util.RegistrationKey;
+import org.codehaus.cargo.generic.internal.util.ContainerIdentity;
+import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
  * Factory implementation that registers implementation classes under a given key of type
@@ -41,10 +40,9 @@ import java.util.ArrayList;
 public abstract class AbstractGenericHintFactory extends LoggedObject
 {
     /**
-     * List of name mappings for implementation classes. The keys are instances of
-     * {@link org.codehaus.cargo.generic.internal.util.RegistrationKey}.
+     * List of name mappings for implementation classes.
      */
-    private Map mappings;
+    private Map<RegistrationKey, Class> mappings;
 
     /**
      * Generic class to be extended by implementors of {@link AbstractGenericHintFactory} in
@@ -60,7 +58,7 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
      */
     protected AbstractGenericHintFactory()
     {
-        this.mappings = new HashMap();
+        this.mappings = new HashMap<RegistrationKey, Class>();
     }
 
     /**
@@ -78,13 +76,13 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
      */
     protected Class getMapping(RegistrationKey key)
     {
-        return (Class) getMappings().get(key);
+        return getMappings().get(key);
     }
 
     /**
      * @return the mappings indexed using a {@see RegistrationKey}.
      */
-    protected Map getMappings()
+    protected Map<RegistrationKey, Class> getMappings()
     {
         return this.mappings;
     }
@@ -119,25 +117,20 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
                 +  ". There's no registered " + implementationConceptName + " for the parameters "
                 + "(" + key.toString(implementationConceptName) + "). ";
 
-            Iterator hints = getHints(key.getContainerIdentity()).iterator();
-            if (hints.hasNext())
-            {
-                message =
-                    message + "Valid types for this " + implementationConceptName + " are: \n";
-                while (hints.hasNext())
-                {
-                    String hint = (String) hints.next();
-                    message = message + "  - " + hint;
-                    if (hints.hasNext())
-                    {
-                        message = message + "\n";
-                    }
-                }
-            }
-            else
+            List<String> hints = getHints(key.getContainerIdentity());
+            if (hints.isEmpty())
             {
                 message = message + "Actually there are no valid types registered for this "
                     + implementationConceptName + ". Maybe you've made a mistake spelling it?";
+            }
+            else
+            {
+                message =
+                    message + "Valid types for this " + implementationConceptName + " are: ";
+                for (String hint : hints)
+                {
+                    message = message + "\n  - " + hint;
+                }
             }
 
             throw new ContainerException(message);
@@ -190,12 +183,12 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
      * @param containerIdentity the container for which to look for registered hints
      * @return the hints that have been registered for this container identity
      */
-    private List getHints(ContainerIdentity containerIdentity)
+    private List<String> getHints(ContainerIdentity containerIdentity)
     {
-        List hints = new ArrayList();
-        for (Iterator keys = getMappings().keySet().iterator(); keys.hasNext();)
+        List<String> hints = new ArrayList<String>();
+        for (Map.Entry<RegistrationKey, Class> mapping : getMappings().entrySet())
         {
-            RegistrationKey key = (RegistrationKey) keys.next();
+            RegistrationKey key = mapping.getKey();
             if (key.getContainerIdentity().equals(containerIdentity))
             {
                 hints.add(key.getHint());

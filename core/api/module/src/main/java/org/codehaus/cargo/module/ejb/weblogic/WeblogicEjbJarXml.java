@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.module.ejb.weblogic;
 
-import java.util.Iterator;
-
 import org.codehaus.cargo.module.AbstractDescriptor;
 import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.ejb.EjbDef;
@@ -135,11 +133,9 @@ public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDe
     private Element getEjb(String ejbName)
     {
         Element ejbElement = null;
-        
-        Iterator names = getElements(WeblogicEjbJarXmlTag.EJB_NAME);
-        while (names.hasNext())
+
+        for (Element nameElement : getElements(WeblogicEjbJarXmlTag.EJB_NAME))
         {
-            Element nameElement = (Element) names.next();
             String name = nameElement.getText();
             if (ejbName.equals(name))
             {

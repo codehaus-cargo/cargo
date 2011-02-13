@@ -23,7 +23,7 @@
 package org.codehaus.cargo.module.application;
 
 import java.io.ByteArrayInputStream;
-import java.util.Iterator;
+import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 
@@ -58,7 +58,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
     
     /**
      * Verifies that the method <code>getWebModuleUris()</code> returns an empty
-     * iterator for a descriptor with no web module definitions.
+     * list for a descriptor with no web module definitions.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -71,13 +71,13 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "</application>";
 
         ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
-        Iterator webUris = applicationXml.getWebModuleUris();
-        assertTrue("No web modules defined", !webUris.hasNext());
+        List<String> webUris = applicationXml.getWebModuleUris();
+        assertTrue("No web modules defined", webUris.isEmpty());
     }
     
     /**
-     * Verifies that the method <code>getWebModuleUris()</code> returns an 
-     * iterator with the correct web-uri for a descriptor with a single web
+     * Verifies that the method <code>getWebModuleUris()</code> returns a
+     * list with the correct web-uri for a descriptor with a single web
      * module definition.
      * 
      * @throws Exception If an unexpected error occurs
@@ -94,14 +94,14 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "</application>";
         ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
 
-        Iterator webUris = applicationXml.getWebModuleUris();
-        assertEquals("webmodule.jar", webUris.next());
-        assertTrue(!webUris.hasNext());
+        List<String> webUris = applicationXml.getWebModuleUris();
+        assertEquals(1, webUris.size());
+        assertEquals("webmodule.jar", webUris.get(0));
     }
     
     /**
-     * Verifies that the method <code>getWebModuleUris()</code> returns an 
-     * iterator with the correct web-uris for a descriptor with multiple web
+     * Verifies that the method <code>getWebModuleUris()</code> returns a
+     * list with the correct web-uris for a descriptor with multiple web
      * module definitions.
      * 
      * @throws Exception If an unexpected error occurs
@@ -130,11 +130,11 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "</application>";
         ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
 
-        Iterator webUris = applicationXml.getWebModuleUris();
-        assertEquals("webmodule1.jar", webUris.next());
-        assertEquals("webmodule2.jar", webUris.next());
-        assertEquals("webmodule3.jar", webUris.next());
-        assertTrue(!webUris.hasNext());
+        List<String> webUris = applicationXml.getWebModuleUris();
+        assertEquals(3, webUris.size());
+        assertEquals("webmodule1.jar", webUris.get(0));
+        assertEquals("webmodule2.jar", webUris.get(1));
+        assertEquals("webmodule3.jar", webUris.get(2));
     }
     
     /**
@@ -239,11 +239,9 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
         applicationXml.addEjbModule("ejbmodule1.jar");
         
         // Extract all ejbmodules, should be just one
-        Iterator i = applicationXml.getEjbModules();
-        assertTrue(i.hasNext());
-        
-        String ejb = (String)i.next();
-        assertEquals("ejbmodule1.jar", ejb);
+        List<String> ejbModules = applicationXml.getEjbModules();
+        assertEquals(1, ejbModules.size());
+        assertEquals("ejbmodule1.jar", ejbModules.get(0));
     }
 
     /**
@@ -265,9 +263,9 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
         
         ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
 
-        
-        Iterator i = applicationXml.getEjbModules();
-        assertEquals("myFirstEjb.jar", i.next());
-        assertEquals("mySecondEjb.jar", i.next());
+        List<String> ejbModules = applicationXml.getEjbModules();
+        assertEquals(2, ejbModules.size());
+        assertEquals("myFirstEjb.jar", ejbModules.get(0));
+        assertEquals("mySecondEjb.jar", ejbModules.get(1));
     }
 }

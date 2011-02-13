@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.module.ejb.jboss;
 
-import java.util.Iterator;
-
 import org.codehaus.cargo.module.AbstractDescriptor;
 import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.ejb.EjbDef;
@@ -91,10 +89,8 @@ public class JBossXml extends AbstractDescriptor implements VendorEjbDescriptor
     {
         Element ejbElement = null;
 
-        Iterator names = getElements(JBossXmlTag.EJB_NAME);
-        while (names.hasNext())
+        for (Element nameElement : getElements(JBossXmlTag.EJB_NAME))
         {
-            Element nameElement = (Element) names.next();
             String name = nameElement.getText();
             if (ejbName.equals(name))
             {

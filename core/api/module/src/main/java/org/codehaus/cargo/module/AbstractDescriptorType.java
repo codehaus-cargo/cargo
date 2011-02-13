@@ -51,7 +51,7 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
     /**
      * List of descriptor tags.
      */
-    private List tags;
+    private List<DescriptorTag> tags;
 
     /**
      * Descriptor class.
@@ -77,7 +77,7 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
         this.grammar = grammar;
         this.descriptorClass = descriptorClass;
 
-        tags = new ArrayList();
+        tags = new ArrayList<DescriptorTag>();
     }
 
     /**
@@ -126,9 +126,8 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
      */
     public DescriptorTag getTagByName(String name)
     {
-        for (int i = 0; i < tags.size(); i++)
+        for (DescriptorTag tag : tags)
         {
-            DescriptorTag tag = (DescriptorTag) tags.get(i);
             if (tag.getTagName().equals(name))
             {
                 return tag;
@@ -142,9 +141,9 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
     /**
      * @return a collection of all tags
      */
-    public Collection getAllTags()
+    public Collection<DescriptorTag> getAllTags()
     {
-        List items = new ArrayList(tags);
+        List<DescriptorTag> items = new ArrayList<DescriptorTag>(tags);
         if (parent != null)
         {
             items.addAll(parent.getAllTags());

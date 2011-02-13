@@ -134,9 +134,9 @@ public class Tomcat5xStandaloneLocalConfiguration extends
      * @see AbstractCatalinaStandaloneLocalConfiguration#setupManager(org.codehaus.cargo.container.LocalContainer)
      */
     @Override
-    protected Set getConfFiles()
+    protected Set<String> getConfFiles()
     {
-        Set files = super.getConfFiles();
+        Set<String> files = super.getConfFiles();
         files.add("catalina.properties");
         files.add("context.xml");
         return files;
@@ -155,7 +155,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         PropertyUtils.setPropertyIfNotNull(parameters, "jotm.timeout", "60");
         PropertyUtils.setPropertyIfNotNull(parameters, "factory",
             "org.objectweb.jotm.UserTransactionFactory");
-        transactionManagerResource.setParameters(parameters);
+        transactionManagerResource.setParameters(PropertyUtils.toMap(parameters));
         getResources().add(transactionManagerResource);
     }
 

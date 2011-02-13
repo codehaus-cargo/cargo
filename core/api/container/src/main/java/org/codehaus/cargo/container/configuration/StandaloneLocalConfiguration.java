@@ -53,7 +53,7 @@ public interface StandaloneLocalConfiguration extends LocalConfiguration
      * 
      * @return The configuration file properies
      */
-    List getFileProperties();
+    List<FileConfig> getFileProperties();
 
     /**
      * Returns the filterchain for this configuration.

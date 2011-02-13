@@ -20,9 +20,9 @@
 package org.codehaus.cargo.module.webapp;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import org.codehaus.cargo.module.Descriptor;
 import org.codehaus.cargo.module.DescriptorElement;
 import org.codehaus.cargo.module.webapp.elements.ContextParam;
 import org.codehaus.cargo.module.webapp.elements.Filter;
@@ -50,48 +50,45 @@ public final class WebXmlUtils
      *
      * @param webXml The webXml file to use
      * @param className The fully qualified name of the filter class
-     * @return An iterator over the names of the filters mapped to the class
+     * @return A list of the names of the filters mapped to the class
      */
-    public static Iterator getFilterNamesForClass(WebXml webXml, String className)
+    public static List<String> getFilterNamesForClass(WebXml webXml, String className)
     {
         if (className == null)
         {
             throw new NullPointerException();
         }
-        Iterator filterElements = webXml.getTags(WebXmlType.FILTER).iterator();
-        List filterNames = new ArrayList();
-        while (filterElements.hasNext())
+        List<String> filterNames = new ArrayList<String>();
+        for (Element element : webXml.getTags(WebXmlType.FILTER))
         {
-            Filter filterElement = (Filter) filterElements.next();
+            Filter filterElement = (Filter) element;
             if (className.equals(filterElement.getFilterClass()))
             {
                 filterNames.add(filterElement.getFilterName());
             }
         }
-        return filterNames.iterator();
+        return filterNames;
     }
 
     /**
      * Returns the URL-patterns that the specified filter is mapped to in an ordered list. If there
-     * are no mappings for the specified filter, an iterator over an empty list is returned.
+     * are no mappings for the specified filter, an empty list is returned.
      *
      * @param webXml The webXml file to use
      * @param theFilterName The name of the servlet filter of which the mappings should be retrieved
-     * @return An iterator over the ordered list of URL-patterns
+     * @return An ordered list of the URL-patterns
      */
-    public static Iterator getFilterMappings(WebXml webXml, String theFilterName)
+    public static List<String> getFilterMappings(WebXml webXml, String theFilterName)
     {
 
         if (theFilterName == null)
         {
             throw new NullPointerException();
         }
-        List filterMappings = new ArrayList();
-        Iterator filterMappingElements =
-            webXml.getTags(WebXmlType.FILTER_MAPPING).iterator();
-        while (filterMappingElements.hasNext())
+        List<String> filterMappings = new ArrayList<String>();
+        for (Element element : webXml.getTags(WebXmlType.FILTER_MAPPING))
         {
-            FilterMapping filterMappingElement = (FilterMapping) filterMappingElements.next();
+            FilterMapping filterMappingElement = (FilterMapping) element;
             if (theFilterName.equals(filterMappingElement.getFilterName()))
             {
                 String urlPattern = filterMappingElement.getUrlPattern();
@@ -101,37 +98,34 @@ public final class WebXmlUtils
                 }
             }
         }
-        return filterMappings.iterator();
+        return filterMappings;
     }
 
     /**
      * Returns the filter mappings that the specified filter is mapped to in an ordered list. 
-     * If there are no mappings for the specified filter, an iterator over an empty list is 
-     * returned.
+     * If there are no mappings for the specified filter, an empty list is returned.
      *
      * @param webXml The webXml file to use
      * @param theFilterName The name of the servlet filter of which the mappings should be retrieved
-     * @return An iterator over the ordered list of filter elements
+     * @return An ordered list of the filter elements
      */
-    public static Iterator getFilterMappingElements(WebXml webXml, String theFilterName)
+    public static List<FilterMapping> getFilterMappingElements(WebXml webXml, String theFilterName)
     {
 
         if (theFilterName == null)
         {
             throw new NullPointerException();
         }
-        List filterMappings = new ArrayList();
-        Iterator filterMappingElements =
-            webXml.getTags(WebXmlType.FILTER_MAPPING).iterator();
-        while (filterMappingElements.hasNext())
+        List<FilterMapping> filterMappings = new ArrayList<FilterMapping>();
+        for (Element element : webXml.getTags(WebXmlType.FILTER_MAPPING))
         {
-            FilterMapping filterMappingElement = (FilterMapping) filterMappingElements.next();
+            FilterMapping filterMappingElement = (FilterMapping) element;
             if (theFilterName.equals(filterMappingElement.getFilterName()))
             {
                 filterMappings.add(filterMappingElement);
             }
         }
-        return filterMappings.iterator();
+        return filterMappings;
     }
 
     /**
@@ -193,10 +187,10 @@ public final class WebXmlUtils
         }
         String roleName = null;
         Servlet servlet = getServlet(webXml, theServletName);
-        List nodeList = servlet.getChildren(WebXmlType.RUN_AS, servlet.getNamespace());
+        List<Element> nodeList = servlet.getChildren(WebXmlType.RUN_AS, servlet.getNamespace());
         if (nodeList != null && nodeList.size() > 0)
         {
-            Element e = (Element) nodeList.get(0);
+            Element e = nodeList.get(0);
             if (e != null)
             {
                 roleName = e.getChildText(WebXmlType.ROLE_NAME, e.getNamespace());
@@ -225,20 +219,20 @@ public final class WebXmlUtils
      *
      * @param webXml The webXml file to use
      * @param name The name of the filter to use
-     * @return an iterator over the param names
+     * @return a list of the param names
      */
-    public static Iterator getFilterInitParamNames(WebXml webXml, String name)
+    public static List<String> getFilterInitParamNames(WebXml webXml, String name)
     {
         WebXmlElement element =
             (WebXmlElement) webXml.getTagByIdentifier(WebXmlType.FILTER, name);
-        List items = element.getChildren("init-param", element.getTag().getTagNamespace());
-        List result = new ArrayList(items.size());
-        for (Iterator i = items.iterator(); i.hasNext();)
+        List<Element> items = element.getChildren("init-param", element.getTag().getTagNamespace());
+        List<String> result = new ArrayList<String>(items.size());
+        for (Element item : items)
         {
-            InitParam ip = (InitParam) i.next();
+            InitParam ip = (InitParam) item;
             result.add(ip.getParamName());
         }
-        return result.iterator();
+        return result;
     }
 
     /**
@@ -288,22 +282,22 @@ public final class WebXmlUtils
      * Get the names that this servlet uses.
      * @param webXml The webXml file to use
      * @param className the name of the class
-     * @return Iterator
+     * @return a list of the servlet names
      */
-    public static Iterator getServletNamesForClass(WebXml webXml, String className)
+    public static List<String> getServletNamesForClass(WebXml webXml, String className)
     {
-        List items = webXml.getTags(WebXmlType.SERVLET);
+        List<Element> items = webXml.getTags(WebXmlType.SERVLET);
 
-        List result = new ArrayList(items.size());
-        for (Iterator i = items.iterator(); i.hasNext();)
+        List<String> result = new ArrayList<String>(items.size());
+        for (Element item : items)
         {
-            Servlet servlet = (Servlet) i.next();
+            Servlet servlet = (Servlet) item;
             if (servlet.getServletClass().equals(className))
             {
                 result.add(servlet.getServletName());
             }
         }
-        return result.iterator();
+        return result;
     }
 
     /**
@@ -311,19 +305,18 @@ public final class WebXmlUtils
      *
      * @param webXml The webXml file to use
      * @param theJspFile The path to the JSP file, relative to the root of the web-application
-     * @return An iterator over the names of the servlets mapped to the JSP file
+     * @return A list of the names of the servlets mapped to the JSP file
      */
-    public static Iterator getServletNamesForJspFile(WebXml webXml, String theJspFile)
+    public static List<String> getServletNamesForJspFile(WebXml webXml, String theJspFile)
     {
         if (theJspFile == null)
         {
             throw new NullPointerException();
         }
-        Iterator servletElements = webXml.getElements(WebXmlType.SERVLET);
-        List servletNames = new ArrayList();
-        while (servletElements.hasNext())
+        List<Element> servletElements = webXml.getElements(WebXmlType.SERVLET);
+        List<String> servletNames = new ArrayList<String>();
+        for (Element servletElement : servletElements)
         {
-            Element servletElement = (Element) servletElements.next();
             Element thisElement =
                 servletElement.getChild(WebXmlType.JSP_FILE, servletElement.getNamespace());
             if (thisElement != null && theJspFile.equals(thisElement.getText()))
@@ -333,26 +326,26 @@ public final class WebXmlUtils
 
             }
         }
-        return servletNames.iterator();
+        return servletNames;
     }
 
     /**
-     * Get an iterator of the servlet names in the web xml.
+     * Get a list of the servlet names in the web xml.
      *
      * @param webXml The webXml file to use
-     * @return Iterator
+     * @return list of the servlet names in the web xml
      */
-    public static Iterator getServletNames(WebXml webXml)
+    public static List<String> getServletNames(WebXml webXml)
     {
-        List items = webXml.getTags(WebXmlType.SERVLET);
+        List<Element> items = webXml.getTags(WebXmlType.SERVLET);
 
-        List result = new ArrayList(items.size());
-        for (Iterator i = items.iterator(); i.hasNext();)
+        List<String> result = new ArrayList<String>(items.size());
+        for (Element item : items)
         {
-            Servlet servlet = (Servlet) i.next();
+            Servlet servlet = (Servlet) item;
             result.add(servlet.getServletName());
         }
-        return result.iterator();
+        return result;
     }
 
     /**
@@ -360,19 +353,18 @@ public final class WebXmlUtils
      *
      * @param webXml The webXml file to use
      * @param theServletName The name of the servlet
-     * @return An iterator over the mappings
+     * @return A list of the mappings
      */
-    public static Iterator getServletMappings(WebXml webXml, String theServletName)
+    public static List<String> getServletMappings(WebXml webXml, String theServletName)
     {
         if (theServletName == null)
         {
             throw new NullPointerException();
         }
-        List servletMappings = new ArrayList();
-        Iterator servletMappingElements = webXml.getElements(WebXmlType.SERVLET_MAPPING);
-        while (servletMappingElements.hasNext())
+        List<String> servletMappings = new ArrayList<String>();
+        List<Element> servletMappingElements = webXml.getElements(WebXmlType.SERVLET_MAPPING);
+        for (Element servletMappingElement : servletMappingElements)
         {
-            Element servletMappingElement = (Element) servletMappingElements.next();
             if (theServletName.equals(servletMappingElement.getChild(
                 WebXmlType.SERVLET_NAME, servletMappingElement.getNamespace()).getText()))
             {
@@ -386,7 +378,7 @@ public final class WebXmlUtils
                 }
             }
         }
-        return servletMappings.iterator();
+        return servletMappings;
     }
 
     /**
@@ -445,9 +437,9 @@ public final class WebXmlUtils
      *
      * @param webXml The webXml file to use
      * @param theServletName The name of the servlet
-     * @return An iterator over the parameter names
+     * @return A list of the parameter names
      */
-    public static Iterator getServletInitParamNames(WebXml webXml, String theServletName)
+    public static List<String> getServletInitParamNames(WebXml webXml, String theServletName)
     {
         return getInitParamNames(webXml, getServlet(webXml, theServletName));
     }
@@ -457,18 +449,17 @@ public final class WebXmlUtils
      *
      * @param webXml The webXml file to use
      * @param theElement The element containing the servlet
-     * @return An iterator over the parameter names
+     * @return A list of the parameter names
      */
-    private static Iterator getInitParamNames(WebXml webXml, Element theElement)
+    private static List<String> getInitParamNames(WebXml webXml, Element theElement)
     {
-        List initParamNames = new ArrayList();
+        List<String> initParamNames = new ArrayList<String>();
         if (theElement != null)
         {
-            List initParamElements =
+            List<Element> initParamElements =
                 theElement.getChildren(WebXmlType.INIT_PARAM, theElement.getNamespace());
-            for (int i = 0; i < initParamElements.size(); i++)
+            for (Element initParamElement : initParamElements)
             {
-                Element initParamElement = (Element) initParamElements.get(i);
                 String paramName =
                     initParamElement.getChildText(WebXmlType.PARAM_NAME, theElement.getNamespace());
                 if (paramName != null)
@@ -477,7 +468,7 @@ public final class WebXmlUtils
                 }
             }
         }
-        return initParamNames.iterator();
+        return initParamNames;
     }
 
     /**
@@ -495,7 +486,7 @@ public final class WebXmlUtils
      * @throws SecurityException
      */
     public static void addSecurityConstraint(WebXml webXml, String theWebResourceName,
-        String theUrlPattern, List theRoles)
+        String theUrlPattern, List<String> theRoles)
     {
         if ((theWebResourceName == null) || (theUrlPattern == null) || (theRoles == null))
         {
@@ -525,11 +516,10 @@ public final class WebXmlUtils
         Element authConstraintElement = webXml.getDescriptorType().getTagByName(
             WebXmlType.AUTH_CONSTRAINT).create();
 
-        for (Iterator i = theRoles.iterator(); i.hasNext();)
+        for (String theRole : theRoles)
         {
             authConstraintElement.addContent(webXml.getDescriptorType().getTagByName(
-                WebXmlType.ROLE_NAME).create().setText(
-                (String) i.next()));
+                WebXmlType.ROLE_NAME).create().setText(theRole));
         }
 
         securityConstraintElement.addContent(authConstraintElement);
@@ -661,20 +651,14 @@ public final class WebXmlUtils
         {
             throw new NullPointerException();
         }
-        Iterator securityConstraintElements =
-            webXml.getTags(WebXmlType.SECURITY_CONSTRAINT).iterator();
-        while (securityConstraintElements.hasNext())
+        List<Element> securityConstraintElements = webXml.getTags(WebXmlType.SECURITY_CONSTRAINT);
+        for (Element securityConstraintElement : securityConstraintElements)
         {
-            SecurityConstraint securityConstraintElement =
-                (SecurityConstraint) securityConstraintElements.next();
-            Iterator webResourceCollectionElements =
-                securityConstraintElement.getChildren(
-                    WebXmlType.WEB_RESOURCE_COLLECTION, securityConstraintElement.getNamespace())
-                    .iterator();
-            if (webResourceCollectionElements.hasNext())
+            List<Element> webResourceCollectionElements = securityConstraintElement.getChildren(
+                    WebXmlType.WEB_RESOURCE_COLLECTION, securityConstraintElement.getNamespace());
+            if (!webResourceCollectionElements.isEmpty())
             {
-                Element webResourceCollectionElement =
-                    (Element) webResourceCollectionElements.next();
+                Element webResourceCollectionElement = webResourceCollectionElements.get(0);
 
                 String url =
                     webResourceCollectionElement.getChildText(WebXmlType.URL_PATTERN,
@@ -682,7 +666,7 @@ public final class WebXmlUtils
 
                 if (theUrlPattern.equals(url))
                 {
-                    return securityConstraintElement;
+                    return (SecurityConstraint) securityConstraintElement;
                 }
             }
         }
@@ -705,15 +689,14 @@ public final class WebXmlUtils
      * Get the security role names.
      *
      * @param webXml The webXml file to use
-     * @return an iterator over the role names
+     * @return a list of the role names
      */
-    public static Iterator getSecurityRoleNames(WebXml webXml)
+    public static List<String> getSecurityRoleNames(WebXml webXml)
     {
-        List securityRoleNames = new ArrayList();
-        Iterator securityRoleElements = webXml.getElements(WebXmlType.SECURITY_ROLE);
-        while (securityRoleElements.hasNext())
+        List<String> securityRoleNames = new ArrayList<String>();
+        List<Element> securityRoleElements = webXml.getElements(WebXmlType.SECURITY_ROLE);
+        for (Element securityRoleElement : securityRoleElements)
         {
-            Element securityRoleElement = (Element) securityRoleElements.next();
             Element securityRoleName =
                 securityRoleElement.getChild(WebXmlType.ROLE_NAME,
                     securityRoleElement.getNamespace());
@@ -723,7 +706,7 @@ public final class WebXmlUtils
                 securityRoleNames.add(securityRoleName.getText());
             }
         }
-        return securityRoleNames.iterator();
+        return securityRoleNames;
     }
 
     /**
@@ -739,11 +722,10 @@ public final class WebXmlUtils
         {
             throw new NullPointerException();
         }
-        Iterator securityRoleElements =
-            webXml.getTags(WebXmlType.SECURITY_ROLE).iterator();
-        while (securityRoleElements.hasNext())
+        List<Element> securityRoleElements = webXml.getTags(WebXmlType.SECURITY_ROLE);
+        for (Element element : securityRoleElements)
         {
-            DescriptorElement securityRoleElement = (DescriptorElement) securityRoleElements.next();
+            DescriptorElement securityRoleElement = (DescriptorElement) element;
             if (theRoleName.equals(securityRoleElement.getChildText(
                 WebXmlType.ROLE_NAME, securityRoleElement.getNamespace())))
             {
@@ -798,10 +780,9 @@ public final class WebXmlUtils
         }
         else if (ref.getJndiName() != null)
         {
-            Iterator i = webXml.getVendorDescriptors();
-            while (i.hasNext())
+            for (Descriptor d : webXml.getVendorDescriptors())
             {
-                VendorWebAppDescriptor descr = (VendorWebAppDescriptor) i.next();
+                VendorWebAppDescriptor descr = (VendorWebAppDescriptor) d;
                 descr.addEjbReference(ref);
             }
         }
@@ -851,19 +832,19 @@ public final class WebXmlUtils
 
     /**
      * @param webXml The webXml file to use
-     * @return Iterator
+     * @return filter names
      */
-    public static Iterator getFilterNames(WebXml webXml)
+    public static List<String> getFilterNames(WebXml webXml)
     {
-        List items = webXml.getTags(WebXmlType.FILTER);
+        List<Element> items = webXml.getTags(WebXmlType.FILTER);
 
-        List result = new ArrayList(items.size());
-        for (Iterator i = items.iterator(); i.hasNext();)
+        List<String> result = new ArrayList<String>(items.size());
+        for (Element item : items)
         {
-            Filter filter = (Filter) i.next();
+            Filter filter = (Filter) item;
             result.add(filter.getFilterName());
         }
-        return result.iterator();
+        return result;
     }
 
     /**
@@ -955,11 +936,10 @@ public final class WebXmlUtils
     {
         if (theElement != null)
         {
-            List initParamElements =
+            List<Element> initParamElements =
                 theElement.getChildren(WebXmlType.INIT_PARAM, theElement.getNamespace());
-            for (int i = 0; i < initParamElements.size(); i++)
+            for (Element initParamElement : initParamElements)
             {
-                Element initParamElement = (Element) initParamElements.get(i);
                 String paramName =
                     initParamElement.getChildText(WebXmlType.PARAM_NAME, theElement.getNamespace());
                 if (theParamName.equals(paramName))

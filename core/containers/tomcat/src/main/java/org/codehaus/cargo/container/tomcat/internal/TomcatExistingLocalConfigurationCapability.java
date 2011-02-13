@@ -36,7 +36,7 @@ public class TomcatExistingLocalConfigurationCapability
     /**
      * Configuration-specific supports Map.
      */
-    private Map supportsMap;
+    private Map<String, Boolean> supportsMap;
 
     /**
      * Initialize the configuration-specific supports Map.
@@ -45,7 +45,7 @@ public class TomcatExistingLocalConfigurationCapability
     {
         super();
 
-        this.supportsMap = new HashMap();
+        this.supportsMap = new HashMap<String, Boolean>();
     }
 
     /**
@@ -53,7 +53,7 @@ public class TomcatExistingLocalConfigurationCapability
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     @Override
-    protected Map getPropertySupportMap()
+    protected Map<String, Boolean> getPropertySupportMap()
     {
         return this.supportsMap;
     }

@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.glassfish.internal;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.tools.ant.Project;
@@ -107,12 +108,9 @@ public class GlassFish2xAsAdmin extends AbstractAsAdmin
             }
         }
 
-        List cmds = new ArrayList();
+        List<String> cmds = new ArrayList<String>();
         cmds.add(exec.getAbsolutePath());
-        for (String arg : args)
-        {
-            cmds.add(arg);
-        }
+        cmds.addAll(Arrays.asList(args));
 
         try
         {

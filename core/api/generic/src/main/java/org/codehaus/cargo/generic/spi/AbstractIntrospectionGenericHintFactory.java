@@ -42,7 +42,7 @@ public abstract class AbstractIntrospectionGenericHintFactory extends AbstractGe
      * forgotten to add the container implementation jar to its classpath). We record them in order 
      * to throw a nice error message if the user tries to use any of them.
      */
-    private Map rejectedMappings = new HashMap();
+    private Map<RegistrationKey, String> rejectedMappings = new HashMap<RegistrationKey, String>();
 
     /**
      * Allow registering container objects using introspection so that at build time and runtime 

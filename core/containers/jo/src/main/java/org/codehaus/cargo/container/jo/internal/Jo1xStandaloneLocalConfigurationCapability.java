@@ -52,7 +52,7 @@ public class Jo1xStandaloneLocalConfigurationCapability
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     @Override
-    protected Map getPropertySupportMap()
+    protected Map<String, Boolean> getPropertySupportMap()
     {
         return this.defaultSupportsMap;
     }

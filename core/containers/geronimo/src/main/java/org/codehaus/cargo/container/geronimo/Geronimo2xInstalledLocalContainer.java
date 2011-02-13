@@ -20,7 +20,6 @@
 package org.codehaus.cargo.container.geronimo;
 
 import java.io.File;
-import java.util.Iterator;
 
 import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -103,8 +102,6 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
             "org.apache.geronimo.config.substitution.EndPointURI",
             "http://localhost:" + getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
 
-        // --long
-
         AntContainerExecutorThread geronimoStarter = new AntContainerExecutorThread(java);
         geronimoStarter.start();
 
@@ -112,10 +109,9 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
 
         // deploy scheduled deployables
         GeronimoInstalledLocalDeployer deployer = new GeronimoInstalledLocalDeployer(this);
-        for (Iterator iterator = this.getConfiguration().getDeployables().iterator(); iterator
-            .hasNext();)
+        for (Deployable deployable : this.getConfiguration().getDeployables())
         {
-            deployer.deploy((Deployable) iterator.next());
+            deployer.deploy(deployable);
         }
     }
 

@@ -39,7 +39,7 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
      * Map of context paths to webapps. For the Jetty API, we need the deployed webapp object in
      * order to call the API to remove it.
      */
-    private static Map deployedWebAppMap = new HashMap();
+    private static final Map<String, Object> DEPLOYED_WEBAPP_MAP = new HashMap<String, Object>();
 
     /**
      * List of virtual hostnames with which to associate webapps deployed with this deployer.
@@ -205,9 +205,9 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
      */
     protected static Object getDeployedWebAppContext(Deployable deployable)
     {
-        synchronized (deployedWebAppMap)
+        synchronized (DEPLOYED_WEBAPP_MAP)
         {
-            return deployedWebAppMap.get(getContext(deployable));
+            return DEPLOYED_WEBAPP_MAP.get(getContext(deployable));
         }
     }
 
@@ -218,9 +218,9 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
      */
     protected static void addDeployedWebAppContext(String context, Object deployedWebApp)
     {
-        synchronized (deployedWebAppMap)
+        synchronized (DEPLOYED_WEBAPP_MAP)
         {
-            deployedWebAppMap.put(context, deployedWebApp);
+            DEPLOYED_WEBAPP_MAP.put(context, deployedWebApp);
         }
     }
 
@@ -231,9 +231,9 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
      */
     protected static void removeDeployedWebAppContext(String context)
     {
-        synchronized (deployedWebAppMap)
+        synchronized (DEPLOYED_WEBAPP_MAP)
         {
-            deployedWebAppMap.remove(context);
+            DEPLOYED_WEBAPP_MAP.remove(context);
         }
     }
 

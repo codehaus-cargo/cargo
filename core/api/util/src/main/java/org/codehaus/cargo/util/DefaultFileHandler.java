@@ -33,7 +33,6 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -198,14 +197,14 @@ public class DefaultFileHandler implements FileHandler
      */
     public void copyDirectory(String source, String target)
     {
-        copyDirectory(source, target, new ArrayList());
+        copyDirectory(source, target, new ArrayList<String>());
     }
 
     /**
      * {@inheritDoc}
      * @see FileHandler#copyDirectory(String, String)
      */
-    public void copyDirectory(String source, String target, List excludes)
+    public void copyDirectory(String source, String target, List<String> excludes)
     {
         try
         {
@@ -216,9 +215,8 @@ public class DefaultFileHandler implements FileHandler
             fileSet.setDir(new File(source));
 
             // Exclude files marked by the user to be excluded
-            for (Iterator it = excludes.iterator(); it.hasNext();)
+            for (String excludeName : excludes)
             {
-                String excludeName = (String) it.next();
                 fileSet.createExclude().setName(excludeName);
             }
 

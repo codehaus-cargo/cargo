@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
-import java.util.Iterator;
+import java.util.Set;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.Resource;
@@ -27,7 +27,8 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 /**
  * Constructs xml elements needed to configure a DataSource for Tomcat4x. Note that this
  * implementation converts DataSources into Resources and then uses an appropriate
- * {@link ConfigurationBuilder} to create the configuration.
+ * {@link org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder} to create the
+ * configuration.
  * 
  * @version $Id$
  */
@@ -69,14 +70,13 @@ public class Tomcat4xConfigurationBuilder extends AbstractTomcatConfigurationBui
         {
             resource.setParameter("factory", getFactoryClassFor(resource.getType()));
         }
-        Iterator parameterNames = resource.getParameterNames().iterator();
-        if (parameterNames.hasNext())
+        Set<String> parameterNames = resource.getParameterNames();
+        if (!parameterNames.isEmpty())
         {
             buff.append("<ResourceParams ").append("name=\"").append(resource.getName()).append(
                 "\">\n");
-            while (parameterNames.hasNext())
+            for (String parameterName : parameterNames)
             {
-                String parameterName = (String) parameterNames.next();
                 buff.append("  <parameter>\n  <name>");
                 buff.append(parameterName);
                 buff.append("</name>\n    <value>");

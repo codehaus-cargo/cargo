@@ -25,8 +25,8 @@ package org.codehaus.cargo.container.spi.util;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import org.codehaus.cargo.container.ContainerException;
 
@@ -98,7 +98,7 @@ public class DefaultServerRun extends Thread
     {
         // Look for a -start or -stop flag
         boolean isStart = true;
-        List newArgs = new Vector();
+        List<String> newArgs = new ArrayList<String>();
 
         for (int i = 0; i < this.args.length; i++)
         {
@@ -125,7 +125,7 @@ public class DefaultServerRun extends Thread
         // server command line (i.e. our own arguments).
         String[] strArgs = new String[0];
 
-        this.args = (String[]) newArgs.toArray(strArgs);
+        this.args = newArgs.toArray(strArgs);
 
         if (isStart)
         {

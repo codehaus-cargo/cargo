@@ -43,11 +43,9 @@ import org.codehaus.cargo.util.log.Logger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Map.Entry;
 import java.io.FileNotFoundException;
 import java.io.File;
 
@@ -62,18 +60,18 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     /**
      * List of system properties to set in the container JVM.
      */
-    private Map systemProperties;
+    private Map<String, String> systemProperties;
 
     /**
      * Additional classpath entries for the classpath that will be used to start the containers.
      */
-    private List extraClasspath;
+    private List<String> extraClasspath;
 
     /**
      * Additional classpath entries for the classpath that will be shared by the container
      * applications.
      */
-    private List sharedClasspath;
+    private List<String> sharedClasspath;
 
     /**
      * The container home installation directory.
@@ -114,9 +112,9 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         this.antUtils = new AntUtils();
         this.resourceUtils = new ResourceUtils();
         this.httpUtils = new HttpUtils();
-        extraClasspath = new ArrayList();
-        sharedClasspath = new ArrayList();
-        systemProperties = new HashMap();
+        extraClasspath = new ArrayList<String>();
+        sharedClasspath = new ArrayList<String>();
+        systemProperties = new HashMap<String, String>();
     }
 
     /**
@@ -180,9 +178,9 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * 
      * @see InstalledLocalContainer#setSystemProperties
      */
-    public void setSystemProperties(Map properties)
+    public void setSystemProperties(Map<String, String> properties)
     {
-        Map props = new HashMap();
+        Map<String, String> props = new HashMap<String, String>();
         props.putAll(properties);
 
         this.systemProperties = props;
@@ -193,7 +191,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * 
      * @see InstalledLocalContainer#getSystemProperties()
      */
-    public Map getSystemProperties()
+    public Map<String, String> getSystemProperties()
     {
         return this.systemProperties;
     }
@@ -216,7 +214,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      */
     public String[] getExtraClasspath()
     {
-        return (String[]) this.extraClasspath.toArray(new String[0]);
+        return this.extraClasspath.toArray(new String[0]);
     }
 
     /**
@@ -237,7 +235,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      */
     public String[] getSharedClasspath()
     {
-        return (String[]) this.sharedClasspath.toArray(new String[0]);
+        return this.sharedClasspath.toArray(new String[0]);
     }
 
     /**
@@ -374,11 +372,8 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
  
         if (getConfiguration().getDeployables() != null)
         {
-            Iterator iterator = getConfiguration().getDeployables().iterator();
-            while (iterator.hasNext())
+            for (Deployable toDeploy : getConfiguration().getDeployables())
             {
-                Object object = iterator.next();
-                Deployable toDeploy = (Deployable) object;
                 Variable deployable = new Variable();
                 deployable.setKey("sshjava.shift."
                          + getFileHandler().getAbsolutePath(toDeploy.getFile()));
@@ -401,11 +396,9 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         properties.put("sshjava.password", SSHPropertySet.PASSWORD);
         properties.put("sshjava.keyfile", SSHPropertySet.KEYFILE);
         properties.put("sshjava.remotebase", SSHPropertySet.REMOTEBASE);
-        
-        Iterator iterator = properties.entrySet().iterator();
-        while (iterator.hasNext())
+
+        for (Map.Entry<?, ?> entry : properties.entrySet())
         {
-            Entry entry = (Entry) iterator.next();
             Variable var = new Variable();
             var.setKey(entry.getKey().toString());
             var.setValue(getConfiguration().getPropertyValue(entry.getValue().toString()));
@@ -440,13 +433,10 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      */
     private void addSystemProperties(Java java)
     {
-        Iterator keys = getSystemProperties().keySet().iterator();
-        while (keys.hasNext())
+        for (Map.Entry<String, String> systemProperty : getSystemProperties().entrySet())
         {
-            String key = (String) keys.next();
-
-            java.addSysproperty(getAntUtils().createSysProperty(key,
-                (String) getSystemProperties().get(key)));
+            java.addSysproperty(getAntUtils().createSysProperty(systemProperty.getKey(),
+                systemProperty.getValue()));
         }
     }
 
@@ -492,11 +482,9 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         {
             Path path = new Path(getAntUtils().createProject());
 
-            Iterator entries = extraClasspath.iterator();
-            while (entries.hasNext())
+            for (String extraClasspathItem : extraClasspath)
             {
-                Path pathElement =
-                    new Path(getAntUtils().createProject(), (String) entries.next());
+                Path pathElement = new Path(getAntUtils().createProject(), extraClasspathItem);
                 path.addExisting(pathElement);
 
                 getLogger().debug("Adding [" + pathElement + "] to execution classpath",
@@ -535,9 +523,9 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         {
             // Replace new lines and tabs, so that Maven or ANT plugins can
             // specify multiline JVM arguments in their XML files
-            jvmargs = jvmargs.replace("\n", " ");
-            jvmargs = jvmargs.replace("\r", " ");
-            jvmargs = jvmargs.replace("\t", " ");
+            jvmargs = jvmargs.replace('\n', ' ');
+            jvmargs = jvmargs.replace('\r', ' ');
+            jvmargs = jvmargs.replace('\t', ' ');
             javacommand.createJvmarg().setLine(jvmargs);
         }
     }
@@ -634,7 +622,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * @param location path to add to the list
      * @param list where to append this path
      */
-    public void ifPresentAddPathToList(String location, List list)
+    public void ifPresentAddPathToList(String location, List<String> list)
     {
         if (location == null || !this.getFileHandler().exists(location))
         {

@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.jo;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.util.Iterator;
 
 import org.apache.tools.ant.filters.ReplaceTokens;
 import org.apache.tools.ant.types.FilterChain;
@@ -195,11 +194,8 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
 
         StringBuilder keyWebApps = new StringBuilder();
 
-        Iterator it = getDeployables().iterator();
-        while (it.hasNext())
+        for (Deployable deployable : getDeployables())
         {
-            Deployable deployable = (Deployable) it.next();
-
             if (deployable.getType() == DeployableType.WAR)
             {
                 WAR war = (WAR) deployable;

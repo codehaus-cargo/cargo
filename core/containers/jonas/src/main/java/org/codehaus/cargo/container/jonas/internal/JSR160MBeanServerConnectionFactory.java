@@ -82,7 +82,7 @@ public class JSR160MBeanServerConnectionFactory implements MBeanServerConnection
             }
         }
 
-        Map environment = new HashMap();
+        Map<String, Object> environment = new HashMap<String, Object>();
 
         if (username != null && username.trim().length() > 0 && password != null
             && password.trim().length() > 0)

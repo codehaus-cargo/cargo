@@ -203,7 +203,7 @@ public class DataSourceConverter
     public String toPropertyString(DataSource data)
     {
         Properties properties = toProperties(data);
-        return PropertyUtils.joinOnPipe(properties);
+        return PropertyUtils.joinOnPipe(PropertyUtils.toMap(properties));
     }
 
     /**
@@ -248,7 +248,8 @@ public class DataSourceConverter
     {
         if (data.getConnectionProperties() != null && data.getConnectionProperties().size() != 0)
         {
-            return PropertyUtils.joinOnSemicolon(data.getConnectionProperties());
+            return PropertyUtils.joinOnSemicolon(PropertyUtils.toMap(
+                data.getConnectionProperties()));
         }
         else
         {
@@ -280,7 +281,7 @@ public class DataSourceConverter
         parameters.putAll(ds.getConnectionProperties());
 
         Resource resource = new Resource(ds.getJndiLocation(), resourceType);
-        resource.setParameters(parameters);
+        resource.setParameters(PropertyUtils.toMap(parameters));
         return resource;
 
     }

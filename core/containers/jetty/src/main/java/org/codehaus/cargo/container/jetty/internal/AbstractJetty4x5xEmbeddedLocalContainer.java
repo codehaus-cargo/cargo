@@ -19,6 +19,10 @@
  */
 package org.codehaus.cargo.container.jetty.internal;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.io.File;
+
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -26,11 +30,6 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.ContainerException;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Iterator;
-import java.io.File;
 
 /**
  * Common code for all Jetty 4.x and 5.x embedded container implementations.
@@ -76,11 +75,8 @@ public abstract class AbstractJetty4x5xEmbeddedLocalContainer
         setSecurityRealm();
 
         // Deploy WAR deployables
-        Iterator it = getConfiguration().getDeployables().iterator();
-        while (it.hasNext())
+        for (Deployable deployable : getConfiguration().getDeployables())
         {
-            Deployable deployable = (Deployable) it.next();
-
             // Only deploy WARs.
             if (deployable.getType() == DeployableType.WAR)
             {
@@ -111,7 +107,7 @@ public abstract class AbstractJetty4x5xEmbeddedLocalContainer
     /**
      * {@inheritDoc}
      *
-     * @see AbstractLocalContainer#waitForCompletion(boolean)
+     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#waitForCompletion(boolean)
      */
     @Override
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
@@ -194,21 +190,15 @@ public abstract class AbstractJetty4x5xEmbeddedLocalContainer
             Object defaultRealm = realmClass.getConstructor(
                 new Class[] {String.class}).newInstance(new Object[] {"Cargo Test Realm"});
 
-            Iterator users = User.parseUsers(
-                getConfiguration().getPropertyValue(ServletPropertySet.USERS)).iterator();
-            while (users.hasNext())
+            for (User user : User.parseUsers(
+                getConfiguration().getPropertyValue(ServletPropertySet.USERS)))
             {
-                User user = (User) users.next();
-
                 defaultRealm.getClass().getMethod("put",
                     new Class[] {Object.class, Object.class}).invoke(defaultRealm,
                         new Object[] {user.getName(), user.getPassword()});
 
-                Iterator roles = user.getRoles().iterator();
-                while (roles.hasNext())
+                for (String role : user.getRoles())
                 {
-                    String role = (String) roles.next();
-
                     defaultRealm.getClass().getMethod("addUserToRole",
                         new Class[] {String.class, String.class}).invoke(
                             defaultRealm, new Object[] {user.getName(), role});

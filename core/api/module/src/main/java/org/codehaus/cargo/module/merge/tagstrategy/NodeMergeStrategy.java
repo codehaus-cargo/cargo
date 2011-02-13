@@ -132,11 +132,10 @@ public class NodeMergeStrategy implements MergeStrategy
         if (content instanceof Element)
         {
             Element element = (Element) content;
-            List childNodes = element.getContent();
+            List<Content> childNodes = element.getContent();
 
-            for (int i = 0; i < childNodes.size(); i++)
+            for (Content n : childNodes)
             {
-                Content n = (Content) childNodes.get(i);
                 applyValues(n, left, right);
             }
         }

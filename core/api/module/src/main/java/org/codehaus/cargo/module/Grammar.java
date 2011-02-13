@@ -34,5 +34,5 @@ public interface Grammar
      * @param tagName the tag name to get the element order of.
      * @return a List of {@link DescriptorTag} or null if tagName doesn't exist
      */
-    List getElementOrder(String tagName);
+    List<DescriptorTag> getElementOrder(String tagName);
 }

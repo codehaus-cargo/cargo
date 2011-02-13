@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.spi.configuration.builder;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import org.codehaus.cargo.container.LocalContainer;
@@ -68,7 +67,7 @@ public abstract class AbstractStandaloneLocalConfigurationWithXMLConfigurationBu
      * 
      * @return a map of prefixes to the url namespaces used in the datasource configuration file.
      */
-    protected abstract Map getNamespaces();
+    protected abstract Map<String, String> getNamespaces();
 
     /**
      * DataSource entries must be stored in the xml configuration file. Under which element do we
@@ -130,10 +129,8 @@ public abstract class AbstractStandaloneLocalConfigurationWithXMLConfigurationBu
      */
     public void configureDataSources(LocalContainer container)
     {
-        Iterator dataSourceIterator = getDataSources().iterator();
-        while (dataSourceIterator.hasNext())
+        for (DataSource dataSource : getDataSources())
         {
-            DataSource dataSource = (DataSource) dataSourceIterator.next();
             configure(dataSource, container);
         }
     }
@@ -154,10 +151,8 @@ public abstract class AbstractStandaloneLocalConfigurationWithXMLConfigurationBu
      */
     public void configureResources(LocalContainer container)
     {
-        Iterator resourceIterator = getResources().iterator();
-        while (resourceIterator.hasNext())
+        for (Resource resource : getResources())
         {
-            Resource resource = (Resource) resourceIterator.next();
             configure(resource, container);
         }
     }

@@ -168,9 +168,9 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      * 
      * @return set of filenames to copy upon doConfigure
      */
-    protected Set getConfFiles()
+    protected Set<String> getConfFiles()
     {
-        Set confFiles = new HashSet();
+        Set<String> confFiles = new HashSet<String>();
         confFiles.add("server.xml");
         confFiles.add("tomcat-users.xml");
         confFiles.add("web.xml");
@@ -288,11 +288,8 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         // wars are located.
         StringBuilder webappTokenValue = new StringBuilder(" ");
 
-        Iterator it = getDeployables().iterator();
-        while (it.hasNext())
+        for (Deployable deployable : getDeployables())
         {
-            Deployable deployable = (Deployable) it.next();
-
             if (deployable.getType() != DeployableType.WAR)
             {
                 throw new ContainerException("Only WAR archives are supported for deployment "
@@ -379,17 +376,14 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         // Add token filters for authenticated users
         if (getPropertyValue(ServletPropertySet.USERS) != null)
         {
-            Iterator users =
-                User.parseUsers(getPropertyValue(ServletPropertySet.USERS)).iterator();
-            while (users.hasNext())
+            for (User user : User.parseUsers(getPropertyValue(ServletPropertySet.USERS)))
             {
-                User user = (User) users.next();
                 token.append("<user ");
                 token.append("name=\"" + user.getName() + "\" ");
                 token.append("password=\"" + user.getPassword() + "\" ");
 
                 token.append("roles=\"");
-                Iterator roles = user.getRoles().iterator();
+                Iterator<String> roles = user.getRoles().iterator();
                 while (roles.hasNext())
                 {
                     String role = (String) roles.next();
@@ -417,10 +411,8 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         throws IOException
     {
         String confDir = getFileHandler().createDirectory(getHome(), "conf");
-        Iterator confFiles = getConfFiles().iterator();
-        while (confFiles.hasNext())
+        for (String file : getConfFiles())
         {
-            String file = (String) confFiles.next();
             getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/" + file,
                 getFileHandler().append(confDir, file), getFileHandler(), filterChain);
         }
@@ -449,14 +441,14 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
 
     /**
      * Implementations should avoid passing null, and instead pass
-     * <code>Collections.EMPTY_MAP</code>, if the document is DTD bound.
+     * <code>Collections.emptyMap()</code>, if the document is DTD bound.
      * 
      * @return a map of prefixes to the url namespaces used in the datasource or resource
      *         configuration file.
      */
     @Override
-    protected Map getNamespaces()
+    protected Map<String, String> getNamespaces()
     {
-        return Collections.EMPTY_MAP;
+        return Collections.emptyMap();
     }
 }

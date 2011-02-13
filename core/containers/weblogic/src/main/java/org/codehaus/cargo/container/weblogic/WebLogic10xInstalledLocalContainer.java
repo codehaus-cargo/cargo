@@ -83,9 +83,9 @@ public class WebLogic10xInstalledLocalContainer extends
      * @see org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer#getBeaHomeDirs()
      */
     @Override
-    protected List getBeaHomeDirs()
+    protected List<String> getBeaHomeDirs()
     {
-        List beaHomeDirs = super.getBeaHomeDirs();
+        List<String> beaHomeDirs = super.getBeaHomeDirs();
         beaHomeDirs.add(getFileHandler().append(getBeaHome(), "modules"));
         return beaHomeDirs;
     }

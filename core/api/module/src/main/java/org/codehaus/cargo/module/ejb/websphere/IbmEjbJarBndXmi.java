@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.module.ejb.websphere;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
@@ -83,13 +82,11 @@ public class IbmEjbJarBndXmi extends AbstractDescriptor implements VendorEjbDesc
     {
         Element ejbElement = null;
         String wantedHref = "META-INF/ejb-jar.xml#" + id;
-        Iterator names = getElements(
-            new DescriptorTag(IbmEjbJarBndXmiType.getInstance(), "ejbBindings", true));
-        while (names.hasNext())
+        for (Element bindingsElement : getElements(new DescriptorTag(
+            IbmEjbJarBndXmiType.getInstance(), "ejbBindings", true)))
         {
-            Element bindingsElement = (Element) names.next();
-            List nl = bindingsElement.getChildren("enterpriseBean");
-            Element beanElement = (Element) nl.get(0);
+            List<Element> nl = bindingsElement.getChildren("enterpriseBean");
+            Element beanElement = nl.get(0);
             String href = beanElement.getAttribute("href").getValue();
             if (wantedHref.equals(href))
             {

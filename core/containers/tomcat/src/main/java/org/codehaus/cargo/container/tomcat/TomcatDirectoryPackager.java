@@ -46,9 +46,9 @@ public class TomcatDirectoryPackager extends AbstractDirectoryPackager
      * @see org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager#getConfigurationExclusions()
      */
     @Override
-    protected List getConfigurationExclusions()
+    protected List<String> getConfigurationExclusions()
     {
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     /**
@@ -56,9 +56,9 @@ public class TomcatDirectoryPackager extends AbstractDirectoryPackager
      * @see org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager#getDistributionExclusions()
      */
     @Override
-    protected List getDistributionExclusions()
+    protected List<String> getDistributionExclusions()
     {
-        List excludes = new ArrayList();
+        List<String> excludes = new ArrayList<String>();
         excludes.add("conf/**");
         excludes.add("logs/**");
         excludes.add("webapps/**");

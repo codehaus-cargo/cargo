@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.internal.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -124,7 +125,7 @@ public final class PropertyUtils
      * @param toJoin A list of properties to convert
      * @return the properties as a string, pipe delimited
      */
-    public static String joinOnPipe(Map toJoin)
+    public static String joinOnPipe(Map<String, String> toJoin)
     {
         return joinOnDelimiter(toJoin, PIPE);
     }
@@ -135,7 +136,7 @@ public final class PropertyUtils
      * @param toJoin A list of properties to convert
      * @return the properties as a string, pipe delimited
      */
-    public static String joinOnSemicolon(Map toJoin)
+    public static String joinOnSemicolon(Map<String, String> toJoin)
     {
         return joinOnDelimiter(toJoin, SEMICOLON);
     }
@@ -147,15 +148,15 @@ public final class PropertyUtils
      * @param delimiter how to separate entries from each other
      * @return the properties as a string, delimited by the above
      */
-    public static String joinOnDelimiter(Map toJoin, char delimiter)
+    public static String joinOnDelimiter(Map<String, String> toJoin, char delimiter)
     {
         StringBuilder buf = new StringBuilder();
 
-        for (Iterator it = toJoin.entrySet().iterator(); it.hasNext();)
+        for (Iterator<Map.Entry<String, String>> it = toJoin.entrySet().iterator(); it.hasNext();)
         {
-            Map.Entry e = (Map.Entry) it.next();
-            String key = (String) e.getKey();
-            String value = (String) e.getValue();
+            Map.Entry<String, String> e = it.next();
+            String key = e.getKey();
+            String value = e.getValue();
             if (value.indexOf(delimiter) != -1)
             {
                 // CARGO-829: Delimiter in property values are escaped using the \ character.
@@ -204,5 +205,26 @@ public final class PropertyUtils
         {
             return null;
         }
+    }
+
+    /**
+     * Returns a <code>Map&lt;String, String&gt</code> out of a Java Properties object.
+     *
+     * @param properties the properties object to convert
+     * @return Java Map corresponding to the Java Properties object.
+     */
+    public static Map<String, String> toMap(Properties properties)
+    {
+        Map<String, String> result = new HashMap<String, String>(properties.size());
+        for (Map.Entry<Object, Object> parameter : properties.entrySet())
+        {
+            String value = null;
+            if (parameter.getValue() != null)
+            {
+                value = parameter.getValue().toString();
+            }
+            result.put(parameter.getKey().toString(), value);
+        }
+        return result;
     }
 }

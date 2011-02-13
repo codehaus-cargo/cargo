@@ -31,7 +31,6 @@ import org.apache.tools.ant.types.FilterChain;
 
 import java.io.File;
 import java.net.URI;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -175,14 +174,11 @@ public class AntUtils
      * @param filterChain The filterchain to use
      * @param map The map
      */
-    public void addTokensToFilterChain(FilterChain filterChain, Map map)
+    public void addTokensToFilterChain(FilterChain filterChain, Map<String, String> map)
     {
-        Iterator iterator = map.keySet().iterator();
-        while (iterator.hasNext())
+        for (Map.Entry<String, String> entry : map.entrySet())
         {
-            String key = (String) iterator.next();
-            String value = (String) map.get(key);
-            addTokenToFilterChain(filterChain, key, value);
+            addTokenToFilterChain(filterChain, entry.getKey(), entry.getValue());
         }
     }
 

@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.module.webapp.resin;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
@@ -76,7 +75,7 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
      *
      * @return the system properties
      */
-    public List getSystemProperties()
+    public List<Element> getSystemProperties()
     {
         return getTags(ResinWebXmlTag.SYSTEM_PROPERTY);
     }
@@ -86,7 +85,7 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
      *
      * @return the resource refs
      */
-    public List getResourceRefs()
+    public List<Element> getResourceRefs()
     {
         return getTags(ResinWebXmlTag.RESOURCE_REFERENCE);
     }
@@ -96,7 +95,7 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
      *
      * @return the jndi links
      */
-    public List getJndiLinks()
+    public List<Element> getJndiLinks()
     {
         return getTags(ResinWebXmlTag.JNDI_LINK);
     }
@@ -108,13 +107,13 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
      */
     public Element getSessionConfig()
     {
-        Iterator i = getElements(ResinWebXmlTag.SESSION_CONFIG);
-        if (!i.hasNext())
+        List<Element> elements = getElements(ResinWebXmlTag.SESSION_CONFIG);
+        if (elements.isEmpty())
         {
             return null;
         }
 
-        return (Element) i.next();
+        return elements.get(0);
     }
 
     /**
@@ -123,12 +122,13 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
      * @return directory servlet element
      */
     public Element getDirectoryServlet()
-    {      
-        Iterator i = getElements(ResinWebXmlTag.DIRECTORY_SERVLET);
-        if (!i.hasNext())
+    {
+        List<Element> elements = getElements(ResinWebXmlTag.DIRECTORY_SERVLET);
+        if (elements.isEmpty())
         {
             return null;
         }
-        return (Element) i.next();
+
+        return elements.get(0);
     }
 }

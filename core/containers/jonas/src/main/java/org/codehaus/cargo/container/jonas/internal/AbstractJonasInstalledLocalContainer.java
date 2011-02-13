@@ -117,7 +117,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
      */
     public void setupSysProps(final Java java)
     {
-        Map configuredSysProps = getSystemProperties();
+        Map<String, String> configuredSysProps = getSystemProperties();
         addSysProp(java, configuredSysProps, "install.root", new File(getHome()).getAbsolutePath()
             .replace(File.separatorChar, '/'));
         addSysProp(java, configuredSysProps, "jonas.root", new File(getHome()).getAbsolutePath()
@@ -144,7 +144,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
      * @param java the target java ant task to setup
      * @param configuredSysProps the configured system properties
      */
-    protected abstract void setupExtraSysProps(Java java, Map configuredSysProps);
+    protected abstract void setupExtraSysProps(Java java, Map<String, String> configuredSysProps);
 
     /**
      * Add java system properties (to configure JOnAS properly).
@@ -154,8 +154,8 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
      * @param name the system property Name
      * @param value the system property Value
      */
-    public void addSysProp(final Java java, final Map configuredSysProps, final String name,
-        final String value)
+    public void addSysProp(final Java java, final Map<String, String> configuredSysProps,
+        final String name, final String value)
     {
         if (configuredSysProps == null || !configuredSysProps.containsKey(name))
         {

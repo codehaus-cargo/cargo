@@ -71,9 +71,9 @@ public class Oc4j10xInstalledLocalContainer extends AbstractOc4j10xInstalledLoca
      * {@inheritDoc}
      */
     @Override
-    protected Set getContainerClasspathIncludes()
+    protected Set<String> getContainerClasspathIncludes()
     {
-        Set classpath = new HashSet();
+        Set<String> classpath = new HashSet<String>();
         classpath.add("j2ee/home/oc4j.jar");
         classpath.add("j2ee/home/lib/pcl.jar");
 

@@ -68,8 +68,8 @@ public class ResourceConverter
 
         String parametersAsASemicolonDelimitedString =
             properties.getProperty(ResourcePropertySet.PARAMETERS);
-        data.setParameters(getParametersFromString(
-            PropertyUtils.escapeBackSlashesIfNotNull(parametersAsASemicolonDelimitedString)));
+        data.setParameters(PropertyUtils.toMap(getParametersFromString(
+            PropertyUtils.escapeBackSlashesIfNotNull(parametersAsASemicolonDelimitedString))));
         return data;
     }
 
@@ -101,7 +101,7 @@ public class ResourceConverter
     public String toPropertyString(Resource data)
     {
         Properties properties = toProperties(data);
-        return PropertyUtils.joinOnPipe(properties);
+        return PropertyUtils.joinOnPipe(PropertyUtils.toMap(properties));
     }
 
     /**
@@ -136,7 +136,7 @@ public class ResourceConverter
      */
     public String getParametersAsASemicolonDelimitedString(Resource data)
     {
-        if (data.getParameterNames().size() != 0)
+        if (!data.getParameterNames().isEmpty())
         {
             return PropertyUtils.joinOnSemicolon(data.getParameters());
         }

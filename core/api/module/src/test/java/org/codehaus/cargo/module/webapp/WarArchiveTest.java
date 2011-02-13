@@ -84,6 +84,6 @@ public final class WarArchiveTest extends AbstractResourceTest
         
         WarArchive storedWar = new DefaultWarArchive(tmpFile.getPath());
         WebXml descr = storedWar.getWebXml();
-        assertTrue("There should be 1 descriptor", descr.getVendorDescriptors().hasNext());
+        assertEquals("There should be 1 descriptor", 1, descr.getVendorDescriptors().size());
     }
 }

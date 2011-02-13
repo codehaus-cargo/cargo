@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.resin.internal;
 
-import java.util.Iterator;
+import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
@@ -62,13 +62,10 @@ public class Resin2xConfigurationBuilder extends AbstractConfigurationBuilder
         {
             resourceString.append("      <res-type>" + resource.getType() + "</res-type>\n");
         }
-        Iterator i = resource.getParameters().keySet().iterator();
-        while (i.hasNext())
+        for (Map.Entry<String, String> parameter : resource.getParameters().entrySet())
         {
-
-            String key = i.next().toString();
-            resourceString.append("    <init-param ").append(key);
-            resourceString.append("=\"").append(resource.getParameter(key));
+            resourceString.append("    <init-param ").append(parameter.getKey());
+            resourceString.append("=\"").append(parameter.getValue());
             resourceString.append("\" />\n");
         }
 

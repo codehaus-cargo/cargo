@@ -57,7 +57,7 @@ public interface DescriptorType
      * 
      * @return a collection of all the tags
      */
-    Collection getAllTags();
+    Collection<DescriptorTag> getAllTags();
 
     /**
      * Add a descriptor tag into this descriptor.

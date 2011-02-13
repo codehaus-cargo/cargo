@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.module.webapp.weblogic;
 
-import java.util.Iterator;
+import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
 import org.codehaus.cargo.module.DescriptorType;
@@ -66,17 +66,17 @@ public class WeblogicXml extends AbstractDescriptor implements VendorWebAppDescr
     public final void addEjbReference(EjbRef ref)
     {
         Element refDescr;
-        Iterator i = getElements(WeblogicXmlTag.REFERENCE_DESCRIPTOR);
-        if (i.hasNext())
+        List<Element> referenceDescriptors = getElements(WeblogicXmlTag.REFERENCE_DESCRIPTOR);
+        if (referenceDescriptors.isEmpty())
         {
-            refDescr = (Element) i.next();
-        }
-        else
-        {          
             refDescr =
                 new Element(WeblogicXmlTag.REFERENCE_DESCRIPTOR);
             refDescr = addElement(getDescriptorType().getTagByName(
                 WeblogicXmlTag.REFERENCE_DESCRIPTOR), refDescr, getRootElement());
+        }
+        else
+        {          
+            refDescr = referenceDescriptors.get(0);
         }
 
         Element ejbRefElement = new Element(WeblogicXmlTag.EJB_REFERENCE_DESCRIPTION);

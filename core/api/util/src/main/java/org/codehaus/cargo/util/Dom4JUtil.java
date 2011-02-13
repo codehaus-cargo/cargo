@@ -45,7 +45,7 @@ public class Dom4JUtil
     /**
      * namespace prefixes used for selecting nodes in config.xml.
      */
-    private Map namespaces;
+    private Map<String, String> namespaces;
 
     /**
      * File utility class.
@@ -68,7 +68,7 @@ public class Dom4JUtil
     public Dom4JUtil(FileHandler fileHandler)
     {
         this.fileHandler = fileHandler;
-        this.setNamespaces(new HashMap());
+        this.setNamespaces(new HashMap<String, String>());
     }
 
     /**
@@ -79,11 +79,11 @@ public class Dom4JUtil
      * @param toSearch - element to start the search at
      * @return List of matching elements
      */
-    public List selectElementsMatchingXPath(String xpath, Element toSearch)
+    public List<Element> selectElementsMatchingXPath(String xpath, Element toSearch)
     {
         XPath xpathSelector = DocumentHelper.createXPath(xpath);
         xpathSelector.setNamespaceURIs(getNamespaces());
-        List results = xpathSelector.selectNodes(toSearch);
+        List<Element> results = xpathSelector.selectNodes(toSearch);
         return results;
     }
 
@@ -97,12 +97,12 @@ public class Dom4JUtil
      */
     public Element selectElementMatchingXPath(String xpath, Element toSearch)
     {
-        List results = selectElementsMatchingXPath(xpath, toSearch);
-        if (results.size() == 0)
+        List<Element> results = selectElementsMatchingXPath(xpath, toSearch);
+        if (results.isEmpty())
         {
             throw new ElementNotFoundException(xpath, toSearch);
         }
-        Element match = (Element) results.get(0);
+        Element match = results.get(0);
         return match;
     }
 
@@ -217,7 +217,7 @@ public class Dom4JUtil
     /**
      * @param namespaces the namespaces to set
      */
-    public void setNamespaces(Map namespaces)
+    public void setNamespaces(Map<String, String> namespaces)
     {
         this.namespaces = namespaces;
     }
@@ -225,7 +225,7 @@ public class Dom4JUtil
     /**
      * @return the namespaces
      */
-    public Map getNamespaces()
+    public Map<String, String> getNamespaces()
     {
         return namespaces;
     }

@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.geronimo;
 
 import java.io.File;
-import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;
@@ -447,13 +447,11 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
      */
     private void addSystemProperties(Java java)
     {
-        Iterator keys = getInstalledContainer().getSystemProperties().keySet().iterator();
-        while (keys.hasNext())
+        for (Map.Entry<String, String> systemProperty : getInstalledContainer().
+            getSystemProperties().entrySet())
         {
-            String key = (String) keys.next();
-
-            java.addSysproperty(getAntUtils().createSysProperty(key,
-                (String) getInstalledContainer().getSystemProperties().get(key)));
+            java.addSysproperty(getAntUtils().createSysProperty(systemProperty.getKey(),
+                systemProperty.getValue()));
         }
     }
 
@@ -470,9 +468,9 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         {
             // Replace new lines and tabs, so that Maven or ANT plugins can
             // specify multiline JVM arguments in their XML files
-            jvmargs = jvmargs.replace("\n", " ");
-            jvmargs = jvmargs.replace("\r", " ");
-            jvmargs = jvmargs.replace("\t", " ");
+            jvmargs = jvmargs.replace('\n', ' ');
+            jvmargs = jvmargs.replace('\r', ' ');
+            jvmargs = jvmargs.replace('\t', ' ');
             javacommand.createJvmarg().setLine(jvmargs);
         }
     }

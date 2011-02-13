@@ -88,10 +88,8 @@ public class JRun4xStandaloneLocalConfiguration extends
         String from = ((InstalledLocalContainer) container).getHome();
         
         // copy required server files
-        List requiredFiles = getRequiredFiles();
-        for (int i = 0; i < requiredFiles.size(); i++)
+        for (String path : getRequiredFiles())
         {
-            String path = (String) requiredFiles.get(i);
             getFileHandler().copyFile(from + "/" + path, to + "/" + path);
         }
                 
@@ -140,11 +138,11 @@ public class JRun4xStandaloneLocalConfiguration extends
      * The list of required files needed to start up JRun4.
      * @return the list of files required to start JRun4.
      */
-    private List getRequiredFiles()
+    private List<String> getRequiredFiles()
     {
         String serverInfDirectory = "/servers/" + getServerName() + "/SERVER-INF/";
 
-        List files = new ArrayList();
+        List<String> files = new ArrayList<String>();
         files.add(serverInfDirectory + "auth.config");
         files.add(serverInfDirectory + "connector.properties");
         files.add(serverInfDirectory + "default-web.xml");
@@ -230,9 +228,9 @@ public class JRun4xStandaloneLocalConfiguration extends
      * @return an empty Map. 
      */
     @Override
-    protected Map getNamespaces() 
+    protected Map<String, String> getNamespaces()
     {
-        return Collections.EMPTY_MAP;
+        return Collections.emptyMap();
     }
 
     /**

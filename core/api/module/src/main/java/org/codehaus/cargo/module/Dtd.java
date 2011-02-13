@@ -49,7 +49,7 @@ public class Dtd implements Grammar
      * {@link DescriptorTag}s. The list is ordered in the order that the tag can appear
      * accordingly to the DTD.
      */
-    private Map elementOrders;
+    private Map<String, List<DescriptorTag>> elementOrders;
     
     /**
      * Implementation of the SAX DeclHandler interface for parsing the DTD. 
@@ -61,7 +61,8 @@ public class Dtd implements Grammar
          * List of {@link DescriptorTag}s. The list is ordered in the order that the tag
          * can appear accordingly to the DTD.
          */
-        private Map elementOrders = new HashMap();
+        private Map<String, List<DescriptorTag>> elementOrders =
+            new HashMap<String, List<DescriptorTag>>();
         
         /**
          * {@inheritDoc}
@@ -78,7 +79,7 @@ public class Dtd implements Grammar
          */
         public void elementDecl(String name, String model) 
         {
-            List elements = new ArrayList();
+            List<DescriptorTag> elements = new ArrayList<DescriptorTag>();
             if (!model.equals("EMPTY") 
                 && !model.equals("(#PCDATA)"))
             {
@@ -123,7 +124,7 @@ public class Dtd implements Grammar
         /**
          * @return Returns the elementOrders.
          */
-        public Map getElementOrders()
+        public Map<String, List<DescriptorTag>> getElementOrders()
         {
             return this.elementOrders;
         }
@@ -174,8 +175,8 @@ public class Dtd implements Grammar
      * {@inheritDoc}
      * @see Grammar#getElementOrder(String)
      */
-    public List getElementOrder(String tagName)
+    public List<DescriptorTag> getElementOrder(String tagName)
     {
-        return (List) this.elementOrders.get(tagName);
+        return this.elementOrders.get(tagName);
     }
 }

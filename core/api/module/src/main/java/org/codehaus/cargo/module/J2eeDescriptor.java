@@ -22,7 +22,7 @@
  */
 package org.codehaus.cargo.module;
 
-import java.util.Iterator;
+import java.util.List;
 
 /**
  * Common interface for all standard J2EE deployment descriptors (<code>web.xml</code>,
@@ -37,7 +37,7 @@ public interface J2eeDescriptor extends Descriptor
      * for JBoss the vendor descriptor associated with <code>web.xml</code> is
      * <code>jboss-web.xml</code>.
      *
-     * @return Iterator containing Descriptor objects
+     * @return List of Descriptor objects
      */
-    Iterator getVendorDescriptors();
+    List<Descriptor> getVendorDescriptors();
 }

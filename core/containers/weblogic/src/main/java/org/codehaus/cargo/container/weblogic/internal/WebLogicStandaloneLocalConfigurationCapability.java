@@ -40,7 +40,7 @@ public class WebLogicStandaloneLocalConfigurationCapability extends
     /**
      * Configuration-specific supports Map.
      */
-    protected Map supportsMap;
+    protected Map<String, Boolean> supportsMap;
 
     /**
      * Initialize the configuration-specific supports Map.
@@ -49,7 +49,7 @@ public class WebLogicStandaloneLocalConfigurationCapability extends
     {
         super();
 
-        this.supportsMap = new HashMap();
+        this.supportsMap = new HashMap<String, Boolean>();
 
         this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.supportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
@@ -83,7 +83,7 @@ public class WebLogicStandaloneLocalConfigurationCapability extends
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     @Override
-    protected Map getPropertySupportMap()
+    protected Map<String, Boolean> getPropertySupportMap()
     {
         return this.supportsMap;
     }

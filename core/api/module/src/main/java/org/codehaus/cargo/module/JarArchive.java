@@ -69,7 +69,7 @@ public interface JarArchive
      * @return The list of resources
      * @throws java.io.IOException If an I/O error occurs
      */
-    List getResources(String path) throws IOException;
+    List<String> getResources(String path) throws IOException;
     
     /**
     * Expand the archive to the specified directory.

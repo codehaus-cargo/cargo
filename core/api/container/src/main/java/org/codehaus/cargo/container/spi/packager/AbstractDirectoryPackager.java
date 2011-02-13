@@ -91,7 +91,7 @@ public abstract class AbstractDirectoryPackager extends LoggedObject implements 
         getFileHandler().copyDirectory(container.getHome(), getTargetDirectory(),
             getDistributionExclusions());
 
-        List configurationExclusions = getDefaultConfigurationExclusions();
+        List<String> configurationExclusions = getDefaultConfigurationExclusions();
         configurationExclusions.addAll(getConfigurationExclusions());
 
         getFileHandler().copyDirectory(container.getConfiguration().getHome(), getTargetDirectory(),
@@ -102,9 +102,9 @@ public abstract class AbstractDirectoryPackager extends LoggedObject implements 
      * @return the list of files to exclude by default from the configuration.
      * @see #getConfigurationExclusions()
      */
-    private List getDefaultConfigurationExclusions()
+    private List<String> getDefaultConfigurationExclusions()
     {
-        List excludes = new ArrayList();
+        List<String> excludes = new ArrayList<String>();
         excludes.add("**/cargocpc.war");
         return excludes;
     }
@@ -115,7 +115,7 @@ public abstract class AbstractDirectoryPackager extends LoggedObject implements 
      *         which will not be present in the generated package. These files are files found in
      *         {@link org.codehaus.cargo.container.InstalledLocalContainer#getHome()}.
      */
-    protected abstract List getDistributionExclusions();
+    protected abstract List<String> getDistributionExclusions();
 
     /**
      * @return the list of configuration files (specified as
@@ -123,5 +123,5 @@ public abstract class AbstractDirectoryPackager extends LoggedObject implements 
      *         which will not be present in the generated package. These files are files found in
      *         {@link org.codehaus.cargo.container.configuration.LocalConfiguration#getHome()}.
      */
-    protected abstract List getConfigurationExclusions();
+    protected abstract List<String> getConfigurationExclusions();
 }

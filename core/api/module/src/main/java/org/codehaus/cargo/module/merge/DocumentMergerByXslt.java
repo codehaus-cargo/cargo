@@ -47,7 +47,7 @@ public class DocumentMergerByXslt implements MergeProcessor
     /**
      * The list of merge documents.
      */
-    private List documents = new ArrayList();
+    private List<Document> documents = new ArrayList<Document>();
 
     /**
      * The XSLT source to use.
@@ -77,7 +77,7 @@ public class DocumentMergerByXslt implements MergeProcessor
     {
         if (mergeItem instanceof Document)
         {
-            this.documents.add(mergeItem);
+            this.documents.add((Document) mergeItem);
         }
         else
         {
@@ -92,16 +92,16 @@ public class DocumentMergerByXslt implements MergeProcessor
      */
     public Object performMerge() throws MergeException
     {
-        if (this.documents.size() == 0)
+        if (this.documents.isEmpty())
         {
             return null;
         }
 
-        Document doc = (Document) this.documents.get(0);
+        Document doc = this.documents.get(0);
 
         for (int i = 1; i < this.documents.size(); i++)
         {
-            doc = merge(doc, (Document) this.documents.get(i));
+            doc = merge(doc, this.documents.get(i));
         }
 
         return doc;

@@ -40,7 +40,7 @@ public class Oc4jExistingLocalConfigurationCapability extends
     /**
      * Configuration-specific supports Map.
      */
-    private Map supportsMap;
+    private Map<String, Boolean> supportsMap;
 
     /**
      * Initialize the configuration-specific supports Map.
@@ -49,7 +49,7 @@ public class Oc4jExistingLocalConfigurationCapability extends
     {
         super();
 
-        this.supportsMap = new HashMap();
+        this.supportsMap = new HashMap<String, Boolean>();
         this.supportsMap.put(Oc4jPropertySet.AUTO_DEPLOY_DIR, Boolean.TRUE);
     }
 
@@ -58,7 +58,7 @@ public class Oc4jExistingLocalConfigurationCapability extends
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     @Override
-    protected Map getPropertySupportMap()
+    protected Map<String, Boolean> getPropertySupportMap()
     {
         return this.supportsMap;
     }

@@ -25,16 +25,12 @@ package org.codehaus.cargo.module.webapp;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.Assert;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.DescriptorType;
-import org.codehaus.cargo.module.webapp.WebXml;
-import org.codehaus.cargo.module.webapp.WebXmlTag;
-import org.codehaus.cargo.module.webapp.WebXmlVersion;
 import org.codehaus.cargo.module.webapp.elements.ContextParam;
 import org.codehaus.cargo.module.webapp.elements.Filter;
 import org.codehaus.cargo.module.webapp.elements.SecurityConstraint;
@@ -44,7 +40,6 @@ import org.codehaus.cargo.util.CargoException;
 import org.jdom.Comment;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.input.SAXBuilder;
 
 
 /**
@@ -306,11 +301,12 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "</web-app>";
         
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
-        Iterator filterNames = webXml.getElements("filter");
-        assertEquals("f1", ((Filter)filterNames.next()).getFilterName() );
-        assertEquals("f2", ((Filter)filterNames.next()).getFilterName());
-        assertEquals("f3", ((Filter)filterNames.next()).getFilterName());
-        assertTrue(!filterNames.hasNext());
+
+        List<Element> filterNames = webXml.getElements("filter");
+        assertEquals(3, filterNames.size());
+        assertEquals("f1", ((Filter)filterNames.get(0)).getFilterName());
+        assertEquals("f2", ((Filter)filterNames.get(1)).getFilterName());
+        assertEquals("f3", ((Filter)filterNames.get(2)).getFilterName());
     }
 
     /**
@@ -330,9 +326,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "</web-app>";
         Document doc = this.builder.build(new ByteArrayInputStream(xml.getBytes()));
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
-        Iterator filterNames = WebXmlUtils.getFilterNamesForClass(webXml, "f1class");
-        assertEquals("f1", filterNames.next());
-        assertTrue(!filterNames.hasNext());
+        List<String> filterNames = WebXmlUtils.getFilterNamesForClass(webXml, "f1class");
+        assertEquals(1, filterNames.size());
+        assertEquals("f1", filterNames.get(0));
     }
 
     /**
@@ -360,10 +356,10 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "</web-app>";
         Document doc = this.builder.build(new ByteArrayInputStream(xml.getBytes()));
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
-        Iterator filterNames = WebXmlUtils.getFilterNamesForClass(webXml, "f1class");
-        assertEquals("f1", filterNames.next());
-        assertEquals("f3", filterNames.next());
-        assertTrue(!filterNames.hasNext());
+        List<String> filterNames = WebXmlUtils.getFilterNamesForClass(webXml, "f1class");
+        assertEquals(2, filterNames.size());
+        assertEquals("f1", filterNames.get(0));
+        assertEquals("f3", filterNames.get(1));
     }
 
     /**
@@ -381,9 +377,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "</web-app>";
         Document doc = this.builder.build(new ByteArrayInputStream(xml.getBytes()));
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
-        Iterator filterMappings = WebXmlUtils.getFilterMappings(webXml, "f1");
-        assertEquals("/f1mapping", filterMappings.next());
-        assertTrue(!filterMappings.hasNext());
+        List<String> filterMappings = WebXmlUtils.getFilterMappings(webXml, "f1");
+        assertEquals(1, filterMappings.size());
+        assertEquals("/f1mapping", filterMappings.get(0));
     }
 
     /**
@@ -410,11 +406,11 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "</web-app>";
         Document doc = this.builder.build(new ByteArrayInputStream(xml.getBytes()));
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
-        Iterator filterMappings = WebXmlUtils.getFilterMappings(webXml,"f1");
-        assertEquals("/f1mapping1", filterMappings.next());
-        assertEquals("/f1mapping2", filterMappings.next());
-        assertEquals("/f1mapping3", filterMappings.next());
-        assertTrue(!filterMappings.hasNext());
+        List<String> filterMappings = WebXmlUtils.getFilterMappings(webXml, "f1");
+        assertEquals(3, filterMappings.size());
+        assertEquals("/f1mapping1", filterMappings.get(0));
+        assertEquals("/f1mapping2", filterMappings.get(1));
+        assertEquals("/f1mapping3", filterMappings.get(2));
     }
 
     /**
@@ -436,9 +432,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "</web-app>";
         Document doc = this.builder.build(new ByteArrayInputStream(xml.getBytes()));
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
-        Iterator filterMappings = WebXmlUtils.getFilterMappings(webXml,"f1");
-        assertEquals("/f1mapping", filterMappings.next());
-        assertTrue(!filterMappings.hasNext());
+        List<String> filterMappings = WebXmlUtils.getFilterMappings(webXml, "f1");
+        assertEquals(1, filterMappings.size());
+        assertEquals("/f1mapping", filterMappings.get(0));
     }
 
     /**
@@ -597,9 +593,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
         
         WebXmlUtils.addFilterInitParam(webXml, "f1", "f1param1", "f1param1value");
-        Iterator initParams = WebXmlUtils.getFilterInitParamNames(webXml,"f1");
-        assertEquals("f1param1", initParams.next());
-        assertTrue(!initParams.hasNext());
+        List<String> initParams = WebXmlUtils.getFilterInitParamNames(webXml, "f1");
+        assertEquals(1, initParams.size());
+        assertEquals("f1param1", initParams.get(0));
     }
 
     /**
@@ -621,11 +617,11 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXmlUtils.addFilterInitParam(webXml,"f1", "f1param1", "f1param1value");
         WebXmlUtils.addFilterInitParam(webXml,"f1", "f1param2", "f1param2value");
         WebXmlUtils.addFilterInitParam(webXml,"f1", "f1param3", "f1param3value");
-        Iterator initParams = WebXmlUtils.getFilterInitParamNames(webXml,"f1");
-        assertEquals("f1param1", initParams.next());
-        assertEquals("f1param2", initParams.next());
-        assertEquals("f1param3", initParams.next());
-        assertTrue(!initParams.hasNext());
+        List<String> initParams = WebXmlUtils.getFilterInitParamNames(webXml, "f1");
+        assertEquals(3, initParams.size());
+        assertEquals("f1param1", initParams.get(0));
+        assertEquals("f1param2", initParams.get(1));
+        assertEquals("f1param3", initParams.get(2));
     }
 
     /**
@@ -770,11 +766,11 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "</web-app>";
         Document doc = this.builder.build(new ByteArrayInputStream(xml.getBytes()));
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
-        Iterator servletNames = WebXmlUtils.getServletNames(webXml);
-        assertEquals("s1", servletNames.next());
-        assertEquals("s2", servletNames.next());
-        assertEquals("s3", servletNames.next());
-        assertTrue(!servletNames.hasNext());
+        List<String> servletNames = WebXmlUtils.getServletNames(webXml);
+        assertEquals(3, servletNames.size());
+        assertEquals("s1", servletNames.get(0));
+        assertEquals("s2", servletNames.get(1));
+        assertEquals("s3", servletNames.get(2));
     }
 
     /**
@@ -794,9 +790,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "</web-app>";
         Document doc = this.builder.build(new ByteArrayInputStream(xml.getBytes()));
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
-        Iterator servletNames = WebXmlUtils.getServletNamesForClass(webXml,"s1class");
-        assertEquals("s1", servletNames.next());
-        assertTrue(!servletNames.hasNext());
+        List<String> servletNames = WebXmlUtils.getServletNamesForClass(webXml, "s1class");
+        assertEquals(1, servletNames.size());
+        assertEquals("s1", servletNames.get(0));
     }
 
     /**
@@ -825,10 +821,10 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "</web-app>";
         Document doc = this.builder.build(new ByteArrayInputStream(xml.getBytes()));
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
-        Iterator servletNames = WebXmlUtils.getServletNamesForClass(webXml,"sclass1");
-        assertEquals("s1", servletNames.next());
-        assertEquals("s3", servletNames.next());
-        assertTrue(!servletNames.hasNext());
+        List<String> servletNames = WebXmlUtils.getServletNamesForClass(webXml, "sclass1");
+        assertEquals(2, servletNames.size());
+        assertEquals("s1", servletNames.get(0));
+        assertEquals("s3", servletNames.get(1));
     }
 
     /**
@@ -849,9 +845,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "</web-app>";
         
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
-        Iterator servletNames = WebXmlUtils.getServletNamesForJspFile(webXml, "/s1.jsp");
-        assertEquals("s1", servletNames.next());
-        assertTrue(!servletNames.hasNext());
+        List<String> servletNames = WebXmlUtils.getServletNamesForJspFile(webXml, "/s1.jsp");
+        assertEquals(1, servletNames.size());
+        assertEquals("s1", servletNames.get(0));
     }
 
     /**
@@ -880,9 +876,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "</web-app>";
 
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
-        Iterator servletNames = WebXmlUtils.getServletNamesForJspFile(webXml,"/s3.jsp");
-        assertEquals("s3", servletNames.next());
-        assertTrue(!servletNames.hasNext());
+        List<String> servletNames = WebXmlUtils.getServletNamesForJspFile(webXml, "/s3.jsp");
+        assertEquals(1, servletNames.size());
+        assertEquals("s3", servletNames.get(0));
     }
 
     /**
@@ -901,9 +897,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "</web-app>";
         Document doc = this.builder.build(new ByteArrayInputStream(xml.getBytes()));
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
-        Iterator servletMappings = WebXmlUtils.getServletMappings(webXml,"s1");
-        assertEquals("/s1mapping", servletMappings.next());
-        assertTrue(!servletMappings.hasNext());
+        List<String> servletMappings = WebXmlUtils.getServletMappings(webXml, "s1");
+        assertEquals(1, servletMappings.size());
+        assertEquals("/s1mapping", servletMappings.get(0));
     }
 
     /**
@@ -930,11 +926,11 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "</web-app>";
         Document doc = this.builder.build(new ByteArrayInputStream(xml.getBytes()));
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
-        Iterator servletMappings = WebXmlUtils.getServletMappings(webXml,"s1");
-        assertEquals("/s1mapping1", servletMappings.next());
-        assertEquals("/s1mapping2", servletMappings.next());
-        assertEquals("/s1mapping3", servletMappings.next());
-        assertTrue(!servletMappings.hasNext());
+        List<String> servletMappings = WebXmlUtils.getServletMappings(webXml, "s1");
+        assertEquals(3, servletMappings.size());
+        assertEquals("/s1mapping1", servletMappings.get(0));
+        assertEquals("/s1mapping2", servletMappings.get(1));
+        assertEquals("/s1mapping3", servletMappings.get(2));
     }
 
     /**
@@ -1016,9 +1012,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         Document doc = this.builder.build(new ByteArrayInputStream(xml.getBytes()));
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
         WebXmlUtils.addServletInitParam(webXml, "s1", "s1param1", "s1param1value");
-        Iterator initParams = WebXmlUtils.getServletInitParamNames(webXml, "s1");
-        assertEquals("s1param1", initParams.next());
-        assertTrue(!initParams.hasNext());
+        List<String> initParams = WebXmlUtils.getServletInitParamNames(webXml, "s1");
+        assertEquals(1, initParams.size());
+        assertEquals("s1param1", initParams.get(0));
     }
 
     /**
@@ -1040,11 +1036,11 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXmlUtils.addServletInitParam(webXml,"s1", "s1param1", "s1param1value");
         WebXmlUtils.addServletInitParam(webXml,"s1", "s1param2", "s1param2value");
         WebXmlUtils.addServletInitParam(webXml,"s1", "s1param3", "s1param3value");
-        Iterator initParams = WebXmlUtils.getServletInitParamNames(webXml, "s1");
-        assertEquals("s1param1", initParams.next());
-        assertEquals("s1param2", initParams.next());
-        assertEquals("s1param3", initParams.next());
-        assertTrue(!initParams.hasNext());
+        List<String> initParams = WebXmlUtils.getServletInitParamNames(webXml, "s1");
+        assertEquals(3, initParams.size());
+        assertEquals("s1param1", initParams.get(0));
+        assertEquals("s1param2", initParams.get(1));
+        assertEquals("s1param3", initParams.get(2));
     }
 
     /**
@@ -1290,12 +1286,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         assertTrue(WebXmlUtils.hasSecurityConstraint(webXml,"/url1"));
         assertTrue(WebXmlUtils.hasSecurityConstraint(webXml,"/url2"));
         assertTrue(WebXmlUtils.hasSecurityConstraint(webXml,"/url3"));
-        Iterator securityConstraints =
-            webXml.getTags(WebXmlType.SECURITY_CONSTRAINT).iterator();
-        assertNotNull(securityConstraints.next());
-        assertNotNull(securityConstraints.next());
-        assertNotNull(securityConstraints.next());
-        assertTrue(!securityConstraints.hasNext());
+        List<Element> securityConstraints = webXml.getTags(WebXmlType.SECURITY_CONSTRAINT);
+        assertEquals(3, securityConstraints.size());
     }
 
     /**
@@ -1310,7 +1302,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
         Document doc = this.builder.build(new ByteArrayInputStream(xml.getBytes()));
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
-        assertTrue(!webXml.getTags(WebXmlType.LOGIN_CONFIG).iterator().hasNext());
+        assertTrue(webXml.getTags(WebXmlType.LOGIN_CONFIG).isEmpty());
     }
 
     /**
@@ -1324,7 +1316,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         String xml = WEBAPP_TEST_HEADER + "<login-config/></web-app>";
         Document doc = this.builder.build(new ByteArrayInputStream(xml.getBytes()));
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
-        assertTrue(webXml.getTags(WebXmlType.LOGIN_CONFIG).iterator().hasNext());
+        assertEquals(1, webXml.getTags(WebXmlType.LOGIN_CONFIG).size());
     }
 
     /**
@@ -1340,7 +1332,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes()), getEntityResolver() );
         assertTrue(!WebXmlUtils.hasSecurityRole(webXml,"someRole"));
-        assertTrue(!WebXmlUtils.getSecurityRoleNames(webXml).hasNext());
+        assertTrue(WebXmlUtils.getSecurityRoleNames(webXml).isEmpty());
     }
 
     /**
@@ -1366,10 +1358,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             ((Element)securityRoleElement.getChildren().get(0)).getName());
         assertEquals("r1",
             (((Element)securityRoleElement.getChildren().get(0)).getText() ) );
-        Iterator securityRoleNames = WebXmlUtils.getSecurityRoleNames(webXml);
-        assertTrue(securityRoleNames.hasNext());
-        assertEquals("r1", securityRoleNames.next());
-        assertTrue(!securityRoleNames.hasNext());
+        List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(webXml);
+        assertEquals(1, securityRoleNames.size());
+        assertEquals("r1", securityRoleNames.get(0));
     }
 
     /**
@@ -1421,14 +1412,11 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         assertEquals("r3",
             ((Element)((Element)securityRoleElement3.getChildren().get(0))).
                 getText());
-        Iterator securityRoleNames = WebXmlUtils.getSecurityRoleNames(webXml);
-        assertTrue(securityRoleNames.hasNext());
-        assertEquals("r1", securityRoleNames.next());
-        assertTrue(securityRoleNames.hasNext());
-        assertEquals("r2", securityRoleNames.next());
-        assertTrue(securityRoleNames.hasNext());
-        assertEquals("r3", securityRoleNames.next());
-        assertTrue(!securityRoleNames.hasNext());
+        List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(webXml);
+        assertEquals(3, securityRoleNames.size());
+        assertEquals("r1", securityRoleNames.get(0));
+        assertEquals("r2", securityRoleNames.get(1));
+        assertEquals("r3", securityRoleNames.get(2));
     }
 
     /**

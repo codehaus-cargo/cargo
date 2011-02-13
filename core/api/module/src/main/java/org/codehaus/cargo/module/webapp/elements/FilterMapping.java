@@ -119,7 +119,7 @@ public class FilterMapping extends WebXmlElement
      */
     public String[] getDispatchers()
     {
-        List l = getChildren(WebXmlType.DISPATCHER, getTag().getTagNamespace());
+        List<Element> l = getChildren(WebXmlType.DISPATCHER, getTag().getTagNamespace());
 
         String[] items = new String[l.size()];
 

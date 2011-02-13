@@ -21,6 +21,7 @@ package org.codehaus.cargo.module.ejb.websphere;
 
 import java.util.List;
 
+import org.codehaus.cargo.module.DescriptorTag;
 import org.codehaus.cargo.module.Grammar;
 
 /**
@@ -36,7 +37,7 @@ public class IbmEjbJarBndXmiGrammar implements Grammar
      * {@inheritDoc}
      * @see Grammar#getElementOrder(String)
      */
-    public List getElementOrder(String tagName)
+    public List<DescriptorTag> getElementOrder(String tagName)
     {
         // TODO Auto-generated method stub
         return null;

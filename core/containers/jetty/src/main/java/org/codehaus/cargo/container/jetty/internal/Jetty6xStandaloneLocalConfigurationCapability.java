@@ -39,7 +39,7 @@ public class Jetty6xStandaloneLocalConfigurationCapability
     /**
      * Configuration-specific supports Map.
      */
-    private Map supportsMap;
+    private Map<String, Boolean> supportsMap;
 
     /**
      * Initialize the configuration-specific supports Map.
@@ -48,13 +48,13 @@ public class Jetty6xStandaloneLocalConfigurationCapability
     {
         super();
 
-        this.supportsMap = new HashMap();
+        this.supportsMap = new HashMap<String, Boolean>();
 
-        this.addProperty(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
-        this.addProperty(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
+        this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
+        this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
 
-        this.addProperty(ServletPropertySet.PORT, Boolean.FALSE);
-        this.addProperty(ServletPropertySet.USERS, Boolean.FALSE);
+        this.supportsMap.put(ServletPropertySet.PORT, Boolean.FALSE);
+        this.supportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
     }
 
     /**
@@ -62,18 +62,8 @@ public class Jetty6xStandaloneLocalConfigurationCapability
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     @Override
-    protected Map getPropertySupportMap()
+    protected Map<String, Boolean> getPropertySupportMap()
     {
         return this.supportsMap;
-    }
-
-    /**
-     * Add a property.
-     * @param property the property to add
-     * @param supported true if supported false otherwise
-     */
-    protected void addProperty(String property, Boolean supported)
-    {
-        this.supportsMap.put(property, supported);
     }
 }

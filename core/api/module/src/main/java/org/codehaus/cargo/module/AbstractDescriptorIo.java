@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.jdom.Document;
@@ -221,19 +220,17 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
      */
     public static File[] writeAll(J2eeDescriptor descriptor, String dir) throws IOException
     {
-        List files = new ArrayList();
+        List<File> files = new ArrayList<File>();
         File webXmlFile = new File(dir, "web.xml");
         writeDescriptor(descriptor, webXmlFile, null, true);
         files.add(webXmlFile);
-        Iterator vendorDescriptors = descriptor.getVendorDescriptors();
-        while (vendorDescriptors.hasNext())
+        for (Descriptor descr : descriptor.getVendorDescriptors())
         {
-            Descriptor descr = (Descriptor) vendorDescriptors.next();
             File file = new File(dir, descr.getFileName());
             AbstractDescriptorIo.writeDescriptor(descr, file, null, true);
             files.add(file);
         }
 
-        return (File[]) files.toArray(new File[files.size()]);
+        return files.toArray(new File[files.size()]);
     }
 }

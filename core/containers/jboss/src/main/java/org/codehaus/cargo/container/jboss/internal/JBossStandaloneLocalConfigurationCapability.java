@@ -40,7 +40,7 @@ public class JBossStandaloneLocalConfigurationCapability extends
     /**
      * JBoss-specific configuration Map.
      */
-    protected Map propertySupportMap;
+    protected Map<String, Boolean> propertySupportMap;
 
     /**
      * Initialize JBoss-specific configuration Map.
@@ -49,7 +49,7 @@ public class JBossStandaloneLocalConfigurationCapability extends
     {
         super();
 
-        this.propertySupportMap = new HashMap();
+        this.propertySupportMap = new HashMap<String, Boolean>();
         this.propertySupportMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
@@ -76,7 +76,7 @@ public class JBossStandaloneLocalConfigurationCapability extends
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     @Override
-    protected Map getPropertySupportMap()
+    protected Map<String, Boolean> getPropertySupportMap()
     {
         return this.propertySupportMap;
     }

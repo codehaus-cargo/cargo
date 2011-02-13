@@ -69,7 +69,7 @@ public final class GlassFishStandaloneLocalConfigurationCapability extends
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     @Override
-    protected Map < String, Boolean > getPropertySupportMap()
+    protected Map<String, Boolean> getPropertySupportMap()
     {
         return this.defaultSupportsMap;
     }

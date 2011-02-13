@@ -32,7 +32,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -80,9 +79,9 @@ public abstract class AbstractFactoryRegistry
      */
     public static void register(ClassLoader classLoader, DeployableFactory factory)
     {
-        for (Iterator itr = list(classLoader).iterator(); itr.hasNext();)
+        for (AbstractFactoryRegistry registry : list(classLoader))
         {
-            ((AbstractFactoryRegistry) itr.next()).register(factory);
+            registry.register(factory);
         }
     }
 
@@ -96,9 +95,9 @@ public abstract class AbstractFactoryRegistry
      */
     public static void register(ClassLoader classLoader, ConfigurationFactory factory)
     {
-        for (Iterator itr = list(classLoader).iterator(); itr.hasNext();)
+        for (AbstractFactoryRegistry registry : list(classLoader))
         {
-            ((AbstractFactoryRegistry) itr.next()).register(factory);
+            registry.register(factory);
         }
     }
 
@@ -112,9 +111,9 @@ public abstract class AbstractFactoryRegistry
      */
     public static void register(ClassLoader classLoader, ConfigurationCapabilityFactory factory)
     {
-        for (Iterator itr = list(classLoader).iterator(); itr.hasNext();)
+        for (AbstractFactoryRegistry registry : list(classLoader))
         {
-            ((AbstractFactoryRegistry) itr.next()).register(factory);
+            registry.register(factory);
         }
     }
 
@@ -128,9 +127,9 @@ public abstract class AbstractFactoryRegistry
      */
     public static void register(ClassLoader classLoader, DeployerFactory factory)
     {
-        for (Iterator itr = list(classLoader).iterator(); itr.hasNext();)
+        for (AbstractFactoryRegistry registry : list(classLoader))
         {
-            ((AbstractFactoryRegistry) itr.next()).register(factory);
+            registry.register(factory);
         }
     }
 
@@ -144,9 +143,9 @@ public abstract class AbstractFactoryRegistry
      */
     public static void register(ClassLoader classLoader, PackagerFactory factory)
     {
-        for (Iterator itr = list(classLoader).iterator(); itr.hasNext();)
+        for (AbstractFactoryRegistry registry : list(classLoader))
         {
-            ((AbstractFactoryRegistry) itr.next()).register(factory);
+            registry.register(factory);
         }
     }
 
@@ -160,9 +159,9 @@ public abstract class AbstractFactoryRegistry
      */
     public static void register(ClassLoader classLoader, ContainerFactory factory)
     {
-        for (Iterator itr = list(classLoader).iterator(); itr.hasNext();)
+        for (AbstractFactoryRegistry registry : list(classLoader))
         {
-            ((AbstractFactoryRegistry) itr.next()).register(factory);
+            registry.register(factory);
         }
     }
 
@@ -176,13 +175,11 @@ public abstract class AbstractFactoryRegistry
      */
     public static void register(ClassLoader classLoader, ContainerCapabilityFactory factory)
     {
-        for (Iterator itr = list(classLoader).iterator(); itr.hasNext();)
+        for (AbstractFactoryRegistry registry : list(classLoader))
         {
-            ((AbstractFactoryRegistry) itr.next()).register(factory);
+            registry.register(factory);
         }
     }
-
-
 
     /**
      * Registers {@link org.codehaus.cargo.container.deployable.Deployable} implementations
@@ -248,7 +245,7 @@ public abstract class AbstractFactoryRegistry
      *      See {@link #register(ClassLoader, DeployableFactory)} for more details.
      * @return always non-null but can be empty.
      */
-    private static List list(ClassLoader classLoader)
+    private static List<AbstractFactoryRegistry> list(ClassLoader classLoader)
     {
         ClassLoader cl;
         ClassLoaders loaders = new ClassLoaders();
@@ -283,7 +280,7 @@ public abstract class AbstractFactoryRegistry
             return Collections.EMPTY_LIST;
         }
 
-        List registries = new ArrayList();
+        List<AbstractFactoryRegistry> registries = new ArrayList<AbstractFactoryRegistry>();
         Enumeration providers = Service.providers(
                 new SPInterface(AbstractFactoryRegistry.class), loaders);
         if (!providers.hasMoreElements())
@@ -295,7 +292,7 @@ public abstract class AbstractFactoryRegistry
             Object provider = providers.nextElement();
             if (provider instanceof AbstractFactoryRegistry)
             {
-                registries.add(provider);
+                registries.add((AbstractFactoryRegistry) provider);
             }
         }
 

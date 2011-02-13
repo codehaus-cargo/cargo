@@ -19,6 +19,12 @@
  */
 package org.codehaus.cargo.generic;
 
+import java.lang.reflect.Constructor;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
+
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
@@ -28,13 +34,6 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
 import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.generic.internal.util.SimpleContainerIdentity;
-
-import java.lang.reflect.Constructor;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.HashSet;
 
 /**
  * Default implementation of {@link ContainerFactory}. Registers all known containers.
@@ -191,24 +190,23 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
      * {@inheritDoc}
      * @see org.codehaus.cargo.generic.ContainerFactory#getContainerIds()
      */
-    public Map getContainerIds()
+    public Map<String, Set<ContainerType>> getContainerIds()
     {
-        Map containerIds = new HashMap();
+        Map<String, Set<ContainerType>> containerIds = new HashMap<String, Set<ContainerType>>();
 
-        Iterator keys = getMappings().keySet().iterator();
-        while (keys.hasNext())
+        for (Map.Entry<RegistrationKey, Class> mapping : getMappings().entrySet())
         {
-            RegistrationKey key = (RegistrationKey) keys.next();
+            RegistrationKey key = mapping.getKey();
 
             SimpleContainerIdentity identity = (SimpleContainerIdentity) key.getContainerIdentity();
             if (containerIds.containsKey(identity.getId()))
             {
-                Set hints = (Set) containerIds.get(identity.getId());
+                Set<ContainerType> hints = containerIds.get(identity.getId());
                 hints.add(ContainerType.toType(key.getHint()));
             }
             else
             {
-                Set hints = new HashSet();
+                Set<ContainerType> hints = new HashSet<ContainerType>();
                 hints.add(ContainerType.toType(key.getHint()));
                 containerIds.put(identity.getId(), hints);
             }

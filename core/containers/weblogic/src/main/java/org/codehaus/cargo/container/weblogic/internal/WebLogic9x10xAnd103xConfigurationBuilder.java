@@ -69,7 +69,7 @@ public class WebLogic9x10xAnd103xConfigurationBuilder extends
         Element properties = driverElement.addElement("properties");
 
         ds.getConnectionProperties().setProperty("user", ds.getUsername());
-        Iterator driverProperties = ds.getConnectionProperties().keySet().iterator();
+        Iterator<Object> driverProperties = ds.getConnectionProperties().keySet().iterator();
         while (driverProperties.hasNext())
         {
             String name = driverProperties.next().toString();

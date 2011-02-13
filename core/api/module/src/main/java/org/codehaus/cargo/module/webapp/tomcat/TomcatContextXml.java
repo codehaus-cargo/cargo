@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.module.webapp.tomcat;
 
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -101,13 +101,13 @@ public class TomcatContextXml extends AbstractDescriptor
      *      <tt>Context/Parameter/@name</tt> and value is
      *      <tt>Context/Parameter/@value</tt>
      */
-    public Map getParameters()
+    public Map<Attribute, Attribute> getParameters()
     {
-        Map r = new TreeMap();
-        for (Iterator itr = getElements(TomcatContextXmlTag.PARAMETER); itr.hasNext();)
+        Map<Attribute, Attribute> r = new TreeMap<Attribute, Attribute>();
+        List<Element> elements = getElements(TomcatContextXmlTag.PARAMETER);
+        for (Element element : elements)
         {
-            Element e = (Element) itr.next();
-            r.put(e.getAttribute("name"), e.getAttribute("value"));
+            r.put(element.getAttribute("name"), element.getAttribute("value"));
         }
 
         return r;

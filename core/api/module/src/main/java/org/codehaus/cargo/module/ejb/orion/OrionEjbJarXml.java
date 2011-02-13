@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.module.ejb.orion;
 
-import java.util.Iterator;
-
 import org.codehaus.cargo.module.AbstractDescriptor;
 import org.codehaus.cargo.module.DescriptorTag;
 import org.codehaus.cargo.module.DescriptorType;
@@ -106,11 +104,9 @@ public class OrionEjbJarXml extends AbstractDescriptor implements VendorEjbDescr
     {
         Element ejbElement = null;
 
-        Iterator names = getElements(new DescriptorTag(
-            OrionEjbJarXmlType.getInstance(), "session-deployment", true));
-        while (names.hasNext())
+        for (Element deploymentElement : getElements(new DescriptorTag(
+            OrionEjbJarXmlType.getInstance(), "session-deployment", true)))
         {
-            Element deploymentElement = (Element) names.next();
             String name = deploymentElement.getAttribute("name").getValue();
             if (name.equals(ejbName))
             {
@@ -132,11 +128,9 @@ public class OrionEjbJarXml extends AbstractDescriptor implements VendorEjbDescr
     {
         Element ejbElement = null;
 
-        Iterator names = getElements(new DescriptorTag(
-            OrionEjbJarXmlType.getInstance(), "entity-deployment", true));
-        while (names.hasNext())
+        for (Element deploymentElement : getElements(new DescriptorTag(
+            OrionEjbJarXmlType.getInstance(), "entity-deployment", true)))
         {
-            Element deploymentElement = (Element) names.next();
             String name = deploymentElement.getAttribute("name").getValue();
             if (name.equals(ejbName))
             {

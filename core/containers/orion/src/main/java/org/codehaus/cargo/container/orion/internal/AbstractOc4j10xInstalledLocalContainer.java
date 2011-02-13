@@ -23,7 +23,6 @@
 package org.codehaus.cargo.container.orion.internal;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.tools.ant.taskdefs.Java;
@@ -102,10 +101,9 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends AbstractIns
         Path classpath = java.createClasspath();
         FileSet fileSet = new FileSet();
         fileSet.setDir(new File(getHome()));
-        Iterator i = getContainerClasspathIncludes().iterator();
-        while (i.hasNext())
+        for (String containerClasspathInclude : getContainerClasspathIncludes())
         {
-            fileSet.createInclude().setName((String) i.next());
+            fileSet.createInclude().setName(containerClasspathInclude);
         }
         classpath.addFileset(fileSet);
         addToolsJarToClasspath(classpath);
@@ -132,5 +130,5 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends AbstractIns
      * @return Set containing Ant-style include strings that sets the classpath
      *         based on the installation's home dir.
      */
-    protected abstract Set getContainerClasspathIncludes();
+    protected abstract Set<String> getContainerClasspathIncludes();
 }

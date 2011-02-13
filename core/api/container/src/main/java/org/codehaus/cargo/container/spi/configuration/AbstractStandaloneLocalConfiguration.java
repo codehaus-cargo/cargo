@@ -46,7 +46,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     /**
      * List of {@link FileConfig}s to use for the container.
      */
-    private List files;
+    private List<FileConfig> files;
 
     /**
      * The filterChain for the configuration files. This contains the tokens and what
@@ -64,7 +64,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
 
         // Add all required properties that are common to all standalone configurations
         setProperty(GeneralPropertySet.LOGGING, "medium");
-        this.files = new ArrayList();
+        this.files = new ArrayList<FileConfig>();
     }
 
     /**
@@ -208,7 +208,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration#getConfigfiles()
      */
-    public List getFileProperties()
+    public List<FileConfig> getFileProperties()
     {
         return this.files;
     }
@@ -219,12 +219,10 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      */
     protected void configureFiles(FilterChain filterChain)
     {
-       // List files = getFileProperties();
-        List files = this.files;
+        List<FileConfig> files = this.files;
         
-        for (int i = 0; i < files.size(); i++)
+        for (FileConfig fileConfig : files)
         {
-            FileConfig fileConfig = (FileConfig) files.get(i);
             boolean isDirectory = false;
             
             if (fileConfig.getFile() == null)
@@ -242,7 +240,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
                     fileConfig.getToDir(), fileConfig.getToFile());
             
             //we don't want to do anything if the file exists and overwrite is false
-            if (!origFile.exists()  ||  fileConfig.getOverwrite())
+            if (!origFile.exists() || fileConfig.getOverwrite())
             {
                 if (fileConfig.getConfigfile())
                 {

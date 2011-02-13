@@ -24,7 +24,6 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.codehaus.cargo.module.merge.MergeException;
@@ -46,12 +45,12 @@ public class MergedWarArchive implements WarArchive
     /**
      * War files making up this merged war, or type MergeWarFileDetails.
      */
-    private List warFiles;
+    private List<MergeWarFileDetails> warFiles;
 
     /**
      * Extra JAR files to appear in WEB-INF/lib.
      */
-    private List jarFiles;
+    private List<File> jarFiles;
     
     /**
      * Whether the JAR files contained WEB-INF/lib should be merged.
@@ -66,7 +65,7 @@ public class MergedWarArchive implements WarArchive
     /**
      * Additional processors to apply.
      */
-    private List mergeProcessors;
+    private List<ArchiveResourceMerger> mergeProcessors;
 
     /**
      * The Web XML Merger class.
@@ -78,9 +77,9 @@ public class MergedWarArchive implements WarArchive
      */
     MergedWarArchive()
     {
-        this.warFiles = new ArrayList();
-        this.jarFiles = new ArrayList();
-        this.mergeProcessors = new ArrayList();
+        this.warFiles = new ArrayList<MergeWarFileDetails>();
+        this.jarFiles = new ArrayList<File>();
+        this.mergeProcessors = new ArrayList<ArchiveResourceMerger>();
     }
 
     /**
@@ -88,7 +87,7 @@ public class MergedWarArchive implements WarArchive
      */
     protected WarArchive firstWarFile()
     {
-        return ((MergeWarFileDetails) this.warFiles.get(0)).getWarFile();
+        return this.warFiles.get(0).getWarFile();
     }
 
     /**
@@ -146,9 +145,8 @@ public class MergedWarArchive implements WarArchive
         {
             WebXmlMerger wxm = getWebXmlMerger();
 
-            for (int i = 1; i < this.warFiles.size(); i++)
+            for (MergeWarFileDetails details : this.warFiles)
             {
-                MergeWarFileDetails details = (MergeWarFileDetails) this.warFiles.get(i);
                 WarArchive wa = details.getWarFile();
                 wxm.merge(wa.getWebXml());
             }
@@ -164,14 +162,10 @@ public class MergedWarArchive implements WarArchive
      */
     protected void executeMergeProcessors(File assembleDir) throws MergeException, IOException
     {
-
-        for (Iterator i = this.mergeProcessors.iterator(); i.hasNext();)
+        for (ArchiveResourceMerger processor : this.mergeProcessors)
         {
-            ArchiveResourceMerger processor = (ArchiveResourceMerger) i.next();
-
-            for (int j = 0; j < this.warFiles.size(); j++)
+            for (MergeWarFileDetails details : this.warFiles)
             {
-                MergeWarFileDetails details = (MergeWarFileDetails) this.warFiles.get(j);
                 WarArchive wa = details.getWarFile();
 
                 processor.addMergeItem(wa);
@@ -256,9 +250,8 @@ public class MergedWarArchive implements WarArchive
         File f = new File(assembleDir);
         File webInfLib = new File(f, "WEB-INF/lib");
         webInfLib.mkdirs();
-        for (Iterator i = this.jarFiles.iterator(); i.hasNext();)
+        for (File sourceFile : this.jarFiles)
         {
-            File sourceFile = (File) i.next();
             fileHandler.copyFile(sourceFile.getAbsolutePath(), new File(webInfLib, sourceFile
                     .getName()).getAbsolutePath());
         }      
@@ -270,9 +263,8 @@ public class MergedWarArchive implements WarArchive
      */
     public boolean containsClass(String theClassName) throws IOException
     {
-        for (Iterator i = this.warFiles.iterator(); i.hasNext();)
+        for (MergeWarFileDetails details : this.warFiles)
         {
-            MergeWarFileDetails details = (MergeWarFileDetails) i.next();
             WarArchive wa = details.getWarFile();
 
             if (wa.containsClass(theClassName))
@@ -289,9 +281,8 @@ public class MergedWarArchive implements WarArchive
      */
     public String findResource(String theName) throws IOException
     {
-        for (Iterator i = this.warFiles.iterator(); i.hasNext();)
+        for (MergeWarFileDetails details : this.warFiles)
         {
-            MergeWarFileDetails details = (MergeWarFileDetails) i.next();
             WarArchive wa = details.getWarFile();
 
             String res = wa.findResource(theName);
@@ -309,9 +300,8 @@ public class MergedWarArchive implements WarArchive
      */
     public InputStream getResource(String thePath) throws IOException
     {
-        for (Iterator i = this.warFiles.iterator(); i.hasNext();)
+        for (MergeWarFileDetails details : this.warFiles)
         {
-            MergeWarFileDetails details = (MergeWarFileDetails) i.next();
             WarArchive wa = details.getWarFile();
             InputStream is = wa.getResource(thePath);
             if (is != null)
@@ -326,12 +316,11 @@ public class MergedWarArchive implements WarArchive
      * {@inheritDoc}
      * @see org.codehaus.cargo.module.JarArchive#getResources(java.lang.String)
      */
-    public List getResources(String thePath) throws IOException
+    public List<String> getResources(String thePath) throws IOException
     {
-        List results = new ArrayList();
-        for (Iterator i = this.warFiles.iterator(); i.hasNext();)
+        List<String> results = new ArrayList<String>();
+        for (MergeWarFileDetails details : this.warFiles)
         {
-            MergeWarFileDetails details = (MergeWarFileDetails) i.next();
             WarArchive wa = details.getWarFile();
             results.addAll(wa.getResources(thePath));
         }
@@ -353,9 +342,8 @@ public class MergedWarArchive implements WarArchive
      */
     public void expandToPath(String path, FileFilter filter) throws IOException
     {
-        for (int i = 0; i < this.warFiles.size(); i++)
+        for (MergeWarFileDetails details : this.warFiles)
         {
-            MergeWarFileDetails details = (MergeWarFileDetails) this.warFiles.get(i);
             WarArchive wa = details.getWarFile();
 
             wa.expandToPath(path, filter);

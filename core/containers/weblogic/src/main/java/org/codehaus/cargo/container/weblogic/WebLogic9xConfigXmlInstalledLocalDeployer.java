@@ -20,7 +20,6 @@
 package org.codehaus.cargo.container.weblogic;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.List;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -156,10 +155,9 @@ public class WebLogic9xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     protected void removeDeployableFromDomain(Deployable deployable, Element domain)
     {
         // use contains in case there is whitespace
-        List results = selectAppDeployments(deployable, domain);
-        for (Iterator iter = results.iterator(); iter.hasNext();)
+        List<Element> results = selectAppDeployments(deployable, domain);
+        for (Element element : results)
         {
-            Element element = (Element) iter.next();
             domain.remove(element);
         }
     }
@@ -171,7 +169,7 @@ public class WebLogic9xConfigXmlInstalledLocalDeployer extends AbstractInstalled
      * @param domain root element to search in
      * @return list of child elements that match the deployment
      */
-    protected List selectAppDeployments(Deployable deployable, Element domain)
+    protected List<Element> selectAppDeployments(Deployable deployable, Element domain)
     {
         String xpath =
             "//weblogic:app-deployment[weblogic:name/text()='"
@@ -230,10 +228,10 @@ public class WebLogic9xConfigXmlInstalledLocalDeployer extends AbstractInstalled
         Element configurationVersion =
             xmlTool.selectElementMatchingXPath("weblogic:configuration-version", domain);
 
-        List appDeployments =
+        List<Element> appDeployments =
             xmlTool.selectElementsMatchingXPath("weblogic:app-deployment", domain);
 
-        List domainElements = domain.content();
+        List<Element> domainElements = domain.content();
         int indexOfConfigurationVersion = domainElements.indexOf(configurationVersion);
 
         domainElements.removeAll(appDeployments);

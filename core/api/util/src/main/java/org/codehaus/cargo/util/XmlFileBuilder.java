@@ -47,7 +47,7 @@ public interface XmlFileBuilder
      * 
      * @param namespaces - key is prefix value is url
      */
-    void setNamespaces(Map namespaces);
+    void setNamespaces(Map<String, String> namespaces);
 
     /**
      * load the current xml file into a Document.

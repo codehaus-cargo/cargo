@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.jetty;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
-import java.util.Iterator;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -198,11 +197,8 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
             contextHandlers.getClass().getMethod("removeHandler", new Class[] {handlerClass});
 
         // Deploy statically deployed WARs
-        Iterator it = getConfiguration().getDeployables().iterator();
-        while (it.hasNext())
+        for (Deployable deployable : getConfiguration().getDeployables())
         {
-            Deployable deployable = (Deployable) it.next();
-
             // Only deploy WARs (packed or unpacked).
             if (deployable.getType() == DeployableType.WAR)
             {
@@ -354,19 +350,15 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
                 realmClass.getConstructor(new Class[] {String.class}).newInstance(
                     new Object[] {"Cargo Test Realm"});
 
-            Iterator users =
-                User.parseUsers(getConfiguration().getPropertyValue(ServletPropertySet.USERS))
-                    .iterator();
-            while (users.hasNext())
+            for (User user : User.parseUsers(getConfiguration().getPropertyValue(
+                ServletPropertySet.USERS)))
             {
-                User user = (User) users.next();
-
                 String userName = user.getName();
                 Class credentialClass = getClassLoader()
                     .loadClass("org.eclipse.jetty.http.security.Credential");
                 Object credential = credentialClass.getMethod("getCredential", String.class)
                     .invoke(credentialClass, user.getPassword());
-                String[] roles = (String[]) user.getRoles().toArray(new String[0]);
+                String[] roles = user.getRoles().toArray(new String[0]);
 
                 Method putUser =
                     this.defaultRealm.getClass().getMethod("putUser",

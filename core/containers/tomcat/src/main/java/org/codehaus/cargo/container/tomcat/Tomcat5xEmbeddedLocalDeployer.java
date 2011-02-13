@@ -35,9 +35,9 @@ import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Iterator;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import org.jdom.Attribute;
 
 /**
  * {@link org.codehaus.cargo.container.deployer.Deployer} for deploying to
@@ -56,7 +56,8 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
      * Map from {@link Deployable} to {@link Tomcat5xEmbedded.Context}, representing deployed
      * objects.
      */
-    private final Map deployed = new HashMap();
+    private final Map<Deployable, Tomcat5xEmbedded.Context> deployed =
+        new HashMap<Deployable, Tomcat5xEmbedded.Context>();
 
     /**
      * Creates a new deployer for {@link Tomcat5xEmbeddedLocalContainer}.
@@ -114,42 +115,11 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
             TomcatWarArchive twar = new TomcatWarArchive(docBase);
             if (twar.getTomcatContextXml() != null)
             {
-                Map params = twar.getTomcatContextXml().getParameters();
-                for (Iterator itr = params.entrySet().iterator(); itr.hasNext();)
+                for (Map.Entry<Attribute, Attribute> param : twar.getTomcatContextXml().
+                    getParameters().entrySet())
                 {
-                    Map.Entry param = (Map.Entry) itr.next();
-
-                    //the parameter could be a string or a jdom Attribute depending on
-                    //if its Tomcat 5.0.x or 5.5.x, so we need to check the value here.
-                    String key;
-                    String value;
-                    if (param.getKey() instanceof org.jdom.Attribute)
-                    {
-                        key = ((org.jdom.Attribute) param.getKey()).getValue();
-                    }
-                    else if (param.getKey() instanceof String)
-                    {
-                        key = (String) param.getKey();
-                    }
-                    else
-                    {
-                        throw new ContainerException("Cannot handle Parameter Type : " 
-                                + param.getKey().getClass().toString());
-                    }
-                    
-                    if (param.getValue() instanceof org.jdom.Attribute)
-                    {
-                        value = ((org.jdom.Attribute) param.getValue()).getValue();
-                    }
-                    else if (param.getValue() instanceof String)
-                    {
-                        value = (String) param.getValue();
-                    }
-                    else
-                    {
-                        throw new ContainerException("Cannot handle Parameter Type : " 
-                                + param.getValue().getClass().toString());
-                    }
+                    String key = param.getKey().getValue();
+                    String value = param.getValue().getValue();
                     
                     context.addParameter(key, value);
                 }

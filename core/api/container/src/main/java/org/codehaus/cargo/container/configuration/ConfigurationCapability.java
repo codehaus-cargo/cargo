@@ -36,7 +36,7 @@ public interface ConfigurationCapability
     boolean supportsProperty(String propertyName);
 
     /**
-     * @return the list of supported or not suported configuration properties
+     * @return the list of supported or not supported configuration properties
      */
-    Map getProperties();
+    Map<String, Boolean> getProperties();
 }

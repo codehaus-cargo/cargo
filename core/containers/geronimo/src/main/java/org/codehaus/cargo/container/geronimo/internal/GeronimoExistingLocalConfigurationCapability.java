@@ -38,7 +38,7 @@ public class GeronimoExistingLocalConfigurationCapability
     /**
      * Geronimo-specific configuration Map.
      */
-    private Map propertySupportMap;
+    private Map<String, Boolean> propertySupportMap;
 
     /**
      * Initialize Geronimo-specific configuration Map.
@@ -47,7 +47,7 @@ public class GeronimoExistingLocalConfigurationCapability
     {
         super();
 
-        this.propertySupportMap = new HashMap();
+        this.propertySupportMap = new HashMap<String, Boolean>();
 
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.FALSE);
@@ -62,7 +62,7 @@ public class GeronimoExistingLocalConfigurationCapability
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     @Override
-    protected Map getPropertySupportMap()
+    protected Map<String, Boolean> getPropertySupportMap()
     {
         return this.propertySupportMap;
     }

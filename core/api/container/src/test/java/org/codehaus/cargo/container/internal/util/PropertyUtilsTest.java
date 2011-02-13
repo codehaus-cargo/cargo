@@ -105,11 +105,11 @@ public class PropertyUtilsTest extends TestCase
 
         try
         {
-            assertEquals(ONE_SEMI_TWO, PropertyUtils.joinOnSemicolon(inner));
+            assertEquals(ONE_SEMI_TWO, PropertyUtils.joinOnSemicolon(PropertyUtils.toMap(inner)));
         }
         catch (ComparisonFailure e)
         {
-            assertEquals(TWO_SEMI_ONE, PropertyUtils.joinOnSemicolon(inner));
+            assertEquals(TWO_SEMI_ONE, PropertyUtils.joinOnSemicolon(PropertyUtils.toMap(inner)));
         }
     }
 
@@ -122,11 +122,13 @@ public class PropertyUtilsTest extends TestCase
 
         try
         {
-            assertEquals(ONE_DOT_TWO, PropertyUtils.joinOnDelimiter(inner, '.'));
+            assertEquals(ONE_DOT_TWO, PropertyUtils.joinOnDelimiter(PropertyUtils.toMap(inner),
+                '.'));
         }
         catch (ComparisonFailure e)
         {
-            assertEquals(TWO_DOT_ONE, PropertyUtils.joinOnDelimiter(inner, '.'));
+            assertEquals(TWO_DOT_ONE, PropertyUtils.joinOnDelimiter(PropertyUtils.toMap(inner),
+                '.'));
         }
     }
 
@@ -139,11 +141,11 @@ public class PropertyUtilsTest extends TestCase
 
         try
         {
-            assertEquals(ONE_PIPE_TWO, PropertyUtils.joinOnPipe(inner));
+            assertEquals(ONE_PIPE_TWO, PropertyUtils.joinOnPipe(PropertyUtils.toMap(inner)));
         }
         catch (ComparisonFailure e)
         {
-            assertEquals(TWO_PIPE_ONE, PropertyUtils.joinOnPipe(inner));
+            assertEquals(TWO_PIPE_ONE, PropertyUtils.joinOnPipe(PropertyUtils.toMap(inner)));
         }
     }
 
@@ -155,31 +157,34 @@ public class PropertyUtilsTest extends TestCase
 
         try
         {
-            assertEquals(ONE_THEN_TWO_OUTER_A, PropertyUtils.joinOnPipe(outer));
+            assertEquals(ONE_THEN_TWO_OUTER_A, PropertyUtils.joinOnPipe(
+                PropertyUtils.toMap(outer)));
         }
         catch (ComparisonFailure deviation1)
         {
             try
             {
-                assertEquals(TWO_THEN_ONE_OUTER_A, PropertyUtils.joinOnPipe(outer));
+                assertEquals(TWO_THEN_ONE_OUTER_A, PropertyUtils.joinOnPipe(
+                PropertyUtils.toMap(outer)));
             }
             catch (ComparisonFailure deviation2)
             {
                 try
                 {
-                    assertEquals(ONE_THEN_TWO_OUTER_B, PropertyUtils.joinOnPipe(outer));
+                    assertEquals(ONE_THEN_TWO_OUTER_B, PropertyUtils.joinOnPipe(
+                PropertyUtils.toMap(outer)));
                 }
                 catch (ComparisonFailure deviation3)
                 {
                     try
                     {
                         assertEquals(TWO_THEN_ONE_OUTER_B, PropertyUtils
-                            .joinOnPipe(outer));
+                            .joinOnPipe(PropertyUtils.toMap(outer)));
                     }
                     catch (ComparisonFailure deviation4)
                     {
                         assertEquals(TWO_THEN_ONE_OUTER_A, PropertyUtils
-                            .joinOnPipe(outer));
+                            .joinOnPipe(PropertyUtils.toMap(outer)));
                     }
                 }
             }
@@ -209,6 +214,7 @@ public class PropertyUtilsTest extends TestCase
         Properties inner = new Properties();
         inner.setProperty("baz", "blorple;zot");
 
-        assertEquals("baz=blorple\\;zot", PropertyUtils.joinOnSemicolon(inner));
+        assertEquals("baz=blorple\\;zot", PropertyUtils.joinOnSemicolon(
+                PropertyUtils.toMap(inner)));
     }
 }

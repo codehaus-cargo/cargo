@@ -24,7 +24,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -39,7 +38,7 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
      * List of {@link DeployableMonitorListener} that we will notify when the
      * {@link org.codehaus.cargo.container.deployable.Deployable} is deployed or undeployed.
      */
-    private List listeners;
+    private List<DeployableMonitorListener> listeners;
     
     /**
      * The URL to ping.
@@ -88,7 +87,7 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
      */
     public URLDeployableMonitor(URL pingURL, long timeout, String contains)
     {
-        this.listeners = new ArrayList();
+        this.listeners = new ArrayList<DeployableMonitorListener>();
         this.httpUtils = new HttpUtils();
         this.timeout = timeout;
         this.pingURL = pingURL;
@@ -132,11 +131,8 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
         getLogger().debug("URL [" + this.pingURL + "] is " + (isDeployed ? "" : "not ")
             + "responding...", this.getClass().getName());
 
-        Iterator it = this.listeners.iterator();
-        while (it.hasNext())
+        for (DeployableMonitorListener listener : listeners)
         {
-            DeployableMonitorListener listener = (DeployableMonitorListener) it.next();
-
             getLogger().debug("Notifying monitor listener [" + listener + "]",
                 this.getClass().getName());
 

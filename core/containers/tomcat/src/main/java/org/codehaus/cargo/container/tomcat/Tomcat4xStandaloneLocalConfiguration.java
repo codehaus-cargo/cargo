@@ -90,7 +90,7 @@ public class Tomcat4xStandaloneLocalConfiguration extends
         PropertyUtils.setPropertyIfNotNull(parameters, "jotm.timeout", "60");
         PropertyUtils.setPropertyIfNotNull(parameters, "factory",
             "org.objectweb.jotm.UserTransactionFactory");
-        transactionManagerResource.setParameters(parameters);
+        transactionManagerResource.setParameters(PropertyUtils.toMap(parameters));
         getResources().add(transactionManagerResource);
     }
     

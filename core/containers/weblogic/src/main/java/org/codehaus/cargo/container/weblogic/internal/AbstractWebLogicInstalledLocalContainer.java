@@ -22,8 +22,13 @@
  */
 package org.codehaus.cargo.container.weblogic.internal;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
+
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -34,11 +39,6 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.weblogic.WebLogicLocalContainer;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Basic support for the WebLogic application server.
@@ -102,42 +102,39 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     /**
      * @return a list of files that indicate a properly installed BEA_HOME
      */
-    protected List getBeaHomeFiles()
+    protected List<String> getBeaHomeFiles()
     {
-        List requiredFiles = new ArrayList();
-        requiredFiles
-                .add(getFileHandler().append(getBeaHome(), "registry.xml"));
+        List<String> requiredFiles = new ArrayList<String>();
+        requiredFiles.add(getFileHandler().append(getBeaHome(), "registry.xml"));
         return requiredFiles;
     }
 
     /**
      * @return a list of directories that indicate a properly installed BEA_HOME
      */
-    protected List getBeaHomeDirs()
+    protected List<String> getBeaHomeDirs()
     {
 
-        return new ArrayList();
+        return new ArrayList<String>();
     }
 
     /**
      * @return a list of files that indicate a properly installed WL_HOME
      */
-    protected List getWeblogicHomeFiles()
+    protected List<String> getWeblogicHomeFiles()
     {
-        List requiredFiles = new ArrayList();
-        requiredFiles.add(getFileHandler().append(getWeblogicHome(),
-                "server/lib/weblogic.jar"));
+        List<String> requiredFiles = new ArrayList<String>();
+        requiredFiles.add(getFileHandler().append(getWeblogicHome(), "server/lib/weblogic.jar"));
         return requiredFiles;
     }
 
     /**
      * @return a list of directories that indicate a properly installed WL_HOME
      */
-    protected List getWeblogicHomeDirs()
+    protected List<String> getWeblogicHomeDirs()
     {
-        List requiredDirs = new ArrayList();
-        requiredDirs.add(getFileHandler().append(getWeblogicHome(),
-                "server/lib"));
+        List<String> requiredDirs = new ArrayList<String>();
+        requiredDirs.add(getFileHandler().append(getWeblogicHome(), "server/lib"));
         return requiredDirs;
     }
 
@@ -147,8 +144,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      */
     protected void verifyWeblogicHome()
     {
-        List requiredDirs = this.getWeblogicHomeDirs();
-        List requiredFiles = this.getWeblogicHomeFiles();
+        List<String> requiredDirs = this.getWeblogicHomeDirs();
+        List<String> requiredFiles = this.getWeblogicHomeFiles();
         String errorPrefix = "Invalid Weblogic installation. ";
         String errorSuffix = "Make sure the WL_HOME directory you have specified "
                 + "points to the right location (It's currently pointing to ["
@@ -162,8 +159,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      */
     protected void verifyBeaHome()
     {
-        List requiredDirs = this.getBeaHomeDirs();
-        List requiredFiles = this.getBeaHomeFiles();
+        List<String> requiredDirs = this.getBeaHomeDirs();
+        List<String> requiredFiles = this.getBeaHomeFiles();
         String errorPrefix = "Invalid Weblogic installation. ";
         String errorSuffix = "Make sure the BEA_HOME directory you have specified "
                 + "points to the right location (It's currently pointing to ["
@@ -186,12 +183,10 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      *                Files that are required to exist
      */
     protected void verify(String errorPrefix, String errorSuffix,
-            List requiredDirs, List requiredFiles)
+            List<String> requiredDirs, List<String> requiredFiles)
     {
-        for (Iterator it = requiredDirs.iterator(); it.hasNext();)
+        for (String dir : requiredDirs)
         {
-            String dir = (String) it.next();
-
             if (!getFileHandler().exists(dir))
             {
                 throw new ContainerException(errorPrefix + "The [" + dir
@@ -210,9 +205,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
             }
         }
 
-        for (Iterator it = requiredFiles.iterator(); it.hasNext();)
+        for (String file : requiredFiles)
         {
-            String file = (String) it.next();
             if (!getFileHandler().exists(file))
             {
                 throw new ContainerException(errorPrefix + "The [" + file

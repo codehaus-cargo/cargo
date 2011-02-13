@@ -52,7 +52,7 @@ public class JonasExistingLocalConfigurationCapability extends
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     @Override
-    protected Map getPropertySupportMap()
+    protected Map<String, Boolean> getPropertySupportMap()
     {
         return this.defaultSupportsMap;
     }

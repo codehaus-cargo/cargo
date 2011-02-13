@@ -38,7 +38,7 @@ public class OrionStandaloneLocalConfigurationCapability
     /**
      * Configuration-specific supports Map.
      */
-    private Map supportsMap;
+    private Map<String, Boolean> supportsMap;
     
     /**
      * Initialize the configuration-specific supports Map.
@@ -47,7 +47,7 @@ public class OrionStandaloneLocalConfigurationCapability
     {
         super();
         
-        this.supportsMap = new HashMap();
+        this.supportsMap = new HashMap<String, Boolean>();
         this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
         supportDataSources();
     }
@@ -67,7 +67,7 @@ public class OrionStandaloneLocalConfigurationCapability
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     @Override
-    protected Map getPropertySupportMap()
+    protected Map<String, Boolean> getPropertySupportMap()
     {
         return this.supportsMap;
     }

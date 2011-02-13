@@ -61,7 +61,7 @@ public class WebXml24Type extends WebXmlType
     {
         super(null, new Dtd("http://java.sun.com/dtd/web-app_2_3.dtd"));
         
-        Map namespaceMap = new HashMap();
+        Map<String, String> namespaceMap = new HashMap<String, String>();
         namespaceMap.put("j2ee", this.getVersion().getNamespace().getURI());
         
         this.tags = new WebXmlTag[] {

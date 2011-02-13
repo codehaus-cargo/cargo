@@ -20,10 +20,10 @@
 package org.codehaus.cargo.module.ejb;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
+import org.codehaus.cargo.module.Descriptor;
 import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.J2eeDescriptor;
 import org.jdom.Attribute;
@@ -41,7 +41,7 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
     /**
      * List of vendor descriptors associated with this ejb-jar.xml.
      */
-    private List vendorDescriptors = new ArrayList();
+    private List<Descriptor> vendorDescriptors = new ArrayList<Descriptor>();
 
     /**
      * Constructor.
@@ -77,23 +77,21 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
      * {@inheritDoc}
      * @see org.codehaus.cargo.module.J2eeDescriptor#getVendorDescriptors()
      */
-    public Iterator getVendorDescriptors()
+    public List<Descriptor> getVendorDescriptors()
     {
-        return this.vendorDescriptors.iterator();
+        return this.vendorDescriptors;
     }
 
     /**
      * Returns all session ejbs in this descriptor.
      *
-     * @return Iterator of Ssession objects representing all session ejbs
+     * @return List of Session objects representing all session ejbs
      */
-    public final Iterator getSessionEjbs()
+    public final List<Session> getSessionEjbs()
     {
-        List ejbs = new ArrayList();
-        Iterator sessionElements = getElements(EjbJarXmlTag.SESSION);
-        while (sessionElements.hasNext())
+        List<Session> ejbs = new ArrayList<Session>();
+        for (Element sessionElement : getElements(EjbJarXmlTag.SESSION))
         {
-            Element sessionElement = (Element) sessionElements.next();
             Session session = new Session();
             Attribute id = sessionElement.getAttribute("id");
             if (id != null)
@@ -106,34 +104,32 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
             ejbs.add(session);
         }
 
-        return ejbs.iterator();
+        return ejbs;
     }
 
     /**
      * Returns all entity ejbs in this descriptor.
      *
-     * @return Iterator of Entity objects representing all entity ejbs
+     * @return List of Entity objects representing all entity ejbs
      */
-    public final Iterator getEntityEjbs()
+    public final List<Entity> getEntityEjbs()
     {
-        List ejbs = new ArrayList();
-        Iterator sessionElements = getElements(EjbJarXmlTag.ENTITY);
-        while (sessionElements.hasNext())
+        List<Entity> ejbs = new ArrayList<Entity>();
+        for (Element entityElement : getElements(EjbJarXmlTag.ENTITY))
         {
-            Element sessionElement = (Element) sessionElements.next();
             Entity entity = new Entity();
-            Attribute id = sessionElement.getAttribute("id");
+            Attribute id = entityElement.getAttribute("id");
             if (id != null)
             {
                 entity.setId(id.getValue());
             }
-            entity.setName(getChildText(sessionElement, EjbJarXmlTag.EJB_NAME));
-            entity.setLocal(getChildText(sessionElement, EjbJarXmlTag.LOCAL));
-            entity.setLocalHome(getChildText(sessionElement, EjbJarXmlTag.LOCAL_HOME));
+            entity.setName(getChildText(entityElement, EjbJarXmlTag.EJB_NAME));
+            entity.setLocal(getChildText(entityElement, EjbJarXmlTag.LOCAL));
+            entity.setLocalHome(getChildText(entityElement, EjbJarXmlTag.LOCAL_HOME));
             ejbs.add(entity);
         }
 
-        return ejbs.iterator();
+        return ejbs;
     }
 
     /**
@@ -145,10 +141,8 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
     public final Session getSessionEjb(String name)
     {
         Session result = null;
-        Iterator sessions = getSessionEjbs();
-        while (sessions.hasNext())
+        for (Session ejb : getSessionEjbs())
         {
-            Session ejb = (Session) sessions.next();
             if (ejb.getName().equals(name))
             {
                 result = ejb;
@@ -168,10 +162,8 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
     public final Entity getEntityEjb(String name)
     {
         Entity result = null;
-        Iterator entities = getEntityEjbs();
-        while (entities.hasNext())
+        for (Entity ejb : getEntityEjbs())
         {
-            Entity ejb = (Entity) entities.next();
             if (ejb.getName().equals(name))
             {
                 result = ejb;

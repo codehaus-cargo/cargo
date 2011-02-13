@@ -58,7 +58,7 @@ public interface Configuration extends Loggable
      * @return the list of properties set
      * @see #setProperty(String, String)
      */
-    Map getProperties();
+    Map<String, String> getProperties();
 
     /**
      * @param name the property name for which to return the value

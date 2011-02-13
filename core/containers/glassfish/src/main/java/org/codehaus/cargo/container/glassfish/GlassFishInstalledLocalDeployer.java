@@ -105,7 +105,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
      */
     protected void doDeploy(Deployable deployable, boolean overwrite)
     {
-        List args = new ArrayList();
+        List<String> args = new ArrayList<String>();
         args.add("deploy");
         if (overwrite)
         {
@@ -137,7 +137,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
     @Override
     public void undeploy(Deployable deployable)
     {
-        List args = new ArrayList();
+        List<String> args = new ArrayList<String>();
         args.add("undeploy");
 
         this.addConnectOptions(args);
@@ -192,7 +192,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
      *
      * @param args List to add to.
      */
-    private void addConnectOptions(List args)
+    private void addConnectOptions(List<String> args)
     {
         args.add("--interactive=false");
         args.add("--port");

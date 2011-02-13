@@ -19,11 +19,12 @@
  */
 package org.codehaus.cargo.generic;
 
+import java.util.Map;
+import java.util.Set;
+
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerType;
-
-import java.util.Map;
 
 /**
  * Allow instantiating a container by id (e.g. "resin3x").
@@ -57,11 +58,9 @@ public interface ContainerFactory
     boolean isContainerRegistered(String containerId, ContainerType containerType);
 
     /**
-     * @return the list of container ids that have been registered as Map. The Map keys are the
-     *         container ids and the Map values are the lists of {@link ContainerType}s registered
-     *         for that container, as a Set.
+     * @return the list of container ids that have been registered as Map.
      */
-    Map getContainerIds();
+    Map<String, Set<ContainerType>> getContainerIds();
 
     /**
      * Create a container instance instantiated using the specified configuration.

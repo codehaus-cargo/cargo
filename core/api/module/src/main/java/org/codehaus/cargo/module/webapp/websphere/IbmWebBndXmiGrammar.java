@@ -47,12 +47,12 @@ public class IbmWebBndXmiGrammar implements Grammar
      * {@inheritDoc}
      * @see Grammar#getElementOrder(String) 
      */
-    public List getElementOrder(String tagName)
+    public List<DescriptorTag> getElementOrder(String tagName)
     {
-        List elementOrder = null;
+        List<DescriptorTag> elementOrder = null;
         if (tagName.equals(ROOT) || tagName.equals(ROOT_NAMESPACE))
         {
-            elementOrder = new ArrayList();
+            elementOrder = new ArrayList<DescriptorTag>();
             elementOrder.add(new DescriptorTag(
                 IbmWebBndXmiType.getInstance(), "virtualHostName", true));
             elementOrder.add(new DescriptorTag(

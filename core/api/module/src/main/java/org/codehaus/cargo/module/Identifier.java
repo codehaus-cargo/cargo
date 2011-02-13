@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.module;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import org.codehaus.cargo.util.CargoException;
@@ -64,15 +63,15 @@ public class Identifier
      * @param xpath The xpath
      * @throws JDOMException 
      */
-    public Identifier(Map namespaceMap, String xpath)
+    public Identifier(Map<String, String> namespaceMap, String xpath)
     {
         try
         {
             this.xpath = XPath.newInstance(xpath);
-            for (Iterator i = namespaceMap.keySet().iterator(); i.hasNext();)
+            for (Map.Entry<String, String> namespaceEntry : namespaceMap.entrySet())
             {
-                String ns = (String) i.next();
-                String uri = (String) namespaceMap.get(ns);
+                String ns = namespaceEntry.getKey();
+                String uri = namespaceEntry.getValue();
                 this.xpath.addNamespace(ns, uri);
             }
         } 

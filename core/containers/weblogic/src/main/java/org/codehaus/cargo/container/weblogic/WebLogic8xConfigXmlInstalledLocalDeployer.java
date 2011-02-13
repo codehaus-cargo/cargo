@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.weblogic;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Iterator;
 import java.util.List;
 
 import org.codehaus.cargo.container.ContainerException;
@@ -136,8 +135,8 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     {
         Document configXml = readConfigXml();
         XPath xpathSelector = DocumentHelper.createXPath("//Domain");
-        List results = xpathSelector.selectNodes(configXml);
-        Element domain = (Element) results.get(0);
+        List<Element> results = xpathSelector.selectNodes(configXml);
+        Element domain = results.get(0);
 
         if (deployable.getType() == DeployableType.WAR)
         {
@@ -168,10 +167,9 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
         XPath xpathSelector =
             DocumentHelper.createXPath("//Application[@Path='"
                 + getFileHandler().getParent(getAbsolutePath(deployable)) + "']");
-        List results = xpathSelector.selectNodes(configXml);
-        for (Iterator iter = results.iterator(); iter.hasNext();)
+        List<Element> results = xpathSelector.selectNodes(configXml);
+        for (Element element : results)
         {
-            Element element = (Element) iter.next();
             configXml.remove(element);
         }
         this.writeConfigXml(configXml);
@@ -210,10 +208,8 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
         application.addAttribute("Path", getAbsolutePath(ear));
         application.addAttribute("StagingMode", "nostage");
         application.addAttribute("TwoPhase", "false");
-        Iterator contexts = ear.getWebContexts();
-        while (contexts.hasNext())
+        for (String context : ear.getWebContexts())
         {
-            String context = (String) contexts.next();
             Element webAppComponent = application.addElement("WebAppComponent");
             webAppComponent.addAttribute("Name", context);
             webAppComponent.addAttribute("Targets", getServerName());

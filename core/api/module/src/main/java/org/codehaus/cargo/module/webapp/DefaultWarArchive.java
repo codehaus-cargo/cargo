@@ -45,7 +45,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.jar.JarEntry;
@@ -149,13 +148,11 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
         JarOutputStream out = new JarOutputStream(new FileOutputStream(warFile));
 
         // Find all deployment descriptors that Cargo is handling for this WAR file.
-        List descriptorNames = new ArrayList();
+        List<String> descriptorNames = new ArrayList<String>();
         descriptorNames.add("WEB-INF/" + getWebXml().getFileName());
-        for (Iterator vendorDescriptors = getWebXml().getVendorDescriptors();
-            vendorDescriptors.hasNext();)
+        for (Descriptor vendorDescriptor : getWebXml().getVendorDescriptors())
         {
-            descriptorNames.add("WEB-INF/" 
-                + ((Descriptor) vendorDescriptors.next()).getFileName());
+            descriptorNames.add("WEB-INF/" + vendorDescriptor.getFileName());
         }
 
         // Copy all entries from the original WAR file except for deployment descriptors. The
@@ -179,9 +176,8 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
         out.putNextEntry(webXmlEntry);
         AbstractDescriptorIo.writeDescriptor(getWebXml(), out, null, true);
 
-        for (Iterator descriptors = getWebXml().getVendorDescriptors(); descriptors.hasNext();)
+        for (Descriptor descriptor : getWebXml().getVendorDescriptors())
         {
-            Descriptor descriptor = (Descriptor) descriptors.next();
             JarEntry descriptorEntry = new JarEntry("WEB-INF/" + descriptor.getFileName());
             out.putNextEntry(descriptorEntry);
             AbstractDescriptorIo.writeDescriptor(descriptor, out, null, true);
@@ -213,10 +209,9 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
         }
 
         // Next scan the JARs in WEB-INF/lib
-        List jars = getResources("WEB-INF/lib/");
-        for (Iterator i = jars.iterator(); i.hasNext();)
+        for (String resource : getResources("WEB-INF/lib/"))
         {
-            JarArchive jar = new DefaultJarArchive(getResource((String) i.next()));
+            JarArchive jar = new DefaultJarArchive(getResource(resource));
             if (jar.containsClass(className))
             {
                 containsClass = true;

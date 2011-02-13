@@ -75,7 +75,7 @@ public interface Descriptor extends org.jdom.Parent
      * @param tag type of elements to find
      * @return list of tags
      */
-    List getTags(DescriptorTag tag);
+    List<Element> getTags(DescriptorTag tag);
     
     /**
      * Get the descriptor type for this descriptor.

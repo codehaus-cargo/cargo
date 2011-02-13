@@ -22,19 +22,16 @@
  */
 package org.codehaus.cargo.module.webapp.merge;
 
+import java.io.ByteArrayInputStream;
+import java.util.List;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
-import org.codehaus.cargo.module.DescriptorElement;
 import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlIo;
 import org.codehaus.cargo.module.webapp.WebXmlType;
 import org.codehaus.cargo.module.webapp.WebXmlUtils;
 import org.codehaus.cargo.module.webapp.elements.Listener;
-import org.codehaus.cargo.module.webapp.elements.WebXmlElement;
 import org.jdom.Element;
-
-
-import java.io.ByteArrayInputStream;
-import java.util.Iterator;
 
 /**
  * Unit tests for {@link WebXmlMerger}.
@@ -226,9 +223,9 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
         assertTrue(WebXmlUtils.hasFilter(srcWebXml,"f1"));
-        Iterator initParams = WebXmlUtils.getFilterInitParamNames(srcWebXml,"f1");
-        assertEquals("f1param1", initParams.next());
-        assertTrue(!initParams.hasNext());
+        List<String> initParams = WebXmlUtils.getFilterInitParamNames(srcWebXml,"f1");
+        assertEquals(1, initParams.size());
+        assertEquals("f1param1", initParams.get(0));
     }
 
     /**
@@ -264,12 +261,12 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        Iterator filterNames = WebXmlUtils.getFilterNames(srcWebXml);
-        assertEquals("f1", filterNames.next());
-        assertEquals("f2", filterNames.next());
-        assertEquals("f3", filterNames.next());
-        assertEquals("f4", filterNames.next());
-        assertTrue(!filterNames.hasNext());
+        List<String> filterNames = WebXmlUtils.getFilterNames(srcWebXml);
+        assertEquals(4, filterNames.size());
+        assertEquals("f1", filterNames.get(0));
+        assertEquals("f2", filterNames.get(1));
+        assertEquals("f3", filterNames.get(2));
+        assertEquals("f4", filterNames.get(3));
     }
 
     /**
@@ -299,11 +296,11 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        Iterator filterNames = WebXmlUtils.getFilterNames(srcWebXml);
-        assertEquals("f1", filterNames.next());
-        assertEquals("f2", filterNames.next());
-        assertEquals("f3", filterNames.next());
-        assertTrue(!filterNames.hasNext());
+        List<String> filterNames = WebXmlUtils.getFilterNames(srcWebXml);
+        assertEquals(3, filterNames.size());
+        assertEquals("f1", filterNames.get(0));
+        assertEquals("f2", filterNames.get(1));
+        assertEquals("f3", filterNames.get(2));
     }
 
     /**
@@ -331,9 +328,9 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
         assertTrue(WebXmlUtils.hasFilter(srcWebXml,"f1"));
-        Iterator filterMappings = WebXmlUtils.getFilterMappings(srcWebXml,"f1");
-        assertEquals("/f1mapping1", filterMappings.next());
-        assertTrue(!filterMappings.hasNext());
+        List<String> filterMappings = WebXmlUtils.getFilterMappings(srcWebXml,"f1");
+        assertEquals(1, filterMappings.size());
+        assertEquals("/f1mapping1", filterMappings.get(0));
     }
 
     /**
@@ -369,11 +366,11 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
         assertTrue(WebXmlUtils.hasFilter(srcWebXml,"f1"));
-        Iterator filterMappings = WebXmlUtils.getFilterMappings(srcWebXml,"f1");
-        assertEquals("/f1mapping1", filterMappings.next());
-        assertEquals("/f1mapping2", filterMappings.next());
-        assertEquals("/f1mapping3", filterMappings.next());
-        assertTrue(!filterMappings.hasNext());
+        List<String> filterMappings = WebXmlUtils.getFilterMappings(srcWebXml,"f1");
+        assertEquals(3, filterMappings.size());
+        assertEquals("/f1mapping1", filterMappings.get(0));
+        assertEquals("/f1mapping2", filterMappings.get(1));
+        assertEquals("/f1mapping3", filterMappings.get(2));
     }
 
     /**
@@ -486,9 +483,9 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml,"s1"));
-        Iterator initParams = WebXmlUtils.getServletInitParamNames(srcWebXml,"s1");
-        assertEquals("s1param1", initParams.next());
-        assertTrue(!initParams.hasNext());
+        List<String> initParams = WebXmlUtils.getServletInitParamNames(srcWebXml,"s1");
+        assertEquals(1, initParams.size());
+        assertEquals("s1param1", initParams.get(0));
         assertEquals("s1param1value",
             WebXmlUtils.getServletInitParam(srcWebXml,"s1", "s1param1"));
     }
@@ -526,12 +523,12 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
-        Iterator servletNames = WebXmlUtils.getServletNames(srcWebXml);
-        assertEquals("s1", servletNames.next());
-        assertEquals("s2", servletNames.next());
-        assertEquals("s3", servletNames.next());
-        assertEquals("s4", servletNames.next());
-        assertTrue(!servletNames.hasNext());
+        List<String> servletNames = WebXmlUtils.getServletNames(srcWebXml);
+        assertEquals(4, servletNames.size());
+        assertEquals("s1", servletNames.get(0));
+        assertEquals("s2", servletNames.get(1));
+        assertEquals("s3", servletNames.get(2));
+        assertEquals("s4", servletNames.get(3));
     }
 
     /**
@@ -596,11 +593,11 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
-        Iterator servletNames = WebXmlUtils.getServletNames(srcWebXml);
-        assertEquals("s1", servletNames.next());
-        assertEquals("s2", servletNames.next());
-        assertEquals("s3", servletNames.next());
-        assertTrue(!servletNames.hasNext());
+        List<String> servletNames = WebXmlUtils.getServletNames(srcWebXml);
+        assertEquals(3, servletNames.size());
+        assertEquals("s1", servletNames.get(0));
+        assertEquals("s2", servletNames.get(1));
+        assertEquals("s3", servletNames.get(2));
     }
 
     /**
@@ -628,9 +625,9 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml,"s1"));
-        Iterator servletMappings = WebXmlUtils.getServletMappings(srcWebXml,"s1");
-        assertEquals("/s1mapping1", servletMappings.next());
-        assertTrue(!servletMappings.hasNext());
+        List<String> servletMappings = WebXmlUtils.getServletMappings(srcWebXml, "s1");
+        assertEquals(1, servletMappings.size());
+        assertEquals("/s1mapping1", servletMappings.get(0));
     }
 
     /**
@@ -666,11 +663,11 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml,"s1"));
-        Iterator servletMappings = WebXmlUtils.getServletMappings(srcWebXml,"s1");
-        assertEquals("/s1mapping1", servletMappings.next());
-        assertEquals("/s1mapping2", servletMappings.next());
-        assertEquals("/s1mapping3", servletMappings.next());
-        assertTrue(!servletMappings.hasNext());
+        List<String> servletMappings = WebXmlUtils.getServletMappings(srcWebXml, "s1");
+        assertEquals(3, servletMappings.size());
+        assertEquals("/s1mapping1", servletMappings.get(0));
+        assertEquals("/s1mapping2", servletMappings.get(1));
+        assertEquals("/s1mapping3", servletMappings.get(2));
     }
 
     /**
@@ -692,10 +689,9 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeSecurityRoles(mergeWebXml);
-        Iterator securityRoleNames = WebXmlUtils.getSecurityRoleNames(srcWebXml);
-        assertTrue(securityRoleNames.hasNext());
-        assertEquals("role1", securityRoleNames.next());
-        assertTrue(!securityRoleNames.hasNext());
+        List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(srcWebXml);
+        assertEquals(1, securityRoleNames.size());
+        assertEquals("role1", securityRoleNames.get(0));
     }
 
     /**
@@ -722,10 +718,9 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeSecurityRoles(mergeWebXml);
-        Iterator securityRoleNames = WebXmlUtils.getSecurityRoleNames(srcWebXml);
-        assertTrue(securityRoleNames.hasNext());
-        assertEquals("role1", securityRoleNames.next());
-        assertTrue(!securityRoleNames.hasNext());
+        List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(srcWebXml);
+        assertEquals(1, securityRoleNames.size());
+        assertEquals("role1", securityRoleNames.get(0));
     }
 
     /**
@@ -751,8 +746,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
         
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        Iterator ejbRefs = srcWebXml.getElements(WebXmlType.EJB_REF); 
-        assertTrue(ejbRefs.hasNext());
+        List<Element> ejbRefs = srcWebXml.getElements(WebXmlType.EJB_REF);
+        assertEquals(1, ejbRefs.size());
     }
 
     /**
@@ -815,11 +810,12 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
         WebXmlMerger merger = new WebXmlMerger(file1WebXml);
         merger.merge(file2WebXml);
         
-        Iterator i = file1WebXml.getElements("listener");
-        assertEquals( ((Listener)i.next()).getListenerClass(), "file1-lc1");
-        assertEquals( ((Listener)i.next()).getListenerClass(), "file1-lc2");
-        assertEquals( ((Listener)i.next()).getListenerClass(), "file2-lc1");
-        assertEquals( ((Listener)i.next()).getListenerClass(), "file2-lc2");
+        List<Element> ejbRefs = file1WebXml.getElements("listener");
+        assertEquals(4, ejbRefs.size());
+        assertEquals(((Listener)ejbRefs.get(0)).getListenerClass(), "file1-lc1");
+        assertEquals(((Listener)ejbRefs.get(1)).getListenerClass(), "file1-lc2");
+        assertEquals(((Listener)ejbRefs.get(2)).getListenerClass(), "file2-lc1");
+        assertEquals(((Listener)ejbRefs.get(3)).getListenerClass(), "file2-lc2");
     }
     	
 }

@@ -55,7 +55,7 @@ public interface LocalConfiguration extends Configuration
      * @return the list of {@link Deployable}s that are going to be deployed in the container when
      *         it is started
      */
-    List getDeployables();
+    List<Deployable> getDeployables();
 
     /**
      * Setup the container which means setting up a valid directory structure, setting up 
@@ -77,7 +77,7 @@ public interface LocalConfiguration extends Configuration
      * @return the list of {@link Resource}s that are going to be added to the container when
      * it is started.
      */
-    List getResources();
+    List<Resource> getResources();
 
     /**
      * Add data source the container can take advantage of.
@@ -89,7 +89,7 @@ public interface LocalConfiguration extends Configuration
     /**
      * @return the configured DataSources for this container.
      */
-    List getDataSources();
+    List<DataSource> getDataSources();
     
     /**
      * @param handler means by which we affect local files.

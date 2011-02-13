@@ -40,7 +40,7 @@ public class JBossExistingLocalConfigurationCapability extends
     /**
      * JBoss-specific configuration Map.
      */
-    private Map propertySupportMap;
+    private Map<String, Boolean> propertySupportMap;
 
     /**
      * Initialize JBoss-specific configuration Map.
@@ -49,7 +49,7 @@ public class JBossExistingLocalConfigurationCapability extends
     {
         super();
 
-        this.propertySupportMap = new HashMap();
+        this.propertySupportMap = new HashMap<String, Boolean>();
 
         this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
@@ -65,7 +65,7 @@ public class JBossExistingLocalConfigurationCapability extends
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     @Override
-    protected Map getPropertySupportMap()
+    protected Map<String, Boolean> getPropertySupportMap()
     {
         return this.propertySupportMap;
     }

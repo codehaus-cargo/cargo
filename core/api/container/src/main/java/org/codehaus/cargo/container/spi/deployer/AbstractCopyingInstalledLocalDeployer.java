@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -49,11 +48,6 @@ import java.util.Set;
  */
 public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInstalledLocalDeployer
 {
-    /**
-     * Empty iterator.
-     */
-    private static final Iterator EMPTY_ITERATOR = Collections.EMPTY_LIST.iterator();
-
     /**
      * @see #setShouldDeployExpandedWARs(boolean)
      */
@@ -72,7 +66,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     /**
      * Deployed Deployables.
      */
-    private List deployedDeployables;
+    private List<Deployable> deployedDeployables;
 
     /**
      * {@inheritDoc}
@@ -85,7 +79,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
         this.shouldDeployExpandedWARs = true;
         this.shouldDeployExpandedSARs = true;
         this.shouldDeployExpandedRARs = true;
-        this.deployedDeployables = new ArrayList();
+        this.deployedDeployables = new ArrayList<Deployable>();
     }
 
     /**
@@ -228,16 +222,12 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      */
     protected boolean canBeDeployed(final Deployable newDeployable)
     {
-        final Set newDeployableContextSet = getWebContextsSet(newDeployable);
-        final int size = this.deployedDeployables.size();
-        for (int i = 0; i < size; i++)
+        final Set<String> newDeployableContextSet = getWebContextsSet(newDeployable);
+        for (Deployable deployedDeployable : this.deployedDeployables)
         {
-            final Deployable deployedDeployable = (Deployable) this.deployedDeployables.get(i);
-            for (Iterator contextIterator = getWebContextsIterator(deployedDeployable);
-                 contextIterator.hasNext();)
+            for (String webContext : getWebContexts(deployedDeployable))
             {
-                final Object context = contextIterator.next();
-                if (newDeployableContextSet.contains(context))
+                if (newDeployableContextSet.contains(webContext))
                 {
                     return false;
                 }
@@ -251,22 +241,22 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      * web contexts from a deployable.
      *
      * @param deployable deployable
-     * @return an iterator over all web contexts this deployble uses
+     * @return a list of all web contexts this deployable uses
      */
-    private static Iterator getWebContextsIterator(final Deployable deployable)
+    private static List<String> getWebContexts(final Deployable deployable)
     {
-        Iterator webContexts;
+        List<String> webContexts;
         if (deployable.getType() == DeployableType.EAR)
         {
             webContexts = ((EAR) deployable).getWebContexts();
         }
         else if (deployable.getType() == DeployableType.WAR)
         {
-            webContexts = Arrays.asList(new String[]{((WAR) deployable).getContext()}).iterator();
+            webContexts = Arrays.asList(new String[]{((WAR) deployable).getContext()});
         }
         else
         {
-            webContexts = EMPTY_ITERATOR;
+            webContexts = Collections.emptyList();
         }
         return webContexts;
     }
@@ -277,13 +267,12 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      * @param deployable Deployable
      * @return a set of all web contexts contained in this deployable.
      */
-    private static Set getWebContextsSet(final Deployable deployable)
+    private static Set<String> getWebContextsSet(final Deployable deployable)
     {
-        final Set webContextSet = new HashSet();
-        for (Iterator contextIterator = getWebContextsIterator(deployable);
-             contextIterator.hasNext();)
+        final Set<String> webContextSet = new HashSet<String>();
+        for (String webContext : getWebContexts(deployable))
         {
-            webContextSet.add(contextIterator.next());
+            webContextSet.add(webContext);
         }
         return webContextSet;
     }

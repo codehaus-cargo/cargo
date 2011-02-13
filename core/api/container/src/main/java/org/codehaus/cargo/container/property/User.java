@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.property;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -49,7 +48,7 @@ public final class User
     /**
      * @see #addRoles(java.util.List)
      */
-    private List roles = new ArrayList();
+    private List<String> roles = new ArrayList<String>();
 
     /**
      * @param name the user name
@@ -96,7 +95,7 @@ public final class User
     /**
      * @param roles a list of roles attached to this user
      */
-    public void addRoles(List roles)
+    public void addRoles(List<String> roles)
     {
         this.roles.addAll(roles);
     }
@@ -104,7 +103,7 @@ public final class User
     /**
      * @return the list of roles attached to this user
      */
-    public List getRoles()
+    public List<String> getRoles()
     {
         return this.roles;
     }
@@ -146,9 +145,9 @@ public final class User
      * @param usersAsString the string representing the users
      * @return a list of {@link User} objects 
      */
-    public static List parseUsers(String usersAsString)
+    public static List<User> parseUsers(String usersAsString)
     {
-        List users = new ArrayList();
+        List<User> users = new ArrayList<User>();
         
         // The format to parse is "name1:pwd1:role11,...,role1N|name2:pwd2:role21,...,role2N|..."
         StringTokenizer userTokens = new StringTokenizer(usersAsString, "|");
@@ -211,9 +210,9 @@ public final class User
      * @param rolesAsString the roles defined as a string
      * @return the parsed list of roles
      */
-    protected static List parseRoles(String rolesAsString)
+    protected static List<String> parseRoles(String rolesAsString)
     {
-        List roles = new ArrayList();
+        List<String> roles = new ArrayList<String>();
         
         StringTokenizer roleTokens = new StringTokenizer(rolesAsString, ",");
         while (roleTokens.hasMoreTokens())
@@ -231,27 +230,22 @@ public final class User
      * @param users list of {@link User} for which to extract roles from
      * @return a map of roles containing users
      */
-    public static Map createRoleMap(List users)
+    public static Map<String, List<User>> createRoleMap(List<User> users)
     {
-        Map roles = new HashMap();
-        
-        Iterator userIt = users.iterator();
-        while (userIt.hasNext())
-        {
-            User user = (User) userIt.next();
-            Iterator roleIt = user.getRoles().iterator();
-            while (roleIt.hasNext())
-            {
-                String role = (String) roleIt.next();
+        Map<String, List<User>> roles = new HashMap<String, List<User>>();
 
-                List usersForRole;
+        for (User user : users)
+        {
+            for (String role : user.getRoles())
+            {
+                List<User> usersForRole;
                 if (roles.containsKey(role))
                 {
-                    usersForRole = (List) roles.get(role);
+                    usersForRole = roles.get(role);
                 }
                 else
                 {
-                    usersForRole = new ArrayList();
+                    usersForRole = new ArrayList<User>();
                 }
                 
                 if (!usersForRole.contains(user))

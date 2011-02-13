@@ -85,7 +85,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
         setProperty(ServletPropertySet.PORT, "7001");
         setProperty(GeneralPropertySet.HOSTNAME, "localhost");
 
-        namespaces = new HashMap();
+        namespaces = new HashMap<String, String>();
         namespaces.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
         namespaces.put("jdbc", "http://www.bea.com/ns/weblogic/90");
 
@@ -253,7 +253,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
      * {@inheritDoc}
      */
     @Override
-    protected Map getNamespaces()
+    protected Map<String, String> getNamespaces()
     {
         return namespaces;
     }

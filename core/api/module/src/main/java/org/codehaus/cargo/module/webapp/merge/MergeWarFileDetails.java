@@ -43,7 +43,7 @@ public class MergeWarFileDetails implements FileFilter
     /**
      * List of exclusions.
      */
-    private List exclusionPatterns = new ArrayList();
+    private List<String> exclusionPatterns = new ArrayList<String>();
 
     /**
      * Constructor.

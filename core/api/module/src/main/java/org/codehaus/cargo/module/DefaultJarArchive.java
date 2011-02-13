@@ -33,7 +33,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.jar.JarInputStream;
 import java.util.zip.ZipEntry;
@@ -121,10 +120,8 @@ public class DefaultJarArchive implements JarArchive
     public final String findResource(String name) throws IOException
     {
         String result = null;
-        List resources = getResources("");
-        for (Iterator i = resources.iterator(); i.hasNext();)
+        for (String entryPath : getResources(""))
         {
-            String entryPath = (String) i.next();
             String entryName = entryPath;
 
             int lastSlashIndex = entryName.lastIndexOf('/');
@@ -182,7 +179,7 @@ public class DefaultJarArchive implements JarArchive
      * {@inheritDoc}
      * @see org.codehaus.cargo.module.JarArchive#getResources(String)
      */
-    public final List getResources(String path) throws IOException
+    public final List<String> getResources(String path) throws IOException
     {
         String normalizedPath = path;
         if (!path.endsWith("/") && !path.equals(""))
@@ -190,7 +187,7 @@ public class DefaultJarArchive implements JarArchive
             normalizedPath = path + "/";
         }
 
-        List resources = new ArrayList();
+        List<String> resources = new ArrayList<String>();
         JarInputStream in = null;
         try
         {

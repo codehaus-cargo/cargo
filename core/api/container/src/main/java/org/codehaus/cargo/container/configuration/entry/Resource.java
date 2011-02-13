@@ -48,7 +48,7 @@ public class Resource
     /**
      * Resource parameters.
      */
-    private Map parameters;
+    private Map<String, String> parameters;
 
     /**
      * 
@@ -59,7 +59,7 @@ public class Resource
     {
         this.name = name;
         this.type = type;
-        parameters = new LinkedHashMap();
+        parameters = new LinkedHashMap<String, String>();
     }
 
     /**
@@ -99,14 +99,14 @@ public class Resource
      */
     public String getParameter(String name)
     {
-        return (String) parameters.get(name);
+        return parameters.get(name);
     }
 
     /**
      * @return A <code>Set</code> with all parameters.
      * 
      */
-    public Set getParameterNames()
+    public Set<String> getParameterNames()
     {
         return parameters.keySet();
 
@@ -117,7 +117,7 @@ public class Resource
      * 
      * @param parameters The parameters to set.
      */
-    public void setParameters(Map parameters)
+    public void setParameters(Map<String, String> parameters)
     {
         this.parameters = parameters;
     }
@@ -127,7 +127,7 @@ public class Resource
      * 
      * @return parameters The parameters for this resource.
      */
-    public Map getParameters()
+    public Map<String, String> getParameters()
     {
         return parameters;
     }

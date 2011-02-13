@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.glassfish.internal;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Iterator;
 
 import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -139,10 +138,9 @@ public abstract class AbstractGlassFishInstalledLocalContainer
 
         GlassFishInstalledLocalDeployer deployer = new GlassFishInstalledLocalDeployer(this);
         // deploy scheduled deployables
-        for (Iterator iterator = this.getConfiguration().getDeployables().iterator(); iterator
-            .hasNext();)
+        for (Deployable deployable : this.getConfiguration().getDeployables())
         {
-            deployer.deploy((Deployable) iterator.next());
+            deployer.deploy(deployable);
         }
     }
 

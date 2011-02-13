@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
-import java.util.Map;
-
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
@@ -40,15 +38,5 @@ public class JBoss5xRuntimeConfigurationCapability extends
         super();
 
         this.supportsMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map getPropertySupportMap()
-    {
-        return this.supportsMap;
     }
 }

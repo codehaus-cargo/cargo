@@ -23,7 +23,6 @@
 package org.codehaus.cargo.container.orion;
 
 import java.io.File;
-import java.util.Iterator;
 
 import org.apache.tools.ant.taskdefs.Ear;
 import org.apache.tools.ant.types.FileSet;
@@ -79,10 +78,8 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
         String appDir = autoDeployDir.getAbsolutePath();
 
         // Deploy all deployables into the applications directory
-        Iterator it = getDeployables().iterator();
-        while (it.hasNext())
+        for (Deployable deployable : getDeployables())
         {
-            Deployable deployable = (Deployable) it.next();
             if ((deployable.getType() == DeployableType.EAR))
             {
                 fileUtils.copyFile(deployable.getFile(), getFileHandler().append(appDir,

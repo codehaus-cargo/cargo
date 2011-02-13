@@ -41,7 +41,7 @@ public class ChooseByNameMergeStrategy extends AbstractChoiceMergeStrategy
     /**
      * Map of named values to use.
      */
-    private Map strategyMap;
+    private Map<String, MergeStrategy> strategyMap;
 
     /**
      * Constructor.
@@ -51,7 +51,7 @@ public class ChooseByNameMergeStrategy extends AbstractChoiceMergeStrategy
     public ChooseByNameMergeStrategy(MergeStrategy defaultStrategy)
     {
         this.defaultStrategy = defaultStrategy;
-        this.strategyMap = new HashMap();
+        this.strategyMap = new HashMap<String, MergeStrategy>();
     }
 
     /**
@@ -78,11 +78,10 @@ public class ChooseByNameMergeStrategy extends AbstractChoiceMergeStrategy
 
         if (id != null)
         {
-
             String identityValue = id.getIdentifier(element);
             if (this.strategyMap.containsKey(identityValue))
             {
-                return (MergeStrategy) this.strategyMap.get(identityValue);
+                return this.strategyMap.get(identityValue);
             }
         }
         return this.defaultStrategy;

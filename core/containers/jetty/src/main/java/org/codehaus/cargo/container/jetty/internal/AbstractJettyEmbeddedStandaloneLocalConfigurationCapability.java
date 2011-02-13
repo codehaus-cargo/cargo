@@ -38,7 +38,7 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfigurationCapabilit
     /**
      * Configuration-specific supports Map.
      */
-    private Map supportsMap;
+    private Map<String, Boolean> supportsMap;
 
     /**
      * Initialize the configuration-specific supports Map.
@@ -47,10 +47,10 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfigurationCapabilit
     {
         super();
 
-        this.supportsMap = new HashMap();
+        this.supportsMap = new HashMap<String, Boolean>();
 
-        this.addProperty(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
-        this.addProperty(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
+        this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
+        this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
     }
 
     /**
@@ -58,18 +58,8 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfigurationCapabilit
      * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     @Override
-    protected Map getPropertySupportMap()
+    protected Map<String, Boolean> getPropertySupportMap()
     {
         return this.supportsMap;
-    }
-
-    /**
-     * Add a property.
-     * @param property the property to add
-     * @param supported true if supported false otherwise
-     */
-    protected void addProperty(String property, Boolean supported)
-    {
-        this.supportsMap.put(property, supported);
     }
 }

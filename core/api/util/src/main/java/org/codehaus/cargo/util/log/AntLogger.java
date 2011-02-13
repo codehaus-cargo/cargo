@@ -53,7 +53,7 @@ public class AntLogger extends AbstractLogger
      * Maps between Cargo log levels and Ant's log levels. Index is Cargo's log level and value
      * is Ant's log level.
      */
-    private Map levelMapper;
+    private Map<LogLevel, Integer> levelMapper;
 
     /**
      * Constructor.
@@ -95,7 +95,7 @@ public class AntLogger extends AbstractLogger
      */
     private void initialize()
     {
-        this.levelMapper = new HashMap();
+        this.levelMapper = new HashMap<LogLevel, Integer>();
         this.levelMapper.put(LogLevel.DEBUG, new Integer(Project.MSG_DEBUG));
         this.levelMapper.put(LogLevel.WARN, new Integer(Project.MSG_WARN));
         this.levelMapper.put(LogLevel.INFO, new Integer(Project.MSG_INFO));
@@ -108,7 +108,12 @@ public class AntLogger extends AbstractLogger
     @Override
     protected void doLog(LogLevel level, String message, String category)
     {
-        int antLogLevel = ((Integer) this.levelMapper.get(level)).intValue();
+        Integer antLogLevel = this.levelMapper.get(level);
+
+        if (antLogLevel == null)
+        {
+            throw new IllegalStateException("No ANT log level for CARGO LogLevel " + level);
+        }
 
         if (this.task != null)
         {

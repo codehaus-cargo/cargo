@@ -81,9 +81,9 @@ public class Resin3xStandaloneLocalConfiguration extends
      * {@inheritDoc}
      */
     @Override
-    protected Map getNamespaces()
+    protected Map<String, String> getNamespaces()
     {
-        Map namespaces = new HashMap();
+        Map<String, String> namespaces = new HashMap<String, String>();
         namespaces.put("resin", "http://caucho.com/ns/resin");
         return namespaces;
     }

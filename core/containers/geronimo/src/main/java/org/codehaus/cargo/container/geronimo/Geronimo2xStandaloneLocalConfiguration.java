@@ -20,23 +20,12 @@
 package org.codehaus.cargo.container.geronimo;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.util.Iterator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Map;
 
 import org.apache.tools.ant.types.FilterChain;
+
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.User;
-import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.geronimo.internal.GeronimoStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.geronimo.internal.AbstractGeronimoStandaloneLocalConfiguration;
 
 /**
  * Geronimo 2.x series standalone {@link org.codehaus.cargo.container.configuration.Configuration}
@@ -44,36 +33,16 @@ import org.codehaus.cargo.container.geronimo.internal.GeronimoStandaloneLocalCon
  *
  * @version $Id$
  */
-public class Geronimo2xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
+public class Geronimo2xStandaloneLocalConfiguration extends
+    AbstractGeronimoStandaloneLocalConfiguration
 {
     /**
-     * Geronimo configuration capability.
-     */
-    private static ConfigurationCapability capability =
-        new GeronimoStandaloneLocalConfigurationCapability();
-
-    /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     * @see org.codehaus.cargo.container.geronimo.internal.AbstractGeronimoStandaloneLocalConfiguration#AbstractGeronimoStandaloneLocalConfiguration(String)
      */
     public Geronimo2xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
-        setProperty(GeneralPropertySet.RMI_PORT, "1099");
-        setProperty(RemotePropertySet.USERNAME, "system");
-        setProperty(RemotePropertySet.PASSWORD, "manager");
-        setProperty(GeronimoPropertySet.GERONIMO_CONSOLE_LOGLEVEL, "INFO");
-        setProperty(GeronimoPropertySet.GERONIMO_FILE_LOGLEVEL, "DEBUG");
-        setProperty(GeronimoPropertySet.GERONIMO_SERVLET_CONTAINER_ID, "tomcat");
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
-     */
-    public ConfigurationCapability getCapability()
-    {
-        return capability;
     }
 
     /**
@@ -109,96 +78,5 @@ public class Geronimo2xStandaloneLocalConfiguration extends AbstractStandaloneLo
             getFileHandler().createDirectory(getHome(), "/var/deploy");
             getFileHandler().createDirectory(getHome(), "/var/temp");
         }
-    }
-
-    /**
-     * Create filter to replace tokens in configuration file with user defined values.
-     *
-     * @param container the instance representing the Geronimo container
-     * @return token with all the user-defined token value
-     * @exception java.net.MalformedURLException If an URL is malformed.
-     */
-    protected FilterChain createGeronimoFilterChain(LocalContainer container)
-        throws MalformedURLException
-    {
-        FilterChain filterChain = getFilterChain();
-
-        // Add token filters for authenticated users
-        String[] userTokens = getUserTokens();
-        getAntUtils().addTokenToFilterChain(filterChain, "geronimo.users", userTokens[0]);
-        getAntUtils().addTokenToFilterChain(filterChain, "geronimo.groups", userTokens[1]);
-        getAntUtils().addTokenToFilterChain(filterChain, "geronimo.manager.username",
-            getPropertyValue(RemotePropertySet.USERNAME));
-        getAntUtils().addTokenToFilterChain(filterChain, "geronimo.manager.password",
-            getPropertyValue(RemotePropertySet.PASSWORD));
-
-        return filterChain;
-    }
-
-    /**
-     * Generate properties file entries for Geronimo users and groups.
-     *
-     * @return Array holding the entries for the users and groups properties file entries
-     */
-    private String[] getUserTokens()
-    {
-        String[] tokens = new String[]{" ", " "};
-        StringBuilder usersToken = new StringBuilder("");
-        StringBuilder groupsToken = new StringBuilder("");
-
-        // Add token filters for authenticated users
-        String usersString = getPropertyValue(GeronimoPropertySet.GERONIMO_USERS);
-        if (usersString != null)
-        {
-            Iterator users = User.parseUsers(usersString).iterator();
-            Map groupUsersMapping = new HashMap();
-
-            while (users.hasNext())
-            {
-                User user = (User) users.next();
-                usersToken.append(user.getName());
-                usersToken.append('=');
-                usersToken.append(user.getPassword());
-                usersToken.append(System.getProperty("line.separator"));
-
-                List roles = user.getRoles();
-                for (int i = 0; i < roles.size(); i++)
-                {
-                    Set groupUsers = (Set) groupUsersMapping.get(roles.get(i));
-                    if (groupUsers == null)
-                    {
-                        groupUsers = new HashSet();
-                        groupUsersMapping.put(roles.get(i), groupUsers);
-                    }
-
-                    groupUsers.add(user.getName());
-                }
-            }
-
-            Set groups = groupUsersMapping.keySet();
-            Iterator iter = groups.iterator();
-            while (iter.hasNext())
-            {
-                Object key = iter.next();
-                Set gUsers = (Set) groupUsersMapping.get(key);
-                groupsToken.append(key);
-                groupsToken.append('=');
-                Iterator iter2 = gUsers.iterator();
-                while (iter2.hasNext())
-                {
-                    groupsToken.append(iter2.next());
-                    if (iter2.hasNext())
-                    {
-                        groupsToken.append(',');
-                    }
-                }
-                groupsToken.append(System.getProperty("line.separator"));
-            }
-
-            tokens[0] = usersToken.toString();
-            tokens[1] = groupsToken.toString();
-        }
-
-        return tokens;
     }
 }

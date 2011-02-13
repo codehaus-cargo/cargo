@@ -46,7 +46,7 @@ public class DocumentMerger implements MergeProcessor
     /**
      * The list of merge documents.
      */
-    private List documents = new ArrayList();
+    private List<Document> documents = new ArrayList<Document>();
 
     /**
      * {@inheritDoc}
@@ -56,7 +56,7 @@ public class DocumentMerger implements MergeProcessor
     {
         if (mergeItem instanceof Document)
         {
-            this.documents.add(mergeItem);
+            this.documents.add((Document) mergeItem);
         }
         else
         {
@@ -70,16 +70,16 @@ public class DocumentMerger implements MergeProcessor
      */
     public Object performMerge()
     {
-        if (this.documents.size() == 0)
+        if (this.documents.isEmpty())
         {
             return null;
         }
 
-        Document doc = (Document) this.documents.get(0);
+        Document doc = this.documents.get(0);
 
         for (int i = 1; i < this.documents.size(); i++)
         {
-            merge(doc, (Document) this.documents.get(i));
+            merge(doc, this.documents.get(i));
         }
 
         return doc;
@@ -94,10 +94,9 @@ public class DocumentMerger implements MergeProcessor
      */
     private void merge(Document left, Document right)
     {
-        List children = right.getRootElement().getContent();
-        for (int i = 0; i < children.size(); i++)
+        List<Content> children = right.getRootElement().getContent();
+        for (Content node : children)
         {
-            Content node = (Content) children.get(i);
             if (node instanceof Element)
             {
                 Content clone = ((Element) node).detach();

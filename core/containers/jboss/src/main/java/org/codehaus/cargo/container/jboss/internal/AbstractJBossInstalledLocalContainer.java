@@ -24,7 +24,6 @@ package org.codehaus.cargo.container.jboss.internal;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.jar.JarFile;
@@ -285,7 +284,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
      */
     protected void verifyJBossHome()
     {
-        List requiredDirs = new ArrayList();
+        List<String> requiredDirs = new ArrayList<String>();
         requiredDirs.add(getFileHandler().append(getHome(), "bin"));
         requiredDirs.add(getFileHandler().append(getHome(), "client"));
         requiredDirs.add(getFileHandler().append(getHome(), "lib"));
@@ -296,10 +295,8 @@ public abstract class AbstractJBossInstalledLocalContainer extends
         String errorSuffix = "Make sure the JBoss container home directory you have specified "
             + "points to the right location (It's currently pointing to [" + getHome() + "])";
 
-        for (Iterator it = requiredDirs.iterator(); it.hasNext();)
+        for (String dir : requiredDirs)
         {
-            String dir = (String) it.next();
-
             if (!getFileHandler().exists(dir))
             {
                 throw new ContainerException(errorPrefix + "The [" + dir

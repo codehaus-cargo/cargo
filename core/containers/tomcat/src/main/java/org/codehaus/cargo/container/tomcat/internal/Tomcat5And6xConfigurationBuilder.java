@@ -19,15 +19,14 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
-import java.util.Iterator;
-
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 
 /**
  * Constructs xml elements needed to configure DataSource for Tomcat5 and 6x. Note that this
  * implementation converts DataSources into Resources and then uses an appropriate
- * {@link ConfigurationBuilder} to create the configuration.
+ * {@link org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder} to create the
+ * configuration.
  * 
  * @version $Id$
  */
@@ -46,9 +45,6 @@ public class Tomcat5And6xConfigurationBuilder extends AbstractTomcatConfiguratio
 
     /**
      * {@inheritDoc} in Tomcat 5-6.x, Resources are elements where all configuration are attributes.
-     * 
-     * @see Tomcat4xStandaloneLocalConfiguration#buildXmlForResource(import
-     *      org.codehaus.cargo.container.resource.Resource)
      */
     public String toConfigurationEntry(Resource resource)
     {
@@ -69,10 +65,8 @@ public class Tomcat5And6xConfigurationBuilder extends AbstractTomcatConfiguratio
         {
             resource.setParameter("factory", getFactoryClassFor(resource.getType()));
         }
-        Iterator parameterNames = resource.getParameterNames().iterator();
-        while (parameterNames.hasNext())
+        for (String parameterName : resource.getParameterNames())
         {
-            String parameterName = (String) parameterNames.next();
             buff.append("          ").append(parameterName).append("='");
             buff.append(resource.getParameter(parameterName)).append("'\n");
         }

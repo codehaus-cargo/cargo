@@ -35,7 +35,7 @@ public abstract class AbstractConfigurationCapability implements ConfigurationCa
     /**
      * Default support Map.
      */
-    protected Map defaultSupportsMap;
+    protected Map<String, Boolean> defaultSupportsMap;
 
     /**
      * Initialize the default supports Map. This is so that extending classes will have less work
@@ -43,7 +43,7 @@ public abstract class AbstractConfigurationCapability implements ConfigurationCa
      */
     public AbstractConfigurationCapability()
     {
-        this.defaultSupportsMap = new HashMap();
+        this.defaultSupportsMap = new HashMap<String, Boolean>();
     }
 
     /**
@@ -55,12 +55,13 @@ public abstract class AbstractConfigurationCapability implements ConfigurationCa
         boolean supports = false;
 
         // Merge default support map with configuration specific one
-        Map propertySupportMap = new HashMap(this.defaultSupportsMap);
+        Map<String, Boolean> propertySupportMap =
+            new HashMap<String, Boolean>(this.defaultSupportsMap);
         propertySupportMap.putAll(getPropertySupportMap());
 
         if (propertySupportMap.containsKey(propertyName))
         {
-            supports = ((Boolean) propertySupportMap.get(propertyName)).booleanValue();
+            supports = propertySupportMap.get(propertyName);
         }
 
         return supports;
@@ -70,10 +71,11 @@ public abstract class AbstractConfigurationCapability implements ConfigurationCa
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.ConfigurationCapability#getProperties()
      */
-    public Map getProperties()
+    public Map<String, Boolean> getProperties()
     {
         // Merge default support map with configuration specific one
-        Map propertySupportMap = new HashMap(this.defaultSupportsMap);
+        Map<String, Boolean> propertySupportMap =
+            new HashMap<String, Boolean>(this.defaultSupportsMap);
         propertySupportMap.putAll(getPropertySupportMap());
         return propertySupportMap;
     }
@@ -82,5 +84,5 @@ public abstract class AbstractConfigurationCapability implements ConfigurationCa
      * @return a map indexed on the configuration property and having Boolean values expressing
      *         whether the configuration supports the said property or not
      */
-    protected abstract Map getPropertySupportMap();
+    protected abstract Map<String, Boolean> getPropertySupportMap();
 }

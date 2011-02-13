@@ -201,10 +201,9 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
     {
         if (ds.getConnectionProperties() != null && ds.getConnectionProperties().size() != 0)
         {
-            Iterator i = ds.getConnectionProperties().keySet().iterator();
+            Iterator<Object> i = ds.getConnectionProperties().keySet().iterator();
             while (i.hasNext())
             {
-
                 String key = i.next().toString();
                 buffer.append("      <property name=\"").append(key);
                 buffer.append("\" value=\"")

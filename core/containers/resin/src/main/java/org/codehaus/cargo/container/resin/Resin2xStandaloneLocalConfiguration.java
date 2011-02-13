@@ -69,9 +69,9 @@ public class Resin2xStandaloneLocalConfiguration extends
      * map;
      */
     @Override
-    protected Map getNamespaces()
+    protected Map<String, String> getNamespaces()
     {
-        return Collections.EMPTY_MAP;
+        return Collections.emptyMap();
     }
 
     /**

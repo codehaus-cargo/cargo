@@ -79,7 +79,7 @@ public interface FileHandler
      * @param excludes the list of files to be excluded. Each entry in the list is an
      *        <a href="http://ant.apache.org/manual/dirtasks.html#patterns">Ant file pattern</a>.
      */
-    void copyDirectory(String source, String target, List excludes);
+    void copyDirectory(String source, String target, List<String> excludes);
 
     /**
      * Convenience method for creating a new directory inside another one.

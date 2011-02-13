@@ -23,10 +23,10 @@
 package org.codehaus.cargo.module.webapp;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
+import org.codehaus.cargo.module.Descriptor;
 import org.codehaus.cargo.module.DescriptorElement;
 import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.Identifier;
@@ -46,7 +46,7 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
     /**
      * List of vendor specific descriptors associated with this web.xml.
      */
-    private List vendorDescriptors = new ArrayList();
+    private List<Descriptor> vendorDescriptors = new ArrayList<Descriptor>();
 
     /**
      * Constructor.
@@ -87,13 +87,12 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
     }
 
     /**
-     * Returns all vendor descriptors associated with this web.xml.
-     *
-     * @return Iterator containing VendorDescriptors
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.module.J2eeDescriptor#getVendorDescriptors()
      */
-    public Iterator getVendorDescriptors()
+    public List<Descriptor> getVendorDescriptors()
     {
-        return this.vendorDescriptors.iterator();
+        return this.vendorDescriptors;
     }
 
     /**
@@ -156,13 +155,13 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
             throw new NullPointerException();
         }
             
-        List items = getRootElement().getChildren(tag, getTagNamespace());
-        if (items.size() == 0)
+        List<Element> items = getRootElement().getChildren(tag, getTagNamespace());
+        if (items.isEmpty())
         {
             return null;
         }
         
-        return ((Element) items.get(0));
+        return items.get(0);
     }
 
 

@@ -20,7 +20,6 @@
 package org.codehaus.cargo.module;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.codehaus.cargo.module.merge.DescriptorMerger;
@@ -36,7 +35,7 @@ public class XmlMerger extends LoggedObject implements DescriptorMerger
     /**
      * List of mergers that will be applied to the xml file.
      */
-    private List descriptorMergers = new ArrayList();
+    private List<DescriptorMerger> descriptorMergers = new ArrayList<DescriptorMerger>();
 
     /**
      * @param merger merge class to add
@@ -52,9 +51,8 @@ public class XmlMerger extends LoggedObject implements DescriptorMerger
      */
     public void init(Descriptor base)
     {
-        for (Iterator i = descriptorMergers.iterator(); i.hasNext();)
+        for (DescriptorMerger merger : descriptorMergers)
         {
-            DescriptorMerger merger = (DescriptorMerger) i.next();
             merger.init(base);
         }
     }
@@ -65,9 +63,8 @@ public class XmlMerger extends LoggedObject implements DescriptorMerger
      */
     public void merge(Descriptor other)
     {
-        for (Iterator i = descriptorMergers.iterator(); i.hasNext();)
+        for (DescriptorMerger merger : descriptorMergers)
         {
-            DescriptorMerger merger = (DescriptorMerger) i.next();
             merger.merge(other);
         }
     }
@@ -75,7 +72,7 @@ public class XmlMerger extends LoggedObject implements DescriptorMerger
     /**
      * @return list of merge classes
      */
-    public List getMergers()
+    public List<DescriptorMerger> getMergers()
     {
         return this.descriptorMergers;
     }

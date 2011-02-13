@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.util.log.LoggedObject;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -39,12 +38,10 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
      * {@inheritDoc}
      * @see #deploy(Deployable)
      */
-    public void deploy(List deployables)
+    public void deploy(List<Deployable> deployables)
     {
-        Iterator it = deployables.iterator();
-        while (it.hasNext())
+        for (Deployable deployable : deployables)
         {
-            Deployable deployable = (Deployable) it.next();
             deploy(deployable);
         }
     }

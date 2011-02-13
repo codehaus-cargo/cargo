@@ -40,11 +40,11 @@ public class XmlEntityResolver implements EntityResolver
     /**
      * Properties containing mappings of public identifiers to system identifiers.
      */
-    private static Map publicIdentifiers;
+    private static Map<String, String> publicIdentifiers;
 
     static
     {
-        publicIdentifiers = new HashMap();
+        publicIdentifiers = new HashMap<String, String>();
         // application.xml
         publicIdentifiers.put("-//Sun Microsystems, Inc.//DTD J2EE Application 1.2//EN",
                               "application_1_2.dtd");

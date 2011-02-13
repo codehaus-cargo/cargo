@@ -39,8 +39,8 @@ import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.DefaultFileHandler;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Base implementation of
@@ -61,7 +61,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * List of {@link Deployable}s to deploy into the container.
      */
-    private List deployables;
+    private List<Deployable> deployables;
 
     /**
      * The home directory for the configuration. This is where the associated container will be set
@@ -87,12 +87,12 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * List of {@link Resource}s to add to a container.
      */
-    private List resources;
+    private List<Resource> resources;
 
     /**
      * List of {@link DataSource}s to add to a container.
      */
-    private List dataSources;
+    private List<DataSource> dataSources;
 
     /**
      * @param home the home directory where the container will be set up to start and where it will
@@ -102,12 +102,12 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     {
         super();
 
-        this.deployables = new ArrayList();
+        this.deployables = new ArrayList<Deployable>();
         this.fileHandler = new DefaultFileHandler();
         this.antUtils = new AntUtils();
         this.resourceUtils = new ResourceUtils();
-        this.resources = new ArrayList();
-        this.dataSources = new ArrayList();
+        this.resources = new ArrayList<Resource>();
+        this.dataSources = new ArrayList<DataSource>();
 
         this.home = home;
         setProperty(GeneralPropertySet.JAVA_HOME, System.getProperty("java.home"));
@@ -160,7 +160,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      * 
      * @see org.codehaus.cargo.container.configuration.LocalConfiguration#getDeployables()
      */
-    public List getDeployables()
+    public List<Deployable> getDeployables()
     {
         return this.deployables;
     }
@@ -215,15 +215,12 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      */
     public void collectUnsupportedResourcesAndThrowException()
     {
-        if (getResources().size() > 0
+        if (!getResources().isEmpty()
             && !this.getCapability().supportsProperty(ResourcePropertySet.RESOURCE))
         {
             StringBuilder errorMessage = new StringBuilder();
-            Iterator resourceIterator = getResources().iterator();
-            while (resourceIterator.hasNext())
+            for (Resource resource : getResources())
             {
-
-                Resource resource = (Resource) resourceIterator.next();
                 String message =
                     "This configuration does not support Resource configuration! JndiName: "
                         + resource.getName();
@@ -246,10 +243,8 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     {
         StringBuilder errorMessage = new StringBuilder();
 
-        Iterator dataSourceIterator = getDataSources().iterator();
-        while (dataSourceIterator.hasNext())
+        for (DataSource dataSource : getDataSources())
         {
-            DataSource dataSource = (DataSource) dataSourceIterator.next();
             String reason = null;
             if (!this.getCapability().supportsProperty(DatasourcePropertySet.DATASOURCE))
             {
@@ -305,15 +300,14 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      */
     protected void addResourcesFromProperties()
     {
-        Iterator propertyNames = getProperties().keySet().iterator();
         getLogger().debug("Searching properties for Resource definitions",
             this.getClass().getName());
-        while (propertyNames.hasNext())
+        for (Map.Entry<String, String> property : getProperties().entrySet())
         {
-            String propertyName = propertyNames.next().toString();
+            String propertyName = property.getKey();
             if (propertyName.startsWith(ResourcePropertySet.RESOURCE))
             {
-                String resourceProperty = getPropertyValue(propertyName);
+                String resourceProperty = property.getValue();
                 getLogger().debug("Found Resource definition: value [" + resourceProperty + "]",
                     this.getClass().getName());
                 Resource resource = new ResourceConverter().fromPropertyString(resourceProperty);
@@ -328,15 +322,14 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      */
     protected void addDataSourcesFromProperties()
     {
-        Iterator propertyNames = getProperties().keySet().iterator();
         getLogger().debug("Searching properties for DataSource definitions",
             this.getClass().getName());
-        while (propertyNames.hasNext())
+        for (Map.Entry<String, String> property : getProperties().entrySet())
         {
-            String propertyName = propertyNames.next().toString();
+            String propertyName = property.getKey();
             if (propertyName.startsWith(DatasourcePropertySet.DATASOURCE))
             {
-                String dataSourceProperty = getPropertyValue(propertyName);
+                String dataSourceProperty = property.getValue();
                 getLogger().debug(
                     "Found DataSource definition: value [" + dataSourceProperty + "]",
                     this.getClass().getName());
@@ -371,7 +364,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * @return the configured resources for this container.
      */
-    public List getResources()
+    public List<Resource> getResources()
     {
         return this.resources;
     }
@@ -391,7 +384,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      * 
      * @see LocalConfiguration#getDataSources()
      */
-    public List getDataSources()
+    public List<DataSource> getDataSources()
     {
         return this.dataSources;
     }

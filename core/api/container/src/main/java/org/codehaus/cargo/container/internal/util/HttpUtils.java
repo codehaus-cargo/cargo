@@ -28,7 +28,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.security.KeyManagementException;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
@@ -110,7 +109,8 @@ public class HttpUtils extends LoggedObject
      * @param result the detailed ping result
      * @return true if the URL can be ping or false otherwise
      */
-    public final boolean ping(URL pingURL, Map requestProperties, HttpResult result)
+    public final boolean ping(URL pingURL, Map<String, String> requestProperties,
+        HttpResult result)
     {
         return ping(pingURL, requestProperties, result, 0L);
     }
@@ -124,7 +124,8 @@ public class HttpUtils extends LoggedObject
      * @param timeout the timeout to wait for, 0 if waiting to infinity
      * @return true if the URL can be ping or false otherwise
      */
-    public final boolean ping(URL pingURL, Map requestProperties, HttpResult result, long timeout)
+    public final boolean ping(URL pingURL, Map<String, String> requestProperties,
+        HttpResult result, long timeout)
     {
         HttpResult responseResult = testConnectivity(pingURL, requestProperties, timeout);
         result.responseBody = responseResult.responseBody;
@@ -143,7 +144,8 @@ public class HttpUtils extends LoggedObject
      * @return the HTTP(S) result containing -1 as response code if no connection could be
      *         established
      */
-    private HttpResult testConnectivity(URL url, Map requestProperties, long timeout)
+    private HttpResult testConnectivity(URL url, Map<String, String> requestProperties,
+        long timeout)
     {
         HttpResult result = new HttpResult();
         try
@@ -176,14 +178,15 @@ public class HttpUtils extends LoggedObject
             // Add optional request properties specified by the caller
             if (requestProperties != null)
             {
-                Iterator keys = requestProperties.keySet().iterator();
-                while (keys.hasNext())
+                for (Map.Entry<String, String> requestProperty : requestProperties.entrySet())
                 {
-                    String key = (String) keys.next();
-                    connection.setRequestProperty(key, (String) requestProperties.get(key));
+                    String key = requestProperty.getKey();
+                    String value = requestProperty.getValue();
 
-                    getLogger().debug("Added property [" + key + "] = ["
-                        + requestProperties.get(key) + "]", this.getClass().getName());
+                    connection.setRequestProperty(key, value);
+
+                    getLogger().debug("Added property [" + key + "] = [" + value + "]",
+                        this.getClass().getName());
                 }
             }
 

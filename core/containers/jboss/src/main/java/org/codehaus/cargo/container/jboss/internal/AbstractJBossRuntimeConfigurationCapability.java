@@ -38,7 +38,7 @@ public abstract class AbstractJBossRuntimeConfigurationCapability extends
     /**
      * Configuration-specific supports Map.
      */
-    protected Map supportsMap;
+    protected Map<String, Boolean> supportsMap;
 
     /**
      * Initialize the configuration-specific supports Map.
@@ -47,7 +47,7 @@ public abstract class AbstractJBossRuntimeConfigurationCapability extends
     {
         super();
 
-        this.supportsMap = new HashMap();
+        this.supportsMap = new HashMap<String, Boolean>();
         this.supportsMap.put(RemotePropertySet.URI, Boolean.FALSE);
         this.supportsMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
         this.supportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
@@ -60,7 +60,7 @@ public abstract class AbstractJBossRuntimeConfigurationCapability extends
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     @Override
-    protected Map getPropertySupportMap()
+    protected Map<String, Boolean> getPropertySupportMap()
     {
         return this.supportsMap;
     }

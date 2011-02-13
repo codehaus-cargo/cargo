@@ -24,7 +24,6 @@ package org.codehaus.cargo.container.jonas.internal;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.management.Attribute;
@@ -399,15 +398,13 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                 ObjectName serverMBeanName = getServerMBeanName(config.getDomainName(), config
                     .getServerName());
     
-                List remoteFiles;
-                Iterator remoteFilesIterator;
+                List<String> remoteFiles;
                 String lookForFile = "/deploy/" + localFileName;
     
-                remoteFiles = (List) mbsc.getAttribute(serverMBeanName, "deployedFiles");
-                remoteFilesIterator = remoteFiles.iterator();
-                while (remoteFilesIterator.hasNext())
+                remoteFiles = (List<String>) mbsc.getAttribute(serverMBeanName, "deployedFiles");
+                for (String remoteFile : remoteFiles)
                 {
-                    String remoteFile = ((String) remoteFilesIterator.next()).replace('\\', '/');
+                    remoteFile = remoteFile.replace('\\', '/');
                     if (remoteFile.endsWith(lookForFile))
                     {
                         result = remoteFile;

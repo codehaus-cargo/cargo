@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.module.webapp.elements;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.codehaus.cargo.module.webapp.WebXmlTag;
@@ -94,7 +93,7 @@ public class Filter extends WebXmlElement
     /**
      * @return List of init params
      */
-    public List getInitParams()
+    public List<InitParam> getInitParams()
     {
         return getChildren("init-param", getTag().getTagNamespace());
     }
@@ -105,9 +104,8 @@ public class Filter extends WebXmlElement
      */
     public InitParam getInitParam(String name)
     {
-        for (Iterator i = getInitParams().iterator(); i.hasNext();)
+        for (InitParam initParam : getInitParams())
         {
-            InitParam initParam = (InitParam) i.next();
             if (initParam.getParamName().equals(name))
             {
                 return initParam;

@@ -20,7 +20,6 @@
 package org.codehaus.cargo.container.geronimo;
 
 import java.io.File;
-import java.util.Iterator;
 
 import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.ContainerCapability;
@@ -106,10 +105,9 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
 
         // deploy scheduled deployables
         GeronimoInstalledLocalDeployer deployer = new GeronimoInstalledLocalDeployer(this);
-        for (Iterator iterator = this.getConfiguration().getDeployables().iterator(); iterator
-            .hasNext();)
+        for (Deployable deployable : this.getConfiguration().getDeployables())
         {
-            deployer.deploy((Deployable) iterator.next());
+            deployer.deploy(deployable);
         }
     }
 

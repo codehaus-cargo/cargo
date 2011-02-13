@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
-import java.util.Map;
-
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
@@ -46,15 +44,5 @@ public class JBoss4xRuntimeConfigurationCapability extends
 
         this.supportsMap.put(JBossPropertySet.REMOTEDEPLOY_HOSTNAME, Boolean.TRUE);
         this.supportsMap.put(JBossPropertySet.REMOTEDEPLOY_PORT, Boolean.TRUE);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map getPropertySupportMap()
-    {
-        return this.supportsMap;
     }
 }

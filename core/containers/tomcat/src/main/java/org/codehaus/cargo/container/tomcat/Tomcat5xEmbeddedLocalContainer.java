@@ -19,6 +19,10 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.io.File;
+import java.util.List;
+import java.util.ArrayList;
+
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -27,11 +31,6 @@ import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractEmbeddedLocalContainer;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5xEmbedded;
-
-import java.io.File;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Embedded Tomcat 5.x container.
@@ -62,7 +61,7 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContain
      * but cargo allows you to deploy apps before the container starts.
      * so we need to remember what's supposed to be deployed.
      */
-    private final List scheduledDeployables = new ArrayList();
+    private final List<Deployable> scheduledDeployables = new ArrayList<Deployable>();
 
     /**
      * Creates a Tomcat 5.x {@link org.codehaus.cargo.container.EmbeddedLocalContainer}.
@@ -143,9 +142,8 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContain
         if (!scheduledDeployables.isEmpty())
         {
             Deployer deployer = new Tomcat5xEmbeddedLocalDeployer(this);
-            for (Iterator itr = scheduledDeployables.iterator(); itr.hasNext();)
+            for (Deployable deployable : scheduledDeployables)
             {
-                Deployable deployable = (Deployable) itr.next();
                 deployer.deploy(deployable);
             }
         }
