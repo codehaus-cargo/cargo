@@ -112,7 +112,7 @@ public class DefaultFileHandler implements FileHandler
     
     /**
      * {@inheritDoc}
-     * @see FileHandler#copyFile(String, String)
+     * @see FileHandler#copyFile(String, String, boolean)
      */
     public void copyFile(String source, String target, boolean overwrite)
     {

@@ -36,8 +36,8 @@ import org.apache.tools.ant.types.FilterChain;
 public interface FileHandler
 {
     /**
-     * Copy a file from a source to a destination specifying if source files may overwrite newer
-     * destination files.
+     * Copy a file from a source to a destination. If destination file already exists, it is not
+     * overwritten.
      *
      * @param source the file to copy from. Must not be <code>null</code>.
      * @param target the file to copy to. Must not be <code>null</code>.
