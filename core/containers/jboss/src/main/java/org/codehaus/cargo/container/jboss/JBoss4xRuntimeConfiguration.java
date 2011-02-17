@@ -37,6 +37,15 @@ public class JBoss4xRuntimeConfiguration extends AbstractRuntimeConfiguration
 
     /**
      * {@inheritDoc}
+     * @see AbstractRuntimeConfiguration#AbstractRuntimeConfiguration()
+     */
+    public JBoss4xRuntimeConfiguration()
+    {
+        this.setProperty(JBossPropertySet.REMOTEDEPLOY_TIMEOUT, "120000");
+    }
+
+    /**
+     * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
     public ConfigurationCapability getCapability()

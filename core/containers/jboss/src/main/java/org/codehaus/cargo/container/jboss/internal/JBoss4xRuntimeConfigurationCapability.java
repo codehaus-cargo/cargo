@@ -44,5 +44,6 @@ public class JBoss4xRuntimeConfigurationCapability extends
 
         this.supportsMap.put(JBossPropertySet.REMOTEDEPLOY_HOSTNAME, Boolean.TRUE);
         this.supportsMap.put(JBossPropertySet.REMOTEDEPLOY_PORT, Boolean.TRUE);
+        this.supportsMap.put(JBossPropertySet.REMOTEDEPLOY_TIMEOUT, Boolean.TRUE);
     }
 }

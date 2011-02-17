@@ -134,7 +134,8 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
         this.fileServer = fileServer;
 
         // Set a timeout in order to avoid CARGO-859
-        this.connection.setTimeout(120000);
+        String portStr = configuration.getPropertyValue(JBossPropertySet.REMOTEDEPLOY_TIMEOUT);
+        this.connection.setTimeout(Integer.parseInt(portStr));
     }
 
     /**
