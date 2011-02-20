@@ -21,21 +21,21 @@ package org.codehaus.cargo.container.spi.deployer;
 
 import java.io.IOException;
 
+import org.apache.commons.vfs.impl.StandardFileSystemManager;
+import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.ContainerCapability;
-import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.util.VFSFileHandler;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.util.FileHandler;
+import org.codehaus.cargo.util.VFSFileHandler;
 import org.codehaus.cargo.util.log.NullLogger;
-import org.jmock.MockObjectTestCase;
 import org.jmock.Mock;
-import org.apache.commons.vfs.impl.StandardFileSystemManager;
+import org.jmock.MockObjectTestCase;
 
 /**
  * Unit tests for {@link AbstractCopyingInstalledLocalDeployer}.
- *
+ * 
  * @version $Id$
  */
 public class CopyingDeployerTest extends MockObjectTestCase
@@ -43,6 +43,10 @@ public class CopyingDeployerTest extends MockObjectTestCase
     private StandardFileSystemManager fsManager;
     private FileHandler fileHandler;
 
+    /**
+     * Creates the test file system manager. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -53,9 +57,18 @@ public class CopyingDeployerTest extends MockObjectTestCase
         this.fileHandler = new VFSFileHandler(this.fsManager);
     }
 
+    /**
+     * Closes the test file system manager. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void tearDown() throws Exception
     {
+        if (fsManager != null)
+        {
+            fsManager.close();
+        }
+
         super.tearDown();
     }
 
@@ -115,7 +128,7 @@ public class CopyingDeployerTest extends MockObjectTestCase
             deployer.deploy(new WAR("dummy"));
             fail("Should have thrown a ContainerException here");
         }
-        catch(ContainerException expected)
+        catch (ContainerException expected)
         {
             assertEquals("WAR archives are not supported for deployment in [mycontainer]. "
                 + "Got [dummy]", expected.getMessage());

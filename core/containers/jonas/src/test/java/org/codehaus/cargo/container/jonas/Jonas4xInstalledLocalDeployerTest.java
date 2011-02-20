@@ -59,9 +59,8 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
     private DeployableFactory factory;
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#setUp()
+     * Creates the test file system manager and the container. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
      */
     @Override
     protected void setUp() throws Exception
@@ -87,7 +86,19 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
             this.fileHandler);
 
         factory = new DefaultDeployableFactory();
+    }
 
+    /**
+     * Closes the test file system manager. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
+    @Override
+    protected void tearDown() throws Exception
+    {
+        if (fsManager != null)
+            fsManager.close();
+
+        super.tearDown();
     }
 
     private void setupAdminHotDeployment()

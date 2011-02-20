@@ -20,6 +20,7 @@
 package org.codehaus.cargo.generic;
 
 import junit.framework.TestCase;
+
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
@@ -31,22 +32,26 @@ import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 
 /**
  * Tests the discovery behavior.
- *
+ * 
  * The class name can't be {@code AbstractFactoryRegistryTest} or else the test will be skipped.
- *
+ * 
  * @version $Id$
  */
 public class FactoryRegistryTest extends TestCase
 {
-    public void test1() {
+    public void test1()
+    {
         DefaultDeployableFactory f = new DefaultDeployableFactory(getClass().getClassLoader());
         Deployable war = f.createDeployable("super-container", ".", DeployableType.WAR);
         assertTrue(war instanceof SuperContainerWar);
     }
 
-    public void test2() {
-        ConfigurationCapabilityFactory f = new DefaultConfigurationCapabilityFactory(getClass().getClassLoader());
-        ConfigurationCapability cc = f.createConfigurationCapability("super-container", ContainerType.INSTALLED, ConfigurationType.STANDALONE);
+    public void test2()
+    {
+        ConfigurationCapabilityFactory f = new DefaultConfigurationCapabilityFactory(getClass()
+            .getClassLoader());
+        ConfigurationCapability cc = f.createConfigurationCapability("super-container",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE);
         assertTrue(cc instanceof SuperConfigurationCapability);
     }
 }

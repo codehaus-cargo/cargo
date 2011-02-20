@@ -19,35 +19,35 @@
  */
 package org.codehaus.cargo.generic.deployable;
 
+import java.lang.reflect.Constructor;
+
 import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.EJB;
 import org.codehaus.cargo.container.deployable.File;
 import org.codehaus.cargo.container.deployable.RAR;
 import org.codehaus.cargo.container.deployable.SAR;
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.deployable.EAR;
-import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
+import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.generic.internal.util.SimpleContainerIdentity;
-import org.codehaus.cargo.generic.AbstractFactoryRegistry;
-
-import java.lang.reflect.Constructor;
+import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
 
 /**
  * Default deployable factory that returns deployables for a given container. The reason deployable
  * can be different for different containers is because for some container Cargo understand
  * container-specific files. For example for Tomcat Cargo understand the context.xml file.
- *  
+ * 
  * @version $Id$
  */
-public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFactory 
+public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFactory
     implements DeployableFactory
 {
     /**
-     * Default container id under which we register the default deployables (EAR, WAR, EJB). This
-     * is to prevent having to register the default deployables against each and every container.
+     * Default container id under which we register the default deployables (EAR, WAR, EJB). This is
+     * to prevent having to register the default deployables against each and every container.
      */
     private static final String DEFAULT_CONTAINER_ID = "default";
 
@@ -62,7 +62,7 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
          */
         public String deployable;
     }
-    
+
     /**
      * Register deployable classes mappings.
      */
@@ -73,11 +73,10 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
 
     /**
      * Register deployable classes mappings.
-     *
-     * @param classLoader
-     *      ClassLoader to discover implementations from. See
-     *      {@link AbstractFactoryRegistry#register(ClassLoader, DeployableFactory)}
-     *      for the details of what this value means.
+     * 
+     * @param classLoader ClassLoader to discover implementations from. See
+     * {@link AbstractFactoryRegistry#register(ClassLoader, DeployableFactory)} for the details of
+     * what this value means.
      */
     public DefaultDeployableFactory(ClassLoader classLoader)
     {
@@ -108,7 +107,7 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
 
     /**
      * Registers a deployable using a class specified as a String.
-     *
+     * 
      * @param containerId {@inheritDoc}
      * @param deployableType {@inheritDoc}
      * @param deployableClassName the deployable implementation class to register as a String
@@ -120,7 +119,7 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
         registerImplementation(new RegistrationKey(new SimpleContainerIdentity(containerId),
             deployableType.getType()), deployableClassName);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see DeployableFactory#isDeployableRegistered
@@ -142,7 +141,7 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
 
         DeployableFactoryParameters parameters = new DeployableFactoryParameters();
         parameters.deployable = deployableLocation;
-        
+
         // First, try to locate a container-specific deployable mapping
         if (isDeployableRegistered(containerId, deployableType))
         {
@@ -157,7 +156,7 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
                 new SimpleContainerIdentity(DEFAULT_CONTAINER_ID), deployableType.getType()),
                 parameters, "deployable");
         }
-        
+
         return deployable;
     }
 

@@ -23,7 +23,7 @@ import org.codehaus.cargo.container.deployable.WAR;
 
 /**
  * Used by {@link TestFactoryRegistry} to see if the discovery succeeds.
- *
+ * 
  * @version $Id$
  */
 public class SuperContainerWar extends WAR

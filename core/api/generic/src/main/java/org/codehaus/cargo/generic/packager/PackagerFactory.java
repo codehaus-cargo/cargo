@@ -31,7 +31,7 @@ public interface PackagerFactory
 {
     /**
      * Registers a {@link org.codehaus.cargo.container.packager.Packager} implementation.
-     *
+     * 
      * @param containerId the container attached to this packager
      * @param packagerType the packager's type (directory, zip, etc)
      * @param packagerClass the packager implementation class to register
@@ -42,20 +42,19 @@ public interface PackagerFactory
     /**
      * @param containerId the container attached to this packager class
      * @param packagerType the type to differentiate this packager from others for the specified
-     *        container
-     * @return true if the specified packager is already registered or false otherwise 
+     * container
+     * @return true if the specified packager is already registered or false otherwise
      */
     boolean isPackagerRegistered(String containerId, PackagerType packagerType);
 
     /**
      * Create a {@link org.codehaus.cargo.container.packager.Packager} instance matching the
      * specified container id.
-     *
+     * 
      * @param containerId the container for which we need to create a packager instance
      * @param packagerType the packager's type (directory, zip, etc)
-     * @param outputLocation the location where the package will be generated. For example for
-     *        a Directory Packager this will be the directory into which the package will be
-     *        generated. 
+     * @param outputLocation the location where the package will be generated. For example for a
+     * Directory Packager this will be the directory into which the package will be generated.
      * @return the packager instance
      */
     Packager createPackager(String containerId, PackagerType packagerType, String outputLocation);

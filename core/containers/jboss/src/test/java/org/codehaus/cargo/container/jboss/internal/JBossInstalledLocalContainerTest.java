@@ -54,8 +54,8 @@ public class JBossInstalledLocalContainerTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * {@inheritDoc}
-     * @see junit.framework.TestCase#setUp()
+     * Creates the test file system manager and the container. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
      */
     @Override
     protected void setUp() throws Exception

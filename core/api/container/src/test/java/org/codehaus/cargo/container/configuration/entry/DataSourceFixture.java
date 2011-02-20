@@ -33,34 +33,62 @@ import org.codehaus.cargo.container.property.TransactionSupport;
  */
 public class DataSourceFixture
 {
+    /**
+     * Id.
+     */
     public String id;
 
+    /**
+     * Connection type.
+     */
     public String connectionType;
 
+    /**
+     * Transaction support.
+     */
     public TransactionSupport transactionSupport;
 
+    /**
+     * Driver class name.
+     */
     public String driverClass;
 
+    /**
+     * URL.
+     */
     public String url;
 
+    /**
+     * JNDI name.
+     */
     public String jndiLocation;
 
+    /**
+     * Username.
+     */
     public String username;
 
+    /**
+     * Password.
+     */
     public String password;
 
+    /**
+     * Driver properties.
+     */
     public String driverProperties;
 
     /**
-     * @param id
-     * @param connectionType
-     * @param transactionSupport
-     * @param driverClass
-     * @param url
-     * @param jndiLocation
-     * @param username
-     * @param password
-     * @param driverProperties
+     * Saves all parameters.
+     * @param id Id.
+     * @param connectionType Connection type.
+     * @param transactionSupport Transaction support.
+     * @param driverClass Driver class.
+     * @param url URL.
+     * @param jndiLocation JNDI location.
+     * @param username Username.
+     * @param password Password.
+     * @param driverProperties Driver properties.
      */
     public DataSourceFixture(String id, String connectionType,
         TransactionSupport transactionSupport, String driverClass, String url,
@@ -78,6 +106,9 @@ public class DataSourceFixture
         this.driverProperties = driverProperties;
     }
 
+    /**
+     * @return {@link Properties} corresponding to this {@link DataSourceFixture}'s attributes.
+     */
     public Properties buildDataSourceProperties()
     {
         Properties properties = new Properties();
@@ -98,11 +129,17 @@ public class DataSourceFixture
         return properties;
     }
 
+    /**
+     * @return {@link DataSource} corresponding to this {@link DataSourceFixture}'s attributes.
+     */
     public DataSource buildDataSource()
     {
         return new DataSourceConverter().fromProperties(buildDataSourceProperties());
     }
 
+    /**
+     * @return String corresponding to this {@link DataSourceFixture}'s attributes.
+     */
     public String buildDataSourcePropertyString()
     {
         DataSourceConverter converter = new DataSourceConverter();

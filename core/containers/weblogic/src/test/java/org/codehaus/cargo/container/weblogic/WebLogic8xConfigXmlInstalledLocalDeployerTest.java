@@ -71,9 +71,8 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
     private Element domain;
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#setUp()
+     * Creates the test file system manager and the container. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
      */
     @Override
     protected void setUp() throws Exception
@@ -93,7 +92,19 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
         resourceUtils = new ResourceUtils();
         Document document = DocumentHelper.createDocument();
         this.domain = document.addElement("Domain");
+    }
 
+    /**
+     * Closes the test file system manager. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
+    @Override
+    protected void tearDown() throws Exception
+    {
+        if (fsManager != null)
+            fsManager.close();
+
+        super.tearDown();
     }
 
     public void testConfigWar() throws IOException, XpathException, SAXException

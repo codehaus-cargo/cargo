@@ -19,26 +19,31 @@
  */
 package org.codehaus.cargo.generic.deployer;
 
+import junit.framework.TestCase;
+
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
-import org.codehaus.cargo.container.stub.InstalledLocalDeployerStub;
-import org.codehaus.cargo.container.stub.RemoteDeployerStub;
-import org.codehaus.cargo.container.stub.EmbeddedLocalContainerStub;
-import org.codehaus.cargo.container.stub.RemoteContainerStub;
-import org.codehaus.cargo.container.stub.EmbeddedLocalDeployerStub;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.DeployerType;
-import junit.framework.TestCase;
+import org.codehaus.cargo.container.stub.EmbeddedLocalContainerStub;
+import org.codehaus.cargo.container.stub.EmbeddedLocalDeployerStub;
+import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
+import org.codehaus.cargo.container.stub.InstalledLocalDeployerStub;
+import org.codehaus.cargo.container.stub.RemoteContainerStub;
+import org.codehaus.cargo.container.stub.RemoteDeployerStub;
 
 /**
  * Unit tests for {@link DefaultDeployerFactory}.
- *
+ * 
  * @version $Id$
  */
 public class DefaultDeployerFactoryTest extends TestCase
 {
     private DeployerFactory factory;
 
+    /**
+     * Creates the test deployer. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUp() throws Exception
     {

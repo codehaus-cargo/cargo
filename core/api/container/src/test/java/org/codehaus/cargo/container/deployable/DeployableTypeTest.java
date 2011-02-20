@@ -28,6 +28,9 @@ import junit.framework.TestCase;
  */
 public class DeployableTypeTest extends TestCase
 {
+    /**
+     * Test equality.
+     */
     public void testEquality()
     {
         DeployableType type = DeployableType.toType("war");
@@ -35,13 +38,19 @@ public class DeployableTypeTest extends TestCase
         assertSame(DeployableType.WAR, type);
     }
 
+    /**
+     * Test difference.
+     */
     public void testDifference()
     {
         DeployableType type = DeployableType.toType("war");
         assertTrue(type != DeployableType.EAR);
         assertNotSame(DeployableType.EAR, type);
     }
-    
+
+    /**
+     * Test equality between WAR deployables.
+     */
     public void testWARTypeEquality()
     {
         WAR war1 = new WAR("/some/path/to/file.war");
@@ -49,6 +58,9 @@ public class DeployableTypeTest extends TestCase
         assertEquals(war1.getType(), war2.getType());
     }
 
+    /**
+     * Test equality between EAR deployables.
+     */
     public void testEARTypeEquality()
     {
         EAR ear1 = new EAR("/some/path/to/file.ear");
@@ -56,6 +68,9 @@ public class DeployableTypeTest extends TestCase
         assertEquals(ear1.getType(), ear2.getType());
     }
 
+    /**
+     * Test difference between WAR and EAR deployables.
+     */
     public void testWARAndEARDifference()
     {
         WAR war = new WAR("/some/path/to/file.war");

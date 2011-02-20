@@ -20,11 +20,12 @@
 package org.codehaus.cargo.generic.internal.util;
 
 import junit.framework.TestCase;
+
 import org.codehaus.cargo.container.ContainerType;
 
 /**
  * Unit tests for {@link org.codehaus.cargo.generic.internal.util.RegistrationKey}.
- *
+ * 
  * @version $Id$
  */
 public class RegistrationKeyTest extends TestCase
@@ -54,7 +55,7 @@ public class RegistrationKeyTest extends TestCase
 
         assertTrue(key1.equals(key2));
         assertTrue(key1.hashCode() == key2.hashCode());
-        
+
         assertFalse(key1.equals(key3));
         assertFalse(key1.equals(key4));
         assertFalse(key1.equals(key5));

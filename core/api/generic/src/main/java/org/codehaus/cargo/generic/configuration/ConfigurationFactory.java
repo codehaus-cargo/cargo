@@ -19,12 +19,12 @@
  */
 package org.codehaus.cargo.generic.configuration;
 
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.ContainerType;
 
 /**
- * Create a {@link Configuration} knowing the container to which it is attached to and the 
+ * Create a {@link Configuration} knowing the container to which it is attached to and the
  * configuration type. A container is identified by both its id and its type. Indeed, it's possible
  * to register different configuration classes for the same container id but for a different
  * container type.
@@ -39,7 +39,7 @@ public interface ConfigurationFactory
      * @param containerId the container id attached to this configuration class
      * @param containerType the container type attached to this configuration class
      * @param configurationType the type to differentiate this configuration from others for the
-     *        specified container
+     * specified container
      * @param configurationClass the configuration implementation class to register
      */
     void registerConfiguration(String containerId, ContainerType containerType,
@@ -58,19 +58,19 @@ public interface ConfigurationFactory
      * @param containerId the container id attached to this configuration class
      * @param containerType the container type attached to this configuration class
      * @param configurationType the type to differentiate this configuration from others for the
-     *        specified container
-     * @return true if the specified configuration is already registered or false otherwise 
+     * specified container
+     * @return true if the specified configuration is already registered or false otherwise
      */
     boolean isConfigurationRegistered(String containerId, ContainerType containerType,
         ConfigurationType configurationType);
 
     /**
      * Create a configuration instance matching the specified container and type.
-     *
+     * 
      * @param containerId the id of the container for which to create a configuration
      * @param containerType the type of the container for which to create a configuration
      * @param configurationType the type that differentiates the configuration we wish to create
-     *        from other configurations for this container
+     * from other configurations for this container
      * @return the configuation instance
      */
     Configuration createConfiguration(String containerId, ContainerType containerType,
@@ -82,7 +82,7 @@ public interface ConfigurationFactory
      * @param containerId the id of the container for which to create a configuration
      * @param containerType the type of the container for which to create a configuration
      * @param configurationType the type that differentiates the configuration we wish to create
-     *        from other configurations for this container
+     * from other configurations for this container
      * @param home the configuration home
      * @return the configuation instance
      */

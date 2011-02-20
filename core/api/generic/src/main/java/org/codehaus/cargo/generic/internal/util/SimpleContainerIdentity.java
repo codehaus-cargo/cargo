@@ -21,7 +21,7 @@ package org.codehaus.cargo.generic.internal.util;
 
 /**
  * Represents a container identified only by its id.
- *
+ * 
  * @version $Id$
  */
 public class SimpleContainerIdentity implements ContainerIdentity
@@ -48,8 +48,7 @@ public class SimpleContainerIdentity implements ContainerIdentity
     }
 
     /**
-     * Differentiate two identities.
-     * {@inheritDoc}
+     * Differentiate two identities. {@inheritDoc}
      * @see Object#equals(java.lang.Object)
      */
     @Override
@@ -57,7 +56,7 @@ public class SimpleContainerIdentity implements ContainerIdentity
     {
         boolean result = false;
 
-        if ((identity != null) && (identity instanceof SimpleContainerIdentity))
+        if (identity != null && identity instanceof SimpleContainerIdentity)
         {
             SimpleContainerIdentity id = (SimpleContainerIdentity) identity;
             if (id.getId().equals(getId()))
@@ -70,8 +69,7 @@ public class SimpleContainerIdentity implements ContainerIdentity
     }
 
     /**
-     * Allows quick verification to check is two identities are different.
-     * {@inheritDoc}
+     * Allows quick verification to check is two identities are different. {@inheritDoc}
      * @see Object#hashCode()
      */
     @Override

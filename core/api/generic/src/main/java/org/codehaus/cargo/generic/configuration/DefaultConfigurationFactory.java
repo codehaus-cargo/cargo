@@ -19,24 +19,24 @@
  */
 package org.codehaus.cargo.generic.configuration;
 
+import java.lang.reflect.Constructor;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
-import org.codehaus.cargo.generic.internal.util.RegistrationKey;
-import org.codehaus.cargo.generic.internal.util.FullContainerIdentity;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
-import org.codehaus.cargo.util.FileHandler;
+import org.codehaus.cargo.generic.internal.util.FullContainerIdentity;
+import org.codehaus.cargo.generic.internal.util.RegistrationKey;
+import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
 import org.codehaus.cargo.util.DefaultFileHandler;
-
-import java.lang.reflect.Constructor;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Default {@link ConfigurationFactory} implementation that has all the known container
  * configurations registered against their containers. It also supports registering new
  * configurations against any container.
- *
+ * 
  * @version $Id$
  */
 public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHintFactory
@@ -68,11 +68,10 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
     /**
      * Register configuration name mappings.
-     *
-     * @param classLoader
-     *      ClassLoader to discover implementations from. See
-     *      {@link AbstractFactoryRegistry#register(ClassLoader, ConfigurationFactory)}
-     *      for the details of what this value means.
+     * 
+     * @param classLoader ClassLoader to discover implementations from. See
+     * {@link AbstractFactoryRegistry#register(ClassLoader, ConfigurationFactory)} for the details
+     * of what this value means.
      */
     public DefaultConfigurationFactory(ClassLoader classLoader)
     {
@@ -105,12 +104,13 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
     /**
      * Registers a configuration using a class specified as a String.
-     *
+     * 
      * @param containerId {@inheritDoc}
      * @param containerType {@inheritDoc}
      * @param configurationType {@inheritDoc}
      * @param configurationClassName the configuration implementation class to register as a String
-     * @see #registerConfiguration(String, org.codehaus.cargo.container.ContainerType, org.codehaus.cargo.container.configuration.ConfigurationType, Class)
+     * @see #registerConfiguration(String, org.codehaus.cargo.container.ContainerType,
+     * org.codehaus.cargo.container.configuration.ConfigurationType, Class)
      */
     public void registerConfiguration(String containerId, ContainerType containerType,
         ConfigurationType configurationType, String configurationClassName)
@@ -132,7 +132,9 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
     /**
      * {@inheritDoc}
-     * @see ConfigurationFactory#createConfiguration(String, org.codehaus.cargo.container.ContainerType, org.codehaus.cargo.container.configuration.ConfigurationType)
+     * @see ConfigurationFactory#createConfiguration(String,
+     * org.codehaus.cargo.container.ContainerType,
+     * org.codehaus.cargo.container.configuration.ConfigurationType)
      */
     public Configuration createConfiguration(String containerId, ContainerType containerType,
         ConfigurationType configurationType)
@@ -142,7 +144,9 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
     /**
      * {@inheritDoc}
-     * @see ConfigurationFactory#createConfiguration(String, org.codehaus.cargo.container.ContainerType, org.codehaus.cargo.container.configuration.ConfigurationType, String)
+     * @see ConfigurationFactory#createConfiguration(String,
+     * org.codehaus.cargo.container.ContainerType,
+     * org.codehaus.cargo.container.configuration.ConfigurationType, String)
      */
     public Configuration createConfiguration(String containerId, ContainerType containerType,
         ConfigurationType configurationType, String home)
@@ -157,7 +161,8 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor(Class, String, GenericParameters)
+     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor(Class, String,
+     * GenericParameters)
      */
     @Override
     protected Constructor getConstructor(Class configurationClass, String hint,
@@ -170,8 +175,8 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
         {
             constructor = configurationClass.getConstructor(new Class[] {});
         }
-        else if ((ConfigurationType.toType(hint) == ConfigurationType.EXISTING)
-            || (ConfigurationType.toType(hint) == ConfigurationType.STANDALONE))
+        else if (ConfigurationType.toType(hint) == ConfigurationType.EXISTING
+            || ConfigurationType.toType(hint) == ConfigurationType.STANDALONE)
         {
             constructor = configurationClass.getConstructor(new Class[] {String.class});
         }
@@ -206,8 +211,8 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
             instance = constructor.newInstance(new Object[] {});
         }
-        else if ((ConfigurationType.toType(hint) == ConfigurationType.EXISTING)
-            || (ConfigurationType.toType(hint) == ConfigurationType.STANDALONE))
+        else if (ConfigurationType.toType(hint) == ConfigurationType.EXISTING
+            || ConfigurationType.toType(hint) == ConfigurationType.STANDALONE)
         {
             if (home == null)
             {

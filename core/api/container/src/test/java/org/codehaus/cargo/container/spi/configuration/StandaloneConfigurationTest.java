@@ -19,23 +19,24 @@
  */
 package org.codehaus.cargo.container.spi.configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import junit.framework.TestCase;
+
+import org.apache.commons.vfs.AllFileSelector;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.VFS;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.util.VFSFileHandler;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.VFS;
-import org.apache.commons.vfs.AllFileSelector;
-
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * Unit tests for {@link AbstractStandaloneLocalConfiguration}.
- *
+ * 
  * @version $Id$
  */
 public class StandaloneConfigurationTest extends TestCase

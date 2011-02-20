@@ -19,17 +19,17 @@
  */
 package org.codehaus.cargo.generic;
 
-import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
+import java.lang.reflect.Constructor;
+
+import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.generic.internal.util.SimpleContainerIdentity;
-import org.codehaus.cargo.container.ContainerCapability;
-
-import java.lang.reflect.Constructor;
+import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
 
 /**
  * Default implementation of {@link org.codehaus.cargo.generic.ContainerCapabilityFactory}.
  * Registers all known container capabilities.
- *
+ * 
  * @version $Id$
  */
 public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGenericHintFactory
@@ -45,11 +45,10 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
 
     /**
      * Register container capability name mappings.
-     *
-     * @param classLoader
-     *      ClassLoader to discover implementations from. See
-     *      {@link AbstractFactoryRegistry#register(ClassLoader, ContainerCapabilityFactory)}
-     *      for the details of what this value means.
+     * 
+     * @param classLoader ClassLoader to discover implementations from. See
+     * {@link AbstractFactoryRegistry#register(ClassLoader, ContainerCapabilityFactory)} for the
+     * details of what this value means.
      */
     public DefaultContainerCapabilityFactory(ClassLoader classLoader)
     {
@@ -60,7 +59,8 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.generic.ContainerCapabilityFactory#registerContainerCapability(String, Class)
+     * @see org.codehaus.cargo.generic.ContainerCapabilityFactory#registerContainerCapability(String,
+     * Class)
      */
     public void registerContainerCapability(String containerId, Class containerCapabilityClass)
     {
@@ -70,10 +70,10 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
 
     /**
      * Registers a container capability using a class specified as a String.
-     *
+     * 
      * @param containerId {@inheritDoc}
-     * @param containerCapabilityClassName the container capability implementation class to
-     *        register as a String
+     * @param containerCapabilityClassName the container capability implementation class to register
+     * as a String
      * @see #registerContainerCapability(String, Class)
      */
     public void registerContainerCapability(String containerId, String containerCapabilityClassName)

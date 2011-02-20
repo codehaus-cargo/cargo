@@ -93,7 +93,7 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
         checkConfigurationMatchesResource(configuration, resource);
     }
 
-    public void checkConfigurationForDriverConfiguredDataSourceWithLocalTransactionSupportMatchesDataSourceFixture(
+    public void checkConfigurationForDriverConfiguredDSWithLocalTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         notExists(configuration, dataSourceFixture);
@@ -106,7 +106,7 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
             ConfigurationEntryType.DATASOURCE);
     }
 
-    public void checkConfigurationForDriverConfiguredDataSourceWithXaTransactionSupportMatchesDataSourceFixture(
+    public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         notExists(configuration, dataSourceFixture);

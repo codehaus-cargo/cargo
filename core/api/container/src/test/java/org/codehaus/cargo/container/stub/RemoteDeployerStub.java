@@ -19,17 +19,18 @@
  */
 package org.codehaus.cargo.container.stub;
 
-import org.codehaus.cargo.container.deployer.Deployer;
-import org.codehaus.cargo.container.deployer.DeployableMonitor;
-import org.codehaus.cargo.container.deployer.DeployerType;
+import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.RemoteContainer;import org.codehaus.cargo.util.log.LoggedObject;
+import org.codehaus.cargo.container.deployer.DeployableMonitor;
+import org.codehaus.cargo.container.deployer.Deployer;
+import org.codehaus.cargo.container.deployer.DeployerType;
+import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
- * Mock for a remote {@link org.codehaus.cargo.container.deployer.Deployer}. We need a static
- * mock rather than a dynamic mock (which we could get using JMock for example) because we're
- * testing factory classes which create an object out of a class name.
- *
+ * Mock for a remote {@link org.codehaus.cargo.container.deployer.Deployer}. We need a static mock
+ * rather than a dynamic mock (which we could get using JMock for example) because we're testing
+ * factory classes which create an object out of a class name.
+ * 
  * @version $Id$
  */
 public class RemoteDeployerStub extends LoggedObject implements Deployer
@@ -74,8 +75,9 @@ public class RemoteDeployerStub extends LoggedObject implements Deployer
         return DeployerType.REMOTE;
     }
 
-	public void undeploy(Deployable deployable, DeployableMonitor monitor) {
-		// Voluntarily do nothing for testing
-		
-	}
+    public void undeploy(Deployable deployable, DeployableMonitor monitor)
+    {
+        // Voluntarily do nothing for testing
+
+    }
 }

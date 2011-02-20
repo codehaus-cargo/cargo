@@ -19,15 +19,15 @@
  */
 package org.codehaus.cargo.container.stub;
 
+import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.State;
-import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.NullLogger;
 
 /**
  * Code common to all container stubs.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractContainerStub implements Container

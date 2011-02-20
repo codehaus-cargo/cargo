@@ -32,14 +32,33 @@ import org.codehaus.cargo.container.property.ResourcePropertySet;
  */
 public class ResourceFixture
 {
+    /**
+     * Name.
+     */
     public String name;
 
+    /**
+     * Type.
+     */
     public String type;
 
+    /**
+     * Class name.
+     */
     public String className;
 
+    /**
+     * Parameters.
+     */
     public String parameters;
 
+    /**
+     * Saves all attributes.
+     * @param name Name.
+     * @param type Type.
+     * @param className Class name.
+     * @param parameters Parameters.
+     */
     public ResourceFixture(String name, String type, String className, String parameters)
     {
         super();
@@ -49,6 +68,9 @@ public class ResourceFixture
         this.parameters = parameters;
     }
 
+    /**
+     * @return {@link Properties} corresponding to this {@link ResourceFixture}'s attributes.
+     */
     public Properties buildResourceProperties()
     {
         Properties properties = new Properties();
@@ -61,11 +83,17 @@ public class ResourceFixture
         return properties;
     }
 
+    /**
+     * @return {@link Resource} corresponding to this {@link ResourceFixture}'s attributes.
+     */
     public Resource buildResource()
     {
         return new ResourceConverter().fromProperties(buildResourceProperties());
     }
 
+    /**
+     * @return String corresponding to this {@link ResourceFixture}'s attributes.
+     */
     public String buildResourcePropertyString()
     {
         ResourceConverter converter = new ResourceConverter();

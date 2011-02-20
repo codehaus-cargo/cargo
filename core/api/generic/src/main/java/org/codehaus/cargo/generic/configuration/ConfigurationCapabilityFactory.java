@@ -19,14 +19,14 @@
  */
 package org.codehaus.cargo.generic.configuration;
 
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.ContainerType;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.ConfigurationType;
 
 /**
  * Allow finding a Configuration's capability for a given container identified by its id and its
  * type. Indeed, configurations for a given container id may have different capabilities.
- *
+ * 
  * @version $Id$
  */
 public interface ConfigurationCapabilityFactory
@@ -35,9 +35,9 @@ public interface ConfigurationCapabilityFactory
      * @param containerId the id of the container to register against
      * @param containerType the type of the container to register against
      * @param configurationType the configuration type under which the capability should be
-     *        registered
+     * registered
      * @param configurationCapabilityClass the configuration capability implementation class to
-     *        register
+     * register
      */
     void registerConfigurationCapability(String containerId, ContainerType containerType,
         ConfigurationType configurationType,
@@ -46,7 +46,7 @@ public interface ConfigurationCapabilityFactory
     /**
      * Create a {@link org.codehaus.cargo.container.configuration.ConfigurationCapability} instance
      * for a given container.
-     *
+     * 
      * @param containerId the container id associated with the configuration capability
      * @param containerType the container type associated with the configuration capability
      * @param configurationType the configuration type associated with the capability

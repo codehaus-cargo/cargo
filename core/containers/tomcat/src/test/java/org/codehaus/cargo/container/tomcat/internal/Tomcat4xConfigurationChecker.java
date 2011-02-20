@@ -93,7 +93,7 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
         return "org.apache.commons.dbcp.BasicDataSourceFactory";
     }
 
-    public void checkConfigurationForDriverConfiguredDataSourceWithLocalTransactionSupportMatchesDataSourceFixture(
+    public void checkConfigurationForDriverConfiguredDSWithLocalTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         notExists(configuration, dataSourceFixture);
@@ -121,7 +121,7 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
             ConfigurationEntryType.DATASOURCE);
     }
 
-    public void checkConfigurationForDriverConfiguredDataSourceWithXaTransactionSupportMatchesDataSourceFixture(
+    public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         notExists(configuration, dataSourceFixture);

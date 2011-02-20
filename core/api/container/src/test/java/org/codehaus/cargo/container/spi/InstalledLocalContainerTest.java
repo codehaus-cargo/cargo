@@ -287,7 +287,8 @@ public class InstalledLocalContainerTest extends TestCase
         AbstractInstalledLocalContainerStub container =
             new AbstractInstalledLocalContainerStub(configuration);
 
-        container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-Dx.y=z\n\r\t\t-Du.v=w");
+        container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS,
+            "-Dx.y=z\n\r\t\t-Du.v=w");
 
         container.startInternal();
         Java java = container.getJava();
@@ -366,7 +367,8 @@ public class InstalledLocalContainerTest extends TestCase
         AbstractInstalledLocalContainerStub container =
             new AbstractInstalledLocalContainerStub(configuration);
 
-        container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-XX:MaxPermSize=256m");
+        container.getConfiguration()
+            .setProperty(GeneralPropertySet.JVMARGS, "-XX:MaxPermSize=256m");
 
         container.startInternal();
         Java java = container.getJava();
@@ -396,6 +398,7 @@ public class InstalledLocalContainerTest extends TestCase
 
     private void checkString(String haystack, String needle)
     {
-        assertTrue("Expected argument \"" + needle + "\", got \"" + haystack + "\"", haystack.contains(needle));
+        assertTrue("Expected argument \"" + needle + "\", got \"" + haystack + "\"",
+            haystack.contains(needle));
     }
 }

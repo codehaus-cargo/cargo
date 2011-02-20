@@ -21,18 +21,21 @@ package org.codehaus.cargo.container.property;
 
 import java.util.Properties;
 
-import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
-import org.codehaus.cargo.container.configuration.entry.Resource;
-import org.codehaus.cargo.container.property.ResourcePropertySet;
-
 import junit.framework.ComparisonFailure;
 import junit.framework.TestCase;
+
+import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
+import org.codehaus.cargo.container.configuration.entry.Resource;
 
 public class ResourceConverterTest extends TestCase
 {
 
     private ResourceConverter ResourceConverter;
 
+    /**
+     * Creates the test resource converter. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void setUp() throws Exception
     {
@@ -77,8 +80,9 @@ public class ResourceConverterTest extends TestCase
 
         }
     }
-    
-    public void testGetParametersAsStringContainingBackslashes() {
+
+    public void testGetParametersAsStringContainingBackslashes()
+    {
         String propertyString = "user=APP;path=c:\\users\\me";
         String driverPropertyString = ResourcePropertySet.PARAMETERS + "=" + propertyString;
         Resource ds = ResourceConverter.fromPropertyString(driverPropertyString);

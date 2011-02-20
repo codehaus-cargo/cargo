@@ -27,28 +27,28 @@ import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 
 /**
  * Extension to {@link AbstractGenericHintFactory} that registers and creates instances from
- * implementation classes specified as String, using introspection. If the implementation fails
- * to load the registration fails silently. This is to cover the user case where a specific 
- * container's implementation jar may not be present in the classpath if it's not used by the user.
- * This allows users to only put the container implementation jars the require in the classpath.
- *
+ * implementation classes specified as String, using introspection. If the implementation fails to
+ * load the registration fails silently. This is to cover the user case where a specific container's
+ * implementation jar may not be present in the classpath if it's not used by the user. This allows
+ * users to only put the container implementation jars the require in the classpath.
+ * 
  * @version $Id$
  */
 public abstract class AbstractIntrospectionGenericHintFactory extends AbstractGenericHintFactory
 {
     /**
-     * Contains all the default mappings that were not properly registered because the 
+     * Contains all the default mappings that were not properly registered because the
      * implementation classes could not be found in the classpath (it probably means the user has
-     * forgotten to add the container implementation jar to its classpath). We record them in order 
+     * forgotten to add the container implementation jar to its classpath). We record them in order
      * to throw a nice error message if the user tries to use any of them.
      */
     private Map<RegistrationKey, String> rejectedMappings = new HashMap<RegistrationKey, String>();
 
     /**
-     * Allow registering container objects using introspection so that at build time and runtime 
-     * the user can handpick the container implementation jars that he want to use. If we were not 
-     * using introspection the user would have to have all container implementation jars in the 
-     * classpath when using this generic API.
+     * Allow registering container objects using introspection so that at build time and runtime the
+     * user can handpick the container implementation jars that he want to use. If we were not using
+     * introspection the user would have to have all container implementation jars in the classpath
+     * when using this generic API.
      * 
      * @param key the key under which to register the class name
      * @param objectClassName the object to register
@@ -97,7 +97,7 @@ public abstract class AbstractIntrospectionGenericHintFactory extends AbstractGe
                     + "container implementation class could not been loaded. Are you sure you "
                     + "have added that container's implementation jar to the classpath?";
 
-                throw new ContainerException(message , e);
+                throw new ContainerException(message, e);
             }
 
             throw e;

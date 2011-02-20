@@ -88,9 +88,8 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
     private Document document;
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#setUp()
+     * Creates the test file system manager and the container. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
      */
     @Override
     protected void setUp() throws Exception
@@ -127,7 +126,19 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
             new QName("admin-server-name", new Namespace("",
                 "http://www.bea.com/ns/weblogic/920/domain"));
         domain.addElement(adminServerNameQ);
+    }
 
+    /**
+     * Closes the test file system manager. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
+    @Override
+    protected void tearDown() throws Exception
+    {
+        if (fsManager != null)
+            fsManager.close();
+
+        super.tearDown();
     }
 
     public void testConfigWar() throws IOException, XpathException, SAXException

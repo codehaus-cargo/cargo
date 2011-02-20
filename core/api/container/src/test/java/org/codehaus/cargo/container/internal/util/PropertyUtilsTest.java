@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.internal.util;
 
-import java.util.Map;
 import java.util.Properties;
 
 import junit.framework.ComparisonFailure;
@@ -82,7 +81,7 @@ public class PropertyUtilsTest extends TestCase
     {
         String property =
             name + NAME_VALUE_DELIM + value + PIPE_DELIM + name2 + NAME_VALUE_DELIM + value2;
-        final Map map = PropertyUtils.splitPropertiesOnPipe(property);
+        final Properties map = PropertyUtils.splitPropertiesOnPipe(property);
         assertEquals(2, map.size());
         assertEquals(value, map.get(name));
         assertEquals(value2, map.get(name2));
@@ -91,7 +90,7 @@ public class PropertyUtilsTest extends TestCase
     private void _testSingleProperty(String name, String value)
     {
         String property = name + NAME_VALUE_DELIM + value;
-        final Map map = PropertyUtils.splitPropertiesOnPipe(property);
+        final Properties map = PropertyUtils.splitPropertiesOnPipe(property);
         assertEquals(1, map.size());
         assertEquals(value, map.get(name));
     }
@@ -165,14 +164,14 @@ public class PropertyUtilsTest extends TestCase
             try
             {
                 assertEquals(TWO_THEN_ONE_OUTER_A, PropertyUtils.joinOnPipe(
-                PropertyUtils.toMap(outer)));
+                    PropertyUtils.toMap(outer)));
             }
             catch (ComparisonFailure deviation2)
             {
                 try
                 {
                     assertEquals(ONE_THEN_TWO_OUTER_B, PropertyUtils.joinOnPipe(
-                PropertyUtils.toMap(outer)));
+                        PropertyUtils.toMap(outer)));
                 }
                 catch (ComparisonFailure deviation3)
                 {
@@ -190,7 +189,7 @@ public class PropertyUtilsTest extends TestCase
             }
         }
     }
-    
+
     public void testCanEscapeWindowsSlashes()
     {
         assertEquals("c:\\\\test", PropertyUtils.escapeBackSlashesIfNotNull("c:\\test"));

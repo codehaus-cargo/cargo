@@ -19,20 +19,20 @@
  */
 package org.codehaus.cargo.generic.configuration;
 
-import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
-import org.codehaus.cargo.generic.internal.util.RegistrationKey;
-import org.codehaus.cargo.generic.internal.util.FullContainerIdentity;
-import org.codehaus.cargo.generic.AbstractFactoryRegistry;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.ContainerType;
-
 import java.lang.reflect.Constructor;
 
+import org.codehaus.cargo.container.ContainerType;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.generic.AbstractFactoryRegistry;
+import org.codehaus.cargo.generic.internal.util.FullContainerIdentity;
+import org.codehaus.cargo.generic.internal.util.RegistrationKey;
+import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
+
 /**
- * Default implementation of {@link ConfigurationCapabilityFactory}.
- * Registers all known configuration capabilities.
- *
+ * Default implementation of {@link ConfigurationCapabilityFactory}. Registers all known
+ * configuration capabilities.
+ * 
  * @version $Id$
  */
 public class DefaultConfigurationCapabilityFactory extends AbstractIntrospectionGenericHintFactory
@@ -48,11 +48,10 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
 
     /**
      * Register configuration capability name mappings.
-     *
-     * @param classLoader
-     *      ClassLoader to discover implementations from. See
-     *      {@link AbstractFactoryRegistry#register(ClassLoader, ConfigurationCapabilityFactory)}
-     *      for the details of what this value means.
+     * 
+     * @param classLoader ClassLoader to discover implementations from. See
+     * {@link AbstractFactoryRegistry#register(ClassLoader, ConfigurationCapabilityFactory)} for the
+     * details of what this value means.
      */
     public DefaultConfigurationCapabilityFactory(ClassLoader classLoader)
     {
@@ -75,13 +74,14 @@ public class DefaultConfigurationCapabilityFactory extends AbstractIntrospection
 
     /**
      * Registers a configuration capability using a class specified as a String.
-     *
+     * 
      * @param containerId {@inheritDoc}
      * @param containerType {@inheritDoc}
      * @param configurationType {@inheritDoc}
      * @param configurationCapabilityClass the configuration capability implementation class to
-     *        register as a String
-     * @see #registerConfigurationCapability(String, org.codehaus.cargo.container.ContainerType, org.codehaus.cargo.container.configuration.ConfigurationType, String)
+     * register as a String
+     * @see #registerConfigurationCapability(String, org.codehaus.cargo.container.ContainerType,
+     * org.codehaus.cargo.container.configuration.ConfigurationType, String)
      */
     public void registerConfigurationCapability(String containerId, ContainerType containerType,
         ConfigurationType configurationType, String configurationCapabilityClass)

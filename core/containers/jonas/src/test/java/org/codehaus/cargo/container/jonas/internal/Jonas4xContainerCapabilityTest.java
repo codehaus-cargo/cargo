@@ -33,6 +33,10 @@ public class Jonas4xContainerCapabilityTest extends MockObjectTestCase
 {
     ContainerCapability capability;
 
+    /**
+     * Creates the test container capability. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUp() throws Exception
     {

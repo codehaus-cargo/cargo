@@ -20,8 +20,8 @@
 package org.codehaus.cargo.generic.internal.util;
 
 /**
- * Represents a container identity. Depending on the context a container can be identified by
- * its container id or by both its container id and its type.
+ * Represents a container identity. Depending on the context a container can be identified by its
+ * container id or by both its container id and its type.
  * 
  * @version $Id$
  */

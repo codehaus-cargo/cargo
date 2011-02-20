@@ -59,9 +59,8 @@ public abstract class AbstractLocalConfigurationTest extends TestCase
         LocalConfiguration configuration);
 
     /**
-     * {@inheritDoc} This method initializes the VFS File System for use in the test cases.
-     * 
-     * @see junit.framework.TestCase#setUp()
+     * Creates the test file system manager and the container. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
      */
     @Override
     protected void setUp() throws Exception
@@ -84,19 +83,20 @@ public abstract class AbstractLocalConfigurationTest extends TestCase
         this.container = createLocalContainer(configuration);
         this.container.setHome(containerHome);
         this.container.setFileHandler(fileHandler);
-
     }
 
     /**
-     * {@inheritDoc} This method closes the VFS File System used in the test cases.
-     * 
-     * @see junit.framework.TestCase#tearDown()
+     * Closes the test file system manager. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
      */
     @Override
     protected void tearDown() throws Exception
     {
         if (fsManager != null)
+        {
             fsManager.close();
+        }
+
         super.tearDown();
     }
 

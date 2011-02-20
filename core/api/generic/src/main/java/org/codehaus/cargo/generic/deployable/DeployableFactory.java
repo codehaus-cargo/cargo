@@ -24,7 +24,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 
 /**
  * Factory to create Deployable instances.
- *
+ * 
  * @version $Id$
  */
 public interface DeployableFactory
@@ -34,7 +34,7 @@ public interface DeployableFactory
      * 
      * @param containerId the container id attached to this deployable class
      * @param deployableType the type to differentiate this deployable from others for the specified
-     *        container
+     * container
      * @param deployableClass the deployable implementation class to register
      */
     void registerDeployable(String containerId, DeployableType deployableType,
@@ -43,15 +43,15 @@ public interface DeployableFactory
     /**
      * @param containerId the container attached to the deployable type class
      * @param deployableType the type to differentiate this deployable from others for the specified
-     *        container
-     * @return true if the specified deployable is already registered or false otherwise 
+     * container
+     * @return true if the specified deployable is already registered or false otherwise
      */
     boolean isDeployableRegistered(String containerId, DeployableType deployableType);
-    
+
     /**
      * @param containerId the container id for which to create the deployable for
-     * @param deployableLocation the location of the Deployable being wrapped. It must point to
-     *        a WAR file, an EAR file or an exanded WAR directory
+     * @param deployableLocation the location of the Deployable being wrapped. It must point to a
+     * WAR file, an EAR file or an exanded WAR directory
      * @param deployableType the deployable type to create
      * @return the {@link org.codehaus.cargo.container.deployable.Deployable} instance
      */

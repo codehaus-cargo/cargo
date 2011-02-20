@@ -42,7 +42,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     public void setHome(String home)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -56,7 +56,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     public void setFileHandler(FileHandler handler)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     public ContainerType getType()
@@ -68,13 +68,13 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     public void addExtraClasspath(String location)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     public void addSharedClasspath(String location)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     public String[] getExtraClasspath()
@@ -98,18 +98,18 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     public void setExtraClasspath(String[] classpath)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     public void setSharedClasspath(String[] classpath)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     public void setSystemProperties(Map properties)
     {
         // TODO Auto-generated method stub
-        
+
     }
 }

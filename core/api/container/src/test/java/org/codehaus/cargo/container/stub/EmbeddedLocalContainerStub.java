@@ -25,10 +25,10 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.util.FileHandler;
 
 /**
- * Mock for {@link org.codehaus.cargo.container.EmbeddedLocalContainer}. We need a static
- * class rather than using a dynamic mock (which we could get using JMock for example) for when
- * we're testing factory classes which create an object out of a class name.
- *
+ * Mock for {@link org.codehaus.cargo.container.EmbeddedLocalContainer}. We need a static class
+ * rather than using a dynamic mock (which we could get using JMock for example) for when we're
+ * testing factory classes which create an object out of a class name.
+ * 
  * @version $Id$
  */
 public class EmbeddedLocalContainerStub
@@ -75,7 +75,7 @@ public class EmbeddedLocalContainerStub
         }
         return result;
     }
-    
+
     @Override
     public FileHandler getFileHandler()
     {

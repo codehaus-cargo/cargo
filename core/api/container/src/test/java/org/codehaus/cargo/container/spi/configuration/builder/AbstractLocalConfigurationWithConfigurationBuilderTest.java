@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.configuration.entry.ResourceSupport;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfigurationTest;
-import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
 
 public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest extends
     AbstractLocalConfigurationTest implements LocalConfigurationWithConfigurationBuilderTests
@@ -145,7 +144,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
                 .createDriverConfiguredDataSourceWithLocalTransactionSupport();
         String configuration = configureDataSourceAndRetrieveConfigurationFile(dataSourceFixture);
         configurationChecker
-            .checkConfigurationForDriverConfiguredDataSourceWithLocalTransactionSupportMatchesDataSourceFixture(
+            .checkConfigurationForDriverConfiguredDSWithLocalTransactionSupportMatchesDSFixture(
                 configuration, dataSourceFixture);
     }
 
@@ -157,7 +156,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
                 .createDriverConfiguredDataSourceWithXaTransactionSupport();
         String configuration = configureDataSourceAndRetrieveConfigurationFile(dataSourceFixture);
         configurationChecker
-            .checkConfigurationForDriverConfiguredDataSourceWithXaTransactionSupportMatchesDataSourceFixture(
+            .checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDataSourceFixture(
                 configuration, dataSourceFixture);
     }
 
@@ -177,8 +176,10 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
         ResourceFixture resourceFixture =
             ConfigurationFixtureFactory.createXADataSourceAsResource();
         String configuration = configureResourceAndRetrieveConfigurationFile(resourceFixture);
-        configurationChecker.checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(configuration,
-            resourceFixture);
+        configurationChecker
+            .checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
+                configuration,
+                resourceFixture);
     }
 
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
@@ -191,9 +192,13 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
             ConfigurationFixtureFactory.createConnectionPoolDataSourceAsResource();
         String configuration =
             configureResourceViaPropertyAndRetrieveConfigurationFile(resourceFixture2);
-        configurationChecker.checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(configuration,
-            resourceFixture1);
-        configurationChecker.checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(configuration,
-            resourceFixture2);
+        configurationChecker
+            .checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
+                configuration,
+                resourceFixture1);
+        configurationChecker
+            .checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
+                configuration,
+                resourceFixture2);
     }
 }

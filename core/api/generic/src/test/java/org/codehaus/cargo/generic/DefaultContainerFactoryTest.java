@@ -23,13 +23,14 @@ import java.util.Map;
 import java.util.Set;
 
 import junit.framework.TestCase;
-import org.codehaus.cargo.container.ContainerException;
+
 import org.codehaus.cargo.container.Container;
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
-import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
-import org.codehaus.cargo.container.stub.RemoteContainerStub;
 import org.codehaus.cargo.container.stub.EmbeddedLocalContainerStub;
+import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
+import org.codehaus.cargo.container.stub.RemoteContainerStub;
+import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
 
 /**
  * Unit tests for {@link DefaultContainerFactory}.

@@ -19,9 +19,9 @@
  */
 package org.codehaus.cargo.generic.configuration;
 
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-
 import junit.framework.TestCase;
+
+import org.codehaus.cargo.container.configuration.ConfigurationType;
 
 /**
  * Unit tests for {@link ConfigurationType}.

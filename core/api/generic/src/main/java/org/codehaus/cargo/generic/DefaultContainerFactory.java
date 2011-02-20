@@ -20,24 +20,24 @@
 package org.codehaus.cargo.generic;
 
 import java.lang.reflect.Constructor;
-import java.util.Map;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
+import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.generic.internal.util.SimpleContainerIdentity;
+import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
 
 /**
  * Default implementation of {@link ContainerFactory}. Registers all known containers.
- *
+ * 
  * @version $Id$
  */
 public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFactory
@@ -64,11 +64,10 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
     /**
      * Register packager name mappings.
-     *
-     * @param classLoader
-     *      ClassLoader to discover implementations from. See
-     *      {@link AbstractFactoryRegistry#register(ClassLoader, ContainerFactory)}
-     *      for the details of what this value means.
+     * 
+     * @param classLoader ClassLoader to discover implementations from. See
+     * {@link AbstractFactoryRegistry#register(ClassLoader, ContainerFactory)} for the details of
+     * what this value means.
      */
     public DefaultContainerFactory(ClassLoader classLoader)
     {
@@ -83,13 +82,14 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
      */
     public boolean isContainerRegistered(String containerId, ContainerType containerType)
     {
-        return hasMapping(
-            new RegistrationKey(new SimpleContainerIdentity(containerId), containerType.getType()));
+        return hasMapping(new RegistrationKey(new SimpleContainerIdentity(containerId),
+            containerType.getType()));
     }
 
     /**
      * {@inheritDoc}
-     * @see ContainerFactory#registerContainer(String, org.codehaus.cargo.container.ContainerType, Class)
+     * @see ContainerFactory#registerContainer(String, org.codehaus.cargo.container.ContainerType,
+     * Class)
      */
     public void registerContainer(String containerId, ContainerType containerType,
         Class containerClass)
@@ -100,7 +100,7 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
     /**
      * Registers a container using a class specified as a String.
-     *
+     * 
      * @param containerId {@inheritDoc}
      * @param containerType {@inheritDoc}
      * @param containerClassName the container implementation class to register as a String
@@ -119,8 +119,8 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
      */
     public Class getContainerClass(String containerId, ContainerType containerType)
     {
-        return getMapping(
-            new RegistrationKey(new SimpleContainerIdentity(containerId), containerType.getType()));
+        return getMapping(new RegistrationKey(new SimpleContainerIdentity(containerId),
+            containerType.getType()));
     }
 
     /**

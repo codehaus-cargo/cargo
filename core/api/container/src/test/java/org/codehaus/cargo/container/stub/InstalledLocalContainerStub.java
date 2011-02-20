@@ -19,16 +19,17 @@
  */
 package org.codehaus.cargo.container.stub;
 
+import java.util.Map;
+
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import java.util.Map;
 
 /**
- * Mock for {@link org.codehaus.cargo.container.InstalledLocalContainer}. We need a static
- * class rather than using a dynamic mock (which we could get using JMock for example) for when
- * we're testing factory classes which create an object out of a class name.
- *
+ * Mock for {@link org.codehaus.cargo.container.InstalledLocalContainer}. We need a static class
+ * rather than using a dynamic mock (which we could get using JMock for example) for when we're
+ * testing factory classes which create an object out of a class name.
+ * 
  * @version $Id$
  */
 public class InstalledLocalContainerStub
@@ -86,12 +87,12 @@ public class InstalledLocalContainerStub
     {
         throw new RuntimeException("Not implemented");
     }
-    
+
     public void addExtraClasspath(String classpath)
     {
         throw new RuntimeException("Not implemented");
     }
-    
+
     public void setSharedClasspath(String[] classpath)
     {
         throw new RuntimeException("Not implemented");

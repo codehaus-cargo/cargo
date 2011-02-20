@@ -20,13 +20,14 @@
 package org.codehaus.cargo.generic.deployable;
 
 import junit.framework.TestCase;
+
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 
 /**
  * Unit tests for {@link DefaultDeployableFactory}.
- *
+ * 
  * @version $Id$
  */
 public class DefaultDeployableFactoryTest extends TestCase

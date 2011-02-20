@@ -20,14 +20,15 @@
 package org.codehaus.cargo.generic.configuration;
 
 import junit.framework.TestCase;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
-import org.codehaus.cargo.container.stub.RuntimeConfigurationStub;
-import org.codehaus.cargo.container.stub.ExistingLocalConfigurationStub;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.stub.ExistingLocalConfigurationStub;
+import org.codehaus.cargo.container.stub.RuntimeConfigurationStub;
+import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
 import org.codehaus.cargo.util.DefaultFileHandler;
 
 /**
@@ -38,11 +39,11 @@ import org.codehaus.cargo.util.DefaultFileHandler;
 public class DefaultConfigurationFactoryTest extends TestCase
 {
     private ConfigurationFactory factory;
-    
+
     @Override
     protected void setUp()
     {
-        this.factory = new DefaultConfigurationFactory();        
+        this.factory = new DefaultConfigurationFactory();
     }
 
     public void testCreateConfigurationWhenInvalidHint()
@@ -54,10 +55,11 @@ public class DefaultConfigurationFactoryTest extends TestCase
         }
         catch (ContainerException expected)
         {
-            assertEquals("Cannot create configuration. There's no registered configuration for "
-                + "the parameters (container [id = [testableContainerId], type = [installed]], "
-                + "configuration type [invalidhint]). Actually there are no valid types registered "
-                + "for this configuration. Maybe you've made a mistake spelling it?",
+            assertEquals(
+                "Cannot create configuration. There's no registered configuration for "
+                    + "the parameters (container [id = [testableContainerId], type = [installed]], "
+                    + "configuration type [invalidhint]). Actually there are no valid types registered "
+                    + "for this configuration. Maybe you've made a mistake spelling it?",
                 expected.getMessage());
         }
     }
@@ -66,7 +68,7 @@ public class DefaultConfigurationFactoryTest extends TestCase
     {
         this.factory.registerConfiguration("testableContainerId", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, StandaloneLocalConfigurationStub.class);
-        
+
         Configuration configuration = this.factory.createConfiguration("testableContainerId",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE, "/some/path");
         assertEquals(StandaloneLocalConfigurationStub.class.getName(),
@@ -77,7 +79,7 @@ public class DefaultConfigurationFactoryTest extends TestCase
     {
         this.factory.registerConfiguration("testableContainerId", ContainerType.REMOTE,
             ConfigurationType.RUNTIME, RuntimeConfigurationStub.class);
-        
+
         Configuration configuration = this.factory.createConfiguration("testableContainerId",
             ContainerType.REMOTE, ConfigurationType.RUNTIME);
         assertEquals(RuntimeConfigurationStub.class.getName(), configuration.getClass().getName());

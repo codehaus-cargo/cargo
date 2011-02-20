@@ -20,13 +20,14 @@
 package org.codehaus.cargo.generic;
 
 import junit.framework.TestCase;
-import org.codehaus.cargo.container.internal.J2EEContainerCapability;
+
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 
 /**
  * Unit tests for {@link org.codehaus.cargo.generic.DefaultContainerCapabilityFactory}.
- *
+ * 
  * @version $Id$
  */
 public class DefaultContainerCapabilityFactoryTest extends TestCase

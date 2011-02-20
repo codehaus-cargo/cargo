@@ -27,9 +27,20 @@ import org.codehaus.cargo.container.property.TransactionSupport;
  * 
  * @version $Id$
  */
-public class ConfigurationFixtureFactory
+public final class ConfigurationFixtureFactory
 {
 
+    /**
+     * Utility classes should not have a public or default constructor.
+     */
+    private ConfigurationFixtureFactory()
+    {
+        // Nothing
+    }
+
+    /**
+     * @return {@link DataSourceFixture} for Apache Derby.
+     */
     public static DataSourceFixture createDataSource()
     {
         return new DataSourceFixture(null,
@@ -42,7 +53,10 @@ public class ConfigurationFixtureFactory
             "nonemptypassword",
             null);
     }
-    
+
+    /**
+     * @return Another {@link DataSourceFixture} for Apache Derby.
+     */
     public static DataSourceFixture createAnotherDataSource()
     {
         return new DataSourceFixture(null,
@@ -55,7 +69,11 @@ public class ConfigurationFixtureFactory
             "nonemptypassword",
             null);
     }
-    
+
+    /**
+     * @return {@link DataSourceFixture} for Apache Derby with driver-configured local transaction
+     * support.
+     */
     public static DataSourceFixture createDriverConfiguredDataSourceWithLocalTransactionSupport()
     {
         return new DataSourceFixture(null,
@@ -69,6 +87,10 @@ public class ConfigurationFixtureFactory
             null);
     }
 
+    /**
+     * @return {@link DataSourceFixture} for Apache Derby with driver-configured XA transaction
+     * support.
+     */
     public static DataSourceFixture createDriverConfiguredDataSourceWithXaTransactionSupport()
     {
         return new DataSourceFixture(null,
@@ -82,7 +104,9 @@ public class ConfigurationFixtureFactory
             null);
     }
 
-
+    /**
+     * @return XA {@link DataSourceFixture} for Apache Derby.
+     */
     public static DataSourceFixture createXADataSourceConfiguredDataSource()
     {
         return new DataSourceFixture(null,
@@ -96,6 +120,9 @@ public class ConfigurationFixtureFactory
             "createDatabase=create;databaseName=derbyDB");
     }
 
+    /**
+     * @return {@link ResourceFixture} representing a connection pool.
+     */
     public static ResourceFixture createConnectionPoolDataSourceAsResource()
     {
         return new ResourceFixture("resource/ConnectionPoolDataSource",
@@ -104,6 +131,9 @@ public class ConfigurationFixtureFactory
             "createDatabase=create;databaseName=derbyDB");
     }
 
+    /**
+     * @return {@link ResourceFixture} representing an XA datasource.
+     */
     public static ResourceFixture createXADataSourceAsResource()
     {
         return new ResourceFixture("resource/XADataSource",
@@ -111,7 +141,10 @@ public class ConfigurationFixtureFactory
             "org.apache.derby.jdbc.EmbeddedXADataSource",
             "createDatabase=create;databaseName=derbyDB");
     }
-    
+
+    /**
+     * @return {@link ResourceFixture} representing a mail session.
+     */
     public static ResourceFixture createMailSessionAsResource()
     {
         return new ResourceFixture("mail/Session",
@@ -119,7 +152,10 @@ public class ConfigurationFixtureFactory
             null,
             "mail.smtp.host=localhost");
     }
-    
+
+    /**
+     * @return {@link DataSourceFixture} with a Windows-style path.
+     */
     public static DataSourceFixture createDataSourceWithWindowsPath()
     {
         return new DataSourceFixture(null,

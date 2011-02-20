@@ -19,21 +19,21 @@
  */
 package org.codehaus.cargo.generic.packager;
 
-import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
-import org.codehaus.cargo.generic.internal.util.RegistrationKey;
-import org.codehaus.cargo.generic.internal.util.SimpleContainerIdentity;
-import org.codehaus.cargo.generic.AbstractFactoryRegistry;
-import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.packager.PackagerType;
-import org.codehaus.cargo.container.packager.Packager;
-
 import java.lang.reflect.Constructor;
 
+import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.packager.Packager;
+import org.codehaus.cargo.container.packager.PackagerType;
+import org.codehaus.cargo.generic.AbstractFactoryRegistry;
+import org.codehaus.cargo.generic.internal.util.RegistrationKey;
+import org.codehaus.cargo.generic.internal.util.SimpleContainerIdentity;
+import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
+
 /**
- * Default {@link PackagerFactory} implementation that has all the known container
- * packagers registered against their containers. It also supports registering new
- * packagers against any container.
- *
+ * Default {@link PackagerFactory} implementation that has all the known container packagers
+ * registered against their containers. It also supports registering new packagers against any
+ * container.
+ * 
  * @version $Id$
  */
 public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFactory
@@ -61,11 +61,10 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * Register packager name mappings.
-     *
-     * @param classLoader
-     *      ClassLoader to discover implementations from. See
-     *      {@link AbstractFactoryRegistry#register(ClassLoader, PackagerFactory)}
-     *      for the details of what this value means.
+     * 
+     * @param classLoader ClassLoader to discover implementations from. See
+     * {@link AbstractFactoryRegistry#register(ClassLoader, PackagerFactory)} for the details of
+     * what this value means.
      */
     public DefaultPackagerFactory(ClassLoader classLoader)
     {
@@ -76,7 +75,8 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.generic.packager.PackagerFactory#registerPackager(String, org.codehaus.cargo.container.packager.PackagerType, Class)
+     * @see org.codehaus.cargo.generic.packager.PackagerFactory#registerPackager(String,
+     * org.codehaus.cargo.container.packager.PackagerType, Class)
      */
     public void registerPackager(String containerId, PackagerType packagerType, Class packagerClass)
     {
@@ -86,7 +86,7 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * Registers a packager using a class specified as a String.
-     *
+     * 
      * @param containerId {@inheritDoc}
      * @param packagerType {@inheritDoc}
      * @param packagerClassName the packager implementation class to register as a String
@@ -101,7 +101,8 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
-     * @see PackagerFactory#isPackagerRegistered(String, org.codehaus.cargo.container.packager.PackagerType)
+     * @see PackagerFactory#isPackagerRegistered(String,
+     * org.codehaus.cargo.container.packager.PackagerType)
      */
     public boolean isPackagerRegistered(String containerId, PackagerType packagerType)
     {
@@ -125,7 +126,8 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor(Class, String, org.codehaus.cargo.generic.spi.AbstractGenericHintFactory.GenericParameters)
+     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor(Class, String,
+     * org.codehaus.cargo.generic.spi.AbstractGenericHintFactory.GenericParameters)
      */
     @Override
     protected Constructor getConstructor(Class deployerClass, String hint,

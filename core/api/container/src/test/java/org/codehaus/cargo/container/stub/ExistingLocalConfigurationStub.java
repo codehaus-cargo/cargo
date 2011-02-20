@@ -23,17 +23,17 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.ExistingLocalConfiguration;
 
 /**
- * Mock for {@link org.codehaus.cargo.container.configuration.ExistingLocalConfiguration}. We need
- * a static mock rather than a dynamic mock (which we could get using JMock for example) because
- * we're testing factory classes which create an object out of a class name.
- *
+ * Mock for {@link org.codehaus.cargo.container.configuration.ExistingLocalConfiguration}. We need a
+ * static mock rather than a dynamic mock (which we could get using JMock for example) because we're
+ * testing factory classes which create an object out of a class name.
+ * 
  * @version $Id$
  */
 public class ExistingLocalConfigurationStub
     extends AbstractLocalConfigurationStub implements ExistingLocalConfiguration
 {
 
-	public ExistingLocalConfigurationStub(String home)
+    public ExistingLocalConfigurationStub(String home)
     {
         super(home);
     }
@@ -42,5 +42,5 @@ public class ExistingLocalConfigurationStub
     {
         return ConfigurationType.EXISTING;
     }
-    
+
 }

@@ -21,18 +21,21 @@ package org.codehaus.cargo.container.property;
 
 import java.util.Properties;
 
-import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
-import org.codehaus.cargo.container.configuration.entry.DataSource;
-import org.codehaus.cargo.container.property.DatasourcePropertySet;
-
 import junit.framework.ComparisonFailure;
 import junit.framework.TestCase;
+
+import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
 
 public class DataSourceConverterTest extends TestCase
 {
 
     private DataSourceConverter dataSourceConverter;
 
+    /**
+     * Creates the test detesource converter. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void setUp() throws Exception
     {
@@ -47,7 +50,8 @@ public class DataSourceConverterTest extends TestCase
         props.setProperty(DatasourcePropertySet.TRANSACTION_SUPPORT,
             TransactionSupport.NO_TRANSACTION.toString());
         props.setProperty(DatasourcePropertySet.JNDI_LOCATION, "jdbc/JiraDS");
-        props.setProperty(DatasourcePropertySet.CONNECTION_TYPE, ConfigurationEntryType.JDBC_DRIVER);
+        props
+            .setProperty(DatasourcePropertySet.CONNECTION_TYPE, ConfigurationEntryType.JDBC_DRIVER);
         props.setProperty(DatasourcePropertySet.DRIVER_CLASS, "org.hsqldb.jdbcDriver");
         props.setProperty(DatasourcePropertySet.URL, "postresql:localhost:jirads");
         props.setProperty(DatasourcePropertySet.USERNAME, "sa");
@@ -57,18 +61,19 @@ public class DataSourceConverterTest extends TestCase
         assertEquals("", ds.getPassword());
         assertEquals(props, dataSourceConverter.toProperties(ds));
     }
-    
+
     public void testDefalutIsDriver()
     {
         Properties props = new Properties();
         DataSource ds = dataSourceConverter.fromProperties(props);
         assertEquals("java.sql.Driver", ds.getConnectionType());
     }
-    
+
     public void testDriverIsDriver()
     {
         Properties props = new Properties();
-        props.setProperty(DatasourcePropertySet.CONNECTION_TYPE, ConfigurationEntryType.JDBC_DRIVER);
+        props
+            .setProperty(DatasourcePropertySet.CONNECTION_TYPE, ConfigurationEntryType.JDBC_DRIVER);
         DataSource ds = dataSourceConverter.fromProperties(props);
         assertEquals("java.sql.Driver", ds.getConnectionType());
     }
@@ -76,7 +81,8 @@ public class DataSourceConverterTest extends TestCase
     public void testXADataSourceIsXADataSource()
     {
         Properties props = new Properties();
-        props.setProperty(DatasourcePropertySet.CONNECTION_TYPE, ConfigurationEntryType.XA_DATASOURCE);
+        props.setProperty(DatasourcePropertySet.CONNECTION_TYPE,
+            ConfigurationEntryType.XA_DATASOURCE);
         DataSource ds = dataSourceConverter.fromProperties(props);
         assertEquals("javax.sql.XADataSource", ds.getConnectionType());
         assertEquals(TransactionSupport.XA_TRANSACTION, ds.getTransactionSupport());

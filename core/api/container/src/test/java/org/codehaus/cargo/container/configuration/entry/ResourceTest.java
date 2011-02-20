@@ -22,17 +22,21 @@ package org.codehaus.cargo.container.configuration.entry;
 import junit.framework.TestCase;
 
 /**
+ * Tests {@link Resource} implementation.
  * 
+ * @version $Id$
  */
 public class ResourceTest extends TestCase
 {
 
+    /**
+     * Test resource.
+     */
     private Resource resource;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see junit.framework.TestCase#setUp()
+    /**
+     * Creates the test resource. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
      */
     @Override
     protected void setUp() throws Exception
@@ -41,10 +45,9 @@ public class ResourceTest extends TestCase
         resource = new Resource("jdbc/someConnection", "javax.sql.DataSource");
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see junit.framework.TestCase#tearDown()
+    /**
+     * Destroys the test resource. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
      */
     @Override
     protected void tearDown() throws Exception
@@ -53,28 +56,36 @@ public class ResourceTest extends TestCase
         resource = null;
     }
 
+    /**
+     * Test the name getter.
+     * @throws Exception If anything goes wrong.
+     */
     public void testGetName() throws Exception
     {
-        assertEquals("did not get correct name of resource",
-                "jdbc/someConnection", resource.getName());
+        assertEquals("did not get correct name of resource", "jdbc/someConnection",
+            resource.getName());
     }
 
+    /**
+     * Test the type getter.
+     * @throws Exception If anything goes wrong.
+     */
     public void testGetType() throws Exception
     {
-        assertEquals("did not get correct type", "javax.sql.DataSource",
-                resource.getType());
+        assertEquals("did not get correct type", "javax.sql.DataSource", resource.getType());
     }
 
+    /**
+     * Test the parameter getters.
+     * @throws Exception If anything goes wrong.
+     */
     public void testParameters() throws Exception
     {
         resource.setParameter("username", "foo");
         resource.setParameter("password", "bar");
 
-        assertEquals("username not set", "foo", resource
-                .getParameter("username"));
-        assertEquals("password not set", "bar", resource
-                .getParameter("password"));
-
+        assertEquals("username not set", "foo", resource.getParameter("username"));
+        assertEquals("password not set", "bar", resource.getParameter("password"));
     }
 
 }

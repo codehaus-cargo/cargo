@@ -19,17 +19,17 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
+import junit.framework.TestCase;
+
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.DeployableMonitorListener;
 import org.codehaus.cargo.util.log.LoggedObject;
 
-import junit.framework.TestCase;
-
 /**
  * Unit tests for {@link AbstractRemoteDeployer}.
- *
+ * 
  * @version $Id$
  */
 public class RemoteDeployerTest extends TestCase

@@ -48,9 +48,8 @@ public class Jonas5xInstalledLocalContainerTest extends MockObjectTestCase
     private FileHandler fileHandler;
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#setUp()
+     * Creates the test file system manager and the container. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
      */
     @Override
     protected void setUp() throws Exception
@@ -69,6 +68,19 @@ public class Jonas5xInstalledLocalContainerTest extends MockObjectTestCase
         this.container = new Jonas5xInstalledLocalContainer(configuration);
         this.container.setFileHandler(this.fileHandler);
         this.container.setHome(JONAS_ROOT);
+    }
+
+    /**
+     * Closes the test file system manager. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
+    @Override
+    protected void tearDown() throws Exception
+    {
+        if (fsManager != null)
+            fsManager.close();
+
+        super.tearDown();
     }
 
     public void testSetupSysProps()

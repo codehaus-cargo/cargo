@@ -131,7 +131,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
 
     }
 
-    public void checkConfigurationForDriverConfiguredDataSourceWithLocalTransactionSupportMatchesDataSourceFixture(
+    public void checkConfigurationForDriverConfiguredDSWithLocalTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws XpathException,
         SAXException, IOException
     {
@@ -162,7 +162,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
         validateDataSource(configuration, dataSourceFixture, id);
     }
 
-    public void checkConfigurationForDriverConfiguredDataSourceWithXaTransactionSupportMatchesDataSourceFixture(
+    public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws XpathException,
         SAXException, IOException
     {

@@ -22,9 +22,9 @@ package org.codehaus.cargo.container.property;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.cargo.container.ContainerException;
-
 import junit.framework.TestCase;
+
+import org.codehaus.cargo.container.ContainerException;
 
 /**
  * Unit tests for {@link User}.
@@ -77,7 +77,7 @@ public class UserTest extends TestCase
         {
             User.parseUser("name:role");
             fail("Should have raised an exception here");
-        } 
+        }
         catch (ContainerException expected)
         {
             assertEquals("Invalid format for [name:role]", expected.getMessage());
@@ -99,11 +99,11 @@ public class UserTest extends TestCase
     {
         List users = User.parseUsers("u1:p1:r1,r2|u2:p2:r2,r3");
         Map roles = User.createRoleMap(users);
-        
+
         assertNotNull(roles.get("r1"));
         assertNotNull(roles.get("r2"));
         assertNotNull(roles.get("r3"));
-        
+
         assertEquals(1, ((List) roles.get("r1")).size());
         assertEquals("u1", ((User) ((List) roles.get("r1")).get(0)).getName());
 

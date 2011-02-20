@@ -19,19 +19,19 @@
  */
 package org.codehaus.cargo.container.stub;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.util.FileHandler;
-
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Code common to all local configuration stubs.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractLocalConfigurationStub
@@ -47,7 +47,7 @@ public abstract class AbstractLocalConfigurationStub
 
     public AbstractLocalConfigurationStub()
     {
-        // Allow creating a container with no configuration for test that do not require a 
+        // Allow creating a container with no configuration for test that do not require a
         // configuration
     }
 
@@ -85,7 +85,7 @@ public abstract class AbstractLocalConfigurationStub
     {
         return this.resources;
     }
-    
+
     public void addDataSource(DataSource DataSource)
     {
         this.dataSources.add(DataSource);
@@ -95,15 +95,15 @@ public abstract class AbstractLocalConfigurationStub
     {
         return this.dataSources;
     }
-    
+
     public void configure(LocalContainer container)
     {
         // Voluntarily do nothing for testing
     }
-    
+
     public void setFileHandler(FileHandler handler)
     {
-        throw new RuntimeException("Not implemented");        
+        throw new RuntimeException("Not implemented");
     }
 
     public FileHandler getFileHandler()

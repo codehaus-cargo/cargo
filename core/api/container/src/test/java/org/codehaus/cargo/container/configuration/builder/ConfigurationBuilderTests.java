@@ -27,17 +27,36 @@ package org.codehaus.cargo.container.configuration.builder;
 public interface ConfigurationBuilderTests
 {
 
-    void testBuildConfigurationEntryForDataSource()
-        throws Exception;
+    /**
+     * Test configuration entry for datasource.
+     * @throws Exception If anything goes wrong.
+     */
+    void testBuildConfigurationEntryForDataSource() throws Exception;
 
+    /**
+     * Test configuration entry for datasource with driver-configured local transaction support.
+     * @throws Exception If anything goes wrong.
+     */
     void testBuildConfigurationEntryForDriverConfiguredDataSourceWithLocalTransactionSupport()
         throws Exception;
 
+    /**
+     * Test configuration entry for datasource with driver-configured XA transaction support.
+     * @throws Exception If anything goes wrong.
+     */
     void testBuildConfigurationEntryForDriverConfiguredDataSourceWithXaTransactionSupport()
         throws Exception;
 
+    /**
+     * Test configuration entry for XS datasource.
+     * @throws Exception If anything goes wrong.
+     */
     void testBuildConfigurationEntryForXADataSourceConfiguredDataSource() throws Exception;
 
+    /**
+     * Test configuration entry for XS datasource configured as resource.
+     * @throws Exception If anything goes wrong.
+     */
     void testBuildConfigurationEntryForXADataSourceConfiguredResource() throws Exception;
 
 }

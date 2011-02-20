@@ -56,7 +56,7 @@ public abstract class AbstractConfigurationBuilderTest extends TestCase implemen
             builder.toConfigurationEntry(dataSourceFixture.buildDataSource());
         String configuration = checker.insertConfigurationEntryIntoContext(dataSourceEntry);
         checker
-            .checkConfigurationForDriverConfiguredDataSourceWithLocalTransactionSupportMatchesDataSourceFixture(
+            .checkConfigurationForDriverConfiguredDSWithLocalTransactionSupportMatchesDSFixture(
                 configuration, dataSourceFixture);
 
     }
@@ -82,7 +82,7 @@ public abstract class AbstractConfigurationBuilderTest extends TestCase implemen
             builder.toConfigurationEntry(dataSourceFixture.buildDataSource());
         String configuration = checker.insertConfigurationEntryIntoContext(dataSourceEntry);
         checker
-            .checkConfigurationForDriverConfiguredDataSourceWithXaTransactionSupportMatchesDataSourceFixture(
+            .checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDataSourceFixture(
                 configuration, dataSourceFixture);
 
     }

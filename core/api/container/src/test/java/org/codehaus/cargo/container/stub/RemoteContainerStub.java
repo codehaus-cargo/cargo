@@ -25,10 +25,10 @@ import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 
 /**
- * Mock for {@link org.codehaus.cargo.container.RemoteContainer}. We need a static
- * class rather than using a dynamic mock (which we could get using JMock for example) for when
- * we're testing factory classes which create an object out of a class name.
- *
+ * Mock for {@link org.codehaus.cargo.container.RemoteContainer}. We need a static class rather than
+ * using a dynamic mock (which we could get using JMock for example) for when we're testing factory
+ * classes which create an object out of a class name.
+ * 
  * @version $Id$
  */
 public class RemoteContainerStub extends AbstractContainerStub implements RemoteContainer

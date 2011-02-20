@@ -29,18 +29,44 @@ package org.codehaus.cargo.container.configuration.builder;
 public interface LocalConfigurationWithConfigurationBuilderTests
 {
 
+    /**
+     * Test the configuration and creation of a datasource.
+     * @throws Exception If anything goes wrong.
+     */
     void testConfigureCreatesDataSource() throws Exception;
 
+    /**
+     * Test the configuration and creation of two datasources.
+     * @throws Exception If anything goes wrong.
+     */
     void testConfigureCreatesTwoDataSources() throws Exception;
 
+    /**
+     * Test the configuration and creation of a datasource with driver-configured local transaction
+     * support.
+     * @throws Exception If anything goes wrong.
+     */
     void testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithLocalTransactionSupport()
         throws Exception;
 
+    /**
+     * Test the configuration and creation of a datasource with driver-configured XA transaction
+     * support.
+     * @throws Exception If anything goes wrong.
+     */
     void testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithXaTransactionSupport()
         throws Exception;
 
+    /**
+     * Test the configuration and creation of an XA datasource.
+     * @throws Exception If anything goes wrong.
+     */
     void testConfigureCreatesDataSourceForXADataSourceConfiguredDataSource() throws Exception;
 
+    /**
+     * Test the configuration and creation of two datasources using properties.
+     * @throws Exception If anything goes wrong.
+     */
     void testConfigureCreatesTwoResourcesViaProperties() throws Exception;
 
 }

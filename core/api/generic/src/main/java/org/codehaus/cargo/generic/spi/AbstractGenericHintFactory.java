@@ -20,21 +20,21 @@
 package org.codehaus.cargo.generic.spi;
 
 import java.lang.reflect.Constructor;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.generic.internal.util.ContainerIdentity;
+import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
  * Factory implementation that registers implementation classes under a given key of type
- * {@link org.codehaus.cargo.generic.internal.util.RegistrationKey}. This abstract factory class
- * is extended by all the different Cargo factories.
- *
+ * {@link org.codehaus.cargo.generic.internal.util.RegistrationKey}. This abstract factory class is
+ * extended by all the different Cargo factories.
+ * 
  * @version $Id$
  */
 public abstract class AbstractGenericHintFactory extends LoggedObject
@@ -45,14 +45,14 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
     private Map<RegistrationKey, Class> mappings;
 
     /**
-     * Generic class to be extended by implementors of {@link AbstractGenericHintFactory} in
-     * order to provide possible additional parameters.
+     * Generic class to be extended by implementors of {@link AbstractGenericHintFactory} in order
+     * to provide possible additional parameters.
      */
     public interface GenericParameters
     {
         // Extension classes should provide custom fields here.
     }
-    
+
     /**
      * Place to register default configurations.
      */
@@ -104,8 +104,8 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
      * @param key the key under which the implementation class is registered
      * @param parameters the additional parameters necessary to create the constructor object
      * @param implementationConceptName the name of what the implementation class is representing.
-     *        This is used in exception text messages to provide message customization. For
-     *        example "container", "configuration", "deployable', etc.
+     * This is used in exception text messages to provide message customization. For example
+     * "container", "configuration", "deployable', etc.
      * @return the created instance
      */
     protected Object createImplementation(RegistrationKey key, GenericParameters parameters,
@@ -114,7 +114,7 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
         if (!getMappings().containsKey(key))
         {
             String message = "Cannot create " + implementationConceptName
-                +  ". There's no registered " + implementationConceptName + " for the parameters "
+                + ". There's no registered " + implementationConceptName + " for the parameters "
                 + "(" + key.toString(implementationConceptName) + "). ";
 
             List<String> hints = getHints(key.getContainerIdentity());
@@ -136,7 +136,7 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
             throw new ContainerException(message);
         }
 
-        Class implementationClass = (Class) getMappings().get(key);
+        Class implementationClass = getMappings().get(key);
 
         Object implementation;
         try
@@ -166,7 +166,7 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
      */
     protected abstract Constructor getConstructor(Class implementationClass, String hint,
         GenericParameters parameters) throws NoSuchMethodException;
-    
+
     /**
      * Create an implementation class instance.
      * 

@@ -28,18 +28,27 @@ import junit.framework.TestCase;
  */
 public class WARTest extends TestCase
 {
+    /**
+     * Test context when WAR has an extension.
+     */
     public void testGetContextWhenWarHasExtension()
     {
         WAR war = new WAR("c:/some/path/to/war/test.war");
         assertEquals("test", war.getContext());
     }
 
+    /**
+     * Test context when WAR has no extension.
+     */
     public void testGetContextWhenWarHasNoExtension()
     {
         WAR war = new WAR("/some/path/to/war/test");
         assertEquals("test", war.getContext());
     }
 
+    /**
+     * Test overriden WAR context.
+     */
     public void testGetContextWhenOverride()
     {
         WAR war = new WAR("c:/some/path/to/war/test.war");
@@ -47,6 +56,9 @@ public class WARTest extends TestCase
         assertEquals("context", war.getContext());
     }
 
+    /**
+     * Test WAR context overriden with a leading slash.
+     */
     public void testGetContextWhenOverrideAndLeadingSlash()
     {
         WAR war = new WAR("c:/some/path/to/war/test.war");
@@ -54,6 +66,9 @@ public class WARTest extends TestCase
         assertEquals("", war.getContext());
     }
 
+    /**
+     * Test WAR context overriden with a slash in the middhe.
+     */
     public void testGetContextWhenOverrideAndMiddleSlash()
     {
         WAR war = new WAR("c:/some/path/to/war/test.war");
@@ -61,6 +76,9 @@ public class WARTest extends TestCase
         assertEquals("a/b", war.getContext());
     }
 
+    /**
+     * Test logger when getting WAR context.
+     */
     public void testLoggerWhenCallingGetContext()
     {
         MockLogger logger = new MockLogger();

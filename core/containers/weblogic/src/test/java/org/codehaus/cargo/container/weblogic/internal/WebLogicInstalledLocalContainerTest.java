@@ -57,9 +57,8 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#setUp()
+     * Creates the test file system manager and the container. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
      */
     @Override
     protected void setUp() throws Exception
@@ -74,6 +73,19 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         LocalConfiguration configuration = new WebLogic9xStandaloneLocalConfiguration(DOMAIN_HOME);
         this.container = new WebLogic9xInstalledLocalContainer(configuration);
         this.container.setHome(WL_HOME);
+    }
+
+    /**
+     * Closes the test file system manager. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
+    @Override
+    protected void tearDown() throws Exception
+    {
+        if (fsManager != null)
+            fsManager.close();
+
+        super.tearDown();
     }
 
     public void testInitBeaHome()

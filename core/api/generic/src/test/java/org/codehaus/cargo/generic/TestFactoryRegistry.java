@@ -19,14 +19,14 @@
  */
 package org.codehaus.cargo.generic;
 
-import org.codehaus.cargo.generic.deployable.DeployableFactory;
-import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
-import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
-import org.codehaus.cargo.generic.deployer.DeployerFactory;
-import org.codehaus.cargo.generic.packager.PackagerFactory;
-import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
+import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
+import org.codehaus.cargo.generic.deployable.DeployableFactory;
+import org.codehaus.cargo.generic.deployer.DeployerFactory;
+import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
  * To be discovered by {@link AbstractFactoryRegistry}.
@@ -49,22 +49,27 @@ public class TestFactoryRegistry extends AbstractFactoryRegistry
     }
 
     @Override
-    protected void register(ConfigurationFactory factory) {
+    protected void register(ConfigurationFactory factory)
+    {
     }
 
     @Override
-    protected void register(DeployerFactory factory) {
+    protected void register(DeployerFactory factory)
+    {
     }
 
     @Override
-    protected void register(PackagerFactory factory) {
+    protected void register(PackagerFactory factory)
+    {
     }
 
     @Override
-    protected void register(ContainerFactory factory) {
+    protected void register(ContainerFactory factory)
+    {
     }
 
     @Override
-    protected void register(ContainerCapabilityFactory factory) {
+    protected void register(ContainerCapabilityFactory factory)
+    {
     }
 }

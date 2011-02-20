@@ -19,63 +19,57 @@
  */
 package org.codehaus.cargo.generic;
 
-import org.apache.commons.discovery.jdk.JDKHooks;
-import org.apache.commons.discovery.resource.ClassLoaders;
-import org.apache.commons.discovery.tools.SPInterface;
-import org.apache.commons.discovery.tools.Service;
-import org.codehaus.cargo.generic.deployable.DeployableFactory;
-import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
-import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
-import org.codehaus.cargo.generic.deployer.DeployerFactory;
-import org.codehaus.cargo.generic.packager.PackagerFactory;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.apache.commons.discovery.jdk.JDKHooks;
+import org.apache.commons.discovery.resource.ClassLoaders;
+import org.apache.commons.discovery.tools.SPInterface;
+import org.apache.commons.discovery.tools.Service;
+import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
+import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
+import org.codehaus.cargo.generic.deployable.DeployableFactory;
+import org.codehaus.cargo.generic.deployer.DeployerFactory;
+import org.codehaus.cargo.generic.packager.PackagerFactory;
+
 /**
- * SPI to be implemented by container implementation to register implementations
- * to their factories.
- *
+ * SPI to be implemented by container implementation to register implementations to their factories.
+ * 
  * <p>
- * This class also provides static methods (to be used primarily within Cargo
- * but can be also called directly by client apps) to discover all the implementations
- * and register them to factories.
- *
+ * This class also provides static methods (to be used primarily within Cargo but can be also called
+ * directly by client apps) to discover all the implementations and register them to factories.
+ * 
  * <p>
- * Client apps should normally use {@code DefaultXXXFactory} classes,
- * like {@link org.codehaus.cargo.generic.deployable.DefaultDeployableFactory},
- * which internally uses the discovery mechanism
- *
+ * Client apps should normally use {@code DefaultXXXFactory} classes, like
+ * {@link org.codehaus.cargo.generic.deployable.DefaultDeployableFactory}, which internally uses the
+ * discovery mechanism
+ * 
  * <p>
- * Container implementors should override the 1-arg {@code register} methods to register
- * its implementations to the given factory.
- *
+ * Container implementors should override the 1-arg {@code register} methods to register its
+ * implementations to the given factory.
+ * 
  * @version $Id$
  */
 public abstract class AbstractFactoryRegistry
 {
     /**
-     * Discovers all the {@link org.codehaus.cargo.container.deployable.Deployable}s and
-     * adds them to the given {@link DeployableFactory}.
-     *
+     * Discovers all the {@link org.codehaus.cargo.container.deployable.Deployable}s and adds them
+     * to the given {@link DeployableFactory}.
+     * 
      * <p>
-     * The discovery is done by
-     * <a href="http://java.sun.com/j2se/1.3/docs/guide/jar/jar.html">the standard service loader
-     * mechanism</a>, by looking for
+     * The discovery is done by <a href="http://java.sun.com/j2se/1.3/docs/guide/jar/jar.html">the
+     * standard service loader mechanism</a>, by looking for
      * <tt>/META-INF/services/org.codehaus.cargo.generic.AbstractFactoryRegistry</tt> files.
-     *
-     * @param classLoader
-     *      The class loader to be used to search service provide configuration files.
-     *      If null, the value defaults to the thread context classloader. If that's also null,
-     *      the value defaults to the class loader that loaded {@link AbstractFactoryRegistry}.
-     *      In the rare circumstance of that also being null (which means Cargo is loaded in the
-     *      bootstrap classloader), the value defaults to the system class loader.
-     * @param factory
-     *      The factory whose {@code register} method is invoked to receive
-     *      {@link org.codehaus.cargo.container.deployable.Deployable}s that
-     *      are discovered.
+     * 
+     * @param classLoader The class loader to be used to search service provide configuration files.
+     * If null, the value defaults to the thread context classloader. If that's also null, the value
+     * defaults to the class loader that loaded {@link AbstractFactoryRegistry}. In the rare
+     * circumstance of that also being null (which means Cargo is loaded in the bootstrap
+     * classloader), the value defaults to the system class loader.
+     * @param factory The factory whose {@code register} method is invoked to receive
+     * {@link org.codehaus.cargo.container.deployable.Deployable}s that are discovered.
      */
     public static void register(ClassLoader classLoader, DeployableFactory factory)
     {
@@ -87,11 +81,9 @@ public abstract class AbstractFactoryRegistry
 
     /**
      * See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
-     *
-     * @param classLoader
-     *      See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
-     * @param factory
-     *      See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
+     * 
+     * @param classLoader See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
+     * @param factory See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
      */
     public static void register(ClassLoader classLoader, ConfigurationFactory factory)
     {
@@ -103,11 +95,9 @@ public abstract class AbstractFactoryRegistry
 
     /**
      * See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
-     *
-     * @param classLoader
-     *      See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
-     * @param factory
-     *      See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
+     * 
+     * @param classLoader See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
+     * @param factory See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
      */
     public static void register(ClassLoader classLoader, ConfigurationCapabilityFactory factory)
     {
@@ -119,11 +109,9 @@ public abstract class AbstractFactoryRegistry
 
     /**
      * See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
-     *
-     * @param classLoader
-     *      See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
-     * @param factory
-     *      See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
+     * 
+     * @param classLoader See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
+     * @param factory See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
      */
     public static void register(ClassLoader classLoader, DeployerFactory factory)
     {
@@ -135,11 +123,9 @@ public abstract class AbstractFactoryRegistry
 
     /**
      * See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
-     *
-     * @param classLoader
-     *      See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
-     * @param factory
-     *      See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
+     * 
+     * @param classLoader See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
+     * @param factory See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
      */
     public static void register(ClassLoader classLoader, PackagerFactory factory)
     {
@@ -151,11 +137,9 @@ public abstract class AbstractFactoryRegistry
 
     /**
      * See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
-     *
-     * @param classLoader
-     *      See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
-     * @param factory
-     *      See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
+     * 
+     * @param classLoader See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
+     * @param factory See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
      */
     public static void register(ClassLoader classLoader, ContainerFactory factory)
     {
@@ -167,11 +151,9 @@ public abstract class AbstractFactoryRegistry
 
     /**
      * See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
-     *
-     * @param classLoader
-     *      See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
-     * @param factory
-     *      See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
+     * 
+     * @param classLoader See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
+     * @param factory See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
      */
     public static void register(ClassLoader classLoader, ContainerCapabilityFactory factory)
     {
@@ -182,67 +164,59 @@ public abstract class AbstractFactoryRegistry
     }
 
     /**
-     * Registers {@link org.codehaus.cargo.container.deployable.Deployable} implementations
-     * to the given {@link DeployableFactory}.
-     *
-     * @param factory
-     *      See {@link #register(ClassLoader, DeployableFactory)} 
+     * Registers {@link org.codehaus.cargo.container.deployable.Deployable} implementations to the
+     * given {@link DeployableFactory}.
+     * 
+     * @param factory See {@link #register(ClassLoader, DeployableFactory)}
      */
     protected abstract void register(DeployableFactory factory);
 
     /**
      * See {@link #register(DeployableFactory)} for the semantics.
-     *
-     * @param factory
-     *      See {@link #register(DeployableFactory)}
+     * 
+     * @param factory See {@link #register(DeployableFactory)}
      */
     protected abstract void register(ConfigurationCapabilityFactory factory);
 
     /**
      * See {@link #register(DeployableFactory)} for the semantics.
-     *
-     * @param factory
-     *      See {@link #register(DeployableFactory)}
+     * 
+     * @param factory See {@link #register(DeployableFactory)}
      */
     protected abstract void register(ConfigurationFactory factory);
 
     /**
      * See {@link #register(DeployableFactory)} for the semantics.
-     *
-     * @param factory
-     *      See {@link #register(DeployableFactory)}
+     * 
+     * @param factory See {@link #register(DeployableFactory)}
      */
     protected abstract void register(DeployerFactory factory);
 
     /**
      * See {@link #register(DeployableFactory)} for the semantics.
-     *
-     * @param factory
-     *      See {@link #register(DeployableFactory)}
+     * 
+     * @param factory See {@link #register(DeployableFactory)}
      */
     protected abstract void register(PackagerFactory factory);
 
     /**
      * See {@link #register(DeployableFactory)} for the semantics.
-     *
-     * @param factory
-     *      See {@link #register(DeployableFactory)}
+     * 
+     * @param factory See {@link #register(DeployableFactory)}
      */
     protected abstract void register(ContainerFactory factory);
 
     /**
      * See {@link #register(DeployableFactory)} for the semantics.
-     *
-     * @param factory
-     *      See {@link #register(DeployableFactory)}
+     * 
+     * @param factory See {@link #register(DeployableFactory)}
      */
     protected abstract void register(ContainerCapabilityFactory factory);
 
     /**
      * Lists up {@link AbstractFactoryRegistry}s that are discovered.
-     *
-     * @param classLoader
-     *      See {@link #register(ClassLoader, DeployableFactory)} for more details.
+     * 
+     * @param classLoader See {@link #register(ClassLoader, DeployableFactory)} for more details.
      * @return always non-null but can be empty.
      */
     private static List<AbstractFactoryRegistry> list(ClassLoader classLoader)

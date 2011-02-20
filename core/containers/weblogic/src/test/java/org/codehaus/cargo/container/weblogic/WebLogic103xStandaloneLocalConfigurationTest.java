@@ -62,9 +62,8 @@ public class WebLogic103xStandaloneLocalConfigurationTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#setUp()
+     * Creates the test file system manager and the container. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
      */
     @Override
     protected void setUp() throws Exception
@@ -88,7 +87,19 @@ public class WebLogic103xStandaloneLocalConfigurationTest extends TestCase
         this.container = new WebLogic103xInstalledLocalContainer(configuration);
         this.container.setHome(WL_HOME);
         this.container.setFileHandler(this.fileHandler);
+    }
 
+    /**
+     * Closes the test file system manager. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
+    @Override
+    protected void tearDown() throws Exception
+    {
+        if (fsManager != null)
+            fsManager.close();
+
+        super.tearDown();
     }
 
     public void testDoConfigureCreatesFiles() throws Exception

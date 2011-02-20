@@ -44,6 +44,10 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
 {
 	private MEJBMBeanServerConnectionFactory factory;
 
+    /**
+     * Creates the test MEJB server connection factory. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
 	@Override
     protected void setUp() throws Exception
 	{

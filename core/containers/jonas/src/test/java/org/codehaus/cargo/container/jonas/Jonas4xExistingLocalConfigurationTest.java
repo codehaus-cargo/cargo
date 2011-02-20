@@ -45,9 +45,8 @@ public class Jonas4xExistingLocalConfigurationTest extends TestCase
     private Jonas4xExistingLocalConfiguration configuration;
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#setUp()
+     * Creates the test file system manager and the container. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
      */
     @Override
     protected void setUp() throws Exception
@@ -66,7 +65,19 @@ public class Jonas4xExistingLocalConfigurationTest extends TestCase
         this.container = new Jonas4xInstalledLocalContainer(configuration);
         this.container.setFileHandler(this.fileHandler);
         this.container.setHome(JONAS_ROOT);
+    }
 
+    /**
+     * Closes the test file system manager. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
+    @Override
+    protected void tearDown() throws Exception
+    {
+        if (fsManager != null)
+            fsManager.close();
+
+        super.tearDown();
     }
 
     public void testDoConfigure() throws Exception

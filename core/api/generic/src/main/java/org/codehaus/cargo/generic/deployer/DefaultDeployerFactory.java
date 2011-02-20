@@ -19,25 +19,25 @@
  */
 package org.codehaus.cargo.generic.deployer;
 
-import org.codehaus.cargo.container.Container;
-import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.RemoteContainer;
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.EmbeddedLocalContainer;
-import org.codehaus.cargo.container.deployer.Deployer;
-import org.codehaus.cargo.container.deployer.DeployerType;
-import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
-import org.codehaus.cargo.generic.internal.util.RegistrationKey;
-import org.codehaus.cargo.generic.internal.util.SimpleContainerIdentity;
-import org.codehaus.cargo.generic.AbstractFactoryRegistry;
-
 import java.lang.reflect.Constructor;
 
+import org.codehaus.cargo.container.Container;
+import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.EmbeddedLocalContainer;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.RemoteContainer;
+import org.codehaus.cargo.container.deployer.Deployer;
+import org.codehaus.cargo.container.deployer.DeployerType;
+import org.codehaus.cargo.generic.AbstractFactoryRegistry;
+import org.codehaus.cargo.generic.internal.util.RegistrationKey;
+import org.codehaus.cargo.generic.internal.util.SimpleContainerIdentity;
+import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
+
 /**
- * Default {@link DeployerFactory} implementation that has all the known container
- * deployers registered against their containers. It also supports registering new
- * deployers against any container.
- *
+ * Default {@link DeployerFactory} implementation that has all the known container deployers
+ * registered against their containers. It also supports registering new deployers against any
+ * container.
+ * 
  * @version $Id$
  */
 public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFactory
@@ -65,11 +65,10 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * Register deployer name mappings.
-     *
-     * @param classLoader
-     *      ClassLoader to discover implementations from. See
-     *      {@link AbstractFactoryRegistry#register(ClassLoader, DeployerFactory)}
-     *      for the details of what this value means.
+     * 
+     * @param classLoader ClassLoader to discover implementations from. See
+     * {@link AbstractFactoryRegistry#register(ClassLoader, DeployerFactory)} for the details of
+     * what this value means.
      */
     public DefaultDeployerFactory(ClassLoader classLoader)
     {
@@ -90,7 +89,7 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * Registers a deployer using a class specified as a String.
-     *
+     * 
      * @param containerId {@inheritDoc}
      * @param deployerType {@inheritDoc}
      * @param deployerClassName the deployer implementation class to register as a String
@@ -115,7 +114,8 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
-     * @see DeployerFactory#getDeployerClass(String, org.codehaus.cargo.container.deployer.DeployerType)
+     * @see DeployerFactory#getDeployerClass(String,
+     * org.codehaus.cargo.container.deployer.DeployerType)
      */
     public Class getDeployerClass(String containerId, DeployerType deployerType)
     {
@@ -163,7 +163,8 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor(Class, String, GenericParameters)
+     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor(Class, String,
+     * GenericParameters)
      */
     @Override
     protected Constructor getConstructor(Class deployerClass, String hint,
@@ -179,7 +180,7 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
         }
         else if (type == DeployerType.EMBEDDED)
         {
-            constructor = deployerClass.getConstructor(new Class[]{EmbeddedLocalContainer.class});
+            constructor = deployerClass.getConstructor(new Class[] {EmbeddedLocalContainer.class});
         }
         else if (type == DeployerType.REMOTE)
         {

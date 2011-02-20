@@ -19,17 +19,17 @@
  */
 package org.codehaus.cargo.container.stub;
 
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.NullLogger;
 
-import java.util.Map;
-import java.util.HashMap;
-
 /**
  * Code common to all configuration stubs.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractConfigurationStub implements Configuration

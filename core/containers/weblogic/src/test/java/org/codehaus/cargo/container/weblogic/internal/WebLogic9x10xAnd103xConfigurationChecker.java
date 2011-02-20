@@ -53,7 +53,7 @@ public class WebLogic9x10xAnd103xConfigurationChecker extends
     }
 
     @Override
-    public void checkConfigurationForDriverConfiguredDataSourceWithLocalTransactionSupportMatchesDataSourceFixture(
+    public void checkConfigurationForDriverConfiguredDSWithLocalTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
 
@@ -82,7 +82,7 @@ public class WebLogic9x10xAnd103xConfigurationChecker extends
     }
 
     @Override
-    public void checkConfigurationForDriverConfiguredDataSourceWithXaTransactionSupportMatchesDataSourceFixture(
+    public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         checkDataSource(configuration, dataSourceFixture);

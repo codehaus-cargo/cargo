@@ -43,8 +43,8 @@ public interface DeployerFactory
     /**
      * @param containerId the container attached to this deployer class
      * @param deployerType the type to differentiate this deployer from others for the specified
-     *        container
-     * @return true if the specified deployer is already registered or false otherwise 
+     * container
+     * @return true if the specified deployer is already registered or false otherwise
      */
     boolean isDeployerRegistered(String containerId, DeployerType deployerType);
 
@@ -65,10 +65,10 @@ public interface DeployerFactory
     Deployer createDeployer(Container container, DeployerType deployerType);
 
     /**
-     * Create a {@link Deployer} instance whose type matches the container's type. For example
-     * this creates a local deployer when the container's instance passed is a local container and
-     * a remote deployer when the container's instance passed is a remote container.
-     *
+     * Create a {@link Deployer} instance whose type matches the container's type. For example this
+     * creates a local deployer when the container's instance passed is a local container and a
+     * remote deployer when the container's instance passed is a remote container.
+     * 
      * @param container the container for which we need to create a deployer instance
      * @return the deployer instance
      */

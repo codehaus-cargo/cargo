@@ -22,25 +22,54 @@ package org.codehaus.cargo.container.deployable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.LogLevel;
+import org.codehaus.cargo.util.log.Logger;
 
+/**
+ * Mock {@link Logger} implementation, that logs everything in {@link ArrayList}s.
+ * 
+ * @version $Id$
+ */
 public class MockLogger implements Logger
 {
-    public List severities = new ArrayList();
-    public List messages = new ArrayList();
-    public List categories = new ArrayList();
+    /**
+     * Severities.
+     */
+    public List<String> severities = new ArrayList<String>();
 
+    /**
+     * Messages.
+     */
+    public List<String> messages = new ArrayList<String>();
+
+    /**
+     * Categories.
+     */
+    public List<String> categories = new ArrayList<String>();
+
+    /**
+     * Doesn't do anything. {@inheritDoc}
+     * @param level Ignored.
+     */
     public void setLevel(LogLevel level)
     {
         // Do nothing
     }
 
+    /**
+     * Throws a RuntimeException. {@inheritDoc}
+     * @return Nothing.
+     */
     public LogLevel getLevel()
     {
         throw new RuntimeException("Not implemented for testing");
     }
 
+    /**
+     * Logs a debug message. {@inheritDoc}
+     * @param message Message.
+     * @param category Category.
+     */
     public void debug(String message, String category)
     {
         this.severities.add("debug");
@@ -48,6 +77,11 @@ public class MockLogger implements Logger
         this.categories.add(category);
     }
 
+    /**
+     * Logs an info message. {@inheritDoc}
+     * @param message Message.
+     * @param category Category.
+     */
     public void info(String message, String category)
     {
         this.severities.add("info");
@@ -55,6 +89,11 @@ public class MockLogger implements Logger
         this.categories.add(category);
     }
 
+    /**
+     * Logs a warning message. {@inheritDoc}
+     * @param message Message.
+     * @param category Category.
+     */
     public void warn(String message, String category)
     {
         this.severities.add("warn");

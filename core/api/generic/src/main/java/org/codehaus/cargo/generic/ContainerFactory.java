@@ -22,13 +22,13 @@ package org.codehaus.cargo.generic;
 import java.util.Map;
 import java.util.Set;
 
-import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerType;
+import org.codehaus.cargo.container.configuration.Configuration;
 
 /**
  * Allow instantiating a container by id (e.g. "resin3x").
- *
+ * 
  * @version $Id$
  */
 public interface ContainerFactory
@@ -36,7 +36,7 @@ public interface ContainerFactory
     /**
      * @param containerId the id of the container to register
      * @param containerType the container type to register ({@link ContainerType#INSTALLED},
-     *        {@link ContainerType#EMBEDDED} or {@link ContainerType#REMOTE})
+     * {@link ContainerType#EMBEDDED} or {@link ContainerType#REMOTE})
      * @param containerClass the container implementation class to register
      */
     void registerContainer(String containerId, ContainerType containerType,
@@ -45,15 +45,15 @@ public interface ContainerFactory
     /**
      * @param containerId the id of the container for which to retrieve the implementation class
      * @param containerType the container's type ({@link ContainerType#INSTALLED},
-     *        {@link ContainerType#EMBEDDED} or {@link ContainerType#REMOTE})
+     * {@link ContainerType#EMBEDDED} or {@link ContainerType#REMOTE})
      * @return the container implementation class
      */
     Class getContainerClass(String containerId, ContainerType containerType);
 
     /**
-     * @param containerId the id of the container to check 
+     * @param containerId the id of the container to check
      * @param containerType the container type
-     * @return true if the specified container and type is already registered or false otherwise 
+     * @return true if the specified container and type is already registered or false otherwise
      */
     boolean isContainerRegistered(String containerId, ContainerType containerType);
 

@@ -174,7 +174,7 @@ public class LocalConfigurationTest extends TestCase
     {
         AbstractLocalConfiguration configuration =
             new LocalConfigurationThatSupportsProperty(Arrays.asList(new String[] {
-            DatasourcePropertySet.DATASOURCE, DatasourcePropertySet.TRANSACTION_SUPPORT}));
+                DatasourcePropertySet.DATASOURCE, DatasourcePropertySet.TRANSACTION_SUPPORT}));
 
         configuration.getDataSources().add(
             ConfigurationFixtureFactory.createDataSource().buildDataSource());
@@ -214,7 +214,7 @@ public class LocalConfigurationTest extends TestCase
     {
         AbstractLocalConfiguration configuration =
             new LocalConfigurationThatSupportsProperty(Arrays.asList(new String[] {
-            DatasourcePropertySet.DATASOURCE, DatasourcePropertySet.CONNECTION_TYPE}));
+                DatasourcePropertySet.DATASOURCE, DatasourcePropertySet.CONNECTION_TYPE}));
 
         configuration.getDataSources().add(
             ConfigurationFixtureFactory.createDataSource().buildDataSource());

@@ -23,7 +23,7 @@ import org.codehaus.cargo.container.ContainerType;
 
 /**
  * Represents a container identified by its id and type.
- *
+ * 
  * @version $Id$
  */
 public class FullContainerIdentity extends SimpleContainerIdentity
@@ -52,8 +52,7 @@ public class FullContainerIdentity extends SimpleContainerIdentity
     }
 
     /**
-     * Differentiate two identities.
-     * {@inheritDoc}
+     * Differentiate two identities. {@inheritDoc}
      * @see Object#equals(java.lang.Object)
      */
     @Override
@@ -61,10 +60,10 @@ public class FullContainerIdentity extends SimpleContainerIdentity
     {
         boolean result = false;
 
-        if ((identity != null) && (identity instanceof FullContainerIdentity))
+        if (identity != null && identity instanceof FullContainerIdentity)
         {
             FullContainerIdentity id = (FullContainerIdentity) identity;
-            if (id.getId().equals(getId()) && (id.getType().equals(getType())))
+            if (id.getId().equals(getId()) && id.getType().equals(getType()))
             {
                 result = true;
             }
@@ -74,8 +73,7 @@ public class FullContainerIdentity extends SimpleContainerIdentity
     }
 
     /**
-     * Allows quick verification to check is two identities are different.
-     * {@inheritDoc}
+     * Allows quick verification to check is two identities are different. {@inheritDoc}
      * @see Object#hashCode()
      */
     @Override

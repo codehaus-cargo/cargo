@@ -21,16 +21,16 @@ package org.codehaus.cargo.container.installer;
 
 import java.net.URL;
 
+import junit.framework.TestCase;
+
+import org.apache.commons.vfs.impl.StandardFileSystemManager;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Get;
-import org.apache.commons.vfs.impl.StandardFileSystemManager;
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.util.AntTaskFactory;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
-import org.codehaus.cargo.container.ContainerException;
-
-import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link ZipURLInstaller}.
@@ -39,14 +39,30 @@ import junit.framework.TestCase;
  */
 public class ZipURLInstallerTest extends TestCase
 {
+    /**
+     * Installer.
+     */
     private ZipURLInstaller installer;
 
+    /**
+     * File system manager.
+     */
     private StandardFileSystemManager fsManager;
 
+    /**
+     * File handler.
+     */
     private FileHandler fileHandler;
 
+    /**
+     * Dummy {@link Get} implementation that doesn't do anything.
+     */
     private class HarmlessGet extends Get
     {
+        /**
+         * Doesn't do anything. {@inheritDoc}
+         * @throws BuildException Never thrown.
+         */
         @Override
         public void execute() throws BuildException
         {
@@ -54,8 +70,15 @@ public class ZipURLInstallerTest extends TestCase
         }
     }
 
+    /**
+     * Dummy {@link Get} implementation that always fails.
+     */
     private class FailingGet extends Get
     {
+        /**
+         * Fails. {@inheritDoc}
+         * @throws BuildException Always thrown.
+         */
         @Override
         public void execute() throws BuildException
         {
@@ -63,6 +86,10 @@ public class ZipURLInstallerTest extends TestCase
         }
     }
 
+    /**
+     * Creates the test ZIP URL installer and its fils system manager. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -76,22 +103,42 @@ public class ZipURLInstallerTest extends TestCase
         this.installer.setFileHandler(this.fileHandler);
     }
 
+    /**
+     * Closes the test file system manager. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void tearDown() throws Exception
     {
+        if (fsManager != null)
+        {
+            fsManager.close();
+        }
+
         super.tearDown();
     }
 
+    /**
+     * Test {@link ZipURLInstaller#getSourceFileName()}.
+     */
     public void testGetSourceFileName()
     {
         assertEquals("resin-3.0.18.zip", this.installer.getSourceFileName());
     }
 
+    /**
+     * Test {@link ZipURLInstaller#getInstallDirName()}.
+     * @throws Exception If anything goes wrong.
+     */
     public void testGetInstallDirName() throws Exception
     {
         assertEquals("resin-3.0.18", this.installer.getInstallDirName());
     }
 
+    /**
+     * Test {@link ZipURLInstaller#install()} successful with a proxy.
+     * @throws Exception If anything goes wrong.
+     */
     public void testSuccessfulDownloadWhenProxySet() throws Exception
     {
         this.installer.setAntTaskFactory(
@@ -101,21 +148,25 @@ public class ZipURLInstallerTest extends TestCase
                 {
                     return new HarmlessGet();
                 }
-            });           
+            });
         Proxy proxy = new Proxy();
         proxy.setHost("proxyhost");
         this.installer.setProxy(proxy);
-        
+
         this.installer.download();
 
         assertEquals(System.getProperty("http.proxyHost"), proxy.getHost());
     }
 
+    /**
+     * Test {@link ZipURLInstaller#install()} successful with no proxy.
+     * @throws Exception If anything goes wrong.
+     */
     public void testSuccessfulDownloadWhenNoProxySet() throws Exception
     {
-        //  Clear any proxy setting
+        // Clear any proxy setting
         new Proxy().clear();
-        
+
         this.installer.setAntTaskFactory(
             new AntTaskFactory()
             {
@@ -123,13 +174,17 @@ public class ZipURLInstallerTest extends TestCase
                 {
                     return new HarmlessGet();
                 }
-            });           
-        
+            });
+
         this.installer.download();
 
         assertNull("Proxy host should not have been set", System.getProperty("http.proxyHost"));
     }
 
+    /**
+     * Test {@link ZipURLInstaller#install()} failed with proxy and then successful without proxy.
+     * @throws Exception If anything goes wrong.
+     */
     public void testFailureWithProxySetButSuccessOnSecondTryWithoutProxy() throws Exception
     {
         this.installer.setAntTaskFactory(
@@ -150,16 +205,20 @@ public class ZipURLInstallerTest extends TestCase
                     }
                     return result;
                 }
-            });           
+            });
         Proxy proxy = new Proxy();
         proxy.setHost("proxyhost");
         this.installer.setProxy(proxy);
-        
+
         this.installer.download();
 
         assertNull("Proxy host should have been unset", System.getProperty("http.proxyHost"));
     }
 
+    /**
+     * Test {@link ZipURLInstaller#getHome()} when container not installed yet.
+     * @throws Exception If anything goes wrong.
+     */
     public void testGetHomeWhenContainerNotInstalled() throws Exception
     {
         this.installer.setInstallDir("ram:///tmp");
@@ -175,6 +234,10 @@ public class ZipURLInstallerTest extends TestCase
         }
     }
 
+    /**
+     * Test {@link ZipURLInstaller#getHome()} when container installed in two levels.
+     * @throws Exception If anything goes wrong.
+     */
     public void testGetHomeWhenContainerDistributionUnzipsInTwoLevels() throws Exception
     {
         this.fsManager.resolveFile("ram:///tmp/resin-3.0.18/resin-3.0.18/bin").createFolder();

@@ -32,7 +32,7 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
  * Mock for {@link org.codehaus.cargo.container.configuration.LocalConfiguration}. We need a static
  * mock rather than a dynamic mock (which we could get using JMock for example) because we're
  * testing factory classes which create an object out of a class name.
- *
+ * 
  * @version $Id$
  */
 public class StandaloneLocalConfigurationStub
@@ -40,7 +40,7 @@ public class StandaloneLocalConfigurationStub
 {
     private ArrayList resources;
 
-	public StandaloneLocalConfigurationStub(String home)
+    public StandaloneLocalConfigurationStub(String home)
     {
         super(home);
         resources = new ArrayList();
@@ -51,40 +51,50 @@ public class StandaloneLocalConfigurationStub
         return ConfigurationType.STANDALONE;
     }
 
-	public List getFileProperties() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public List getFileProperties()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public void setConfigFileProperty(FileConfig fileConfig) {
-		// TODO Auto-generated method stub
-	}
+    public void setConfigFileProperty(FileConfig fileConfig)
+    {
+        // TODO Auto-generated method stub
+    }
 
-	public void setFileProperty(FileConfig fileConfig) {
-	    // TODO Auto-generate method stub
-	}
-	
-	public FilterChain getFilterChain() 
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public void setFileProperty(FileConfig fileConfig)
+    {
+        // TODO Auto-generate method stub
+    }
 
-	/* (non-Javadoc)
-	 * @see org.codehaus.cargo.container.configuration.LocalConfiguration#addResource(org.codehaus.cargo.container.resource.Resource)
-	 */
-	@Override
-    public void addResource(Resource resource) {
-		this.resources.add(resource);
-	}
+    public FilterChain getFilterChain()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.codehaus.cargo.container.configuration.LocalConfiguration#getResources()
-	 */
-	@Override
-    public List getResources() {
-		return resources;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.codehaus.cargo.container.configuration.LocalConfiguration#addResource(org.codehaus.cargo
+     * .container.resource.Resource)
+     */
+    @Override
+    public void addResource(Resource resource)
+    {
+        this.resources.add(resource);
+    }
 
-	
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#getResources()
+     */
+    @Override
+    public List getResources()
+    {
+        return resources;
+    }
+
 }

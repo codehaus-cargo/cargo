@@ -25,7 +25,7 @@ import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Code common to all local container stubs.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractLocalContainerStub
@@ -35,7 +35,7 @@ public abstract class AbstractLocalContainerStub
 
     public AbstractLocalContainerStub()
     {
-        // Allow creating a container with no configuration for test that do not require a 
+        // Allow creating a container with no configuration for test that do not require a
         // configuration
     }
 
@@ -96,7 +96,7 @@ public abstract class AbstractLocalContainerStub
 
     public void setFileHandler(FileHandler handler)
     {
-        throw new RuntimeException("Not implemented");        
+        throw new RuntimeException("Not implemented");
     }
 
     public FileHandler getFileHandler()
