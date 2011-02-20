@@ -21,18 +21,18 @@ package org.codehaus.cargo.maven2;
 
 import java.io.File;
 
+import junit.framework.TestCase;
+
 import org.apache.maven.plugin.MojoExecutionException;
-import org.codehaus.cargo.maven2.log.MavenLogger;
 import org.codehaus.cargo.maven2.configuration.Container;
+import org.codehaus.cargo.maven2.log.MavenLogger;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.Logger;
-
-import junit.framework.TestCase;
 
 public class CargoMojoTest extends TestCase
 {
     private TestableAbstractCargoMojo mojo;
-    
+
     public class TestableAbstractCargoMojo extends AbstractCargoMojo
     {
         /**
@@ -45,13 +45,13 @@ public class CargoMojoTest extends TestCase
             // Do nothing voluntarily for the test
         }
     }
-    
+
     @Override
     protected void setUp()
     {
         this.mojo = new TestableAbstractCargoMojo();
     }
-    
+
     public void testCreateLoggerWhenLogElementSpecified() throws Exception
     {
         // Create temporary log file for the test
@@ -60,11 +60,11 @@ public class CargoMojoTest extends TestCase
 
         this.mojo.setContainerElement(new Container());
         this.mojo.getContainerElement().setLog(logFile);
-        
+
         Logger logger = this.mojo.createLogger();
         assertEquals(FileLogger.class.getName(), logger.getClass().getName());
     }
-    
+
     public void testCreateLoggerWhenLogElementNotSpecified()
     {
         Logger logger = this.mojo.createLogger();

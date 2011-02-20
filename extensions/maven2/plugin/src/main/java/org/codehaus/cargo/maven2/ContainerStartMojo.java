@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
 
 /**
- * Start a container using Cargo. 
+ * Start a container using Cargo.
  * 
  * @version $Id$
  * @goal start
@@ -35,8 +35,8 @@ import org.codehaus.cargo.container.spi.util.ContainerUtils;
 public class ContainerStartMojo extends AbstractCargoMojo
 {
     /**
-     * Decides whether to wait after the container is started or to return the execution
-     * flow to the user.
+     * Decides whether to wait after the container is started or to return the execution flow to the
+     * user.
      * 
      * @parameter expression="${cargo.maven.wait}" default-value="true"
      * @required
@@ -69,12 +69,12 @@ public class ContainerStartMojo extends AbstractCargoMojo
     }
 
     /**
-     * If the project's packaging is war, ear or ejb and there is no deployer specified and
-     * the user has not defined the auto-deployable inside the <code>&lt;deployables&gt;</code>
-     * element, then add the generated artifact to the list of deployables to deploy statically.
+     * If the project's packaging is war, ear or ejb and there is no deployer specified and the user
+     * has not defined the auto-deployable inside the <code>&lt;deployables&gt;</code> element, then
+     * add the generated artifact to the list of deployables to deploy statically.
      * 
-     * Note that the reason we check that a deployer element has not been specified is because
-     * if it has then the auto deployable will be deployed by the specified deployer.
+     * Note that the reason we check that a deployer element has not been specified is because if it
+     * has then the auto deployable will be deployed by the specified deployer.
      * 
      * @param container the local container to which to add the project's artifact
      * @throws MojoExecutionException if an error occurs
@@ -82,13 +82,13 @@ public class ContainerStartMojo extends AbstractCargoMojo
     protected void addAutoDeployDeployable(LocalContainer container)
         throws MojoExecutionException
     {
-        if ((getDeployerElement() == null) && (getCargoProject().getPackaging() != null)
+        if (getDeployerElement() == null && getCargoProject().getPackaging() != null
             && getCargoProject().isJ2EEPackaging())
         {
             // Has the auto-deployable already been specified as part of the <deployables> config
-            // element? 
-            if ((getConfigurationElement() == null)
-                || (getConfigurationElement().getDeployables() == null)
+            // element?
+            if (getConfigurationElement() == null
+                || getConfigurationElement().getDeployables() == null
                 || !containsAutoDeployable(getConfigurationElement().getDeployables()))
             {
                 LocalConfiguration configuration = container.getConfiguration();

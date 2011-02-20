@@ -19,55 +19,61 @@
  */
 package org.codehaus.cargo.ant;
 
+import junit.framework.TestCase;
+
 import org.apache.tools.ant.BuildException;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 
-import junit.framework.TestCase;
-
 /**
  * Unit tests for {@link DeployableElement}.
- *
+ * 
  * @version $Id$
  */
 public class DeployableElementTest extends TestCase
 {
-    private DeployableElement element;
-    
-    @Override
-    protected void setUp()
-    {
-        this.element = new DeployableElement();
-    }
-    
+    /**
+     * The deployable element.
+     */
+    private DeployableElement element = new DeployableElement();
+
+    /**
+     * Test the getter and setter method name.
+     */
     public void testGetSetterMethodName()
     {
         assertEquals("setContext", this.element.getSetterMethodName("context"));
     }
-    
+
+    /**
+     * Test the creation of a WAR deployable with context.
+     */
     public void testCreateWarDeployableWithContext()
     {
         Property contextProperty = new Property();
         contextProperty.setName("context");
         contextProperty.setValue("customContext");
-        
+
         this.element.setType("war");
         this.element.setFile("/some/path/to/war");
         this.element.addConfiguredProperty(contextProperty);
 
         Deployable war = this.element.createDeployable("customContainer");
-        
+
         assertEquals(DeployableType.WAR, war.getType());
         assertEquals("customContext", ((WAR) war).getContext());
     }
-    
+
+    /**
+     * Test the creation of a WAR deployable with an invalid property.
+     */
     public void testCreateWarDeployableWithInvalidProperty()
     {
         Property property = new Property();
         property.setName("invalidProperty");
         property.setValue("whatever");
-        
+
         this.element.setType("war");
         this.element.setFile("/some/path/to/war");
         this.element.addConfiguredProperty(property);
@@ -82,6 +88,6 @@ public class DeployableElementTest extends TestCase
             assertEquals("Invalid property [invalidProperty] for deployable type [war]",
                 expected.getMessage());
         }
-               
+
     }
 }

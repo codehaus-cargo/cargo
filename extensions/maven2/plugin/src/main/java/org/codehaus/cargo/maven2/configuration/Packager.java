@@ -20,14 +20,14 @@
 package org.codehaus.cargo.maven2.configuration;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.codehaus.cargo.generic.packager.PackagerFactory;
-import org.codehaus.cargo.generic.packager.DefaultPackagerFactory;
 import org.codehaus.cargo.container.packager.PackagerType;
+import org.codehaus.cargo.generic.packager.DefaultPackagerFactory;
+import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
- * Holds configuration data for the <code>&lt;packager&gt;</code> tag used to configure
- * the plugin in the <code>pom.xml</code> file.
- *
+ * Holds configuration data for the <code>&lt;packager&gt;</code> tag used to configure the plugin
+ * in the <code>pom.xml</code> file.
+ * 
  * @version $Id$
  */
 public class Packager

@@ -24,45 +24,54 @@ import java.util.Map;
 import org.codehaus.cargo.maven2.util.CargoProject;
 
 /**
- * Holds configuration data for the <code>&lt;resource&gt;</code> tag used to
- * configure the plugin in the <code>pom.xml</code> file.
+ * Holds configuration data for the <code>&lt;resource&gt;</code> tag used to configure the plugin
+ * in the <code>pom.xml</code> file.
  * 
  * @author Alexander Brill <alexander.brill@nhst.no>
  * 
  */
-public class Resource {
+public class Resource
+{
 
-	private String name;
-	private String type;
-	private Map parameters;
+    private String name;
+    private String type;
+    private Map parameters;
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public Map getParameters() {
-		return parameters;
-	}
-
-	public void setParameters(Map parameters) {
-		this.parameters = parameters;
-	}
-
-    public org.codehaus.cargo.container.configuration.entry.Resource createResource(String containerId, CargoProject project)
+    public String getName()
     {
-        org.codehaus.cargo.container.configuration.entry.Resource resource = new org.codehaus.cargo.container.configuration.entry.Resource(getName(), getType());
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(String type)
+    {
+        this.type = type;
+    }
+
+    public Map getParameters()
+    {
+        return parameters;
+    }
+
+    public void setParameters(Map parameters)
+    {
+        this.parameters = parameters;
+    }
+
+    public org.codehaus.cargo.container.configuration.entry.Resource createResource(
+        String containerId, CargoProject project)
+    {
+        org.codehaus.cargo.container.configuration.entry.Resource resource = new org.codehaus.cargo.container.configuration.entry.Resource(
+            getName(), getType());
         resource.setParameters(getParameters());
         return resource;
     }

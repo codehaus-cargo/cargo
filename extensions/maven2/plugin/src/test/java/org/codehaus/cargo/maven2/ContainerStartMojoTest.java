@@ -19,8 +19,8 @@
  */
 package org.codehaus.cargo.maven2;
 
-import java.util.HashSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -28,10 +28,10 @@ import org.apache.maven.plugin.logging.Log;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
 import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
-import org.codehaus.cargo.maven2.util.CargoProject;
+import org.codehaus.cargo.maven2.configuration.Configuration;
 import org.codehaus.cargo.maven2.configuration.Container;
 import org.codehaus.cargo.maven2.configuration.Deployable;
-import org.codehaus.cargo.maven2.configuration.Configuration;
+import org.codehaus.cargo.maven2.util.CargoProject;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 
@@ -72,7 +72,7 @@ public class ContainerStartMojoTest extends MockObjectTestCase
         LocalContainer localContainer = (LocalContainer) this.mojo.createdContainer;
         assertEquals(1, localContainer.getConfiguration().getDeployables().size());
         org.codehaus.cargo.container.deployable.Deployable autoDeployable =
-            (org.codehaus.cargo.container.deployable.Deployable) localContainer.getConfiguration()
+            localContainer.getConfiguration()
                 .getDeployables().get(0);
         assertEquals(deployableFile, autoDeployable.getFile());
     }
@@ -103,8 +103,10 @@ public class ContainerStartMojoTest extends MockObjectTestCase
 
         assertEquals(2, context.size());
         Iterator iter = context.values().iterator();
-        org.codehaus.cargo.container.Container container1 = (org.codehaus.cargo.container.Container) iter.next();
-        org.codehaus.cargo.container.Container container2 = (org.codehaus.cargo.container.Container) iter.next();
+        org.codehaus.cargo.container.Container container1 = (org.codehaus.cargo.container.Container) iter
+            .next();
+        org.codehaus.cargo.container.Container container2 = (org.codehaus.cargo.container.Container) iter
+            .next();
         // can't work out which container is which, so we just check they're different
         assertFalse("containers should be different", container1.equals(container2));
     }
@@ -124,9 +126,9 @@ public class ContainerStartMojoTest extends MockObjectTestCase
 
     /**
      * Set up stubbed container and configuration object in order to prevent real actions to happen
-     * (like the container starting, etc). We're only interested in asserting that the objects
-     * are created correctly here.
-     *
+     * (like the container starting, etc). We're only interested in asserting that the objects are
+     * created correctly here.
+     * 
      * @param containerStubClass the stubbed container class to use
      * @param containerId the container id for the stubbed container
      * @param configurationStubClass the stubbed configuration class to use

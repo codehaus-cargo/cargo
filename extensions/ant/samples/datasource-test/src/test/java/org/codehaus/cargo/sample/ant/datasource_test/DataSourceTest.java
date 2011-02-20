@@ -27,12 +27,15 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
-public class DataSourceTest extends TestCase {
+public class DataSourceTest extends TestCase
+{
 
     Logger logger = new SimpleLogger();
 
-    public void testDataSource() throws Exception {
-        final URL url = new URL("http://localhost:" + System.getProperty("http.port") + "/datasource-test/test");
+    public void testDataSource() throws Exception
+    {
+        final URL url = new URL("http://localhost:" + System.getProperty("http.port")
+            + "/datasource-test/test");
         final String expected = "Got connection!";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);

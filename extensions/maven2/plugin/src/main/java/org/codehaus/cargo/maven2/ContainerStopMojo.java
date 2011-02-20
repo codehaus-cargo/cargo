@@ -24,7 +24,7 @@ import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.LocalContainer;
 
 /**
- * Stop a running container using Cargo. 
+ * Stop a running container using Cargo.
  * 
  * @version $Id$
  * @goal stop

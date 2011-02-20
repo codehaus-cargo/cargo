@@ -22,19 +22,19 @@ package org.codehaus.cargo.ant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.cargo.container.configuration.FileConfig;
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
-import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 
 /**
  * Nested Ant element to wrap the
  * {@link org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory} class.
- *
+ * 
  * @version $Id$
  */
 public class ConfigurationElement
@@ -69,7 +69,7 @@ public class ConfigurationElement
      * List of configuration files
      */
     private List<FileConfig> fileConfigs = new ArrayList<FileConfig>();
-    
+
     /**
      * List of files
      */
@@ -122,7 +122,7 @@ public class ConfigurationElement
     {
         this.files.add(fileConfigElement);
     }
-    
+
     /**
      * Get the list of configFiles
      * @return the configFiles
@@ -131,7 +131,7 @@ public class ConfigurationElement
     {
         return this.fileConfigs;
     }
-    
+
     /**
      * Get the list of files
      * @return the files
@@ -148,11 +148,11 @@ public class ConfigurationElement
     {
         return this.properties;
     }
-    
+
     /**
      * Add a container property.
      * 
-     * @param property the container property to add 
+     * @param property the container property to add
      */
     public void addConfiguredProperty(Property property)
     {
@@ -161,7 +161,7 @@ public class ConfigurationElement
 
     /**
      * Defaults to the standalone configuration if type is not specified by the user.
-     *
+     * 
      * @param typeAsString the configuration type as a string
      * @see org.codehaus.cargo.generic.configuration.ConfigurationFactory
      */
@@ -185,7 +185,7 @@ public class ConfigurationElement
     {
         return this.type;
     }
-    
+
     /**
      * @return the home directory
      */
@@ -252,12 +252,12 @@ public class ConfigurationElement
             }
         }
 
-        return configuration;        
+        return configuration;
     }
 
     /**
      * Add static deployables to the configuration.
-     *
+     * 
      * @param containerId the container id to which to deploy to
      * @param configuration the local configuration to which to add Deployables to
      */

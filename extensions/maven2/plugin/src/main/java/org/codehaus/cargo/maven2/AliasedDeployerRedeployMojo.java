@@ -21,7 +21,7 @@ package org.codehaus.cargo.maven2;
 
 /**
  * Class used uniquely to provide a goal alias for <code>deployer-redeploy</code>.
- *
+ * 
  * @goal redeploy
  * @requiresDependencyResolution compile
  * @see DeployerRedeployMojo

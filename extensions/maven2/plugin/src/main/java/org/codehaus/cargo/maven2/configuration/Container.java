@@ -28,22 +28,22 @@ import java.util.Map;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.installer.ZipURLInstaller;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
-import org.codehaus.cargo.util.log.Logger;
-import org.codehaus.cargo.util.log.LogLevel;
 import org.codehaus.cargo.maven2.util.CargoProject;
+import org.codehaus.cargo.util.log.LogLevel;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
- * Holds configuration data for the <code>&lt;container&gt;</code> tag used to configure
- * the plugin in the <code>pom.xml</code> file.
- *
+ * Holds configuration data for the <code>&lt;container&gt;</code> tag used to configure the plugin
+ * in the <code>pom.xml</code> file.
+ * 
  * @version $Id$
  */
 public class Container
@@ -210,8 +210,8 @@ public class Container
             }
             catch (ClassNotFoundException cnfe)
             {
-               throw new MojoExecutionException("Custom container implementation ["
-                   + getImplementation() + "] cannot be loaded", cnfe);
+                throw new MojoExecutionException("Custom container implementation ["
+                    + getImplementation() + "] cannot be loaded", cnfe);
             }
         }
 
@@ -289,7 +289,7 @@ public class Container
                 Map.Entry entry = (Map.Entry) iter.next();
                 if (entry.getValue() != null)
                 {
-                    System.setProperty((String)entry.getKey(), (String)entry.getValue());
+                    System.setProperty((String) entry.getKey(), (String) entry.getValue());
                 }
             }
         }
@@ -326,7 +326,7 @@ public class Container
             String[] classpaths = new String[getDependencies().length];
             for (int i = 0; i < getDependencies().length; i++)
             {
-                classpaths[i] =  getDependencies()[i].getDependencyPath(project);
+                classpaths[i] = getDependencies()[i].getDependencyPath(project);
             }
             container.setExtraClasspath(classpaths);
         }

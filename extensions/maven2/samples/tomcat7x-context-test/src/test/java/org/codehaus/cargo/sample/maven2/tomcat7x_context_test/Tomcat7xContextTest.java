@@ -27,11 +27,13 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
-public class Tomcat7xContextTest extends TestCase {
+public class Tomcat7xContextTest extends TestCase
+{
 
     Logger logger = new SimpleLogger();
 
-    public void testTomcat7xContext() throws Exception {
+    public void testTomcat7xContext() throws Exception
+    {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
             + "/user-context-test");
         final String expected = "Sample page for testing";

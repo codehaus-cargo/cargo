@@ -23,9 +23,9 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.project.MavenProject;
 
 /**
- * Common MOJO providing an accessor to the Maven Project object (this is the object containing
- * all information contained in the POM on which the MOJO is called).
- *
+ * Common MOJO providing an accessor to the Maven Project object (this is the object containing all
+ * information contained in the POM on which the MOJO is called).
+ * 
  * @version $Id$
  */
 public abstract class AbstractCommonMojo extends AbstractMojo
@@ -36,13 +36,13 @@ public abstract class AbstractCommonMojo extends AbstractMojo
      * @parameter expression="${project}"
      * @required
      * @readonly
-     * @see #getProject()  
+     * @see #getProject()
      */
     private MavenProject project;
 
     /**
-     * @return the Maven project object (this is the object containing all information contained
-     *         in the POM on which the MOJO is called).
+     * @return the Maven project object (this is the object containing all information contained in
+     * the POM on which the MOJO is called).
      */
     public MavenProject getProject()
     {

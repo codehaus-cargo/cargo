@@ -26,13 +26,13 @@ import org.apache.maven.project.MavenProject;
 
 /**
  * Holder class to transport all required information to the configuration classes.
- *
+ * 
  * @version $Id$
  */
 public class CargoProject
 {
     private Log log;
-    
+
     private String packaging;
     private String groupId;
     private String artifactId;
@@ -52,12 +52,12 @@ public class CargoProject
         this.finalName = finalName;
         this.artifacts = artifacts;
     }
-    
+
     public CargoProject(MavenProject project, Log log)
     {
         this(
-            project.getPackaging(), 
-            project.getGroupId(), 
+            project.getPackaging(),
+            project.getGroupId(),
             project.getArtifactId(),
             project.getBuild().getDirectory(),
             project.getBuild().getFinalName(),
@@ -74,7 +74,7 @@ public class CargoProject
     {
         return this.groupId;
     }
-    
+
     public String getArtifactId()
     {
         return this.artifactId;
@@ -84,7 +84,7 @@ public class CargoProject
     {
         return this.buildDirectory;
     }
-    
+
     public String getFinalName()
     {
         return this.finalName;
@@ -94,7 +94,7 @@ public class CargoProject
     {
         return this.artifacts;
     }
-    
+
     public Log getLog()
     {
         return this.log;
@@ -102,12 +102,12 @@ public class CargoProject
 
     public boolean isJ2EEPackaging()
     {
-        return (getPackaging().equalsIgnoreCase("war") 
+        return getPackaging().equalsIgnoreCase("war")
             || getPackaging().equalsIgnoreCase("ear")
             || getPackaging().equalsIgnoreCase("ejb")
             || getPackaging().equalsIgnoreCase("uberwar")
             || getPackaging().equalsIgnoreCase("rar")
-            || getPackaging().equalsIgnoreCase("bundle"));
+            || getPackaging().equalsIgnoreCase("bundle");
     }
 
     public void setEmbeddedClassLoader(ClassLoader classLoader)

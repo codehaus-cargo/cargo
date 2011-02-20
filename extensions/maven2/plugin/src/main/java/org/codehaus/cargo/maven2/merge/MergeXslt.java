@@ -32,41 +32,41 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 
 /**
  * Merge processor that uses XSLT
- *  
- * @version $Id: 
+ * 
+ * @version $Id:
  */
 public class MergeXslt implements MergeProcessorFactory
 {
-  File workingDirectory;
-  
-  public MergeXslt(File directory)
-  {
-    this.workingDirectory = directory;
-  }
- 
-  /**
-   * {@inheritDoc}
-   */
-  public MergeProcessor create(WarArchiveMerger wam, Merge xml)
-  {
-    try
+    File workingDirectory;
+
+    public MergeXslt(File directory)
     {
-      Xpp3Dom parameters = (Xpp3Dom)xml.getParameters();
-      String filename = parameters.getChild("file").getValue();
-      
-      File file = new File(workingDirectory, filename);
-      
-      InputStream is = new FileInputStream(file);
-      
-      DocumentMergerByXslt documentMergerByXslt = new DocumentMergerByXslt(is);            
-      
-      return documentMergerByXslt;
+        this.workingDirectory = directory;
     }
-    catch(Exception ex)
+
+    /**
+     * {@inheritDoc}
+     */
+    public MergeProcessor create(WarArchiveMerger wam, Merge xml)
     {
-      throw new CargoException("Exception creating XSLT Merge",ex);
+        try
+        {
+            Xpp3Dom parameters = (Xpp3Dom) xml.getParameters();
+            String filename = parameters.getChild("file").getValue();
+
+            File file = new File(workingDirectory, filename);
+
+            InputStream is = new FileInputStream(file);
+
+            DocumentMergerByXslt documentMergerByXslt = new DocumentMergerByXslt(is);
+
+            return documentMergerByXslt;
+        }
+        catch (Exception ex)
+        {
+            throw new CargoException("Exception creating XSLT Merge", ex);
+        }
+
     }
-    
-  }
 
 }

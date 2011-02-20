@@ -21,21 +21,24 @@ package org.codehaus.cargo.ant;
 
 import junit.framework.TestCase;
 
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
-import org.codehaus.cargo.container.ContainerType;
 
 /**
  * Unit tests for {@link ConfigurationElement}.
- *
+ * 
  * @version $Id$
  */
 public class ConfigurationElementTest extends TestCase
 {
+    /**
+     * Test the creation of a standalone configuration with some deployables.
+     */
     public void testCreateStandaloneConfigurationWithDeployables()
     {
         ConfigurationElement configElement = new ConfigurationElement();
@@ -46,7 +49,7 @@ public class ConfigurationElementTest extends TestCase
         warElement.setType(DeployableType.WAR.getType());
         warElement.setFile("some/war/file");
         configElement.addConfiguredDeployable(warElement);
-        
+
         DeployableElement earElement = new DeployableElement();
         earElement.setType(DeployableType.EAR.getType());
         earElement.setFile("some/ear/file");
@@ -56,7 +59,7 @@ public class ConfigurationElementTest extends TestCase
         // by the ConfigurationElement is able to create the configuration.
         configElement.setClass(StandaloneLocalConfigurationStub.class);
 
-        LocalConfiguration configuration = 
+        LocalConfiguration configuration =
             (LocalConfiguration) configElement.createConfiguration("someContainerId",
                 ContainerType.INSTALLED);
 

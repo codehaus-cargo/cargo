@@ -31,7 +31,7 @@ import org.codehaus.cargo.generic.deployable.DeployableFactory;
 
 /**
  * Nested Ant element to wrap a {@link Deployable}.
- *
+ * 
  * @version $Id$
  */
 public class DeployableElement
@@ -40,27 +40,27 @@ public class DeployableElement
      * Deployable type ("war", "ear", "ejb", etc).
      */
     private DeployableType type;
-    
+
     /**
      * The deployable file.
      */
     private String file;
 
     /**
-     * Optional implementation class for custom deployable types. 
+     * Optional implementation class for custom deployable types.
      */
     private Class deployableClass;
 
     /**
      * Deployable factory to use to create deployables.
      */
-    private DeployableFactory factory = new DefaultDeployableFactory(); 
+    private DeployableFactory factory = new DefaultDeployableFactory();
 
     /**
      * Deployable properties.
      */
     private List<Property> properties = new ArrayList<Property>();
-    
+
     /**
      * @param file the deployable file to wrap
      */
@@ -70,7 +70,7 @@ public class DeployableElement
     }
 
     /**
-     * @param type the deployable type ("war", "ejb", "ear", etc) 
+     * @param type the deployable type ("war", "ejb", "ear", etc)
      */
     public void setType(String type)
     {
@@ -88,13 +88,13 @@ public class DeployableElement
     /**
      * Add a deployable property.
      * 
-     * @param property the deployable property to add 
+     * @param property the deployable property to add
      */
     public void addConfiguredProperty(Property property)
     {
         this.properties.add(property);
     }
-    
+
     /**
      * @param containerId the container id to which this deployable will be deployed
      * @return a {@link Deployable} representing this nested Ant element
@@ -110,49 +110,50 @@ public class DeployableElement
         {
             throw new BuildException("The [type] attribute is mandatory");
         }
-        
+
         // If a custom implementation class is defined register it against the deployable factory.
         if (getDeployableClass() != null)
         {
-            this.factory.registerDeployable(containerId, getType(), getDeployableClass()); 
+            this.factory.registerDeployable(containerId, getType(), getDeployableClass());
         }
 
         Deployable deployable = this.factory.createDeployable(containerId, getFile(), getType());
-        
+
         // Set user-defined properties on the created deployable.
         for (Property property : getProperties())
         {
             callMethodForProperty(deployable, property);
         }
-        
-        return deployable; 
+
+        return deployable;
     }
 
     /**
      * Call setter methods corresponding to deployable properties.
      * 
      * @param deployable the deployable on which to call the setter method corresponding to the
-     *        specified property
-     * @param property the deployable property used to call the setter method 
+     * specified property
+     * @param property the deployable property used to call the setter method
      */
     private void callMethodForProperty(Deployable deployable, Property property)
     {
         try
         {
-            Method method = deployable.getClass().getMethod(getSetterMethodName(property.getName()),
+            Method method = deployable.getClass().getMethod(
+                getSetterMethodName(property.getName()),
                 new Class[] {String.class});
             method.invoke(deployable, new Object[] {property.getValue()});
         }
         catch (Exception e)
         {
-            throw new BuildException("Invalid property [" + property.getName() 
+            throw new BuildException("Invalid property [" + property.getName()
                 + "] for deployable type [" + deployable.getType() + "]", e);
         }
     }
 
     /**
-     * Transform a property into a method name by transforming the first letter of the property
-     * name to uppercase.
+     * Transform a property into a method name by transforming the first letter of the property name
+     * to uppercase.
      * 
      * @param propertyName the property name to transform into a setter method
      * @return the setter method's name
@@ -161,7 +162,7 @@ public class DeployableElement
     {
         return "set" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
     }
-    
+
     /**
      * @return the deployable type
      */
@@ -185,7 +186,7 @@ public class DeployableElement
     {
         return this.deployableClass;
     }
-    
+
     /**
      * @return the list of deployable properties
      */

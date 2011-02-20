@@ -25,9 +25,9 @@ import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
 
 /**
- * Holds configuration data for the <code>&lt;deployer&gt;</code> tag used to configure
- * the plugin in the <code>pom.xml</code> file.
- *
+ * Holds configuration data for the <code>&lt;deployer&gt;</code> tag used to configure the plugin
+ * in the <code>pom.xml</code> file.
+ * 
  * @version $Id$
  */
 public class Deployer

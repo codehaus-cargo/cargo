@@ -58,15 +58,15 @@ public class PropertySet
         {
             throw new BuildException("Missing [propertiesFiles] attribute");
         }
-        
+
         ResourceBundle bundle;
         try
         {
             bundle = new PropertyResourceBundle(new FileInputStream(this.propertiesFile));
-        } 
+        }
         catch (IOException e)
         {
-            throw new BuildException("Failed to load properties file [" + this.propertiesFile 
+            throw new BuildException("Failed to load properties file [" + this.propertiesFile
                 + "]");
         }
         return bundle;

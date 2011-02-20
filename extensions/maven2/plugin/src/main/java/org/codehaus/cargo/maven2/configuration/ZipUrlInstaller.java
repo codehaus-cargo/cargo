@@ -21,16 +21,16 @@ package org.codehaus.cargo.maven2.configuration;
 
 import java.net.URL;
 
-import org.codehaus.cargo.container.installer.ZipURLInstaller;
 import org.codehaus.cargo.container.installer.Proxy;
+import org.codehaus.cargo.container.installer.ZipURLInstaller;
 
 /**
- * Holds configuration data for the <code>&lt;zipUrlInstaller&gt;</code> tag used to configure
- * the plugin in the <code>pom.xml</code> file.
- *  
+ * Holds configuration data for the <code>&lt;zipUrlInstaller&gt;</code> tag used to configure the
+ * plugin in the <code>pom.xml</code> file.
+ * 
  * @version $Id$
  */
-public class ZipUrlInstaller 
+public class ZipUrlInstaller
 {
     /**
      * URL where to find the zipped container installation file.
@@ -38,8 +38,8 @@ public class ZipUrlInstaller
     private URL url;
 
     /**
-     * Location where the container distribution zip will be downloaded and installed.
-     * If not specified it will default to <code>{java.io.tmpdir}/installs</code>.
+     * Location where the container distribution zip will be downloaded and installed. If not
+     * specified it will default to <code>{java.io.tmpdir}/installs</code>.
      */
     private String installDir;
 
@@ -47,7 +47,7 @@ public class ZipUrlInstaller
      * Proxy properties.
      */
     private Proxy proxy;
-    
+
     /**
      * @see org.codehaus.cargo.container.installer.Installer#install()
      */
@@ -63,7 +63,7 @@ public class ZipUrlInstaller
     {
         this.url = url;
     }
-    
+
     /**
      * @see #setInstallDir(String)
      */
@@ -71,7 +71,7 @@ public class ZipUrlInstaller
     {
         return this.installDir;
     }
-    
+
     /**
      * @see #setUrl(URL)
      */
@@ -87,7 +87,7 @@ public class ZipUrlInstaller
     {
         return this.proxy;
     }
-    
+
     /**
      * @return the configured {@link Proxy} element
      */
@@ -97,13 +97,13 @@ public class ZipUrlInstaller
         {
             this.proxy = new Proxy();
         }
-        
-        return this.proxy;        
+
+        return this.proxy;
     }
-    
+
     /**
      * @return a new instance of {@link ZipURLInstaller} configured using the attributes specified
-     *         by the user
+     * by the user
      */
     public ZipURLInstaller createInstaller()
     {

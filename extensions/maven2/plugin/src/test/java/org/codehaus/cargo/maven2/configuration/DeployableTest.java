@@ -19,19 +19,17 @@
  */
 package org.codehaus.cargo.maven2.configuration;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Map;
-import java.util.HashMap;
 import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
-import org.codehaus.cargo.maven2.util.CargoProject;
-import org.codehaus.cargo.maven2.configuration.Deployable;
-import org.codehaus.cargo.maven2.configuration.CustomType;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.maven2.util.CargoProject;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 
@@ -57,7 +55,7 @@ public class DeployableTest extends MockObjectTestCase
         org.codehaus.cargo.container.deployable.Deployable deployable =
             deployableElement.createDeployable("whateverId", project);
 
-        //  We verify that we've created an auto-deployable
+        // We verify that we've created an auto-deployable
         assertEquals(deployable.getFile(), deployableFile);
         assertEquals(project.getGroupId(), deployableElement.getGroupId());
         assertEquals(project.getArtifactId(), deployableElement.getArtifactId());
@@ -133,7 +131,8 @@ public class DeployableTest extends MockObjectTestCase
         // Verify that the log warning has not been raised
         this.mockLog.expects(never()).method("warn");
 
-        String location = deployableElement.computeLocation(createDefaultProject("jboss-sar", null));
+        String location = deployableElement
+            .computeLocation(createDefaultProject("jboss-sar", null));
         assertTrue(location, location.endsWith("projectFinalName.sar"));
     }
 
@@ -147,7 +146,8 @@ public class DeployableTest extends MockObjectTestCase
         // Verify that the log warning has not been raised
         this.mockLog.expects(never()).method("warn");
 
-        String location = deployableElement.computeLocation(createDefaultProject("jboss-har", null));
+        String location = deployableElement
+            .computeLocation(createDefaultProject("jboss-har", null));
         assertTrue(location, location.endsWith("projectFinalName.har"));
     }
 
@@ -161,7 +161,8 @@ public class DeployableTest extends MockObjectTestCase
         // Verify that the log warning has not been raised
         this.mockLog.expects(never()).method("warn");
 
-        String location = deployableElement.computeLocation(createDefaultProject("jboss-spring", null));
+        String location = deployableElement.computeLocation(createDefaultProject("jboss-spring",
+            null));
         assertTrue(location, location.endsWith("projectFinalName.spring"));
     }
 
@@ -175,7 +176,8 @@ public class DeployableTest extends MockObjectTestCase
         // Verify that the log warning has not been raised
         this.mockLog.expects(never()).method("warn");
 
-        String location = deployableElement.computeLocation(createDefaultProject("jboss-esb", null));
+        String location = deployableElement
+            .computeLocation(createDefaultProject("jboss-esb", null));
         assertTrue(location, location.endsWith("projectFinalName.esb"));
     }
 
@@ -189,14 +191,15 @@ public class DeployableTest extends MockObjectTestCase
         // Verify that the log warning has not been raised
         this.mockLog.expects(never()).method("warn");
 
-        String location = deployableElement.computeLocation(createDefaultProject("somerandompackaging", null));
+        String location = deployableElement.computeLocation(createDefaultProject(
+            "somerandompackaging", null));
         assertTrue(location, location.endsWith("projectFinalName.somerandompackaging"));
     }
 
     /**
      * Setting a Null property is the way Maven2 operates when the user specifies an empty property.
-     * We need to verify that the Cargo plugin intercepts that and replaces the Null with an
-     * empty String.
+     * We need to verify that the Cargo plugin intercepts that and replaces the Null with an empty
+     * String.
      */
     public void testSettingANullDeployableProperty()
     {
@@ -225,11 +228,15 @@ public class DeployableTest extends MockObjectTestCase
         deployableElement.setType("war");
 
         // Verify that the log warning has been raised too
-        this.mockLog.expects(once()).method("warn").with(eq("The defined deployable has the same "
-            + "groupId and artifactId as your project's main artifact but the type is different. "
-            + "You've defined a [war] type whereas the project's packaging is [something]. This is "
-            + "possibly an error and as a consequence the plugin will try to find this deployable "
-            + "in the project's dependencies."));
+        this.mockLog
+            .expects(once())
+            .method("warn")
+            .with(
+                eq("The defined deployable has the same "
+                    + "groupId and artifactId as your project's main artifact but the type is different. "
+                    + "You've defined a [war] type whereas the project's packaging is [something]. This is "
+                    + "possibly an error and as a consequence the plugin will try to find this deployable "
+                    + "in the project's dependencies."));
 
         try
         {

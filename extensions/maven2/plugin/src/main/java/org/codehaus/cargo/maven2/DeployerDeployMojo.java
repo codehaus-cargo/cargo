@@ -22,13 +22,13 @@ package org.codehaus.cargo.maven2;
 import java.net.URL;
 
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployer.DeployableMonitorListener;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
+import org.codehaus.cargo.container.deployer.DeployableMonitorListener;
 import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 
 /**
  * Deploy a deployable to a container.
- *
+ * 
  * @goal deployer-deploy
  * @requiresDependencyResolution compile
  * @version $Id$
@@ -45,8 +45,8 @@ public class DeployerDeployMojo extends AbstractDeployerMojo
         }
 
         /*
-        * @see org.codehaus.cargo.container.deployer.DeployableMonitorListener#deployed()
-        */
+         * @see org.codehaus.cargo.container.deployer.DeployableMonitorListener#deployed()
+         */
         public void deployed()
         {
             getLog().debug("Watchdog finds [" + this.deployable.getFile() + "] deployed.");
@@ -68,8 +68,8 @@ public class DeployerDeployMojo extends AbstractDeployerMojo
         Long pingTimeout)
     {
         getLog().debug("Deploying [" + deployable.getFile() + "]"
-            + ((pingURL == null) ? " ..." : " using ping URL [" + pingURL + "]"
-            + ((pingTimeout == null) ? "" : " and ping timeout [" + pingTimeout + "]")));
+            + (pingURL == null ? " ..." : " using ping URL [" + pingURL + "]"
+                + (pingTimeout == null ? "" : " and ping timeout [" + pingTimeout + "]")));
 
         if (pingURL != null)
         {

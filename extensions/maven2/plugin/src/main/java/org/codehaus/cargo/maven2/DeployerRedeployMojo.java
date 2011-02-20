@@ -23,7 +23,7 @@ import java.net.URL;
 
 /**
  * Redeploy a deployable (i.e. undeploy and deploy it again) in a container.
- *
+ * 
  * @goal deployer-redeploy
  * @requiresDependencyResolution compile
  * @version $Id$

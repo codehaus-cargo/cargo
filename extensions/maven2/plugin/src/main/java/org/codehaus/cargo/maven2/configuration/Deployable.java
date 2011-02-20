@@ -33,9 +33,9 @@ import org.codehaus.cargo.generic.deployable.DeployableFactory;
 import org.codehaus.cargo.maven2.util.CargoProject;
 
 /**
- * Holds configuration data for the <code>&lt;deployable&gt;</code> tag used to configure
- * the plugin in the <code>pom.xml</code> file.
- *
+ * Holds configuration data for the <code>&lt;deployable&gt;</code> tag used to configure the plugin
+ * in the <code>pom.xml</code> file.
+ * 
  * @todo find a way to remove code duplication with Ant's DeployableElement
  * @version $Id$
  */
@@ -120,9 +120,11 @@ public class Deployable extends AbstractDependency
             setLocation(computeLocation(project));
         }
 
-        project.getLog().debug("Computed deployable values: groupId = [" + getGroupId()
-            + "], artifactId = [" + getArtifactId() + "], classifier = [" + getClassifier() +"], type = [" + getType()
-            + "], location = [" + getLocation() + "]");
+        project.getLog().debug(
+            "Computed deployable values: groupId = [" + getGroupId()
+                + "], artifactId = [" + getArtifactId() + "], classifier = [" + getClassifier()
+                + "], type = [" + getType()
+                + "], location = [" + getLocation() + "]");
 
         DeployableFactory factory = new DefaultDeployableFactory();
 
@@ -138,8 +140,8 @@ public class Deployable extends AbstractDependency
             }
             catch (ClassNotFoundException cnfe)
             {
-              throw new MojoExecutionException("Custom deployable implementation ["
-                  + getImplementation() + "] cannot be loaded", cnfe);
+                throw new MojoExecutionException("Custom deployable implementation ["
+                    + getImplementation() + "] cannot be loaded", cnfe);
             }
         }
 
@@ -154,7 +156,7 @@ public class Deployable extends AbstractDependency
 
     /**
      * Set user-defined properties on the created deployable.
-     *
+     * 
      * @param deployable the deployable on which to set the properties
      */
     protected void setPropertiesOnDeployable(
@@ -201,11 +203,12 @@ public class Deployable extends AbstractDependency
             if (classifier == null)
             {
                 location = new File(project.getBuildDirectory(), project.getFinalName() + "."
-                + computeExtension(project.getPackaging())).getPath();
+                    + computeExtension(project.getPackaging())).getPath();
             }
             else
             {
-                location = new File(project.getBuildDirectory(), project.getFinalName() + "-"+ classifier + "."
+                location = new File(project.getBuildDirectory(), project.getFinalName() + "-"
+                    + classifier + "."
                         + computeExtension(project.getPackaging())).getPath();
             }
         }
@@ -216,11 +219,17 @@ public class Deployable extends AbstractDependency
             if (project.getGroupId().equals(getGroupId())
                 && project.getArtifactId().equals(getArtifactId()))
             {
-                project.getLog().warn("The defined deployable has the same groupId and artifactId "
-                    + "as your project's main artifact but the type is different. You've defined a "
-                    + "[" + getType() + "] type whereas the project's packaging is ["
-                    + project.getPackaging() + "]. This is possibly an error and as a consequence "
-                    + "the plugin will try to find this deployable in the project's dependencies.");
+                project
+                    .getLog()
+                    .warn(
+                        "The defined deployable has the same groupId and artifactId "
+                            + "as your project's main artifact but the type is different. You've defined a "
+                            + "["
+                            + getType()
+                            + "] type whereas the project's packaging is ["
+                            + project.getPackaging()
+                            + "]. This is possibly an error and as a consequence "
+                            + "the plugin will try to find this deployable in the project's dependencies.");
             }
 
             // Let's look in the project's dependencies and find a match.
@@ -238,11 +247,12 @@ public class Deployable extends AbstractDependency
         boolean isMatching = false;
 
         if (getType().equalsIgnoreCase(project.getPackaging())
-            ||  (getType().equalsIgnoreCase("war")
-                && project.getPackaging().equalsIgnoreCase(Deployable.UBERWAR))
-            ||  (project.getPackaging().startsWith(Deployable.JBOSS)
-                && getType().equalsIgnoreCase(project.getPackaging().substring(Deployable.JBOSS_STRIP)))
-            ||  getType().equalsIgnoreCase("file"))
+            || getType().equalsIgnoreCase("war")
+                && project.getPackaging().equalsIgnoreCase(Deployable.UBERWAR)
+            || project.getPackaging().startsWith(Deployable.JBOSS)
+                && getType().equalsIgnoreCase(
+                    project.getPackaging().substring(Deployable.JBOSS_STRIP))
+            || getType().equalsIgnoreCase("file"))
         {
             isMatching = true;
         }
@@ -279,9 +289,9 @@ public class Deployable extends AbstractDependency
 
     /**
      * Call setter methods corresponding to deployable properties.
-     *
+     * 
      * @param deployable the deployable on which to call the setter method corresponding to the
-     *        specified property
+     * specified property
      */
     private void callMethodForProperty(
         org.codehaus.cargo.container.deployable.Deployable deployable, String name, String value)
@@ -300,9 +310,9 @@ public class Deployable extends AbstractDependency
     }
 
     /**
-     * Transform a property into a method name by transforming the first letter of the property
-     * name to uppercase.
-     *
+     * Transform a property into a method name by transforming the first letter of the property name
+     * to uppercase.
+     * 
      * @param propertyName the property name to transform into a setter method
      * @return the setter method's name
      */

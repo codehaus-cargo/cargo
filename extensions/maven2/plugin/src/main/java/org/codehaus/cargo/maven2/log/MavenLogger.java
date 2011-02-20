@@ -20,8 +20,8 @@
 package org.codehaus.cargo.maven2.log;
 
 import org.apache.maven.plugin.logging.Log;
-import org.codehaus.cargo.util.log.LogLevel;
 import org.codehaus.cargo.util.internal.log.AbstractLogger;
+import org.codehaus.cargo.util.log.LogLevel;
 
 /**
  * Logger that sends messages to the Maven 2 logging subsystem.
@@ -68,14 +68,14 @@ public class MavenLogger extends AbstractLogger
 
     /**
      * Format the message to display.
-     *   
+     * 
      * @return the formatted message
      * @param message the message to log
      * @param category the log category
      */
     private String formatMessage(String message, String category)
     {
-        String formattedCategory = category.length() > 20 
+        String formattedCategory = category.length() > 20
             ? category.substring(category.length() - 20) : category;
 
         return "[" + formattedCategory + "] " + message;

@@ -19,15 +19,15 @@
  */
 package org.codehaus.cargo.maven2.configuration;
 
+import java.io.File;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.maven2.util.CargoProject;
 
-import java.io.File;
-
 /**
- * Allow users to add classpath entries to the classpath used to start the container. This is
- * the configuration class for passing <code>LocalContainer.addExtraClasspath()</code> information.
- *
+ * Allow users to add classpath entries to the classpath used to start the container. This is the
+ * configuration class for passing <code>LocalContainer.addExtraClasspath()</code> information.
+ * 
  * @version $Id$
  */
 public class Dependency extends AbstractDependency
@@ -38,7 +38,7 @@ public class Dependency extends AbstractDependency
 
         if (path == null)
         {
-            if ((getGroupId() == null) || (getArtifactId() == null))
+            if (getGroupId() == null || getArtifactId() == null)
             {
                 throw new MojoExecutionException("You must specify a groupId/artifactId or "
                     + "a location that points to a directory or JAR");

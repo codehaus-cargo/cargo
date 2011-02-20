@@ -23,19 +23,19 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.codehaus.cargo.container.configuration.FileConfig;
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
-import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.maven2.util.CargoProject;
 
 /**
- * Holds configuration data for the <code>&lt;configuration&gt;</code> tag used to configure
- * the plugin in the <code>pom.xml</code> file.
- *
+ * Holds configuration data for the <code>&lt;configuration&gt;</code> tag used to configure the
+ * plugin in the <code>pom.xml</code> file.
+ * 
  * @version $Id$
  */
 public class Configuration
@@ -49,11 +49,11 @@ public class Configuration
     private Map properties;
 
     private Deployable[] deployables;
-    
+
     private FileConfig[] fileConfigs;
-    
+
     private FileConfig[] configfiles;
-    
+
     private Resource[] resources;
 
     public ConfigurationType getType()
@@ -98,24 +98,24 @@ public class Configuration
 
     public FileConfig[] getConfigfiles()
     {
-    	return this.configfiles;
+        return this.configfiles;
     }
-    
+
     public void setConfigfiles(FileConfig[] configfiles)
-    {  
-    	this.configfiles = configfiles;
+    {
+        this.configfiles = configfiles;
     }
-    
+
     public FileConfig[] getFiles()
     {
         return this.fileConfigs;
     }
-    
-    public void setFiles (FileConfig[] fileConfigs)
+
+    public void setFiles(FileConfig[] fileConfigs)
     {
         this.fileConfigs = fileConfigs;
     }
-    
+
     public String getImplementation()
     {
         return this.implementation;
@@ -126,12 +126,13 @@ public class Configuration
         this.implementation = implementation;
     }
 
-    public Resource[] getResources() 
+    public Resource[] getResources()
     {
         return this.resources;
     }
-    
-    public void setResources(Resource[] rlist) {
+
+    public void setResources(Resource[] rlist)
+    {
         this.resources = rlist;
     }
 
@@ -198,40 +199,41 @@ public class Configuration
             {
                 addStaticDeployables(containerId, (LocalConfiguration) configuration, project);
             }
-            
-            if (getResources() != null) 
+
+            if (getResources() != null)
             {
                 addResources(containerId, (LocalConfiguration) configuration, project);
             }
         }
-        
+
         // Add configfiles for standalone local configurations
         if (configuration instanceof StandaloneLocalConfiguration)
         {
-        	if (getConfigfiles() != null)
-        	{
-        		for (int i = 0; i < getConfigfiles().length; i ++)
-        		{
-        		    FileConfig fileConfig = getConfigfiles()[i];
-        		    ((StandaloneLocalConfiguration)configuration).setConfigFileProperty(fileConfig);
-        		}
-        	}
-        	if (getFiles() != null)
-        	{
-                for (int i = 0; i < getFiles().length; i ++)
+            if (getConfigfiles() != null)
+            {
+                for (int i = 0; i < getConfigfiles().length; i++)
+                {
+                    FileConfig fileConfig = getConfigfiles()[i];
+                    ((StandaloneLocalConfiguration) configuration)
+                        .setConfigFileProperty(fileConfig);
+                }
+            }
+            if (getFiles() != null)
+            {
+                for (int i = 0; i < getFiles().length; i++)
                 {
                     FileConfig fileConfig = getFiles()[i];
-                    ((StandaloneLocalConfiguration)configuration).setFileProperty(fileConfig);
+                    ((StandaloneLocalConfiguration) configuration).setFileProperty(fileConfig);
                 }
-        	}
+            }
         }
 
         return configuration;
     }
 
-	/** 
-	 * Add resources to the configuration.
-	 *
+    /**
+     * Add resources to the configuration.
+     * 
      * @param containerId
      * @param configuration
      * @param project
@@ -248,7 +250,7 @@ public class Configuration
 
     /**
      * Add static deployables to the configuration.
-     *
+     * 
      * @param containerId the container id to which to deploy to
      * @param configuration the local configuration to which to add Deployables to
      */

@@ -19,6 +19,12 @@
  */
 package org.codehaus.cargo.ant;
 
+import java.io.File;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.Environment;
@@ -27,29 +33,23 @@ import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.Reference;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerType;
+import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.RemoteContainer;
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.spi.util.ContainerUtils;
 import org.codehaus.cargo.container.installer.ZipURLInstaller;
+import org.codehaus.cargo.container.spi.util.ContainerUtils;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
-import org.codehaus.cargo.util.log.Logger;
-import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.AntLogger;
+import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.LogLevel;
-
-import java.io.File;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
- * Ant task wrapper around the Cargo API to start/stop containers. This task is generic and can be 
- * used with any container implementation that implements the {@link Container} interface (either 
- * the implementations provided by Cargo or your own ones). 
- *
+ * Ant task wrapper around the Cargo API to start/stop containers. This task is generic and can be
+ * used with any container implementation that implements the {@link Container} interface (either
+ * the implementations provided by Cargo or your own ones).
+ * 
  * @version $Id$
  */
 public class CargoTask extends Task
@@ -79,8 +79,8 @@ public class CargoTask extends Task
     private String action;
 
     /**
-     * If specified, the task will create an Ant property pointing to the container instance
-     * created by the task.
+     * If specified, the task will create an Ant property pointing to the container instance created
+     * by the task.
      */
     private String id;
 
@@ -100,7 +100,7 @@ public class CargoTask extends Task
     private ContainerType containerType = ContainerType.INSTALLED;
 
     /**
-     * List of system properties to set in the container JVM. 
+     * List of system properties to set in the container JVM.
      */
     private Map<String, String> systemProperties = new HashMap<String, String>();
 
@@ -110,14 +110,14 @@ public class CargoTask extends Task
     private Path extraClasspath;
 
     /**
-     * Classpath entries for the classpath that will be shared the applications
-     * deployed in a container.
+     * Classpath entries for the classpath that will be shared the applications deployed in a
+     * container.
      */
     private Path sharedClasspath;
 
     /**
-     * The file to which output of the container should be written. If not specified the output
-     * will be logged in Cargo's log file.
+     * The file to which output of the container should be written. If not specified the output will
+     * be logged in Cargo's log file.
      */
     private String output;
 
@@ -127,9 +127,9 @@ public class CargoTask extends Task
     private File log;
 
     /**
-     * Logging level. Valid values are "warn", "info" and "debug". A logging level of warn only
-     * logs warnings. A level of info logs both warnings and info messages. A level of debug logs
-     * all 3 levels of messages.
+     * Logging level. Valid values are "warn", "info" and "debug". A logging level of warn only logs
+     * warnings. A level of info logs both warnings and info messages. A level of debug logs all 3
+     * levels of messages.
      */
     private LogLevel logLevel;
 
@@ -181,14 +181,14 @@ public class CargoTask extends Task
     private Logger logger;
 
     /**
-     * Decides whether to wait after the container is started or to return the execution
-     * flow to the user.
+     * Decides whether to wait after the container is started or to return the execution flow to the
+     * user.
      */
     private boolean wait = true;
 
     /**
      * @param wait if true wait indefinitely after the container is started, if false return the
-     *        execution flow to the user
+     * execution flow to the user
      */
     public void setWait(boolean wait)
     {
@@ -354,8 +354,8 @@ public class CargoTask extends Task
     }
 
     /**
-     * Adds extra classpath that will be used for starting the container. 
-     *
+     * Adds extra classpath that will be used for starting the container.
+     * 
      * @return reference to the classpath
      */
     public Path createExtraClasspath()
@@ -370,7 +370,7 @@ public class CargoTask extends Task
 
     /**
      * Adds shared classpath that will be shared by container applications.
-     *
+     * 
      * @return reference to the classpath
      */
     public Path createSharedClasspath()
@@ -399,7 +399,7 @@ public class CargoTask extends Task
      * 
      * Note: When we switch to Ant 1.6 we will be able to replace this by Ant 1.6 PropertySet
      * 
-     * @param propertySet Ant element defining the property set 
+     * @param propertySet Ant element defining the property set
      */
     public void addConfiguredSyspropertyset(PropertySet propertySet)
     {
@@ -418,7 +418,7 @@ public class CargoTask extends Task
     /**
      * Called by Ant when the Variable object has been properly initialized.
      * 
-     * @param property the system property to set 
+     * @param property the system property to set
      */
     public void addConfiguredSysproperty(Environment.Variable property)
     {
@@ -426,9 +426,9 @@ public class CargoTask extends Task
     }
 
     /**
-     * Create the Cargo logger that will be used for logging all messages. If the user has
-     * specified a log file we creare a File logger. If no file has been specified we use an Ant
-     * logger by default to log to the Ant logging subsystem.
+     * Create the Cargo logger that will be used for logging all messages. If the user has specified
+     * a log file we creare a File logger. If no file has been specified we use an Ant logger by
+     * default to log to the Ant logging subsystem.
      */
     private void createCargoLogger()
     {
@@ -673,7 +673,7 @@ public class CargoTask extends Task
 
     /**
      * {@inheritDoc}
-     * @see #setOutput(String) 
+     * @see #setOutput(String)
      */
     protected final String getOutput()
     {
@@ -700,7 +700,7 @@ public class CargoTask extends Task
 
     /**
      * {@inheritDoc}
-     * @see #setHome(String) 
+     * @see #setHome(String)
      */
     protected final String getHome()
     {
@@ -817,33 +817,33 @@ public class CargoTask extends Task
      */
     private void verify()
     {
-        if ((getId() != null) && (getRefid() != null))
+        if (getId() != null && getRefid() != null)
         {
             throw new BuildException("You must use either [id] or [refid] but not both");
         }
 
-        if ((getContainerId() == null) && (getRefid() == null))
+        if (getContainerId() == null && getRefid() == null)
         {
             throw new BuildException("You must specify a [containerId] attribute or use a [refid] "
                 + "attribute");
         }
 
-        if ((getId() == null) && (getAction() == null))
+        if (getId() == null && getAction() == null)
         {
             throw new BuildException("You must specify an [action] attribute with values ["
                 + ACTION_CONFIGURE + "], [" + ACTION_START + "] or [" + ACTION_STOP + "]");
         }
 
-        if ((getAction() != null)
-            && (!getAction().equalsIgnoreCase(ACTION_START)
+        if (getAction() != null
+            && !getAction().equalsIgnoreCase(ACTION_START)
                 && !getAction().equalsIgnoreCase(ACTION_STOP)
-                && !getAction().equalsIgnoreCase(ACTION_CONFIGURE)))
+                && !getAction().equalsIgnoreCase(ACTION_CONFIGURE))
         {
             throw new BuildException("Valid actions are: [" + ACTION_CONFIGURE + "], ["
                     + ACTION_START + "] and [" + ACTION_STOP + "]");
         }
 
-        if ((getHome() == null) && (getZipURLInstaller() == null))
+        if (getHome() == null && getZipURLInstaller() == null)
         {
             boolean doFail = false;
 
@@ -851,8 +851,8 @@ public class CargoTask extends Task
             {
                 doFail = true;
             }
-            else if ((getContainer().getType() == ContainerType.INSTALLED)
-                && (((InstalledLocalContainer) getContainer()).getHome() == null))
+            else if (getContainer().getType() == ContainerType.INSTALLED
+                && ((InstalledLocalContainer) getContainer()).getHome() == null)
             {
                 doFail = true;
             }

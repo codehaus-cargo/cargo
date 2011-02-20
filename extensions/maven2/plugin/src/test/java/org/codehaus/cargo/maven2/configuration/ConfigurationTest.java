@@ -19,14 +19,14 @@
  */
 package org.codehaus.cargo.maven2.configuration;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import junit.framework.TestCase;
-import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
+
 import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.maven2.configuration.Configuration;
+import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
 
 public class ConfigurationTest extends TestCase
 {
@@ -41,8 +41,8 @@ public class ConfigurationTest extends TestCase
 
     /**
      * Setting a Null property is the way Maven2 operates when the user specifies an empty element.
-     * We need to verify that the Cargo plugin intercepts that and replaces the Null with an
-     * empty String.
+     * We need to verify that the Cargo plugin intercepts that and replaces the Null with an empty
+     * String.
      */
     public void testCreateConfigurationWithAPropertyWithNullValue() throws Exception
     {
@@ -59,11 +59,12 @@ public class ConfigurationTest extends TestCase
 
         assertEquals("", configuration.getPropertyValue("someName"));
     }
-    
-    public void testAddResources() throws Exception {
+
+    public void testAddResources() throws Exception
+    {
         Configuration configurationElement = new Configuration();
         configurationElement.setImplementation(StandaloneLocalConfigurationStub.class.getName());
-        
+
         Resource resource = new Resource();
         resource.setName("name");
         resource.setType("someType");
@@ -71,16 +72,18 @@ public class ConfigurationTest extends TestCase
         parameters.put("key", "value");
         resource.setParameters(parameters);
         configurationElement.setResources(new Resource[] {resource});
-        
-        org.codehaus.cargo.container.configuration.Configuration configuration = configurationElement.createConfiguration("testContainer", ContainerType.INSTALLED, null);
-        
+
+        org.codehaus.cargo.container.configuration.Configuration configuration = configurationElement
+            .createConfiguration("testContainer", ContainerType.INSTALLED, null);
+
         StandaloneLocalConfigurationStub conf = (StandaloneLocalConfigurationStub) configuration;
         List resources = conf.getResources();
         assertEquals("resources not of correct size", 1, resources.size());
-        org.codehaus.cargo.container.configuration.entry.Resource r = (org.codehaus.cargo.container.configuration.entry.Resource) resources.get(0);
+        org.codehaus.cargo.container.configuration.entry.Resource r = (org.codehaus.cargo.container.configuration.entry.Resource) resources
+            .get(0);
         assertEquals("name not correct", "name", r.getName());
         assertEquals("type not correct", "someType", r.getType());
-        
+
     }
 
 }

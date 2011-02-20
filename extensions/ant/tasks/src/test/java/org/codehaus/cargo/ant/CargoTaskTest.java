@@ -20,31 +20,45 @@
 package org.codehaus.cargo.ant;
 
 import junit.framework.TestCase;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Reference;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
-import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
-import org.codehaus.cargo.container.resin.Resin2xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.resin.Resin2xStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
+import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
 
 /**
  * Unit tests for {@link CargoTask}.
- *
+ * 
  * @version $Id$
  */
 public class CargoTaskTest extends TestCase
 {
+    /**
+     * Cargo ANT task.
+     */
     private CargoTask task;
+
+    /**
+     * Cargo ANT task configuration element.
+     */
     private ConfigurationElement configurationElement;
 
+    /**
+     * Creates the various ANT task attributes. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
-    protected void setUp()
+    protected void setUp() throws Exception
     {
+        super.setUp();
+
         this.task = new CargoTask();
 
         this.task.setContainerId(getName());
@@ -55,6 +69,9 @@ public class CargoTaskTest extends TestCase
         this.configurationElement.setHome("somewhere");
     }
 
+    /**
+     * Test the creation of a container with one deployable.
+     */
     public void testMakeContainerWithOneDeployable()
     {
         CargoTask task = new CargoTask();
@@ -75,12 +92,14 @@ public class CargoTaskTest extends TestCase
             container.getConfiguration().getClass().getName());
         assertEquals(1, container.getConfiguration().getDeployables().size());
 
-        Deployable deployable = (Deployable) container.getConfiguration().getDeployables().get(0); 
+        Deployable deployable = container.getConfiguration().getDeployables().get(0);
         assertEquals(WAR.class.getName(), deployable.getClass().getName());
         assertEquals("some/war", deployable.getFile());
     }
 
-
+    /**
+     * Test execution with a valid <code>RefId</code>.
+     */
     public void testExecuteWhenUsingValidRefId()
     {
         Project antProject = new Project();
@@ -98,6 +117,9 @@ public class CargoTaskTest extends TestCase
         task2.execute();
     }
 
+    /**
+     * Test execution with an invalid <code>RefId</code>.
+     */
     public void testExecuteWhenUsingInvalidRefId()
     {
         Project antProject = new Project();
@@ -118,6 +140,9 @@ public class CargoTaskTest extends TestCase
         }
     }
 
+    /**
+     * Test execution with no action.
+     */
     public void testExecuteWithNoAction()
     {
         try
@@ -129,11 +154,15 @@ public class CargoTaskTest extends TestCase
         }
         catch (BuildException expected)
         {
-            assertEquals("You must specify an [action] attribute with values [configure], [start] or [stop]",
+            assertEquals(
+                "You must specify an [action] attribute with values [configure], [start] or [stop]",
                 expected.getMessage());
         }
     }
 
+    /**
+     * Test execution with invalid action.
+     */
     public void testExecuteWithInvalidAction()
     {
         try
@@ -144,10 +173,14 @@ public class CargoTaskTest extends TestCase
         }
         catch (BuildException expected)
         {
-            assertEquals("Valid actions are: [configure], [start] and [stop]", expected.getMessage());
+            assertEquals("Valid actions are: [configure], [start] and [stop]",
+                expected.getMessage());
         }
     }
 
+    /**
+     * Test execution with action <code>stop</code>.
+     */
     public void testExecuteStopOk()
     {
         this.task.setAction("stop");

@@ -24,11 +24,11 @@ import org.codehaus.cargo.module.merge.MergeProcessor;
 import org.codehaus.cargo.module.webapp.merge.WarArchiveMerger;
 
 /**
- * Factory for creating merge processors. 
- *  
- * @version $Id: 
+ * Factory for creating merge processors.
+ * 
+ * @version $Id:
  */
 public interface MergeProcessorFactory
 {
-  MergeProcessor create(WarArchiveMerger wam, Merge xml);
+    MergeProcessor create(WarArchiveMerger wam, Merge xml);
 }

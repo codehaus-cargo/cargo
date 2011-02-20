@@ -24,11 +24,11 @@ import java.net.PasswordAuthentication;
 import java.util.Properties;
 
 /**
- * Holds configuration data for the <code>&lt;proxy&gt;</code> tag used to configure
- * the plugin in the <code>pom.xml</code> file.
- *
- * Note: To be removed once m2 supports configuring custom config POJOs. See MNG-1353 
- *  
+ * Holds configuration data for the <code>&lt;proxy&gt;</code> tag used to configure the plugin in
+ * the <code>pom.xml</code> file.
+ * 
+ * Note: To be removed once m2 supports configuring custom config POJOs. See MNG-1353
+ * 
  * @version $Id$
  */
 public class Proxy
@@ -147,7 +147,7 @@ public class Proxy
      */
     public void configure()
     {
-        if ((getHost() != null) && (getHost().trim().length() > 0))
+        if (getHost() != null && getHost().trim().length() > 0)
         {
             Properties sysprops = System.getProperties();
             String portString = Integer.toString(getPort());

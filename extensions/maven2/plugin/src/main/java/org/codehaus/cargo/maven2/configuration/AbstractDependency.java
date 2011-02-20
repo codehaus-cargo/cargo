@@ -19,16 +19,16 @@
  */
 package org.codehaus.cargo.maven2.configuration;
 
-import org.apache.maven.plugin.logging.Log;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.artifact.Artifact;
-
-import java.util.Set;
 import java.util.Iterator;
+import java.util.Set;
+
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.logging.Log;
 
 /**
  * Common field and method to {@link Dependency} and {@link Deployable}.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractDependency
@@ -40,7 +40,7 @@ public abstract class AbstractDependency
     private String type;
 
     private String location;
-    
+
     private String classifier;
 
     public void setType(String type)
@@ -85,20 +85,20 @@ public abstract class AbstractDependency
 
     public void setClassifier(String classifier)
     {
-    	this.classifier = classifier;
+        this.classifier = classifier;
     }
-    
+
     public String getClassifier()
     {
-    	return this.classifier;
+        return this.classifier;
     }
-    
+
     protected String findArtifactLocation(Set artifacts, Log log) throws MojoExecutionException
     {
         Artifact resolvedArtifact = null;
-        
+
         log.debug("Searching for an artifact that matches [" + getGroupId() + ":"
-            + getArtifactId() + ":" + getType() +  ":" + getClassifier() + "]...");
+            + getArtifactId() + ":" + getType() + ":" + getClassifier() + "]...");
 
         Iterator it = artifacts.iterator();
         while (it.hasNext())
@@ -106,15 +106,17 @@ public abstract class AbstractDependency
             Artifact artifact = (Artifact) it.next();
 
             log.debug("Checking artifact [" + artifact.getGroupId() + ":"
-                + artifact.getArtifactId() + ":" + artifact.getType() + ":" + artifact.getClassifier() + "]...");
+                + artifact.getArtifactId() + ":" + artifact.getType() + ":"
+                + artifact.getClassifier() + "]...");
 
             // TODO: Find a better to handle match between m2 types and cargo types...
             if (artifact.getGroupId().equals(getGroupId())
                 && artifact.getArtifactId().equals(getArtifactId())
-                && (artifact.getClassifier() == getClassifier() 
-                || (artifact.getClassifier() != null && artifact.getClassifier().equals(getClassifier())))
+                && (artifact.getClassifier() == getClassifier()
+                || artifact.getClassifier() != null
+                    && artifact.getClassifier().equals(getClassifier()))
                 && (artifact.getType() == getType()
-                || (artifact.getType() != null && artifact.getType().equals(getType()))))
+                || artifact.getType() != null && artifact.getType().equals(getType())))
             {
                 resolvedArtifact = artifact;
                 break;
@@ -123,7 +125,7 @@ public abstract class AbstractDependency
 
         if (resolvedArtifact == null)
         {
-            throw new MojoExecutionException( "Artifact [" + getGroupId() + ":" + getArtifactId()
+            throw new MojoExecutionException("Artifact [" + getGroupId() + ":" + getArtifactId()
                 + ":" + getType() + "] is not a dependency of the project.");
         }
 

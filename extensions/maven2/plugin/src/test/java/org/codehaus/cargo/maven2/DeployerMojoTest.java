@@ -19,20 +19,20 @@
  */
 package org.codehaus.cargo.maven2;
 
-import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
-import org.codehaus.cargo.container.stub.InstalledLocalDeployerStub;
-import org.codehaus.cargo.container.stub.RemoteContainerStub;
-import org.codehaus.cargo.container.stub.RemoteDeployerStub;
-import org.codehaus.cargo.container.deployer.DeployerType;
-import org.codehaus.cargo.maven2.configuration.Deployer;
-
 import java.net.URL;
 
 import junit.framework.TestCase;
 
+import org.codehaus.cargo.container.deployer.DeployerType;
+import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
+import org.codehaus.cargo.container.stub.InstalledLocalDeployerStub;
+import org.codehaus.cargo.container.stub.RemoteContainerStub;
+import org.codehaus.cargo.container.stub.RemoteDeployerStub;
+import org.codehaus.cargo.maven2.configuration.Deployer;
+
 /**
  * Unit tests for {@link AbstractDeployerMojo}.
- *
+ * 
  * @version $Id$
  */
 public class DeployerMojoTest extends TestCase

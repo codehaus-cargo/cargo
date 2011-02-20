@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.installer.ZipURLInstaller;
 
 /**
  * Nested Ant element to wrap the {@link ZipURLInstaller} class.
- *
+ * 
  * @version $Id$
  */
 public class ZipURLInstallerElement
@@ -40,13 +40,13 @@ public class ZipURLInstallerElement
      * Location where the container distribution zip will be downloaded and installed. If not
      * specified it will default to <code>{java.io.tmpdir}/installs</code>.
      */
-    private String installDir; 
+    private String installDir;
 
     /**
      * Proxy properties.
      */
     private Proxy proxy;
-    
+
     /**
      * @param installDir the install directory
      */
@@ -62,7 +62,7 @@ public class ZipURLInstallerElement
     {
         this.installURL = installURL;
     }
-    
+
     /**
      * @return the install directory
      */
@@ -70,7 +70,7 @@ public class ZipURLInstallerElement
     {
         return this.installDir;
     }
-    
+
     /**
      * @return the install URL to download container from
      */
@@ -86,7 +86,7 @@ public class ZipURLInstallerElement
     {
         return this.proxy;
     }
-    
+
     /**
      * @return the configured {@link Proxy} element
      */
@@ -96,13 +96,13 @@ public class ZipURLInstallerElement
         {
             this.proxy = new Proxy();
         }
-        
-        return this.proxy;        
+
+        return this.proxy;
     }
-    
+
     /**
      * @return a new instance of {@link ZipURLInstaller} configured using the attributes specified
-     *         by the user
+     * by the user
      */
     public ZipURLInstaller createInstaller()
     {

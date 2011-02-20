@@ -20,8 +20,8 @@
 package org.codehaus.cargo.ant;
 
 /**
- * Represent a container property.  
- *
+ * Represent a container property.
+ * 
  * @version $Id$
  */
 public class Property

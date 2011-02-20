@@ -27,7 +27,7 @@ public abstract class AbstractUberWarMojo extends AbstractMojo
 {
     /**
      * The Maven project.
-     *
+     * 
      * @parameter expression="${project}"
      * @required
      * @readonly

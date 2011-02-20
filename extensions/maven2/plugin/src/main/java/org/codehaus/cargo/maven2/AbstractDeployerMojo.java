@@ -19,16 +19,16 @@
  */
 package org.codehaus.cargo.maven2;
 
+import java.net.URL;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
 
-import java.net.URL;
-
 /**
  * Common mojo for all deployer actions (start deployable, stop deployable, deploy deployable,
  * undeploy deployable, etc).
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractDeployerMojo extends AbstractCargoMojo
@@ -42,7 +42,7 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
     @Override
     public void doExecute() throws MojoExecutionException
     {
-        if ((getCargoProject().getPackaging() == null) || !getCargoProject().isJ2EEPackaging())
+        if (getCargoProject().getPackaging() == null || !getCargoProject().isJ2EEPackaging())
         {
             if (getDeployerElement() == null || getDeployerElement().getDeployables() == null
                 || getDeployerElement().getDeployables().length == 0)
@@ -90,7 +90,7 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
     /**
      * Perform deployment action on all deployables (defined in the deployer configuration element
      * and on the autodeployable).
-     *
+     * 
      * @param container the container to deploy into
      * @param deployer the deployer to use to deploy into the container
      * @throws MojoExecutionException in case of a deployment error
@@ -117,10 +117,10 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
         }
 
         // Perform deployment action on the autodeployable (if any).
-        if ((getCargoProject().getPackaging() != null) && getCargoProject().isJ2EEPackaging())
+        if (getCargoProject().getPackaging() != null && getCargoProject().isJ2EEPackaging())
         {
-            if ((getDeployerElement() == null)
-                || (getDeployerElement().getDeployables() == null)
+            if (getDeployerElement() == null
+                || getDeployerElement().getDeployables() == null
                 || !containsAutoDeployable(getDeployerElement().getDeployables()))
             {
                 // The ping URL is always null here because if the user has specified a ping URL

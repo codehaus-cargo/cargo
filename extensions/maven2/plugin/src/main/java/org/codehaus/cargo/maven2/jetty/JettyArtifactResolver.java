@@ -19,6 +19,14 @@
  */
 package org.codehaus.cargo.maven2.jetty;
 
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -26,17 +34,9 @@ import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.container.internal.util.JdkUtils;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.net.URL;
-import java.net.URLClassLoader;
-
 /**
  * Dynamically load Jetty dependencies.
- *
+ * 
  * @version $Id$
  */
 public class JettyArtifactResolver
@@ -88,8 +88,8 @@ public class JettyArtifactResolver
         jetty5xDependencies.add(new Dependency("javax.servlet", "servlet-api", "2.4"));
         jetty5xDependencies.add(new Dependency("javax.servlet", "jsp-api", "2.0"));
         jetty5xDependencies.add(new Dependency("ant", "ant", "1.6.4"));
-        jetty5xDependencies.add(new Dependency("xerces", "xercesImpl","2.6.2"));
-        jetty5xDependencies.add(new Dependency("xerces", "xmlParserAPIs","2.6.2"));
+        jetty5xDependencies.add(new Dependency("xerces", "xercesImpl", "2.6.2"));
+        jetty5xDependencies.add(new Dependency("xerces", "xmlParserAPIs", "2.6.2"));
         jetty5xDependencies.add(new Dependency("tomcat", "jasper-compiler", "5.5.12"));
         jetty5xDependencies.add(new Dependency("tomcat", "jasper-runtime", "5.5.12"));
         jetty5xDependencies.add(new Dependency("commons-el", "commons-el", "1.0"));
@@ -106,13 +106,13 @@ public class JettyArtifactResolver
         jetty6xDependencies.add(new Dependency("commons-el", "commons-el", "1.0"));
         jetty6xDependencies.add(new Dependency("tomcat", "jasper-compiler", "5.5.15"));
         jetty6xDependencies.add(new Dependency("tomcat", "jasper-runtime", "5.5.15"));
-        jetty6xDependencies.add(new Dependency("tomcat", "jasper-compiler-jdt","5.5.15"));
+        jetty6xDependencies.add(new Dependency("tomcat", "jasper-compiler-jdt", "5.5.15"));
         jetty6xDependencies.add(new Dependency("javax.mail", "mail", "1.4"));
         jetty6xDependencies.add(new Dependency("javax.activation", "activation", "1.1"));
         jetty6xDependencies.add(new Dependency("geronimo-spec", "geronimo-spec-jta", "1.0.1B-rc4"));
-        jetty6xDependencies.add(new Dependency("xerces", "xercesImpl","2.6.2"));
-        jetty6xDependencies.add(new Dependency("xerces", "xmlParserAPIs","2.6.2"));
-        jetty6xDependencies.add(new Dependency("commons-logging", "commons-logging","1.0.4"));
+        jetty6xDependencies.add(new Dependency("xerces", "xercesImpl", "2.6.2"));
+        jetty6xDependencies.add(new Dependency("xerces", "xmlParserAPIs", "2.6.2"));
+        jetty6xDependencies.add(new Dependency("commons-logging", "commons-logging", "1.0.4"));
         jetty6xDependencies.add(new Dependency("log4j", "log4j", "1.2.14"));
 
         List jetty7xDependencies = new ArrayList();
@@ -165,7 +165,7 @@ public class JettyArtifactResolver
                 Dependency dependency = (Dependency) it.next();
                 Artifact artifact = this.artifactFactory.createArtifact(dependency.groupId,
                     dependency.artifactId, dependency.version, "compile", "jar");
-                this.artifactResolver.resolve(artifact, this.repositories, this.localRepository );
+                this.artifactResolver.resolve(artifact, this.repositories, this.localRepository);
                 urls.add(artifact.getFile().toURI().toURL());
             }
 
