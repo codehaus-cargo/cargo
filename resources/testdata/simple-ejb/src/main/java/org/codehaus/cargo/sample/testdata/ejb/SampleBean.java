@@ -27,8 +27,8 @@ import javax.ejb.SessionBean;
 import javax.ejb.SessionContext;
 
 /**
- * Test EJB to verify Cargo can deploy EJB JAR to containers which supports it. 
- *
+ * Test EJB to verify Cargo can deploy EJB JAR to containers which supports it.
+ * 
  * @version $Id$
  */
 public class SampleBean implements SessionBean

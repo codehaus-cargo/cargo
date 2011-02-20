@@ -29,13 +29,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Sample test Servlet used to verify that security parameters are correctly set.
- *
+ * 
  * @version $Id$
  */
 public class TestServlet extends HttpServlet
 {
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) 
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
         PrintWriter out = response.getWriter();

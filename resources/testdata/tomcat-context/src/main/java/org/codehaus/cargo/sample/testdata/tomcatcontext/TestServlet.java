@@ -29,14 +29,14 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Sample test Servlet used to verify that parameters passed in Tomcat's <code>context.xml</code>
- * file are correctly passed to Tomcat when the WAR module is deployed. 
- *
+ * file are correctly passed to Tomcat when the WAR module is deployed.
+ * 
  * @version $Id$
  */
 public class TestServlet extends HttpServlet
 {
     @Override
-    public void doGet(HttpServletRequest request, 
+    public void doGet(HttpServletRequest request,
         HttpServletResponse response) throws ServletException, IOException
     {
         String value = getServletContext().getInitParameter("testcontextxml");

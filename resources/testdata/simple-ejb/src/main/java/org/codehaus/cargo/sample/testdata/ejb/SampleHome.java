@@ -25,8 +25,8 @@ import javax.ejb.CreateException;
 import javax.ejb.EJBHome;
 
 /**
- * Test EJB to verify Cargo can deploy EJB JAR to containers which supports it. 
- *
+ * Test EJB to verify Cargo can deploy EJB JAR to containers which supports it.
+ * 
  * @version $Id$
  */
 public interface SampleHome extends EJBHome

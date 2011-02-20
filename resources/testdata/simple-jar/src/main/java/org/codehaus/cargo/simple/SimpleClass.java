@@ -37,4 +37,4 @@ public class SimpleClass
     {
         return message;
     }
-} 
+}

@@ -27,6 +27,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
@@ -70,7 +71,9 @@ public class TestServlet extends HttpServlet
         }
         txManager.commit(status);
         if (dao.selectAll().size() != 1)
+        {
             throw new RuntimeException("Commit didn't work");
+        }
         PrintWriter out = response.getWriter();
         out.print("all good!");
         out.close();

@@ -25,8 +25,8 @@ import java.rmi.RemoteException;
 import javax.ejb.EJBObject;
 
 /**
- * Test EJB to verify Cargo can deploy EJB JAR to containers which supports it. 
- *
+ * Test EJB to verify Cargo can deploy EJB JAR to containers which supports it.
+ * 
  * @version $Id$
  */
 public interface Sample extends EJBObject, Remote

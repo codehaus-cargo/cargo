@@ -33,7 +33,7 @@ public class TestBundle implements BundleActivator
 {
     /**
      * Starts the bundle.
-     *
+     * 
      * @param bundleContext OSGi bundle context.
      */
     public void start(final BundleContext bundleContext) throws Exception
@@ -53,7 +53,7 @@ public class TestBundle implements BundleActivator
 
     /**
      * Stops the bundle.
-     *
+     * 
      * @param bundleContext OSGi bundle context.
      */
     public void stop(final BundleContext bundleContext) throws Exception
