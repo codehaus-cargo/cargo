@@ -37,7 +37,7 @@ public interface Deployable extends Loggable
      * @return the deployable's type (war, ear, etc)
      */
     DeployableType getType();
-    
+
     /**
      * @return If the deployable is a directory or not
      */

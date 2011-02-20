@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
@@ -41,7 +41,7 @@ import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
  * Set of common HTTP(S) utility methods.
- *
+ * 
  * @version $Id$
  */
 public class HttpUtils extends LoggedObject
@@ -78,7 +78,7 @@ public class HttpUtils extends LoggedObject
 
     /**
      * Ping a URL and store the detailed result in a {@link HttpResult} object.
-     *
+     * 
      * @param pingURL the URL to ping
      * @param result the detailed ping result
      * @return true if the URL can be ping or false otherwise
@@ -90,7 +90,7 @@ public class HttpUtils extends LoggedObject
 
     /**
      * Ping a URL and store the detailed result in a {@link HttpResult} object.
-     *
+     * 
      * @param pingURL the URL to ping
      * @param result the detailed ping result
      * @param timeout the timeout to wait for, 0 if waiting to infinity
@@ -103,7 +103,7 @@ public class HttpUtils extends LoggedObject
 
     /**
      * Ping a URL and store the detailed result in a {@link HttpResult} object.
-     *
+     * 
      * @param pingURL the URL to ping
      * @param requestProperties optional request properties to add to the connection (can be null)
      * @param result the detailed ping result
@@ -117,7 +117,7 @@ public class HttpUtils extends LoggedObject
 
     /**
      * Ping a URL and store the detailed result in a {@link HttpResult} object.
-     *
+     * 
      * @param pingURL the URL to ping
      * @param requestProperties optional request properties to add to the connection (can be null)
      * @param result the detailed ping result
@@ -137,12 +137,12 @@ public class HttpUtils extends LoggedObject
 
     /**
      * Tests whether we are able to connect to the HTTP(S) server identified by the specified URL.
-     *
+     * 
      * @param url the URL to check
      * @param requestProperties optional request properties to add to the connection (can be null)
      * @param timeout the timeout in ms, 0 for infinity
      * @return the HTTP(S) result containing -1 as response code if no connection could be
-     *         established
+     * established
      */
     private HttpResult testConnectivity(URL url, Map<String, String> requestProperties,
         long timeout)
@@ -218,15 +218,15 @@ public class HttpUtils extends LoggedObject
     /**
      * Tests whether an HTTP(S) return code corresponds to a valid connection to the test URL or
      * not. Success is 200 up to but excluding 300.
-     *
+     * 
      * @param responseResult the detailed HTTP ping result
      * @return <code>true</code> if the test URL could be called without error, <code>false</code>
-     *         otherwise
+     * otherwise
      */
     private boolean isAvailable(HttpResult responseResult)
     {
         boolean result;
-        if ((responseResult.responseCode != -1) && (responseResult.responseCode < 300))
+        if (responseResult.responseCode != -1 && responseResult.responseCode < 300)
         {
             result = true;
         }
@@ -240,7 +240,7 @@ public class HttpUtils extends LoggedObject
     /**
      * Fully reads the input stream from the passed HTTP URL connection to prevent (harmless)
      * server-side exception.
-     *
+     * 
      * @param connection the HTTP URL connection to read from
      * @exception IOException if an error happens during the read
      * @return the HTTP connection response body
@@ -317,7 +317,8 @@ public class HttpUtils extends LoggedObject
 
         /**
          * {@inheritDoc}
-         * @see javax.net.ssl.X509TrustManager#checkClientTrusted(java.security.cert.X509Certificate[], String)
+         * @see javax.net.ssl.X509TrustManager#checkClientTrusted(java.security.cert.X509Certificate[],
+         * String)
          */
         public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType)
         {
@@ -325,7 +326,8 @@ public class HttpUtils extends LoggedObject
 
         /**
          * {@inheritDoc}
-         * @see javax.net.ssl.X509TrustManager#checkServerTrusted(java.security.cert.X509Certificate[], String)
+         * @see javax.net.ssl.X509TrustManager#checkServerTrusted(java.security.cert.X509Certificate[],
+         * String)
          */
         public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType)
         {

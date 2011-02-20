@@ -19,34 +19,30 @@
  */
 package org.codehaus.cargo.container.configuration;
 
-import org.codehaus.cargo.util.log.Loggable;
-
 import java.util.Map;
+
+import org.codehaus.cargo.util.log.Loggable;
 
 /**
  * A configuration represents how a container is configured: where deployables are deployed,
- * container ports, logging levels, container authentication, etc. Cargo supports several 
- * types of configuration:
+ * container ports, logging levels, container authentication, etc. Cargo supports several types of
+ * configuration:
  * <ul>
- *   <li>
- *     <b>local configuration</b>: it represents a configuration located somewhere on the local
- *                                 file system. A local configuration is activated before the
- *                                 container is started.
- *   </li>
- *   <li>
- *     <b>runtime configuration</b>: it represents a configuration for a container that is 
- *                                   already started. The settings that can be set/unset depend
- *                                   on the container's capability for dynamically changing
- *                                   settings.
- *   </li>
- * </ul> 
- *  
+ * <li>
+ * <b>local configuration</b>: it represents a configuration located somewhere on the local file
+ * system. A local configuration is activated before the container is started.</li>
+ * <li>
+ * <b>runtime configuration</b>: it represents a configuration for a container that is already
+ * started. The settings that can be set/unset depend on the container's capability for dynamically
+ * changing settings.</li>
+ * </ul>
+ * 
  * @version $Id$
  */
 public interface Configuration extends Loggable
 {
     /**
-     * A property is a configuration value for the container (eg the web port, the number of 
+     * A property is a configuration value for the container (eg the web port, the number of
      * executing threads, etc).
      * 
      * @param name the property name
@@ -68,11 +64,11 @@ public interface Configuration extends Loggable
     String getPropertyValue(String name);
 
     /**
-     * @return the {@link ConfigurationCapability} of the configuration in term of properties it 
-     *         supports, etc
+     * @return the {@link ConfigurationCapability} of the configuration in term of properties it
+     * supports, etc
      */
     ConfigurationCapability getCapability();
-    
+
     /**
      * @return the configuration type (standalone, existing, runtime, etc)
      */

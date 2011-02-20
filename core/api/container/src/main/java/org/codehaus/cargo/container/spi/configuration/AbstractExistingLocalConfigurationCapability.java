@@ -23,11 +23,11 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 
 /**
- * Base implementation of
- * {@link org.codehaus.cargo.container.configuration.ConfigurationCapability} that needs to be
- * extended by each existing configuration's implementation.
- *
- * @version $Id$
+ * Base implementation of {@link org.codehaus.cargo.container.configuration.ConfigurationCapability}
+ * that needs to be extended by each existing configuration's implementation.
+ * 
+ * @version $Id: AbstractExistingLocalConfigurationCapability.java 2335 2010-07-01 23:35:19Z
+ * alitokmen $
  */
 public abstract class AbstractExistingLocalConfigurationCapability
     extends AbstractConfigurationCapability

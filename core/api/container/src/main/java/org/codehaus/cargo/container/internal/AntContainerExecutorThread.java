@@ -36,10 +36,10 @@ public class AntContainerExecutorThread extends Thread
      * The Ant java command to execute.
      */
     private Java java;
-    
+
     /** Build exception. */
     private AtomicReference ex = new AtomicReference();
-    
+
     /** Finished flag. */
     private AtomicBoolean finishedFlag = new AtomicBoolean(false);
 
@@ -92,7 +92,7 @@ public class AntContainerExecutorThread extends Thread
      */
     @Override
     public void run()
-    {        
+    {
         // This makes Ant Java task to throw an exception when something goes
         // wrong.
         this.java.setFailonerror(true);

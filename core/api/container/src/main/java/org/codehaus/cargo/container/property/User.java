@@ -29,7 +29,7 @@ import java.util.StringTokenizer;
 import org.codehaus.cargo.container.ContainerException;
 
 /**
- * Represent an authenticating user for the Servlet container. 
+ * Represent an authenticating user for the Servlet container.
  * 
  * @version $Id$
  */
@@ -39,12 +39,12 @@ public final class User
      * @see #setName(String)
      */
     private String name;
-    
+
     /**
      * @see #setPassword(String)
      */
     private String password;
-    
+
     /**
      * @see #addRoles(java.util.List)
      */
@@ -68,7 +68,7 @@ public final class User
 
     /**
      * Sets the authenticated user password.
-     *
+     * 
      * @param password the user password
      */
     public void setPassword(String password)
@@ -99,7 +99,7 @@ public final class User
     {
         this.roles.addAll(roles);
     }
-    
+
     /**
      * @return the list of roles attached to this user
      */
@@ -116,8 +116,8 @@ public final class User
     public boolean equals(Object userObject)
     {
         boolean result = false;
-        
-        if ((userObject != null) && (userObject instanceof User))
+
+        if (userObject != null && userObject instanceof User)
         {
             User user = (User) userObject;
             if (user.getName().equals(getName()) && user.getPassword().equals(getPassword()))
@@ -125,7 +125,7 @@ public final class User
                 result = user.getRoles().equals(getRoles());
             }
         }
-        
+
         return result;
     }
 
@@ -138,17 +138,17 @@ public final class User
     {
         return (getName() + getPassword()).hashCode();
     }
-    
+
     /**
      * Parse a string representing the users (see {@link ServletPropertySet#USERS}.
-     *  
+     * 
      * @param usersAsString the string representing the users
-     * @return a list of {@link User} objects 
+     * @return a list of {@link User} objects
      */
     public static List<User> parseUsers(String usersAsString)
     {
         List<User> users = new ArrayList<User>();
-        
+
         // The format to parse is "name1:pwd1:role11,...,role1N|name2:pwd2:role21,...,role2N|..."
         StringTokenizer userTokens = new StringTokenizer(usersAsString, "|");
         while (userTokens.hasMoreTokens())
@@ -168,7 +168,7 @@ public final class User
     protected static User parseUser(String userAsString)
     {
         User user = new User();
-        
+
         StringTokenizer fieldTokens = new StringTokenizer(userAsString, ":", true);
 
         try
@@ -200,7 +200,7 @@ public final class User
         {
             throw new ContainerException("Invalid format for [" + userAsString + "]");
         }
-        
+
         return user;
     }
 
@@ -213,14 +213,14 @@ public final class User
     protected static List<String> parseRoles(String rolesAsString)
     {
         List<String> roles = new ArrayList<String>();
-        
+
         StringTokenizer roleTokens = new StringTokenizer(rolesAsString, ",");
         while (roleTokens.hasMoreTokens())
         {
             String roleToken = roleTokens.nextToken();
             roles.add(roleToken);
         }
-        
+
         return roles;
     }
 
@@ -247,12 +247,12 @@ public final class User
                 {
                     usersForRole = new ArrayList<User>();
                 }
-                
+
                 if (!usersForRole.contains(user))
                 {
                     usersForRole.add(user);
                 }
-                
+
                 roles.put(role, usersForRole);
             }
         }

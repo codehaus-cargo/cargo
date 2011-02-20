@@ -28,26 +28,26 @@ import org.apache.tools.ant.types.FilterChain;
  * in the directory of your choice. It uses default parameters and allows you to modify important
  * ones. If you find that there are parameters that you cannot modify using a standalone
  * configuration you should switch to an {@link ExistingLocalConfiguration}. However, doing so means
- * that you'll need to set up the configuration yourself on your local file system. 
- *  
+ * that you'll need to set up the configuration yourself on your local file system.
+ * 
  * @version $Id$
  */
 public interface StandaloneLocalConfiguration extends LocalConfiguration
 {
 
     /**
-     * set the config file property for a configuration. 
+     * set the config file property for a configuration.
      * 
      * @param fileConfig The FileConfig to use
      */
     void setConfigFileProperty(FileConfig fileConfig);
 
     /**
-     * set the file property for a configuration. 
+     * set the file property for a configuration.
      * @param fileConfig The FileConfig to use
      */
     void setFileProperty(FileConfig fileConfig);
-    
+
     /**
      * Returns the file configurations.
      * 

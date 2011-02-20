@@ -19,8 +19,8 @@
  */
 package org.codehaus.cargo.container.deployer;
 
-import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.ContainerType;
 
 /**
  * Type of Deployer. Can be a installed, embedded or remote.
@@ -59,7 +59,7 @@ public final class DeployerType
 
     /**
      * Transform a type represented as a string into a {@link DeployerType} object.
-     *
+     * 
      * @param typeAsString the string to transform
      * @return the {@link DeployerType} object
      */
@@ -89,7 +89,7 @@ public final class DeployerType
 
     /**
      * Converts a {@link ContainerType} to the corresponding {@link DeployerType}.
-     *
+     * 
      * @param containerType the container type to be converted.
      * @return the deployer type
      */
@@ -170,7 +170,7 @@ public final class DeployerType
      */
     public boolean isLocal()
     {
-        return ((this == INSTALLED) || (this == EMBEDDED));
+        return this == INSTALLED || this == EMBEDDED;
     }
 
     /**
@@ -178,6 +178,6 @@ public final class DeployerType
      */
     public boolean isRemote()
     {
-        return (this == REMOTE);
+        return this == REMOTE;
     }
 }

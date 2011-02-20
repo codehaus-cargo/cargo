@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 
 /**
  * Base implementation of a remote container.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractRemoteContainer extends AbstractContainer implements RemoteContainer
@@ -35,17 +35,17 @@ public abstract class AbstractRemoteContainer extends AbstractContainer implemen
      * The runtime configuration implementation to use.
      */
     private RuntimeConfiguration configuration;
-    
+
     /**
      * Default constructor.
      * @param configuration the configuration to associate to this container. It can be changed
-     *        later on by calling {@link #setConfiguration(RuntimeConfiguration)}
+     * later on by calling {@link #setConfiguration(RuntimeConfiguration)}
      */
     public AbstractRemoteContainer(RuntimeConfiguration configuration)
     {
         this.configuration = configuration;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see RemoteContainer#setConfiguration(RuntimeConfiguration)
@@ -54,7 +54,7 @@ public abstract class AbstractRemoteContainer extends AbstractContainer implemen
     {
         this.configuration = configuration;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see RemoteContainer#getConfiguration()

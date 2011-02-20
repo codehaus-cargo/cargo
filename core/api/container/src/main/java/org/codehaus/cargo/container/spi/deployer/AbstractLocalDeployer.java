@@ -20,12 +20,12 @@
 package org.codehaus.cargo.container.spi.deployer;
 
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Base deployer to deploy to local containers (installed or embedded).
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractLocalDeployer extends AbstractDeployer
@@ -70,8 +70,8 @@ public abstract class AbstractLocalDeployer extends AbstractDeployer
 
     /**
      * @param fileHandler the Cargo file utility class to use. This method is useful for unit
-     *        testing with Mock objects as it can be passed a test file handler that doesn't perform
-     *        any real file action.
+     * testing with Mock objects as it can be passed a test file handler that doesn't perform any
+     * real file action.
      */
     protected void setFileHandler(FileHandler fileHandler)
     {

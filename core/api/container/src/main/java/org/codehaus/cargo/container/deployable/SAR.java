@@ -57,5 +57,5 @@ public class SAR extends AbstractDeployable
     {
         return getFileHandler().isDirectory(getFile());
     }
-   
+
 }

@@ -22,10 +22,9 @@ package org.codehaus.cargo.container.configuration.builder;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 
-
 /**
- * Builds String representations a Resource configuration. These may be JSON or
- * XML or Properties that the <code>Container</code> will know what to do with.
+ * Builds String representations a Resource configuration. These may be JSON or XML or Properties
+ * that the <code>Container</code> will know what to do with.
  * 
  * @version $Id$
  */

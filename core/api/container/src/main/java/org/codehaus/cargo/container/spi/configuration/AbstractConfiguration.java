@@ -19,20 +19,20 @@
  */
 package org.codehaus.cargo.container.spi.configuration;
 
-import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.util.log.LoggedObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.util.log.LoggedObject;
+
 /**
- * Base implementation of 
- * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} that can be 
+ * Base implementation of
+ * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} that can be
  * specialized for any type of configuration.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractConfiguration extends LoggedObject
@@ -55,7 +55,7 @@ public abstract class AbstractConfiguration extends LoggedObject
         setProperty(GeneralPropertySet.HOSTNAME, "localhost");
         setProperty(ServletPropertySet.PORT, "8080");
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.Configuration#setProperty(String, String)

@@ -19,21 +19,21 @@
  */
 package org.codehaus.cargo.container.spi;
 
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.State;
-import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Default container implementation that all local container implementations must extend.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractLocalContainer extends AbstractContainer implements LocalContainer
@@ -44,8 +44,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     private String output;
 
     /**
-     * Whether output of the container should be appended to an existing file,
-     * or the existing file should be truncated.
+     * Whether output of the container should be appended to an existing file, or the existing file
+     * should be truncated.
      */
     private boolean append;
 
@@ -68,11 +68,11 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      * File utility class.
      */
     private FileHandler fileHandler;
-    
+
     /**
      * Default constructor.
      * @param configuration the configuration to associate to this container. It can be changed
-     *        later on by calling {@link #setConfiguration(LocalConfiguration)}
+     * later on by calling {@link #setConfiguration(LocalConfiguration)}
      */
     public AbstractLocalContainer(LocalConfiguration configuration)
     {
@@ -129,7 +129,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     /**
      * Installed and Embedded containers do not have the same signature for their
      * <code>doStart</code> method. Thus we need to abstract it.
-     *
+     * 
      * @throws Exception if any error is raised during the container start
      */
     protected abstract void startInternal() throws Exception;
@@ -137,7 +137,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     /**
      * Installed and Embedded containers do not have the same signature for their
      * <code>doStop</code> method. Thus we need to abstract it.
-     *
+     * 
      * @throws Exception if any error is raised during the container stop
      */
     protected abstract void stopInternal() throws Exception;
@@ -172,8 +172,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         {
             setState(State.UNKNOWN);
             throw new ContainerException("Failed to start the " + getName() + " container."
-                + ((getOutput() == null) ? "" : " Check the [" + getOutput() + "] file "
-                + "containing the container logs for more details."), e);
+                + (getOutput() == null ? "" : " Check the [" + getOutput() + "] file "
+                    + "containing the container logs for more details."), e);
         }
 
         setState(State.STARTED);
@@ -213,8 +213,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         {
             setState(State.UNKNOWN);
             throw new ContainerException("Failed to stop the " + getName() + " container."
-                + ((getOutput() == null) ? "" : " Check the [" + getOutput() + "] file "
-                + "containing the container logs for more details."), e);
+                + (getOutput() == null ? "" : " Check the [" + getOutput() + "] file "
+                    + "containing the container logs for more details."), e);
         }
         finally
         {
@@ -227,9 +227,9 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * Ping the WAR CPC to verify if the container is started or stopped.
-     *
+     * 
      * @param waitForStarting if true then wait for container start, if false wait for container
-     *        stop
+     * stop
      * @throws InterruptedException if the thread sleep is interrupted
      */
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
@@ -296,7 +296,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     {
         this.state = state;
     }
-    
+
     /**
      * @return the Cargo file utility class
      */
@@ -307,8 +307,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * @param fileHandler the Cargo file utility class to use. This method is useful for unit
-     *        testing with Mock objects as it can be passed a test file handler that doesn't perform
-     *        any real file action.
+     * testing with Mock objects as it can be passed a test file handler that doesn't perform any
+     * real file action.
      */
     public void setFileHandler(FileHandler fileHandler)
     {

@@ -19,18 +19,6 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
-import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.deployable.Bundle;
-import org.codehaus.cargo.container.deployable.EAR;
-import org.codehaus.cargo.container.deployable.EJB;
-import org.codehaus.cargo.container.deployable.File;
-import org.codehaus.cargo.container.deployable.RAR;
-import org.codehaus.cargo.container.deployable.SAR;
-import org.codehaus.cargo.container.deployable.WAR;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,12 +26,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.deployable.Bundle;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.EAR;
+import org.codehaus.cargo.container.deployable.EJB;
+import org.codehaus.cargo.container.deployable.File;
+import org.codehaus.cargo.container.deployable.RAR;
+import org.codehaus.cargo.container.deployable.SAR;
+import org.codehaus.cargo.container.deployable.WAR;
+
 /**
- * Local deployer that deploys WARs, EJBs and EARs to a <code>deployable</code> directory of the 
- * given installed container. Note that this deployer supports expanded WARs by copying the
- * expanded WAR to the <code>deployable</code> directory. In other words it does not support
- * in-place expanded WARs (i.e. expanded WARs located in a different directory).
- *
+ * Local deployer that deploys WARs, EJBs and EARs to a <code>deployable</code> directory of the
+ * given installed container. Note that this deployer supports expanded WARs by copying the expanded
+ * WAR to the <code>deployable</code> directory. In other words it does not support in-place
+ * expanded WARs (i.e. expanded WARs located in a different directory).
+ * 
  * @version $Id$
  */
 public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInstalledLocalDeployer
@@ -52,12 +52,12 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      * @see #setShouldDeployExpandedWARs(boolean)
      */
     private boolean shouldDeployExpandedWARs;
-    
+
     /**
      * @see #setShouldDeployExpandedSARs(boolean)
      */
     private boolean shouldDeployExpandedSARs;
-    
+
     /**
      * @see #setShouldDeployExpandedRARs(boolean)
      */
@@ -85,9 +85,9 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     /**
      * Decide whether expanded WARs should be deployed. Some classes using this deployer may not
      * want to deploy expanded WARs as they may want to deploy them in-situ by modifying the
-     * container's configuration file to point to the location of the expanded WAR. This saves
-     * some copying time and make it easier for development round-trips.
-     *
+     * container's configuration file to point to the location of the expanded WAR. This saves some
+     * copying time and make it easier for development round-trips.
+     * 
      * @param flag if true expanded WARs will be deployed
      */
     public void setShouldDeployExpandedWARs(boolean flag)
@@ -98,29 +98,29 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     /**
      * Decide whether expanded SARs should be deployed. Some classes using this deployer may not
      * want to deploy expanded SARs as they may want to deploy them in-situ by modifying the
-     * container's configuration file to point to the location of the expanded SAR. This saves
-     * some copying time and make it easier for development round-trips.
-     *
+     * container's configuration file to point to the location of the expanded SAR. This saves some
+     * copying time and make it easier for development round-trips.
+     * 
      * @param flag if true expanded SARs will be deployed
      */
     public void setShouldDeployExpandedSARs(boolean flag)
     {
         this.shouldDeployExpandedSARs = flag;
     }
-    
+
     /**
      * Decide whether expanded RARs should be deployed. Some classes using this deployer may not
      * want to deploy expanded RARs as they may want to deploy them in-situ by modifying the
-     * container's configuration file to point to the location of the expanded RAR. This saves
-     * some copying time and make it easier for development round-trips.
-     *
+     * container's configuration file to point to the location of the expanded RAR. This saves some
+     * copying time and make it easier for development round-trips.
+     * 
      * @param flag if true expanded RARs will be deployed
      */
     public void setShouldDeployExpandedRARs(boolean flag)
     {
         this.shouldDeployExpandedRARs = flag;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#deploy(Deployable)
@@ -130,7 +130,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     {
         if (!canBeDeployed(deployable))
         {
-            throw new ContainerException("Failed to deploy [" + deployable.getFile() + "] to [" 
+            throw new ContainerException("Failed to deploy [" + deployable.getFile() + "] to ["
                 + getDeployableDir() + "]. The required web context is already in use"
                 + " by another application.");
         }
@@ -216,7 +216,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     /**
      * Checks whether the given Deployable can actually be deployed and whether a deployable has a
      * web context path that already exist in another previously deployed Deployable.
-     *
+     * 
      * @param newDeployable deployable
      * @return true, if the deployable can be deployed
      */
@@ -237,9 +237,9 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     }
 
     /**
-     * Adapter method - to hide the fact that there is no unified API to retrieve
-     * web contexts from a deployable.
-     *
+     * Adapter method - to hide the fact that there is no unified API to retrieve web contexts from
+     * a deployable.
+     * 
      * @param deployable deployable
      * @return a list of all web contexts this deployable uses
      */
@@ -252,7 +252,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
         }
         else if (deployable.getType() == DeployableType.WAR)
         {
-            webContexts = Arrays.asList(new String[]{((WAR) deployable).getContext()});
+            webContexts = Arrays.asList(new String[] {((WAR) deployable).getContext()});
         }
         else
         {
@@ -263,7 +263,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
 
     /**
      * Create a set of all web contexts for a Deployable.
-     *
+     * 
      * @param deployable Deployable
      * @return a set of all web contexts contained in this deployable.
      */
@@ -278,18 +278,18 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     }
 
     /**
-     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s
-     * should be copied to.
-     *
+     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should be
+     * copied to.
+     * 
      * @return Deployable directory
      */
     public abstract String getDeployableDir();
 
     /**
      * Copy the EAR file to the deployable directory.
-     *
+     * 
      * @param deployableDir the directory where the container is expecting deployables to be dropped
-     *        for deployments
+     * for deployments
      * @param ear the EAR deployable
      */
     protected void deployEar(String deployableDir, EAR ear)
@@ -307,7 +307,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
 
         getFileHandler().copyFile(ear.getFile(), getFileHandler().append(deployableDir, earName));
     }
-    
+
     /**
      * Copy the SAR file to the deployable directory.
      * @param deployableDir The directory to copy it too
@@ -318,7 +318,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
         getFileHandler().copyFile(sar.getFile(),
             getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())));
     }
-    
+
     /**
      * Copy the RAR file to the deployable directory.
      * @param deployableDir The directory to copy it too
@@ -338,10 +338,10 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
         getFileHandler().copyFile(rar.getFile(),
             getFileHandler().append(deployableDir, rarName));
     }
-    
+
     /**
      * Copy the EJB file to the deployable directory.
-     *
+     * 
      * @param deployableDir the container's deployable directory
      * @param ejb the EJB deployable
      */
@@ -352,11 +352,11 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     }
 
     /**
-     * Copy the WAR file to the deployable directory, renaming it if the user has specified a
-     * custom context for this WAR.
-     *
+     * Copy the WAR file to the deployable directory, renaming it if the user has specified a custom
+     * context for this WAR.
+     * 
      * @param deployableDir the directory where the container is expecting deployables to be dropped
-     *        for deployments
+     * for deployments
      * @param war the WAR war
      */
     protected void deployWar(String deployableDir, WAR war)
@@ -374,11 +374,11 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     }
 
     /**
-     * Copy the full expanded WAR directory to the deployable directory, renaming it if the user
-     * has specified a custom context for this expanded WAR.
-     *
+     * Copy the full expanded WAR directory to the deployable directory, renaming it if the user has
+     * specified a custom context for this expanded WAR.
+     * 
      * @param deployableDir the directory where the container is expecting deployables to be dropped
-     *        for deployments
+     * for deployments
      * @param war the expanded WAR war
      */
     protected void deployExpandedWar(String deployableDir, WAR war)
@@ -394,31 +394,31 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
         getFileHandler().copyDirectory(
             war.getFile(), getFileHandler().append(deployableDir, context));
     }
-    
+
     /**
-     * Copy the full expanded SAR directory to the deployable directory, renaming it if
-     * the user has specified a custom context for this expanded SAR.
+     * Copy the full expanded SAR directory to the deployable directory, renaming it if the user has
+     * specified a custom context for this expanded SAR.
      * @param deployableDir the directory to deploy the expanded SAR
      * @param sar the expanded SAR sar
      */
     protected void deployExpandedSar(String deployableDir, SAR sar)
     {
-        getFileHandler().copyDirectory(sar.getFile(), 
+        getFileHandler().copyDirectory(sar.getFile(),
             getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())));
     }
-    
+
     /**
-     * Copy the full expanded RAR directory to the deployable directory, renaming it if
-     * the user has specified a custom context for this expanded RAR.
+     * Copy the full expanded RAR directory to the deployable directory, renaming it if the user has
+     * specified a custom context for this expanded RAR.
      * @param deployableDir the directory to deploy the expanded RAR
      * @param rar the expanded RAR rar
      */
     protected void deployExpandedRar(String deployableDir, RAR rar)
     {
-        getFileHandler().copyDirectory(rar.getFile(), 
+        getFileHandler().copyDirectory(rar.getFile(),
             getFileHandler().append(deployableDir, getFileHandler().getName(rar.getFile())));
     }
-    
+
     /**
      * Copy the file to the deployable directory.
      * @param deployableDir the directory to hold the file
@@ -432,7 +432,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
                     file.getFile(),
                     getFileHandler()
                             .append(deployableDir, getFileHandler().getName(file.getFile())));
-        } 
+        }
         else
         {
             getFileHandler().copyFile(
@@ -441,10 +441,10 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
                             .append(deployableDir, getFileHandler().getName(file.getFile())));
         }
     }
-    
+
     /**
      * Copy the OSGi bundle file to the deployable directory.
-     *
+     * 
      * @param deployableDir the container's deployable directory
      * @param bundle the OSGi bundle deployable
      */

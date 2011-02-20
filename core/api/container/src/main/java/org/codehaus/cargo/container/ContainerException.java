@@ -29,7 +29,7 @@ import org.codehaus.cargo.util.CargoException;
 public class ContainerException extends CargoException
 {
     /**
-     * @param message the exception message 
+     * @param message the exception message
      */
     public ContainerException(String message)
     {

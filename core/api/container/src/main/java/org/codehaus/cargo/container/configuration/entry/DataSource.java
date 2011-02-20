@@ -23,7 +23,6 @@ import java.util.Properties;
 
 import org.codehaus.cargo.container.property.TransactionSupport;
 
-
 /**
  * A Datasource is a representation of a JDBC datasource. If supported by the container, this
  * property is used to setup a datasource.
@@ -40,7 +39,7 @@ public class DataSource
     /**
      * <code>javax.sql.XADataSource</code> or <code>javax.sql.Driver</code>.
      * 
-     * @see ConfigurationEntryType
+     * @see org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType
      */
     private String connectionType;
 
@@ -97,7 +96,7 @@ public class DataSource
 
     /**
      * @param connectionType what to use to get a connection from the database.
-     *            <code>javax.sql.XADataSource</code> or <code>javax.sql.Driver</code>.
+     * <code>javax.sql.XADataSource</code> or <code>javax.sql.Driver</code>.
      */
     public void setConnectionType(String connectionType)
     {
@@ -106,7 +105,7 @@ public class DataSource
 
     /**
      * @param transactionSupport transaction support of the datasource ex.
-     *            <code>XA_TRANSACTION</code>
+     * <code>XA_TRANSACTION</code>
      */
     public void setTransactionSupport(TransactionSupport transactionSupport)
     {
@@ -115,7 +114,7 @@ public class DataSource
 
     /**
      * @param driverClass The class name of the Driver or XADataSource. Example:
-     *            <code>org.hsqldb.jdbcDriver</code>.
+     * <code>org.hsqldb.jdbcDriver</code>.
      */
     public void setDriverClass(String driverClass)
     {

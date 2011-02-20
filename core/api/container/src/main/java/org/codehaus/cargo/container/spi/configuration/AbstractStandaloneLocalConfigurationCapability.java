@@ -25,8 +25,9 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 /**
  * Base implementation of {@link org.codehaus.cargo.container.configuration.ConfigurationCapability}
  * that needs to be extended by each standalone configuration's implementation.
- *  
- * @version $Id$
+ * 
+ * @version $Id: AbstractStandaloneLocalConfigurationCapability.java 2340 2010-07-02 09:05:39Z
+ * alitokmen $
  */
 public abstract class AbstractStandaloneLocalConfigurationCapability
     extends AbstractConfigurationCapability

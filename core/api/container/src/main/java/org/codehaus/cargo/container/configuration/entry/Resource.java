@@ -29,22 +29,22 @@ import java.util.Set;
  */
 public class Resource
 {
-    
+
     /**
      * Resource name.
      */
     private String name;
-    
+
     /**
      * Resource Type.
      */
     private String type;
-    
+
     /**
      * Resource Implementation class.
      */
     private String className;
-    
+
     /**
      * Resource parameters.
      */
@@ -55,7 +55,7 @@ public class Resource
      * @param name Name of resource (e.g. jdbc/myConnection).
      * @param type Type of resource (e.g. javax.sql.DataSource).
      */
-    public Resource(String name, String type) 
+    public Resource(String name, String type)
     {
         this.name = name;
         this.type = type;
@@ -79,9 +79,8 @@ public class Resource
     }
 
     /**
-     * Set a resource parameter. I.e. this relates in tomcat to
-     * <ResourceParams...> <parameter> <name>key</name> <value>value</name>
-     * </parameter> ... </ResourceParams>
+     * Set a resource parameter. I.e. this relates in tomcat to <ResourceParams...> <parameter>
+     * <name>key</name> <value>value</name> </parameter> ... </ResourceParams>
      * 
      * @param name Name of the value to set.
      * @param value Value to set.
@@ -131,7 +130,7 @@ public class Resource
     {
         return parameters;
     }
-    
+
     /**
      * @param className the className to set
      */

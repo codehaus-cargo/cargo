@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
  * Default container implementation that all local embedded container implementations must extend.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractEmbeddedLocalContainer
@@ -47,7 +47,7 @@ public abstract class AbstractEmbeddedLocalContainer
 
     /**
      * @param classLoader the custom classloader to use for loading the Embedded container's
-     *        classes.
+     * classes.
      */
     public void setClassLoader(ClassLoader classLoader)
     {
@@ -92,7 +92,7 @@ public abstract class AbstractEmbeddedLocalContainer
     /**
      * Implementation of {@link org.codehaus.cargo.container.LocalContainer#start()} that all
      * containers extending this class must implement.
-     *
+     * 
      * @throws Exception if any error is raised during the container start
      */
     protected abstract void doStart() throws Exception;
@@ -100,7 +100,7 @@ public abstract class AbstractEmbeddedLocalContainer
     /**
      * Implementation of {@link org.codehaus.cargo.container.LocalContainer#stop()} that all
      * containers extending this class must implement.
-     *
+     * 
      * @throws Exception if any error is raised during the container stop
      */
     protected abstract void doStop() throws Exception;

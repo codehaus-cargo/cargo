@@ -20,10 +20,10 @@
 package org.codehaus.cargo.container.configuration;
 
 /**
- * A runtime configuration represents a configuration for a container that is already started. 
- * The parameters that can be set/unset depend on the container's capability for changing parameters
- * at runtime (for example most containers support using JMX for changing some parameters).
- *  
+ * A runtime configuration represents a configuration for a container that is already started. The
+ * parameters that can be set/unset depend on the container's capability for changing parameters at
+ * runtime (for example most containers support using JMX for changing some parameters).
+ * 
  * @version $Id$
  */
 public interface RuntimeConfiguration extends Configuration

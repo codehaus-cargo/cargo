@@ -22,13 +22,12 @@ package org.codehaus.cargo.container.internal.util;
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.Project;
-import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
- * Ant build listener used to collect logs from Ant tasks and to redirect them to a
- * {@link Logger}.
- *  
+ * Ant build listener used to collect logs from Ant tasks and to redirect them to a {@link Logger}.
+ * 
  * @version $Id$
  */
 public class AntBuildListener implements BuildListener
@@ -42,7 +41,7 @@ public class AntBuildListener implements BuildListener
      * Category to log to. Usually this is name of the class being logged.
      */
     private String category;
-    
+
     /**
      * @param logger the logger to which to log the Ant messages received
      * @param category the category to log to. Usually this is name of the class being logged
@@ -113,8 +112,8 @@ public class AntBuildListener implements BuildListener
      */
     public void messageLogged(BuildEvent event)
     {
-        if ((event.getPriority() == Project.MSG_DEBUG)
-            || (event.getPriority() == Project.MSG_VERBOSE))
+        if (event.getPriority() == Project.MSG_DEBUG
+            || event.getPriority() == Project.MSG_VERBOSE)
         {
             this.logger.debug(event.getMessage(), this.category);
         }
@@ -122,8 +121,8 @@ public class AntBuildListener implements BuildListener
         {
             this.logger.info(event.getMessage(), this.category);
         }
-        else if ((event.getPriority() == Project.MSG_WARN)
-            || (event.getPriority() == Project.MSG_ERR))
+        else if (event.getPriority() == Project.MSG_WARN
+            || event.getPriority() == Project.MSG_ERR)
         {
             this.logger.warn(event.getMessage(), this.category);
         }

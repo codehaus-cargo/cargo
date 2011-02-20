@@ -22,9 +22,9 @@ package org.codehaus.cargo.container.spi.util;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.State;
-import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
@@ -32,14 +32,14 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Set of common Container utility methods for people extending Cargo.
- *
+ * 
  * @version $Id$
  */
 public final class ContainerUtils
 {
     /**
-     * When we keep the container started, this is the time we wait before checking if
-     * the container is stopped.
+     * When we keep the container started, this is the time we wait before checking if the container
+     * is stopped.
      */
     private static final int SLEEP = 100;
 
@@ -53,7 +53,7 @@ public final class ContainerUtils
 
     /**
      * @param configuration the configuration from which to derive the CPC URL. We need it to get
-     *        the hostname, the port, etc.
+     * the hostname, the port, etc.
      * @return the CPC Cargo URL
      */
     public static URL getCPCURL(Configuration configuration)
@@ -76,7 +76,7 @@ public final class ContainerUtils
 
     /**
      * Wait indefinitely till the container is stopped.
-     *
+     * 
      * @param container the local container
      */
     public static void waitTillContainerIsStopped(Container container)

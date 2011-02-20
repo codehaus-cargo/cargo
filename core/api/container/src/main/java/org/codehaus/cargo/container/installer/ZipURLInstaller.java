@@ -52,7 +52,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         ".bz2",
         ".tar.gz",
     };
-    
+
     /**
      * URL where the zipped container is located.
      */
@@ -67,7 +67,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
      * Proxy settings to use when downloading distributions.
      */
     private Proxy proxy;
-    
+
     /**
      * Ant utility class.
      */
@@ -79,7 +79,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     private FileHandler fileHandler;
 
     /**
-     * @param remoteLocation URL where the zipped container is located 
+     * @param remoteLocation URL where the zipped container is located
      */
     public ZipURLInstaller(URL remoteLocation)
     {
@@ -88,7 +88,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
 
     /**
      * @param remoteLocation URL where the zipped container is located
-     * @param installDir directory where we will unpack the zip container file 
+     * @param installDir directory where we will unpack the zip container file
      */
     public ZipURLInstaller(URL remoteLocation, String installDir)
     {
@@ -100,7 +100,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
 
     /**
      * @param installDir the destination directory where the zipped container install will be
-     *        downloaded and installed.
+     * downloaded and installed.
      */
     public void setInstallDir(String installDir)
     {
@@ -108,10 +108,10 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     }
 
     /**
-     * Convenience method used for testing in isolation. Test cases can use it for introducing
-     * a custom {@link AntTaskFactory} that returns a custom test-made Ant task.
+     * Convenience method used for testing in isolation. Test cases can use it for introducing a
+     * custom {@link AntTaskFactory} that returns a custom test-made Ant task.
      * 
-     * @param antTaskFactory the test-provided {@link AntTaskFactory} 
+     * @param antTaskFactory the test-provided {@link AntTaskFactory}
      */
     protected void setAntTaskFactory(AntTaskFactory antTaskFactory)
     {
@@ -159,9 +159,9 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     }
 
     /**
-     * Create timestamp file to register that the installation has been successful. This allows
-     * to prevent installing again next time. If the remote URL changes, then the container will
-     * be reinstalled. 
+     * Create timestamp file to register that the installation has been successful. This allows to
+     * prevent installing again next time. If the remote URL changes, then the container will be
+     * reinstalled.
      */
     public void registerInstallation()
     {
@@ -194,10 +194,10 @@ public class ZipURLInstaller extends LoggedObject implements Installer
 
         return isInstalled;
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see Installer#getHome() 
+     * @see Installer#getHome()
      */
     public String getHome()
     {
@@ -218,7 +218,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
             if (getFileHandler().isDirectory(file))
             {
                 nbDirectories++;
-                foundDirectory = file; 
+                foundDirectory = file;
             }
         }
 
@@ -232,7 +232,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         {
             home = foundDirectory;
         }
-        
+
         return home;
     }
 
@@ -251,7 +251,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         expandTask.setDest(targetDir);
         expandTask.execute();
     }
-    
+
     /**
      * Create an ant Expand task.
      * @return The expand task
@@ -259,7 +259,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     private Expand createExpandTask()
     {
         String archivename = getSourceFileName().toLowerCase();
-        Expand expand = null; 
+        Expand expand = null;
         if (archivename.endsWith(".zip"))
         {
             expand = (Expand) this.antUtils.createAntTask("unzip");
@@ -290,7 +290,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
             getLogger().warn(errorMessage, getClass().getName());
             throw new IllegalArgumentException(errorMessage);
         }
-        
+
         return expand;
     }
 
@@ -299,7 +299,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
      */
     protected void download()
     {
-        // Try once with the proxy settings on (if set up by the user) and if it doesn't work, try 
+        // Try once with the proxy settings on (if set up by the user) and if it doesn't work, try
         // again with no proxy settings...
         try
         {
@@ -320,7 +320,8 @@ public class ZipURLInstaller extends LoggedObject implements Installer
                 }
                 catch (Exception ee)
                 {
-                    throw new ContainerException("Failed to download [" + this.remoteLocation + "]",
+                    throw new ContainerException(
+                        "Failed to download [" + this.remoteLocation + "]",
                         ee);
                 }
             }
@@ -361,7 +362,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         getTask.setDest(new File(getDestinationDir(), getSourceFileName()));
         getTask.execute();
     }
-    
+
     /**
      * @return the name of the source zip file (without the path)
      */
@@ -383,7 +384,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     protected String getInstallDirName()
     {
         String name = getSourceFileName();
-        
+
         for (String element : ARCHIVE_ENDINGS)
         {
             int dotPos = name.lastIndexOf(element);
@@ -393,12 +394,12 @@ public class ZipURLInstaller extends LoggedObject implements Installer
                 break;
             }
         }
-        
-        return name;        
+
+        return name;
     }
 
     /**
-     * Create the directory (if need be) where we will unpack the zip container file. 
+     * Create the directory (if need be) where we will unpack the zip container file.
      */
     private void createDestinationDirectory()
     {
@@ -415,7 +416,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     protected String getDestinationDir()
     {
         String dir = this.installDir;
-        
+
         if (dir == null)
         {
             dir = getFileHandler().getTmpPath("installs");

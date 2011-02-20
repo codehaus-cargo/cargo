@@ -35,9 +35,9 @@ import org.codehaus.cargo.container.ContainerException;
 public class JdkUtils
 {
     /**
-     * Returns the file containing the JDK tools (such as the compiler). This
-     * method must not be called on Mac OSX as there is no tools.jar file on
-     * that platform (everything is included in classes.jar).
+     * Returns the file containing the JDK tools (such as the compiler). This method must not be
+     * called on Mac OSX as there is no tools.jar file on that platform (everything is included in
+     * classes.jar).
      * 
      * @return The tools.jar file
      * @throws FileNotFoundException If the tools.jar file could not be found
@@ -56,23 +56,23 @@ public class JdkUtils
             throw new FileNotFoundException(toolsJar.getAbsolutePath());
         }
         return toolsJar;
-    }   
+    }
 
     /**
-     * Is the user running on a Macintosh OS X system?  Heuristic derived from
-     * <a href="http://developer.apple.com/technotes/tn/tn2042.html#Section0_1">
-     * Apple Tech Note 2042</a>.
-     *
+     * Is the user running on a Macintosh OS X system? Heuristic derived from <a
+     * href="http://developer.apple.com/technotes/tn/tn2042.html#Section0_1"> Apple Tech Note
+     * 2042</a>.
+     * 
      * @return true if the user's system is determined to be Mac OS X.
      */
     public final boolean isOSX()
     {
-        return (System.getProperty("mrj.version") != null);
-    }    
+        return System.getProperty("mrj.version") != null;
+    }
 
     /**
      * Pauses the current thread for the specified amount.
-     *
+     * 
      * @param ms The time to sleep in milliseconds
      */
     public void sleep(long ms)

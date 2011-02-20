@@ -40,17 +40,17 @@ public final class DeployableType
      * The EJB deployable type.
      */
     public static final DeployableType EJB = new DeployableType("ejb");
-    
+
     /**
      * The SAR deployable type.
      */
     public static final DeployableType SAR = new DeployableType("sar");
-    
+
     /**
      * The RAR deployable type.
      */
     public static final DeployableType RAR = new DeployableType("rar");
-    
+
     /**
      * The File deployable type.
      */
@@ -60,7 +60,7 @@ public final class DeployableType
      * The OSGi Bundle deployable type.
      */
     public static final DeployableType BUNDLE = new DeployableType("bundle");
-    
+
     /**
      * A unique id that identifies a deployable type.
      */
@@ -76,14 +76,14 @@ public final class DeployableType
 
     /**
      * Transform a type represented as a string into a {@link DeployableType} object.
-     *
+     * 
      * @param typeAsString the string to transform
      * @return the {@link DeployableType} object
      */
     public static DeployableType toType(String typeAsString)
     {
         DeployableType type;
-        
+
         if (typeAsString.equalsIgnoreCase(WAR.type))
         {
             type = WAR;
@@ -156,7 +156,7 @@ public final class DeployableType
     {
         return this.type;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see Object#toString()

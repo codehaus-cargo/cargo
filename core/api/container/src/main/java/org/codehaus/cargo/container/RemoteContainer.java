@@ -22,9 +22,9 @@ package org.codehaus.cargo.container;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 
 /**
- * A remote container is a container that is already installed and started (locally or on a remote 
+ * A remote container is a container that is already installed and started (locally or on a remote
  * machine). It is accessed remotely without any file system access.
- *
+ * 
  * @version $Id$
  */
 public interface RemoteContainer extends Container
@@ -33,7 +33,7 @@ public interface RemoteContainer extends Container
      * @param configuration the runtime configuration implementation to use
      */
     void setConfiguration(RuntimeConfiguration configuration);
-    
+
     /**
      * @return the runtime configuration to use
      * @see #setConfiguration(RuntimeConfiguration)

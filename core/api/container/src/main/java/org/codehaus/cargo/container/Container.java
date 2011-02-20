@@ -23,34 +23,34 @@ import org.codehaus.cargo.util.log.Loggable;
 
 /**
  * Common container API to wrap a physical container. There can be specialized types of containers
- * such as {@link org.codehaus.cargo.container.LocalContainer} or 
+ * such as {@link org.codehaus.cargo.container.LocalContainer} or
  * {@link org.codehaus.cargo.container.RemoteContainer}.
- *  
+ * 
  * @version $Id$
  */
 public interface Container extends Loggable
 {
     /**
-     * @return the short name of the container. Note: this is not a unique id. It is simply the 
-     *         name in a computer-usable format.
+     * @return the short name of the container. Note: this is not a unique id. It is simply the name
+     * in a computer-usable format.
      */
     String getId();
-    
+
     /**
      * @return the human readable name of the Container (ex: "Resin 3.x", "JBoss 3.0.8", etc).
      */
     String getName();
-   
+
     /**
-     * @return the {@link ContainerCapability} of the container in term of ability to deploy such 
-     *         and such type of {@link org.codehaus.cargo.container.deployable.Deployable}s 
-     *         (eg WAR, EAR, etc).
+     * @return the {@link ContainerCapability} of the container in term of ability to deploy such
+     * and such type of {@link org.codehaus.cargo.container.deployable.Deployable}s (eg WAR, EAR,
+     * etc).
      */
     ContainerCapability getCapability();
 
     /**
-     * @return the container state (Valid states are Container.STOPPED, Container.STARTED, 
-     *         Container.STARTING and Container.STOPPING)
+     * @return the container state (Valid states are Container.STOPPED, Container.STARTED,
+     * Container.STARTING and Container.STOPPING)
      */
     State getState();
 

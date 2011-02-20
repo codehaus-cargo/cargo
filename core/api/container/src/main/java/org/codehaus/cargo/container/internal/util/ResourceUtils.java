@@ -65,10 +65,10 @@ public final class ResourceUtils extends LoggedObject
     {
         copyResource(resourceName, destFile.getPath(), defaultFileHandler);
     }
-    
+
     /**
-     * Copies a container resource from the JAR into the specified file using the specified
-     * file handler.
+     * Copies a container resource from the JAR into the specified file using the specified file
+     * handler.
      * 
      * @param resourceName The name of the resource
      * @param destFile The file to which the contents of the resource should be copied
@@ -83,12 +83,12 @@ public final class ResourceUtils extends LoggedObject
         {
             throw new IOException("Resource [" + resourceName + "] not found");
         }
-        
+
         OutputStream out = null;
         try
         {
             out = handler.getOutputStream(destFile);
-            
+
             byte[] buf = new byte[4096];
             int numBytes;
             while ((numBytes = in.read(buf)) > 0)
@@ -105,33 +105,33 @@ public final class ResourceUtils extends LoggedObject
             }
         }
     }
-    
+
     /**
-     * Copies a container resource from the JAR into the specified file, thereby applying the 
+     * Copies a container resource from the JAR into the specified file, thereby applying the
      * specified filters.
      * 
      * @param resourceName The name of the resource, relative to the
-     *        org.apache.cactus.integration.ant.container package
+     * org.apache.cactus.integration.ant.container package
      * @param destFile The file to which the contents of the resource should be copied
      * @param filterChain The ordered list of filter readers that should be applied while copying
      * @throws IOException If an I/O error occurs while copying the resource
      */
-    public void copyResource(String resourceName, File destFile, FilterChain filterChain) 
+    public void copyResource(String resourceName, File destFile, FilterChain filterChain)
         throws IOException
     {
         copyResource(resourceName, destFile.getPath(), defaultFileHandler, filterChain);
     }
-    
+
     /**
-     * Copies a container resource from the JAR into the specified file, thereby applying the 
+     * Copies a container resource from the JAR into the specified file, thereby applying the
      * specified filters.
      * 
      * @param resourceName The name of the resource, relative to the
-     *        org.apache.cactus.integration.ant.container package
+     * org.apache.cactus.integration.ant.container package
      * @param destFile The file to which the contents of the resource should be copied
      * @param filterChain The ordered list of filter readers that should be applied while copying
-     * @param encoding The encoding that should be used when copying the resource. Use null 
-     *        for system default encoding
+     * @param encoding The encoding that should be used when copying the resource. Use null for
+     * system default encoding
      * @throws IOException If an I/O error occurs while copying the resource
      */
     public void copyResource(String resourceName, File destFile, FilterChain filterChain,
@@ -139,13 +139,13 @@ public final class ResourceUtils extends LoggedObject
     {
         copyResource(resourceName, destFile.getPath(), defaultFileHandler, filterChain, encoding);
     }
-       
+
     /**
-     * Copies a container resource from the JAR into the specified file, using the specified
-     * file handler thereby applying the specified filters.
+     * Copies a container resource from the JAR into the specified file, using the specified file
+     * handler thereby applying the specified filters.
      * 
      * @param resourceName The name of the resource, relative to the
-     *        org.apache.cactus.integration.ant.container package
+     * org.apache.cactus.integration.ant.container package
      * @param destFile The file to which the contents of the resource should be copied
      * @param handler The file handler to be used for file copy
      * @param filterChain The ordered list of filter readers that should be applied while copying
@@ -156,19 +156,18 @@ public final class ResourceUtils extends LoggedObject
     {
         copyResource(resourceName, destFile, handler, filterChain, null);
     }
-       
-    
+
     /**
-     * Copies a container resource from the JAR into the specified file, using the specified
-     * file handler thereby applying the specified filters.
+     * Copies a container resource from the JAR into the specified file, using the specified file
+     * handler thereby applying the specified filters.
      * 
      * @param resourceName The name of the resource, relative to the
-     *        org.apache.cactus.integration.ant.container package
+     * org.apache.cactus.integration.ant.container package
      * @param destFile The file to which the contents of the resource should be copied
      * @param handler The file handler to be used for file copy
      * @param filterChain The ordered list of filter readers that should be applied while copying
-     * @param encoding The encoding that should be used when copying the resource. Use null 
-     *        for system default encoding  
+     * @param encoding The encoding that should be used when copying the resource. Use null for
+     * system default encoding
      * @throws IOException If an I/O error occurs while copying the resource
      */
     public void copyResource(String resourceName, String destFile, FileHandler handler,
@@ -179,7 +178,7 @@ public final class ResourceUtils extends LoggedObject
         {
             throw new IOException("Resource [" + resourceName + "] not found");
         }
-        
+
         BufferedReader in = null;
         BufferedWriter out = null;
         try
@@ -220,13 +219,12 @@ public final class ResourceUtils extends LoggedObject
             }
         }
     }
-    
+
     /**
      * Creates a new InputStreamReader with provide encoding
-     * @param is the stream used to create the reader 
-     * @param encoding the encoding used to create the reader. 
-     *        If it is <tt>null</tt> then the default system encoding
-     *        will be used.
+     * @param is the stream used to create the reader
+     * @param encoding the encoding used to create the reader. If it is <tt>null</tt> then the
+     * default system encoding will be used.
      * @return a new reader for provided stream and encoding
      * @throws UnsupportedEncodingException If the named charset is not supported
      */
@@ -234,22 +232,24 @@ public final class ResourceUtils extends LoggedObject
         throws UnsupportedEncodingException
     {
         InputStreamReader r;
-        if (encoding != null) 
+        if (encoding != null)
         {
             r = new InputStreamReader(is, encoding);
-        } 
-        else 
+        }
+        else
         {
             r = new InputStreamReader(is);
         }
         return r;
     }
-    
+
     /**
      * Search for the given resource and return the directory or archive that contains it.
      * 
-     * <p>Doesn't work for archives in JDK 1.1 as the URL returned by getResource doesn't contain 
-     * the name of the archive.</p>
+     * <p>
+     * Doesn't work for archives in JDK 1.1 as the URL returned by getResource doesn't contain the
+     * name of the archive.
+     * </p>
      * 
      * @param resourceName The name of the resource
      * @return The directory or archive containing the specified resource

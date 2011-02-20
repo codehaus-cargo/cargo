@@ -39,7 +39,7 @@ public abstract class AbstractSwitchableLocalDeployer extends AbstractInstalledL
     {
         super(container);
     }
-    
+
     /**
      * this deployer will be used when the server is running.
      * 

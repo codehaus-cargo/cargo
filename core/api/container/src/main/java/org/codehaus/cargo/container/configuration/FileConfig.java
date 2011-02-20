@@ -20,35 +20,32 @@
 package org.codehaus.cargo.container.configuration;
 
 /**
- * Contains data about configuration files that should be used for the container.
- * This option only works with StandaloneLocal containers.
+ * Contains data about configuration files that should be used for the container. This option only
+ * works with StandaloneLocal containers.
  * 
  * The toDir and toFile are used to tell Cargo where to install the file in reference to the
  * containers home location.
  * 
- * toDir and toFile can be used independently or together.
- * If toDir is undefined/null and toFile is foo, the destination of the file
- * will be ${cargo.home}/foo
+ * toDir and toFile can be used independently or together. If toDir is undefined/null and toFile is
+ * foo, the destination of the file will be ${cargo.home}/foo
  * 
- * If toDir is foo and the toFile is undefined/null, the destination of the
- * new file will be ${cargo.home}/foo/${original file's name}
+ * If toDir is foo and the toFile is undefined/null, the destination of the new file will be
+ * ${cargo.home}/foo/${original file's name}
  * 
- * If toDir is foo and toFile is bar, the destination of the new file will
- * be ${cargo.home}/foo/bar
+ * If toDir is foo and toFile is bar, the destination of the new file will be ${cargo.home}/foo/bar
  * 
  * @version $Id$
  */
-public class FileConfig 
+public class FileConfig
 {
 
-   /**
+    /**
      * The file to be used.
      */
     private String file;
 
     /**
-     * The name and location of where the file should be saved in reference to
-     * the containers home.
+     * The name and location of where the file should be saved in reference to the containers home.
      */
     private String tofile;
 
@@ -61,13 +58,13 @@ public class FileConfig
      * If the file should be overwritten if the destination file exists.
      */
     private boolean overwrite;
-    
+
     /**
-     * If the file should be considered a configuration file.
-     * If true then token replacement will occur on the file.
+     * If the file should be considered a configuration file. If true then token replacement will
+     * occur on the file.
      */
     private boolean configfile;
-    
+
     /**
      * Constructor.
      */
@@ -117,7 +114,7 @@ public class FileConfig
     {
         return overwrite;
     }
-    
+
     /**
      * Returns true if the file is marked as a configuration file
      * @return If the file is a config file or not
@@ -126,12 +123,11 @@ public class FileConfig
     {
         return configfile;
     }
-    
+
     /**
      * Sets the file to be used.
      * 
-     * @param file
-     *            The file to use
+     * @param file The file to use
      */
     public void setFile(String file)
     {
@@ -141,8 +137,7 @@ public class FileConfig
     /**
      * Sets the destination file name.
      * 
-     * @param tofile
-     *            The destination file name
+     * @param tofile The destination file name
      */
     public void setToFile(String tofile)
     {
@@ -157,7 +152,7 @@ public class FileConfig
     {
         this.todir = todir;
     }
-    
+
     /**
      * Set if the destination file should be overwritten.
      * @param overwrite Set to true if files should overwrite
@@ -166,7 +161,7 @@ public class FileConfig
     {
         this.overwrite = Boolean.valueOf(overwrite).booleanValue();
     }
-    
+
     /**
      * Set if the destination file should be overwritten.
      * @param overwrite Set to true if files should overwrite
@@ -175,16 +170,16 @@ public class FileConfig
     {
         this.overwrite = overwrite;
     }
-    
+
     /**
      * Set if the destination should be considered a configuration file
      * @param configfile Set to true if file is a configfile
      */
     public void setConfigfile(String configfile)
     {
-        this.configfile = Boolean.valueOf(configfile).booleanValue(); 
+        this.configfile = Boolean.valueOf(configfile).booleanValue();
     }
-    
+
     /**
      * Set if the destination should be considered a configuration file
      * @param configfile Set to true if file is a configfile

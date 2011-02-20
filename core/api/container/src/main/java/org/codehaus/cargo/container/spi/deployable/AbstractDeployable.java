@@ -20,13 +20,13 @@
 package org.codehaus.cargo.container.spi.deployable;
 
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.util.log.LoggedObject;
-import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
+import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
  * Common class for easy Deployable implementations.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractDeployable extends LoggedObject implements Deployable
@@ -40,7 +40,7 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
      * File utility class.
      */
     private FileHandler fileHandler;
-    
+
     /**
      * @param file the location of the deploybale file being wrapped.
      */
@@ -69,14 +69,14 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
 
     /**
      * @param fileHandler the Cargo file utility class to use. This method is useful for unit
-     *        testing with Mock objects as it can be passed a test file handler that doesn't perform
-     *        any real file action.
+     * testing with Mock objects as it can be passed a test file handler that doesn't perform any
+     * real file action.
      */
     public void setFileHandler(FileHandler fileHandler)
     {
         this.fileHandler = fileHandler;
     }
-    
+
     /**
      * {@inheritDoc}
      */

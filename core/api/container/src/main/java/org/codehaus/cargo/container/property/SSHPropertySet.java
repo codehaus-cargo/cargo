@@ -25,7 +25,7 @@ package org.codehaus.cargo.container.property;
  * @version $Id$
  */
 public interface SSHPropertySet
-{   
+{
     /**
      * Host of the ssh destination.
      */

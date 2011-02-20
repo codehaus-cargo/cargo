@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.configuration;
 /**
  * Configuration type of {@link org.codehaus.cargo.container.configuration.Configuration}s. There
  * are currently 3 types: Standalone local, Existing local and runtime configurations.
- *
+ * 
  * @version $Id$
  */
 public class ConfigurationType
@@ -41,7 +41,7 @@ public class ConfigurationType
      * Represents a runtime configuration type.
      */
     public static final ConfigurationType RUNTIME = new ConfigurationType("runtime");
-    
+
     /**
      * {@inheritDoc}
      * @see #ConfigurationType(String)
@@ -49,8 +49,8 @@ public class ConfigurationType
     private String type;
 
     /**
-     * @param type the internal string representation of the configuration type.
-     *        For example: "standalone", "existing" or "runtime".
+     * @param type the internal string representation of the configuration type. For example:
+     * "standalone", "existing" or "runtime".
      */
     public ConfigurationType(String type)
     {
@@ -59,7 +59,7 @@ public class ConfigurationType
 
     /**
      * Transform a type represented as a string into a {@link ConfigurationType} object.
-     *
+     * 
      * @param typeAsString the string to transform
      * @return the {@link ConfigurationType} object
      */
@@ -94,7 +94,7 @@ public class ConfigurationType
     public boolean equals(Object object)
     {
         boolean result = false;
-        if ((object != null) && (object instanceof ConfigurationType))
+        if (object != null && object instanceof ConfigurationType)
         {
             ConfigurationType type = (ConfigurationType) object;
             if (type.getType().equals(getType()))

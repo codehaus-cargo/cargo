@@ -36,12 +36,12 @@ public class ServletContainerCapability implements ContainerCapability
     public boolean supportsDeployableType(DeployableType type)
     {
         boolean supported = false;
-        
+
         if (type == DeployableType.WAR)
         {
             supported = true;
         }
-        
+
         return supported;
     }
 }

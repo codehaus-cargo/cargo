@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.deployer;
 
 /**
- * Listener that is triggered when the deployment status of a 
+ * Listener that is triggered when the deployment status of a
  * {@link org.codehaus.cargo.container.deployable.Deployable} changes.
  * 
  * @version $Id$

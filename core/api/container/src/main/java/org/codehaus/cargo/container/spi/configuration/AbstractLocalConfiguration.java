@@ -19,6 +19,10 @@
  */
 package org.codehaus.cargo.container.spi.configuration;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -35,12 +39,8 @@ import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.container.property.TransactionSupport;
 import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.CargoException;
-import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.DefaultFileHandler;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Base implementation of
@@ -96,7 +96,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * @param home the home directory where the container will be set up to start and where it will
-     *            deploy its deployables.
+     * deploy its deployables.
      */
     public AbstractLocalConfiguration(String home)
     {

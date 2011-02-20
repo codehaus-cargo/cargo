@@ -33,8 +33,9 @@ import org.codehaus.cargo.util.XmlFileBuilder;
 
 /**
  * {@inheritDoc} Convenience class that simplifies development of
- * {@link StandaloneLocalConfiguration configuration}s with {@link DataSourceSupport}. It does this
- * by implementing {@link DataSourceSupport} and instead asking for the inputs to this:
+ * {@link org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration} configurations
+ * with {@link DataSourceSupport}. It does this by implementing {@link DataSourceSupport} and
+ * instead asking for the inputs to this:
  * <ol>
  * <li> {@link createConfigurationBuilder}: how do we generate the xml element(s) representing the
  * datasource</li>

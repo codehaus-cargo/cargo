@@ -19,16 +19,16 @@
  */
 package org.codehaus.cargo.container.deployer;
 
-import org.codehaus.cargo.container.internal.util.HttpUtils;
-import org.codehaus.cargo.util.log.LoggedObject;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.cargo.container.internal.util.HttpUtils;
+import org.codehaus.cargo.util.log.LoggedObject;
+
 /**
- * Monitor that verifies if a {@link org.codehaus.cargo.container.deployable.Deployable} is 
- * deployed by pinging a URL provided by the user.
+ * Monitor that verifies if a {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
+ * by pinging a URL provided by the user.
  * 
  * @version $Id$
  */
@@ -39,17 +39,17 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
      * {@link org.codehaus.cargo.container.deployable.Deployable} is deployed or undeployed.
      */
     private List<DeployableMonitorListener> listeners;
-    
+
     /**
      * The URL to ping.
      */
     private URL pingURL;
-    
+
     /**
      * Useful HTTP methods (specifically the ping method).
      */
     private HttpUtils httpUtils;
-    
+
     /**
      * The timeout after which we stop waiting for deployment.
      */
@@ -61,8 +61,8 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
     private String contains;
 
     /**
-     * @param pingURL the URL to be pinged and which will tell when the 
-     *        {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
+     * @param pingURL the URL to be pinged and which will tell when the
+     * {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
      */
     public URLDeployableMonitor(URL pingURL)
     {
@@ -70,8 +70,8 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
     }
 
     /**
-     * @param pingURL the URL to be pinged and which will tell when the 
-     *        {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
+     * @param pingURL the URL to be pinged and which will tell when the
+     * {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
      * @param timeout the timeout after which we stop monitoring the deployment
      */
     public URLDeployableMonitor(URL pingURL, long timeout)
@@ -81,7 +81,7 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
 
     /**
      * @param pingURL the URL to be pinged and which will tell when the
-     *        {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
+     * {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
      * @param timeout the timeout after which we stop monitoring the deployment
      * @param contains a string that must be contained
      */
@@ -100,7 +100,7 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
      */
     public String getDeployableName()
     {
-        return this.pingURL.toString(); 
+        return this.pingURL.toString();
     }
 
     /**

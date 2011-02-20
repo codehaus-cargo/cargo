@@ -34,7 +34,7 @@ import org.codehaus.cargo.container.ContainerException;
  * Helper class to start/stop a container. When this application is first called to start the
  * server, a listener socket is set up. Then, we it is later called to stop the server, we connect
  * to the listener socket and tell the server to stop.
- *
+ * 
  * @version $Id$
  */
 public class DefaultServerRun extends Thread
@@ -70,7 +70,7 @@ public class DefaultServerRun extends Thread
 
     /**
      * Starts the server (in a blocking mode) and set up a socket listener.
-     *
+     * 
      * @param theArgs the command line arguments
      * @exception Exception if any error happens when starting the server
      */
@@ -80,9 +80,8 @@ public class DefaultServerRun extends Thread
     }
 
     /**
-     * Stops the server by connecting to the socket set up when the server
-     * was started.
-     *
+     * Stops the server by connecting to the socket set up when the server was started.
+     * 
      * @param theArgs the command line arguments
      * @exception Exception if any error happens when stopping the server
      */
@@ -160,7 +159,7 @@ public class DefaultServerRun extends Thread
         // Server is now started
         this.isStarted = true;
 
-        // Start a socket listener that will listen for stop commands. 
+        // Start a socket listener that will listen for stop commands.
         start();
     }
 
@@ -178,7 +177,7 @@ public class DefaultServerRun extends Thread
         }
         catch (Exception e)
         {
-            throw new ContainerException("Error opening socket to [" + this.host + ":" + this.port 
+            throw new ContainerException("Error opening socket to [" + this.host + ":" + this.port
                 + "]", e);
         }
         finally
@@ -198,8 +197,8 @@ public class DefaultServerRun extends Thread
     }
 
     /**
-     * Sets up a listener socket and wait until we receive a request on it to
-     * stop the running server.
+     * Sets up a listener socket and wait until we receive a request on it to stop the running
+     * server.
      */
     @Override
     public void run()
@@ -213,7 +212,7 @@ public class DefaultServerRun extends Thread
         }
         catch (IOException e)
         {
-            throw new ContainerException("Error accepting connection for server socket [" 
+            throw new ContainerException("Error accepting connection for server socket ["
                 + serverSocket + "]", e);
         }
         finally
@@ -225,7 +224,7 @@ public class DefaultServerRun extends Thread
             }
             catch (IOException e)
             {
-                throw new ContainerException("Cannot close server socket [" + serverSocket + "]", 
+                throw new ContainerException("Cannot close server socket [" + serverSocket + "]",
                     e);
             }
         }
@@ -253,7 +252,7 @@ public class DefaultServerRun extends Thread
 
     /**
      * Sets up the listener socket.
-     *
+     * 
      * @return the listener socket that has been set up
      */
     private ServerSocket setUpListenerSocket()

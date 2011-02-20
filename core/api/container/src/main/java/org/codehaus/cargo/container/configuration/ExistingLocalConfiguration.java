@@ -23,9 +23,9 @@ package org.codehaus.cargo.container.configuration;
  * An existing configuration allows you to point Cargo to a container configuration that you have
  * already set somewhere on your local file system. For example for JBoss this points to a JBoss
  * server configuration (usually a directory located in <code>JBOSSHOME/server</code>, such as
- * <code>JBOSSHOME/server/default</code> for example). The default configuration locations depend
- * on the container you're using. 
- *  
+ * <code>JBOSSHOME/server/default</code> for example). The default configuration locations depend on
+ * the container you're using.
+ * 
  * @version $Id$
  */
 public interface ExistingLocalConfiguration extends LocalConfiguration

@@ -19,9 +19,9 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.DeployableMonitorListener;
-import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
@@ -32,11 +32,11 @@ import org.codehaus.cargo.util.log.LoggedObject;
 public class DeployerWatchdog extends LoggedObject implements DeployableMonitorListener
 {
     /**
-     * The monitor to use to monitor the {@link org.codehaus.cargo.container.deployable.Deployable} 
+     * The monitor to use to monitor the {@link org.codehaus.cargo.container.deployable.Deployable}
      * being deployed.
      */
     private DeployableMonitor monitor;
-    
+
     /**
      * Status flag set to true when the {@link org.codehaus.cargo.container.deployable.Deployable}
      * is deployed.
@@ -45,7 +45,7 @@ public class DeployerWatchdog extends LoggedObject implements DeployableMonitorL
 
     /**
      * @param monitor the monitor to use to monitor the
-     *        {@link org.codehaus.cargo.container.deployable.Deployable} being deployed
+     * {@link org.codehaus.cargo.container.deployable.Deployable} being deployed
      */
     public DeployerWatchdog(DeployableMonitor monitor)
     {
@@ -89,7 +89,7 @@ public class DeployerWatchdog extends LoggedObject implements DeployableMonitorL
 
     /**
      * @param shouldWatchForAvailability if true then wait till Deployable is made available, if
-     *        false wait till the Deployable is made unavailable
+     * false wait till the Deployable is made unavailable
      */
     public void watch(boolean shouldWatchForAvailability)
     {
@@ -100,7 +100,7 @@ public class DeployerWatchdog extends LoggedObject implements DeployableMonitorL
             long startTime = System.currentTimeMillis();
             do
             {
-                if ((System.currentTimeMillis() - startTime) > this.monitor.getTimeout())
+                if (System.currentTimeMillis() - startTime > this.monitor.getTimeout())
                 {
                     String message = "Deployable [" + this.monitor.getDeployableName()
                         + "] failed to finish "
@@ -117,7 +117,8 @@ public class DeployerWatchdog extends LoggedObject implements DeployableMonitorL
 
                 exitCondition = shouldWatchForAvailability ? !this.isDeployed : this.isDeployed;
 
-            } while (exitCondition);
+            }
+            while (exitCondition);
         }
         catch (InterruptedException e)
         {

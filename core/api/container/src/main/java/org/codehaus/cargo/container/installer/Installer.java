@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.installer;
 import org.codehaus.cargo.util.log.Loggable;
 
 /**
- * Installs a container. 
+ * Installs a container.
  * 
  * @version $Id$
  */
@@ -32,11 +32,11 @@ public interface Installer extends Loggable
      * Installs the container.
      */
     void install();
-    
+
     /**
      * @return the directory where the container has been installed. Note that we're returning a
-     *         String instead of a File because we want to leave the possibility of using URIs for
-     *         specifying the home location.
+     * String instead of a File because we want to leave the possibility of using URIs for
+     * specifying the home location.
      */
     String getHome();
 }

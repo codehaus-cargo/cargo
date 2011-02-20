@@ -19,17 +19,17 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
+import java.util.List;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.util.log.LoggedObject;
 
-import java.util.List;
-
 /**
  * Base deployer for local and remote deployments.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractDeployer extends LoggedObject implements Deployer
@@ -73,7 +73,7 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
         watchdog.setLogger(getLogger());
         watchdog.watchForUnavailability();
     }
-    
+
     /**
      * {@inheritDoc}
      * @see Deployer#deploy(Deployable)

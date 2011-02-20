@@ -36,7 +36,7 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Base implementation for a standalone local configuration.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocalConfiguration
@@ -49,8 +49,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     private List<FileConfig> files;
 
     /**
-     * The filterChain for the configuration files. This contains the tokens and what
-     * values they should be replaced with.
+     * The filterChain for the configuration files. This contains the tokens and what values they
+     * should be replaced with.
      */
     private FilterChain filterChain;
 
@@ -77,15 +77,17 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         super.configure(container);
         configureFiles(getFilterChain());
     }
-    
+
     /**
-     * Set up the configuration directory (create it and clean it). We clean it because we want
-     * to be sure the container starts with the same set up every time and there's no side effects
+     * Set up the configuration directory (create it and clean it). We clean it because we want to
+     * be sure the container starts with the same set up every time and there's no side effects
      * introduced by a previous run or someone modifying some files in there.
-     *
-     * <p>Note: We only clean the configuration directory if it's empty or if there is a Cargo
+     * 
+     * <p>
+     * Note: We only clean the configuration directory if it's empty or if there is a Cargo
      * timestamp file. This is to prevent deleting not empty directories if the user has mistakenly
-     * pointed the configuration dir to an existing location.</p>
+     * pointed the configuration dir to an existing location.
+     * </p>
      * 
      * @throws IOException if the directory cannot be created
      */
@@ -97,8 +99,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         // timestamp or if the configuration directory exists but is empty or if the configuration
         // directory doesn't exist.
         if (getFileHandler().exists(timestampFile)
-            || (getFileHandler().exists(getHome())
-                && getFileHandler().isDirectoryEmpty(getHome()))
+            || getFileHandler().exists(getHome())
+                && getFileHandler().isDirectoryEmpty(getHome())
             || !getFileHandler().exists(getHome()))
         {
             getFileHandler().delete(getHome());
@@ -117,22 +119,21 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     }
 
     /**
-     * Creates the default filter chain that should be applied while copying
-     * container configuration files to the working directory from which 
-     * the container is started.
+     * Creates the default filter chain that should be applied while copying container configuration
+     * files to the working directory from which the container is started.
      * 
      * @return The default filter chain
      */
     protected final FilterChain createFilterChain()
     {
         this.filterChain = new FilterChain();
-        
+
         // add all the token specified in the containers configuration into the filterchain
         getAntUtils().addTokensToFilterChain(filterChain, getProperties());
-        
+
         return filterChain;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see ContainerConfiguration#verify()
@@ -141,13 +142,13 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     public void verify()
     {
         super.verify();
-        
+
         // Verify that the logging level is a valid level
         verifyLogging();
     }
 
     /**
-     * Verify that the logging level specified is a valid level. 
+     * Verify that the logging level specified is a valid level.
      */
     private void verifyLogging()
     {
@@ -156,11 +157,11 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
             && !level.equalsIgnoreCase("medium")
             && !level.equalsIgnoreCase("high"))
         {
-            throw new ContainerException("Invalid logging level [" + level 
+            throw new ContainerException("Invalid logging level [" + level
                 + "]. Valid levels are {\"low\", \"medium\", " + "\"high\"}");
         }
     }
-   
+
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.Configuration#getType()
@@ -181,7 +182,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         }
         return this.filterChain;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration#addConfigfile(org.codehaus.cargo.container.configuration.FileConfig)
@@ -203,7 +204,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         fileConfig.setConfigfile(true);
         this.setFileProperty(fileConfig);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration#getConfigfiles()
@@ -212,34 +213,34 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     {
         return this.files;
     }
-    
+
     /**
-     *  Copy the customized configuration files into the cargo home directory.
-     *  @param filterChain the filter chain to use during the copy
+     * Copy the customized configuration files into the cargo home directory.
+     * @param filterChain the filter chain to use during the copy
      */
     protected void configureFiles(FilterChain filterChain)
     {
         List<FileConfig> files = this.files;
-        
+
         for (FileConfig fileConfig : files)
         {
             boolean isDirectory = false;
-            
+
             if (fileConfig.getFile() == null)
             {
                 throw new RuntimeException("File cannot be null");
             }
-            
+
             File origFile = new File(fileConfig.getFile());
             if (origFile.isDirectory())
             {
                 isDirectory = true;
             }
-              
-            String destFile = getDestFileLocation(fileConfig.getFile(), 
+
+            String destFile = getDestFileLocation(fileConfig.getFile(),
                     fileConfig.getToDir(), fileConfig.getToFile());
-            
-            //we don't want to do anything if the file exists and overwrite is false
+
+            // we don't want to do anything if the file exists and overwrite is false
             if (!origFile.exists() || fileConfig.getOverwrite())
             {
                 if (fileConfig.getConfigfile())
@@ -257,7 +258,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
                     getFileHandler().copyFile(fileConfig.getFile(), destFile,
                             fileConfig.getOverwrite());
                 }
-            } 
+            }
         }
     }
 
@@ -276,24 +277,24 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         if (fileName == null)
         {
             throw new RuntimeException("file cannot be null");
-        } 
+        }
         else if (toFile == null && toDir != null)
         {
             // get the filename and add it in the todir directory name
             String filename = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.length());
             finalFile = getHome() + "/" + toDir + "/" + filename;
-        } 
+        }
         else if (toFile != null && toDir == null)
         {
             // just use the tofile filename as the final file
             finalFile = getHome() + "/" + toFile;
-        } 
+        }
         else if (toFile == null && toDir == null)
         {
             // use the tofile filename and add it into the conf directory
             String filename = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.length());
             finalFile = getHome() + "/" + filename;
-        } 
+        }
         else if (toFile != null && toDir != null)
         {
             // tofile means what name to call the file in the todir directory
@@ -305,10 +306,10 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         {
             finalFile = finalFile.replaceAll("//", "/");
         }
-        
+
         return finalFile;
     }
-    
+
     /**
      * Determines the correct path for the destination directory.
      * @param file The path of the original file
@@ -323,27 +324,27 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         if (fileName == null)
         {
             throw new RuntimeException("file cannot be null");
-        } 
+        }
         else if (toDir != null)
         {
             finalDir = getHome() + "/" + toDir;
-        } 
+        }
         else if (toDir == null)
         {
             finalDir = getHome();
-        } 
+        }
         // replace all double slashes with a single slash
         while (finalDir.contains("//"))
         {
             finalDir = finalDir.replaceAll("//", "/");
         }
-        
+
         return finalDir;
     }
 
     /**
      * Replaces using a map of replacements in a given file.
-     *
+     * 
      * @param file File to replace in.
      * @param replacements Map containing replacements.
      * @throws CargoException If anything fails, most notably if one of the replacements does not

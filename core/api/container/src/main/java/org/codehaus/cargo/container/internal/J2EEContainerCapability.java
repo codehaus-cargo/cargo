@@ -36,13 +36,13 @@ public class J2EEContainerCapability implements ContainerCapability
     public boolean supportsDeployableType(DeployableType type)
     {
         boolean supported = false;
-        
-        if ((type == DeployableType.WAR) || (type == DeployableType.EAR)
-                || (type == DeployableType.FILE))
+
+        if (type == DeployableType.WAR || type == DeployableType.EAR
+                || type == DeployableType.FILE)
         {
             supported = true;
         }
-        
+
         return supported;
     }
 }

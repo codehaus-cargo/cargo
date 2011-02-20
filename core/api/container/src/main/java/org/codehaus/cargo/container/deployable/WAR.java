@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.deployable;
 import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 
 /**
- * Wraps a WAR file that will be deployed in the container. The root context for this WAR is taken 
+ * Wraps a WAR file that will be deployed in the container. The root context for this WAR is taken
  * from the name of the WAR file (without the extension).
  * 
  * @version $Id$
@@ -30,13 +30,13 @@ import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 public class WAR extends AbstractDeployable
 {
     /**
-     * The web context parsed from the name of the WAR file. 
+     * The web context parsed from the name of the WAR file.
      */
     private String context;
 
     /**
      * @param war the location of the WAR being wrapped. This must point to either a WAR file or an
-     *        expanded WAR directory.
+     * expanded WAR directory.
      */
     public WAR(String war)
     {
@@ -45,21 +45,21 @@ public class WAR extends AbstractDeployable
 
     /**
      * @param context the context name to use when deploying this WAR. If not specified by the user,
-     *        then the default context name is computed from the name of WAR itself (without the 
-     *        file extension).
+     * then the default context name is computed from the name of WAR itself (without the file
+     * extension).
      */
     public synchronized void setContext(String context)
     {
         // Ensure the context is also well-formed by removing any extra leading "/".
         this.context = context.trim();
-        if (this.context.startsWith("/")) 
+        if (this.context.startsWith("/"))
         {
-            this.context = this.context.substring(1); 
+            this.context = this.context.substring(1);
         }
     }
 
     /**
-     * Extract the context name from the WAR file name (without the file extension). For example if 
+     * Extract the context name from the WAR file name (without the file extension). For example if
      * the WAR is named <code>test.war</code> then the context name is <code>test</code>.
      */
     private void parseContext()
@@ -72,27 +72,27 @@ public class WAR extends AbstractDeployable
             {
                 ctx = ctx.substring(0, warIndex);
             }
-    
+
             getLogger().debug("Parsed web context = [" + ctx + "]", this.getClass().getName());
-            
+
             setContext(ctx);
         }
     }
 
     /**
-     * @return the context name, either the computed name derived from the WAR file name or the 
-     *         name defined by the user. Note that this method doesn't return any leading "/"
-     *         before the context name.
+     * @return the context name, either the computed name derived from the WAR file name or the name
+     * defined by the user. Note that this method doesn't return any leading "/" before the context
+     * name.
      */
     public synchronized String getContext()
     {
         parseContext();
         return this.context;
     }
-    
+
     /**
-     * @return true if the WAR file specified is pointing to an expanded WAR directory, false 
-     *         otherwise 
+     * @return true if the WAR file specified is pointing to an expanded WAR directory, false
+     * otherwise
      */
     public boolean isExpandedWar()
     {

@@ -27,45 +27,45 @@ package org.codehaus.cargo.container.internal;
 public interface RunnableContainer
 {
     /**
-     * Starts the container. It blocks until the container is fully started unless it doesn't start 
-     * before the timeout period in which case an exception will be thrown. 
+     * Starts the container. It blocks until the container is fully started unless it doesn't start
+     * before the timeout period in which case an exception will be thrown.
      */
     void start();
 
     /**
-     * Stops the container. It blocks until the container is fully stopped unless it doesn't stop 
-     * before the timeout period in which case an exception will be thrown. 
+     * Stops the container. It blocks until the container is fully stopped unless it doesn't stop
+     * before the timeout period in which case an exception will be thrown.
      */
     void stop();
 
     /**
      * @param output the file to which the container's output will be logged to. Note that we're
-     *        passing a String instead of a File because we want to leave the possibility of using
-     *        URIs for specifying the home location.
+     * passing a String instead of a File because we want to leave the possibility of using URIs for
+     * specifying the home location.
      */
     void setOutput(String output);
 
     /**
      * @return the file to which the container's output will be logged to. Note that we're returning
-     *         a String instead of a File because we want to leave the possibility of using URIs for
-     *         specifying the home location.
+     * a String instead of a File because we want to leave the possibility of using URIs for
+     * specifying the home location.
      */
     String getOutput();
 
     /**
-     * @param timeout the timeout (in ms) after which we consider the container cannot be started 
-     *        or stopped.
+     * @param timeout the timeout (in ms) after which we consider the container cannot be started or
+     * stopped.
      */
     void setTimeout(long timeout);
 
     /**
-     * @return the timeout (in ms) after which we consider the container cannot be started or  
-     *         or stopped.
+     * @return the timeout (in ms) after which we consider the container cannot be started or or
+     * stopped.
      */
     long getTimeout();
 
     /**
-     * Sets whether output of the container should be appended to an existing file, or the existing 
+     * Sets whether output of the container should be appended to an existing file, or the existing
      * file should be truncated.
      * 
      * @param shouldAppend Whether output should be appended to or not
@@ -74,7 +74,7 @@ public interface RunnableContainer
 
     /**
      * @return true if the output of the container should be appended to the output file or false
-     *         otherwise 
+     * otherwise
      */
     boolean isAppend();
 }

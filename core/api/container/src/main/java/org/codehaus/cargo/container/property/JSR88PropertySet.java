@@ -21,9 +21,9 @@ package org.codehaus.cargo.container.property;
 
 /**
  * Defines all general container properties valid for JSR88-compliant containers.
- *
+ * 
  * @see org.codehaus.cargo.container.jsr88.GenericJSR88Container
- *
+ * 
  * @version $Id$
  */
 public interface JSR88PropertySet

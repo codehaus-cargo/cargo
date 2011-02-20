@@ -23,23 +23,23 @@ import java.util.Map;
 
 /**
  * All methods that a container that is spawned must implement.
- *
+ * 
  * @version $Id$
  */
 public interface SpawnedContainer
 {
     /**
      * @param classpath the extra classpath that is added to the container's classpath when it is
-     *        started.
+     * started.
      */
     void setExtraClasspath(String[] classpath);
 
     /**
      * @param location the extra classpath that is added to the container's classpath when it is
-     *        started.
+     * started.
      */
     void addExtraClasspath(String location);
-    
+
     /**
      * @return the extra classpath that is added to the container's classpath when it is started.
      */
@@ -52,10 +52,10 @@ public interface SpawnedContainer
 
     /**
      * @param location the shared classpath that is added to the container's classpath when it is
-     *            started.
+     * started.
      */
     void addSharedClasspath(String location);
-    
+
     /**
      * @return the extra classpath that is shared by the container applications.
      */

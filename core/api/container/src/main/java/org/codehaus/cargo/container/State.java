@@ -21,7 +21,7 @@ package org.codehaus.cargo.container;
 
 /**
  * Represent the container states (started, starting, stopped, etc).
- *  
+ * 
  * @version $Id$
  */
 public final class State
@@ -30,7 +30,7 @@ public final class State
      * State when container is started.
      */
     public static final State STARTED = new State("started");
-    
+
     /**
      * State when container is stopped.
      */
@@ -57,7 +57,7 @@ public final class State
     private String stateText;
 
     /**
-     * @param stateText the textual representation of the state 
+     * @param stateText the textual representation of the state
      */
     private State(String stateText)
     {

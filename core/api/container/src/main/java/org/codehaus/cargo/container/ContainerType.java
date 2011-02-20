@@ -20,9 +20,9 @@
 package org.codehaus.cargo.container;
 
 /**
- * Types of {@link org.codehaus.cargo.container.Container}s.
- * There are currently 3 types: Local Installed, Local Embedded and Remote.
- *
+ * Types of {@link org.codehaus.cargo.container.Container}s. There are currently 3 types: Local
+ * Installed, Local Embedded and Remote.
+ * 
  * @version $Id$
  */
 public class ContainerType
@@ -49,8 +49,8 @@ public class ContainerType
     private String type;
 
     /**
-     * @param type the internal representation of the container type.
-     *        For example: "installed","embedded" or "remote".
+     * @param type the internal representation of the container type. For example:
+     * "installed","embedded" or "remote".
      */
     public ContainerType(String type)
     {
@@ -59,7 +59,7 @@ public class ContainerType
 
     /**
      * Transform a type represented as a string into a {@link ContainerType} object.
-     *
+     * 
      * @param typeAsString the string to transform
      * @return the {@link ContainerType} object
      */
@@ -94,7 +94,7 @@ public class ContainerType
     public boolean equals(Object object)
     {
         boolean result = false;
-        if ((object != null) && (object instanceof ContainerType))
+        if (object != null && object instanceof ContainerType)
         {
             ContainerType type = (ContainerType) object;
             if (type.getType().equals(getType()))
@@ -139,7 +139,7 @@ public class ContainerType
      */
     public boolean isLocal()
     {
-        return ((this == INSTALLED) || (this == EMBEDDED));
+        return this == INSTALLED || this == EMBEDDED;
     }
 
     /**
@@ -147,6 +147,6 @@ public class ContainerType
      */
     public boolean isRemote()
     {
-        return (this == REMOTE);
+        return this == REMOTE;
     }
 }

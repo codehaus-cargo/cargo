@@ -31,7 +31,7 @@ import org.apache.tools.ant.util.StringUtils;
 
 /**
  * A class to convert properties to strings and back.
- *
+ * 
  * @version $Id$
  */
 public final class PropertyUtils
@@ -45,9 +45,9 @@ public final class PropertyUtils
      * The default delimiter that separates the properties in a string.
      */
     private static final char SEMICOLON = ';';
-    
+
     /**
-     *  Private constructor to prevent getting an instance.
+     * Private constructor to prevent getting an instance.
      */
     private PropertyUtils()
     {
@@ -59,7 +59,7 @@ public final class PropertyUtils
      * <p>
      * Example: "abc=def|car=bmw" gets converted to "abc" -> "def", and "car" -> "bmw"
      * </p>
-     *
+     * 
      * @param toSplit The string value to convert to properties, pipe separated
      * @return the list of properties
      * @see getPropertiesFromDelimitedString
@@ -68,14 +68,14 @@ public final class PropertyUtils
     {
         return splitPropertiesOnDelimiter(toSplit, PIPE);
     }
-    
+
     /**
      * Construct a Properties object from a single string, converting ';' symbols to end of line
      * characters for parsing.
      * <p>
      * Example: "abc=def;car=bmw" gets converted to "abc" -> "def", and "car" -> "bmw"
      * </p>
-     *
+     * 
      * @param toSplit The string value to convert to properties, semicolon separated
      * @return the list of properties
      * @see getPropertiesFromDelimitedString
@@ -84,12 +84,12 @@ public final class PropertyUtils
     {
         return splitPropertiesOnDelimiter(toSplit, SEMICOLON);
     }
-    
+
     /**
      * Construct a Properties object from a single string, by splitting it on a specified delimiter.
      * <p>
-     * Example: "abc=def;car=bmw" gets converted to "abc" -> "def", and "car" -> "bmw"
-     * where: delimiter = ;
+     * Example: "abc=def;car=bmw" gets converted to "abc" -> "def", and "car" -> "bmw" where:
+     * delimiter = ;
      * </p>
      * 
      * @param toSplit The string value to convert to properties
@@ -121,7 +121,7 @@ public final class PropertyUtils
 
     /**
      * Convert properties to a string representation.
-     *
+     * 
      * @param toJoin A list of properties to convert
      * @return the properties as a string, pipe delimited
      */
@@ -132,7 +132,7 @@ public final class PropertyUtils
 
     /**
      * Convert properties to a string representation.
-     *
+     * 
      * @param toJoin A list of properties to convert
      * @return the properties as a string, pipe delimited
      */
@@ -140,10 +140,10 @@ public final class PropertyUtils
     {
         return joinOnDelimiter(toJoin, SEMICOLON);
     }
-    
+
     /**
      * Convert properties to a string representation, based on the specified delimiter.
-     *
+     * 
      * @param toJoin object to serialize as a string
      * @param delimiter how to separate entries from each other
      * @return the properties as a string, delimited by the above
@@ -173,10 +173,10 @@ public final class PropertyUtils
 
         return buf.toString();
     }
-    
+
     /**
      * Sets a property value if the property is not null.
-     *
+     * 
      * @param properties the properties object to store the property into
      * @param property the property to set
      * @param value the value to set
@@ -188,7 +188,7 @@ public final class PropertyUtils
             properties.setProperty(property, value.toString());
         }
     }
-    
+
     /**
      * Escapes backslashes so that they can parse properly.
      * 
@@ -209,7 +209,7 @@ public final class PropertyUtils
 
     /**
      * Returns a <code>Map&lt;String, String&gt</code> out of a Java Properties object.
-     *
+     * 
      * @param properties the properties object to convert
      * @return Java Map corresponding to the Java Properties object.
      */

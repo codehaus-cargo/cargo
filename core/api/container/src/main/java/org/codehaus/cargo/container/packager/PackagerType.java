@@ -20,9 +20,9 @@
 package org.codehaus.cargo.container.packager;
 
 /**
- * Types of {@link org.codehaus.cargo.container.packager.Packager}s.
- * There's currently one type only: "directory".
- *
+ * Types of {@link org.codehaus.cargo.container.packager.Packager}s. There's currently one type
+ * only: "directory".
+ * 
  * @version $Id$
  */
 public class PackagerType
@@ -48,7 +48,7 @@ public class PackagerType
 
     /**
      * Transform a type represented as a string into a {@link PackagerType} object.
-     *
+     * 
      * @param typeAsString the string to transform
      * @return the {@link PackagerType} object
      */
@@ -75,7 +75,7 @@ public class PackagerType
     public boolean equals(Object object)
     {
         boolean result = false;
-        if ((object != null) && (object instanceof PackagerType))
+        if (object != null && object instanceof PackagerType)
         {
             PackagerType type = (PackagerType) object;
             if (type.getType().equals(getType()))

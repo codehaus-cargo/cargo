@@ -19,18 +19,18 @@
  */
 package org.codehaus.cargo.container.spi.packager;
 
-import org.codehaus.cargo.container.packager.Packager;
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.util.log.LoggedObject;
-import org.codehaus.cargo.util.FileHandler;
-import org.codehaus.cargo.util.DefaultFileHandler;
-
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.packager.Packager;
+import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
+import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
  * Package a container distribution and its local configuration in a directory.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractDirectoryPackager extends LoggedObject implements Packager
@@ -47,7 +47,7 @@ public abstract class AbstractDirectoryPackager extends LoggedObject implements 
 
     /**
      * @param targetDirectory the directory where the container distribution and its local
-     *        configuration will be packaged
+     * configuration will be packaged
      */
     public AbstractDirectoryPackager(String targetDirectory)
     {
@@ -57,7 +57,7 @@ public abstract class AbstractDirectoryPackager extends LoggedObject implements 
 
     /**
      * @return the directory where the container distribution and its local configuration will be
-     *         packaged
+     * packaged
      */
     public String getTargetDirectory()
     {
@@ -74,8 +74,8 @@ public abstract class AbstractDirectoryPackager extends LoggedObject implements 
 
     /**
      * @param fileHandler the Cargo file utility class to use. This method is useful for unit
-     *        testing with Mock objects as it can be passed a test file handler that doesn't perform
-     *        any real file action.
+     * testing with Mock objects as it can be passed a test file handler that doesn't perform any
+     * real file action.
      */
     protected void setFileHandler(FileHandler fileHandler)
     {
@@ -94,7 +94,8 @@ public abstract class AbstractDirectoryPackager extends LoggedObject implements 
         List<String> configurationExclusions = getDefaultConfigurationExclusions();
         configurationExclusions.addAll(getConfigurationExclusions());
 
-        getFileHandler().copyDirectory(container.getConfiguration().getHome(), getTargetDirectory(),
+        getFileHandler().copyDirectory(container.getConfiguration().getHome(),
+            getTargetDirectory(),
             configurationExclusions);
     }
 
@@ -110,18 +111,18 @@ public abstract class AbstractDirectoryPackager extends LoggedObject implements 
     }
 
     /**
-     * @return the list of distribution files (specified as
-     *         <a href="http://ant.apache.org/manual/dirtasks.html#patterns">Ant File patterns</a>)
-     *         which will not be present in the generated package. These files are files found in
-     *         {@link org.codehaus.cargo.container.InstalledLocalContainer#getHome()}.
+     * @return the list of distribution files (specified as <a
+     * href="http://ant.apache.org/manual/dirtasks.html#patterns">Ant File patterns</a>) which will
+     * not be present in the generated package. These files are files found in
+     * {@link org.codehaus.cargo.container.InstalledLocalContainer#getHome()}.
      */
     protected abstract List<String> getDistributionExclusions();
 
     /**
-     * @return the list of configuration files (specified as
-     *         <a href="http://ant.apache.org/manual/dirtasks.html#patterns">Ant File patterns</a>)
-     *         which will not be present in the generated package. These files are files found in
-     *         {@link org.codehaus.cargo.container.configuration.LocalConfiguration#getHome()}.
+     * @return the list of configuration files (specified as <a
+     * href="http://ant.apache.org/manual/dirtasks.html#patterns">Ant File patterns</a>) which will
+     * not be present in the generated package. These files are files found in
+     * {@link org.codehaus.cargo.container.configuration.LocalConfiguration#getHome()}.
      */
     protected abstract List<String> getConfigurationExclusions();
 }

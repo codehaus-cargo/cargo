@@ -22,12 +22,21 @@
  */
 package org.codehaus.cargo.container.spi;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.taskdefs.condition.Os;
-import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.Environment.Variable;
-import org.codehaus.cargo.container.ContainerType;
+import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -39,15 +48,6 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.SSHPropertySet;
 import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.log.Logger;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.io.FileNotFoundException;
-import java.io.File;
 
 /**
  * Default container implementation that all local installed container implementations must extend.
@@ -102,7 +102,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * Default constructor.
      * 
      * @param configuration the configuration to associate to this container. It can be changed
-     *            later on by calling {@link #setConfiguration(LocalConfiguration)}
+     * later on by calling {@link #setConfiguration(LocalConfiguration)}
      */
     public AbstractInstalledLocalContainer(LocalConfiguration configuration)
     {
@@ -253,7 +253,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * containers extending this class must implement.
      * 
      * @param java the predefined Ant {@link org.apache.tools.ant.taskdefs.Java} command to use to
-     *            start the container
+     * start the container
      * @throws Exception if any error is raised during the container start
      */
     protected abstract void doStart(Java java) throws Exception;
@@ -319,10 +319,10 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         if (getOutput() != null)
         {
             File outputFile = new File(getOutput());
-            
+
             // Ensure that directories where the output file will go are created
             outputFile.getAbsoluteFile().getParentFile().mkdirs();
-            
+
             java.setOutput(outputFile);
             java.setAppend(isAppend());
         }
@@ -350,13 +350,13 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
         // Add system properties for the container JVM
         addSystemProperties(java);
-        
+
         // Add runtime arguments if present
         addRuntimeArgs(java);
-        
+
         // Add JVM args if defined
         addJvmArgs(java);
-        
+
         return java;
     }
 
@@ -369,7 +369,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     {
         // setup working directory
         java.setDir(new File(getFileHandler().getAbsolutePath(getConfiguration().getHome())));
- 
+
         if (getConfiguration().getDeployables() != null)
         {
             for (Deployable toDeploy : getConfiguration().getDeployables())
@@ -381,7 +381,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                 java.addSysproperty(deployable);
             }
         }
-      
+
         if (getHome() != null)
         {
             Variable home = new Variable();
@@ -389,7 +389,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             home.setValue("containers/" + getId());
             java.addSysproperty(home);
         }
-        
+
         Properties properties = new Properties();
         properties.put("sshjava.username", SSHPropertySet.USERNAME);
         properties.put("sshjava.host", SSHPropertySet.HOST);
@@ -532,7 +532,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * Adds the JVM memory arguments.
-     *
+     * 
      * @param java the predefined Ant {@link Java} command on which to add memory-related arguments
      */
     protected void addMemoryArguments(Java java)
@@ -556,7 +556,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             java.createJvmarg().setValue("-XX:MaxPermSize=128m");
         }
     }
-    
+
     /**
      * {@inheritDoc}
      * 

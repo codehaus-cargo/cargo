@@ -60,14 +60,13 @@ public abstract class AbstractConfigurationBuilder implements ConfigurationBuild
      * configuration entry.
      * 
      * @param ds the {@link DataSource} with the following state:
-     *            <ul>
-     *            <li>{@link DataSource#getJndiLocation()} is set to a unique path for the
-     *            container.</li>
-     *            <li>{@link DataSource#getDriverClass()} is an implementation of
-     *            <code>java.sql.Driver</code></li>
+     * <ul>
+     * <li>{@link DataSource#getJndiLocation()} is set to a unique path for the container.</li>
+     * <li>{@link DataSource#getDriverClass()} is an implementation of
+     * <code>java.sql.Driver</code></li>
      * @return configuration binding a container provided implementation of type
-     *         <code>javax.sql.DataSource</code> to the JNDI path specified at
-     *         {@link DataSource#getJndiLocation()}.
+     * <code>javax.sql.DataSource</code> to the JNDI path specified at
+     * {@link DataSource#getJndiLocation()}.
      */
     private String buildEntryForDriverConfiguredDataSource(DataSource ds)
     {
@@ -95,66 +94,61 @@ public abstract class AbstractConfigurationBuilder implements ConfigurationBuild
 
     /**
      * @param ds the {@link DataSource} with the following state:
-     *            <ul>
-     *            <li>{@link DataSource#getJndiLocation()} is set to a unique path for the
-     *            container.</li>
-     *            <li>{@link DataSource#getDriverClass()} is an implementation of
-     *            <code>java.sql.Driver</code></li>
-     *            <li>{@link DataSource#getTransactionSupport()} is
-     *            <code>TransactionSupport.XA_TRANSACTION</code></li>
-     *            </ul>
+     * <ul>
+     * <li>{@link DataSource#getJndiLocation()} is set to a unique path for the container.</li>
+     * <li>{@link DataSource#getDriverClass()} is an implementation of
+     * <code>java.sql.Driver</code></li>
+     * <li>{@link DataSource#getTransactionSupport()} is
+     * <code>TransactionSupport.XA_TRANSACTION</code></li>
+     * </ul>
      * @return configuration binding a container provided implementation of type
-     *         <code>javax.sql.DataSource</code> to the JNDI path specified at
-     *         {@link DataSource#getJndiLocation()}.
+     * <code>javax.sql.DataSource</code> to the JNDI path specified at
+     * {@link DataSource#getJndiLocation()}.
      */
     public abstract String buildEntryForDriverConfiguredDataSourceWithXaTx(DataSource ds);
 
     /**
      * @param ds the {@link DataSource} with the following state:
-     *            <ul>
-     *            <li>{@link DataSource#getJndiLocation()} is set to a unique path for the
-     *            container.</li>
-     *            <li>{@link DataSource#getDriverClass()} is an implementation of
-     *            <code>java.sql.Driver</code></li>
-     *            <li>{@link DataSource#getTransactionSupport()} is
-     *            <code>TransactionSupport.LOCAL_TRANSACTION</code></li>
-     *            </ul>
+     * <ul>
+     * <li>{@link DataSource#getJndiLocation()} is set to a unique path for the container.</li>
+     * <li>{@link DataSource#getDriverClass()} is an implementation of
+     * <code>java.sql.Driver</code></li>
+     * <li>{@link DataSource#getTransactionSupport()} is
+     * <code>TransactionSupport.LOCAL_TRANSACTION</code></li>
+     * </ul>
      * @return configuration binding a container provided implementation of type
-     *         <code>javax.sql.DataSource</code> to the JNDI path specified at
-     *         {@link DataSource#getJndiLocation()}.
+     * <code>javax.sql.DataSource</code> to the JNDI path specified at
+     * {@link DataSource#getJndiLocation()}.
      */
     public abstract String buildEntryForDriverConfiguredDataSourceWithLocalTx(DataSource ds);
 
     /**
      * @param ds the {@link DataSource} with the following state:
-     *            <ul>
-     *            <li>{@link DataSource#getJndiLocation()} is set to a unique path for the
-     *            container.</li>
-     *            <li>{@link DataSource#getDriverClass()} is an implementation of
-     *            <code>java.sql.Driver</code></li>
-     *            <li>{@link DataSource#getTransactionSupport()} is
-     *            <code>TransactionSupport.NO_TRANSACTION</code></li>
-     *            </ul>
+     * <ul>
+     * <li>{@link DataSource#getJndiLocation()} is set to a unique path for the container.</li>
+     * <li>{@link DataSource#getDriverClass()} is an implementation of
+     * <code>java.sql.Driver</code></li>
+     * <li>{@link DataSource#getTransactionSupport()} is
+     * <code>TransactionSupport.NO_TRANSACTION</code></li>
+     * </ul>
      * @return configuration binding a container provided implementation of type
-     *         <code>javax.sql.DataSource</code> to the JNDI path specified at
-     *         {@link DataSource#getJndiLocation()}.
+     * <code>javax.sql.DataSource</code> to the JNDI path specified at
+     * {@link DataSource#getJndiLocation()}.
      */
     public abstract String buildEntryForDriverConfiguredDataSourceWithNoTx(DataSource ds);
 
     /**
      * @param ds the {@link DataSource} with the following state:
-     *            <ul>
-     *            <li>{@link DataSource#getJndiLocation()} is set to a unique path for the
-     *            container.</li>
-     *            <li>{@link DataSource#getConnectionType()} is <code>javax.sql.XADataSource</code>
-     *            </li>
-     *            <li>{@link DataSource#getDriverClass()} is an implementation of
-     *            <code>javax.sql.XADataSource</code></li>
-     *            </ul>
+     * <ul>
+     * <li>{@link DataSource#getJndiLocation()} is set to a unique path for the container.</li>
+     * <li>{@link DataSource#getConnectionType()} is <code>javax.sql.XADataSource</code></li>
+     * <li>{@link DataSource#getDriverClass()} is an implementation of
+     * <code>javax.sql.XADataSource</code></li>
+     * </ul>
      * @return configuration binding a container provided implementation of type
-     *         <code>javax.sql.DataSource</code> to the JNDI path specified at
-     *         {@link DataSource#getJndiLocation()}. This container will provide XA support through
-     *         the third party implementation specified at {@link DataSource#getDriverClass()}.
+     * <code>javax.sql.DataSource</code> to the JNDI path specified at
+     * {@link DataSource#getJndiLocation()}. This container will provide XA support through the
+     * third party implementation specified at {@link DataSource#getDriverClass()}.
      */
     public abstract String buildConfigurationEntryForXADataSourceConfiguredDataSource(
         DataSource ds);

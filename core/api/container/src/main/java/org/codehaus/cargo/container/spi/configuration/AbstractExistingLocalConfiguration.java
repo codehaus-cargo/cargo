@@ -24,7 +24,7 @@ import org.codehaus.cargo.container.configuration.ExistingLocalConfiguration;
 
 /**
  * Base implementation for an existing local configuration.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractExistingLocalConfiguration extends AbstractLocalConfiguration

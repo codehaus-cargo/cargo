@@ -38,11 +38,11 @@ import org.codehaus.cargo.module.application.EarArchive;
 public class EAR extends AbstractDeployable
 {
     /**
-     * The name of this deployable (it can be anything, there's no special rule). If not specified 
+     * The name of this deployable (it can be anything, there's no special rule). If not specified
      * by user, it is computed from the EAR's file name (removing the filename extension).
      */
     private String name;
-    
+
     /**
      * List of webapps that have been found during parsing inside the wrapped EAR.
      */
@@ -58,9 +58,9 @@ public class EAR extends AbstractDeployable
     }
 
     /**
-     * Parse the EAR file name to set up the EAR name. The parsing occurs only if the user has not 
-     * already specified a custom name. 
-     *
+     * Parse the EAR file name to set up the EAR name. The parsing occurs only if the user has not
+     * already specified a custom name.
+     * 
      * @see #setName(String)
      */
     private void parseName()
@@ -75,7 +75,7 @@ public class EAR extends AbstractDeployable
             }
 
             getLogger().debug("Parsed EAR name = [" + name + "]", this.getClass().getName());
-            
+
             setName(name);
         }
     }
@@ -98,12 +98,12 @@ public class EAR extends AbstractDeployable
 
                     if (context == null)
                     {
-                        // The application.xml does not define a <context-root> 
+                        // The application.xml does not define a <context-root>
                         // element. This is wrong!
                         throw new ContainerException("Your application.xml must define a "
                             + "<context-root> element in the <web> module definition.");
                     }
-    
+
                     // Remove leading "/" if there is one.
                     if (context.startsWith("/"))
                     {
@@ -112,7 +112,7 @@ public class EAR extends AbstractDeployable
 
                     getLogger().debug("Found Web URI [" + webUri + "], context [" + context + "]",
                         this.getClass().getName());
-                    
+
                     webapps.put(context, webUri);
                 }
             }
@@ -126,9 +126,8 @@ public class EAR extends AbstractDeployable
     }
 
     /**
-     * @param name the name of this deployable. It can be anything (there's no special rule). If 
-     *        not specified by user, it is computed from the EAR's file name (removing the filename 
-     *        extension).
+     * @param name the name of this deployable. It can be anything (there's no special rule). If not
+     * specified by user, it is computed from the EAR's file name (removing the filename extension).
      */
     public synchronized void setName(String name)
     {
@@ -160,7 +159,7 @@ public class EAR extends AbstractDeployable
     public synchronized String getWebUri(String context)
     {
         parseWebApps();
-        return (String) this.webapps.get(context);
+        return this.webapps.get(context);
     }
 
     /**

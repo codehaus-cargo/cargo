@@ -34,24 +34,24 @@ public interface DeployableMonitor extends Loggable
     String getDeployableName();
 
     /**
-     * Register a listener that we will warn about the deployment status of the associated 
+     * Register a listener that we will warn about the deployment status of the associated
      * {@link org.codehaus.cargo.container.deployable.Deployable}.
      * 
      * @param listener the listener to register
      */
     void registerListener(DeployableMonitorListener listener);
-    
+
     /**
      * Check the deployment status of the associated
-     * {@link org.codehaus.cargo.container.deployable.Deployable} and tell the registered 
+     * {@link org.codehaus.cargo.container.deployable.Deployable} and tell the registered
      * {@link DeployableMonitorListener} about the status.
      */
     void monitor();
 
     /**
      * @return the timeout after which we stop monitoring the
-     * {@link org.codehaus.cargo.container.deployable.Deployable} 
-     *
+     * {@link org.codehaus.cargo.container.deployable.Deployable}
+     * 
      */
     long getTimeout();
 }

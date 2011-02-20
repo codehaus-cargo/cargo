@@ -153,7 +153,7 @@ public class DataSourceConverter
      * 
      * @param jndiLocation used to construct the id
      * @return a string that can be used to name this configuration or null, if jndiLocation was not
-     *         specified.
+     * specified.
      * @see org.codehaus.cargo.container.configuration.entry.DataSource#createIdFromJndiLocation(String)
      */
     private static String createIdFromJndiLocationIfNotNull(String jndiLocation)
@@ -242,7 +242,7 @@ public class DataSourceConverter
      * 
      * @param data DataSource to parse connection properties from.
      * @return property string delimited by semicolon, or null, if they cannot be parsed because the
-     *         input properties weren't set or empty
+     * input properties weren't set or empty
      */
     public String getConnectionPropertiesAsASemicolonDelimitedString(DataSource data)
     {
@@ -262,9 +262,9 @@ public class DataSourceConverter
      * 
      * @param ds DataSource to convert to a resource.
      * @param resourceType the type of the Resource to convert to. ex.
-     *            <code>javax.sql.DataSource</code>
+     * <code>javax.sql.DataSource</code>
      * @param driverParameter the name of the parameter to store {@link DataSource#getDriverClass()
-     *            driverClass}.
+     * driverClass}.
      * @return a Resource representing the assignable fields of the DataSource.
      */
     public Resource convertToResource(DataSource ds, String resourceType, String driverParameter)

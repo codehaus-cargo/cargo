@@ -40,7 +40,7 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * JSR-88 remote deployer.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
@@ -53,7 +53,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 
     /**
      * Constructor.
-     *
+     * 
      * @param container the remote container
      */
     public AbstractJsr88Deployer(RemoteContainer container)
@@ -63,7 +63,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.deployer.Deployer#deploy(Deployable)
      */
     @Override
@@ -81,7 +81,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(Deployable)
      */
     @Override
@@ -108,7 +108,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable)
      */
     @Override
@@ -144,7 +144,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.deployer.Deployer#start(Deployable)
      */
     @Override
@@ -168,7 +168,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.deployer.Deployer#stop(Deployable)
      */
     @Override
@@ -192,7 +192,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 
     /**
      * Waits for a progress object.
-     *
+     * 
      * @param progressObject Progress object.
      * @throws CargoException If timeout or deployment fails.
      */
@@ -272,8 +272,8 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         {
             throw new CargoException(
                 "Cannot locate the JSR-88 deployer class " + deploymentFactoryClassName + "\n"
-                + "Make sure the target server's librarires are in CARGO's classpath.\n"
-                + "More information on: http://cargo.codehaus.org/JSR88", e);
+                    + "Make sure the target server's librarires are in CARGO's classpath.\n"
+                    + "More information on: http://cargo.codehaus.org/JSR88", e);
         }
         catch (Throwable t)
         {
@@ -305,7 +305,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 
     /**
      * Finds a JSR-88 module
-     *
+     * 
      * @param deploymentManager Deployment manager.
      * @param deployable Deployable to look for.
      * @return JSR-88 module for the given deployable, put in an array.

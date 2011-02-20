@@ -22,24 +22,24 @@ package org.codehaus.cargo.container;
 import org.codehaus.cargo.container.internal.SpawnedContainer;
 
 /**
- * Represents a local container that requires an installation to work. The installation is where
- * the container's runtime is located.
- *
+ * Represents a local container that requires an installation to work. The installation is where the
+ * container's runtime is located.
+ * 
  * @version $Id$
  */
 public interface InstalledLocalContainer extends LocalContainer, SpawnedContainer
 {
     /**
      * @return the directory where the container is installed. Note that we're returning a String
-     *         instead of a File because we want to leave the possibility of using URIs for
-     *         specifying the home location.
+     * instead of a File because we want to leave the possibility of using URIs for specifying the
+     * home location.
      */
     String getHome();
 
     /**
      * @param home the directory where the container is installed. Note that we're passing a String
-     *        instead of a File because we want to leave the possibility of using URIs for
-     *        specifying the home location.
+     * instead of a File because we want to leave the possibility of using URIs for specifying the
+     * home location.
      */
     void setHome(String home);
 }

@@ -135,7 +135,7 @@ public class Proxy extends LoggedObject
 
     /**
      * @return the list of hosts which should be connected too directly and not through the proxy
-     *         server
+     * server
      * @see #setExcludeHosts(String)
      */
     public final String getExcludeHosts()
@@ -148,7 +148,7 @@ public class Proxy extends LoggedObject
      */
     public void configure()
     {
-        if ((getHost() != null) && (getHost().trim().length() > 0))
+        if (getHost() != null && getHost().trim().length() > 0)
         {
             getLogger().debug("host : " + getHost(), this.getClass().getName());
             getLogger().debug("port : " + getPort(), this.getClass().getName());

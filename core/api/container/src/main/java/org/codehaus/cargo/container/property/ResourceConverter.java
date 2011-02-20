@@ -132,7 +132,7 @@ public class ResourceConverter
      * 
      * @param data the Resource we are serializing
      * @return property string delimited by semicolon, or null, if they cannot be parsed because the
-     *         input properties weren't set or empty
+     * input properties weren't set or empty
      */
     public String getParametersAsASemicolonDelimitedString(Resource data)
     {

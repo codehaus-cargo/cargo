@@ -19,15 +19,15 @@
  */
 package org.codehaus.cargo.container.spi.configuration;
 
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 
 /**
  * Base implementation of {@link org.codehaus.cargo.container.configuration.ConfigurationCapability}
  * that needs to be extended by the different configuration implementations.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractConfigurationCapability implements ConfigurationCapability
@@ -38,8 +38,8 @@ public abstract class AbstractConfigurationCapability implements ConfigurationCa
     protected Map<String, Boolean> defaultSupportsMap;
 
     /**
-     * Initialize the default supports Map. This is so that extending classes will have less work
-     * to do and they can simply specify what's different from the default.
+     * Initialize the default supports Map. This is so that extending classes will have less work to
+     * do and they can simply specify what's different from the default.
      */
     public AbstractConfigurationCapability()
     {
@@ -82,7 +82,7 @@ public abstract class AbstractConfigurationCapability implements ConfigurationCa
 
     /**
      * @return a map indexed on the configuration property and having Boolean values expressing
-     *         whether the configuration supports the said property or not
+     * whether the configuration supports the said property or not
      */
     protected abstract Map<String, Boolean> getPropertySupportMap();
 }

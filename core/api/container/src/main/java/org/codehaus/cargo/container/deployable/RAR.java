@@ -30,11 +30,11 @@ public class RAR extends AbstractDeployable
 {
 
     /**
-     * The name of this deployable (it can be anything, there's no special rule). If not specified 
+     * The name of this deployable (it can be anything, there's no special rule). If not specified
      * by user, it is computed from the RAR's file name (removing the filename extension).
      */
     private String name;
-    
+
     /**
      * {@inheritDoc}
      * 
@@ -44,11 +44,11 @@ public class RAR extends AbstractDeployable
     {
         super(rar);
     }
-  
-     /**
-     * Parse the EAR file name to set up the EAR name. The parsing occurs only if the user has not 
-     * already specified a custom name. 
-     *
+
+    /**
+     * Parse the EAR file name to set up the EAR name. The parsing occurs only if the user has not
+     * already specified a custom name.
+     * 
      * @see #setName(String)
      */
     private void parseName()
@@ -63,7 +63,7 @@ public class RAR extends AbstractDeployable
             }
 
             getLogger().debug("Parsed RAR name = [" + name + "]", this.getClass().getName());
-            
+
             setName(name);
         }
     }
@@ -87,10 +87,9 @@ public class RAR extends AbstractDeployable
         return getFileHandler().isDirectory(getFile());
     }
 
-/**
-     * @param name the name of this deployable. It can be anything (there's no special rule). If 
-     *        not specified by user, it is computed from the RAR's file name (removing the filename 
-     *        extension).
+    /**
+     * @param name the name of this deployable. It can be anything (there's no special rule). If not
+     * specified by user, it is computed from the RAR's file name (removing the filename extension).
      */
     public synchronized void setName(String name)
     {
@@ -105,5 +104,5 @@ public class RAR extends AbstractDeployable
         parseName();
         return this.name;
     }
-   
+
 }
