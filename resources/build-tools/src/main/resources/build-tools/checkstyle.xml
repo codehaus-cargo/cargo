@@ -315,7 +315,9 @@
 
     <module name="ParameterName"/>
 
-    <module name="ParameterNumber"/>
+    <module name="ParameterNumber">
+      <property name="max" value="11"/>
+    </module>
 
     <module name="ParenPad"/>
 
