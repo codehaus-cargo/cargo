@@ -170,7 +170,7 @@
       <property name="severity" value="warning"/>
     </module>
 
-    <module name="ExplicitInitialization"/>
+    <!--module name="ExplicitInitialization"/-->
 
     <module name="FallThrough"/>
 
