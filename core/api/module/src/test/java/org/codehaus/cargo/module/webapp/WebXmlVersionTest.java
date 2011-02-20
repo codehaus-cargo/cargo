@@ -23,11 +23,11 @@
 package org.codehaus.cargo.module.webapp;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
-import org.codehaus.cargo.module.webapp.WebXmlVersion;
 import org.jdom.DocType;
+
 /**
  * Unit tests for {@link WebXmlVersion}.
- *
+ * 
  * @version $Id$
  */
 public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
@@ -43,8 +43,7 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Verifies that comparing version 2.2 to version 2.3 yields a negative
-     * value.
+     * Verifies that comparing version 2.2 to version 2.3 yields a negative value.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -64,8 +63,7 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Verifies that comparing version 2.2 to version 2.3 yields a negative
-     * value.
+     * Verifies that comparing version 2.2 to version 2.3 yields a negative value.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -75,8 +73,7 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Verifies that calling WebXmlVersion.valueOf(null) throws a
-     * NullPointerException.
+     * Verifies that calling WebXmlVersion.valueOf(null) throws a NullPointerException.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -94,40 +91,39 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Verifies that calling WebXmlVersion.valueOf() with a unknown document
-     * type returns null.
+     * Verifies that calling WebXmlVersion.valueOf() with a unknown document type returns null.
      * 
      * @throws Exception If an unexpected error occurs
      */
     public void testValueOfUnknownDocType() throws Exception
     {
-      DocType docType = new DocType("web-app",
+        DocType docType = new DocType("web-app",
             "foo", "bar");
         assertNull(WebXmlVersion.valueOf(docType));
     }
 
     /**
-     * Verifies that calling WebXmlVersion.valueOf() with a web-app 2.2 document
-     * type returns the correct instance.
+     * Verifies that calling WebXmlVersion.valueOf() with a web-app 2.2 document type returns the
+     * correct instance.
      * 
      * @throws Exception If an unexpected error occurs
      */
     public void testValueOfDocType22() throws Exception
     {
-      DocType docType = new DocType("web-app",
+        DocType docType = new DocType("web-app",
             WebXmlVersion.V2_2.getPublicId(), WebXmlVersion.V2_2.getSystemId());
         assertEquals(WebXmlVersion.V2_2, WebXmlVersion.valueOf(docType));
     }
 
     /**
-     * Verifies that calling WebXmlVersion.valueOf() with a web-app 2.3 document
-     * type returns the correct instance.
+     * Verifies that calling WebXmlVersion.valueOf() with a web-app 2.3 document type returns the
+     * correct instance.
      * 
      * @throws Exception If an unexpected error occurs
      */
     public void testValueOfDocType23() throws Exception
     {
-      DocType docType = new DocType("web-app",
+        DocType docType = new DocType("web-app",
             WebXmlVersion.V2_3.getPublicId(), WebXmlVersion.V2_3.getSystemId());
         assertEquals(WebXmlVersion.V2_3, WebXmlVersion.valueOf(docType));
     }

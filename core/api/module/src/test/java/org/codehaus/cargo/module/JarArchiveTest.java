@@ -22,46 +22,66 @@
  */
 package org.codehaus.cargo.module;
 
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.impl.StandardFileSystemManager;
-import org.codehaus.cargo.util.VFSFileHandler;
-import org.codehaus.cargo.util.AbstractResourceTest;
-
 import java.io.InputStream;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.impl.StandardFileSystemManager;
+import org.codehaus.cargo.util.AbstractResourceTest;
+import org.codehaus.cargo.util.VFSFileHandler;
+
 /**
  * Unit tests for {@link JarArchive}.
- *
+ * 
  * @version $Id$
  */
 public final class JarArchiveTest extends AbstractResourceTest
 {
+    /**
+     * Package path.
+     */
     private static final String PACKAGE_PATH = "org/codehaus/cargo/module/";
 
-    private StandardFileSystemManager fsManager;
+    /**
+     * File system manager.
+     */
+    private FileSystemManager fsManager;
 
+    /**
+     * Creates the file system manager. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUp() throws Exception
     {
         super.setUp();
 
         this.fsManager = new StandardFileSystemManager();
-        this.fsManager.init();
+        ((StandardFileSystemManager) this.fsManager).init();
     }
 
+    /**
+     * Closes the file system manager. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void tearDown() throws Exception
     {
+        if (this.fsManager != null)
+        {
+            ((StandardFileSystemManager) this.fsManager).close();
+        }
+
         super.tearDown();
     }
-    
+
     /**
-     * Verifies that a <code>NullPointerException</code> is thrown when the
-     * constructor is passed a <code>null</code> argument as input stream.
-     *
+     * Verifies that a <code>NullPointerException</code> is thrown when the constructor is passed a
+     * <code>null</code> argument as input stream.
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testConstructorWithNullInputStream() throws Exception
@@ -79,7 +99,7 @@ public final class JarArchiveTest extends AbstractResourceTest
 
     /**
      * Verifies that random access to resources in the JAR is provided.
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testRandomAccess() throws Exception
@@ -92,9 +112,9 @@ public final class JarArchiveTest extends AbstractResourceTest
     }
 
     /**
-     * Verifies that the method <code>containsClass()</code> returns
-     * <code>true</code> if the JAR contains the requested class.
-     *
+     * Verifies that the method <code>containsClass()</code> returns <code>true</code> if the JAR
+     * contains the requested class.
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testContainsClass() throws Exception
@@ -104,9 +124,9 @@ public final class JarArchiveTest extends AbstractResourceTest
     }
 
     /**
-     * Verifies that the method <code>containsClass()</code> returns
-     * <code>false</code> if the JAR does not contain such a class.
-     *
+     * Verifies that the method <code>containsClass()</code> returns <code>false</code> if the JAR
+     * does not contain such a class.
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testContainsClassEmpty() throws Exception
@@ -115,6 +135,11 @@ public final class JarArchiveTest extends AbstractResourceTest
         assertTrue(!jar.containsClass("test.Test"));
     }
 
+    /**
+     * Verifies that the method <code>findResource()</code> works.
+     * 
+     * @throws Exception If an unexpected error occurs
+     */
     public void testFindResource() throws Exception
     {
         JarArchive jar =
@@ -124,11 +149,16 @@ public final class JarArchiveTest extends AbstractResourceTest
         assertNull(jar.findResource("foo"));
     }
 
+    /**
+     * Verifies that the method <code>getResources()</code> works.
+     * 
+     * @throws Exception If an unexpected error occurs
+     */
     public void testGetResources() throws Exception
     {
         JarArchive jar = new DefaultJarArchive(getResourcePath(PACKAGE_PATH + "test.jar"));
 
-        List resources = jar.getResources("folder1");
+        List<String> resources = jar.getResources("folder1");
         assertEquals(2, resources.size());
         assertTrue(resources.contains("folder1/resourceOne.txt"));
         assertTrue(resources.contains("folder1/resourceTwo.txt"));
@@ -151,6 +181,11 @@ public final class JarArchiveTest extends AbstractResourceTest
         assertEquals(0, resources.size());
     }
 
+    /**
+     * Verifies that the method <code>expandToPath()</code> works.
+     * 
+     * @throws Exception If an unexpected error occurs
+     */
     public void testExpandToPath() throws Exception
     {
         FileObject testJar = this.fsManager.resolveFile("ram:///test.jar");

@@ -22,12 +22,11 @@ package org.codehaus.cargo.module.webapp.tomcat;
 import org.codehaus.cargo.module.AbstractDescriptorType;
 import org.codehaus.cargo.module.Dtd;
 
-
 /**
  * @version $Id$
- *
+ * 
  */
-public class TomcatContextXmlType  extends AbstractDescriptorType
+public class TomcatContextXmlType extends AbstractDescriptorType
 {
     /**
      * Static instance.
@@ -37,26 +36,26 @@ public class TomcatContextXmlType  extends AbstractDescriptorType
     /**
      * All the tags for the descriptor type.
      */
-    private TomcatContextXmlTag[] tags = 
-        new TomcatContextXmlTag[] {  
+    private TomcatContextXmlTag[] tags =
+        new TomcatContextXmlTag[] {
             new TomcatContextXmlTag(this, "path", false),
             new TomcatContextXmlTag(this, "Parameter", true)
         };
-    
-   /**
-    * @param parent
-    * @param descriptorClass
-    * @param grammar
-    */
+
+    /**
+     * @param parent
+     * @param descriptorClass
+     * @param grammar
+     */
     protected TomcatContextXmlType()
     {
-        super(null, TomcatContextXml.class, new Dtd("file:sample/tomcat-context.dtd"));   
+        super(null, TomcatContextXml.class, new Dtd("file:sample/tomcat-context.dtd"));
     }
-      
-   /**
-    * Get the static instance.
-    * @return The instance
-    */
+
+    /**
+     * Get the static instance.
+     * @return The instance
+     */
     public static TomcatContextXmlType getInstance()
     {
         return instance;

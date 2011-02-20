@@ -68,7 +68,7 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
      * 
      * @param parent the parent of this type
      * @param descriptorClass the class that implements this descriptor
-     * @param grammar grammar for this type (or null if none). 
+     * @param grammar grammar for this type (or null if none).
      */
     protected AbstractDescriptorType(DescriptorType parent, Class descriptorClass,
         Grammar grammar)
@@ -133,9 +133,9 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
                 return tag;
             }
         }
-        
+
         return parent != null ? parent.getTagByName(name) : null;
-        
+
     }
 
     /**
@@ -158,7 +158,7 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
     @Override
     public Element element(String arg0)
     {
-        DescriptorTag tag = (DescriptorTag) getTagByName(arg0);
+        DescriptorTag tag = getTagByName(arg0);
         if (tag != null)
         {
             try
@@ -173,36 +173,36 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
 
         return super.element(arg0);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public Element element(String name, Namespace namespace) 
+    public Element element(String name, Namespace namespace)
     {
-        DescriptorTag tag = (DescriptorTag) getTagByName(name);
+        DescriptorTag tag = getTagByName(name);
         if (tag != null)
         {
             try
             {
                 DescriptorElement element = tag.create();
-//                if( element.getNamespace() == null && getTagNamespace() != null )
-//                {
-//                  element.setNamespace(getTagNamespace());
-//                }
+                // if( element.getNamespace() == null && getTagNamespace() != null )
+                // {
+                // element.setNamespace(getTagNamespace());
+                // }
                 return element;
-                
+
             }
             catch (Exception ex)
             {
                 //
-            }          
+            }
         }
         return super.element(name, namespace);
     }
-    
-    /** 
-     * Create a JDOM Document. 
+
+    /**
+     * Create a JDOM Document.
      * @param rootElement the root element for the document
      * @return the document created
      */

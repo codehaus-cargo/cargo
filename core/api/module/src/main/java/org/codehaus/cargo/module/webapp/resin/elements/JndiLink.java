@@ -19,12 +19,10 @@
  */
 package org.codehaus.cargo.module.webapp.resin.elements;
 
-
 import org.codehaus.cargo.module.DescriptorElement;
 import org.codehaus.cargo.module.webapp.resin.ResinWebXmlTag;
 import org.codehaus.cargo.module.webapp.resin.ResinWebXmlType;
 import org.jdom.Element;
-
 
 /**
  * Wrapper Class representing a resin-web.xml JNDI link.
@@ -33,25 +31,24 @@ import org.jdom.Element;
  */
 public class JndiLink extends DescriptorElement
 {
-  /**
-   * Constructor.
-   * 
-   * @param tag Resin Web Xml Tag
-   */
+    /**
+     * Constructor.
+     * 
+     * @param tag Resin Web Xml Tag
+     */
     public JndiLink(ResinWebXmlTag tag)
     {
-        super(tag);      
+        super(tag);
     }
-  
-  /**
-   * Constructor.  
-   */
+
+    /**
+     * Constructor.
+     */
     public JndiLink()
     {
         this((ResinWebXmlTag) ResinWebXmlType.getInstance().getTagByName(
             ResinWebXmlTag.JNDI_LINK));
     }
-    
 
     /**
      * {@inheritDoc}

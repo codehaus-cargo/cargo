@@ -33,8 +33,8 @@ public interface DescriptorType
      * @return XML Grammar for this descriptor.
      */
     Grammar getGrammar();
-    
-    /** 
+
+    /**
      * @return JDOM Factory that can create typed descriptor elements.
      */
     JDOMFactory getJDOMFactory();

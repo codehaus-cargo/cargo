@@ -30,7 +30,7 @@ import org.jdom.Element;
 /**
  * Encapsulates the DOM representation of a weblogic web deployment descriptor
  * <code>weblogic.xml</code> to provide convenience methods for easy access and manipulation.
- *
+ * 
  * @version $Id$
  */
 public class WeblogicXml extends AbstractDescriptor implements VendorWebAppDescriptor
@@ -42,7 +42,7 @@ public class WeblogicXml extends AbstractDescriptor implements VendorWebAppDescr
 
     /**
      * Constructor.
-     *
+     * 
      * @param rootElement The document root element
      * @param type The descriptor type
      */
@@ -75,7 +75,7 @@ public class WeblogicXml extends AbstractDescriptor implements VendorWebAppDescr
                 WeblogicXmlTag.REFERENCE_DESCRIPTOR), refDescr, getRootElement());
         }
         else
-        {          
+        {
             refDescr = referenceDescriptors.get(0);
         }
 

@@ -52,7 +52,7 @@ public class EjbDef
     public EjbDef()
     {
     }
-    
+
     /**
      * Constructor.
      * 
@@ -62,7 +62,7 @@ public class EjbDef
     {
         this.name = name;
     }
-    
+
     /**
      * Constructor.
      * 
@@ -74,7 +74,7 @@ public class EjbDef
         this.name = name;
         this.id = id;
     }
-    
+
     /**
      * Id accessor.
      * 
@@ -93,7 +93,7 @@ public class EjbDef
     public void setId(String id)
     {
         this.id = id;
-    }    
+    }
 
     /**
      * Name accessor.
@@ -117,7 +117,7 @@ public class EjbDef
 
     /**
      * Local accessor.
-     *
+     * 
      * @return Returns the local.
      */
     public String getLocal()

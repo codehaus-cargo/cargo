@@ -29,11 +29,10 @@ import org.codehaus.cargo.module.webapp.VendorWebAppDescriptor;
 import org.jdom.Element;
 import org.jdom.Namespace;
 
-
 /**
  * Encapsulates the DOM representation of a websphere web deployment descriptor
  * <code>ibm-web-bnd.xmi</code> to provide convenience methods for easy access and manipulation.
- *
+ * 
  * @version $Id$
  */
 public class IbmWebBndXmi extends AbstractDescriptor implements VendorWebAppDescriptor
@@ -50,7 +49,7 @@ public class IbmWebBndXmi extends AbstractDescriptor implements VendorWebAppDesc
 
     /**
      * Constructor.
-     *
+     * 
      * @param rootElement The root document element
      * @param type The descriptor type
      */

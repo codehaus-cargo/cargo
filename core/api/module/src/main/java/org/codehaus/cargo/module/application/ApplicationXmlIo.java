@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 import org.codehaus.cargo.module.AbstractDescriptorIo;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
@@ -38,9 +39,9 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * Provides convenience methods for reading and writing enterprise application deployment 
+ * Provides convenience methods for reading and writing enterprise application deployment
  * descriptors (application.xml).
- *
+ * 
  * @version $Id$
  */
 public final class ApplicationXmlIo extends AbstractDescriptorIo
@@ -50,11 +51,11 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
      */
     private ApplicationXmlIo()
     {
-      super(ApplicationXmlType.getInstance());   
+        super(ApplicationXmlType.getInstance());
     }
-    
+
     /**
-     * Implementation of the SAX EntityResolver interface that looks up the application DTDs from 
+     * Implementation of the SAX EntityResolver interface that looks up the application DTDs from
      * the JAR.
      */
     private static class ApplicationXmlEntityResolver implements EntityResolver
@@ -117,7 +118,7 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
             }
         }
     }
-    
+
     /**
      * Parses a deployment descriptor provided as input stream.
      * 
@@ -131,9 +132,9 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
         EntityResolver entityResolver)
         throws IOException, JDOMException
     {
-        ApplicationXmlIo io = new ApplicationXmlIo();  
+        ApplicationXmlIo io = new ApplicationXmlIo();
         SAXBuilder builder = io.createDocumentBuilder();
-        
+
         if (entityResolver != null)
         {
             builder.setEntityResolver(entityResolver);
@@ -143,8 +144,8 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
             builder.setEntityResolver(new ApplicationXmlEntityResolver());
         }
         return (ApplicationXml) builder.build(input);
-    }    
-    
+    }
+
     /**
      * Writes the specified document to a file.
      * 
@@ -152,7 +153,7 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
      * @param file The file to write to
      * @throws IOException If an I/O error occurs
      */
-    public static void writeApplicationXml(ApplicationXml appXml, 
+    public static void writeApplicationXml(ApplicationXml appXml,
                                            File file)
         throws IOException
     {
@@ -167,7 +168,7 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
      * @param encoding The character encoding to use
      * @throws IOException If an I/O error occurs
      */
-    public static void writeApplicationXml(ApplicationXml appXml, 
+    public static void writeApplicationXml(ApplicationXml appXml,
                                            File file,
                                            String encoding)
         throws IOException
@@ -184,9 +185,9 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
      * @param isIndent Whether the written XML should be indented
      * @throws IOException If an I/O error occurs
      */
-    public static void writeApplicationXml(ApplicationXml appXml, 
+    public static void writeApplicationXml(ApplicationXml appXml,
                                            File file,
-                                           String encoding, 
+                                           String encoding,
                                            boolean isIndent)
         throws IOException
     {
@@ -221,9 +222,9 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
      * @param isIndent Whether the written XML should be indented
      * @throws IOException If an I/O error occurs
      */
-    public static void writeApplicationXml(ApplicationXml appXml, 
+    public static void writeApplicationXml(ApplicationXml appXml,
                                            OutputStream output,
-                                           String encoding, 
+                                           String encoding,
                                            boolean isIndent)
         throws IOException
     {

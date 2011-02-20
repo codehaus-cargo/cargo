@@ -37,9 +37,9 @@ public class WeblogicEjbJarXmlIo extends AbstractDescriptorIo
      */
     protected WeblogicEjbJarXmlIo()
     {
-        super(WeblogicEjbJarXmlType.getInstance());    
+        super(WeblogicEjbJarXmlType.getInstance());
     }
-  
+
     /**
      * Parses a deployment descriptor provided as input stream.
      * 
@@ -54,6 +54,5 @@ public class WeblogicEjbJarXmlIo extends AbstractDescriptorIo
         WeblogicEjbJarXmlIo xio = new WeblogicEjbJarXmlIo();
         return (WeblogicEjbJarXml) xio.parseXml(input);
     }
-
 
 }

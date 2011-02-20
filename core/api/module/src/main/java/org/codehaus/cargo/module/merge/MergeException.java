@@ -35,7 +35,7 @@ public class MergeException extends CargoException
     {
         super(string);
     }
-    
+
     /**
      * @param string in string to describe the exception
      * @param e in exception causing error

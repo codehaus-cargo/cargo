@@ -22,9 +22,9 @@ package org.codehaus.cargo.module.ejb;
 import org.w3c.dom.DocumentType;
 
 /**
- * Enumerated type that represents the version of the deployment descriptor of a ejb
- * descriptor (ejb-jar.xml).
- *
+ * Enumerated type that represents the version of the deployment descriptor of a ejb descriptor
+ * (ejb-jar.xml).
+ * 
  * @version $Id$
  */
 public final class EjbJarXmlVersion implements Comparable
@@ -41,7 +41,7 @@ public final class EjbJarXmlVersion implements Comparable
      * The system ID of the corresponding document type.
      */
     private String systemId;
-    
+
     /**
      * The version as string.
      */
@@ -65,7 +65,7 @@ public final class EjbJarXmlVersion implements Comparable
         this.publicId = publicId;
         this.systemId = systemId;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see java.lang.Comparable#compareTo
@@ -73,15 +73,15 @@ public final class EjbJarXmlVersion implements Comparable
     public int compareTo(Object other)
     {
         int result = 1;
-        
+
         if (other == this)
         {
             result = 0;
         }
-        
+
         return result;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see java.lang.Object#toString
@@ -91,7 +91,7 @@ public final class EjbJarXmlVersion implements Comparable
     {
         return super.equals(other);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see java.lang.Object#hashCode
@@ -101,7 +101,7 @@ public final class EjbJarXmlVersion implements Comparable
     {
         return super.hashCode();
     }
-    
+
     /**
      * Returns the tag name.
      * 
@@ -111,7 +111,7 @@ public final class EjbJarXmlVersion implements Comparable
     {
         return this.version;
     }
-    
+
     /**
      * Returns the public ID of the document type corresponding to the descriptor version.
      * 
@@ -146,8 +146,8 @@ public final class EjbJarXmlVersion implements Comparable
      * Returns the version corresponding to the given document type.
      * 
      * @param docType The document type
-     * @return The version that matches the document type, or <code>null</code> if the doctype is 
-     *         not recognized
+     * @return The version that matches the document type, or <code>null</code> if the doctype is
+     * not recognized
      * @throws NullPointerException If the document type is <code>null</code>
      */
     public static EjbJarXmlVersion valueOf(DocumentType docType) throws NullPointerException
@@ -159,13 +159,13 @@ public final class EjbJarXmlVersion implements Comparable
      * Returns the version corresponding to the given public ID.
      * 
      * @param publicId The public ID
-     * @return The version that matches the public ID, or <code>null</code> if the ID is not 
-     *         recognized
+     * @return The version that matches the public ID, or <code>null</code> if the ID is not
+     * recognized
      */
     public static EjbJarXmlVersion valueOf(String publicId)
     {
         EjbJarXmlVersion version = null;
-        
+
         if (V2_0.getPublicId().equals(publicId))
         {
             version = EjbJarXmlVersion.V2_0;

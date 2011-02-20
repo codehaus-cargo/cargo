@@ -38,14 +38,14 @@ import org.codehaus.cargo.module.webapp.elements.Servlet;
 public class WebXml22Type extends WebXmlType
 {
 
-  /**
-   * Single instance.
-   */
+    /**
+     * Single instance.
+     */
     private static WebXml22Type instance = new WebXml22Type();
 
-  /**
-   * Ensure all tags constructed.
-   */
+    /**
+     * Ensure all tags constructed.
+     */
     private WebXmlTag[] tags =
         new WebXmlTag[] {
             new WebXmlTag(this, "icon", false),
@@ -91,42 +91,41 @@ public class WebXml22Type extends WebXmlType
             new WebXmlTag(this, "local-home"), new WebXmlTag(this, "remote"),
             new WebXmlTag(this, "home"), new WebXmlTag(this, "ejb-link")
         };
-    
-   /**
-    *  Protected Constructor.
-    */
+
+    /**
+     * Protected Constructor.
+     */
     protected WebXml22Type()
     {
         super(null, new Dtd("http://java.sun.com/j2ee/dtds/web-app_2_2.dtd"));
         setDescriptorIo(new WebXmlIo(this));
     }
-    
-    
-  /**
-   * Protected constructor.
-   * 
-   * @param parent Parent type if any
-   * @param grammar grammar to use
-   */
+
+    /**
+     * Protected constructor.
+     * 
+     * @param parent Parent type if any
+     * @param grammar grammar to use
+     */
     protected WebXml22Type(AbstractDescriptorType parent, Dtd grammar)
     {
         super(parent, grammar);
         setDescriptorIo(new WebXmlIo(this));
     }
-  
-  /**
-   * Get the instance of the WEB XML Type.
-   * @return WebXmlType
-   */
+
+    /**
+     * Get the instance of the WEB XML Type.
+     * @return WebXmlType
+     */
     public static WebXmlType getInstance()
     {
         return instance;
     }
 
-  /**
-   * Get the web xml version for his type.
-   * @return the version for this type
-   */
+    /**
+     * Get the web xml version for his type.
+     * @return the version for this type
+     */
     @Override
     public WebXmlVersion getVersion()
     {

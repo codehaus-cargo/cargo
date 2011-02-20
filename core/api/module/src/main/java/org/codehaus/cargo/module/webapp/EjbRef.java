@@ -21,7 +21,7 @@ package org.codehaus.cargo.module.webapp;
 
 /**
  * Represents a ejb-ref element of a web application descriptor.
- *
+ * 
  * @version $Id $
  */
 public class EjbRef
@@ -73,7 +73,7 @@ public class EjbRef
 
     /**
      * Construct a new ejb-ref.
-     *
+     * 
      * @param name Name of the reference. For example ejb/MyEjb.
      * @param ejbInterface Class name of the ejb interface.
      * @param ejbHomeInterface Class name of the ejb home interface.
@@ -87,7 +87,7 @@ public class EjbRef
 
     /**
      * Returns the ejb home inteface.
-     *
+     * 
      * @return ejb home interface.
      */
     public String getEjbHomeInterface()
@@ -97,7 +97,7 @@ public class EjbRef
 
     /**
      * Sets the ejb home interface.
-     *
+     * 
      * @param ejbHomeInterface the home interface of the ejb.
      */
     public void setEjbHomeInterface(String ejbHomeInterface)
@@ -107,7 +107,7 @@ public class EjbRef
 
     /**
      * Returns the ejb inteface.
-     *
+     * 
      * @return ejb interface.
      */
     public String getEjbInterface()
@@ -117,7 +117,7 @@ public class EjbRef
 
     /**
      * Sets the ejb interface.
-     *
+     * 
      * @param ejbInterface the interface of the ejb.
      */
     public void setEjbInterface(String ejbInterface)
@@ -127,7 +127,7 @@ public class EjbRef
 
     /**
      * Returns the ejb name.
-     *
+     * 
      * @return ejb name.
      */
     public String getEjbName()
@@ -137,7 +137,7 @@ public class EjbRef
 
     /**
      * Sets the ejb name. This will result in an ejb ref by ejb-link.
-     *
+     * 
      * @param ejbName the name of the ejb.
      */
     public void setEjbName(String ejbName)
@@ -147,7 +147,7 @@ public class EjbRef
 
     /**
      * Returns the jndi inteface.
-     *
+     * 
      * @return jndi interface.
      */
     public String getJndiName()
@@ -157,7 +157,7 @@ public class EjbRef
 
     /**
      * Sets the jndi name. This will result in an ejb ref by vendor specific mappings.
-     *
+     * 
      * @param jndiName jndi name of the referenced ejb.
      */
     public void setJndiName(String jndiName)
@@ -167,7 +167,7 @@ public class EjbRef
 
     /**
      * Indicates if the ejb referenced is a local ejb.
-     *
+     * 
      * @return true if the ejb referenced is a local ejb.
      */
     public boolean isLocal()
@@ -177,7 +177,7 @@ public class EjbRef
 
     /**
      * Set if the referenced ejb is a local ejb.
-     *
+     * 
      * @param local true if the referenced ejb is local.
      */
     public void setLocal(boolean local)
@@ -187,7 +187,7 @@ public class EjbRef
 
     /**
      * Returns the name of the reference.
-     *
+     * 
      * @return name of the reference.
      */
     public String getName()
@@ -197,7 +197,7 @@ public class EjbRef
 
     /**
      * Sets the name of the reference.
-     *
+     * 
      * @param name name of the reference.
      */
     public void setName(String name)
@@ -207,7 +207,7 @@ public class EjbRef
 
     /**
      * Returns the type of reference.
-     *
+     * 
      * @see EjbRef.SESSION
      * @see EjbRef.ENTITY
      * @return type of reference.
@@ -219,7 +219,7 @@ public class EjbRef
 
     /**
      * Sets the type of the reference.
-     *
+     * 
      * @see EjbRef.SESSION
      * @see EjbRef.ENTITY
      * @param type type of reference.

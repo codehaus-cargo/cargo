@@ -23,6 +23,7 @@
 package org.codehaus.cargo.module.webapp;
 
 import org.codehaus.cargo.module.Dtd;
+
 /**
  * Web 2.5 Descriptor.
  * @version $Id$
@@ -33,17 +34,18 @@ public class WebXml25Type extends WebXmlType
      * Single instance.
      */
     private static WebXml25Type instance = new WebXml25Type();
-    
+
     /**
-     * Protected constructor.     
+     * Protected constructor.
      */
     protected WebXml25Type()
     {
-        // We don't have an XSD grammar orderer yet so use 2.3 for now 
+        // We don't have an XSD grammar orderer yet so use 2.3 for now
         super(WebXml22Type.getInstance(), new Dtd(
                 "http://www.sun.com/software/dtd/appserver/sun-web-app_2_5-0.dtd"));
         setDescriptorIo(new WebXmlIo(this));
     }
+
     /**
      * Get the instance of the WEB XML Type.
      * @return WebXmlType
@@ -52,8 +54,8 @@ public class WebXml25Type extends WebXmlType
     {
         return instance;
     }
-  
-    /** 
+
+    /**
      * {@inheritDoc}
      */
     @Override

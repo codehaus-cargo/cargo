@@ -34,17 +34,17 @@ public class OrionEjbJarXmlType extends AbstractDescriptorType
      * Static instance.
      */
     private static OrionEjbJarXmlType instance = new OrionEjbJarXmlType();
-    
+
     /**
      * Protected constructor.
      * 
      */
     protected OrionEjbJarXmlType()
     {
-        super(null, OrionEjbJarXml.class, 
-            new Dtd("http://www.oracle.com/technology/ias/dtds/orion-ejb-jar-9_04.dtd"));   
+        super(null, OrionEjbJarXml.class,
+            new Dtd("http://www.oracle.com/technology/ias/dtds/orion-ejb-jar-9_04.dtd"));
     }
-    
+
     /**
      * Get the static instance.
      * @return The instance

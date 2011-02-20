@@ -28,28 +28,28 @@ import org.codehaus.cargo.module.Identifier;
 
 /**
  * Represents the various top-level tags in a web deployment descriptor as a typesafe enumeration.
- *
+ * 
  * @version $Id$
  */
 public final class WebXmlTag extends DescriptorTag
-{   
+{
 
     /**
      * Constructor.
-     *
+     * 
      * @param type Descriptor type
      * @param tagName The tag name of the element
      * @param isMultipleAllowed Whether the element may occur multiple times in the descriptor
      * @param identifier Optional tag identifier instance
      * @param clazz Name of the implementation class
      */
-    protected WebXmlTag(DescriptorType type, String tagName, 
+    protected WebXmlTag(DescriptorType type, String tagName,
         boolean isMultipleAllowed, Identifier identifier, Class clazz)
     {
         super(type, tagName, ((WebXmlType) type).getVersion().getNamespace(), isMultipleAllowed,
-                identifier, clazz);          
+                identifier, clazz);
     }
-    
+
     /**
      * Constructor.
      * 
@@ -60,12 +60,12 @@ public final class WebXmlTag extends DescriptorTag
     protected WebXmlTag(DescriptorType type, String tagName, boolean isMultipleAllowed)
     {
         super(type, tagName, ((WebXmlType) type).getVersion().getNamespace(), isMultipleAllowed,
-                null, null);        
+                null, null);
     }
 
     /**
      * Constructor.
-     *
+     * 
      * @param type Descriptor type
      * @param tagName The tag name of the element
      */

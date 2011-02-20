@@ -36,7 +36,7 @@ import org.xml.sax.EntityResolver;
 
 /**
  * Provides convenience methods for reading and writing descriptors.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractDescriptorIo implements DescriptorIo
@@ -59,7 +59,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
     }
 
     /**
-     * Create a document builder. 
+     * Create a document builder.
      * @return new document builder
      */
     public SAXBuilder createDocumentBuilder()
@@ -69,9 +69,10 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
 
     /**
      * @param theEntityResolver entity resolver or null
-     * @return a new non-validating, non-namespace-aware {@link DocumentBuilder} instance
+     * @return a new non-validating, non-namespace-aware {@link javax.xml.parsers.DocumentBuilder}
+     * instance
      */
-    public SAXBuilder createDocumentBuilder(EntityResolver theEntityResolver)        
+    public SAXBuilder createDocumentBuilder(EntityResolver theEntityResolver)
     {
         SAXBuilder factory = new SAXBuilder();
         factory.setValidation(false);
@@ -103,10 +104,10 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
     /**
      * @param input the input stream
      * @return JDOM Document
-     * @throws IOException if problem reading the stream 
-     * @throws JDOMException  if problem parsing the stream
+     * @throws IOException if problem reading the stream
+     * @throws JDOMException if problem parsing the stream
      */
-    public Document parseXml(InputStream input) throws 
+    public Document parseXml(InputStream input) throws
         JDOMException, IOException
     {
         return parseXml(input, new XmlEntityResolver());
@@ -114,12 +115,12 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
 
     /**
      * Create a document from the input stream and resolver.
-     *  
+     * 
      * @param input the input stream
      * @param resolver entity resolver, or null
      * @return JDOM Document
-     * @throws IOException if problem reading the stream 
-     * @throws JDOMException  if problem parsing the stream
+     * @throws IOException if problem reading the stream
+     * @throws JDOMException if problem parsing the stream
      */
     public Document parseXml(InputStream input, EntityResolver resolver)
         throws JDOMException, IOException
@@ -130,10 +131,10 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
 
     /**
      * Writes the specified document to a file.
-     *
+     * 
      * @param descriptor The descriptor to serialize
      * @param file The file to write to
-     *
+     * 
      * @throws IOException If an I/O error occurs
      */
     public static void writeDescriptor(Descriptor descriptor, File file) throws IOException
@@ -143,7 +144,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
 
     /**
      * Writes the specified document to a file.
-     *
+     * 
      * @param descriptor The descriptor to serialize
      * @param file The file to write to
      * @param encoding The character encoding to use
@@ -157,7 +158,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
 
     /**
      * Writes the specified document to a file.
-     *
+     * 
      * @param descriptor The descriptor to serialize
      * @param file The file to write to
      * @param encoding The character encoding to use
@@ -191,12 +192,12 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
 
     /**
      * Writes the specified document to an output stream.
-     *
+     * 
      * @param descriptor The descriptor to serialize
      * @param out The output stream to write to
      * @param encoding The character encoding to use
      * @param isIndent Whether the written XML should be indented
-     *
+     * 
      * @throws IOException If an I/O error occurs
      */
     public static void writeDescriptor(Descriptor descriptor, OutputStream out, String encoding,
@@ -212,7 +213,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
 
     /**
      * Writes the WebXml and its associated vendor descriptors to the specified directory.
-     *
+     * 
      * @param descriptor The descriptor to serialize
      * @param dir Directory to store the descriptors in
      * @return Array of files for every created file

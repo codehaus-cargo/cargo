@@ -31,27 +31,27 @@ public class JBossXmlType extends AbstractDescriptorType
      * Static instance.
      */
     private static JBossXmlType instance = new JBossXmlType();
-    
+
     /**
      * All the tags in this type.
      */
     private JBossXmlTag[] tags = new JBossXmlTag[] {
         new JBossXmlTag(this, JBossXmlTag.EJB_NAME),
         new JBossXmlTag(this, JBossXmlTag.JNDI_NAME),
-        new JBossXmlTag(this, JBossXmlTag.LOCAL_JNDI_NAME)                     
+        new JBossXmlTag(this, JBossXmlTag.LOCAL_JNDI_NAME)
     };
-    
+
     /**
      * Protected constructor.
      * 
      */
     protected JBossXmlType()
     {
-        super(null, JBossXml.class, 
-            new Dtd("http://www.jboss.org/j2ee/dtd/jboss_4_0.dtd"));   
+        super(null, JBossXml.class,
+            new Dtd("http://www.jboss.org/j2ee/dtd/jboss_4_0.dtd"));
         setDescriptorIo(new JBossXmlIo());
     }
-    
+
     /**
      * Get the static instance.
      * @return The instance

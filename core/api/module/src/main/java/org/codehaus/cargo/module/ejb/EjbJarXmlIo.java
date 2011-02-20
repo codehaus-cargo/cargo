@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
 
 /**
  * Provides convenience methods for reading and writing ejb deployment descriptors (ejb-jar.xml).
- *
+ * 
  * @version $Id$
  */
 public class EjbJarXmlIo extends AbstractDescriptorIo
@@ -43,9 +43,9 @@ public class EjbJarXmlIo extends AbstractDescriptorIo
     {
         super(EjbJarXmlType.getInstance());
     }
-  
+
     /**
-     * Implementation of the SAX EntityResolver interface that looks up the application DTDs from 
+     * Implementation of the SAX EntityResolver interface that looks up the application DTDs from
      * the JAR.
      */
     private static class EjbJarXmlEntityResolver implements EntityResolver
@@ -73,7 +73,7 @@ public class EjbJarXmlIo extends AbstractDescriptorIo
         }
 
     }
-    
+
     /**
      * Parses a deployment descriptor provided as input stream.
      * 
@@ -97,7 +97,7 @@ public class EjbJarXmlIo extends AbstractDescriptorIo
         {
             builder.setEntityResolver(new EjbJarXmlEntityResolver());
         }
-        return (EjbJarXml) builder.build(input);                   
+        return (EjbJarXml) builder.build(input);
     }
 
 }

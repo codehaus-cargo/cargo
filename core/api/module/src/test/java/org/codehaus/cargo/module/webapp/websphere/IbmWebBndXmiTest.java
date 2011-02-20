@@ -23,19 +23,19 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
-import org.jdom.Element;
 import org.codehaus.cargo.module.webapp.EjbRef;
+import org.jdom.Element;
 
 /**
  * Unit tests for {@link IbmWebBndXmi}.
- *
+ * 
  * @version $Id$
  */
 public class IbmWebBndXmiTest extends AbstractDocumentBuilderTest
 {
     /**
      * Tests that a ejb reference description can be added.
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testAddEjbReferenceDescription() throws Exception
@@ -46,15 +46,15 @@ public class IbmWebBndXmiTest extends AbstractDocumentBuilderTest
             + "xmi:id=\"WebAppBinding_1082390762531\">"
             + "</com.ibm.ejs.models.base.bindings.webappbnd:WebAppBinding>";
         IbmWebBndXmi descr = IbmWebBndXmiIo.parseIbmWebBndXmi(
-            new ByteArrayInputStream(xml.getBytes()) );
-        
+            new ByteArrayInputStream(xml.getBytes()));
+
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");
         descr.addEjbReference(ref);
 
-        List nl = descr.getDocument().getRootElement().getChildren("ejbRefBindings");
-        Element n = (Element) nl.get(0);
+        List<Element> nl = descr.getDocument().getRootElement().getChildren("ejbRefBindings");
+        Element n = nl.get(0);
         assertEquals("fee", n.getAttribute("jndiName").getValue());
         assertEquals(1, nl.size());
         nl = n.getChildren("bindingEjbRef");

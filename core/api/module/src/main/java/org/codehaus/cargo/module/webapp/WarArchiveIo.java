@@ -25,11 +25,11 @@ import java.io.InputStream;
 
 /**
  * 
- * Utility IO class for constructing War Archives. Use this class in preference
- * to the concrete implementations of WarArchive.
+ * Utility IO class for constructing War Archives. Use this class in preference to the concrete
+ * implementations of WarArchive.
  * 
  * @version $Id$
- *
+ * 
  */
 public class WarArchiveIo
 {
@@ -38,17 +38,15 @@ public class WarArchiveIo
      */
     protected WarArchiveIo()
     {
-        // Utility should not have a public  constructor.
+        // Utility should not have a public constructor.
     }
-    
+
     /**
      * Open a war archive.
      * 
-     * @param file
-     *            Input File
+     * @param file Input File
      * @return WarArchive
-     * @throws IOException
-     *             if an IO error occurs
+     * @throws IOException if an IO error occurs
      */
     public static WarArchive open(String file) throws IOException
     {
@@ -70,7 +68,7 @@ public class WarArchiveIo
     /**
      * Open a war archive.
      * 
-     * @param f   Input File
+     * @param f Input File
      * @return WarArchive
      * @throws IOException if an IO error occurs
      */

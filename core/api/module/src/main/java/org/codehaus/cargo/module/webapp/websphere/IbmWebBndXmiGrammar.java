@@ -36,16 +36,16 @@ public class IbmWebBndXmiGrammar implements Grammar
      * Name of the root tag.
      */
     private static final String ROOT = "WebAppBinding";
-    
+
     /**
      * Name with namespace of the root tag.
      */
-    private static final String ROOT_NAMESPACE = 
+    private static final String ROOT_NAMESPACE =
         "com.ibm.ejs.models.base.bindings.webappbnd:WebAppBinding";
 
     /**
      * {@inheritDoc}
-     * @see Grammar#getElementOrder(String) 
+     * @see Grammar#getElementOrder(String)
      */
     public List<DescriptorTag> getElementOrder(String tagName)
     {
@@ -64,7 +64,7 @@ public class IbmWebBndXmiGrammar implements Grammar
             elementOrder.add(new DescriptorTag(
                 IbmWebBndXmiType.getInstance(), "resourceEnvRefBindings", true));
         }
-        
+
         return elementOrder;
     }
 }

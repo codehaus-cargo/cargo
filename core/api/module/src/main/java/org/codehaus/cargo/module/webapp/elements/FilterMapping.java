@@ -82,7 +82,7 @@ public class FilterMapping extends WebXmlElement
         Element e = child(WebXmlType.FILTER_NAME);
         e.setText(filterName);
     }
-    
+
     /**
      * Get the servlet name.
      * @return The filter name
@@ -90,7 +90,7 @@ public class FilterMapping extends WebXmlElement
     public String getServletName()
     {
         Element e = getChild(WebXmlType.SERVLET_NAME, this.getNamespace());
-        return (e == null) ? null : e.getText();
+        return e == null ? null : e.getText();
     }
 
     /**
@@ -102,16 +102,16 @@ public class FilterMapping extends WebXmlElement
         Element e = child(WebXmlType.SERVLET_NAME);
         e.setText(servletName);
     }
-     
+
     /**
      * Add a dispatcher element.
      * @param dispatcherName name of the dispatcher.
      */
     public void addDispatcher(String dispatcherName)
-    {                
+    {
         Element child = new Element(WebXmlType.DISPATCHER, this.getNamespace());
         child.setText(dispatcherName);
-        this.getChildren().add(child);      
+        this.getChildren().add(child);
     }
 
     /**
@@ -125,7 +125,7 @@ public class FilterMapping extends WebXmlElement
 
         for (int i = 0; i < l.size(); i++)
         {
-            items[i] = ((Element) l.get(i)).getText();
+            items[i] = l.get(i).getText();
         }
 
         return items;

@@ -29,7 +29,7 @@ import org.jdom.Namespace;
 
 /**
  * Represents the various top-level tags in a deployment descriptor as a typesafe enumeration.
- *
+ * 
  * @version $Id$
  */
 public class DescriptorTag
@@ -38,7 +38,7 @@ public class DescriptorTag
      * The type this descriptor tag is in.
      */
     private DescriptorType descriptorType;
-    
+
     /**
      * The tag name.
      */
@@ -48,7 +48,7 @@ public class DescriptorTag
      * The tag namespace.
      */
     private Namespace tagNamespace;
-    
+
     /**
      * Whether multiple occurrences of the tag in the descriptor are allowed.
      */
@@ -58,15 +58,15 @@ public class DescriptorTag
      * Optional identifier for this tag.
      */
     private Identifier identifier;
-    
+
     /**
-     * Element Implementation class. 
+     * Element Implementation class.
      */
-    private Class      implementationClass;
-    
+    private Class implementationClass;
+
     /**
      * Constructor.
-     *
+     * 
      * @param descriptorType the type of this tag
      * @param tagName The tag name of the element
      * @param isMultipleAllowed Whether the element may occur multiple times in the descriptor
@@ -80,15 +80,15 @@ public class DescriptorTag
         this.descriptorType = descriptorType;
         this.tagName = tagName;
         this.tagNamespace = namespace;
-        this.multipleAllowed = isMultipleAllowed;      
+        this.multipleAllowed = isMultipleAllowed;
         this.identifier = identifier;
-        this.implementationClass = clazz;    
+        this.implementationClass = clazz;
         if (this.descriptorType != null)
         {
             descriptorType.addTag(this);
         }
     }
-    
+
     /**
      * Constructor.
      * 
@@ -147,7 +147,7 @@ public class DescriptorTag
     {
         return this.tagNamespace;
     }
-    
+
     /**
      * Is this tag allowed multiple times?
      * @return whether the tag is allowed multiple times.
@@ -164,7 +164,7 @@ public class DescriptorTag
     {
         return this.identifier;
     }
-    
+
     /**
      * @return the webXmlElementClass
      */
@@ -172,7 +172,7 @@ public class DescriptorTag
     {
         return this.implementationClass;
     }
-    
+
     /**
      * Return the descriptor type that this tag is defined in.
      * @return descriptor type The descriptor type
@@ -181,7 +181,7 @@ public class DescriptorTag
     {
         return this.descriptorType;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see java.lang.Object#toString
@@ -191,15 +191,15 @@ public class DescriptorTag
     {
         return getTagName();
     }
-    
+
     /**
      * @return instantiated descriptor element, or null if no implementation class.
      * @throws CargoException if any configuration problem
      */
     public DescriptorElement create() throws CargoException
-    {    
+    {
         DescriptorElement returnValue = null;
-        
+
         if (implementationClass == null)
         {
             returnValue = new DescriptorElement(this);
@@ -207,7 +207,7 @@ public class DescriptorTag
         else
         {
             Constructor[] constructors = implementationClass.getConstructors();
-          
+
             for (Constructor cons : constructors)
             {
                 if (cons.getParameterTypes().length == 1)
@@ -216,7 +216,8 @@ public class DescriptorTag
                     {
                         if (cons.getParameterTypes()[0].isAssignableFrom(this.getClass()))
                         {
-                            returnValue = (DescriptorElement) cons.newInstance(new Object[]{this});
+                            returnValue = (DescriptorElement) cons
+                                .newInstance(new Object[] {this});
                             break;
                         }
                     }
@@ -227,6 +228,6 @@ public class DescriptorTag
                 }
             }
         }
-        return returnValue;                  
+        return returnValue;
     }
 }

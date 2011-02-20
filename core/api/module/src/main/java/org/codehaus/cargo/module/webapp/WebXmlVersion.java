@@ -28,7 +28,7 @@ import org.jdom.Namespace;
 
 /**
  * Enumerated type that represents the version of the web deployment descriptor.
- *
+ * 
  * @version $Id$
  */
 public final class WebXmlVersion implements Comparable
@@ -51,15 +51,14 @@ public final class WebXmlVersion implements Comparable
      * Instance for version 2.4.
      */
     public static final WebXmlVersion V2_4 = new WebXmlVersion("2.4",
-            "http://java.sun.com/xml/ns/j2ee");
-    
+        "http://java.sun.com/xml/ns/j2ee");
+
     /**
      * Instance for version 2.5.
      */
-    public static final WebXmlVersion V2_5 = new WebXmlVersion("2.5",
-            "-//Sun Microsystems, Inc.//DTD Application Server 9.0 Servlet 2.5//EN",
-            "http://www.sun.com/software/dtd/appserver/sun-web-app_2_5-0.dtd");
-    
+    public static final WebXmlVersion V2_5 = new WebXmlVersion("2.4",
+        "http://java.sun.com/xml/ns/javaee");
+
     /**
      * The system ID of the corresponding document type.
      */
@@ -79,10 +78,10 @@ public final class WebXmlVersion implements Comparable
      * The namespace for tags.
      */
     private Namespace namespace;
-    
+
     /**
      * Constructor.
-     *
+     * 
      * @param theVersion The version as string
      * @param thePublicId The public ID of the corresponding document type
      * @param theSystemId The system ID of the corresponding document type
@@ -96,7 +95,7 @@ public final class WebXmlVersion implements Comparable
 
     /**
      * Constructor.
-     *
+     * 
      * @param theVersion The version as string
      * @param namespaceUri The uri of the namespace
      */
@@ -105,28 +104,28 @@ public final class WebXmlVersion implements Comparable
         this.version = theVersion;
         this.namespace = Namespace.getNamespace(namespaceUri);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see java.lang.Comparable#compareTo
      */
     public int compareTo(Object other)
     {
-        
+
         if (other == this || !(other instanceof WebXmlVersion))
         {
             return 0;
         }
-        
+
         float thisVersion = Float.parseFloat(this.version);
         float thatVersion = Float.parseFloat(((WebXmlVersion) other).version);
 
-        return Float.compare(thisVersion, thatVersion);                
+        return Float.compare(thisVersion, thatVersion);
     }
 
     /**
      * Returns the tag name.
-     *
+     * 
      * @return The tag name
      */
     public String getVersion()
@@ -136,7 +135,7 @@ public final class WebXmlVersion implements Comparable
 
     /**
      * Returns the public ID of the document type corresponding to the descriptor version.
-     *
+     * 
      * @return The public ID
      */
     public String getPublicId()
@@ -146,7 +145,7 @@ public final class WebXmlVersion implements Comparable
 
     /**
      * Returns the system ID of the document type corresponding to the descriptor version.
-     *
+     * 
      * @return The system ID
      */
     public String getSystemId()
@@ -166,12 +165,12 @@ public final class WebXmlVersion implements Comparable
 
     /**
      * Returns the version corresponding to the given document type.
-     *
+     * 
      * @param theDocType The document type
-     *
+     * 
      * @return The version that matches the document type, or <code>null</code> if the doctype is
-     *         not recognized
-     *
+     * not recognized
+     * 
      * @throws NullPointerException If the document type is <code>null</code>
      */
     public static WebXmlVersion valueOf(DocType theDocType) throws NullPointerException
@@ -186,20 +185,26 @@ public final class WebXmlVersion implements Comparable
      */
     public static WebXmlVersion valueOf(Element rootElement)
     {
+        WebXmlVersion result = null;
         String value = rootElement.getAttributeValue("version");
         if ("2.4".equals(value))
         {
-            return WebXmlVersion.V2_4;
+            result = WebXmlVersion.V2_4;
         }
-        return null;
+        else if ("2.5".equals(value))
+        {
+            result = WebXmlVersion.V2_5;
+        }
+        return result;
     }
+
     /**
      * Returns the version corresponding to the given public ID.
-     *
+     * 
      * @param thePublicId The public ID
-     *
+     * 
      * @return The version that matches the public ID, or <code>null</code> if the ID is not
-     *         recognized
+     * recognized
      */
     public static WebXmlVersion valueOf(String thePublicId)
     {

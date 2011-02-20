@@ -24,7 +24,6 @@ import org.codehaus.cargo.module.webapp.resin.ResinWebXmlTag;
 import org.codehaus.cargo.module.webapp.resin.ResinWebXmlType;
 import org.jdom.Element;
 
-
 /**
  * Wrapper class representing a resin-web resource-ref entry.
  * 
@@ -32,21 +31,21 @@ import org.jdom.Element;
  */
 public class ResourceRef extends DescriptorElement
 {
-  
-  /**
-   * Constructor.
-   * 
-   * @param tag Resin Web Xml Tag
-   */
+
+    /**
+     * Constructor.
+     * 
+     * @param tag Resin Web Xml Tag
+     */
     public ResourceRef(ResinWebXmlTag tag)
     {
-        super(tag);      
+        super(tag);
     }
-  
-  /**
-   * Constructor.
-   *    
-   */
+
+    /**
+     * Constructor.
+     * 
+     */
     public ResourceRef()
     {
         this((ResinWebXmlTag) ResinWebXmlType.getInstance().getTagByName(

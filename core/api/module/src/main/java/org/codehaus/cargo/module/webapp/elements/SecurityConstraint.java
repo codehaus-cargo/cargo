@@ -23,17 +23,17 @@ import org.codehaus.cargo.module.webapp.WebXmlTag;
 
 /**
  * @version $Id$
- *
+ * 
  */
 public class SecurityConstraint extends WebXmlElement
 {
-  /**
-   * Constructor.
-   * 
-   * @param tag Web XML tag definition
-   */
+    /**
+     * Constructor.
+     * 
+     * @param tag Web XML tag definition
+     */
     public SecurityConstraint(WebXmlTag tag)
     {
-        super(tag);      
-    }  
+        super(tag);
+    }
 }

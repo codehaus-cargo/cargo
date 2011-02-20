@@ -34,25 +34,26 @@ public class EjbJarXmlType extends AbstractDescriptorType
      * Static instance.
      */
     private static EjbJarXmlType instance = new EjbJarXmlType();
-  
+
     /**
      * All the tags in this type.
      */
     private EjbJarXmlTag[] tags = new EjbJarXmlTag[] {
-        new EjbJarXmlTag(this, "session"),        
+        new EjbJarXmlTag(this, "session"),
         new EjbJarXmlTag(this, "entity"),
         new EjbJarXmlTag(this, "ejb-name"),
         new EjbJarXmlTag(this, "local"),
-        new EjbJarXmlTag(this, "local-home")        
+        new EjbJarXmlTag(this, "local-home")
     };
-    
+
     /**
      * Protected constructor.
      */
     protected EjbJarXmlType()
     {
-        super(null, EjbJarXml.class, new Dtd("http://java.sun.com/dtd/ejb-jar_2_0.dtd"));   
+        super(null, EjbJarXml.class, new Dtd("http://java.sun.com/dtd/ejb-jar_2_0.dtd"));
     }
+
     /**
      * Get the static instance.
      * @return The instance
@@ -61,9 +62,5 @@ public class EjbJarXmlType extends AbstractDescriptorType
     {
         return instance;
     }
-  
-    
-    
-    
 
 }

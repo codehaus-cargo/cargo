@@ -39,7 +39,7 @@ public class TomcatWarArchive
      * The file representing either the WAR file or the expanded WAR directory.
      */
     private String warFile;
-    
+
     /**
      * The parsed deployment descriptor.
      */
@@ -49,10 +49,8 @@ public class TomcatWarArchive
      * Constructor.
      * 
      * @param warFile The web application archive
-     * @throws IOException If there was a problem reading the  deployment
-     *         descriptor in the WAR
-     * @throws JDOMException If the deployment descriptor of the WAR could not
-     *         be parsed
+     * @throws IOException If there was a problem reading the deployment descriptor in the WAR
+     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
     public TomcatWarArchive(String warFile)
         throws IOException, JDOMException
@@ -62,12 +60,9 @@ public class TomcatWarArchive
     }
 
     /**
-     * @return the parsed <code>META-INF/context.xml</code> descriptor or null
-     *         if none exists 
-     * @throws IOException If there was a problem reading the  deployment
-     *         descriptor in the WAR
-     * @throws JDOMException If the deployment descriptor of the WAR could not
-     *         be parsed
+     * @return the parsed <code>META-INF/context.xml</code> descriptor or null if none exists
+     * @throws IOException If there was a problem reading the deployment descriptor in the WAR
+     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
     private TomcatContextXml parseTomcatContextXml()
         throws IOException, JDOMException
@@ -92,7 +87,6 @@ public class TomcatWarArchive
                 in = jarArchive.getResource("META-INF/context.xml");
             }
 
-
             if (in != null)
             {
                 context = TomcatContextXmlIo.parseTomcatConfigXml(in);
@@ -108,7 +102,7 @@ public class TomcatWarArchive
 
         return context;
     }
-    
+
     /**
      * Returns the <code>META-INF/context.xml</code> deployment descriptor of the web application.
      * 

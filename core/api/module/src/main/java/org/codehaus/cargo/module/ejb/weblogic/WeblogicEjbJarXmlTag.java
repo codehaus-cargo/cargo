@@ -29,8 +29,7 @@ import org.codehaus.cargo.module.DescriptorType;
  */
 public class WeblogicEjbJarXmlTag extends DescriptorTag
 {
-   
-    
+
     /**
      * Element name 'ejb-name'.
      */
@@ -40,17 +39,17 @@ public class WeblogicEjbJarXmlTag extends DescriptorTag
      * Element name 'local-jndi-name'.
      */
     public static final String LOCAL_JNDI_NAME = "local-jndi-name";
-    
+
     /**
      * Element name 'jndi-name'.
      */
     public static final String JNDI_NAME = "jndi-name";
-    
+
     /**
      * Element name 'dispatch-policy'.
      */
     public static final String DISPATCH_POLICY = "dispatch-policy";
-    
+
     /**
      * Constructor.
      * 
@@ -62,7 +61,7 @@ public class WeblogicEjbJarXmlTag extends DescriptorTag
     {
         super(type, tagName, isMultipleAllowed);
     }
-    
+
     /**
      * Constructor.
      * 

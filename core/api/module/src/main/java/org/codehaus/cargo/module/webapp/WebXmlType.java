@@ -31,7 +31,7 @@ import org.codehaus.cargo.module.Dtd;
  * @version $Id$
  */
 public abstract class WebXmlType extends AbstractDescriptorType
-{        
+{
     /**
      * Element name 'icon'.
      */
@@ -55,7 +55,7 @@ public abstract class WebXmlType extends AbstractDescriptorType
     /**
      * Element name 'context-param'.
      */
-    public static final String CONTEXT_PARAM = "context-param";        
+    public static final String CONTEXT_PARAM = "context-param";
 
     /**
      * Element name 'param-name'.
@@ -70,7 +70,7 @@ public abstract class WebXmlType extends AbstractDescriptorType
     /**
      * Element name 'filter'.
      */
-    public static final String FILTER = "filter";        
+    public static final String FILTER = "filter";
 
     /**
      * Element name 'filter-name'.
@@ -91,7 +91,7 @@ public abstract class WebXmlType extends AbstractDescriptorType
      * Element name 'init-param'.
      */
     public static final String INIT_PARAM = "init-param";
-    
+
     /**
      * Element name 'listener'.
      */
@@ -271,7 +271,7 @@ public abstract class WebXmlType extends AbstractDescriptorType
      * Element name 'dispatcher'.
      */
     public static final String DISPATCHER = "dispatcher";
-    
+
     /**
      * Protected constructor.
      * 
@@ -282,12 +282,12 @@ public abstract class WebXmlType extends AbstractDescriptorType
     {
         super(parent, WebXml.class, grammar);
         setDescriptorIo(new WebXmlIo(this));
-    }    
-    
+    }
+
     /**
      * Get the web xml version for his type.
      * @return the version for this type
      */
     public abstract WebXmlVersion getVersion();
-    
+
 }

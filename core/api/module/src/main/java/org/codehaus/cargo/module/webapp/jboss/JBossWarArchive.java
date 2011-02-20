@@ -49,10 +49,8 @@ public class JBossWarArchive
      * Constructor.
      * 
      * @param warFile The web application archive
-     * @throws IOException If there was a problem reading the  deployment
-     *         descriptor in the WAR
-     * @throws JDOMException If the deployment descriptor of the WAR could not
-     *         be parsed    
+     * @throws IOException If there was a problem reading the deployment descriptor in the WAR
+     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
     public JBossWarArchive(File warFile)
         throws IOException, JDOMException
@@ -62,18 +60,15 @@ public class JBossWarArchive
     }
 
     /**
-     * @return the parsed <code>WEB-INF/jboss-web.xml</code> descriptor or null
-     *         if none exists 
-     * @throws IOException If there was a problem reading the  deployment
-     *         descriptor in the WAR
-     * @throws JDOMException If the deployment descriptor of the WAR could not
-     *         be parsed     
+     * @return the parsed <code>WEB-INF/jboss-web.xml</code> descriptor or null if none exists
+     * @throws IOException If there was a problem reading the deployment descriptor in the WAR
+     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
     private JBossWebXml parseJBossWebXml()
         throws IOException, JDOMException
     {
         JBossWebXml webXml = null;
-        
+
         InputStream in = null;
         try
         {
@@ -88,7 +83,7 @@ public class JBossWarArchive
             }
             else
             {
-                JarArchive jarArchive = JarArchiveIo.open(this.warFile);                
+                JarArchive jarArchive = JarArchiveIo.open(this.warFile);
                 in = jarArchive.getResource("WEB-INF/jboss-web.xml");
             }
 
@@ -107,10 +102,9 @@ public class JBossWarArchive
 
         return webXml;
     }
-    
+
     /**
-     * Returns the <code>jboss-web.xml</code> deployment descriptor of the web 
-     * application.
+     * Returns the <code>jboss-web.xml</code> deployment descriptor of the web application.
      * 
      * @return The parsed deployment descriptor
      */

@@ -29,8 +29,8 @@ import java.util.List;
 public interface Grammar
 {
     /**
-     * Returns a List of {@link DescriptorTag} that describes the order that
-     * elements can appear in a certain element accordingly to the grammar.
+     * Returns a List of {@link DescriptorTag} that describes the order that elements can appear in
+     * a certain element accordingly to the grammar.
      * @param tagName the tag name to get the element order of.
      * @return a List of {@link DescriptorTag} or null if tagName doesn't exist
      */

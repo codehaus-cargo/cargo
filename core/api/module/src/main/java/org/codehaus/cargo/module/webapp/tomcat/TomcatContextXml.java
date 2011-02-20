@@ -29,8 +29,8 @@ import org.jdom.Attribute;
 import org.jdom.Element;
 
 /**
- * Encapsulates the DOM representation of a web deployment descriptor 
- * <code>META-INF/context.xml</code> to provide convenience methods for easy access and 
+ * Encapsulates the DOM representation of a web deployment descriptor
+ * <code>META-INF/context.xml</code> to provide convenience methods for easy access and
  * manipulation.
  * 
  * @version $Id$
@@ -43,13 +43,13 @@ public class TomcatContextXml extends AbstractDescriptor
     private static final String FILE_NAME = "jboss-web.xml";
 
     /**
-     * Specifies the order in which the top-level elements must appear in the descriptor, according 
+     * Specifies the order in which the top-level elements must appear in the descriptor, according
      * to the DTD.
      */
-//    private static final TomcatContextXmlTag[] ELEMENT_ORDER =
-//    {
-//        TomcatContextXmlTag.CONTEXT_PATH
-//    };
+    // private static final TomcatContextXmlTag[] ELEMENT_ORDER =
+    // {
+    // TomcatContextXmlTag.CONTEXT_PATH
+    // };
 
     /**
      * Constructor.
@@ -63,8 +63,8 @@ public class TomcatContextXml extends AbstractDescriptor
     }
 
     /**
-     * @return the context path element found in the <code>context.xml</code> file (available in 
-     *         the <code>path</code> attribute) or null if not defined
+     * @return the context path element found in the <code>context.xml</code> file (available in the
+     * <code>path</code> attribute) or null if not defined
      */
     public String getPath()
     {
@@ -73,7 +73,7 @@ public class TomcatContextXml extends AbstractDescriptor
         {
             return null;
         }
-        
+
         String path = attr.getValue();
 
         // An empty path string means a path not defined.
@@ -95,11 +95,9 @@ public class TomcatContextXml extends AbstractDescriptor
 
     /**
      * Gets all the parameters that match XPath "<tt>Context/Parameter</tt>".
-     *
-     * @return
-     *      Always non-null (but possibly empty) map keyed by
-     *      <tt>Context/Parameter/@name</tt> and value is
-     *      <tt>Context/Parameter/@value</tt>
+     * 
+     * @return Always non-null (but possibly empty) map keyed by <tt>Context/Parameter/@name</tt>
+     * and value is <tt>Context/Parameter/@value</tt>
      */
     public Map<Attribute, Attribute> getParameters()
     {

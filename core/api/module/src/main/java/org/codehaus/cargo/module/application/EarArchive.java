@@ -31,24 +31,24 @@ import org.jdom.JDOMException;
 
 /**
  * Class that encapsulates access to an EAR.
- *
+ * 
  * @version $Id$
  */
 public interface EarArchive extends JarArchive
 {
     /**
      * Returns the deployment descriptor of the web application.
-     *
+     * 
      * @return The parsed deployment descriptor
-     * @throws IOException If there was a problem reading the  deployment descriptor in the EAR
-     * @throws JDOMException  If there is an exception reading the application xml
+     * @throws IOException If there was a problem reading the deployment descriptor in the EAR
+     * @throws JDOMException If there is an exception reading the application xml
      */
     ApplicationXml getApplicationXml()
         throws IOException, JDOMException;
 
     /**
      * Returns the web-app archive stored in the EAR with the specified URI.
-     *
+     * 
      * @param uri The URI of the web module
      * @return The web-app archive, or <code>null</code> if no WAR was found at the specified URI
      * @throws IOException If there was an errors reading from the EAR or WAR
@@ -57,7 +57,7 @@ public interface EarArchive extends JarArchive
 
     /**
      * Returns the ejb archive stored in the EAR with the specified URI.
-     *
+     * 
      * @param uri The URI of the ejb module
      * @return The ejb archive, or <code>null</code> if no WAR was found at the specified URI
      * @throws IOException If there was an errors reading from the EAR or EJB

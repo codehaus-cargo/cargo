@@ -71,6 +71,7 @@ public class Filter extends WebXmlElement
         Element e = child(WebXmlType.FILTER_CLASS);
         e.setText(filterClass);
     }
+
     /**
      * Get the filter name.
      * @return The filter name

@@ -36,9 +36,9 @@ public class Listener extends WebXmlElement
      */
     public Listener(WebXmlTag tag)
     {
-      super(tag);   
-    }   
-    
+        super(tag);
+    }
+
     /**
      * @return The listener class.
      */

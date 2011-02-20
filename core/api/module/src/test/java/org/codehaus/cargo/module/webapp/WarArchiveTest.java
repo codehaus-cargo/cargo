@@ -28,7 +28,7 @@ import org.codehaus.cargo.util.AbstractResourceTest;
 
 /**
  * Unit tests for {@link WarArchive}.
- *
+ * 
  * @version $Id$
  */
 public final class WarArchiveTest extends AbstractResourceTest
@@ -37,11 +37,10 @@ public final class WarArchiveTest extends AbstractResourceTest
      * Path to package.
      */
     private static final String PACKAGE_PATH = "org/codehaus/cargo/module/";
-    
+
     /**
-     * Verifies that the method <code>containsClass()</code> returns
-     * <code>true</code> if the WAR contains the requested class in
-     * <code>WEB-INF/classes</code>.
+     * Verifies that the method <code>containsClass()</code> returns <code>true</code> if the WAR
+     * contains the requested class in <code>WEB-INF/classes</code>.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -52,21 +51,21 @@ public final class WarArchiveTest extends AbstractResourceTest
     }
 
     /**
-     * Verifies that the method <code>containsClass()</code> returns
-     * <code>true</code> if the WAR contains the requested class in a JAR in
-     * <code>WEB-INF/lib</code>.
+     * Verifies that the method <code>containsClass()</code> returns <code>true</code> if the WAR
+     * contains the requested class in a JAR in <code>WEB-INF/lib</code>.
      * 
      * @throws Exception If an unexpected error occurs
      */
     public void testContainsClassInWebinfLib() throws Exception
     {
-        WarArchive war = new DefaultWarArchive(getResourcePath(PACKAGE_PATH + "containsclasslib.war"));
+        WarArchive war = new DefaultWarArchive(getResourcePath(PACKAGE_PATH
+            + "containsclasslib.war"));
         assertTrue(war.containsClass("test.Test"));
     }
 
     /**
-     * Verifies that the method <code>containsClass()</code> returns
-     * <code>false</code> if the WAR does not contain such a class.
+     * Verifies that the method <code>containsClass()</code> returns <code>false</code> if the WAR
+     * does not contain such a class.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -76,12 +75,17 @@ public final class WarArchiveTest extends AbstractResourceTest
         assertTrue(!war.containsClass("test.Test"));
     }
 
+    /**
+     * Verifies that store archives are working properly.
+     * 
+     * @throws Exception If an unexpected error occurs
+     */
     public void testStoreArchive() throws Exception
     {
         WarArchive war = new DefaultWarArchive(getResourcePath(PACKAGE_PATH + "weblogic.war"));
         File tmpFile = File.createTempFile("cargo", null);
         war.store(tmpFile);
-        
+
         WarArchive storedWar = new DefaultWarArchive(tmpFile.getPath());
         WebXml descr = storedWar.getWebXml();
         assertEquals("There should be 1 descriptor", 1, descr.getVendorDescriptors().size());

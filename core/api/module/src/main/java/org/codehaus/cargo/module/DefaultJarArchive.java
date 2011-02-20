@@ -22,9 +22,6 @@
  */
 package org.codehaus.cargo.module;
 
-import org.codehaus.cargo.util.FileHandler;
-import org.codehaus.cargo.util.DefaultFileHandler;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -37,9 +34,12 @@ import java.util.List;
 import java.util.jar.JarInputStream;
 import java.util.zip.ZipEntry;
 
+import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
+
 /**
  * Provide convenient methods to read information from a Jar archive.
- *
+ * 
  * @version $Id$
  */
 public class DefaultJarArchive implements JarArchive
@@ -50,8 +50,8 @@ public class DefaultJarArchive implements JarArchive
     private byte[] content;
 
     /**
-    * The archive itself, if passed in as a file.
-    */
+     * The archive itself, if passed in as a file.
+     */
     private String sourceFile;
 
     /**
@@ -61,7 +61,7 @@ public class DefaultJarArchive implements JarArchive
 
     /**
      * Constructor.
-     *
+     * 
      * @param file The archive file
      */
     public DefaultJarArchive(String file)
@@ -76,9 +76,9 @@ public class DefaultJarArchive implements JarArchive
 
     /**
      * Constructor.
-     *
-     * @param inputStream The input stream for the archive (it will be closed after the
-     *        constructor returns)
+     * 
+     * @param inputStream The input stream for the archive (it will be closed after the constructor
+     * returns)
      * @throws java.io.IOException If there was a problem reading the WAR
      */
     public DefaultJarArchive(InputStream inputStream) throws IOException
@@ -110,7 +110,7 @@ public class DefaultJarArchive implements JarArchive
     public boolean containsClass(String className) throws IOException
     {
         String resourceName = className.replace('.', '/') + ".class";
-        return (getResource(resourceName) != null);
+        return getResource(resourceName) != null;
     }
 
     /**
@@ -195,8 +195,8 @@ public class DefaultJarArchive implements JarArchive
             ZipEntry zipEntry;
             while ((zipEntry = in.getNextEntry()) != null)
             {
-                if ((zipEntry.getName().startsWith(normalizedPath)
-                    && !zipEntry.getName().equals(normalizedPath)))
+                if (zipEntry.getName().startsWith(normalizedPath)
+                    && !zipEntry.getName().equals(normalizedPath))
                 {
                     resources.add(zipEntry.getName());
                 }
@@ -214,7 +214,7 @@ public class DefaultJarArchive implements JarArchive
 
     /**
      * Returns the content of the archive as <code>JarInputStream</code>.
-     *
+     * 
      * @return The input stream
      * @throws IOException If an exception occurred reading the archive
      */
@@ -228,7 +228,6 @@ public class DefaultJarArchive implements JarArchive
         return new JarInputStream(getFileHandler().getInputStream(this.sourceFile));
     }
 
-    
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.module.JarArchive#expandToPath(String)
@@ -237,7 +236,7 @@ public class DefaultJarArchive implements JarArchive
     {
         expandToPath(path, null);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.module.JarArchive#expandToPath(String, FileFilter)
@@ -251,8 +250,8 @@ public class DefaultJarArchive implements JarArchive
         ZipEntry entry;
         while ((entry = inputStream.getNextEntry()) != null)
         {
-            String entryName = entry.getName();            
-            
+            String entryName = entry.getName();
+
             String outFile = getFileHandler().append(path, entryName);
 
             if (filter == null || filter.accept(new File(entryName)))

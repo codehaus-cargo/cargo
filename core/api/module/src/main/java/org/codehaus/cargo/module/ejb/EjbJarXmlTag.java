@@ -33,27 +33,27 @@ public class EjbJarXmlTag extends DescriptorTag
      * Element name 'session'.
      */
     public static final String SESSION = "session";
-    
+
     /**
      * Element name 'entity'.
      */
     public static final String ENTITY = "entity";
-    
+
     /**
      * Element name 'ejb-name'.
      */
     public static final String EJB_NAME = "ejb-name";
-    
+
     /**
      * Element name 'local'.
      */
     public static final String LOCAL = "local";
-    
+
     /**
      * Element name 'local-home'.
      */
     public static final String LOCAL_HOME = "local-home";
-    
+
     /**
      * Constructor.
      * 
@@ -65,7 +65,7 @@ public class EjbJarXmlTag extends DescriptorTag
     {
         super(type, tagName, isMultipleAllowed);
     }
-    
+
     /**
      * Constructor.
      * 

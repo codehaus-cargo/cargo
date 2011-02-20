@@ -36,39 +36,39 @@ public class ApplicationXmlType extends AbstractDescriptorType
      * Single instance of the ApplicationXmlType.
      */
     private static ApplicationXmlType instance = new ApplicationXmlType();
-    
+
     /**
      * All the tags in this type.
      */
     private ApplicationXmlTag[] tags =
         new ApplicationXmlTag[] {
             new ApplicationXmlTag(this, "icon"),
-            new ApplicationXmlTag(this, "display-name"), 
+            new ApplicationXmlTag(this, "display-name"),
             new ApplicationXmlTag(this, "description"),
-            new ApplicationXmlTag(this, "module"), 
+            new ApplicationXmlTag(this, "module"),
             new ApplicationXmlTag(this, "ejb"),
             new ApplicationXmlTag(this, "web"),
             new ApplicationXmlTag(this, "web-uri"),
             new ApplicationXmlTag(this, "context-root"),
             new ApplicationXmlTag(this, "security-role"),
-            new ApplicationXmlTag(this, "icon"), 
+            new ApplicationXmlTag(this, "icon"),
             new ApplicationXmlTag(this, "display-name"),
-            new ApplicationXmlTag(this, "description"), 
+            new ApplicationXmlTag(this, "description"),
             new ApplicationXmlTag(this, "module"),
-            new ApplicationXmlTag(this, "ejb"), 
+            new ApplicationXmlTag(this, "ejb"),
             new ApplicationXmlTag(this, "web"),
-            new ApplicationXmlTag(this, "web-uri"), 
+            new ApplicationXmlTag(this, "web-uri"),
             new ApplicationXmlTag(this, "context-root"),
             new ApplicationXmlTag(this, "security-role")};
-    
+
     /**
-     * Protected Constructor.    
+     * Protected Constructor.
      */
     protected ApplicationXmlType()
     {
         super(null, ApplicationXml.class, new Dtd("http://java.sun.com/dtd/application_1_3.dtd"));
     }
-    
+
     /**
      * Get the application XML Descriptor type.
      * @return the singleton instance
@@ -77,7 +77,5 @@ public class ApplicationXmlType extends AbstractDescriptorType
     {
         return instance;
     }
-    
-    
 
 }

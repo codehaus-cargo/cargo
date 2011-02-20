@@ -56,23 +56,23 @@ public class WeblogicXmlTag extends DescriptorTag
      */
     public static final String REFERENCE_DESCRIPTOR =
         "reference-descriptor";
-    
+
     /**
      * Element name 'session-descriptor'.
      */
-    public static final String SESSION_DESCRIPTOR = 
+    public static final String SESSION_DESCRIPTOR =
         "session-descriptor";
-    
+
     /**
      * Element name 'jsp-descriptor'.
      */
     public static final String JSP_DESCRIPTOR = "jsp-descriptor";
-    
+
     /**
      * Element name 'auth-filter'.
      */
     public static final String AUTH_FILTER = "auth-filter";
-    
+
     /**
      * Element name 'container-descriptor'.
      */
@@ -83,23 +83,23 @@ public class WeblogicXmlTag extends DescriptorTag
      * Element name 'charset-params'.
      */
     public static final String CHARSET_PARAMS = "charset-params";
-    
+
     /**
      * Element name 'virtual-directory-mapping'.
      */
     public static final String VIRTUAL_DIRECTORY_MAPPING =
         "virtual-directory-mapping";
-    
+
     /**
      * Element name 'url-match-map'.
      */
     public static final String URL_MATCH_MAP = "url-match-map";
-    
+
     /**
      * Element name 'preprocessor'.
      */
     public static final String PREPROCESSOR = "preprocessor";
-    
+
     /**
      * Element name 'preprocessor-mapping'.
      */
@@ -144,29 +144,29 @@ public class WeblogicXmlTag extends DescriptorTag
      */
     public static final String RESOURCE_DESCRIPTION =
         "resource-description";
-    
+
     /**
      * Element name 'resource-env-description'.
      */
     public static final String RESOURCE_ENV_DESCRIPTION =
         "resource-env-description";
-    
+
     /**
      * Element name 'ejb-reference-description'.
      */
     public static final String EJB_REFERENCE_DESCRIPTION =
         "ejb-reference-description";
-    
+
     /**
      * Element name 'ejb-ref-name'.
      */
     public static final String EJB_REF_NAME = "ejb-ref-name";
-    
+
     /**
      * Element name 'jndi-name'.
      */
     public static final String JNDI_NAME = "jndi-name";
-    
+
     /**
      * Constructor.
      * 

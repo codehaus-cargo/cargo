@@ -38,9 +38,9 @@ import org.xml.sax.SAXException;
 /**
  * Adapter class to convert streams into documents.
  * 
- * This is needed because the DocumentMerger understands DOM Documents, but items
- * in War files are accessed as streams - therefore use this wrapper to pass 
- * streams into the DocumentMerger (or subclass).
+ * This is needed because the DocumentMerger understands DOM Documents, but items in War files are
+ * accessed as streams - therefore use this wrapper to pass streams into the DocumentMerger (or
+ * subclass).
  * 
  * @version $Id$
  */
@@ -54,8 +54,8 @@ public class DocumentStreamAdapter implements MergeProcessor
     /**
      * The Descriptor IO.
      */
-    private DescriptorIo   descriptorIo;
-    
+    private DescriptorIo descriptorIo;
+
     /**
      * constructor.
      * 
@@ -104,14 +104,14 @@ public class DocumentStreamAdapter implements MergeProcessor
             {
                 return null;
             }
-            
+
             XMLOutputter serializer = new XMLOutputter();
             Format format = Format.getPrettyFormat();
-           
-            ByteArrayOutputStream out = new ByteArrayOutputStream();     
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
             serializer.setFormat(format);
             serializer.output(doc, out);
-                       
+
             byte[] data = out.toByteArray();
             return new ByteArrayInputStream(data);
         }
@@ -129,29 +129,29 @@ public class DocumentStreamAdapter implements MergeProcessor
      * @throws IOException on IO exception
      * @throws JDOMException if there is an XML problem
      */
-    protected Document getDocument(InputStream theInput) throws 
+    protected Document getDocument(InputStream theInput) throws
         IOException, JDOMException
     {
         if (descriptorIo == null)
         {
             SAXBuilder builder = new SAXBuilder();
             builder.setValidation(false);
-            
+
             // We don't know what the DTD of the document is, so we won't have a local
             // copy - so we don't want to fail if we can't get it!
-            
+
             builder.setEntityResolver(new EntityResolver()
             {
-                public InputSource resolveEntity(String thePublicId, 
+                public InputSource resolveEntity(String thePublicId,
                     String theSystemId) throws SAXException
                 {
                     return new InputSource(new StringReader(""));
                 }
             });
-            
+
             return builder.build(theInput);
         }
-      
+
         return descriptorIo.createDocumentBuilder().build(theInput);
 
     }
@@ -171,5 +171,5 @@ public class DocumentStreamAdapter implements MergeProcessor
     {
         this.descriptorIo = descriptorIo;
     }
-        
+
 }

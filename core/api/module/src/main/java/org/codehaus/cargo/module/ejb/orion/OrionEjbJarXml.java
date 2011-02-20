@@ -26,18 +26,17 @@ import org.codehaus.cargo.module.ejb.EjbDef;
 import org.codehaus.cargo.module.ejb.VendorEjbDescriptor;
 import org.jdom.Element;
 
-
 /**
  * Encapsulates the DOM representation of a oracle ejb deployment descriptor
  * <code>orion-ejb-jar.xml</code> to provide convenience methods for easy access and manipulation.
- *
+ * 
  * @version $Id$
  */
 public class OrionEjbJarXml extends AbstractDescriptor implements VendorEjbDescriptor
 {
     /**
      * Constructor.
-     *
+     * 
      * @param document The DOM document representing the parsed deployment descriptor
      * @param type the type of the descriptor
      */
@@ -79,7 +78,7 @@ public class OrionEjbJarXml extends AbstractDescriptor implements VendorEjbDescr
 
     /**
      * Returns a specific ejb.
-     *
+     * 
      * @param ejbName the name of the ejb to get
      * @return the ejb or null if no ejb with that name exists
      */
@@ -96,7 +95,7 @@ public class OrionEjbJarXml extends AbstractDescriptor implements VendorEjbDescr
 
     /**
      * Returns a specific ejb.
-     *
+     * 
      * @param ejbName the name of the ejb to get
      * @return the ejb or null if no ejb with that name exists
      */
@@ -120,7 +119,7 @@ public class OrionEjbJarXml extends AbstractDescriptor implements VendorEjbDescr
 
     /**
      * Returns a specific ejb.
-     *
+     * 
      * @param ejbName the name of the ejb to get
      * @return the ejb or null if no ejb with that name exists
      */

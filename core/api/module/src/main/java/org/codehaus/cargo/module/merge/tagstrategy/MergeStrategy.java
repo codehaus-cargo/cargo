@@ -50,7 +50,7 @@ public interface MergeStrategy
      * Process when the element appears just in the left descriptor.
      * 
      * @param target output descriptor
-     * @param right  right element
+     * @param right right element
      * @return count of merged elements
      */
     int inRight(Descriptor target, DescriptorElement right);

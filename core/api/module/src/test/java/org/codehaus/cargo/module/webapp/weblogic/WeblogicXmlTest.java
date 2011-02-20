@@ -24,19 +24,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
-import org.jdom.Element;
 import org.codehaus.cargo.module.webapp.EjbRef;
+import org.jdom.Element;
 
 /**
  * Unit tests for {@link WeblogicXml}.
- *
+ * 
  * @version $Id$
  */
 public class WeblogicXmlTest extends AbstractDocumentBuilderTest
 {
     /**
      * Tests that a ejb reference description can be added
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testAddEjbReferenceDescription() throws Exception
@@ -45,29 +45,31 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
             + "  <reference-descriptor>"
             + "  </reference-descriptor>"
             + "</weblogic-web-app>";
-        
-        WeblogicXml descr = WeblogicXmlIo.parseWeblogicXml(new ByteArrayInputStream(xml.getBytes()) );
+
+        WeblogicXml descr = WeblogicXmlIo
+            .parseWeblogicXml(new ByteArrayInputStream(xml.getBytes()));
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");
         descr.addEjbReference(ref);
 
-        List nl = descr.getDocument().getRootElement().getChildren(WeblogicXmlTag.REFERENCE_DESCRIPTOR);
-        Element n = (Element)nl.get(0);
+        List<Element> nl = descr.getDocument().getRootElement()
+            .getChildren(WeblogicXmlTag.REFERENCE_DESCRIPTOR);
+        Element n = nl.get(0);
         assertEquals("reference-descriptor", n.getName());
-        n = (Element)n.getChildren(WeblogicXmlTag.EJB_REFERENCE_DESCRIPTION).get(0);
+        n = (Element) n.getChildren(WeblogicXmlTag.EJB_REFERENCE_DESCRIPTION).get(0);
         assertEquals("ejb-reference-description", n.getName());
-        Element m = (Element)n.getChildren(WeblogicXmlTag.EJB_REF_NAME).get(0);
+        Element m = (Element) n.getChildren(WeblogicXmlTag.EJB_REF_NAME).get(0);
         assertEquals("ejb-ref-name", m.getName());
         assertEquals("foo", m.getText());
-        m = (Element)n.getChildren(WeblogicXmlTag.JNDI_NAME).get(0);
+        m = (Element) n.getChildren(WeblogicXmlTag.JNDI_NAME).get(0);
         assertEquals("jndi-name", m.getName());
         assertEquals("fee", m.getText());
     }
 
     /**
      * Tests that a ejb reference description can be added
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testAddEjbReferenceDescriptionWithNoReferenceDescriptor()
@@ -77,34 +79,35 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
             + "  <run-as-role-assignment/>"
             + "  <session-descriptor/>"
             + "</weblogic-web-app>";
-//
-        WeblogicXml descr = WeblogicXmlIo.parseWeblogicXml(new ByteArrayInputStream(xml.getBytes()) );
-        
+        //
+        WeblogicXml descr = WeblogicXmlIo
+            .parseWeblogicXml(new ByteArrayInputStream(xml.getBytes()));
+
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");
         descr.addEjbReference(ref);
-                
-        List elements = getAllElements((Element)descr.getDocument().getRootElement() );
-        Element n = (Element)elements.get(0);
+
+        List<Element> elements = getAllElements(descr.getDocument().getRootElement());
+        Element n = elements.get(0);
         assertEquals("run-as-role-assignment", n.getName());
-        n = (Element)elements.get(2);
+        n = elements.get(2);
         assertEquals("session-descriptor", n.getName());
-        n = (Element)elements.get(1);
+        n = elements.get(1);
         assertEquals("reference-descriptor", n.getName());
-        n = (Element)n.getChildren(WeblogicXmlTag.EJB_REFERENCE_DESCRIPTION).get(0);
+        n = (Element) n.getChildren(WeblogicXmlTag.EJB_REFERENCE_DESCRIPTION).get(0);
         assertEquals("ejb-reference-description", n.getName());
-        Element m = (Element)n.getChildren(WeblogicXmlTag.EJB_REF_NAME).get(0);
+        Element m = (Element) n.getChildren(WeblogicXmlTag.EJB_REF_NAME).get(0);
         assertEquals("ejb-ref-name", m.getName());
         assertEquals("foo", m.getValue());
-        m = (Element)n.getChildren(WeblogicXmlTag.JNDI_NAME).get(0);
+        m = (Element) n.getChildren(WeblogicXmlTag.JNDI_NAME).get(0);
         assertEquals("jndi-name", m.getName());
         assertEquals("fee", m.getValue());
     }
 
     /**
      * Tests that a ejb reference description can be added
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testAddEjbReferenceDescriptionWhenOtherDescriptionsExists()
@@ -116,34 +119,40 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
             + "    <resource-env-description/>"
             + "  </reference-descriptor>"
             + "</weblogic-web-app>";
-        WeblogicXml descr = WeblogicXmlIo.parseWeblogicXml(new ByteArrayInputStream(xml.getBytes()) );
+        WeblogicXml descr = WeblogicXmlIo
+            .parseWeblogicXml(new ByteArrayInputStream(xml.getBytes()));
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");
         descr.addEjbReference(ref);
 
-        List nl = descr.getDocument().getRootElement().getChildren(WeblogicXmlTag.REFERENCE_DESCRIPTOR);
-        Element n = (Element)nl.get(0);
+        List<Element> nl = descr.getDocument().getRootElement()
+            .getChildren(WeblogicXmlTag.REFERENCE_DESCRIPTOR);
+        Element n = nl.get(0);
         assertEquals("reference-descriptor", n.getName());
-        List elements = getAllElements(n);
-        n = (Element)elements.get(0);
+        List<Element> elements = getAllElements(n);
+        n = elements.get(0);
         assertEquals("resource-description", n.getName());
-        n = (Element)elements.get(1);
+        n = elements.get(1);
         assertEquals("resource-env-description", n.getName());
-        n = (Element)elements.get(2);
+        n = elements.get(2);
         assertEquals("ejb-reference-description", n.getName());
     }
 
-    private List getAllElements(Element n)
+    /**
+     * Get all sub-elements of an element.
+     * @param n Element to analyze.
+     * @return Children of <code>n</code>.
+     */
+    private List<Element> getAllElements(Element n)
     {
-        List elements = new ArrayList();
+        List<Element> elements = new ArrayList<Element>();
 
-        List nl = n.getChildren();
-        for(int i=0; i<nl.size(); i++)
+        for (Object o : n.getChildren())
         {
-            if(nl.get(i) instanceof Element)
+            if (o instanceof Element)
             {
-                elements.add(nl.get(i));
+                elements.add((Element) o);
             }
         }
 

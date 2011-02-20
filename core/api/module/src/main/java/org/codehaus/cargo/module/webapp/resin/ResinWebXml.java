@@ -28,9 +28,9 @@ import org.codehaus.cargo.module.webapp.VendorWebAppDescriptor;
 import org.jdom.Element;
 
 /**
- * Encapsulates the DOM representation of a web deployment descriptor <code>resin-web.xml</code>
- * to provide convenience methods for easy access and manipulation.
- *
+ * Encapsulates the DOM representation of a web deployment descriptor <code>resin-web.xml</code> to
+ * provide convenience methods for easy access and manipulation.
+ * 
  * @version $Id $
  */
 public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescriptor
@@ -39,10 +39,10 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
      * File name of this descriptor.
      */
     private static final String FILE_NAME = "resin-web.xml";
-   
+
     /**
      * Constructor.
-     *
+     * 
      * @param rootElement The descriptor root element
      * @param type The descriptor type
      */
@@ -53,7 +53,7 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
 
     /**
      * Adds a ejb reference.
-     *
+     * 
      * @param ref reference to add
      */
     public void addEjbReference(EjbRef ref)
@@ -72,7 +72,7 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
 
     /**
      * Get the system properties.
-     *
+     * 
      * @return the system properties
      */
     public List<Element> getSystemProperties()
@@ -82,7 +82,7 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
 
     /**
      * Get the resource references.
-     *
+     * 
      * @return the resource refs
      */
     public List<Element> getResourceRefs()
@@ -92,7 +92,7 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
 
     /**
      * Get the jndi links.
-     *
+     * 
      * @return the jndi links
      */
     public List<Element> getJndiLinks()
@@ -102,7 +102,7 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
 
     /**
      * Get the session config element.
-     *
+     * 
      * @return session config element
      */
     public Element getSessionConfig()
@@ -118,7 +118,7 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
 
     /**
      * Get the directory servlet.
-     *
+     * 
      * @return directory servlet element
      */
     public Element getDirectoryServlet()

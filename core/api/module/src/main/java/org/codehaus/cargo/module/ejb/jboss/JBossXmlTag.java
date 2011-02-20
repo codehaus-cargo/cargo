@@ -32,12 +32,12 @@ public class JBossXmlTag extends DescriptorTag
      * ejb-name.
      */
     public static final String EJB_NAME = "ejb-name";
-    
+
     /**
      * jndi-name.
      */
     public static final String JNDI_NAME = "jndi-name";
-    
+
     /**
      * local-jndi-name.
      */
@@ -45,7 +45,7 @@ public class JBossXmlTag extends DescriptorTag
 
     /**
      * Constructor.
-     *
+     * 
      * @param type Descriptor type
      * @param tagName The tag name of the element
      * @param isMultipleAllowed Whether the element may occur multiple times in the descriptor
@@ -57,7 +57,7 @@ public class JBossXmlTag extends DescriptorTag
 
     /**
      * Constructor.
-     *
+     * 
      * @param type Descriptor type
      * @param tagName The tag name of the element
      */
@@ -65,5 +65,5 @@ public class JBossXmlTag extends DescriptorTag
     {
         this(type, tagName, true);
     }
-    
+
 }

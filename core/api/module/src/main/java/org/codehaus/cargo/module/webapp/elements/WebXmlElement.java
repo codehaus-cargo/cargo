@@ -27,8 +27,8 @@ import org.jdom.Element;
  * @version $Id$
  */
 public class WebXmlElement extends DescriptorElement
-{    
-  
+{
+
     /**
      * Constructor.
      * @param tag Web Xml Tag Definition
@@ -37,23 +37,23 @@ public class WebXmlElement extends DescriptorElement
     {
         super(tag);
     }
-  
+
     /**
      * Constructor.
      * @param tag Web Xml Tag Definition
      * @param element XML Element
      */
     public WebXmlElement(WebXmlTag tag, Element element)
-    {    
+    {
         super(tag, element);
-    
+
         this.addContent(element.detach());
     }
-    
-  /**
-   * @param string Child name
-   * @return child element
-   */
+
+    /**
+     * @param string Child name
+     * @return child element
+     */
     protected Element child(String string)
     {
         Element child = this.getChild(string, this.getNamespace());
@@ -63,6 +63,6 @@ public class WebXmlElement extends DescriptorElement
             this.getChildren().add(child);
         }
         return child;
-    } 
+    }
 
 }

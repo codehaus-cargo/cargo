@@ -24,7 +24,7 @@ import org.codehaus.cargo.module.Dtd;
 
 /**
  * @version $Id$
- *
+ * 
  */
 public class JBossWebXmlType extends AbstractDescriptorType
 {
@@ -32,13 +32,12 @@ public class JBossWebXmlType extends AbstractDescriptorType
      * Static instance.
      */
     private static JBossWebXmlType instance = new JBossWebXmlType();
-  
-    
+
     /**
      * All the tags in this type.
      */
-    private JBossWebXmlTag[] tags = 
-        new JBossWebXmlTag[] {  
+    private JBossWebXmlTag[] tags =
+        new JBossWebXmlTag[] {
             new JBossWebXmlTag(this, JBossWebXmlTag.CONTEXT_ROOT, false),
             new JBossWebXmlTag(this, JBossWebXmlTag.EJB_LOCAL_REF),
             new JBossWebXmlTag(this, JBossWebXmlTag.EJB_REF),
@@ -46,20 +45,20 @@ public class JBossWebXmlType extends AbstractDescriptorType
             new JBossWebXmlTag(this, JBossWebXmlTag.JNDI_NAME),
             new JBossWebXmlTag(this, JBossWebXmlTag.LOCAL_JNDI_NAME)
         };
-  
-   /**
-    * Protected Constructor.
-    */
+
+    /**
+     * Protected Constructor.
+     */
     protected JBossWebXmlType()
     {
-        super(null, JBossWebXml.class, new Dtd("http://www.jboss.org/j2ee/dtd/jboss-web.dtd"));  
+        super(null, JBossWebXml.class, new Dtd("http://www.jboss.org/j2ee/dtd/jboss-web.dtd"));
         setDescriptorIo(new JBossWebXmlIo(this));
     }
 
-  /**
-   * Get the static instance.
-   * @return The instance
-   */
+    /**
+     * Get the static instance.
+     * @return The instance
+     */
     public static JBossWebXmlType getInstance()
     {
         return instance;

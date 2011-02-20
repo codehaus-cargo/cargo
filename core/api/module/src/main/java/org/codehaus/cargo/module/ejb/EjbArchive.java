@@ -33,10 +33,10 @@ public interface EjbArchive extends JarArchive
 {
     /**
      * Return the ejb-jar.xml.
-     *
+     * 
      * @return the EjbJarXml
      * @throws IOException If there was a problem reading the deployment descriptor in the EAR
-     * @throws JDOMException If there is a problem with the XML 
+     * @throws JDOMException If there is a problem with the XML
      */
     EjbJarXml getEjbJarXml() throws IOException, JDOMException;
 }

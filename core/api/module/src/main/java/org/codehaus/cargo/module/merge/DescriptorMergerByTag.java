@@ -44,28 +44,28 @@ public class DescriptorMergerByTag implements DescriptorMerger
      * A default merge strategy for ignoring items.
      */
     public static final MergeStrategy IGNORE = new MergeStrategy()
-    {        
+    {
         public int inBoth(Descriptor target, DescriptorElement left, DescriptorElement right)
-        {         
+        {
             return 0;
         }
-       
+
         public int inLeft(Descriptor target, DescriptorElement left)
         {
             return 0;
         }
 
         public int inRight(Descriptor target, DescriptorElement right)
-        {         
+        {
             return 0;
         }
     };
-    
+
     /**
      * A default merge strategy for overwriting items.
      */
     public static final MergeStrategy OVERWRITE = new MergeStrategy()
-    {        
+    {
         public int inBoth(Descriptor target, DescriptorElement left, DescriptorElement right)
         {
             Element parent = left.getParentElement();
@@ -73,12 +73,12 @@ public class DescriptorMergerByTag implements DescriptorMerger
             target.addElement(right.getTag(), right, parent);
             return 1;
         }
-       
+
         public int inLeft(Descriptor target, DescriptorElement left)
         {
             return 0;
         }
-       
+
         public int inRight(Descriptor target, DescriptorElement right)
         {
             target.addElement(right.getTag(), right, target.getRootElement());
@@ -90,17 +90,17 @@ public class DescriptorMergerByTag implements DescriptorMerger
      * A default merge strategy for preserving items.
      */
     public static final MergeStrategy PRESERVE = new MergeStrategy()
-    {       
+    {
         public int inBoth(Descriptor target, DescriptorElement left, DescriptorElement right)
-        {            
+        {
             return 0;
         }
-        
+
         public int inLeft(Descriptor target, DescriptorElement left)
-        {         
+        {
             return 0;
         }
-        
+
         public int inRight(Descriptor target, DescriptorElement right)
         {
             target.addElement(right.getTag(), right, target.getRootElement());
@@ -233,7 +233,7 @@ public class DescriptorMergerByTag implements DescriptorMerger
                         DescriptorElement rightElement = (DescriptorElement) itemR;
                         left.addElement(tag, rightElement, left.getRootElement());
                     }
-                } 
+                }
                 else
                 {
                     // It is possible that this tag is a single value item (e.g.
@@ -241,9 +241,9 @@ public class DescriptorMergerByTag implements DescriptorMerger
                     // so either it can exist singly, or not at all.
                     MergeStrategy strategy = getMergeStrategy(tag.getTagName());
 
-                    DescriptorElement leftElement = (itemsL.size() == 0) ? null
+                    DescriptorElement leftElement = itemsL.size() == 0 ? null
                             : (DescriptorElement) itemsL.get(0);
-                    DescriptorElement rightElement = (itemsR.size() == 0) ? null
+                    DescriptorElement rightElement = itemsR.size() == 0 ? null
                             : (DescriptorElement) itemsR.get(0);
 
                     try
@@ -260,13 +260,13 @@ public class DescriptorMergerByTag implements DescriptorMerger
                         {
                             strategy.inRight(left, rightElement);
                         }
-                    } 
+                    }
                     catch (Exception ex)
                     {
                         throw new CargoException("Element Merging Exception", ex);
                     }
                 }
-              
+
             }
 
         }

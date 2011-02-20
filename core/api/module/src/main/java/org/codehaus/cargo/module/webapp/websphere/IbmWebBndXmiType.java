@@ -23,23 +23,23 @@ import org.codehaus.cargo.module.AbstractDescriptorType;
 
 /**
  * @version $Id$
- *
+ * 
  */
-public class IbmWebBndXmiType  extends AbstractDescriptorType
+public class IbmWebBndXmiType extends AbstractDescriptorType
 {
     /**
      * Instance variable.
      */
     private static IbmWebBndXmiType instance = new IbmWebBndXmiType();
-  
+
     /**
      * Protected constructor.
      */
     protected IbmWebBndXmiType()
     {
-        super(null, IbmWebBndXmi.class, new IbmWebBndXmiGrammar());   
+        super(null, IbmWebBndXmi.class, new IbmWebBndXmiGrammar());
     }
- 
+
     /**
      * @return static singleton instance
      */

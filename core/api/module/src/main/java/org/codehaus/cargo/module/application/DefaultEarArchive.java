@@ -34,7 +34,7 @@ import org.jdom.JDOMException;
 
 /**
  * Encapsulates access to an EAR.
- *
+ * 
  * @version $Id$
  */
 public class DefaultEarArchive extends DefaultJarArchive implements EarArchive
@@ -55,7 +55,7 @@ public class DefaultEarArchive extends DefaultJarArchive implements EarArchive
 
     /**
      * Constructor.
-     *
+     * 
      * @param inputStream The input stream for the enterprise application archive
      * @throws IOException If there was a problem reading the EAR
      */

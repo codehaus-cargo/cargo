@@ -23,14 +23,11 @@
 package org.codehaus.cargo.module.application;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
-import org.codehaus.cargo.module.application.ApplicationXmlVersion;
 import org.jdom.DocType;
-import org.jdom.input.SAXBuilder;
-
 
 /**
  * Unit tests for {@link ApplicationXmlVersion}.
- *
+ * 
  * @version $Id$
  */
 public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
@@ -47,8 +44,7 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Verifies that comparing version 1.2 to version 1.3 yields a negative
-     * value.
+     * Verifies that comparing version 1.2 to version 1.3 yields a negative value.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -70,8 +66,7 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Verifies that comparing version 1.2 to version 1.3 yields a negative
-     * value.
+     * Verifies that comparing version 1.2 to version 1.3 yields a negative value.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -82,8 +77,7 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Verifies that calling ApplicationXmlVersion.valueOf(null) throws a
-     * NullPointerException.
+     * Verifies that calling ApplicationXmlVersion.valueOf(null) throws a NullPointerException.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -101,42 +95,42 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Verifies that calling ApplicationXmlVersion.valueOf() with a unknown
-     * document type returns null.
+     * Verifies that calling ApplicationXmlVersion.valueOf() with a unknown document type returns
+     * null.
      * 
      * @throws Exception If an unexpected error occurs
      */
     public void testValueOfUnknownDocType() throws Exception
     {
-      DocType docType = new DocType("application",
-          "foo", "bar");
-      
-      assertNull(ApplicationXmlVersion.valueOf(docType));
+        DocType docType = new DocType("application",
+            "foo", "bar");
+
+        assertNull(ApplicationXmlVersion.valueOf(docType));
     }
 
     /**
-     * Verifies that calling ApplicationXmlVersion.valueOf() with a application
-     * 1.2 document type returns the correct instance.
+     * Verifies that calling ApplicationXmlVersion.valueOf() with a application 1.2 document type
+     * returns the correct instance.
      * 
      * @throws Exception If an unexpected error occurs
      */
     public void testValueOfDocType12() throws Exception
     {
-      DocType docType = new DocType("application",
+        DocType docType = new DocType("application",
             ApplicationXmlVersion.V1_2.getPublicId(),
             ApplicationXmlVersion.V1_2.getSystemId());
         assertEquals(ApplicationXmlVersion.V1_2, ApplicationXmlVersion.valueOf(docType));
     }
 
     /**
-     * Verifies that calling ApplicationXmlVersion.valueOf() with a application
-     * 1.3 document type returns the correct instance.
+     * Verifies that calling ApplicationXmlVersion.valueOf() with a application 1.3 document type
+     * returns the correct instance.
      * 
      * @throws Exception If an unexpected error occurs
      */
     public void testValueOfDocType13() throws Exception
     {
-      DocType docType = new DocType("application",
+        DocType docType = new DocType("application",
             ApplicationXmlVersion.V1_3.getPublicId(),
             ApplicationXmlVersion.V1_3.getSystemId());
         assertEquals(ApplicationXmlVersion.V1_3, ApplicationXmlVersion.valueOf(docType));

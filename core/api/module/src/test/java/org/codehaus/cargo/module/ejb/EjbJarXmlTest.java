@@ -26,14 +26,14 @@ import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 
 /**
  * Unit tests for {@link EjbJarXml}.
- *
+ * 
  * @version $Id$
  */
 public class EjbJarXmlTest extends AbstractDocumentBuilderTest
 {
     /**
      * Tests the basic functionality of {@link EjbJarXml#getSessionEjbs()}
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testGetSessionEjbNames() throws Exception
@@ -57,8 +57,8 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </assembly-descriptor>"
             + "</ejb-jar>";
 
-
-        EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes()), null);
+        EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes()),
+            null);
 
         List<Session> ejbs = ejbJar.getSessionEjbs();
         assertEquals(2, ejbs.size());
@@ -68,7 +68,7 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
 
     /**
      * Tests the basic functionality of {@link EjbJarXml#getSessionEjbs()}
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testGetEntityEjbNames() throws Exception
@@ -92,9 +92,8 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </assembly-descriptor>"
             + "</ejb-jar>";
 
-
-
-        EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes()), null);
+        EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes()),
+            null);
 
         List<Entity> ejbs = ejbJar.getEntityEjbs();
         assertEquals(1, ejbs.size());
@@ -103,7 +102,7 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
 
     /**
      * Tests the basic functionality of {@link EjbJarXml#getSessionEjb(String)}
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testGetSessionLocalInterfaces() throws Exception
@@ -118,7 +117,8 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </enterprise-beans>"
             + "</ejb-jar>";
 
-        EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes()), null);
+        EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes()),
+            null);
         Session ejb = ejbJar.getSessionEjb("MyFirstSession");
         assertEquals("com.wombat.MyFirstSession", ejb.getLocal());
         assertEquals("com.wombat.MyFirstSessionHome", ejb.getLocalHome());
@@ -126,7 +126,7 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
 
     /**
      * Tests the basic functionality of {@link EjbJarXml#getEntityEjb(String)}
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testGetEntityLocalInterfaces() throws Exception
@@ -141,7 +141,8 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </enterprise-beans>"
             + "</ejb-jar>";
 
-        EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes()), null);
+        EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes()),
+            null);
         Entity ejb = ejbJar.getEntityEjb("MyEntity");
         assertEquals("com.wombat.MyEntity", ejb.getLocal());
         assertEquals("com.wombat.MyEntityHome", ejb.getLocalHome());

@@ -40,7 +40,7 @@ public class JBossWebXmlIo extends AbstractDescriptorIo
      */
     protected JBossWebXmlIo(DescriptorType factory)
     {
-        super(factory);    
+        super(factory);
     }
 
     /**
@@ -49,14 +49,13 @@ public class JBossWebXmlIo extends AbstractDescriptorIo
      * @param theInput The input stream
      * @return The parsed descriptor
      * @throws IOException If an I/O error occurs
-     * @throws JDOMException If the XML parser was not correctly
-     *          configured
+     * @throws JDOMException If the XML parser was not correctly configured
      */
     public static JBossWebXml parseJBossWebXml(InputStream theInput)
         throws IOException, JDOMException
-    {      
+    {
         return (JBossWebXml) JBossWebXmlType.getInstance().
-              getDescriptorIo().parseXml(theInput);              
+              getDescriptorIo().parseXml(theInput);
     }
 
 }

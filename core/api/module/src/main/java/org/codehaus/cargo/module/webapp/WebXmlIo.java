@@ -39,15 +39,15 @@ import org.xml.sax.SAXException;
 
 /**
  * Provides convenience methods for reading and writing web deployment descriptors.
- *
+ * 
  * @version $Id$
  */
 public final class WebXmlIo extends AbstractDescriptorIo
 {
-    
+
     /**
      * Constructor.
-     * @param type descriptor type 
+     * @param type descriptor type
      */
     public WebXmlIo(DescriptorType type)
     {
@@ -92,12 +92,12 @@ public final class WebXmlIo extends AbstractDescriptorIo
     {
         return new WebXmlEntityResolver();
     }
-    
+
     /**
      * Creates a new empty deployment descriptor.
-     *
+     * 
      * @param theVersion The version of the descriptor to create
-     *
+     * 
      * @return The new descriptor
      */
     public static WebXml newWebXml(WebXmlVersion theVersion)
@@ -112,14 +112,14 @@ public final class WebXmlIo extends AbstractDescriptorIo
             document.setDocType(new DocType("web-app",
                     "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN",
                     "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd"));
-        } 
+        }
         else if (theVersion.equals(WebXmlVersion.V2_3))
         {
             document = new WebXml23Type().document(root);
             document.setDocType(new DocType("web-app",
                     "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN",
                     "http://java.sun.com/dtd/web-app_2_3.dtd"));
-        } 
+        }
         else
         {
             document = new WebXml24Type().document(root);
@@ -130,18 +130,18 @@ public final class WebXmlIo extends AbstractDescriptorIo
 
     /**
      * Parses a deployment descriptor stored in a regular file.
-     *
+     * 
      * @param theFile The file to parse
      * @param theEntityResolver A SAX entity resolver, or <code>null</code> to use the default
-     *
+     * 
      * @return The parsed descriptor
-     *
-     * @throws JDOMException If the file could not be parsed     
-     * @throws IOException If an I/O error occurs  
+     * 
+     * @throws JDOMException If the file could not be parsed
+     * @throws IOException If an I/O error occurs
      */
     public static WebXml parseWebXmlFromFile(File theFile,
         EntityResolver theEntityResolver)
-        throws  IOException, JDOMException
+        throws IOException, JDOMException
     {
         InputStream in = null;
         try
@@ -167,14 +167,13 @@ public final class WebXmlIo extends AbstractDescriptorIo
 
     /**
      * Parses a deployment descriptor provided as input stream.
-     *
+     * 
      * @param theInput The input stream
      * @param theEntityResolver A SAX entity resolver, or <code>null</code> to use the default
-     *
+     * 
      * @return The parsed descriptor
      * @throws IOException If an I/O error occurs
-     * @throws JDOMException  If the input could not be parsed
-
+     * @throws JDOMException If the input could not be parsed
      */
     public static WebXml parseWebXml(InputStream theInput,
         EntityResolver theEntityResolver)
@@ -183,13 +182,10 @@ public final class WebXmlIo extends AbstractDescriptorIo
         // When we are passed an InputStream, we don't know if this is a 2.2, 2.3 or 2.4 stream. We
         // need to create using the correct type, so we need to 'pre-read' te stream to work out
         // which one it is.
-      
-                   
+
         WebXmlTypeAwareParser handler = new WebXmlTypeAwareParser(theInput, theEntityResolver);
         return handler.parse();
-        
-        
+
     }
-    
-    
+
 }

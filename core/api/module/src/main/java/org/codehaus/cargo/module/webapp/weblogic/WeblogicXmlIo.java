@@ -32,28 +32,28 @@ import org.jdom.JDOMException;
  */
 public class WeblogicXmlIo extends AbstractDescriptorIo
 {
-  
+
     /**
      * Constructor.
      */
     protected WeblogicXmlIo()
     {
-        super(WeblogicXmlType.getInstance());    
+        super(WeblogicXmlType.getInstance());
     }
-  
+
     /**
      * Parses a deployment descriptor provided as input stream.
      * 
      * @param input The input stream
      * @return The parsed descriptor
      * @throws JDOMException If the input could not be parsed
-     * @throws IOException If an I/O error occurs      
+     * @throws IOException If an I/O error occurs
      */
     public static WeblogicXml parseWeblogicXml(InputStream input)
         throws IOException, JDOMException
     {
         WeblogicXmlIo io = new WeblogicXmlIo();
-        return (WeblogicXml) io.parseXml(input);  
+        return (WeblogicXml) io.parseXml(input);
     }
 
 }

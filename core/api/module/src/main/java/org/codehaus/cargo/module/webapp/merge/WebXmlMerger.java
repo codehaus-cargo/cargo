@@ -38,25 +38,26 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Helper class that can merge two web deployment descriptors.
- *
+ * 
  * @version $Id$
  */
-public class WebXmlMerger  extends XmlMerger 
-{    
+public class WebXmlMerger extends XmlMerger
+{
     /**
      * The original, authorative descriptor onto which the merges are performed.
      */
     private WebXml webXml;
-        
+
     /**
      * Our merger.
      */
     private DescriptorMergerByTag descriptorMergerByTag;
+
     /**
      * Constructor.
      */
     public WebXmlMerger()
-    {        
+    {
         descriptorMergerByTag = new DescriptorMergerByTag();
 
         // Default behaviours
@@ -68,7 +69,7 @@ public class WebXmlMerger  extends XmlMerger
             WebXmlType.FILTER_MAPPING, DescriptorMergerByTag.IGNORE);
         descriptorMergerByTag.setStrategy(
             WebXmlType.SERVLET, DescriptorMergerByTag.IGNORE);
-      
+
         addMerger(descriptorMergerByTag);
     }
 
@@ -81,7 +82,7 @@ public class WebXmlMerger  extends XmlMerger
         this();
         init(base);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see #init(Descriptor)
@@ -89,11 +90,11 @@ public class WebXmlMerger  extends XmlMerger
     @Override
     public void init(Descriptor base)
     {
-        this.webXml = (WebXml) base;     
+        this.webXml = (WebXml) base;
         descriptorMergerByTag.setDescriptorType(base.getDescriptorType());
         super.init(base);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see #merge(Descriptor)
@@ -105,17 +106,17 @@ public class WebXmlMerger  extends XmlMerger
         {
             WebXml theMergeWebXml = (WebXml) theMerge;
             checkServletVersions(theMergeWebXml);
-        
-            super.merge(theMerge);            
-            
+
+            super.merge(theMerge);
+
             if (WebXmlVersion.V2_3.compareTo(this.webXml.getVersion()) <= 0)
             {
                 mergeFilters(theMergeWebXml);
             }
             mergeServlets(theMergeWebXml);
-            
+
             mergeSecurityRoles(theMergeWebXml);
-                        
+
         }
         catch (Exception e)
         {
@@ -123,11 +124,9 @@ public class WebXmlMerger  extends XmlMerger
         }
     }
 
-    
-
     /**
      * Get the vendor web app descriptor out of the web xml.
-     *
+     * 
      * @param theWebXml in the web xml
      * @param clazz the class of vendor descriptor
      * @return the VendorWebAppDescriptor, or null if it does not exist in theWebXml
@@ -148,13 +147,13 @@ public class WebXmlMerger  extends XmlMerger
     /**
      * Checks the versions of the servlet API in each descriptor, and logs a warning if a mismatch
      * might result in the loss of definitions.
-     *
+     * 
      * @param theWebXml The descriptor that will be merged with the original
      */
     protected final void checkServletVersions(WebXml theWebXml)
     {
-        if ((this.webXml.getVersion() != null)
-            && (this.webXml.getVersion().compareTo(theWebXml.getVersion()) < 0))
+        if (this.webXml.getVersion() != null
+            && this.webXml.getVersion().compareTo(theWebXml.getVersion()) < 0)
         {
             getLogger().warn("Merging elements from a version " + theWebXml.getVersion()
                 + " descriptor into a version " + this.webXml.getVersion()
@@ -162,11 +161,9 @@ public class WebXmlMerger  extends XmlMerger
         }
     }
 
-   
-
     /**
      * Merges the servlet definitions from the specified descriptor into the original descriptor.
-     *
+     * 
      * @param theWebXml The descriptor that contains the filter definitions that are to be merged
      * into the original descriptor
      */
@@ -178,7 +175,7 @@ public class WebXmlMerger  extends XmlMerger
         {
             if (!WebXmlUtils.hasFilter(webXml, filterName))
             {
-                WebXmlUtils.addFilter(this.webXml, 
+                WebXmlUtils.addFilter(this.webXml,
                     WebXmlUtils.getFilter(theWebXml, filterName));
             }
             else
@@ -210,15 +207,15 @@ public class WebXmlMerger  extends XmlMerger
 
     /**
      * Merges the servlet definitions from the specified descriptor into the original descriptor.
-     *
+     * 
      * @param theWebXml The descriptor that contains the servlet definitions that are to be merged
      * into the original descriptor
      * @throws CargoException if there is any merge problem
-     * @throws IllegalAccessException 
-     * @throws InstantiationException 
-     * @throws NoSuchMethodException 
-     * @throws IllegalArgumentException 
-     * @throws SecurityException 
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws NoSuchMethodException
+     * @throws IllegalArgumentException
+     * @throws SecurityException
      */
     protected final void mergeServlets(WebXml theWebXml) throws CargoException
     {
@@ -230,7 +227,7 @@ public class WebXmlMerger  extends XmlMerger
             {
                 if (!WebXmlUtils.hasServlet(this.webXml, servletName))
                 {
-                    WebXmlUtils.addServlet(this.webXml, 
+                    WebXmlUtils.addServlet(this.webXml,
                         WebXmlUtils.getServlet(theWebXml, servletName));
                 }
                 else
@@ -270,11 +267,10 @@ public class WebXmlMerger  extends XmlMerger
             throw new CargoException("Exception merging servlet definitions", ex);
         }
     }
-       
-    
+
     /**
      * Merges the security roles from the provided descriptor into the original descriptor.
-     *
+     * 
      * @param theWebXml The descriptor that contains the security roles that are to be merged into
      * the original descriptor
      */

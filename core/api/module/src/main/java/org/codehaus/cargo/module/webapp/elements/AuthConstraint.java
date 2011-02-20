@@ -22,29 +22,29 @@ package org.codehaus.cargo.module.webapp.elements;
 import org.codehaus.cargo.module.webapp.WebXmlTag;
 
 /**
- *  @version $Id$
- *
+ * @version $Id$
+ * 
  */
-public class AuthConstraint extends WebXmlElement 
+public class AuthConstraint extends WebXmlElement
 {
-   /**
-    * Constructor.
-    * 
-    * @param tag The web xml tag type
-    */
+    /**
+     * Constructor.
+     * 
+     * @param tag The web xml tag type
+     */
     public AuthConstraint(WebXmlTag tag)
     {
-        super(tag);      
+        super(tag);
     }
-  
-  /**
-   * Constructor.
-   * 
-   * @param element that is the system property
-   */
-//  public AuthConstraint()
-//  {
-//    this(WebXmlType.INSTANCE.AUTH_CONSTRAINT);
-//  }
-  
+
+    /**
+     * Constructor.
+     * 
+     * @param element that is the system property
+     */
+    // public AuthConstraint()
+    // {
+    // this(WebXmlType.INSTANCE.AUTH_CONSTRAINT);
+    // }
+
 }

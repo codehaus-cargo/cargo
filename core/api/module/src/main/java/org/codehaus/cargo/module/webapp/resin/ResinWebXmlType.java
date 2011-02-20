@@ -23,7 +23,7 @@ import org.codehaus.cargo.module.AbstractDescriptorType;
 
 /**
  * @version $Id $
- *
+ * 
  */
 public class ResinWebXmlType extends AbstractDescriptorType
 {
@@ -31,31 +31,31 @@ public class ResinWebXmlType extends AbstractDescriptorType
      * Static instance.
      */
     private static ResinWebXmlType instance = new ResinWebXmlType();
-      
+
     /**
      * List of tags in this descriptor.
      */
-    private ResinWebXmlTag[] tags = 
-        new ResinWebXmlTag[] {  
+    private ResinWebXmlTag[] tags =
+        new ResinWebXmlTag[] {
             new ResinWebXmlTag(this, "system-property", true),
             new ResinWebXmlTag(this, "resource-ref", true),
             new ResinWebXmlTag(this, "session-config", true),
             new ResinWebXmlTag(this, "directory-servlet", true),
-            new ResinWebXmlTag(this, "jndi-link", true)        
+            new ResinWebXmlTag(this, "jndi-link", true)
         };
-    
-  /**
-   * Protected Constructor.
-   */
+
+    /**
+     * Protected Constructor.
+     */
     protected ResinWebXmlType()
     {
-        super(null, ResinWebXml.class, null);   
+        super(null, ResinWebXml.class, null);
     }
-  
-  /**
-   * Get the static instance.
-   * @return The instance
-   */
+
+    /**
+     * Get the static instance.
+     * @return The instance
+     */
     public static ResinWebXmlType getInstance()
     {
         return instance;

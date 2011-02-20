@@ -36,7 +36,7 @@ public interface J2eeDescriptor extends Descriptor
      * Returns all vendor descriptors associated with this J2EE deployment descriptor. For example
      * for JBoss the vendor descriptor associated with <code>web.xml</code> is
      * <code>jboss-web.xml</code>.
-     *
+     * 
      * @return List of Descriptor objects
      */
     List<Descriptor> getVendorDescriptors();

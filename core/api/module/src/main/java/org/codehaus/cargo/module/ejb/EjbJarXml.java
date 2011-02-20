@@ -29,11 +29,10 @@ import org.codehaus.cargo.module.J2eeDescriptor;
 import org.jdom.Attribute;
 import org.jdom.Element;
 
-
 /**
- * Encapsulates the DOM representation of a ejb deployment descriptor
- * <code>ejb-jar.xml</code> to provide convenience methods for easy access and manipulation.
- *
+ * Encapsulates the DOM representation of a ejb deployment descriptor <code>ejb-jar.xml</code> to
+ * provide convenience methods for easy access and manipulation.
+ * 
  * @version $Id$
  */
 public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
@@ -45,7 +44,7 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
 
     /**
      * Constructor.
-     *
+     * 
      * @param rootElement the root element of the document
      * @param type the document descriptor type
      */
@@ -65,7 +64,7 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
 
     /**
      * Associates a vendor specific descriptor with this web.xml.
-     *
+     * 
      * @param descr the vendor specific dexcriptor to associate
      */
     public void addVendorDescriptor(VendorEjbDescriptor descr)
@@ -84,7 +83,7 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
 
     /**
      * Returns all session ejbs in this descriptor.
-     *
+     * 
      * @return List of Session objects representing all session ejbs
      */
     public final List<Session> getSessionEjbs()
@@ -109,7 +108,7 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
 
     /**
      * Returns all entity ejbs in this descriptor.
-     *
+     * 
      * @return List of Entity objects representing all entity ejbs
      */
     public final List<Entity> getEntityEjbs()
@@ -134,7 +133,7 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
 
     /**
      * Return a specific session definition.
-     *
+     * 
      * @param name the name of the ejb.
      * @return the Session
      */
@@ -155,7 +154,7 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
 
     /**
      * Return a specific entity definition.
-     *
+     * 
      * @param name the name of the ejb.
      * @return the Entity
      */

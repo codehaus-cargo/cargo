@@ -58,8 +58,8 @@ public class NodeMergeStrategy implements MergeStrategy
         {
             throw new IllegalArgumentException("Template must not be null");
         }
-        this.template = template;        
-    }    
+        this.template = template;
+    }
 
     /**
      * Constructor.
@@ -69,18 +69,17 @@ public class NodeMergeStrategy implements MergeStrategy
      * @throws IOException if IO Exception
      * @throws JDOMException if parser error
      */
-    public NodeMergeStrategy(DescriptorType type, InputStream stream) throws 
+    public NodeMergeStrategy(DescriptorType type, InputStream stream) throws
         IOException, JDOMException
     {
-        this.template = type.getDescriptorIo().parseXml(stream).getRootElement();                 
+        this.template = type.getDescriptorIo().parseXml(stream).getRootElement();
     }
 
     /**
      * {@inheritDoc}
      * 
      * @see org.codehaus.cargo.module.merge.DescriptorMergerByTag.MergeStrategy#inBoth(org.codehaus.cargo.module.Descriptor,
-     *      org.codehaus.cargo.module.DescriptorElement,
-     *      org.codehaus.cargo.module.DescriptorElement)
+     * org.codehaus.cargo.module.DescriptorElement, org.codehaus.cargo.module.DescriptorElement)
      */
     public int inBoth(Descriptor target, DescriptorElement left, DescriptorElement right)
     {
@@ -99,7 +98,7 @@ public class NodeMergeStrategy implements MergeStrategy
      * {@inheritDoc}
      * 
      * @see org.codehaus.cargo.module.merge.DescriptorMergerByTag.MergeStrategy#inLeft(org.codehaus.cargo.module.Descriptor,
-     *      org.codehaus.cargo.module.DescriptorElement)
+     * org.codehaus.cargo.module.DescriptorElement)
      */
     public int inLeft(Descriptor target, DescriptorElement left)
     {
@@ -111,7 +110,7 @@ public class NodeMergeStrategy implements MergeStrategy
      * {@inheritDoc}
      * 
      * @see org.codehaus.cargo.module.merge.DescriptorMergerByTag.MergeStrategy#inRight(org.codehaus.cargo.module.Descriptor,
-     *      org.codehaus.cargo.module.DescriptorElement)
+     * org.codehaus.cargo.module.DescriptorElement)
      */
     public int inRight(Descriptor target, DescriptorElement right)
     {
@@ -166,7 +165,7 @@ public class NodeMergeStrategy implements MergeStrategy
      * @param right The right hand node
      * @return the replaced string
      */
-    private String replaceValue(String string, DescriptorElement left, 
+    private String replaceValue(String string, DescriptorElement left,
         DescriptorElement right)
     {
         String xPath;

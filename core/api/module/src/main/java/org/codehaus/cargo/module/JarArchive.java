@@ -29,7 +29,7 @@ import java.util.List;
 
 /**
  * Provide convenient methods to read information from a Jar archive.
- *
+ * 
  * @version $Id$
  */
 public interface JarArchive
@@ -51,17 +51,17 @@ public interface JarArchive
      * @throws java.io.IOException If an I/O error occurred reading the archive
      */
     String findResource(String name) throws IOException;
-    
+
     /**
      * Returns a resource from the archive as input stream.
      * 
      * @param path The path to the resource in the archive
-     * @return An input stream containing the specified resource, or
-     *         <code>null</code> if the resource was not found in the JAR
+     * @return An input stream containing the specified resource, or <code>null</code> if the
+     * resource was not found in the JAR
      * @throws java.io.IOException If an I/O error occurs
      */
     InputStream getResource(String path) throws IOException;
-    
+
     /**
      * Returns the list of resources in the specified directory in the archive.
      * 
@@ -70,14 +70,14 @@ public interface JarArchive
      * @throws java.io.IOException If an I/O error occurs
      */
     List<String> getResources(String path) throws IOException;
-    
+
     /**
-    * Expand the archive to the specified directory.
-    * @param path The path to expand to
-    * @throws java.io.IOException If an I/O error occurs
-    */
+     * Expand the archive to the specified directory.
+     * @param path The path to expand to
+     * @throws java.io.IOException If an I/O error occurs
+     */
     void expandToPath(String path) throws IOException;
-    
+
     /**
      * Expand the archive to the specified directory, filtering out files.
      * 

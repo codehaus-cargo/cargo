@@ -23,19 +23,17 @@ import java.io.ByteArrayInputStream;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.ejb.EjbDef;
-import org.codehaus.cargo.module.webapp.jboss.JBossWebXmlIo;
-import org.w3c.dom.Document;
 
 /**
  * Unit tests for {@link JBossXmlTest}.
- *
+ * 
  * @version $Id$
  */
 public class JBossXmlTest extends AbstractDocumentBuilderTest
 {
     /**
      * Tests the basic functionality of {@link JBossXmlTest.getJndiName}.
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testGetJndiName() throws Exception
@@ -56,7 +54,7 @@ public class JBossXmlTest extends AbstractDocumentBuilderTest
 
     /**
      * Tests {@link JBossXmlTest.getJndiName} with a faulty ejb name.
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testGetLocalJndiNameWithWrongEjbName() throws Exception

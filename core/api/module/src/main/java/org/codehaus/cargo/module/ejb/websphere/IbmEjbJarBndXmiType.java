@@ -26,7 +26,7 @@ import org.codehaus.cargo.module.AbstractDescriptorType;
 
 /**
  * @version $Id$
- *
+ * 
  */
 public class IbmEjbJarBndXmiType extends AbstractDescriptorType
 {
@@ -34,15 +34,15 @@ public class IbmEjbJarBndXmiType extends AbstractDescriptorType
      * Static instance.
      */
     private static IbmEjbJarBndXmiType instance = new IbmEjbJarBndXmiType();
-  
+
     /**
      * Protected constructor.
      */
     protected IbmEjbJarBndXmiType()
     {
-      super(null, IbmEjbJarBndXmi.class, new IbmEjbJarBndXmiGrammar());   
+        super(null, IbmEjbJarBndXmi.class, new IbmEjbJarBndXmiGrammar());
     }
-    
+
     /**
      * Get the static instance.
      * @return The instance

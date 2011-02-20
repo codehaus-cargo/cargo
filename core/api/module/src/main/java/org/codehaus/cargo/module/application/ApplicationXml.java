@@ -32,11 +32,10 @@ import org.codehaus.cargo.module.J2eeDescriptor;
 import org.jdom.DocType;
 import org.jdom.Element;
 
-
 /**
- * Encapsulates the DOM representation of an EAR descriptor (<code>application.xml</code>) to 
+ * Encapsulates the DOM representation of an EAR descriptor (<code>application.xml</code>) to
  * provide convenience methods for easy access and manipulation.
- *
+ * 
  * @version $Id$
  */
 public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
@@ -56,7 +55,7 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
     {
         super(rootElement, type);
     }
-    
+
     /**
      * @return The J2EE API version.
      */
@@ -74,7 +73,7 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
     /**
      * Returns the element that contains the definition of a specific web module, or
      * <code>null</code> if a web module with the specified web-uri is not defined.
-     *
+     * 
      * @param webUri The uri of the web module
      * @return The DOM element representing the web module definition
      */
@@ -92,7 +91,7 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
             if (!webElements.isEmpty())
             {
                 Element webElement = webElements.get(0);
-                if (webUri.equals(getNestedText(webElement, 
+                if (webUri.equals(getNestedText(webElement,
                     getDescriptorType().getTagByName(ApplicationXmlTag.WEB_URI))))
                 {
                     return webElement;
@@ -101,10 +100,10 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
         }
         return null;
     }
-    
+
     /**
      * Returns the context root of the the specified web module.
-     *
+     * 
      * @param webUri The uri of the web module
      * @return The context root of the web module
      */
@@ -121,7 +120,7 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
 
     /**
      * Returns a list of the URIs of the web modules defined in the descriptor.
-     *
+     * 
      * @return A list of the URIs of the web modules
      */
     public List<String> getWebModuleUris()
@@ -148,7 +147,7 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
 
     /**
      * Returns a list of the ejb modules defined in the descriptor.
-     *
+     * 
      * @return A list of Strings over the ejb modules
      */
     public List<String> getEjbModules()
@@ -166,10 +165,10 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
         }
         return modules;
     }
-    
+
     /**
      * Returns a list of the elements that match the specified tag.
-     *
+     * 
      * @param tag The descriptor tag of which the elements should be returned
      * @return A list of the elements matching the tag, in the order they occur in the descriptor
      */
@@ -177,10 +176,10 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
     {
         return super.getElements(tag);
     }
-    
+
     /**
      * Adds a web module to the deployment descriptor.
-     *
+     * 
      * @param uri the uri of the new module
      * @param context the context of the new module
      */
@@ -196,12 +195,12 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
         addElement(getDescriptorType().getTagByName(
             ApplicationXmlTag.MODULE), moduleElement, getRootElement());
     }
-    
+
     /**
-    * Adds a ejb module to the deployment descriptor.
-    *
-    * @param name the name of the new module
-    */
+     * Adds a ejb module to the deployment descriptor.
+     * 
+     * @param name the name of the new module
+     */
     public void addEjbModule(String name)
     {
         Element moduleElement = new Element(ApplicationXmlTag.MODULE);

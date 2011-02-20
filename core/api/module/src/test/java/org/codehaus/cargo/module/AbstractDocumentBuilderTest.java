@@ -21,19 +21,17 @@ package org.codehaus.cargo.module;
 
 import java.io.StringReader;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+
+import junit.framework.TestCase;
 
 import org.jdom.input.SAXBuilder;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import junit.framework.TestCase;
-
 /**
- * Helper {@link TestCase} that provides a {@link TestCase#setUp} method that creates a 
+ * Helper {@link TestCase} that provides a {@link TestCase#setUp} method that creates a
  * {@link javax.xml.parsers.DocumentBuilder}.
  * 
  * @version $Id$
@@ -50,34 +48,37 @@ public abstract class AbstractDocumentBuilderTest extends TestCase
      */
     protected SAXBuilder builder;
 
+    /**
+     * @return Entity resolver.
+     */
     protected EntityResolver getEntityResolver()
     {
-      return new EntityResolver()
-      {
-          public InputSource resolveEntity(String thePublicId, 
-              String theSystemId) throws SAXException
-          {
-              return new InputSource(new StringReader(""));
-          }
-      };
+        return new EntityResolver()
+        {
+            public InputSource resolveEntity(String thePublicId,
+                String theSystemId) throws SAXException
+            {
+                return new InputSource(new StringReader(""));
+            }
+        };
     }
+
     /**
      * @see TestCase#setUp
+     * @throws Exception If anything goes wrong.
      */
     @Override
-    protected void setUp() throws ParserConfigurationException
+    protected void setUp() throws Exception
     {
         this.factory = DocumentBuilderFactory.newInstance();
         this.factory.setValidating(false);
         this.factory.setNamespaceAware(false);
 
-       // this.builder = this.factory.newDocumentBuilder();
-        
         this.builder = new SAXBuilder();
-        
+
         this.builder.setEntityResolver(new EntityResolver()
         {
-            public InputSource resolveEntity(String thePublicId, 
+            public InputSource resolveEntity(String thePublicId,
                 String theSystemId) throws SAXException
             {
                 return new InputSource(new StringReader(""));

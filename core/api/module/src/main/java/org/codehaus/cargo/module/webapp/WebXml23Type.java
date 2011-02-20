@@ -34,16 +34,17 @@ public class WebXml23Type extends WebXmlType
      * Single instance.
      */
     private static WebXml23Type instance = new WebXml23Type();
-    
+
     /**
-     * Protected constructor.     
+     * Protected constructor.
      */
     protected WebXml23Type()
     {
-        // We don't have an XSD grammar orderer yet so use 2.3 for now 
+        // We don't have an XSD grammar orderer yet so use 2.3 for now
         super(WebXml22Type.getInstance(), new Dtd("http://java.sun.com/dtd/web-app_2_3.dtd"));
         setDescriptorIo(new WebXmlIo(this));
     }
+
     /**
      * Get the instance of the WEB XML Type.
      * @return WebXmlType
@@ -52,8 +53,8 @@ public class WebXml23Type extends WebXmlType
     {
         return instance;
     }
-  
-    /** 
+
+    /**
      * {@inheritDoc}
      */
     @Override

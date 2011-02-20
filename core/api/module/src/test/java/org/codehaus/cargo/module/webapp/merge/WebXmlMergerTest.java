@@ -43,8 +43,7 @@ import org.jdom.Element;
 public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
 {
     /**
-     * Tests whether a single filter is correctly merged into an empty
-     * descriptor.
+     * Tests whether a single filter is correctly merged into an empty descriptor.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -58,25 +57,25 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass1</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
-                       
-        //WebXml mergeWebXml = new WebXml(mergeDoc);
+
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
+
+        // WebXml mergeWebXml = new WebXml(mergeDoc);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
         assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
     }
 
     /**
-     * Tests whether a single context param is correctly merged into an empty
-     * descriptor.
+     * Tests whether a single context param is correctly merged into an empty descriptor.
      * 
      * @throws Exception If an unexpected error occurs
      */
     public void testMergeOneContextParamIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        
+
         WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
         String mergeXml = "<web-app>"
             + "  <context-param>"
@@ -84,20 +83,20 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <param-value>value</param-value>"
             + "  </context-param>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml,"param"));
+        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
     }
-    
+
     /**
-     * Tests whether a single filter is correctly merged into a descriptor that
-     * already contains another filter.
+     * Tests whether a single filter is correctly merged into a descriptor that already contains
+     * another filter.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeOneFilterIntoDocumentWithAnotherFilter()
-        throws Exception
+    public void testMergeOneFilterIntoDocumentWithAnotherFilter() throws Exception
     {
         String srcXml = "<web-app>"
             + "  <filter>"
@@ -112,21 +111,21 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass2</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml,"f1"));
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml,"f2"));
+        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
+        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f2"));
     }
 
     /**
-     * Tests whether a single context param is correctly merged into a 
-     * descriptor that already contains another context param.
+     * Tests whether a single context param is correctly merged into a descriptor that already
+     * contains another context param.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeOneContextParamIntoDocumentWithAnotherContextParam()
-        throws Exception
+    public void testMergeOneContextParamIntoDocumentWithAnotherContextParam() throws Exception
     {
         String srcXml = "<web-app>"
             + "  <context-param>"
@@ -141,21 +140,21 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <param-value>value2</param-value>"
             + "  </context-param>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml,"param1"));
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml,"param2"));
+        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param1"));
+        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param2"));
     }
 
     /**
-     * Tests whether a single filter in the merge descriptor is ignored because
-     * a filter with the same name already exists in the source descriptor. 
+     * Tests whether a single filter in the merge descriptor is ignored because a filter with the
+     * same name already exists in the source descriptor.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeOneFilterIntoDocumentWithSameFilter()
-        throws Exception
+    public void testMergeOneFilterIntoDocumentWithSameFilter() throws Exception
     {
         String srcXml = "<web-app>"
             + "  <filter>"
@@ -164,21 +163,20 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "  </filter>"
             + "</web-app>";
         WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo
+            .parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml,"f1"));
+        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
     }
 
     /**
-     * Tests whether a single context param in the merge descriptor is ignored 
-     * because a context param with the same name already exists in the source 
-     * descriptor. 
+     * Tests whether a single context param in the merge descriptor is ignored because a context
+     * param with the same name already exists in the source descriptor.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeOneContextParamIntoDocumentWithSameContextParam()
-        throws Exception
+    public void testMergeOneContextParamIntoDocumentWithSameContextParam() throws Exception
     {
         String srcXml = "<web-app>"
             + "  <context-param>"
@@ -187,20 +185,19 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "  </context-param>"
             + "</web-app>";
         WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo
+            .parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml,"param"));
+        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
     }
-    
+
     /**
-     * Tests whether a filter initialization parameter is merged into the
-     * descriptor.
+     * Tests whether a filter initialization parameter is merged into the descriptor.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeOneFilterIntoDocumentWithSameFilterAndParam()
-        throws Exception
+    public void testMergeOneFilterIntoDocumentWithSameFilterAndParam() throws Exception
     {
         String srcXml = "<web-app>"
             + "  <filter>"
@@ -219,23 +216,23 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    </init-param>"
             + "  </filter>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml,"f1"));
-        List<String> initParams = WebXmlUtils.getFilterInitParamNames(srcWebXml,"f1");
+        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
+        List<String> initParams = WebXmlUtils.getFilterInitParamNames(srcWebXml, "f1");
         assertEquals(1, initParams.size());
         assertEquals("f1param1", initParams.get(0));
     }
 
     /**
-     * Tests whether a single filter is correctly merged into a descriptor that
-     * already contains multiple other filter definitions.
+     * Tests whether a single filter is correctly merged into a descriptor that already contains
+     * multiple other filter definitions.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeOneFilterIntoDocumentWithMultipleFilters()
-        throws Exception
+    public void testMergeOneFilterIntoDocumentWithMultipleFilters() throws Exception
     {
         String srcXml = "<web-app>"
             + "  <filter>"
@@ -258,7 +255,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass4</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
         List<String> filterNames = WebXmlUtils.getFilterNames(srcWebXml);
@@ -270,8 +268,7 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests whether multiple filters are correctly merged into an empty
-     * descriptor.
+     * Tests whether multiple filters are correctly merged into an empty descriptor.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -293,7 +290,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass3</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
         List<String> filterNames = WebXmlUtils.getFilterNames(srcWebXml);
@@ -304,13 +302,11 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests whether a filter with one mapping is correctly merged into an empty
-     * descriptor.
+     * Tests whether a filter with one mapping is correctly merged into an empty descriptor.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeOneFilterWithOneMappingIntoEmptyDocument()
-        throws Exception
+    public void testMergeOneFilterWithOneMappingIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
         WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
@@ -324,23 +320,23 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/f1mapping1</url-pattern>"
             + "  </filter-mapping>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml,"f1"));
-        List<String> filterMappings = WebXmlUtils.getFilterMappings(srcWebXml,"f1");
+        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
+        List<String> filterMappings = WebXmlUtils.getFilterMappings(srcWebXml, "f1");
         assertEquals(1, filterMappings.size());
         assertEquals("/f1mapping1", filterMappings.get(0));
     }
 
     /**
-     * Tests wether a single filter with multiple mappings is correctly merged
-     * into an empty descriptor.
+     * Tests wether a single filter with multiple mappings is correctly merged into an empty
+     * descriptor.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeOneFilterWithMultipleMappingsIntoEmptyDocument()
-        throws Exception
+    public void testMergeOneFilterWithMultipleMappingsIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
         WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
@@ -362,11 +358,12 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/f1mapping3</url-pattern>"
             + "  </filter-mapping>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml,"f1"));
-        List<String> filterMappings = WebXmlUtils.getFilterMappings(srcWebXml,"f1");
+        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
+        List<String> filterMappings = WebXmlUtils.getFilterMappings(srcWebXml, "f1");
         assertEquals(3, filterMappings.size());
         assertEquals("/f1mapping1", filterMappings.get(0));
         assertEquals("/f1mapping2", filterMappings.get(1));
@@ -374,8 +371,7 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests whether a single servlet is correctly merged into an empty 
-     * descriptor.
+     * Tests whether a single servlet is correctly merged into an empty descriptor.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -389,20 +385,20 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
-        assertTrue(WebXmlUtils.hasServlet(srcWebXml,"s1"));
+        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
     }
 
     /**
-     * Tests whether a single servlet is correctly merged into a descriptor that
-     * already contains the definition of an other servlet.
+     * Tests whether a single servlet is correctly merged into a descriptor that already contains
+     * the definition of an other servlet.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeOneServletIntoDocumentWithAnotherServlet()
-        throws Exception
+    public void testMergeOneServletIntoDocumentWithAnotherServlet() throws Exception
     {
         String srcXml = "<web-app>"
             + "  <servlet>"
@@ -417,21 +413,21 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass2</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
-        assertTrue(WebXmlUtils.hasServlet(srcWebXml,"s1"));
-        assertTrue(WebXmlUtils.hasServlet(srcWebXml,"s2"));
+        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
+        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s2"));
     }
 
     /**
-     * Tests whether a single servlet is correctly merged into a descriptor that
-     * already contains the definition of a servlet with the same name.
+     * Tests whether a single servlet is correctly merged into a descriptor that already contains
+     * the definition of a servlet with the same name.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeOneServletIntoDocumentWithSameServlet()
-        throws Exception
+    public void testMergeOneServletIntoDocumentWithSameServlet() throws Exception
     {
         String srcXml = "<web-app>"
             + "  <servlet>"
@@ -446,21 +442,20 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
-        assertTrue(WebXmlUtils.hasServlet(srcWebXml,"s1"));
+        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
     }
 
     /**
-     * Tets whether a servlet with an initialization parameter is correctly
-     * merged into a descriptor that contains the definition of a servlet with
-     * the same name.
+     * Tets whether a servlet with an initialization parameter is correctly merged into a descriptor
+     * that contains the definition of a servlet with the same name.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeOneServletIntoDocumentWithSameServletAndParam()
-        throws Exception
+    public void testMergeOneServletIntoDocumentWithSameServletAndParam() throws Exception
     {
         String srcXml = "<web-app>"
             + "  <servlet>"
@@ -479,25 +474,24 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    </init-param>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
-        assertTrue(WebXmlUtils.hasServlet(srcWebXml,"s1"));
-        List<String> initParams = WebXmlUtils.getServletInitParamNames(srcWebXml,"s1");
+        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
+        List<String> initParams = WebXmlUtils.getServletInitParamNames(srcWebXml, "s1");
         assertEquals(1, initParams.size());
         assertEquals("s1param1", initParams.get(0));
         assertEquals("s1param1value",
-            WebXmlUtils.getServletInitParam(srcWebXml,"s1", "s1param1"));
+            WebXmlUtils.getServletInitParam(srcWebXml, "s1", "s1param1"));
     }
 
     /**
-     * Tests whether a single servlet is correctly merged into a descriptor with
-     * multiple servlets.
+     * Tests whether a single servlet is correctly merged into a descriptor with multiple servlets.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeOneServletIntoDocumentWithMultipleServlets()
-        throws Exception
+    public void testMergeOneServletIntoDocumentWithMultipleServlets() throws Exception
     {
         String srcXml = "<web-app>"
             + "  <servlet>"
@@ -520,7 +514,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass4</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
         List<String> servletNames = WebXmlUtils.getServletNames(srcWebXml);
@@ -532,13 +527,12 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Verifies that servlet init parameters are added after the load-on-startup
-     * element of an already existing servlet definition.
+     * Verifies that servlet init parameters are added after the load-on-startup element of an
+     * already existing servlet definition.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergingServletWithInitParamsThatIsAlreadyDefined()
-        throws Exception
+    public void testMergingServletWithInitParamsThatIsAlreadyDefined() throws Exception
     {
         String srcXml = "<web-app>".trim()
             + "  <servlet>".trim()
@@ -558,17 +552,19 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    </init-param>".trim()
             + "  </servlet>".trim()
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
-        Element servletElement = WebXmlUtils.getServlet(srcWebXml,"s1");
+        Element servletElement = WebXmlUtils.getServlet(srcWebXml, "s1");
         assertEquals("load-on-startup",
-            ((Element) servletElement.getChildren().get( servletElement.getChildren().size()-1 )).getName());
+            ((Element) servletElement.getChildren().get(servletElement.getChildren().size() - 1))
+                .getName());
     }
 
     /**
-     * Tests whether multiple servlet in the merge file are correctly inserted
-     * into an empty descriptor.
+     * Tests whether multiple servlet in the merge file are correctly inserted into an empty
+     * descriptor.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -590,7 +586,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass3</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
         List<String> servletNames = WebXmlUtils.getServletNames(srcWebXml);
@@ -601,13 +598,12 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests whether a single servlet with one mapping is correctly inserted
-     * into an empty descriptor.
+     * Tests whether a single servlet with one mapping is correctly inserted into an empty
+     * descriptor.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeOneServletWithOneMappingIntoEmptyDocument()
-        throws Exception
+    public void testMergeOneServletWithOneMappingIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
         WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
@@ -621,23 +617,23 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/s1mapping1</url-pattern>"
             + "  </servlet-mapping>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
-        assertTrue(WebXmlUtils.hasServlet(srcWebXml,"s1"));
+        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
         List<String> servletMappings = WebXmlUtils.getServletMappings(srcWebXml, "s1");
         assertEquals(1, servletMappings.size());
         assertEquals("/s1mapping1", servletMappings.get(0));
     }
 
     /**
-     * Tests whether a single servlet with multiple mappings is correctly 
-     * inserted into an empty descriptor.
+     * Tests whether a single servlet with multiple mappings is correctly inserted into an empty
+     * descriptor.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeOneServletWithMultipleMappingsIntoEmptyDocument()
-        throws Exception
+    public void testMergeOneServletWithMultipleMappingsIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
         WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
@@ -659,10 +655,11 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/s1mapping3</url-pattern>"
             + "  </servlet-mapping>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
-        assertTrue(WebXmlUtils.hasServlet(srcWebXml,"s1"));
+        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
         List<String> servletMappings = WebXmlUtils.getServletMappings(srcWebXml, "s1");
         assertEquals(3, servletMappings.size());
         assertEquals("/s1mapping1", servletMappings.get(0));
@@ -671,13 +668,11 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests whether a single security role is correctly inserted into an empty
-     * descriptor.
+     * Tests whether a single security role is correctly inserted into an empty descriptor.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeSecurityRoleIntoEmptyDocument()
-        throws Exception
+    public void testMergeSecurityRoleIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
         WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
@@ -686,7 +681,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <role-name>role1</role-name>"
             + "  </security-role>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeSecurityRoles(mergeWebXml);
         List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(srcWebXml);
@@ -695,13 +691,12 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests whether a single security role is ignored when the source
-     * descriptor already contains a role with the same name.
+     * Tests whether a single security role is ignored when the source descriptor already contains a
+     * role with the same name.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeSecurityRoleIntoDocumentWithSameRole()
-        throws Exception
+    public void testMergeSecurityRoleIntoDocumentWithSameRole() throws Exception
     {
         String srcXml = "<web-app>"
             + "  <security-role>"
@@ -715,7 +710,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <role-name>role1</role-name>"
             + "  </security-role>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeSecurityRoles(mergeWebXml);
         List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(srcWebXml);
@@ -724,13 +720,11 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests whether a single EJB reference is correctly inserted into an empty
-     * descriptor.
+     * Tests whether a single EJB reference is correctly inserted into an empty descriptor.
      * 
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeOneEjbRefIntoEmptyDocument()
-        throws Exception
+    public void testMergeOneEjbRefIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
         WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
@@ -742,8 +736,9 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <remote>ejbref1.remoteInterface</remote>"
             + "  </ejb-ref>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()), null);
-        
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
+            null);
+
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         List<Element> ejbRefs = srcWebXml.getElements(WebXmlType.EJB_REF);
@@ -754,68 +749,67 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
      * Test for CARGO-409 that merging listeners does not mess with the order.
      * @throws Exception If an unexpected error occurs
      */
-    public void testMergeListeners()
-    	throws Exception
+    public void testMergeListeners() throws Exception
     {
-    	String file1 =  "<web-app>\r\n" +
-    			"   <context-param>\r\n" + 
-    			"       <param-name>file1-c1</param-name>\r\n" + 
-    			"       <param-value>file1-v1</param-value>\r\n" + 
-    			"   </context-param>\r\n" + 
-    			"   \r\n" + 
-    			"  \r\n" + 
-    			"    <listener>\r\n" + 
-    			"	<listener-class>file1-lc1</listener-class>\r\n" + 
-    			"    </listener>\r\n" + 
-    			"	\r\n" + 
-    			"    <listener>\r\n" + 
-    			"	  <listener-class>file1-lc2</listener-class>\r\n" + 
-    			"    </listener>\r\n" + 
-    			"   \r\n" + 
-    			"   \r\n" + 
-    			"    <servlet>\r\n" + 
-    			"       <servlet-name>file1-S1</servlet-name>\r\n" + 
-    			"       <servlet-class>file1-C2</servlet-class>\r\n" + 
-    			"       <load-on-startup>file1-los</load-on-startup>\r\n" + 
-    			"   </servlet>   \r\n" + 
-    			"</web-app>\r\n"; 
-    		
-    	String file2 = "<web-app>\r\n" +
-    			"   <context-param>\r\n" + 
-    			"       <param-name>file2-c1</param-name>\r\n" + 
-    			"       <param-value>file2-v1</param-value>\r\n" + 
-    			"   </context-param>\r\n" + 
-    			"   \r\n" + 
-    			"  \r\n" + 
-    			"    <listener>\r\n" + 
-    			"	<listener-class>file2-lc1</listener-class>\r\n" + 
-    			"    </listener>\r\n" + 
-    			"	\r\n" + 
-    			"    <listener>\r\n" + 
-    			"	  <listener-class>file2-lc2</listener-class>\r\n" + 
-    			"    </listener>\r\n" + 
-    			"   \r\n" + 
-    			"   \r\n" + 
-    			"    <servlet>\r\n" + 
-    			"       <servlet-name>file2-S1</servlet-name>\r\n" + 
-    			"       <servlet-class>file2-C2</servlet-class>\r\n" + 
-    			"       <load-on-startup>file2-los</load-on-startup>\r\n" + 
-    			"   </servlet>   \r\n" + 
-    			"</web-app>\r\n" + 
-    			"";
-    	
+        String file1 = "<web-app>\r\n"
+            + "   <context-param>\r\n"
+            + "       <param-name>file1-c1</param-name>\r\n"
+            + "       <param-value>file1-v1</param-value>\r\n"
+            + "   </context-param>\r\n"
+            + "\r\n"
+            + "\r\n"
+            + "    <listener>\r\n"
+            + "      <listener-class>file1-lc1</listener-class>\r\n"
+            + "    </listener>\r\n"
+            + "\r\n"
+            + "    <listener>\r\n"
+            + "      <listener-class>file1-lc2</listener-class>\r\n"
+            + "    </listener>\r\n"
+            + "\r\n"
+            + "\r\n"
+            + "    <servlet>\r\n"
+            + "       <servlet-name>file1-S1</servlet-name>\r\n"
+            + "       <servlet-class>file1-C2</servlet-class>\r\n"
+            + "       <load-on-startup>file1-los</load-on-startup>\r\n"
+            + "   </servlet>\r\n"
+            + "</web-app>\r\n";
+
+        String file2 = "<web-app>\r\n"
+            + "   <context-param>\r\n"
+            + "       <param-name>file2-c1</param-name>\r\n"
+            + "       <param-value>file2-v1</param-value>\r\n"
+            + "   </context-param>\r\n"
+            + "\r\n"
+            + "\r\n"
+            + "    <listener>\r\n"
+            + "      <listener-class>file2-lc1</listener-class>\r\n"
+            + "    </listener>\r\n"
+            + "\r\n"
+            + "    <listener>\r\n"
+            + "      <listener-class>file2-lc2</listener-class>\r\n"
+            + "    </listener>\r\n"
+            + "\r\n"
+            + "\r\n"
+            + "    <servlet>\r\n"
+            + "       <servlet-name>file2-S1</servlet-name>\r\n"
+            + "       <servlet-class>file2-C2</servlet-class>\r\n"
+            + "       <load-on-startup>file2-los</load-on-startup>\r\n"
+            + "   </servlet>\r\n"
+            + "</web-app>\r\n"
+            + "";
+
         WebXml file1WebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(file1.getBytes()), null);
         WebXml file2WebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(file2.getBytes()), null);
-        
+
         WebXmlMerger merger = new WebXmlMerger(file1WebXml);
         merger.merge(file2WebXml);
-        
+
         List<Element> ejbRefs = file1WebXml.getElements("listener");
         assertEquals(4, ejbRefs.size());
-        assertEquals(((Listener)ejbRefs.get(0)).getListenerClass(), "file1-lc1");
-        assertEquals(((Listener)ejbRefs.get(1)).getListenerClass(), "file1-lc2");
-        assertEquals(((Listener)ejbRefs.get(2)).getListenerClass(), "file2-lc1");
-        assertEquals(((Listener)ejbRefs.get(3)).getListenerClass(), "file2-lc2");
+        assertEquals(((Listener) ejbRefs.get(0)).getListenerClass(), "file1-lc1");
+        assertEquals(((Listener) ejbRefs.get(1)).getListenerClass(), "file1-lc2");
+        assertEquals(((Listener) ejbRefs.get(2)).getListenerClass(), "file2-lc1");
+        assertEquals(((Listener) ejbRefs.get(3)).getListenerClass(), "file2-lc2");
     }
-    	
+
 }

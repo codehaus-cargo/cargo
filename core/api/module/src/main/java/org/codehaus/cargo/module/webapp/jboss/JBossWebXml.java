@@ -26,10 +26,9 @@ import org.codehaus.cargo.module.webapp.VendorWebAppDescriptor;
 import org.jdom.Element;
 
 /**
- * Encapsulates the DOM representation of a web deployment descriptor
- * <code>jboss-web.xml</code> to provide convenience methods for easy access and
- * manipulation.
- *
+ * Encapsulates the DOM representation of a web deployment descriptor <code>jboss-web.xml</code> to
+ * provide convenience methods for easy access and manipulation.
+ * 
  * @version $Id$
  */
 public class JBossWebXml extends AbstractDescriptor implements VendorWebAppDescriptor
@@ -41,7 +40,7 @@ public class JBossWebXml extends AbstractDescriptor implements VendorWebAppDescr
 
     /**
      * Constructor.
-     *
+     * 
      * @param rootElement The root document element
      * @param type The document type
      */
@@ -51,8 +50,8 @@ public class JBossWebXml extends AbstractDescriptor implements VendorWebAppDescr
     }
 
     /**
-     * @return the context root element found in the <code>jboss-web.xml</code>
-     *         file or null if not defined
+     * @return the context root element found in the <code>jboss-web.xml</code> file or null if not
+     * defined
      */
     public String getContextRoot()
     {
@@ -60,7 +59,7 @@ public class JBossWebXml extends AbstractDescriptor implements VendorWebAppDescr
             getRootElement(), getDescriptorType().getTagByName(JBossWebXmlTag.CONTEXT_ROOT));
 
         // Remove leading slash if there is one.
-        if ((context != null) && context.startsWith("/"))
+        if (context != null && context.startsWith("/"))
         {
             context = context.substring(1);
         }
@@ -98,9 +97,9 @@ public class JBossWebXml extends AbstractDescriptor implements VendorWebAppDescr
 
         ejbRefElement.addContent(createNestedText(getDescriptorType().getTagByName(
                 JBossWebXmlTag.EJB_REF_NAME), ref.getName()));
-        ejbRefElement.addContent(createNestedText(jndiTag, ref.getJndiName()));        
+        ejbRefElement.addContent(createNestedText(jndiTag, ref.getJndiName()));
 
         getRootElement().addContent(ejbRefElement);
-        
+
     }
 }

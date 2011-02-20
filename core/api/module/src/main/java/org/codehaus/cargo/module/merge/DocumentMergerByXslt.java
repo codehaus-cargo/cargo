@@ -58,7 +58,7 @@ public class DocumentMergerByXslt implements MergeProcessor
      * The lazily-compiled XSLT transformer.
      */
     private Transformer transformer;
-    
+
     /**
      * Constructor.
      * @param stream XML Stream for source XSLT
@@ -131,7 +131,7 @@ public class DocumentMergerByXslt implements MergeProcessor
                 TransformerFactory tFactory = TransformerFactory.newInstance();
                 transformer = tFactory.newTransformer(xsltSource);
             }
-            
+
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
             StreamResult xmlResult = new StreamResult(baos);
@@ -141,19 +141,19 @@ public class DocumentMergerByXslt implements MergeProcessor
             // PArse it back into a JDOM document
             SAXBuilder factory = new SAXBuilder();
             factory.setValidation(false);
-            
+
             // We don't know what the DTD of the document is, so we won't have a local
             // copy - so we don't want to fail if we can't get it!
-            
+
             factory.setEntityResolver(new EntityResolver()
             {
-                public InputSource resolveEntity(String thePublicId, 
+                public InputSource resolveEntity(String thePublicId,
                     String theSystemId) throws SAXException
                 {
                     return new InputSource(new StringReader(""));
                 }
             });
-            
+
             String xml = baos.toString();
 
             return factory.build(new ByteArrayInputStream(xml.getBytes()));

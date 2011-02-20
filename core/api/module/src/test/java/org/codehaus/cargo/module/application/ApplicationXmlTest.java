@@ -27,18 +27,16 @@ import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 
-
 /**
  * Unit tests for {@link ApplicationXml}.
- *
+ * 
  * @version $Id$
  */
 public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
 {
     /**
-     * Tests whether the construction of a ApplicationXml object with a
-     * <code>null</code> parameter for the DOM document throws a
-     * <code>NullPointerException</code>.
+     * Tests whether the construction of a ApplicationXml object with a <code>null</code> parameter
+     * for the DOM document throws a <code>NullPointerException</code>.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -53,12 +51,12 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
         {
             // expected
         }
-        
+
     }
-    
+
     /**
-     * Verifies that the method <code>getWebModuleUris()</code> returns an empty
-     * list for a descriptor with no web module definitions.
+     * Verifies that the method <code>getWebModuleUris()</code> returns an empty list for a
+     * descriptor with no web module definitions.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -70,15 +68,15 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "  </module>"
             + "</application>";
 
-        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
+            new ByteArrayInputStream(xml.getBytes()), null);
         List<String> webUris = applicationXml.getWebModuleUris();
         assertTrue("No web modules defined", webUris.isEmpty());
     }
-    
+
     /**
-     * Verifies that the method <code>getWebModuleUris()</code> returns a
-     * list with the correct web-uri for a descriptor with a single web
-     * module definition.
+     * Verifies that the method <code>getWebModuleUris()</code> returns a list with the correct
+     * web-uri for a descriptor with a single web module definition.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -92,17 +90,17 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "    </web>"
             + "  </module>"
             + "</application>";
-        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
+            new ByteArrayInputStream(xml.getBytes()), null);
 
         List<String> webUris = applicationXml.getWebModuleUris();
         assertEquals(1, webUris.size());
         assertEquals("webmodule.jar", webUris.get(0));
     }
-    
+
     /**
-     * Verifies that the method <code>getWebModuleUris()</code> returns a
-     * list with the correct web-uris for a descriptor with multiple web
-     * module definitions.
+     * Verifies that the method <code>getWebModuleUris()</code> returns a list with the correct
+     * web-uris for a descriptor with multiple web module definitions.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -128,7 +126,8 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "    </web>"
             + "  </module>"
             + "</application>";
-        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
+            new ByteArrayInputStream(xml.getBytes()), null);
 
         List<String> webUris = applicationXml.getWebModuleUris();
         assertEquals(3, webUris.size());
@@ -136,11 +135,10 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
         assertEquals("webmodule2.jar", webUris.get(1));
         assertEquals("webmodule3.jar", webUris.get(2));
     }
-    
+
     /**
      * Verifies that the method <code>getWebModuleContextRoot()</code> throws an
-     * <code>IllegalARgumentException</code> when the specified web module is
-     * not defined.
+     * <code>IllegalARgumentException</code> when the specified web module is not defined.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -151,7 +149,8 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "    <java>javaclient.jar</java>"
             + "  </module>"
             + "</application>";
-        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
+            new ByteArrayInputStream(xml.getBytes()), null);
 
         try
         {
@@ -165,8 +164,8 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Verifies that the method <code>getWebModuleContextRoot()</code> returns
-     * an the correct context root for a descriptor with a single web module.
+     * Verifies that the method <code>getWebModuleContextRoot()</code> returns an the correct
+     * context root for a descriptor with a single web module.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -180,15 +179,16 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "    </web>"
             + "  </module>"
             + "</application>";
-        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
+            new ByteArrayInputStream(xml.getBytes()), null);
 
         assertEquals("/webmodule",
             applicationXml.getWebModuleContextRoot("webmodule.jar"));
     }
 
     /**
-     * Verifies that the method <code>getWebModuleContextRoot()</code> returns
-     * an the correct context roots for a descriptor with multiple web modules.
+     * Verifies that the method <code>getWebModuleContextRoot()</code> returns an the correct
+     * context roots for a descriptor with multiple web modules.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -214,7 +214,8 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "    </web>"
             + "  </module>"
             + "</application>";
-        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
+            new ByteArrayInputStream(xml.getBytes()), null);
 
         assertEquals("/webmodule1",
             applicationXml.getWebModuleContextRoot("webmodule1.jar"));
@@ -223,21 +224,21 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
         assertEquals("/webmodule3",
             applicationXml.getWebModuleContextRoot("webmodule3.jar"));
     }
-    
+
     /**
-     * Verifies that the method <code>addEjbModule()</code> adds
-     * a correct tag.
+     * Verifies that the method <code>addEjbModule()</code> adds a correct tag.
      * 
      * @throws Exception If an unexpected error occurs
      */
     public void testAddEjbModule() throws Exception
     {
         String xml = "<application></application>";
-        
-        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
+
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
+            new ByteArrayInputStream(xml.getBytes()), null);
 
         applicationXml.addEjbModule("ejbmodule1.jar");
-        
+
         // Extract all ejbmodules, should be just one
         List<String> ejbModules = applicationXml.getEjbModules();
         assertEquals(1, ejbModules.size());
@@ -245,8 +246,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Verifies that the method <code>getEjbModules()</code> returns the
-     * correct ejb names.
+     * Verifies that the method <code>getEjbModules()</code> returns the correct ejb names.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -258,10 +258,11 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "  </module>"
             + "  <module>"
             + "    <ejb>mySecondEjb.jar</ejb>"
-            + "  </module>"            
+            + "  </module>"
             + "</application>";
-        
-        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(new ByteArrayInputStream(xml.getBytes()),null);
+
+        ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
+            new ByteArrayInputStream(xml.getBytes()), null);
 
         List<String> ejbModules = applicationXml.getEjbModules();
         assertEquals(2, ejbModules.size());

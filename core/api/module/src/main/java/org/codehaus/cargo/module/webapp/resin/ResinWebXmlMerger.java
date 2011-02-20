@@ -22,19 +22,18 @@ package org.codehaus.cargo.module.webapp.resin;
 import org.codehaus.cargo.module.XmlMerger;
 import org.codehaus.cargo.module.merge.DescriptorMergerByTag;
 
-
 /**
  * Class to manage the merging of two resin web descriptors.
  * 
  * @version $Id $
  */
 public class ResinWebXmlMerger extends XmlMerger
-{     
+{
     /**
      * The original, authorative descriptor onto which the merges are performed.
      */
-    private ResinWebXml webXml;      
-    
+    private ResinWebXml webXml;
+
     /**
      * Constructor.
      * 
@@ -47,12 +46,12 @@ public class ResinWebXmlMerger extends XmlMerger
             throw new IllegalArgumentException("Must pass a resin web xml");
         }
         this.webXml = theWebXml;
-        
+
         DescriptorMergerByTag dmt = new DescriptorMergerByTag();
 
         // Default behaviours
         dmt.setDefaultStrategyIfNoneSpecified(DescriptorMergerByTag.OVERWRITE);
-        
+
         addMerger(dmt);
     }
 
@@ -70,6 +69,5 @@ public class ResinWebXmlMerger extends XmlMerger
 
         super.merge(theMergeWebXml);
     }
-
 
 }

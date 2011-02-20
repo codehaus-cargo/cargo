@@ -19,25 +19,25 @@
  */
 package org.codehaus.cargo.module.webapp;
 
-import org.codehaus.cargo.module.JarArchive;
-import org.jdom.JDOMException;
-
 import java.io.File;
 import java.io.IOException;
 
+import org.codehaus.cargo.module.JarArchive;
+import org.jdom.JDOMException;
+
 /**
  * Encapsulates access to a WAR.
- *
+ * 
  * @version $Id$
  */
 public interface WarArchive extends JarArchive
 {
     /**
      * Returns the deployment descriptor of the web application.
-     *
+     * 
      * @return The parsed deployment descriptor
-     *
-     * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
+     * 
+     * @throws IOException If there was a problem reading the deployment descriptor in the WAR
      * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
     WebXml getWebXml() throws IOException, JDOMException;
@@ -45,10 +45,10 @@ public interface WarArchive extends JarArchive
     /**
      * Stores the war archive to file. Changes to the descriptors of the war archive will be stored
      * as well.
-     *
+     * 
      * @param warFile file to store the war in.
-     *
-     * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
+     * 
+     * @throws IOException If there was a problem reading the deployment descriptor in the WAR
      * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
     void store(File warFile) throws IOException, JDOMException;

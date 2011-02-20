@@ -25,12 +25,11 @@ import org.codehaus.cargo.module.ejb.EjbDef;
 import org.codehaus.cargo.module.ejb.VendorEjbDescriptor;
 import org.jdom.Element;
 
-
 /**
- * Encapsulates the DOM representation of a weblogic ejb deployment descriptor 
- * <code>weblogic-ejb-jar.xml</code> to provide convenience methods for easy access and 
+ * Encapsulates the DOM representation of a weblogic ejb deployment descriptor
+ * <code>weblogic-ejb-jar.xml</code> to provide convenience methods for easy access and
  * manipulation.
- *
+ * 
  * @version $Id$
  */
 public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDescriptor
@@ -45,7 +44,7 @@ public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDe
     {
         super(rootElement, type);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see VendorEjbDescriptor#getFileName()
@@ -54,7 +53,7 @@ public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDe
     {
         return "weblogic-ejb-jar.xml";
     }
-    
+
     /**
      * {@inheritDoc}
      * @see VendorEjbDescriptor#getJndiName(EjbDef)
@@ -62,25 +61,25 @@ public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDe
     public String getJndiName(EjbDef ejb)
     {
         String jndiName = null;
-        
+
         Element ejbElement = getEjb(ejb.getName());
         if (ejbElement != null)
         {
-            jndiName = getNestedText(ejbElement, 
+            jndiName = getNestedText(ejbElement,
                 getDescriptorType().getTagByName(WeblogicEjbJarXmlTag.LOCAL_JNDI_NAME));
             if (jndiName == null)
             {
-                jndiName = getNestedText(ejbElement, 
+                jndiName = getNestedText(ejbElement,
                     getDescriptorType().getTagByName(WeblogicEjbJarXmlTag.JNDI_NAME));
             }
         }
-        
+
         return jndiName;
     }
 
     /**
      * Adds a dispatch policy to a ejb definition.
-     *
+     * 
      * @param ejb The ejb to be modified
      * @param policy The policy to add
      * @throws IllegalArgumentException if the given ejb does not exist in the descriptor
@@ -101,7 +100,7 @@ public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDe
 
     /**
      * Returns the dispatch policy for a given ejb.
-     *
+     * 
      * @param ejb The ejb to get the dispatch policy for
      * @return the dispatch policy or null if no one is specified
      * @throws IllegalArgumentException if the given ejb does not exist in the descriptor
@@ -117,13 +116,13 @@ public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDe
         }
         else
         {
-            policy = getNestedText(ejbElement, 
+            policy = getNestedText(ejbElement,
                 getDescriptorType().getTagByName(WeblogicEjbJarXmlTag.DISPATCH_POLICY));
         }
 
         return policy;
     }
-    
+
     /**
      * Returns a specific ejb.
      * 
@@ -143,7 +142,7 @@ public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDe
                 break;
             }
         }
-        
+
         return ejbElement;
     }
 }

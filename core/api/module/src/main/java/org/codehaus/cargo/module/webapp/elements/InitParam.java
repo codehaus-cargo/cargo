@@ -27,7 +27,7 @@ import org.codehaus.cargo.module.webapp.WebXmlTag;
  * 
  * @version $Id$
  */
-public class InitParam extends WebXmlElement 
+public class InitParam extends WebXmlElement
 {
     /**
      * Constructor.
@@ -36,9 +36,9 @@ public class InitParam extends WebXmlElement
      */
     public InitParam(WebXmlTag tag)
     {
-      super(tag);      
-    }        
-    
+        super(tag);
+    }
+
     /**
      * Constructor.
      * 
@@ -52,7 +52,7 @@ public class InitParam extends WebXmlElement
         setParamName(name);
         setParamValue(value);
     }
-    
+
     /**
      * @return param name
      */
@@ -60,7 +60,7 @@ public class InitParam extends WebXmlElement
     {
         return getChild("param-name", getTag().getTagNamespace()).getText();
     }
-    
+
     /**
      * 
      * @return param value
@@ -69,7 +69,7 @@ public class InitParam extends WebXmlElement
     {
         return getChild("param-value", getTag().getTagNamespace()).getText();
     }
-    
+
     /**
      * 
      * @param paramName param name
@@ -77,7 +77,7 @@ public class InitParam extends WebXmlElement
     public void setParamName(String paramName)
     {
         child("param-name").setText(paramName);
-    }    
+    }
 
     /**
      * 
@@ -87,5 +87,5 @@ public class InitParam extends WebXmlElement
     {
         child("param-value").setText(paramValue);
     }
-    
+
 }

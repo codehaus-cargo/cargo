@@ -25,7 +25,7 @@ import java.io.File;
  * Marker interface for a Jar archive that can be updated in-place.
  * 
  * @version $Id$
- *
+ * 
  */
 public interface JarArchiveUpdateable extends JarArchive
 {
@@ -37,8 +37,7 @@ public interface JarArchiveUpdateable extends JarArchive
     /**
      * Recursively copy files from source into this archive.
      * 
-     * @param source
-     *            directory or file to copy into this jar.
+     * @param source directory or file to copy into this jar.
      */
     void copyAllIntoJar(File source);
 }

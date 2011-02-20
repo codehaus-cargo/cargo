@@ -21,24 +21,24 @@ package org.codehaus.cargo.module.merge;
 
 /**
  * Interface implemented by merger classes.
- *
+ * 
  * @version $Id$
  */
 public interface MergeProcessor
-{    
+{
     /**
      * Add an item to be merged.
-     *
+     * 
      * @param mergeItem in the item to merge.
      * @throws MergeException on exceptions
      */
     void addMergeItem(Object mergeItem) throws MergeException;
-    
+
     /**
      * Perform the merge.
-     *
+     * 
      * @return the merged artifact
-     * @throws MergeException if there is a problem 
+     * @throws MergeException if there is a problem
      */
-    Object performMerge() throws MergeException;    
+    Object performMerge() throws MergeException;
 }

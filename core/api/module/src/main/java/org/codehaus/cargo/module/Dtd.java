@@ -45,42 +45,43 @@ import org.xml.sax.ext.DeclHandler;
 public class Dtd implements Grammar
 {
     /**
-     * Map containing all possible tag name as keys and the tags that they can contain as a List of 
-     * {@link DescriptorTag}s. The list is ordered in the order that the tag can appear
-     * accordingly to the DTD.
+     * Map containing all possible tag name as keys and the tags that they can contain as a List of
+     * {@link DescriptorTag}s. The list is ordered in the order that the tag can appear accordingly
+     * to the DTD.
      */
     private Map<String, List<DescriptorTag>> elementOrders;
-    
+
     /**
-     * Implementation of the SAX DeclHandler interface for parsing the DTD. 
+     * Implementation of the SAX DeclHandler interface for parsing the DTD.
      */
     private static class DtdHandler implements DeclHandler
     {
         /**
-         * Map containing all possible tag name as keys and the tags that they can contain as a 
-         * List of {@link DescriptorTag}s. The list is ordered in the order that the tag
-         * can appear accordingly to the DTD.
+         * Map containing all possible tag name as keys and the tags that they can contain as a List
+         * of {@link DescriptorTag}s. The list is ordered in the order that the tag can appear
+         * accordingly to the DTD.
          */
         private Map<String, List<DescriptorTag>> elementOrders =
             new HashMap<String, List<DescriptorTag>>();
-        
+
         /**
          * {@inheritDoc}
-         * @see org.xml.sax.ext.DeclHandler#attributeDecl(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+         * @see org.xml.sax.ext.DeclHandler#attributeDecl(java.lang.String, java.lang.String,
+         * java.lang.String, java.lang.String, java.lang.String)
          */
-        public void attributeDecl(String eName, String aName, String type, String mode, 
+        public void attributeDecl(String eName, String aName, String type, String mode,
             String value)
         {
         }
-        
+
         /**
          * {@inheritDoc}
          * @see org.xml.sax.ext.DeclHandler#elementDecl(java.lang.String, java.lang.String)
          */
-        public void elementDecl(String name, String model) 
+        public void elementDecl(String name, String model)
         {
             List<DescriptorTag> elements = new ArrayList<DescriptorTag>();
-            if (!model.equals("EMPTY") 
+            if (!model.equals("EMPTY")
                 && !model.equals("(#PCDATA)"))
             {
                 StringTokenizer st = new StringTokenizer(model, ",()| ");
@@ -88,7 +89,7 @@ public class Dtd implements Grammar
                 {
                     boolean multipleAllowed = false;
                     String element = st.nextToken();
-                    if (element.endsWith("*") 
+                    if (element.endsWith("*")
                         || element.endsWith("+"))
                     {
                         element = element.substring(0, element.length() - 1);
@@ -104,12 +105,13 @@ public class Dtd implements Grammar
             }
             this.elementOrders.put(name, elements);
         }
-        
+
         /**
          * {@inheritDoc}
-         * @see org.xml.sax.ext.DeclHandler#externalEntityDecl(java.lang.String, java.lang.String, java.lang.String)
+         * @see org.xml.sax.ext.DeclHandler#externalEntityDecl(java.lang.String, java.lang.String,
+         * java.lang.String)
          */
-        public void externalEntityDecl(String name, String publicId, String systemId) 
+        public void externalEntityDecl(String name, String publicId, String systemId)
         {
         }
 
@@ -117,7 +119,7 @@ public class Dtd implements Grammar
          * {@inheritDoc}
          * @see org.xml.sax.ext.DeclHandler#internalEntityDecl(java.lang.String, java.lang.String)
          */
-        public void internalEntityDecl(String name, String value) 
+        public void internalEntityDecl(String name, String value)
         {
         }
 
@@ -129,13 +131,13 @@ public class Dtd implements Grammar
             return this.elementOrders;
         }
     }
-    
+
     /**
      * Contructor.
      * 
      * @param systemId system id of the dtd to parse
      */
-    public Dtd(String systemId) 
+    public Dtd(String systemId)
     {
         try
         {
@@ -152,7 +154,7 @@ public class Dtd implements Grammar
             {
                 throw new SAXException(e);
             }
-            
+
             String xml = "<!DOCTYPE dummy SYSTEM \"" + systemId + "\"><dummy/>";
             reader.parse(new InputSource(new ByteArrayInputStream(xml.getBytes())));
             this.elementOrders = dtdHandler.getElementOrders();

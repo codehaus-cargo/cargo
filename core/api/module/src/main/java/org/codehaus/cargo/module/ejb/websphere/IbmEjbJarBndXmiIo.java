@@ -37,14 +37,15 @@ public class IbmEjbJarBndXmiIo extends AbstractDescriptorIo
      */
     protected IbmEjbJarBndXmiIo()
     {
-        super(IbmEjbJarBndXmiType.getInstance());    
+        super(IbmEjbJarBndXmiType.getInstance());
     }
+
     /**
      * Parses a deployment descriptor provided as input stream.
      * 
      * @param input The input stream
      * @return The parsed descriptor
-     * @throws JDOMException If the input could not be parsed     
+     * @throws JDOMException If the input could not be parsed
      * @throws IOException If an I/O error occurs
      */
     public static IbmEjbJarBndXmi parseIbmEjbJarXmi(InputStream input)

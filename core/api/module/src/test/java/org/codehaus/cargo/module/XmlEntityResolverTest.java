@@ -21,8 +21,18 @@ package org.codehaus.cargo.module;
 
 import junit.framework.TestCase;
 
+/**
+ * Unit tests for {@link XmlEntityResolver}.
+ * 
+ * @version $Id$
+ */
 public class XmlEntityResolverTest extends TestCase
 {
+    /**
+     * Verifies that the method <code>getDtdFileName()</code> works with known filename.
+     * 
+     * @throws Exception If an unexpected error occurs
+     */
     public void testGetKnownFileName() throws Exception
     {
         String pId = "-//ORACLE//DTD OC4J Web Application 9.04//EN";
@@ -31,7 +41,12 @@ public class XmlEntityResolverTest extends TestCase
         String file = resolver.getDtdFileName(pId, sId);
         assertEquals(file, "orion-web-9_04.dtd");
     }
-    
+
+    /**
+     * Verifies that the method <code>getDtdFileName()</code> works with unknown filename.
+     * 
+     * @throws Exception If an unexpected error occurs
+     */
     public void testGetUnknownFileName() throws Exception
     {
         String pId = "-//BEA Systems, Inc.//DTD Web Application 6.1//EN";

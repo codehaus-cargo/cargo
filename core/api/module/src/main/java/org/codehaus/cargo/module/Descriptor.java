@@ -37,13 +37,13 @@ public interface Descriptor extends org.jdom.Parent
      * @return the file name
      */
     String getFileName();
- 
+
     /**
      * 
      * @return this descriptor as a document
      */
     Document getDocument();
-    
+
     /**
      * {@inheritDoc}
      * @see org.jdom.Parent#getRootElement
@@ -54,12 +54,12 @@ public interface Descriptor extends org.jdom.Parent
      * Add an element into the descriptor.
      * 
      * @param tag Descriptor Tag
-     * @param right Element insert before 
+     * @param right Element insert before
      * @param rootElement Parent element
      * @return The added element
      */
     Element addElement(DescriptorTag tag, Element right, Element rootElement);
-    
+
     /**
      * Get elements of a particular descriptor tag whose identifier matches the passed parameter.
      * 
@@ -68,7 +68,7 @@ public interface Descriptor extends org.jdom.Parent
      * @return the element that matches
      */
     Element getTagByIdentifier(DescriptorTag tag, String value);
-    
+
     /**
      * Get tags of a particular type.
      * 
@@ -76,11 +76,11 @@ public interface Descriptor extends org.jdom.Parent
      * @return list of tags
      */
     List<Element> getTags(DescriptorTag tag);
-    
+
     /**
      * Get the descriptor type for this descriptor.
      * @return descriptor type.
      */
     DescriptorType getDescriptorType();
-    
+
 }

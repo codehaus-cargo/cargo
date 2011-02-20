@@ -38,7 +38,7 @@ import org.jdom.Namespace;
 /**
  * Encapsulates the DOM representation of a web deployment descriptor <code>web.xml</code> to
  * provide convenience methods for easy access and manipulation.
- *
+ * 
  * @version $Id$
  */
 public class WebXml extends AbstractDescriptor implements J2eeDescriptor
@@ -55,16 +55,16 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
     {
         super(new Element("web-app"), WebXml23Type.getInstance());
     }
-    
+
     /**
      * Constructor.
-     *
+     * 
      * @param rootElement The root webxml element
      * @param type The descriptor type to use
      */
     public WebXml(Element rootElement, DescriptorType type)
     {
-        super(rootElement, type);                
+        super(rootElement, type);
     }
 
     /**
@@ -78,7 +78,7 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
 
     /**
      * Associates a vendor specific descriptor with this web.xml.
-     *
+     * 
      * @param descr the vendor specific dexcriptor to associate
      */
     public void addVendorDescriptor(VendorWebAppDescriptor descr)
@@ -107,10 +107,10 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
         }
         return this.getVersion().getNamespace();
     }
-    
+
     /**
      * Returns the servlet API version.
-     *
+     * 
      * @return The version
      */
     public final WebXmlVersion getVersion()
@@ -120,7 +120,7 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
         {
             return WebXmlVersion.valueOf(docType);
         }
-        
+
         return WebXmlVersion.valueOf(this.getRootElement());
     }
 
@@ -138,10 +138,10 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
                 throw new IllegalStateException();
             }
         }
-        
+
         addElement(element.getTag(), element, getRootElement());
     }
-   
+
     /**
      * Get a tag by name.
      * 
@@ -154,16 +154,14 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
         {
             throw new NullPointerException();
         }
-            
+
         List<Element> items = getRootElement().getChildren(tag, getTagNamespace());
         if (items.isEmpty())
         {
             return null;
         }
-        
+
         return items.get(0);
     }
 
-
 }
-

@@ -45,7 +45,7 @@ public class ChooseByNameMergeStrategy extends AbstractChoiceMergeStrategy
 
     /**
      * Constructor.
-     *
+     * 
      * @param defaultStrategy in the default strategy to use
      */
     public ChooseByNameMergeStrategy(MergeStrategy defaultStrategy)
@@ -56,7 +56,7 @@ public class ChooseByNameMergeStrategy extends AbstractChoiceMergeStrategy
 
     /**
      * If the element has this name, then use this strategy.
-     *
+     * 
      * @param name in the name
      * @param strategy in the strategy
      */
@@ -69,7 +69,7 @@ public class ChooseByNameMergeStrategy extends AbstractChoiceMergeStrategy
      * {@inheritDoc}
      * 
      * @see org.codehaus.cargo.module.merge.strategy.AbstractChoiceMergeStrategy#getApplicableStrategy(org.codehaus.cargo.module.merge.AbstractMergeSet,
-     *      org.w3c.dom.Element)
+     * org.w3c.dom.Element)
      */
     @Override
     MergeStrategy getApplicableStrategy(Descriptor set, DescriptorElement element)

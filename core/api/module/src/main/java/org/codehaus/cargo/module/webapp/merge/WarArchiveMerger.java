@@ -74,11 +74,11 @@ public class WarArchiveMerger implements MergeProcessor
         if (mergeItem instanceof WarArchive)
         {
             this.result.add((WarArchive) mergeItem);
-        } 
+        }
         else if (mergeItem instanceof File)
         {
             this.result.addJar((File) mergeItem);
-        } 
+        }
         else
         {
             throw new MergeException(
@@ -103,14 +103,14 @@ public class WarArchiveMerger implements MergeProcessor
      * 
      * @param targetFile The target file to output to.
      * @throws JDOMException If a JDOM exception occurs
-     * @throws IOException  If an IO exception occurs
+     * @throws IOException If an IO exception occurs
      */
     public void performMerge(File targetFile) throws IOException, JDOMException
     {
         WarArchive output = (WarArchive) performMerge();
-        output.store(targetFile);    
+        output.store(targetFile);
     }
-            
+
     /**
      * Control whether the merge should include JAR files.
      * 
@@ -120,7 +120,7 @@ public class WarArchiveMerger implements MergeProcessor
     {
         this.result.mergeJarFiles(doMergeJarFiles);
     }
-    
+
     /**
      * Get the class used for web xml merging.
      * 

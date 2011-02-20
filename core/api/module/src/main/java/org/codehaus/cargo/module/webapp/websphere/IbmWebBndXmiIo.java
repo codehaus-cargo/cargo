@@ -37,22 +37,22 @@ public class IbmWebBndXmiIo extends AbstractDescriptorIo
      */
     protected IbmWebBndXmiIo()
     {
-        super(IbmWebBndXmiType.getInstance());    
+        super(IbmWebBndXmiType.getInstance());
     }
-    
+
     /**
      * Parses a deployment descriptor provided as input stream.
      * 
      * @param input The input stream
      * @return The parsed descriptor
-     * @throws JDOMException If the input could not be parsed 
+     * @throws JDOMException If the input could not be parsed
      * @throws IOException If an I/O error occurs
      */
     public static IbmWebBndXmi parseIbmWebBndXmi(InputStream input)
         throws IOException, JDOMException
     {
         IbmWebBndXmiIo io = new IbmWebBndXmiIo();
-        return (IbmWebBndXmi) io.parseXml(input);              
+        return (IbmWebBndXmi) io.parseXml(input);
     }
 
 }

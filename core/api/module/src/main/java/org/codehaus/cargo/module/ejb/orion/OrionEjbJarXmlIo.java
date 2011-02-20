@@ -39,11 +39,12 @@ public class OrionEjbJarXmlIo extends AbstractDescriptorIo
     {
         super(OrionEjbJarXmlType.getInstance());
     }
+
     /**
      * Parses a deployment descriptor provided as input stream.
      * 
      * @param input The input stream
-     * @return The parsed descriptor        
+     * @return The parsed descriptor
      * @throws IOException If an I/O error occurs
      * @throws JDOMException If the input could not be parsed
      */
@@ -53,6 +54,5 @@ public class OrionEjbJarXmlIo extends AbstractDescriptorIo
         OrionEjbJarXmlIo xio = new OrionEjbJarXmlIo();
         return (OrionEjbJarXml) xio.parseXml(input);
     }
-
 
 }

@@ -25,16 +25,14 @@ import org.codehaus.cargo.module.ejb.EjbDef;
 import org.codehaus.cargo.module.ejb.VendorEjbDescriptor;
 import org.jdom.Element;
 
-
 /**
- * Encapsulates the DOM representation of a jboss ejb deployment descriptor
- * <code>jboss.xml</code> to provide convenience methods for easy access and
- * manipulation.
- *
+ * Encapsulates the DOM representation of a jboss ejb deployment descriptor <code>jboss.xml</code>
+ * to provide convenience methods for easy access and manipulation.
+ * 
  * @version $Id$
  */
 public class JBossXml extends AbstractDescriptor implements VendorEjbDescriptor
-{    
+{
     /**
      * Constructor.
      * 
@@ -68,8 +66,8 @@ public class JBossXml extends AbstractDescriptor implements VendorEjbDescriptor
         }
 
         return jndiName;
-    }    
-    
+    }
+
     /**
      * Returns the file name 'jboss.xml'.
      * @return The file name.
@@ -81,7 +79,7 @@ public class JBossXml extends AbstractDescriptor implements VendorEjbDescriptor
 
     /**
      * Returns a specific ejb.
-     *
+     * 
      * @param ejbName the name of the ejb to get
      * @return the ejb or null if no ejb with that name exists
      */

@@ -24,10 +24,8 @@ package org.codehaus.cargo.module.application;
 
 import org.jdom.DocType;
 
-
-
 /**
- * Enumerated type that represents the version of the deployment descriptor of a enterprise 
+ * Enumerated type that represents the version of the deployment descriptor of a enterprise
  * application (application.xml).
  * 
  * @version $Id$
@@ -54,7 +52,7 @@ public final class ApplicationXmlVersion implements Comparable
      * The system ID of the corresponding document type.
      */
     private String systemId;
-    
+
     /**
      * The version as string.
      */
@@ -78,7 +76,7 @@ public final class ApplicationXmlVersion implements Comparable
         this.publicId = thePublicId;
         this.systemId = theSystemId;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see java.lang.Comparable#compareTo
@@ -86,7 +84,7 @@ public final class ApplicationXmlVersion implements Comparable
     public int compareTo(Object other)
     {
         int result = 1;
-        
+
         if (other == this)
         {
             result = 0;
@@ -101,7 +99,7 @@ public final class ApplicationXmlVersion implements Comparable
         }
         return result;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see java.lang.Object#toString
@@ -111,7 +109,7 @@ public final class ApplicationXmlVersion implements Comparable
     {
         return super.equals(theOther);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see java.lang.Object#hashCode
@@ -121,7 +119,7 @@ public final class ApplicationXmlVersion implements Comparable
     {
         return super.hashCode();
     }
-    
+
     /**
      * Returns the tag name.
      * 
@@ -131,7 +129,7 @@ public final class ApplicationXmlVersion implements Comparable
     {
         return this.version;
     }
-    
+
     /**
      * Returns the public ID of the document type corresponding to the descriptor version.
      * 
@@ -166,8 +164,8 @@ public final class ApplicationXmlVersion implements Comparable
      * Returns the version corresponding to the given document type.
      * 
      * @param theDocType The document type
-     * @return The version that matches the document type, or <code>null</code> if the doctype is 
-     *         not recognized
+     * @return The version that matches the document type, or <code>null</code> if the doctype is
+     * not recognized
      * @throws NullPointerException If the document type is <code>null</code>
      */
     public static ApplicationXmlVersion valueOf(DocType theDocType) throws NullPointerException
@@ -179,13 +177,13 @@ public final class ApplicationXmlVersion implements Comparable
      * Returns the version corresponding to the given public ID.
      * 
      * @param thePublicId The public ID
-     * @return The version that matches the public ID, or <code>null</code> if the ID is not 
-     *         recognized
+     * @return The version that matches the public ID, or <code>null</code> if the ID is not
+     * recognized
      */
     public static ApplicationXmlVersion valueOf(String thePublicId)
     {
         ApplicationXmlVersion version = null;
-        
+
         if (V1_2.getPublicId().equals(thePublicId))
         {
             version = ApplicationXmlVersion.V1_2;

@@ -42,26 +42,26 @@ public class Identifier
      * Constructor.
      * 
      * @param xpath XPath to use to identify field
-     * @throws JDOMException 
+     * @throws JDOMException
      */
-    public Identifier(String xpath) 
+    public Identifier(String xpath)
     {
         try
         {
             this.xpath = XPath.newInstance(xpath);
-        } 
+        }
         catch (JDOMException ex)
         {
             throw new CargoException("Unexpected xpath error", ex);
         }
-    
+
     }
 
     /**
      * 
      * @param namespaceMap The namespaceMap
      * @param xpath The xpath
-     * @throws JDOMException 
+     * @throws JDOMException
      */
     public Identifier(Map<String, String> namespaceMap, String xpath)
     {
@@ -74,7 +74,7 @@ public class Identifier
                 String uri = namespaceEntry.getValue();
                 this.xpath.addNamespace(ns, uri);
             }
-        } 
+        }
         catch (JDOMException ex)
         {
             throw new CargoException("Unexpected xpath error", ex);
@@ -90,7 +90,7 @@ public class Identifier
     public String getIdentifier(Element element)
     {
         try
-        {                   
+        {
             return xpath.valueOf(element);
         }
         catch (Exception ex)

@@ -30,8 +30,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * Implementation of the SAX EntityResolver interface that looks up the web-app
- * DTDs from the JAR.
+ * Implementation of the SAX EntityResolver interface that looks up the web-app DTDs from the JAR.
  * 
  * @version $Id$
  */
@@ -58,17 +57,17 @@ public class XmlEntityResolver implements EntityResolver
                               "web-app_2_2.dtd");
         publicIdentifiers.put("-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN",
                               "web-app_2_3.dtd");
-        
+
         // orion
-        publicIdentifiers.put("-//ORACLE//DTD OC4J Enterprise JavaBeans runtime 9.04//EN", 
+        publicIdentifiers.put("-//ORACLE//DTD OC4J Enterprise JavaBeans runtime 9.04//EN",
                               "orion-ejb-jar-9_04.dtd");
-        publicIdentifiers.put("-//ORACLE//DTD OC4J Web Application 9.04//EN", 
+        publicIdentifiers.put("-//ORACLE//DTD OC4J Web Application 9.04//EN",
                               "orion-web-9_04.dtd");
-        
+
         // weblogic
         publicIdentifiers.put("-//BEA Systems, Inc.//DTD WebLogic 8.1.0 EJB//EN",
                               "weblogic-ejb-jar.dtd");
-        publicIdentifiers.put("-//BEA Systems, Inc.//DTD Web Application 8.1//EN", 
+        publicIdentifiers.put("-//BEA Systems, Inc.//DTD Web Application 8.1//EN",
                               "weblogic810-web-jar.dtd");
 
         // jboss
@@ -89,7 +88,7 @@ public class XmlEntityResolver implements EntityResolver
     {
         InputSource inSource = null;
         String fileName = getDtdFileName(thePublicId, theSystemId);
-        
+
         InputStream in = this.getClass().getResourceAsStream(
             "/org/codehaus/cargo/module/internal/resource/" + fileName);
 
@@ -98,7 +97,7 @@ public class XmlEntityResolver implements EntityResolver
             URL url = new URL(theSystemId);
             in = url.openStream();
         }
-        
+
         if (in != null)
         {
             inSource = new InputSource(in);
@@ -107,7 +106,7 @@ public class XmlEntityResolver implements EntityResolver
         }
         return inSource;
     }
-    
+
     /**
      * Tries to decide the file name of a DTD from the public and system id.
      * 
@@ -120,7 +119,7 @@ public class XmlEntityResolver implements EntityResolver
         String fileName = null;
         if (thePublicId != null)
         {
-            String mappedValue = (String) publicIdentifiers.get(thePublicId);
+            String mappedValue = publicIdentifiers.get(thePublicId);
             if (mappedValue != null)
             {
                 fileName = mappedValue;
@@ -131,7 +130,7 @@ public class XmlEntityResolver implements EntityResolver
         {
             fileName = theSystemId.substring(theSystemId.lastIndexOf('/') + 1);
         }
-        
+
         return fileName;
     }
 }

@@ -23,7 +23,7 @@ import org.codehaus.cargo.module.AbstractDescriptorType;
 import org.codehaus.cargo.module.Dtd;
 
 /**
- * @version $Id$ 
+ * @version $Id$
  */
 public class WeblogicXmlType extends AbstractDescriptorType
 {
@@ -31,11 +31,11 @@ public class WeblogicXmlType extends AbstractDescriptorType
      * Static instance.
      */
     private static WeblogicXmlType instance = new WeblogicXmlType();
-      
+
     /**
      * Tags for this document type.
      */
-    private WeblogicXmlTag[] tags = new WeblogicXmlTag[] {  
+    private WeblogicXmlTag[] tags = new WeblogicXmlTag[] {
         new WeblogicXmlTag(this, "description"),
         new WeblogicXmlTag(this, "weblogic-version"),
         new WeblogicXmlTag(this, "security-role-assignment"),
@@ -60,18 +60,18 @@ public class WeblogicXmlType extends AbstractDescriptorType
         new WeblogicXmlTag(this, "resource-env-description"),
         new WeblogicXmlTag(this, "ejb-reference-description"),
         new WeblogicXmlTag(this, "ejb-ref-name"),
-        new WeblogicXmlTag(this, "jndi-name")            
+        new WeblogicXmlTag(this, "jndi-name")
     };
-    
+
     /**
      * Constructor.
      */
     protected WeblogicXmlType()
     {
-      super(null, WeblogicXml.class, new Dtd(
-          "http://www.bea.com/servers/wls810/dtd/weblogic810-web-jar.dtd"));   
+        super(null, WeblogicXml.class, new Dtd(
+            "http://www.bea.com/servers/wls810/dtd/weblogic810-web-jar.dtd"));
     }
-    
+
     /**
      * Get the static instance.
      * @return The instance

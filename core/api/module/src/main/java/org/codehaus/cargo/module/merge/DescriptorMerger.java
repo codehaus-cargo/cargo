@@ -35,7 +35,7 @@ public interface DescriptorMerger
      * @param base Descriptor to use
      */
     void init(Descriptor base);
-    
+
     /**
      * Merge the descriptor with a second item.
      * @param other Descriptor to use

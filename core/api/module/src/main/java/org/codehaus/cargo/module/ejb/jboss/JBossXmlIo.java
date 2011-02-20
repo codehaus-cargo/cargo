@@ -27,22 +27,22 @@ import org.jdom.JDOMException;
 
 /**
  * Provides convenience methods for reading JBoss ejb jar deployment descriptor.
- *
+ * 
  * @version $Id$
  */
 public class JBossXmlIo extends AbstractDescriptorIo
 {
-   /**
+    /**
      * Protected Constructor.
      */
     protected JBossXmlIo()
     {
-        super(JBossXmlType.getInstance());    
+        super(JBossXmlType.getInstance());
     }
 
     /**
      * Parses a deployment descriptor provided as input stream.
-     *
+     * 
      * @param input The input stream
      * @return The parsed descriptor
      * @throws IOException If an I/O error occurs
@@ -52,6 +52,6 @@ public class JBossXmlIo extends AbstractDescriptorIo
         throws IOException, JDOMException
     {
         JBossXmlIo xio = new JBossXmlIo();
-        return (JBossXml) xio.parseXml(input);                
+        return (JBossXml) xio.parseXml(input);
     }
 }

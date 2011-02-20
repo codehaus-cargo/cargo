@@ -35,7 +35,7 @@ import org.jdom.JDOMException;
 
 /**
  * Class that encapsulates access to an EJB JAR.
- *
+ * 
  * @version $Id$
  */
 public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
@@ -56,7 +56,7 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
 
     /**
      * Constructor.
-     *
+     * 
      * @param theInputStream The input stream for the enterprise application archive
      * @throws IOException If there was a problem reading the EJB
      */
@@ -67,7 +67,7 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
 
     /**
      * {@inheritDoc}
-     * @throws JDOMException 
+     * @throws JDOMException
      * @see EjbArchive#getEjbJarXml()
      */
     public final EjbJarXml getEjbJarXml()
@@ -98,9 +98,9 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
 
     /**
      * Associates the ejb-jar.xml with a weblogic-ejb-jar.xml if one is present in the jar.
-     *
-     * @throws IOException If there was a problem reading the  deployment descriptor in the EJB jar
-     * @throws JDOMException  If the deployment descriptor of the EJB jar could not be parsed
+     * 
+     * @throws IOException If there was a problem reading the deployment descriptor in the EJB jar
+     * @throws JDOMException If the deployment descriptor of the EJB jar could not be parsed
      */
     private void addWeblogicDescriptor()
         throws IOException, JDOMException
@@ -129,9 +129,9 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
 
     /**
      * Associates the ejb-jar.xml with orion-ejb-jar.xml if one is present in the war.
-     *
-     * @throws IOException If there was a problem reading the  deployment descriptor in the JAR
-     * @throws JDOMException If the deployment descriptor of the EJB jar could not be parsed 
+     * 
+     * @throws IOException If there was a problem reading the deployment descriptor in the JAR
+     * @throws JDOMException If the deployment descriptor of the EJB jar could not be parsed
      */
     private void addOracleDescriptor()
         throws IOException, JDOMException
@@ -160,9 +160,9 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
 
     /**
      * Associates the ejb-jar.xml with ibm-ejb-jar-bnd.xmi if one is present in the jar.
-     *
+     * 
      * @throws IOException If there was a problem reading the deployment descriptor in the JAR
-     * @throws JDOMException If the deployment descriptor of the EJB jar could not be parsed    
+     * @throws JDOMException If the deployment descriptor of the EJB jar could not be parsed
      */
     private void addWebsphereDescriptor()
         throws IOException, JDOMException
@@ -191,7 +191,7 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
 
     /**
      * Associates the ejb-jar.xml with jboss.xml if one is present in the jar.
-     *
+     * 
      * @throws IOException If there was a problem reading the deployment descriptor in the JAR
      * @throws JDOMException If there is an issue with JDOM
      */

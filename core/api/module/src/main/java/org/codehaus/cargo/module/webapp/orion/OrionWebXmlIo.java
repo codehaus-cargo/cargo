@@ -50,16 +50,16 @@ public class OrionWebXmlIo extends AbstractDescriptorIo
         super(type);
     }
 
-  /**
-   * Parses a deployment descriptor provided as input stream.
-   * 
-   * @param input The input stream
-   * @return The parsed descriptor
-   * @throws JDOMException If the input could not be parsed
-   * @throws IOException If an I/O error occurs
-   */
+    /**
+     * Parses a deployment descriptor provided as input stream.
+     * 
+     * @param input The input stream
+     * @return The parsed descriptor
+     * @throws JDOMException If the input could not be parsed
+     * @throws IOException If an I/O error occurs
+     */
     public static OrionWebXml parseOrionXml(InputStream input) throws
-      IOException, JDOMException
+        IOException, JDOMException
     {
         OrionWebXmlIo io = new OrionWebXmlIo();
         return (OrionWebXml) io.parseXml(input);

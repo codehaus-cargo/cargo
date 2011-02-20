@@ -54,7 +54,7 @@ public class DtdParseException extends RuntimeException
     {
         super(message, cause);
     }
-    
+
     /**
      * Constructor.
      * 

@@ -26,11 +26,10 @@ import org.codehaus.cargo.module.webapp.EjbRef;
 import org.codehaus.cargo.module.webapp.VendorWebAppDescriptor;
 import org.jdom.Element;
 
-
 /**
  * Encapsulates the DOM representation of a oracle web deployment descriptor
  * <code>orion-web.xml</code> to provide convenience methods for easy access and manipulation.
- *
+ * 
  * @version $Id$
  */
 public class OrionWebXml extends AbstractDescriptor implements VendorWebAppDescriptor
@@ -42,7 +41,7 @@ public class OrionWebXml extends AbstractDescriptor implements VendorWebAppDescr
 
     /**
      * Constructor.
-     *
+     * 
      * @param rootElement The root document element
      * @param type The document descriptor type
      */

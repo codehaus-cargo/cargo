@@ -22,13 +22,12 @@ package org.codehaus.cargo.module.webapp.elements;
 
 import org.codehaus.cargo.module.webapp.WebXmlTag;
 
-
 /**
  * Context Parameter class for accessing context parameters in a <code>web.xml</code> file.
  * 
  * @version $Id$
  */
-public class ContextParam extends WebXmlElement 
+public class ContextParam extends WebXmlElement
 {
     /**
      * Constructor.
@@ -37,9 +36,9 @@ public class ContextParam extends WebXmlElement
      */
     public ContextParam(WebXmlTag tag)
     {
-      super(tag);      
+        super(tag);
     }
-        
+
     /**
      * Constructor.
      * 
@@ -53,7 +52,7 @@ public class ContextParam extends WebXmlElement
         setParamName(name);
         setParamValue(value);
     }
-    
+
     /**
      * @return String of the parameter name
      */
@@ -61,7 +60,7 @@ public class ContextParam extends WebXmlElement
     {
         return getChild("param-name", getTag().getTagNamespace()).getText();
     }
-    
+
     /**
      * @return String of the parameter value
      */
@@ -69,7 +68,7 @@ public class ContextParam extends WebXmlElement
     {
         return getChild("param-value", getTag().getTagNamespace()).getText();
     }
-    
+
     /**
      * Set the parameter name.
      * @param paramName Name of the parameter
@@ -77,7 +76,7 @@ public class ContextParam extends WebXmlElement
     public void setParamName(String paramName)
     {
         child("param-name").setText(paramName);
-    }    
+    }
 
     /**
      * Set the parameter value.
@@ -87,5 +86,5 @@ public class ContextParam extends WebXmlElement
     {
         child("param-value").setText(paramValue);
     }
-    
+
 }

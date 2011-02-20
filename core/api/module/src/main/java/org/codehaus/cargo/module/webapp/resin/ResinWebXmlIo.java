@@ -32,28 +32,28 @@ import org.jdom.JDOMException;
  */
 public class ResinWebXmlIo extends AbstractDescriptorIo
 {
-  
+
     /**
      * Protected constructor.
      */
     protected ResinWebXmlIo()
     {
-        super(ResinWebXmlType.getInstance());    
+        super(ResinWebXmlType.getInstance());
     }
-  
+
     /**
      * Parses a deployment descriptor provided as input stream.
      * 
      * @param input The input stream
      * @return The parsed descriptor
-     * @throws JDOMException If the input could not be parsed     
+     * @throws JDOMException If the input could not be parsed
      * @throws IOException If an I/O error occurs
      */
     public static ResinWebXml parseResinXml(InputStream input)
         throws IOException, JDOMException
     {
         ResinWebXmlIo io = new ResinWebXmlIo();
-        return (ResinWebXml) io.parseXml(input);      
+        return (ResinWebXml) io.parseXml(input);
     }
 
 }

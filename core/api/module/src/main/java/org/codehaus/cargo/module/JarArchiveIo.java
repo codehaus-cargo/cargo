@@ -25,11 +25,11 @@ import java.io.InputStream;
 
 /**
  * 
- * Utility IO class for constructing Jar Archives. Use this class in preference
- * to the concrete implementations of JarArchive.
+ * Utility IO class for constructing Jar Archives. Use this class in preference to the concrete
+ * implementations of JarArchive.
  * 
  * @version $Id$
- *
+ * 
  */
 public class JarArchiveIo
 {
@@ -40,12 +40,11 @@ public class JarArchiveIo
     {
         // do nothing, this class shouldn't have a constructor
     }
-    
-    
+
     /**
      * Open a jar archive.
      * 
-     * @param file   Input File
+     * @param file Input File
      * @return WarArchive
      * @throws IOException if an IO error occurs
      */
@@ -57,11 +56,9 @@ public class JarArchiveIo
     /**
      * Open a jar archive.
      * 
-     * @param is
-     *            Input Stream
+     * @param is Input Stream
      * @return WarArchive
-     * @throws IOException
-     *             if an IO error occurs
+     * @throws IOException if an IO error occurs
      */
     public static JarArchive open(InputStream is) throws IOException
     {
@@ -71,15 +68,13 @@ public class JarArchiveIo
     /**
      * Open a jar archive.
      * 
-     * @param f
-     *            Input File
+     * @param f Input File
      * @return WarArchive
-     * @throws IOException
-     *             if an IO error occurs
+     * @throws IOException if an IO error occurs
      */
     public static JarArchive open(File f) throws IOException
     {
         return new DefaultJarArchive(f.getAbsolutePath());
     }
-    
+
 }

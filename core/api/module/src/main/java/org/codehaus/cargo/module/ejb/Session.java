@@ -25,5 +25,5 @@ package org.codehaus.cargo.module.ejb;
  * @version $Id$
  */
 public class Session extends EjbDef
-{  
+{
 }

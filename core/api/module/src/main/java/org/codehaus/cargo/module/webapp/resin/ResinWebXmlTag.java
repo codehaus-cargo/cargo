@@ -22,10 +22,9 @@ package org.codehaus.cargo.module.webapp.resin;
 import org.codehaus.cargo.module.DescriptorTag;
 import org.codehaus.cargo.module.DescriptorType;
 
-
 /**
- * Represents the various top-level tags in a Resin context web deployment 
- * descriptor as a typesafe enumeration.
+ * Represents the various top-level tags in a Resin context web deployment descriptor as a typesafe
+ * enumeration.
  * 
  * @version $Id $
  */
@@ -35,7 +34,7 @@ public final class ResinWebXmlTag extends DescriptorTag
      * Attribute name 'path'.
      */
     public static final String SYSTEM_PROPERTY = "system-property";
-    
+
     /**
      * Elements of resource-ref.
      */
@@ -55,14 +54,13 @@ public final class ResinWebXmlTag extends DescriptorTag
      * Elements of jndi-link.
      */
     public static final String JNDI_LINK = "jndi-link";
-    
+
     /**
      * Constructor.
      * 
      * @param type Descriptor type
      * @param tagName The tag name of the element
-     * @param isMultipleAllowed Whether the element may occur multiple times in
-     *         the descriptor
+     * @param isMultipleAllowed Whether the element may occur multiple times in the descriptor
      */
     protected ResinWebXmlTag(DescriptorType type, String tagName, boolean isMultipleAllowed)
     {

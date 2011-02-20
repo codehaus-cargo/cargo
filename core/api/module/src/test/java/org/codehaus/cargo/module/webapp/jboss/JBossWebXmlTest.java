@@ -25,71 +25,71 @@ import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.EjbRef;
 import org.jdom.Element;
 
-
 /**
  * Unit tests for {@link JBossWebXm}.
- *
+ * 
  * @version $Id$
  */
 public class JBossWebXmlTest extends AbstractDocumentBuilderTest
 {
     /**
      * Tests {@link JBossWebXml.addEjbReference}.
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testAddEjbReference() throws Exception
     {
         String xml = "<jboss-web></jboss-web>";
-        
-        JBossWebXml descr = JBossWebXmlIo.parseJBossWebXml( new ByteArrayInputStream(xml.getBytes()) );
-        
+
+        JBossWebXml descr = JBossWebXmlIo
+            .parseJBossWebXml(new ByteArrayInputStream(xml.getBytes()));
+
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");
         ref.setLocal(false);
         descr.addEjbReference(ref);
 
-        Element ejbRef = (Element)descr.getRootElement().getChildren().get(0);
+        Element ejbRef = (Element) descr.getRootElement().getChildren().get(0);
         assertEquals("ejb-ref", ejbRef.getName());
-        Element ejbRefName = (Element)ejbRef.getChildren().get(0);
+        Element ejbRefName = (Element) ejbRef.getChildren().get(0);
         assertEquals("ejb-ref-name", ejbRefName.getName());
         assertEquals("foo", ejbRefName.getValue());
-        Element jndiName = (Element)ejbRef.getChildren().get(1);
+        Element jndiName = (Element) ejbRef.getChildren().get(1);
         assertEquals("jndi-name", jndiName.getName());
         assertEquals("fee", jndiName.getValue());
     }
 
     /**
      * Tests {@link JBossWebXml.addEjbReference}.
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testAddLocalEjbReference() throws Exception
     {
         String xml = "<jboss-web></jboss-web>";
-        JBossWebXml descr = JBossWebXmlIo.parseJBossWebXml( new ByteArrayInputStream(xml.getBytes()) );
-        
+        JBossWebXml descr = JBossWebXmlIo
+            .parseJBossWebXml(new ByteArrayInputStream(xml.getBytes()));
+
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");
         ref.setLocal(true);
         descr.addEjbReference(ref);
 
-        Element ejbRef = (Element)descr.getRootElement().getChildren().get(0);
+        Element ejbRef = (Element) descr.getRootElement().getChildren().get(0);
         assertEquals("ejb-local-ref", ejbRef.getName());
-        Element ejbRefName = (Element)ejbRef.getChildren().get(0);
+        Element ejbRefName = (Element) ejbRef.getChildren().get(0);
         assertEquals("ejb-ref-name", ejbRefName.getName());
         assertEquals("foo", ejbRefName.getValue());
-        Element jndiName = (Element)ejbRef.getChildren().get(1);
+        Element jndiName = (Element) ejbRef.getChildren().get(1);
         assertEquals("local-jndi-name", jndiName.getName());
         assertEquals("fee", jndiName.getValue());
     }
 
     /**
-     * Tests that {@link JBossWebXml.addEjbReference} can add ejb reference in correct
-     * order.
-     *
+     * Tests that {@link JBossWebXml.addEjbReference} can add ejb reference in correct order.
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testAddEjbReferenceInCorrectOrder() throws Exception
@@ -98,20 +98,21 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
             + "<security-domain/>"
             + "<resource-ref/>"
             + "</jboss-web>";
-        
-        JBossWebXml descr = JBossWebXmlIo.parseJBossWebXml( new ByteArrayInputStream(xml.getBytes()) );
-        
+
+        JBossWebXml descr = JBossWebXmlIo
+            .parseJBossWebXml(new ByteArrayInputStream(xml.getBytes()));
+
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");
         ref.setLocal(false);
         descr.addEjbReference(ref);
 
-        Element secDomain = (Element)descr.getRootElement().getChildren().get(0);
+        Element secDomain = (Element) descr.getRootElement().getChildren().get(0);
         assertEquals("security-domain", secDomain.getName());
-        Element resRef = (Element)descr.getRootElement().getChildren().get(1);
+        Element resRef = (Element) descr.getRootElement().getChildren().get(1);
         assertEquals("resource-ref", resRef.getName());
-        Element ejbRef = (Element)descr.getRootElement().getChildren().get(2);
+        Element ejbRef = (Element) descr.getRootElement().getChildren().get(2);
         assertEquals("ejb-ref", ejbRef.getName());
     }
 }

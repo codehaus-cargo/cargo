@@ -47,25 +47,24 @@ public class WebXml24Type extends WebXmlType
      * Single instance.
      */
     private static WebXml24Type instance = new WebXml24Type();
-    
-   /**
-    * Ensure all tags constructed.
-    */
-    private WebXmlTag[] tags;
-    
+
     /**
-     * Protected constructor.     
-     * @throws  
+     * Ensure all tags constructed.
+     */
+    private WebXmlTag[] tags;
+
+    /**
+     * Protected constructor.
+     * @throws
      */
     protected WebXml24Type()
     {
         super(null, new Dtd("http://java.sun.com/dtd/web-app_2_3.dtd"));
-        
+
         Map<String, String> namespaceMap = new HashMap<String, String>();
         namespaceMap.put("j2ee", this.getVersion().getNamespace().getURI());
-        
+
         this.tags = new WebXmlTag[] {
-      
             new WebXmlTag(this, "icon", false),
             new WebXmlTag(this, "display-name", false),
             new WebXmlTag(this, "description", false),
@@ -123,10 +122,11 @@ public class WebXml24Type extends WebXmlType
             new WebXmlTag(this, "ejb-ref-name"), new WebXmlTag(this, "ejb-ref-type"),
             new WebXmlTag(this, "local"), new WebXmlTag(this, "local-home"),
             new WebXmlTag(this, "remote"), new WebXmlTag(this, "home"),
-            new WebXmlTag(this, "ejb-link") };
+            new WebXmlTag(this, "ejb-link")};
         setDescriptorIo(new WebXmlIo(this));
-                
+
     }
+
     /**
      * Get the instance of the WEB XML Type.
      * @return WebXmlType
@@ -135,8 +135,8 @@ public class WebXml24Type extends WebXmlType
     {
         return instance;
     }
-  
-    /** 
+
+    /**
      * {@inheritDoc}
      */
     @Override

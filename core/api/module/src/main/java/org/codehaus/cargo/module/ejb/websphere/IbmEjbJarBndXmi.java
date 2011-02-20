@@ -28,11 +28,10 @@ import org.codehaus.cargo.module.ejb.EjbDef;
 import org.codehaus.cargo.module.ejb.VendorEjbDescriptor;
 import org.jdom.Element;
 
-
 /**
- * Encapsulates the DOM representation of a websphere ejb deployment descriptor 
+ * Encapsulates the DOM representation of a websphere ejb deployment descriptor
  * <code>ibm-ejb-jar-bnd.xmi</code> to provide convenience methods for easy access and manipulation.
- *
+ * 
  * @version $Id$
  */
 public class IbmEjbJarBndXmi extends AbstractDescriptor implements VendorEjbDescriptor
@@ -47,7 +46,7 @@ public class IbmEjbJarBndXmi extends AbstractDescriptor implements VendorEjbDesc
     {
         super(rootElement, type);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see VendorEjbDescriptor#getFileName()
@@ -56,7 +55,7 @@ public class IbmEjbJarBndXmi extends AbstractDescriptor implements VendorEjbDesc
     {
         return "ibm-ejb-jar-bnd.xmi";
     }
-    
+
     /**
      * {@inheritDoc}
      * @see VendorEjbDescriptor#getJndiName(EjbDef)
@@ -71,7 +70,7 @@ public class IbmEjbJarBndXmi extends AbstractDescriptor implements VendorEjbDesc
         }
         return jndiName;
     }
-    
+
     /**
      * Returns a specific ejb binding.
      * 
@@ -94,7 +93,7 @@ public class IbmEjbJarBndXmi extends AbstractDescriptor implements VendorEjbDesc
                 break;
             }
         }
-        
+
         return ejbElement;
     }
 }

@@ -23,14 +23,14 @@ import org.codehaus.cargo.module.VendorDescriptor;
 
 /**
  * Common interface for vendor specific deployment descriptors.
- *
+ * 
  * @version $Id$
  */
 public interface VendorWebAppDescriptor extends VendorDescriptor
 {
     /**
      * Adds an ejb reference to the descriptor.
-     *
+     * 
      * @param ref ejb reference to add to the descriptor
      */
     void addEjbReference(EjbRef ref);

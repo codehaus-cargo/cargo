@@ -22,10 +22,20 @@
  */
 package org.codehaus.cargo.module.webapp;
 
-import org.codehaus.cargo.module.DefaultJarArchive;
-import org.codehaus.cargo.module.JarArchive;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarInputStream;
+import java.util.jar.JarOutputStream;
+
 import org.codehaus.cargo.module.AbstractDescriptorIo;
+import org.codehaus.cargo.module.DefaultJarArchive;
 import org.codehaus.cargo.module.Descriptor;
+import org.codehaus.cargo.module.JarArchive;
 import org.codehaus.cargo.module.webapp.jboss.JBossWebXml;
 import org.codehaus.cargo.module.webapp.jboss.JBossWebXmlIo;
 import org.codehaus.cargo.module.webapp.orion.OrionWebXml;
@@ -37,23 +47,13 @@ import org.codehaus.cargo.module.webapp.weblogic.WeblogicXmlIo;
 import org.codehaus.cargo.module.webapp.websphere.IbmWebBndXmi;
 import org.codehaus.cargo.module.webapp.websphere.IbmWebBndXmiIo;
 import org.codehaus.cargo.util.CargoException;
-import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
 import org.jdom.JDOMException;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
-import java.util.jar.JarOutputStream;
 
 /**
  * Class that encapsulates access to a WAR.
- *
+ * 
  * @version $Id$
  */
 public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
@@ -68,7 +68,6 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
      */
     private String file;
 
-    
     /**
      * {@inheritDoc}
      * @see DefaultJarArchive#DefaultJarArchive(String)
@@ -81,7 +80,7 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
     /**
      * Constructor.
-     *
+     * 
      * @param inputStream The input stream for the web application archive
      * @throws java.io.IOException If there was a problem reading the WAR
      */
@@ -92,7 +91,7 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
-     * @throws JDOMException 
+     * @throws JDOMException
      * @see WarArchive#getWebXml()
      */
     public final WebXml getWebXml()
@@ -114,7 +113,7 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
                     // will fail
                     this.webXml = new WebXml();
                 }
-            } 
+            }
             catch (Exception ex)
             {
                 throw new CargoException("Error parsing the web.xml file in " + file, ex);
@@ -137,7 +136,7 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
-     * @throws JDOMException 
+     * @throws JDOMException
      * @see WarArchive#store(java.io.File)
      */
     public final void store(File warFile)
@@ -189,11 +188,11 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
     /**
      * Returns whether a class of the specified name is contained in the web-app archive, either
      * directly in WEB-INF/classes, or in one of the JARs in WEB-INF/lib.
-     *
+     * 
      * @param className The name of the class to search for
-     *
+     * 
      * @return Whether the class was found in the archive
-     *
+     * 
      * @throws java.io.IOException If an I/O error occurred reading the archive
      */
     @Override
@@ -223,8 +222,8 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
     /**
      * Associates the webXml with a weblogic.xml if one is present in the war.
-     *
-     * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
+     * 
+     * @throws IOException If there was a problem reading the deployment descriptor in the WAR
      * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
     private void addWeblogicDescriptor()
@@ -254,8 +253,8 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
     /**
      * Associates the webXml with a resin-web if one is present in the war.
-     *
-     * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
+     * 
+     * @throws IOException If there was a problem reading the deployment descriptor in the WAR
      * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
     private void addResinDescriptor()
@@ -285,9 +284,9 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
     /**
      * Associates the webXml with a orion-web.xml if one is present in the war.
-     *
-     * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
-     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed     
+     * 
+     * @throws IOException If there was a problem reading the deployment descriptor in the WAR
+     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
     private void addOracleDescriptor()
         throws IOException, JDOMException
@@ -316,8 +315,8 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
     /**
      * Associates the webXml with a ibm-web-bnd.xmi, if one is present in the war.
-     *
-     * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
+     * 
+     * @throws IOException If there was a problem reading the deployment descriptor in the WAR
      * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
     private void addWebsphereDescriptor()
@@ -347,8 +346,8 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
     /**
      * Associates the webXml with a jboss-web.xml, if one is present in the war.
-     *
-     * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
+     * 
+     * @throws IOException If there was a problem reading the deployment descriptor in the WAR
      * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
     private void addJBossDescriptor()

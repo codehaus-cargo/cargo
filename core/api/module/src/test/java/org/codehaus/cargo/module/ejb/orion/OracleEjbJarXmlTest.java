@@ -23,19 +23,17 @@ import java.io.ByteArrayInputStream;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.ejb.EjbDef;
-import org.codehaus.cargo.module.webapp.orion.OrionWebXmlIo;
-
 
 /**
  * Unit tests for {@link OrionEjbJarXml}.
- *
+ * 
  * @version $Id$
  */
 public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
 {
     /**
      * Tests the basic functionality of {@link OrionEjbJarXml.getJndiName}.
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testGetJndiName() throws Exception
@@ -47,14 +45,15 @@ public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </enterprise-beans>"
             + "</orion-ejb-jar>";
 
-        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml.getBytes()));
+        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml
+            .getBytes()));
 
         assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb")));
     }
 
     /**
      * Tests {@link OrionEjbJarXml.getJndiName}.
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testGetJndiNameWithWrongName() throws Exception
@@ -66,14 +65,15 @@ public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </enterprise-beans>"
             + "</orion-ejb-jar>";
 
-        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml.getBytes()));
+        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml
+            .getBytes()));
 
         assertNull(descr.getJndiName(new EjbDef("foo")));
     }
 
     /**
      * Tests {@link OrionEjbJarXml.getJndiName}.
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testGetJndiNameOfEntityEjb() throws Exception
@@ -84,25 +84,28 @@ public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </enterprise-beans>"
             + "</orion-ejb-jar>";
 
-        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml.getBytes()));
+        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml
+            .getBytes()));
 
         assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb")));
     }
 
     /**
      * Tests {@link OrionEjbJarXml.getJndiName}.
-     *
+     * 
      * @throws Exception If an unexpected error occurs
      */
     public void testGetJndiNameOfLocalEjb() throws Exception
     {
         String xml = "<orion-ejb-jar>"
             + "  <enterprise-beans>"
-            + "    <entity-deployment name=\"MyEjb\" location=\"mycomp/MyEjb\" local-location=\"localJndiName\"/>"
+            + "    <entity-deployment name=\"MyEjb\" location=\"mycomp/MyEjb\" "
+            + "                       local-location=\"localJndiName\"/>"
             + "  </enterprise-beans>"
             + "</orion-ejb-jar>";
 
-        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml.getBytes()));
+        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml
+            .getBytes()));
 
         EjbDef def = new EjbDef("MyEjb");
         def.setLocal("sdf");

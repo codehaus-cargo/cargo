@@ -23,9 +23,9 @@ import org.codehaus.cargo.module.DescriptorTag;
 import org.codehaus.cargo.module.DescriptorType;
 
 /**
- * Represents the various top-level tags in a JBoss web deployment descriptor
- * as a typesafe enumeration.
- *
+ * Represents the various top-level tags in a JBoss web deployment descriptor as a typesafe
+ * enumeration.
+ * 
  * @version $Id$
  */
 public final class JBossWebXmlTag extends DescriptorTag
@@ -62,11 +62,10 @@ public final class JBossWebXmlTag extends DescriptorTag
 
     /**
      * Constructor.
-     *
+     * 
      * @param type Descriptor type
      * @param tagName The tag name of the element
-     * @param isMultipleAllowed Whether the element may occur multiple times in
-     *         the descriptor
+     * @param isMultipleAllowed Whether the element may occur multiple times in the descriptor
      */
     protected JBossWebXmlTag(DescriptorType type, String tagName, boolean isMultipleAllowed)
     {
@@ -75,7 +74,7 @@ public final class JBossWebXmlTag extends DescriptorTag
 
     /**
      * Constructor.
-     *
+     * 
      * @param type Descriptor type
      * @param tagName The tag name of the element
      */

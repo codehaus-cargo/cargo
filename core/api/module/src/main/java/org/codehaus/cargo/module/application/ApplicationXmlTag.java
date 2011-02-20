@@ -25,59 +25,59 @@ package org.codehaus.cargo.module.application;
 import org.codehaus.cargo.module.DescriptorTag;
 
 /**
- * Represents the various top-level tags in a enterprise application deployment descriptor as a 
+ * Represents the various top-level tags in a enterprise application deployment descriptor as a
  * typesafe enumeration.
  * 
  * @version $Id$
  */
 public final class ApplicationXmlTag extends DescriptorTag
 {
-    
+
     /**
-     * Element name 'icon'. 
+     * Element name 'icon'.
      */
     public static final String ICON = "icon";
-    
+
     /**
      * Element name 'display-name'.
      */
     public static final String DISPLAY_NAME = "display-name";
-    
+
     /**
      * Element name 'description'.
      */
     public static final String DESCRIPTION = "description";
-    
+
     /**
      * Element name 'module'.
      */
     public static final String MODULE = "module";
-    
+
     /**
      * Element name 'ejb'.
      */
     public static final String EJB = "ejb";
-    
+
     /**
      * Element name 'web'.
      */
     public static final String WEB = "web";
-    
+
     /**
      * Element name 'web-uri'.
      */
     public static final String WEB_URI = "web-uri";
-    
+
     /**
      * Element name 'context-root'.
      */
     public static final String CONTEXT_ROOT = "context-root";
-   
+
     /**
      * Element name 'security-role'.
      */
     public static final String SECURITY_ROLE = "security-role";
-    
+
     /**
      * Constructor.
      * 
@@ -89,7 +89,7 @@ public final class ApplicationXmlTag extends DescriptorTag
     {
         super(type, tagName, isMultipleAllowed);
     }
-    
+
     /**
      * Constructor.
      * 
@@ -99,5 +99,5 @@ public final class ApplicationXmlTag extends DescriptorTag
     protected ApplicationXmlTag(ApplicationXmlType type, String tagName)
     {
         this(type, tagName, true);
-    }    
+    }
 }

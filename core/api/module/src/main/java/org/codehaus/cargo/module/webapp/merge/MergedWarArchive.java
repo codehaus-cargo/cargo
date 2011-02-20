@@ -26,11 +26,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.cargo.module.AbstractDescriptorIo;
 import org.codehaus.cargo.module.merge.MergeException;
 import org.codehaus.cargo.module.merge.MergeProcessor;
 import org.codehaus.cargo.module.webapp.WarArchive;
 import org.codehaus.cargo.module.webapp.WebXml;
-import org.codehaus.cargo.module.webapp.WebXmlIo;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.JarUtils;
@@ -41,7 +41,7 @@ import org.jdom.JDOMException;
  * @version $Id$
  */
 public class MergedWarArchive implements WarArchive
-{    
+{
     /**
      * War files making up this merged war, or type MergeWarFileDetails.
      */
@@ -51,12 +51,12 @@ public class MergedWarArchive implements WarArchive
      * Extra JAR files to appear in WEB-INF/lib.
      */
     private List<File> jarFiles;
-    
+
     /**
      * Whether the JAR files contained WEB-INF/lib should be merged.
      */
     private boolean mergeJarFiles = true;
-    
+
     /**
      * The merged web xml, once generated.
      */
@@ -114,15 +114,15 @@ public class MergedWarArchive implements WarArchive
     {
         this.jarFiles.add(jarFile);
     }
-    
+
     /**
      * Get the web XML merger.
-     *
+     * 
      * @return the WebXml merger
      * @throws IOException on an IO Exception
      * @throws JDOMException on a XML Parse Exception
      */
-    public WebXmlMerger getWebXmlMerger() throws IOException, 
+    public WebXmlMerger getWebXmlMerger() throws IOException,
         JDOMException
     {
         if (this.webXmlMerger == null)
@@ -135,10 +135,10 @@ public class MergedWarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
-     * @throws JDOMException 
+     * @throws JDOMException
      * @see org.codehaus.cargo.module.webapp.WarArchive#getWebXml()
      */
-    public WebXml getWebXml() throws IOException, 
+    public WebXml getWebXml() throws IOException,
         JDOMException
     {
         if (this.mergedWebXml == null)
@@ -177,22 +177,21 @@ public class MergedWarArchive implements WarArchive
     }
 
     /**
-     * Here we do actual merge and store resulting war file into the new location.
-     * {@inheritDoc}
+     * Here we do actual merge and store resulting war file into the new location. {@inheritDoc}
      * @see {@link #merge(String)}
      * @see org.codehaus.cargo.module.webapp.WarArchive#store(java.io.File)
      */
-    public void store(File warFile) throws MergeException, IOException, 
+    public void store(File warFile) throws MergeException, IOException,
         JDOMException
     {
         DefaultFileHandler fileHandler = new DefaultFileHandler();
-        
+
         // Create place for merge
         String assembleDir = fileHandler.createUniqueTmpDirectory();
-        
+
         // Do actual merge
         merge(assembleDir);
-        
+
         // Create a jar file
         new JarUtils().createJarFromDirectory(assembleDir, warFile);
 
@@ -203,7 +202,7 @@ public class MergedWarArchive implements WarArchive
     /**
      * Here we write combined archive file structure out into the new location.
      * @param assembleDir target directory to write to
-     * @throws IOException If there was a problem reading the  deployment descriptor in the WAR
+     * @throws IOException If there was a problem reading the deployment descriptor in the WAR
      * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      * @throws MergeException If one of merge processors fails
      */
@@ -230,11 +229,11 @@ public class MergedWarArchive implements WarArchive
                 }
             }
         }
-        
+
         copyJars(assembleDir);
-        
+
         // (over)write the web-inf configs
-        WebXmlIo.writeAll(mergedWebXml, fileHandler.append(new File(assembleDir)
+        AbstractDescriptorIo.writeAll(mergedWebXml, fileHandler.append(new File(assembleDir)
             .getAbsolutePath(), File.separator + "WEB-INF"));
 
         executeMergeProcessors(new File(assembleDir));
@@ -254,7 +253,7 @@ public class MergedWarArchive implements WarArchive
         {
             fileHandler.copyFile(sourceFile.getAbsolutePath(), new File(webInfLib, sourceFile
                     .getName()).getAbsolutePath());
-        }      
+        }
     }
 
     /**
@@ -336,7 +335,7 @@ public class MergedWarArchive implements WarArchive
         expandToPath(path, null);
     }
 
-    /** 
+    /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.module.JarArchive#expandToPath(java.lang.String, java.io.FileFilter)
      */

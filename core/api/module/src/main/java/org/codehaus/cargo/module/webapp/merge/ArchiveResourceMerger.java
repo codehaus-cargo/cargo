@@ -45,7 +45,7 @@ public class ArchiveResourceMerger
 
     /**
      * Constructor.
-     *
+     * 
      * @param resource name of the resource path
      * @param next the processor
      */
@@ -57,7 +57,7 @@ public class ArchiveResourceMerger
 
     /**
      * Add an item into the merge.
-     *
+     * 
      * @param mergeItem the item
      * @throws MergeException if a problem
      */
@@ -85,7 +85,7 @@ public class ArchiveResourceMerger
 
     /**
      * Execute the merge into the assembly directory.
-     *
+     * 
      * @param assembleDir the directory to save to
      * @throws MergeException if a problem
      */
@@ -103,10 +103,10 @@ public class ArchiveResourceMerger
 
         File outputFile = new File(assembleDir.getAbsolutePath() + File.separator
             + this.resource);
-        
+
         // Make sure the directory actually exists
         outputFile.getParentFile().mkdir();
-        
+
         FileOutputStream fos = null;
 
         try

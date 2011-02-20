@@ -31,7 +31,7 @@ import org.jdom.Attribute;
  */
 public class SystemProperty extends DescriptorElement
 {
-  
+
     /**
      * Constructor.
      * 
@@ -39,12 +39,12 @@ public class SystemProperty extends DescriptorElement
      */
     public SystemProperty(ResinWebXmlTag tag)
     {
-        super(tag);      
+        super(tag);
     }
-  
-  /**
-   * Constructor.
-   */
+
+    /**
+     * Constructor.
+     */
     public SystemProperty()
     {
         this((ResinWebXmlTag) ResinWebXmlType.getInstance().getTagByName(
@@ -78,6 +78,6 @@ public class SystemProperty extends DescriptorElement
      */
     public void setValue(String value)
     {
-        ((Attribute) getAttributes().get(0)).setValue(value);        
+        ((Attribute) getAttributes().get(0)).setValue(value);
     }
 }

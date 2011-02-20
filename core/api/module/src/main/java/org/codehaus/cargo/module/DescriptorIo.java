@@ -35,7 +35,7 @@ public interface DescriptorIo
     /**
      * Parse XML into a document.
      * 
-     * @param documentStream stream containing XML 
+     * @param documentStream stream containing XML
      * @return the document
      * @throws IOException if error reading
      * @throws JDOMException if error constructing document
@@ -49,18 +49,19 @@ public interface DescriptorIo
      * @throws IOException if error reading
      * @throws JDOMException if error constructing document
      */
-    Document parseXml(InputStream theInput, EntityResolver theEntityResolver) 
+    Document parseXml(InputStream theInput, EntityResolver theEntityResolver)
         throws JDOMException, IOException;
-    
+
     /**
-     * Create a document builder. 
+     * Create a document builder.
      * @return new document builder
      */
     SAXBuilder createDocumentBuilder();
-   
+
     /**
      * @param theEntityResolver entity resolver or null
-     * @return a new non-validating, non-namespace-aware {@link DocumentBuilder} instance
+     * @return a new non-validating, non-namespace-aware {@link javax.xml.parsers.DocumentBuilder}
+     * instance
      */
-    SAXBuilder createDocumentBuilder(EntityResolver theEntityResolver);   
+    SAXBuilder createDocumentBuilder(EntityResolver theEntityResolver);
 }

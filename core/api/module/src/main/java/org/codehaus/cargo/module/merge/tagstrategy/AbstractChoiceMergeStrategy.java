@@ -24,19 +24,20 @@ import org.codehaus.cargo.module.Descriptor;
 import org.codehaus.cargo.module.DescriptorElement;
 
 /**
- * A merging strategy that can make a decision between various differing merge strategies,
- * depending upon the state that it is passed.
+ * A merging strategy that can make a decision between various differing merge strategies, depending
+ * upon the state that it is passed.
  * 
  * Child classes implement the getApplicableStrategy based on whatever information is neccessary to
  * make that decision
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractChoiceMergeStrategy implements MergeStrategy
 {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.merge.strategy.MergeStrategy#inLeft(org.codehaus.cargo.module.merge.AbstractMergeSet, org.w3c.dom.Element)
+     * @see org.codehaus.cargo.module.merge.strategy.MergeStrategy#inLeft(org.codehaus.cargo.module.merge.AbstractMergeSet,
+     * org.w3c.dom.Element)
      */
     public int inLeft(Descriptor set, DescriptorElement element)
     {
@@ -45,7 +46,8 @@ public abstract class AbstractChoiceMergeStrategy implements MergeStrategy
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.merge.strategy.MergeStrategy#inRight(org.codehaus.cargo.module.merge.AbstractMergeSet, org.w3c.dom.Element)
+     * @see org.codehaus.cargo.module.merge.strategy.MergeStrategy#inRight(org.codehaus.cargo.module.merge.AbstractMergeSet,
+     * org.w3c.dom.Element)
      */
     public int inRight(Descriptor set, DescriptorElement element)
     {
@@ -54,7 +56,8 @@ public abstract class AbstractChoiceMergeStrategy implements MergeStrategy
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.merge.strategy.MergeStrategy#inBoth(org.codehaus.cargo.module.merge.AbstractMergeSet, org.codehaus.cargo.module.merge.MergePair)
+     * @see org.codehaus.cargo.module.merge.strategy.MergeStrategy#inBoth(org.codehaus.cargo.module.merge.AbstractMergeSet,
+     * org.codehaus.cargo.module.merge.MergePair)
      */
     public int inBoth(Descriptor set, DescriptorElement left, DescriptorElement right)
     {

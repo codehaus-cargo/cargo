@@ -32,28 +32,27 @@ import org.jdom.JDOMException;
  */
 public class TomcatContextXmlIo extends AbstractDescriptorIo
 {
-  /**
-   * Constructor.
-   */
+    /**
+     * Constructor.
+     */
     protected TomcatContextXmlIo()
     {
-        super(TomcatContextXmlType.getInstance());    
+        super(TomcatContextXmlType.getInstance());
     }
-  
-  
+
     /**
      * Parses a deployment descriptor provided as input stream.
      * 
      * @param input The input stream
      * @return The parsed descriptor
      * @throws IOException If an I/O error occurs
-     * @throws JDOMException If the input could not be parsed 
+     * @throws JDOMException If the input could not be parsed
      */
     public static TomcatContextXml parseTomcatConfigXml(InputStream input)
         throws IOException, JDOMException
     {
         TomcatContextXmlIo io = new TomcatContextXmlIo();
-        return (TomcatContextXml) io.parseXml(input);  
+        return (TomcatContextXml) io.parseXml(input);
     }
 
 }

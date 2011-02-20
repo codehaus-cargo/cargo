@@ -34,8 +34,7 @@ public class WeblogicEjbJarXmlType extends AbstractDescriptorType
      * Static instance.
      */
     private static WeblogicEjbJarXmlType instance = new WeblogicEjbJarXmlType();
-  
-    
+
     /**
      * All the tags in this type.
      */
@@ -43,9 +42,9 @@ public class WeblogicEjbJarXmlType extends AbstractDescriptorType
         new WeblogicEjbJarXmlTag(this, "ejb-name"),
         new WeblogicEjbJarXmlTag(this, "local-jndi-name"),
         new WeblogicEjbJarXmlTag(this, "jndi-name"),
-        new WeblogicEjbJarXmlTag(this, "dispatch-policy")              
+        new WeblogicEjbJarXmlTag(this, "dispatch-policy")
     };
-    
+
     /**
      * @param parent
      * @param descriptorClass
@@ -56,7 +55,7 @@ public class WeblogicEjbJarXmlType extends AbstractDescriptorType
         super(null, WeblogicEjbJarXml.class,
             new Dtd("http://www.bea.com/servers/wls810/dtd/weblogic-ejb-jar.dtd"));
     }
-    
+
     /**
      * Get the static instance.
      * @return The instance
