@@ -28,6 +28,9 @@ import junit.framework.TestCase;
  */
 public class Base64Test extends TestCase
 {
+    /**
+     * Test Base64 encoding.
+     */
     public void testEncode()
     {
         assertEquals("SGVsbG8gV29ybGQ=", Base64.encode("Hello World"));

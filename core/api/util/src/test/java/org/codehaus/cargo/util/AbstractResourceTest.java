@@ -22,11 +22,8 @@ package org.codehaus.cargo.util;
 import junit.framework.TestCase;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.MalformedURLException;
 import java.io.InputStream;
-import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -45,9 +42,9 @@ public class AbstractResourceTest extends TestCase
      * @param fileName The name of the file in the classpath. For example,
      *            "org/codehaus/cargo/module/empty.jar".
      * @return The resource as a URL
-     * @throws java.net.MalformedURLException if the resource produces an invalid URL
+     * @throws Exception If anything does wrong.
      */
-    protected URL getResource(String fileName) throws MalformedURLException
+    protected URL getResource(String fileName) throws Exception
     {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         URL resource = classLoader.getResource(fileName);
@@ -69,10 +66,9 @@ public class AbstractResourceTest extends TestCase
      * @param relativePath The relative path name in the classpath.
      *        For example, "org/codehaus/cargo/module/empty.jar".
      * @return The resource as a File object
-     * @throws java.net.MalformedURLException if the resource produces an invalid URL
-     * @throws java.net.URISyntaxException if the resource produces an invalid URI
+     * @throws Exception If anything does wrong.
      */
-    protected String getResourcePath(String relativePath) throws MalformedURLException, URISyntaxException
+    protected String getResourcePath(String relativePath) throws Exception
     {
         return new URI(getResource(relativePath).toString()).getPath();
     }
@@ -93,9 +89,13 @@ public class AbstractResourceTest extends TestCase
         {
             char c = path.charAt(i);
             if (c == ' ')
+            {
                 buffer.append("%20");
+            }
             else
+            {
                 buffer.append(c);
+            }
         }
         return buffer.toString();
     }
@@ -106,9 +106,9 @@ public class AbstractResourceTest extends TestCase
      *
      * @param theInput The input stream to check
      * @param theExpectedString The expected string
-     * @throws java.io.IOException If an I/O error occurs reading from the input stream
+     * @throws Exception If anything does wrong.
      */
-    protected void assertContains(InputStream theInput, String theExpectedString) throws IOException
+    protected void assertContains(InputStream theInput, String theExpectedString) throws Exception
     {
         try
         {

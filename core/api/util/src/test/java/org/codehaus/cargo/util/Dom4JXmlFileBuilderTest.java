@@ -19,66 +19,95 @@
  */
 package org.codehaus.cargo.util;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
 import org.custommonkey.xmlunit.NamespaceContext;
 import org.custommonkey.xmlunit.SimpleNamespaceContext;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.xml.sax.SAXException;
 
+/**
+ * Unit tests for {@link XmlFileBuilder}.
+ *
+ * @version $Id$
+ */
 public class Dom4JXmlFileBuilderTest extends TestCase
 {
+    /**
+     * Test file name.
+     */
     private static final String TEST_FILE = "ram:/path/to/file.xml";
 
+    /**
+     * XML file builder.
+     */
     private XmlFileBuilder manager;
 
-    private DefaultFileHandler fileHandler;
+    /**
+     * File handler.
+     */
+    private FileHandler fileHandler;
 
-    private StandardFileSystemManager fsManager;
+    /**
+     * File system manager.
+     */
+    private FileSystemManager fsManager;
 
+    /**
+     * Dom4j utilities.
+     */
     private Dom4JUtil util;
 
-    private Map namespaces;
+    /**
+     * XML namespaces map.
+     */
+    private Map<String, String> namespaces;
 
+    /**
+     * Creates the various XML test elements. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void setUp() throws Exception
     {
         this.fsManager = new StandardFileSystemManager();
-        this.fsManager.init();
+        ((StandardFileSystemManager) this.fsManager).init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
         util = new Dom4JUtil(fileHandler);
         manager = new Dom4JXmlFileBuilder(fileHandler);
-        namespaces = new HashMap();
+        namespaces = new HashMap<String, String>();
         namespaces.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
         NamespaceContext ctx = new SimpleNamespaceContext(namespaces);
         XMLUnit.setXpathNamespaceContext(ctx);
     }
 
     /**
-     * {@inheritDoc} This method closes the VFS File System used in the test cases.
-     * 
-     * @see junit.framework.TestCase#tearDown()
+     * Closes the file system manager created for tests. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
      */
     @Override
     protected void tearDown() throws Exception
     {
         if (fsManager != null)
-            fsManager.close();
+        {
+            ((StandardFileSystemManager) fsManager).close();
+        }
         super.tearDown();
     }
 
-    public void testManagerCanInsertAnElementIntoFile() throws XpathException, SAXException,
-        IOException
+    /**
+     * Test that the file system manager can insert an XML element into a file.
+     * @throws Exception If anything goes wrong
+     */
+    public void testManagerCanInsertAnElementIntoFile() throws Exception
     {
         Document document = DocumentHelper.createDocument();
         document.addElement("Application");
@@ -94,8 +123,12 @@ public class Dom4JXmlFileBuilderTest extends TestCase
         XMLAssert.assertXpathEvaluatesTo("hello", "//Application/subnode/@property", xml);
     }
 
-    public void testManagerCanInsertAnElementIntoFileThreeLevelsDeep() throws XpathException,
-        SAXException, IOException
+    /**
+     * Test that the file system manager can insert an XML element deep in the XML tree into a
+     * file. This also involves a lookup.
+     * @throws Exception If anything goes wrong
+     */
+    public void testManagerCanInsertAnElementIntoFileThreeLevelsDeep() throws Exception
     {
         Document document = DocumentHelper.createDocument();
         document.addElement("Application").addElement("foo").addElement("bar");
@@ -111,8 +144,11 @@ public class Dom4JXmlFileBuilderTest extends TestCase
         XMLAssert.assertXpathEvaluatesTo("hello", "//Application/foo/bar/subnode/@property", xml);
     }
 
-    public void testManagerCanInsertAnElementIntoFileWithNamespace() throws XpathException,
-        SAXException, IOException
+    /**
+     * Test that the file system manager can insert an XML element with a namespace.
+     * @throws Exception If anything goes wrong
+     */
+    public void testManagerCanInsertAnElementIntoFileWithNamespace() throws Exception
     {
         Document document = DocumentHelper.createDocument();
         Element domain = document.addElement("domain");

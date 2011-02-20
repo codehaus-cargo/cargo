@@ -37,20 +37,30 @@ import java.util.List;
  * <p>Note: This class should be moved to the main core API once if we decide to use VFS in our
  * runtime.</p>
  *
- * @TODO This class shouldn't extend DefaultFileHandler. I have cheated because I was just
+ * TODO: This class shouldn't extend DefaultFileHandler. I have cheated because I was just
  *       prototyping this. We really need to implement all methods using the VFS API.
  *
  * @version $Id$
  */
 public class VFSFileHandler extends DefaultFileHandler
 {
+    /**
+     * File system manager.
+     */
     private FileSystemManager fileSystemManager;
 
+    /**
+     * Creates a VFS file handler with a given manager.
+     * @param fsManager File system manager.
+     */
     public VFSFileHandler(FileSystemManager fsManager)
     {
         this.fileSystemManager = fsManager;
     }
 
+    /**
+     * Creates a VFS file handler with the default file system manager.
+     */
     public VFSFileHandler()
     {
         try
@@ -63,22 +73,38 @@ public class VFSFileHandler extends DefaultFileHandler
         }
     }
 
+    /**
+     * @return The file system manager.
+     */
     public FileSystemManager getFileSystemManager()
     {
         return this.fileSystemManager;
     }
 
+    /**
+     * @param fileSystemManager The file system manager to set.
+     */
     public void setFileSystemManager(FileSystemManager fileSystemManager)
     {
         this.fileSystemManager = fileSystemManager;
     }
 
+    /**
+     * Copy a file. {@inheritdoc}
+     * @param source Source file.
+     * @param target Destination file.
+     */
     @Override
     public void copyFile(String source, String target)
     {
         copyDirectory(source, target);
     }
 
+    /**
+     * Copy a directory. {@inheritdoc}
+     * @param source Source directory.
+     * @param target Destination directory.
+     */
     @Override
     public void copyDirectory(String source, String target)
     {
@@ -94,12 +120,22 @@ public class VFSFileHandler extends DefaultFileHandler
         }
     }
 
+    /**
+     * <b>WARNING</b>: Not implemented! {@inheritdoc}
+     * @param source Source directory.
+     * @param target Destination directory.
+     * @param excludes Exclusions list.
+     */
     @Override
-    public void copyDirectory(String source, String target, List excludes)
+    public void copyDirectory(String source, String target, List<String> excludes)
     {
         throw new RuntimeException("Not implemented yet");
     }
 
+    /**
+     * Create a file. {@inheritdoc}
+     * @param file File name.
+     */
     @Override
     public void createFile(String file)
     {
@@ -113,33 +149,52 @@ public class VFSFileHandler extends DefaultFileHandler
         }
     }
 
+    /**
+     * Create a directory. {@inheritdoc}
+     * @param parent Parent directory name.
+     * @param path Directory name.
+     * @return Created directory name.
+     */
     @Override
-    public String createDirectory(String parent, String file)
+    public String createDirectory(String parent, String path)
     {
-        if (file == null)
+        String directoryname;
+        if (path != null)
         {
-            file = "";
+            directoryname = path;
+        }
+        else
+        {
+            directoryname = "";
         }
 
-        if (parent!= null && !parent.endsWith("/") && 
-            !file.startsWith("/"))
+        if (parent != null)
         {
-            parent += "/";
+            if (!parent.endsWith("/") && !directoryname.startsWith("/"))
+            {
+                directoryname = "/" + directoryname;
+            }
+
+            directoryname = parent + directoryname;
         }
 
-        String filename = parent == null ? file : parent + file;
         try
         {
-            FileObject fileObject = getFileSystemManager().resolveFile(filename);
+            FileObject fileObject = getFileSystemManager().resolveFile(directoryname);
             fileObject.createFolder();
             return fileObject.toString();
         }
         catch (FileSystemException e)
         {
-            throw new CargoException("Failed to create folder [" + filename + "]", e);
+            throw new CargoException("Failed to create folder [" + directoryname + "]", e);
         }
     }
 
+    /**
+     * Checks whether a given path exists. {@inheritdoc}
+     * @param path Path to check.
+     * @return <code>true</code> if <code>path</code> exists, <code>false</code> otherwise.
+     */
     @Override
     public boolean exists(String path)
     {
@@ -155,6 +210,11 @@ public class VFSFileHandler extends DefaultFileHandler
         return result;
     }
 
+    /**
+     * Gets the parent of a given path. {@inheritdoc}
+     * @param path Path
+     * @return Parent of <code>path</code>
+     */
     @Override
     public String getParent(String path)
     {
@@ -170,6 +230,10 @@ public class VFSFileHandler extends DefaultFileHandler
         return result;
     }
 
+    /**
+     * Make all directories. {@inheritdoc}
+     * @param path Directory Path.
+     */
     @Override
     public void mkdirs(String path)
     {
@@ -183,6 +247,11 @@ public class VFSFileHandler extends DefaultFileHandler
         }
     }
 
+    /**
+     * Gets the {@link OutputStream} for a given file. {@inheritdoc}
+     * @param file File name.
+     * @return {@link OutputStream} for <code>file</code>.
+     */
     @Override
     public OutputStream getOutputStream(String file)
     {
@@ -198,6 +267,11 @@ public class VFSFileHandler extends DefaultFileHandler
         return result;
     }
 
+    /**
+     * Gets the {@link InputStream} for a given file. {@inheritdoc}
+     * @param file File name.
+     * @return {@link InputStream} for <code>file</code>.
+     */
     @Override
     public InputStream getInputStream(String file)
     {
@@ -213,6 +287,11 @@ public class VFSFileHandler extends DefaultFileHandler
         return result;
     }
 
+    /**
+     * Test if a directory is empty. {@inheritdoc}
+     * @param dir Directory to check.
+     * @return <code>true</code> if <code>dir</code> is empty, <code>false</code> otherwise.
+     */
     @Override
     public boolean isDirectoryEmpty(String dir)
     {
@@ -228,6 +307,10 @@ public class VFSFileHandler extends DefaultFileHandler
         return isEmpty;
     }
 
+    /**
+     * Delete a given path. {@inheritdoc}
+     * @param path Path to delete.
+     */
     @Override
     public void delete(String path)
     {
@@ -244,8 +327,10 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * {@inheritDoc}
+     * Test if a path is a directory. {@inheritdoc}
      * @see FileHandler#isDirectory(String)
+     * @param path Path to check.
+     * @return <code>true</code> if <code>path</code> is a directory, <code>false</code> otherwise.
      */
     @Override
     public boolean isDirectory(String path)
@@ -264,8 +349,10 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * {@inheritDoc}
+     * Get the name of a file. {@inheritdoc}
      * @see FileHandler#getName(String)
+     * @param file File to check.
+     * @return The name of <code>file</code>.
      */
     @Override
     public String getName(String file)
@@ -282,6 +369,11 @@ public class VFSFileHandler extends DefaultFileHandler
         return name;
     }
 
+    /**
+     * Get the children of a directory. {@inheritdoc}
+     * @param directory Directory to which to get the children.
+     * @return Children of <code>directory</code>.
+     */
     @Override
     public String[] getChildren(String directory)
     {

@@ -29,8 +29,15 @@ import junit.framework.TestCase;
 public class DefaultFileHandlerTest extends TestCase
 {
 
+    /**
+     * File handler.
+     */
     private FileHandler fileHandler;
 
+    /**
+     * Creates the file handler. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -38,6 +45,9 @@ public class DefaultFileHandlerTest extends TestCase
         this.fileHandler = new DefaultFileHandler();
     }
 
+    /**
+     * Test relative to absolute path.
+     */
     public void testGetAbsolutePathFromRelative()
     {
         String path = this.fileHandler.getAbsolutePath("path");
@@ -45,6 +55,9 @@ public class DefaultFileHandlerTest extends TestCase
             + "path");
     }
 
+    /**
+     * Test explicit to absolute path.
+     */
     public void testGetAbsolutePathFromExplicit()
     {
         String path = this.fileHandler.getAbsolutePath(System.getProperty("user.home"));

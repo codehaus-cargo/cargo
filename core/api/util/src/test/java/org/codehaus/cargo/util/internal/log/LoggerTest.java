@@ -29,16 +29,31 @@ import org.codehaus.cargo.util.log.LogLevel;
  */
 public class LoggerTest extends TestCase
 {
+    /**
+     * Testable implementation for {@link AbstractLogger}.
+     */
     public class TestableAbstractLogger extends AbstractLogger
     {
+        /**
+         * Last logged message.
+         */
         private String message;
 
+        /**
+         * Save the log message. {@inheritdoc}
+         * @param level Level.
+         * @param message Message.
+         * @param category Category.
+         */
         @Override
         protected void doLog(LogLevel level, String message, String category)
         {
             this.message = "[" + level.getLevel() + "][" + category + "][" + message + "]";
         }
 
+        /**
+         * @return The last logged message.
+         */
         public String popMessage()
         {
             String result = this.message;
@@ -47,12 +62,18 @@ public class LoggerTest extends TestCase
         }
     }
 
+    /**
+     * Test that the default level is {@link LogLevel.INFO}.
+     */
     public void testDefaultLevelIsInfo()
     {
         TestableAbstractLogger logger = new TestableAbstractLogger();
         assertEquals(LogLevel.INFO, logger.getLevel());
     }
 
+    /**
+     * Test the matching between logging levels.
+     */
     public void testLoggingAccordingToLogLevels()
     {
         TestableAbstractLogger logger = new TestableAbstractLogger();

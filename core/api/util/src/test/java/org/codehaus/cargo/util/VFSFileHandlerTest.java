@@ -31,9 +31,20 @@ import org.apache.commons.vfs.impl.StandardFileSystemManager;
  */
 public class VFSFileHandlerTest extends TestCase
 {
+    /**
+     * File system handler.
+     */
     private StandardFileSystemManager fsManager;
+
+    /**
+     * File handler.
+     */
     private FileHandler fileHandler;
 
+    /**
+     * Creates the various file system and handler attributes. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -44,12 +55,10 @@ public class VFSFileHandlerTest extends TestCase
         this.fileHandler = new VFSFileHandler(this.fsManager);
     }
 
-    @Override
-    protected void tearDown() throws Exception
-    {
-        super.tearDown();
-    }
-
+    /**
+     * Test the {@link FileHandler#isDirectory(java.lang.String)} method.
+     * @throws Exception If anything goes wrong.
+     */
     public void testIsDirectory() throws Exception
     {
         this.fsManager.resolveFile("ram:///some/file").createFile();
@@ -59,6 +68,10 @@ public class VFSFileHandlerTest extends TestCase
         assertTrue(this.fileHandler.isDirectory("ram:///some/path"));        
     }
 
+    /**
+     * Test the {@link FileHandler#copyDirectory(java.lang.String, java.lang.String)} method.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCopyDirectory() throws Exception
     {
         String source = "ram:///some/path1";
@@ -76,6 +89,10 @@ public class VFSFileHandlerTest extends TestCase
         assertTrue(this.fsManager.resolveFile("ram:///other/path2/file1").exists());
     }
 
+    /**
+     * Test the {@link FileHandler#copyFile(java.lang.String, java.lang.String)} method.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCopyFile() throws Exception
     {
         String source = "ram:///some/path/file.war";
@@ -93,11 +110,19 @@ public class VFSFileHandlerTest extends TestCase
         assertTrue(targetObject.exists());
     }
 
+    /**
+     * Test the {@link FileHandler#getName(java.lang.String)} method.
+     * @throws Exception If anything goes wrong.
+     */
     public void testGetName() throws Exception
     {
         assertEquals("file.txt", this.fileHandler.getName("ram:///some/file.txt"));
     }
 
+    /**
+     * Test the {@link FileHandler#getChildren(java.lang.String)} method.
+     * @throws Exception If anything goes wrong.
+     */
     public void testGetChildren() throws Exception
     {
         this.fsManager.resolveFile("ram:///some/directory/file.txt").createFile();
@@ -108,6 +133,9 @@ public class VFSFileHandlerTest extends TestCase
         assertEquals("ram:///some/directory/file.txt", children[0]);
     }
 
+    /**
+     * Test the {@link FileHandler#createDirectory(java.lang.String, java.lang.String)} method.
+     */
     public void testCreateDirectory()
     {
         this.fileHandler.createDirectory("ram://test", "test");

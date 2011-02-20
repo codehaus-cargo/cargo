@@ -20,18 +20,32 @@
 package org.codehaus.cargo.util;
 
 import org.dom4j.Document;
-import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 import junit.framework.TestCase;
 
+/**
+ * Unit tests for {@link Dom4JUtil}.
+ *
+ * @version $Id$
+ */
 public class Dom4JUtilTest extends TestCase
 {
+    /**
+     * Dom4j utilities.
+     */
     private Dom4JUtil util;
 
+    /**
+     * XML test element.
+     */
     private Element testElement;
 
+    /**
+     * Creates the various XML test elements. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -42,12 +56,16 @@ public class Dom4JUtilTest extends TestCase
         document.setRootElement(testElement);
     }
 
+    /**
+     * Test that random content doesn't parse.
+     */
     public void testUnparsableElementThrowsException()
     {
         String string = "asdasd";
         try
         {
             util.parseIntoElement(string);
+            fail("should have thrown an exception");
         }
         catch (CargoException e)
         {
@@ -55,25 +73,29 @@ public class Dom4JUtilTest extends TestCase
         }
     }
 
-    public void testParsableElement() throws DocumentException
+    /**
+     * Test simple element parse.
+     * @throws Exception If anything does wrong.
+     */
+    public void testParsableElement() throws Exception
     {
         String string = "<element>dog</element>";
         assertEquals(string, util.parseIntoElement(string).asXML());
     }
 
+    /**
+     * Test that search for a non-existing element throws an exception.
+     */
     public void testNoElementThrowsException()
     {
         try
         {
             util.selectElementMatchingXPath("weblogic:app-deployment", testElement);
-
-            fail("should have returned an exception");
+            fail("should have thrown an exception");
         }
         catch (ElementNotFoundException e)
         {
-            // this exception is good!
             assertEquals(testElement, e.getSearched());
-            return;
         }
     }
 
