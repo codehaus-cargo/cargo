@@ -19,22 +19,23 @@
  */
 package org.codehaus.cargo.documentation;
 
-import org.apache.maven.model.Model;
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
-import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.apache.maven.project.MavenProject;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+
 /**
  * Generate project structure documentation using Confluence markup language. The generated text is
- * meant to be copied on the Cargo Confluence web site.
- * Warning: Uses a relative path to determine the base cargo directory and the sandbox is hard-coded.
- *
- * @version $Id$
+ * meant to be copied on the Cargo Confluence web site. Warning: Uses a relative path to determine
+ * the base cargo directory and the sandbox is hard-coded.
+ * 
+ * @version $Id: ConfluenceProjectStructureDocumentationGenerator.java 2407 2010-08-06 14:11:02Z
+ * alitokmen $
  */
 public class ConfluenceProjectStructureDocumentationGenerator
 {
@@ -47,7 +48,6 @@ public class ConfluenceProjectStructureDocumentationGenerator
     /** Constant for known POM file name. */
     private static final String POM = "/pom.xml";
 
-
     /** Constant holding the value of the line.separator system property. */
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
@@ -59,8 +59,6 @@ public class ConfluenceProjectStructureDocumentationGenerator
 
     /** Constant for the "*" character. */
     private static final String ASTERISK = "*";
-
-
 
     /**
      * Generates the project structure documentation.
@@ -89,7 +87,6 @@ public class ConfluenceProjectStructureDocumentationGenerator
         return markup.toString();
     }
 
-
     /**
      * Creates the markup for the page header which includes the intro text and legend.
      * @return the markup for the page header which includes the intro text and legend.
@@ -104,14 +101,14 @@ public class ConfluenceProjectStructureDocumentationGenerator
         markup.append(LINE_SEPARATOR);
         markup.append("* *directory/* : represents a directory");
         markup.append(LINE_SEPARATOR);
-        markup.append("* {color:red}{*}directory/*{color} : represents a directory containing a Maven project");
+        markup
+            .append("* {color:red}{*}directory/*{color} : represents a directory containing a Maven project");
         markup.append(LINE_SEPARATOR);
         markup.append("{info}");
         markup.append(LINE_SEPARATOR);
 
         return markup.toString();
     }
-
 
     /**
      * Writes the current MavenProject information.
@@ -130,7 +127,8 @@ public class ConfluenceProjectStructureDocumentationGenerator
         markup.append("/");
         markup.append(END_COLOR);
 
-        String description = (aProject.getDescription() != null) ? aProject.getDescription() : aProject.getName();
+        String description = aProject.getDescription() != null ? aProject.getDescription()
+            : aProject.getName();
         markup.append(": ");
         markup.append(description);
         markup.append(LINE_SEPARATOR);
@@ -139,7 +137,6 @@ public class ConfluenceProjectStructureDocumentationGenerator
 
         return markup.toString();
     }
-
 
     /**
      * Creates the wiki markup for any Modules found for the given MavenProject instance.
@@ -151,10 +148,11 @@ public class ConfluenceProjectStructureDocumentationGenerator
     {
         StringBuilder markup = new StringBuilder();
         List modules = aProject.getModules();
-        int newTreeIndex = (modules.size() > 0) ? (treeIndex + 1) : treeIndex;
+        int newTreeIndex = modules.size() > 0 ? treeIndex + 1 : treeIndex;
         for (Object moduleArtifactId : modules)
         {
-            File moduleDirectory = new File(aProject.getFile().getParent(), (String) moduleArtifactId);
+            File moduleDirectory = new File(aProject.getFile().getParent(),
+                (String) moduleArtifactId);
             MavenProject moduleProject = createProjectFromPom(new File(moduleDirectory, POM));
             for (int i = 0; i < treeIndex; i++)
             {
@@ -164,7 +162,6 @@ public class ConfluenceProjectStructureDocumentationGenerator
         }
         return markup.toString();
     }
-
 
     /**
      * Creates a MavenProject from a given POM.XML file.
@@ -192,6 +189,5 @@ public class ConfluenceProjectStructureDocumentationGenerator
 
         return project;
     }
-
 
 }

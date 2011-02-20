@@ -23,7 +23,7 @@ import java.io.PrintStream;
 
 /**
  * Cargo uberjar's main class. Shows information about Cargo.
- *
+ * 
  * @version $Id$
  */
 public class Uberjar
@@ -39,7 +39,7 @@ public class Uberjar
 
     /**
      * Print out some basic documentation.
-     *
+     * 
      * @param args the command line arguments
      */
     public static void main(String[] args)

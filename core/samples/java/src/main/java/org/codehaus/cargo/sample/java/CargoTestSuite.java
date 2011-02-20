@@ -19,21 +19,21 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.StringTokenizer;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
-import java.lang.reflect.Method;
-import java.lang.reflect.Constructor;
+import java.util.StringTokenizer;
 
-import org.codehaus.cargo.sample.java.validator.Validator;
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
-
-import junit.framework.TestSuite;
-import junit.framework.Test;
+import org.codehaus.cargo.sample.java.validator.Validator;
 
 public class CargoTestSuite extends TestSuite
 {
@@ -83,7 +83,7 @@ public class CargoTestSuite extends TestSuite
 
             // Skip container ids that are excluded by the user, as some containers don't support
             // everything. for example, OSGi containers cannot support shared class loaders.
-            if ((excludedContainerIds != null) && excludedContainerIds.contains(containerId))
+            if (excludedContainerIds != null && excludedContainerIds.contains(containerId))
             {
                 continue;
             }
@@ -158,8 +158,8 @@ public class CargoTestSuite extends TestSuite
         EnvironmentTestData testData = new EnvironmentTestData(containerId, type, targetDir);
 
         Constructor constructor = testClass.getConstructor(
-            new Class[] { String.class, EnvironmentTestData.class });
-        Test test = (Test) constructor.newInstance(new Object[] { testName, testData });
+            new Class[] {String.class, EnvironmentTestData.class});
+        Test test = (Test) constructor.newInstance(new Object[] {testName, testData});
         addTest(test);
     }
 }

@@ -19,19 +19,21 @@
  */
 package org.codehaus.cargo.documentation;
 
-import junit.framework.TestCase;
-import org.codehaus.cargo.generic.DefaultContainerFactory;
-import org.codehaus.cargo.generic.ContainerFactory;
-
 import java.io.FileWriter;
 import java.io.Writer;
 import java.util.Iterator;
 import java.util.Map;
 
+import junit.framework.TestCase;
+
+import org.codehaus.cargo.generic.ContainerFactory;
+import org.codehaus.cargo.generic.DefaultContainerFactory;
+
 /**
  * Unit tests for {@link ConfluenceContainerDocumentationGenerator}
- *
- * @version $Id$
+ * 
+ * @version $Id: ConfluenceContainerDocumentationGeneratorTest.java 2335 2010-07-01 23:35:19Z
+ * alitokmen $
  */
 public class ConfluenceContainerDocumentationGeneratorTest extends TestCase
 {

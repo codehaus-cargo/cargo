@@ -28,11 +28,11 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
+import org.codehaus.cargo.sample.java.validator.HasDataSourceSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasDataSourceSupportValidator;
+import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
+import org.codehaus.cargo.sample.java.validator.Validator;
 
 public class DataSourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
@@ -53,7 +53,8 @@ public class DataSourceOnStandaloneConfigurationTest extends
     public static Test suite() throws Exception
     {
         CargoTestSuite suite =
-            new CargoTestSuite("Tests that run on local containers supporting DataSource and WAR deployments");
+            new CargoTestSuite(
+                "Tests that run on local containers supporting DataSource and WAR deployments");
 
         suite.addTestSuite(DataSourceOnStandaloneConfigurationTest.class, new Validator[] {
             new IsInstalledLocalContainerValidator(),

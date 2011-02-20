@@ -19,23 +19,23 @@
  */
 package org.codehaus.cargo.documentation;
 
-import junit.framework.TestCase;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
 
+import junit.framework.TestCase;
+
 /**
  * Generates project structure documentation using ConfluenceProjectStructureDocumentationGenerator.
- *
- * @version $Id$
+ * 
+ * @version $Id: ConfluenceProjectStructureDocumentationGeneratorTest.java 2335 2010-07-01 23:35:19Z
+ * alitokmen $
  */
 public class ConfluenceProjectStructureDocumentationGeneratorTest extends TestCase
 {
 
-    /** The doc generator under test.*/
+    /** The doc generator under test. */
     private ConfluenceProjectStructureDocumentationGenerator generator;
-
 
     @Override
     protected void setUp()
@@ -43,21 +43,19 @@ public class ConfluenceProjectStructureDocumentationGeneratorTest extends TestCa
         this.generator = new ConfluenceProjectStructureDocumentationGenerator();
     }
 
-
     /**
      * Tests for the creation of the project structure markup.
      * @throws Exception if something goes wrong with the markup generation.
      */
     public void testDocGeneration() throws Exception
     {
-        File projectStructureMarkup = new File(System.getProperty("basedir") + "/target/project-structure.log");
+        File projectStructureMarkup = new File(System.getProperty("basedir")
+            + "/target/project-structure.log");
         Writer writer = new FileWriter(projectStructureMarkup);
         writer.write(this.generator.generateDocumentation());
         writer.close();
 
         assertTrue(projectStructureMarkup.exists());
     }
-
-
 
 }

@@ -25,41 +25,42 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.cargo.generic.ContainerFactory;
-import org.codehaus.cargo.generic.DefaultContainerFactory;
-import org.codehaus.cargo.generic.DefaultContainerCapabilityFactory;
-import org.codehaus.cargo.generic.ContainerCapabilityFactory;
-import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
-import org.codehaus.cargo.generic.deployer.DeployerFactory;
-import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
-import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
-import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
-import org.codehaus.cargo.generic.configuration.DefaultConfigurationCapabilityFactory;
 import org.codehaus.cargo.container.ContainerType;
+import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.geronimo.GeronimoPropertySet;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
-import org.codehaus.cargo.container.jrun.JRun4xPropertySet;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
-import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
-import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
+import org.codehaus.cargo.container.jrun.JRun4xPropertySet;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.deployer.DeployerType;
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
+import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
+import org.codehaus.cargo.generic.ContainerCapabilityFactory;
+import org.codehaus.cargo.generic.ContainerFactory;
+import org.codehaus.cargo.generic.DefaultContainerCapabilityFactory;
+import org.codehaus.cargo.generic.DefaultContainerFactory;
+import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
+import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
+import org.codehaus.cargo.generic.configuration.DefaultConfigurationCapabilityFactory;
+import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
+import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
+import org.codehaus.cargo.generic.deployer.DeployerFactory;
 
 /**
- * Generate container documentation using Confluence markup language. The generated text is
- * meant to be copied on the Cargo Confluence web site.
- *
- * @version $Id$
+ * Generate container documentation using Confluence markup language. The generated text is meant to
+ * be copied on the Cargo Confluence web site.
+ * 
+ * @version $Id: ConfluenceContainerDocumentationGenerator.java 2615 2011-01-16 16:44:06Z alitokmen
+ * $
  */
 public class ConfluenceContainerDocumentationGenerator
 {
@@ -123,7 +124,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        else if(containerId.equals("tomcat4x"))
+        else if (containerId.equals("tomcat4x"))
         {
             output.append("{note}");
             output.append(LINE_SEPARATOR);
@@ -176,22 +177,25 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             if (containerId.startsWith("geronimo"))
             {
-                output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | (x) "
-                    + "| Changing the the container classpath is not supported on Apache Geronimo |");
+                output
+                    .append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | (x) "
+                        + "| Changing the the container classpath is not supported on Apache Geronimo |");
             }
-            else if(containerId.equals("glassfish2x"))
+            else if (containerId.equals("glassfish2x"))
             {
                 output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | (x) "
                     + "| Changing the the container classpath is not supported on GlassFish 2.x |");
             }
-            else if(containerId.equals("glassfish3x") || containerId.equals("jonas5x"))
+            else if (containerId.equals("glassfish3x") || containerId.equals("jonas5x"))
             {
-                output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | (x) "
-                    + "| OSGi application servers do not support changing the container classpath |");
+                output
+                    .append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | (x) "
+                        + "| OSGi application servers do not support changing the container classpath |");
             }
             else
             {
-                output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (x) | (/) | |");
+                output
+                    .append("| &nbsp; [Container Classpath]            | (/) | (/) | (x) | (/) | |");
             }
             output.append(LINE_SEPARATOR);
             output.append("| &nbsp; [Container Start]                | (/) | (/) | (/) | (/) | |");
@@ -370,7 +374,7 @@ public class ConfluenceContainerDocumentationGenerator
             {
                 output.append(
                     "| [Static deployment of expanded WAR]     | (x) | (x) | (x) | (x) | "
-                    + "The Apache Geronimo container does not support expanded WARs |");
+                        + "The Apache Geronimo container does not support expanded WARs |");
             }
             else
             {
@@ -577,16 +581,18 @@ public class ConfluenceContainerDocumentationGenerator
             if (this.configurationFactory.isConfigurationRegistered(containerId,
                 ContainerType.INSTALLED, ConfigurationType.EXISTING))
             {
-            output.append(generateConfigurationPropertiesForConfigurationTypeForContainerType(
-                "Existing Local", ConfigurationType.EXISTING, containerId, ContainerType.INSTALLED));
-            output.append(LINE_SEPARATOR);
+                output.append(generateConfigurationPropertiesForConfigurationTypeForContainerType(
+                    "Existing Local", ConfigurationType.EXISTING, containerId,
+                    ContainerType.INSTALLED));
+                output.append(LINE_SEPARATOR);
             }
             if (this.configurationFactory.isConfigurationRegistered(containerId,
                 ContainerType.EMBEDDED, ConfigurationType.EXISTING))
             {
-            output.append(generateConfigurationPropertiesForConfigurationTypeForContainerType(
-                "Existing Local", ConfigurationType.EXISTING, containerId, ContainerType.EMBEDDED));
-            output.append(LINE_SEPARATOR);
+                output.append(generateConfigurationPropertiesForConfigurationTypeForContainerType(
+                    "Existing Local", ConfigurationType.EXISTING, containerId,
+                    ContainerType.EMBEDDED));
+                output.append(LINE_SEPARATOR);
             }
         }
 
@@ -641,7 +647,7 @@ public class ConfluenceContainerDocumentationGenerator
         if (type != ConfigurationType.RUNTIME)
         {
             slc = (LocalConfiguration) configurationClass.getConstructor(
-                new Class[]{String.class}).newInstance(new Object[]{"whatever"});
+                new Class[] {String.class}).newInstance(new Object[] {"whatever"});
         }
         else
         {
@@ -666,7 +672,7 @@ public class ConfluenceContainerDocumentationGenerator
                 {
                     javaVersion = "1.4";
                 }
-                else if(JAVA5_CONTAINERS.contains(containerId))
+                else if (JAVA5_CONTAINERS.contains(containerId))
                 {
                     javaVersion = "1.5";
                 }

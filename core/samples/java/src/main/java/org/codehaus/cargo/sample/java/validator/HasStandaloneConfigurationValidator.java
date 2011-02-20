@@ -26,7 +26,7 @@ import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 
 /**
  * Validate that a container has a standalone configuration.
- *
+ * 
  * @version $Id$
  */
 public class HasStandaloneConfigurationValidator implements Validator
@@ -34,8 +34,8 @@ public class HasStandaloneConfigurationValidator implements Validator
     private ConfigurationFactory factory = new DefaultConfigurationFactory();
 
     /**
-     * @return true if the container has a standalone configuration implementation available,
-     *         false otherwise
+     * @return true if the container has a standalone configuration implementation available, false
+     * otherwise
      */
     public boolean validate(String containerId, ContainerType type)
     {

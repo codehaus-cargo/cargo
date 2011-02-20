@@ -72,7 +72,8 @@ public class PingUtils extends Assert
         {
             String content = result.responseBody;
             assertNotNull("result.responseBody is null", content);
-            assertTrue(content + " does not contain " + expectedContent, content.contains(expectedContent));
+            assertTrue(content + " does not contain " + expectedContent,
+                content.contains(expectedContent));
         }
     }
 

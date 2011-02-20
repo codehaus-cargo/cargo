@@ -23,17 +23,17 @@ import org.codehaus.cargo.container.ContainerType;
 
 /**
  * Validate that a container is an installed local container.
- *
+ * 
  * @version $Id$
  */
 public class IsInstalledLocalContainerValidator implements Validator
 {
     /**
      * @return true if the container has an installed local container implementation available,
-     *         false otherwise
+     * false otherwise
      */
     public boolean validate(String containerId, ContainerType type)
     {
-        return (type == ContainerType.INSTALLED);
+        return type == ContainerType.INSTALLED;
     }
 }

@@ -19,24 +19,24 @@
  */
 package org.codehaus.cargo.sample.java;
 
-import org.codehaus.cargo.util.CargoException;
-import org.codehaus.cargo.container.internal.util.JdkUtils;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
-import java.net.URLClassLoader;
-import java.net.URL;
 import java.net.MalformedURLException;
-import java.util.List;
-import java.util.Iterator;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.codehaus.cargo.container.internal.util.JdkUtils;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Create a classloader to load container classes.
- *
+ * 
  * @version $Id$
  */
 public class EmbeddedContainerClasspathResolver
@@ -120,7 +120,8 @@ public class EmbeddedContainerClasspathResolver
             while (it.hasNext())
             {
                 String dependencyRelativePath = (String) it.next();
-                if (dependencyRelativePath.endsWith("*.jar")) {
+                if (dependencyRelativePath.endsWith("*.jar"))
+                {
                     // jar folder. add all jars in this directory
                     File folder = new File(containerHome, dependencyRelativePath).getParentFile();
                     File[] jars = folder.listFiles(new FilenameFilter()
@@ -132,7 +133,8 @@ public class EmbeddedContainerClasspathResolver
                         });
                     if (jars == null)
                     {
-                        throw new FileNotFoundException("No files matched: "+folder.toString()+"/*.jar");
+                        throw new FileNotFoundException("No files matched: " + folder.toString()
+                            + "/*.jar");
                     }
                     for (File jar : jars)
                     {
@@ -159,38 +161,34 @@ public class EmbeddedContainerClasspathResolver
             if (containerId.equals("tomcat5x"))
             {
                 /*
-                    Here is the problem this code is trying to solve.
-
-                    When this is run inside forked JUnit, the system classloader
-                    contains a bunch of classes, and that includes servlet API.
-                    These classes are made available by the <junit> ant task
-                    (which is what Maven used behind the scene), and we can't
-                    do anything about it.
-
-                    Now, the web application classloader that Tomcat uses has
-                    a non-standard delegation order; it tries to load classes
-                    from war before it delegates to ancestors. To avoid loading
-                    JavaSE classes from war (the servlet spec describes some of those),
-                    this classloader checks the system classloader.
-
-                    So when we load Tomcat 5.x classes (URLClassLoader below), this
-                    classloader nees to delegate to the system class loader, so that
-                    both tomcat implementation and web application loads the servlet API
-                    from the same place. Otherwise you get ClassCastException.
-                    So that's why we set "getClass().getClassLoader()" as the parent.
-
-                    However, that causes another problem in a separate place. Now, with
-                    this change, Tomcat will load Ant from the system classloader
-                    (because that's another jar that <junit> puts into the classpath),
-                    but the system classloader doesn't have tools.jar. So <javac> fails,
-                    and this breaks jasper, which compiles JSP files through <javac>
-                    Ant task.
-
-                    To avoid this problem, we want to load Ant from the classloader
-                    we create below, which will also contain tools.jar. To do this,
-                    we insert another classloader and cut the delegation chain for
-                    org.apache.tools.ant.
-                */
+                 * Here is the problem this code is trying to solve.
+                 * 
+                 * When this is run inside forked JUnit, the system classloader contains a bunch of
+                 * classes, and that includes servlet API. These classes are made available by the
+                 * <junit> ant task (which is what Maven used behind the scene), and we can't do
+                 * anything about it.
+                 * 
+                 * Now, the web application classloader that Tomcat uses has a non-standard
+                 * delegation order; it tries to load classes from war before it delegates to
+                 * ancestors. To avoid loading JavaSE classes from war (the servlet spec describes
+                 * some of those), this classloader checks the system classloader.
+                 * 
+                 * So when we load Tomcat 5.x classes (URLClassLoader below), this classloader nees
+                 * to delegate to the system class loader, so that both tomcat implementation and
+                 * web application loads the servlet API from the same place. Otherwise you get
+                 * ClassCastException. So that's why we set "getClass().getClassLoader()" as the
+                 * parent.
+                 * 
+                 * However, that causes another problem in a separate place. Now, with this change,
+                 * Tomcat will load Ant from the system classloader (because that's another jar that
+                 * <junit> puts into the classpath), but the system classloader doesn't have
+                 * tools.jar. So <javac> fails, and this breaks jasper, which compiles JSP files
+                 * through <javac> Ant task.
+                 * 
+                 * To avoid this problem, we want to load Ant from the classloader we create below,
+                 * which will also contain tools.jar. To do this, we insert another classloader and
+                 * cut the delegation chain for org.apache.tools.ant.
+                 */
                 classloader = new URLClassLoader(new URL[0], getClass().getClassLoader())
                 {
                     @Override
@@ -208,7 +206,7 @@ public class EmbeddedContainerClasspathResolver
 
             // We pass null as the parent to ensure no jars outside of the ones we've added are
             // added to the classpath.
-            classloader = new URLClassLoader((URL[])urls.toArray(new URL[0]), classloader);
+            classloader = new URLClassLoader((URL[]) urls.toArray(new URL[0]), classloader);
         }
         catch (MalformedURLException e)
         {

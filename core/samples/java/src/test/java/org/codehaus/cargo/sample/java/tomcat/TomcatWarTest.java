@@ -19,30 +19,31 @@
  */
 package org.codehaus.cargo.sample.java.tomcat;
 
-import junit.framework.Test;
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.taskdefs.Expand;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
-import org.codehaus.cargo.sample.java.EnvironmentTestData;
-import org.codehaus.cargo.sample.java.PingUtils;
-import org.codehaus.cargo.sample.java.CargoTestSuite;
-import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.util.AntUtils;
-
 import java.io.File;
 import java.net.URL;
 import java.util.Set;
 import java.util.TreeSet;
 
+import junit.framework.Test;
+
+import org.apache.tools.ant.taskdefs.Copy;
+import org.apache.tools.ant.taskdefs.Expand;
+import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
+import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
+import org.codehaus.cargo.sample.java.CargoTestSuite;
+import org.codehaus.cargo.sample.java.EnvironmentTestData;
+import org.codehaus.cargo.sample.java.PingUtils;
+import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
+import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
+import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
+import org.codehaus.cargo.sample.java.validator.Validator;
+import org.codehaus.cargo.util.AntUtils;
+
 public class TomcatWarTest extends AbstractCargoTestCase
-{   
+{
     public TomcatWarTest(String testName, EnvironmentTestData testData) throws Exception
     {
         super(testName, testData);
@@ -81,22 +82,22 @@ public class TomcatWarTest extends AbstractCargoTestCase
         copyTask.setTofile(new File(artifactDir, "tomcat-context.war"));
         copyTask.setFile(new File(getTestData().getTestDataFileFor("tomcatcontext-war")));
         copyTask.execute();
-        
+
         Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            new File(artifactDir,"tomcat-context.war").getPath(), DeployableType.WAR);
-            
+            new File(artifactDir, "tomcat-context.war").getPath(), DeployableType.WAR);
+
         getLocalContainer().getConfiguration().addDeployable(war);
 
         URL warPingURL = new URL("http://localhost:" + getTestData().port + "/tomcat-context/");
 
         getLocalContainer().start();
-        PingUtils.assertPingTrue("tomcat context war not started", "Test value is [test value]", 
+        PingUtils.assertPingTrue("tomcat context war not started", "Test value is [test value]",
             warPingURL, getLogger());
 
         getLocalContainer().stop();
         PingUtils.assertPingFalse("tomcat context war not stopped", warPingURL, getLogger());
     }
-    
+
     public void testExpandedWarWithContextXmlFile() throws Exception
     {
         // Copy the war from the Maven local repository in order to expand it
@@ -105,16 +106,16 @@ public class TomcatWarTest extends AbstractCargoTestCase
         expandTask.setDest(new File(artifactDir, "tomcat-context"));
         expandTask.setSrc(new File(getTestData().getTestDataFileFor("tomcatcontext-war")));
         expandTask.execute();
-        
+
         Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            new File(artifactDir,"tomcat-context").getPath(), DeployableType.WAR);
-        
+            new File(artifactDir, "tomcat-context").getPath(), DeployableType.WAR);
+
         getLocalContainer().getConfiguration().addDeployable(war);
-        
+
         URL warPingURL = new URL("http://localhost:" + getTestData().port + "/tomcat-context/");
 
         getLocalContainer().start();
-        PingUtils.assertPingTrue("tomcat context war not started", "Test value is [test value]", 
+        PingUtils.assertPingTrue("tomcat context war not started", "Test value is [test value]",
             warPingURL, getLogger());
 
         getLocalContainer().stop();

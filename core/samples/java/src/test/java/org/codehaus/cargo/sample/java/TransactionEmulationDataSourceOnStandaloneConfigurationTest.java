@@ -26,12 +26,12 @@ import junit.framework.Test;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
+import org.codehaus.cargo.sample.java.validator.HasDataSourceSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasEarSupportValidator;
+import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasXAEmulationValidator;
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.HasDataSourceSupportValidator;
 
 public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
@@ -52,15 +52,16 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
     public static Test suite() throws Exception
     {
         CargoTestSuite suite =
-            new CargoTestSuite("Tests that run on local containers supporting DataSource and WAR deployments");
+            new CargoTestSuite(
+                "Tests that run on local containers supporting DataSource and WAR deployments");
 
         suite.addTestSuite(TransactionEmulationDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {
-            new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
-            new HasEarSupportValidator(),
-            new HasDataSourceSupportValidator(ConfigurationType.STANDALONE),
-            new HasXAEmulationValidator(ConfigurationType.STANDALONE)});
+                new IsInstalledLocalContainerValidator(),
+                new HasStandaloneConfigurationValidator(),
+                new HasEarSupportValidator(),
+                new HasDataSourceSupportValidator(ConfigurationType.STANDALONE),
+                new HasXAEmulationValidator(ConfigurationType.STANDALONE)});
         return suite;
     }
 

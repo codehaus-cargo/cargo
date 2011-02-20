@@ -19,35 +19,35 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.io.File;
+import java.util.Map.Entry;
+import java.util.Properties;
+
 import junit.framework.TestCase;
 
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.RemoteContainer;
-import org.codehaus.cargo.container.deployer.Deployer;
-import org.codehaus.cargo.container.deployer.DeployerType;
-import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.deployer.Deployer;
+import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.installer.Proxy;
 import org.codehaus.cargo.container.installer.ZipURLInstaller;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
-import org.codehaus.cargo.generic.deployer.DeployerFactory;
-import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
+import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
+import org.codehaus.cargo.generic.deployer.DeployerFactory;
 import org.codehaus.cargo.util.log.FileLogger;
-import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.LogLevel;
-
-import java.io.File;
-import java.util.Map.Entry;
-import java.util.Properties;
+import org.codehaus.cargo.util.log.Logger;
 
 public class AbstractCargoTestCase extends TestCase
 {
@@ -151,7 +151,8 @@ public class AbstractCargoTestCase extends TestCase
         configuration.setProperty(ServletPropertySet.PORT, "" + getTestData().port);
         configuration.setProperty(GeneralPropertySet.RMI_PORT, "" + getTestData().rmiPort);
         Properties allProperties = System.getProperties();
-        for (Entry property : allProperties.entrySet()) {
+        for (Entry property : allProperties.entrySet())
+        {
             if (property.getKey() != null && property.getValue() != null)
             {
                 String key = property.getKey().toString();
@@ -261,10 +262,10 @@ public class AbstractCargoTestCase extends TestCase
         Thread.currentThread().setContextClassLoader(null);
 
         // Stop any local container that is still running
-        if ((this.container != null) && this.container.getType().isLocal())
+        if (this.container != null && this.container.getType().isLocal())
         {
             LocalContainer container = (LocalContainer) this.container;
-            if ((container.getState().isStarted()) || (container.getState().isStarting()))
+            if (container.getState().isStarted() || container.getState().isStarting())
             {
                 getLogger().info(
                     "Container is in the [" + container.getState() + "] state"

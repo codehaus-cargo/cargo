@@ -28,17 +28,17 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.installer.Proxy;
 
 /**
- * Groups together all environmental test datat (ie data that depends on how the user has
- * configured its tests to run in Maven).
- *
+ * Groups together all environmental test datat (ie data that depends on how the user has configured
+ * its tests to run in Maven).
+ * 
  * @version $Id$
  */
 public class EnvironmentTestData
 {
     /**
      * Name of container to run (this is the container ID, see
-     * {@link org.codehaus.cargo.container.Container#getId()}. We use it guess the XML name of
-     * the Ant task.
+     * {@link org.codehaus.cargo.container.Container#getId()}. We use it guess the XML name of the
+     * Ant task.
      */
     public String containerId;
 
@@ -78,8 +78,8 @@ public class EnvironmentTestData
     public String targetDir;
 
     /**
-     * Home for the already installed container
-     * (in that case installDir and installURL are ignored).
+     * Home for the already installed container (in that case installDir and installURL are
+     * ignored).
      */
     public String home;
 
@@ -87,10 +87,10 @@ public class EnvironmentTestData
      * Java Home used to start the container.
      */
     public String javaHome;
-    
+
     /**
-     * Version of Cargo being built (this is required to compute the exact location of the test
-     * data files in the local Maven repository)
+     * Version of Cargo being built (this is required to compute the exact location of the test data
+     * files in the local Maven repository)
      */
     public String version;
 
@@ -103,7 +103,7 @@ public class EnvironmentTestData
      * @param containerId the container's name (eg "resin3x")
      * @param containerType the container's type
      * @param targetDirSuffix relative directory from the base target dir where to put
-     *        test-generated files
+     * test-generated files
      */
     public EnvironmentTestData(String containerId, ContainerType containerType,
         String targetDirSuffix)
@@ -163,7 +163,7 @@ public class EnvironmentTestData
     /**
      * @param name the property name
      * @return the System property for the specified name or null if the System property does not
-     *         exist or is empty 
+     * exist or is empty
      */
     private String getSystemProperty(String name)
     {
@@ -178,19 +178,18 @@ public class EnvironmentTestData
     /**
      * @param name the property name
      * @param defaultValue the default value to return if the System property does not exist or is
-     *        empty
+     * empty
      * @return the System property for the specified name or the default value
      */
     private String getSystemProperty(String name, String defaultValue)
     {
         String result = System.getProperty(name);
-        return (((result == null) || (result.length() == 0)) ? defaultValue : result);
+        return result == null || result.length() == 0 ? defaultValue : result;
     }
 
     /**
      * @param fileName the file name as a string
-     * @return a File object wrapping the files passed as parameter or null if the file name is 
-     *         null
+     * @return a File object wrapping the files passed as parameter or null if the file name is null
      */
     private File getFileFromString(String fileName)
     {
@@ -204,7 +203,7 @@ public class EnvironmentTestData
 
     /**
      * @return a configured {@link Proxy}, using the System properties defining the proxy
-     *         configuration
+     * configuration
      */
     private Proxy createProxyElement()
     {
@@ -240,10 +239,10 @@ public class EnvironmentTestData
         String location = System.getProperty("cargo.testdata." + artifactName);
         if (location == null)
         {
-            throw new ContainerException("Test data artifact not found [" + artifactName 
+            throw new ContainerException("Test data artifact not found [" + artifactName
                 + "] under base directory [" + localMavenRepository + "]");
         }
-        
+
         return new File(localMavenRepository, location).getPath();
     }
 }

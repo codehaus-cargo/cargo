@@ -19,22 +19,6 @@
  */
 package org.codehaus.cargo.sample.java.jboss;
 
-import junit.framework.Test;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
-import org.codehaus.cargo.sample.java.EnvironmentTestData;
-import org.codehaus.cargo.sample.java.CargoTestSuite;
-import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.testdata.ejb.Sample;
-import org.codehaus.cargo.sample.testdata.ejb.SampleHome;
-
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -44,9 +28,26 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.rmi.PortableRemoteObject;
 
+import junit.framework.Test;
+
+import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
+import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
+import org.codehaus.cargo.sample.java.CargoTestSuite;
+import org.codehaus.cargo.sample.java.EnvironmentTestData;
+import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
+import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
+import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
+import org.codehaus.cargo.sample.java.validator.Validator;
+import org.codehaus.cargo.sample.testdata.ejb.Sample;
+import org.codehaus.cargo.sample.testdata.ejb.SampleHome;
+
 public class EjbCapabilityContainerTest extends AbstractCargoTestCase
-{   
-    public EjbCapabilityContainerTest(String testName, EnvironmentTestData testData) 
+{
+    public EjbCapabilityContainerTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
@@ -63,13 +64,13 @@ public class EjbCapabilityContainerTest extends AbstractCargoTestCase
         return suite;
     }
 
-    public void testDeployEjbStatically() throws Exception    
-    {        
+    public void testDeployEjbStatically() throws Exception
+    {
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
 
         Deployable ejb = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
             getTestData().getTestDataFileFor("simple-ejb"), DeployableType.EJB);
-        
+
         getLocalContainer().getConfiguration().addDeployable(ejb);
 
         getLocalContainer().start();
@@ -84,29 +85,29 @@ public class EjbCapabilityContainerTest extends AbstractCargoTestCase
 
         File allClientJar =
             new File(getInstalledLocalContainer().getHome(), "client/jbossall-client.jar");
-        URL[] urls = new URL[] { allClientJar.toURI().toURL() };
+        URL[] urls = new URL[] {allClientJar.toURI().toURL()};
         URLClassLoader classloader = new URLClassLoader(urls, getClass().getClassLoader());
-        
+
         // Ensure that the container's initial context factory implementation will be loaded using
-        // our URL classloader. Note: I hope all JDKs use the context classloader to load the 
+        // our URL classloader. Note: I hope all JDKs use the context classloader to load the
         // initial context factory class...
         Thread.currentThread().setContextClassLoader(classloader);
-        
+
         Properties props = new Properties();
         props.setProperty(
             Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
-        props.put(Context.PROVIDER_URL, "jnp://" 
+        props.put(Context.PROVIDER_URL, "jnp://"
             + getLocalContainer().getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME)
             + ":"
             + getLocalContainer().getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
         props.put(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
         InitialContext context = new InitialContext(props);
         Object objref = context.lookup("SampleEJB");
-        
+
         SampleHome home = (SampleHome) PortableRemoteObject.narrow(objref, SampleHome.class);
         Sample sample = home.create();
         assertTrue("Shoud have returned true", sample.isWorking());
 
         getLocalContainer().stop();
-    }  
+    }
 }

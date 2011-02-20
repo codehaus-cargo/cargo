@@ -19,8 +19,8 @@
  */
 package org.codehaus.cargo.sample.java;
 
-import java.net.URL;
 import java.io.File;
+import java.net.URL;
 
 import org.apache.tools.ant.taskdefs.Expand;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -40,14 +40,18 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCar
      * make sure we always stop the container
      */
     @Override
-    public void tearDown(){
-        try {
+    public void tearDown()
+    {
+        try
+        {
             getLocalContainer().stop();
-        } finally {
+        }
+        finally
+        {
             super.tearDown();
         }
     }
-    
+
     public void testDeployWarStatically() throws Exception
     {
         Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
@@ -88,16 +92,16 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCar
         startAndStop(warPingURL);
 
     }
-    
+
     /**
      * @param warPingURL
      */
     public void startAndStop(URL warPingURL)
     {
         getLocalContainer().start();
-        PingUtils.assertPingTrue(warPingURL.getPath()+" not started", warPingURL, getLogger());
+        PingUtils.assertPingTrue(warPingURL.getPath() + " not started", warPingURL, getLogger());
 
         getLocalContainer().stop();
-        PingUtils.assertPingFalse(warPingURL.getPath()+" not stopped", warPingURL, getLogger());
+        PingUtils.assertPingFalse(warPingURL.getPath() + " not stopped", warPingURL, getLogger());
     }
 }

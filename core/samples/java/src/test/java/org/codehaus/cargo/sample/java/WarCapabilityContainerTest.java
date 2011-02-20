@@ -24,16 +24,16 @@ import java.net.URL;
 
 import junit.framework.Test;
 
+import org.apache.tools.ant.taskdefs.Copy;
+import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
+import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
+import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
+import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.AntUtils;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.apache.tools.ant.taskdefs.Copy;
 
 public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTestCase
 {

@@ -21,11 +21,11 @@ package org.codehaus.cargo.tools.jboss;
 
 import java.io.File;
 import java.util.Properties;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import org.codehaus.cargo.container.jboss.internal.IJBossProfileManagerDeployer;
-
 import org.jboss.deployers.spi.management.deploy.DeploymentManager;
 import org.jboss.deployers.spi.management.deploy.DeploymentProgress;
 import org.jboss.deployers.spi.management.deploy.DeploymentStatus;
@@ -34,7 +34,7 @@ import org.jboss.profileservice.spi.ProfileService;
 
 /**
  * JBoss deployer implementation.
- *
+ * 
  * @version $Id$
  */
 public class JBossDeployer implements IJBossProfileManagerDeployer

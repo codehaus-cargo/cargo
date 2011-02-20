@@ -19,34 +19,35 @@
  */
 package org.codehaus.cargo.documentation;
 
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
-import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
-import org.codehaus.cargo.generic.DefaultContainerFactory;
+import java.net.URL;
+
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.container.resin.Resin3xInstalledLocalContainer;
 import org.codehaus.cargo.container.resin.Resin3xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.resin.ResinInstalledLocalDeployer;
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-
-import java.net.URL;
+import org.codehaus.cargo.generic.DefaultContainerFactory;
+import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
+import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
+import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 
 /**
- * Code snippets referenced from the Cargo website using the Confluence <code>{snippet}</code>
- * marco (see http://confluence.atlassian.com/display/CONFEXT/Snippet+Macro+Library).
- *
+ * Code snippets referenced from the Cargo website using the Confluence <code>{snippet}</code> marco
+ * (see http://confluence.atlassian.com/display/CONFEXT/Snippet+Macro+Library).
+ * 
  * WARNING1: the snippet id must NOT contain the words "start" or "end".
+ * 
  * WARNING2: nested snippet ids must not contain parent's id. For example a nested
- *           "configuration-typed-resin3x" is invalid if the parent has an id of "resin3x" or
- *           "configuration" or "typed-resin3x".
- *
+ * "configuration-typed-resin3x" is invalid if the parent has an id of "resin3x" or "configuration"
+ * or "typed-resin3x".
+ * 
  * @version $Id$
  */
 public class Snippets

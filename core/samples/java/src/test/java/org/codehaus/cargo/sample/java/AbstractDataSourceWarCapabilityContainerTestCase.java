@@ -21,6 +21,7 @@ package org.codehaus.cargo.sample.java;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
@@ -40,7 +41,6 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
         super(testName, testData);
     }
 
-
     /**
      * @param property - property looked up to build the datasource
      * @param type
@@ -53,7 +53,6 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
 
         testWar(type);
     }
-
 
     protected void testWar(String type) throws MalformedURLException
     {
@@ -72,6 +71,7 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * org.codehaus.cargo.sample.java.AbstractCargoTestCase#createContainer(org.codehaus.cargo.container
      * .configuration.Configuration)
@@ -98,8 +98,11 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
         if (jdbcdriver != null)
         {
             container.addExtraClasspath(jdbcdriver);
-        } else {
-            throw new CargoException("Please set property [cargo.testdata.derby-jar] to a valid location of derby.jar");
+        }
+        else
+        {
+            throw new CargoException(
+                "Please set property [cargo.testdata.derby-jar] to a valid location of derby.jar");
         }
         container.getSystemProperties().put("derby.system.home", getTestData().targetDir);
         container.getSystemProperties().put("derby.stream.error.logSeverityLevel", "0");

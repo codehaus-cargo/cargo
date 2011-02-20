@@ -19,26 +19,31 @@
  */
 package org.codehaus.cargo.sample.java.tomcat;
 
-import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
-import org.codehaus.cargo.sample.java.EnvironmentTestData;
-import org.codehaus.cargo.sample.java.CargoTestSuite;
-import org.codehaus.cargo.sample.java.PingUtils;
-import org.codehaus.cargo.sample.java.validator.*;
-import org.codehaus.cargo.generic.packager.DefaultPackagerFactory;
-import org.codehaus.cargo.generic.packager.PackagerFactory;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.generic.DefaultContainerFactory;
-import org.codehaus.cargo.container.packager.PackagerType;
-import org.codehaus.cargo.container.packager.Packager;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.DeployableType;
-import junit.framework.Test;
-
 import java.io.File;
 import java.net.URL;
+
+import junit.framework.Test;
+
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.packager.Packager;
+import org.codehaus.cargo.container.packager.PackagerType;
+import org.codehaus.cargo.generic.DefaultContainerFactory;
+import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
+import org.codehaus.cargo.generic.packager.DefaultPackagerFactory;
+import org.codehaus.cargo.generic.packager.PackagerFactory;
+import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
+import org.codehaus.cargo.sample.java.CargoTestSuite;
+import org.codehaus.cargo.sample.java.EnvironmentTestData;
+import org.codehaus.cargo.sample.java.PingUtils;
+import org.codehaus.cargo.sample.java.validator.HasDirectoryPackagerValidator;
+import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
+import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
+import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
+import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  */
@@ -87,8 +92,8 @@ public class TomcatPackagerTest extends AbstractCargoTestCase
 
         InstalledLocalContainer assertContainer = (InstalledLocalContainer)
             new DefaultContainerFactory().createContainer(getTestData().containerId,
-            getTestData().containerType, createConfiguration(ConfigurationType.EXISTING,
-                targetLocation.getPath()));
+                getTestData().containerType, createConfiguration(ConfigurationType.EXISTING,
+                    targetLocation.getPath()));
         assertContainer.setHome(targetLocation.getPath());
         URL warPingURL = new URL("http://localhost:" + getTestData().port
             + "/simple-war-" + getTestData().version + "/index.jsp");

@@ -19,14 +19,14 @@
  */
 package org.codehaus.cargo.sample.java.validator;
 
-import org.codehaus.cargo.generic.deployer.DeployerFactory;
-import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployer.DeployerType;
+import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
+import org.codehaus.cargo.generic.deployer.DeployerFactory;
 
 /**
  * Validate that the specified container has a remote deployer.
- *
+ * 
  * @version $Id$
  */
 public class HasRemoteDeployerValidator implements Validator

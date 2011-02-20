@@ -19,15 +19,15 @@
  */
 package org.codehaus.cargo.sample.java.validator;
 
-import org.codehaus.cargo.generic.configuration.DefaultConfigurationCapabilityFactory;
-import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
+import org.codehaus.cargo.generic.configuration.DefaultConfigurationCapabilityFactory;
 
 /**
  * Validate that a container supports authentication configuration.
- *
+ * 
  * @version $Id$
  */
 public class HasAuthenticationSupportValidator implements Validator

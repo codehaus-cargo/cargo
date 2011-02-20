@@ -19,14 +19,14 @@
  */
 package org.codehaus.cargo.sample.java.validator;
 
-import org.codehaus.cargo.generic.ContainerCapabilityFactory;
-import org.codehaus.cargo.generic.DefaultContainerCapabilityFactory;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.generic.ContainerCapabilityFactory;
+import org.codehaus.cargo.generic.DefaultContainerCapabilityFactory;
 
 /**
  * Validate that a container supports WAR archives.
- *
+ * 
  * @version $Id$
  */
 public class HasWarSupportValidator implements Validator

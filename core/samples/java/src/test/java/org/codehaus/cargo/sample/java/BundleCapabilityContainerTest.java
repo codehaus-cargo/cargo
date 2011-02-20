@@ -22,6 +22,7 @@ package org.codehaus.cargo.sample.java;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+
 import junit.framework.Test;
 
 import org.codehaus.cargo.container.State;
@@ -32,9 +33,9 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.validator.HasBundleSupportValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
+import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
+import org.codehaus.cargo.sample.java.validator.Validator;
 
 public class BundleCapabilityContainerTest extends AbstractCargoTestCase
 {
@@ -73,12 +74,12 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
             LocalConfiguration configuration = getLocalContainer().getConfiguration();
             bundleOutput = new File(configuration.getHome() + "/"
                 + configuration.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME) + "/config",
-               "bundle-output.txt");
+                "bundle-output.txt");
         }
         else
         {
             bundleOutput = new File(getLocalContainer().getConfiguration().getHome(),
-               "bundle-output.txt");
+                "bundle-output.txt");
         }
         assertFalse(bundleOutput + " already exists!", bundleOutput.isFile());
 

@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.net.URL;
+
 import junit.framework.Test;
 
 import org.codehaus.cargo.container.configuration.ConfigurationType;
@@ -28,20 +30,18 @@ import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
+import org.codehaus.cargo.sample.java.validator.HasLocalDeployerValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasLocalDeployerValidator;
-
-import java.net.URL;
+import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
+import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Validates local hot deployment of WAR archives.
  */
 public class WarAndDeployerCapabilityContainerTest extends AbstractCargoTestCase
-{   
-    public WarAndDeployerCapabilityContainerTest(String testName, EnvironmentTestData testData) 
+{
+    public WarAndDeployerCapabilityContainerTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
@@ -59,7 +59,7 @@ public class WarAndDeployerCapabilityContainerTest extends AbstractCargoTestCase
             new HasLocalDeployerValidator()});
         return suite;
     }
-    
+
     public void testWarHotDeployment() throws Exception
     {
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
@@ -67,7 +67,7 @@ public class WarAndDeployerCapabilityContainerTest extends AbstractCargoTestCase
         WAR war = (WAR) new DefaultDeployableFactory().createDeployable(getContainer().getId(),
             getTestData().getTestDataFileFor("simple-war"), DeployableType.WAR);
         war.setContext("simple");
-                    
+
         URL warPingURL = new URL("http://localhost:" + getTestData().port + "/" + war.getContext()
             + "/index.jsp");
 

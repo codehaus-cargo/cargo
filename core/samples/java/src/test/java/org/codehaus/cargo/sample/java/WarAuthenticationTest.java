@@ -19,23 +19,23 @@
  */
 package org.codehaus.cargo.sample.java;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import junit.framework.Test;
 
+import org.apache.commons.codec.binary.Base64;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
+import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
+import org.codehaus.cargo.sample.java.validator.HasAuthenticationSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasAuthenticationSupportValidator;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.apache.commons.codec.binary.Base64;
+import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
+import org.codehaus.cargo.sample.java.validator.Validator;
 
 public class WarAuthenticationTest extends AbstractCargoTestCase
 {
@@ -69,7 +69,8 @@ public class WarAuthenticationTest extends AbstractCargoTestCase
         if (getLocalContainer().getConfiguration().getCapability().supportsProperty(
             ServletPropertySet.USERS))
         {
-            Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
+            Deployable war = new DefaultDeployableFactory().createDeployable(
+                getContainer().getId(),
                 getTestData().getTestDataFileFor("authentication-war"), DeployableType.WAR);
 
             getLocalContainer().getConfiguration().addDeployable(war);

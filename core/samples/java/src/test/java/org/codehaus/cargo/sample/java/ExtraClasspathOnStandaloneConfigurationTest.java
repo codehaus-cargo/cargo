@@ -33,16 +33,16 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
+import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
+import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.CargoException;
 
 public class ExtraClasspathOnStandaloneConfigurationTest extends
     AbstractCargoTestCase
 {
-    
+
     public ExtraClasspathOnStandaloneConfigurationTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
@@ -55,7 +55,7 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
         super.setUp();
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
     }
-    
+
     public static Test suite() throws Exception
     {
         CargoTestSuite suite =
@@ -72,13 +72,13 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
         excludedContainerIds.add("glassfish3x");
         excludedContainerIds.add("jonas5x");
         suite.addTestSuite(ExtraClasspathOnStandaloneConfigurationTest.class, new Validator[] {
-        new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator(),
-        new HasWarSupportValidator()}, excludedContainerIds);
+            new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator(),
+            new HasWarSupportValidator()}, excludedContainerIds);
         return suite;
     }
 
     /**
-     * Tests that a servlet has access to a class in added to the extraclasspath 
+     * Tests that a servlet has access to a class in added to the extraclasspath
      * @throws MalformedURLException
      */
     public void testLoadClass() throws MalformedURLException
@@ -86,20 +86,20 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
         Deployable war =
             new DefaultDeployableFactory().createDeployable(getContainer().getId(), getTestData()
                 .getTestDataFileFor("classpath-war"), DeployableType.WAR);
-        
+
         getLocalContainer().getConfiguration().addDeployable(war);
-        
+
         URL warPingURL =
             new URL("http://localhost:" + getTestData().port + "/" + "classpath-war-"
                 + getTestData().version + "/test");
-        
+
         getLocalContainer().start();
-        
+
         PingUtils.assertPingTrue("simple war should have been started at this point", warPingURL,
             getLogger());
 
         getLocalContainer().stop();
-        
+
         PingUtils.assertPingFalse("simple war should have been stopped at this point", warPingURL,
                 getLogger());
     }
@@ -109,15 +109,18 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
     {
         InstalledLocalContainer container =
             (InstalledLocalContainer) super.createContainer(configuration);
-        
+
         String simpleJar = System.getProperty("cargo.testdata.simple-jar");
         if (simpleJar != null)
         {
             container.addExtraClasspath(simpleJar);
-        } else {
-            throw new CargoException("Please set property [cargo.testdata.simple-jar] to a valid location of simple-jar");
+        }
+        else
+        {
+            throw new CargoException(
+                "Please set property [cargo.testdata.simple-jar] to a valid location of simple-jar");
         }
         return container;
     }
-    
+
 }

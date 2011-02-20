@@ -19,38 +19,38 @@
  */
 package org.codehaus.cargo.sample.java;
 
-import java.net.URL;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Test;
 
-import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
+import org.apache.tools.ant.taskdefs.War;
+import org.apache.tools.ant.types.FileSet;
+import org.codehaus.cargo.container.ContainerType;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployer.Deployer;
+import org.codehaus.cargo.container.deployer.DeployerType;
+import org.codehaus.cargo.container.property.RemotePropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
+import org.codehaus.cargo.sample.java.validator.HasInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.HasRemoteContainerValidator;
 import org.codehaus.cargo.sample.java.validator.HasRemoteDeployerValidator;
 import org.codehaus.cargo.sample.java.validator.HasRuntimeConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.HasInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.deployer.Deployer;
-import org.codehaus.cargo.container.deployer.DeployerType;
-import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
+import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
+import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
-import org.apache.tools.ant.taskdefs.War;
-import org.apache.tools.ant.types.FileSet;
 
 public class RemoteDeploymentTest extends AbstractCargoTestCase
 {
@@ -78,10 +78,10 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             new HasRemoteDeployerValidator(),
             new HasWarSupportValidator(),
 
-            // We cannot add the HasInstalledLocalContainerValidator and
-            // HasStandaloneConfigurationValidator, else the Remote container would need to
-            // implement a Standalone configration, which doesn't make sense
-        });
+        // We cannot add the HasInstalledLocalContainerValidator and
+        // HasStandaloneConfigurationValidator, else the Remote container would need to
+        // implement a Standalone configration, which doesn't make sense
+            });
 
         return suite;
     }
@@ -116,7 +116,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             int jbossVersion = Integer.parseInt(getTestData().containerId.substring(5,
                 getTestData().containerId.length() - 1));
 
-            if ((jbossVersion < 10 && jbossVersion >= 5) || jbossVersion >= 50)
+            if (jbossVersion < 10 && jbossVersion >= 5 || jbossVersion >= 50)
             {
                 if (jbossVersion == 5)
                 {
@@ -203,13 +203,13 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             {
                 jettyDeployerApplication = new DefaultDeployableFactory().createDeployable(
                     this.localContainer.getId(), getTestData().getTestDataFileFor(
-                    "cargo-jetty-6-and-earlier-deployer"), DeployableType.WAR);
+                        "cargo-jetty-6-and-earlier-deployer"), DeployableType.WAR);
             }
             else
             {
                 jettyDeployerApplication = new DefaultDeployableFactory().createDeployable(
                     this.localContainer.getId(), getTestData().getTestDataFileFor(
-                    "cargo-jetty-7-and-onwards-deployer"), DeployableType.WAR);
+                        "cargo-jetty-7-and-onwards-deployer"), DeployableType.WAR);
             }
 
             this.localContainer.getConfiguration().addDeployable(jettyDeployerApplication);
@@ -258,7 +258,8 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
         // Redeploy a second time to ensure that the undeploy worked.
         deployer.deploy(this.war);
-        PingUtils.assertPingTrue("simple war not correctly redeployed", this.warPingURL, getLogger());
+        PingUtils.assertPingTrue("simple war not correctly redeployed", this.warPingURL,
+            getLogger());
 
         if ("jonas4x".equals(getTestData().containerId))
         {
@@ -281,8 +282,8 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
     }
 
     /**
-     * Modify the original simple WAR file to add a new HTML file which we will later ping to
-     * verify the new WAR has been deployed.
+     * Modify the original simple WAR file to add a new HTML file which we will later ping to verify
+     * the new WAR has been deployed.
      */
     private Deployable modifyWar(Deployable originalDeployable) throws Exception
     {

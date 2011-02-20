@@ -79,7 +79,8 @@ public class ResourceOnStandaloneConfigurationTest extends
     public static Test suite() throws Exception
     {
         CargoTestSuite suite =
-            new CargoTestSuite("Tests that run on local containers supporting Resource and WAR deployments");
+            new CargoTestSuite(
+                "Tests that run on local containers supporting Resource and WAR deployments");
 
         suite.addTestSuite(ResourceOnStandaloneConfigurationTest.class, new Validator[] {
             new IsInstalledLocalContainerValidator(),

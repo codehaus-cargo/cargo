@@ -19,13 +19,13 @@
  */
 package org.codehaus.cargo.sample.java.validator;
 
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
-import org.codehaus.cargo.container.ContainerType;
 
 /**
  * Validate that a container id has an installed local container implementation.
- *
+ * 
  * @version $Id$
  */
 public class HasInstalledLocalContainerValidator implements Validator
@@ -34,7 +34,7 @@ public class HasInstalledLocalContainerValidator implements Validator
 
     /**
      * @return true if the container id has an installed local container implementation available,
-     *         false otherwise
+     * false otherwise
      */
     public boolean validate(String containerId, ContainerType type)
     {

@@ -19,16 +19,16 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import junit.framework.Test;
+
 import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
-
-import junit.framework.Test;
+import org.codehaus.cargo.sample.java.validator.Validator;
 
 public class AllLocalContainerTest extends AbstractCargoTestCase
-{   
+{
     public AllLocalContainerTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
@@ -43,8 +43,8 @@ public class AllLocalContainerTest extends AbstractCargoTestCase
             new HasStandaloneConfigurationValidator()});
         return suite;
     }
-    
-    public void testStartWithNoDeployable() throws Exception    
+
+    public void testStartWithNoDeployable() throws Exception
     {
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
 

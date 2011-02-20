@@ -21,13 +21,13 @@ package org.codehaus.cargo.sample.java;
 
 import junit.framework.Test;
 
-import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasExistingConfigurationValidator;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.sample.java.validator.HasExistingConfigurationValidator;
+import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
+import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
+import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
+import org.codehaus.cargo.sample.java.validator.Validator;
 
 public class ExistingConfigurationTest extends AbstractWarCapabilityContainerTestCase
 {
@@ -57,7 +57,7 @@ public class ExistingConfigurationTest extends AbstractWarCapabilityContainerTes
 
         // For this test suite we need to have an existing configuration which means we need
         // a container configuration already set up. Thus we start by creating a standalone
-        // configuration which we'll use as the existing configuration for the test. 
+        // configuration which we'll use as the existing configuration for the test.
         LocalContainer tmpContainer = (LocalContainer) createContainer(
             createConfiguration(ConfigurationType.STANDALONE));
         tmpContainer.getConfiguration().configure(tmpContainer);
