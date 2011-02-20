@@ -26,12 +26,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Random;
 import java.net.URI;
+import java.util.Random;
 
 /**
  * Set of common File manipulation utility methods.
- *
+ * 
  * @deprecated use {@link FileHandler} instead
  * @version $Id$
  */
@@ -45,12 +45,12 @@ public class FileUtils
 
     /**
      * Convenience method for creating a new directory inside another one.
-     *
+     * 
      * @param parentDir The directory in which the new directory should be created
      * @param name The name of the directory to create
-     *
+     * 
      * @return The new directory
-     *
+     * 
      * @throws IOException If the directory could not be created
      */
     public final File createDirectory(URI parentDir, String name) throws IOException
@@ -66,12 +66,12 @@ public class FileUtils
 
     /**
      * Convenience method for creating a new directory inside another one.
-     *
+     * 
      * @param parentDir The directory in which the new directory should be created
      * @param name The name of the directory to create
-     *
+     * 
      * @return The new directory
-     *
+     * 
      * @throws IOException If the directory could not be created
      */
     public final File createDirectory(File parentDir, String name) throws IOException
@@ -81,7 +81,7 @@ public class FileUtils
 
     /**
      * Creates a temporary directory.
-     *
+     * 
      * @param name The name of the directory to create
      * @return the newly created temporary directory
      */
@@ -96,20 +96,20 @@ public class FileUtils
     /**
      * Convenience method that returns a relative filename and its extension from a complete file
      * path (path, name and extension).
-     *
+     * 
      * @param filePath the full file path (including relative name and extension)
-     *
+     * 
      * @return the filename with its extension
      */
     public final String getFilename(String filePath)
     {
         int index = filePath.lastIndexOf(File.separator);
-        return (index >= 0 ? filePath.substring(index + 1) : filePath);
+        return index >= 0 ? filePath.substring(index + 1) : filePath;
     }
 
     /**
      * Creates a unique temporary directory.
-     *
+     * 
      * @return the newly created temporary directory
      */
     public synchronized File createUniqueTmpDirectory()
@@ -134,10 +134,10 @@ public class FileUtils
 
     /**
      * Copies data from an InputStream to an OutputStream.
-     *
+     * 
      * @param in InputStream to copy data from
      * @param out OutputStream to copy data to
-     *
+     * 
      * @throws IOException if an I/O error occurs
      */
     public void copy(InputStream in, OutputStream out) throws IOException
@@ -147,11 +147,11 @@ public class FileUtils
 
     /**
      * Copies data from an InputStream to an OutputStream.
-     *
+     * 
      * @param in InputStream to copy data from
      * @param out OutputStream to copy data to
      * @param bufSize size of the copy buffer
-     *
+     * 
      * @throws IOException if an I/O error occurs
      */
     public void copy(InputStream in, OutputStream out, int bufSize) throws IOException

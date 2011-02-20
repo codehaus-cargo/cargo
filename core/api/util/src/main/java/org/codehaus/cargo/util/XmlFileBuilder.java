@@ -24,10 +24,8 @@ import java.util.Map;
 /**
  * This interface intends to remove hard-bindings to a specific xml api.
  * 
- * Implementations of this interface will: 
- *  1. optionally load a file
- *  2. insert some elements into the current document 
- *  3. write the file to disk
+ * Implementations of this interface will: 1. optionally load a file 2. insert some elements into
+ * the current document 3. write the file to disk
  * 
  * @version $Id$
  */

@@ -19,27 +19,29 @@
  */
 package org.codehaus.cargo.util;
 
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.VFS;
-import org.apache.commons.vfs.FileSystemException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+
 import org.apache.commons.vfs.AllFileSelector;
 import org.apache.commons.vfs.FileObject;
-
-import java.io.OutputStream;
-import java.io.InputStream;
-import java.util.List;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.VFS;
 
 /**
  * File operations that are performed in Cargo. All file operations must use this class. This
- * implementation uses Jakarta Commons VFS to resolve URIs allowing files to be accessed using
- * a variety of file systems (see http://jakarta.apache.org/commons/vfs/filesystems.html).
- *
- * <p>Note: This class should be moved to the main core API once if we decide to use VFS in our
- * runtime.</p>
- *
+ * implementation uses Jakarta Commons VFS to resolve URIs allowing files to be accessed using a
+ * variety of file systems (see http://jakarta.apache.org/commons/vfs/filesystems.html).
+ * 
+ * <p>
+ * Note: This class should be moved to the main core API once if we decide to use VFS in our
+ * runtime.
+ * </p>
+ * 
  * TODO: This class shouldn't extend DefaultFileHandler. I have cheated because I was just
- *       prototyping this. We really need to implement all methods using the VFS API.
- *
+ * prototyping this. We really need to implement all methods using the VFS API.
+ * 
  * @version $Id$
  */
 public class VFSFileHandler extends DefaultFileHandler
@@ -298,7 +300,7 @@ public class VFSFileHandler extends DefaultFileHandler
         boolean isEmpty;
         try
         {
-            isEmpty = (getFileSystemManager().resolveFile(dir).getChildren().length == 0);
+            isEmpty = getFileSystemManager().resolveFile(dir).getChildren().length == 0;
         }
         catch (FileSystemException e)
         {

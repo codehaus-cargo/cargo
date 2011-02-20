@@ -35,7 +35,7 @@ public class CargoException extends RuntimeException
     private final Throwable originalThrowable;
 
     /**
-     * @param message the exception message 
+     * @param message the exception message
      */
     public CargoException(String message)
     {
@@ -72,7 +72,7 @@ public class CargoException extends RuntimeException
 
     /**
      * Print the full stack trace, including the original exception.
-     *
+     * 
      * @param ps the byte stream in which to print the stack trace
      */
     @Override
@@ -88,7 +88,7 @@ public class CargoException extends RuntimeException
 
     /**
      * Print the full stack trace, including the original exception.
-     *
+     * 
      * @param pw the character stream in which to print the stack trace
      */
     @Override
@@ -101,5 +101,5 @@ public class CargoException extends RuntimeException
             getOriginalThrowable().printStackTrace(pw);
         }
     }
-    
+
 }

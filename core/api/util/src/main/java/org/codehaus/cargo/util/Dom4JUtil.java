@@ -206,8 +206,8 @@ public class Dom4JUtil
 
     /**
      * @param fileHandler the Cargo file utility class to use. This method is useful for unit
-     *            testing with Mock objects as it can be passed a test file handler that doesn't
-     *            perform any real file action.
+     * testing with Mock objects as it can be passed a test file handler that doesn't perform any
+     * real file action.
      */
     public void setFileHandler(FileHandler fileHandler)
     {

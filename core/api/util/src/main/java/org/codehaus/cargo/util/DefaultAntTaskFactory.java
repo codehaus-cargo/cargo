@@ -23,14 +23,14 @@
 package org.codehaus.cargo.util;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Location;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Task;
 
 /**
  * Default {@link AntTaskFactory} for creating Ant tasks.
- *
+ * 
  * @version $Id$
  */
 public class DefaultAntTaskFactory implements AntTaskFactory
@@ -58,7 +58,7 @@ public class DefaultAntTaskFactory implements AntTaskFactory
     /**
      * Constructor using default values for the current task name, current location and current
      * target.
-     *
+     * 
      * @param project the Ant project used when creating Ant tasks
      */
     public DefaultAntTaskFactory(Project project)
@@ -73,7 +73,7 @@ public class DefaultAntTaskFactory implements AntTaskFactory
      * @param project the Ant project used when creating Ant tasks
      * @param currentTaskName the current Ant task being executed
      * @param currentLocation the current {@link org.apache.tools.ant.Location} of the Task being
-     *        executed.
+     * executed.
      * @param currentTarget the current {@link org.apache.tools.ant.Target} being executed
      */
     public DefaultAntTaskFactory(Project project, String currentTaskName, Location currentLocation,
@@ -101,7 +101,7 @@ public class DefaultAntTaskFactory implements AntTaskFactory
         }
         return retVal;
     }
-    
+
     /**
      * 
      * Checks to ensure the ssh task is present before proceeding.

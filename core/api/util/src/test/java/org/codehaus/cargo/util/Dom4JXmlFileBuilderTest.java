@@ -36,7 +36,7 @@ import org.dom4j.Element;
 
 /**
  * Unit tests for {@link XmlFileBuilder}.
- *
+ * 
  * @version $Id$
  */
 public class Dom4JXmlFileBuilderTest extends TestCase
@@ -124,8 +124,8 @@ public class Dom4JXmlFileBuilderTest extends TestCase
     }
 
     /**
-     * Test that the file system manager can insert an XML element deep in the XML tree into a
-     * file. This also involves a lookup.
+     * Test that the file system manager can insert an XML element deep in the XML tree into a file.
+     * This also involves a lookup.
      * @throws Exception If anything goes wrong
      */
     public void testManagerCanInsertAnElementIntoFileThreeLevelsDeep() throws Exception

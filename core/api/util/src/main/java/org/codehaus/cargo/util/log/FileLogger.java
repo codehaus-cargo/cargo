@@ -84,7 +84,7 @@ public class FileLogger extends AbstractLogger
     {
         final String formattedCategory = category.length() > 20
             ? category.substring(category.length() - 20) : category;
-        
+
         final String msg = "[" + this.format.format(new Date()) + "]"
             + "[" + level.getLevel() + "][" + formattedCategory + "] " + message + "\n";
         try

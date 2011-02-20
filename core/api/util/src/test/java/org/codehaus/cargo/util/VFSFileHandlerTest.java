@@ -26,7 +26,7 @@ import org.apache.commons.vfs.impl.StandardFileSystemManager;
 
 /**
  * Unit tests for {@link VFSFileHandler}.
- *
+ * 
  * @version $Id$
  */
 public class VFSFileHandlerTest extends TestCase
@@ -65,7 +65,7 @@ public class VFSFileHandlerTest extends TestCase
         assertFalse(this.fileHandler.isDirectory("ram:///some/file"));
 
         this.fsManager.resolveFile("ram:///some/path").createFolder();
-        assertTrue(this.fileHandler.isDirectory("ram:///some/path"));        
+        assertTrue(this.fileHandler.isDirectory("ram:///some/path"));
     }
 
     /**

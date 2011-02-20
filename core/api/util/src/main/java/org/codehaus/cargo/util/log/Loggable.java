@@ -21,7 +21,7 @@ package org.codehaus.cargo.util.log;
 
 /**
  * All classes that want to perform logging must implement this interface.
- *  
+ * 
  * @version $Id$
  */
 public interface Loggable
@@ -30,7 +30,7 @@ public interface Loggable
      * @param logger the log implementation to use for logging
      */
     void setLogger(Logger logger);
-    
+
     /**
      * @return the logger used
      */

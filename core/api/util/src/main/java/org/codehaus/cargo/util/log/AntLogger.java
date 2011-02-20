@@ -19,17 +19,17 @@
  */
 package org.codehaus.cargo.util.log;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Task;
 import org.codehaus.cargo.util.internal.log.AbstractLogger;
 
-import java.util.Map;
-import java.util.HashMap;
-
 /**
  * Logger implementation that logs to Ant.
- *
+ * 
  * @version $Id$
  */
 public class AntLogger extends AbstractLogger
@@ -50,8 +50,8 @@ public class AntLogger extends AbstractLogger
     private Task task;
 
     /**
-     * Maps between Cargo log levels and Ant's log levels. Index is Cargo's log level and value
-     * is Ant's log level.
+     * Maps between Cargo log levels and Ant's log levels. Index is Cargo's log level and value is
+     * Ant's log level.
      */
     private Map<LogLevel, Integer> levelMapper;
 

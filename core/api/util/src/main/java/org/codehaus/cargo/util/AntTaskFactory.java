@@ -25,22 +25,22 @@ package org.codehaus.cargo.util;
 import org.apache.tools.ant.Task;
 
 /**
- * Interface that allows random classes to use Ant tasks without needing an
- * explicit reference to a project, target or task.
- *
+ * Interface that allows random classes to use Ant tasks without needing an explicit reference to a
+ * project, target or task.
+ * 
  * @version $Id$
  */
 public interface AntTaskFactory
 {
     /**
      * Returns the task that is mapped to the specified name.
-     *
-     * Implementations of this interface should correctly initialize the task by
-     * setting the name, the project and optionally the owning target.
-     *
+     * 
+     * Implementations of this interface should correctly initialize the task by setting the name,
+     * the project and optionally the owning target.
+     * 
      * @param taskName The logical name of the task
-     * @return A new instance of the task mapped to the name, or
-     *         <code>null</code> if a corresponding task could not be created
+     * @return A new instance of the task mapped to the name, or <code>null</code> if a
+     * corresponding task could not be created
      */
     Task createTask(String taskName);
 }

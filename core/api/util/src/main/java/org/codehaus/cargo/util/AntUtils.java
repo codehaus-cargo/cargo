@@ -22,20 +22,20 @@
  */
 package org.codehaus.cargo.util;
 
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.filters.ReplaceTokens;
-import org.apache.tools.ant.types.Environment;
-import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.types.FilterChain;
-
 import java.io.File;
 import java.net.URI;
 import java.util.Map;
 
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.filters.ReplaceTokens;
+import org.apache.tools.ant.types.Environment;
+import org.apache.tools.ant.types.FilterChain;
+import org.apache.tools.ant.types.Path;
+
 /**
  * Set of common Ant utility methods.
- *
+ * 
  * @version $Id$
  */
 public class AntUtils
@@ -46,8 +46,7 @@ public class AntUtils
     private AntTaskFactory antTaskFactory;
 
     /**
-     * Uses the {@link DefaultAntTaskFactory} class when creating Ant
-     * tasks.
+     * Uses the {@link DefaultAntTaskFactory} class when creating Ant tasks.
      */
     public AntUtils()
     {
@@ -63,9 +62,8 @@ public class AntUtils
     }
 
     /**
-     * Creates and returns a new instance of the Ant task mapped to the
-     * specified logical name.
-     *
+     * Creates and returns a new instance of the Ant task mapped to the specified logical name.
+     * 
      * @param taskName The logical name of the task to create
      * @return A new instance of the task
      */
@@ -75,9 +73,8 @@ public class AntUtils
     }
 
     /**
-     * Convenience method to create an Ant environment variable that points to
-     * a file.
-     *
+     * Convenience method to create an Ant environment variable that points to a file.
+     * 
      * @param key The key or name of the variable
      * @param file The file the variable should point to
      * @return The created environment variable
@@ -91,9 +88,8 @@ public class AntUtils
     }
 
     /**
-     * Convenience method to create an Ant environment variable that contains
-     * a path.
-     *
+     * Convenience method to create an Ant environment variable that contains a path.
+     * 
      * @param key The key or name of the variable
      * @param path The path
      * @return The created environment variable
@@ -107,9 +103,8 @@ public class AntUtils
     }
 
     /**
-     * Convenience method to create an Ant environment variable that contains a
-     * string.
-     *
+     * Convenience method to create an Ant environment variable that contains a string.
+     * 
      * @param key The key or name of the variable
      * @param value The value
      * @return The created environment variable
@@ -123,10 +118,11 @@ public class AntUtils
     }
 
     /**
-     * <p>Convenience method to create an Ant environment variable that contains a
-     * string from an URI.
-     * <p><b>Note</b> that {@link java.net.URI#getPath()} will be used.
-     *
+     * <p>
+     * Convenience method to create an Ant environment variable that contains a string from an URI.
+     * <p>
+     * <b>Note</b> that {@link java.net.URI#getPath()} will be used.
+     * 
      * @param key The key or name of the variable
      * @param value The URI to take the value from; {@link java.net.URI#getPath()} will be used
      * @return The created environment variable
@@ -152,7 +148,7 @@ public class AntUtils
 
     /**
      * Add a token to an existing filter chain.
-     *
+     * 
      * @param filterChain the filter chain to augment
      * @param key the token key
      * @param value the token value
@@ -167,7 +163,7 @@ public class AntUtils
         replaceToken.addConfiguredToken(token);
         filterChain.addReplaceTokens(replaceToken);
     }
-  
+
     /**
      * Add the map of tokens to the filterChain.
      * 

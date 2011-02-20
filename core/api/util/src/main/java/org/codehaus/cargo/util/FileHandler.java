@@ -30,7 +30,7 @@ import org.apache.tools.ant.types.FilterChain;
  * File operations that are performed in Cargo. All file operations must use this interface. This
  * interface is also useful for unit testing as it's possible to create a mock implementation of it
  * to prevent actual file operations from happening.
- *
+ * 
  * @version $Id$
  */
 public interface FileHandler
@@ -38,22 +38,22 @@ public interface FileHandler
     /**
      * Copy a file from a source to a destination. If destination file already exists, it is not
      * overwritten.
-     *
+     * 
      * @param source the file to copy from. Must not be <code>null</code>.
      * @param target the file to copy to. Must not be <code>null</code>.
      */
     void copyFile(String source, String target);
-    
+
     /**
      * Copy a file from a source to a destination specifying if source files may overwrite newer
      * destination files.
-     *
+     * 
      * @param source the file to copy from. Must not be <code>null</code>.
      * @param target the file to copy to. Must not be <code>null</code>.
      * @param overwrite to overwrite the file if it already exists.
      */
     void copyFile(String source, String target, boolean overwrite);
-    
+
     /**
      * Copy a file from a source to a destination using a filterchain to specify token replacement.
      * 
@@ -65,7 +65,7 @@ public interface FileHandler
 
     /**
      * Copy a directory from a source to a destination.
-     *
+     * 
      * @param source the directory to copy from. Must not be <code>null</code>.
      * @param target the directory to copy to. Must not be <code>null</code>.
      */
@@ -73,18 +73,18 @@ public interface FileHandler
 
     /**
      * Copy a directory from a source to a destination specifying files to be excluded.
-     *
+     * 
      * @param source the directory to copy from. Must not be <code>null</code>.
      * @param target the directory to copy to. Must not be <code>null</code>.
-     * @param excludes the list of files to be excluded. Each entry in the list is an
-     *        <a href="http://ant.apache.org/manual/dirtasks.html#patterns">Ant file pattern</a>.
+     * @param excludes the list of files to be excluded. Each entry in the list is an <a
+     * href="http://ant.apache.org/manual/dirtasks.html#patterns">Ant file pattern</a>.
      */
     void copyDirectory(String source, String target, List<String> excludes);
 
     /**
-     * Convenience method for creating a new directory inside another one.
-     * If the directory already exists, it will return the already created directory.
-     *
+     * Convenience method for creating a new directory inside another one. If the directory already
+     * exists, it will return the already created directory.
+     * 
      * @param parentDir The directory in which the new directory should be created
      * @param name The name of the directory to create
      * @return The new directory
@@ -93,7 +93,7 @@ public interface FileHandler
 
     /**
      * Copies data from an InputStream to an OutputStream.
-     *
+     * 
      * @param in InputStream to copy data from
      * @param out OutputStream to copy data to
      * @param bufSize size of the copy buffer
@@ -102,7 +102,7 @@ public interface FileHandler
 
     /**
      * Copies data from an InputStream to an OutputStream using a default buffer size.
-     *
+     * 
      * @param in InputStream to copy data from
      * @param out OutputStream to copy data to
      */
@@ -110,7 +110,7 @@ public interface FileHandler
 
     /**
      * Replaces using a map of replacements in a given file.
-     *
+     * 
      * @param file File to replace in.
      * @param replacements Map containing replacements.
      * @throws CargoException If anything fails, most notably if one of the replacements does not
@@ -120,7 +120,7 @@ public interface FileHandler
 
     /**
      * Compute the location of a temporary directory.
-     *
+     * 
      * @param name The name of the directory to compute inside the tmp directory
      * @return the location of the computed temporary directory
      */
@@ -128,14 +128,14 @@ public interface FileHandler
 
     /**
      * Creates a unique temporary directory.
-     *
+     * 
      * @return the newly created temporary directory
      */
     String createUniqueTmpDirectory();
 
     /**
      * Deletes a file or directory, removing any children as appropriate.
-     *
+     * 
      * @param path the path to the file or directory to remove
      */
     void delete(String path);
@@ -160,7 +160,7 @@ public interface FileHandler
 
     /**
      * Append a suffix path to an existing path.
-     *
+     * 
      * @param path the path to append to
      * @param suffixToAppend the suffix to append to the path
      * @return the new full path
@@ -169,7 +169,7 @@ public interface FileHandler
 
     /**
      * Create directories for the passed path.
-     *
+     * 
      * @param path the path for which to create all directories leading to it
      */
     void mkdirs(String path);
@@ -188,7 +188,7 @@ public interface FileHandler
 
     /**
      * Create a file.
-     *
+     * 
      * @param file the file to create
      */
     void createFile(String file);
@@ -201,7 +201,7 @@ public interface FileHandler
 
     /**
      * @param path the path to verify
-     * @return true if the path passed is a directory or false otherwise 
+     * @return true if the path passed is a directory or false otherwise
      */
     boolean isDirectory(String path);
 
@@ -222,7 +222,7 @@ public interface FileHandler
      * @return the children of the passed directory
      */
     String[] getChildren(String directory);
-    
+
     /**
      * gets the absolute path from a file that may be relative to the current directory.
      * 
@@ -230,7 +230,7 @@ public interface FileHandler
      * @return - absolute path to the file
      */
     String getAbsolutePath(String path);
-    
+
     /**
      * @param file the file for which to load into a String object.
      * @return a String with the file's contents.

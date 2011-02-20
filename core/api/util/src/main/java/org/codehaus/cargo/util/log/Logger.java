@@ -43,8 +43,8 @@ public interface Logger
      * Logger informational messages.
      * 
      * @param message the message to log
-     * @param category the log category (usually this is the full name
-     *        of the class being logged but it can be anything)
+     * @param category the log category (usually this is the full name of the class being logged but
+     * it can be anything)
      */
     void info(String message, String category);
 
@@ -52,8 +52,8 @@ public interface Logger
      * Logger warning messages.
      * 
      * @param message the message to log
-     * @param category the log category (usually this is the full name
-     *        of the class being logged but it can be anything)
+     * @param category the log category (usually this is the full name of the class being logged but
+     * it can be anything)
      */
     void warn(String message, String category);
 
@@ -61,8 +61,8 @@ public interface Logger
      * Logger debug messages.
      * 
      * @param message the message to log
-     * @param category the log category (usually this is the full name
-     *        of the class being logged but it can be anything) 
+     * @param category the log category (usually this is the full name of the class being logged but
+     * it can be anything)
      */
     void debug(String message, String category);
 }

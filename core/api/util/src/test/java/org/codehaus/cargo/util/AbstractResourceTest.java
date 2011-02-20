@@ -19,28 +19,28 @@
  */
 package org.codehaus.cargo.util;
 
-import junit.framework.TestCase;
-
-import java.net.URI;
-import java.net.URL;
-import java.io.InputStream;
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.URI;
+import java.net.URL;
+
+import junit.framework.TestCase;
 
 /**
  * Helper {@link junit.framework.TestCase} that provides convenience methods to retrieve test
  * resources from the classpath.
- *
+ * 
  * @version $Id$
  */
 public class AbstractResourceTest extends TestCase
 {
     /**
      * Returns a resource found in the classpath.
-     *
+     * 
      * @param fileName The name of the file in the classpath. For example,
-     *            "org/codehaus/cargo/module/empty.jar".
+     * "org/codehaus/cargo/module/empty.jar".
      * @return The resource as a URL
      * @throws Exception If anything does wrong.
      */
@@ -62,9 +62,9 @@ public class AbstractResourceTest extends TestCase
 
     /**
      * Returns a resource file found in the classpath.
-     *
-     * @param relativePath The relative path name in the classpath.
-     *        For example, "org/codehaus/cargo/module/empty.jar".
+     * 
+     * @param relativePath The relative path name in the classpath. For example,
+     * "org/codehaus/cargo/module/empty.jar".
      * @return The resource as a File object
      * @throws Exception If anything does wrong.
      */
@@ -75,7 +75,7 @@ public class AbstractResourceTest extends TestCase
 
     /**
      * Encodes the given path for compatibility with URIs.
-     *
+     * 
      * @param path the path to encode
      * @return the encoded path
      */
@@ -101,9 +101,9 @@ public class AbstractResourceTest extends TestCase
     }
 
     /**
-     * Asserts whether the content of the specified input stream matches the
-     * specified string line per line.
-     *
+     * Asserts whether the content of the specified input stream matches the specified string line
+     * per line.
+     * 
      * @param theInput The input stream to check
      * @param theExpectedString The expected string
      * @throws Exception If anything does wrong.

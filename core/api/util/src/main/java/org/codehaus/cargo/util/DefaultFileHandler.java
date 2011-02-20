@@ -47,7 +47,7 @@ import org.apache.tools.ant.util.FileUtils;
 
 /**
  * File operations that are performed in Cargo. All file operations must use this class.
- *
+ * 
  * @version $Id$
  */
 public class DefaultFileHandler implements FileHandler
@@ -109,7 +109,7 @@ public class DefaultFileHandler implements FileHandler
                 + target + "]", e);
         }
     }
-    
+
     /**
      * {@inheritDoc}
      * @see FileHandler#copyFile(String, String, boolean)
@@ -162,14 +162,14 @@ public class DefaultFileHandler implements FileHandler
                     if (line.length() == 0)
                     {
                         out.newLine();
-                    } 
+                    }
                     else
                     {
                         out.write(line);
                         out.newLine();
                     }
                 }
-            } 
+            }
             finally
             {
                 if (in != null)
@@ -181,15 +181,14 @@ public class DefaultFileHandler implements FileHandler
                     out.close();
                 }
             }
-        } 
+        }
         catch (IOException e)
         {
             throw new CargoException("Failed to copy source file [" + source + "] to [" + target
                     + "] with FilterChain", e);
         }
     }
-    
-    
+
     /**
      * {@inheritDoc}
      * 
@@ -454,7 +453,7 @@ public class DefaultFileHandler implements FileHandler
         {
             success = pathFile.mkdirs();
         }
-        
+
         if (!success)
         {
             throw new CargoException("Failed to create folders for path [" + path + "]");
@@ -503,7 +502,7 @@ public class DefaultFileHandler implements FileHandler
      */
     public boolean isDirectoryEmpty(String dir)
     {
-        return (new File(dir).list().length == 0);
+        return new File(dir).list().length == 0;
     }
 
     /**
@@ -552,7 +551,7 @@ public class DefaultFileHandler implements FileHandler
 
         // Note: we use listFiles() instead of list() because list() returns relative paths only
         // and we need to return full paths.
-        File[] files = new  File(directory).listFiles();
+        File[] files = new File(directory).listFiles();
         results = new String[files.length];
         for (int i = 0; i < files.length; i++)
         {
@@ -613,6 +612,5 @@ public class DefaultFileHandler implements FileHandler
             throw new CargoException("Failed to read text from file: " + file, e);
         }
     }
-  
-    
+
 }

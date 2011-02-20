@@ -22,12 +22,14 @@ package org.codehaus.cargo.util.log;
 import org.codehaus.cargo.util.CargoException;
 
 /**
- * Definition of logging levels for Cargo's logs. A WARN level means only warnings are logged.
- * An INFO level means warnings and infos are logged. A DEBUG level means warnings, info and debug
+ * Definition of logging levels for Cargo's logs. A WARN level means only warnings are logged. An
+ * INFO level means warnings and infos are logged. A DEBUG level means warnings, info and debug
  * messages are logged.
- *
- * <p>Note: There's no ERROR log level as all errors result in an exception being raised.</p>
- *
+ * 
+ * <p>
+ * Note: There's no ERROR log level as all errors result in an exception being raised.
+ * </p>
+ * 
  * @version $Id$
  */
 public final class LogLevel implements Comparable
@@ -43,7 +45,7 @@ public final class LogLevel implements Comparable
     public static final LogLevel INFO = new LogLevel("info", 1);
 
     /**
-     * Represents a  debug logging level.
+     * Represents a debug logging level.
      */
     public static final LogLevel DEBUG = new LogLevel("debug", 2);
 
@@ -60,11 +62,11 @@ public final class LogLevel implements Comparable
     private int logVolume;
 
     /**
-     * @param level the internal representation of the logging level.
-     *        For example: "warn", "info" or "debug".
+     * @param level the internal representation of the logging level. For example: "warn", "info" or
+     * "debug".
      * @param logVolume the volume of logs that will be output. High numbers have higher volumes.
-     *        This is an internal feature that allows us to have a simple
-     *        {@link #compareTo(Object)} algorithm.
+     * This is an internal feature that allows us to have a simple {@link #compareTo(Object)}
+     * algorithm.
      */
     private LogLevel(String level, int logVolume)
     {
@@ -74,7 +76,7 @@ public final class LogLevel implements Comparable
 
     /**
      * Transform a log level represented as a string into a {@link LogLevel} object.
-     *
+     * 
      * @param levelAsString the string to transform
      * @return the {@link LogLevel} object
      */
@@ -110,7 +112,7 @@ public final class LogLevel implements Comparable
     public boolean equals(Object object)
     {
         boolean result = false;
-        if ((object != null) && (object instanceof LogLevel))
+        if (object != null && object instanceof LogLevel)
         {
             LogLevel level = (LogLevel) object;
             if (level.getLevel().equals(getLevel()))

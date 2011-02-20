@@ -19,15 +19,15 @@
  */
 package org.codehaus.cargo.util;
 
+import junit.framework.TestCase;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
-import junit.framework.TestCase;
-
 /**
  * Unit tests for {@link Dom4JUtil}.
- *
+ * 
  * @version $Id$
  */
 public class Dom4JUtilTest extends TestCase

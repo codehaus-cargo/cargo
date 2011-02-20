@@ -19,19 +19,18 @@
  */
 package org.codehaus.cargo.util.internal.log;
 
-import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.LogLevel;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Base clas for all Loggers.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractLogger implements Logger
 {
     /**
-     * The logging level.
-     * See #LogLevel
+     * The logging level. See #LogLevel
      */
     private LogLevel level = LogLevel.INFO;
 
@@ -99,7 +98,7 @@ public abstract class AbstractLogger implements Logger
     /**
      * Common method for all severity levels. Verifies that the logging level is correct for logging
      * the current message.
-     *
+     * 
      * @param level the log level (aka severity) of the message
      * @param message the message to log
      * @param category the log category
@@ -114,7 +113,7 @@ public abstract class AbstractLogger implements Logger
 
     /**
      * Common method for all severity levels.
-     *
+     * 
      * @param level the log level (aka severity) of the message
      * @param message the message to log
      * @param category the log category
