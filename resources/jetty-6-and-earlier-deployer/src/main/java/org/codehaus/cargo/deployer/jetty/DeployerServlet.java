@@ -24,15 +24,14 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,8 +44,8 @@ import org.mortbay.jetty.webapp.WebAppContext;
 import org.mortbay.log.Log;
 
 /**
- * This servlet is used to control deploy, undeploy, redeploy, start, and stop a
- * web application within the jetty server.
+ * This servlet is used to control deploy, undeploy, redeploy, start, and stop a web application
+ * within the jetty server.
  * 
  * @version $Id$
  */
@@ -62,37 +61,37 @@ public class DeployerServlet extends HttpServlet
      * The ContectHandlerCollection for the server.
      */
     private ContextHandlerCollection chc;
-    
+
     /**
      * The location of the server's configuration directory.
      */
     private String configHome;
-    
+
     /**
      * The location of the server's webapp directory
      */
     private String webAppDirectory;
 
     /**
-     * Creates the DeployerServlet and gives the servlet reference to the server in which it is 
-     * deployed.This gives the servlet access to the server internals which allows for deployment 
+     * Creates the DeployerServlet and gives the servlet reference to the server in which it is
+     * deployed.This gives the servlet access to the server internals which allows for deployment
      * control.
      * @param server The server object for the currently running server
      */
     public DeployerServlet(Server server)
     {
         this.server = server;
-        //TODO find a better means of determining the configuration and webapp directories        
+        // TODO find a better means of determining the configuration and webapp directories
         if (System.getProperty("config.home") != null)
         {
-        	this.configHome = System.getProperty("config.home");
-        } 
+            this.configHome = System.getProperty("config.home");
+        }
         else
         {
-        	this.configHome = System.getProperty("jetty.home");
+            this.configHome = System.getProperty("jetty.home");
         }
         this.webAppDirectory = configHome + File.separator + "webapps";
-        
+
         // TODO there could potentially be more than one context handler
         // collection
         // and there is also the chance that a web application can be deployed
@@ -130,23 +129,23 @@ public class DeployerServlet extends HttpServlet
         if (command.equals("/deploy"))
         {
             deploy(response, contextPath, warURL);
-        } 
+        }
         else if (command.equals("/undeploy"))
         {
             undeploy(response, contextPath);
-        } 
+        }
         else if (command.equals("/stop"))
         {
             stop(response, contextPath);
-        } 
+        }
         else if (command.equals("/start"))
         {
             start(response, contextPath);
-        } 
+        }
         else if (command.equals("/reload"))
         {
             reload(response, contextPath);
-        } 
+        }
         else
         {
             response.sendError(400, "Command " + command + " is unknown");
@@ -171,7 +170,7 @@ public class DeployerServlet extends HttpServlet
         {
             String contextPath = request.getParameter("path");
             deployArchive(request, response, contextPath);
-        } 
+        }
         else
         {
             sendError(response, "Command " + command + " is not reconized with PUT");
@@ -193,11 +192,11 @@ public class DeployerServlet extends HttpServlet
         if (contextPath == null)
         {
             sendError(response, "The path variable is not set");
-        } 
+        }
         else if (!contextPath.startsWith("/"))
         {
             sendError(response, "The path variable must start with /");
-        } 
+        }
         else if (getContextHandler(contextPath) != null)
         {
             sendError(response, "The webapp context path is already in use");
@@ -209,7 +208,8 @@ public class DeployerServlet extends HttpServlet
                     + (contextPath.equals("/") ? "ROOT" : "") + ".war";
             File webappFile = new File(webappLocation);
             InputStream inputStream = new BufferedInputStream(request.getInputStream());
-            OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(webappFile), 8096);
+            OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(webappFile),
+                8096);
 
             // transfer the data across
             int i = inputStream.read();
@@ -232,7 +232,7 @@ public class DeployerServlet extends HttpServlet
             try
             {
                 webappcontext.start();
-            } 
+            }
             catch (Exception e)
             {
                 sendError(response, "Unexpected error when trying to start the webapp");
@@ -245,8 +245,8 @@ public class DeployerServlet extends HttpServlet
     }
 
     /**
-     * Returns the file if it exists for the specified context path. If the file does not exist 
-     * then it will return null.
+     * Returns the file if it exists for the specified context path. If the file does not exist then
+     * it will return null.
      * @param contextPath The context path for the web app
      * @return The file associated with the context path
      */
@@ -260,26 +260,26 @@ public class DeployerServlet extends HttpServlet
         if (slashPos >= 0)
         {
             fileName = contextPath.substring(slashPos + 1);
-        } 
+        }
         else
         {
             fileName = contextPath;
         }
-        
+
         File webappArchive = new File(webAppDirectory + File.separator + fileName + ".war");
         File webappDirectory = new File(webAppDirectory + File.separator + fileName);
-        
+
         File returnedFile = null;
 
         if (webappArchive.exists())
         {
-            returnedFile =  webappArchive;
-        } 
+            returnedFile = webappArchive;
+        }
         else if (webappDirectory.exists())
         {
             returnedFile = webappDirectory;
         }
-        
+
         return returnedFile;
     }
 
@@ -319,7 +319,7 @@ public class DeployerServlet extends HttpServlet
     {
         String context = contextPath;
         boolean error = false;
-        
+
         // if the contextPath is null, then we should use the context from the
         // war's name
         if (context == null)
@@ -341,13 +341,13 @@ public class DeployerServlet extends HttpServlet
             sendError(response, "An application is already deployed at this context : "
                     + context);
             error = true;
-        } 
+        }
         else if (!context.startsWith("/"))
         {
             sendError(response, "The path does not start with a forward slash");
             error = true;
-        } 
-        
+        }
+
         if (error)
         {
             return;
@@ -361,7 +361,7 @@ public class DeployerServlet extends HttpServlet
             try
             {
                 uri = new URI(warURL);
-            } 
+            }
             catch (URISyntaxException e1)
             {
                 e1.printStackTrace();
@@ -390,7 +390,7 @@ public class DeployerServlet extends HttpServlet
             try
             {
                 webappcontext.start();
-            } 
+            }
             catch (Exception e)
             {
                 sendError(response, "Unexpected error when trying to start the webapp");
@@ -416,7 +416,7 @@ public class DeployerServlet extends HttpServlet
     }
 
     /**
-     *  Undeploy the webapp with the given context path.
+     * Undeploy the webapp with the given context path.
      * @param response The http response
      * @param contextPath The context path
      * @throws IOException If an IO exception occurs
@@ -438,14 +438,14 @@ public class DeployerServlet extends HttpServlet
         try
         {
             handler.stop();
-        } 
+        }
         catch (Exception e)
         {
             sendError(response, "Could not stop context handler");
             e.printStackTrace();
             error = true;
         }
-        
+
         if (error)
         {
             return;
@@ -462,20 +462,20 @@ public class DeployerServlet extends HttpServlet
             if (!webAppFile.exists())
             {
                 sendError(response, "Can't find a valid file for this context path");
-            } 
+            }
             else if (!webAppFile.getPath().startsWith(webAppDirectory))
             {
                 sendError(response,
-                        "The cargo jetty deployer will not currently delete a war that exists " 
-                        + "outside of the webapps directory of the server");
-            } 
+                        "The cargo jetty deployer will not currently delete a war that exists "
+                            + "outside of the webapps directory of the server");
+            }
             else
             {
                 boolean deleted = false;
                 if (webAppFile.isFile())
                 {
                     deleted = webAppFile.delete();
-                } 
+                }
                 else
                 {
                     // we are dealing with a directory, which is a pain to
@@ -489,7 +489,7 @@ public class DeployerServlet extends HttpServlet
                 {
                     sendMessage(response, "Webapp with " + contextPath
                             + " context has been undeployed and removed from the filesystem");
-                } 
+                }
                 else
                 {
                     sendError(response, "Webapp with " + contextPath
@@ -514,7 +514,7 @@ public class DeployerServlet extends HttpServlet
                 deleteDirectory(element);
             }
             webAppFile.delete();
-        } 
+        }
         else
         {
             webAppFile.delete();
@@ -524,7 +524,7 @@ public class DeployerServlet extends HttpServlet
     /**
      * Returns the file location for the specified webapp.
      * @param webapp The webapp
-     * @return The location of the webapp 
+     * @return The location of the webapp
      */
     protected String getWebAppLocation(WebAppContext webapp)
     {
