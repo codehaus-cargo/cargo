@@ -35,18 +35,31 @@ import org.dom4j.DocumentHelper;
 public class WebLogic8xStandaloneLocalConfigurationTest extends
     AbstractWeblogicStandaloneConfigurationTest
 {
+    /**
+     * Creates a {@link WebLogicStandaloneLocalConfiguration}. {@inheritdoc}
+     * @param home Configuration home.
+     * @return Local configuration for <code>home</code>.
+     */
     @Override
-    public LocalConfiguration createLocalConfiguration(String home)
+    protected LocalConfiguration createLocalConfiguration(String home)
     {
         return new WebLogicStandaloneLocalConfiguration(home);
     }
 
+    /**
+     * Creates a {@link WebLogic8xInstalledLocalContainer}. {@inheritdoc}
+     * @param configuration Container's configuration.
+     * @return Local container for <code>configuration</code>.
+     */
     @Override
-    public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
+    protected InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new WebLogic8xInstalledLocalContainer(configuration);
     }
 
+    /**
+     * @return {@link WebLogic8xConfigurationChecker}.
+     */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {

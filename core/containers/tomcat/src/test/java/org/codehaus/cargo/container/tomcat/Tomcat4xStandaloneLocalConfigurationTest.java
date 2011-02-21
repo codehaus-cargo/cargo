@@ -44,18 +44,31 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
 
     protected String AJP_PORT = "8001";
 
+    /**
+     * Creates a {@link Tomcat4xStandaloneLocalConfiguration}. {@inheritdoc}
+     * @param home Configuration home.
+     * @return Local configuration for <code>home</code>.
+     */
     @Override
-    public LocalConfiguration createLocalConfiguration(String home)
+    protected LocalConfiguration createLocalConfiguration(String home)
     {
         return new Tomcat4xStandaloneLocalConfiguration(home);
     }
 
+    /**
+     * Creates a {@link Tomcat4xInstalledLocalContainer}. {@inheritdoc}
+     * @param configuration Container's configuration.
+     * @return Local container for <code>configuration</code>.
+     */
     @Override
-    public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
+    protected InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new Tomcat4xInstalledLocalContainer(configuration);
     }
 
+    /**
+     * @return {@link Tomcat4xConfigurationChecker}.
+     */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {

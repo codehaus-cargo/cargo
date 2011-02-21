@@ -31,13 +31,13 @@ public abstract class AbstractResinConfigurationBuilderTest extends
     }
 
     @Override
-    public void testBuildConfigurationEntryForDriverConfiguredDataSourceWithLocalTransactionSupport()
+    public void testBuildConfigurationEntryForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
     {
         try
         {
             super
-                .testBuildConfigurationEntryForDriverConfiguredDataSourceWithLocalTransactionSupport();
+                .testBuildConfigurationEntryForDriverConfiguredDSWithLocalTransactionSupport();
         }
         catch (UnsupportedOperationException e)
         {

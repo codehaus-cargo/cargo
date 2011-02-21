@@ -32,11 +32,17 @@ import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfigurationTest;
 
+/**
+ * Abstract test for any {@link org.codehaus.cargo.container.configuration.LocalConfiguration} with
+ * a {@link ConfigurationChecker}.
+ * 
+ * @version $Id$
+ */
 public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest extends
     AbstractLocalConfigurationTest implements LocalConfigurationWithConfigurationBuilderTests
 {
 
-    ConfigurationChecker configurationChecker = null;
+    private ConfigurationChecker configurationChecker = null;
 
     public AbstractLocalConfigurationWithConfigurationBuilderTest()
     {
@@ -156,7 +162,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
                 .createDriverConfiguredDataSourceWithXaTransactionSupport();
         String configuration = configureDataSourceAndRetrieveConfigurationFile(dataSourceFixture);
         configurationChecker
-            .checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDataSourceFixture(
+            .checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
                 configuration, dataSourceFixture);
     }
 
@@ -178,8 +184,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
         String configuration = configureResourceAndRetrieveConfigurationFile(resourceFixture);
         configurationChecker
             .checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
-                configuration,
-                resourceFixture);
+                configuration, resourceFixture);
     }
 
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception

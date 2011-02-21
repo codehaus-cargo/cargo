@@ -27,8 +27,13 @@ public class Oc4j9xStandaloneLocalConfigurationTest extends
     AbstractOrionStandaloneLocalConfigurationTest
 {
 
+    /**
+     * Creates a {@link Oc4j9xInstalledLocalContainer}. {@inheritdoc}
+     * @param configuration Container's configuration.
+     * @return Local container for <code>configuration</code>.
+     */
     @Override
-    public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
+    protected InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new Oc4j9xInstalledLocalContainer(configuration);
     }

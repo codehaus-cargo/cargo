@@ -29,12 +29,18 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
 
     ConfigurationChecker checker;
 
+    /**
+     * @return {@link OrionConfigurationBuilder}.
+     */
     @Override
     protected ConfigurationBuilder createConfigurationBuilder()
     {
         return new OrionConfigurationBuilder();
     }
 
+    /**
+     * @return {@link OrionConfigurationChecker}.
+     */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {

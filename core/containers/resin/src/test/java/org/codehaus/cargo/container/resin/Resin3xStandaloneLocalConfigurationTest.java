@@ -33,14 +33,24 @@ public class Resin3xStandaloneLocalConfigurationTest extends
     AbstractResinStandaloneLocalConfigurationTest
 {
 
+    /**
+     * Creates a {@link Resin3xStandaloneLocalConfiguration}. {@inheritdoc}
+     * @param home Configuration home.
+     * @return Local configuration for <code>home</code>.
+     */
     @Override
-    public LocalConfiguration createLocalConfiguration(String home)
+    protected LocalConfiguration createLocalConfiguration(String home)
     {
         return new Resin3xStandaloneLocalConfiguration(home);
     }
 
+    /**
+     * Creates a {@link Resin3xInstalledLocalContainer}. {@inheritdoc}
+     * @param configuration Container's configuration.
+     * @return Local container for <code>configuration</code>.
+     */
     @Override
-    public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
+    protected InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new Resin3xInstalledLocalContainer(configuration);
     }
@@ -67,6 +77,9 @@ public class Resin3xStandaloneLocalConfigurationTest extends
         System.gc();
     }
 
+    /**
+     * @return {@link Resin3xConfigurationChecker}.
+     */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {

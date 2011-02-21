@@ -27,36 +27,73 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 
+/**
+ * Abstract test for any {@link LocalConfiguration}.
+ * 
+ * @version $Id$
+ */
 public abstract class AbstractLocalConfigurationTest extends TestCase
 {
 
-    private StandardFileSystemManager fsManager;
-
-    private FileHandler fileHandler;
-
+    /**
+     * Container to test.
+     */
     protected InstalledLocalContainer container;
 
+    /**
+     * Configuration to test.
+     */
     protected LocalConfiguration configuration;
 
+    /**
+     * File system manager.
+     */
+    private StandardFileSystemManager fsManager;
+
+    /**
+     * File handler.
+     */
+    private FileHandler fileHandler;
+
+    /**
+     * Constructor without any container name.
+     */
     public AbstractLocalConfigurationTest()
     {
         super();
     }
 
+    /**
+     * Constructor with a container name.
+     * @param name Container name.
+     */
     public AbstractLocalConfigurationTest(String name)
     {
         super(name);
     }
 
+    /**
+     * Creates the local configuration.
+     * @param home Configuration home.
+     * @return Local configuration for <code>home</code>.
+     */
+    protected abstract LocalConfiguration createLocalConfiguration(String home);
+
+    /**
+     * Creates the local container.
+     * @param configuration Container's configuration.
+     * @return Local container for <code>configuration</code>.
+     */
+    protected abstract InstalledLocalContainer createLocalContainer(
+        LocalConfiguration configuration);
+
+    /**
+     * @return The file handler.
+     */
     protected FileHandler getFileHandler()
     {
         return fileHandler;
     }
-
-    public abstract LocalConfiguration createLocalConfiguration(String home);
-
-    public abstract InstalledLocalContainer createLocalContainer(
-        LocalConfiguration configuration);
 
     /**
      * Creates the test file system manager and the container. {@inheritdoc}

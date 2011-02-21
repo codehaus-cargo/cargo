@@ -159,7 +159,7 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
         notExists(configuration, dataSourceFixture);
     }
 
-    public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDataSourceFixture(
+    public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         notExists(configuration, dataSourceFixture);

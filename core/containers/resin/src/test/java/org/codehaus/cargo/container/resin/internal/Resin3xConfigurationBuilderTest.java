@@ -22,16 +22,21 @@ package org.codehaus.cargo.container.resin.internal;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 
-public class Resin3xConfigurationBuilderTest extends
-    Resin2xConfigurationBuilderTest
+public class Resin3xConfigurationBuilderTest extends Resin2xConfigurationBuilderTest
 {
 
+    /**
+     * @return {@link Resin3xConfigurationBuilder}.
+     */
     @Override
     protected ConfigurationBuilder createConfigurationBuilder()
     {
         return new Resin3xConfigurationBuilder();
     }
 
+    /**
+     * @return {@link Resin3xConfigurationChecker}.
+     */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {

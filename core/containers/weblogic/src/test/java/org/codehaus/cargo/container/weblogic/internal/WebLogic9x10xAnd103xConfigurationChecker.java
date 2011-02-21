@@ -82,7 +82,7 @@ public class WebLogic9x10xAnd103xConfigurationChecker extends
     }
 
     @Override
-    public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDataSourceFixture(
+    public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         checkDataSource(configuration, dataSourceFixture);

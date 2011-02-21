@@ -27,13 +27,21 @@ import junit.framework.TestCase;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 
+/**
+ * Unit tests for {@link DataSourceConverter}.
+ * 
+ * @version $Id$
+ */
 public class DataSourceConverterTest extends TestCase
 {
 
+    /**
+     * DataSource converter.
+     */
     private DataSourceConverter dataSourceConverter;
 
     /**
-     * Creates the test detesource converter. {@inheritdoc}
+     * Creates the test datasource converter. {@inheritdoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -43,6 +51,9 @@ public class DataSourceConverterTest extends TestCase
         dataSourceConverter = new DataSourceConverter();
     }
 
+    /**
+     * Test the {@link Properties} constructor.
+     */
     public void testPropertiesConstructor()
     {
         Properties props = new Properties();
@@ -62,13 +73,19 @@ public class DataSourceConverterTest extends TestCase
         assertEquals(props, dataSourceConverter.toProperties(ds));
     }
 
-    public void testDefalutIsDriver()
+    /**
+     * Test that the default value is driver.
+     */
+    public void testDefaultIsDriver()
     {
         Properties props = new Properties();
         DataSource ds = dataSourceConverter.fromProperties(props);
         assertEquals("java.sql.Driver", ds.getConnectionType());
     }
 
+    /**
+     * Test that the {@link ConfigurationEntryType#JDBC_DRIVER} property is the driver.
+     */
     public void testDriverIsDriver()
     {
         Properties props = new Properties();
@@ -78,6 +95,10 @@ public class DataSourceConverterTest extends TestCase
         assertEquals("java.sql.Driver", ds.getConnectionType());
     }
 
+    /**
+     * Test that the {@link DatasourcePropertySet#CONNECTION_TYPE} property can define an XA
+     * datasource.
+     */
     public void testXADataSourceIsXADataSource()
     {
         Properties props = new Properties();
@@ -86,17 +107,23 @@ public class DataSourceConverterTest extends TestCase
         DataSource ds = dataSourceConverter.fromProperties(props);
         assertEquals("javax.sql.XADataSource", ds.getConnectionType());
         assertEquals(TransactionSupport.XA_TRANSACTION, ds.getTransactionSupport());
-
     }
 
-    public void testDefaultIsNO_TRANSACTION()
+    /**
+     * Test that the default mode is {@link TransactionSupport.NO_TRANSACTION}.
+     */
+    public void testDefaultIsNoTransaction()
     {
         Properties props = new Properties();
         DataSource ds = dataSourceConverter.fromProperties(props);
         assertEquals(TransactionSupport.NO_TRANSACTION, ds.getTransactionSupport());
     }
 
-    public void testNO_TRANSACTIONIsNO_TRANSACTION()
+    /**
+     * Test that the {@link TransactionSupport.NO_TRANSACTION} mode is
+     * {@link TransactionSupport.NO_TRANSACTION}.
+     */
+    public void testNoTransactionIsNoTransaction()
     {
         Properties props = new Properties();
         props.setProperty(DatasourcePropertySet.TRANSACTION_SUPPORT,
@@ -105,7 +132,11 @@ public class DataSourceConverterTest extends TestCase
         assertEquals(TransactionSupport.NO_TRANSACTION, ds.getTransactionSupport());
     }
 
-    public void testLOCAL_TRANSACTIONIsLOCAL_TRANSACTION()
+    /**
+     * Test that the {@link TransactionSupport.LOCAL_TRANSACTION} mode is
+     * {@link TransactionSupport.LOCAL_TRANSACTION}.
+     */
+    public void testLocalTransactionIsLocalTransaction()
     {
         Properties props = new Properties();
         props.setProperty(DatasourcePropertySet.TRANSACTION_SUPPORT,
@@ -114,7 +145,11 @@ public class DataSourceConverterTest extends TestCase
         assertEquals(TransactionSupport.LOCAL_TRANSACTION, ds.getTransactionSupport());
     }
 
-    public void testXA_TRANSACTIONIsXA_TRANSACTION()
+    /**
+     * Test that the {@link TransactionSupport.XA_TRANSACTION} mode is
+     * {@link TransactionSupport.XA_TRANSACTION}.
+     */
+    public void testXATransactionIsXATransaction()
     {
         Properties props = new Properties();
         props.setProperty(DatasourcePropertySet.TRANSACTION_SUPPORT,
@@ -123,6 +158,9 @@ public class DataSourceConverterTest extends TestCase
         assertEquals(TransactionSupport.XA_TRANSACTION, ds.getTransactionSupport());
     }
 
+    /**
+     * Test that an empty property string generates a <code>null</code>.
+     */
     public void testIdIsNullWhenPropertyStringIsBlank()
     {
         String propertyString = "";
@@ -130,6 +168,9 @@ public class DataSourceConverterTest extends TestCase
         assertEquals(null, ds.getId());
     }
 
+    /**
+     * Test an id with a slash.
+     */
     public void testIdWithSlash()
     {
         String jndiName = "jdbc/DataSource";
@@ -138,6 +179,9 @@ public class DataSourceConverterTest extends TestCase
         assertEquals("DataSource", ds.getId());
     }
 
+    /**
+     * Test the driver properties to string getter.
+     */
     public void testGetDriverPropertiesAsString()
     {
         String propertyString = "user=APP;CreateDatabase=create";
@@ -157,6 +201,9 @@ public class DataSourceConverterTest extends TestCase
         }
     }
 
+    /**
+     * Test the empty driver properties getter.
+     */
     public void testGetEmptyDriverProperties()
     {
         String propertyString = "";
@@ -166,6 +213,9 @@ public class DataSourceConverterTest extends TestCase
         assertEquals(0, ds.getConnectionProperties().size());
     }
 
+    /**
+     * Test the setting of multiple properties delimited by a semicolon.
+     */
     public void testMultipleDriverPropertiesDelimitedBySemiColon()
     {
         Properties driverProperties = new Properties();
@@ -179,6 +229,9 @@ public class DataSourceConverterTest extends TestCase
         assertEquals(driverProperties, ds.getConnectionProperties());
     }
 
+    /**
+     * Test the driver properties when the username is set on datasource.
+     */
     public void testDatabaseDriverPropertiesUsernamePropertySetsUserOnDataSource()
     {
         String driverPropertyString = "user=APP;CreateDatabase=create";
@@ -188,6 +241,9 @@ public class DataSourceConverterTest extends TestCase
         assertEquals("APP", ds.getUsername());
     }
 
+    /**
+     * Test the driver properties when the password is set on datasource.
+     */
     public void testDatabaseDriverPropertiesPasswordPropertySetsPasswordOnDataSource()
     {
         String driverPropertyString = "password=egg;CreateDatabase=create";
@@ -197,6 +253,9 @@ public class DataSourceConverterTest extends TestCase
         assertEquals("egg", ds.getPassword());
     }
 
+    /**
+     * Test the driver properties when an empty password is set on datasource.
+     */
     public void testDatabaseDriverPropertiesEmptyPasswordPropertySetsPasswordOnDataSource()
     {
         String driverPropertyString = "password=;CreateDatabase=create";
@@ -206,7 +265,10 @@ public class DataSourceConverterTest extends TestCase
         assertEquals("", ds.getPassword());
     }
 
-    public void testDatabaseDriverPropertiesUsernameAndPasswordPropertySetsUserAndPasswordOnDataSource()
+    /**
+     * Test the driver properties when the username and the password is set on datasource.
+     */
+    public void testDatabaseDriverPropertiesUserAndPasswordPropertySetsDataSourceUserAndPassword()
     {
         String driverPropertyString = "user=APP;password=egg;CreateDatabase=create";
         String propertyString =
@@ -216,7 +278,10 @@ public class DataSourceConverterTest extends TestCase
         assertEquals("egg", ds.getPassword());
     }
 
-    public void testDatabaseDriverPropertiesUsernameAndPasswordPropertyOverrideUserAndPasswordOnDataSource()
+    /**
+     * Test the driver properties when the username and the password is set on datasource.
+     */
+    public void testDatabaseDriverPropertiesUserAndPasswordPropertyOverrideDSUserAndPassword()
     {
         String driverPropertyString = "user=APP;password=egg;CreateDatabase=create";
         Properties props = new Properties();
@@ -228,6 +293,9 @@ public class DataSourceConverterTest extends TestCase
         assertEquals("egg", ds.getPassword());
     }
 
+    /**
+     * Test an id with two slashes.
+     */
     public void testIdWithTwoSlashes()
     {
         String jndiName = "jdbc/app1/DataSource";
@@ -236,6 +304,9 @@ public class DataSourceConverterTest extends TestCase
         assertEquals("DataSource", ds.getId());
     }
 
+    /**
+     * Test an id with a dot.
+     */
     public void testIdWithADot()
     {
         String jndiName = "jdbc.DataSource";
@@ -244,6 +315,9 @@ public class DataSourceConverterTest extends TestCase
         assertEquals("DataSource", ds.getId());
     }
 
+    /**
+     * Test an id with a dot and a slash.
+     */
     public void testIdWithADotAndASlash()
     {
         String jndiName = "jdbc.app1/DataSource";
@@ -252,6 +326,9 @@ public class DataSourceConverterTest extends TestCase
         assertEquals("DataSource", ds.getId());
     }
 
+    /**
+     * Test an id without dots nor slashes.
+     */
     public void testIdWithoutDotsOrSlashes()
     {
         String jndiName = "DataSource";
@@ -260,6 +337,9 @@ public class DataSourceConverterTest extends TestCase
         assertEquals(jndiName, ds.getId());
     }
 
+    /**
+     * Test an id with a Java column.
+     */
     public void testIdWithJavaColon()
     {
         String jndiName = "java:DataSource";

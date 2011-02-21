@@ -28,12 +28,18 @@ public class Resin2xConfigurationBuilderTest extends AbstractResinConfigurationB
 
     ConfigurationChecker checker;
 
+    /**
+     * @return {@link Resin2xConfigurationBuilder}.
+     */
     @Override
     protected ConfigurationBuilder createConfigurationBuilder()
     {
         return new Resin2xConfigurationBuilder();
     }
 
+    /**
+     * @return {@link Resin2xConfigurationChecker}.
+     */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {

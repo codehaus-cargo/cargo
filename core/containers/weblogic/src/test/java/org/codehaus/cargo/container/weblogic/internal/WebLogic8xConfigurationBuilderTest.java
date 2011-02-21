@@ -25,16 +25,18 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurat
 
 public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBuilderTest
 {
-    ConfigurationBuilder builder;
-
-    ConfigurationChecker checker;
-
+    /**
+     * @return {@link WebLogic8xConfigurationBuilder}.
+     */
     @Override
     protected ConfigurationBuilder createConfigurationBuilder()
     {
         return new WebLogic8xConfigurationBuilder("server");
     }
 
+    /**
+     * @return {@link WebLogic8xConfigurationChecker}.
+     */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {

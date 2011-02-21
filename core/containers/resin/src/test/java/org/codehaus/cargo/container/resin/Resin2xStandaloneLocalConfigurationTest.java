@@ -32,14 +32,24 @@ public class Resin2xStandaloneLocalConfigurationTest extends
     AbstractResinStandaloneLocalConfigurationTest
 {
 
+    /**
+     * Creates a {@link Resin2xStandaloneLocalConfiguration}. {@inheritdoc}
+     * @param home Configuration home.
+     * @return Local configuration for <code>home</code>.
+     */
     @Override
-    public LocalConfiguration createLocalConfiguration(String home)
+    protected LocalConfiguration createLocalConfiguration(String home)
     {
         return new Resin2xStandaloneLocalConfiguration(home);
     }
 
+    /**
+     * Creates a {@link Resin2xInstalledLocalContainer}. {@inheritdoc}
+     * @param configuration Container's configuration.
+     * @return Local container for <code>configuration</code>.
+     */
     @Override
-    public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
+    protected InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new Resin2xInstalledLocalContainer(configuration);
     }
@@ -59,6 +69,9 @@ public class Resin2xStandaloneLocalConfigurationTest extends
         xmlUtil.saveXml(document, file);
     }
 
+    /**
+     * @return {@link Resin2xConfigurationChecker}.
+     */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {

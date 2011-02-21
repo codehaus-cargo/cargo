@@ -157,7 +157,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
         checkDataSource(configuration, dataSourceFixture);
     }
 
-    public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDataSourceFixture(
+    public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         init(dataSourceFixture.jndiLocation);

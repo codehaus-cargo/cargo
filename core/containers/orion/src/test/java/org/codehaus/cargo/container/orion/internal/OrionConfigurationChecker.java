@@ -162,7 +162,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
         validateDataSource(configuration, dataSourceFixture, id);
     }
 
-    public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDataSourceFixture(
+    public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws XpathException,
         SAXException, IOException
     {

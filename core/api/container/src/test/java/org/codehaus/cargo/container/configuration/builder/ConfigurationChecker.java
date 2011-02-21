@@ -83,7 +83,7 @@ public interface ConfigurationChecker
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
      */
-    void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDataSourceFixture(
+    void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception;
 
     /**

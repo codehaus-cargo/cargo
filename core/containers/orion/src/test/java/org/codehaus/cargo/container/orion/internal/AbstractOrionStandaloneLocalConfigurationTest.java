@@ -34,12 +34,20 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest
 {
 
+    /**
+     * Creates a {@link Oc4j9xStandaloneLocalConfiguration}. {@inheritdoc}
+     * @param home Configuration home.
+     * @return Local configuration for <code>home</code>.
+     */
     @Override
-    public LocalConfiguration createLocalConfiguration(String home)
+    protected LocalConfiguration createLocalConfiguration(String home)
     {
         return new Oc4j9xStandaloneLocalConfiguration(home);
     }
 
+    /**
+     * @return {@link OrionConfigurationChecker}.
+     */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {

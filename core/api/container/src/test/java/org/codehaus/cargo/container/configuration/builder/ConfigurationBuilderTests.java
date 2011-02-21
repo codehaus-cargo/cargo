@@ -37,7 +37,7 @@ public interface ConfigurationBuilderTests
      * Test configuration entry for datasource with driver-configured local transaction support.
      * @throws Exception If anything goes wrong.
      */
-    void testBuildConfigurationEntryForDriverConfiguredDataSourceWithLocalTransactionSupport()
+    void testBuildConfigurationEntryForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception;
 
     /**

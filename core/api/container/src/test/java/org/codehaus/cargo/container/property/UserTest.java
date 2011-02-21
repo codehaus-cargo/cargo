@@ -33,15 +33,21 @@ import org.codehaus.cargo.container.ContainerException;
  */
 public class UserTest extends TestCase
 {
+    /**
+     * Test roles parsing.
+     */
     public void testParseRoles()
     {
-        List roles = User.parseRoles("role1,role2,role3");
+        List<String> roles = User.parseRoles("role1,role2,role3");
         assertEquals(3, roles.size());
-        assertEquals("role1", (String) roles.get(0));
-        assertEquals("role2", (String) roles.get(1));
-        assertEquals("role3", (String) roles.get(2));
+        assertEquals("role1", roles.get(0));
+        assertEquals("role2", roles.get(1));
+        assertEquals("role3", roles.get(2));
     }
 
+    /**
+     * Test user parsing.
+     */
     public void testParseUser()
     {
         User expectedUser = new User();
@@ -53,6 +59,9 @@ public class UserTest extends TestCase
         assertEquals(expectedUser, user);
     }
 
+    /**
+     * Test multiple user parsing.
+     */
     public void testParseUsers()
     {
         User expectedUser1 = new User();
@@ -65,12 +74,15 @@ public class UserTest extends TestCase
         expectedUser2.setPassword("p2");
         expectedUser2.addRole("r2");
 
-        List users = User.parseUsers("n1:p1:r1|n2:p2:r2");
+        List<User> users = User.parseUsers("n1:p1:r1|n2:p2:r2");
         assertEquals(2, users.size());
         assertEquals(expectedUser1, users.get(0));
         assertEquals(expectedUser2, users.get(1));
     }
 
+    /**
+     * Test user parsing with a missing field.
+     */
     public void testParseUserWithMissingField()
     {
         try
@@ -84,6 +96,9 @@ public class UserTest extends TestCase
         }
     }
 
+    /**
+     * Test user parsing with empty password.
+     */
     public void testParseUserWithEmptyPassword()
     {
         User expectedUser = new User();
@@ -95,23 +110,26 @@ public class UserTest extends TestCase
         assertEquals(expectedUser, user);
     }
 
+    /**
+     * Test role to users list map creation.
+     */
     public void testCreateRoleMap()
     {
-        List users = User.parseUsers("u1:p1:r1,r2|u2:p2:r2,r3");
-        Map roles = User.createRoleMap(users);
+        List<User> users = User.parseUsers("u1:p1:r1,r2|u2:p2:r2,r3");
+        Map<String, List<User>> roles = User.createRoleMap(users);
 
         assertNotNull(roles.get("r1"));
         assertNotNull(roles.get("r2"));
         assertNotNull(roles.get("r3"));
 
-        assertEquals(1, ((List) roles.get("r1")).size());
-        assertEquals("u1", ((User) ((List) roles.get("r1")).get(0)).getName());
+        assertEquals(1, roles.get("r1").size());
+        assertEquals("u1", roles.get("r1").get(0).getName());
 
-        assertEquals(2, ((List) roles.get("r2")).size());
-        assertEquals("u1", ((User) ((List) roles.get("r2")).get(0)).getName());
-        assertEquals("u2", ((User) ((List) roles.get("r2")).get(1)).getName());
+        assertEquals(2, roles.get("r2").size());
+        assertEquals("u1", roles.get("r2").get(0).getName());
+        assertEquals("u2", roles.get("r2").get(1).getName());
 
-        assertEquals(1, ((List) roles.get("r3")).size());
-        assertEquals("u2", ((User) ((List) roles.get("r3")).get(0)).getName());
+        assertEquals(1, roles.get("r3").size());
+        assertEquals("u2", roles.get("r3").get(0).getName());
     }
 }

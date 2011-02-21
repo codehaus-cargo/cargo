@@ -25,12 +25,18 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurat
 
 public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuilderTest
 {
+    /**
+     * @return {@link Tomcat4xConfigurationBuilder}.
+     */
     @Override
     protected ConfigurationBuilder createConfigurationBuilder()
     {
         return new Tomcat4xConfigurationBuilder();
     }
 
+    /**
+     * @return {@link Tomcat4xConfigurationChecker}.
+     */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
@@ -38,13 +44,13 @@ public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuild
     }
 
     @Override
-    public void testBuildConfigurationEntryForDriverConfiguredDataSourceWithLocalTransactionSupport()
+    public void testBuildConfigurationEntryForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
     {
         try
         {
             super
-                .testBuildConfigurationEntryForDriverConfiguredDataSourceWithLocalTransactionSupport();
+                .testBuildConfigurationEntryForDriverConfiguredDSWithLocalTransactionSupport();
             fail("should have received an exception");
         }
         catch (UnsupportedOperationException e)

@@ -40,24 +40,35 @@ import org.xml.sax.SAXException;
 public class Tomcat5xStandaloneLocalConfigurationTest extends
 AbstractCatalinaStandaloneLocalConfigurationTest
 {
-    private Tomcat5And6xConfigurationChecker checker = new Tomcat5And6xConfigurationChecker();
-    
+    /**
+     * Creates a {@link Tomcat5xStandaloneLocalConfiguration}. {@inheritdoc}
+     * @param home Configuration home.
+     * @return Local configuration for <code>home</code>.
+     */
     @Override
-    public LocalConfiguration createLocalConfiguration(String home)
+    protected LocalConfiguration createLocalConfiguration(String home)
     {
         return new Tomcat5xStandaloneLocalConfiguration(home);
     }
 
+    /**
+     * Creates a {@link Tomcat5xInstalledLocalContainer}. {@inheritdoc}
+     * @param configuration Container's configuration.
+     * @return Local container for <code>configuration</code>.
+     */
     @Override
-    public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
+    protected InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new Tomcat5xInstalledLocalContainer(configuration);
     }
 
+    /**
+     * @return {@link Tomcat5And6xConfigurationChecker}.
+     */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
-        return checker;
+        return new Tomcat5And6xConfigurationChecker();
     }
 
     @Override

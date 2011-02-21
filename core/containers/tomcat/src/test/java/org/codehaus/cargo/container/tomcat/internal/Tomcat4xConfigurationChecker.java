@@ -121,7 +121,7 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
             ConfigurationEntryType.DATASOURCE);
     }
 
-    public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDataSourceFixture(
+    public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         notExists(configuration, dataSourceFixture);

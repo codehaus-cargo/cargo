@@ -25,16 +25,18 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 public class WebLogic9x10xAnd103xConfigurationBuilderTest extends
     WebLogic8xConfigurationBuilderTest
 {
-    ConfigurationBuilder builder;
-
-    ConfigurationChecker checker;
-
+    /**
+     * @return {@link WebLogic9x10xAnd103xConfigurationBuilder}.
+     */
     @Override
     protected ConfigurationBuilder createConfigurationBuilder()
     {
         return new WebLogic9x10xAnd103xConfigurationBuilder("server");
     }
 
+    /**
+     * @return {@link WebLogic9x10xAnd103xConfigurationChecker}.
+     */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {

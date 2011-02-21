@@ -28,25 +28,52 @@ import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFact
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 
+/**
+ * Abstract test for any {@link ConfigurationBuilder} and {@link ConfigurationChecker}.
+ * 
+ * @version $Id$
+ */
 public abstract class AbstractConfigurationBuilderTest extends TestCase implements
     ConfigurationBuilderTests
 {
-    ConfigurationBuilder builder;
+    /**
+     * Configuration builder.
+     */
+    private ConfigurationBuilder builder;
 
-    ConfigurationChecker checker;
+    /**
+     * Configuration checked.
+     */
+    private ConfigurationChecker checker;
 
+    /**
+     * Creates the configuration builder and checker. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
+        super.setUp();
+
         builder = createConfigurationBuilder();
         checker = createConfigurationChecker();
     }
 
-    protected abstract ConfigurationChecker createConfigurationChecker();
-
+    /**
+     * @return Configuration builder.
+     */
     protected abstract ConfigurationBuilder createConfigurationBuilder();
 
-    public void testBuildConfigurationEntryForDriverConfiguredDataSourceWithLocalTransactionSupport()
+    /**
+     * @return Configuration checker.
+     */
+    protected abstract ConfigurationChecker createConfigurationChecker();
+
+    /**
+     * Test configuration with driver configured with local transaction support.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testBuildConfigurationEntryForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
     {
         DataSourceFixture dataSourceFixture =
@@ -61,6 +88,10 @@ public abstract class AbstractConfigurationBuilderTest extends TestCase implemen
 
     }
 
+    /**
+     * Test configuration with datasource entries.
+     * @throws Exception If anything goes wrong.
+     */
     public void testBuildConfigurationEntryForDataSource() throws Exception
     {
         DataSourceFixture dataSourceFixture = ConfigurationFixtureFactory.createDataSource();
@@ -72,6 +103,10 @@ public abstract class AbstractConfigurationBuilderTest extends TestCase implemen
 
     }
 
+    /**
+     * Test configuration with driver configured with XA transaction support.
+     * @throws Exception If anything goes wrong.
+     */
     public void testBuildConfigurationEntryForDriverConfiguredDataSourceWithXaTransactionSupport()
         throws Exception
     {
@@ -82,11 +117,14 @@ public abstract class AbstractConfigurationBuilderTest extends TestCase implemen
             builder.toConfigurationEntry(dataSourceFixture.buildDataSource());
         String configuration = checker.insertConfigurationEntryIntoContext(dataSourceEntry);
         checker
-            .checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDataSourceFixture(
+            .checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
                 configuration, dataSourceFixture);
-
     }
 
+    /**
+     * Test configuration with XA datasource.
+     * @throws Exception If anything goes wrong.
+     */
     public void testBuildConfigurationEntryForXADataSourceConfiguredDataSource() throws Exception
     {
         DataSourceFixture dataSourceFixture =
@@ -100,24 +138,32 @@ public abstract class AbstractConfigurationBuilderTest extends TestCase implemen
 
     }
 
+    /**
+     * Test configuration with XA datasource configured as resource.
+     * @throws Exception If anything goes wrong.
+     */
     public void testBuildConfigurationEntryForXADataSourceConfiguredResource() throws Exception
     {
-        ResourceFixture ResourceFixture =
+        ResourceFixture resourceFixture =
             ConfigurationFixtureFactory.createXADataSourceAsResource();
-        String ResourceEntry = builder.toConfigurationEntry(ResourceFixture.buildResource());
-        String configuration = checker.insertConfigurationEntryIntoContext(ResourceEntry);
+        String resourceEntry = builder.toConfigurationEntry(resourceFixture.buildResource());
+        String configuration = checker.insertConfigurationEntryIntoContext(resourceEntry);
         checker.checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
-            configuration, ResourceFixture);
+            configuration, resourceFixture);
     }
 
+    /**
+     * Test configuration with mail resource.
+     * @throws Exception If anything goes wrong.
+     */
     public void testBuildConfigurationEntryForMailSessionConfiguredResource() throws Exception
     {
-        ResourceFixture ResourceFixture =
+        ResourceFixture resourceFixture =
             ConfigurationFixtureFactory.createMailSessionAsResource();
-        String ResourceEntry = builder.toConfigurationEntry(ResourceFixture.buildResource());
-        String configuration = checker.insertConfigurationEntryIntoContext(ResourceEntry);
+        String resourceEntry = builder.toConfigurationEntry(resourceFixture.buildResource());
+        String configuration = checker.insertConfigurationEntryIntoContext(resourceEntry);
         checker.checkConfigurationForMailSessionConfiguredResourceMatchesResourceFixture(
-            configuration, ResourceFixture);
+            configuration, resourceFixture);
     }
 
 }

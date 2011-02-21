@@ -47,18 +47,31 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     AbstractWeblogicStandaloneConfigurationTest
 {
 
+    /**
+     * Creates a {@link WebLogic9xStandaloneLocalConfiguration}. {@inheritdoc}
+     * @param home Configuration home.
+     * @return Local configuration for <code>home</code>.
+     */
     @Override
-    public LocalConfiguration createLocalConfiguration(String home)
+    protected LocalConfiguration createLocalConfiguration(String home)
     {
         return new WebLogic9xStandaloneLocalConfiguration(home);
     }
 
+    /**
+     * Creates a {@link WebLogic9xInstalledLocalContainer}. {@inheritdoc}
+     * @param configuration Container's configuration.
+     * @return Local container for <code>configuration</code>.
+     */
     @Override
-    public InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
+    protected InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new WebLogic9xInstalledLocalContainer(configuration);
     }
 
+    /**
+     * @return {@link WebLogic9x10xAnd103xConfigurationChecker}.
+     */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
@@ -82,7 +95,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     protected void setUp() throws Exception
     {
         super.setUp();
-        Map m = new HashMap();
+        Map<String, String> m = new HashMap<String, String>();
         m.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
         m.put("jdbc", "http://www.bea.com/ns/weblogic/90");
         NamespaceContext ctx = new SimpleNamespaceContext(m);
