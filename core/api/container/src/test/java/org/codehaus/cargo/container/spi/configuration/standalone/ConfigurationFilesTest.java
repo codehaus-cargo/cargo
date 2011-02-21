@@ -21,7 +21,7 @@ package org.codehaus.cargo.container.spi.configuration.standalone;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -31,43 +31,82 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
+/**
+ * Unit tests for configuration files.
+ * 
+ * @version $Id$
+ */
 public class ConfigurationFilesTest extends TestCase
 {
 
-    TestableAbstractStandaloneConfiguration configuration;
-    File configFileDirectory;
+    /**
+     * Configuration to test.
+     */
+    private TestableAbstractStandaloneConfiguration configuration;
 
+    /**
+     * Config file directory.
+     */
+    private File configFileDirectory;
+
+    /**
+     * Mock {@link AbstractStandaloneLocalConfiguration} implementation.
+     */
     public class TestableAbstractStandaloneConfiguration extends
-            AbstractStandaloneLocalConfiguration
+        AbstractStandaloneLocalConfiguration
     {
+        /**
+         * {@inheritDoc}
+         * @param dir Configuration directory.
+         */
         public TestableAbstractStandaloneConfiguration(String dir)
         {
             super(dir);
         }
 
+        /**
+         * {@inheritDoc}
+         * @param container Local container.
+         */
         @Override
         protected void doConfigure(LocalContainer container)
         {
             configureFiles(getFilterChain());
         }
 
+        /**
+         * {@inheritDoc}
+         * @return Mock {@link ConfigurationCapability}.
+         */
         public ConfigurationCapability getCapability()
         {
             return new ConfigurationCapability()
             {
+                /**
+                 * {@inheritDoc}
+                 * @return <code>false</code>.
+                 */
                 public boolean supportsProperty(String propertyName)
                 {
                     return false;
                 }
 
-                public Map getProperties()
+                /**
+                 * {@inheritDoc}
+                 * @return {@link Collections#emptyMap()}
+                 */
+                public Map<String, Boolean> getProperties()
                 {
-                    return new HashMap();
+                    return Collections.emptyMap();
                 }
             };
         }
     }
 
+    /**
+     * Creates the test directory. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -84,6 +123,10 @@ public class ConfigurationFilesTest extends TestCase
         configuration = new TestableAbstractStandaloneConfiguration(getAbsolutePath(confHome));
     }
 
+    /**
+     * Sets all the files to delete on exit. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void tearDown() throws Exception
     {
@@ -99,8 +142,15 @@ public class ConfigurationFilesTest extends TestCase
         this.configuration = null;
     }
 
-    public void testCopy(FileConfig fileConfig, String expectedFilePath, String expectedFileContents)
-        throws Exception
+    /**
+     * Test file copy.
+     * @param fileConfig File configuration.
+     * @param expectedFilePath Expected result file path.
+     * @param expectedFileContents Expected result file contents.
+     * @throws Exception If anything goes wrong.
+     */
+    protected void testCopy(FileConfig fileConfig, String expectedFilePath,
+        String expectedFileContents) throws Exception
     {
         configuration.setFileProperty(fileConfig);
         configuration.doConfigure(null);
@@ -111,6 +161,10 @@ public class ConfigurationFilesTest extends TestCase
         assertEquals(expectedFileContents, readFile(copiedFile));
     }
 
+    /**
+     * Test simple file copy.
+     * @throws Exception If anything goes wrong.
+     */
     public void testSimpleCopyFile() throws Exception
     {
         // simplest test for file copy
@@ -124,6 +178,10 @@ public class ConfigurationFilesTest extends TestCase
         testCopy(configFile, fileName, "@foo@");
     }
 
+    /**
+     * Test file copy with replacement tokens.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCopyWithTokens() throws Exception
     {
         // test that token replacement for "@foo@" results in "bar"
@@ -143,6 +201,10 @@ public class ConfigurationFilesTest extends TestCase
         testCopy(configFile, fileName, "value1 ");
     }
 
+    /**
+     * Test file copy with overwrite.
+     * @throws Exception If anything goes wrong.
+     */
     public void testOverwite() throws Exception
     {
         File configHome = new File(configuration.getHome());
@@ -165,6 +227,10 @@ public class ConfigurationFilesTest extends TestCase
         assertEquals("goodbye", readFile(existingFile));
     }
 
+    /**
+     * Test file copy with overwrite and replacement tokens.
+     * @throws Exception If anything goes wrong.
+     */
     public void testOverwriteWithTokens() throws Exception
     {
         File configHome = new File(configuration.getHome());
@@ -190,6 +256,10 @@ public class ConfigurationFilesTest extends TestCase
         assertEquals("goodbye everyone.", readFile(existingFile));
     }
 
+    /**
+     * Test copy.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCopy() throws Exception
     {
         String fileName = "file";
@@ -225,14 +295,18 @@ public class ConfigurationFilesTest extends TestCase
         testCopy(configFile, "dir5/dir4/file4", fileContents);
     }
 
+    /**
+     * Test copy directory.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCopyDirectory() throws Exception
     {
         String fileName1 = "file1";
         String fileName2 = "file2";
         String fileContents1 = "contents1";
         String fileContents2 = "contents2";
-        File file1 = createFile(configFileDirectory, fileName1, fileContents1);
-        File file2 = createFile(configFileDirectory, fileName2, fileContents2);
+        createFile(configFileDirectory, fileName1, fileContents1);
+        createFile(configFileDirectory, fileName2, fileContents2);
 
         // test that copying to the root directory works
         FileConfig configFile = new FileConfig();
@@ -263,6 +337,10 @@ public class ConfigurationFilesTest extends TestCase
         assertEquals(fileContents2, readFile(copiedFile2));
     }
 
+    /**
+     * Test configuration file property.
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigFileProperty() throws Exception
     {
         File configHome = new File(configuration.getHome());
@@ -295,11 +373,22 @@ public class ConfigurationFilesTest extends TestCase
         assertEquals("Hello world ", readFile(copiedFile));
     }
 
+    /**
+     * Create a directory.
+     * @param directoryName Directory name.
+     * @return Created directory.
+     */
     protected File createDirecory(String directoryName)
     {
         return createDirectory(null, directoryName);
     }
 
+    /**
+     * Create a directory.
+     * @param parent Parent directory.
+     * @param directoryName Directory name.
+     * @return Created directory.
+     */
     protected File createDirectory(File parent, String directoryName)
     {
         File tempDirectory = new File(parent, directoryName);
@@ -308,6 +397,15 @@ public class ConfigurationFilesTest extends TestCase
         return tempDirectory;
     }
 
+    /**
+     * Create a file.
+     * @param parent Parent directory.
+     * @param filename File name.
+     * @param fileContents File contents.
+     * @return File created in <code>parent</code> with the given <code>filename</code> and
+     * <code>fileContents</code>.
+     * @throws Exception If anything goes wrong.
+     */
     protected File createFile(File parent, String filename, String fileContents) throws Exception
     {
         File file = new File(parent, filename);
@@ -320,11 +418,21 @@ public class ConfigurationFilesTest extends TestCase
         return file;
     }
 
+    /**
+     * Read a file.
+     * @param file Name of file to read.
+     * @return Contents of <code>file</code>.
+     */
     protected String readFile(File file)
     {
         return configuration.getFileHandler().readTextFile(getAbsolutePath(file));
     }
 
+    /**
+     * Get the absolute path of a file.
+     * @param file Name of file.
+     * @return Absolute path of <code>file</code>.
+     */
     protected String getAbsolutePath(File file)
     {
         String absolutePath = file.getAbsolutePath();

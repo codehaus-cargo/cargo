@@ -39,11 +39,13 @@ import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 
 /**
- * provides base level of testing for subclasses of AbstractInstalledLocalContainer.
+ * Provides base level of testing for subclasses of AbstractInstalledLocalContainer.
+ * 
+ * @version $Id$
  */
 public class InstalledLocalContainerTest extends TestCase
 {
-    private AbstractStandaloneLocalConfiguration configuration = null;
+    private AbstractStandaloneLocalConfiguration configuration;
 
     private StandardFileSystemManager fsManager;
 
@@ -72,21 +74,20 @@ public class InstalledLocalContainerTest extends TestCase
             public void addResource(Resource resource)
             {
                 // TODO Auto-generated method stub
-
             }
         };
+
         fsManager = new StandardFileSystemManager();
         fsManager.init();
         fileHandler = new VFSFileHandler(fsManager);
         this.configuration.setFileHandler(fileHandler);
         this.fileHandler.createFile(testFile);
         this.fileHandler.createFile(previousFile);
-
     }
 
     public class AbstractInstalledLocalContainerStub extends AbstractInstalledLocalContainer
     {
-        Java java;
+        private Java java;
 
         public AbstractInstalledLocalContainerStub(LocalConfiguration configuration)
         {
@@ -136,7 +137,6 @@ public class InstalledLocalContainerTest extends TestCase
         Path path = new Path(new Project());
         container.addToolsJarToClasspath(path);
         assertFalse(path.toString().contains("myTestPath"));
-
     }
 
     public void testSetsToolsJarWhenNotOsX() throws Exception

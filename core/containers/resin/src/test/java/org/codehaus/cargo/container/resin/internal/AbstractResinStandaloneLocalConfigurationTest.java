@@ -68,13 +68,13 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
     }
 
     @Override
-    public void testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithLocalTransactionSupport()
+    public void testConfigureCreatesDataSourceForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
     {
         try
         {
             super
-                .testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithLocalTransactionSupport();
+                .testConfigureCreatesDataSourceForDriverConfiguredDSWithLocalTransactionSupport();
             fail("should have received an exception");
 
         }
@@ -86,13 +86,13 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
     }
 
     @Override
-    public void testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithXaTransactionSupport()
+    public void testConfigureCreatesDataSourceForDriverConfiguredDSWithXaTransactionSupport()
         throws Exception
     {
         try
         {
             super
-                .testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithXaTransactionSupport();
+                .testConfigureCreatesDataSourceForDriverConfiguredDSWithXaTransactionSupport();
             fail("should have received an exception");
 
         }

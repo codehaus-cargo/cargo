@@ -36,7 +36,7 @@ public class InstalledLocalContainerStub
     extends AbstractLocalContainerStub implements InstalledLocalContainer
 {
     private String home;
-    private Map systemProperties;
+    private Map<String, String> systemProperties;
 
     public static final String ID = "myInstalledLocalContainer";
     public static final String NAME = "My Installed Local Container";
@@ -78,7 +78,7 @@ public class InstalledLocalContainerStub
         throw new RuntimeException("Not implemented");
     }
 
-    public Map getSystemProperties()
+    public Map<String, String> getSystemProperties()
     {
         return this.systemProperties;
     }
@@ -98,7 +98,7 @@ public class InstalledLocalContainerStub
         throw new RuntimeException("Not implemented");
     }
 
-    public void setSystemProperties(Map properties)
+    public void setSystemProperties(Map<String, String> properties)
     {
         this.systemProperties = properties;
     }

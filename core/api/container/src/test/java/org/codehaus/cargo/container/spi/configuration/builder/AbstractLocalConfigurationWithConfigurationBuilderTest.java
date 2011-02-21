@@ -42,18 +42,32 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
     AbstractLocalConfigurationTest implements LocalConfigurationWithConfigurationBuilderTests
 {
 
+    /**
+     * Configuration checker.
+     */
     private ConfigurationChecker configurationChecker = null;
 
+    /**
+     * Empty constructor.
+     */
     public AbstractLocalConfigurationWithConfigurationBuilderTest()
     {
         super();
     }
 
+    /**
+     * Constructor with container name.
+     * @param name Container name.
+     */
     public AbstractLocalConfigurationWithConfigurationBuilderTest(String name)
     {
         super(name);
     }
 
+    /**
+     * Creates the configuration checker. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -61,12 +75,31 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
         configurationChecker = createConfigurationChecker();
     }
 
+    /**
+     * @return Configuration checker.
+     */
     protected abstract ConfigurationChecker createConfigurationChecker();
 
+    /**
+     * Return the datasource configuration for a given datasource fixture.
+     * @param fixture Datasource fixture.
+     * @return The datasource configuration for <code>fixture</code>.
+     */
     protected abstract String getDataSourceConfigurationFile(DataSourceFixture fixture);
 
+    /**
+     * Return the resource configuration for a given resource fixture.
+     * @param fixture Resource fixture.
+     * @return The resource configuration for <code>fixture</code>.
+     */
     protected abstract String getResourceConfigurationFile(ResourceFixture fixture);
 
+    /**
+     * Configure datasource and retrieve the configuration file.
+     * @param fixture Datasource fixture.
+     * @return Configuration file for <code>fixture</code>.
+     * @throws Exception If anything goes wrong.
+     */
     protected String configureDataSourceAndRetrieveConfigurationFile(DataSourceFixture fixture)
         throws Exception
     {
@@ -76,6 +109,12 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
             getDataSourceConfigurationFile(fixture));
     }
 
+    /**
+     * Configure datasource via property and retrieve the configuration file.
+     * @param fixture Datasource fixture.
+     * @return Configuration file for <code>fixture</code>.
+     * @throws Exception If anything goes wrong.
+     */
     protected String configureDataSourceViaPropertyAndRetrieveConfigurationFile(
         DataSourceFixture fixture) throws Exception
     {
@@ -88,6 +127,12 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
             getDataSourceConfigurationFile(fixture));
     }
 
+    /**
+     * Configure resource and retrieve the configuration file.
+     * @param fixture Resource fixture.
+     * @return Configuration file for <code>fixture</code>.
+     * @throws Exception If anything goes wrong.
+     */
     protected String configureResourceAndRetrieveConfigurationFile(ResourceFixture fixture)
         throws Exception
     {
@@ -96,6 +141,12 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
         return configuration.getFileHandler().readTextFile(getResourceConfigurationFile(fixture));
     }
 
+    /**
+     * Configure resource via property and retrieve the configuration file.
+     * @param fixture Resource fixture.
+     * @return Configuration file for <code>fixture</code>.
+     * @throws Exception If anything goes wrong.
+     */
     protected String configureResourceViaPropertyAndRetrieveConfigurationFile(
         ResourceFixture fixture) throws Exception
     {
@@ -107,7 +158,12 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
         return configuration.getFileHandler().readTextFile(getResourceConfigurationFile(fixture));
     }
 
-    public void testConfigureDataSourceOnLocalContainerIfPropertyIsPresentOnDataSourceWithWindowsPath()
+    /**
+     * Test datasource configuration on local container if property with Windows path on
+     * datasource.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testConfigureDSOnLocalContainerIfPropertyIsPresentOnDataSourceWithWindowsPath()
         throws Exception
     {
         DataSourceFixture dataSourceFixture =
@@ -118,6 +174,10 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
             configuration, dataSourceFixture);
     }
 
+    /**
+     * Test datasource configuration.
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigureCreatesDataSource() throws Exception
     {
         DataSourceFixture dataSourceFixture = ConfigurationFixtureFactory.createDataSource();
@@ -126,6 +186,10 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
             configuration, dataSourceFixture);
     }
 
+    /**
+     * Test datasource configuration with two datasources.
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigureCreatesTwoDataSources() throws Exception
     {
         DataSourceFixture dataSourceFixture1 = ConfigurationFixtureFactory.createDataSource();
@@ -142,7 +206,11 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
             configuration2, dataSourceFixture2);
     }
 
-    public void testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithLocalTransactionSupport()
+    /**
+     * Test datasource configuration with a driver configured with local transaction support.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testConfigureCreatesDataSourceForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
     {
         DataSourceFixture dataSourceFixture =
@@ -154,7 +222,11 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
                 configuration, dataSourceFixture);
     }
 
-    public void testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithXaTransactionSupport()
+    /**
+     * Test datasource configuration with a driver configured with XA transaction support.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testConfigureCreatesDataSourceForDriverConfiguredDSWithXaTransactionSupport()
         throws Exception
     {
         DataSourceFixture dataSourceFixture =
@@ -166,6 +238,10 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
                 configuration, dataSourceFixture);
     }
 
+    /**
+     * Test XA datasource configuration.
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigureCreatesDataSourceForXADataSourceConfiguredDataSource()
         throws Exception
     {
@@ -177,6 +253,10 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
                 configuration, dataSourceFixture);
     }
 
+    /**
+     * Test resource configuration.
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigureCreatesResource() throws Exception
     {
         ResourceFixture resourceFixture =
@@ -187,6 +267,10 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
                 configuration, resourceFixture);
     }
 
+    /**
+     * Test resource configuration with two resources.
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
     {
         ResourceFixture resourceFixture1 =

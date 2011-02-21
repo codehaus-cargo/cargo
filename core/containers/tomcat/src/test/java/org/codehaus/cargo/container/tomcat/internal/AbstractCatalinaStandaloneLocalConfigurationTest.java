@@ -129,13 +129,13 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     }
 
     @Override
-    public void testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithXaTransactionSupport()
+    public void testConfigureCreatesDataSourceForDriverConfiguredDSWithXaTransactionSupport()
         throws Exception
     {
         try
         {
             super
-                .testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithXaTransactionSupport();
+                .testConfigureCreatesDataSourceForDriverConfiguredDSWithXaTransactionSupport();
             fail("should have received an exception");
         }
         catch (UnsupportedOperationException e)
@@ -147,13 +147,13 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     }
 
     @Override
-    public void testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithLocalTransactionSupport()
+    public void testConfigureCreatesDataSourceForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
     {
         try
         {
             super
-                .testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithLocalTransactionSupport();
+                .testConfigureCreatesDataSourceForDriverConfiguredDSWithLocalTransactionSupport();
             fail("should have received an exception");
         }
         catch (UnsupportedOperationException e)

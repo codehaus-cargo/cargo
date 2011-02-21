@@ -34,7 +34,7 @@ import org.codehaus.cargo.util.log.NullLogger;
  */
 public abstract class AbstractConfigurationStub implements Configuration
 {
-    private Map properties = new HashMap();
+    private Map<String, String> properties = new HashMap<String, String>();
 
     public void setLogger(Logger logger)
     {
@@ -56,7 +56,7 @@ public abstract class AbstractConfigurationStub implements Configuration
         this.properties.put(name, value);
     }
 
-    public Map getProperties()
+    public Map<String, String> getProperties()
     {
         return this.properties;
     }

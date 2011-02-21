@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
-import java.io.IOException;
-
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
@@ -40,7 +38,14 @@ import org.jmock.MockObjectTestCase;
  */
 public class CopyingDeployerTest extends MockObjectTestCase
 {
+    /**
+     * File system manager.
+     */
     private StandardFileSystemManager fsManager;
+
+    /**
+     * File handler.
+     */
     private FileHandler fileHandler;
 
     /**
@@ -72,13 +77,24 @@ public class CopyingDeployerTest extends MockObjectTestCase
         super.tearDown();
     }
 
+    /**
+     * Mock {@link AbstractCopyingInstalledLocalDeployer} implementation.
+     */
     private class TestableCopyingDeployer extends AbstractCopyingInstalledLocalDeployer
     {
+        /**
+         * {@inheritDoc}
+         * @param container Local container.
+         */
         public TestableCopyingDeployer(InstalledLocalContainer container)
         {
             super(container);
         }
 
+        /**
+         * {@inheritDoc}
+         * @return Mock directory.
+         */
         @Override
         public String getDeployableDir()
         {
@@ -86,7 +102,11 @@ public class CopyingDeployerTest extends MockObjectTestCase
         }
     }
 
-    public void testCanBeDeployedWhenTwoWARsInSameWebContext() throws IOException
+    /**
+     * Test whether two WARs can be deployed to the same context.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testCanBeDeployedWhenTwoWARsInSameWebContext() throws Exception
     {
         AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
             createContainer(createContainerCapability(DeployableType.WAR)));
@@ -118,6 +138,9 @@ public class CopyingDeployerTest extends MockObjectTestCase
         }
     }
 
+    /**
+     * Test deployment when the container does not support a given deployable type.
+     */
     public void testDeployWhenContainerDoesNotSupportDeployableType()
     {
         AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
@@ -135,6 +158,10 @@ public class CopyingDeployerTest extends MockObjectTestCase
         }
     }
 
+    /**
+     * Test deployment of a WAR in a custom context.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDeployWhenWarWithCustomContext() throws Exception
     {
         WAR war = new WAR("ram:///some/warfile.war");
@@ -152,6 +179,10 @@ public class CopyingDeployerTest extends MockObjectTestCase
         assertTrue(this.fsManager.resolveFile("ram:///webapps/context.war").exists());
     }
 
+    /**
+     * Test deployment of a WAR in its default context.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDeployWhenWarWithDefaultContext() throws Exception
     {
         WAR war = new WAR("ram:///some/warfile.war");
@@ -167,6 +198,10 @@ public class CopyingDeployerTest extends MockObjectTestCase
         assertTrue(this.fsManager.resolveFile("ram:///webapps/warfile.war").exists());
     }
 
+    /**
+     * Test deployment of an expanded WAR in a custom context.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDeployWhenExpandedWarWithCustomContext() throws Exception
     {
         // Create an expanded WAR
@@ -185,6 +220,11 @@ public class CopyingDeployerTest extends MockObjectTestCase
         assertTrue(this.fsManager.resolveFile("ram:///webapps/context").exists());
     }
 
+    /**
+     * Create mock container capability.
+     * @param type Deployable type.
+     * @return Mock container capability for given deployable type.
+     */
     private ContainerCapability createContainerCapability(DeployableType type)
     {
         Mock mockContainerCapability = mock(ContainerCapability.class);
@@ -195,6 +235,11 @@ public class CopyingDeployerTest extends MockObjectTestCase
         return (ContainerCapability) mockContainerCapability.proxy();
     }
 
+    /**
+     * Create mock container.
+     * @param capability Container capability.
+     * @return Mock container for given capability.
+     */
     private InstalledLocalContainer createContainer(ContainerCapability capability)
     {
         Mock mockContainer = mock(InstalledLocalContainer.class);

@@ -38,12 +38,12 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 public class StandaloneLocalConfigurationStub
     extends AbstractLocalConfigurationStub implements StandaloneLocalConfiguration
 {
-    private ArrayList resources;
+    private List<Resource> resources;
 
     public StandaloneLocalConfigurationStub(String home)
     {
         super(home);
-        resources = new ArrayList();
+        resources = new ArrayList<Resource>();
     }
 
     public ConfigurationType getType()
@@ -51,7 +51,7 @@ public class StandaloneLocalConfigurationStub
         return ConfigurationType.STANDALONE;
     }
 
-    public List getFileProperties()
+    public List<FileConfig> getFileProperties()
     {
         // TODO Auto-generated method stub
         return null;
@@ -92,7 +92,7 @@ public class StandaloneLocalConfigurationStub
      * @see org.codehaus.cargo.container.configuration.LocalConfiguration#getResources()
      */
     @Override
-    public List getResources()
+    public List<Resource> getResources()
     {
         return resources;
     }

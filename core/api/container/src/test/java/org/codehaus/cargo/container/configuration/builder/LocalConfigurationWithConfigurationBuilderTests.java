@@ -46,7 +46,7 @@ public interface LocalConfigurationWithConfigurationBuilderTests
      * support.
      * @throws Exception If anything goes wrong.
      */
-    void testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithLocalTransactionSupport()
+    void testConfigureCreatesDataSourceForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception;
 
     /**
@@ -54,7 +54,7 @@ public interface LocalConfigurationWithConfigurationBuilderTests
      * support.
      * @throws Exception If anything goes wrong.
      */
-    void testConfigureCreatesDataSourceForDriverConfiguredDataSourceWithXaTransactionSupport()
+    void testConfigureCreatesDataSourceForDriverConfiguredDSWithXaTransactionSupport()
         throws Exception;
 
     /**

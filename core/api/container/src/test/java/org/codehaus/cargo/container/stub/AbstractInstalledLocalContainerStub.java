@@ -89,7 +89,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
         return null;
     }
 
-    public Map getSystemProperties()
+    public Map<String, String> getSystemProperties()
     {
         // TODO Auto-generated method stub
         return null;
@@ -107,7 +107,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
 
     }
 
-    public void setSystemProperties(Map properties)
+    public void setSystemProperties(Map<String, String> properties)
     {
         // TODO Auto-generated method stub
 

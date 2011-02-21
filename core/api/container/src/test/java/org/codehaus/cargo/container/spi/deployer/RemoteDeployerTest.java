@@ -34,8 +34,16 @@ import org.codehaus.cargo.util.log.LoggedObject;
  */
 public class RemoteDeployerTest extends TestCase
 {
+
+    /**
+     * Mock {@link AbstractRemoteDeployer} implementation.
+     */
     private class TestableAbstractRemoteDeployer extends AbstractRemoteDeployer
     {
+        /**
+         * Doesn't do anything. {@inheritDoc}
+         * @param deployable Ignored.
+         */
         @Override
         public void deploy(Deployable deployable)
         {
@@ -43,37 +51,69 @@ public class RemoteDeployerTest extends TestCase
         }
     }
 
+    /**
+     * Mock {@link DeployableMonitor} implementation.
+     */
     private class DeployableMonitorStub extends LoggedObject implements DeployableMonitor
     {
+        /**
+         * Deployable monitor listener.
+         */
         private DeployableMonitorListener listener;
+
+        /**
+         * Deployable name.
+         */
         private String deployableName;
 
+        /**
+         * Saves the deployable name.
+         * @param deployableName Deployable name.
+         */
         public DeployableMonitorStub(String deployableName)
         {
             this.deployableName = deployableName;
         }
 
+        /**
+         * Saves the listener.
+         * @param listener Listener to save.
+         */
         public void registerListener(DeployableMonitorListener listener)
         {
             this.listener = listener;
         }
 
+        /**
+         * Calls {@link DeployableMonitorListener#deployed()}
+         */
         public void monitor()
         {
             this.listener.deployed();
         }
 
+        /**
+         * {@inheritDoc}
+         * @return <code>20000</code>.
+         */
         public long getTimeout()
         {
             return 20000L;
         }
 
+        /**
+         * {@inheritDoc}
+         * @return The deployable name.
+         */
         public String getDeployableName()
         {
             return this.deployableName;
         }
     }
 
+    /**
+     * Test if the <code>deploy</code> method can be called.
+     */
     public void testDeployMethodWithDeployableMonitorParameterCanBeCalled()
     {
         TestableAbstractRemoteDeployer deployer = new TestableAbstractRemoteDeployer();

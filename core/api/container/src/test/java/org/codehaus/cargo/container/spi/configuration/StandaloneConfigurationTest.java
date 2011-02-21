@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.spi.configuration;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -41,37 +41,65 @@ import org.codehaus.cargo.util.VFSFileHandler;
  */
 public class StandaloneConfigurationTest extends TestCase
 {
+
+    /**
+     * Mock {@link AbstractStandaloneLocalConfiguration} implementation.
+     */
     public class TestableAbstractStandaloneConfiguration
         extends AbstractStandaloneLocalConfiguration
     {
+        /**
+         * {@inheritDoc}
+         * @param dir Configuration directory.
+         */
         public TestableAbstractStandaloneConfiguration(String dir)
         {
             super(dir);
         }
 
+        /**
+         * Doesn't do anything. {@inheritDoc}
+         * @param container Ignored.
+         */
         @Override
         protected void doConfigure(LocalContainer container)
         {
             // Do nothing voluntarily for testing
         }
 
+        /**
+         * {@inheritDoc}
+         * @return Mock {@link ConfigurationCapability}.
+         */
         public ConfigurationCapability getCapability()
         {
             return new ConfigurationCapability()
             {
+                /**
+                 * {@inheritDoc}
+                 * @return <code>false</code>.
+                 */
                 public boolean supportsProperty(String propertyName)
                 {
                     return false;
                 }
 
-                public Map getProperties()
+                /**
+                 * {@inheritDoc}
+                 * @return {@link Collections#emptyMap()}
+                 */
+                public Map<String, Boolean> getProperties()
                 {
-                    return new HashMap();
+                    return Collections.emptyMap();
                 }
             };
         }
     }
 
+    /**
+     * Test the creation of a config directory when the target directory does not exist yet.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateConfigDirWhenDirectoryDoesNotExist() throws Exception
     {
         String configDir = "ram:///cargo/testCreateConfigDirWhenDirectoryDoesNotExist";
@@ -90,6 +118,10 @@ public class StandaloneConfigurationTest extends TestCase
         assertTrue("Cargo timestamp should have existed", timestampFileObject.exists());
     }
 
+    /**
+     * Test the creation of a config directory when the target directory exists and is empty.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateConfigDirWhenDirectoryExistButIsEmpty() throws Exception
     {
         String configDir = "ram:///cargo/testCreateConfigDirWhenDirectoryExistButIsEmpty";
@@ -107,6 +139,10 @@ public class StandaloneConfigurationTest extends TestCase
         assertTrue("Cargo timestamp should have existed", timestampFileObject.exists());
     }
 
+    /**
+     * Test the creation of a config directory when the target directory exists and is not empty.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateConfigDirWhenDirectoryNotEmpty() throws Exception
     {
         String configDir = "ram:///cargo/testCreateConfigDirWhenDirectoryNotEmpty";
@@ -132,6 +168,10 @@ public class StandaloneConfigurationTest extends TestCase
         }
     }
 
+    /**
+     * Test the setting of default properties.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDefaultPropertiesAreSet() throws Exception
     {
         TestableAbstractStandaloneConfiguration configuration =
@@ -142,6 +182,10 @@ public class StandaloneConfigurationTest extends TestCase
         assertEquals("localhost", configuration.getPropertyValue(GeneralPropertySet.HOSTNAME));
     }
 
+    /**
+     * Test the setting of extra properties in addition to the default properties.
+     * @throws Exception If anything goes wrong.
+     */
     public void testSetPropertyWhenDefaultPropertyExists() throws Exception
     {
         TestableAbstractStandaloneConfiguration configuration =

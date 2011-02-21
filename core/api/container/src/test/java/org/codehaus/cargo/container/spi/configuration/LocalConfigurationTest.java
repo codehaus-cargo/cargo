@@ -33,34 +33,66 @@ import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.util.CargoException;
 
+/**
+ * Unit tests for {@link AbstractLocalConfiguration}.
+ * 
+ * @version $Id$
+ */
 public class LocalConfigurationTest extends TestCase
 {
 
+    /**
+     * Local configuration that supports some properties.
+     */
     private class LocalConfigurationThatSupportsProperty extends AbstractLocalConfiguration
     {
-        private List supportedProperties = null;
+        /**
+         * Supported properties.
+         */
+        private List<String> supportedProperties;
 
-        public LocalConfigurationThatSupportsProperty(List supportedProperties)
+        /**
+         * Constructor which sets the list of supported properties.
+         * @param supportedProperties The list of supported properties.
+         */
+        public LocalConfigurationThatSupportsProperty(List<String> supportedProperties)
         {
             super(null);
             this.supportedProperties = supportedProperties;
         }
 
+        /**
+         * Empty method. {@inheritDoc}
+         * @param container Ignored.
+         */
         @Override
         protected void doConfigure(LocalContainer container) throws Exception
         {
         }
 
+        /**
+         * @return {@link ConfigurationCapability} which reuses the
+         * <code>supportedProperties</code> given in the constructor.
+         */
         public ConfigurationCapability getCapability()
         {
             return new ConfigurationCapability()
             {
-
-                public Map getProperties()
+                /**
+                 * {@inheritDoc}
+                 * @return <code>null</code>.
+                 */
+                public Map<String, Boolean> getProperties()
                 {
                     return null;
                 }
 
+                /**
+                 * {@inheritDoc}
+                 * @param propertyName Property name to check for.
+                 * @return <code>true</code> if the <code>supportedProperties</code> given in the
+                 * constructor contains <code>propertyName</code>, <code>false</code> otherwise.
+                 */
                 public boolean supportsProperty(String propertyName)
                 {
                     if (supportedProperties.contains(propertyName))
@@ -72,12 +104,19 @@ public class LocalConfigurationTest extends TestCase
             };
         }
 
+        /**
+         * {@inheritDoc}
+         * @return <code>null</code>.
+         */
         public ConfigurationType getType()
         {
             return null;
         }
     }
 
+    /**
+     * Test no resource support.
+     */
     public void testNoResourceSupport()
     {
         AbstractLocalConfiguration configuration =
@@ -93,12 +132,14 @@ public class LocalConfigurationTest extends TestCase
         }
         catch (CargoException e)
         {
-            assertEquals(
-                "This configuration does not support Resource configuration! JndiName: resource/XADataSource",
-                e.getMessage());
+            assertEquals("This configuration does not support Resource configuration! "
+                + "JndiName: resource/XADataSource", e.getMessage());
         }
     }
 
+    /**
+     * Test resource support.
+     */
     public void testResourceSupport()
     {
         AbstractLocalConfiguration configuration =
@@ -111,6 +152,9 @@ public class LocalConfigurationTest extends TestCase
         assertEquals(1, configuration.getResources().size());
     }
 
+    /**
+     * Test no datasource support.
+     */
     public void testNoDataSourceSupport()
     {
         AbstractLocalConfiguration configuration =
@@ -126,12 +170,14 @@ public class LocalConfigurationTest extends TestCase
         }
         catch (CargoException e)
         {
-            assertEquals(
-                "This configuration does not support DataSource configuration! JndiName: jdbc/CargoDS",
-                e.getMessage());
+            assertEquals("This configuration does not support DataSource configuration! "
+                + "JndiName: jdbc/CargoDS", e.getMessage());
         }
     }
 
+    /**
+     * Test datasource support.
+     */
     public void testDataSourceSupport()
     {
         AbstractLocalConfiguration configuration =
@@ -144,6 +190,9 @@ public class LocalConfigurationTest extends TestCase
         assertEquals(1, configuration.getDataSources().size());
     }
 
+    /**
+     * Test no datasource with transaction emulation support.
+     */
     public void testNoDataSourceTransactionEmulationSupport()
     {
         AbstractLocalConfiguration configuration =
@@ -164,12 +213,14 @@ public class LocalConfigurationTest extends TestCase
         }
         catch (CargoException e)
         {
-            assertEquals(
-                "This configuration does not support Transactions on Driver configured DataSources! JndiName: jdbc/CargoDS",
-                e.getMessage());
+            assertEquals("This configuration does not support Transactions on Driver configured "
+                + "DataSources! JndiName: jdbc/CargoDS", e.getMessage());
         }
     }
 
+    /**
+     * Test datasource with transaction emulation support.
+     */
     public void testDataSourceTransactionEmulationSupport()
     {
         AbstractLocalConfiguration configuration =
@@ -185,6 +236,9 @@ public class LocalConfigurationTest extends TestCase
         assertEquals(2, configuration.getDataSources().size());
     }
 
+    /**
+     * Test no datasource with XA support.
+     */
     public void testNoDataSourceXASupport()
     {
         AbstractLocalConfiguration configuration =
@@ -204,12 +258,14 @@ public class LocalConfigurationTest extends TestCase
         }
         catch (CargoException e)
         {
-            assertEquals(
-                "This configuration does not support XADataSource configured DataSources! JndiName: jdbc/CargoDS",
-                e.getMessage());
+            assertEquals("This configuration does not support XADataSource configured "
+                + "DataSources! JndiName: jdbc/CargoDS", e.getMessage());
         }
     }
 
+    /**
+     * Test datasource with XA support.
+     */
     public void testDataSourceXASupport()
     {
         AbstractLocalConfiguration configuration =

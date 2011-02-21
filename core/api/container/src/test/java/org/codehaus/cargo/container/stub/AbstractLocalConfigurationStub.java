@@ -39,11 +39,11 @@ public abstract class AbstractLocalConfigurationStub
 {
     private String home;
 
-    private List deployables = new ArrayList();
+    private List<Deployable> deployables = new ArrayList<Deployable>();
 
-    private List resources = new ArrayList();
+    private List<Resource> resources = new ArrayList<Resource>();
 
-    private List dataSources = new ArrayList();
+    private List<DataSource> dataSources = new ArrayList<DataSource>();
 
     public AbstractLocalConfigurationStub()
     {
@@ -71,7 +71,7 @@ public abstract class AbstractLocalConfigurationStub
         this.deployables.add(deployable);
     }
 
-    public List getDeployables()
+    public List<Deployable> getDeployables()
     {
         return this.deployables;
     }
@@ -81,7 +81,7 @@ public abstract class AbstractLocalConfigurationStub
         this.resources.add(Resource);
     }
 
-    public List getResources()
+    public List<Resource> getResources()
     {
         return this.resources;
     }
@@ -91,7 +91,7 @@ public abstract class AbstractLocalConfigurationStub
         this.dataSources.add(DataSource);
     }
 
-    public List getDataSources()
+    public List<DataSource> getDataSources()
     {
         return this.dataSources;
     }
