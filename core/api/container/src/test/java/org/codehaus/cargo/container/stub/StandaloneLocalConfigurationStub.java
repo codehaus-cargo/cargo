@@ -19,82 +19,77 @@
  */
 package org.codehaus.cargo.container.stub;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
-import org.codehaus.cargo.container.configuration.entry.Resource;
 
 /**
- * Mock for {@link org.codehaus.cargo.container.configuration.LocalConfiguration}. We need a static
- * mock rather than a dynamic mock (which we could get using JMock for example) because we're
- * testing factory classes which create an object out of a class name.
+ * Mock for {@link LocalConfiguration}. We need a static mock rather than a dynamic mock (which we
+ * could get using JMock for example) because we're testing factory classes which create an object
+ * out of a class name.
  * 
  * @version $Id$
  */
-public class StandaloneLocalConfigurationStub
-    extends AbstractLocalConfigurationStub implements StandaloneLocalConfiguration
+public class StandaloneLocalConfigurationStub extends AbstractLocalConfigurationStub
+    implements StandaloneLocalConfiguration
 {
-    private List<Resource> resources;
-
+    /**
+     * {@inheritdoc}
+     * @param home Configuration home.
+     */
     public StandaloneLocalConfigurationStub(String home)
     {
         super(home);
-        resources = new ArrayList<Resource>();
     }
 
+    /**
+     * {@inheritdoc}
+     * @return {@link ConfigurationType#STANDALONE}
+     */
     public ConfigurationType getType()
     {
         return ConfigurationType.STANDALONE;
     }
 
+    /**
+     * {@inheritdoc}
+     * @return <code>null</code>
+     */
     public List<FileConfig> getFileProperties()
     {
         // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * @param fileConfig Ignored.
+     */
     public void setConfigFileProperty(FileConfig fileConfig)
     {
         // TODO Auto-generated method stub
     }
 
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * @param fileConfig Ignored.
+     */
     public void setFileProperty(FileConfig fileConfig)
     {
         // TODO Auto-generate method stub
     }
 
+    /**
+     * {@inheritdoc}
+     * @return <code>null</code>
+     */
     public FilterChain getFilterChain()
     {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.codehaus.cargo.container.configuration.LocalConfiguration#addResource(org.codehaus.cargo
-     * .container.resource.Resource)
-     */
-    @Override
-    public void addResource(Resource resource)
-    {
-        this.resources.add(resource);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#getResources()
-     */
-    @Override
-    public List<Resource> getResources()
-    {
-        return resources;
     }
 
 }

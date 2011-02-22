@@ -32,56 +32,111 @@ import org.codehaus.cargo.util.log.NullLogger;
  */
 public abstract class AbstractContainerStub implements Container
 {
+    /**
+     * Container id.
+     */
     private String id;
+
+    /**
+     * Container name.
+     */
     private String name;
+
+    /**
+     * Container capability.
+     */
     private ContainerCapability capability;
+
+    /**
+     * Container state.
+     */
     private State state;
 
+    /**
+     * {@inheritdoc}
+     * @return Container id.
+     */
     public String getId()
     {
         return this.id;
     }
 
+    /**
+     * {@inheritdoc}
+     * @param id Container id to set.
+     */
     public void setId(String id)
     {
         this.id = id;
     }
 
+    /**
+     * {@inheritdoc}
+     * @return Container name.
+     */
     public String getName()
     {
         return this.name;
     }
 
+    /**
+     * {@inheritdoc}
+     * @param name Container name to set.
+     */
     public void setName(String name)
     {
         this.name = name;
     }
 
+    /**
+     * {@inheritdoc}
+     * @return Container capability.
+     */
     public ContainerCapability getCapability()
     {
         return this.capability;
     }
 
+    /**
+     * {@inheritdoc}
+     * @param capability Container capability to set.
+     */
     public void setCapability(ContainerCapability capability)
     {
         this.capability = capability;
     }
 
+    /**
+     * {@inheritdoc}
+     * @return The last saved container state.
+     */
     public State getState()
     {
         return this.state;
     }
 
+    /**
+     * {@inheritdoc}
+     * @param state Container state to save.
+     */
     public void setState(State state)
     {
         this.state = state;
     }
 
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * @param logger Ignored.
+     */
     public void setLogger(Logger logger)
     {
         // Voluntarily not doing anything for testing
     }
 
+    /**
+     * {@inheritdoc}
+     * @return {@link NullLogger}
+     */
     public Logger getLogger()
     {
         return new NullLogger();

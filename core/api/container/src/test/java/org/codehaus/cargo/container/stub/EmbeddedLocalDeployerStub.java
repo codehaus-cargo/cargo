@@ -27,56 +27,94 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
- * Mock for an embedded {@link org.codehaus.cargo.container.deployer.Deployer}. We need a static
- * mock rather than a dynamic mock (which we could get using JMock for example) because we're
- * testing factory classes which create an object out of a class name.
+ * Mock for an embedded {@link Deployer}. We need a static mock rather than a dynamic mock (which
+ * we could get using JMock for example) because we're testing factory classes which create an
+ * object out of a class name.
  * 
  * @version $Id$
  */
 public class EmbeddedLocalDeployerStub extends LoggedObject implements Deployer
 {
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param container Ignored.
+     */
     public EmbeddedLocalDeployerStub(EmbeddedLocalContainer container)
     {
-        // Voluntarily do nothing for testing
+        // Nothing
     }
 
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
+     */
     public void deploy(Deployable deployable)
     {
-        // Voluntarily do nothing for testing
+        // Nothing
     }
 
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
+     * @param monitor Ignored.
+     */
     public void deploy(Deployable deployable, DeployableMonitor monitor)
     {
-        // Voluntarily do nothing for testing
+        // Nothing
     }
 
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
+     */
     public void undeploy(Deployable deployable)
     {
-        // Voluntarily do nothing for testing
+        // Nothing
     }
 
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
+     * @param monitor Ignored.
+     */
+    public void undeploy(Deployable deployable, DeployableMonitor monitor)
+    {
+        // Nothing
+    }
+
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
+     */
     public void redeploy(Deployable deployable)
     {
-        // Voluntarily do nothing for testing
+        // Nothing
     }
 
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
+     */
     public void start(Deployable deployable)
     {
-        // Voluntarily do nothing for testing
+        // Nothing
     }
 
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
+     */
     public void stop(Deployable deployable)
     {
-        // Voluntarily do nothing for testing
+        // Nothing
     }
 
+    /**
+     * {@inheritdoc}
+     * @return {@link DeployerType#EMBEDDED}
+     */
     public DeployerType getType()
     {
         return DeployerType.EMBEDDED;
-    }
-
-    public void undeploy(Deployable deployable, DeployableMonitor monitor)
-    {
-        // Voluntarily do nothing for testing
     }
 }

@@ -35,49 +35,86 @@ import org.codehaus.cargo.util.log.LoggedObject;
  */
 public class InstalledLocalDeployerStub extends LoggedObject implements Deployer
 {
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param container Ignored.
+     */
     public InstalledLocalDeployerStub(InstalledLocalContainer container)
     {
-        // Voluntarily do nothing for testing
+        // Nothing
     }
 
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
+     */
     public void deploy(Deployable deployable)
     {
-        // Voluntarily do nothing for testing
+        // Nothing
     }
 
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
+     * @param monitor Ignored.
+     */
     public void deploy(Deployable deployable, DeployableMonitor monitor)
     {
-        // Voluntarily do nothing for testing
+        // Nothing
     }
 
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
+     */
     public void undeploy(Deployable deployable)
     {
-        // Voluntarily do nothing for testing
+        // Nothing
     }
 
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
+     * @param monitor Ignored.
+     */
+    public void undeploy(Deployable deployable, DeployableMonitor monitor)
+    {
+        // Nothing
+    }
+
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
+     */
     public void redeploy(Deployable deployable)
     {
-        // Voluntarily do nothing for testing
+        // Nothing
     }
 
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
+     */
     public void start(Deployable deployable)
     {
-        // Voluntarily do nothing for testing
+        // Nothing
     }
 
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
+     */
     public void stop(Deployable deployable)
     {
-        // Voluntarily do nothing for testing
+        // Nothing
     }
 
+    /**
+     * {@inheritdoc}
+     * @return {@link DeployerType#INSTALLED}
+     */
     public DeployerType getType()
     {
         return DeployerType.INSTALLED;
-    }
-
-    public void undeploy(Deployable deployable, DeployableMonitor monitor)
-    {
-        // Voluntarily do nothing for testing
-
     }
 }

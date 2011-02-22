@@ -34,35 +34,64 @@ import org.codehaus.cargo.util.log.NullLogger;
  */
 public abstract class AbstractConfigurationStub implements Configuration
 {
+    /**
+     * Properties.
+     */
     private Map<String, String> properties = new HashMap<String, String>();
 
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * @param logger Ignored.
+     */
     public void setLogger(Logger logger)
     {
         // Voluntarily not doing anything for testing
     }
 
+    /**
+     * {@inheritdoc}
+     * @return {@link NullLogger}
+     */
     public Logger getLogger()
     {
         return new NullLogger();
     }
 
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @return Nothing.
+     */
     public ConfigurationCapability getCapability()
     {
         throw new RuntimeException("Not implemented");
     }
 
+    /**
+     * Saves the property. {@inheritdoc}
+     * @param name Property name.
+     * @param value Property value.
+     */
     public void setProperty(String name, String value)
     {
         this.properties.put(name, value);
     }
 
+    /**
+     * {@inheritdoc}
+     * @return All properties.
+     */
     public Map<String, String> getProperties()
     {
         return this.properties;
     }
 
+    /**
+     * {@inheritdoc}
+     * @param name Name of the property to get.
+     * @return The value for <code>name</code>, <code>null</code> if not set.
+     */
     public String getPropertyValue(String name)
     {
-        return (String) this.properties.get(name);
+        return this.properties.get(name);
     }
 }

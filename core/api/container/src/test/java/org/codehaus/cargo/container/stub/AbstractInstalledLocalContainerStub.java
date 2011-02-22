@@ -33,18 +33,29 @@ import org.codehaus.cargo.util.FileHandler;
 public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalContainerStub
     implements InstalledLocalContainer
 {
+    /**
+     * {@inheritdoc}
+     * @return <code>null</code>.
+     */
     public String getHome()
     {
         // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * @param home Ignored.
+     */
     public void setHome(String home)
     {
         // TODO Auto-generated method stub
-
     }
 
+    /**
+     * {@inheritdoc}
+     * @return <code>null</code>.
+     */
     @Override
     public FileHandler getFileHandler()
     {
@@ -52,64 +63,98 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
         return null;
     }
 
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * @param handler Ignored.
+     */
     @Override
     public void setFileHandler(FileHandler handler)
     {
         // TODO Auto-generated method stub
-
     }
 
+    /**
+     * {@inheritdoc}
+     * @return <code>null</code>.
+     */
     public ContainerType getType()
     {
         // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * @param location Ignored.
+     */
     public void addExtraClasspath(String location)
     {
         // TODO Auto-generated method stub
-
     }
 
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * @param location Ignored.
+     */
     public void addSharedClasspath(String location)
     {
         // TODO Auto-generated method stub
-
     }
 
+    /**
+     * {@inheritdoc}
+     * @return <code>null</code>.
+     */
     public String[] getExtraClasspath()
     {
         // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * {@inheritdoc}
+     * @return <code>null</code>.
+     */
     public String[] getSharedClasspath()
     {
         // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * {@inheritdoc}
+     * @return <code>null</code>.
+     */
     public Map<String, String> getSystemProperties()
     {
         // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * @param classpath Ignored.
+     */
     public void setExtraClasspath(String[] classpath)
     {
         // TODO Auto-generated method stub
-
     }
 
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * @param classpath Ignored.
+     */
     public void setSharedClasspath(String[] classpath)
     {
         // TODO Auto-generated method stub
-
     }
 
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * @param properties Ignored.
+     */
     public void setSystemProperties(Map<String, String> properties)
     {
         // TODO Auto-generated method stub
-
     }
 }

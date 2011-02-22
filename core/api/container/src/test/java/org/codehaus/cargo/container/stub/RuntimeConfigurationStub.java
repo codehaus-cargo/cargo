@@ -23,15 +23,19 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 
 /**
- * Mock for {@link org.codehaus.cargo.container.configuration.RuntimeConfiguration}. We need a
- * static mock rather than a dynamic mock (which we could get using JMock for example) because we're
- * testing factory classes which create an object out of a class name.
+ * Mock for {@link RuntimeConfiguration}. We need a static mock rather than a dynamic mock (which
+ * we could get using JMock for example) because we're testing factory classes which create an
+ * object out of a class name.
  * 
  * @version $Id$
  */
-public class RuntimeConfigurationStub
-    extends AbstractConfigurationStub implements RuntimeConfiguration
+public class RuntimeConfigurationStub extends AbstractConfigurationStub
+    implements RuntimeConfiguration
 {
+    /**
+     * {@inheritdoc}
+     * @return {@link ConfigurationType#RUNTIME}
+     */
     public ConfigurationType getType()
     {
         return ConfigurationType.RUNTIME;

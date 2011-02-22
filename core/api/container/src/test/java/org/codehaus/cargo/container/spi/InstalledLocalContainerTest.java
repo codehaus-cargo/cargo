@@ -45,31 +45,63 @@ import org.codehaus.cargo.util.VFSFileHandler;
  */
 public class InstalledLocalContainerTest extends TestCase
 {
+    /**
+     * Previous file.
+     */
+    private static final String PREVIOUS_FILE = "ram:/Install/test1";
+
+    /**
+     * Test file.
+     */
+    private static final String TEST_FILE = "ram:/Install/test2";
+
+    /**
+     * Container configuration.
+     */
     private AbstractStandaloneLocalConfiguration configuration;
 
+    /**
+     * File system manager.
+     */
     private StandardFileSystemManager fsManager;
 
+    /**
+     * File handler.
+     */
     private FileHandler fileHandler;
 
-    private String previousFile = "ram:/Install/test1";
-
-    private String testFile = "ram:/Install/test2";
-
+    /**
+     * Creates the test file system manager and the container configuration. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUp() throws Exception
     {
         this.configuration = new AbstractStandaloneLocalConfiguration("/some/path")
         {
+            /**
+             * Doesn't do anything. {@inheritdoc}
+             * @param container Ignored.
+             * @throws Exception If anything goes wrong.
+             */
             @Override
             protected void doConfigure(LocalContainer container) throws Exception
             {
             }
 
+            /**
+             * {@inheritdoc}
+             * @return <code>null</code>.
+             */
             public ConfigurationCapability getCapability()
             {
                 return null;
             }
 
+            /**
+             * Doesn't do anything. {@inheritdoc}
+             * @param resource Ignored.
+             */
             @Override
             public void addResource(Resource resource)
             {
@@ -81,46 +113,81 @@ public class InstalledLocalContainerTest extends TestCase
         fsManager.init();
         fileHandler = new VFSFileHandler(fsManager);
         this.configuration.setFileHandler(fileHandler);
-        this.fileHandler.createFile(testFile);
-        this.fileHandler.createFile(previousFile);
+        this.fileHandler.createFile(TEST_FILE);
+        this.fileHandler.createFile(PREVIOUS_FILE);
     }
 
+    /**
+     * {@link AbstractInstalledLocalContainer} for testing. {@inheritdoc}
+     */
     public class AbstractInstalledLocalContainerStub extends AbstractInstalledLocalContainer
     {
+        /**
+         * Java executable.
+         */
         private Java java;
 
+        /**
+         * {@inheritdoc}
+         * @param configuration Container configuration.
+         */
         public AbstractInstalledLocalContainerStub(LocalConfiguration configuration)
         {
             super(configuration);
         }
 
+        /**
+         * Saves the {@link Java} instance. {@inheritdoc}
+         * @param java Java instance.
+         * @throws Exception If anything goes wrong.
+         */
         @Override
         protected void doStart(Java java) throws Exception
         {
             this.java = java;
         }
 
+        /**
+         * Doesn't do anything. {@inheritdoc}
+         * @param java Ignored.
+         * @throws Exception If anything goes wrong.
+         */
         @Override
         protected void doStop(Java java) throws Exception
         {
         }
 
+        /**
+         * {@inheritdoc}
+         * @return <code>null</code>.
+         */
         public ContainerCapability getCapability()
         {
             return null;
         }
 
+        /**
+         * {@inheritdoc}
+         * @return <code>null</code>.
+         */
         public String getId()
         {
             return null;
         }
 
+        /**
+         * {@inheritdoc}
+         * @return <code>null</code>.
+         */
         public String getName()
         {
             return null;
         }
 
-        // method for testing to retrieve the java command created
+        /**
+         * Method for testing to retrieve the java command created.
+         * @return Passed {@link Java} instance.
+         */
         public Java getJava()
         {
             return this.java;
@@ -128,6 +195,10 @@ public class InstalledLocalContainerTest extends TestCase
 
     }
 
+    /**
+     * Tests that <code>tools.jar</code> is not set on MacOS X.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoesntSetToolsJarWhenOsX() throws Exception
     {
         System.setProperty("mrj.version", "is.OsX");
@@ -139,6 +210,10 @@ public class InstalledLocalContainerTest extends TestCase
         assertFalse(path.toString().contains("myTestPath"));
     }
 
+    /**
+     * Tests that <code>tools.jar</code> is set on other platforms than MacOS X.
+     * @throws Exception If anything goes wrong.
+     */
     public void testSetsToolsJarWhenNotOsX() throws Exception
     {
         System.getProperties().remove("mrj.version");
@@ -150,6 +225,10 @@ public class InstalledLocalContainerTest extends TestCase
         assertTrue(path.toString().contains("myTestPath"));
     }
 
+    /**
+     * Tests that <code>JAVA_HOME</code> getter and setter work properly.
+     * @throws Exception If anything goes wrong.
+     */
     public void testSetsDefaultJavaHome() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.JAVA_HOME, null);
@@ -170,6 +249,10 @@ public class InstalledLocalContainerTest extends TestCase
         assertTrue(vmCmd.startsWith(expected));
     }
 
+    /**
+     * Tests that <code>JAVA_HOME</code> can be changed.
+     * @throws Exception If anything goes wrong.
+     */
     public void testSetsAlternateJavaHome() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.JAVA_HOME, "/my/java");
@@ -183,6 +266,10 @@ public class InstalledLocalContainerTest extends TestCase
         assertTrue(vmCmd.startsWith("/my/java/bin/java"));
     }
 
+    /**
+     * Tests that the shared classpath is not <code>null</code> even when empty.
+     * @throws Exception If anything goes wrong.
+     */
     public void testSharedClasspathNotNull() throws Exception
     {
         AbstractInstalledLocalContainer container =
@@ -191,33 +278,45 @@ public class InstalledLocalContainerTest extends TestCase
         assertEquals(0, container.getSharedClasspath().length);
     }
 
+    /**
+     * Tests adding a JAR to the shared classpath when no path was set.
+     * @throws Exception If anything goes wrong.
+     */
     public void testAddSharedClasspathWorksWithNoPreviousPath() throws Exception
     {
         AbstractInstalledLocalContainer container =
             new AbstractInstalledLocalContainerStub(configuration);
         container.setFileHandler(fileHandler);
 
-        container.addSharedClasspath(testFile);
+        container.addSharedClasspath(TEST_FILE);
         assertEquals(1, container.getSharedClasspath().length);
-        assertEquals(testFile, container.getSharedClasspath()[0]);
+        assertEquals(TEST_FILE, container.getSharedClasspath()[0]);
     }
 
+    /**
+     * Tests adding a JAR to the shared classpath when another path was already set.
+     * @throws Exception If anything goes wrong.
+     */
     public void testAddSharedClasspathWorksWithAnotherPath() throws Exception
     {
         AbstractInstalledLocalContainer container =
             new AbstractInstalledLocalContainerStub(configuration);
         container.setFileHandler(fileHandler);
 
-        container.setSharedClasspath(new String[] {previousFile});
+        container.setSharedClasspath(new String[] {PREVIOUS_FILE});
         assertEquals(1, container.getSharedClasspath().length);
-        assertEquals(previousFile, container.getSharedClasspath()[0]);
+        assertEquals(PREVIOUS_FILE, container.getSharedClasspath()[0]);
 
-        container.addSharedClasspath(testFile);
+        container.addSharedClasspath(TEST_FILE);
         assertEquals(2, container.getSharedClasspath().length);
-        assertEquals(previousFile, container.getSharedClasspath()[0]);
-        assertEquals(testFile, container.getSharedClasspath()[1]);
+        assertEquals(PREVIOUS_FILE, container.getSharedClasspath()[0]);
+        assertEquals(TEST_FILE, container.getSharedClasspath()[1]);
     }
 
+    /**
+     * Tests that the extra classpath is not <code>null</code> even when empty.
+     * @throws Exception If anything goes wrong.
+     */
     public void testExtraClasspathNotNull() throws Exception
     {
         AbstractInstalledLocalContainer container =
@@ -226,33 +325,44 @@ public class InstalledLocalContainerTest extends TestCase
         assertEquals(0, container.getExtraClasspath().length);
     }
 
+    /**
+     * Tests adding a JAR to the extra classpath when no path was set.
+     * @throws Exception If anything goes wrong.
+     */
     public void testAddExtraClasspathWorksWithNoPreviousPath() throws Exception
     {
         AbstractInstalledLocalContainer container =
             new AbstractInstalledLocalContainerStub(configuration);
         container.setFileHandler(fileHandler);
 
-        container.addExtraClasspath(testFile);
+        container.addExtraClasspath(TEST_FILE);
         assertEquals(1, container.getExtraClasspath().length);
-        assertEquals(testFile, container.getExtraClasspath()[0]);
+        assertEquals(TEST_FILE, container.getExtraClasspath()[0]);
     }
 
+    /**
+     * Tests adding a JAR to the extra classpath when another path was already set.
+     * @throws Exception If anything goes wrong.
+     */
     public void testAddExtraClasspathWorksWithAnotherPath() throws Exception
     {
         AbstractInstalledLocalContainer container =
             new AbstractInstalledLocalContainerStub(configuration);
         container.setFileHandler(fileHandler);
 
-        container.setExtraClasspath(new String[] {previousFile});
+        container.setExtraClasspath(new String[] {PREVIOUS_FILE});
         assertEquals(1, container.getExtraClasspath().length);
-        assertEquals(previousFile, container.getExtraClasspath()[0]);
+        assertEquals(PREVIOUS_FILE, container.getExtraClasspath()[0]);
 
-        container.addExtraClasspath(testFile);
+        container.addExtraClasspath(TEST_FILE);
         assertEquals(2, container.getExtraClasspath().length);
-        assertEquals(previousFile, container.getExtraClasspath()[0]);
-        assertEquals(testFile, container.getExtraClasspath()[1]);
+        assertEquals(PREVIOUS_FILE, container.getExtraClasspath()[0]);
+        assertEquals(TEST_FILE, container.getExtraClasspath()[1]);
     }
 
+    /**
+     * Test that system properties are never null.
+     */
     public void testSystemPropertiesNeverNull()
     {
         AbstractInstalledLocalContainer container =
@@ -261,6 +371,9 @@ public class InstalledLocalContainerTest extends TestCase
         assertEquals(0, container.getSystemProperties().size());
     }
 
+    /**
+     * Test that system properties can be set.
+     */
     public void testCanSetSystemProperty()
     {
         AbstractInstalledLocalContainer container =
@@ -270,6 +383,10 @@ public class InstalledLocalContainerTest extends TestCase
         assertEquals("2", container.getSystemProperties().get("1"));
     }
 
+    /**
+     * Test the runtime arguments.
+     * @throws Exception If anything goes wrong.
+     */
     public void testRuntimeArgs() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -282,6 +399,10 @@ public class InstalledLocalContainerTest extends TestCase
             java.getCommandLine().toString().contains("hello -world"));
     }
 
+    /**
+     * Test the JVM arguments.
+     * @throws Exception If anything goes wrong.
+     */
     public void testJvmArgs() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -300,6 +421,10 @@ public class InstalledLocalContainerTest extends TestCase
         assertFalse("check tabs", commandLine.contains("\t"));
     }
 
+    /**
+     * Test the default memory arguments.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDefaultMemoryArguments() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -314,6 +439,10 @@ public class InstalledLocalContainerTest extends TestCase
         checkString(commandLine, "-XX:MaxPermSize=128m");
     }
 
+    /**
+     * Test memory arguments override.
+     * @throws Exception If anything goes wrong.
+     */
     public void testXmsMemoryArgumentOverride() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -330,6 +459,10 @@ public class InstalledLocalContainerTest extends TestCase
         checkString(commandLine, "-XX:MaxPermSize=128m");
     }
 
+    /**
+     * Test memory arguments override.
+     * @throws Exception If anything goes wrong.
+     */
     public void testXmxMemoryArgumentOverride() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -346,6 +479,10 @@ public class InstalledLocalContainerTest extends TestCase
         checkString(commandLine, "-XX:MaxPermSize=128m");
     }
 
+    /**
+     * Test memory arguments override.
+     * @throws Exception If anything goes wrong.
+     */
     public void testXXPermSizeMemoryArgumentOverride() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -362,6 +499,10 @@ public class InstalledLocalContainerTest extends TestCase
         checkString(commandLine, "-XX:MaxPermSize=128m");
     }
 
+    /**
+     * Test memory arguments override.
+     * @throws Exception If anything goes wrong.
+     */
     public void testXXMaxPermSizeMemoryArgumentOverride() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -379,6 +520,10 @@ public class InstalledLocalContainerTest extends TestCase
         checkString(commandLine, "-XX:MaxPermSize=256m");
     }
 
+    /**
+     * Test memory arguments override.
+     * @throws Exception If anything goes wrong.
+     */
     public void testAllMemoryArgumentOverride() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -396,6 +541,12 @@ public class InstalledLocalContainerTest extends TestCase
         checkString(commandLine, "-XX:MaxPermSize=256m");
     }
 
+    /**
+     * Check if <code>haystack</code> contains <code>needle</code>. A JUnit assertion will fail
+     * otherwise.
+     * @param haystack String in which to search.
+     * @param needle String to search.
+     */
     private void checkString(String haystack, String needle)
     {
         assertTrue("Expected argument \"" + needle + "\", got \"" + haystack + "\"",

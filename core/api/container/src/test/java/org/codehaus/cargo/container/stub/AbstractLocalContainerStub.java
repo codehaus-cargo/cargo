@@ -28,79 +28,135 @@ import org.codehaus.cargo.util.FileHandler;
  * 
  * @version $Id$
  */
-public abstract class AbstractLocalContainerStub
-    extends AbstractContainerStub implements LocalContainer
+public abstract class AbstractLocalContainerStub extends AbstractContainerStub
+    implements LocalContainer
 {
+    /**
+     * Configuration.
+     */
     private LocalConfiguration configuration;
 
+    /**
+     * Allows creating a container with no configuration for test that do not require a
+     * configuration.
+     */
     public AbstractLocalContainerStub()
     {
-        // Allow creating a container with no configuration for test that do not require a
-        // configuration
+        // Nothing
     }
 
+    /**
+     * Saves the configuration.
+     * @param configuration Container configuration.
+     */
     public AbstractLocalContainerStub(LocalConfiguration configuration)
     {
         setConfiguration(configuration);
     }
 
-    public long getTimeout()
-    {
-        throw new RuntimeException("Not implemented");
-    }
-
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @return Nothing.
+     */
     public boolean isAppend()
     {
         throw new RuntimeException("Not implemented");
     }
 
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @param shouldAppend Ignored.
+     */
     public void setAppend(boolean shouldAppend)
     {
         throw new RuntimeException("Not implemented");
     }
 
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @return Nothing.
+     */
     public String getOutput()
     {
         throw new RuntimeException("Not implemented");
     }
 
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @param output Ignored.
+     */
     public void setOutput(String output)
     {
         throw new RuntimeException("Not implemented");
     }
 
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @return Nothing.
+     */
+    public long getTimeout()
+    {
+        throw new RuntimeException("Not implemented");
+    }
+
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @param timeout Ignored.
+     */
     public void setTimeout(long timeout)
     {
         throw new RuntimeException("Not implemented");
     }
 
+    /**
+     * {@inheritdoc}
+     * @return The saved container configuration.
+     */
     public LocalConfiguration getConfiguration()
     {
         return this.configuration;
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Container configuration to save.
+     */
     public void setConfiguration(LocalConfiguration configuration)
     {
         this.configuration = configuration;
     }
 
-    public void start()
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @return Nothing.
+     */
+    public FileHandler getFileHandler()
     {
-        // Voluntarily empty for testing
+        throw new RuntimeException("Not implemented");
     }
 
-    public void stop()
-    {
-        // Voluntarily empty for testing
-    }
-
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @param handler Ignored.
+     */
     public void setFileHandler(FileHandler handler)
     {
         throw new RuntimeException("Not implemented");
     }
 
-    public FileHandler getFileHandler()
+    /**
+     * Voluntarily empty for testing. {@inheritdoc}
+     */
+    public void start()
     {
-        throw new RuntimeException("Not implemented");
+        // Nothing
+    }
+
+    /**
+     * Voluntarily empty for testing. {@inheritdoc}
+     */
+    public void stop()
+    {
+        // Nothing
     }
 }

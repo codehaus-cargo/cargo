@@ -26,26 +26,48 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
- * Mock for {@link org.codehaus.cargo.container.InstalledLocalContainer}. We need a static class
- * rather than using a dynamic mock (which we could get using JMock for example) for when we're
- * testing factory classes which create an object out of a class name.
+ * Mock for {@link InstalledLocalContainer}. We need a static class rather than using a dynamic
+ * mock (which we could get using JMock for example) for when we're testing factory classes which
+ * create an object out of a class name.
  * 
  * @version $Id$
  */
-public class InstalledLocalContainerStub
-    extends AbstractLocalContainerStub implements InstalledLocalContainer
+public class InstalledLocalContainerStub extends AbstractLocalContainerStub
+    implements InstalledLocalContainer
 {
-    private String home;
-    private Map<String, String> systemProperties;
-
+    /**
+     * Dummy id.
+     */
     public static final String ID = "myInstalledLocalContainer";
+
+    /**
+     * Dummy name.
+     */
     public static final String NAME = "My Installed Local Container";
 
+    /**
+     * Container home.
+     */
+    private String home;
+
+    /**
+     * System properties.
+     */
+    private Map<String, String> systemProperties;
+
+    /**
+     * Allows creating a container with no configuration for test that do not require a
+     * configuration.
+     */
     public InstalledLocalContainerStub()
     {
         this(null);
     }
 
+    /**
+     * Saves the configuration and sets the id and name. {@inheritdoc}
+     * @param configuration Container configuration.
+     */
     public InstalledLocalContainerStub(LocalConfiguration configuration)
     {
         super(configuration);
@@ -53,58 +75,102 @@ public class InstalledLocalContainerStub
         setName(NAME);
     }
 
+    /**
+     * {@inheritdoc}
+     * @return Container home.
+     */
     public String getHome()
     {
         return this.home;
     }
 
+    /**
+     * {@inheritdoc}
+     * @param home Container home.
+     */
     public void setHome(String home)
     {
         this.home = home;
     }
 
+    /**
+     * {@inheritdoc}
+     * @return {@link ContainerType#INSTALLED}
+     */
     public ContainerType getType()
     {
         return ContainerType.INSTALLED;
     }
 
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @return Nothing.
+     */
     public String[] getExtraClasspath()
     {
         throw new RuntimeException("Not implemented");
     }
 
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @return Nothing.
+     */
     public String[] getSharedClasspath()
     {
         throw new RuntimeException("Not implemented");
     }
 
-    public Map<String, String> getSystemProperties()
-    {
-        return this.systemProperties;
-    }
-
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @param classpath Ignored.
+     */
     public void setExtraClasspath(String[] classpath)
     {
         throw new RuntimeException("Not implemented");
     }
 
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @param classpath Ignored.
+     */
     public void addExtraClasspath(String classpath)
     {
         throw new RuntimeException("Not implemented");
     }
 
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @param classpath Ignored.
+     */
     public void setSharedClasspath(String[] classpath)
     {
         throw new RuntimeException("Not implemented");
     }
 
-    public void setSystemProperties(Map<String, String> properties)
-    {
-        this.systemProperties = properties;
-    }
-
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @param location Ignored.
+     */
     public void addSharedClasspath(String location)
     {
         throw new RuntimeException("Not implemented");
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return System properties.
+     */
+    public Map<String, String> getSystemProperties()
+    {
+        return this.systemProperties;
+    }
+
+    /**
+     * {@inheritdoc}
+     * @param properties System properties to set.
+     */
+    public void setSystemProperties(Map<String, String> properties)
+    {
+        this.systemProperties = properties;
     }
 }

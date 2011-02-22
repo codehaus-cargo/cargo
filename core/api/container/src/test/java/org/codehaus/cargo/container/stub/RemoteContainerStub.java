@@ -25,24 +25,42 @@ import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 
 /**
- * Mock for {@link org.codehaus.cargo.container.RemoteContainer}. We need a static class rather than
- * using a dynamic mock (which we could get using JMock for example) for when we're testing factory
- * classes which create an object out of a class name.
+ * Mock for {@link RemoteContainer}. We need a static class rather than using a dynamic mock (which
+ * we could get using JMock for example) for when we're testing factory classes which create an
+ * object out of a class name.
  * 
  * @version $Id$
  */
 public class RemoteContainerStub extends AbstractContainerStub implements RemoteContainer
 {
+    /**
+     * Dummy id.
+     */
     public static final String ID = "myRemoteContainer";
+
+    /**
+     * Dummy name.
+     */
     public static final String NAME = "My Remote Container";
 
+    /**
+     * Configuration.
+     */
     private RuntimeConfiguration configuration;
 
+    /**
+     * Allows creating a container with no configuration for test that do not require a
+     * configuration.
+     */
     public RemoteContainerStub()
     {
         this(null);
     }
 
+    /**
+     * Saves the configuration and sets the id and name. {@inheritdoc}
+     * @param configuration Container configuration.
+     */
     public RemoteContainerStub(RuntimeConfiguration configuration)
     {
         setConfiguration(configuration);
@@ -50,22 +68,38 @@ public class RemoteContainerStub extends AbstractContainerStub implements Remote
         setName(NAME);
     }
 
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @return Nothing.
+     */
     @Override
     public ContainerCapability getCapability()
     {
         throw new RuntimeException("Not implemented");
     }
 
+    /**
+     * {@inheritdoc}
+     * @return {@link ContainerType#REMOTE}
+     */
     public ContainerType getType()
     {
         return ContainerType.REMOTE;
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration to set.
+     */
     public void setConfiguration(RuntimeConfiguration configuration)
     {
         this.configuration = configuration;
     }
 
+    /**
+     * {@inheritdoc}
+     * @return Previously set configuration.
+     */
     public RuntimeConfiguration getConfiguration()
     {
         return this.configuration;

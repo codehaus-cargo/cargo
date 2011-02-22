@@ -34,79 +34,142 @@ import org.codehaus.cargo.util.FileHandler;
  * 
  * @version $Id$
  */
-public abstract class AbstractLocalConfigurationStub
-    extends AbstractConfigurationStub implements LocalConfiguration
+public abstract class AbstractLocalConfigurationStub extends AbstractConfigurationStub
+    implements LocalConfiguration
 {
+    /**
+     * Container home.
+     */
     private String home;
 
+    /**
+     * Deployables to deploy.
+     */
     private List<Deployable> deployables = new ArrayList<Deployable>();
 
+    /**
+     * Resources to deploy.
+     */
     private List<Resource> resources = new ArrayList<Resource>();
 
+    /**
+     * Datasources to deploy.
+     */
     private List<DataSource> dataSources = new ArrayList<DataSource>();
 
+    /**
+     * Empty constructor to allow creating a container with no configuration for test that do not
+     * require a configuration.
+     */
     public AbstractLocalConfigurationStub()
     {
-        // Allow creating a container with no configuration for test that do not require a
-        // configuration
+        // Nothing
     }
 
+    /**
+     * Constructor that saves the <code>home</code>.
+     * @param home Configuration home.
+     */
     public AbstractLocalConfigurationStub(String home)
     {
         setHome(home);
     }
 
+    /**
+     * {@inheritdoc}
+     * @return Configuration home.
+     */
     public String getHome()
     {
         return this.home;
     }
 
+    /**
+     * {@inheritdoc}
+     * @param home Configuration home to set.
+     */
     public void setHome(String home)
     {
         this.home = home;
     }
 
+    /**
+     * {@inheritdoc}
+     * @param deployable Deployable to add.
+     */
     public void addDeployable(Deployable deployable)
     {
         this.deployables.add(deployable);
     }
 
+    /**
+     * {@inheritdoc}
+     * @return List of deployables.
+     */
     public List<Deployable> getDeployables()
     {
         return this.deployables;
     }
 
-    public void addResource(Resource Resource)
+    /**
+     * {@inheritdoc}
+     * @param resource Resource to add.
+     */
+    public void addResource(Resource resource)
     {
-        this.resources.add(Resource);
+        this.resources.add(resource);
     }
 
+    /**
+     * {@inheritdoc}
+     * @return List of resources.
+     */
     public List<Resource> getResources()
     {
         return this.resources;
     }
 
-    public void addDataSource(DataSource DataSource)
+    /**
+     * {@inheritdoc}
+     * @param dataSource Datasource to add.
+     */
+    public void addDataSource(DataSource dataSource)
     {
-        this.dataSources.add(DataSource);
+        this.dataSources.add(dataSource);
     }
 
+    /**
+     * {@inheritdoc}
+     * @return List of datasources.
+     */
     public List<DataSource> getDataSources()
     {
         return this.dataSources;
     }
 
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param container Ignored.
+     */
     public void configure(LocalContainer container)
     {
-        // Voluntarily do nothing for testing
+        // Nothing
     }
 
-    public void setFileHandler(FileHandler handler)
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @return Nothing.
+     */
+    public FileHandler getFileHandler()
     {
         throw new RuntimeException("Not implemented");
     }
 
-    public FileHandler getFileHandler()
+    /**
+     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * @param handler Ignored.
+     */
+    public void setFileHandler(FileHandler handler)
     {
         throw new RuntimeException("Not implemented");
     }

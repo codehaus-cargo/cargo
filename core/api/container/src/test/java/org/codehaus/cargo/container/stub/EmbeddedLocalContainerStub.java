@@ -22,28 +22,45 @@ package org.codehaus.cargo.container.stub;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.util.FileHandler;
 
 /**
- * Mock for {@link org.codehaus.cargo.container.EmbeddedLocalContainer}. We need a static class
- * rather than using a dynamic mock (which we could get using JMock for example) for when we're
- * testing factory classes which create an object out of a class name.
+ * Mock for {@link EmbeddedLocalContainer}. We need a static class rather than using a dynamic mock
+ * (which we could get using JMock for example) for when we're testing factory classes which create
+ * an object out of a class name.
  * 
  * @version $Id$
  */
 public class EmbeddedLocalContainerStub
     extends AbstractLocalContainerStub implements EmbeddedLocalContainer
 {
+    /**
+     * Dummy id.
+     */
     public static final String ID = "myEmbeddedLocalContainer";
+
+    /**
+     * Dummy name.
+     */
     public static final String NAME = "My Embedded Local Container";
 
+    /**
+     * Classloader.
+     */
     private ClassLoader classLoader;
 
+    /**
+     * Allows creating a container with no configuration for test that do not require a
+     * configuration.
+     */
     public EmbeddedLocalContainerStub()
     {
         this(null);
     }
 
+    /**
+     * Saves the configuration and sets the id and name. {@inheritdoc}
+     * @param configuration Container configuration.
+     */
     public EmbeddedLocalContainerStub(LocalConfiguration configuration)
     {
         super(configuration);
@@ -51,16 +68,28 @@ public class EmbeddedLocalContainerStub
         setName(NAME);
     }
 
+    /**
+     * {@inheritdoc}
+     * @return {@link ContainerType#EMBEDDED}
+     */
     public ContainerType getType()
     {
         return ContainerType.EMBEDDED;
     }
 
+    /**
+     * {@inheritdoc}
+     * @param classLoader Embedded local container's classloader.
+     */
     public void setClassLoader(ClassLoader classLoader)
     {
         this.classLoader = classLoader;
     }
 
+    /**
+     * {@inheritdoc}
+     * @return Embedded local container's classloader.
+     */
     public ClassLoader getClassLoader()
     {
         ClassLoader result;
@@ -74,11 +103,5 @@ public class EmbeddedLocalContainerStub
             result = this.classLoader;
         }
         return result;
-    }
-
-    @Override
-    public FileHandler getFileHandler()
-    {
-        throw new RuntimeException("Not implemented");
     }
 }
