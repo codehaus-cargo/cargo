@@ -48,7 +48,7 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register deployable factory.
-     *
+     * 
      * @param deployableFactory Factory on which to register.
      */
     @Override
@@ -75,7 +75,7 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register configuration capabilities.
-     *
+     * 
      * @param configurationCapabilityFactory Factory on which to register.
      */
     @Override
@@ -95,7 +95,7 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register configuration factories.
-     *
+     * 
      * @param configurationFactory Factory on which to register.
      */
     @Override
@@ -115,7 +115,7 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register deployer.
-     *
+     * 
      * @param deployerFactory Factory on which to register.
      */
     @Override
@@ -130,7 +130,7 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register packager. Doesn't register anything.
-     *
+     * 
      * @param packagerFactory Factory on which to register.
      */
     @Override
@@ -140,7 +140,7 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register container.
-     *
+     * 
      * @param containerFactory Factory on which to register.
      */
     @Override
@@ -155,7 +155,7 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register container capabilities.
-     *
+     * 
      * @param containerCapabilityFactory Factory on which to register.
      */
     @Override

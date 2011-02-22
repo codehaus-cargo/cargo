@@ -29,7 +29,7 @@ import org.codehaus.cargo.util.AntUtils;
 
 /**
  * JOnAS 4X admin command line utils class.
- *
+ * 
  * @version $Id$
  */
 public class Jonas4xAdminImpl implements Jonas4xAdmin
@@ -60,7 +60,7 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
         targetContainer.doServerAndDomainNameParam(ping);
         ping.createArg().setValue("-" + command);
         // IMPORTANT: impose timeout since default is 100 seconds
-        //            the argument is in seconds in JOnAS 4
+        // the argument is in seconds in JOnAS 4
         ping.createArg().setValue("-timeout");
         ping.createArg().setValue("1");
         ping.reconfigure();
@@ -98,7 +98,7 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
     }
 
     /**
-     *
+     * 
      * @param beanFileName bean File Name
      * @param deploymentParam deployment parameter
      * @return true if the deployment command(deploy or undeploy...)bean has been correctly executed

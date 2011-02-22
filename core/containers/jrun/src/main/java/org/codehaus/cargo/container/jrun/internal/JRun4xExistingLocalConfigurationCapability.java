@@ -19,14 +19,14 @@
  */
 package org.codehaus.cargo.container.jrun.internal;
 
-import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
+
 /**
  * Capabilities of the JRun's {@link JRun4xExistingLocalConfigurationCapability} configuration.
- *
+ * 
  * @version $Id$
  */
 public class JRun4xExistingLocalConfigurationCapability

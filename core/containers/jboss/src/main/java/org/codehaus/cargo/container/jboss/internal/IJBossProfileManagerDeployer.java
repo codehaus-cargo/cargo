@@ -19,12 +19,11 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
-
 import java.io.File;
 
 /**
  * The generic interface for a JBoss deployer that uses the JBoss profile manager.
- *
+ * 
  * @version $Id$
  */
 public interface IJBossProfileManagerDeployer
@@ -41,7 +40,7 @@ public interface IJBossProfileManagerDeployer
 
     /**
      * Undeploys an application.
-     *
+     * 
      * @param deploymentName Name of the deployment on the remote server.
      * @throws Exception If anything bad occurs.
      */

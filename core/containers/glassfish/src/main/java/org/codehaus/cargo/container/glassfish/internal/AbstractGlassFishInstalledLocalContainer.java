@@ -44,7 +44,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
 
     /**
      * Calls parent constructor, which saves the configuration.
-     *
+     * 
      * @param localConfiguration Configuration.
      */
     public AbstractGlassFishInstalledLocalContainer(LocalConfiguration localConfiguration)
@@ -54,7 +54,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
 
     /**
      * Invokes asadmin.
-     *
+     * 
      * @param async Asynchronous invoke?
      * @param args Invoke arguments.
      */
@@ -66,7 +66,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
 
     /**
      * Invokes asadmin using a Java container.
-     *
+     * 
      * @param async Asynchronous invoke?
      * @param java ANT Java container task.
      * @param args Invoke arguments.
@@ -79,7 +79,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
 
     /**
      * Returns the asadmin for the GlassFish server.
-     *
+     * 
      * @return AsAdmin for the GlassFish server.
      */
     protected abstract AbstractAsAdmin getAsAdmin();

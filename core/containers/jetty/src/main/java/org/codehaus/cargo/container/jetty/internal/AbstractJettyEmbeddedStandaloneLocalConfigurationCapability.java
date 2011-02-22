@@ -22,8 +22,8 @@ package org.codehaus.cargo.container.jetty.internal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 /**
  * Capabilities of the Jetty's

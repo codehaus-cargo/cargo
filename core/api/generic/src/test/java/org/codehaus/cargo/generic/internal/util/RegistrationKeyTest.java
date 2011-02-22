@@ -30,6 +30,9 @@ import org.codehaus.cargo.container.ContainerType;
  */
 public class RegistrationKeyTest extends TestCase
 {
+    /**
+     * Test equality.
+     */
     public void testEquality()
     {
         RegistrationKey key1 = new RegistrationKey(new SimpleContainerIdentity("container"),

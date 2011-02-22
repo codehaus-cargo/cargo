@@ -28,10 +28,15 @@ import org.jmock.MockObjectTestCase;
 
 /**
  * Unit tests for {@link Jonas4xContainerCapabilityTest}.
+ * 
+ * @version $Id$
  */
 public class Jonas4xContainerCapabilityTest extends MockObjectTestCase
 {
-    ContainerCapability capability;
+    /**
+     * Container capability.
+     */
+    protected ContainerCapability capability;
 
     /**
      * Creates the test container capability. {@inheritdoc}
@@ -59,6 +64,7 @@ public class Jonas4xContainerCapabilityTest extends MockObjectTestCase
 
     /**
      * test one DeployableType
+     * @param type Type to test
      */
     private void testSupportedDeployableType(DeployableType type)
     {

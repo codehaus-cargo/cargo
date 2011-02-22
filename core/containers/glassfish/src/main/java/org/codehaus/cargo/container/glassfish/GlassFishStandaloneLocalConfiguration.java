@@ -52,7 +52,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
 
     /**
      * Creates the local configuration object.
-     *
+     * 
      * @param home The work directory where files needed to run Glassfish will be created.
      */
     public GlassFishStandaloneLocalConfiguration(String home)
@@ -85,7 +85,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
 
     /**
      * Returns the password file that contains admin's password.
-     *
+     * 
      * @return The password file that contains admin's password.
      */
     File getPasswordFile()
@@ -118,7 +118,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
 
     /**
      * Creates a new domain and set up the workspace by invoking the "asadmin" command.
-     *
+     * 
      * {@inheritDoc}
      */
     @Override
@@ -182,7 +182,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
 
     /**
      * Returns a system property value string.
-     *
+     * 
      * @param key Key to look for.
      * @return Associated value.
      */
@@ -194,7 +194,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
 
     /**
      * Extracts a JVM argument.
-     *
+     * 
      * @param jvmArgs JVM arguments list.
      * @param key Key to look for.
      * @return Associated value, null if not found.

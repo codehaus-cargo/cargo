@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.tomcat;
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
- *
+ * 
  * @version $Id$
  */
 public class Tomcat7xStandaloneLocalConfiguration
@@ -36,7 +36,7 @@ public class Tomcat7xStandaloneLocalConfiguration
     {
         super(dir);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see Object#toString()

@@ -28,8 +28,8 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.jetty.internal.JettyExecutorThread;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalContainer;
+import org.codehaus.cargo.container.jetty.internal.JettyExecutorThread;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 

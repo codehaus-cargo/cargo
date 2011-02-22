@@ -27,7 +27,6 @@ import java.io.FileNotFoundException;
 
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
-
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaInstalledLocalContainer;
 
@@ -72,8 +71,8 @@ public class Tomcat4xInstalledLocalContainer extends AbstractCatalinaInstalledLo
 
     /**
      * {@inheritDoc}
-     *
-     * @see AbstractInstalledLocalContainer#doStart(Java)
+     * 
+     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStart(Java)
      */
     @Override
     public void doStart(Java java) throws Exception

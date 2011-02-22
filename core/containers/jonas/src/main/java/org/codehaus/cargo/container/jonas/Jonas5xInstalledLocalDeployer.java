@@ -54,7 +54,7 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * 
      * @param container the container to be used
      * @param fileHandler the file handler to use, can be null to use the default file handler
-     *            implementation
+     * implementation
      */
     public Jonas5xInstalledLocalDeployer(InstalledLocalContainer container, FileHandler fileHandler)
     {
@@ -143,11 +143,11 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     }
 
     /**
-     * Copy the full expanded WAR directory to the deployable directory, renaming it if the user
-     * has specified a custom context for this expanded WAR.
-     *
+     * Copy the full expanded WAR directory to the deployable directory, renaming it if the user has
+     * specified a custom context for this expanded WAR.
+     * 
      * @param deployableDir the directory where the container is expecting deployables to be dropped
-     *        for deployments
+     * for deployments
      * @param war the expanded WAR war
      */
     @Override

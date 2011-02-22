@@ -31,6 +31,8 @@ import org.codehaus.cargo.util.VFSFileHandler;
 
 /**
  * Unit tests for {@link Jonas4xExistingLocalConfiguration}.
+ * 
+ * @version $Id$
  */
 public class Jonas4xExistingLocalConfigurationTest extends TestCase
 {
@@ -75,7 +77,9 @@ public class Jonas4xExistingLocalConfigurationTest extends TestCase
     protected void tearDown() throws Exception
     {
         if (fsManager != null)
+        {
             fsManager.close();
+        }
 
         super.tearDown();
     }

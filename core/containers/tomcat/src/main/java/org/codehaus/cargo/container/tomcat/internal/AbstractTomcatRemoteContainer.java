@@ -44,7 +44,7 @@ public abstract class AbstractTomcatRemoteContainer extends AbstractRemoteContai
     {
         super(configuration);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getCapability()

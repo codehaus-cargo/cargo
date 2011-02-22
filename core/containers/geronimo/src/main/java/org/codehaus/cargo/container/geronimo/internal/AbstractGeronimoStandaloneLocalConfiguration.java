@@ -20,28 +20,27 @@
 package org.codehaus.cargo.container.geronimo.internal;
 
 import java.net.MalformedURLException;
-import java.util.Iterator;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.tools.ant.types.FilterChain;
-
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.property.User;
-import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.geronimo.GeronimoPropertySet;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.User;
+import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
 /**
  * Abstract Geronimo standalone {@link org.codehaus.cargo.container.configuration.Configuration}
  * implementation.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractGeronimoStandaloneLocalConfiguration extends
@@ -79,7 +78,7 @@ public abstract class AbstractGeronimoStandaloneLocalConfiguration extends
 
     /**
      * Create filter to replace tokens in configuration file with user defined values.
-     *
+     * 
      * @param container the instance representing the Geronimo container
      * @return token with all the user-defined token value
      * @exception java.net.MalformedURLException If an URL is malformed.
@@ -114,12 +113,12 @@ public abstract class AbstractGeronimoStandaloneLocalConfiguration extends
 
     /**
      * Generate properties file entries for Geronimo users and groups.
-     *
+     * 
      * @return Array holding the entries for the users and groups properties file entries
      */
     protected String[] getUserTokens()
     {
-        String[] tokens = new String[]{" ", " "};
+        String[] tokens = new String[] {" ", " "};
         StringBuilder usersToken = new StringBuilder("");
         StringBuilder groupsToken = new StringBuilder("");
 

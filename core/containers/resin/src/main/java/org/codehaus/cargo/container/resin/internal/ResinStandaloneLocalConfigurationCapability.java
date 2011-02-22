@@ -22,35 +22,35 @@ package org.codehaus.cargo.container.resin.internal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 /**
- * Capabilities of the Resin's 
+ * Capabilities of the Resin's
  * {@link org.codehaus.cargo.container.resin.internal.AbstractResinStandaloneLocalConfiguration}
  * configuration.
- *  
+ * 
  * @version $Id$
  */
-public class ResinStandaloneLocalConfigurationCapability 
+public class ResinStandaloneLocalConfigurationCapability
     extends AbstractStandaloneLocalConfigurationCapability
 {
     /**
      * Configuration-specific supports Map.
      */
     private Map<String, Boolean> supportsMap;
-    
+
     /**
      * Initialize the configuration-specific supports Map.
      */
     public ResinStandaloneLocalConfigurationCapability()
     {
         super();
-        
+
         this.supportsMap = new HashMap<String, Boolean>();
-        
+
         this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
         this.supportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);

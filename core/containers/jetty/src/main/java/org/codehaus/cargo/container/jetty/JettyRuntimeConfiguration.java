@@ -20,13 +20,13 @@
 package org.codehaus.cargo.container.jetty;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
 import org.codehaus.cargo.container.jetty.internal.JettyRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
 
 /**
  * Configuration to use when using a
  * {@link org.codehaus.cargo.container.jetty.internal.AbstractJettyRemoteContainer}.
- *  
+ * 
  * @version $Id$
  */
 public class JettyRuntimeConfiguration extends AbstractRuntimeConfiguration
@@ -34,7 +34,7 @@ public class JettyRuntimeConfiguration extends AbstractRuntimeConfiguration
     /**
      * Capability of the Jetty runtime configuration.
      */
-    private static ConfigurationCapability capability = 
+    private static ConfigurationCapability capability =
         new JettyRuntimeConfigurationCapability();
 
     /**
@@ -45,7 +45,7 @@ public class JettyRuntimeConfiguration extends AbstractRuntimeConfiguration
     {
         return capability;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see Object#toString()

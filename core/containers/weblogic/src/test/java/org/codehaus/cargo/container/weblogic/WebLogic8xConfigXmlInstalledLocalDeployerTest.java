@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.weblogic;
 
 import java.io.IOException;
+
 import junit.framework.TestCase;
 
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
@@ -102,7 +103,9 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
     protected void tearDown() throws Exception
     {
         if (fsManager != null)
+        {
             fsManager.close();
+        }
 
         super.tearDown();
     }

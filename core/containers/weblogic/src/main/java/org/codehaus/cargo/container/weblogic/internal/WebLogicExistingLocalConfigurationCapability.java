@@ -27,38 +27,38 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 
 /**
- * Capabilities of the WebLogic's 
+ * Capabilities of the WebLogic's
  * {@link org.codehaus.cargo.container.weblogic.WebLogicExistingLocalConfiguration} configuration.
- *  
+ * 
  * @version $Id$
  */
-public class WebLogicExistingLocalConfigurationCapability 
+public class WebLogicExistingLocalConfigurationCapability
     extends AbstractExistingLocalConfigurationCapability
 {
     /**
      * Configuration-specific supports Map.
      */
     private Map<String, Boolean> supportsMap;
-    
+
     /**
      * Initialize the configuration-specific supports Map.
      */
     public WebLogicExistingLocalConfigurationCapability()
     {
         super();
-        
+
         this.supportsMap = new HashMap<String, Boolean>();
-        
+
         this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
 
         this.supportsMap.put(WebLogicPropertySet.ADMIN_USER, Boolean.TRUE);
         this.supportsMap.put(WebLogicPropertySet.ADMIN_PWD, Boolean.TRUE);
-        
+
         this.supportsMap.put(WebLogicPropertySet.SERVER, Boolean.TRUE);
         this.supportsMap.put(WebLogicPropertySet.BEA_HOME, Boolean.TRUE);
-        
+
     }
-    
+
     /**
      * {@inheritDoc}
      * @see AbstractExistingLocalConfigurationCapability#getPropertySupportMap()

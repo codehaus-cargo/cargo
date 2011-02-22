@@ -19,20 +19,20 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.apache.tools.ant.types.FilterChain;
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.jetty.internal.Jetty7xStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-
 import java.io.File;
+
+import org.apache.tools.ant.types.FilterChain;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty7xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
 /**
  * Jetty 7.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
- *
+ * 
  * @version $Id$
  */
 public class Jetty7xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
@@ -71,11 +71,11 @@ public class Jetty7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
     protected void doConfigure(LocalContainer container) throws Exception
     {
         setupConfigurationDir();
-        
+
         FilterChain filterChain = createFilterChain();
         String sessionPath = getPropertyValue(JettyPropertySet.SESSION_PATH);
         String sessionContextParam = "";
-        
+
         if (sessionPath != null)
         {
             sessionContextParam = "  <context-param>\n"
@@ -112,7 +112,7 @@ public class Jetty7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             new File(appDir, "cargocpc.war"));
     }
-    
+
     /**
      * {@inheritDoc}
      * @see Object#toString()

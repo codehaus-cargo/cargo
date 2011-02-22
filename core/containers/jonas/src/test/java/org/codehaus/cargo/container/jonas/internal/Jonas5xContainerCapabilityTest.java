@@ -24,14 +24,18 @@ package org.codehaus.cargo.container.jonas.internal;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.jmock.MockObjectTestCase;
 
 /**
  * Unit tests for {@link JonasContainerCapability}.
+ * 
+ * @version $Id$
  */
 public class Jonas5xContainerCapabilityTest extends Jonas4xContainerCapabilityTest
 {
-    ContainerCapability capability;
+    /**
+     * Container capability.
+     */
+    protected ContainerCapability capability;
 
     @Override
     protected void setUp() throws Exception
@@ -44,6 +48,7 @@ public class Jonas5xContainerCapabilityTest extends Jonas4xContainerCapabilityTe
     /**
      * test the list of Supported Deployable Types
      */
+    @Override
     public void testSupportedDeployableTypes()
     {
         super.testSupportedDeployableTypes();
@@ -53,6 +58,7 @@ public class Jonas5xContainerCapabilityTest extends Jonas4xContainerCapabilityTe
 
     /**
      * test one DeployableType
+     * @param type Type to test
      */
     private void testSupportedDeployableType(DeployableType type)
     {

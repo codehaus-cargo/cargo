@@ -57,11 +57,11 @@ public interface WebLogicPropertySet
     String CONFIGURATION_VERSION = "cargo.weblogic.configuration.version";
 
     /**
-     * Lowest common denominator of the servers in the domain. Used in WebLogic 9x+. 
-     * format: 9.2.3.0.
+     * Lowest common denominator of the servers in the domain. Used in WebLogic 9x+. format:
+     * 9.2.3.0.
      */
     String DOMAIN_VERSION = "cargo.weblogic.domain.version";
-    
+
     /**
      * Log level used in the server log.
      */

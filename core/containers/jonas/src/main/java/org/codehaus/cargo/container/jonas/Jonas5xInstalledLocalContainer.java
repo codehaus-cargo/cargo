@@ -40,7 +40,7 @@ import org.codehaus.cargo.util.AntUtils;
 
 /**
  * Support for the JOnAS JEE container.
- *
+ * 
  * @version $Id$
  */
 public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalContainer
@@ -53,7 +53,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see AbstractJonasInstalledLocalContainer#AbstractJonasInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Jonas5xInstalledLocalContainer(final LocalConfiguration configuration)
@@ -63,7 +63,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see AbstractJonasInstalledLocalContainer#doStart(Java)
      */
     @Override
@@ -80,7 +80,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see AbstractJonasInstalledLocalContainer#doStop(Java)
      */
     @Override
@@ -102,8 +102,8 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     *
-     * @see AbstractLocalContainer#waitForCompletion(boolean)
+     * 
+     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#waitForCompletion(boolean)
      */
     @Override
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
@@ -123,7 +123,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * Wait for the JOnAS server to reach a given state.
-     *
+     * 
      * @param expectedReturnCode expected return code.
      */
     protected void ping(int expectedReturnCode)
@@ -157,7 +157,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
             doServerAndDomainNameArgs(ping);
             ping.createArg().setValue("-ping");
             // IMPORTANT: impose timeout since default is 120 seconds
-            //            the argument is in milliseconds in JOnAS 5
+            // the argument is in milliseconds in JOnAS 5
             ping.createArg().setValue("-timeout");
             ping.createArg().setValue("2000");
             doUsernameAndPasswordArgs(ping);
@@ -190,7 +190,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see AbstractJonasInstalledLocalContainer#setupExtraSysProps(Java, Map)
      */
     @Override
@@ -209,7 +209,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * Setup of the username and password for the JOnAS admin command call.
-     *
+     * 
      * @param java the target java ant task to setup
      */
     protected void doUsernameAndPasswordArgs(final Java java)
@@ -229,7 +229,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * Configuring the target java ant task to launch a JOnAS command.
-     *
+     * 
      * @param java the target java ant task to setup
      */
     public void doAction(final Java java)
@@ -269,7 +269,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.Container#getId()
      */
     public String getId()
@@ -279,7 +279,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.Container#getName()
      */
     public String getName()

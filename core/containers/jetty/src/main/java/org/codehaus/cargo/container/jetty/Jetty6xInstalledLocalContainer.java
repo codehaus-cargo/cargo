@@ -19,21 +19,21 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
-import org.codehaus.cargo.container.ContainerCapability;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.internal.ServletContainerCapability;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import java.io.File;
+
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
-
-import java.io.File;
+import org.codehaus.cargo.container.ContainerCapability;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
+import org.codehaus.cargo.container.internal.ServletContainerCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 
 /**
  * Special container support for the Jetty 6.x servlet container.
- *
+ * 
  * @version $Id$
  */
 public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContainer
@@ -49,7 +49,7 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
     private ContainerCapability capability = new ServletContainerCapability();
 
     /**
-     *  Jetty6xInstalledLocalContainer Constructor.
+     * Jetty6xInstalledLocalContainer Constructor.
      * @param configuration The configuration associated with the container
      */
     public Jetty6xInstalledLocalContainer(LocalConfiguration configuration)
@@ -97,7 +97,7 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * @param java the predefined Ant {@link org.apache.tools.ant.taskdefs.Java} command to use to
-     *             start the container, passed by Cargo
+     * start the container, passed by Cargo
      * @param isGettingStarted if true then start the container, stop it otherwise
      * @throws Exception in case of startup or shutdown error
      */
@@ -107,8 +107,8 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
         addToolsJarToClasspath(classpath);
 
         // If logging is set to "high" the turn it on by setting the DEBUG system property
-        if ((getConfiguration().getPropertyValue(GeneralPropertySet.LOGGING) != null
-            && (getConfiguration().getPropertyValue(GeneralPropertySet.LOGGING).equals("high"))))
+        if (getConfiguration().getPropertyValue(GeneralPropertySet.LOGGING) != null
+            && getConfiguration().getPropertyValue(GeneralPropertySet.LOGGING).equals("high"))
         {
             java.addSysproperty(getAntUtils().createSysProperty("DEBUG", "true"));
         }
@@ -151,7 +151,7 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
         // the classpath as an environment variable 'CLASSPATH'
         java.addSysproperty(getAntUtils().createSysProperty("CLASSPATH",
                 java.getCommandLine().getClasspath()));
-        
+
         AntContainerExecutorThread jettyRunner = new AntContainerExecutorThread(java);
         jettyRunner.start();
     }

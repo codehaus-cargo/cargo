@@ -19,17 +19,17 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
-import org.codehaus.cargo.container.ContainerException;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Constructor;
-import java.net.InetAddress;
 import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.InetAddress;
+
+import org.codehaus.cargo.container.ContainerException;
 
 /**
  * Wrapper classes around Tomcat 5.x embedded API to hide reflection.
- *
+ * 
  * @version $Id$
  */
 public final class Tomcat5xEmbedded
@@ -117,10 +117,9 @@ public final class Tomcat5xEmbedded
      */
     private final ClassLoader classLoader;
 
-    
     /**
      * Prepares the reflection access to Tomcat.
-     *
+     * 
      * @param classLoader the CL used to load Tomcat 5.x classes. Can be null.
      * @throws Exception if an error happens when creating the Tomcat objects by reflection
      */
@@ -149,7 +148,7 @@ public final class Tomcat5xEmbedded
 
     /**
      * Preload the methods we'll need from the <code>org.apache.catalina.Engine</code> class.
-     *
+     * 
      * @param classLoader Tomcat classes will be loaded from this class loader. Can be null.
      * @throws Exception If reflection fails.
      */
@@ -158,22 +157,22 @@ public final class Tomcat5xEmbedded
         Class engine = Class.forName("org.apache.catalina.Engine", true, classLoader);
         Class container = Class.forName("org.apache.catalina.Container", true, classLoader);
 
-        engineSetName = engine.getMethod("setName", new Class[]{String.class});
-        engineAddChild = engine.getMethod("addChild", new Class[]{container});
-        engineSetDefaultHost = engine.getMethod("setDefaultHost", new Class[]{String.class});
+        engineSetName = engine.getMethod("setName", new Class[] {String.class});
+        engineAddChild = engine.getMethod("addChild", new Class[] {container});
+        engineSetDefaultHost = engine.getMethod("setDefaultHost", new Class[] {String.class});
         engineSetParentClassLoader = engine.getMethod("setParentClassLoader",
-            new Class[]{ClassLoader.class});
+            new Class[] {ClassLoader.class});
 
         Class standardEngine =
             Class.forName("org.apache.catalina.core.StandardEngine", true, classLoader);
         standardEngineSetBaseDir =
-            standardEngine.getMethod("setBaseDir", new Class[]{String.class});
+            standardEngine.getMethod("setBaseDir", new Class[] {String.class});
     }
 
     /**
      * Preload the methods we'll need from the <code>org.apache.catalina.realm.MemoryRealm</code>
      * class.
-     *
+     * 
      * @param classLoader Tomcat classes will be loaded from this class loader. Can be null.
      * @throws Exception If reflection fails.
      */
@@ -182,12 +181,12 @@ public final class Tomcat5xEmbedded
         Class memoryRealm =
             Class.forName("org.apache.catalina.realm.MemoryRealm", true, classLoader);
         memoryRealmNew = memoryRealm.getConstructor(new Class[0]);
-        memoryRealmSetPathname = memoryRealm.getMethod("setPathname", new Class[]{String.class});
+        memoryRealmSetPathname = memoryRealm.getMethod("setPathname", new Class[] {String.class});
     }
 
     /**
      * Preload the methods we'll need from the <code>org.apache.catalina.Context</code> class.
-     *
+     * 
      * @param classLoader Tomcat classes will be loaded from this class loader. Can be null.
      * @throws Exception If reflection fails.
      */
@@ -195,14 +194,14 @@ public final class Tomcat5xEmbedded
     {
         Class context = Class.forName("org.apache.catalina.Context", true, classLoader);
         contextReload = context.getMethod("reload", new Class[0]);
-        contextSetAvailable = context.getMethod("setAvailable", new Class[]{boolean.class});
+        contextSetAvailable = context.getMethod("setAvailable", new Class[] {boolean.class});
         contextAddParameter =
-            context.getMethod("addParameter", new Class[]{String.class, String.class});
+            context.getMethod("addParameter", new Class[] {String.class, String.class});
     }
 
     /**
      * Preload the methods we'll need from the <code>org.apache.catalina.Host</code> class.
-     *
+     * 
      * @param classLoader Tomcat classes will be loaded from this class loader. Can be null.
      * @throws Exception If reflection fails.
      */
@@ -211,16 +210,16 @@ public final class Tomcat5xEmbedded
         Class container = Class.forName("org.apache.catalina.Container", true, classLoader);
 
         Class host = Class.forName("org.apache.catalina.Host", true, classLoader);
-        hostSetAutoDeploy = host.getMethod("setAutoDeploy", new Class[]{boolean.class});
+        hostSetAutoDeploy = host.getMethod("setAutoDeploy", new Class[] {boolean.class});
         hostGetName = host.getMethod("getName", new Class[0]);
-        hostAddChild = host.getMethod("addChild", new Class[]{container});
-        hostRemoveChild = host.getMethod("removeChild", new Class[]{container});
+        hostAddChild = host.getMethod("addChild", new Class[] {container});
+        hostRemoveChild = host.getMethod("removeChild", new Class[] {container});
     }
 
     /**
      * Preload the methods we'll need from the <code>org.apache.catalina.startup.Embedded</code>
      * class.
-     *
+     * 
      * @param classLoader Tomcat classes will be loaded from this class loader. Can be null.
      * @throws Exception If reflection fails.
      */
@@ -230,12 +229,12 @@ public final class Tomcat5xEmbedded
             Class.forName("org.apache.catalina.startup.Embedded", true, classLoader);
         Class realm = Class.forName("org.apache.catalina.Realm", true, classLoader);
         Class connector;
-        try 
+        try
         {
             // this works for Tomcat 5.0.x
             connector = Class.forName("org.apache.catalina.Connector", true, classLoader);
-        } 
-        catch (ClassNotFoundException e) 
+        }
+        catch (ClassNotFoundException e)
         {
             // and this for Tomcat 5.5.x
             connector = Class.forName("org.apache.catalina.connector.Connector", true, classLoader);
@@ -245,21 +244,21 @@ public final class Tomcat5xEmbedded
         embeddedNew = embedded.getConstructor(new Class[0]);
         embeddedCreateEngine = embedded.getMethod("createEngine", new Class[0]);
         embeddedCreateHost =
-            embedded.getMethod("createHost", new Class[]{String.class, String.class});
+            embedded.getMethod("createHost", new Class[] {String.class, String.class});
         embeddedStart = embedded.getMethod("start", new Class[0]);
         embeddedStop = embedded.getMethod("stop", new Class[0]);
-        embeddedAddEngine = embedded.getMethod("addEngine", new Class[]{engine});
+        embeddedAddEngine = embedded.getMethod("addEngine", new Class[] {engine});
         embeddedCreateConnector = embedded
             .getMethod("createConnector",
-                new Class[]{InetAddress.class, int.class, boolean.class});
-        embeddedAddConnector = embedded.getMethod("addConnector", new Class[]{connector});
+                new Class[] {InetAddress.class, int.class, boolean.class});
+        embeddedAddConnector = embedded.getMethod("addConnector", new Class[] {connector});
         embeddedCreateContext =
-            embedded.getMethod("createContext", new Class[]{String.class, String.class});
-        embeddedSetRealm = embedded.getMethod("setRealm", new Class[]{realm});
+            embedded.getMethod("createContext", new Class[] {String.class, String.class});
+        embeddedSetRealm = embedded.getMethod("setRealm", new Class[] {realm});
         embeddedSetCatalinaBase =
-            embedded.getMethod("setCatalinaBase", new Class[]{String.class});
+            embedded.getMethod("setCatalinaBase", new Class[] {String.class});
         embeddedSetCatalinaHome =
-            embedded.getMethod("setCatalinaHome", new Class[]{String.class});
+            embedded.getMethod("setCatalinaHome", new Class[] {String.class});
     }
 
     /**
@@ -282,7 +281,7 @@ public final class Tomcat5xEmbedded
 
         /**
          * Invokes a method on the wrapped object.
-         *
+         * 
          * @param method the method to invoke
          * @return the value from the invocation.
          */
@@ -293,19 +292,19 @@ public final class Tomcat5xEmbedded
 
         /**
          * Invokes a method on the wrapped object.
-         *
+         * 
          * @param method the method to invoke
          * @param arg1 the 1st argument for invocations.
          * @return the value from the invocation.
          */
         protected Object invoke(Method method, Object arg1)
         {
-            return invoke(method, new Object[]{arg1});
+            return invoke(method, new Object[] {arg1});
         }
 
         /**
          * Invokes a method on the wrapped object.
-         *
+         * 
          * @param method the method to invoke
          * @param arg1 the 1st argument for invocations.
          * @param arg2 the 2nd argument for invocations.
@@ -313,12 +312,12 @@ public final class Tomcat5xEmbedded
          */
         protected Object invoke(Method method, Object arg1, Object arg2)
         {
-            return invoke(method, new Object[]{arg1, arg2});
+            return invoke(method, new Object[] {arg1, arg2});
         }
 
         /**
          * Invokes a method on the wrapped object.
-         *
+         * 
          * @param method the method to invoke
          * @param arg1 the 1st argument for invocations.
          * @param arg2 the 2nd argument for invocations.
@@ -327,12 +326,12 @@ public final class Tomcat5xEmbedded
          */
         protected Object invoke(Method method, Object arg1, Object arg2, Object arg3)
         {
-            return invoke(method, new Object[]{arg1, arg2, arg3});
+            return invoke(method, new Object[] {arg1, arg2, arg3});
         }
 
         /**
          * Invokes a method on the wrapped object.
-         *
+         * 
          * @param method the method to invoke
          * @param args the arguments for invocations.
          * @return the value from the invocation.
@@ -378,9 +377,8 @@ public final class Tomcat5xEmbedded
     {
         /**
          * Wraps <tt>org.apache.catalina.Context</tt> object.
-         *
-         * @param context
-         *      object to be wrapped.
+         * 
+         * @param context object to be wrapped.
          */
         public Context(Object context)
         {
@@ -397,9 +395,8 @@ public final class Tomcat5xEmbedded
 
         /**
          * Makes web application available/unavailable.
-         *
-         * @param b
-         *      true to make it available.
+         * 
+         * @param b true to make it available.
          */
         public void setAvailable(boolean b)
         {
@@ -408,11 +405,9 @@ public final class Tomcat5xEmbedded
 
         /**
          * Add a new context initialization parameter.
-         *
-         * @param key
-         *      non-null parameter name.
-         * @param value
-         *      value
+         * 
+         * @param key non-null parameter name.
+         * @param value value
          */
         public void addParameter(String key, String value)
         {
@@ -427,9 +422,8 @@ public final class Tomcat5xEmbedded
     {
         /**
          * Wraps a {@link Host} object.
-         *
-         * @param core
-         *      non-null.
+         * 
+         * @param core non-null.
          */
         public Host(Object core)
         {
@@ -438,9 +432,8 @@ public final class Tomcat5xEmbedded
 
         /**
          * Supposed to enable auto-deployment of war file.
-         *
-         * @param b
-         *      true to enable.
+         * 
+         * @param b true to enable.
          */
         public void setAutoDeploy(boolean b)
         {
@@ -449,9 +442,8 @@ public final class Tomcat5xEmbedded
 
         /**
          * Gets the name of thist host.
-         *
-         * @return
-         *      host name.
+         * 
+         * @return host name.
          */
         public String getName()
         {
@@ -460,9 +452,8 @@ public final class Tomcat5xEmbedded
 
         /**
          * Deploys a web application.
-         *
-         * @param context
-         *      context to be deployed.
+         * 
+         * @param context context to be deployed.
          */
         public void addChild(Context context)
         {
@@ -471,9 +462,8 @@ public final class Tomcat5xEmbedded
 
         /**
          * Removes a web application.
-         *
-         * @param context
-         *      context to be removed.
+         * 
+         * @param context context to be removed.
          */
         public void removeChild(Context context)
         {
@@ -496,7 +486,7 @@ public final class Tomcat5xEmbedded
 
         /**
          * Creates a new engine.
-         *
+         * 
          * @return non-null
          */
         public Engine createEngine()
@@ -506,13 +496,10 @@ public final class Tomcat5xEmbedded
 
         /**
          * Creates a new virtual host mapping.
-         *
-         * @param name
-         *      Host name.
-         * @param appBase
-         *      The "webapp" directory.
-         * @return
-         *      Always non-null.
+         * 
+         * @param name Host name.
+         * @param appBase The "webapp" directory.
+         * @return Always non-null.
          */
         public Host createHost(String name, File appBase)
         {
@@ -537,9 +524,8 @@ public final class Tomcat5xEmbedded
 
         /**
          * Adds a new {@link Engine}.
-         *
-         * @param e
-         *      must be non-null.
+         * 
+         * @param e must be non-null.
          */
         public void addEngine(Engine e)
         {
@@ -548,15 +534,11 @@ public final class Tomcat5xEmbedded
 
         /**
          * Creates a new connector.
-         *
-         * @param inetAddress
-         *      non-null if you want to bind to specific interfaces
-         * @param port
-         *      TCP port number.
-         * @param secure
-         *      Not sure what this really is.
-         * @return
-         *      Always non-null.
+         * 
+         * @param inetAddress non-null if you want to bind to specific interfaces
+         * @param port TCP port number.
+         * @param secure Not sure what this really is.
+         * @return Always non-null.
          */
         public Connector createConnector(InetAddress inetAddress, int port, boolean secure)
         {
@@ -566,9 +548,8 @@ public final class Tomcat5xEmbedded
 
         /**
          * Adds a connector.
-         *
-         * @param connector
-         *      must be non-null.
+         * 
+         * @param connector must be non-null.
          */
         public void addConnector(Connector connector)
         {
@@ -577,7 +558,7 @@ public final class Tomcat5xEmbedded
 
         /**
          * Creates an web application for deployment.
-         *
+         * 
          * @param path the context URL
          * @param docBase the exploded war file image.
          * @return Always non-null
@@ -590,9 +571,8 @@ public final class Tomcat5xEmbedded
 
         /**
          * Associates a realm to Tomcat.
-         *
-         * @param realm
-         *      realm object.
+         * 
+         * @param realm realm object.
          */
         public void setRealm(MemoryRealm realm)
         {
@@ -602,9 +582,8 @@ public final class Tomcat5xEmbedded
 
         /**
          * Sets the Tomcat installation where catalina jars are loaded from.
-         *
-         * @param dir
-         *      the home directory.
+         * 
+         * @param dir the home directory.
          */
         public void setCatalinaBase(File dir)
         {
@@ -612,11 +591,9 @@ public final class Tomcat5xEmbedded
         }
 
         /**
-         * Sets the directory where Tomcat stores data file for the
-         * current running instance.
-         *
-         * @param dir
-         *      the home directory.
+         * Sets the directory where Tomcat stores data file for the current running instance.
+         * 
+         * @param dir the home directory.
          */
         public void setCatalinaHome(File dir)
         {
@@ -631,9 +608,8 @@ public final class Tomcat5xEmbedded
     {
         /**
          * Wraps a connector object.
-         *
-         * @param core
-         *      object to be wrapped.
+         * 
+         * @param core object to be wrapped.
          */
         public Connector(Object core)
         {
@@ -648,9 +624,8 @@ public final class Tomcat5xEmbedded
     {
         /**
          * Wraps an engine object.
-         *
-         * @param core
-         *      Must be non-null.
+         * 
+         * @param core Must be non-null.
          */
         public Engine(Object core)
         {
@@ -659,9 +634,8 @@ public final class Tomcat5xEmbedded
 
         /**
          * Assigns a name to engine.
-         *
-         * @param name
-         *      non-null
+         * 
+         * @param name non-null
          */
         public void setName(String name)
         {
@@ -670,9 +644,8 @@ public final class Tomcat5xEmbedded
 
         /**
          * Sets the directory that Tomcat will use as a workspace.
-         *
-         * @param baseDir
-         *      The directory name.
+         * 
+         * @param baseDir The directory name.
          */
         public void setBaseDir(String baseDir)
         {
@@ -681,9 +654,8 @@ public final class Tomcat5xEmbedded
 
         /**
          * Adds a new {@link Host} to the engine.
-         *
-         * @param host
-         *      must be non-null.
+         * 
+         * @param host must be non-null.
          */
         public void addChild(Host host)
         {
@@ -692,9 +664,8 @@ public final class Tomcat5xEmbedded
 
         /**
          * Don't know what it really does.
-         *
-         * @param name
-         *      host name.
+         * 
+         * @param name host name.
          */
         public void setDefaultHost(String name)
         {
@@ -703,12 +674,10 @@ public final class Tomcat5xEmbedded
 
         /**
          * Sets the {@link ClassLoader} that this engine will delegate to.
-         *
-         * @param cl
-         * This needs to be set to {@link ClassLoader} that can see
-         * classes that implement Tomcat, or else you'll get errors like
-         * "Servlet jsp is not available" (because the system failed to
-         * load <tt>JspServlet</tt> class.)
+         * 
+         * @param cl This needs to be set to {@link ClassLoader} that can see classes that implement
+         * Tomcat, or else you'll get errors like "Servlet jsp is not available" (because the system
+         * failed to load <tt>JspServlet</tt> class.)
          */
         public void setParentClassLoader(ClassLoader cl)
         {
@@ -731,9 +700,8 @@ public final class Tomcat5xEmbedded
 
         /**
          * Sets the file to load username/password.
-         *
-         * @param path
-         *      The user database file.
+         * 
+         * @param path The user database file.
          */
         public void setPathname(File path)
         {
@@ -743,11 +711,9 @@ public final class Tomcat5xEmbedded
 
     /**
      * Creates a new instance.
-     *
-     * @param c
-     *      Constructor to invoke.
-     * @return
-     *      The created object.
+     * 
+     * @param c Constructor to invoke.
+     * @return The created object.
      */
     private Object newInstance(Constructor c)
     {

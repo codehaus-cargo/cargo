@@ -24,7 +24,7 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 /**
  * Capabilities of JBoss's {@link org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration}
  * configuration.
- *  
+ * 
  * @version $Id$
  */
 public class JBoss5xRuntimeConfigurationCapability extends

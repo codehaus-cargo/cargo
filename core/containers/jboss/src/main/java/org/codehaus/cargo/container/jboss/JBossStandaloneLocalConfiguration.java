@@ -39,7 +39,7 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 /**
  * Implementation of a standalone {@link org.codehaus.cargo.container.configuration.Configuration}
  * for JBoss 3.x series and JBoss 4.x series.
- *
+ * 
  * @version $Id$
  */
 public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
@@ -50,7 +50,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
      */
     private static ConfigurationCapability capability =
         new JBossStandaloneLocalConfigurationCapability();
-    
+
     /**
      * JBoss container instance.
      */
@@ -58,7 +58,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String) 
+     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
     public JBossStandaloneLocalConfiguration(String dir)
     {
@@ -110,7 +110,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         jbossContainer = (JBossInstalledLocalContainer) container;
 
         FilterChain filterChain = createJBossFilterChain(jbossContainer);
-        
+
         // Deploy with user defined deployables with the appropriate deployer
         JBossInstalledLocalDeployer deployer = new JBossInstalledLocalDeployer(jbossContainer);
         deployer.deploy(getDeployables());
@@ -132,7 +132,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
                             + fileName + "\"/>");
                     tmp.append("\n");
                 }
-            } 
+            }
             String sharedClassPathString = tmp.toString();
             getLogger().debug("Shared loader classpath is " + sharedClassPathString,
                 getClass().getName());
@@ -143,16 +143,16 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         String deployDir = getFileHandler().createDirectory(getHome(), "/deploy");
         String libDir = getFileHandler().createDirectory(getHome(), "/lib");
         String confDir = getFileHandler().createDirectory(getHome(), "/conf");
-        
+
         String clustered = jbossContainer.getConfiguration().
             getPropertyValue(JBossPropertySet.CLUSTERED);
-        
+
         if (Boolean.valueOf(jbossContainer.getConfiguration().
                 getPropertyValue(JBossPropertySet.CLUSTERED)).booleanValue())
         {
-            String farmDir = getFileHandler().createDirectory(getHome(), "/farm");        
+            String farmDir = getFileHandler().createDirectory(getHome(), "/farm");
         }
-        
+
         // Copy configuration files from cargo resources directory with token replacement
         String[] cargoFiles = new String[] {"cargo-binding.xml", "jboss-service.xml"};
         for (String cargoFile : cargoFiles)
@@ -167,16 +167,14 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         copyExternalResources(
             new File(jbossContainer.getConfDir(getPropertyValue(JBossPropertySet.CONFIGURATION))),
             new File(confDir), cargoFiles);
-        
+
         // Copy the files within the JBoss Deploy directory to the cargo deploy directory
-        copyExternalResources(
-                 new File(jbossContainer
-                 .getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(
-                     deployDir), new String[0]);
-        
+        copyExternalResources(new File(jbossContainer.getDeployDir(getPropertyValue(
+            JBossPropertySet.CONFIGURATION))), new File(deployDir), new String[0]);
+
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-            new File(getHome(), "/deploy/cargocpc.war"));   
+            new File(getHome(), "/deploy/cargocpc.war"));
     }
 
     /**
@@ -189,7 +187,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         super.verify();
 
         String configurationName = getPropertyValue(JBossPropertySet.CONFIGURATION);
-        if ((configurationName == null) || (configurationName.length() == 0))
+        if (configurationName == null || configurationName.length() == 0)
         {
             throw new ContainerException("Invalid JBoss configuration: ["
                 + JBossPropertySet.CONFIGURATION + "] doesn't exist.");
@@ -199,7 +197,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
     /**
      * Copy external resources to cargo configuration directory. This method will copy entire
      * resources in the sourceDir (recursive), if it's a directory.
-     *
+     * 
      * @param sourceDir resource file / directory to be copied
      * @param destDir cargo configuration directory
      * @param cargoFiles list of cargo resources file that will excluded
@@ -239,7 +237,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
     /**
      * Check if file with name <code>filename</code> is one of cargo resources file.
-     *
+     * 
      * @param cargoFiles list of cargo resources files
      * @param filename filename of the file
      * @return true if <code>filename</code> is one of cargo resources file
@@ -258,9 +256,9 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
     /**
      * Create filter to replace token in configuration file with user defined token.
-     *
+     * 
      * @param container the JBoss contaiber instance from which we'll find the JBoss installed files
-     *        to reference
+     * to reference
      * @return token with all the user-defined token value
      * @throws MalformedURLException If an URL is malformed.
      * @link MalformedURLException
@@ -269,7 +267,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         throws MalformedURLException
     {
         FilterChain filterChain = createFilterChain();
-        
+
         String[] version = jbossContainer.getName().split(" ");
         if (version.length < 2)
         {
@@ -297,10 +295,10 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
                 + version[1]);
         }
         String revisionVersion = version[1].substring(4, 5);
-        
-        if (!((Integer.valueOf(majorVersion).intValue() <= 3)
-            && (Integer.valueOf(minorVersion).intValue() <= 2)
-            && (Integer.valueOf(revisionVersion).intValue() <= 7)))
+
+        if (!(Integer.valueOf(majorVersion).intValue() <= 3
+            && Integer.valueOf(minorVersion).intValue() <= 2
+            && Integer.valueOf(revisionVersion).intValue() <= 7))
         {
             getAntUtils().addTokenToFilterChain(filterChain, "cargo.jboss.server.mode.attr",
                 "<attribute name=\"ServerMode\">true</attribute>");
@@ -364,20 +362,20 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         File deployDir =
             new File(container.getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION)));
         buffer.append("deploy/, ").append(deployDir.toURI().toURL().toString());
-        
+
         // just use the original deploy directory and copy all the deployables from the server
-        // deploy directory to the cargo one. This is due to JBoss having deployers and sars in 
+        // deploy directory to the cargo one. This is due to JBoss having deployers and sars in
         // the deploy directory which contain config files used to configure the server.
         // By placing these files in the cargo home directory we will now be able to configure them
         // with cargo.
         getAntUtils().addTokenToFilterChain(filterChain, "cargo.server.deploy.url", "deploy/");
-        
+
         return filterChain;
     }
 
     /**
      * Translate Cargo logging levels into JBoss logging levels.
-     *
+     * 
      * @param cargoLogLevel Cargo logging level
      * @return the corresponding JBoss logging level
      */

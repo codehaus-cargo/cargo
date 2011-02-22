@@ -33,24 +33,46 @@ import org.codehaus.cargo.util.VFSFileHandler;
 
 /**
  * Unit tests for {@link AbstractJBossInstalledLocalContainer}.
- *
- * <p>Note: These tests are using
- * <a href="http://jakarta.apache.org/commons/vfs/">VFS</a> with a
- * <a href="http://jakarta.apache.org/commons/vfs/filesystems.html#ram">RAM file system</a> so
- * that files are only created in memory. This makes is easy to test file-based operations without
- * having to resort to creating files in the file system and deleting them afterwards.</p>
- *
+ * 
+ * <p>
+ * Note: These tests are using <a href="http://jakarta.apache.org/commons/vfs/">VFS</a> with a <a
+ * href="http://jakarta.apache.org/commons/vfs/filesystems.html#ram">RAM file system</a> so that
+ * files are only created in memory. This makes is easy to test file-based operations without having
+ * to resort to creating files in the file system and deleting them afterwards.
+ * </p>
+ * 
  * @version $Id$
  */
 public class JBossInstalledLocalContainerTest extends TestCase
 {
+    /**
+     * Container home.
+     */
     private static final String CONTAINER_HOME = "ram:///jboss";
+
+    /**
+     * Server configuration.
+     */
     private static final String SERVER_CONFIG = "custom";
+
+    /**
+     * Configuration home.
+     */
     private static final String CONFIGURATION_HOME = CONTAINER_HOME + "/server/" + SERVER_CONFIG;
 
+    /**
+     * Container.
+     */
     private JBoss4xInstalledLocalContainer container;
 
+    /**
+     * File system manager.
+     */
     private StandardFileSystemManager fsManager;
+
+    /**
+     * File handler.
+     */
     private FileHandler fileHandler;
 
     /**
@@ -65,16 +87,18 @@ public class JBossInstalledLocalContainerTest extends TestCase
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
-        
+
         LocalConfiguration configuration =
             new JBossStandaloneLocalConfiguration(CONFIGURATION_HOME);
         configuration.setProperty(JBossPropertySet.CONFIGURATION, SERVER_CONFIG);
 
         this.container = new JBoss4xInstalledLocalContainer(configuration);
         this.container.setHome(CONTAINER_HOME);
-        
     }
 
+    /**
+     * Test get conf directory.
+     */
     public void testGetConfDir()
     {
         String expected = this.fileHandler.append(CONFIGURATION_HOME, "conf");
@@ -82,6 +106,9 @@ public class JBossInstalledLocalContainerTest extends TestCase
             this.container.getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
     }
 
+    /**
+     * Test get lib directory.
+     */
     public void testGetLibDir()
     {
         String expected = this.fileHandler.append(CONFIGURATION_HOME, "lib");
@@ -89,6 +116,9 @@ public class JBossInstalledLocalContainerTest extends TestCase
             this.container.getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
     }
 
+    /**
+     * Test get deploy directory.
+     */
     public void testGetDeployDir()
     {
         String expected = this.fileHandler.append(CONFIGURATION_HOME, "deploy");
@@ -96,6 +126,9 @@ public class JBossInstalledLocalContainerTest extends TestCase
             this.container.getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
     }
 
+    /**
+     * Test get farm directory.
+     */
     public void testGetFarmDir()
     {
         this.container.getConfiguration().setProperty(JBossPropertySet.CLUSTERED, "true");
@@ -103,16 +136,23 @@ public class JBossInstalledLocalContainerTest extends TestCase
         assertEquals(expected, this.container.getDeployDir(
             this.container.getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
     }
-    
+
+    /**
+     * Test get farm deploy directory.
+     */
     public void testGetFarmDeployDir()
     {
         this.container.getConfiguration().setProperty(JBossPropertySet.CLUSTERED, "true");
         String expected = this.fileHandler.append(CONFIGURATION_HOME, "farm");
-        
+
         JBossInstalledLocalDeployer deployer = new JBossInstalledLocalDeployer(this.container);
         assertEquals(expected, deployer.getDeployableDir());
     }
 
+    /**
+     * Test JBoss home when empty directory.
+     * @throws Exception If anything goes wrong.
+     */
     public void testVerifyJBossHomeWhenEmptyDirectory() throws Exception
     {
         this.fsManager.resolveFile("ram:///jboss/bin").createFolder();
@@ -133,6 +173,10 @@ public class JBossInstalledLocalContainerTest extends TestCase
         }
     }
 
+    /**
+     * Test JBoss home when run.jar is missing.
+     * @throws Exception If anything goes wrong.
+     */
     public void testVerifyJBossHomeWhenMissingRunJar() throws Exception
     {
         this.fsManager.resolveFile("ram:///jboss/bin/shutdown.jar").createFile();
@@ -157,6 +201,10 @@ public class JBossInstalledLocalContainerTest extends TestCase
         }
     }
 
+    /**
+     * Test JBoss home when missing directory.
+     * @throws Exception If anything goes wrong.
+     */
     public void testVerifyJBossHomeWhenMissingDirectory() throws Exception
     {
         this.fsManager.resolveFile("ram:///jboss/bin/run.jar").createFile();
@@ -181,6 +229,10 @@ public class JBossInstalledLocalContainerTest extends TestCase
         }
     }
 
+    /**
+     * Test JBoss home when file (instead of directory).
+     * @throws Exception If anything goes wrong.
+     */
     public void testVerifyJBossHomeWhenFileInsteadOfDirectory() throws Exception
     {
         this.fsManager.resolveFile("ram:///jboss/bin").createFile();
@@ -201,6 +253,10 @@ public class JBossInstalledLocalContainerTest extends TestCase
         }
     }
 
+    /**
+     * Test JBoss home when valid configuration.
+     * @throws Exception If anything goes wrong.
+     */
     public void testVerifyJBossHomeWhenValidConfiguration() throws Exception
     {
         // Create a valid JBoss server configuration directory structure

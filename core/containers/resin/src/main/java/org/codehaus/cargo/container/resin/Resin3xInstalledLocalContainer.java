@@ -22,13 +22,13 @@
  */
 package org.codehaus.cargo.container.resin;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.resin.internal.AbstractResinInstalledLocalContainer;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 
 /**
  * Special container support for the Caucho Resin 3.x servlet container.
@@ -58,12 +58,12 @@ public class Resin3xInstalledLocalContainer extends AbstractResinInstalledLocalC
     @Override
     protected void startUpAdditions(Java java, Path classpath) throws FileNotFoundException
     {
-        // It seems Resin 3.x requires the following property to be 
+        // It seems Resin 3.x requires the following property to be
         // set in order to start...
         java.addSysproperty(getAntUtils().createSysProperty(
             "java.util.logging.manager", "com.caucho.log.LogManagerImpl"));
 
-        // Add the resin_home/bin directory to the library path so that the 
+        // Add the resin_home/bin directory to the library path so that the
         // Resin dll/so can be loaded.
         java.addSysproperty(getAntUtils().createSysProperty(
             "java.library.path", new File(getHome(), "bin")));

@@ -27,12 +27,12 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 /**
  * Abstract class for JBoss 5x container family.
  * 
- *@version $Id$
+ * @version $Id$
  */
 public abstract class AbstractJBoss5xInstalledLocalContainer extends
         AbstractJBossInstalledLocalContainer implements JBoss5xInstalledLocalContainer
 {
-    
+
     /**
      * {@inheritDoc}
      * @see AbstractJBossInstalledLocalContainer#AbstractJBossInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
@@ -53,7 +53,7 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
                 new File(getCommonLibDir()).toURI().toURL().toString()));
         super.doStart(java);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -61,7 +61,7 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
     {
         return getSpecificConfigurationDir("deployers", configurationName);
     }
-    
+
     /**
      * {@inheritDoc}
      */

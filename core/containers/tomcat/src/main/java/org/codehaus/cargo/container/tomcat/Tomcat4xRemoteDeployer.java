@@ -39,21 +39,23 @@ public class Tomcat4xRemoteDeployer extends AbstractTomcatRemoteDeployer
      */
     public Tomcat4xRemoteDeployer(RemoteContainer container)
     {
-        super(container); 
+        super(container);
     }
 
     /**
      * {@inheritDoc}
-     *
-     * <p>This is a special implementation of undeploy command for Tomcat 4.x due the
-     * http://issues.apache.org/bugzilla/show_bug.cgi?id=28851 issue. The issue has
-     * been fixed in Tomcat 5.x and performUndeploy implementation for Tomcat5x differs from
-     * Tomcat4.x.</p>
-     *
+     * 
+     * <p>
+     * This is a special implementation of undeploy command for Tomcat 4.x due the
+     * http://issues.apache.org/bugzilla/show_bug.cgi?id=28851 issue. The issue has been fixed in
+     * Tomcat 5.x and performUndeploy implementation for Tomcat5x differs from Tomcat4.x.
+     * </p>
+     * 
      * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerDeployer#performUndeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
-    protected void performUndeploy(Deployable deployable) throws TomcatManagerException, IOException
+    protected void performUndeploy(Deployable deployable) throws TomcatManagerException,
+        IOException
     {
         stop(deployable);
         getTomcatManager().remove(getPath(deployable));

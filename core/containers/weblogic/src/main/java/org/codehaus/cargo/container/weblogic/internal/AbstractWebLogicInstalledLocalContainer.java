@@ -28,7 +28,6 @@ import java.util.List;
 
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
-
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -42,7 +41,7 @@ import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 
 /**
  * Basic support for the WebLogic application server.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractWebLogicInstalledLocalContainer extends
@@ -70,7 +69,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
 
     /**
      * Sets the Bea home directory.
-     *
+     * 
      * @param beaHome The BEA home directory
      */
     public final void setBeaHome(final String beaHome)
@@ -139,8 +138,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     }
 
     /**
-     * Verify that the Weblogic home directory structure is valid and throw a
-     * ContainerException if not.
+     * Verify that the Weblogic home directory structure is valid and throw a ContainerException if
+     * not.
      */
     protected void verifyWeblogicHome()
     {
@@ -154,8 +153,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     }
 
     /**
-     * Verify that the Bea home directory structure is valid and throw a
-     * ContainerException if not.
+     * Verify that the Bea home directory structure is valid and throw a ContainerException if not.
      */
     protected void verifyBeaHome()
     {
@@ -169,18 +167,13 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     }
 
     /**
-     * run through a list of expected files and directories that indicate a
-     * properly installed product.
+     * run through a list of expected files and directories that indicate a properly installed
+     * product.
      * 
-     * @param errorPrefix -
-     *                Prefix to the ContainerException, if a file or directory
-     *                is missing
-     * @param errorSuffix -
-     *                Suffix o the above
-     * @param requiredDirs -
-     *                Directories that are required to exist
-     * @param requiredFiles -
-     *                Files that are required to exist
+     * @param errorPrefix - Prefix to the ContainerException, if a file or directory is missing
+     * @param errorSuffix - Suffix o the above
+     * @param requiredDirs - Directories that are required to exist
+     * @param requiredFiles - Files that are required to exist
      */
     protected void verify(String errorPrefix, String errorSuffix,
             List<String> requiredDirs, List<String> requiredFiles)
@@ -216,8 +209,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     }
 
     /**
-     * Check the WLS installation directory setting and if the beaHome attribute
-     * is not set, guess it.
+     * Check the WLS installation directory setting and if the beaHome attribute is not set, guess
+     * it.
      */
     public final void initBeaHome()
     {
@@ -241,7 +234,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
         }
 
     }
-    
+
     /**
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#doStart(Java)
@@ -249,8 +242,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     @Override
     public final void doStart(final Java java) throws Exception
     {
-        initBeaHome();      
-        
+        initBeaHome();
+
         // Weblogic looks for files relative to the domain home, which is not
         // necessarily relative
         // to the Bea home
@@ -310,10 +303,9 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
         classpath.createPathElement().setLocation(
                 new File(getConfiguration().getHome()));
 
-
         // Add the tools jar to the classpath so deployment will succeed due to appc compiles
         addToolsJarToClasspath(classpath);
-       
+
         java.setClassname("weblogic.Server");
 
         AntContainerExecutorThread webLogicRunner = new AntContainerExecutorThread(
@@ -340,7 +332,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
         java.createArg().setValue("-url");
         java.createArg().setValue(
                 "t3://" + getConfiguration().getPropertyValue(
-                GeneralPropertySet.HOSTNAME)
+                    GeneralPropertySet.HOSTNAME)
                         + ":"
                         + getConfiguration().getPropertyValue(
                                 ServletPropertySet.PORT));

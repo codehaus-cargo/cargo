@@ -45,7 +45,7 @@ public class ResinUtil
     public String getResinVersion(ClassLoader classloader)
     {
         String version;
-        
+
         try
         {
             Class versionClass = classloader.loadClass("com.caucho.Version");

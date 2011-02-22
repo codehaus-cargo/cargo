@@ -19,23 +19,21 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 
-import junit.framework.TestCase;
-
 /**
  * Unit tests for {@link WebLogicCopyingInstalledLocalDeployer}.
  * 
  * <p>
- * Note: These tests are using <a
- * href="http://jakarta.apache.org/commons/vfs/">VFS</a> with a <a
- * href="http://jakarta.apache.org/commons/vfs/filesystems.html#ram">RAM file
- * system</a> so that files are only created in memory. This makes is easy to
- * test file-based operations without having to resort to creating files in the
- * file system and deleting them afterwards.
+ * Note: These tests are using <a href="http://jakarta.apache.org/commons/vfs/">VFS</a> with a <a
+ * href="http://jakarta.apache.org/commons/vfs/filesystems.html#ram">RAM file system</a> so that
+ * files are only created in memory. This makes is easy to test file-based operations without having
+ * to resort to creating files in the file system and deleting them afterwards.
  * </p>
  * 
  * @version $Id$
@@ -82,14 +80,16 @@ public class WebLogicCopyingInstalledLocalDeployerTest extends TestCase
     protected void tearDown() throws Exception
     {
         if (fsManager != null)
+        {
             fsManager.close();
+        }
 
         super.tearDown();
     }
 
     /**
-     * This tests that the DeployableDir is DOMAIN_HOME/autodeploy, which should be
-     * the case, as this test uses WebLogic 9.
+     * This tests that the DeployableDir is DOMAIN_HOME/autodeploy, which should be the case, as
+     * this test uses WebLogic 9.
      */
     public void testDeployableDirIsAutoDeploy()
     {

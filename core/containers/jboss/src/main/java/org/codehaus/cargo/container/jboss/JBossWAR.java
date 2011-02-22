@@ -41,7 +41,7 @@ public class JBossWAR extends WAR
 
     /**
      * @param war the location of the WAR being wrapped. This must point to either a WAR file or an
-     *        expanded WAR directory.
+     * expanded WAR directory.
      */
     public JBossWAR(String war)
     {
@@ -59,9 +59,9 @@ public class JBossWAR extends WAR
     }
 
     /**
-     * @return the context defined in <code>jboss-web.xml</code> if any.
-     *         If there is no <code>jboss-web.xml</code> or if it doesn't
-     *         define any root context, then return {@link WAR#getContext()}.
+     * @return the context defined in <code>jboss-web.xml</code> if any. If there is no
+     * <code>jboss-web.xml</code> or if it doesn't define any root context, then return
+     * {@link WAR#getContext()}.
      */
     @Override
     public synchronized String getContext()
@@ -71,32 +71,31 @@ public class JBossWAR extends WAR
         {
             result = super.getContext();
         }
-        
+
         return result;
     }
-    
+
     /**
-     * @return the context from JBoss's <code>jboss-web.xml</code> if
-     *         it is defined or <code>null</code> otherwise.
+     * @return the context from JBoss's <code>jboss-web.xml</code> if it is defined or
+     * <code>null</code> otherwise.
      */
     private String parseJbossWebXml()
     {
         String context = null;
-        
+
         if (this.warArchive.getJBossWebXml() != null)
         {
             context = this.warArchive.getJBossWebXml().getContextRoot();
         }
-        
+
         return context;
-    }   
+    }
 
     /**
-     * @return true if the WAR contains a <code>WEB-INF/jboss-web.xml</code>
-     *         file
+     * @return true if the WAR contains a <code>WEB-INF/jboss-web.xml</code> file
      */
     public boolean containsJBossWebFile()
     {
-        return (this.warArchive.getJBossWebXml() != null);
+        return this.warArchive.getJBossWebXml() != null;
     }
 }

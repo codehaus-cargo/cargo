@@ -33,15 +33,15 @@ import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 
 /**
  * Abstract class for JBoss container family.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractJBossInstalledLocalContainer extends
@@ -82,10 +82,12 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             new File(getConfiguration().getHome()).toURI().toURL().toString()));
         java.addSysproperty(getAntUtils().createSysProperty("jboss.server.name",
             getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
-        java.addSysproperty(getAntUtils().createSysProperty(
-            "jboss.server.lib.url",
-            new File(getLibDir(getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)))
-                .toURI().toURL().toString()));
+        java.addSysproperty(getAntUtils()
+            .createSysProperty(
+                "jboss.server.lib.url",
+                new File(getLibDir(getConfiguration().getPropertyValue(
+                    JBossPropertySet.CONFIGURATION)))
+                    .toURI().toURL().toString()));
         java.addSysproperty(getAntUtils().createSysProperty("jboss.server.log.threshold",
             getJBossLogLevel(getConfiguration().getPropertyValue(GeneralPropertySet.LOGGING))));
 
@@ -95,9 +97,8 @@ public abstract class AbstractJBossInstalledLocalContainer extends
         // As a result, allow the --host or -b to be different than GeneralPropertySet.HOSTNAME
         final String runtimeArguments = getConfiguration().getPropertyValue(
             GeneralPropertySet.RUNTIME_ARGS);
-        if (runtimeArguments == null || (
-                !runtimeArguments.contains("--host 0.0.0.0")
-            &&  !runtimeArguments.contains("-b 0.0.0.0")))
+        if (runtimeArguments == null || !runtimeArguments.contains("--host 0.0.0.0")
+            && !runtimeArguments.contains("-b 0.0.0.0"))
         {
             java.createArg().setValue(
                 "--host=" + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));
@@ -183,9 +184,9 @@ public abstract class AbstractJBossInstalledLocalContainer extends
 
     /**
      * Parse installed JBoss version.
-     *
-     * @return the JBoss version, or <code>defaultVersion</code> if the version number could not
-     *         be determined
+     * 
+     * @return the JBoss version, or <code>defaultVersion</code> if the version number could not be
+     * determined
      * @param defaultVersion the default version used if the exact JBoss version can't be determined
      */
     protected final String getVersion(String defaultVersion)
@@ -271,7 +272,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
     /**
      * @param location the name of the directory to return inside the server configuration
      * @param configurationName the server configuration name to use. A server configuration is
-     *            located in the <code>server/</code> directory inside the JBoss installation ir.
+     * located in the <code>server/</code> directory inside the JBoss installation ir.
      * @return the location of the passed directory name inside the server configuration, as a File
      */
     protected String getSpecificConfigurationDir(String location, String configurationName)
@@ -315,7 +316,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
         }
 
         // Verify minimal jars for doStart() and doStop()
-        String[] requiredJars = new String[]{"bin/run.jar", "bin/shutdown.jar"};
+        String[] requiredJars = new String[] {"bin/run.jar", "bin/shutdown.jar"};
         for (String requiredJar : requiredJars)
         {
             String jarFile = getFileHandler().append(getHome(), requiredJar);
@@ -326,10 +327,10 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             }
         }
     }
-    
+
     /**
-     * Translate Cargo logging levels into JBoss logging levels. The default implementation
-     * is for log4j, but can be overridden by a sub-class should JBoss change logging framework.
+     * Translate Cargo logging levels into JBoss logging levels. The default implementation is for
+     * log4j, but can be overridden by a sub-class should JBoss change logging framework.
      * 
      * @param cargoLogLevel Cargo logging level
      * @return the corresponding JBoss (log4j) logging level

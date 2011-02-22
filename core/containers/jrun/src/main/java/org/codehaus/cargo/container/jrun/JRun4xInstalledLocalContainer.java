@@ -41,16 +41,16 @@ public class JRun4xInstalledLocalContainer extends AbstractJRunInstalledLocalCon
      * Unique container id.
      */
     public static final String ID = "jrun4x";
-    
+
     /**
      * {@inheritDoc}
      * @see AbstractJRunInstalledLocalContainer#AbstractJRunInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public JRun4xInstalledLocalContainer(LocalConfiguration configuration)
     {
-       super(configuration);
+        super(configuration);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see AbstractJRunInstalledLocalContainer#startUpAdditions(Java, Path)
@@ -61,24 +61,23 @@ public class JRun4xInstalledLocalContainer extends AbstractJRunInstalledLocalCon
         java.addSysproperty(getAntUtils().createSysProperty("sun.io.useCanonCaches", "false"));
         java.addSysproperty(getAntUtils().createSysProperty("jmx.invoke.getters", "true"));
 
-        // If getHome() contains spaces a hot fix is required in order for jrun to be able to 
+        // If getHome() contains spaces a hot fix is required in order for jrun to be able to
         // stop itself. The following property is needed along with the hot fix.
-        // see: http://kb.adobe.com/selfservice/viewContent.do?externalId=4c7d1c1        
+        // see: http://kb.adobe.com/selfservice/viewContent.do?externalId=4c7d1c1
         File hotFixJar = new File(getHome() + "/servers/lib/54101.jar");
         if (hotFixJar.exists())
         {
             java.addSysproperty(getAntUtils().createSysProperty(
                 "-Djava.rmi.server.RMIClassLoaderSpi", "jrunx.util.JRunRMIClassLoaderSpi"));
         }
-        
+
         java.addSysproperty(getAntUtils()
             .createSysProperty("java.home", System.getProperty("java.home")));
-        
+
         // Add the tools.jar to the classpath.
         addToolsJarToClasspath(classpath);
-    }    
-    
-    
+    }
+
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getId()

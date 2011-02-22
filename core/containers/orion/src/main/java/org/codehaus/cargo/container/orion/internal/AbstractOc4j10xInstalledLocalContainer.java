@@ -37,10 +37,11 @@ import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 
 /**
  * Abstract class for installed local container for the OC4J 10.x application server.
- *
+ * 
  * @version $Id$
  */
-public abstract class AbstractOc4j10xInstalledLocalContainer extends AbstractInstalledLocalContainer
+public abstract class AbstractOc4j10xInstalledLocalContainer extends
+    AbstractInstalledLocalContainer
 {
     /**
      * Capability of the Orion container.
@@ -48,7 +49,7 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends AbstractIns
     private ContainerCapability capability = new J2EEContainerCapability();
 
     /**
-     *  Constructor.
+     * Constructor.
      * @param configuration The configuration for the container
      */
     public AbstractOc4j10xInstalledLocalContainer(LocalConfiguration configuration)
@@ -127,8 +128,8 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends AbstractIns
     protected abstract String getStopClassname();
 
     /**
-     * @return Set containing Ant-style include strings that sets the classpath
-     *         based on the installation's home dir.
+     * @return Set containing Ant-style include strings that sets the classpath based on the
+     * installation's home dir.
      */
     protected abstract Set<String> getContainerClasspathIncludes();
 }

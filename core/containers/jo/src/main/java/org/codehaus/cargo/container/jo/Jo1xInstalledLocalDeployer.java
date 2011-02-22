@@ -24,24 +24,24 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
 
 /**
  * Static deployer that deploys WARs to the jo! <code>webapp/host</code> directory.
- *  
+ * 
  * @version $Id$
  */
 public class Jo1xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {
-    /** 
+    /**
      * {@inheritDoc}
      * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(InstalledLocalContainer)
-     */ 
+     */
     public Jo1xInstalledLocalDeployer(InstalledLocalContainer container)
     {
         super(container);
     }
 
     /**
-     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should
-     * be copied to. For jo! this is the <code>webapp/host</code> directory.
-     *
+     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should be
+     * copied to. For jo! this is the <code>webapp/host</code> directory.
+     * 
      * @return Deployable directory
      */
     @Override

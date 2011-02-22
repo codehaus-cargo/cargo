@@ -19,15 +19,15 @@
  */
 package org.codehaus.cargo.container.jetty.internal;
 
-import org.codehaus.cargo.container.spi.AbstractEmbeddedLocalContainer;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
+import org.codehaus.cargo.container.spi.AbstractEmbeddedLocalContainer;
 
 /**
  * Common code for all Jetty embedded container implementations.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractJettyEmbeddedLocalContainer

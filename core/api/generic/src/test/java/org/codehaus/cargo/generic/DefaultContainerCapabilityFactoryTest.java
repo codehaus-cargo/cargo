@@ -32,9 +32,27 @@ import org.codehaus.cargo.container.internal.J2EEContainerCapability;
  */
 public class DefaultContainerCapabilityFactoryTest extends TestCase
 {
+    /**
+     * Container capability factory.
+     */
+    private ContainerCapabilityFactory factory;
+
+    /**
+     * Creates the container capability factory. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
+    @Override
+    public void setUp() throws Exception
+    {
+        super.setUp();
+        this.factory = new DefaultContainerCapabilityFactory();
+    }
+
+    /**
+     * Test container capability.
+     */
     public void testCreateContainerCapability()
     {
-        ContainerCapabilityFactory factory = new DefaultContainerCapabilityFactory();
         factory.registerContainerCapability("containerId", J2EEContainerCapability.class);
         ContainerCapability capability = factory.createContainerCapability("containerId");
 

@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import junit.framework.TestCase;
 
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
@@ -136,7 +137,9 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
     protected void tearDown() throws Exception
     {
         if (fsManager != null)
+        {
             fsManager.close();
+        }
 
         super.tearDown();
     }

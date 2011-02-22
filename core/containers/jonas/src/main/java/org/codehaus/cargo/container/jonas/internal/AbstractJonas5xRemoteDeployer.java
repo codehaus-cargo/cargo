@@ -141,7 +141,7 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.jonas.internal.AbstractJonasRemoteDeployer#deploy(Deployable)
      */
     @Override
@@ -199,7 +199,7 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.jonas.internal.AbstractJonasRemoteDeployer#undeploy(Deployable)
      */
     @Override
@@ -239,7 +239,7 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                         {
                             getLogger().info(
                                 "The target JOnAS server is running in development mode. "
-                                + "CARGO will now delete the undeployed module.",
+                                    + "CARGO will now delete the undeployed module.",
                                 this.getClass().getName());
 
                             ObjectName serverMBeanName = getServerMBeanName(config.getDomainName(),
@@ -282,7 +282,7 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
 
     /**
      * Get the depmonitor service MBean.
-     *
+     * 
      * @param domainName domain Name
      * @return the depmonitor service MBean Name
      * @throws MalformedObjectNameException throwing when object name is wrong
@@ -299,10 +299,10 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
     }
 
     /**
-     * Get the attribute name for the "development" attribute. That name depends on the exact
-     * server version (<code>developmentMode</code> on JonAS 5.0.x and 5.1.x,
-     * <code>development</code> on JOnAS 5.2.x and afterwards).
-     *
+     * Get the attribute name for the "development" attribute. That name depends on the exact server
+     * version (<code>developmentMode</code> on JonAS 5.0.x and 5.1.x, <code>development</code> on
+     * JOnAS 5.2.x and afterwards).
+     * 
      * @param depmonitor Object name of the depmonitor service.
      * @param mbsc MBean server connection.
      * @return the attribute name for the "development" attribute.
@@ -394,13 +394,13 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                 factory = getMBeanServerConnectionFactory();
                 MBeanServerConnection mbsc = factory.getServerConnection(configuration);
                 RemoteDeployerConfig config = getConfig();
-    
+
                 ObjectName serverMBeanName = getServerMBeanName(config.getDomainName(), config
                     .getServerName());
-    
+
                 List<String> remoteFiles;
                 String lookForFile = "/deploy/" + localFileName;
-    
+
                 remoteFiles = (List<String>) mbsc.getAttribute(serverMBeanName, "deployedFiles");
                 for (String remoteFile : remoteFiles)
                 {

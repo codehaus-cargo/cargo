@@ -35,8 +35,8 @@ import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.jboss.internal.HttpURLConnection;
-import org.codehaus.cargo.container.jboss.internal.JdkHttpURLConnection;
 import org.codehaus.cargo.container.jboss.internal.ISimpleHttpFileServer;
+import org.codehaus.cargo.container.jboss.internal.JdkHttpURLConnection;
 import org.codehaus.cargo.container.jboss.internal.SimpleHttpFileServer;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -110,7 +110,7 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
      * Use the {@link JdkHttpURLConnection} class to connect the JBoss remote URLs.
      * 
      * @param container the container containing the configuration to use to find the deployer
-     *        properties such as url, user name and password to use to connect to the deployer
+     * properties such as url, user name and password to use to connect to the deployer
      */
     public JBoss4xRemoteDeployer(RemoteContainer container)
     {
@@ -119,7 +119,7 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * @param container the container containing the configuration to use to find the deployer
-     *        properties such as url, user name and password to use to connect to the deployer
+     * properties such as url, user name and password to use to connect to the deployer
      * @param connection the connection class to use
      * @param fileServer http file server to use
      */

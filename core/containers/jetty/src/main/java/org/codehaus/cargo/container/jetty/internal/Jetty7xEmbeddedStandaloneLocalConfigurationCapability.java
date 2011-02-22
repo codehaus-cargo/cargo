@@ -21,7 +21,7 @@ package org.codehaus.cargo.container.jetty.internal;
 
 /**
  * Configuration capability for a Jetty 7.x Embedded container.
- *
+ * 
  * @version $Id$
  */
 public class Jetty7xEmbeddedStandaloneLocalConfigurationCapability extends

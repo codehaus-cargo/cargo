@@ -22,31 +22,31 @@ package org.codehaus.cargo.container.orion.internal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 /**
  * Capabilities of Orion's
  * {@link org.codehaus.cargo.container.orion.OrionStandaloneLocalConfiguration} configuration.
- *  
+ * 
  * @version $Id$
  */
-public class OrionStandaloneLocalConfigurationCapability 
+public class OrionStandaloneLocalConfigurationCapability
     extends AbstractStandaloneLocalConfigurationCapability
 {
     /**
      * Configuration-specific supports Map.
      */
     private Map<String, Boolean> supportsMap;
-    
+
     /**
      * Initialize the configuration-specific supports Map.
      */
     public OrionStandaloneLocalConfigurationCapability()
     {
         super();
-        
+
         this.supportsMap = new HashMap<String, Boolean>();
         this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
         supportDataSources();

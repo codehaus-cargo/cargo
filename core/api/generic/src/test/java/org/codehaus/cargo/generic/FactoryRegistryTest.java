@@ -39,14 +39,20 @@ import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
  */
 public class FactoryRegistryTest extends TestCase
 {
-    public void test1()
+    /**
+     * Test the {@link DefaultDeployableFactory}.
+     */
+    public void testDefaultDeployableFactory()
     {
         DefaultDeployableFactory f = new DefaultDeployableFactory(getClass().getClassLoader());
         Deployable war = f.createDeployable("super-container", ".", DeployableType.WAR);
         assertTrue(war instanceof SuperContainerWar);
     }
 
-    public void test2()
+    /**
+     * Test the {@link ConfigurationCapabilityFactory}.
+     */
+    public void testConfigurationCapabilityFactory()
     {
         ConfigurationCapabilityFactory f = new DefaultConfigurationCapabilityFactory(getClass()
             .getClassLoader());

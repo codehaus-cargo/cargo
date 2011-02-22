@@ -90,7 +90,9 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
     protected void tearDown() throws Exception
     {
         if (fsManager != null)
+        {
             fsManager.close();
+        }
 
         super.tearDown();
     }
@@ -139,7 +141,8 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
     public void testDeployFile()
     {
         this.fileHandler.createFile("ram:///test.extension");
-        File file = (File) factory.createDeployable("jonas5x", "ram:///test.extension", DeployableType.FILE);
+        File file = (File) factory.createDeployable("jonas5x", "ram:///test.extension",
+            DeployableType.FILE);
 
         deployer.deployFile(deployer.getDeployableDir(), file);
         assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.extension"));
@@ -148,7 +151,8 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
     public void testDeployBundle()
     {
         this.fileHandler.createFile("ram:///test.jar");
-        Bundle bundle = (Bundle) factory.createDeployable("jonas5x", "ram:///test.jar", DeployableType.BUNDLE);
+        Bundle bundle = (Bundle) factory.createDeployable("jonas5x", "ram:///test.jar",
+            DeployableType.BUNDLE);
 
         deployer.deployBundle(deployer.getDeployableDir(), bundle);
         assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.jar"));

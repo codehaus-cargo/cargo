@@ -20,9 +20,10 @@
 package org.codehaus.cargo.container.geronimo.internal;
 
 import java.io.IOException;
-import java.util.Set;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import javax.management.AttributeNotFoundException;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
@@ -37,7 +38,7 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 
 /**
  * Various utility methods such as checking is Geronimo is started.
- *
+ * 
  * @version $Id$
  */
 public class GeronimoUtils

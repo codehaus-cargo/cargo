@@ -19,18 +19,18 @@
  */
 package org.codehaus.cargo.container.jrun.internal;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.codehaus.cargo.container.jrun.JRun4xPropertySet;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Capabilities of the JRun's {@link JRunExistingLocalConfigurationCapability} configuration.
- *
+ * 
  * @version $Id$
  */
 public class JRun4xStandaloneLocalConfigurationCapability
@@ -48,10 +48,10 @@ public class JRun4xStandaloneLocalConfigurationCapability
     {
         super();
         this.supportsMap = new HashMap<String, Boolean>();
-        
+
         // container properties.
         this.supportsMap.put(JRun4xPropertySet.JRUN_HOME, Boolean.TRUE);
-        this.supportsMap.put(JRun4xPropertySet.SERVER_NAME, Boolean.TRUE);        
+        this.supportsMap.put(JRun4xPropertySet.SERVER_NAME, Boolean.TRUE);
 
         // general property support.
         this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
@@ -66,7 +66,7 @@ public class JRun4xStandaloneLocalConfigurationCapability
         this.supportsMap.put(DatasourcePropertySet.CONNECTION_TYPE, Boolean.FALSE);
         this.supportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.FALSE);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()

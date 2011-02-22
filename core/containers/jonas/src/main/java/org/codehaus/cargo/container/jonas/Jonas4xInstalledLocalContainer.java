@@ -39,7 +39,7 @@ import org.codehaus.cargo.container.jonas.internal.Jonas4xContainerCapability;
 
 /**
  * Support for the JOnAS JEE container.
- *
+ * 
  * @version $Id$
  */
 public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalContainer
@@ -57,7 +57,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see AbstractJonasInstalledLocalContainer#AbstractJonasInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Jonas4xInstalledLocalContainer(final LocalConfiguration configuration)
@@ -68,7 +68,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see AbstractJonasInstalledLocalContainer#doStart(Java)
      */
     @Override
@@ -84,7 +84,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see AbstractJonasInstalledLocalContainer#doStop(Java)
      */
     @Override
@@ -110,8 +110,8 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     *
-     * @see AbstractLocalContainer#waitForCompletion(boolean)
+     * 
+     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#waitForCompletion(boolean)
      */
     @Override
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
@@ -154,7 +154,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see AbstractJonasInstalledLocalContainer#setupExtraSysProps(Java, Map)
      */
     @Override
@@ -180,7 +180,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * Configuring the target java ant task to launch a JOnAS command.
-     *
+     * 
      * @param java the target java ant task to setup
      */
     public void doAction(final Java java)
@@ -218,7 +218,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.Container#getId()
      */
     public String getId()
@@ -228,7 +228,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.Container#getName()
      */
     public String getName()

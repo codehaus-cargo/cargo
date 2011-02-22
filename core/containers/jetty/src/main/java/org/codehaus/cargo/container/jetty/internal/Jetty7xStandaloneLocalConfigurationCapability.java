@@ -19,18 +19,18 @@
  */
 package org.codehaus.cargo.container.jetty.internal;
 
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-
-import java.util.Map;
-import java.util.HashMap;
+import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 /**
  * Capabilities of the Jetty's
  * {@link org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration}
  * configuration for Installed containers.
- *
+ * 
  * @version $Id$
  */
 public class Jetty7xStandaloneLocalConfigurationCapability

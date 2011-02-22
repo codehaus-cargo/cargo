@@ -52,10 +52,10 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
      */
     @Override
     public String getDeployableDir()
-    {  
+    {
         String clustered = getContainer().getConfiguration().
                                  getPropertyValue(JBossPropertySet.CLUSTERED);
-        
+
         if (Boolean.valueOf(clustered).booleanValue())
         {
             return getFileHandler().append(getContainer().getConfiguration().getHome(), "farm");
@@ -67,18 +67,20 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
     }
 
     /**
-     * Copy the full expanded WAR directory to the deployable directory, renaming it if the user
-     * has specified a custom context for this expanded WAR.
-     *
+     * Copy the full expanded WAR directory to the deployable directory, renaming it if the user has
+     * specified a custom context for this expanded WAR.
+     * 
      * @param deployableDir the directory where the container is expecting deployables to be dropped
-     *        for deployments
+     * for deployments
      * @param war the expanded WAR war
-     *
-     * <p>JBoss requires that expanded WAR directories end with <code>.war</code> so we have to
-     * rename the expanded WAR directory. See the
-     * <a href="http://docs.jboss.org/jbossas/jboss4guide/r4/html/ch2.chapter.html#d0e5347">
-     * JBoss documentation for AbstractWebDeployer</a>.</p>
-     *
+     * 
+     * <p>
+     * JBoss requires that expanded WAR directories end with <code>.war</code> so we have to rename
+     * the expanded WAR directory. See the <a
+     * href="http://docs.jboss.org/jbossas/jboss4guide/r4/html/ch2.chapter.html#d0e5347"> JBoss
+     * documentation for AbstractWebDeployer</a>.
+     * </p>
+     * 
      */
     @Override
     protected void deployExpandedWar(String deployableDir, WAR war)
@@ -86,10 +88,10 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
         getFileHandler().copyDirectory(
                 war.getFile(), getFileHandler().append(deployableDir, war.getContext() + ".war"));
     }
-    
+
     /**
      * Undeploys and then deploys artifact. Assumes that server is shutdown.
-     *
+     * 
      * @param deployable artifact to redeploy
      */
     @Override
@@ -98,10 +100,10 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
         undeploy(deployable);
         deploy(deployable);
     }
-    
+
     /**
      * Removes previously deployed artifact.
-     *
+     * 
      * @param deployable artifact to undeploy
      */
     @Override
@@ -135,7 +137,7 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
 
     /**
      * Checks whether file or dir represented by string exists.
-     *
+     * 
      * @param fileName path to check
      * @return true if file/dir exists
      */
@@ -145,14 +147,14 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
     }
 
     /**
-     *Undeploy the file in specified directory with the specified file name.
-     *
-     *@param directory The directory name
-     *@param file The file name
+     * Undeploy the file in specified directory with the specified file name.
+     * 
+     * @param directory The directory name
+     * @param file The file name
      */
     private void undeployFile(String directory, String file)
     {
-        String fileName = getFileHandler().append(directory, file); 
+        String fileName = getFileHandler().append(directory, file);
         if (fileExists(fileName))
         {
             getLogger().info("Undeploying [" + fileName + "]...", this.getClass().getName());

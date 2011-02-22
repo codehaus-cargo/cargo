@@ -40,13 +40,24 @@ import org.jmock.MockObjectTestCase;
 
 /**
  * Unit tests for {@link AbstractJonasRemoteDeployer}.
+ * 
+ * @version $Id$
  */
 public class JonasRemoteDeployerTest extends MockObjectTestCase
 {
+    /**
+     * Runtime configuration.
+     */
     private RuntimeConfiguration runtime;
 
+    /**
+     * Remote container.
+     */
     private RemoteContainer container;
 
+    /**
+     * Deployer.
+     */
     private AbstractJonasRemoteDeployer deployer;
 
     /**
@@ -63,6 +74,9 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
         deployer = new TestDeployer(container);
     }
 
+    /**
+     * Test remote file name getter.
+     */
     public void testGetRemoteFileName()
     {
         DeployableFactory factory = new DefaultDeployableFactory();
@@ -83,6 +97,9 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
         assertEquals("rootContext.war", deployer.getRemoteFileName(deployable, null, false));
     }
 
+    /**
+     * Test the server MBean getter.
+     */
     public void testGetServerMBeanName()
     {
         try
@@ -99,19 +116,24 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
             deployer.getServerMBeanName(null, "bar").toString();
             fail("error should be thrown");
         }
-        catch (MalformedObjectNameException e)
+        catch (MalformedObjectNameException expected)
         {
+            // Expected
         }
         try
         {
             deployer.getServerMBeanName("", "bar").toString();
             fail("error should be thrown");
         }
-        catch (MalformedObjectNameException e)
+        catch (MalformedObjectNameException expected)
         {
+            // Expected
         }
     }
 
+    /**
+     * Test the domain MBean getter.
+     */
     public void testGetDomainMBeanName()
     {
         try
@@ -128,19 +150,24 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
             deployer.getDomainMBeanName(null).toString();
             fail("error should be thrown");
         }
-        catch (MalformedObjectNameException e)
+        catch (MalformedObjectNameException expected)
         {
+            // Expected
         }
         try
         {
             deployer.getDomainMBeanName("").toString();
             fail("error should be thrown");
         }
-        catch (MalformedObjectNameException e)
+        catch (MalformedObjectNameException expected)
         {
+            // Expected
         }
     }
 
+    /**
+     * Test runtime configuration's default values.
+     */
     public void testRuntimeConfigurationDefaultValues()
     {
         RuntimeConfiguration runtimeConfiguration = new JonasRuntimeConfiguration();
@@ -149,11 +176,16 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
         AbstractJonasRemoteDeployer remoteDeployer = new TestDeployer(remoteContainer);
         RemoteDeployerConfig deployerConfig = remoteDeployer.getConfig();
 
-        assertEquals(AbstractJonasRemoteDeployer.DEFAULT_JONAS_SERVER_NAME, deployerConfig.getServerName());
-        assertEquals(AbstractJonasRemoteDeployer.DEFAULT_JONAS_DOMAIN_NAME, deployerConfig.getDomainName());
+        assertEquals(AbstractJonasRemoteDeployer.DEFAULT_JONAS_SERVER_NAME,
+            deployerConfig.getServerName());
+        assertEquals(AbstractJonasRemoteDeployer.DEFAULT_JONAS_DOMAIN_NAME,
+            deployerConfig.getDomainName());
         assertNull(deployerConfig.getClusterName());
     }
 
+    /**
+     * Test runtime configuration's server name.
+     */
     public void testRuntimeConfigurationServerName()
     {
         RuntimeConfiguration runtimeConfiguration = new JonasRuntimeConfiguration();
@@ -164,10 +196,14 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
         RemoteDeployerConfig deployerConfig = remoteDeployer.getConfig();
 
         assertEquals("foo", deployerConfig.getServerName());
-        assertEquals(AbstractJonasRemoteDeployer.DEFAULT_JONAS_DOMAIN_NAME, deployerConfig.getDomainName());
+        assertEquals(AbstractJonasRemoteDeployer.DEFAULT_JONAS_DOMAIN_NAME,
+            deployerConfig.getDomainName());
         assertNull(deployerConfig.getClusterName());
     }
 
+    /**
+     * Test runtime configuration's domain name.
+     */
     public void testRuntimeConfigurationDomainName()
     {
         RuntimeConfiguration runtimeConfiguration = new JonasRuntimeConfiguration();
@@ -183,6 +219,9 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
         assertNull(deployerConfig.getClusterName());
     }
 
+    /**
+     * Test runtime configuration's cluster name.
+     */
     public void testRuntimeConfigurationClusterName()
     {
         RuntimeConfiguration runtimeConfiguration = new JonasRuntimeConfiguration();
@@ -199,13 +238,24 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
         assertEquals("jar", deployerConfig.getClusterName());
     }
 
+    /**
+     * Mock deployer for {@link AbstractJonas4xRemoteDeployer}.
+     */
     private class TestDeployer extends AbstractJonas4xRemoteDeployer
     {
+        /**
+         * {@inheritdoc}
+         * @param container Container to use.
+         */
         public TestDeployer(RemoteContainer container)
         {
             super(container);
         }
 
+        /**
+         * {@inheritdoc}
+         * @return <code>null</code>.
+         */
         @Override
         public MBeanServerConnectionFactory getMBeanServerConnectionFactory()
         {

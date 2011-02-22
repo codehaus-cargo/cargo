@@ -39,12 +39,12 @@ public class Resin2xConfigurationBuilder extends AbstractConfigurationBuilder
      */
     public static final String TRANSACTIONS_WITH_XA_OR_JCA_ONLY =
         "Resin only supports transactions with an XADataSource or ManagedConnectionFactory object";
-    
+
     /**
      * used to translate DataSources into Resources
      */
     private DataSourceConverter converter = new DataSourceConverter();
-    
+
     /**
      * {@inheritDoc}
      */
@@ -84,12 +84,12 @@ public class Resin2xConfigurationBuilder extends AbstractConfigurationBuilder
         Resource resource = null;
         if (ConfigurationEntryType.XA_DATASOURCE.equals(ds.getConnectionType()))
         {
-            resource = converter.convertToResource(ds, 
+            resource = converter.convertToResource(ds,
                 ConfigurationEntryType.XA_DATASOURCE, "driver-name");
         }
         else
         {
-            resource = converter.convertToResource(ds, 
+            resource = converter.convertToResource(ds,
                 ConfigurationEntryType.DATASOURCE, "driver-name");
         }
         return toConfigurationEntry(resource);

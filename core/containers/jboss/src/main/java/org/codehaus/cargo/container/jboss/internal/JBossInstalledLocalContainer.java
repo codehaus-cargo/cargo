@@ -24,7 +24,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 /**
  * All JBoss container implementation must implement this interface which provides method to find
  * out the location of configuration files located in the JBoss installation source tree.
- *
+ * 
  * @version $Id$
  */
 public interface JBossInstalledLocalContainer extends InstalledLocalContainer

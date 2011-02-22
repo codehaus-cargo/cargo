@@ -29,15 +29,15 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
 
 /**
  * JRun existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
- *  
+ * 
  * @version $Id$
  */
-public class JRun4xExistingLocalConfiguration extends AbstractExistingLocalConfiguration 
+public class JRun4xExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {
     /**
      * Capability of the JRun standalone configuration.
      */
-    private static ConfigurationCapability capability = 
+    private static ConfigurationCapability capability =
         new JRun4xExistingLocalConfigurationCapability();
 
     /**
@@ -73,7 +73,7 @@ public class JRun4xExistingLocalConfiguration extends AbstractExistingLocalConfi
 
         InstalledLocalContainer jrunContainer = (InstalledLocalContainer) container;
         JRun4xInstalledLocalDeployer deployer = new JRun4xInstalledLocalDeployer(jrunContainer);
-        deployer.deploy(getDeployables());        
+        deployer.deploy(getDeployables());
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory.
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",

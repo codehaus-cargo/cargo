@@ -45,11 +45,10 @@ import org.codehaus.cargo.util.Base64;
  * 
  * NOTE: undeploy DELETES the webapp from the Jetty webapp directory
  * 
- * Limitations:
- *  - will not undeploy files from anywhere other than the servers webapp directory
- *  - cannot be used to undeploy webapps that were deployed using a xml context file in /contexts 
- *  - should not be used with multiple webapps sharing a common war.  
- *    
+ * Limitations: - will not undeploy files from anywhere other than the servers webapp directory -
+ * cannot be used to undeploy webapps that were deployed using a xml context file in /contexts -
+ * should not be used with multiple webapps sharing a common war.
+ * 
  * @version $Id$
  */
 public class JettyRemoteDeployer extends AbstractRemoteDeployer
@@ -59,22 +58,22 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
      * The default context of the Jetty remote deployer.
      */
     private static final String DEFAULT_DEPLOYER_CONTEXT = "cargo-jetty-deployer";
-    
+
     /**
      * The username to use for the remote server authentication.
      */
     private String username;
-    
+
     /**
      * The password to be used for the remote server authentication.
      */
     private String password;
-    
+
     /**
      * The url to the Jetty remote deployer.
      */
     private String deployerUrl;
-        
+
     /**
      * Remote deployer for the Jetty container.
      * @param container The container used for deployment
@@ -86,7 +85,7 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
         username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
         password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
         deployerUrl = configuration.getPropertyValue(JettyPropertySet.DEPLOYER_URL);
- 
+
         if (deployerUrl == null)
         {
             this.deployerUrl = createDefaultDeployerUrl(configuration);
@@ -114,17 +113,17 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
                 throw new ContainerException("Response when calling " + connection.getURL()
                     + " was: " + response);
             }
-        
+
         }
         catch (Exception e)
         {
             throw new ContainerException("Failed to deploy [" + deployable.getFile() + "]", e);
         }
     }
-    
+
     /**
-     * Undeploy a {@link Deployable} from the running container.
-     * NOTE: THIS WILL DELETE THE WAR FROM THE WEBAPP DIRECTORY
+     * Undeploy a {@link Deployable} from the running container. NOTE: THIS WILL DELETE THE WAR FROM
+     * THE WEBAPP DIRECTORY
      * @param deployable The deployable to be undeployed
      */
     @Override
@@ -165,19 +164,19 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
      */
     protected HttpURLConnection createDeployConnection(WAR war) throws IOException
     {
-        
+
         String deployUrl = this.deployerUrl + "/deploy?path=/" + war.getContext();
-        
-        URL url  = new URL(deployUrl);
+
+        URL url = new URL(deployUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        
+
         connection.setAllowUserInteraction(false);
         connection.setDoInput(true);
         connection.setDoOutput(true);
         connection.setUseCaches(false);
         connection.setRequestMethod("PUT");
         connection.setRequestProperty("Content-Type", "application/octet-stream");
-        
+
         // When trying to upload large amount of data the internal connection buffer can become
         // too large and exceed the heap size, leading to a java.lang.OutOfMemoryError.
         // This was fixed in JDK 1.5 by introducing a new setChunkedStreamingMode() method.
@@ -200,7 +199,7 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
                 + System.getProperty("java.version") + "] doesn't support it.",
                 getClass().getName());
         }
-        
+
         if (this.username != null)
         {
             String authorization = toAuthorization(this.username, this.password);
@@ -208,10 +207,10 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
         }
 
         connection.connect();
-        
+
         return connection;
     }
-    
+
     /**
      * Creates an undeploy connection for the deployer.
      * @param war The war to be undeployed
@@ -223,25 +222,25 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
         String undeployURL = this.deployerUrl + "/undeploy?path=/" + war.getContext();
         URL url = new URL(undeployURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        
+
         connection.setAllowUserInteraction(false);
         connection.setDoInput(true);
         connection.setDoOutput(true);
         connection.setUseCaches(false);
         connection.setDoOutput(false);
         connection.setRequestMethod("GET");
-        
+
         if (this.username != null)
         {
             String authorization = toAuthorization(this.username, this.password);
             connection.setRequestProperty("Authorization", authorization);
         }
-         
+
         connection.connect();
-        
+
         return connection;
     }
-    
+
     /**
      * Returns a deployerURL based on default values.
      * @param configuration The server configuration object
@@ -252,9 +251,9 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
         String protocol = configuration.getPropertyValue(GeneralPropertySet.PROTOCOL);
         String host = configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
         String port = configuration.getPropertyValue(ServletPropertySet.PORT);
-        
+
         String deployerUrl = protocol + "://" + host + ":" + port + "/" + DEFAULT_DEPLOYER_CONTEXT;
-        
+
         return deployerUrl;
     }
 
@@ -267,9 +266,9 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
     protected String getResponseMessage(HttpURLConnection connection) throws IOException
     {
         int code = connection.getResponseCode();
-        
+
         String response = "";
-        
+
         try
         {
             // we got an error, try and get the error message
@@ -277,27 +276,27 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
             {
                 // we got an error, try and get the error message
                 response = streamToString(connection.getInputStream(), "UTF-8");
-            } 
+            }
             else
             {
                 // no error was reported so try and get the message from the
                 // input stream
                 response = streamToString(connection.getInputStream(), "UTF-8");
             }
-        } 
+        }
         catch (Exception e)
         {
             getLogger().warn("Exception while getting response: " + e, getClass().getName());
         }
         return response;
     }
-    
+
     /**
      * Reads all the data from the specified input stream and writes it to the specified output
      * stream. Both streams are also closed.
      * 
-     * TODO: make these commands as part of a generic helper class in Cargo.
-     *               Duplicate function in the Tomcat remote deployer
+     * TODO: make these commands as part of a generic helper class in Cargo. Duplicate function in
+     * the Tomcat remote deployer
      * 
      * @param in the input stream to read from
      * @param out the output stream to write to
@@ -310,18 +309,18 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
         byte[] bytes = new byte[1024 * 4];
         while ((n = in.read(bytes)) != -1)
         {
-            bufferedOut.write(bytes, 0, n);            
+            bufferedOut.write(bytes, 0, n);
         }
         bufferedOut.flush();
         bufferedOut.close();
         in.close();
     }
-    
+
     /**
      * Gets the data from the specified input stream as a string using the specified charset.
      * 
-     * TODO: make these commands as part of a generic helper class in Cargo.
-     *               Duplicate function in the Tomcat remote deployer
+     * TODO: make these commands as part of a generic helper class in Cargo. Duplicate function in
+     * the Tomcat remote deployer
      * 
      * @param in the input stream to read from
      * @param charset the charset to use when constructing the string
@@ -342,12 +341,12 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
 
         return buffer.toString();
     }
-    
+
     /**
      * Gets the HTTP Basic Authorization header value for the supplied username and password.
      * 
-     * TODO: make these commands as part of a generic helper class in Cargo.
-     *               Duplicate function in the Tomcat remote deployer
+     * TODO: make these commands as part of a generic helper class in Cargo. Duplicate function in
+     * the Tomcat remote deployer
      * 
      * @param username the username to use for authentication
      * @param password the password to use for authentication
@@ -363,5 +362,5 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
         }
         return "Basic " + new String(Base64.encodeBase64(buffer.toString().getBytes()));
     }
-    
+
 }

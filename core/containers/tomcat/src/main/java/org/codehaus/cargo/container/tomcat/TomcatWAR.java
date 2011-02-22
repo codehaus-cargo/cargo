@@ -24,10 +24,9 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.module.webapp.tomcat.TomcatWarArchive;
 
 /**
- * Extension that supports custom Tomcat <code>context.xml</code> files located 
- * in the <code>META-INF/</code> directory of your WAR. For example, this allows
- * returning the right web context even if it has been defined in the 
- * <code>context.xml</code> file.
+ * Extension that supports custom Tomcat <code>context.xml</code> files located in the
+ * <code>META-INF/</code> directory of your WAR. For example, this allows returning the right web
+ * context even if it has been defined in the <code>context.xml</code> file.
  * 
  * @version $Id$
  */
@@ -37,15 +36,15 @@ public class TomcatWAR extends WAR
      * The parsed Tomcat descriptors in the WAR.
      */
     private TomcatWarArchive warArchive;
-    
+
     /**
      * @param war the location of the WAR being wrapped. This must point to either a WAR file or an
-     *        expanded WAR directory.
+     * expanded WAR directory.
      */
     public TomcatWAR(String war)
     {
         super(war);
-        
+
         try
         {
             this.warArchive = new TomcatWarArchive(getFile());
@@ -58,9 +57,9 @@ public class TomcatWAR extends WAR
     }
 
     /**
-     * @return the context defined in <code>context.xml</code> if any.
-     *         If there is no <code>context.xml</code> or if it doesn't
-     *         define any root context, then return {@link WAR#getContext()}.
+     * @return the context defined in <code>context.xml</code> if any. If there is no
+     * <code>context.xml</code> or if it doesn't define any root context, then return
+     * {@link WAR#getContext()}.
      */
     @Override
     public synchronized String getContext()
@@ -70,45 +69,43 @@ public class TomcatWAR extends WAR
         {
             result = fixForMultiLevelContext(super.getContext());
         }
-        
+
         return result;
     }
-    
+
     /**
-     * Fix the context name to specify multi-level contexts appropriately.  
-     * The multi-level context pattern was defined as of Tomcat 5.5.27 and Tomcat 6.0.18.
-     * See the introduction of {@link http://tomcat.apache.org/tomcat-5.5-doc/config/context.html}
-     * for more information.
+     * Fix the context name to specify multi-level contexts appropriately. The multi-level context
+     * pattern was defined as of Tomcat 5.5.27 and Tomcat 6.0.18. See the introduction of
+     * {@link http://tomcat.apache.org/tomcat-5.5-doc/config/context.html} for more information.
      * @param context The original application context
      * @return The application context fixed for multi-level contexts.
      */
-    protected String fixForMultiLevelContext(String context) 
+    protected String fixForMultiLevelContext(String context)
     {
         return context.replace('#', '/');
     }
 
     /**
-     * @return the context from Tomcat's <code>context.xml</code> if
-     *         it is defined or <code>null</code> otherwise.
+     * @return the context from Tomcat's <code>context.xml</code> if it is defined or
+     * <code>null</code> otherwise.
      */
     private String parseTomcatContextXml()
     {
         String context = null;
-        
+
         if (this.warArchive.getTomcatContextXml() != null)
         {
             context = this.warArchive.getTomcatContextXml().getPath();
         }
-        
+
         return context;
-    }   
+    }
 
     /**
-     * @return true if the WAR contains a <code>META-INF/context.xml</code>
-     *         file
+     * @return true if the WAR contains a <code>META-INF/context.xml</code> file
      */
     public boolean containsContextFile()
     {
-        return (this.warArchive.getTomcatContextXml() != null);
+        return this.warArchive.getTomcatContextXml() != null;
     }
 }

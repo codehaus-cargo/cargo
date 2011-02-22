@@ -24,7 +24,7 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
 
 /**
  * Static deployer that deploys WARs to the JRun <code>servers/server_name</code> directory.
- *  
+ * 
  * @version $Id$
  */
 public class JRun4xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
@@ -39,20 +39,20 @@ public class JRun4xInstalledLocalDeployer extends AbstractCopyingInstalledLocalD
     }
 
     /**
-     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should
-     * be copied to. For JRun this is the <code>servers/server_name</code> directory.
-     *
+     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should be
+     * copied to. For JRun this is the <code>servers/server_name</code> directory.
+     * 
      * @return Deployable directory
      */
     @Override
     public String getDeployableDir()
     {
         InstalledLocalContainer localContainer = (InstalledLocalContainer) this.getContainer();
-        
-        String serverName = 
+
+        String serverName =
             localContainer.getConfiguration().getPropertyValue(JRun4xPropertySet.SERVER_NAME);
-        
-        return getFileHandler().append(getContainer().getConfiguration().getHome(), 
+
+        return getFileHandler().append(getContainer().getConfiguration().getHome(),
             "servers/" + serverName);
     }
 }

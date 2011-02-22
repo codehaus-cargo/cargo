@@ -19,19 +19,18 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
-import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.jboss.JBossPropertySet;
-
-import java.util.Map;
-import java.util.HashMap;
+import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
 /**
  * Capabilities of the JBoss's
- * {@link org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration}
- * configuration.
- *
+ * {@link org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration} configuration.
+ * 
  * @version $Id$
  */
 public class JBossExistingLocalConfigurationCapability extends

@@ -19,15 +19,15 @@
  */
 package org.codehaus.cargo.container.resin.internal;
 
-import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
+
 /**
  * Capabilities of the Resin's {@link ResinExistingLocalConfigurationCapability} configuration.
- *
+ * 
  * @version $Id$
  */
 public class ResinExistingLocalConfigurationCapability

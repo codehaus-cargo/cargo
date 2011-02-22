@@ -42,7 +42,7 @@ public class OrionFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register deployable factory. Doesn't register anything.
-     *
+     * 
      * @param deployableFactory Factory on which to register.
      */
     @Override
@@ -52,7 +52,7 @@ public class OrionFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register configuration capabilities.
-     *
+     * 
      * @param configurationCapabilityFactory Factory on which to register.
      */
     @Override
@@ -69,7 +69,7 @@ public class OrionFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register configuration factories.
-     *
+     * 
      * @param configurationFactory Factory on which to register.
      */
     @Override
@@ -86,7 +86,7 @@ public class OrionFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register deployer. Doesn't register anything.
-     *
+     * 
      * @param deployerFactory Factory on which to register.
      */
     @Override
@@ -96,7 +96,7 @@ public class OrionFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register packager. Doesn't register anything.
-     *
+     * 
      * @param packagerFactory Factory on which to register.
      */
     @Override
@@ -106,7 +106,7 @@ public class OrionFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register container.
-     *
+     * 
      * @param containerFactory Factory on which to register.
      */
     @Override
@@ -121,7 +121,7 @@ public class OrionFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register container capabilities.
-     *
+     * 
      * @param containerCapabilityFactory Factory on which to register.
      */
     @Override

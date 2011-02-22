@@ -21,7 +21,7 @@ package org.codehaus.cargo.container.jboss;
 
 /**
  * JBoss-specific properties.
- *
+ * 
  * @version $Id$
  */
 public interface JBossPropertySet
@@ -30,17 +30,17 @@ public interface JBossPropertySet
      * The JBoss configuration selected. Examples of valid values: "default", "all", "minimal".
      */
     String CONFIGURATION = "cargo.jboss.configuration";
-    
+
     /**
      * Whether the JBoss Configuration should be clustered.
      */
     String CLUSTERED = "cargo.jboss.clustered";
-    
+
     /**
      * The user to use when calling JBoss server commands.
      */
     String JBOSS_USER = "cargo.jboss.user";
-    
+
     /**
      * The password to use when calling JBoss server commands.
      */
@@ -92,12 +92,11 @@ public interface JBossPropertySet
      */
     String JBOSS_TRANSACTION_STATUS_MANAGER_PORT = "cargo.jboss.transaction.statusManager.port";
 
-
     /**
      * Port number to serve deployable through. Default is <code>1 +
-     * {@link ServletPropertySet#PORT}</code> (for example, <code>18080</code> if the JBoss servlet
-     * port was <code>8080</code>). This will be used by remote deployers who do not share
-     * filesystem with cargo.
+     * {@link org.codehaus.cargo.container.property.ServletPropertySet#PORT}</code> (for example,
+     * <code>18080</code> if the JBoss servlet port was <code>8080</code>). This will be used by
+     * remote deployers who do not share filesystem with cargo.
      */
     String REMOTEDEPLOY_PORT = "cargo.jboss.remotedeploy.port";
 
@@ -109,8 +108,8 @@ public interface JBossPropertySet
     String REMOTEDEPLOY_HOSTNAME = "cargo.jboss.remotedeploy.hostname";
 
     /**
-     * Timeout for deploying the artifact to JBoss, in milliseconds. Defaults to
-     * <code>120000</code> milliseconds.
+     * Timeout for deploying the artifact to JBoss, in milliseconds. Defaults to <code>120000</code>
+     * milliseconds.
      */
     String REMOTEDEPLOY_TIMEOUT = "cargo.jboss.remotedeploy.timeout";
 

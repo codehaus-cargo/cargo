@@ -114,7 +114,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             new QName("admin-server-name", new Namespace("",
                 "http://www.bea.com/ns/weblogic/920/domain"));
         domain.addElement(adminServerNameQ);
-        
+
     }
 
     @Override

@@ -20,16 +20,16 @@
 package org.codehaus.cargo.container.geronimo;
 
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.geronimo.internal.GeronimoExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.geronimo.internal.GeronimoExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 
 /**
  * Geronimo 1.x series existing {@link org.codehaus.cargo.container.configuration.Configuration}
  * implementation.
- *
+ * 
  * @version $Id$
  */
 public class Geronimo1xExistingLocalConfiguration extends AbstractExistingLocalConfiguration

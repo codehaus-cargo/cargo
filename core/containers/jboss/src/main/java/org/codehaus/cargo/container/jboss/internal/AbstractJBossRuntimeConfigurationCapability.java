@@ -22,14 +22,14 @@ package org.codehaus.cargo.container.jboss.internal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
+import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
 
 /**
  * Capabilities of JBoss's {@link org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration}
  * configuration.
- *  
+ * 
  * @version $Id$
  */
 public abstract class AbstractJBossRuntimeConfigurationCapability extends

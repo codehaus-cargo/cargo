@@ -40,7 +40,7 @@ import org.codehaus.cargo.util.AntUtils;
 
 /**
  * A Geronimo deploytool-based deployer to perform deployment to a local container.
- *
+ * 
  * @version $Id$
  */
 public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeployer
@@ -73,7 +73,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     {
         return this.antUtils;
     }
-    
+
     /**
      * @return the same value as {@link #getContainer()} but more type-safe.
      */
@@ -110,7 +110,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     /**
      * Distribute a deployable to a running or offline Geronimo server. The deployable is not
      * automatically started.
-     *
+     * 
      * @param deployable the deployable being installed
      * @see org.codehaus.cargo.container.deployer.Deployer#deploy(org.codehaus.cargo.container.deployable.Deployable)
      */
@@ -147,7 +147,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
 
     /**
      * Starts a deployable with the given ID.
-     *
+     * 
      * @param deployableId the ID of the deployable being started
      * @see org.codehaus.cargo.container.deployer.Deployer#start(org.codehaus.cargo.container.deployable.Deployable)
      */
@@ -188,7 +188,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
 
     /**
      * Stops a deployable with the given ID.
-     *
+     * 
      * @param deployableId the ID of the deployable being stopped
      * @see org.codehaus.cargo.container.deployer.Deployer#stop(org.codehaus.cargo.container.deployable.Deployable)
      */
@@ -230,7 +230,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
 
     /**
      * Undeploy a deployable with the given ID.
-     *
+     * 
      * @param deployableId the ID of the deployable being undeployed
      * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
@@ -289,7 +289,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     /**
      * Create a preinitialized instance of the Ant Java task to be used for managing Geronimo
      * deployables.
-     *
+     * 
      * @return The created task instance
      */
     private Java createJava()
@@ -316,7 +316,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     /**
      * Create an instance of the Ant Java task preinitialized to invoke the deploy tool jar with the
      * specified command.
-     *
+     * 
      * @param action the deployer action to take
      * @return The created task instance
      */
@@ -336,7 +336,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     /**
      * Create an instance of the Ant Java task preinitialized to invoke the deploy tool jar with the
      * specified command and admin/manager user auth options.
-     *
+     * 
      * @param action the deployer action to take
      * @return The created task instance
      */
@@ -403,10 +403,10 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
             }
         }
 
-        //add deployable path
+        // add deployable path
         java.createArg().setValue(deployableFile);
 
-        //add deployable plan
+        // add deployable plan
         if (deployable instanceof GeronimoDeployable)
         {
             GeronimoDeployable geronimoDeployable = (GeronimoDeployable) deployable;
@@ -442,7 +442,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
 
     /**
      * Add system properties to the Ant java command used to execute the Geronimo deploy tool.
-     *
+     * 
      * @param java the java command that will start the container
      */
     private void addSystemProperties(Java java)
@@ -477,7 +477,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
 
     /**
      * Add extra container classpath entries specified by the user.
-     *
+     * 
      * @param javaCommand the java command used to start/stop the container
      */
     private void addExtraClasspath(Java javaCommand)
@@ -514,7 +514,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
 
         if (getFileHandler().exists(archiveFile))
         {
-            //TODO: verify how Geronimo computes the default moduleId (i.e. NO plan)
+            // TODO: verify how Geronimo computes the default moduleId (i.e. NO plan)
             moduleId = new File(archiveFile).getName();
             int lastDot = moduleId.lastIndexOf('.');
             if (lastDot != -1)
@@ -542,14 +542,14 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
 
                 if (planFile.exists())
                 {
-                    //TODO: parse the configId associated with the deployable from the plan,
+                    // TODO: parse the configId associated with the deployable from the plan,
                     // then assign to moduleId
                 }
                 else
                 {
                     if (archiveFile != null)
                     {
-                        //TODO: detect if plan is packaged inside the archive.
+                        // TODO: detect if plan is packaged inside the archive.
                         // If so, extract the plan,
                         // parse the configId associated with the deployable,
                         // then assign to moduleId

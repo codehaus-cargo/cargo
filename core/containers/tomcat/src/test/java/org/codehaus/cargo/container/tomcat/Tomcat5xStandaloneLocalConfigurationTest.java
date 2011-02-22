@@ -38,7 +38,7 @@ import org.xml.sax.SAXException;
  * Tests for the Tomcat 5 implementation of StandaloneLocalConfigurationTest
  */
 public class Tomcat5xStandaloneLocalConfigurationTest extends
-AbstractCatalinaStandaloneLocalConfigurationTest
+    AbstractCatalinaStandaloneLocalConfigurationTest
 {
     /**
      * Creates a {@link Tomcat5xStandaloneLocalConfiguration}. {@inheritdoc}
@@ -76,7 +76,7 @@ AbstractCatalinaStandaloneLocalConfigurationTest
     {
         return configuration.getHome() + "/conf/context.xml";
     }
-    
+
     @Override
     protected void setUpResourceFile() throws Exception
     {
@@ -86,7 +86,7 @@ AbstractCatalinaStandaloneLocalConfigurationTest
         document.addElement("Context");
         xmlUtil.saveXml(document, file);
     }
-    
+
     public void testConfigure() throws Exception
     {
         configuration.configure(container);
@@ -140,7 +140,8 @@ AbstractCatalinaStandaloneLocalConfigurationTest
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/conf/server.xml");
         XMLAssert.assertXpathEvaluatesTo(configuration
-            .getPropertyValue(TomcatPropertySet.AJP_PORT), "//Connector[@protocol='AJP/1.3']/@port", config);
+            .getPropertyValue(TomcatPropertySet.AJP_PORT),
+            "//Connector[@protocol='AJP/1.3']/@port", config);
 
     }
 
@@ -153,7 +154,7 @@ AbstractCatalinaStandaloneLocalConfigurationTest
                 configuration.getHome() + "/conf/server.xml");
         XMLAssert.assertXpathEvaluatesTo("1001", "//Connector[@protocol='AJP/1.3']/@port", config);
     }
-    
+
     public void testCreateMultipleResourceTokenValues() throws XpathException, SAXException,
         IOException
     {
@@ -164,6 +165,5 @@ AbstractCatalinaStandaloneLocalConfigurationTest
     {
         // TODO
     }
-
 
 }

@@ -29,14 +29,14 @@ import org.codehaus.cargo.container.jboss.internal.JBoss5xInstalledLocalContaine
 
 /**
  * 
- *@version $Id$
+ * @version $Id$
  */
 public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalConfiguration
 {
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
     public JBoss5xStandaloneLocalConfiguration(String dir)
     {
@@ -46,8 +46,8 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
     /**
      * Create and return a filterchain for the JBoss configuration files.
      * 
-     * @param container  The container
-     * @return the filterchain  The filterchain
+     * @param container The container
+     * @return the filterchain The filterchain
      * @throws MalformedURLException If a MalformedURLException occurs
      */
     protected FilterChain createJBossFilterChain(JBoss5xInstalledLocalContainer container)
@@ -65,7 +65,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
             new File(container.getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION)));
         getAntUtils().addTokenToFilterChain(filterChain, "cargo.jboss.deploy.url",
             deployDir.toURI().toURL().toString());
-        
+
         return filterChain;
     }
 
@@ -108,7 +108,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
                             + fileName + "\"/>");
                     tmp.append("\n");
                 }
-            } 
+            }
             String sharedClassPathString = tmp.toString();
             getLogger().debug("Shared loader classpath is " + sharedClassPathString,
                 getClass().getName());
@@ -124,15 +124,15 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
 
         String clustered = jbossContainer.getConfiguration().
             getPropertyValue(JBossPropertySet.CLUSTERED);
-        
+
         if (Boolean.valueOf(jbossContainer.getConfiguration().
                 getPropertyValue(JBossPropertySet.CLUSTERED)).booleanValue())
         {
-            String farmDir = getFileHandler().createDirectory(getHome(), "/farm");        
+            String farmDir = getFileHandler().createDirectory(getHome(), "/farm");
         }
-       
+
         String[] configFiles = new String[] {"jboss-service.xml", "bindings.xml"};
-        
+
         // Copy configuration files from cargo resources directory with token replacement
         String[] cargoConfigFiles = new String[] {"jboss-service.xml"};
         for (String cargoConfigFile : cargoConfigFiles)
@@ -141,7 +141,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
                 RESOURCE_PATH + jbossContainer.getId() + "/" + cargoConfigFile,
                 new File(confDir, cargoConfigFile), filterChain);
         }
-        
+
         // Copy bootstrap configuration files from cargo resources directory with token replacement
         String[] cargoConfigBootstrapFiles = new String[] {"bindings.xml"};
         for (String cargoConfigBootstrapFile : cargoConfigBootstrapFiles)
@@ -150,7 +150,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
                 RESOURCE_PATH + jbossContainer.getId() + "/" + cargoConfigBootstrapFile,
                 new File(confBootstrapDir, cargoConfigBootstrapFile), filterChain);
         }
-        
+
         // Copy deploy configuration files from cargo resources directory with token replacement
         String[] cargoConfigDeployFiles = new String[] {"ejb3-connectors-jboss-beans.xml"};
         for (String cargoConfigDeployFile : cargoConfigDeployFiles)
@@ -159,26 +159,21 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
                 RESOURCE_PATH + jbossContainer.getId() + "/" + cargoConfigDeployFile,
                 new File(deployDir, cargoConfigDeployFile), filterChain);
         }
-        
+
         // Copy resources from jboss installation folder and exclude files
         // that already copied from cargo resources folder
-        copyExternalResources(new File(jbossContainer
-                .getConfDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(confDir),
-                configFiles);
+        copyExternalResources(new File(jbossContainer.getConfDir(getPropertyValue(
+            JBossPropertySet.CONFIGURATION))), new File(confDir), configFiles);
 
-        
         // Copy the files within the JBoss Deploy directory to the cargo deploy directory
-        copyExternalResources(
-                 new File(jbossContainer
-                 .getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(
-                     deployDir), cargoConfigDeployFiles);
-        
+        copyExternalResources(new File(jbossContainer.getDeployDir(getPropertyValue(
+            JBossPropertySet.CONFIGURATION))), new File(deployDir), cargoConfigDeployFiles);
+
         // Copy the files within the JBoss Deployers directory to the cargo deployers directory
-        copyExternalResources(
-                 new File(((JBoss5xInstalledLocalContainer) jbossContainer)
-                 .getDeployersDir(getPropertyValue(JBossPropertySet.CONFIGURATION))), new File(
-                     deployersDir), new String[0]);
-        
+        copyExternalResources(new File(((JBoss5xInstalledLocalContainer) jbossContainer)
+            .getDeployersDir(getPropertyValue(JBossPropertySet.CONFIGURATION))),
+            new File(deployersDir), new String[0]);
+
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             new File(getHome(), "/deploy/cargocpc.war"));

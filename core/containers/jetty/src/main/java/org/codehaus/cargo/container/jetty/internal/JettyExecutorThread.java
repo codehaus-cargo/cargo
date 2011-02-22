@@ -20,13 +20,13 @@
 package org.codehaus.cargo.container.jetty.internal;
 
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.Loggable;
+import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.NullLogger;
 
 /**
  * Executor that executes by introspection a Jetty Server object.
- *
+ * 
  * @version $Id$
  */
 public class JettyExecutorThread extends Thread implements Loggable

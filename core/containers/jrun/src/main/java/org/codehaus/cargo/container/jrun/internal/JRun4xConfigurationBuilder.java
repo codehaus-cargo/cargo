@@ -40,23 +40,23 @@ public class JRun4xConfigurationBuilder extends AbstractConfigurationBuilder
         "JRun does not support configuration of arbitrary resources into the JNDI tree.";
 
     /**
-     * @return  a datasource xml fragment that can be embedded directly into the 
-     *          jrun-resources.xml file
+     * @return a datasource xml fragment that can be embedded directly into the jrun-resources.xml
+     * file
      * @param ds the DataSource we are configuring.
      * @param className the implementation class used for this DataSource
      */
     protected String configureDataSourceWithImplementationClass(DataSource ds, String className)
     {
         Element datasourceElement = DocumentHelper.createDocument().addElement("data-source");
-        
+
         // settings from the DataSource instance.
-        datasourceElement.addElement("dbname").setText(ds.getId());        
+        datasourceElement.addElement("dbname").setText(ds.getId());
         datasourceElement.addElement("jndi-name").setText(ds.getJndiLocation());
         datasourceElement.addElement("driver").setText(ds.getDriverClass());
         datasourceElement.addElement("url").setText(ds.getUrl());
         datasourceElement.addElement("username").setText(ds.getUsername());
         datasourceElement.addElement("password").setText(ds.getPassword());
- 
+
         // some default settings not available from DataSource instance
         datasourceElement.addElement("isolation-level").setText("READ_UNCOMMITTED");
         datasourceElement.addElement("native-results").setText("true");
@@ -74,7 +74,7 @@ public class JRun4xConfigurationBuilder extends AbstractConfigurationBuilder
         datasourceElement.addElement("cache-enabled").setText("false");
         datasourceElement.addElement("cache-size").setText("10");
         datasourceElement.addElement("remove-on-exceptions").setText("false");
-        
+
         return datasourceElement.asXML();
     }
 

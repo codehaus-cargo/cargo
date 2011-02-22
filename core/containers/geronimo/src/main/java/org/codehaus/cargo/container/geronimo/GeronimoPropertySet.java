@@ -21,7 +21,7 @@ package org.codehaus.cargo.container.geronimo;
 
 /**
  * Interface for Geronimo-specific properties.
- *
+ * 
  * @version $Id$
  */
 public interface GeronimoPropertySet
@@ -32,8 +32,8 @@ public interface GeronimoPropertySet
     String GERONIMO_SERVLET_CONTAINER_ID = "cargo.geronimo.servlet.containerId";
 
     /**
-     * Geronimo list of user credentials.
-     * Ex. name1:pwd1:role11,...,role1N|name2:pwd2:role21,...,role2N|...
+     * Geronimo list of user credentials. Ex.
+     * name1:pwd1:role11,...,role1N|name2:pwd2:role21,...,role2N|...
      */
     String GERONIMO_USERS = "cargo.geronimo.users";
 

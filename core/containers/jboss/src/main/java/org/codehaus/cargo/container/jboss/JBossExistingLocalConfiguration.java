@@ -22,16 +22,16 @@ package org.codehaus.cargo.container.jboss;
 import java.io.File;
 
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBossExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 
 /**
  * JBoss existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
- *
+ * 
  * @version $Id$
  */
 public class JBossExistingLocalConfiguration extends AbstractExistingLocalConfiguration

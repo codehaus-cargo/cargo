@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.weblogic;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 

@@ -19,12 +19,12 @@
  */
 package org.codehaus.cargo.container.orion;
 
-import org.codehaus.cargo.container.orion.internal.AbstractOrionStandaloneLocalConfiguration;
 import org.apache.tools.ant.types.FilterChain;
+import org.codehaus.cargo.container.orion.internal.AbstractOrionStandaloneLocalConfiguration;
 
 /**
  * Oc4j9x standalone configuration implementation.
- *
+ * 
  * @version $Id$
  */
 public class Oc4j9xStandaloneLocalConfiguration extends AbstractOrionStandaloneLocalConfiguration
@@ -40,7 +40,8 @@ public class Oc4j9xStandaloneLocalConfiguration extends AbstractOrionStandaloneL
 
     /**
      * {@inheritDoc}
-     * @see AbstractOrionStandaloneLocalConfiguration#copyCustomResources(java.io.File, org.apache.tools.ant.types.FilterChain)
+     * @see AbstractOrionStandaloneLocalConfiguration#copyCustomResources(java.io.File,
+     * org.apache.tools.ant.types.FilterChain)
      */
     @Override
     protected void copyCustomResources(String confDir, FilterChain filterChain) throws Exception

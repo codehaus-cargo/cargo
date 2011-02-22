@@ -47,7 +47,7 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * @param container the container containing the configuration to use to find the deployer
-     *        properties such as url, user name and password to use to connect to the deployer
+     * properties such as url, user name and password to use to connect to the deployer
      */
     public JBoss5xRemoteDeployer(RemoteContainer container)
     {
@@ -90,8 +90,8 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
         {
             throw new CargoException(
                 "Cannot locate the JBoss deployer class! Make sure the jboss-deployer for your\n"
-                + "JBoss version as well as all required JBoss JARs are in CARGO's classpath.\n"
-                + "More information on: http://cargo.codehaus.org/JBoss+Remote+Deployer", e);
+                    + "JBoss version as well as all required JBoss JARs are in CARGO's classpath.\n"
+                    + "More information on: http://cargo.codehaus.org/JBoss+Remote+Deployer", e);
         }
         catch (Throwable t)
         {

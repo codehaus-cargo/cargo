@@ -77,8 +77,8 @@ public class WebLogic10xInstalledLocalContainer extends
     }
 
     /**
-     * {@inheritDoc} Also includes checking of the modules directory, which is
-     * unique to WebLogic 10.
+     * {@inheritDoc} Also includes checking of the modules directory, which is unique to WebLogic
+     * 10.
      * 
      * @see org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer#getBeaHomeDirs()
      */

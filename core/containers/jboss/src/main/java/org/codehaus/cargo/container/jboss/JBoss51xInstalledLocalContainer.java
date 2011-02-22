@@ -36,7 +36,7 @@ public class JBoss51xInstalledLocalContainer extends AbstractJBoss5xInstalledLoc
 
     /**
      * {@inheritDoc}
-     * @see AbstractJBossInstalledLocalContainer#AbstractJBossInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see org.codehaus.cargo.container.jboss.internal.AbstractJBossInstalledLocalContainer#AbstractJBossInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public JBoss51xInstalledLocalContainer(LocalConfiguration configuration)
     {

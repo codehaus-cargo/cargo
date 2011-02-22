@@ -28,6 +28,11 @@ import org.codehaus.cargo.util.Dom4JUtil;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 
+/**
+ * Unit tests for {@link Resin2xStandaloneLocalConfiguration}.
+ * 
+ * @version $Id$
+ */
 public class Resin2xStandaloneLocalConfigurationTest extends
     AbstractResinStandaloneLocalConfigurationTest
 {
@@ -77,6 +82,5 @@ public class Resin2xStandaloneLocalConfigurationTest extends
     {
         return new Resin2xConfigurationChecker();
     }
-
 
 }

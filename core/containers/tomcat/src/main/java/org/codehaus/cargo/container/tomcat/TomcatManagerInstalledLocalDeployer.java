@@ -27,7 +27,8 @@ import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerInstall
  * 
  * @version $Id$
  */
-public class TomcatManagerInstalledLocalDeployer extends AbstractTomcatManagerInstalledLocalDeployer
+public class TomcatManagerInstalledLocalDeployer extends
+    AbstractTomcatManagerInstalledLocalDeployer
 {
     /**
      * {@inheritDoc}

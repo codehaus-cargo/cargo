@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
 
 /**
  * Configuration to use when using a GlassFish remote container.
- *
+ * 
  * @version $Id$
  */
 public class GlassFish3xRuntimeConfiguration extends AbstractRuntimeConfiguration
@@ -51,7 +51,7 @@ public class GlassFish3xRuntimeConfiguration extends AbstractRuntimeConfiguratio
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
     public ConfigurationCapability getCapability()
@@ -61,7 +61,7 @@ public class GlassFish3xRuntimeConfiguration extends AbstractRuntimeConfiguratio
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see Object#toString()
      */
     @Override

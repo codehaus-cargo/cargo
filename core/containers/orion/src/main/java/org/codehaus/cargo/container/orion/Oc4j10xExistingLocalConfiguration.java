@@ -38,7 +38,7 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Existing local configuration for the OC4J 10.x application server.
- *
+ * 
  * @version $Id$
  */
 public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConfiguration
@@ -80,7 +80,7 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
         // Deploy all deployables into the applications directory
         for (Deployable deployable : getDeployables())
         {
-            if ((deployable.getType() == DeployableType.EAR))
+            if (deployable.getType() == DeployableType.EAR)
             {
                 fileUtils.copyFile(deployable.getFile(), getFileHandler().append(appDir,
                         getFileHandler().getName(deployable.getFile())), null, true);

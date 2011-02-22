@@ -37,7 +37,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         setUpManager();
     }
 
-    abstract protected void setUpManager();
+    protected abstract void setUpManager();
 
     @Override
     protected String getDataSourceConfigurationFile(DataSourceFixture fixture)

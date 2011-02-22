@@ -22,15 +22,14 @@ package org.codehaus.cargo.container.geronimo;
 import java.io.File;
 
 import org.apache.tools.ant.types.FilterChain;
-
-import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.geronimo.internal.AbstractGeronimoStandaloneLocalConfiguration;
 
 /**
  * Geronimo 2.x series standalone {@link org.codehaus.cargo.container.configuration.Configuration}
  * implementation.
- *
+ * 
  * @version $Id$
  */
 public class Geronimo2xStandaloneLocalConfiguration extends
@@ -67,7 +66,8 @@ public class Geronimo2xStandaloneLocalConfiguration extends
             getFileHandler().copyDirectory(originalVarDirectory, varDirectory);
 
             String securityDir = getFileHandler().createDirectory(getHome(), "/var/security");
-            getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/users.properties",
+            getResourceUtils().copyResource(
+                RESOURCE_PATH + container.getId() + "/users.properties",
                 new File(securityDir, "users.properties"), filterChain);
             getResourceUtils().copyResource(RESOURCE_PATH + container.getId()
                 + "/groups.properties", new File(securityDir, "groups.properties"), filterChain);

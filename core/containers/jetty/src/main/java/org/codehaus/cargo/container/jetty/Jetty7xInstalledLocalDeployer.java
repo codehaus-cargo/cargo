@@ -19,17 +19,17 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.deployable.WAR;
-
-import java.io.OutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+
+import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
  * A deployer for webapps that deploys to a Jetty 7.x installed instance.
- *
+ * 
  * @version $Id$
  */
 public class Jetty7xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
@@ -44,9 +44,9 @@ public class Jetty7xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     }
 
     /**
-     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should
-     * be copied to. For Jetty this is the <code>webapps</code> directory.
-     *
+     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should be
+     * copied to. For Jetty this is the <code>webapps</code> directory.
+     * 
      * @return Deployable the directory to deploy to
      */
     @Override
@@ -57,11 +57,14 @@ public class Jetty7xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
     /**
      * {@inheritDoc}
-     *
-     * <p>We override the base implementation because Jetty requires a context XML file deployed
-     * in its context dir to perform hot deployment. Thus we need to create that context file</p>
-     *
-     * @see AbstractCopyingInstalledLocalDeployer#deployWar(String, org.codehaus.cargo.container.deployable.WAR) 
+     * 
+     * <p>
+     * We override the base implementation because Jetty requires a context XML file deployed in its
+     * context dir to perform hot deployment. Thus we need to create that context file
+     * </p>
+     * 
+     * @see AbstractCopyingInstalledLocalDeployer#deployWar(String,
+     * org.codehaus.cargo.container.deployable.WAR)
      */
     @Override
     protected void deployWar(String deployableDir, WAR war)

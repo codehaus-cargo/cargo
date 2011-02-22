@@ -27,9 +27,8 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
 
 /**
  * Capabilities of GlassFish
- * {@link org.codehaus.cargo.container.glassfish.GlassFishRuntimeConfiguration}
- * configuration.
- *
+ * {@link org.codehaus.cargo.container.glassfish.GlassFishRuntimeConfiguration} configuration.
+ * 
  * @version $Id$
  */
 public class GlassFish3xRuntimeConfigurationCapability
@@ -50,7 +49,7 @@ public class GlassFish3xRuntimeConfigurationCapability
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     @Override

@@ -32,7 +32,8 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurat
 /**
  * Constructs xml elements needed to configure a DataSource for Tomcat. Note that this
  * implementation converts DataSources into Resources and then uses an appropriate
- * {@link ConfigurationBuilder} to create the configuration.
+ * {@link org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder} to create the
+ * configuration.
  * 
  * @version $Id$
  */
@@ -111,10 +112,10 @@ public abstract class AbstractTomcatConfigurationBuilder extends AbstractConfigu
      */
     protected String getFactoryClassFor(String type)
     {
-        String returnVal = (String) typeToFactory.get(type);
+        String returnVal = typeToFactory.get(type);
         if (returnVal == null)
         {
-            returnVal = (String) typeToFactory.get("default");
+            returnVal = typeToFactory.get("default");
         }
         return returnVal;
     }

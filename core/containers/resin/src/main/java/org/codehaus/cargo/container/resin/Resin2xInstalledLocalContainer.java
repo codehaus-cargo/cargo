@@ -22,12 +22,12 @@
  */
 package org.codehaus.cargo.container.resin;
 
+import java.io.FileNotFoundException;
+
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.resin.internal.AbstractResinInstalledLocalContainer;
-
-import java.io.FileNotFoundException;
 
 /**
  * Special container support for the Caucho Resin 3.x servlet container.

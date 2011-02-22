@@ -37,7 +37,7 @@ import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Implementation of a Web server that serves one file.
- *
+ * 
  * @version $Id$
  */
 public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
@@ -125,7 +125,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     /**
      * @param listenSocket socket to listen on.
      * @param remoteDeployAddress remote hostname to use in the url, if null it will be obtained
-     *        from the listenSocket.
+     * from the listenSocket.
      */
     public void setListeningParameters(InetSocketAddress listenSocket, String remoteDeployAddress)
     {
@@ -162,7 +162,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     }
 
     /**
-     *@return url this server serves.
+     * @return url this server serves.
      */
     public URL getURL()
     {

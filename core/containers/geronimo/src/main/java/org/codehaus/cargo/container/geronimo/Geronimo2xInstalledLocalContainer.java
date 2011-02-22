@@ -31,7 +31,7 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 
 /**
  * Geronimo 2.x series container implementation.
- *
+ * 
  * @version $Id$
  */
 public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalContainer
@@ -54,6 +54,7 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -63,6 +64,7 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "Geronimo " + getVersion("2.x");
@@ -148,7 +150,7 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
     @Override
     protected String getVersion(String defaultVersion)
     {
-        //TODO get actual version of installed Geronimo server
+        // TODO get actual version of installed Geronimo server
         return defaultVersion;
     }
 }

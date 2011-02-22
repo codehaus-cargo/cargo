@@ -62,7 +62,7 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
                 .getMessage());
         }
     }
-    
+
     @Override
     public void testBuildConfigurationEntryForMailSessionConfiguredResource() throws Exception
     {

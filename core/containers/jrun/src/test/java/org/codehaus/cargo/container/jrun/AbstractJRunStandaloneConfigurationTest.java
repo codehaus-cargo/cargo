@@ -23,20 +23,38 @@ import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfigurationWithConfigurationBuilderTest;
 
+/**
+ * {@link AbstractLocalConfigurationWithConfigurationBuilderTest} for JRun.
+ * 
+ * @version $Id$
+ */
 public abstract class AbstractJRunStandaloneConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest
 {
 
+    /**
+     * Empty constructor.
+     */
     public AbstractJRunStandaloneConfigurationTest()
     {
         super();
     }
 
+    /**
+     * Constructor with container name.
+     * @param name Container name.
+     */
     public AbstractJRunStandaloneConfigurationTest(String name)
     {
         super(name);
     }
 
+    /**
+     * Setup the datasource file and return. {@inheritdoc}
+     * @param fixture Datasource fixture.
+     * @return Configuration file for <code>fixture</code>.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected String configureDataSourceViaPropertyAndRetrieveConfigurationFile(
         DataSourceFixture fixture) throws Exception
@@ -45,8 +63,18 @@ public abstract class AbstractJRunStandaloneConfigurationTest extends
         return super.configureDataSourceViaPropertyAndRetrieveConfigurationFile(fixture);
     }
 
-    abstract protected void setUpDataSourceFile() throws Exception;
+    /**
+     * Setup the datasource file.
+     * @throws Exception If anything goes wrong.
+     */
+    protected abstract void setUpDataSourceFile() throws Exception;
 
+    /**
+     * Setup the datasource file and return. {@inheritdoc}
+     * @param fixture Datasource fixture.
+     * @return Configuration file for <code>fixture</code>.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected String configureDataSourceAndRetrieveConfigurationFile(DataSourceFixture fixture)
         throws Exception
@@ -55,28 +83,44 @@ public abstract class AbstractJRunStandaloneConfigurationTest extends
         return super.configureDataSourceAndRetrieveConfigurationFile(fixture);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param fixture Ignored.
+     * @return <code>null</code>.
+     */
     @Override
     protected String getResourceConfigurationFile(ResourceFixture fixture)
     {
         return null;
     }
 
+    /**
+     * JRun does not currently support Resources. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigureCreatesResourceForXADataSource() throws Exception
     {
-        // JRun does not currently support Resources
+        // Nothing
     }
 
+    /**
+     * JRun does not currently support Resources. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testConfigureCreatesResource() throws Exception
     {
-        // JRun does not currently support Resources
-
+        // Nothing
     }
 
+    /**
+     * JRun does not currently support Resources. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
     {
-    	// JRun does not currently support Resources
+        // Nothing
     }
 
 }

@@ -23,7 +23,7 @@ import org.codehaus.cargo.container.deployable.WAR;
 
 /**
  * Geronimo WAR deployable.
- *
+ * 
  * @version $Id$
  */
 public class GeronimoWAR extends WAR implements GeronimoDeployable
@@ -35,13 +35,13 @@ public class GeronimoWAR extends WAR implements GeronimoDeployable
 
     /**
      * @param war the location of the WAR being wrapped. This must point to either a WAR file or an
-     *        expanded WAR directory.
+     * expanded WAR directory.
      */
     public GeronimoWAR(String war)
     {
         super(war);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see GeronimoDeployable#setPlan(String)

@@ -22,19 +22,18 @@
  */
 package org.codehaus.cargo.container.jonas.internal;
 
-
 /**
  * JOnAS 4X admin command line utils interface.
- *
+ * 
  * @version $Id$
  */
 public interface Jonas4xAdmin
 {
     /**
      * Look if a local server instance is running.
-     *
+     * 
      * @param command Command to execute, for example <code>ping</code> (to check if server is
-     *                started), <code>j</code> (to check if JNDI is accessible), etc.
+     * started), <code>j</code> (to check if JNDI is accessible), etc.
      * @param expectedReturnCode Expected return code.
      * @return true if the command matches the result
      */
@@ -42,7 +41,7 @@ public interface Jonas4xAdmin
 
     /**
      * Undeploys the given bean name.
-     *
+     * 
      * @param beanFileName the bean file name
      * @return true if the bean has been correctly undeployed
      */
@@ -50,7 +49,7 @@ public interface Jonas4xAdmin
 
     /**
      * deploys the given bean name.
-     *
+     * 
      * @param beanFileName the bean file name
      * @return true if the bean has been correctly deployed
      */

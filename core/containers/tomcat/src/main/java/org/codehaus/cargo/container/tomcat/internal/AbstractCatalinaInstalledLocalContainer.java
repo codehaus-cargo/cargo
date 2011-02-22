@@ -22,18 +22,18 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Path;
-import org.codehaus.cargo.container.ContainerCapability;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
-import org.codehaus.cargo.container.internal.ServletContainerCapability;
-import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
-
 import java.io.File;
 import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
+
+import org.apache.tools.ant.taskdefs.Java;
+import org.apache.tools.ant.types.Path;
+import org.codehaus.cargo.container.ContainerCapability;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
+import org.codehaus.cargo.container.internal.ServletContainerCapability;
+import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 
 /**
  * Base support for Catalina based containers.
@@ -169,7 +169,7 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
         java.addSysproperty(getAntUtils().createSysProperty("catalina.base",
                  getFileHandler().getAbsolutePath(getConfiguration().getHome())));
         File tempFile = new File(getConfiguration().getHome(), "temp");
-        java.addSysproperty(getAntUtils().createSysProperty("java.io.tmpdir", 
+        java.addSysproperty(getAntUtils().createSysProperty("java.io.tmpdir",
                  getFileHandler().getAbsolutePath(tempFile.getAbsolutePath())));
         Path classpath = java.getCommandLine().getClasspath();
         classpath.createPathElement().setLocation(new File(getHome(), "bin/bootstrap.jar"));

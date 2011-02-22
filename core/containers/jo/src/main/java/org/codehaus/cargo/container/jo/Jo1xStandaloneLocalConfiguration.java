@@ -35,9 +35,9 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
 /**
- * jo! standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} 
+ * jo! standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
- *
+ * 
  * @version $Id$
  */
 public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
@@ -51,32 +51,32 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
      * Token key.
      */
     private static final String TOKEN_KEY_WAR_DIR = "jo.wardir";
-    
+
     /**
      * Token key.
      */
     private static final String TOKEN_KEY_WEBAPP = "jo.webapp";
-    
+
     /**
      * Token key.
      */
     private static final String TOKEN_KEY_LOGLEVEL = "jo.loglevel";
-    
+
     /**
      * Default hostname.
      */
     private static final String DEFAULT_HOSTNAME = "*";
-    
+
     /**
      * Default port.
      */
     private static final String DEFAULT_PORT = "8080";
-    
+
     /**
      * Default loglevel.
      */
     private static final String DEFAULT_LOGLEVEL = "medium";
-    
+
     /**
      * Default metaserver port.
      */
@@ -85,12 +85,12 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
     /**
      * Capability of the jo! standalone configuration.
      */
-    private static ConfigurationCapability capability = 
+    private static ConfigurationCapability capability =
         new Jo1xStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String) 
+     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
     public Jo1xStandaloneLocalConfiguration(String dir)
     {
@@ -144,7 +144,6 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
         getResourceUtils().copyResource(resourcePath + "/metalistener.properties",
                 new File(confDir, "metalistener.properties"), filterChain);
 
-
         // jo! log directory
         getFileHandler().createDirectory(getHome(), "log");
 
@@ -157,8 +156,8 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
     }
 
     /**
-     * @return an Ant filter chain containing implementation for the filter
-     *         tokens used in the Orion configuration files
+     * @return an Ant filter chain containing implementation for the filter tokens used in the Orion
+     * configuration files
      * @throws MalformedURLException if the document base cannot be determined
      */
     private FilterChain createJoFilterChain() throws MalformedURLException
@@ -183,7 +182,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
 
     /**
      * Create {@link ReplaceTokens} for the deployed webapps.
-     *
+     * 
      * @return tokens
      * @throws MalformedURLException if the document base cannot be determined
      */
@@ -200,10 +199,9 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
             {
                 WAR war = (WAR) deployable;
                 /*
-                // This is what we need to generate:
-                <hostname>.webapp.<webapp-name>.mapping=
-                <hostname>.webapp.<webapp-name>.docbase=
-                */
+                 * // This is what we need to generate: <hostname>.webapp.<webapp-name>.mapping=
+                 * <hostname>.webapp.<webapp-name>.docbase=
+                 */
                 final String webappName = war.getContext().replace('.', '_').replace('=', '_');
                 String mapping = war.getContext();
                 if (mapping == null)
@@ -249,7 +247,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
 
     /**
      * Creates tokens for the (virtual) hostname.
-     *
+     * 
      * @return hostname token
      */
     private ReplaceTokens createHostnameToken()
@@ -272,7 +270,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
 
     /**
      * Creates tokens for the port.
-     *
+     * 
      * @return port token
      */
     private ReplaceTokens createPortToken()
@@ -295,7 +293,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
 
     /**
      * Creates tokens for the loglevel.
-     *
+     * 
      * @return loglevel token
      */
     private ReplaceTokens createLogLevelToken()
@@ -337,10 +335,9 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
         return replacePort;
     }
 
-
     /**
      * Creates tokens for the hotdeployment war dir.
-     *
+     * 
      * @return wardir token
      */
     private ReplaceTokens createWarDirToken()
@@ -355,7 +352,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
 
     /**
      * Creates tokens for the metaserver listener port.
-     *
+     * 
      * @return port token
      */
     private ReplaceTokens createMetaserverPortToken()

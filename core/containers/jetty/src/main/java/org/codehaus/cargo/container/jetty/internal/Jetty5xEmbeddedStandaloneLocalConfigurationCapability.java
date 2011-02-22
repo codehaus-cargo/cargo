@@ -21,11 +21,11 @@ package org.codehaus.cargo.container.jetty.internal;
 
 /**
  * Configuration capability for a Jetty 5.x Embedded container.
- *
+ * 
  * @version $Id$
  */
 public class Jetty5xEmbeddedStandaloneLocalConfigurationCapability extends
-        AbstractJettyEmbeddedStandaloneLocalConfigurationCapability 
+        AbstractJettyEmbeddedStandaloneLocalConfigurationCapability
 {
     /**
      * {@inheritDoc}

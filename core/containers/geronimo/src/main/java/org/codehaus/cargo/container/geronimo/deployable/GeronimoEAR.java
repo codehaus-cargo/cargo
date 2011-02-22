@@ -23,7 +23,7 @@ import org.codehaus.cargo.container.deployable.EAR;
 
 /**
  * Geronimo EAR deployable.
- *
+ * 
  * @version $Id$
  */
 public class GeronimoEAR extends EAR implements GeronimoDeployable
@@ -40,7 +40,7 @@ public class GeronimoEAR extends EAR implements GeronimoDeployable
     {
         super(ear);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see GeronimoDeployable#setPlan(String)

@@ -122,7 +122,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
 
     /**
      * Escapes a Windows path: backslashes become slashes, drive paths get prefixed with a slash.
-     *
+     * 
      * @param path Path to escape.
      * @return Escaped path.
      */
@@ -319,7 +319,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     /**
      * @param deployable the WAR to deploy
      * @return the "context" XML element to instert in the Tomcat <code>server.xml</code>
-     *         configuration file
+     * configuration file
      */
     protected String createContextToken(WAR deployable)
     {
@@ -386,7 +386,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
                 Iterator<String> roles = user.getRoles().iterator();
                 while (roles.hasNext())
                 {
-                    String role = (String) roles.next();
+                    String role = roles.next();
                     token.append(role);
                     if (roles.hasNext())
                     {
@@ -444,7 +444,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      * <code>Collections.emptyMap()</code>, if the document is DTD bound.
      * 
      * @return a map of prefixes to the url namespaces used in the datasource or resource
-     *         configuration file.
+     * configuration file.
      */
     @Override
     protected Map<String, String> getNamespaces()

@@ -33,7 +33,7 @@ import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 
 /**
  * jo! 1.1 container implementation.
- *
+ * 
  * @version $Id$
  * @see <a href="http://www.tagtraum.com">jo @ tagtraum</a>
  */
@@ -66,7 +66,7 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
     /**
      * Implementation of {@link org.codehaus.cargo.container.LocalContainer#start()} to all
      * container extending this class must implement.
-     *
+     * 
      * @param java the predefined Ant {@link Java} command to use to start the container
      * @throws Exception if any error is raised during the container start
      */
@@ -98,7 +98,7 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
     /**
      * Implementation of {@link org.codehaus.cargo.container.LocalContainer#stop()} to all container
      * extending this class must implement.
-     *
+     * 
      * @param java the predefined Ant {@link Java} command to use to stop the container
      * @throws Exception if any error is raised during the container stop
      */
@@ -137,8 +137,8 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
     }
 
     /**
-     * @return the {@link org.codehaus.cargo.container.ContainerCapability} of the container in
-     * term of ability to deploy such and such type of
+     * @return the {@link org.codehaus.cargo.container.ContainerCapability} of the container in term
+     * of ability to deploy such and such type of
      * {@link org.codehaus.cargo.container.deployable.Deployable}s (eg WAR, EAR, etc).
      */
     public ContainerCapability getCapability()

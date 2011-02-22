@@ -21,18 +21,16 @@ package org.codehaus.cargo.container.jboss;
 
 /**
  * Implementation of a standalone {@link org.codehaus.cargo.container.configuration.Configuration}
- * for JBoss 4.2.x series.
- *
+ * for JBoss 4.2.x series. The existence of this implementation is due to that JBoss 4.2.x used to
+ * require specific handling, which has now been removed/refactored.
+ * 
  * @version $Id$
  */
 public class JBoss42xStandaloneLocalConfiguration extends JBossStandaloneLocalConfiguration
 {
-    /* The existence of this implementation is due to that JBoss 4.2.x used to require specific
-       handling, which has now been removed/refactored. */
-
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String) 
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
     public JBoss42xStandaloneLocalConfiguration(String dir)
     {

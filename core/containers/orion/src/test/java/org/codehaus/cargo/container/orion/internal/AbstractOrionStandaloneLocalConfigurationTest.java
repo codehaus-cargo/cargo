@@ -106,7 +106,6 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
         assertTrue(configuration.getFileHandler().exists(configuration.getHome() + "/log"));
         assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/applications/cargocpc.war"));
-
     }
 
     protected void setUpDataSourceFile() throws Exception
@@ -150,14 +149,12 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     public void testConfigureCreatesResource() throws Exception
     {
         // Orion does not currently support Resources
-
     }
 
     @Override
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
     {
         // Orion does not currently support Resources
-
     }
 
 }

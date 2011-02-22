@@ -28,9 +28,9 @@ import java.util.Map;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
 /**
- * Capabilities of OC4J
- * {@link org.codehaus.cargo.container.orion.Oc4j10xExistingLocalConfiguration} configuration.
- *
+ * Capabilities of OC4J {@link org.codehaus.cargo.container.orion.Oc4j10xExistingLocalConfiguration}
+ * configuration.
+ * 
  * @version $Id$
  */
 public class Oc4jExistingLocalConfigurationCapability extends
@@ -55,7 +55,7 @@ public class Oc4jExistingLocalConfigurationCapability extends
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
      */
     @Override
     protected Map<String, Boolean> getPropertySupportMap()

@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.tomcat.internal.TomcatRuntimeConfigurationCa
 /**
  * Configuration to use when using a
  * {@link org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContainer}.
- *  
+ * 
  * @version $Id$
  */
 public class TomcatRuntimeConfiguration extends AbstractRuntimeConfiguration
@@ -34,7 +34,7 @@ public class TomcatRuntimeConfiguration extends AbstractRuntimeConfiguration
     /**
      * Capability of the Tomcat runtime configuration.
      */
-    private static ConfigurationCapability capability = 
+    private static ConfigurationCapability capability =
         new TomcatRuntimeConfigurationCapability();
 
     /**
@@ -45,7 +45,7 @@ public class TomcatRuntimeConfiguration extends AbstractRuntimeConfiguration
     {
         return capability;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see Object#toString()

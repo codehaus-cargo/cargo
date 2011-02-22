@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.io.File;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
@@ -26,14 +28,12 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.TomcatExistingLocalConfigurationCapability;
 
-import java.io.File;
-
 /**
  * Tomcat existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
- *  
+ * 
  * @version $Id$
  */
-public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfiguration 
+public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {
     /**
      * Capability of the Tomcat exisiting configuration.

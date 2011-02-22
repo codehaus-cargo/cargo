@@ -19,21 +19,21 @@
  */
 package org.codehaus.cargo.container.resin;
 
-import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.resin.internal.ResinExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
-
 import java.io.File;
+
+import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.resin.internal.ResinExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 
 /**
  * Resin existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
- *  
+ * 
  * @version $Id$
  */
-public class ResinExistingLocalConfiguration extends AbstractExistingLocalConfiguration 
+public class ResinExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {
     /**
      * Capability of the Resin standalone configuration.

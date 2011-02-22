@@ -32,25 +32,25 @@ import org.codehaus.cargo.container.spi.util.DefaultServerRun;
 
 /**
  * Starts/stop Resin by setting up a listener socket. Supports Resin 2.0.x, 2.1.x and 3.x.
- *
+ * 
  * @version $Id$
  */
 public class ResinRun extends DefaultServerRun
 {
     /**
-     * Default keepalive socket port for Resin 3.x. We create a server socket on this port that
-     * acts as a keepalive for Resin. When this socket closes Resin stops. This is a Resin feature.
+     * Default keepalive socket port for Resin 3.x. We create a server socket on this port that acts
+     * as a keepalive for Resin. When this socket closes Resin stops. This is a Resin feature.
      */
     public static final int DEFAULT_KEEPALIVE_SOCKET_PORT = 7778;
-    
+
     /**
-     * The started Resin server class. We use <code>Object</code> instead of the Resin class so 
-     * that we don't need the Resin jars in the classpath to compile this class.
+     * The started Resin server class. We use <code>Object</code> instead of the Resin class so that
+     * we don't need the Resin jars in the classpath to compile this class.
      */
     private Object resinServer;
 
     /**
-     * Reference to the Resin utility class. 
+     * Reference to the Resin utility class.
      */
     private ResinUtil resinUtil = new ResinUtil();
 
@@ -69,7 +69,7 @@ public class ResinRun extends DefaultServerRun
 
     /**
      * Entry point to start/stop the Resin server.
-     *
+     * 
      * @param args the command line arguments
      */
     public static void main(String[] args)
@@ -80,7 +80,7 @@ public class ResinRun extends DefaultServerRun
     }
 
     /**
-     * Start the Resin server. We use reflection so that the Resin jars do not need to be in the 
+     * Start the Resin server. We use reflection so that the Resin jars do not need to be in the
      * classpath to compile this class.
      * 
      * {@inheritDoc}
@@ -117,7 +117,7 @@ public class ResinRun extends DefaultServerRun
 
     /**
      * Starts Resin 2.0.x.
-     *
+     * 
      * @param args the command line arguments for starting the server
      * @throws Exception if an error happens when starting the server
      */
@@ -128,7 +128,7 @@ public class ResinRun extends DefaultServerRun
             new Class[] {args.getClass(), boolean.class});
 
         this.resinServer = constructor.newInstance(new Object[] {args, Boolean.TRUE});
-    
+
         Method initMethod = this.resinServer.getClass().getMethod("init",
             new Class[] {boolean.class});
 
@@ -137,19 +137,19 @@ public class ResinRun extends DefaultServerRun
 
     /**
      * Starts Resin 2.1.x.
-     *
+     * 
      * @param args the command line arguments for starting the server
      * @throws Exception if an error happens when starting the server
      */
     private void startResin21x(String[] args) throws Exception
     {
-        Class resinClass = 
+        Class resinClass =
             Class.forName("com.caucho.server.http.ResinServer");
         Constructor constructor = resinClass.getConstructor(
             new Class[] {args.getClass(), boolean.class});
 
         this.resinServer = constructor.newInstance(new Object[] {args, Boolean.TRUE});
-        
+
         Method initMethod = this.resinServer.getClass().getMethod("init",
             new Class[] {ArrayList.class});
 
@@ -158,7 +158,7 @@ public class ResinRun extends DefaultServerRun
 
     /**
      * Starts Resin 3.x.
-     *
+     * 
      * @return the thread in which the server has been started
      * @param args the command line arguments for starting the server
      * @throws Exception if an error happens when starting the server
@@ -178,7 +178,7 @@ public class ResinRun extends DefaultServerRun
                     // us in its waitForExit() loop and if we do, Resin will exit before we tell
                     // it to do so!
                     resin3xKeepAliveSocket = new ServerSocket(DEFAULT_KEEPALIVE_SOCKET_PORT);
-                }                
+                }
                 catch (Exception e)
                 {
                     throw new ContainerException("Failed to create keepalive socket", e);
@@ -186,19 +186,19 @@ public class ResinRun extends DefaultServerRun
             }
         };
         keepaliveThread.start();
-        
+
         // Start the server in another thread so that it doesn't block
         // the current thread. It seems that Resin 3.x is acting differently
         // than Resin 2.x which was not blocking and thus which did not need
         // to be started in a separate thread.
         Thread startThread = new Resin3xInvoker(args);
         startThread.start();
-        
+
         return startThread;
     }
-    
+
     /**
-     * Stops the Resin server. We use reflection so that the Resin jars do not need to be in the 
+     * Stops the Resin server. We use reflection so that the Resin jars do not need to be in the
      * classpath to compile this class.
      * 
      * {@inheritDoc}
@@ -232,10 +232,10 @@ public class ResinRun extends DefaultServerRun
             throw new ContainerException("Failed to stop the running Resin server", e);
         }
     }
-    
+
     /**
      * Stops Resin 2.0.x and 2.1.x versions.
-     *
+     * 
      * @param args the command line arguments for starting the server
      * @throws Exception if an error happens when starting the server
      */
@@ -248,7 +248,7 @@ public class ResinRun extends DefaultServerRun
 
     /**
      * Stops Resin 3.x.
-     *
+     * 
      * @param args the command line arguments for starting the server
      * @throws Exception if an error happens when starting the server
      */
@@ -257,7 +257,7 @@ public class ResinRun extends DefaultServerRun
         // Stop Resin by closing the keepalive socket.
         resin3xKeepAliveSocket.close();
     }
-    
+
     /**
      * @param versionPrefix the version prefix to test for
      * @return true if the Resin version starts with versionPrefix
@@ -268,9 +268,9 @@ public class ResinRun extends DefaultServerRun
     }
 
     /**
-     * Used to start the server in another thread so that it doesn't block the current thread.
-     * It seems that Resin 3.x is acting differently than Resin 2.x which was not blocking and
-     * thus which did not need to be started in a separate thread.
+     * Used to start the server in another thread so that it doesn't block the current thread. It
+     * seems that Resin 3.x is acting differently than Resin 2.x which was not blocking and thus
+     * which did not need to be started in a separate thread.
      */
     private class Resin3xInvoker extends Thread
     {

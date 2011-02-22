@@ -22,10 +22,10 @@ package org.codehaus.cargo.container.tomcat.internal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
+import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
  * Capabilities of Tomcat's {@link AbstractTomcatStandaloneLocalConfiguration} configuration.

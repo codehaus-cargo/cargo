@@ -21,7 +21,7 @@ package org.codehaus.cargo.container.jboss.internal;
 
 /**
  * Perform a HTTP GET to a URL.
- *
+ * 
  * @version $Id$
  */
 public interface HttpURLConnection

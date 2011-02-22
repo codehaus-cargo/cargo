@@ -58,7 +58,7 @@ public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBui
                 .getMessage());
         }
     }
-    
+
     @Override
     public void testBuildConfigurationEntryForMailSessionConfiguredResource() throws Exception
     {

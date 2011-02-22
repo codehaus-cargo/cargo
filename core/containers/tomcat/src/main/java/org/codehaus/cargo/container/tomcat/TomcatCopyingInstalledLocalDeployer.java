@@ -19,17 +19,17 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
  * Static deployer that deploys WARs to the Tomcat <code>webapps</code> directory.
- *  
+ * 
  * @version $Id$
  */
 public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
@@ -38,7 +38,7 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
      * @see #setShouldCopyWars(boolean)
      */
     private boolean shouldCopyWars = true;
-    
+
     /**
      * {@inheritDoc}
      * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(InstalledLocalContainer)
@@ -49,9 +49,9 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
     }
 
     /**
-     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should
-     * be copied to. For Tomcat this is the <code>webapps</code> directory.
-     *
+     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should be
+     * copied to. For Tomcat this is the <code>webapps</code> directory.
+     * 
      * @return Deployable the directory to deploy to
      */
     @Override
@@ -71,14 +71,15 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
     {
         this.shouldCopyWars = shouldCopyWars;
     }
-   
+
     /**
      * We override the default implementation from {@link AbstractCopyingInstalledLocalDeployer} in
      * order to handle the special Tomcat scenarios: if the deployable is a {@link TomcatWAR}
      * instance and it containts a <code>context.xml</code> file that we need to manually copy.
      * 
      * {@inheritDoc}
-     * @see AbstractCopyingInstalledLocalDeployer#deployWar(String, org.codehaus.cargo.container.deployable.WAR)
+     * @see AbstractCopyingInstalledLocalDeployer#deployWar(String,
+     * org.codehaus.cargo.container.deployable.WAR)
      */
     @Override
     protected void deployWar(String deployableDir, WAR war)
@@ -87,7 +88,7 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
         {
             TomcatWAR tomcatWar = (TomcatWAR) war;
 
-            // If the WAR contains a META-INF/context.xml then it means the user is 
+            // If the WAR contains a META-INF/context.xml then it means the user is
             // defining how to deploy it.
             if (tomcatWar.containsContextFile())
             {
@@ -111,7 +112,8 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
      * instance and it contains a <code>context.xml</code> file that we need to manually copy.
      * 
      * {@inheritDoc}
-     * @see AbstractCopyingInstalledLocalDeployer#deployExpandedWar(String, org.codehaus.cargo.container.deployable.WAR)
+     * @see AbstractCopyingInstalledLocalDeployer#deployExpandedWar(String,
+     * org.codehaus.cargo.container.deployable.WAR)
      */
     @Override
     protected void deployExpandedWar(String deployableDir, WAR war)
@@ -120,11 +122,11 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
         {
             TomcatWAR tomcatWar = (TomcatWAR) war;
 
-            // If the WAR contains a META-INF/context.xml then it means the user is 
+            // If the WAR contains a META-INF/context.xml then it means the user is
             // defining how to deploy it.
             if (tomcatWar.containsContextFile())
             {
-                // Note: We know here that the war is an expanded war as this method is only called 
+                // Note: We know here that the war is an expanded war as this method is only called
                 // for expanded wars...
 
                 String contextDir = getFileHandler().createDirectory(
@@ -153,7 +155,7 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
 
     /**
      * Undeploy WAR deployables by deleting the local file from the Tomcat webapps directory.
-     *
+     * 
      * {@inheritDoc}
      * @see AbstractCopyingInstalledLocalDeployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
      */

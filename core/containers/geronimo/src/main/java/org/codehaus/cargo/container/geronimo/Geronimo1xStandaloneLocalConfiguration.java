@@ -21,18 +21,17 @@ package org.codehaus.cargo.container.geronimo;
 
 import java.io.File;
 
-import org.apache.tools.ant.types.FilterChain;
-import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.taskdefs.Copy;
-
-import org.codehaus.cargo.container.LocalContainer;
+import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.geronimo.internal.AbstractGeronimoStandaloneLocalConfiguration;
 
 /**
  * Geronimo 1.x series standalone {@link org.codehaus.cargo.container.configuration.Configuration}
  * implementation.
- *
+ * 
  * @version $Id$
  */
 public class Geronimo1xStandaloneLocalConfiguration extends
@@ -103,7 +102,7 @@ public class Geronimo1xStandaloneLocalConfiguration extends
     /**
      * Copy extra stuff to create a valid Geronimo configuration. Remove this once the system
      * property for changing the var/ directory is implemented in Geronimo.
-     *
+     * 
      * @param containerHome location where the container is installed
      */
     private void copyExtraStuffTemporarily(File containerHome)

@@ -30,7 +30,7 @@ import org.codehaus.cargo.container.spi.deployer.AbstractJsr88Deployer;
 
 /**
  * GlassFish remote deployer, which uses the JSR-88 to deploy and undeploy applications.
- *
+ * 
  * @version $Id$
  */
 public class GlassFish3xRemoteDeployer extends AbstractJsr88Deployer
@@ -38,7 +38,7 @@ public class GlassFish3xRemoteDeployer extends AbstractJsr88Deployer
 
     /**
      * Constructor.
-     *
+     * 
      * @param container the remote container
      */
     public GlassFish3xRemoteDeployer(RemoteContainer container)

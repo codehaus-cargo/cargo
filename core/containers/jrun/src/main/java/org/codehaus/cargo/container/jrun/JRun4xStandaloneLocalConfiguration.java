@@ -41,19 +41,19 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandalone
 /**
  * JRun standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
- *
+ * 
  * @version $Id$
  */
 public class JRun4xStandaloneLocalConfiguration extends
-    AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder implements ResourceSupport 
+    AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder implements ResourceSupport
 {
-    
+
     /**
      * Capability of the JRun4x standalone local configuration.
      */
-    private static ConfigurationCapability capability = 
+    private static ConfigurationCapability capability =
         new JRun4xStandaloneLocalConfigurationCapability();
-    
+
     /**
      * {@inheritDoc}
      * @see AbstractCatalinaStandaloneLocalConfiguration#AbstractCatalinaStandaloneLocalConfiguration(String)
@@ -72,34 +72,34 @@ public class JRun4xStandaloneLocalConfiguration extends
     {
         return capability;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
-    { 
+    {
         setupConfigurationDir();
-        
+
         filterResources(container);
-        
+
         String to = getHome();
         String from = ((InstalledLocalContainer) container).getHome();
-        
+
         // copy required server files
         for (String path : getRequiredFiles())
         {
             getFileHandler().copyFile(from + "/" + path, to + "/" + path);
         }
-                
+
         // copy hot fix jar for spaces in path if present.
         File spaceHotFix = new File(from + "/servers/lib/54101.jar");
         if (spaceHotFix.exists())
         {
             getFileHandler().copyFile(spaceHotFix.getAbsolutePath(),
                 to + "/servers/lib/54101.jar");
-        }                
+        }
 
         // get the required binary
         if (System.getProperty("os.name").toLowerCase().contains("windows"))
@@ -110,7 +110,7 @@ public class JRun4xStandaloneLocalConfiguration extends
         {
             getFileHandler().copyFile(from + "/bin/jrun", to + "/bin/jrun");
         }
-        
+
         InstalledLocalContainer jrunContainer = (InstalledLocalContainer) container;
         JRun4xInstalledLocalDeployer deployer = new JRun4xInstalledLocalDeployer(jrunContainer);
         deployer.deploy(getDeployables());
@@ -119,7 +119,7 @@ public class JRun4xStandaloneLocalConfiguration extends
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             new File(deployer.getDeployableDir(), "cargocpc.war"));
     }
-    
+
     /**
      * Get the JRun server name for this configuration.
      * @return the JRun server name.
@@ -133,7 +133,7 @@ public class JRun4xStandaloneLocalConfiguration extends
         }
         return getPropertyValue(JRun4xPropertySet.SERVER_NAME);
     }
-    
+
     /**
      * The list of required files needed to start up JRun4.
      * @return the list of files required to start JRun4.
@@ -162,7 +162,7 @@ public class JRun4xStandaloneLocalConfiguration extends
 
         return files;
     }
-    
+
     /**
      * Filter configuration files.
      * @param container the current {@link LocalContainer}.
@@ -171,36 +171,35 @@ public class JRun4xStandaloneLocalConfiguration extends
     private void filterResources(LocalContainer container) throws IOException
     {
         FilterChain chain = new JRun4xFilterChain(container);
-        
+
         String to = getHome();
         String libDir = getFileHandler().createDirectory(to, "lib");
         String resourcePath = RESOURCE_PATH + container.getId();
-        
+
         // filter server name in servers.xml
-        getResourceUtils().copyResource(resourcePath + "/servers.xml", 
+        getResourceUtils().copyResource(resourcePath + "/servers.xml",
             new File(libDir, "/servers.xml"), chain);
-        
+
         // filter VM config in jvm.config
         getFileHandler().createDirectory(to, "bin");
-        getResourceUtils().copyResource(resourcePath + "/jvm.config", 
+        getResourceUtils().copyResource(resourcePath + "/jvm.config",
             new File(to + "/bin/jvm.config"), chain);
 
-        
         String serverInf = "servers/" + getServerName() + "/SERVER-INF";
         String serverInfDir = getFileHandler().createDirectory(getHome(), serverInf);
-        
+
         // filter port and logging level in jrun.xml
         getResourceUtils().copyResource(resourcePath + "/jrun.xml",
             new File(serverInfDir, "/jrun.xml"), chain);
-        
+
         // filter users in jrun-users.xml
         getResourceUtils().copyResource(resourcePath + "/jrun-users.xml",
             new File(serverInfDir, "/jrun-users.xml"), chain);
-        
+
         // filter rmi port in jndi.propertiess
         getResourceUtils().copyResource(resourcePath + "/jndi.properties",
             new File(serverInfDir, "/jndi.properties"), chain);
-    }    
+    }
 
     /**
      * {@inheritDoc}
@@ -218,14 +217,14 @@ public class JRun4xStandaloneLocalConfiguration extends
      * @return the {@link ConfigurationBuilder}.
      */
     @Override
-    protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container) 
+    protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)
     {
         return new JRun4xConfigurationBuilder();
     }
 
     /**
      * The xml namespaces.
-     * @return an empty Map. 
+     * @return an empty Map.
      */
     @Override
     protected Map<String, String> getNamespaces()
@@ -238,7 +237,7 @@ public class JRun4xStandaloneLocalConfiguration extends
      * @return the Xpath for the parent element of the datasource xml.
      */
     @Override
-    protected String getXpathForDataSourcesParent() 
+    protected String getXpathForDataSourcesParent()
     {
         return getResourceXPath();
     }
@@ -250,8 +249,8 @@ public class JRun4xStandaloneLocalConfiguration extends
      * @return the file to insert Datasource Configuraton into.
      */
     @Override
-    protected String getOrCreateDataSourceConfigurationFile(DataSource ds, 
-            LocalContainer container) 
+    protected String getOrCreateDataSourceConfigurationFile(DataSource ds,
+            LocalContainer container)
     {
         return getResourceFile(container);
     }
@@ -263,8 +262,8 @@ public class JRun4xStandaloneLocalConfiguration extends
      * @return the file to insert Resource Configuraton into.
      */
     @Override
-    protected String getOrCreateResourceConfigurationFile(Resource resource, 
-            LocalContainer container) 
+    protected String getOrCreateResourceConfigurationFile(Resource resource,
+            LocalContainer container)
     {
         return getResourceFile(container);
     }
@@ -274,25 +273,25 @@ public class JRun4xStandaloneLocalConfiguration extends
      * @return XPath of the parent Element of resource configuration.
      */
     @Override
-    protected String getXpathForResourcesParent() 
+    protected String getXpathForResourcesParent()
     {
         return getResourceXPath();
     }
-    
+
     /**
      * Get the file that Datasource and Resource configuration is defined in.
      * @param container the current Container.
-     * @return  the path to the configuration file that holds Resource information.
+     * @return the path to the configuration file that holds Resource information.
      */
     private String getResourceFile(LocalContainer container)
     {
-        return getFileHandler().append(getHome(), 
+        return getFileHandler().append(getHome(),
                 "servers/" + getServerName() + "/SERVER-INF/jrun-resources.xml");
     }
 
     /**
      * Returns the parent element XPath for Resource configuration.
-     * @return the parent element XPath for Resource configuration. 
+     * @return the parent element XPath for Resource configuration.
      */
     private String getResourceXPath()
     {

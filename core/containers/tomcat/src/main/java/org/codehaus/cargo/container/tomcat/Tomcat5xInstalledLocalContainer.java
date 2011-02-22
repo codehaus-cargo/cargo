@@ -39,9 +39,9 @@ public class Tomcat5xInstalledLocalContainer extends AbstractCatalinaInstalledLo
 
     /**
      * Perform Tomcat 5.x-specific initializations.
-     *
+     * 
      * {@inheritDoc}
-     * @see AbstractCatalinaInstalledLocalContainer#AbstractCatalinaInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration) 
+     * @see AbstractCatalinaInstalledLocalContainer#AbstractCatalinaInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Tomcat5xInstalledLocalContainer(LocalConfiguration configuration)
     {

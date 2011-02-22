@@ -38,6 +38,9 @@ import org.codehaus.cargo.container.stub.RemoteDeployerStub;
  */
 public class DefaultDeployerFactoryTest extends TestCase
 {
+    /**
+     * Deployer factory.
+     */
     private DeployerFactory factory;
 
     /**
@@ -52,6 +55,9 @@ public class DefaultDeployerFactoryTest extends TestCase
         this.factory = new DefaultDeployerFactory();
     }
 
+    /**
+     * Test deployer creation when no deployer registered.
+     */
     public void testCreateDeployerWhenNoDeployerRegistered()
     {
         try
@@ -66,6 +72,9 @@ public class DefaultDeployerFactoryTest extends TestCase
         }
     }
 
+    /**
+     * Test deployer creation for installed containers.
+     */
     public void testCreateDeployerForInstalledContainers()
     {
         this.factory.registerDeployer(InstalledLocalContainerStub.ID, DeployerType.INSTALLED,
@@ -76,6 +85,9 @@ public class DefaultDeployerFactoryTest extends TestCase
         assertEquals(DeployerType.INSTALLED, deployer.getType());
     }
 
+    /**
+     * Test deployer creation for embedded containers.
+     */
     public void testCreateDeployerForEmbeddedContainers()
     {
         this.factory.registerDeployer(EmbeddedLocalContainerStub.ID, DeployerType.EMBEDDED,
@@ -86,6 +98,9 @@ public class DefaultDeployerFactoryTest extends TestCase
         assertEquals(DeployerType.EMBEDDED, deployer.getType());
     }
 
+    /**
+     * Test deployer creation for remote containers.
+     */
     public void testCreateDeployerForRemoteContainers()
     {
         this.factory.registerDeployer(RemoteContainerStub.ID, DeployerType.REMOTE,

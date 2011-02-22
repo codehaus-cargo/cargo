@@ -47,7 +47,7 @@ import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Abstract base class for JOnAS remote deployment.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
@@ -102,7 +102,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
         /**
          * {@inheritDoc}
-         *
+         * 
          * @see Object#equals(Object)
          */
         @Override
@@ -122,7 +122,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
         /**
          * {@inheritDoc}
-         *
+         * 
          * @see Object#hashCode()
          */
         @Override
@@ -141,7 +141,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
         /**
          * {@inheritDoc}
-         *
+         * 
          * @see Object#toString()
          */
         @Override
@@ -181,7 +181,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
         /**
          * {@inheritDoc}
-         *
+         * 
          * @see Object#equals(Object)
          */
         @Override
@@ -201,7 +201,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
         /**
          * {@inheritDoc}
-         *
+         * 
          * @see Object#hashCode()
          */
         @Override
@@ -220,7 +220,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
         /**
          * {@inheritDoc}
-         *
+         * 
          * @see Object#toString()
          */
         @Override
@@ -232,7 +232,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * Constructor.
-     *
+     * 
      * @param container the remote container
      */
     public AbstractJonasRemoteDeployer(RemoteContainer container)
@@ -242,14 +242,14 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * Get the MBean Connection factory.
-     *
+     * 
      * @return the MBean Connection factory
      */
     public abstract MBeanServerConnectionFactory getMBeanServerConnectionFactory();
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.deployer.Deployer#deploy(Deployable)
      */
     @Override
@@ -332,11 +332,11 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * Returns the operation name for the given deployable and action type.
-     *
+     * 
      * @param actionType Action type.
      * @param deployableType Deployable type.
      * @param targetType Target type.
-     *
+     * 
      * @return Operation name.
      */
     protected abstract String getOperationName(ActionType actionType,
@@ -344,7 +344,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable)
      */
     @Override
@@ -364,7 +364,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(Deployable)
      */
     @Override
@@ -458,7 +458,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * Get the remote file name.
-     *
+     * 
      * @param deployable the deployable Object.
      * @param deployableIdentifier the deployable object ID.
      * @param askFromServer whether to ask from server (in order to have a full path).
@@ -469,7 +469,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * Get the server MBean.
-     *
+     * 
      * @param domainName domain Name
      * @param serverName Server Name
      * @return the server Mbean Name
@@ -493,7 +493,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * Get the Domain MBean.
-     *
+     * 
      * @param domainName domain Name
      * @return the server Mbean Name
      * @throws MalformedObjectNameException throwing when object name is wrong
@@ -510,7 +510,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * Get the Deployer configuration.
-     *
+     * 
      * @return the Deployer configuration
      */
     protected RemoteDeployerConfig getConfig()
@@ -540,7 +540,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * Upload the deploybale on the server.
-     *
+     * 
      * @param deployable he deployable Object
      * @param mbsc MBean Server Connection
      * @param serverMBeanName he deployable Object
@@ -670,9 +670,9 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
         }
 
         /**
-         *
+         * 
          * @param clusterName the cluster name if deployment is to be done on a domain, null
-         *            otherwise.
+         * otherwise.
          */
         public void setClusterName(String clusterName)
         {

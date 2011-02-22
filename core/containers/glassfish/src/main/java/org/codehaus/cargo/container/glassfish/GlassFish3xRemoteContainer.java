@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
 
 /**
  * GlassFish 3.x remote container.
- *
+ * 
  * @version $Id$
  */
 public class GlassFish3xRemoteContainer extends AbstractRemoteContainer
@@ -42,7 +42,7 @@ public class GlassFish3xRemoteContainer extends AbstractRemoteContainer
 
     /**
      * Constructor.
-     *
+     * 
      * @param configuration the configuration to associate to this container.
      */
     public GlassFish3xRemoteContainer(RuntimeConfiguration configuration)
@@ -52,7 +52,7 @@ public class GlassFish3xRemoteContainer extends AbstractRemoteContainer
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.Container#getCapability()
      */
     public ContainerCapability getCapability()
@@ -62,7 +62,7 @@ public class GlassFish3xRemoteContainer extends AbstractRemoteContainer
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.Container#getId()
      */
     public String getId()
@@ -72,7 +72,7 @@ public class GlassFish3xRemoteContainer extends AbstractRemoteContainer
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.Container#getName()
      */
     public String getName()

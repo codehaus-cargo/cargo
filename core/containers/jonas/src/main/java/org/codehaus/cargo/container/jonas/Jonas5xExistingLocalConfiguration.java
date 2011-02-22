@@ -36,7 +36,8 @@ public class Jonas5xExistingLocalConfiguration extends AbstractJonasExistingLoca
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractJonasExistingLocalConfiguration#AbstractJonasExistingLocalConfiguration(String, String)
+     * @see AbstractJonasExistingLocalConfiguration#AbstractJonasExistingLocalConfiguration(String,
+     * String)
      */
     public Jonas5xExistingLocalConfiguration(String dir)
     {

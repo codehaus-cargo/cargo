@@ -39,14 +39,16 @@ public class Tomcat6xRemoteDeployer extends AbstractTomcatRemoteDeployer
      */
     public Tomcat6xRemoteDeployer(RemoteContainer container)
     {
-        super(container); 
+        super(container);
     }
 
     /**
      * {@inheritDoc}
-     *
-     * <p>This is a special implementation of undeploy command for Tomcat 6.x </p>
-     *
+     * 
+     * <p>
+     * This is a special implementation of undeploy command for Tomcat 6.x
+     * </p>
+     * 
      * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerDeployer#performUndeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override

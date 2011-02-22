@@ -40,7 +40,7 @@ public class GlassFish2xInstalledLocalContainer extends AbstractGlassFishInstall
 
     /**
      * Calls parent constructor, which saves the configuration.
-     *
+     * 
      * @param localConfiguration Configuration.
      */
     public GlassFish2xInstalledLocalContainer(LocalConfiguration localConfiguration)
@@ -51,6 +51,7 @@ public class GlassFish2xInstalledLocalContainer extends AbstractGlassFishInstall
     /**
      * {@inheritDoc}
      */
+    @Override
     protected AbstractAsAdmin getAsAdmin()
     {
         return new GlassFish2xAsAdmin(this.getHome());

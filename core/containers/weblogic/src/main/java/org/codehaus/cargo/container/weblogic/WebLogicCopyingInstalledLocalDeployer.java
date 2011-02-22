@@ -28,8 +28,8 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
- * Static deployer that deploys WARs to the WebLogic auto-deploy directory. EARs
- * and RARs are not supported, yet.
+ * Static deployer that deploys WARs to the WebLogic auto-deploy directory. EARs and RARs are not
+ * supported, yet.
  * 
  * @version $Id$
  */
@@ -48,10 +48,8 @@ public class WebLogicCopyingInstalledLocalDeployer extends
     }
 
     /**
-     * Specifies the directory where
-     * {@link org.codehaus.cargo.container.deployable.Deployable}s should be
-     * copied to. For WebLogic container the target is the auto-deploy
-     * directory.
+     * Specifies the directory where {@link org.codehaus.cargo.container.deployable.Deployable}s
+     * should be copied to. For WebLogic container the target is the auto-deploy directory.
      * 
      * @return Deployable directory for the container
      */
@@ -64,22 +62,18 @@ public class WebLogicCopyingInstalledLocalDeployer extends
     }
 
     /**
-     * Copy the full expanded WAR directory to the deployable directory,
-     * renaming it if the user has specified a custom context for this expanded
-     * WAR.
+     * Copy the full expanded WAR directory to the deployable directory, renaming it if the user has
+     * specified a custom context for this expanded WAR.
      * 
-     * @param deployableDir
-     *                the directory where the container is expecting deployables
-     *                to be dropped for deployments
-     * @param war
-     *                the expanded WAR war
+     * @param deployableDir the directory where the container is expecting deployables to be dropped
+     * for deployments
+     * @param war the expanded WAR war
      * 
      * <p>
-     * WebLogic requires that expanded WAR directories end with
-     * <code>.war</code> so we have to rename the expanded WAR directory. See
-     * the <a
-     * href="http://e-docs.bea.com/wls/docs81/deployment/overview.html#1036349">
-     * WebLogic documentation for Exploded Archive Directories</a>.
+     * WebLogic requires that expanded WAR directories end with <code>.war</code> so we have to
+     * rename the expanded WAR directory. See the <a
+     * href="http://e-docs.bea.com/wls/docs81/deployment/overview.html#1036349"> WebLogic
+     * documentation for Exploded Archive Directories</a>.
      * </p>
      * 
      */
@@ -95,8 +89,7 @@ public class WebLogicCopyingInstalledLocalDeployer extends
     /**
      * Undeploys and then deploys artifact.
      * 
-     * @param deployable
-     *                artifact to redeploy
+     * @param deployable artifact to redeploy
      */
     @Override
     public void redeploy(Deployable deployable)
@@ -108,8 +101,7 @@ public class WebLogicCopyingInstalledLocalDeployer extends
     /**
      * Removes previously deployed artifact.
      * 
-     * @param deployable
-     *                artifact to undeploy
+     * @param deployable artifact to undeploy
      */
     @Override
     public void undeploy(Deployable deployable)

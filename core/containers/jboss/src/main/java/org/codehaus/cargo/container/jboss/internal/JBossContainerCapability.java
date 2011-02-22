@@ -30,15 +30,14 @@ import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 public class JBossContainerCapability extends J2EEContainerCapability
 {
     /**
-     * Add support for EJB deployable types.
-     * {@inheritDoc}
+     * Add support for EJB deployable types. {@inheritDoc}
      * @see J2EEContainerCapability#supportsDeployableType(DeployableType)
      */
     @Override
     public boolean supportsDeployableType(DeployableType type)
     {
-        return (type == DeployableType.EJB || type == DeployableType.SAR 
-                || type == DeployableType.RAR) || super.supportsDeployableType(type);
+        return type == DeployableType.EJB || type == DeployableType.SAR
+                || type == DeployableType.RAR || super.supportsDeployableType(type);
     }
 
 }

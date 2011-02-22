@@ -19,20 +19,20 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.apache.tools.ant.types.FilterChain;
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.jetty.internal.Jetty6xStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-
 import java.io.File;
+
+import org.apache.tools.ant.types.FilterChain;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty6xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
 /**
  * Jetty 6.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
- *
+ * 
  * @version $Id$
  */
 public class Jetty6xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
@@ -75,7 +75,7 @@ public class Jetty6xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         FilterChain filterChain = createFilterChain();
         String sessionPath = getPropertyValue(JettyPropertySet.SESSION_PATH);
         String sessionContextParam = "";
-        
+
         if (sessionPath != null)
         {
             sessionContextParam = "  <context-param>\n"
@@ -86,7 +86,7 @@ public class Jetty6xStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
         getAntUtils().addTokenToFilterChain(filterChain, "cargo.jetty.session.path.context-param",
                 sessionContextParam);
-        
+
         String etcDir = getFileHandler().createDirectory(getHome(), "etc");
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId()
             + "/jetty.xml", new File(etcDir, "jetty.xml"));
@@ -112,7 +112,7 @@ public class Jetty6xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             new File(appDir, "cargocpc.war"));
     }
-    
+
     /**
      * {@inheritDoc}
      * @see Object#toString()

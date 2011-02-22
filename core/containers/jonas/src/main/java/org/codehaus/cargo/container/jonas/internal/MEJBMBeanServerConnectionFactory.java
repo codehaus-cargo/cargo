@@ -164,7 +164,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * {@inheritDoc}
          * 
          * @see javax.management.MBeanServerConnection#addNotificationListener(ObjectName,
-         *      NotificationListener, NotificationFilter,Object)
+         * NotificationListener, NotificationFilter,Object)
          */
         public void addNotificationListener(ObjectName arg0, NotificationListener arg1,
             NotificationFilter arg2, Object arg3) throws InstanceNotFoundException, IOException
@@ -176,7 +176,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * {@inheritDoc}
          * 
          * @see javax.management.MBeanServerConnection#addNotificationListener(ObjectName,
-         *      ObjectName, NotificationFilter,Object)
+         * ObjectName, NotificationFilter,Object)
          */
         public void addNotificationListener(ObjectName arg0, ObjectName arg1,
             NotificationFilter arg2, Object arg3) throws InstanceNotFoundException, IOException
@@ -211,7 +211,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * {@inheritDoc}
          * 
          * @see javax.management.MBeanServerConnection#createMBean(String, ObjectName, Object[],
-         *      String[])
+         * String[])
          */
         public ObjectInstance createMBean(String arg0, ObjectName arg1, Object[] arg2,
             String[] arg3) throws ReflectionException, InstanceAlreadyExistsException,
@@ -224,7 +224,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * {@inheritDoc}
          * 
          * @see javax.management.MBeanServerConnection#createMBean(String, ObjectName, ObjectName
-         *      ,Object[], String[])
+         * ,Object[], String[])
          */
         public ObjectInstance createMBean(String arg0, ObjectName arg1, ObjectName arg2,
             Object[] arg3, String[] arg4) throws ReflectionException,
@@ -312,7 +312,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * {@inheritDoc}
          * 
          * @see javax.management.MBeanServerConnection#invoke(ObjectName, String, Object[],
-         *      String[])
+         * String[])
          */
         public Object invoke(ObjectName arg0, String arg1, Object[] arg2, String[] arg3)
             throws InstanceNotFoundException, MBeanException, ReflectionException, IOException
@@ -365,7 +365,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * {@inheritDoc}
          * 
          * @see javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,
-         *      ObjectName)
+         * ObjectName)
          */
         public void removeNotificationListener(ObjectName arg0, ObjectName arg1)
             throws InstanceNotFoundException, ListenerNotFoundException, IOException
@@ -377,7 +377,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * {@inheritDoc}
          * 
          * @see javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,
-         *      NotificationListener)
+         * NotificationListener)
          */
         public void removeNotificationListener(ObjectName arg0, NotificationListener arg1)
             throws InstanceNotFoundException, ListenerNotFoundException, IOException
@@ -389,7 +389,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * {@inheritDoc}
          * 
          * @see javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,
-         *      ObjectName, NotificationFilter, Object)
+         * ObjectName, NotificationFilter, Object)
          */
         public void removeNotificationListener(ObjectName arg0, ObjectName arg1,
             NotificationFilter arg2, Object arg3) throws InstanceNotFoundException,
@@ -402,7 +402,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * {@inheritDoc}
          * 
          * @see javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,
-         *      NotificationListener, NotificationFilter, Object )
+         * NotificationListener, NotificationFilter, Object )
          */
         public void removeNotificationListener(ObjectName arg0, NotificationListener arg1,
             NotificationFilter arg2, Object arg3) throws InstanceNotFoundException,
@@ -464,7 +464,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
      * 
      * @return Properties to use for the InitialContext.
      */
-    protected Hashtable readConfiguration(RuntimeConfiguration configuration)
+    protected Hashtable<String, Object> readConfiguration(RuntimeConfiguration configuration)
     {
         logger = configuration.getLogger();
 
@@ -503,7 +503,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
             initialContextFactory = DEFAULT_JNDI_INITIAL_CTX_FACTORY;
         }
 
-        Hashtable props = new Hashtable();
+        Hashtable<String, Object> props = new Hashtable<String, Object>();
         props.put(Context.INITIAL_CONTEXT_FACTORY, initialContextFactory);
         props.put(Context.PROVIDER_URL, jndiUrl);
 
@@ -561,7 +561,8 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
      * 
      * @return The MEJB proxy.
      */
-    protected MBeanServerConnection createConnection(Hashtable props) throws Exception
+    protected MBeanServerConnection createConnection(Hashtable<String, Object> props)
+        throws Exception
     {
         if (jaasEntry != null)
         {

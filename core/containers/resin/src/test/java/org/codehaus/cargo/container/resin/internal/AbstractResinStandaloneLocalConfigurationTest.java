@@ -38,7 +38,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
     {
         return getDataSourceConfigurationFile(null);
     }
-    
+
     public void testConfigure() throws Exception
     {
         configuration.configure(container);

@@ -19,15 +19,15 @@
  */
 package org.codehaus.cargo.container.jetty.internal;
 
-import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
-
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+
+import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
 
 /**
  * Capabilities of Jetty's {@link org.codehaus.cargo.container.jetty.JettyRuntimeConfiguration}
  * configuration.
- *  
+ * 
  * @version $Id$
  */
 public class JettyRuntimeConfigurationCapability extends AbstractRuntimeConfigurationCapability

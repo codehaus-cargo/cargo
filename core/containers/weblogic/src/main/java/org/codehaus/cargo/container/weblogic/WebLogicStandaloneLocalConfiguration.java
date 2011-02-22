@@ -51,7 +51,7 @@ public class WebLogicStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
     public WebLogicStandaloneLocalConfiguration(String dir)
     {
@@ -75,7 +75,7 @@ public class WebLogicStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractStandaloneLocalConfiguration#toConfigurationEntry(LocalContainer)
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#toConfigurationEntry(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception

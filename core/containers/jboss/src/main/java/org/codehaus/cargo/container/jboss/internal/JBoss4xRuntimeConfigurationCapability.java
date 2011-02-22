@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 /**
  * Capabilities of JBoss's {@link org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration}
  * configuration.
- *  
+ * 
  * @version $Id$
  */
 public class JBoss4xRuntimeConfigurationCapability extends

@@ -39,9 +39,27 @@ import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
  */
 public class DefaultContainerFactoryTest extends TestCase
 {
+    /**
+     * Container factory.
+     */
+    private ContainerFactory factory;
+
+    /**
+     * Creates the container factory. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
+    @Override
+    public void setUp() throws Exception
+    {
+        super.setUp();
+        this.factory = new DefaultContainerFactory();
+    }
+
+    /**
+     * Test container creation with valid container id.
+     */
     public void testCreateContainerWithValidContainerId()
     {
-        ContainerFactory factory = new DefaultContainerFactory();
         factory.registerContainer(InstalledLocalContainerStub.ID, ContainerType.INSTALLED,
             InstalledLocalContainerStub.class);
         Container container = factory.createContainer(InstalledLocalContainerStub.ID,
@@ -49,9 +67,11 @@ public class DefaultContainerFactoryTest extends TestCase
         assertEquals(InstalledLocalContainerStub.NAME, container.getName());
     }
 
+    /**
+     * Test container creation with invalid container id.
+     */
     public void testCreateContainerWhenInvalidContainerId()
     {
-        ContainerFactory factory = new DefaultContainerFactory();
         try
         {
             factory.createContainer("dummy", ContainerType.INSTALLED, null);
@@ -66,9 +86,11 @@ public class DefaultContainerFactoryTest extends TestCase
         }
     }
 
+    /**
+     * Test container creation with valid container id but invalid type.
+     */
     public void testCreateContainerWhenValidContainerIdButInvalidType()
     {
-        ContainerFactory factory = new DefaultContainerFactory();
         factory.registerContainer("dummy", ContainerType.EMBEDDED,
             EmbeddedLocalContainerStub.class);
 
@@ -85,10 +107,11 @@ public class DefaultContainerFactoryTest extends TestCase
         }
     }
 
+    /**
+     * Test the registered containers getters.
+     */
     public void testGetRegisteredContainers()
     {
-        ContainerFactory factory = new DefaultContainerFactory();
-
         // Note: This test assumes that these container ids are not real IDs that we use in
         // production.
 
@@ -105,12 +128,12 @@ public class DefaultContainerFactoryTest extends TestCase
         factory.registerContainer("id3", ContainerType.REMOTE,
             RemoteContainerStub.class);
 
-        Map ids = factory.getContainerIds();
+        Map<String, Set<ContainerType>> ids = factory.getContainerIds();
 
         assertEquals(3, ids.size() - existingSize);
-        assertEquals(2, ((Set) ids.get("id1")).size());
-        assertTrue(((Set) ids.get("id1")).contains(ContainerType.INSTALLED));
-        assertTrue(((Set) ids.get("id1")).contains(ContainerType.EMBEDDED));
-        assertFalse(((Set) ids.get("id1")).contains(ContainerType.REMOTE));
+        assertEquals(2, ids.get("id1").size());
+        assertTrue(ids.get("id1").contains(ContainerType.INSTALLED));
+        assertTrue(ids.get("id1").contains(ContainerType.EMBEDDED));
+        assertFalse(ids.get("id1").contains(ContainerType.REMOTE));
     }
 }

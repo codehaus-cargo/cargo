@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.generic;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -31,13 +31,22 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
  */
 public class SuperConfigurationCapability implements ConfigurationCapability
 {
+    /**
+     * {@inheritdoc}
+     * @param propertyName Ignored.
+     * @return <code>true</code>
+     */
     public boolean supportsProperty(String propertyName)
     {
         return true;
     }
 
-    public Map getProperties()
+    /**
+     * {@inheritdoc}
+     * @return {@link Collections#emptyMap()}
+     */
+    public Map<String, Boolean> getProperties()
     {
-        return new HashMap();
+        return Collections.emptyMap();
     }
 }

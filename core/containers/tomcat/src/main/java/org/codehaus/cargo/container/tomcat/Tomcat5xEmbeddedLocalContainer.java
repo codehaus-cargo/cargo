@@ -20,13 +20,13 @@
 package org.codehaus.cargo.container.tomcat;
 
 import java.io.File;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.codehaus.cargo.container.ContainerCapability;
-import org.codehaus.cargo.container.deployer.Deployer;
-import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractEmbeddedLocalContainer;
@@ -34,7 +34,7 @@ import org.codehaus.cargo.container.tomcat.internal.Tomcat5xEmbedded;
 
 /**
  * Embedded Tomcat 5.x container.
- *
+ * 
  * @version $Id$
  */
 public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContainer
@@ -56,16 +56,16 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContain
 
     /**
      * {@link Deployable}s to be deployed once the container is started.
-     *
-     * One can only deploy to an embedded container after it's started,
-     * but cargo allows you to deploy apps before the container starts.
-     * so we need to remember what's supposed to be deployed.
+     * 
+     * One can only deploy to an embedded container after it's started, but cargo allows you to
+     * deploy apps before the container starts. so we need to remember what's supposed to be
+     * deployed.
      */
     private final List<Deployable> scheduledDeployables = new ArrayList<Deployable>();
 
     /**
      * Creates a Tomcat 5.x {@link org.codehaus.cargo.container.EmbeddedLocalContainer}.
-     *
+     * 
      * @param configuration the configuration of the newly created container.
      */
     public Tomcat5xEmbeddedLocalContainer(LocalConfiguration configuration)
@@ -76,7 +76,7 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContain
     /**
      * @return the Tomcat controller object. Always non-null.
      */
-    /*package*/ Tomcat5xEmbedded.Embedded getController()
+    /* package */Tomcat5xEmbedded.Embedded getController()
     {
         return controller;
     }
@@ -84,7 +84,7 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContain
     /**
      * @return the Tomcat host object. Always non-null.
      */
-    /*package*/ Tomcat5xEmbedded.Host getHost()
+    /* package */Tomcat5xEmbedded.Host getHost()
     {
         return host;
     }
@@ -137,8 +137,8 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContain
 
         controller.start();
 
-        //// ideally Tomcat should be able to auto-expand a war file,
-        //// but I couldn't make it work, so this is a workaround meanwhile
+        // // ideally Tomcat should be able to auto-expand a war file,
+        // // but I couldn't make it work, so this is a workaround meanwhile
         if (!scheduledDeployables.isEmpty())
         {
             Deployer deployer = new Tomcat5xEmbeddedLocalDeployer(this);
@@ -151,7 +151,7 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContain
 
     /**
      * Tomcat's start/stop methods are synchronous, so no need for waiting.
-     *
+     * 
      * @param waitForStarting never used
      */
     @Override
@@ -162,7 +162,7 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContain
 
     /**
      * Gets the port number for which this Tomcat is configured.
-     *
+     * 
      * @return the port number
      */
     private int getPort()
@@ -214,11 +214,10 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContain
     }
 
     /**
-     * Used by {@link Tomcat5xEmbeddedLocalDeployer} to register {@link Deployable}s
-     * that are to be deployed once the container is started.
-     *
-     * @param deployable
-     *      {@link Deployable} to be deployed later.
+     * Used by {@link Tomcat5xEmbeddedLocalDeployer} to register {@link Deployable}s that are to be
+     * deployed once the container is started.
+     * 
+     * @param deployable {@link Deployable} to be deployed later.
      */
     void scheduleDeployment(Deployable deployable)
     {

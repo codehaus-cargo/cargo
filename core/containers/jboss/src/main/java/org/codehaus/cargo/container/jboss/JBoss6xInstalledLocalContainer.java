@@ -65,7 +65,7 @@ public class JBoss6xInstalledLocalContainer extends AbstractJBoss5xInstalledLoca
     {
         return "JBoss " + getVersion("6x");
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -77,11 +77,11 @@ public class JBoss6xInstalledLocalContainer extends AbstractJBoss5xInstalledLoca
         java.setClassname("org.jboss.Shutdown");
 
         java.createArg().setValue(
-            "--server=service:jmx:rmi:///jndi/rmi://" 
+            "--server=service:jmx:rmi:///jndi/rmi://"
                 + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
                 + getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_JRMP_PORT)
                 + "/jmxrmi");
-        
+
         String jbossUser = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_USER);
         String jbossPassword = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_PASSWORD);
         if (jbossUser != null)

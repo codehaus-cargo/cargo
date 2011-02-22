@@ -33,8 +33,8 @@ import org.ow2.jonas.tools.configurator.Jonas;
 import org.ow2.jonas.tools.configurator.api.JonasConfigurator;
 
 /**
- * Implementation of a standalone
- * {@link org.codehaus.cargo.container.configuration.Configuration} for JOnAS.
+ * Implementation of a standalone {@link org.codehaus.cargo.container.configuration.Configuration}
+ * for JOnAS.
  * 
  * @version $Id$
  */
@@ -83,7 +83,7 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractLocalConfiguration#configure(LocalContainer)
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception

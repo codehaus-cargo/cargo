@@ -23,7 +23,7 @@ import org.codehaus.cargo.container.deployable.EJB;
 
 /**
  * Geronimo EJB deployable.
- *
+ * 
  * @version $Id$
  */
 public class GeronimoEJB extends EJB implements GeronimoDeployable
@@ -40,7 +40,7 @@ public class GeronimoEJB extends EJB implements GeronimoDeployable
     {
         super(ejb);
     }
-    
+
     /**
      * {@inheritDoc}
      * @see GeronimoDeployable#setPlan(String)

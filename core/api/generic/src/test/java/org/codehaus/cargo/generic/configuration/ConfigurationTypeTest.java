@@ -30,6 +30,9 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
  */
 public class ConfigurationTypeTest extends TestCase
 {
+    /**
+     * Test equality.
+     */
     public void testEquals()
     {
         ConfigurationType type = ConfigurationType.EXISTING;

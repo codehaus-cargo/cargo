@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.tomcat.internal;
 
 import java.util.Iterator;
+
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;

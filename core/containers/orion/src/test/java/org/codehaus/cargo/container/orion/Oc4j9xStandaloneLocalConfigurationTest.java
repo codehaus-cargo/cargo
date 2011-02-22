@@ -38,5 +38,4 @@ public class Oc4j9xStandaloneLocalConfigurationTest extends
         return new Oc4j9xInstalledLocalContainer(configuration);
     }
 
-
 }

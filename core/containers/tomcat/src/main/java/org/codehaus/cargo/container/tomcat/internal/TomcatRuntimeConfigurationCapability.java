@@ -19,16 +19,16 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
-
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * Capabilities of Tomcat's {@link org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration}
  * configuration.
- *  
+ * 
  * @version $Id$
  */
 public class TomcatRuntimeConfigurationCapability extends AbstractRuntimeConfigurationCapability

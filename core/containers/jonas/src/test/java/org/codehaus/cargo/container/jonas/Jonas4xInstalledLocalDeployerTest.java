@@ -96,7 +96,9 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
     protected void tearDown() throws Exception
     {
         if (fsManager != null)
+        {
             fsManager.close();
+        }
 
         super.tearDown();
     }

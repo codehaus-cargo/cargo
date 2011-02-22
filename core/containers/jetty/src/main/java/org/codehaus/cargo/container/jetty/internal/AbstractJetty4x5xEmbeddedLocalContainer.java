@@ -19,21 +19,21 @@
  */
 package org.codehaus.cargo.container.jetty.internal;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.io.File;
 
-import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.property.User;
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.User;
 
 /**
  * Common code for all Jetty 4.x and 5.x embedded container implementations.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractJetty4x5xEmbeddedLocalContainer
@@ -106,7 +106,7 @@ public abstract class AbstractJetty4x5xEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#waitForCompletion(boolean)
      */
     @Override
@@ -165,9 +165,9 @@ public abstract class AbstractJetty4x5xEmbeddedLocalContainer
 
     /**
      * Allow extending classes to perform extra setup on the web application object.
-     *
-     * @param webapp the Jetty web application object representing the WAR that has been added to
-     *        be deployed
+     * 
+     * @param webapp the Jetty web application object representing the WAR that has been added to be
+     * deployed
      * @throws Exception in case of error
      */
     protected abstract void performExtraSetupOnDeployable(Object webapp) throws Exception;
@@ -176,10 +176,10 @@ public abstract class AbstractJetty4x5xEmbeddedLocalContainer
      * Defines a security realm and adds defined users to it. If a user has specified the standard
      * ServletPropertySet.USERS property, then we try and turn these into an in-memory default
      * realm, and then set that realm on all of the webapps.
-     *
+     * 
      * TODO: this is not ideal. We need a way to specify N named realms to the server so that
      * individual webapps can find their appropriate realms by name.
-     *
+     * 
      * @throws Exception in case of error
      */
     protected void setSecurityRealm() throws Exception

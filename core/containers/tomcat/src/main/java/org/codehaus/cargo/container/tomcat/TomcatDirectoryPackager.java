@@ -19,22 +19,22 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager;
-
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
+import org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager;
 
 /**
  * Package a Tomcat distribution.
- *  
+ * 
  * @version $Id$
  */
 public class TomcatDirectoryPackager extends AbstractDirectoryPackager
 {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager#AbstractDirectoryPackager(String) 
+     * @see org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager#AbstractDirectoryPackager(String)
      */
     public TomcatDirectoryPackager(String targetDirectory)
     {

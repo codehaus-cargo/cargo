@@ -22,10 +22,8 @@ package org.codehaus.cargo.container.weblogic.internal;
 import junit.framework.TestCase;
 
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
-import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.weblogic.WebLogic9xInstalledLocalContainer;
 import org.codehaus.cargo.container.weblogic.WebLogic9xStandaloneLocalConfiguration;
 import org.codehaus.cargo.util.FileHandler;
@@ -83,7 +81,9 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
     protected void tearDown() throws Exception
     {
         if (fsManager != null)
+        {
             fsManager.close();
+        }
 
         super.tearDown();
     }

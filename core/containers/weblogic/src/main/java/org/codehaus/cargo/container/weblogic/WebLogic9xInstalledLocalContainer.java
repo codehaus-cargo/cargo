@@ -23,9 +23,9 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer;
 
 /**
- * Special container support for the Bea WebLogic 9.x application server.
- * Author: 20060918 - Martin Zeltner (MZE)
- *
+ * Special container support for the Bea WebLogic 9.x application server. Author: 20060918 - Martin
+ * Zeltner (MZE)
+ * 
  * @version $Id$
  */
 public class WebLogic9xInstalledLocalContainer

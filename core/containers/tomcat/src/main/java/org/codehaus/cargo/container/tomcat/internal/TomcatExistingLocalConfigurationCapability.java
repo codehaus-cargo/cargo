@@ -19,15 +19,15 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
-import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
-
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+
+import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
 /**
  * Capabilities of Tomcat's
  * {@link org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration} configuration.
- *
+ * 
  * @version $Id$
  */
 public class TomcatExistingLocalConfigurationCapability

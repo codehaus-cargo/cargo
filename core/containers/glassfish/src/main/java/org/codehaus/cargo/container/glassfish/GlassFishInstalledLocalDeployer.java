@@ -43,7 +43,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
 
     /**
      * Calls parent constructor, which saves the container.
-     *
+     * 
      * @param localContainer Container.
      */
     public GlassFishInstalledLocalDeployer(InstalledLocalContainer localContainer)
@@ -53,7 +53,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
 
     /**
      * Casts the container and returns.
-     *
+     * 
      * @return Cast container.
      */
     protected AbstractGlassFishInstalledLocalContainer getLocalContainer()
@@ -63,7 +63,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
 
     /**
      * Casts the configuration and returns.
-     *
+     * 
      * @return Cast configuration.
      */
     private GlassFishStandaloneLocalConfiguration getConfiguration()
@@ -99,7 +99,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
 
     /**
      * Does the actual deployment.
-     *
+     * 
      * @param deployable Deployable to deploy.
      * @param overwrite Whether to overwrite.
      */
@@ -170,7 +170,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
 
     /**
      * Returns a filename without its extension.
-     *
+     * 
      * @param name Filename.
      * @return Filename without its extension.
      */
@@ -189,7 +189,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
 
     /**
      * Adds connection options.
-     *
+     * 
      * @param args List to add to.
      */
     private void addConnectOptions(List<String> args)

@@ -22,6 +22,8 @@
  */
 package org.codehaus.cargo.container.orion.internal;
 
+import java.io.File;
+
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
@@ -31,8 +33,6 @@ import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
-
-import java.io.File;
 
 /**
  * Basic support for the Orion application server.
@@ -80,11 +80,11 @@ public abstract class AbstractOrionInstalledLocalContainer extends AbstractInsta
         java.setClassname(getStopClassname());
 
         String shutdownURL = "ormi://"
-            + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) + ":" 
+            + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
             + getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT) + "/";
-        
+
         getLogger().debug("Shutdown URL [" + shutdownURL + "]", this.getClass().getName());
-        
+
         java.createArg().setValue(shutdownURL);
         java.createArg().setValue("cargo");
         java.createArg().setValue("cargo");
@@ -114,11 +114,11 @@ public abstract class AbstractOrionInstalledLocalContainer extends AbstractInsta
 
         // Add the tools.jar to the classpath.
         addToolsJarToClasspath(classpath);
-        
+
         AntContainerExecutorThread orionRunner = new AntContainerExecutorThread(java);
         orionRunner.start();
     }
-       
+
     /**
      * @return name of the class to use when starting the container.
      */
@@ -130,8 +130,8 @@ public abstract class AbstractOrionInstalledLocalContainer extends AbstractInsta
     protected abstract String getStopClassname();
 
     /**
-     * @return Ant-style include string that sets the classpath based on the installation's
-     *         home dir.
+     * @return Ant-style include string that sets the classpath based on the installation's home
+     * dir.
      */
     protected abstract String getContainerClasspathIncludes();
 }

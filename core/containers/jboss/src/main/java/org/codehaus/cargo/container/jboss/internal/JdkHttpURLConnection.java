@@ -19,17 +19,17 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.util.Base64;
 
-import java.net.URL;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 /**
- * Implementation of {@link HttpURLConnection} using the JDK's
- * {@link java.net.HttpURLConnection} class.
- *
+ * Implementation of {@link HttpURLConnection} using the JDK's {@link java.net.HttpURLConnection}
+ * class.
+ * 
  * @version $Id$
  */
 public class JdkHttpURLConnection implements HttpURLConnection

@@ -72,7 +72,7 @@ public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstal
     {
         return this.capability;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#doStart(Java)
@@ -81,7 +81,7 @@ public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstal
     public void doStart(Java java) throws Exception
     {
         Path classpath = doAction(java);
-        
+
         java.createArg().setValue("-start");
         java.createArg().setValue(getConfiguration().getPropertyValue(
                 JRun4xPropertySet.SERVER_NAME));
@@ -92,7 +92,7 @@ public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstal
         AntContainerExecutorThread jrunRunner = new AntContainerExecutorThread(java);
         jrunRunner.start();
     }
-    
+
     /**
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#doStop(Java)
@@ -112,40 +112,39 @@ public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstal
 
     /**
      * Common Ant Java task settings for start and stop actions.
-     *
+     * 
      * @param java the Ant Java object passed by the Cargo underlying container SPI classes
-     * @return the classpath set (this is required as strangely there's no way to query the Ant
-     *         Java object for the classapth after it's set)
+     * @return the classpath set (this is required as strangely there's no way to query the Ant Java
+     * object for the classapth after it's set)
      */
     private Path doAction(Java java)
     {
         // Invoke the main class to start the container
-        java.addSysproperty(getAntUtils().createSysProperty("jrun.home", 
+        java.addSysproperty(getAntUtils().createSysProperty("jrun.home",
             getConfiguration().getHome()));
-        
+
         java.setClassname("jrunx.kernel.JRun");
 
-        Path classPath = java.createClasspath();   
+        Path classPath = java.createClasspath();
         classPath.setPath(getConfiguration().getHome() + "/lib/jrun.jar");
-        
+
         FileSet libFileSet = new FileSet();
         libFileSet.setDir(new File(getHome() + "/lib"));
         libFileSet.setIncludes("webservices.jar,macromedia_drivers.jar");
         classPath.addFileset(libFileSet);
-        
+
         return classPath;
     }
-    
+
     /**
-     * Allow specific version implementations to add custom settings to the 
-     * Java container that will be started.
+     * Allow specific version implementations to add custom settings to the Java container that will
+     * be started.
      * 
      * @param javaContainer the Ant Java object that will start the container
-     * @param classpath the classpath that will be used to start the 
-     *        container
+     * @param classpath the classpath that will be used to start the container
      * @throws FileNotFoundException in case the Tools jar cannot be found
      */
-    protected abstract void startUpAdditions(Java javaContainer, Path classpath) 
+    protected abstract void startUpAdditions(Java javaContainer, Path classpath)
         throws FileNotFoundException;
 
     /**
@@ -155,7 +154,7 @@ public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstal
     protected String getVersion(String defaultVersion)
     {
         String version = this.version;
-        
+
         if (version == null)
         {
             try
@@ -176,7 +175,7 @@ public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstal
             catch (Exception e)
             {
                 getLogger().debug("Failed to get JRun version, Error = [" + e.getMessage()
-                    + "]. Using generic version [" + defaultVersion + "]", 
+                    + "]. Using generic version [" + defaultVersion + "]",
                     this.getClass().getName());
                 version = defaultVersion;
             }

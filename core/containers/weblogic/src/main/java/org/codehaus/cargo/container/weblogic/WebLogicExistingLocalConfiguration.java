@@ -21,8 +21,8 @@ package org.codehaus.cargo.container.weblogic;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
@@ -31,7 +31,7 @@ import org.codehaus.cargo.container.weblogic.internal.WebLogicExistingLocalConfi
 /**
  * WebLogic existing configuration implementation. The configuration home must point to a valid
  * WebLogic domain directory.
- *  
+ * 
  * @version $Id$
  */
 public class WebLogicExistingLocalConfiguration extends
@@ -88,18 +88,16 @@ public class WebLogicExistingLocalConfiguration extends
     /**
      * Deploy the Deployables to the weblogic configuration.
      * 
-     * @param container
-     *                the container to configure
-     * @throws IOException
-     *                 if the cargo ping deployment fails
+     * @param container the container to configure
+     * @throws IOException if the cargo ping deployment fails
      */
     protected void setupDeployables(WebLogicLocalContainer container) throws IOException
     {
         WebLogicLocalContainer weblogicContainer = container;
-            // Get the deployable folder from container config. If it is not set
+        // Get the deployable folder from container config. If it is not set
         File deployDir = new File(getDomainHome(), weblogicContainer
                 .getAutoDeployDirectory());
-            // use the default one.
+        // use the default one.
         if (!deployDir.exists())
         {
             throw new ContainerException(
@@ -109,7 +107,7 @@ public class WebLogicExistingLocalConfiguration extends
         }
 
         WebLogic8xConfigXmlInstalledLocalDeployer deployer =
-            new WebLogic8xConfigXmlInstalledLocalDeployer((InstalledLocalContainer) container);
+            new WebLogic8xConfigXmlInstalledLocalDeployer(container);
         deployer.deploy(getDeployables());
 
         // Deploy the cargocpc web-app by copying the WAR file

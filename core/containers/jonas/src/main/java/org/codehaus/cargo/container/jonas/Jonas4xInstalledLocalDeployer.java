@@ -62,7 +62,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * @param container the container to be used
      * @param admin the JOnAS admin to use for deployment
      * @param fileHandler the file handler to use, can be null to use the default file handler
-     *            implementation
+     * implementation
      */
     public Jonas4xInstalledLocalDeployer(InstalledLocalContainer container, Jonas4xAdmin admin,
         FileHandler fileHandler)
@@ -79,7 +79,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * {@inheritDoc}
      * 
      * @see AbstractCopyingInstalledLocalDeployer#deployEar(String,
-     *      org.codehaus.cargo.container.deployable.EAR)
+     * org.codehaus.cargo.container.deployable.EAR)
      */
     @Override
     protected void deployEar(String deployableDir, EAR ear) throws CargoException
@@ -92,7 +92,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * {@inheritDoc}
      * 
      * @see AbstractCopyingInstalledLocalDeployer#deployEjb(String,
-     *      org.codehaus.cargo.container.deployable.EJB)
+     * org.codehaus.cargo.container.deployable.EJB)
      */
     @Override
     protected void deployEjb(String deployableDir, EJB ejb) throws CargoException
@@ -105,7 +105,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * {@inheritDoc}
      * 
      * @see AbstractCopyingInstalledLocalDeployer#deployRar(String,
-     *      org.codehaus.cargo.container.deployable.RAR)
+     * org.codehaus.cargo.container.deployable.RAR)
      */
     @Override
     protected void deployRar(String deployableDir, RAR rar) throws CargoException
@@ -118,7 +118,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * {@inheritDoc}
      * 
      * @see AbstractCopyingInstalledLocalDeployer#deployExpandedWar(String,
-     *      org.codehaus.cargo.container.deployable.WAR)
+     * org.codehaus.cargo.container.deployable.WAR)
      */
     @Override
     protected void deployExpandedWar(String deployableDir, WAR war) throws CargoException
@@ -136,7 +136,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * {@inheritDoc}
      * 
      * @see AbstractCopyingInstalledLocalDeployer#deployWar(String,
-     *      org.codehaus.cargo.container.deployable.WAR)
+     * org.codehaus.cargo.container.deployable.WAR)
      */
     @Override
     protected void deployWar(String deployableDir, WAR war) throws CargoException
@@ -195,12 +195,12 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
     /**
      * Deploy a deployable to JOnAS.
-     *
+     * 
      * @param targetDir target directory
      * @param deployable deployable name
      * @param fileName deployable file name
      * @param copying deployable that copies files in the file system
-     *
+     * 
      * @throws CargoException if deployment fails
      */
     private void deploy(String targetDir, Deployable deployable, String fileName,
@@ -265,7 +265,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
          * {@inheritDoc}
          * 
          * @see org.codehaus.cargo.container.jonas.Deployer.GenericCopyingDeployable#copyDeployable(String,
-         *      Deployable)
+         * Deployable)
          */
         public void copyDeployable(String deployableDir, Deployable deployable)
         {

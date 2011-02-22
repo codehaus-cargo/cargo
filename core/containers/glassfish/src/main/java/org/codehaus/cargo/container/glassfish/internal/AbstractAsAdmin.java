@@ -24,7 +24,7 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Implements an Glassfish AsAdmin command.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractAsAdmin
@@ -32,7 +32,7 @@ public abstract class AbstractAsAdmin
 
     /**
      * Invokes asadmin using a Java container.
-     *
+     * 
      * @param async Asynchronous invoke?
      * @param java ANT Java container task.
      * @param args Invoke arguments.

@@ -384,12 +384,12 @@ public class TomcatManager extends LoggedObject
     }
 
     /**
-    *  Removes the webapp at the specified context path.
-    * 
-    * @param path the webapp context path to remove
-    * @throws TomcatManagerException if the Tomcat manager request fails
-    * @throws IOException if an i/o error occurs
-    */
+     * Removes the webapp at the specified context path.
+     * 
+     * @param path the webapp context path to remove
+     * @throws TomcatManagerException if the Tomcat manager request fails
+     * @throws IOException if an i/o error occurs
+     */
     public void remove(String path) throws TomcatManagerException, IOException
     {
         invoke("/remove?path=" + URLEncoder.encode(path, this.charset));
@@ -487,7 +487,7 @@ public class TomcatManager extends LoggedObject
         {
             connection.setRequestProperty("User-Agent", this.userAgent);
         }
-        
+
         if (this.username != null)
         {
             String authorization = toAuthorization(this.username, this.password);
@@ -580,7 +580,7 @@ public class TomcatManager extends LoggedObject
         byte[] bytes = new byte[1024 * 4];
         while ((n = in.read(bytes)) != -1)
         {
-            bufferedOut.write(bytes, 0, n);            
+            bufferedOut.write(bytes, 0, n);
         }
         bufferedOut.flush();
         bufferedOut.close();
@@ -609,7 +609,7 @@ public class TomcatManager extends LoggedObject
 
         return buffer.toString();
     }
-   
+
     /**
      * List currently deployed webapps.
      * 
@@ -619,7 +619,7 @@ public class TomcatManager extends LoggedObject
      */
     public String list() throws IOException, TomcatManagerException
     {
-        return invoke("/list", null);        
+        return invoke("/list", null);
     }
 
     /**
@@ -629,9 +629,9 @@ public class TomcatManager extends LoggedObject
      * @return the current status of the webapp in the running container
      * @throws TomcatManagerException if the Tomcat manager request fails
      * @throws IOException if an i/o error occurs
-     */    
+     */
     public TomcatDeployableStatus getStatus(String path) throws IOException, TomcatManagerException
-    {               
+    {
         StringTokenizer records = new StringTokenizer(list(), "\n");
         while (records.hasMoreTokens())
         {
@@ -639,14 +639,14 @@ public class TomcatManager extends LoggedObject
             StringTokenizer words = new StringTokenizer(record, ":");
             while (words.hasMoreTokens())
             {
-                String str =  words.nextToken();
+                String str = words.nextToken();
                 if (path.equals(str))
                 {
-                    String token = words.nextToken();                    
-                    return TomcatDeployableStatus.toStatus(token);                    
+                    String token = words.nextToken();
+                    return TomcatDeployableStatus.toStatus(token);
                 }
             }
         }
         return TomcatDeployableStatus.NOT_FOUND;
-    }        
+    }
 }

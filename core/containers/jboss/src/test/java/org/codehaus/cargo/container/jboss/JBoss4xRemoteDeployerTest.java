@@ -22,22 +22,26 @@ package org.codehaus.cargo.container.jboss;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import org.jmock.MockObjectTestCase;
-import org.jmock.Mock;
 import org.codehaus.cargo.container.RemoteContainer;
+import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.jboss.internal.HttpURLConnection;
 import org.codehaus.cargo.container.jboss.internal.ISimpleHttpFileServer;
-import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.jmock.Mock;
+import org.jmock.MockObjectTestCase;
 
 /**
  * Unit tests for {@link JBoss4xRemoteDeployer}.
- *
+ * 
  * @version $Id$
  */
 public class JBoss4xRemoteDeployerTest extends MockObjectTestCase
 {
-    public void testCreateJBossRemoteURLForDeploy() throws Throwable
+    /**
+     * Test create JBoss remote URL for deploy.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testCreateJBossRemoteURLForDeploy() throws Exception
     {
         Mock mockConfiguration = mock(RuntimeConfiguration.class);
         mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.protocol"))

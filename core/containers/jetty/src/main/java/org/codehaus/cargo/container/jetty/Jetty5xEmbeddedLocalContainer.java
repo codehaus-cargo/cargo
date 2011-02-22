@@ -19,8 +19,8 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.codehaus.cargo.container.jetty.internal.AbstractJetty4x5xEmbeddedLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.jetty.internal.AbstractJetty4x5xEmbeddedLocalContainer;
 
 /**
  * A Jetty 5.x instance running embedded.

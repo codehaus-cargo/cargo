@@ -32,6 +32,9 @@ import org.codehaus.cargo.container.deployable.WAR;
  */
 public class DefaultDeployableFactoryTest extends TestCase
 {
+    /**
+     * Test {@link WAR} deployable creation.
+     */
     public void testCreateWARDeployable()
     {
         DeployableFactory factory = new DefaultDeployableFactory();

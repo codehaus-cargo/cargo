@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.resin.internal;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -67,7 +68,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
     public ConfigurationCapability getCapability()
     {
@@ -93,7 +94,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
         String path = getFileHandler().append(getHome(), "conf");
         return getFileHandler().append(path, "resin.conf");
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -116,7 +117,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
 
     /**
      * @return an Ant filter chain containing implementation for the filter tokens used in the Resin
-     *         configuration files
+     * configuration files
      */
     protected abstract FilterChain createResinFilterChain();
 
@@ -161,7 +162,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
 
     /**
      * @param dirAttribute name of attribute used in <code>resin.conf</code> to specify where the
-     *            war is located. This Attribute is different for different versions of Resin.
+     * war is located. This Attribute is different for different versions of Resin.
      * @return the value for the <code>resin3x.expanded.webapps</code> filter token
      */
     protected String createExpandedWarTokenValue(String dirAttribute)

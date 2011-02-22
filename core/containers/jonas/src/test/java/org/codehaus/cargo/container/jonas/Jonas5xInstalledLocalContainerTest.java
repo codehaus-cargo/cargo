@@ -78,7 +78,9 @@ public class Jonas5xInstalledLocalContainerTest extends MockObjectTestCase
     protected void tearDown() throws Exception
     {
         if (fsManager != null)
+        {
             fsManager.close();
+        }
 
         super.tearDown();
     }

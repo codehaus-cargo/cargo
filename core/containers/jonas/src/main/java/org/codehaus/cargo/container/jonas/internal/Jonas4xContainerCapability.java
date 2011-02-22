@@ -40,7 +40,7 @@ public class Jonas4xContainerCapability extends J2EEContainerCapability
     @Override
     public boolean supportsDeployableType(DeployableType type)
     {
-        return (type == DeployableType.EJB) || (type == DeployableType.RAR)
+        return type == DeployableType.EJB || type == DeployableType.RAR
             || super.supportsDeployableType(type);
     }
 }

@@ -66,12 +66,12 @@ public class WebLogic9xStandaloneLocalConfiguration extends
     /**
      * used to generate the weblogic configuration files
      */
-    private HashMap namespaces;
+    private Map<String, String> namespaces;
 
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
     public WebLogic9xStandaloneLocalConfiguration(String dir)
     {
@@ -108,7 +108,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractStandaloneLocalConfiguration#toConfigurationEntry(LocalContainer)
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#toConfigurationEntry(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -155,7 +155,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
 
     /**
      * @return an Ant filter chain containing implementation for the filter tokens used in the
-     *         WebLogic configuration files.
+     * WebLogic configuration files.
      */
     private FilterChain createWebLogicFilterChain()
     {

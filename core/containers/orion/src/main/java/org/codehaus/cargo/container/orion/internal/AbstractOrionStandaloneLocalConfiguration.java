@@ -205,9 +205,9 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
         // Deploy all deployables into the applications directory
         for (Deployable deployable : getDeployables())
         {
-            if ((deployable.getType() != DeployableType.WAR)
-                || ((deployable.getType() == DeployableType.WAR) && !((WAR) deployable)
-                    .isExpandedWar()))
+            if (deployable.getType() != DeployableType.WAR
+                || deployable.getType() == DeployableType.WAR && !((WAR) deployable)
+                    .isExpandedWar())
             {
                 fileUtils.copyFile(new File(deployable.getFile()).getAbsoluteFile(),
                     new File(appDir, new File(deployable.getFile()).getName()), null, true);
@@ -230,7 +230,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
 
     /**
      * @return an Ant filter chain containing implementation for the filter tokens used in the Orion
-     *         configuration files
+     * configuration files
      */
     private FilterChain createOrionFilterChain()
     {

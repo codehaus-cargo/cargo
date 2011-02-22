@@ -40,9 +40,9 @@ public class JonasPropertySet
     public static final String JONAS_DOMAIN_NAME = "cargo.jonas.domain.name";
 
     /**
-     * The JOnAS target cluster name to be used for remote cluster deployment, defaults to null.
-     * If null, we consider deployment is done on the target server only (not a cluster).
-     * If not null, the target server must be set to the Domain Master's.
+     * The JOnAS target cluster name to be used for remote cluster deployment, defaults to null. If
+     * null, we consider deployment is done on the target server only (not a cluster). If not null,
+     * the target server must be set to the Domain Master's.
      */
     public static final String JONAS_CLUSTER_NAME = "cargo.jonas.cluster.name";
 
@@ -80,9 +80,9 @@ public class JonasPropertySet
     public static final String JONAS_DEPLOYABLE_IDENTIFIER = "cargo.jonas.deployable.identifier";
 
     /**
-     * The list of JOnAS services to launch. Used in a standalone local configuration.
-     * Note that this list is highly dependent on JOnAS versions. Check out your JOnAS
-     * documentation for details.
+     * The list of JOnAS services to launch. Used in a standalone local configuration. Note that
+     * this list is highly dependent on JOnAS versions. Check out your JOnAS documentation for
+     * details.
      */
     public static final String JONAS_SERVICES_LIST = "cargo.jonas.services.list";
 

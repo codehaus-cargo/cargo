@@ -39,31 +39,39 @@ import org.jmock.MockObjectTestCase;
 
 /**
  * Unit tests for {@link MEJBMBeanServerConnectionFactory}.
+ * 
+ * @version $Id$
  */
 public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
 {
-	private MEJBMBeanServerConnectionFactory factory;
+    /**
+     * MEJB MBean sever connection factory.
+     */
+    private MEJBMBeanServerConnectionFactory factory;
 
     /**
      * Creates the test MEJB server connection factory. {@inheritdoc}
      * @throws Exception If anything goes wrong.
      */
-	@Override
+    @Override
     protected void setUp() throws Exception
-	{
-		super.setUp();
-		factory = new MEJBMBeanServerConnectionFactory();
-	}
+    {
+        super.setUp();
+        factory = new MEJBMBeanServerConnectionFactory();
+    }
 
-	public void testDefaultConfiguration()
+    /**
+     * Test default configuration.
+     */
+    public void testDefaultConfiguration()
     {
         RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
-        Hashtable connectionOptions = factory.readConfiguration(configuration);
+        Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
-        		MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
+                MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
         assertEquals(connectionOptions.get(Context.PROVIDER_URL),
-        		MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
+                MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
         assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
         assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
 
@@ -75,11 +83,14 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         assertNull(factory.jaasEntry);
     }
 
+    /**
+     * Test initial context factory.
+     */
     public void testInitialContextFactory()
     {
         RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
         configuration.setProperty(JonasPropertySet.JONAS_MEJB_JNDI_INIT_CTX_FACT, "foo");
-        Hashtable connectionOptions = factory.readConfiguration(configuration);
+        Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY), "foo");
         assertEquals(connectionOptions.get(Context.PROVIDER_URL),
@@ -95,11 +106,14 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         assertNull(factory.jaasEntry);
     }
 
+    /**
+     * Test provider URL.
+     */
     public void testProviderURL()
     {
         RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
         configuration.setProperty(RemotePropertySet.URI, "foo");
-        Hashtable connectionOptions = factory.readConfiguration(configuration);
+        Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
                 MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
@@ -115,11 +129,14 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         assertNull(factory.jaasEntry);
     }
 
+    /**
+     * Test username.
+     */
     public void testUsername()
     {
         RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
         configuration.setProperty(RemotePropertySet.USERNAME, "foo");
-        Hashtable connectionOptions = factory.readConfiguration(configuration);
+        Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
                 MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
@@ -136,11 +153,14 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         assertNull(factory.jaasEntry);
     }
 
+    /**
+     * Test password.
+     */
     public void testPassword()
     {
         RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
         configuration.setProperty(RemotePropertySet.PASSWORD, "foo");
-        Hashtable connectionOptions = factory.readConfiguration(configuration);
+        Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
                 MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
@@ -157,12 +177,15 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         assertNull(factory.jaasEntry);
     }
 
+    /**
+     * Test username and password.
+     */
     public void testUsernameAndPassword()
     {
         RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
         configuration.setProperty(RemotePropertySet.USERNAME, "foo");
         configuration.setProperty(RemotePropertySet.PASSWORD, "bar");
-        Hashtable connectionOptions = factory.readConfiguration(configuration);
+        Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
                 MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
@@ -179,6 +202,9 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         assertNull(factory.jaasEntry);
     }
 
+    /**
+     * Test JAAS file.
+     */
     public void testJAASFile()
     {
         RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
@@ -194,11 +220,14 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         }
     }
 
+    /**
+     * Test JAAS entry.
+     */
     public void testJAASEntry()
     {
         RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
         configuration.setProperty(JonasPropertySet.JONAS_MEJB_JAAS_ENTRY, "foo");
-        Hashtable connectionOptions = factory.readConfiguration(configuration);
+        Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
                 MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
@@ -215,12 +244,15 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         assertEquals(factory.jaasEntry, "foo");
     }
 
+    /**
+     * Test JAAS file and entry.
+     */
     public void testJAASFileAndEntry()
     {
         RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
         configuration.setProperty(JonasPropertySet.JONAS_MEJB_JAAS_FILE, "foo");
         configuration.setProperty(JonasPropertySet.JONAS_MEJB_JAAS_ENTRY, "bar");
-        Hashtable connectionOptions = factory.readConfiguration(configuration);
+        Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
                 MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
@@ -237,6 +269,9 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         assertEquals(factory.jaasEntry, "bar");
     }
 
+    /**
+     * Test empty handler.
+     */
     public void testEmptyHandler() throws UnsupportedCallbackException
     {
         testDefaultConfiguration();
@@ -288,6 +323,9 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         }
     }
 
+    /**
+     * Test username handler.
+     */
     public void testUsernameHandler() throws UnsupportedCallbackException
     {
         testUsername();
@@ -339,6 +377,9 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         }
     }
 
+    /**
+     * Test password handler.
+     */
     public void testPasswordHandler() throws UnsupportedCallbackException
     {
         testPassword();
@@ -390,6 +431,9 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         }
     }
 
+    /**
+     * Test username and password handler.
+     */
     public void testUsernameAndPasswordHandler() throws UnsupportedCallbackException
     {
         testUsernameAndPassword();

@@ -19,14 +19,14 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
- *
+ * 
  * @version $Id$
  */
 public class Tomcat6xStandaloneLocalConfiguration
@@ -68,7 +68,7 @@ public class Tomcat6xStandaloneLocalConfiguration
                 to + "/webapps/host-manager");
         }
     }
-    
+
     /**
      * {@inheritDoc}
      * @see Object#toString()

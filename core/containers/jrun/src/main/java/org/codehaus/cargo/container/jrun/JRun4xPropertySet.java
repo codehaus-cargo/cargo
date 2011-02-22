@@ -29,23 +29,23 @@ public interface JRun4xPropertySet
     /**
      * The JRun server instance name.
      */
-    String SERVER_NAME = "cargo.jrun.server.name";    
-    
+    String SERVER_NAME = "cargo.jrun.server.name";
+
     /**
      * The default JRun server instance name.
      */
     String DEFAULT_SERVER_NAME = "default";
-    
+
     /**
      * The default port.
      */
     String DEFAULT_PORT = "8100";
-    
+
     /**
      * The JRun4 installation directory.
      */
     String JRUN_HOME = "cargo.jrun4x.home";
-    
+
     /**
      * The JRun4 classpath.
      */

@@ -20,9 +20,8 @@
 package org.codehaus.cargo.container.weblogic;
 
 /**
- * All WebLogic configuration implementations must implement this interface
- * which provides method to find out the location of key directories needed to
- * operate WebLogic.
+ * All WebLogic configuration implementations must implement this interface which provides method to
+ * find out the location of key directories needed to operate WebLogic.
  * 
  * @version $Id$
  */
@@ -30,9 +29,8 @@ public interface WebLogicConfiguration
 {
 
     /**
-     * The DOMAIN_HOME holds the configuration and runtime files of a WebLogic
-     * domain. One or more server processes execute from this directory and must
-     * have permissions to write to it.
+     * The DOMAIN_HOME holds the configuration and runtime files of a WebLogic domain. One or more
+     * server processes execute from this directory and must have permissions to write to it.
      * 
      * @return The DOMAIN_HOME, or instance-specific installation of WebLogic
      */

@@ -45,7 +45,7 @@ public abstract class AbstractTomcatManagerInstalledLocalDeployer extends
     public AbstractTomcatManagerInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
-        this.container = container; 
+        this.container = container;
     }
 
     /**
@@ -63,7 +63,8 @@ public abstract class AbstractTomcatManagerInstalledLocalDeployer extends
      * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerDeployer#performUndeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
-    protected void performUndeploy(Deployable deployable) throws TomcatManagerException, IOException
+    protected void performUndeploy(Deployable deployable) throws TomcatManagerException,
+        IOException
     {
         getTomcatManager().undeploy(getPath(deployable));
     }

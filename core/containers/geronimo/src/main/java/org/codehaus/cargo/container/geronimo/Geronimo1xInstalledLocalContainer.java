@@ -36,7 +36,7 @@ import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 
 /**
  * Geronimo 1.x series container implementation.
- *
+ * 
  * @version $Id$
  */
 public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
@@ -139,7 +139,7 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
 
     /**
      * Replace default CPC progress monitor by a log progress monitor.
-     *
+     * 
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#waitForCompletion(boolean)
      */
@@ -159,7 +159,7 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
         boolean isStarted;
         do
         {
-            if ((System.currentTimeMillis() - startTime) > getTimeout())
+            if (System.currentTimeMillis() - startTime > getTimeout())
             {
                 setState(State.UNKNOWN);
                 String message = "Container failed to start within "
@@ -175,7 +175,8 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
 
             exitCondition = waitForStarting ? !isStarted : isStarted;
 
-        } while (exitCondition);
+        }
+        while (exitCondition);
 
         Thread.sleep(5000);
     }
@@ -191,15 +192,15 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
 
     /**
      * Parse installed Geronimo version.
-     *
+     * 
      * @return the Geronimo version, or <code>defaultVersion</code> if the version number could not
-     *         be determined
+     * be determined
      * @param defaultVersion the default version used if the exact Geronimo version can't be
      * determined
      */
     protected String getVersion(String defaultVersion)
     {
-        //TODO get actual version of installed Geronimo server
+        // TODO get actual version of installed Geronimo server
         return defaultVersion;
     }
 }

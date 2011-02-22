@@ -32,14 +32,14 @@ import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 
 /**
  * Support for the JOnAS JEE container.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractJonasInstalledLocalContainer extends AbstractInstalledLocalContainer
 {
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see AbstractInstalledLocalContainer#AbstractInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public AbstractJonasInstalledLocalContainer(final LocalConfiguration configuration)
@@ -49,7 +49,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see AbstractInstalledLocalContainer#doStart(Java)
      */
     @Override
@@ -57,7 +57,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see AbstractInstalledLocalContainer#doStart(Java)
      */
     @Override
@@ -65,7 +65,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
 
     /**
      * Setup of the target server and domain name for the JOnAS admin command call.
-     *
+     * 
      * @param java the target java ant task to setup
      */
     public void doServerAndDomainNameParam(final Java java)
@@ -81,7 +81,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
 
     /**
      * Setup of the target server and domain name for the JOnAS admin command call.
-     *
+     * 
      * @param java the target java ant task to setup
      */
     public void doServerAndDomainNameArgs(final Java java)
@@ -97,7 +97,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
 
     /**
      * Setup of the target domain name for the JOnAS admin command call.
-     *
+     * 
      * @param java the target java ant task to setup
      */
     private void doDomainNameArgs(final Java java)
@@ -112,7 +112,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
 
     /**
      * Setup of the required java system properties to configure JOnAS properly.
-     *
+     * 
      * @param java the target java ant task to setup
      */
     public void setupSysProps(final Java java)
@@ -140,7 +140,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
     /**
      * Setup of the Extra required java system properties to configure JOnAS properly. The system
      * properties depends on the JOnAS version.
-     *
+     * 
      * @param java the target java ant task to setup
      * @param configuredSysProps the configured system properties
      */
@@ -148,7 +148,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
 
     /**
      * Add java system properties (to configure JOnAS properly).
-     *
+     * 
      * @param java the target java ant task on which we add the system properties
      * @param configuredSysProps the configured system Properties.
      * @param name the system property Name

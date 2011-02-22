@@ -19,17 +19,17 @@
  */
 package org.codehaus.cargo.container.geronimo.internal;
 
-import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-
-import java.util.Map;
-import java.util.HashMap;
+import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
 /**
  * Capabilities of the Geronimo's existing local configuration.
- *
+ * 
  * @version $Id$
  */
 public class GeronimoExistingLocalConfigurationCapability

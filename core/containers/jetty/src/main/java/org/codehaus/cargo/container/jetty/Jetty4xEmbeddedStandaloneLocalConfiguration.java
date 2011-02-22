@@ -19,8 +19,8 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.jetty.internal.Jetty4xEmbeddedStandaloneLocalConfigurationCapability;
@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
  * A mostly canned config for a Jetty 4.x container.
- *  
+ * 
  * @version $Id$
  */
 public class Jetty4xEmbeddedStandaloneLocalConfiguration

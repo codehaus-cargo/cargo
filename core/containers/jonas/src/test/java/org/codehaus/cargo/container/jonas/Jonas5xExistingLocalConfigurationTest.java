@@ -75,7 +75,9 @@ public class Jonas5xExistingLocalConfigurationTest extends TestCase
     protected void tearDown() throws Exception
     {
         if (fsManager != null)
+        {
             fsManager.close();
+        }
 
         super.tearDown();
     }

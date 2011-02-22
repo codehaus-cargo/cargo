@@ -28,8 +28,8 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.jetty.internal.JettyExecutorThread;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalContainer;
+import org.codehaus.cargo.container.jetty.internal.JettyExecutorThread;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 
@@ -179,7 +179,7 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
                 .newInstance();
         Object defaultHandler =
             getClassLoader().loadClass("org.eclipse.jetty.server.handler.DefaultHandler")
-            .newInstance();
+                .newInstance();
         Object handlerArray = Array.newInstance(handlerClass, 2);
         Array.set(handlerArray, 0, contextHandlers);
         Array.set(handlerArray, 1, defaultHandler);
@@ -367,7 +367,7 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
                 putUser.invoke(this.defaultRealm,
                     new Object[] {userName, credential, roles});
             }
-            
+
             Object userRealmsArray =
                 Array.newInstance(getClassLoader().loadClass(
                     "org.eclipse.jetty.security.LoginService"), 1);

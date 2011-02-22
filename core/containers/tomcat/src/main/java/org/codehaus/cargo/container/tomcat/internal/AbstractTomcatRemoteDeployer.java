@@ -41,7 +41,7 @@ public abstract class AbstractTomcatRemoteDeployer extends AbstractTomcatManager
     public AbstractTomcatRemoteDeployer(RemoteContainer container)
     {
         super(container);
-        this.container = container; 
+        this.container = container;
     }
 
     /**
@@ -52,5 +52,5 @@ public abstract class AbstractTomcatRemoteDeployer extends AbstractTomcatManager
     protected Configuration getConfiguration()
     {
         return this.container.getConfiguration();
-    } 
+    }
 }

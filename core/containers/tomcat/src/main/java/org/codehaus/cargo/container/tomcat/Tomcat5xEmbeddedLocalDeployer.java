@@ -19,15 +19,6 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.EmbeddedLocalContainer;
-import org.codehaus.cargo.container.deployer.DeployerType;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat5xEmbedded;
-import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
-import org.codehaus.cargo.module.webapp.tomcat.TomcatWarArchive;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,12 +28,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+
+import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.EmbeddedLocalContainer;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.deployer.DeployerType;
+import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat5xEmbedded;
+import org.codehaus.cargo.module.webapp.tomcat.TomcatWarArchive;
 import org.jdom.Attribute;
 
 /**
  * {@link org.codehaus.cargo.container.deployer.Deployer} for deploying to
  * {@link Tomcat5xEmbeddedLocalContainer embedded Tomcat container}.
- *
+ * 
  * @version $Id$
  */
 public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
@@ -61,10 +61,10 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
 
     /**
      * Creates a new deployer for {@link Tomcat5xEmbeddedLocalContainer}.
-     *
-     * @param container The container to which this deployer will work. This parameter is typed
-     *        as {@link EmbeddedLocalContainer} due to the Cargo generic API requirement, but it
-     *        has to be a {@link Tomcat5xEmbeddedLocalContainer}.
+     * 
+     * @param container The container to which this deployer will work. This parameter is typed as
+     * {@link EmbeddedLocalContainer} due to the Cargo generic API requirement, but it has to be a
+     * {@link Tomcat5xEmbeddedLocalContainer}.
      */
     public Tomcat5xEmbeddedLocalDeployer(EmbeddedLocalContainer container)
     {
@@ -74,7 +74,7 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
 
     /**
      * {@inheritDoc}
-     * @see AbstractLocalDeployer#deploy(org.codehaus.cargo.container.deployable.Deployable) 
+     * @see AbstractLocalDeployer#deploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void deploy(Deployable deployable)
@@ -120,7 +120,7 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
                 {
                     String key = param.getKey().getValue();
                     String value = param.getValue().getValue();
-                    
+
                     context.addParameter(key, value);
                 }
             }
@@ -130,7 +130,6 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
             throw new ContainerException("Failed to parse Tomcat WAR file "
                 + "in [" + docBase + "]", e);
         }
-
 
         container.getHost().addChild(context);
         deployed.put(deployable, context);
@@ -190,13 +189,13 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
 
     /**
      * Gets the context that represents a deployed {@link Deployable}.
-     *
+     * 
      * @param deployable the deployable object that has deployed on Tomcat.
      * @return always non-null
      */
     private Tomcat5xEmbedded.Context getExistingContext(Deployable deployable)
     {
-        Tomcat5xEmbedded.Context context = (Tomcat5xEmbedded.Context) deployed.get(deployable);
+        Tomcat5xEmbedded.Context context = deployed.get(deployable);
         if (context == null)
         {
             throw new ContainerException("Not deployed yet: " + deployable);
@@ -206,7 +205,7 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
 
     /**
      * Extracts a war file into a directory.
-     *
+     * 
      * @param war the War archive to be extracted.
      * @param exploded the directory that receives files.
      * @throws IOException any file operation failure

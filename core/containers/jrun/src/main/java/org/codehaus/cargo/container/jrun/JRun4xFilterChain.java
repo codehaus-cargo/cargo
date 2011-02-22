@@ -35,12 +35,12 @@ import org.dom4j.Element;
 
 /**
  * JRun {@link FilterChain} for {@link JRun4xStandaloneLocalConfiguration} implementation.
- *
+ * 
  * @version $Id$
  */
 public class JRun4xFilterChain extends FilterChain
 {
-    
+
     /**
      * The {@link InstalledLocalContainer} this {@link FilterChain} is used by.
      */
@@ -51,7 +51,6 @@ public class JRun4xFilterChain extends FilterChain
      */
     private LocalConfiguration configuration;
 
-    
     /**
      * Sole constructor.
      * @param jrunContainer {@link LocalContainer}
@@ -62,7 +61,7 @@ public class JRun4xFilterChain extends FilterChain
         this.configuration = jrunContainer.getConfiguration();
         this.init();
     }
-    
+
     /**
      * Initializes the {@link ReplaceTokens}s used in this {@link FilterChain}.
      */
@@ -74,15 +73,14 @@ public class JRun4xFilterChain extends FilterChain
         jrunTokens.addConfiguredToken(createLoggingToken());
         jrunTokens.addConfiguredToken(createUserToken());
         jrunTokens.addConfiguredToken(createRmiPortToken());
-        
+
         this.addReplaceTokens(jrunTokens);
         this.addReplaceTokens(createJvmConfigTokens());
     }
-    
-    
+
     /**
      * Creates tokens for the JRun Server Name.
-     *
+     * 
      * @return serverName token
      */
     private ReplaceTokens.Token createServerNameToken()
@@ -91,13 +89,13 @@ public class JRun4xFilterChain extends FilterChain
         ReplaceTokens.Token tokenServerName = new ReplaceTokens.Token();
         tokenServerName.setKey(JRun4xPropertySet.SERVER_NAME);
         tokenServerName.setValue(serverName);
-        
+
         return tokenServerName;
     }
-    
+
     /**
      * Creates the port token for inclusion in jrun.xml .
-     *
+     * 
      * @return port token
      */
     private ReplaceTokens.Token createPortToken()
@@ -112,10 +110,10 @@ public class JRun4xFilterChain extends FilterChain
         ReplaceTokens.Token tokenPort = new ReplaceTokens.Token();
         tokenPort.setKey(ServletPropertySet.PORT);
         tokenPort.setValue(port);
-        
+
         return tokenPort;
     }
-    
+
     /**
      * Creates the logging token for inclusion in jrun.xml.
      * @return the logging token for inclusion in jrun.xml.
@@ -126,7 +124,7 @@ public class JRun4xFilterChain extends FilterChain
         String warningEnabled = "true";
         String infoEnabled = "true";
         String debugEnabled = "false";
-        
+
         String cargoLogLevel = getPropertyValue(GeneralPropertySet.LOGGING);
         if ("low".equalsIgnoreCase(cargoLogLevel))
         {
@@ -142,14 +140,14 @@ public class JRun4xFilterChain extends FilterChain
         logging.append("<attribute name=\"warningEnabled\">" + warningEnabled + "</attribute>\n");
         logging.append("<attribute name=\"infoEnabled\">" + infoEnabled + "</attribute>\n");
         logging.append("<attribute name=\"debugEnabled\">" + debugEnabled + "</attribute>\n");
-        
+
         ReplaceTokens.Token tokenLogging = new ReplaceTokens.Token();
         tokenLogging.setKey("cargo.jrun.logging");
         tokenLogging.setValue(logging.toString());
-        
+
         return tokenLogging;
     }
-    
+
     /**
      * Creates tokens needed for the jvm.config file.
      * @return classpath the {@link ReplaceTokens} needed for the jvm.config file.
@@ -164,10 +162,10 @@ public class JRun4xFilterChain extends FilterChain
         replaceConfig.addConfiguredToken(tokenJavaHome);
         replaceConfig.addConfiguredToken(tokenClassPath);
         replaceConfig.addConfiguredToken(tokenVmArgs);
-        
+
         return replaceConfig;
     }
-    
+
     /**
      * Creates the java.home token used in the jvm.config file.
      * @return the java.home token used in the jvm.config file.
@@ -183,7 +181,7 @@ public class JRun4xFilterChain extends FilterChain
 
         return tokenJavaHome;
     }
-    
+
     /**
      * Creates the classpath token for the jvm.config file.
      * @return the classpath token for the jvm.config file.
@@ -201,7 +199,7 @@ public class JRun4xFilterChain extends FilterChain
             for (int i = 0; i < extraPaths.length; i++)
             {
                 sb.append(extraPaths[i].replace('\\', '/'));
-                if (i < (extraPaths.length - 1))
+                if (i < extraPaths.length - 1)
                 {
                     sb.append(",");
                 }
@@ -210,10 +208,10 @@ public class JRun4xFilterChain extends FilterChain
         ReplaceTokens.Token tokenClasspath = new ReplaceTokens.Token();
         tokenClasspath.setKey(JRun4xPropertySet.JRUN_CLASSPATH);
         tokenClasspath.setValue(sb.toString());
-        
+
         return tokenClasspath;
     }
-    
+
     /**
      * Creates the VM args token for the jvm.config file.
      * @return the VM args token for the jvm.config file.
@@ -230,14 +228,14 @@ public class JRun4xFilterChain extends FilterChain
         jvmArgs.append("-Djmx.invoke.getters=true ");
         jvmArgs.append("-Xms32m ");
         jvmArgs.append("-Xmx128m ");
-        
+
         ReplaceTokens.Token tokenVmArgs = new ReplaceTokens.Token();
         tokenVmArgs.setKey("jrun.jvm.args");
         tokenVmArgs.setValue(jvmArgs.toString());
-        
+
         return tokenVmArgs;
     }
-    
+
     /**
      * @return an Ant filter token containing all the user-defined users
      */
@@ -254,9 +252,9 @@ public class JRun4xFilterChain extends FilterChain
                 Element userElement = DocumentHelper.createDocument().addElement("user");
                 userElement.addElement("user-name").setText(user.getName());
                 userElement.addElement("password").setText(user.getPassword());
-                
+
                 token.append(userElement.asXML());
-                
+
                 // add role elements
                 for (String role : user.getRoles())
                 {
@@ -272,10 +270,10 @@ public class JRun4xFilterChain extends FilterChain
         ReplaceTokens.Token tokenUsers = new ReplaceTokens.Token();
         tokenUsers.setKey("jrun.users");
         tokenUsers.setValue(token.toString());
-        
+
         return tokenUsers;
     }
-    
+
     /**
      * Creates rmi port token for jndi.properties.
      * @return rmiPort token.
@@ -290,10 +288,10 @@ public class JRun4xFilterChain extends FilterChain
         ReplaceTokens.Token tokenRmiPort = new ReplaceTokens.Token();
         tokenRmiPort.setKey(GeneralPropertySet.RMI_PORT);
         tokenRmiPort.setValue(rmiPort);
-        
+
         return tokenRmiPort;
     }
-    
+
     /**
      * Convenience method for retrieving the {@link LocalConfiguration}'s property value.
      * @param propertyName the property we want the value of.
@@ -301,7 +299,7 @@ public class JRun4xFilterChain extends FilterChain
      */
     private String getPropertyValue(String propertyName)
     {
-        return configuration.getPropertyValue(propertyName); 
+        return configuration.getPropertyValue(propertyName);
     }
 
 }

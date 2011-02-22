@@ -21,8 +21,8 @@ package org.codehaus.cargo.container.tomcat.internal;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerException;
@@ -31,8 +31,8 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
@@ -151,12 +151,14 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
 
     /**
      * Performs undeployment of deployable.
-     *
-     * <p>Note: This is done differently by the different versions of Tomcat which is why we're
-     * using an Abstract method here.</p>
+     * 
+     * <p>
+     * Note: This is done differently by the different versions of Tomcat which is why we're using
+     * an Abstract method here.
+     * </p>
      * 
      * @param deployable the {@link Deployable} to undeploy
-     * @throws TomcatManagerException If TomcatManagerException error occured perfoming the command 
+     * @throws TomcatManagerException If TomcatManagerException error occured perfoming the command
      * @throws IOException If I/O error occured getting the path of deployable
      */
     protected abstract void performUndeploy(Deployable deployable)
@@ -301,7 +303,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
         // The user has to be specify the usrname and password properties as there are no
         // defaults for Tomcat (By default the Manager app is not deployed and the user not
         // defined).
-        if ((username == null) || (password == null))
+        if (username == null || password == null)
         {
             throw new ContainerException("The [" + RemotePropertySet.USERNAME + "] and ["
                 + RemotePropertySet.PASSWORD

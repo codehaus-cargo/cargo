@@ -29,27 +29,45 @@ import org.codehaus.cargo.util.AbstractResourceTest;
  */
 public class JBossWARTest extends AbstractResourceTest
 {
+    /**
+     * Package path.
+     */
     private static final String PACKAGE_PATH = "org/codehaus/cargo/container/jboss/";
 
-    public void testGetContextWhenJbossWebXmlWithRootContext() throws Exception
+    /**
+     * Test get JBoss WAR context when JBoss web.xml with root context.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testGetWarContextWhenJbossWebXmlWithRootContext() throws Exception
     {
         JBossWAR war = new JBossWAR(getResourcePath(PACKAGE_PATH + "jboss-context.war"));
         assertEquals("testcontext", war.getContext());
     }
 
-    public void testGetContextWhenJbossWebXmlWithNoRootContext() throws Exception
+    /**
+     * Test get JBoss WAR context when JBoss web.xml with no context.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testGetWarContextWhenJbossWebXmlWithNoRootContext() throws Exception
     {
         JBossWAR war = new JBossWAR(getResourcePath(PACKAGE_PATH + "jboss-nocontext.war"));
         assertEquals("jboss-nocontext", war.getContext());
     }
 
-    public void testGetContextWhenNoJbossWebXml() throws Exception
+    /**
+     * Test get JBoss WAR context with no JBoss web.xml.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testGetWarContextWhenNoJbossWebXml() throws Exception
     {
         JBossWAR war = new JBossWAR(getResourcePath(PACKAGE_PATH + "jboss-empty.war"));
         assertEquals("jboss-empty", war.getContext());
     }
 
-    public void testGetContextWhenInvalidFile()
+    /**
+     * Test get JBoss WAR context with invalid file.
+     */
+    public void testGetWarContextWhenInvalidFile()
     {
         try
         {
@@ -63,14 +81,22 @@ public class JBossWARTest extends AbstractResourceTest
         }
     }
 
-    public void testGetContextWhenContextAlreadySetupAndNoJBossWebXml() throws Exception
+    /**
+     * Test get JBoss WAR context when context already setup and no JBoss web.xml is present.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testGetWarContextWhenContextAlreadySetupAndNoJBossWebXml() throws Exception
     {
         JBossWAR war = new JBossWAR(getResourcePath(PACKAGE_PATH + "jboss-empty.war"));
         war.setContext("context");
         assertEquals("context", war.getContext());
     }
 
-    public void testGetContextWhenContextAlreadySetupAndJBossWebXml() throws Exception
+    /**
+     * Test get JBoss WAR context when context already setup and JBoss web.xml is present.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testGetWarContextWhenContextAlreadySetupAndJBossWebXml() throws Exception
     {
         JBossWAR war = new JBossWAR(getResourcePath(PACKAGE_PATH + "jboss-context.war"));
         war.setContext("context");

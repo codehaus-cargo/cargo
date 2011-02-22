@@ -80,7 +80,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
     {
         return configuration.getHome() + "/conf/server.xml";
     }
-    
+
     @Override
     protected void setUpResourceFile() throws Exception
     {
@@ -90,7 +90,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         document.addElement("Engine").addElement("DefaultContext");
         xmlUtil.saveXml(document, file);
     }
-    
+
     @Override
     protected void setUpManager()
     {
@@ -98,10 +98,11 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         configuration.getFileHandler().mkdirs(container.getHome() + "/server/lib");
         configuration.getFileHandler().mkdirs(container.getHome() + "/server/webapps/manager");
         configuration.getFileHandler().createFile(container.getHome() + "/webapps/manager.xml");
-        //seems copy needs to have a file present
-        configuration.getFileHandler().createFile(container.getHome() + "/server/webapps/manager/touch.txt");
+        // seems copy needs to have a file present
         configuration.getFileHandler().createFile(
-        container.getHome() + "/server/lib/catalina.jar");
+            container.getHome() + "/server/webapps/manager/touch.txt");
+        configuration.getFileHandler().createFile(
+            container.getHome() + "/server/lib/catalina.jar");
     }
 
     public void testConfigureManager()
@@ -139,7 +140,8 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/conf/server.xml");
         XMLAssert.assertXpathEvaluatesTo(configuration
-            .getPropertyValue(TomcatPropertySet.AJP_PORT), "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port", config);
+            .getPropertyValue(TomcatPropertySet.AJP_PORT),
+            "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port", config);
 
     }
 
@@ -150,7 +152,8 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/conf/server.xml");
-        XMLAssert.assertXpathEvaluatesTo(AJP_PORT, "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port", config);
+        XMLAssert.assertXpathEvaluatesTo(AJP_PORT,
+            "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port", config);
     }
 
     public void checkTransactionManagerToken(String xml) throws SAXException, IOException,

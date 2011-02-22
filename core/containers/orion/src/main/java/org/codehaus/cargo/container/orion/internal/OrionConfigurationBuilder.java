@@ -39,7 +39,7 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
      */
     public static final String RESOURCE_CONFIGURATION_UNSUPPORTED =
         "Orion does not support configuration of arbitrary resources into the JNDI tree.";
-    
+
     /**
      * the DataSource we are generating Orion configuration for.
      */

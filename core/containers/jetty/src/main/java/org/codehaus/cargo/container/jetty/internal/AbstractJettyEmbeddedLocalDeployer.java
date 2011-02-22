@@ -30,7 +30,7 @@ import org.codehaus.cargo.container.spi.deployer.AbstractEmbeddedLocalDeployer;
 
 /**
  * Base class for all Jetty deployers.
- *
+ * 
  * @version $Id$
  */
 public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbeddedLocalDeployer
@@ -57,12 +57,10 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
     private Boolean copyWebApp;
 
     /**
-     * If true use java2 class loading (defer to parent first) otherwise use servlet spec (defer
-     * to webapp first) for webapps deployed via this deployer.
+     * If true use java2 class loading (defer to parent first) otherwise use servlet spec (defer to
+     * webapp first) for webapps deployed via this deployer.
      */
     private Boolean parentLoaderPriority;
-
-
 
     /**
      * {@inheritDoc}
@@ -124,7 +122,7 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
      */
     public void setVirtualHosts(String[] hosts)
     {
-        this.hosts = (hosts == null ? null : new String[hosts.length]);
+        this.hosts = hosts == null ? null : new String[hosts.length];
         System.arraycopy(hosts, 0, this.hosts, 0, hosts.length);
     }
 
@@ -137,9 +135,9 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
     }
 
     /**
-     * If true, all wars deployed by this deployer will be extracted before being deployed.
-     * If false, they won't be extracted first. If null, jetty will do the default.
-     *
+     * If true, all wars deployed by this deployer will be extracted before being deployed. If
+     * false, they won't be extracted first. If null, jetty will do the default.
+     * 
      * @param extract true=extract; false=don't extract, null=do container default
      */
     public void setExtractWar(Boolean extract)
@@ -158,8 +156,8 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
     /**
      * copy webapp.
      * 
-     * If true, unpacked wars will be copied to a tmp location so
-     * their jars can be replaced at runtime
+     * If true, unpacked wars will be copied to a tmp location so their jars can be replaced at
+     * runtime
      * @param copy if true, webapps are copied to tmp dir
      */
     public void setCopyWebApp(Boolean copy)
@@ -175,14 +173,12 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
         return this.copyWebApp;
     }
 
-     
     /**
-     * This is called java2classloadercompliance setting in jetty5 and the parentloaderpriority
-     * in jetty6. If true, the webapp classloader will try the parent.
-     * classloader first.
-     *
+     * This is called java2classloadercompliance setting in jetty5 and the parentloaderpriority in
+     * jetty6. If true, the webapp classloader will try the parent. classloader first.
+     * 
      * @param java2compliant true=inverted loading, false=servlet spec, null=do the container
-     *        default
+     * default
      */
     public void setParentLoaderPriority(Boolean java2compliant)
     {
@@ -199,7 +195,7 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
 
     /**
      * Get the deployable that matches the context path.
-     *
+     * 
      * @param deployable the deployable object
      * @return the webapp object
      */
@@ -226,7 +222,7 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
 
     /**
      * Take a map entry away using the key.
-     *
+     * 
      * @param context the context path
      */
     protected static void removeDeployedWebAppContext(String context)
@@ -239,7 +235,7 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
 
     /**
      * Get the context path for the webapp.
-     *
+     * 
      * @param deployable the deployable
      * @return the context path
      */

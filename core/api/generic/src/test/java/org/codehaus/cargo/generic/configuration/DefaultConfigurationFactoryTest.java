@@ -38,14 +38,25 @@ import org.codehaus.cargo.util.DefaultFileHandler;
  */
 public class DefaultConfigurationFactoryTest extends TestCase
 {
+    /**
+     * Configuration factory.
+     */
     private ConfigurationFactory factory;
 
+    /**
+     * Creates the configuration factory. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
-    protected void setUp()
+    public void setUp() throws Exception
     {
+        super.setUp();
         this.factory = new DefaultConfigurationFactory();
     }
 
+    /**
+     * Test configuration creation with invalid hint.
+     */
     public void testCreateConfigurationWhenInvalidHint()
     {
         try
@@ -55,15 +66,19 @@ public class DefaultConfigurationFactoryTest extends TestCase
         }
         catch (ContainerException expected)
         {
-            assertEquals(
-                "Cannot create configuration. There's no registered configuration for "
-                    + "the parameters (container [id = [testableContainerId], type = [installed]], "
-                    + "configuration type [invalidhint]). Actually there are no valid types registered "
-                    + "for this configuration. Maybe you've made a mistake spelling it?",
+            assertEquals("Cannot create configuration. There's no registered configuration for "
+                    + "the parameters (container [id = [testableContainerId], type = "
+                    + "[installed]], configuration type [invalidhint]). Actually there are no "
+                    + "valid types registered for this configuration. Maybe you've made a mistake "
+                    + "spelling it?",
                 expected.getMessage());
         }
     }
 
+    /**
+     * Test custom configuration registration on an existing container.
+     * @throws Exception If anything goes wrong.
+     */
     public void testRegisterCustomConfigurationOnExistingContainer() throws Exception
     {
         this.factory.registerConfiguration("testableContainerId", ContainerType.INSTALLED,
@@ -75,6 +90,9 @@ public class DefaultConfigurationFactoryTest extends TestCase
             configuration.getClass().getName());
     }
 
+    /**
+     * Test runtime configuration creation.
+     */
     public void testCreateRuntimeConfiguration()
     {
         this.factory.registerConfiguration("testableContainerId", ContainerType.REMOTE,
@@ -85,6 +103,9 @@ public class DefaultConfigurationFactoryTest extends TestCase
         assertEquals(RuntimeConfigurationStub.class.getName(), configuration.getClass().getName());
     }
 
+    /**
+     * Test standalone local configuration creation when no home directory specified.
+     */
     public void testCreateStandaloneLocalConfigurationWhenNoHomeDirectorySpecified()
     {
         this.factory.registerConfiguration("testableContainerId", ContainerType.INSTALLED,
@@ -95,6 +116,9 @@ public class DefaultConfigurationFactoryTest extends TestCase
         assertEquals(new DefaultFileHandler().getTmpPath("conf"), configuration.getHome());
     }
 
+    /**
+     * Test existing local configuration creation when no home directory specified.
+     */
     public void testCreateExistingLocalConfigurationWhenNoHomeDirectorySpecified()
     {
         this.factory.registerConfiguration("testableContainerId", ContainerType.INSTALLED,

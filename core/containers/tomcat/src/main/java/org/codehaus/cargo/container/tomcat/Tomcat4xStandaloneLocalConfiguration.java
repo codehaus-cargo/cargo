@@ -77,8 +77,8 @@ public class Tomcat4xStandaloneLocalConfiguration extends
     }
 
     /**
-     * {@inheritDoc}
-     * Adds the transaction manager into the set of resources assigned to this configuration.
+     * {@inheritDoc} Adds the transaction manager into the set of resources assigned to this
+     * configuration.
      */
     @Override
     protected void setupTransactionManager()
@@ -93,7 +93,7 @@ public class Tomcat4xStandaloneLocalConfiguration extends
         transactionManagerResource.setParameters(PropertyUtils.toMap(parameters));
         getResources().add(transactionManagerResource);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -102,7 +102,7 @@ public class Tomcat4xStandaloneLocalConfiguration extends
     {
         return "//Engine/DefaultContext";
     }
-    
+
     /**
      * {@inheritDoc}
      * 
@@ -123,7 +123,5 @@ public class Tomcat4xStandaloneLocalConfiguration extends
         String confDir = getFileHandler().createDirectory(getHome(), "conf");
         return getFileHandler().append(confDir, "server.xml");
     }
-
-
 
 }
