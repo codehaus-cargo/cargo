@@ -88,6 +88,9 @@
               <archetypeArtifactId>${project.artifactId}</archetypeArtifactId>
               <archetypeVersion>${project.version}</archetypeVersion>
               <servlet.port>${cargo.itest.servlet.port}</servlet.port>
+              <cargo.container.installation.directory>
+                ${basedir}/../../../../core/samples/java/installs
+              </cargo.container.installation.directory>
             </properties>
           </configuration>
           <executions>
