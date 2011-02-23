@@ -23,6 +23,11 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.orion.internal.AbstractOrionStandaloneLocalConfigurationTest;
 
+/**
+ * Test for {@link Oc4j9xInstalledLocalContainer}.
+ * 
+ * @version $Id$
+ */
 public class Oc4j9xStandaloneLocalConfigurationTest extends
     AbstractOrionStandaloneLocalConfigurationTest
 {

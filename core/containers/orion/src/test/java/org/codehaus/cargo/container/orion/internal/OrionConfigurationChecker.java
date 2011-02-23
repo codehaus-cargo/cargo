@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.orion.internal;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -28,20 +27,19 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.custommonkey.xmlunit.XMLAssert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.xml.sax.SAXException;
 
 /**
- * Contains XML logic used to validate the XML output of a Resin 2.x DataSource configuration.
+ * Contains XML logic used to validate the XML output of an Orion DataSource configuration.
  * 
- * @version $Id $
+ * @version $Id$
  */
 public class OrionConfigurationChecker implements ConfigurationChecker
 {
 
     /**
-     * @param dataSourceFixture
-     * @return
+     * Get the id of a datasource fixture.
+     * @param dataSourceFixture Datasource fixture.
+     * @return Id for <code>fixture</code>.
      */
     private static String getDataSourceId(DataSourceFixture dataSourceFixture)
     {
@@ -49,15 +47,20 @@ public class OrionConfigurationChecker implements ConfigurationChecker
         return id;
     }
 
+    /**
+     * Validate datasource.
+     * @param configuration Configuration name.
+     * @param dataSourceFixture Datasource fixture.
+     * @param name Datasource name.
+     * @throws Exception If anything goes wrong.
+     */
     private static void validateDataSource(String configuration,
-        DataSourceFixture dataSourceFixture, String name) throws XpathException, IOException,
-        SAXException
+        DataSourceFixture dataSourceFixture, String name) throws Exception
     {
         if (dataSourceFixture.url == null)
         {
             XMLAssert.assertXpathNotExists("//data-source[@name='" + name + "']/@url",
                 configuration);
-
         }
         else
         {
@@ -75,7 +78,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
 
         if (driverProperties != null)
         {
-            Iterator i = driverProperties.keySet().iterator();
+            Iterator<?> i = driverProperties.keySet().iterator();
             while (i.hasNext())
             {
                 String propertyName = i.next().toString();
@@ -89,15 +92,14 @@ public class OrionConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * @param configuration
-     * @param dataSourceFixture
-     * @throws SAXException
-     * @throws IOException
-     * @throws XpathException
+     * Check XML for CMT datasource.
+     * @param configuration Configuration name.
+     * @param dataSourceFixture Datasource fixture.
+     * @param className Class name.
+     * @throws Exception If anything goes wrong.
      */
     private void checkXmlForCMTDataSourceBackedByImplementationClass(String configuration,
-        DataSourceFixture dataSourceFixture, String className) throws SAXException, IOException,
-        XpathException
+        DataSourceFixture dataSourceFixture, String className) throws Exception
     {
         String id = getDataSourceId(dataSourceFixture);
 
@@ -131,9 +133,14 @@ public class OrionConfigurationChecker implements ConfigurationChecker
 
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration name.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForDriverConfiguredDSWithLocalTransactionSupportMatchesDSFixture(
-        String configuration, DataSourceFixture dataSourceFixture) throws XpathException,
-        SAXException, IOException
+        String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         String id = getDataSourceId(dataSourceFixture);
         XMLAssert.assertXpathEvaluatesTo("com.evermind.sql.DriverManagerDataSource",
@@ -147,8 +154,14 @@ public class OrionConfigurationChecker implements ConfigurationChecker
         validateDataSource(configuration, dataSourceFixture, id);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration name.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForDataSourceMatchesDataSourceFixture(String configuration,
-        DataSourceFixture dataSourceFixture) throws XpathException, SAXException, IOException
+        DataSourceFixture dataSourceFixture) throws Exception
     {
         String id = getDataSourceId(dataSourceFixture);
         XMLAssert.assertXpathEvaluatesTo("com.evermind.sql.DriverManagerDataSource",
@@ -162,9 +175,14 @@ public class OrionConfigurationChecker implements ConfigurationChecker
         validateDataSource(configuration, dataSourceFixture, id);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration name.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
-        String configuration, DataSourceFixture dataSourceFixture) throws XpathException,
-        SAXException, IOException
+        String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         String id = getDataSourceId(dataSourceFixture);
         XMLAssert.assertXpathEvaluatesTo("com.evermind.sql.DriverManagerDataSource",
@@ -178,14 +196,24 @@ public class OrionConfigurationChecker implements ConfigurationChecker
         validateDataSource(configuration, dataSourceFixture, id);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration name.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForXADataSourceConfiguredDataSourceMatchesDataSourceFixture(
-        String configuration, DataSourceFixture dataSourceFixture) throws XpathException,
-        SAXException, IOException
+        String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         checkXmlForCMTDataSourceBackedByImplementationClass(configuration, dataSourceFixture,
             dataSourceFixture.driverClass);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param dataSourceEntry Datasource entry.
+     * @return Context with inserted configuration entry.
+     */
     public String insertConfigurationEntryIntoContext(String dataSourceEntry)
     {
         StringBuilder correctContext = new StringBuilder("<data-sources>");
@@ -194,12 +222,24 @@ public class OrionConfigurationChecker implements ConfigurationChecker
         return correctContext.toString();
     }
 
+    /**
+     * Throws {@link RuntimeException}. {@inheritdoc}
+     * @param configuration Ignored.
+     * @param resourceFixture Ignored.
+     * @throws Exception {@link RuntimeException}.
+     */
     public void checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
         String configuration, ResourceFixture resourceFixture) throws Exception
     {
         throw new RuntimeException("TODO");
     }
 
+    /**
+     * Throws {@link RuntimeException}. {@inheritdoc}
+     * @param configuration Ignored.
+     * @param resourceFixture Ignored.
+     * @throws Exception {@link RuntimeException}.
+     */
     public void checkConfigurationForMailSessionConfiguredResourceMatchesResourceFixture(
         String configuration, ResourceFixture resourceFixture) throws Exception
     {

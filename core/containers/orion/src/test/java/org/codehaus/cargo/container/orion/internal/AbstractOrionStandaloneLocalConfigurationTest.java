@@ -30,6 +30,11 @@ import org.codehaus.cargo.util.Dom4JUtil;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 
+/**
+ * Abstract Orion standalone configuration implementation test.
+ * 
+ * @version $Id$
+ */
 public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest
 {
@@ -46,6 +51,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     }
 
     /**
+     * {@inheritdoc}
      * @return {@link OrionConfigurationChecker}.
      */
     @Override
@@ -54,12 +60,20 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
         return new OrionConfigurationChecker();
     }
 
+    /**
+     * {@inheritdoc}
+     * @param fixture Ignored.
+     * @return Directory <code>conf/data-sources.xml</code> in the configuration home.
+     */
     @Override
     protected String getDataSourceConfigurationFile(DataSourceFixture fixture)
     {
         return configuration.getHome() + "/conf/data-sources.xml";
     }
 
+    /**
+     * Test the role token getter.
+     */
     public void testGetRoleToken()
     {
         configuration.setProperty(ServletPropertySet.USERS, "u1:p1:r1,r2|u2:p2:r2,r3");
@@ -73,6 +87,9 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
             + "<user name=\"u2\"/></security-role-mapping>"));
     }
 
+    /**
+     * Test the user token getter.
+     */
     public void testGetUserToken()
     {
         configuration.setProperty(ServletPropertySet.USERS, "u1:p1:r1,r2|u2:p2:r2,r3");
@@ -82,6 +99,11 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
             + "<user deactivated=\"false\" username=\"u2\" password=\"p2\"/>", token);
     }
 
+    /**
+     * Test {@link
+     * Oc4j9xStandaloneLocalConfiguration#configure(org.codehaus.cargo.container.LocalContainer)}
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigure() throws Exception
     {
         configuration.configure(container);
@@ -108,6 +130,10 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
             configuration.getHome() + "/applications/cargocpc.war"));
     }
 
+    /**
+     * Test datasource setup.
+     * @throws Exception If anything goes wrong.
+     */
     protected void setUpDataSourceFile() throws Exception
     {
         Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
@@ -117,6 +143,12 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
         xmlUtil.saveXml(document, file);
     }
 
+    /**
+     * Setup datasource file and call parent. {@inheritdoc}
+     * @param fixture Datasource fixture.
+     * @return Configured datasource.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected String configureDataSourceViaPropertyAndRetrieveConfigurationFile(
         DataSourceFixture fixture) throws Exception
@@ -125,6 +157,12 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
         return super.configureDataSourceViaPropertyAndRetrieveConfigurationFile(fixture);
     }
 
+    /**
+     * Setup datasource file and call parent. {@inheritdoc}
+     * @param fixture Datasource fixture.
+     * @return Configured datasource file.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected String configureDataSourceAndRetrieveConfigurationFile(DataSourceFixture fixture)
         throws Exception
@@ -133,28 +171,44 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
         return super.configureDataSourceAndRetrieveConfigurationFile(fixture);
     }
 
+    /**
+     * Orion does not currently support Resources. {@inheritdoc}
+     * @param fixture Ignored.
+     * @return <code>null</code>.
+     */
     @Override
     protected String getResourceConfigurationFile(ResourceFixture fixture)
     {
-        // Orion does not currently support Resources
         return null;
     }
 
+    /**
+     * Orion does not currently support Resources. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigureCreatesResourceForXADataSource() throws Exception
     {
-        // Orion does not currently support Resources
+        // Nothing
     }
 
+    /**
+     * Orion does not currently support Resources. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testConfigureCreatesResource() throws Exception
     {
-        // Orion does not currently support Resources
+        // Nothing
     }
 
+    /**
+     * Orion does not currently support Resources. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
     {
-        // Orion does not currently support Resources
+        // Nothing
     }
 
 }

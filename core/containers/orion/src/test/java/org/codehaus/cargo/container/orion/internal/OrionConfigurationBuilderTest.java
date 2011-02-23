@@ -23,13 +23,15 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurationBuilderTest;
 
+/**
+ * {@link OrionConfigurationBuilder} test.
+ * 
+ * @version $Id$
+ */
 public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderTest
 {
-    ConfigurationBuilder builder;
-
-    ConfigurationChecker checker;
-
     /**
+     * {@inheritdoc}
      * @return {@link OrionConfigurationBuilder}.
      */
     @Override
@@ -39,6 +41,7 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
     }
 
     /**
+     * {@inheritdoc}
      * @return {@link OrionConfigurationChecker}.
      */
     @Override
@@ -47,6 +50,10 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
         return new OrionConfigurationChecker();
     }
 
+    /**
+     * {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testBuildConfigurationEntryForXADataSourceConfiguredResource() throws Exception
     {
@@ -63,6 +70,10 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
         }
     }
 
+    /**
+     * {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testBuildConfigurationEntryForMailSessionConfiguredResource() throws Exception
     {
