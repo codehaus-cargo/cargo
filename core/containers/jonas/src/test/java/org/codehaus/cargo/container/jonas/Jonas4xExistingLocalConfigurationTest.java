@@ -36,15 +36,30 @@ import org.codehaus.cargo.util.VFSFileHandler;
  */
 public class Jonas4xExistingLocalConfigurationTest extends TestCase
 {
+    /**
+     * JONAS_ROOT folder for tests.
+     */
     private static final String JONAS_ROOT = "ram:///jonasroot";
 
+    /**
+     * Container.
+     */
     private Jonas4xInstalledLocalContainer container;
 
+    /**
+     * Container configuration.
+     */
+    private Jonas4xExistingLocalConfiguration configuration;
+
+    /**
+     * File system manager.
+     */
     private StandardFileSystemManager fsManager;
 
+    /**
+     * File handler.
+     */
     private FileHandler fileHandler;
-
-    private Jonas4xExistingLocalConfiguration configuration;
 
     /**
      * Creates the test file system manager and the container. {@inheritdoc}
@@ -59,10 +74,10 @@ public class Jonas4xExistingLocalConfigurationTest extends TestCase
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
 
-        fileHandler.createDirectory(null, JONAS_ROOT);
+        this.fileHandler.createDirectory(null, JONAS_ROOT);
 
-        configuration = new Jonas4xExistingLocalConfiguration(JONAS_ROOT);
-        configuration.setFileHandler(fileHandler);
+        this.configuration = new Jonas4xExistingLocalConfiguration(JONAS_ROOT);
+        this.configuration.setFileHandler(fileHandler);
 
         this.container = new Jonas4xInstalledLocalContainer(configuration);
         this.container.setFileHandler(this.fileHandler);
@@ -84,6 +99,11 @@ public class Jonas4xExistingLocalConfigurationTest extends TestCase
         super.tearDown();
     }
 
+    /**
+     * Test {@link
+     * Jonas4xExistingLocalConfiguration#doConfigure(org.codehaus.cargo.container.LocalContainer)}
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigure() throws Exception
     {
         try
@@ -91,8 +111,9 @@ public class Jonas4xExistingLocalConfigurationTest extends TestCase
             configuration.doConfigure(container);
             fail("No ContainerException raised");
         }
-        catch (ContainerException ex)
+        catch (ContainerException expected)
         {
+            // Expected
         }
 
         fileHandler.createDirectory(JONAS_ROOT, "conf");
@@ -103,14 +124,6 @@ public class Jonas4xExistingLocalConfigurationTest extends TestCase
         fileHandler.createDirectory(JONAS_ROOT, "ejbjars");
         fileHandler.createDirectory(JONAS_ROOT, "ejbjars/autoload");
 
-        try
-        {
-            configuration.doConfigure(container);
-        }
-        catch (ContainerException ex)
-        {
-            ex.printStackTrace();
-            fail("ContainerException raised");
-        }
+        configuration.doConfigure(container);
     }
 }

@@ -24,6 +24,7 @@ package org.codehaus.cargo.container.jonas;
 
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
 import org.apache.tools.ant.taskdefs.Java;
+import org.apache.tools.ant.types.Environment.Variable;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
@@ -33,18 +34,34 @@ import org.jmock.core.Constraint;
 
 /**
  * Unit tests for {@link Jonas5xInstalledLocalContainer}.
+ * 
+ * @version $Id$
  */
 public class Jonas5xInstalledLocalContainerTest extends MockObjectTestCase
 {
-
+    /**
+     * JONAS_ROOT folder for tests.
+     */
     private static final String JONAS_ROOT = "ram:///jonasroot";
 
+    /**
+     * JONAS_BASE folder for tests.
+     */
     private static final String JONAS_BASE = "ram:///jonasbase";
 
+    /**
+     * Container.
+     */
     private Jonas5xInstalledLocalContainer container;
 
+    /**
+     * File system manager.
+     */
     private StandardFileSystemManager fsManager;
 
+    /**
+     * File handler.
+     */
     private FileHandler fileHandler;
 
     /**
@@ -85,6 +102,9 @@ public class Jonas5xInstalledLocalContainerTest extends MockObjectTestCase
         super.tearDown();
     }
 
+    /**
+     * Test system properties.
+     */
     public void testSetupSysProps()
     {
         Mock mockJava = mock(Java.class);
@@ -98,16 +118,29 @@ public class Jonas5xInstalledLocalContainerTest extends MockObjectTestCase
         assertEquals(0, constaint.remaingChecks);
     }
 
+    /**
+     * {@link Constraint} that checks how many times 
+     */
     private class DoActionConstraint implements Constraint
     {
+        /**
+         * How many times more methods should be called.
+         */
+        private int remaingChecks = 5;
 
-        int remaingChecks = 5;
+        /**
+         * Current setting pair.
+         */
+        private String settingPair = null;
 
-        String settingPair = null;
-
+        /**
+         * Evaluate. {@inheritdoc}
+         * @param arg {@link Variable} to be evaluated.
+         * @return <code>true</code> if evaluation positive, <code>false</code> otherwise.
+         */
         public boolean eval(Object arg)
         {
-            org.apache.tools.ant.types.Environment.Variable var = (org.apache.tools.ant.types.Environment.Variable) arg;
+            Variable var = (Variable) arg;
             settingPair = var.getKey() + "=" + var.getValue();
             if (var.getKey().equals("install.root"))
             {
@@ -140,6 +173,11 @@ public class Jonas5xInstalledLocalContainerTest extends MockObjectTestCase
             return true;
         }
 
+        /**
+         * Append the unexpected settings. {@inheritdoc}
+         * @param buffer Buffer to append to.
+         * @return Appended <code>buffer</code>.
+         */
         public StringBuffer describeTo(StringBuffer buffer)
         {
             buffer.append("unexpected settings " + settingPair);

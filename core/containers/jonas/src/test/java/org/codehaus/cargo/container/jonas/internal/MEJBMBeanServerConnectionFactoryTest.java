@@ -271,8 +271,9 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
 
     /**
      * Test empty handler.
+     * @throws Exception If anything goes wrong.
      */
-    public void testEmptyHandler() throws UnsupportedCallbackException
+    public void testEmptyHandler() throws Exception
     {
         testDefaultConfiguration();
 
@@ -325,8 +326,9 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
 
     /**
      * Test username handler.
+     * @throws Exception If anything goes wrong.
      */
-    public void testUsernameHandler() throws UnsupportedCallbackException
+    public void testUsernameHandler() throws Exception
     {
         testUsername();
 
@@ -379,8 +381,9 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
 
     /**
      * Test password handler.
+     * @throws Exception If anything goes wrong.
      */
-    public void testPasswordHandler() throws UnsupportedCallbackException
+    public void testPasswordHandler() throws Exception
     {
         testPassword();
 
@@ -433,8 +436,9 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
 
     /**
      * Test username and password handler.
+     * @throws Exception If anything goes wrong.
      */
-    public void testUsernameAndPasswordHandler() throws UnsupportedCallbackException
+    public void testUsernameAndPasswordHandler() throws Exception
     {
         testUsernameAndPassword();
 

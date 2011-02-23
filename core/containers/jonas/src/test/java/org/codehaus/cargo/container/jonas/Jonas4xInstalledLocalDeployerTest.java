@@ -40,22 +40,44 @@ import org.jmock.cglib.MockObjectTestCase;
 
 /**
  * Unit tests for {@link Jonas4xInstalledLocalDeployer}.
+ * 
+ * @version $Id$
  */
 public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
 {
-
+    /**
+     * JONAS_ROOT folder for tests.
+     */
     private static final String JONAS_ROOT = "ram:///jonasroot";
 
+    /**
+     * JONAS_BASE folder for tests.
+     */
     private static final String JONAS_BASE = "ram:///jonasbase";
 
+    /**
+     * Deployer.
+     */
     private Jonas4xInstalledLocalDeployer deployer;
 
+    /**
+     * File system manager.
+     */
     private StandardFileSystemManager fsManager;
 
+    /**
+     * File handler.
+     */
     private FileHandler fileHandler;
 
+    /**
+     * {@link Jonas4xAdmin} mock.
+     */
     private Mock admin;
 
+    /**
+     * Deployable factory.
+     */
     private DeployableFactory factory;
 
     /**
@@ -76,16 +98,17 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
 
         LocalConfiguration configuration = new Jonas4xExistingLocalConfiguration(JONAS_BASE);
 
-        Jonas4xInstalledLocalContainer container = new Jonas4xInstalledLocalContainer(configuration);
+        Jonas4xInstalledLocalContainer container =
+            new Jonas4xInstalledLocalContainer(configuration);
         container.setFileHandler(this.fileHandler);
         container.setHome(JONAS_ROOT);
 
-        admin = mock(Jonas4xAdmin.class);
+        this.admin = mock(Jonas4xAdmin.class);
 
-        deployer = new Jonas4xInstalledLocalDeployer(container, (Jonas4xAdmin) admin.proxy(),
+        this.deployer = new Jonas4xInstalledLocalDeployer(container, (Jonas4xAdmin) admin.proxy(),
             this.fileHandler);
 
-        factory = new DefaultDeployableFactory();
+        this.factory = new DefaultDeployableFactory();
     }
 
     /**
@@ -103,6 +126,9 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
         super.tearDown();
     }
 
+    /**
+     * Test hot deployment.
+     */
     private void setupAdminHotDeployment()
     {
         admin.reset();
@@ -110,6 +136,9 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
         admin.stubs().method("deploy").withAnyArguments().will(returnValue(true));
     }
 
+    /**
+     * Test hot deployment failure.
+     */
     private void setupAdminHotDeploymentFailure()
     {
         admin.reset();
@@ -117,18 +146,22 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
         admin.stubs().method("deploy").withAnyArguments().will(returnValue(false));
     }
 
+    /**
+     * Test cold deployment.
+     */
     private void setupAdminColdDeployment()
     {
         admin.reset();
         admin.stubs().method("isServerRunning").will(returnValue(false));
     }
 
+    /**
+     * Test EJB deployment.
+     */
     public void testDeployEJBJar()
     {
-
         this.fileHandler.createFile("ram:///test.jar");
-        EJB ejb = (EJB) factory.createDeployable("jonas4x",
-            "ram:///test.jar", DeployableType.EJB);
+        EJB ejb = (EJB) factory.createDeployable("jonas4x", "ram:///test.jar", DeployableType.EJB);
 
         setupAdminColdDeployment();
         deployer.deployEjb(deployer.getDeployableDir(), ejb);
@@ -144,18 +177,19 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
             deployer.deployEjb(deployer.getDeployableDir(), ejb);
             fail("No CargoException raised");
         }
-        catch (CargoException ex)
+        catch (CargoException expected)
         {
+            // Expected
         }
-
     }
 
+    /**
+     * Test EAR deployment.
+     */
     public void testDeployEar()
     {
-
         this.fileHandler.createFile("ram:///test.ear");
-        EAR ear = (EAR) factory.createDeployable("jonas4x",
-            "ram:///test.ear", DeployableType.EAR);
+        EAR ear = (EAR) factory.createDeployable("jonas4x", "ram:///test.ear", DeployableType.EAR);
 
         setupAdminColdDeployment();
         deployer.deployEar(deployer.getDeployableDir(), ear);
@@ -171,17 +205,19 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
             deployer.deployEar(deployer.getDeployableDir(), ear);
             fail("No CargoException raised");
         }
-        catch (CargoException ex)
+        catch (CargoException expected)
         {
+            // Expected
         }
-
     }
 
+    /**
+     * Test WAR deployment.
+     */
     public void testDeployWar()
     {
         this.fileHandler.createFile("ram:///test.war");
-        WAR war = (WAR) factory.createDeployable("jonas4x",
-            "ram:///test.war", DeployableType.WAR);
+        WAR war = (WAR) factory.createDeployable("jonas4x", "ram:///test.war", DeployableType.WAR);
         war.setContext("testContext");
 
         System.gc();
@@ -203,16 +239,20 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
             deployer.deployWar(deployer.getDeployableDir(), war);
             fail("No CargoException raised");
         }
-        catch (CargoException ex)
+        catch (CargoException expected)
         {
+            // Expected
         }
     }
 
+    /**
+     * Test expanded WAR deployment.
+     */
     public void testDeployExpandedWar()
     {
         this.fileHandler.createFile("ram:///testExpandedWar");
-        WAR war = (WAR) factory.createDeployable("jonas4x",
-            "ram:///testExpandedWar", DeployableType.WAR);
+        WAR war = (WAR) factory.createDeployable("jonas4x", "ram:///testExpandedWar",
+            DeployableType.WAR);
         war.setContext("testExpandedWarContext");
 
         setupAdminColdDeployment();
@@ -227,16 +267,15 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
         assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/webapps/testExpandedWar"));
         assertFalse(fileHandler.exists(deployer.getDeployableDir()
             + "/webapps/testExpandedWarContext"));
-
     }
 
+    /**
+     * Test RAR deployment.
+     */
     public void testDeployRar()
     {
-
         this.fileHandler.createFile("ram:///test.rar");
-        RAR rar =
-            (RAR) factory.createDeployable("jonas4x", "ram:///test.rar",
-                DeployableType.RAR);
+        RAR rar = (RAR) factory.createDeployable("jonas4x", "ram:///test.rar", DeployableType.RAR);
 
         setupAdminColdDeployment();
         deployer.deployRar(deployer.getDeployableDir(), rar);
@@ -252,12 +291,15 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
             deployer.deployRar(deployer.getDeployableDir(), rar);
             fail("No CargoException raised");
         }
-        catch (CargoException ex)
+        catch (CargoException expected)
         {
+            // Expected
         }
-
     }
 
+    /**
+     * Test {@link Jonas4xInstalledLocalDeployer#getDeployableDir()}
+     */
     public void testGetDeployableDir()
     {
         assertEquals(JONAS_BASE, deployer.getDeployableDir());

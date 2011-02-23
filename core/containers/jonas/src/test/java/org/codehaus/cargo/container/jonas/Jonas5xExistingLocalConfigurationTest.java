@@ -31,18 +31,35 @@ import org.codehaus.cargo.util.VFSFileHandler;
 
 /**
  * Unit tests for {@link Jonas5xExistingLocalConfiguration}.
+ * 
+ * @version $Id$
  */
 public class Jonas5xExistingLocalConfigurationTest extends TestCase
 {
+    /**
+     * JONAS_ROOT folder for tests.
+     */
     private static final String JONAS_ROOT = "ram:///jonasroot";
 
+    /**
+     * Container.
+     */
     private Jonas5xInstalledLocalContainer container;
 
+    /**
+     * Container configuration.
+     */
+    private Jonas5xExistingLocalConfiguration configuration;
+
+    /**
+     * File system manager.
+     */
     private StandardFileSystemManager fsManager;
 
+    /**
+     * File handler.
+     */
     private FileHandler fileHandler;
-
-    private Jonas5xExistingLocalConfiguration configuration;
 
     /**
      * Creates the test file system manager and the container. {@inheritdoc}
@@ -57,10 +74,10 @@ public class Jonas5xExistingLocalConfigurationTest extends TestCase
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
 
-        fileHandler.createDirectory(null, JONAS_ROOT);
+        this.fileHandler.createDirectory(null, JONAS_ROOT);
 
-        configuration = new Jonas5xExistingLocalConfiguration(JONAS_ROOT);
-        configuration.setFileHandler(fileHandler);
+        this.configuration = new Jonas5xExistingLocalConfiguration(JONAS_ROOT);
+        this.configuration.setFileHandler(fileHandler);
 
         this.container = new Jonas5xInstalledLocalContainer(configuration);
         this.container.setFileHandler(this.fileHandler);
@@ -82,6 +99,11 @@ public class Jonas5xExistingLocalConfigurationTest extends TestCase
         super.tearDown();
     }
 
+    /**
+     * Test {@link
+     * Jonas5xExistingLocalConfiguration#doConfigure(org.codehaus.cargo.container.LocalContainer)}
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigure() throws Exception
     {
         try
@@ -89,21 +111,14 @@ public class Jonas5xExistingLocalConfigurationTest extends TestCase
             configuration.doConfigure(container);
             fail("No ContainerException raised");
         }
-        catch (ContainerException ex)
+        catch (ContainerException expected)
         {
+            // Expected
         }
 
         fileHandler.createDirectory(JONAS_ROOT, "conf");
         fileHandler.createDirectory(JONAS_ROOT, "deploy");
 
-        try
-        {
-            configuration.doConfigure(container);
-        }
-        catch (ContainerException ex)
-        {
-            ex.printStackTrace();
-            fail("ContainerException raised");
-        }
+        configuration.doConfigure(container);
     }
 }

@@ -39,20 +39,39 @@ import org.jmock.cglib.MockObjectTestCase;
 
 /**
  * Unit tests for {@link Jonas5xInstalledLocalDeployer}.
+ * 
+ * @version $Id$
  */
 public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
 {
-
+    /**
+     * JONAS_ROOT folder for tests.
+     */
     private static final String JONAS_ROOT = "ram:///jonasroot";
 
+    /**
+     * JONAS_BASE folder for tests.
+     */
     private static final String JONAS_BASE = "ram:///jonasbase";
 
+    /**
+     * Deployer.
+     */
     private Jonas5xInstalledLocalDeployer deployer;
 
+    /**
+     * File system manager.
+     */
     private StandardFileSystemManager fsManager;
 
+    /**
+     * File handler.
+     */
     private FileHandler fileHandler;
 
+    /**
+     * Deployable factory.
+     */
     private DeployableFactory factory;
 
     /**
@@ -73,13 +92,14 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
 
         LocalConfiguration configuration = new Jonas5xExistingLocalConfiguration(JONAS_BASE);
 
-        Jonas5xInstalledLocalContainer container = new Jonas5xInstalledLocalContainer(configuration);
+        Jonas5xInstalledLocalContainer container =
+            new Jonas5xInstalledLocalContainer(configuration);
         container.setFileHandler(this.fileHandler);
         container.setHome(JONAS_ROOT);
 
-        deployer = new Jonas5xInstalledLocalDeployer(container, this.fileHandler);
+        this.deployer = new Jonas5xInstalledLocalDeployer(container, this.fileHandler);
 
-        factory = new DefaultDeployableFactory();
+        this.factory = new DefaultDeployableFactory();
     }
 
     /**
@@ -97,11 +117,17 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
         super.tearDown();
     }
 
+    /**
+     * Test {@link Jonas5xInstalledLocalDeployer#getDeployableDir()}
+     */
     public void testGetDeployableDir()
     {
         assertEquals(JONAS_BASE + "/deploy", deployer.getDeployableDir());
     }
 
+    /**
+     * Test EJB deployment.
+     */
     public void testDeployEJBJar()
     {
         this.fileHandler.createFile("ram:///test.jar");
@@ -111,6 +137,9 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
         assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.jar"));
     }
 
+    /**
+     * Test EAR deployment.
+     */
     public void testDeployEar()
     {
         this.fileHandler.createFile("ram:///test.ear");
@@ -120,6 +149,9 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
         assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.ear"));
     }
 
+    /**
+     * Test WAR deployment.
+     */
     public void testDeployWar()
     {
         this.fileHandler.createFile("ram:///test.war");
@@ -129,6 +161,9 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
         assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.war"));
     }
 
+    /**
+     * Test RAR deployment.
+     */
     public void testDeployRar()
     {
         this.fileHandler.createFile("ram:///test.rar");
@@ -138,6 +173,9 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
         assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.rar"));
     }
 
+    /**
+     * Test file deployment.
+     */
     public void testDeployFile()
     {
         this.fileHandler.createFile("ram:///test.extension");
@@ -148,6 +186,9 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
         assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.extension"));
     }
 
+    /**
+     * Test OSGi bundle deployment.
+     */
     public void testDeployBundle()
     {
         this.fileHandler.createFile("ram:///test.jar");
