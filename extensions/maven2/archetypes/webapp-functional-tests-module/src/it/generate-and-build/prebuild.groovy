@@ -2,7 +2,7 @@ println "Removing project generated in earlier build"
 def directory = new File(basedir, "generate-and-build")
 
 // The complicated code below can be replaced with deleteDir() once
-// maven-invoker-plugin 2.6 is released with updated Groovy support.
+// maven-invoker-plugin 1.6 is released with updated Groovy support (MINVOKER-113).
 
 if (directory.exists())
 {
