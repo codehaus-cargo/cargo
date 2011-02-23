@@ -186,6 +186,14 @@
                   <containerId>jonas5x</containerId>
                   <zipUrlInstaller>
                     <url>http://download.fr.forge.objectweb.org/jonas/jonas-full-5.1.2-bin.tar.gz</url>
+                    <!--
+                      On MacOS X, the default installDir is something like:
+                       /var/folders/ZR/ZRsat8n-H6qoVq+LK+r86U+++TI/-Tmp-/cargo/installs
+                      which makes the JOnAS startup sequence fail. Please make sure you
+                      specify an installDir to avoid that issue:
+
+                    <installDir>installs/cargo</installDir>
+                    -->
                   </zipUrlInstaller>
                 </container>
               </configuration>
