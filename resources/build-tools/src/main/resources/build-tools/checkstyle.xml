@@ -342,7 +342,7 @@
     <!--module name="RequiredRegexp"/-->
 
     <module name="ReturnCount">
-      <property name="max" value="5"/>
+      <property name="max" value="7"/>
     </module>
 
     <module name="RightCurly">
