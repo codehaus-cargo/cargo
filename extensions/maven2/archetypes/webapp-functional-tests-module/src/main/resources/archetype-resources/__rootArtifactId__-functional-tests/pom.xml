@@ -14,6 +14,20 @@
 
   <properties>
     <servlet.port>8080</servlet.port>
+
+    <!--
+      The default directory for installing containers and instanciating their configurations is
+      ${java.io.tmpdir}. On MacOS X, this location corresponds to something like:
+          /var/folders/ZR/ZRsat8n-H6qoVq+LK+r86U+++TI/-Tmp-/cargo/conf
+      Some containers' startup sequences fail for such a directory. Hence, we define here our own
+      directories. This also enhances container activity traceability.
+    -->
+    <cargo.container.installation.directory>
+      ${basedir}/installs/cargo
+    </cargo.container.installation.directory>
+    <cargo.container.configuration.directory>
+      ${project.build.directory}/cargo/container
+    </cargo.container.configuration.directory>
   </properties>
 
   <dependencies>
@@ -52,14 +66,7 @@
               <properties>
                 <cargo.servlet.port>${servlet.port}</cargo.servlet.port>
               </properties>
-              <!--
-                On MacOS X, the default location where a standalone configuration
-                is created is something like:
-                 /var/folders/ZR/ZRsat8n-H6qoVq+LK+r86U+++TI/-Tmp-/cargo/conf
-                which makes startup sequence fail for some containers.
-                To avoid this, we specify a folder in the build directory:
-              -->
-              <home>${project.build.directory}/cargo/container</home>
+              <home>${cargo.container.configuration.directory}</home>
             </configuration>
           </configuration>
         </plugin>
@@ -165,6 +172,7 @@
                   <containerId>tomcat6x</containerId>
                   <zipUrlInstaller>
                     <url>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.29/bin/apache-tomcat-6.0.29.zip</url>
+                    <installDir>${cargo.container.installation.directory}</installDir>
                   </zipUrlInstaller>
                 </container>
               </configuration>
@@ -186,14 +194,7 @@
                   <containerId>jonas5x</containerId>
                   <zipUrlInstaller>
                     <url>http://download.fr.forge.objectweb.org/jonas/jonas-full-5.1.2-bin.tar.gz</url>
-                    <!--
-                      On MacOS X, the default installDir is something like:
-                       /var/folders/ZR/ZRsat8n-H6qoVq+LK+r86U+++TI/-Tmp-/cargo/installs
-                      which makes the JOnAS startup sequence fail. Please make sure you
-                      specify an installDir to avoid that issue:
-
-                    <installDir>installs/cargo</installDir>
-                    -->
+                    <installDir>${cargo.container.installation.directory}</installDir>
                   </zipUrlInstaller>
                 </container>
               </configuration>
@@ -215,14 +216,7 @@
                   <containerId>jboss51x</containerId>
                   <zipUrlInstaller>
                     <url>http://downloads.sourceforge.net/jboss/jboss-5.1.0.GA.zip?big_mirror=1</url>
-                    <!--
-                      On MacOS X, the default installDir is something like:
-                       /var/folders/ZR/ZRsat8n-H6qoVq+LK+r86U+++TI/-Tmp-/cargo/installs
-                      which makes the JBoss startup sequence fail. Please make sure you
-                      specify an installDir to avoid that issue:
-
-                    <installDir>installs/cargo</installDir>
-                    -->
+                    <installDir>${cargo.container.installation.directory}</installDir>
                   </zipUrlInstaller>
                 </container>
               </configuration>
@@ -244,14 +238,7 @@
                   <containerId>glassfish3x</containerId>
                   <zipUrlInstaller>
                     <url>http://download.java.net/glassfish/3.0.1/release/glassfish-3.0.1-web.zip</url>
-                    <!--
-                      On MacOS X, the default installDir is something like:
-                       /var/folders/ZR/ZRsat8n-H6qoVq+LK+r86U+++TI/-Tmp-/cargo/installs
-                      which makes the GlassFish startup sequence fail. Please make sure you
-                      specify an installDir to avoid that issue:
-
-                    <installDir>installs/cargo</installDir>
-                    -->
+                    <installDir>${cargo.container.installation.directory}</installDir>
                   </zipUrlInstaller>
                 </container>
               </configuration>
