@@ -22,6 +22,11 @@ package org.codehaus.cargo.container.resin.internal;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 
+/**
+ * Unit tests for {@link Resin3xConfigurationBuilder}.
+ * 
+ * @version $Id$
+ */
 public class Resin3xConfigurationBuilderTest extends Resin2xConfigurationBuilderTest
 {
 

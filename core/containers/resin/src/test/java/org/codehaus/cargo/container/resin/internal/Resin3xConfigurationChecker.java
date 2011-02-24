@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.resin.internal;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -33,30 +32,42 @@ import org.custommonkey.xmlunit.NamespaceContext;
 import org.custommonkey.xmlunit.SimpleNamespaceContext;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
-import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.xml.sax.SAXException;
 
 /**
  * Contains XML logic used to validate the XML output of a Resin 3.x DataSource configuration.
  * 
- * @version $Id $
+ * @version $Id$
  */
 public class Resin3xConfigurationChecker implements ConfigurationChecker
 {
+    /**
+     * Resin XML namespace URL.
+     */
     private static final String NS_URL = "http://caucho.com/ns/resin";
 
+    /**
+     * Resin XML namespace prefix.
+     */
     private static final String NS_PREFIX = "resin:";
 
+    /**
+     * Adds the Resin namespaces to the XML namespace context.
+     */
     public Resin3xConfigurationChecker()
     {
         // setup the namespace of the resin configuration file
-        Map m = new HashMap();
+        Map<String, String> m = new HashMap<String, String>();
         m.put("resin", NS_URL);
 
         NamespaceContext ctx = new SimpleNamespaceContext(m);
         XMLUnit.setXpathNamespaceContext(ctx);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     */
     public void checkConfigurationMatchesDataSourceFixture(String configuration,
         DataSourceFixture dataSourceFixture)
     {
@@ -66,7 +77,6 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
 
         try
         {
-
             XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.driverClass, pathToDatabase + "/"
                 + NS_PREFIX + "driver/" + NS_PREFIX + "type", configuration);
 
@@ -89,7 +99,7 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
             Properties driverProperties =
                 dataSourceFixture.buildDataSource().getConnectionProperties();
 
-            Iterator i = driverProperties.keySet().iterator();
+            Iterator<Object> i = driverProperties.keySet().iterator();
             while (i.hasNext())
             {
                 String propertyName = i.next().toString();
@@ -103,10 +113,14 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
         {
             throw new RuntimeException(e);
         }
-
     }
 
-    public void checkConfigurationMatchesResource(String configuration, Resource resource)
+    /**
+     * Check configuration for a matching resource.
+     * @param configuration Configuration.
+     * @param resource Resource.
+     */
+    private void checkConfigurationMatchesResource(String configuration, Resource resource)
     {
         String pathToResource =
             "//" + NS_PREFIX + "resource[" + NS_PREFIX + "jndi-name='" + resource.getName()
@@ -123,14 +137,11 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
                 XMLAssert.assertXpathEvaluatesTo(resource.getType(), pathToResource + "/"
                     + NS_PREFIX + "type", configuration);
             }
-            Iterator i = resource.getParameters().keySet().iterator();
-            while (i.hasNext())
+            for (String propertyName : resource.getParameters().keySet())
             {
-                String propertyName = i.next().toString();
                 XMLAssert.assertXpathEvaluatesTo(resource.getParameter(propertyName).toString(),
                     pathToResource + "/" + NS_PREFIX + "init/@" + propertyName, configuration);
             }
-
         }
         catch (Exception e)
         {
@@ -139,38 +150,73 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
 
     }
 
+    /**
+     * Check that XML path doesn't exist for a datasource fixture.
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     private void notExists(String configuration, DataSourceFixture dataSourceFixture)
-        throws IOException, SAXException, XpathException
+        throws Exception
     {
         XMLAssert.assertXpathNotExists("//database[jndi-name='" + dataSourceFixture.jndiLocation
             + "']", configuration);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForDataSourceMatchesDataSourceFixture(String configuration,
         DataSourceFixture dataSourceFixture) throws Exception
     {
         checkConfigurationMatchesDataSourceFixture(configuration, dataSourceFixture);
-
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForDriverConfiguredDSWithLocalTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         notExists(configuration, dataSourceFixture);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         notExists(configuration, dataSourceFixture);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForXADataSourceConfiguredDataSourceMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         checkConfigurationMatchesDataSourceFixture(configuration, dataSourceFixture);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param resourceFixture Resource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
         String configuration, ResourceFixture resourceFixture) throws Exception
     {
@@ -178,6 +224,12 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
         checkConfigurationMatchesResource(configuration, resource);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param resourceFixture Resource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForMailSessionConfiguredResourceMatchesResourceFixture(
         String configuration, ResourceFixture resourceFixture) throws Exception
     {
@@ -185,6 +237,11 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
         checkConfigurationMatchesResource(configuration, resource);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param dataSourceEntry Entry to insert.
+     * @return Context with new entry.
+     */
     public String insertConfigurationEntryIntoContext(String dataSourceEntry)
     {
         StringBuilder configurationContext = new StringBuilder();

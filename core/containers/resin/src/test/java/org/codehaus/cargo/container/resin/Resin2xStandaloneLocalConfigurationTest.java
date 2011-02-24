@@ -59,11 +59,18 @@ public class Resin2xStandaloneLocalConfigurationTest extends
         return new Resin2xInstalledLocalContainer(configuration);
     }
 
+    /**
+     * @return {@link Resin2xConfigurationChecker}
+     */
     protected ConfigurationChecker createDataSourceConfigurationChecker()
     {
         return new Resin2xConfigurationChecker();
     }
 
+    /**
+     * Set up datasource file. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUpDataSourceFile() throws Exception
     {

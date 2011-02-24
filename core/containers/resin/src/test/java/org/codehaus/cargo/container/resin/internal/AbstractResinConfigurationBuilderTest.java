@@ -21,15 +21,21 @@ package org.codehaus.cargo.container.resin.internal;
 
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurationBuilderTest;
 
+/**
+ * Unit tests for Resin servers' configuration builder.
+ * 
+ * @version $Id$
+ */
 public abstract class AbstractResinConfigurationBuilderTest extends
     AbstractConfigurationBuilderTest
 {
 
-    public AbstractResinConfigurationBuilderTest()
-    {
-        super();
-    }
-
+    /**
+     * Checks that creating datasource configuration entries with local transaction support
+     * throws an exception with message
+     * {@link Resin2xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testBuildConfigurationEntryForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
@@ -46,6 +52,12 @@ public abstract class AbstractResinConfigurationBuilderTest extends
         }
     }
 
+    /**
+     * Checks that creating datasource configuration entries with driver-configured XA transaction
+     * support throws an exception with message
+     * {@link Resin2xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testBuildConfigurationEntryForDriverConfiguredDataSourceWithXaTransactionSupport()
         throws Exception

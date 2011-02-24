@@ -60,6 +60,10 @@ public class Resin3xStandaloneLocalConfigurationTest extends
         return new Resin3xInstalledLocalContainer(configuration);
     }
 
+    /**
+     * Call parent and check that the XML file is here. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testConfigure() throws Exception
     {
@@ -68,6 +72,10 @@ public class Resin3xStandaloneLocalConfigurationTest extends
             configuration.getHome() + "/app-default.xml"));
     }
 
+    /**
+     * Set up datasource file. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUpDataSourceFile() throws Exception
     {

@@ -23,22 +23,41 @@ import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfigurationWithConfigurationBuilderTest;
 
+/**
+ * Unit tests for standalone Resin configurations.
+ * 
+ * @version $Id$
+ */
 public abstract class AbstractResinStandaloneLocalConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest
 {
 
+    /**
+     * {@inheritdoc}
+     * @param fixture Datasource fixture.
+     * @return <code>conf/resin.conf</code> in the configuration home.
+     */
     @Override
     protected String getDataSourceConfigurationFile(DataSourceFixture fixture)
     {
         return configuration.getHome() + "/conf/resin.conf";
     }
 
+    /**
+     * {@inheritdoc}
+     * @param fixture Resource fixture.
+     * @return <code>conf/resin.conf</code> in the configuration home.
+     */
     @Override
     protected String getResourceConfigurationFile(ResourceFixture fixture)
     {
         return getDataSourceConfigurationFile(null);
     }
 
+    /**
+     * Test configuration.
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigure() throws Exception
     {
         configuration.configure(container);
@@ -49,8 +68,18 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
             configuration.getHome() + "/webapps/cargocpc.war"));
     }
 
+    /**
+     * Set up datasource file.
+     * @throws Exception If anything goes wrong.
+     */
     protected abstract void setUpDataSourceFile() throws Exception;
 
+    /**
+     * Setup the datasource file and call parent. {@inheritdoc}
+     * @param fixture Datasource fixture.
+     * @return Configuration file for <code>fixture</code>.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected String configureDataSourceViaPropertyAndRetrieveConfigurationFile(
         DataSourceFixture fixture) throws Exception
@@ -59,6 +88,12 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
         return super.configureDataSourceViaPropertyAndRetrieveConfigurationFile(fixture);
     }
 
+    /**
+     * Setup the datasource file and call parent. {@inheritdoc}
+     * @param fixture Datasource fixture.
+     * @return Configuration file for <code>fixture</code>.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected String configureDataSourceAndRetrieveConfigurationFile(DataSourceFixture fixture)
         throws Exception
@@ -67,6 +102,12 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
         return super.configureDataSourceAndRetrieveConfigurationFile(fixture);
     }
 
+    /**
+     * Checks that creating datasource configuration entries with local transaction support
+     * throws an exception with message
+     * {@link Resin2xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testConfigureCreatesDataSourceForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
@@ -85,6 +126,12 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
         }
     }
 
+    /**
+     * Checks that creating datasource configuration entries with driver-configured XA transaction
+     * support throws an exception with message
+     * {@link Resin2xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testConfigureCreatesDataSourceForDriverConfiguredDSWithXaTransactionSupport()
         throws Exception
@@ -103,21 +150,33 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
         }
     }
 
+    /**
+     * Resource support is currently unimplemented.
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigureCreatesResourceForXADataSource() throws Exception
     {
-        // TODO Resource support is currently unimplemented
+        // Nothing
     }
 
+    /**
+     * Resource support is currently unimplemented.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testConfigureCreatesResource() throws Exception
     {
-        // TODO Resource support is currently unimplemented
+        // Nothing
     }
 
+    /**
+     * Resource support is currently unimplemented.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
     {
-        // TODO Resource support is currently unimplemented
+        // Nothing
     }
 
 }

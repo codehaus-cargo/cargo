@@ -19,9 +19,6 @@
  */
 package org.codehaus.cargo.container.resin.internal;
 
-import java.io.IOException;
-import java.util.Iterator;
-
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
@@ -29,8 +26,6 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.property.DataSourceConverter;
 import org.custommonkey.xmlunit.XMLAssert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.xml.sax.SAXException;
 
 /**
  * Contains XML logic used to validate the XML output of a Resin 2.x DataSource configuration.
@@ -40,8 +35,16 @@ import org.xml.sax.SAXException;
 public class Resin2xConfigurationChecker implements ConfigurationChecker
 {
 
+    /**
+     * Datasource converter.
+     */
     private DataSourceConverter converter = new DataSourceConverter();
 
+    /**
+     * Check that a configuration matches a given resource.
+     * @param configuration Configuration.
+     * @param resource Resource definition.
+     */
     private void checkConfigurationMatchesResource(String configuration, Resource resource)
     {
         try
@@ -60,14 +63,11 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
                     + "/res-type", configuration);
             }
 
-            Iterator parameterNames = resource.getParameterNames().iterator();
-            while (parameterNames.hasNext())
+            for (String propertyName : resource.getParameterNames())
             {
-                String propertyName = parameterNames.next().toString();
                 XMLAssert.assertXpathEvaluatesTo(resource.getParameter(propertyName),
                     pathToResourceRef + "/init-param/@" + propertyName, configuration);
             }
-
         }
         catch (Exception e)
         {
@@ -76,14 +76,26 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
 
     }
 
+    /**
+     * Check that XML path doesn't exist for a datasource fixture.
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     private void notExists(String configuration, DataSourceFixture dataSourceFixture)
-        throws IOException, SAXException, XpathException
+        throws Exception
     {
         XMLAssert.assertXpathNotExists("//resource-ref[res-ref-name='"
             + dataSourceFixture.jndiLocation + "']", configuration);
 
     }
 
+    /**
+     * Convert to resource and check configuration.
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @param resourceType Resource type.
+     */
     private void convertToResourceAndCheckConfigurationMatches(String configuration,
         DataSourceFixture dataSourceFixture, String resourceType)
     {
@@ -93,12 +105,24 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
         checkConfigurationMatchesResource(configuration, resource);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForDriverConfiguredDSWithLocalTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         notExists(configuration, dataSourceFixture);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForDataSourceMatchesDataSourceFixture(String configuration,
         DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -106,12 +130,24 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
             ConfigurationEntryType.DATASOURCE);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         notExists(configuration, dataSourceFixture);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForXADataSourceConfiguredDataSourceMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -120,6 +156,12 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
             ConfigurationEntryType.XA_DATASOURCE);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param resourceFixture Resource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
         String configuration, ResourceFixture resourceFixture) throws Exception
     {
@@ -127,6 +169,12 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
         checkConfigurationMatchesResource(configuration, resource);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param resourceFixture Resource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForMailSessionConfiguredResourceMatchesResourceFixture(
         String configuration, ResourceFixture resourceFixture) throws Exception
     {
@@ -134,6 +182,11 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
         checkConfigurationMatchesResource(configuration, resource);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param dataSourceEntry Entry to insert.
+     * @return <code>dataSourceEntry</code>.
+     */
     public String insertConfigurationEntryIntoContext(String dataSourceEntry)
     {
         return dataSourceEntry;
