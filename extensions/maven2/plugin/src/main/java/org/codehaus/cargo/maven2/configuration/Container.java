@@ -27,6 +27,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.settings.Proxy;
+import org.apache.maven.settings.Settings;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -196,6 +198,13 @@ public class Container
         Configuration configuration, Logger logger, CargoProject project)
         throws MojoExecutionException
     {
+        return createContainer(configuration, logger, project, null);
+    }
+
+    public org.codehaus.cargo.container.Container createContainer(
+        Configuration configuration, Logger logger, CargoProject project, Settings settings)
+        throws MojoExecutionException
+    {
         ContainerFactory factory = new DefaultContainerFactory();
 
         // If the user has registered a custom container class, register it against the
@@ -238,7 +247,14 @@ public class Container
             }
             else if (container.getType() == ContainerType.INSTALLED)
             {
-                setupHome((InstalledLocalContainer) container);
+                if (settings == null)
+                {
+                    setupHome((InstalledLocalContainer) container, null);
+                }
+                else
+                {
+                    setupHome((InstalledLocalContainer) container, settings.getActiveProxy());
+                }
                 setupOutput((InstalledLocalContainer) container, project);
                 setupExtraClasspath((InstalledLocalContainer) container, project);
                 setupSystemProperties((InstalledLocalContainer) container);
@@ -345,13 +361,26 @@ public class Container
      * Set up a home dir of container (possibly including installing the container, by a
      * ZipURLInstaller).
      */
-    private void setupHome(InstalledLocalContainer container)
+    private void setupHome(InstalledLocalContainer container, Proxy proxy)
     {
         String tmpHome = null;
 
         // if a ZipUrlInstaller is specified, use it to install
         if (getZipUrlInstaller() != null)
         {
+            // if a Maven2 proxy is specified, use it
+            if (proxy != null && getZipUrlInstaller().getProxy() == null)
+            {
+                org.codehaus.cargo.container.installer.Proxy zipUrlInstallerProxy =
+                    getZipUrlInstaller().createProxy();
+
+                zipUrlInstallerProxy.setExcludeHosts(proxy.getNonProxyHosts());
+                zipUrlInstallerProxy.setHost(proxy.getHost());
+                zipUrlInstallerProxy.setPassword(proxy.getPassword());
+                zipUrlInstallerProxy.setPort(proxy.getPort());
+                zipUrlInstallerProxy.setUser(proxy.getUsername());
+            }
+
             ZipURLInstaller installer = getZipUrlInstaller().createInstaller();
             if (getLog() != null)
             {
