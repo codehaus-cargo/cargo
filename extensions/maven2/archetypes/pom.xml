@@ -89,7 +89,7 @@
               <archetypeVersion>${project.version}</archetypeVersion>
               <servlet.port>${cargo.itest.servlet.port}</servlet.port>
               <cargo.container.installation.directory>
-                ${basedir}/../../../../core/samples/java/installs
+                ${basedir}/installs
               </cargo.container.installation.directory>
             </properties>
           </configuration>
