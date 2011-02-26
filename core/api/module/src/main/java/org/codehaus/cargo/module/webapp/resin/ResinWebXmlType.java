@@ -22,7 +22,7 @@ package org.codehaus.cargo.module.webapp.resin;
 import org.codehaus.cargo.module.AbstractDescriptorType;
 
 /**
- * @version $Id $
+ * @version $Id$
  * 
  */
 public class ResinWebXmlType extends AbstractDescriptorType

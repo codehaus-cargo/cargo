@@ -31,7 +31,7 @@ import org.custommonkey.xmlunit.XMLAssert;
 /**
  * Contains XML logic used to validate the XML output of a WebLogic 8.x DataSource configuration.
  * 
- * @version $Id $
+ * @version $Id$
  */
 public class WebLogic8xConfigurationChecker implements ConfigurationChecker
 {

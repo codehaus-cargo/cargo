@@ -28,7 +28,7 @@ import org.jdom.JDOMException;
 /**
  * Provides convenience methods for reading Resin web deployment descriptor.
  * 
- * @version $Id $
+ * @version $Id$
  */
 public class ResinWebXmlIo extends AbstractDescriptorIo
 {

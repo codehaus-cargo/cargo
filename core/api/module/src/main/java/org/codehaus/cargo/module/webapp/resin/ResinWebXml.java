@@ -31,7 +31,7 @@ import org.jdom.Element;
  * Encapsulates the DOM representation of a web deployment descriptor <code>resin-web.xml</code> to
  * provide convenience methods for easy access and manipulation.
  * 
- * @version $Id $
+ * @version $Id$
  */
 public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescriptor
 {

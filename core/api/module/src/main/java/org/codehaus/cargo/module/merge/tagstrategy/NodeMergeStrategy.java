@@ -37,7 +37,7 @@ import org.jdom.xpath.XPath;
 /**
  * A merging strategy that can be used to combine two XML documents together.
  * 
- * @version $Id $
+ * @version $Id$
  */
 public class NodeMergeStrategy implements MergeStrategy
 {

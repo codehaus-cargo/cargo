@@ -28,7 +28,7 @@ import org.codehaus.cargo.generic.configuration.DefaultConfigurationCapabilityFa
 /**
  * Validate that a container supports Resource configuration.
  * 
- * @version $Id $
+ * @version $Id$
  */
 public class HasResourceSupportValidator implements Validator
 {
