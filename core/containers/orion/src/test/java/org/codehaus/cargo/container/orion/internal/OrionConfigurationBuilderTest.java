@@ -51,7 +51,7 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
     }
 
     /**
-     * {@inheritdoc}
+     * Check the exception message since Resource configuration is not supported. {@inheritdoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -61,7 +61,6 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
         {
             super.testBuildConfigurationEntryForXADataSourceConfiguredResource();
             fail("should have received an exception");
-
         }
         catch (UnsupportedOperationException e)
         {
@@ -71,7 +70,7 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
     }
 
     /**
-     * {@inheritdoc}
+     * Check the exception message since Resource configuration is not supported. {@inheritdoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -81,7 +80,6 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
         {
             super.testBuildConfigurationEntryForMailSessionConfiguredResource();
             fail("should have received an exception");
-
         }
         catch (UnsupportedOperationException e)
         {
