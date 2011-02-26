@@ -41,22 +41,34 @@ public class WebLogic9x10xAnd103xConfigurationChecker extends
     WebLogic8xConfigurationChecker
 {
 
+    /**
+     * XML namespace prefix.
+     */
     private static final String NS_PREFIX = "jdbc:";
 
+    /**
+     * Creates the WebLogic XML namespace. {@inheritdoc}
+     * @param serverName Server name.
+     */
     public WebLogic9x10xAnd103xConfigurationChecker(String serverName)
     {
         super(serverName);
-        Map m = new HashMap();
+        Map<String, String> m = new HashMap<String, String>();
         m.put("jdbc", "http://www.bea.com/ns/weblogic/90");
         NamespaceContext ctx = new SimpleNamespaceContext(m);
         XMLUnit.setXpathNamespaceContext(ctx);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void checkConfigurationForDriverConfiguredDSWithLocalTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
-
         checkDataSource(configuration, dataSourceFixture);
         XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.driverClass,
             "/" + NS_PREFIX + "jdbc-data-source/" + NS_PREFIX + "jdbc-driver-params/" + NS_PREFIX
@@ -64,9 +76,14 @@ public class WebLogic9x10xAnd103xConfigurationChecker extends
         XMLAssert.assertXpathEvaluatesTo("None",
             "/" + NS_PREFIX + "jdbc-data-source/" + NS_PREFIX + "jdbc-data-source-params/"
                 + NS_PREFIX + "global-transactions-protocol", configuration);
-
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void checkConfigurationForDataSourceMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
@@ -78,9 +95,14 @@ public class WebLogic9x10xAnd103xConfigurationChecker extends
         XMLAssert.assertXpathEvaluatesTo("None",
             "/" + NS_PREFIX + "jdbc-data-source/" + NS_PREFIX + "jdbc-data-source-params/"
                 + NS_PREFIX + "global-transactions-protocol", configuration);
-
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
@@ -92,9 +114,14 @@ public class WebLogic9x10xAnd103xConfigurationChecker extends
         XMLAssert.assertXpathEvaluatesTo("EmulateTwoPhaseCommit", "/" + NS_PREFIX
             + "jdbc-data-source/" + NS_PREFIX + "jdbc-data-source-params/" + NS_PREFIX
             + "global-transactions-protocol", configuration);
-
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void checkConfigurationForXADataSourceConfiguredDataSourceMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
@@ -108,46 +135,49 @@ public class WebLogic9x10xAnd103xConfigurationChecker extends
                 + NS_PREFIX + "global-transactions-protocol", configuration);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void checkDataSource(String configuration, DataSourceFixture dataSourceFixture)
+        throws Exception
     {
+        DataSource ds = dataSourceFixture.buildDataSource();
 
-        try
+        XMLAssert.assertXpathEvaluatesTo(ds.getId(), "/" + NS_PREFIX + "jdbc-data-source/"
+            + NS_PREFIX + "name", configuration);
+        if (dataSourceFixture.url != null)
         {
-            DataSource ds = dataSourceFixture.buildDataSource();
-
-            XMLAssert.assertXpathEvaluatesTo(ds.getId(), "/" + NS_PREFIX + "jdbc-data-source/"
-                + NS_PREFIX + "name", configuration);
-            if (dataSourceFixture.url != null)
-            {
-                XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.url,
-                    "/" + NS_PREFIX + "jdbc-data-source/" + NS_PREFIX + "jdbc-driver-params/"
-                        + NS_PREFIX + "url", configuration);
-            }
-            Properties driverProperties = ds.getConnectionProperties();
-            ds.getConnectionProperties().setProperty("user", ds.getUsername());
-
-            Iterator i = driverProperties.keySet().iterator();
-            while (i.hasNext())
-            {
-                String propertyName = i.next().toString();
-
-                XMLAssert.assertXpathEvaluatesTo(driverProperties.getProperty(propertyName), "/"
-                    + NS_PREFIX + "jdbc-data-source/" + NS_PREFIX + "jdbc-driver-params/"
-                    + NS_PREFIX + "properties/" + NS_PREFIX + "property[" + NS_PREFIX + "name='"
-                    + propertyName + "']/" + NS_PREFIX + "value", configuration);
-            }
-            XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, "/" + NS_PREFIX
-                + "jdbc-data-source/" + NS_PREFIX + "jdbc-data-source-params/" + NS_PREFIX
-                + "jndi-name", configuration);
+            XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.url,
+                "/" + NS_PREFIX + "jdbc-data-source/" + NS_PREFIX + "jdbc-driver-params/"
+                    + NS_PREFIX + "url", configuration);
         }
-        catch (Exception e)
+        Properties driverProperties = ds.getConnectionProperties();
+        ds.getConnectionProperties().setProperty("user", ds.getUsername());
+
+        Iterator<Object> i = driverProperties.keySet().iterator();
+        while (i.hasNext())
         {
-            throw new RuntimeException(e);
-        }
+            String propertyName = i.next().toString();
 
+            XMLAssert.assertXpathEvaluatesTo(driverProperties.getProperty(propertyName), "/"
+                + NS_PREFIX + "jdbc-data-source/" + NS_PREFIX + "jdbc-driver-params/"
+                + NS_PREFIX + "properties/" + NS_PREFIX + "property[" + NS_PREFIX + "name='"
+                + propertyName + "']/" + NS_PREFIX + "value", configuration);
+        }
+        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, "/" + NS_PREFIX
+            + "jdbc-data-source/" + NS_PREFIX + "jdbc-data-source-params/" + NS_PREFIX
+            + "jndi-name", configuration);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param dataSourceEntry Datasource entry.
+     * @return JDBC datasource XML entry with <code>dataSourceEntry</code>.
+     */
     @Override
     public String insertConfigurationEntryIntoContext(String dataSourceEntry)
     {

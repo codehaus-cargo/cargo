@@ -36,19 +36,39 @@ import org.custommonkey.xmlunit.XMLAssert;
 public class WebLogic8xConfigurationChecker implements ConfigurationChecker
 {
 
+    /**
+     * Server name.
+     */
     private String serverName;
 
+    /**
+     * Path to connection pool.
+     */
     private String pathToConnectionPool;
 
+    /**
+     * Path to transaction datasource.
+     */
     private String pathToTxDataSource;
 
+    /**
+     * Path to datasource.
+     */
     private String pathToDataSource;
 
+    /**
+     * Saves the server name.
+     * @param serverName Server name.
+     */
     public WebLogic8xConfigurationChecker(String serverName)
     {
         this.serverName = serverName;
     }
 
+    /**
+     * Initialize configuration.
+     * @param jndiLocation JNDI location.
+     */
     private void init(String jndiLocation)
     {
         pathToConnectionPool = "//JDBCConnectionPool[@Name='" + jndiLocation + "']";
@@ -56,91 +76,86 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
         pathToDataSource = "//JDBCDataSource[@Name='" + jndiLocation + "']";
     }
 
+    /**
+     * Check connection pool.
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource.
+     * @throws Exception If anything goes wrong.
+     */
     private void checkConnectionPool(String configuration, DataSourceFixture dataSourceFixture)
+        throws Exception
     {
-
-        try
+        if (dataSourceFixture.url != null)
         {
-            if (dataSourceFixture.url != null)
-            {
-                XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.url, pathToConnectionPool
-                    + "/@URL", configuration);
-            }
-            XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.driverClass, pathToConnectionPool
-                + "/@DriverName", configuration);
-
-            Assert.assertTrue(configuration.contains("user=" + dataSourceFixture.username));
-            XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.password, pathToConnectionPool
-                + "/@Password", configuration);
-            XMLAssert.assertXpathEvaluatesTo("server", pathToConnectionPool + "/@Targets",
-                configuration);
-
-            XMLAssert.assertXpathEvaluatesTo(serverName, pathToConnectionPool + "/@Targets",
-                configuration);
-            DataSource ds = dataSourceFixture.buildDataSource();
-            ds.getConnectionProperties().setProperty("user", ds.getUsername());
-            XMLAssert.assertXpathEvaluatesTo(new DataSourceConverter()
-                .getConnectionPropertiesAsASemicolonDelimitedString(ds), pathToConnectionPool
-                + "/@Properties", configuration);
+            XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.url, pathToConnectionPool
+                + "/@URL", configuration);
         }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
+        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.driverClass, pathToConnectionPool
+            + "/@DriverName", configuration);
 
+        Assert.assertTrue(configuration.contains("user=" + dataSourceFixture.username));
+        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.password, pathToConnectionPool
+            + "/@Password", configuration);
+        XMLAssert.assertXpathEvaluatesTo("server", pathToConnectionPool + "/@Targets",
+            configuration);
+
+        XMLAssert.assertXpathEvaluatesTo(serverName, pathToConnectionPool + "/@Targets",
+            configuration);
+        DataSource ds = dataSourceFixture.buildDataSource();
+        ds.getConnectionProperties().setProperty("user", ds.getUsername());
+        XMLAssert.assertXpathEvaluatesTo(new DataSourceConverter()
+            .getConnectionPropertiesAsASemicolonDelimitedString(ds), pathToConnectionPool
+            + "/@Properties", configuration);
     }
 
-    protected void notConfigured(String configuration, ResourceFixture dataSourceFixture)
-    {
-        // TODO
-    }
-
+    /**
+     * Check TX datasource.
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     protected void checkTxDataSource(String configuration, DataSourceFixture dataSourceFixture)
-
+        throws Exception
     {
-
-        try
-        {
-            XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, pathToTxDataSource
-                + "/@JNDIName", configuration);
-            XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, pathToTxDataSource
-                + "/@PoolName", configuration);
-            XMLAssert.assertXpathEvaluatesTo(serverName, pathToTxDataSource + "/@Targets",
-                configuration);
-            XMLAssert.assertXpathEvaluatesTo("server", pathToTxDataSource + "/@Targets",
-                configuration);
-            XMLAssert.assertXpathNotExists("//JDBCDataSource", configuration);
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
+        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, pathToTxDataSource
+            + "/@JNDIName", configuration);
+        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, pathToTxDataSource
+            + "/@PoolName", configuration);
+        XMLAssert.assertXpathEvaluatesTo(serverName, pathToTxDataSource + "/@Targets",
+            configuration);
+        XMLAssert.assertXpathEvaluatesTo("server", pathToTxDataSource + "/@Targets",
+            configuration);
+        XMLAssert.assertXpathNotExists("//JDBCDataSource", configuration);
     }
 
+    /**
+     * Check datasource.
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     protected void checkDataSource(String configuration, DataSourceFixture dataSourceFixture)
+        throws Exception
     {
-
-        try
-        {
-            XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, pathToDataSource
-                + "/@Name", configuration);
-            XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, pathToDataSource
-                + "/@JNDIName", configuration);
-            XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, pathToDataSource
-                + "/@PoolName", configuration);
-            XMLAssert.assertXpathEvaluatesTo(serverName, pathToDataSource + "/@Targets",
-                configuration);
-            XMLAssert.assertXpathEvaluatesTo("server", pathToDataSource + "/@Targets",
-                configuration);
-            XMLAssert.assertXpathNotExists(pathToTxDataSource, configuration);
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
-
+        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, pathToDataSource
+            + "/@Name", configuration);
+        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, pathToDataSource
+            + "/@JNDIName", configuration);
+        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, pathToDataSource
+            + "/@PoolName", configuration);
+        XMLAssert.assertXpathEvaluatesTo(serverName, pathToDataSource + "/@Targets",
+            configuration);
+        XMLAssert.assertXpathEvaluatesTo("server", pathToDataSource + "/@Targets",
+            configuration);
+        XMLAssert.assertXpathNotExists(pathToTxDataSource, configuration);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForDriverConfiguredDSWithLocalTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -149,6 +164,12 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
         checkTxDataSource(configuration, dataSourceFixture);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForDataSourceMatchesDataSourceFixture(String configuration,
         DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -157,6 +178,12 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
         checkDataSource(configuration, dataSourceFixture);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -167,6 +194,12 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
             configuration);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForXADataSourceConfiguredDataSourceMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -175,21 +208,37 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
         checkTxDataSource(configuration, dataSourceFixture);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param dataSourceEntry Datasource entry.
+     * @return Domain XML with <code>dataSourceEntry</code>.
+     */
     public String insertConfigurationEntryIntoContext(String dataSourceEntry)
     {
         return "<Domain>" + dataSourceEntry + "</Domain>";
     }
 
+    /**
+     * TODO: WebLogic container doesn't support Resources. {@inheritdoc}
+     * @param configuration Configuration.
+     * @param resourceFixture Resource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
-        String configuration,
-        ResourceFixture resourceFixture) throws Exception
+        String configuration, ResourceFixture resourceFixture) throws Exception
     {
-        notConfigured(configuration, resourceFixture);
+        // TODO
     }
 
+    /**
+     * TODO: WebLogic container doesn't support Resources. {@inheritdoc}
+     * @param configuration Configuration.
+     * @param resourceFixture Resource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForMailSessionConfiguredResourceMatchesResourceFixture(
         String configuration, ResourceFixture resourceFixture) throws Exception
     {
-        notConfigured(configuration, resourceFixture);
+        // TODO
     }
 }

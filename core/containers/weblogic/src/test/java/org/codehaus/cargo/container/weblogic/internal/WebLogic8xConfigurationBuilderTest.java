@@ -23,6 +23,11 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurationBuilderTest;
 
+/**
+ * Integration tests for {@link WebLogic8xConfigurationBuilder}.
+ * 
+ * @version $Id$
+ */
 public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBuilderTest
 {
     /**
@@ -43,6 +48,10 @@ public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBui
         return new WebLogic8xConfigurationChecker("server");
     }
 
+    /**
+     * Check the exception message since Resource configuration is not supported. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testBuildConfigurationEntryForXADataSourceConfiguredResource() throws Exception
     {
@@ -50,7 +59,6 @@ public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBui
         {
             super.testBuildConfigurationEntryForXADataSourceConfiguredResource();
             fail("should have received an exception");
-
         }
         catch (UnsupportedOperationException e)
         {
@@ -59,6 +67,10 @@ public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBui
         }
     }
 
+    /**
+     * Check the exception message since Resource configuration is not supported. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testBuildConfigurationEntryForMailSessionConfiguredResource() throws Exception
     {
@@ -66,7 +78,6 @@ public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBui
         {
             super.testBuildConfigurationEntryForMailSessionConfiguredResource();
             fail("should have received an exception");
-
         }
         catch (UnsupportedOperationException e)
         {

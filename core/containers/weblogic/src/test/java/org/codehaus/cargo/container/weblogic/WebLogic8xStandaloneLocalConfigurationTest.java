@@ -32,6 +32,11 @@ import org.custommonkey.xmlunit.XMLAssert;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 
+/**
+ * Unit tests for {@link WebLogic8xStandaloneLocalConfiguration}.
+ * 
+ * @version $Id$
+ */
 public class WebLogic8xStandaloneLocalConfigurationTest extends
     AbstractWeblogicStandaloneConfigurationTest
 {
@@ -66,12 +71,21 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
         return new WebLogic8xConfigurationChecker("server");
     }
 
+    /**
+     * {@inheritdoc}
+     * @param fixture Ignored.
+     * @return <code>config.xml</code> file in the configuration directory.
+     */
     @Override
     protected String getDataSourceConfigurationFile(DataSourceFixture fixture)
     {
         return configuration.getHome() + "/config.xml";
     }
 
+    /**
+     * Test configuration.
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigure() throws Exception
     {
         configuration.configure(container);
@@ -81,9 +95,12 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
             configuration.getHome() + "/DefaultAuthenticatorInit.ldift"));
         assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/applications/cargocpc.war"));
-
     }
 
+    /**
+     * Test default port.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsDefaultPort() throws Exception
     {
         configuration.configure(container);
@@ -91,9 +108,12 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
             configuration.getFileHandler().readTextFile(configuration.getHome() + "/config.xml");
         XMLAssert.assertXpathEvaluatesTo(configuration.getPropertyValue(ServletPropertySet.PORT),
             "//Server/@ListenPort", config);
-
     }
 
+    /**
+     * Test changed port.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsPort() throws Exception
     {
         configuration.setProperty(ServletPropertySet.PORT, "123");
@@ -101,9 +121,12 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(configuration.getHome() + "/config.xml");
         XMLAssert.assertXpathEvaluatesTo("123", "//Server/@ListenPort", config);
-
     }
 
+    /**
+     * Test WAR creation.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureCreatesWar() throws Exception
     {
         configuration.addDeployable(new WAR("my.war"));
@@ -113,6 +136,10 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
         XMLAssert.assertXpathEvaluatesTo("my.war", "//WebAppComponent/@URI", config);
     }
 
+    /**
+     * Test address.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsDefaultAddress() throws Exception
     {
         configuration.configure(container);
@@ -120,9 +147,12 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
             configuration.getFileHandler().readTextFile(configuration.getHome() + "/config.xml");
         XMLAssert.assertXpathEvaluatesTo(configuration
             .getPropertyValue(GeneralPropertySet.HOSTNAME), "//Server/@ListenAddress", config);
-
     }
 
+    /**
+     * Test changed address.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsAddress() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.HOSTNAME, "localhost");
@@ -130,9 +160,12 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(configuration.getHome() + "/config.xml");
         XMLAssert.assertXpathEvaluatesTo("localhost", "//Server/@ListenAddress", config);
-
     }
 
+    /**
+     * {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUpDataSourceFile() throws Exception
     {

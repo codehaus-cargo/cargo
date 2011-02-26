@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import java.io.IOException;
-
 import junit.framework.TestCase;
 
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
@@ -30,11 +28,9 @@ import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 import org.custommonkey.xmlunit.XMLAssert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.xml.sax.SAXException;
 
 /**
  * Unit tests for {@link WebLogic8xConfigXmlInstalledLocalDeployer}.
@@ -50,25 +46,55 @@ import org.xml.sax.SAXException;
 public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
 {
 
-    private static final String BEA_HOME = "ram:/bea";
-
-    private static final String DOMAIN_HOME = BEA_HOME + "/mydomain";
-
-    private static final String WL_HOME = BEA_HOME + "/weblogic8";
-
+    /**
+     * Resources' path.
+     */
     protected static final String RESOURCE_PATH =
         "/org/codehaus/cargo/container/internal/resources/";
 
+    /**
+     * BEA_HOME
+     */
+    private static final String BEA_HOME = "ram:/bea";
+
+    /**
+     * DOMAIN_HOME
+     */
+    private static final String DOMAIN_HOME = BEA_HOME + "/mydomain";
+
+    /**
+     * WL_HOME
+     */
+    private static final String WL_HOME = BEA_HOME + "/weblogic8";
+
+    /**
+     * Container.
+     */
     private WebLogic8xInstalledLocalContainer container;
 
+    /**
+     * Deployer.
+     */
     private WebLogic8xConfigXmlInstalledLocalDeployer deployer;
 
+    /**
+     * File system manager.
+     */
     private StandardFileSystemManager fsManager;
 
+    /**
+     * Resource utilities.
+     */
     private ResourceUtils resourceUtils;
 
+    /**
+     * File handler.
+     */
     private FileHandler fileHandler;
 
+    /**
+     * XML element for domain.
+     */
     private Element domain;
 
     /**
@@ -90,7 +116,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
         this.container.setHome(WL_HOME);
         this.container.setFileHandler(this.fileHandler);
         this.deployer = new WebLogic8xConfigXmlInstalledLocalDeployer(container);
-        resourceUtils = new ResourceUtils();
+        this.resourceUtils = new ResourceUtils();
         Document document = DocumentHelper.createDocument();
         this.domain = document.addElement("Domain");
     }
@@ -110,7 +136,11 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
         super.tearDown();
     }
 
-    public void testConfigWar() throws IOException, XpathException, SAXException
+    /**
+     * Test WAR in config.xml.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testConfigWar() throws Exception
     {
         this.resourceUtils.copyResource(RESOURCE_PATH + "cargocpc.war", this.fileHandler.append(
             DOMAIN_HOME, "cargocpc.war"), this.fileHandler);

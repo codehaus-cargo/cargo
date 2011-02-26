@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,17 +34,35 @@ import org.custommonkey.xmlunit.NamespaceContext;
 import org.custommonkey.xmlunit.SimpleNamespaceContext;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Namespace;
 import org.dom4j.QName;
-import org.xml.sax.SAXException;
 
+/**
+ * Unit tests for {@link WebLogic9xStandaloneLocalConfiguration}.
+ * 
+ * @version $Id$
+ */
 public class WebLogic9xStandaloneLocalConfigurationTest extends
     AbstractWeblogicStandaloneConfigurationTest
 {
+
+    /**
+     * Document checked.
+     */
+    private Document document;
+
+    /**
+     * XML domain.
+     */
+    private Element domain;
+
+    /**
+     * XML utilities.
+     */
+    private Dom4JUtil xmlUtil;
 
     /**
      * Creates a {@link WebLogic9xStandaloneLocalConfiguration}. {@inheritdoc}
@@ -78,12 +95,11 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         return new WebLogic9x10xAnd103xConfigurationChecker("server");
     }
 
-    private Document document;
-
-    private Element domain;
-
-    private Dom4JUtil xmlUtil;
-
+    /**
+     * {@inheritdoc}
+     * @param ds Datasource.
+     * @return Datasource configuration file with <code>ds</code>.
+     */
     @Override
     protected String getDataSourceConfigurationFile(DataSourceFixture ds)
     {
@@ -91,6 +107,10 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             + "-jdbc.xml";
     }
 
+    /**
+     * Initialize all XML tools. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -104,19 +124,24 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         this.xmlUtil = new Dom4JUtil(getFileHandler());
         this.document = DocumentHelper.createDocument();
         this.domain = document.addElement("domain");
-        document.setRootElement(domain);
-        domain.addNamespace("", "http://www.bea.com/ns/weblogic/920/domain");
+        this.document.setRootElement(domain);
+        this.domain.addNamespace("", "http://www.bea.com/ns/weblogic/920/domain");
         QName configurationVersionQ =
             new QName("configuration-version", new Namespace("",
                 "http://www.bea.com/ns/weblogic/920/domain"));
-        domain.addElement(configurationVersionQ);
+        this.domain.addElement(configurationVersionQ);
         QName adminServerNameQ =
             new QName("admin-server-name", new Namespace("",
                 "http://www.bea.com/ns/weblogic/920/domain"));
-        domain.addElement(adminServerNameQ);
-
+        this.domain.addElement(adminServerNameQ);
     }
 
+    /**
+     * Call parent and check link in configuration XML. {@inheritdoc}
+     * @param fixture Datasource fixture.
+     * @return Configured datasource.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected String configureDataSourceViaPropertyAndRetrieveConfigurationFile(
         DataSourceFixture fixture) throws Exception
@@ -127,6 +152,12 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         return toReturn;
     }
 
+    /**
+     * Call parent and check link in configuration XML. {@inheritdoc}
+     * @param fixture Datasource fixture.
+     * @return Configured datasource.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected String configureDataSourceAndRetrieveConfigurationFile(DataSourceFixture fixture)
         throws Exception
@@ -137,13 +168,11 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * @param fixture
-     * @throws SAXException
-     * @throws IOException
-     * @throws XpathException
+     * Check link in configuration XML.
+     * @param fixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
      */
-    private void checkLinkToDataSourceInConfigXml(DataSourceFixture fixture) throws SAXException,
-        IOException, XpathException
+    private void checkLinkToDataSourceInConfigXml(DataSourceFixture fixture) throws Exception
     {
         String domainXml =
             configuration.getFileHandler().readTextFile(
@@ -154,6 +183,10 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             "//weblogic:jdbc-system-resource/weblogic:target", domainXml);
     }
 
+    /**
+     * {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUpDataSourceFile() throws Exception
     {
@@ -162,6 +195,10 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         xmlUtil.saveXml(document, file);
     }
 
+    /**
+     * Test file creation.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureCreatesFiles() throws Exception
     {
         configuration.configure(container);
@@ -178,9 +215,12 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             configuration.getHome() + "/security/SerializedSystemIni.dat"));
         assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/autodeploy/cargocpc.war"));
-
     }
 
+    /**
+     * Test default values.
+     * @throws Exception If anything goes wrong.
+     */
     public void testConstructorSetsPropertyDefaults() throws Exception
     {
         assertEquals(configuration.getPropertyValue(WebLogicPropertySet.ADMIN_USER), "weblogic");
@@ -192,6 +232,10 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             "9.2.3.0");
     }
 
+    /**
+     * Test required elements.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureCreatesRequiredElements() throws Exception
     {
         configuration.configure(container);
@@ -203,6 +247,10 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             config);
     }
 
+    /**
+     * Test domain version.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsDefaultDomainVersion() throws Exception
     {
         configuration.configure(container);
@@ -222,6 +270,10 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         XMLAssert.assertXpathExists("//weblogic:admin-server-name", config);
     }
 
+    /**
+     * Test changing domain version.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsDomainVersion() throws Exception
     {
         configuration.setProperty(WebLogicPropertySet.DOMAIN_VERSION, "1.2.2.1");
@@ -230,9 +282,12 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo("1.2.2.1", "//weblogic:domain-version", config);
-
     }
 
+    /**
+     * Test configuration version.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsDefaultConfigurationVersion() throws Exception
     {
         configuration.configure(container);
@@ -242,9 +297,12 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         XMLAssert.assertXpathEvaluatesTo(configuration
             .getPropertyValue(WebLogicPropertySet.CONFIGURATION_VERSION),
             "//weblogic:configuration-version", config);
-
     }
 
+    /**
+     * Test changing configuration version.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsConfigurationVersion() throws Exception
     {
         configuration.setProperty(WebLogicPropertySet.CONFIGURATION_VERSION, "1.2.2.1");
@@ -253,9 +311,12 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo("1.2.2.1", "//weblogic:configuration-version", config);
-
     }
 
+    /**
+     * Test default admin server.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsDefaultAdminServer() throws Exception
     {
         configuration.configure(container);
@@ -265,9 +326,12 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         XMLAssert
             .assertXpathEvaluatesTo(configuration.getPropertyValue(WebLogicPropertySet.SERVER),
                 "//weblogic:admin-server-name", config);
-
     }
 
+    /**
+     * Test changed admin server.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsAdminServer() throws Exception
     {
         configuration.setProperty(WebLogicPropertySet.SERVER, "asda");
@@ -276,19 +340,12 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo("asda", "//weblogic:admin-server-name", config);
-
     }
 
-    public void testDoConfigureSetsDefaultServer() throws Exception
-    {
-        // TODO
-    }
-
-    public void testDoConfigureSetsServer() throws Exception
-    {
-        // TODO
-    }
-
+    /**
+     * Test default port.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsDefaultPort() throws Exception
     {
         configuration.configure(container);
@@ -297,9 +354,12 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
                 configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo(configuration.getPropertyValue(ServletPropertySet.PORT),
             "//weblogic:listen-port", config);
-
     }
 
+    /**
+     * Test changed port.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsPort() throws Exception
     {
         configuration.setProperty(ServletPropertySet.PORT, "1001");
@@ -308,9 +368,12 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo("1001", "//weblogic:listen-port", config);
-
     }
 
+    /**
+     * Test log levels.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsDefaultLogging() throws Exception
     {
         configuration.configure(container);
@@ -318,9 +381,12 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo("Info", "//weblogic:log-file-severity", config);
-
     }
 
+    /**
+     * Test changed log levels.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsHighLogging() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.LOGGING, "high");
@@ -329,9 +395,12 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo("Debug", "//weblogic:log-file-severity", config);
-
     }
 
+    /**
+     * Test changed log levels.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsMediumLogging() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.LOGGING, "medium");
@@ -340,9 +409,12 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo("Info", "//weblogic:log-file-severity", config);
-
     }
 
+    /**
+     * Test changed log levels.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsLowLogging() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.LOGGING, "low");
@@ -351,9 +423,12 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo("Warning", "//weblogic:log-file-severity", config);
-
     }
 
+    /**
+     * Test address.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsDefaultAddress() throws Exception
     {
         configuration.configure(container);
@@ -362,9 +437,12 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
                 configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo(configuration
             .getPropertyValue(GeneralPropertySet.HOSTNAME), "//weblogic:listen-address", config);
-
     }
 
+    /**
+     * Test changed address.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDoConfigureSetsAddress() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.HOSTNAME, "loc");
@@ -373,7 +451,6 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml");
         XMLAssert.assertXpathEvaluatesTo("loc", "//weblogic:listen-address", config);
-
     }
 
 }

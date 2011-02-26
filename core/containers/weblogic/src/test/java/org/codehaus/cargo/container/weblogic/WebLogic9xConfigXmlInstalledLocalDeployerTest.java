@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,13 +42,11 @@ import org.custommonkey.xmlunit.NamespaceContext;
 import org.custommonkey.xmlunit.SimpleNamespaceContext;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Namespace;
 import org.dom4j.QName;
-import org.xml.sax.SAXException;
 
 /**
  * Unit tests for {@link WebLogic9xConfigXmlInstalledLocalDeployer}.
@@ -65,27 +62,60 @@ import org.xml.sax.SAXException;
 public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
 {
 
-    private static final String BEA_HOME = "ram:/bea";
-
-    private static final String DOMAIN_HOME = BEA_HOME + "/mydomain";
-
-    private static final String WL_HOME = BEA_HOME + "/weblogic9";
-
+    /**
+     * Resources' path.
+     */
     protected static final String RESOURCE_PATH =
         "/org/codehaus/cargo/container/internal/resources/";
 
+    /**
+     * BEA_HOME
+     */
+    private static final String BEA_HOME = "ram:/bea";
+
+    /**
+     * DOMAIN_HOME
+     */
+    private static final String DOMAIN_HOME = BEA_HOME + "/mydomain";
+
+    /**
+     * WL_HOME
+     */
+    private static final String WL_HOME = BEA_HOME + "/weblogic9";
+
+    /**
+     * Container.
+     */
     private WebLogic9xInstalledLocalContainer container;
 
+    /**
+     * Deployer.
+     */
     private WebLogic9xConfigXmlInstalledLocalDeployer deployer;
 
+    /**
+     * File system manager.
+     */
     private StandardFileSystemManager fsManager;
 
+    /**
+     * Resource utilities.
+     */
     private ResourceUtils resourceUtils;
 
+    /**
+     * File handler.
+     */
     private FileHandler fileHandler;
 
+    /**
+     * XML element for domain.
+     */
     private Element domain;
 
+    /**
+     * XML document.
+     */
     private Document document;
 
     /**
@@ -97,7 +127,7 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
     {
         super.setUp();
         // setup the namespace of the weblogic config.xml file
-        Map m = new HashMap();
+        Map<String, String> m = new HashMap<String, String>();
         m.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
         m.put("jdbc", "http://www.bea.com/ns/weblogic/90");
         NamespaceContext ctx = new SimpleNamespaceContext(m);
@@ -114,19 +144,19 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
         this.container.setHome(WL_HOME);
         this.container.setFileHandler(this.fileHandler);
         this.deployer = new WebLogic9xConfigXmlInstalledLocalDeployer(container);
-        resourceUtils = new ResourceUtils();
+        this.resourceUtils = new ResourceUtils();
         this.document = DocumentHelper.createDocument();
         this.domain = document.addElement("domain");
-        document.setRootElement(domain);
-        domain.addNamespace("", "http://www.bea.com/ns/weblogic/920/domain");
+        this.document.setRootElement(domain);
+        this.domain.addNamespace("", "http://www.bea.com/ns/weblogic/920/domain");
         QName configurationVersionQ =
             new QName("configuration-version", new Namespace("",
                 "http://www.bea.com/ns/weblogic/920/domain"));
-        domain.addElement(configurationVersionQ);
+        this.domain.addElement(configurationVersionQ);
         QName adminServerNameQ =
             new QName("admin-server-name", new Namespace("",
                 "http://www.bea.com/ns/weblogic/920/domain"));
-        domain.addElement(adminServerNameQ);
+        this.domain.addElement(adminServerNameQ);
     }
 
     /**
@@ -144,7 +174,11 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
         super.tearDown();
     }
 
-    public void testConfigWar() throws IOException, XpathException, SAXException
+    /**
+     * Test WAR in config.xml.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testConfigWar() throws Exception
     {
         WAR war = createWar();
         String xml = domain.asXML();
@@ -155,11 +189,15 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
             "//weblogic:app-deployment/weblogic:source-path", xml);
     }
 
+    /**
+     * Test deployments analysis in config.xml.
+     * @throws Exception If anything goes wrong.
+     */
     public void testFindAppDeployments() throws Exception
     {
         WAR war = createWar();
         testConfigWar();
-        List l = deployer.selectAppDeployments(war, domain);
+        List<Element> l = deployer.selectAppDeployments(war, domain);
         assertEquals(1, l.size());
         deployer.removeDeployableFromDomain(war, domain);
         l = deployer.selectAppDeployments(war, domain);
@@ -167,10 +205,10 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
     }
 
     /**
-     * @return
-     * @throws IOException
+     * @return WAR file.
+     * @throws Exception If anything goes wrong.
      */
-    protected WAR createWar() throws IOException
+    protected WAR createWar() throws Exception
     {
         String sourcePath = this.fileHandler.append(DOMAIN_HOME, "cargocpc.war");
         this.resourceUtils.copyResource(RESOURCE_PATH + "cargocpc.war", sourcePath,
@@ -179,6 +217,10 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
         return war;
     }
 
+    /**
+     * Test WAR identifier creation.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateIdForWAR() throws Exception
     {
         WAR war = createWar();
@@ -186,29 +228,44 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
         assertEquals("cargo", name);
     }
 
+    /**
+     * Test EJB identifier creation.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateIdForEJB() throws Exception
     {
-        EJB EJB = createEJB();
-        String name = deployer.createIdForDeployable(EJB);
+        EJB ejb = createEJB();
+        String name = deployer.createIdForDeployable(ejb);
         assertEquals("cargo.war", name);
     }
 
-    public void testCreateIdForRAR() throws Exception
-    {
-        RAR RAR = createRAR();
-        String name = deployer.createIdForDeployable(RAR);
-        assertEquals("cargo.war", name);
-    }
-
+    /**
+     * Test EAR identifier creation.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateIdForEAR() throws Exception
     {
-        // skipping until mocks are created
-        // EAR ear = createEar();
-        // String name = deployer.getNameFromDeployable(ear);
-        // assertEquals("cargo", name);
+        EAR ear = createEAR();
+        String name = deployer.createIdForDeployable(ear);
+        assertEquals("cargo.war", name);
     }
 
-    public void testGetNameFromDeployableNotSupportedList() throws IOException
+    /**
+     * Test RAR identifier creation.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testCreateIdForRAR() throws Exception
+    {
+        RAR rar = createRAR();
+        String name = deployer.createIdForDeployable(rar);
+        assertEquals("cargo.war", name);
+    }
+
+    /**
+     * Test name getter when deployable not listed.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testGetNameFromDeployableNotSupportedList() throws Exception
     {
         SAR sar = createSAR();
         testGetNameFromDeployableNotSupportedFor(sar);
@@ -216,7 +273,11 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
         testGetNameFromDeployableNotSupportedFor(file);
     }
 
-    private RAR createRAR() throws IOException
+    /**
+     * @return RAR file.
+     * @throws Exception If anything goes wrong.
+     */
+    private RAR createRAR() throws Exception
     {
         // Current implementation of RAR does not validate
         // the type of file in any way. As such, we can re-use WAR
@@ -226,36 +287,66 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
         return rar;
     }
 
-    private SAR createSAR() throws IOException
+    /**
+     * @return SAR file.
+     * @throws Exception If anything goes wrong.
+     */
+    private SAR createSAR() throws Exception
     {
         // Current implementation of SAR does not validate
         // the type of file in any way. As such, we can re-use WAR
         // logic until this code is broken, or reimplemented as mocks
         WAR war = createWar();
-        SAR SAR = new SAR(war.getFile());
-        return SAR;
+        SAR sar = new SAR(war.getFile());
+        return sar;
     }
 
-    private EJB createEJB() throws IOException
+    /**
+     * @return EJB file.
+     * @throws Exception If anything goes wrong.
+     */
+    private EJB createEJB() throws Exception
     {
         // Current implementation of EJB does not validate
         // the type of file in any way. As such, we can re-use WAR
         // logic until this code is broken, or reimplemented as mocks
         WAR war = createWar();
-        EJB EJB = new EJB(war.getFile());
-        return EJB;
+        EJB ejb = new EJB(war.getFile());
+        return ejb;
     }
 
-    private File createFile() throws IOException
+    /**
+     * @return EAR file.
+     * @throws Exception If anything goes wrong.
+     */
+    private EAR createEAR() throws Exception
+    {
+        // Current implementation of EJB does not validate
+        // the type of file in any way. As such, we can re-use WAR
+        // logic until this code is broken, or reimplemented as mocks
+        WAR war = createWar();
+        EAR ear = new EAR(war.getFile());
+        return ear;
+    }
+
+    /**
+     * @return Any file.
+     * @throws Exception If anything goes wrong.
+     */
+    private File createFile() throws Exception
     {
         // Current implementation of File does not validate
         // the type of file in any way. As such, we can re-use WAR
         // logic until this code is broken, or reimplemented as mocks
         WAR war = createWar();
-        File File = new File(war.getFile());
-        return File;
+        File file = new File(war.getFile());
+        return file;
     }
 
+    /**
+     * Test name getter when deployable not listed.
+     * @param deployable Deployable to test.
+     */
     private void testGetNameFromDeployableNotSupportedFor(Deployable deployable)
     {
         try
@@ -270,28 +361,26 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
         }
         catch (Exception e)
         {
-            fail("wrong exception type");
+            fail("wrong exception type: " + e);
         }
     }
 
     /**
-     * create an EAR that can be used for testing deployer capability.
+     * Test deployable name construction.
+     * @throws Exception If anything goes wrong.
      */
-    private EAR createEar()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public void testBuildDeployableNameFromFile() throws IOException
+    public void testBuildDeployableNameFromFile() throws Exception
     {
         File file = createFile();
         assertEquals("cargo.war", deployer.createIdFromFileName(file));
-
     }
 
+    /**
+     * Test application deployment reordering.
+     * @throws Exception If anything goes wrong.
+     */
     public void testReorderAppDeploymentsAfterConfigurationVersionAndBeforeAdminServerName()
-        throws IOException
+        throws Exception
     {
         WAR war = createWar();
         deployer.createElementForDeployableInDomain(war, domain);
@@ -302,10 +391,13 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
         int indexOfAdminServerName = xml.indexOf("admin-server-name");
         assertTrue(indexOfAppDeployment > indexOfConfigurationVersion);
         assertTrue(indexOfAppDeployment < indexOfAdminServerName);
-
     }
 
-    public void testUnConfigWar() throws IOException, XpathException, SAXException
+    /**
+     * Test WAR unconfiguration.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testUnConfigWar() throws Exception
     {
         WAR war = createWar();
         testConfigWar();
@@ -319,6 +411,10 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
                 + deployer.getAbsolutePath(war) + "')]", xml);
     }
 
+    /**
+     * Test path getter.
+     * @throws Exception If anything goes wrong.
+     */
     public void testGetAbsolutePathWithRelativePath() throws Exception
     {
         Deployable deployable = new WAR("path");

@@ -23,20 +23,38 @@ import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfigurationWithConfigurationBuilderTest;
 
+/**
+ * Integration tests for WebLogic standalone configurations.
+ * 
+ * @version $Id$
+ */
 public abstract class AbstractWeblogicStandaloneConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest
 {
 
+    /**
+     * Empty constructor.
+     */
     public AbstractWeblogicStandaloneConfigurationTest()
     {
         super();
     }
 
+    /**
+     * {@inheritdoc}
+     * @param name Container name.
+     */
     public AbstractWeblogicStandaloneConfigurationTest(String name)
     {
         super(name);
     }
 
+    /**
+     * Setup datasource file and call parent. {@inheritdoc}
+     * @param fixture Datasource fixture.
+     * @return Configured datasource.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected String configureDataSourceViaPropertyAndRetrieveConfigurationFile(
         DataSourceFixture fixture) throws Exception
@@ -45,8 +63,18 @@ public abstract class AbstractWeblogicStandaloneConfigurationTest extends
         return super.configureDataSourceViaPropertyAndRetrieveConfigurationFile(fixture);
     }
 
-    abstract protected void setUpDataSourceFile() throws Exception;
+    /**
+     * Setup datasource file.
+     * @throws Exception If anything goes wrong.
+     */
+    protected abstract void setUpDataSourceFile() throws Exception;
 
+    /**
+     * Setup the datasource file and call parent. {@inheritdoc}
+     * @param fixture Datasource fixture.
+     * @return Configuration file for <code>fixture</code>.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected String configureDataSourceAndRetrieveConfigurationFile(DataSourceFixture fixture)
         throws Exception
@@ -55,29 +83,44 @@ public abstract class AbstractWeblogicStandaloneConfigurationTest extends
         return super.configureDataSourceAndRetrieveConfigurationFile(fixture);
     }
 
+    /**
+     * WebLogic does not currently support Resources. {@inheritdoc}
+     * @param fixture Ignored.
+     * @return <code>null</code>
+     */
     @Override
     protected String getResourceConfigurationFile(ResourceFixture fixture)
     {
-        // WebLogic does not currently support Resources
         return null;
     }
 
+    /**
+     * WebLogic does not currently support Resources. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigureCreatesResourceForXADataSource() throws Exception
     {
-        // WebLogic does not currently support Resources
+        // Nothing
     }
 
+    /**
+     * WebLogic does not currently support Resources. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testConfigureCreatesResource() throws Exception
     {
-        // WebLogic does not currently support Resources
-
+        // Nothing
     }
 
+    /**
+     * WebLogic does not currently support Resources. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
     {
-        // WebLogic Resources
+        // Nothins
     }
 
 }

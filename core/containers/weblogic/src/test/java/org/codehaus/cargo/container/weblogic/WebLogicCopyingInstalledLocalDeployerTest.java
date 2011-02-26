@@ -40,15 +40,39 @@ import org.codehaus.cargo.util.VFSFileHandler;
  */
 public class WebLogicCopyingInstalledLocalDeployerTest extends TestCase
 {
+    /**
+     * BEA_HOME
+     */
     private static final String BEA_HOME = "ram:/bea";
+
+    /**
+     * DOMAIN_HOME
+     */
     private static final String DOMAIN_HOME = BEA_HOME + "/mydomain";
+
+    /**
+     * WL_HOME
+     */
     private static final String WL_HOME = BEA_HOME + "/weblogic9";
 
+    /**
+     * Container.
+     */
     private WebLogic9xInstalledLocalContainer container;
 
+    /**
+     * Deployer.
+     */
     private WebLogicCopyingInstalledLocalDeployer deployer;
 
+    /**
+     * File system manager.
+     */
     private StandardFileSystemManager fsManager;
+
+    /**
+     * File handler.
+     */
     private FileHandler fileHandler;
 
     /**
