@@ -22,6 +22,11 @@ package org.codehaus.cargo.container.tomcat.internal;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 
+/**
+ * {@inheritdoc}
+ * 
+ * @version $Id$
+ */
 public class Tomcat5And6xConfigurationBuilderTest extends Tomcat4xConfigurationBuilderTest
 {
     /**

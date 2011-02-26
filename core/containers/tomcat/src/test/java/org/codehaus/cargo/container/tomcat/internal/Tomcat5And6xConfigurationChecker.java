@@ -19,14 +19,9 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
-import java.io.IOException;
-import java.util.Iterator;
-
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.custommonkey.xmlunit.XMLAssert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.xml.sax.SAXException;
 
 /**
  * Contains XML logic used to validate the XML output of a Tomcat 5 and 6.x DataSource
@@ -36,12 +31,23 @@ import org.xml.sax.SAXException;
  */
 public class Tomcat5And6xConfigurationChecker extends Tomcat4xConfigurationChecker
 {
+    /**
+     * {@inheritdoc}
+     * @return Datasource factory class:
+     * <code>org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory</code>
+     */
     @Override
     protected String getDataSourceFactory()
     {
         return "org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory";
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration name.
+     * @param dataSourceFixture Datasource.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void notExists(String configuration, DataSourceFixture dataSourceFixture)
         throws Exception
@@ -53,6 +59,12 @@ public class Tomcat5And6xConfigurationChecker extends Tomcat4xConfigurationCheck
 
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration name.
+     * @param resource Resource.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void checkConfigurationMatchesResource(String configuration, Resource resource)
         throws Exception
@@ -72,11 +84,8 @@ public class Tomcat5And6xConfigurationChecker extends Tomcat4xConfigurationCheck
                 configuration);
         }
 
-        Iterator i = resource.getParameterNames().iterator();
-        while (i.hasNext())
+        for (String propertyName : resource.getParameterNames())
         {
-            String propertyName = i.next().toString();
-
             String propertyNameInTomcatXML = propertyName;
             if ("user".equals(propertyName))
             {
@@ -89,19 +98,29 @@ public class Tomcat5And6xConfigurationChecker extends Tomcat4xConfigurationCheck
         }
     }
 
+    /**
+     * {@inheritdoc}
+     * @param dataSourceEntry Datasource entry.
+     * @return Context with inserted configuration entry.
+     */
     @Override
     public String insertConfigurationEntryIntoContext(String dataSourceEntry)
     {
         return "<Context>" + dataSourceEntry + "</Context>";
     }
 
-    public void checkTransactionManagerToken(String xml) throws SAXException, IOException,
-        XpathException
+    /**
+     * Check transaction manager token in XML configuration.
+     * @param xml XML configuration.
+     * @throws Exception If anything goes wrong.
+     */
+    public void checkTransactionManagerToken(String xml) throws Exception
     {
         XMLAssert
             .assertXpathEvaluatesTo(
                 "60",
-                "//Context/Transaction[@factory='org.objectweb.jotm.UserTransactionFactory']/@jotm.timeout",
+                "//Context/Transaction[@factory='org.objectweb.jotm.UserTransactionFactory']"
+                    + "/@jotm.timeout",
                 xml);
     }
 }

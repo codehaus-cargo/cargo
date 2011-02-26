@@ -26,10 +26,19 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfi
 import org.codehaus.cargo.container.tomcat.Tomcat4xStandaloneLocalConfiguration;
 import org.codehaus.cargo.util.CargoException;
 
+/**
+ * Unit tests for Tomcat standalone local configurations.
+ * 
+ * @version $Id$
+ */
 public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest
 {
 
+    /**
+     * Creates the Tomcat manager. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -37,14 +46,29 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         setUpManager();
     }
 
+    /**
+     * Set up the Tomcat manager.
+     */
     protected abstract void setUpManager();
 
+    /**
+     * {@inheritdoc}. This implementation simply calls
+     * <code>getResourceConfigurationFile(null)</code>.
+     * @param fixture Datasource fixture.
+     * @return Resource file name for <code>fixture</code>.
+     * @see AbstractCatalinaStandaloneLocalConfigurationTest#getResourceConfigurationFile(ResourceFixture)
+     */
     @Override
     protected String getDataSourceConfigurationFile(DataSourceFixture fixture)
     {
         return getResourceConfigurationFile(null);
     }
 
+    /**
+     * Test {@link AbstractCatalinaStandaloneLocalConfiguration#escapePath(String)}.
+     * @param path Path to test.
+     * @param expectedEscapedPath Expected escaped path.
+     */
     private void testEscapePath(String path, String expectedEscapedPath)
     {
         AbstractCatalinaStandaloneLocalConfiguration configuration =
@@ -55,26 +79,41 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         assertEquals(path, expectedEscapedPath, escapedPath);
     }
 
+    /**
+     * Test if full UNIX paths get escaped correctly.
+     */
     public void testEscapePathWithFullUNIXPath()
     {
         testEscapePath("/usr/bin/java", "/usr/bin/java");
     }
 
+    /**
+     * Test if partial UNIX paths get escaped correctly.
+     */
     public void testEscapePathWithPartialUNIXPath()
     {
         testEscapePath("Documents/java", "Documents/java");
     }
 
+    /**
+     * Test if full Windows paths get escaped correctly.
+     */
     public void testEscapePathWithFullWindowsPath()
     {
         testEscapePath("C:\\Windows\\SYSTEM32\\java.exe", "/C:/Windows/SYSTEM32/java.exe");
     }
 
+    /**
+     * Test if partial Windows paths get escaped correctly.
+     */
     public void testEscapePathWithPartialWindowsPath()
     {
         testEscapePath("Documents\\java", "Documents/java");
     }
 
+    /**
+     * Test that EARs cannot be deployed.
+     */
     public void testCreateTomcatFilterChainWhenTryingToDeployAnEar()
     {
         Tomcat4xStandaloneLocalConfiguration configuration =
@@ -94,6 +133,12 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         }
     }
 
+    /**
+     * Setup datasource file and call parent. {@inheritdoc}
+     * @param fixture Datasource fixture.
+     * @return Configured datasource file.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected String configureDataSourceViaPropertyAndRetrieveConfigurationFile(
         DataSourceFixture fixture) throws Exception
@@ -102,6 +147,12 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         return super.configureDataSourceViaPropertyAndRetrieveConfigurationFile(fixture);
     }
 
+    /**
+     * Setup datasource file and call parent. {@inheritdoc}
+     * @param fixture Datasource fixture.
+     * @return Configured datasource file.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected String configureDataSourceAndRetrieveConfigurationFile(DataSourceFixture fixture)
         throws Exception
@@ -110,6 +161,12 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         return super.configureDataSourceAndRetrieveConfigurationFile(fixture);
     }
 
+    /**
+     * Setup resource file and call parent. {@inheritdoc}
+     * @param fixture Resource fixture.
+     * @return Configured resource file.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected String configureResourceViaPropertyAndRetrieveConfigurationFile(
         ResourceFixture fixture) throws Exception
@@ -118,8 +175,12 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         return super.configureResourceViaPropertyAndRetrieveConfigurationFile(fixture);
     }
 
-    abstract protected void setUpResourceFile() throws Exception;
-
+    /**
+     * Setup resource file and call parent. {@inheritdoc}
+     * @param fixture Resource fixture.
+     * @return Configured resource file.
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected String configureResourceAndRetrieveConfigurationFile(ResourceFixture fixture)
         throws Exception
@@ -128,6 +189,17 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         return super.configureResourceAndRetrieveConfigurationFile(fixture);
     }
 
+    /**
+     * Setup resource file.
+     * @throws Exception If anything goes wrong.
+     */
+    protected abstract void setUpResourceFile() throws Exception;
+
+    /**
+     * Checks that creating datasource configuration entries with driver-configured XA transaction
+     * support throws an exception with a good message. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testConfigureCreatesDataSourceForDriverConfiguredDSWithXaTransactionSupport()
         throws Exception
@@ -146,6 +218,11 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         }
     }
 
+    /**
+     * Checks that creating datasource configuration entries with driver-configured local
+     * transaction support throws an exception with a good message. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testConfigureCreatesDataSourceForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
@@ -164,6 +241,11 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         }
     }
 
+    /**
+     * Checks that creating XA datasource configuration entries throws an exception with a good
+     * message. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testConfigureCreatesDataSourceForXADataSourceConfiguredDataSource()
         throws Exception

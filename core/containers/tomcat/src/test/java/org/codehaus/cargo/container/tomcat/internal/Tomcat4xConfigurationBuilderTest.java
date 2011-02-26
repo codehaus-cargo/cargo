@@ -23,6 +23,11 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurationBuilderTest;
 
+/**
+ * Unit tests for {@link Tomcat4xConfigurationBuilder}.
+ * 
+ * @version $Id$
+ */
 public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuilderTest
 {
     /**
@@ -43,6 +48,11 @@ public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuild
         return new Tomcat4xConfigurationChecker();
     }
 
+    /**
+     * Checks that creating datasource configuration entries with driver-configured local
+     * transaction support throws an exception with a good message. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testBuildConfigurationEntryForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
@@ -61,6 +71,11 @@ public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuild
         }
     }
 
+    /**
+     * Checks that creating datasource configuration entries with driver-configured XA transaction
+     * support throws an exception with a good message. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testBuildConfigurationEntryForDriverConfiguredDataSourceWithXaTransactionSupport()
         throws Exception
@@ -79,6 +94,11 @@ public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuild
         }
     }
 
+    /**
+     * Checks that creating XA datasource configuration entries throws an exception with a good
+     * message. {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     public void testBuildConfigurationEntryForXADataSourceConfiguredDataSource() throws Exception
     {

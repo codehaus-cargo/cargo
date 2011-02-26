@@ -29,26 +29,44 @@ import org.codehaus.cargo.util.AbstractResourceTest;
  */
 public class TomcatWARTest extends AbstractResourceTest
 {
+    /**
+     * Package path.
+     */
     private static final String PACKAGE_PATH = "org/codehaus/cargo/container/tomcat/";
 
+    /**
+     * Test get path context for a WAR with a Tomcat context.xml with path context.
+     * @throws Exception If anything goes wrong.
+     */
     public void testGetPathContextWhenTomcatContextXmlWithPathContext() throws Exception
     {
         TomcatWAR war = new TomcatWAR(getResourcePath(PACKAGE_PATH + "tomcat-context.war"));
         assertEquals("testcontext", war.getContext());
     }
 
+    /**
+     * Test get path context for a WAR with a Tomcat context.xml with no context.
+     * @throws Exception If anything goes wrong.
+     */
     public void testGetPathContextWhenTomcatContextXmlWithNoPathContext() throws Exception
     {
         TomcatWAR war = new TomcatWAR(getResourcePath(PACKAGE_PATH + "tomcat-nocontext.war"));
         assertEquals("tomcat-nocontext", war.getContext());
     }
 
+    /**
+     * Test get path context for a WAR with no Tomcat context.xml.
+     * @throws Exception If anything goes wrong.
+     */
     public void testGetPathContextWhenNoTomcatContextXml() throws Exception
     {
         TomcatWAR war = new TomcatWAR(getResourcePath(PACKAGE_PATH + "tomcat-empty.war"));
         assertEquals("tomcat-empty", war.getContext());
     }
 
+    /**
+     * Test get path context for a WAR with an invalid Tomcat context.xml file.
+     */
     public void testGetPathContextWhenInvalidFile()
     {
         try
@@ -63,6 +81,10 @@ public class TomcatWARTest extends AbstractResourceTest
         }
     }
 
+    /**
+     * Test set and get path context for a WAR with no Tomcat context.xml.
+     * @throws Exception If anything goes wrong.
+     */
     public void testGetPathContextWhenContextAlreadySetupAndNoTomcatContextXml() throws Exception
     {
         TomcatWAR war = new TomcatWAR(getResourcePath(PACKAGE_PATH + "tomcat-empty.war"));
@@ -70,6 +92,10 @@ public class TomcatWARTest extends AbstractResourceTest
         assertEquals("context", war.getContext());
     }
 
+    /**
+     * Test set and get path context for a WAR with a Tomcat context.xml file.
+     * @throws Exception If anything goes wrong.
+     */
     public void testGetPathContextWhenContextAlreadySetupAndTomcatContextXml() throws Exception
     {
         TomcatWAR war = new TomcatWAR(getResourcePath(PACKAGE_PATH + "tomcat-context.war"));

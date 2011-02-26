@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
-import java.util.Iterator;
-
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
@@ -32,12 +30,21 @@ import org.custommonkey.xmlunit.XMLAssert;
 /**
  * Contains XML logic used to validate the XML output of Tomcat DataSource configuration.
  * 
- * @version $Id $
+ * @version $Id$
  */
 public class Tomcat4xConfigurationChecker implements ConfigurationChecker
 {
+    /**
+     * Datasource converyer.
+     */
     private DataSourceConverter converter = new DataSourceConverter();
 
+    /**
+     * Check that a configuration matches a given resource.
+     * @param configuration Configuration name.
+     * @param resource Resource.
+     * @throws Exception If anything goes wrong.
+     */
     protected void checkConfigurationMatchesResource(String configuration, Resource resource)
         throws Exception
     {
@@ -61,11 +68,8 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
                 configuration);
         }
 
-        Iterator i = resource.getParameterNames().iterator();
-        while (i.hasNext())
+        for (String propertyName : resource.getParameterNames())
         {
-            String propertyName = i.next().toString();
-
             String propertyNameInTomcatXML = propertyName;
             if ("user".equals(propertyName))
             {
@@ -79,6 +83,13 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
         }
     }
 
+    /**
+     * Check that a configuration matches a given datasource.
+     * @param configuration Configuration name.
+     * @param dataSourceFixture Datasource fixture.
+     * @param resourceType Resource type.
+     * @throws Exception If anything goes wrong.
+     */
     private void convertToResourceAndCheckConfigurationMatches(String configuration,
         DataSourceFixture dataSourceFixture, String resourceType) throws Exception
     {
@@ -89,17 +100,33 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
         checkConfigurationMatchesResource(configuration, resource);
     }
 
+    /**
+     * @return Datasource factory class:
+     * <code>org.apache.commons.dbcp.BasicDataSourceFactory</code>
+     */
     protected String getDataSourceFactory()
     {
         return "org.apache.commons.dbcp.BasicDataSourceFactory";
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration name.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForDriverConfiguredDSWithLocalTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         notExists(configuration, dataSourceFixture);
     }
 
+    /**
+     * Check if a configuration contains a given datasource.
+     * @param configuration Configuration name.
+     * @param dataSourceFixture Datasource.
+     * @throws Exception If anything goes wrong.
+     */
     protected void notExists(String configuration, DataSourceFixture dataSourceFixture)
         throws Exception
     {
@@ -115,6 +142,12 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
 
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration name.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForDataSourceMatchesDataSourceFixture(String configuration,
         DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -122,18 +155,36 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
             ConfigurationEntryType.DATASOURCE);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration name.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         notExists(configuration, dataSourceFixture);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration name.
+     * @param dataSourceFixture Datasource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForXADataSourceConfiguredDataSourceMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         notExists(configuration, dataSourceFixture);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration name.
+     * @param resourceFixture Resource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
         String configuration, ResourceFixture resourceFixture) throws Exception
     {
@@ -142,6 +193,12 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
         checkConfigurationMatchesResource(configuration, resource);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param configuration Configuration name.
+     * @param resourceFixture Resource fixture.
+     * @throws Exception If anything goes wrong.
+     */
     public void checkConfigurationForMailSessionConfiguredResourceMatchesResourceFixture(
         String configuration, ResourceFixture resourceFixture) throws Exception
     {
@@ -150,6 +207,11 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
         checkConfigurationMatchesResource(configuration, resource);
     }
 
+    /**
+     * {@inheritdoc}
+     * @param dataSourceEntry Datasource entry.
+     * @return Context with inserted configuration entry.
+     */
     public String insertConfigurationEntryIntoContext(String dataSourceEntry)
     {
         return "<Server><Engine><DefaultContext>" + dataSourceEntry

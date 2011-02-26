@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import java.io.IOException;
-
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
@@ -30,19 +28,22 @@ import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLo
 import org.codehaus.cargo.container.tomcat.internal.Tomcat4xConfigurationChecker;
 import org.codehaus.cargo.util.Dom4JUtil;
 import org.custommonkey.xmlunit.XMLAssert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
-import org.xml.sax.SAXException;
 
 /**
  * Tests for the Tomcat 4 implementation of StandaloneLocalConfigurationTest
+ * 
+ * @version $Id$
  */
 public class Tomcat4xStandaloneLocalConfigurationTest extends
     AbstractCatalinaStandaloneLocalConfigurationTest
 {
 
-    protected String AJP_PORT = "8001";
+    /**
+     * Default AJP port.
+     */
+    protected static final String AJP_PORT = "8001";
 
     /**
      * Creates a {@link Tomcat4xStandaloneLocalConfiguration}. {@inheritdoc}
@@ -75,12 +76,21 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         return new Tomcat4xConfigurationChecker();
     }
 
+    /**
+     * {@inheritdoc}.
+     * @param fixture Resource fixture.
+     * @return <code>conf/server.xml</code> in the configuration's home.
+     */
     @Override
     protected String getResourceConfigurationFile(ResourceFixture fixture)
     {
         return configuration.getHome() + "/conf/server.xml";
     }
 
+    /**
+     * {@inheritdoc}
+     * @throws Exception If anything goes wrong.
+     */
     @Override
     protected void setUpResourceFile() throws Exception
     {
@@ -91,6 +101,9 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         xmlUtil.saveXml(document, file);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Override
     protected void setUpManager()
     {
@@ -105,6 +118,11 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
             container.getHome() + "/server/lib/catalina.jar");
     }
 
+    /**
+     * Test {@link
+     * Tomcat4xStandaloneLocalConfiguration#configure(org.codehaus.cargo.container.LocalContainer)}
+     * and check manager.
+     */
     public void testConfigureManager()
     {
         configuration.configure(container);
@@ -116,6 +134,11 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
             configuration.getHome() + "/server/webapps/manager"));
     }
 
+    /**
+     * Test {@link
+     * Tomcat4xStandaloneLocalConfiguration#configure(org.codehaus.cargo.container.LocalContainer)}
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigure() throws Exception
     {
         configuration.configure(container);
@@ -133,6 +156,10 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         testConfigureManager();
     }
 
+    /**
+     * Test AJP configuration.
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigureSetsDefaultAJPPort() throws Exception
     {
         configuration.configure(container);
@@ -142,9 +169,12 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         XMLAssert.assertXpathEvaluatesTo(configuration
             .getPropertyValue(TomcatPropertySet.AJP_PORT),
             "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port", config);
-
     }
 
+    /**
+     * Test AJP configuration.
+     * @throws Exception If anything goes wrong.
+     */
     public void testConfigureSetsAJPPort() throws Exception
     {
         configuration.setProperty(TomcatPropertySet.AJP_PORT, AJP_PORT);
@@ -156,8 +186,12 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
             "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port", config);
     }
 
-    public void checkTransactionManagerToken(String xml) throws SAXException, IOException,
-        XpathException
+    /**
+     * Check transaction manager token in XML contents.
+     * @param xml XML contents.
+     * @throws Exception If anything goes wrong.
+     */
+    public void checkTransactionManagerToken(String xml) throws Exception
     {
         XMLAssert.assertXpathEvaluatesTo("javax.transaction.UserTransaction",
             "//Engine/DefaultContext/Resource[@name='UserTransaction']/@type", xml);
@@ -166,15 +200,21 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         XMLAssert
             .assertXpathEvaluatesTo(
                 "org.objectweb.jotm.UserTransactionFactory",
-                "//Engine/DefaultContext/ResourceParams[@name='UserTransaction']/parameter[name='factory']/value",
+                "//Engine/DefaultContext/ResourceParams[@name='UserTransaction']"
+                    + "/parameter[name='factory']/value",
                 xml);
         XMLAssert
             .assertXpathEvaluatesTo(
                 "60",
-                "//Engine/DefaultContext/ResourceParams[@name='UserTransaction']/parameter[name='jotm.timeout']/value",
+                "//Engine/DefaultContext/ResourceParams[@name='UserTransaction']"
+                    + "/parameter[name='jotm.timeout']/value",
                 xml);
     }
 
+    /**
+     * Test the creation of multiple resource token values.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateMultipleResourceTokenValues() throws Exception
     {
         setUpResourceFile();
