@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.maven2.configuration;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -162,7 +163,10 @@ public class Configuration
         org.codehaus.cargo.container.configuration.Configuration configuration;
         if (getHome() == null)
         {
-            configuration = factory.createConfiguration(containerId, containerType, getType());
+            File home = new File(project.getBuildDirectory(), "cargo/configurations/"
+                + containerId);
+            configuration = factory.createConfiguration(containerId, containerType, getType(),
+                home.getAbsolutePath());
         }
         else
         {

@@ -27,6 +27,7 @@ import junit.framework.TestCase;
 
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
+import org.codehaus.cargo.maven2.util.CargoProject;
 
 public class ConfigurationTest extends TestCase
 {
@@ -55,7 +56,7 @@ public class ConfigurationTest extends TestCase
 
         org.codehaus.cargo.container.configuration.Configuration configuration =
             configurationElement.createConfiguration("testcontainer", ContainerType.INSTALLED,
-                null);
+                new CargoProject(null, null, null, null, null, null, null));
 
         assertEquals("", configuration.getPropertyValue("someName"));
     }
@@ -74,7 +75,8 @@ public class ConfigurationTest extends TestCase
         configurationElement.setResources(new Resource[] {resource});
 
         org.codehaus.cargo.container.configuration.Configuration configuration = configurationElement
-            .createConfiguration("testContainer", ContainerType.INSTALLED, null);
+            .createConfiguration("testContainer", ContainerType.INSTALLED,
+                new CargoProject(null, null, null, null, null, null, null));
 
         StandaloneLocalConfigurationStub conf = (StandaloneLocalConfigurationStub) configuration;
         List resources = conf.getResources();

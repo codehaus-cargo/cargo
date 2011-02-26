@@ -16,18 +16,15 @@
     <servlet.port>8080</servlet.port>
 
     <!--
-      The default directory for installing containers and instanciating their configurations is
-      ${java.io.tmpdir}. On MacOS X, this location corresponds to something like:
+      The default directory for installing containers is ${java.io.tmpdir} (see: CARGO-895). On
+      MacOS X, this location corresponds to something like:
           /var/folders/ZR/ZRsat8n-H6qoVq+LK+r86U+++TI/-Tmp-/cargo/conf
       Some containers' startup sequences fail for such a directory. Hence, we define here our own
-      directories. This also enhances container activity traceability.
+      directories.
     -->
     <cargo.container.installation.directory>
       ${basedir}/installs/cargo
     </cargo.container.installation.directory>
-    <cargo.container.configuration.directory>
-      ${project.build.directory}/cargo/container
-    </cargo.container.configuration.directory>
   </properties>
 
   <dependencies>
