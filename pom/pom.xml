@@ -378,6 +378,7 @@
             <consoleOutput>true</consoleOutput>
             <configLocation>build-tools/checkstyle.xml</configLocation>
             <headerLocation>build-tools/checkstyle.license</headerLocation>
+            <includeTestSourceDirectory>true</includeTestSourceDirectory>
             <suppressionsLocation>build-tools/checkstyle-suppressions.xml</suppressionsLocation>
 
             <!-- See: http://jira.codehaus.org/browse/MCHECKSTYLE-134 -->
