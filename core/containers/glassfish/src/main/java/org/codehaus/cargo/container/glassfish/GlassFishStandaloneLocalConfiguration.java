@@ -153,11 +153,18 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
             this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
         });
 
+        Map<String, String> domainXmlReplacements = new HashMap<String, String>();
+
+        String javaHome = this.getPropertyValue(GeneralPropertySet.JAVA_HOME);
+        if (javaHome != null)
+        {
+            domainXmlReplacements.put("<java-config ",
+                "<java-config java-home='" + javaHome.replace("&", "&amp;") + "' ");
+        }
+
         String jvmArgs = this.getPropertyValue(GeneralPropertySet.JVMARGS);
         if (jvmArgs != null)
         {
-            Map<String, String> domainXmlReplacements = new HashMap<String, String>();
-
             String xmx = this.getJvmArg(jvmArgs, "-Xmx");
             if (xmx != null)
             {
@@ -170,9 +177,10 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
                 domainXmlReplacements.put("-XX:MaxPermSize=192m", maxPermSize);
             }
 
-            this.replaceInFile(this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
-                + "/config/domain.xml", domainXmlReplacements);
         }
+
+        this.replaceInFile(this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
+            + "/config/domain.xml", domainXmlReplacements);
 
         // schedule cargocpc for deployment
         String cpcWar = this.getFileHandler().append(this.getHome(), "cargocpc.war");

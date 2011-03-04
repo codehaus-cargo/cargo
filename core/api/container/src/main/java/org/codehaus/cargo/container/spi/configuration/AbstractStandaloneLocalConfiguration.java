@@ -353,6 +353,10 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     protected void replaceInFile(String file, Map<String, String> replacements)
         throws CargoException
     {
+        if (replacements.isEmpty())
+        {
+            return;
+        }
         String path = getHome() + "/" + file;
         getFileHandler().replaceInFile(path, replacements);
     }
