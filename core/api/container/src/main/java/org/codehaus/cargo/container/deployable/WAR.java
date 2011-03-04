@@ -93,10 +93,12 @@ public class WAR extends AbstractDeployable
     /**
      * @return true if the WAR file specified is pointing to an expanded WAR directory, false
      * otherwise
+     * @deprecated Use {@link #isExpanded()} instead.
      */
+    @Deprecated
     public boolean isExpandedWar()
     {
-        return getFileHandler().isDirectory(getFile());
+        return isExpanded();
     }
 
     /**

@@ -382,7 +382,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         {
             WAR warDeployable = (WAR) deployable;
 
-            if (warDeployable.isExpandedWar())
+            if (warDeployable.isExpanded())
             {
                 throw new ContainerException(
                     "The Apache Geronimo container does not support expanded WARs");

@@ -151,7 +151,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
         {
             if (deployable.getType() == DeployableType.WAR)
             {
-                if (!((WAR) deployable).isExpandedWar())
+                if (!deployable.isExpanded())
                 {
                     deployWar(deployableDir, (WAR) deployable);
                 }

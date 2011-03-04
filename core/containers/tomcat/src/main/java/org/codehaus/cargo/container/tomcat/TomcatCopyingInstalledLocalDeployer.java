@@ -182,7 +182,7 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
 
                 // Delete either the WAR file or the expanded WAR directory.
                 String warLocation;
-                if (war.isExpandedWar())
+                if (war.isExpanded())
                 {
                     warLocation = getFileHandler().append(deployableDir, context);
                 }

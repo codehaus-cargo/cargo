@@ -174,7 +174,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
         {
             if (deployable.getType() == DeployableType.WAR)
             {
-                if (((WAR) deployable).isExpandedWar())
+                if (deployable.isExpanded())
                 {
                     // Note: No need to create these directories as Resin will
                     // do it for us.

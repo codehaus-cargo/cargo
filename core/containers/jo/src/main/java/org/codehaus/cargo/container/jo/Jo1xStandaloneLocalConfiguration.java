@@ -217,7 +217,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
                     mapping = "/" + mapping;
                 }
                 String docbase = getFileHandler().getURL(war.getFile()).toString();
-                if (war.isExpandedWar())
+                if (war.isExpanded())
                 {
                     docbase += "/";
                 }

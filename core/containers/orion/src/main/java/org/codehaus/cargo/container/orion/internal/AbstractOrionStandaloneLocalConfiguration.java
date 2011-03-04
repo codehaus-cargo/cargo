@@ -206,8 +206,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
         for (Deployable deployable : getDeployables())
         {
             if (deployable.getType() != DeployableType.WAR
-                || deployable.getType() == DeployableType.WAR && !((WAR) deployable)
-                    .isExpandedWar())
+                || deployable.getType() == DeployableType.WAR && !deployable.isExpanded())
             {
                 fileUtils.copyFile(new File(deployable.getFile()).getAbsoluteFile(),
                     new File(appDir, new File(deployable.getFile()).getName()), null, true);
@@ -301,7 +300,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
                 keyWebModules.append("  <web-module id=\"");
                 keyWebModules.append(((WAR) deployable).getContext());
 
-                if (((WAR) deployable).isExpandedWar())
+                if (deployable.isExpanded())
                 {
                     keyWebModules.append("\" path=\"");
                     keyWebModules.append(deployable.getFile());

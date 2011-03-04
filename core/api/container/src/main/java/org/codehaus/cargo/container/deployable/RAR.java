@@ -81,10 +81,12 @@ public class RAR extends AbstractDeployable
     /**
      * Return whether the RAR is exploded or not.
      * @return true if the rar is a directory
+     * @deprecated Use {@link #isExpanded()} instead.
      */
+    @Deprecated
     public boolean isExpandedRar()
     {
-        return getFileHandler().isDirectory(getFile());
+        return isExpanded();
     }
 
     /**

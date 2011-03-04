@@ -89,7 +89,7 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
         WAR war = (WAR) deployable;
         String docBase;
 
-        if (!war.isExpandedWar())
+        if (!war.isExpanded())
         {
             String home = container.getConfiguration().getHome();
             try

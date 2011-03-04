@@ -258,7 +258,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
         if (deployable.getType() == DeployableType.WAR)
         {
             WAR war = (WAR) deployable;
-            if (war.isExpandedWar())
+            if (war.isExpanded())
             {
                 getLogger().warn("Remote deployer does not support expanded WAR deployment",
                     this.getClass().getName());
