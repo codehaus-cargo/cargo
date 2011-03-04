@@ -69,7 +69,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "</application>";
 
         ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
-            new ByteArrayInputStream(xml.getBytes()), null);
+            new ByteArrayInputStream(xml.getBytes("UTF-8")), null);
         List<String> webUris = applicationXml.getWebModuleUris();
         assertTrue("No web modules defined", webUris.isEmpty());
     }
@@ -91,7 +91,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "  </module>"
             + "</application>";
         ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
-            new ByteArrayInputStream(xml.getBytes()), null);
+            new ByteArrayInputStream(xml.getBytes("UTF-8")), null);
 
         List<String> webUris = applicationXml.getWebModuleUris();
         assertEquals(1, webUris.size());
@@ -127,7 +127,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "  </module>"
             + "</application>";
         ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
-            new ByteArrayInputStream(xml.getBytes()), null);
+            new ByteArrayInputStream(xml.getBytes("UTF-8")), null);
 
         List<String> webUris = applicationXml.getWebModuleUris();
         assertEquals(3, webUris.size());
@@ -150,7 +150,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "  </module>"
             + "</application>";
         ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
-            new ByteArrayInputStream(xml.getBytes()), null);
+            new ByteArrayInputStream(xml.getBytes("UTF-8")), null);
 
         try
         {
@@ -180,7 +180,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "  </module>"
             + "</application>";
         ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
-            new ByteArrayInputStream(xml.getBytes()), null);
+            new ByteArrayInputStream(xml.getBytes("UTF-8")), null);
 
         assertEquals("/webmodule",
             applicationXml.getWebModuleContextRoot("webmodule.jar"));
@@ -215,7 +215,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "  </module>"
             + "</application>";
         ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
-            new ByteArrayInputStream(xml.getBytes()), null);
+            new ByteArrayInputStream(xml.getBytes("UTF-8")), null);
 
         assertEquals("/webmodule1",
             applicationXml.getWebModuleContextRoot("webmodule1.jar"));
@@ -235,7 +235,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
         String xml = "<application></application>";
 
         ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
-            new ByteArrayInputStream(xml.getBytes()), null);
+            new ByteArrayInputStream(xml.getBytes("UTF-8")), null);
 
         applicationXml.addEjbModule("ejbmodule1.jar");
 
@@ -262,7 +262,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             + "</application>";
 
         ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
-            new ByteArrayInputStream(xml.getBytes()), null);
+            new ByteArrayInputStream(xml.getBytes("UTF-8")), null);
 
         List<String> ejbModules = applicationXml.getEjbModules();
         assertEquals(2, ejbModules.size());

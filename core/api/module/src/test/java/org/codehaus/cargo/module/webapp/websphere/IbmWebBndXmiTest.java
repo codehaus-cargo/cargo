@@ -46,7 +46,7 @@ public class IbmWebBndXmiTest extends AbstractDocumentBuilderTest
             + "xmi:id=\"WebAppBinding_1082390762531\">"
             + "</com.ibm.ejs.models.base.bindings.webappbnd:WebAppBinding>";
         IbmWebBndXmi descr = IbmWebBndXmiIo.parseIbmWebBndXmi(
-            new ByteArrayInputStream(xml.getBytes()));
+            new ByteArrayInputStream(xml.getBytes("UTF-8")));
 
         EjbRef ref = new EjbRef();
         ref.setName("foo");

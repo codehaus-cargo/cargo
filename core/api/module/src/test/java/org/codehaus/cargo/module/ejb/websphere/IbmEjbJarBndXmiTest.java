@@ -48,7 +48,7 @@ public class IbmEjbJarBndXmiTest extends AbstractDocumentBuilderTest
             + "</ejbbnd:EJBJarBinding>";
 
         IbmEjbJarBndXmi descr = IbmEjbJarBndXmiIo.parseIbmEjbJarXmi(new ByteArrayInputStream(xml
-            .getBytes()));
+            .getBytes("UTF-8")));
         assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb", "ejbId")));
     }
 

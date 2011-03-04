@@ -92,7 +92,7 @@ public class Jetty7xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
                 + "  <Set name=\"extractWAR\">true</Set>\n"
                 + "  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
                     + "default=\".\"/>/etc/webdefault.xml</Set>\n"
-                + "</Configure>").getBytes());
+                + "</Configure>").getBytes("ISO-8859-1"));
             out.close();
         }
         catch (IOException e)

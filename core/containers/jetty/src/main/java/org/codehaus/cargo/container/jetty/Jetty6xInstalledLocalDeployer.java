@@ -102,7 +102,7 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
                 + "  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
                    + "default=\".\"/>/etc/webdefault.xml</Set>\n"
                 + "  <Set name=\"ConfigurationClasses\"><Ref id=\"plusConfig\"/></Set>\n"
-                + "</Configure>").getBytes());
+                + "</Configure>").getBytes("ISO-8859-1"));
             out.close();
         }
         catch (IOException e)

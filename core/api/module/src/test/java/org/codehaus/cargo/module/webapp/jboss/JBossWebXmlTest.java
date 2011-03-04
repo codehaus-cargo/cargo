@@ -42,7 +42,7 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
         String xml = "<jboss-web></jboss-web>";
 
         JBossWebXml descr = JBossWebXmlIo
-            .parseJBossWebXml(new ByteArrayInputStream(xml.getBytes()));
+            .parseJBossWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
 
         EjbRef ref = new EjbRef();
         ref.setName("foo");
@@ -69,7 +69,7 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = "<jboss-web></jboss-web>";
         JBossWebXml descr = JBossWebXmlIo
-            .parseJBossWebXml(new ByteArrayInputStream(xml.getBytes()));
+            .parseJBossWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
 
         EjbRef ref = new EjbRef();
         ref.setName("foo");
@@ -100,7 +100,7 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
             + "</jboss-web>";
 
         JBossWebXml descr = JBossWebXmlIo
-            .parseJBossWebXml(new ByteArrayInputStream(xml.getBytes()));
+            .parseJBossWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
 
         EjbRef ref = new EjbRef();
         ref.setName("foo");

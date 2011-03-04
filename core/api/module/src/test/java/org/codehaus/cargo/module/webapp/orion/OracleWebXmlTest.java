@@ -42,7 +42,8 @@ public class OracleWebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = "<orion-web-app></orion-web-app>";
 
-        OrionWebXml descr = OrionWebXmlIo.parseOrionXml(new ByteArrayInputStream(xml.getBytes()));
+        OrionWebXml descr =
+            OrionWebXmlIo.parseOrionXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");

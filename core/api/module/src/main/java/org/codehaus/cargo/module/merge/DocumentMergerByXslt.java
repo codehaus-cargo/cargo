@@ -154,9 +154,7 @@ public class DocumentMergerByXslt implements MergeProcessor
                 }
             });
 
-            String xml = baos.toString();
-
-            return factory.build(new ByteArrayInputStream(xml.getBytes()));
+            return factory.build(new ByteArrayInputStream(baos.toByteArray()));
         }
         catch (Exception ex)
         {

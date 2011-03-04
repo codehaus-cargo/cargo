@@ -412,7 +412,7 @@ public class ConfigurationFilesTest extends TestCase
         file.deleteOnExit();
 
         FileOutputStream outputStream = new FileOutputStream(file);
-        outputStream.write(fileContents.getBytes());
+        outputStream.write(fileContents.getBytes("UTF-8"));
         outputStream.close();
 
         return file;

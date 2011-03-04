@@ -57,8 +57,8 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </assembly-descriptor>"
             + "</ejb-jar>";
 
-        EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes()),
-            null);
+        EjbJarXml ejbJar =
+            EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes("UTF-8")), null);
 
         List<Session> ejbs = ejbJar.getSessionEjbs();
         assertEquals(2, ejbs.size());
@@ -92,8 +92,8 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </assembly-descriptor>"
             + "</ejb-jar>";
 
-        EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes()),
-            null);
+        EjbJarXml ejbJar =
+            EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes("UTF-8")), null);
 
         List<Entity> ejbs = ejbJar.getEntityEjbs();
         assertEquals(1, ejbs.size());
@@ -117,8 +117,8 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </enterprise-beans>"
             + "</ejb-jar>";
 
-        EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes()),
-            null);
+        EjbJarXml ejbJar =
+            EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes("UTF-8")), null);
         Session ejb = ejbJar.getSessionEjb("MyFirstSession");
         assertEquals("com.wombat.MyFirstSession", ejb.getLocal());
         assertEquals("com.wombat.MyFirstSessionHome", ejb.getLocalHome());
@@ -141,8 +141,8 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </enterprise-beans>"
             + "</ejb-jar>";
 
-        EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes()),
-            null);
+        EjbJarXml ejbJar =
+            EjbJarXmlIo.parseEjbJarXml(new ByteArrayInputStream(xml.getBytes("UTF-8")), null);
         Entity ejb = ejbJar.getEntityEjb("MyEntity");
         assertEquals("com.wombat.MyEntity", ejb.getLocal());
         assertEquals("com.wombat.MyEntityHome", ejb.getLocalHome());

@@ -48,7 +48,7 @@ public class JBossXmlTest extends AbstractDocumentBuilderTest
             + "</enterprise-beans>"
             + "</jboss>";
 
-        JBossXml descr = JBossXmlIo.parseJBossXml(new ByteArrayInputStream(xml.getBytes()));
+        JBossXml descr = JBossXmlIo.parseJBossXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
         assertEquals("test/Tester", descr.getJndiName(new EjbDef("BeanOne")));
     }
 
@@ -69,7 +69,7 @@ public class JBossXmlTest extends AbstractDocumentBuilderTest
             + "</enterprise-beans>"
             + "</jboss>";
 
-        JBossXml descr = JBossXmlIo.parseJBossXml(new ByteArrayInputStream(xml.getBytes()));
+        JBossXml descr = JBossXmlIo.parseJBossXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
         assertNull(descr.getJndiName(new EjbDef("BeanOn")));
     }
 }

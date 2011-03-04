@@ -192,7 +192,7 @@ public final class JarArchiveTest extends AbstractResourceTest
         ZipOutputStream zos = new ZipOutputStream(testJar.getContent().getOutputStream());
         ZipEntry zipEntry = new ZipEntry("rootResource.txt");
         zos.putNextEntry(zipEntry);
-        zos.write("Some content".getBytes());
+        zos.write("Some content".getBytes("UTF-8"));
         zos.closeEntry();
         zos.close();
 

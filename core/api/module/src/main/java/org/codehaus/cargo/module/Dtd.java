@@ -156,7 +156,7 @@ public class Dtd implements Grammar
             }
 
             String xml = "<!DOCTYPE dummy SYSTEM \"" + systemId + "\"><dummy/>";
-            reader.parse(new InputSource(new ByteArrayInputStream(xml.getBytes())));
+            reader.parse(new InputSource(new ByteArrayInputStream(xml.getBytes("UTF-8"))));
             this.elementOrders = dtdHandler.getElementOrders();
         }
         catch (IOException e)

@@ -50,7 +50,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     public void testMergeOneFilterIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <filter>"
             + "    <filter-name>f1</filter-name>"
@@ -58,8 +59,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "  </filter>"
             + "</web-app>";
 
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
 
         // WebXml mergeWebXml = new WebXml(mergeDoc);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
@@ -76,15 +77,16 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     {
         String srcXml = "<web-app></web-app>";
 
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <context-param>"
             + "    <param-name>param</param-name>"
             + "    <param-value>value</param-value>"
             + "  </context-param>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
@@ -104,15 +106,16 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass1</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <filter>"
             + "    <filter-name>f2</filter-name>"
             + "    <filter-class>fclass2</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
         assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
@@ -133,15 +136,16 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <param-value>value1</param-value>"
             + "  </context-param>"
             + "</web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <context-param>"
             + "    <param-name>param2</param-name>"
             + "    <param-value>value2</param-value>"
             + "  </context-param>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param1"));
@@ -162,9 +166,10 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass1</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         WebXml mergeWebXml = WebXmlIo
-            .parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+            .parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
         assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
@@ -184,9 +189,10 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <param-value>value</param-value>"
             + "  </context-param>"
             + "</web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
-        WebXml mergeWebXml = WebXmlIo
-            .parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
@@ -205,7 +211,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass1</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <filter>"
             + "    <filter-name>f1</filter-name>"
@@ -216,8 +223,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    </init-param>"
             + "  </filter>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
         assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
@@ -248,15 +255,16 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass3</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <filter>"
             + "    <filter-name>f4</filter-name>"
             + "    <filter-class>fclass4</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
         List<String> filterNames = WebXmlUtils.getFilterNames(srcWebXml);
@@ -275,7 +283,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     public void testMergeMultipleFiltersIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <filter>"
             + "    <filter-name>f1</filter-name>"
@@ -290,8 +299,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass3</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
         List<String> filterNames = WebXmlUtils.getFilterNames(srcWebXml);
@@ -309,7 +318,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     public void testMergeOneFilterWithOneMappingIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <filter>"
             + "    <filter-name>f1</filter-name>"
@@ -320,8 +330,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/f1mapping1</url-pattern>"
             + "  </filter-mapping>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
         assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
@@ -339,7 +349,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     public void testMergeOneFilterWithMultipleMappingsIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <filter>"
             + "    <filter-name>f1</filter-name>"
@@ -358,8 +369,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/f1mapping3</url-pattern>"
             + "  </filter-mapping>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
         assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
@@ -378,15 +389,16 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     public void testMergeOneServletIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s1</servlet-name>"
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
@@ -406,15 +418,16 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s2</servlet-name>"
             + "    <servlet-class>sclass2</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
@@ -435,15 +448,16 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s1</servlet-name>"
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
@@ -463,7 +477,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s1</servlet-name>"
@@ -474,8 +489,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    </init-param>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
@@ -507,15 +522,16 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass3</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s4</servlet-name>"
             + "    <servlet-class>sclass4</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
         List<String> servletNames = WebXmlUtils.getServletNames(srcWebXml);
@@ -541,7 +557,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <load-on-startup>1</load-on-startup>".trim()
             + "  </servlet>".trim()
             + "</web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <servlet>".trim()
             + "    <servlet-name>s1</servlet-name>".trim()
@@ -552,8 +569,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    </init-param>".trim()
             + "  </servlet>".trim()
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
         Element servletElement = WebXmlUtils.getServlet(srcWebXml, "s1");
@@ -571,7 +588,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     public void testMergeMultipleServletsIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s1</servlet-name>"
@@ -586,8 +604,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass3</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
         List<String> servletNames = WebXmlUtils.getServletNames(srcWebXml);
@@ -606,7 +624,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     public void testMergeOneServletWithOneMappingIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s1</servlet-name>"
@@ -617,8 +636,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/s1mapping1</url-pattern>"
             + "  </servlet-mapping>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
@@ -636,7 +655,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     public void testMergeOneServletWithMultipleMappingsIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s1</servlet-name>"
@@ -655,8 +675,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/s1mapping3</url-pattern>"
             + "  </servlet-mapping>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeServlets(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
@@ -675,14 +695,15 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     public void testMergeSecurityRoleIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <security-role>"
             + "    <role-name>role1</role-name>"
             + "  </security-role>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeSecurityRoles(mergeWebXml);
         List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(srcWebXml);
@@ -704,14 +725,15 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <role-name>role1</role-name>"
             + "  </security-role>"
             + "</web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <security-role>"
             + "    <role-name>role1</role-name>"
             + "  </security-role>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeSecurityRoles(mergeWebXml);
         List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(srcWebXml);
@@ -727,7 +749,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
     public void testMergeOneEjbRefIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        WebXml srcWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes()), null);
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
         String mergeXml = "<web-app>"
             + "  <ejb-ref>"
             + "    <ejb-ref-name>ejbref1</ejb-ref-name>"
@@ -736,8 +759,8 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "    <remote>ejbref1.remoteInterface</remote>"
             + "  </ejb-ref>"
             + "</web-app>";
-        WebXml mergeWebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes()),
-            null);
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
 
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
@@ -798,8 +821,10 @@ public final class WebXmlMergerTest extends AbstractDocumentBuilderTest
             + "</web-app>\r\n"
             + "";
 
-        WebXml file1WebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(file1.getBytes()), null);
-        WebXml file2WebXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(file2.getBytes()), null);
+        WebXml file1WebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(file1.getBytes("UTF-8")), null);
+        WebXml file2WebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(file2.getBytes("UTF-8")), null);
 
         WebXmlMerger merger = new WebXmlMerger(file1WebXml);
         merger.merge(file2WebXml);

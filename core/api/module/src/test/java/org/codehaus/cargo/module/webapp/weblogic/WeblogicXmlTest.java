@@ -47,7 +47,7 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
             + "</weblogic-web-app>";
 
         WeblogicXml descr = WeblogicXmlIo
-            .parseWeblogicXml(new ByteArrayInputStream(xml.getBytes()));
+            .parseWeblogicXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");
@@ -81,7 +81,7 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
             + "</weblogic-web-app>";
         //
         WeblogicXml descr = WeblogicXmlIo
-            .parseWeblogicXml(new ByteArrayInputStream(xml.getBytes()));
+            .parseWeblogicXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
 
         EjbRef ref = new EjbRef();
         ref.setName("foo");
@@ -120,7 +120,7 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
             + "  </reference-descriptor>"
             + "</weblogic-web-app>";
         WeblogicXml descr = WeblogicXmlIo
-            .parseWeblogicXml(new ByteArrayInputStream(xml.getBytes()));
+            .parseWeblogicXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");

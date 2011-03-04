@@ -109,7 +109,7 @@ public final class PropertyUtils
 
         try
         {
-            properties.load(new ByteArrayInputStream(newLineSeparated.getBytes()));
+            properties.load(new ByteArrayInputStream(newLineSeparated.getBytes("ISO-8859-1")));
             return properties;
         }
         catch (IOException e)

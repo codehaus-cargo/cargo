@@ -46,7 +46,7 @@ public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "</orion-ejb-jar>";
 
         OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml
-            .getBytes()));
+            .getBytes("UTF-8")));
 
         assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb")));
     }
@@ -66,7 +66,7 @@ public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "</orion-ejb-jar>";
 
         OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml
-            .getBytes()));
+            .getBytes("UTF-8")));
 
         assertNull(descr.getJndiName(new EjbDef("foo")));
     }
@@ -85,7 +85,7 @@ public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "</orion-ejb-jar>";
 
         OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml
-            .getBytes()));
+            .getBytes("UTF-8")));
 
         assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb")));
     }
@@ -105,7 +105,7 @@ public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "</orion-ejb-jar>";
 
         OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml
-            .getBytes()));
+            .getBytes("UTF-8")));
 
         EjbDef def = new EjbDef("MyEjb");
         def.setLocal("sdf");
