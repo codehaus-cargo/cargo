@@ -105,7 +105,7 @@ public class ContainerTest extends MockObjectTestCase
 
         ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile));
         zip.putNextEntry(new ZipEntry(resourceName));
-        zip.write(resourceValue.getBytes());
+        zip.write(resourceValue.getBytes("UTF-8"));
         zip.close();
 
         // 2) Create a Maven2 Artifact linked to the JAR file just created
@@ -148,7 +148,7 @@ public class ContainerTest extends MockObjectTestCase
         String resourceLocation = resourceFile.getParent();
 
         FileOutputStream os = new FileOutputStream(resourceFile);
-        os.write(resourceValue.getBytes());
+        os.write(resourceValue.getBytes("UTF-8"));
         os.close();
 
         Dependency dependencyElement = new Dependency();
@@ -275,8 +275,9 @@ public class ContainerTest extends MockObjectTestCase
      */
     public String getResource(ClassLoader classLoader, String resourceName) throws IOException
     {
-        return new BufferedReader(
-            new InputStreamReader(classLoader.getResourceAsStream(resourceName))).readLine();
+        InputStreamReader reader =
+            new InputStreamReader(classLoader.getResourceAsStream(resourceName), "UTF-8");
+        return new BufferedReader(reader).readLine();
     }
 
     /*

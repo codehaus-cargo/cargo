@@ -137,7 +137,7 @@ public class MergeWebXml implements MergeProcessorFactory
                 {
                     String theXml = config.getChild(0).toString();
                     WebXml webXml = WebXmlIo.parseWebXml(
-                        new ByteArrayInputStream(theXml.getBytes()), null);
+                        new ByteArrayInputStream(theXml.getBytes("UTF-8")), null);
                     return new NodeMergeStrategy(webXml.getDescriptorType(),
                         webXml.getRootElement());
                 }
