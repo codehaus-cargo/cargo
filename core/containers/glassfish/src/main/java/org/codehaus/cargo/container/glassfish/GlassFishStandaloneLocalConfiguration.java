@@ -153,13 +153,37 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
             this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
         });
 
+        String domainXmlPath =
+            getFileHandler().append(getHome(),
+                this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME) + "/config/domain.xml");
+
+        String domainXml = getFileHandler().readTextFile(domainXmlPath);
+
         Map<String, String> domainXmlReplacements = new HashMap<String, String>();
 
         String javaHome = this.getPropertyValue(GeneralPropertySet.JAVA_HOME);
         if (javaHome != null)
         {
-            domainXmlReplacements.put("<java-config ",
-                "<java-config java-home='" + javaHome.replace("&", "&amp;") + "' ");
+            if ("jre".equals(getFileHandler().getName(javaHome)))
+            {
+                javaHome = getFileHandler().getParent(javaHome);
+            }
+
+            domainXmlReplacements.put(
+                "</config>",
+                "  <system-property name='com.sun.aas.javaRoot' value='"
+                    + javaHome.replace("&", "&amp;") + "'/>\n    </config>");
+
+            if (!domainXml.contains(" java-home="))
+            {
+                /*
+                 * The java-home attribute is not explicitly set in Glassfish 3.x and as per their
+                 * docs should default to the above property. Strangely though, it requires to
+                 * explicitly set the attribute for the desired java home location to take effect.
+                 */
+                domainXmlReplacements.put("<java-config ",
+                    "<java-config java-home='${com.sun.aas.javaRoot}' ");
+            }
         }
 
         String jvmArgs = this.getPropertyValue(GeneralPropertySet.JVMARGS);
