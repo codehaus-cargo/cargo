@@ -90,8 +90,6 @@ public abstract class AbstractGlassFishInstalledLocalContainer
     @Override
     protected void doStart(Java java) throws Exception
     {
-        this.getConfiguration().configure(this);
-
         this.getLogger().debug("Starting domain on HTTP port "
             + this.getConfiguration().getPropertyValue(ServletPropertySet.PORT)
             + " and admin port "
