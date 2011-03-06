@@ -106,7 +106,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
         DataSource ds = fixture.buildDataSource();
         ((DataSourceSupport) configuration).configure(ds, container);
         return configuration.getFileHandler().readTextFile(
-            getDataSourceConfigurationFile(fixture));
+            getDataSourceConfigurationFile(fixture), "UTF-8");
     }
 
     /**
@@ -124,7 +124,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
             .parsePropertiesForPendingConfiguration();
         ((DataSourceSupport) configuration).configureDataSources(container);
         return configuration.getFileHandler().readTextFile(
-            getDataSourceConfigurationFile(fixture));
+            getDataSourceConfigurationFile(fixture), "UTF-8");
     }
 
     /**
@@ -138,7 +138,8 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
     {
         Resource resource = fixture.buildResource();
         ((ResourceSupport) configuration).configure(resource, container);
-        return configuration.getFileHandler().readTextFile(getResourceConfigurationFile(fixture));
+        return configuration.getFileHandler().readTextFile(getResourceConfigurationFile(fixture),
+            "UTF-8");
     }
 
     /**
@@ -155,7 +156,8 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
         ((AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder) configuration)
             .parsePropertiesForPendingConfiguration();
         ((ResourceSupport) configuration).configureResources(container);
-        return configuration.getFileHandler().readTextFile(getResourceConfigurationFile(fixture));
+        return configuration.getFileHandler().readTextFile(getResourceConfigurationFile(fixture),
+            "UTF-8");
     }
 
     /**

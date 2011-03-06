@@ -118,7 +118,7 @@ public class Dom4JXmlFileBuilderTest extends TestCase
         manager.insertElementsUnderXPath("<subnode property='hello' />", "//Application");
         manager.writeFile();
 
-        String xml = fileHandler.readTextFile(TEST_FILE);
+        String xml = fileHandler.readTextFile(TEST_FILE, "UTF-8");
 
         XMLAssert.assertXpathEvaluatesTo("hello", "//Application/subnode/@property", xml);
     }
@@ -139,7 +139,7 @@ public class Dom4JXmlFileBuilderTest extends TestCase
         manager.insertElementsUnderXPath("<subnode property='hello' />", "//Application/foo/bar");
         manager.writeFile();
 
-        String xml = fileHandler.readTextFile(TEST_FILE);
+        String xml = fileHandler.readTextFile(TEST_FILE, "UTF-8");
 
         XMLAssert.assertXpathEvaluatesTo("hello", "//Application/foo/bar/subnode/@property", xml);
     }
@@ -162,7 +162,7 @@ public class Dom4JXmlFileBuilderTest extends TestCase
         manager.insertElementsUnderXPath("<subnode property='hello' />", "//weblogic:domain");
         manager.writeFile();
 
-        String xml = fileHandler.readTextFile(TEST_FILE);
+        String xml = fileHandler.readTextFile(TEST_FILE, "UTF-8");
 
         XMLAssert.assertXpathEvaluatesTo("hello", "//weblogic:domain/weblogic:subnode/@property",
             xml);

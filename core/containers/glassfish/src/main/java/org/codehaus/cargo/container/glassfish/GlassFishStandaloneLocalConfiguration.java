@@ -157,7 +157,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
             getFileHandler().append(getHome(),
                 this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME) + "/config/domain.xml");
 
-        String domainXml = getFileHandler().readTextFile(domainXmlPath);
+        String domainXml = getFileHandler().readTextFile(domainXmlPath, "UTF-8");
 
         Map<String, String> domainXmlReplacements = new HashMap<String, String>();
 
@@ -204,7 +204,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
         }
 
         this.replaceInFile(this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
-            + "/config/domain.xml", domainXmlReplacements);
+            + "/config/domain.xml", domainXmlReplacements, "UTF-8");
 
         // schedule cargocpc for deployment
         String cpcWar = this.getFileHandler().append(this.getHome(), "cargocpc.war");

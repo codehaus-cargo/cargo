@@ -177,7 +177,7 @@ public class WebLogic10xStandaloneLocalConfigurationTest extends TestCase
     {
         configuration.doConfigure(container);
         String config = configuration.getFileHandler().readTextFile(
-            DOMAIN_HOME + "/config/config.xml");
+            DOMAIN_HOME + "/config/config.xml", "UTF-8");
         XMLAssert.assertXpathEvaluatesTo(configuration
             .getPropertyValue(WebLogicPropertySet.DOMAIN_VERSION), "//weblogic:domain-version",
             config);
@@ -191,7 +191,7 @@ public class WebLogic10xStandaloneLocalConfigurationTest extends TestCase
     {
         configuration.doConfigure(container);
         String config = configuration.getFileHandler().readTextFile(
-            DOMAIN_HOME + "/config/config.xml");
+            DOMAIN_HOME + "/config/config.xml", "UTF-8");
         XMLAssert.assertXpathExists("//weblogic:domain-version", config);
         XMLAssert.assertXpathExists("//weblogic:configuration-version", config);
         XMLAssert.assertXpathExists("//weblogic:server", config);
@@ -214,7 +214,7 @@ public class WebLogic10xStandaloneLocalConfigurationTest extends TestCase
         configuration.setProperty(WebLogicPropertySet.DOMAIN_VERSION, DOMAIN_VERSION);
         configuration.doConfigure(container);
         String config = configuration.getFileHandler().readTextFile(
-            DOMAIN_HOME + "/config/config.xml");
+            DOMAIN_HOME + "/config/config.xml", "UTF-8");
         XMLAssert.assertXpathEvaluatesTo(DOMAIN_VERSION, "//weblogic:domain-version", config);
     }
 
@@ -226,7 +226,7 @@ public class WebLogic10xStandaloneLocalConfigurationTest extends TestCase
     {
         configuration.doConfigure(container);
         String config = configuration.getFileHandler().readTextFile(
-            DOMAIN_HOME + "/config/config.xml");
+            DOMAIN_HOME + "/config/config.xml", "UTF-8");
         XMLAssert.assertXpathEvaluatesTo(configuration
             .getPropertyValue(WebLogicPropertySet.CONFIGURATION_VERSION),
             "//weblogic:configuration-version", config);
@@ -242,7 +242,7 @@ public class WebLogic10xStandaloneLocalConfigurationTest extends TestCase
             CONFIGURATION_VERSION);
         configuration.doConfigure(container);
         String config = configuration.getFileHandler().readTextFile(
-            DOMAIN_HOME + "/config/config.xml");
+            DOMAIN_HOME + "/config/config.xml", "UTF-8");
         XMLAssert.assertXpathEvaluatesTo(CONFIGURATION_VERSION,
             "//weblogic:configuration-version", config);
     }
@@ -255,7 +255,7 @@ public class WebLogic10xStandaloneLocalConfigurationTest extends TestCase
     {
         configuration.doConfigure(container);
         String config = configuration.getFileHandler().readTextFile(
-            DOMAIN_HOME + "/config/config.xml");
+            DOMAIN_HOME + "/config/config.xml", "UTF-8");
         XMLAssert
             .assertXpathEvaluatesTo(configuration.getPropertyValue(WebLogicPropertySet.SERVER),
                 "//weblogic:admin-server-name", config);
@@ -270,7 +270,7 @@ public class WebLogic10xStandaloneLocalConfigurationTest extends TestCase
         configuration.setProperty(WebLogicPropertySet.SERVER, SERVER);
         configuration.doConfigure(container);
         String config = configuration.getFileHandler().readTextFile(
-            DOMAIN_HOME + "/config/config.xml");
+            DOMAIN_HOME + "/config/config.xml", "UTF-8");
         XMLAssert.assertXpathEvaluatesTo(SERVER, "//weblogic:admin-server-name", config);
     }
 
@@ -282,7 +282,7 @@ public class WebLogic10xStandaloneLocalConfigurationTest extends TestCase
     {
         configuration.doConfigure(container);
         String config = configuration.getFileHandler().readTextFile(
-            DOMAIN_HOME + "/config/config.xml");
+            DOMAIN_HOME + "/config/config.xml", "UTF-8");
         XMLAssert.assertXpathEvaluatesTo(configuration.getPropertyValue(ServletPropertySet.PORT),
             "//weblogic:listen-port", config);
     }
@@ -296,7 +296,7 @@ public class WebLogic10xStandaloneLocalConfigurationTest extends TestCase
         configuration.setProperty(ServletPropertySet.PORT, PORT);
         configuration.doConfigure(container);
         String config = configuration.getFileHandler().readTextFile(
-            DOMAIN_HOME + "/config/config.xml");
+            DOMAIN_HOME + "/config/config.xml", "UTF-8");
         XMLAssert.assertXpathEvaluatesTo(PORT, "//weblogic:listen-port", config);
     }
 

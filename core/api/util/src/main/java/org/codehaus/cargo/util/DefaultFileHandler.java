@@ -30,6 +30,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -134,13 +137,18 @@ public class DefaultFileHandler implements FileHandler
      */
     public void copyFile(String source, String target, FilterChain filterChain)
     {
+        copyFile(source, target, filterChain, null);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see FileHander#copyFile(String, String, FilterChain, String)
+     */
+    public void copyFile(String source, String target, FilterChain filterChain, String encoding)
+    {
         try
         {
             InputStream fileIS = new FileInputStream(source);
-            if (fileIS == null)
-            {
-                throw new IOException("File [" + source + "] not found");
-            }
 
             BufferedReader in = null;
             BufferedWriter out = null;
@@ -148,13 +156,13 @@ public class DefaultFileHandler implements FileHandler
             {
                 ChainReaderHelper helper = new ChainReaderHelper();
                 helper.setBufferSize(8192);
-                helper.setPrimaryReader(new BufferedReader(new InputStreamReader(fileIS)));
-                Vector filterChains = new Vector();
+                helper.setPrimaryReader(new BufferedReader(newReader(fileIS, encoding)));
+                Vector<FilterChain> filterChains = new Vector<FilterChain>();
                 filterChains.add(filterChain);
                 helper.setFilterChains(filterChains);
                 in = new BufferedReader(helper.getAssembledReader());
 
-                out = new BufferedWriter(new FileWriter(target));
+                out = new BufferedWriter(newWriter(target, encoding));
 
                 String line;
                 while ((line = in.readLine()) != null)
@@ -285,7 +293,17 @@ public class DefaultFileHandler implements FileHandler
      */
     public void replaceInFile(String file, Map<String, String> replacements) throws CargoException
     {
-        String fileContents = readTextFile(file);
+        replaceInFile(file, replacements, null);
+    }
+
+    /**
+     * {@inheritDoc}.
+     * @see FileHandler#replaceInFile(String, Map, String)
+     */
+    public void replaceInFile(String file, Map<String, String> replacements, String encoding)
+        throws CargoException
+    {
+        String fileContents = readTextFile(file, encoding);
 
         for (Map.Entry<String, String> replacement : replacements.entrySet())
         {
@@ -300,7 +318,7 @@ public class DefaultFileHandler implements FileHandler
 
         try
         {
-            FileWriter fw = new FileWriter(file, false);
+            Writer fw = newWriter(file, encoding);
             try
             {
                 fw.write(fileContents);
@@ -581,13 +599,22 @@ public class DefaultFileHandler implements FileHandler
      */
     public String readTextFile(String file)
     {
+        return readTextFile(file, null);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see FileHandler#readTextFile(String, String)
+     */
+    public String readTextFile(String file, String encoding)
+    {
         BufferedReader in = null;
         StringBuilder out = new StringBuilder();
         try
         {
             try
             {
-                in = new BufferedReader(new InputStreamReader(getInputStream(file)));
+                in = new BufferedReader(newReader(getInputStream(file), encoding));
                 String str;
                 while ((str = in.readLine()) != null)
                 {
@@ -611,6 +638,36 @@ public class DefaultFileHandler implements FileHandler
         {
             throw new CargoException("Failed to read text from file: " + file, e);
         }
+    }
+
+    /**
+     * @param is The input stream to wrap, must not be {@code null}.
+     * @param encoding The character encoding, may be {@code null}.
+     * @return The reader, never {@code null}.
+     * @throws IOException If the reader could not be opened.
+     */
+    private Reader newReader(InputStream is, String encoding) throws IOException
+    {
+        if (encoding == null || encoding.length() <= 0)
+        {
+            return new InputStreamReader(is);
+        }
+        return new InputStreamReader(is, encoding);
+    }
+
+    /**
+     * @param file The file to open, must not be {@code null}.
+     * @param encoding The character encoding, may be {@code null}.
+     * @return The writer, never {@code null}.
+     * @throws IOException If the writer could not be opened.
+     */
+    private Writer newWriter(String file, String encoding) throws IOException
+    {
+        if (encoding == null || encoding.length() <= 0)
+        {
+            return new FileWriter(file);
+        }
+        return new OutputStreamWriter(new FileOutputStream(file), encoding);
     }
 
 }

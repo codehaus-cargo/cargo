@@ -153,7 +153,7 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
         String config =
             configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml");
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
         XMLAssert.assertXpathEvaluatesTo("AJP/1.3", "//Connector[@port='8009']/@protocol", config);
     }
 
@@ -166,7 +166,7 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
         String config =
             configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml");
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
         XMLAssert.assertXpathEvaluatesTo(configuration
             .getPropertyValue(TomcatPropertySet.AJP_PORT),
             "//Connector[@protocol='AJP/1.3']/@port", config);
@@ -182,7 +182,7 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
         String config =
             configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml");
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
         XMLAssert.assertXpathEvaluatesTo("1001", "//Connector[@protocol='AJP/1.3']/@port", config);
     }
 

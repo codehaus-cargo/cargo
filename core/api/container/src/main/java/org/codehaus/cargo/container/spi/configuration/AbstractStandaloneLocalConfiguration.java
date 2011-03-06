@@ -245,7 +245,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
             {
                 if (fileConfig.getConfigfile())
                 {
-                    getFileHandler().copyFile(fileConfig.getFile(), destFile, filterChain);
+                    getFileHandler().copyFile(fileConfig.getFile(), destFile, filterChain,
+                        fileConfig.getEncoding());
                 }
                 else if (isDirectory)
                 {
@@ -347,10 +348,12 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      * 
      * @param file File to replace in.
      * @param replacements Map containing replacements.
+     * @param encoding The character encoding to use, may be {@code null} or empty to use the
+     *            platform's default encoding.
      * @throws CargoException If anything fails, most notably if one of the replacements does not
      * exist in the file.
      */
-    protected void replaceInFile(String file, Map<String, String> replacements)
+    protected void replaceInFile(String file, Map<String, String> replacements, String encoding)
         throws CargoException
     {
         if (replacements.isEmpty())
@@ -358,6 +361,6 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
             return;
         }
         String path = getHome() + "/" + file;
-        getFileHandler().replaceInFile(path, replacements);
+        getFileHandler().replaceInFile(path, replacements, encoding);
     }
 }

@@ -66,6 +66,11 @@ public class FileConfig
     private boolean configfile;
 
     /**
+     * The character encoding to use when token filtering is performed.
+     */
+    private String encoding;
+
+    /**
      * Constructor.
      */
     public FileConfig()
@@ -188,4 +193,27 @@ public class FileConfig
     {
         this.configfile = configfile;
     }
+
+    /**
+     * Gets the character encoding to use when token filtering is performed.
+     * 
+     * @return The character encoding to use when token filtering is performed or {@code null}/empty
+     *         if the platform's default encoding should be used.
+     */
+    public String getEncoding()
+    {
+        return encoding;
+    }
+
+    /**
+     * Sets the character encoding to use when token filtering is performed.
+     * 
+     * @param encoding The character encoding to use when token filtering is performed, may be
+     *            {@code null} or empty to use the platform's default encoding.
+     */
+    public void setEncoding(String encoding)
+    {
+        this.encoding = encoding;
+    }
+
 }

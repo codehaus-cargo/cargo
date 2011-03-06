@@ -165,7 +165,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
         String config =
             configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml");
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
         XMLAssert.assertXpathEvaluatesTo(configuration
             .getPropertyValue(TomcatPropertySet.AJP_PORT),
             "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port", config);
@@ -181,7 +181,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
         String config =
             configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml");
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
         XMLAssert.assertXpathEvaluatesTo(AJP_PORT,
             "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port", config);
     }
@@ -234,7 +234,8 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
 
         conf.configureResources(container);
         String xml =
-            configuration.getFileHandler().readTextFile(getDataSourceConfigurationFile(null));
+            configuration.getFileHandler().readTextFile(getDataSourceConfigurationFile(null),
+                "UTF-8");
 
         XMLAssert.assertXpathEvaluatesTo("javax.sql.DataSource",
             "//Resource[@name='myDataSource']/@type", xml);

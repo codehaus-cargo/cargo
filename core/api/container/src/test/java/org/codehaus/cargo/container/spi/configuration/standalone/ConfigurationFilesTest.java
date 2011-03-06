@@ -425,7 +425,7 @@ public class ConfigurationFilesTest extends TestCase
      */
     protected String readFile(File file)
     {
-        return configuration.getFileHandler().readTextFile(getAbsolutePath(file));
+        return configuration.getFileHandler().readTextFile(getAbsolutePath(file), "UTF-8");
     }
 
     /**
