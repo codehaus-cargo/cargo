@@ -214,7 +214,7 @@
 
               <property>
                 <name>cargo.tomcat5x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.31/bin/apache-tomcat-5.5.31.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.33/bin/apache-tomcat-5.5.33.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat5x.java.home</name>
@@ -223,7 +223,7 @@
 
               <property>
                 <name>cargo.tomcat6x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.29/bin/apache-tomcat-6.0.29.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.32/bin/apache-tomcat-6.0.32.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat6x.java.home</name>
@@ -232,7 +232,7 @@
 
               <property>
                 <name>cargo.tomcat7x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.2-beta/bin/apache-tomcat-7.0.2.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.8/bin/apache-tomcat-7.0.8.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat7x.java.home</name>
@@ -250,7 +250,7 @@
 
               <property>
                 <name>cargo.jetty5x.url</name>
-                <value>http://dist.codehaus.org/jetty/jetty-5.1.x/jetty-5.1.12.zip</value>
+                <value>http://dist.codehaus.org/jetty/jetty-5.1.x/jetty-5.1.15.zip</value>
               </property>
               <property>
                 <name>cargo.jetty5x.java.home</name>
@@ -271,7 +271,10 @@
                 <!--
                 <value>http://download.eclipse.org/jetty/7.1.6.v20100715/dist/jetty-distribution-7.1.6.v20100715.tar.gz</value>
                  -->
+                <!--
                 <value>http://download.eclipse.org/jetty/7.2.2.v20101205/dist/jetty-distribution-7.2.2.v20101205.tar.gz</value>
+                 -->
+                <value>http://download.eclipse.org/jetty/7.3.0.v20110203/dist/jetty-distribution-7.3.0.v20110203.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty7x.java.home</name>
@@ -291,7 +294,7 @@
               <property>
                 <name>cargo.geronimo2x.url</name>
                 <!-- the default cargo.geronimo.servlet.containerId is tomcat, therefore use Tomcat -->
-                <value>http://archive.eu.apache.org/dist/geronimo/2.1.6/geronimo-tomcat6-javaee5-2.1.6-bin.zip</value>
+                <value>http://archive.eu.apache.org/dist/geronimo/2.2.1/geronimo-tomcat6-javaee5-2.2.1-bin.zip</value>
               </property>
               <property>
                 <name>cargo.geronimo2x.java.home</name>
@@ -326,7 +329,7 @@
 
               <property>
                 <name>cargo.glassfish3x.url</name>
-                <value>http://download.java.net/glassfish/3.0.1/release/glassfish-3.0.1.zip</value>
+                <value>http://download.java.net/glassfish/3.1/release/glassfish-3.1.zip</value>
               </property>
               <property>
                 <name>cargo.glassfish3x.java.home</name>
@@ -429,7 +432,7 @@
                 There is no non-interactive download link for WL 10.3x.  Here is is a link that requires license agreement:
                    * http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html
 
-                Once you install this, set the cargo.weblogic10x.home property accordingly.
+                Once you install this, set the cargo.weblogic103x.home property accordingly.
 
                 For example:
 
@@ -572,7 +575,7 @@
 
               <property>
                 <name>cargo.jonas4x.url</name>
-                <value>http://download.fr.forge.objectweb.org/jonas/jonas4.10.8-tomcat5.5.28.tgz</value>
+                <value>http://download.fr.forge.objectweb.org/jonas/jonas4.10.9-tomcat5.5.28.tgz</value>
               </property>
               <property>
                 <name>cargo.jonas4x.java.home</name>
@@ -585,7 +588,7 @@
 
               <property>
                 <name>cargo.jonas5x.url</name>
-                <value>http://download.fr.forge.objectweb.org/jonas/jonas-full-5.1.2-bin.tar.gz</value>
+                <value>http://download.fr.forge.objectweb.org/jonas/jonas-full-5.1.6-bin.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jonas5x.java.home</name>
