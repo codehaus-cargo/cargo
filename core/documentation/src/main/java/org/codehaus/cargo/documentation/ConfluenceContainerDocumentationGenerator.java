@@ -160,61 +160,60 @@ public class ConfluenceContainerDocumentationGenerator
         output.append("h3.Container Features");
         output.append(LINE_SEPARATOR);
         output.append(LINE_SEPARATOR);
-        output.append("|| Feature name || Java || Ant || Maven1 || Maven2 || Comment ||");
+        output.append("|| Feature name || Java || Ant || Maven2 || Comment ||");
         output.append(LINE_SEPARATOR);
 
         output.append("| [Container Instantiation]               | ");
         output.append("(/) {{ContainerFactory.createContainer(\"" + containerId + "\"...)}} | ");
         output.append("(/) {{<cargo containerId=\"" + containerId + "\".../>}} |");
-        output.append("(/) {{cargo.containers = " + containerId + "}} |");
         output.append("(/) {{<containerId>" + containerId + "</containerId>}} | |");
         output.append(LINE_SEPARATOR);
 
         if (this.containerFactory.isContainerRegistered(containerId, ContainerType.INSTALLED)
             || this.containerFactory.isContainerRegistered(containerId, ContainerType.EMBEDDED))
         {
-            output.append("| [Local Container]                       | (/) | (/) | (/) | (/) | |");
+            output.append("| [Local Container]                       | (/) | (/) | (/) | |");
             output.append(LINE_SEPARATOR);
             if (containerId.startsWith("geronimo"))
             {
                 output
-                    .append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | (x) "
+                    .append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
                         + "| Changing the the container classpath is not supported on Apache Geronimo |");
             }
             else if (containerId.equals("glassfish2x"))
             {
-                output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | (x) "
+                output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
                     + "| Changing the the container classpath is not supported on GlassFish 2.x |");
             }
             else if (containerId.equals("glassfish3x") || containerId.equals("jonas5x"))
             {
                 output
-                    .append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | (x) "
+                    .append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
                         + "| OSGi application servers do not support changing the container classpath |");
             }
             else
             {
                 output
-                    .append("| &nbsp; [Container Classpath]            | (/) | (/) | (x) | (/) | |");
+                    .append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) | |");
             }
             output.append(LINE_SEPARATOR);
-            output.append("| &nbsp; [Container Start]                | (/) | (/) | (/) | (/) | |");
+            output.append("| &nbsp; [Container Start]                | (/) | (/) | (/) | |");
             output.append(LINE_SEPARATOR);
-            output.append("| &nbsp; [Container Stop]                 | (/) | (/) | (/) | (/) | |");
+            output.append("| &nbsp; [Container Stop]                 | (/) | (/) | (/) | |");
             output.append(LINE_SEPARATOR);
-            output.append("| &nbsp; [Container Timeout]              | (/) | (/) | (/) | (/) | |");
+            output.append("| &nbsp; [Container Timeout]              | (/) | (/) | (/) | |");
             output.append(LINE_SEPARATOR);
 
             if (this.containerFactory.isContainerRegistered(containerId, ContainerType.EMBEDDED))
             {
                 output.append("| &nbsp; [Embedded Container]             | ");
                 output.append("(/) {{" + computedFQCN(this.containerFactory.getContainerClass(
-                    containerId, ContainerType.EMBEDDED).getName()) + "}} | (/) | (/) | (/) | |");
+                    containerId, ContainerType.EMBEDDED).getName()) + "}} | (/) | (/) | |");
             }
             else
             {
                 output.append(
-                    "| &nbsp; [Embedded Container]             | (x) | (x) | (x) | (x) | |");
+                    "| &nbsp; [Embedded Container]             | (x) | (x) | (x) | |");
             }
             output.append(LINE_SEPARATOR);
 
@@ -222,46 +221,46 @@ public class ConfluenceContainerDocumentationGenerator
             {
                 output.append("| &nbsp; [Installed Container]            | ");
                 output.append("(/) {{" + computedFQCN(this.containerFactory.getContainerClass(
-                    containerId, ContainerType.INSTALLED).getName()) + "}} | (/) | (/) | (/) | |");
+                    containerId, ContainerType.INSTALLED).getName()) + "}} | (/) | (/) | |");
                 output.append(LINE_SEPARATOR);
                 output.append(
-                    "| &nbsp;&nbsp; [Passing system properties]| (/) | (/) | (x) | (/) | |");
+                    "| &nbsp;&nbsp; [Passing system properties]| (/) | (/) | (/) | |");
                 output.append(LINE_SEPARATOR);
                 output.append(
-                    "| &nbsp;&nbsp; [Installer]                | (/) | (/) | (/) | (/) | |");
+                    "| &nbsp;&nbsp; [Installer]                | (/) | (/) | (/) | |");
             }
             else
             {
                 output.append(
-                    "| &nbsp; [Installed Container]            | (x) | (x) | (x) | (x) | |");
+                    "| &nbsp; [Installed Container]            | (x) | (x) | (x) | |");
                 output.append(LINE_SEPARATOR);
                 output.append(
-                    "| &nbsp;&nbsp; [Passing system properties]| (x) | (x) | (x) | (x) | |");
+                    "| &nbsp;&nbsp; [Passing system properties]| (x) | (x) | (x) | |");
                 output.append(LINE_SEPARATOR);
                 output.append(
-                    "| &nbsp;&nbsp; [Installer]                | (x) | (x) | (x) | (x) | |");
+                    "| &nbsp;&nbsp; [Installer]                | (x) | (x) | (x) | |");
             }
             output.append(LINE_SEPARATOR);
         }
         else
         {
-            output.append("| [Local Container]                       | (x) | (x) | (x) | (x) | |");
+            output.append("| [Local Container]                       | (x) | (x) | (x) | |");
             output.append(LINE_SEPARATOR);
-            output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | (x) | |");
+            output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) | |");
             output.append(LINE_SEPARATOR);
-            output.append("| &nbsp; [Container Start]                | (x) | (x) | (x) | (x) | |");
+            output.append("| &nbsp; [Container Start]                | (x) | (x) | (x) | |");
             output.append(LINE_SEPARATOR);
-            output.append("| &nbsp; [Container Stop]                 | (x) | (x) | (x) | (x) | |");
+            output.append("| &nbsp; [Container Stop]                 | (x) | (x) | (x) | |");
             output.append(LINE_SEPARATOR);
-            output.append("| &nbsp; [Container Timeout]              | (x) | (x) | (x) | (x) | |");
+            output.append("| &nbsp; [Container Timeout]              | (x) | (x) | (x) | |");
             output.append(LINE_SEPARATOR);
-            output.append("| &nbsp; [Embedded Container]             | (x) | (x) | (x) | (x) | |");
+            output.append("| &nbsp; [Embedded Container]             | (x) | (x) | (x) | |");
             output.append(LINE_SEPARATOR);
-            output.append("| &nbsp; [Installed Container]            | (x) | (x) | (x) | (x) | |");
+            output.append("| &nbsp; [Installed Container]            | (x) | (x) | (x) | |");
             output.append(LINE_SEPARATOR);
-            output.append("| &nbsp;&nbsp; [Passing system properties]| (x) | (x) | (x) | (x) | |");
+            output.append("| &nbsp;&nbsp; [Passing system properties]| (x) | (x) | (x) | |");
             output.append(LINE_SEPARATOR);
-            output.append("| &nbsp;&nbsp; [Installer]                | (x) | (x) | (x) | (x) | |");
+            output.append("| &nbsp;&nbsp; [Installer]                | (x) | (x) | (x) | |");
             output.append(LINE_SEPARATOR);
         }
 
@@ -269,11 +268,11 @@ public class ConfluenceContainerDocumentationGenerator
         {
             output.append("| [Remote Container]                      | ");
             output.append("(/) {{" + computedFQCN(this.containerFactory.getContainerClass(
-                containerId, ContainerType.REMOTE).getName()) + "}} | (/) | (/) | (/) | |");
+                containerId, ContainerType.REMOTE).getName()) + "}} | (/) | (/) | |");
         }
         else
         {
-            output.append("| [Remote Container]                      | (x) | (x) | (x) | (x) | |");
+            output.append("| [Remote Container]                      | (x) | (x) | (x) | |");
         }
         output.append(LINE_SEPARATOR);
 
@@ -292,12 +291,12 @@ public class ConfluenceContainerDocumentationGenerator
                 + " container|Standalone Local Configuration]        | ");
             output.append("(/) {{" + computedFQCN(this.configurationFactory.getConfigurationClass(
                 containerId, type, ConfigurationType.STANDALONE).getName())
-                + "}} | (/) | (/) | (/) | |");
+                + "}} | (/) | (/) | |");
         }
         else
         {
             output.append("| [Standalone Local Configuration for " + type.getType()
-                + " container|Standalone Local Configuration]        | (x) | (x) | (x) | (x) | |");
+                + " container|Standalone Local Configuration]        | (x) | (x) | (x) | |");
         }
         return output.toString();
     }
@@ -314,12 +313,12 @@ public class ConfluenceContainerDocumentationGenerator
                 + " container|Existing Local Configuration]          | ");
             output.append("(/) {{" + computedFQCN(this.configurationFactory.getConfigurationClass(
                 containerId, type, ConfigurationType.EXISTING).getName())
-                + "}} | (/) | (x) | (/) | |");
+                + "}} | (/) | (/) | |");
         }
         else
         {
             output.append("| [Existing Local Configuration for " + type.getType()
-                + " container|Existing Local Configuration]          | (x) | (x) | (x) | (x) | |");
+                + " container|Existing Local Configuration]          | (x) | (x) | (x) | |");
         }
         return output.toString();
     }
@@ -331,7 +330,7 @@ public class ConfluenceContainerDocumentationGenerator
         output.append("h3.Configuration Features");
         output.append(LINE_SEPARATOR);
         output.append(LINE_SEPARATOR);
-        output.append("|| Feature name || Java || Ant || Maven1 || Maven2 || Comment ||");
+        output.append("|| Feature name || Java || Ant || Maven2 || Comment ||");
         output.append(LINE_SEPARATOR);
 
         output.append(generateStandaloneConfigurationText(containerId, ContainerType.INSTALLED));
@@ -350,18 +349,18 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("| [Runtime Configuration]                 | ");
             output.append("(/) {{" + computedFQCN(this.configurationFactory.getConfigurationClass(
                 containerId, ContainerType.REMOTE, ConfigurationType.RUNTIME).getName())
-                + "}} | (/) | (/) | (/) | |");
+                + "}} | (/) | (/) | |");
         }
         else
         {
-            output.append("| [Runtime Configuration]                 | (x) | (x) | (x) | (x) | |");
+            output.append("| [Runtime Configuration]                 | (x) | (x) | (x) | |");
         }
         output.append(LINE_SEPARATOR);
 
         if (this.containerCapabilityFactory.createContainerCapability(
             containerId).supportsDeployableType(DeployableType.WAR))
         {
-            output.append("| [Static deployment of WAR]              | (/) | (/) | (/) | (/) | ");
+            output.append("| [Static deployment of WAR]              | (/) | (/) | (/) | ");
             if (containerId.equals("tomcat4x"))
             {
                 output.append("Does not support {{META-INF/context.xml}} files yet ");
@@ -373,51 +372,51 @@ public class ConfluenceContainerDocumentationGenerator
             if (containerId.startsWith("geronimo"))
             {
                 output.append(
-                    "| [Static deployment of expanded WAR]     | (x) | (x) | (x) | (x) | "
+                    "| [Static deployment of expanded WAR]     | (x) | (x) | (x) | "
                         + "The Apache Geronimo container does not support expanded WARs |");
             }
             else
             {
                 output.append(
-                    "| [Static deployment of expanded WAR]     | (/) | (/) | (/) | (/) | |");
+                    "| [Static deployment of expanded WAR]     | (/) | (/) | (/) | |");
             }
         }
         else
         {
-            output.append("| [Static deployment of WAR]              | (x) | (x) | (x) | (x) | |");
+            output.append("| [Static deployment of WAR]              | (x) | (x) | (x) | |");
         }
         output.append(LINE_SEPARATOR);
 
         if (this.containerCapabilityFactory.createContainerCapability(
             containerId).supportsDeployableType(DeployableType.EJB))
         {
-            output.append("| [Static deployment of EJB]              | (/) | (/) | (/) | (/) | |");
+            output.append("| [Static deployment of EJB]              | (/) | (/) | (/) | |");
         }
         else
         {
-            output.append("| [Static deployment of EJB]              | (x) | (x) | (x) | (x) | |");
+            output.append("| [Static deployment of EJB]              | (x) | (x) | (x) | |");
         }
         output.append(LINE_SEPARATOR);
 
         if (this.containerCapabilityFactory.createContainerCapability(
             containerId).supportsDeployableType(DeployableType.EAR))
         {
-            output.append("| [Static deployment of EAR]              | (/) | (/) | (/) | (/) | |");
+            output.append("| [Static deployment of EAR]              | (/) | (/) | (/) | |");
         }
         else
         {
-            output.append("| [Static deployment of EAR]              | (x) | (x) | (x) | (x) | |");
+            output.append("| [Static deployment of EAR]              | (x) | (x) | (x) | |");
         }
         output.append(LINE_SEPARATOR);
 
         if (this.containerCapabilityFactory.createContainerCapability(
             containerId).supportsDeployableType(DeployableType.RAR))
         {
-            output.append("| [Static deployment of RAR]              | (/) | (/) | (/) | (/) | |");
+            output.append("| [Static deployment of RAR]              | (/) | (/) | (/) | |");
         }
         else
         {
-            output.append("| [Static deployment of RAR]              | (x) | (x) | (x) | (x) | |");
+            output.append("| [Static deployment of RAR]              | (x) | (x) | (x) | |");
         }
         output.append(LINE_SEPARATOR);
 
@@ -425,12 +424,12 @@ public class ConfluenceContainerDocumentationGenerator
             containerId).supportsDeployableType(DeployableType.FILE))
         {
             output.append(
-                "| [Static deployment of files]              | (/) | (/) | (/) | (/) | |");
+                "| [Static deployment of files]              | (/) | (/) | (/) | |");
         }
         else
         {
             output.append(
-                "| [Static deployment of files]              | (x) | (x) | (x) | (x) | |");
+                "| [Static deployment of files]              | (x) | (x) | (x) | |");
         }
         output.append(LINE_SEPARATOR);
 
@@ -438,12 +437,12 @@ public class ConfluenceContainerDocumentationGenerator
             containerId).supportsDeployableType(DeployableType.BUNDLE))
         {
             output.append(
-                "| [Static deployment of OSGi Bundles]              | (/) | (/) | (/) | (/) | |");
+                "| [Static deployment of OSGi Bundles]              | (/) | (/) | (/) | |");
         }
         else
         {
             output.append(
-                "| [Static deployment of OSGi Bundles]              | (x) | (x) | (x) | (x) | |");
+                "| [Static deployment of OSGi Bundles]              | (x) | (x) | (x) | |");
         }
         output.append(LINE_SEPARATOR);
 
@@ -457,18 +456,18 @@ public class ConfluenceContainerDocumentationGenerator
         output.append("h3.Deployer Features");
         output.append(LINE_SEPARATOR);
         output.append(LINE_SEPARATOR);
-        output.append("|| Feature name || Java || Ant || Maven1 || Maven2 || Comment ||");
+        output.append("|| Feature name || Java || Ant || Maven2 || Comment ||");
         output.append(LINE_SEPARATOR);
 
         if (this.deployerFactory.isDeployerRegistered(containerId, DeployerType.INSTALLED))
         {
             output.append("| [Installed Deployer]                    | ");
             output.append("(/) {{" + computedFQCN(this.deployerFactory.getDeployerClass(
-                containerId, DeployerType.INSTALLED).getName()) + "}} | (x) | (x) | (/) | |");
+                containerId, DeployerType.INSTALLED).getName()) + "}} | (x) | (/) | |");
         }
         else
         {
-            output.append("| [Installed Deployer]                    | (x) | (x) | (x) | (x) | |");
+            output.append("| [Installed Deployer]                    | (x) | (x) | (x) | |");
         }
         output.append(LINE_SEPARATOR);
 
@@ -476,11 +475,11 @@ public class ConfluenceContainerDocumentationGenerator
         {
             output.append("| [Embedded Deployer]                     | ");
             output.append("(/) {{" + computedFQCN(this.deployerFactory.getDeployerClass(
-                containerId, DeployerType.EMBEDDED).getName()) + "}} | (x) | (x) | (/) | |");
+                containerId, DeployerType.EMBEDDED).getName()) + "}} | (x) | (/) | |");
         }
         else
         {
-            output.append("| [Embedded Deployer]                     | (x) | (x) | (x) | (x) | |");
+            output.append("| [Embedded Deployer]                     | (x) | (x) | (x) | |");
         }
         output.append(LINE_SEPARATOR);
 
@@ -488,11 +487,11 @@ public class ConfluenceContainerDocumentationGenerator
         {
             output.append("| [Remote Deployer]                       | ");
             output.append("(/) {{" + computedFQCN(this.deployerFactory.getDeployerClass(
-                containerId, DeployerType.REMOTE).getName()) + "}} | (x) | (x) | (/) | |");
+                containerId, DeployerType.REMOTE).getName()) + "}} | (x) | (/) | |");
         }
         else
         {
-            output.append("| [Remote Deployer]                       | (x) | (x) | (x) | (x) | |");
+            output.append("| [Remote Deployer]                       | (x) | (x) | (x) | |");
         }
         output.append(LINE_SEPARATOR);
 
@@ -506,10 +505,10 @@ public class ConfluenceContainerDocumentationGenerator
         output.append("h3.Other Features");
         output.append(LINE_SEPARATOR);
         output.append(LINE_SEPARATOR);
-        output.append("|| Feature name || Java || Ant || Maven1 || Maven2 || Comment ||");
+        output.append("|| Feature name || Java || Ant || Maven2 || Comment ||");
         output.append(LINE_SEPARATOR);
 
-        output.append("| [Debugging]                             | (/) | (/) | (/) | (/) | |");
+        output.append("| [Debugging]                             | (/) | (/) | (/) | |");
         output.append(LINE_SEPARATOR);
 
         return output.toString();
