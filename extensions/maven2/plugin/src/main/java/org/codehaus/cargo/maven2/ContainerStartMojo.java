@@ -38,7 +38,7 @@ public class ContainerStartMojo extends AbstractCargoMojo
      * Decides whether to wait after the container is started or to return the execution flow to the
      * user.
      * 
-     * @parameter expression="${cargo.maven.wait}" default-value="true"
+     * @parameter expression="${cargo.maven.wait}" default-value="false"
      * @required
      */
     private boolean wait;

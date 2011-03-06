@@ -49,7 +49,6 @@
         <artifactId>cargo-maven2-plugin</artifactId>
         <version>${project.version}</version>
         <configuration>
-          <wait>false</wait>
           <container>
             <containerId>jetty7x</containerId>
             <type>embedded</type>

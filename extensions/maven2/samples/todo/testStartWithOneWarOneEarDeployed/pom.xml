@@ -51,7 +51,6 @@
         <groupId>org.codehaus.cargo</groupId>
         <artifactId>cargo-maven2-plugin</artifactId>
         <configuration>
-          <wait>false</wait>
           <container>
             <containerId>${containerId}</containerId>
             <log>${project.build.directory}/${containerId}/cargo.log</log>

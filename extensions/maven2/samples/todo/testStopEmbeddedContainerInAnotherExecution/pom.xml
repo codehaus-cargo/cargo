@@ -43,7 +43,6 @@
         <groupId>org.codehaus.cargo</groupId>
         <artifactId>cargo-maven2-plugin</artifactId>
         <configuration>
-          <wait>false</wait>
           <container>
             <containerId>jetty5x</containerId>
             <type>embedded</type>

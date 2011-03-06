@@ -184,7 +184,7 @@ public class CargoTask extends Task
      * Decides whether to wait after the container is started or to return the execution flow to the
      * user.
      */
-    private boolean wait = true;
+    private boolean wait = false;
 
     /**
      * @param wait if true wait indefinitely after the container is started, if false return the
