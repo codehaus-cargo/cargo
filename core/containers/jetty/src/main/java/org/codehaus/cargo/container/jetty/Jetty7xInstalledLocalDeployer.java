@@ -19,86 +19,40 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
-import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
  * A deployer for webapps that deploys to a Jetty 7.x installed instance.
  * 
  * @version $Id$
  */
-public class Jetty7xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
+public class Jetty7xInstalledLocalDeployer extends Jetty6xInstalledLocalDeployer
 {
     /**
      * {@inheritDoc}
-     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
+     * @see Jetty6xInstalledLocalDeployer#Jetty6xInstalledLocalDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
      */
     public Jetty7xInstalledLocalDeployer(InstalledLocalContainer container)
     {
         super(container);
     }
 
-    /**
-     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should be
-     * copied to. For Jetty this is the <code>webapps</code> directory.
-     * 
-     * @return Deployable the directory to deploy to
-     */
     @Override
-    public String getDeployableDir()
+    protected String createContextXml(WAR war)
     {
-        return getFileHandler().append(getContainer().getConfiguration().getHome(), "webapps");
+        StringBuilder buffer = new StringBuilder(1024);
+        buffer.append("<?xml version=\"1.0\"  encoding=\"UTF-8\"?>\n");
+        buffer.append("<!DOCTYPE Configure PUBLIC \"-//Jetty//Configure//EN\" "
+            + "\"http://www.eclipse.org/jetty/configure.dtd\">\n");
+        buffer.append("<Configure class=\"org.eclipse.jetty.webapp.WebAppContext\">\n");
+        buffer.append("  <Set name=\"contextPath\">/" + war.getContext() + "</Set>\n");
+        buffer.append("  <Set name=\"war\">" + war.getFile() + "</Set>\n");
+        buffer.append("  <Set name=\"extractWAR\">true</Set>\n");
+        buffer.append("  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
+            + "default=\".\"/>/etc/webdefault.xml</Set>\n");
+        buffer.append("</Configure>\n");
+        return buffer.toString();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * <p>
-     * We override the base implementation because Jetty requires a context XML file deployed in its
-     * context dir to perform hot deployment. Thus we need to create that context file
-     * </p>
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#deployWar(String,
-     * org.codehaus.cargo.container.deployable.WAR)
-     */
-    @Override
-    protected void deployWar(String deployableDir, WAR war)
-    {
-        super.deployWar(deployableDir, war);
-
-        // Create a Jetty context file. This is useful for 2 purposes:
-        // - ability to hot deploy
-        // - ability to tell Jetty to install the WAR under a given context name
-        String contextDir = getFileHandler().append(getContainer().getConfiguration().getHome(),
-            "contexts");
-        String contextFile = getFileHandler().append(contextDir, war.getContext() + ".xml");
-        getFileHandler().createFile(contextFile);
-
-        OutputStream out = getFileHandler().getOutputStream(contextFile);
-        try
-        {
-            out.write(("<?xml version=\"1.0\"  encoding=\"ISO-8859-1\"?>\n"
-                + "<!DOCTYPE Configure PUBLIC \"-//Jetty//Configure//EN\" "
-                    + "\"http://www.eclipse.org/jetty/configure.dtd\">\n"
-                + "<Configure class=\"org.eclipse.jetty.webapp.WebAppContext\">\n"
-                + "  <Set name=\"contextPath\">/" + war.getContext() + "</Set>\n"
-                + "  <Set name=\"war\"><SystemProperty name=\"config.home\" "
-                    + "default=\".\"/>/webapps/" + war.getContext() + ".war</Set>\n"
-                + "  <Set name=\"extractWAR\">true</Set>\n"
-                + "  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
-                    + "default=\".\"/>/etc/webdefault.xml</Set>\n"
-                + "</Configure>").getBytes("ISO-8859-1"));
-            out.close();
-        }
-        catch (IOException e)
-        {
-            throw new ContainerException("Failed to create Jetty Context file for ["
-                + war.getFile() + "]");
-        }
-    }
 }

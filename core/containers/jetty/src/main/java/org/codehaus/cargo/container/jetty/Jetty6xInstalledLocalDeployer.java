@@ -69,11 +69,10 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     @Override
     protected void deployWar(String deployableDir, WAR war)
     {
-        super.deployWar(deployableDir, war);
-
-        // Create a Jetty context file. This is useful for 2 purposes:
+        // Create a Jetty context file. This is useful for various purposes:
         // - ability to hot deploy
         // - ability to tell Jetty to install the WAR under a given context name
+        // - ability to accelerate deployment by avoiding an actual copy of the WAR
         String contextDir = getFileHandler().append(getContainer().getConfiguration().getHome(),
             "contexts");
         String contextFile = getFileHandler().append(contextDir, war.getContext() + ".xml");
@@ -82,27 +81,7 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
         OutputStream out = getFileHandler().getOutputStream(contextFile);
         try
         {
-            out.write(("<?xml version=\"1.0\"  encoding=\"ISO-8859-1\"?>\n"
-                + "<!DOCTYPE Configure PUBLIC \"-//Mort Bay Consulting//DTD Configure//EN\" "
-                    + "\"http://jetty.mortbay.org/configure.dtd\">\n"
-                + "<Configure class=\"org.mortbay.jetty.webapp.WebAppContext\">\n"
-
-                + "  <Array id=\"plusConfig\" type=\"java.lang.String\">\n"
-                + "    <Item>org.mortbay.jetty.webapp.WebInfConfiguration</Item>\n"
-                + "    <Item>org.mortbay.jetty.plus.webapp.EnvConfiguration</Item>\n"
-                + "    <Item>org.mortbay.jetty.plus.webapp.Configuration</Item>\n"
-                + "    <Item>org.mortbay.jetty.webapp.JettyWebXmlConfiguration</Item>\n"
-                + "    <Item>org.mortbay.jetty.webapp.TagLibConfiguration</Item>\n"
-                + "  </Array>\n"
-
-                + "  <Set name=\"contextPath\">/" + war.getContext() + "</Set>\n"
-                + "  <Set name=\"war\"><SystemProperty name=\"config.home\" "
-                    + "default=\".\"/>/webapps/" + war.getContext() + ".war</Set>\n"
-                + "  <Set name=\"extractWAR\">true</Set>\n"
-                + "  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
-                   + "default=\".\"/>/etc/webdefault.xml</Set>\n"
-                + "  <Set name=\"ConfigurationClasses\"><Ref id=\"plusConfig\"/></Set>\n"
-                + "</Configure>").getBytes("ISO-8859-1"));
+            out.write(createContextXml(war).getBytes("UTF-8"));
             out.close();
         }
         catch (IOException e)
@@ -111,4 +90,41 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
                 + war.getFile() + "]");
         }
     }
+
+    @Override
+    protected void deployExpandedWar(String deployableDir, WAR war)
+    {
+        deployWar(deployableDir, war);
+    }
+
+    /**
+     * Creates the contents of the context file.
+     * 
+     * @param war The WAR being deployed, must not be {@code null}.
+     * @return The contents of the context file, never {@code null}.
+     */
+    protected String createContextXml(WAR war)
+    {
+        StringBuilder buffer = new StringBuilder(1024);
+        buffer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+        buffer.append("<!DOCTYPE Configure PUBLIC \"-//Mort Bay Consulting//DTD Configure//EN\" "
+            + "\"http://jetty.mortbay.org/configure.dtd\">\n");
+        buffer.append("<Configure class=\"org.mortbay.jetty.webapp.WebAppContext\">\n");
+        buffer.append("  <Array id=\"plusConfig\" type=\"java.lang.String\">\n");
+        buffer.append("    <Item>org.mortbay.jetty.webapp.WebInfConfiguration</Item>\n");
+        buffer.append("    <Item>org.mortbay.jetty.plus.webapp.EnvConfiguration</Item>\n");
+        buffer.append("    <Item>org.mortbay.jetty.plus.webapp.Configuration</Item>\n");
+        buffer.append("    <Item>org.mortbay.jetty.webapp.JettyWebXmlConfiguration</Item>\n");
+        buffer.append("    <Item>org.mortbay.jetty.webapp.TagLibConfiguration</Item>\n");
+        buffer.append("  </Array>\n");
+        buffer.append("  <Set name=\"contextPath\">/" + war.getContext() + "</Set>\n");
+        buffer.append("  <Set name=\"war\">" + war.getFile() + "</Set>\n");
+        buffer.append("  <Set name=\"extractWAR\">true</Set>\n");
+        buffer.append("  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
+            + "default=\".\"/>/etc/webdefault.xml</Set>\n");
+        buffer.append("  <Set name=\"ConfigurationClasses\"><Ref id=\"plusConfig\"/></Set>\n");
+        buffer.append("</Configure>\n");
+        return buffer.toString();
+    }
+
 }
