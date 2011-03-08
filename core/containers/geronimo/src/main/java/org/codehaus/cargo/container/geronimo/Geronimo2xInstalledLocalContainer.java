@@ -80,16 +80,24 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
         java.setJar(new File(getHome(), "bin/server.jar"));
 
         // -javaagent:$GERONIMO_HOME/bin/jpa.jar
-        // -D=...:$JAVA_HOME/lib/endorsed
+        // -Djava.endorsed.dirs=$GERONIMO_HOME/lib/endorsed:$JAVA_HOME/lib/endorsed
         // -Djava.ext.dirs=$GERONIMO_HOME/lib/ext:$JAVA_HOME/lib/ext
+
+        File javaExecutable = new File(java.getCommandLine().getVmCommand().toString());
+        File javaLib = new File(javaExecutable.getParentFile().getParentFile(), "lib");
 
         java.addSysproperty(getAntUtils().createSysProperty("org.apache.geronimo.home.dir",
             getHome()));
         java.addSysproperty(getAntUtils().createSysProperty("org.apache.geronimo.server.dir",
             getConfiguration().getHome()));
         java.addSysproperty(getAntUtils().createSysProperty("java.endorsed.dirs",
-            new File(getHome(), "lib/endorsed").getAbsolutePath().replace(File.separatorChar,
-                '/')));
+            new File(getHome(), "lib/endorsed").getAbsolutePath().replace(File.separatorChar, '/')
+                + File.pathSeparatorChar  + new File(javaLib, "endorsed").getAbsolutePath().
+                    replace(File.separatorChar, '/')));
+        java.addSysproperty(getAntUtils().createSysProperty("java.ext.dirs",
+            new File(getHome(), "lib/ext").getAbsolutePath().replace(File.separatorChar, '/')
+                + File.pathSeparatorChar  + new File(javaLib, "ext").getAbsolutePath().replace(
+                    File.separatorChar, '/')));
         java.addSysproperty(getAntUtils().createSysProperty("java.io.tmpdir",
             new File(getConfiguration().getHome(), "/var/temp").getAbsolutePath().replace(
                 File.separatorChar, '/')));
