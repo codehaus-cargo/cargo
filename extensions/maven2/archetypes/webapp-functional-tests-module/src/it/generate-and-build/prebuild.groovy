@@ -25,6 +25,7 @@ if (directory.exists())
     it.delete()
   }
 
+  // Trying to work around the CI builds getting hung
   System.gc()
   Thread.sleep(5000)
 }
