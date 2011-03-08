@@ -248,7 +248,7 @@ public class DefaultFileHandler implements FileHandler
     public String createDirectory(String parentDir, String name)
     {
         File dir = new File(parentDir, name);
-        dir.mkdirs();
+        mkdirs(dir.getAbsolutePath());
         if (!dir.isDirectory() || !dir.exists())
         {
             throw new CargoException("Couldn't create directory " + dir.getAbsolutePath());
@@ -362,7 +362,7 @@ public class DefaultFileHandler implements FileHandler
         }
         while (tmpDir.exists());
         tmpDir.deleteOnExit();
-        tmpDir.mkdirs();
+        mkdirs(tmpDir.getAbsolutePath());
 
         return tmpDir.getPath();
     }
@@ -460,16 +460,19 @@ public class DefaultFileHandler implements FileHandler
     public void mkdirs(String path)
     {
         File pathFile = new File(path);
-        boolean success;
+        boolean success = false;
 
-        // mkdirs() return false when the directory already exists so test for existence first
-        if (pathFile.exists())
+        for (int i = 0; i < 3 && !success; i++)
         {
-            success = true;
-        }
-        else
-        {
-            success = pathFile.mkdirs();
+            // mkdirs() return false when the directory already exists so test for existence first
+            if (pathFile.exists())
+            {
+                success = true;
+            }
+            else
+            {
+                success = pathFile.mkdirs();
+            }
         }
 
         if (!success)

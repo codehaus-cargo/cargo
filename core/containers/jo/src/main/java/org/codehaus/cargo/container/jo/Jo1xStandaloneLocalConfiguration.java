@@ -148,7 +148,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
         getFileHandler().createDirectory(getHome(), "log");
 
         // make sure the webapp directory exists.
-        new File(getHome(), "webapp/host/").mkdirs();
+        getFileHandler().createDirectory(getHome(), "webapp/host");
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",

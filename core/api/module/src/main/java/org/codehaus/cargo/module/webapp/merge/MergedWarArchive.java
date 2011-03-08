@@ -248,7 +248,7 @@ public class MergedWarArchive implements WarArchive
 
         File f = new File(assembleDir);
         File webInfLib = new File(f, "WEB-INF/lib");
-        webInfLib.mkdirs();
+        fileHandler.mkdirs(webInfLib.getAbsolutePath());
         for (File sourceFile : this.jarFiles)
         {
             fileHandler.copyFile(sourceFile.getAbsolutePath(), new File(webInfLib, sourceFile
