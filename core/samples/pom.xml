@@ -294,7 +294,7 @@
               <property>
                 <name>cargo.geronimo2x.url</name>
                 <!-- the default cargo.geronimo.servlet.containerId is tomcat, therefore use Tomcat -->
-                <value>http://archive.eu.apache.org/dist/geronimo/2.1.7/geronimo-tomcat6-javaee5-2.1.7-bin.zip</value>
+                <value>http://archive.eu.apache.org/dist/geronimo/2.1.6/geronimo-tomcat6-javaee5-2.1.6-bin.zip</value>
               </property>
               <property>
                 <name>cargo.geronimo2x.java.home</name>
