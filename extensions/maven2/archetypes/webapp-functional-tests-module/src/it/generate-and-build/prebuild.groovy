@@ -24,6 +24,9 @@ if (directory.exists())
   {
     it.delete()
   }
+
+  System.gc()
+  Thread.sleep(5000)
 }
 
 return true
