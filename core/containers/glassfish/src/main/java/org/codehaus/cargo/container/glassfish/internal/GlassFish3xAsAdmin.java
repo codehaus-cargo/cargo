@@ -56,7 +56,7 @@ public class GlassFish3xAsAdmin extends AbstractAsAdmin
      * {@inheritDoc}
      */
     @Override
-    public void invokeAsAdmin(boolean async, JvmLauncher java, String[] args)
+    public int invokeAsAdmin(boolean async, JvmLauncher java, String[] args)
     {
         File home = new File(this.home);
         if (!home.isDirectory())
@@ -74,13 +74,14 @@ public class GlassFish3xAsAdmin extends AbstractAsAdmin
         java.setJarFile(adminCli);
         java.addAppArguments(args);
 
+        int exitCode = 0;
         if (async)
         {
             java.start();
         }
         else
         {
-            int exitCode = java.execute();
+            exitCode = java.execute();
 
             if (exitCode != 0 && exitCode != 1)
             {
@@ -88,6 +89,7 @@ public class GlassFish3xAsAdmin extends AbstractAsAdmin
                     + exitCode);
             }
         }
+        return exitCode;
     }
 
 }

@@ -36,9 +36,10 @@ public abstract class AbstractAsAdmin
      * @param async Asynchronous invoke?
      * @param java JVM launcher.
      * @param args Invoke arguments.
+     * @return The exit code from asadmin, always {@code 0} when using asynchronous invocation.
      * @throws CargoException If anything wrong happens.
      */
-    public abstract void invokeAsAdmin(boolean async, JvmLauncher java, String[] args)
+    public abstract int invokeAsAdmin(boolean async, JvmLauncher java, String[] args)
         throws CargoException;
 
 }

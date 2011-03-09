@@ -64,7 +64,7 @@ public class GlassFish2xAsAdmin extends AbstractAsAdmin
      * {@inheritDoc}
      */
     @Override
-    public void invokeAsAdmin(boolean async, JvmLauncher java, String[] args)
+    public int invokeAsAdmin(boolean async, JvmLauncher java, String[] args)
     {
         File home = new File(this.home);
         if (!home.isDirectory())
@@ -113,6 +113,7 @@ public class GlassFish2xAsAdmin extends AbstractAsAdmin
         cmds.add(exec.getAbsolutePath());
         cmds.addAll(Arrays.asList(args));
 
+        int exitCode = 0;
         try
         {
             Execute exe = new Execute(new PumpStreamHandler(), new ExecuteWatchdog(30 * 1000L));
@@ -126,7 +127,7 @@ public class GlassFish2xAsAdmin extends AbstractAsAdmin
             }
             else
             {
-                int exitCode = exe.execute();
+                exitCode = exe.execute();
                 if (exitCode != 0 && exitCode != 1)
                 {
                     // the first token is the command
@@ -138,6 +139,8 @@ public class GlassFish2xAsAdmin extends AbstractAsAdmin
         {
             throw new CargoException("Failed to invoke asadmin", e);
         }
+
+        return exitCode;
     }
 
 }

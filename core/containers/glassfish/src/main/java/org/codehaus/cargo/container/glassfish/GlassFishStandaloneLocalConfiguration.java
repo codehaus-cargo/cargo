@@ -127,31 +127,36 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
         DefaultFileHandler fileHandler = new DefaultFileHandler();
         fileHandler.delete(this.getHome());
 
-        ((AbstractGlassFishInstalledLocalContainer) container).invokeAsAdmin(false, new String[]
+        int exitCode =
+            ((AbstractGlassFishInstalledLocalContainer) container).invokeAsAdmin(
+                false,
+                "create-domain",
+                "--interactive=false",
+                "--adminport",
+                this.getPropertyValue(GlassFishPropertySet.ADMIN_PORT),
+                "--user",
+                this.getPropertyValue(RemotePropertySet.USERNAME),
+                "--passwordfile",
+                this.getPasswordFile().getAbsolutePath(),
+                "--instanceport",
+                this.getPropertyValue(ServletPropertySet.PORT),
+                "--domainproperties",
+
+                this.getPropertyValueString(GlassFishPropertySet.JMS_PORT) + ':'
+                    + this.getPropertyValueString(GlassFishPropertySet.IIOP_PORT) + ':'
+                    + this.getPropertyValueString(GlassFishPropertySet.IIOPS_PORT) + ':'
+                    + this.getPropertyValueString(GlassFishPropertySet.HTTPS_PORT) + ':'
+                    + this.getPropertyValueString(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT)
+                    + ':' + this.getPropertyValueString(GlassFishPropertySet.JMX_ADMIN_PORT),
+
+                "--domaindir", this.getHome(), this
+                    .getPropertyValue(GlassFishPropertySet.DOMAIN_NAME));
+
+        if (exitCode != 0)
         {
-            "create-domain",
-            "--interactive=false",
-            "--adminport",
-            this.getPropertyValue(GlassFishPropertySet.ADMIN_PORT),
-            "--user",
-            this.getPropertyValue(RemotePropertySet.USERNAME),
-            "--passwordfile",
-            this.getPasswordFile().getAbsolutePath(),
-            "--instanceport",
-            this.getPropertyValue(ServletPropertySet.PORT),
-            "--domainproperties",
-
-            this.getPropertyValueString(GlassFishPropertySet.JMS_PORT) + ':'
-                + this.getPropertyValueString(GlassFishPropertySet.IIOP_PORT) + ':'
-                + this.getPropertyValueString(GlassFishPropertySet.IIOPS_PORT) + ':'
-                + this.getPropertyValueString(GlassFishPropertySet.HTTPS_PORT) + ':'
-                + this.getPropertyValueString(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT) + ':'
-                + this.getPropertyValueString(GlassFishPropertySet.JMX_ADMIN_PORT),
-
-            "--domaindir",
-            this.getHome(),
-            this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
-        });
+            throw new CargoException("Could not create domain, asadmin command return exit code "
+                + exitCode);
+        }
 
         String domainXmlPath =
             getFileHandler().append(getHome(),

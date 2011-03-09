@@ -57,11 +57,12 @@ public abstract class AbstractGlassFishInstalledLocalContainer
      * 
      * @param async Asynchronous invoke?
      * @param args Invoke arguments.
+     * @return The exit code from asadmin, always {@code 0} when using asynchronous invocation.
      */
-    public void invokeAsAdmin(boolean async, String[] args)
+    public int invokeAsAdmin(boolean async, String... args)
     {
         JvmLauncher java = createJvmLauncher(false);
-        invokeAsAdmin(async, java, args);
+        return invokeAsAdmin(async, java, args);
     }
 
     /**
@@ -70,11 +71,12 @@ public abstract class AbstractGlassFishInstalledLocalContainer
      * @param async Asynchronous invoke?
      * @param java JVM launcher.
      * @param args Invoke arguments.
+     * @return The exit code from asadmin, always {@code 0} when using asynchronous invocation.
      */
-    public void invokeAsAdmin(boolean async, JvmLauncher java, String[] args)
+    public int invokeAsAdmin(boolean async, JvmLauncher java, String... args)
     {
         AbstractAsAdmin asadmin = getAsAdmin();
-        asadmin.invokeAsAdmin(async, java, args);
+        return asadmin.invokeAsAdmin(async, java, args);
     }
 
     /**
