@@ -27,13 +27,11 @@ import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Base support for Catalina based containers.
@@ -133,10 +131,10 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractInstalledLocalContainer#doStart(Java)
+     * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public void doStart(Java java) throws Exception
+    public void doStart(JvmLauncher java) throws Exception
     {
         // Invoke the server main class
         invokeContainer("start", java);
@@ -145,10 +143,10 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractInstalledLocalContainer#doStop(Java)
+     * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    public void doStop(Java java) throws Exception
+    public void doStop(JvmLauncher java) throws Exception
     {
         // invoke the main class
         invokeContainer("stop", java);
@@ -162,21 +160,18 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
      * @param java the prepared Ant Java command that will be executed
      * @exception Exception in case of container invocation error
      */
-    protected void invokeContainer(String action, Java java) throws Exception
+    protected void invokeContainer(String action, JvmLauncher java) throws Exception
     {
-        java.addSysproperty(getAntUtils().createSysProperty("catalina.home",
-            getFileHandler().getAbsolutePath(getHome())));
-        java.addSysproperty(getAntUtils().createSysProperty("catalina.base",
-                 getFileHandler().getAbsolutePath(getConfiguration().getHome())));
+        java.setSystemProperty("catalina.home", getFileHandler().getAbsolutePath(getHome()));
+        java.setSystemProperty("catalina.base",
+            getFileHandler().getAbsolutePath(getConfiguration().getHome()));
         File tempFile = new File(getConfiguration().getHome(), "temp");
-        java.addSysproperty(getAntUtils().createSysProperty("java.io.tmpdir",
-                 getFileHandler().getAbsolutePath(tempFile.getAbsolutePath())));
-        Path classpath = java.getCommandLine().getClasspath();
-        classpath.createPathElement().setLocation(new File(getHome(), "bin/bootstrap.jar"));
-        addToolsJarToClasspath(classpath);
-        java.setClassname("org.apache.catalina.startup.Bootstrap");
-        java.createArg().setValue(action);
-        Thread catalinaRunner = new AntContainerExecutorThread(java);
-        catalinaRunner.start();
+        java.setSystemProperty("java.io.tmpdir",
+            getFileHandler().getAbsolutePath(tempFile.getAbsolutePath()));
+        java.addClasspathEntries(new File(getHome(), "bin/bootstrap.jar"));
+        addToolsJarToClasspath(java);
+        java.setMainClass("org.apache.catalina.startup.Bootstrap");
+        java.addAppArguments(action);
+        java.start();
     }
 }

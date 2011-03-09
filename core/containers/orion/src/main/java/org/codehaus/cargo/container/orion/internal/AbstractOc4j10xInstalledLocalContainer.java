@@ -25,15 +25,13 @@ package org.codehaus.cargo.container.orion.internal;
 import java.io.File;
 import java.util.Set;
 
-import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Abstract class for installed local container for the OC4J 10.x application server.
@@ -68,13 +66,13 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStop(Java)
+     * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    public final void doStop(Java java)
+    public final void doStop(JvmLauncher java)
     {
         File adminClientJar = new File(getHome() + "/j2ee/home/admin_client.jar");
-        java.setJar(adminClientJar);
+        java.setJarFile(adminClientJar);
 
         String shutdownURL = "deployer:oc4j:"
             + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
@@ -82,39 +80,40 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends
 
         getLogger().debug("Shutdown URL [" + shutdownURL + "]", this.getClass().getName());
 
-        java.createArg().setValue(shutdownURL);
-        java.createArg().setValue("oc4jadmin");
-        java.createArg().setValue(getConfiguration().getPropertyValue(Oc4jPropertySet.ADMIN_PWD));
-        java.createArg().setValue("-shutdown");
+        java.addAppArguments(shutdownURL);
+        java.addAppArguments("oc4jadmin");
+        java.addAppArguments(getConfiguration().getPropertyValue(Oc4jPropertySet.ADMIN_PWD));
+        java.addAppArguments("-shutdown");
 
-        AntContainerExecutorThread orionRunner = new AntContainerExecutorThread(java);
-        orionRunner.start();
+        java.start();
     }
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStart(Java)
+     * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public final void doStart(Java java) throws Exception
+    public final void doStart(JvmLauncher java) throws Exception
     {
         // Invoke the main class
-        Path classpath = java.createClasspath();
         FileSet fileSet = new FileSet();
+        fileSet.setProject(getAntUtils().createProject());
         fileSet.setDir(new File(getHome()));
         for (String containerClasspathInclude : getContainerClasspathIncludes())
         {
             fileSet.createInclude().setName(containerClasspathInclude);
         }
-        classpath.addFileset(fileSet);
-        addToolsJarToClasspath(classpath);
-        java.setClassname(getStartClassname());
-        java.createArg().setValue("-config");
-        java.createArg().setFile(new File(getConfiguration().getHome(), "config/server.xml"));
-        java.createArg().setValue("-userThreads");
+        for (String path : fileSet.getDirectoryScanner().getIncludedFiles())
+        {
+            java.addClasspathEntries(new File(fileSet.getDir(), path));
+        }
+        addToolsJarToClasspath(java);
+        java.setMainClass(getStartClassname());
+        java.addAppArguments("-config");
+        java.addAppArgument(new File(getConfiguration().getHome(), "config/server.xml"));
+        java.addAppArguments("-userThreads");
 
-        AntContainerExecutorThread oc4jRunner = new AntContainerExecutorThread(java);
-        oc4jRunner.start();
+        java.start();
     }
 
     /**

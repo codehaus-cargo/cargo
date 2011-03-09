@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Codehaus CARGO, copyright 2004-2010 Vincent Massol.
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,28 +17,22 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.glassfish.internal;
-
-import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
-import org.codehaus.cargo.util.CargoException;
+package org.codehaus.cargo.container.spi.jvm;
 
 /**
- * Implements an Glassfish AsAdmin command.
+ * A factory to create JVM launchers.
  * 
  * @version $Id$
  */
-public abstract class AbstractAsAdmin
+public interface JvmLauncherFactory
 {
 
     /**
-     * Invokes asadmin using a Java container.
+     * Creates a new JVM launcher for the specified request.
      * 
-     * @param async Asynchronous invoke?
-     * @param java JVM launcher.
-     * @param args Invoke arguments.
-     * @throws CargoException If anything wrong happens.
+     * @param request The details about the launch, must not be {@code null}.
+     * @return The new JVM launcher, never {@code null}.
      */
-    public abstract void invokeAsAdmin(boolean async, JvmLauncher java, String[] args)
-        throws CargoException;
+    JvmLauncher createJvmLauncher(JvmLauncherRequest request);
 
 }

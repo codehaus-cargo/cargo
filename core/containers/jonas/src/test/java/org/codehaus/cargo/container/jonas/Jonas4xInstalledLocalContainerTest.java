@@ -22,15 +22,14 @@
  */
 package org.codehaus.cargo.container.jonas;
 
+import java.util.Properties;
+
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Environment.Variable;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.stub.JvmLauncherStub;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
-import org.jmock.Mock;
 import org.jmock.cglib.MockObjectTestCase;
-import org.jmock.core.Constraint;
 
 /**
  * Unit tests for {@link Jonas4xInstalledLocalContainer}.
@@ -107,82 +106,19 @@ public class Jonas4xInstalledLocalContainerTest extends MockObjectTestCase
      */
     public void testSetupSysProps()
     {
-        Mock mockJava = mock(Java.class);
+        JvmLauncherStub java = new JvmLauncherStub();
+        container.setupSysProps(java);
 
-        DoActionConstraint constaint = new DoActionConstraint();
-        mockJava.expects(exactly(16)).method("addSysproperty").with(constaint);
-
-        container.setupSysProps((Java) mockJava.proxy());
-
-        mockJava.verify();
-        assertEquals(0, constaint.remaingChecks);
+        Properties props = java.getSystemProperties();
+        assertEquals(16, props.size());
+        assertTrue(props.getProperty("install.root").endsWith("ram:/jonasroot"));
+        assertTrue(props.getProperty("jonas.base").endsWith("ram:/jonasbase"));
+        assertTrue(props.getProperty("java.endorsed.dirs").endsWith(
+            fileHandler.append("ram:/jonasroot", "lib/endorsed")));
+        assertTrue(props.getProperty("java.security.policy").endsWith(
+            fileHandler.append("ram:/jonasbase", "conf/java.policy")));
+        assertTrue(props.getProperty("java.security.auth.login.config").endsWith(
+            fileHandler.append("ram:/jonasbase", "conf/jaas.config")));
     }
 
-    /**
-     * {@link Constraint} that checks how many times 
-     */
-    private class DoActionConstraint implements Constraint
-    {
-        /**
-         * How many times more methods should be called.
-         */
-        private int remaingChecks = 5;
-
-        /**
-         * Current setting pair.
-         */
-        private String settingPair = null;
-
-        /**
-         * Evaluate. {@inheritdoc}
-         * @param arg {@link Variable} to be evaluated.
-         * @return <code>true</code> if evaluation positive, <code>false</code> otherwise.
-         */
-        public boolean eval(Object arg)
-        {
-            Variable var = (Variable) arg;
-            settingPair = var.getKey() + "=" + var.getValue();
-            if (var.getKey().equals("install.root"))
-            {
-                remaingChecks--;
-                return var.getValue().endsWith("ram:/jonasroot");
-            }
-            else if (var.getKey().equals("jonas.base"))
-            {
-                remaingChecks--;
-                return var.getValue().endsWith("ram:/jonasbase");
-            }
-            else if (var.getKey().equals("java.endorsed.dirs"))
-            {
-                remaingChecks--;
-                return var.getValue()
-                    .endsWith(fileHandler.append("ram:/jonasroot", "lib/endorsed"));
-            }
-            else if (var.getKey().equals("java.security.policy"))
-            {
-                remaingChecks--;
-                return var.getValue().endsWith(
-                    fileHandler.append("ram:/jonasbase", "conf/java.policy"));
-            }
-            else if (var.getKey().equals("java.security.auth.login.config"))
-            {
-                remaingChecks--;
-                return var.getValue().endsWith(
-                    fileHandler.append("ram:/jonasbase", "conf/jaas.config"));
-            }
-            return true;
-        }
-
-        /**
-         * Append the unexpected settings. {@inheritdoc}
-         * @param buffer Buffer to append to.
-         * @return Appended <code>buffer</code>.
-         */
-        public StringBuffer describeTo(StringBuffer buffer)
-        {
-            buffer.append("unexpected settings " + settingPair);
-            return buffer;
-        }
-
-    }
 }

@@ -31,21 +31,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.taskdefs.condition.Os;
-import org.apache.tools.ant.types.Environment.Variable;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.internal.util.AntBuildListener;
 import org.codehaus.cargo.container.internal.util.HttpUtils;
 import org.codehaus.cargo.container.internal.util.JdkUtils;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.SSHPropertySet;
+import org.codehaus.cargo.container.spi.jvm.DefaultJvmLauncherFactory;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncherFactory;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
 import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.log.Logger;
 
@@ -99,6 +99,11 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     private ResourceUtils resourceUtils;
 
     /**
+     * JVM launcher factory.
+     */
+    private JvmLauncherFactory jvmLauncherFactory;
+
+    /**
      * Default constructor.
      * 
      * @param configuration the configuration to associate to this container. It can be changed
@@ -112,6 +117,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         this.antUtils = new AntUtils();
         this.resourceUtils = new ResourceUtils();
         this.httpUtils = new HttpUtils();
+        this.jvmLauncherFactory = new DefaultJvmLauncherFactory();
         extraClasspath = new ArrayList<String>();
         sharedClasspath = new ArrayList<String>();
         systemProperties = new HashMap<String, String>();
@@ -249,23 +255,38 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public JvmLauncherFactory getJvmLauncherFactory()
+    {
+        return jvmLauncherFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void setJvmLauncherFactory(JvmLauncherFactory jvmLauncherFactory)
+    {
+        this.jvmLauncherFactory = jvmLauncherFactory;
+    }
+
+    /**
      * Implementation of {@link org.codehaus.cargo.container.LocalContainer#start()} that all
      * containers extending this class must implement.
      * 
-     * @param java the predefined Ant {@link org.apache.tools.ant.taskdefs.Java} command to use to
-     * start the container
+     * @param java the predefined JVM launcher to use to start the container
      * @throws Exception if any error is raised during the container start
      */
-    protected abstract void doStart(Java java) throws Exception;
+    protected abstract void doStart(JvmLauncher java) throws Exception;
 
     /**
      * Implementation of {@link org.codehaus.cargo.container.LocalContainer#stop()} that all
      * containers extending this class must implement.
      * 
-     * @param java the predefined Ant {@link Java} command to use to stop the container
+     * @param java the predefined JVM launcher to use to stop the container
      * @throws Exception if any error is raised during the container stop
      */
-    protected abstract void doStop(Java java) throws Exception;
+    protected abstract void doStop(JvmLauncher java) throws Exception;
 
     /**
      * {@inheritDoc}
@@ -275,7 +296,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     @Override
     protected final void startInternal() throws Exception
     {
-        Java java = createJavaTask();
+        JvmLauncher java = createJvmLauncher(true);
         addMemoryArguments(java);
         doStart(java);
     }
@@ -288,30 +309,29 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     @Override
     protected final void stopInternal() throws Exception
     {
-        doStop(createJavaTask());
+        doStop(createJvmLauncher(false));
     }
 
     /**
-     * Creates a preinitialized instance of the Ant Java task to be used for starting and shutting
-     * down the container.
+     * Creates a preinitialized instance of a JVM launcher to be used for starting, stopping and
+     * controlling the container.
      * 
-     * @return The created task instance
+     * @param server {@code true} to launch a server process, {@code false} to launch a
+     * client/utility process.
+     * @return The created JVM launcher, never {@code null}.
      */
-    protected Java createJavaTask()
+    protected JvmLauncher createJvmLauncher(boolean server)
     {
-        boolean isSsh = getConfiguration().getPropertyValue(SSHPropertySet.HOST) != null;
+        boolean ssh = getConfiguration().getPropertyValue(SSHPropertySet.HOST) != null;
 
-        Java java;
-        if (isSsh)
+        JvmLauncherRequest request = new JvmLauncherRequest(server, this, ssh);
+
+        JvmLauncher java = jvmLauncherFactory.createJvmLauncher(request);
+
+        if (ssh)
         {
-            java = (Java) getAntUtils().createAntTask("sshjava");
             addSshProperties(java);
         }
-        else
-        {
-            java = (Java) getAntUtils().createAntTask("java");
-        }
-        java.setFork(true);
 
         // If the user has not specified any output file then the process's output will be logged
         // to the Ant logging subsystem which will in turn go to the Cargo's logging subsystem as
@@ -323,24 +343,8 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             // Ensure that directories where the output file will go are created
             getFileHandler().mkdirs(outputFile.getAbsoluteFile().getParent());
 
-            java.setOutput(outputFile);
-            java.setAppend(isAppend());
-        }
-
-        // Add a build listener to the Ant project so that we can catch what the Java task logs
-        boolean foundBuildListener = false;
-        for (Object listenerObject : java.getProject().getBuildListeners())
-        {
-            if (listenerObject instanceof AntBuildListener)
-            {
-                foundBuildListener = true;
-                break;
-            }
-        }
-        if (!foundBuildListener)
-        {
-            java.getProject().addBuildListener(
-                new AntBuildListener(getLogger(), this.getClass().getName()));
+            java.setOutputFile(outputFile);
+            java.setAppendOutput(isAppend());
         }
 
         setJvmToLaunchContainerIn(java);
@@ -365,29 +369,26 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * 
      * @param java the java command that will start the container
      */
-    private void addSshProperties(Java java)
+    private void addSshProperties(JvmLauncher java)
     {
         // setup working directory
-        java.setDir(new File(getFileHandler().getAbsolutePath(getConfiguration().getHome())));
+        java.setWorkingDirectory(new File(getFileHandler().getAbsolutePath(
+            getConfiguration().getHome())));
 
         if (getConfiguration().getDeployables() != null)
         {
             for (Deployable toDeploy : getConfiguration().getDeployables())
             {
-                Variable deployable = new Variable();
-                deployable.setKey("sshjava.shift."
-                         + getFileHandler().getAbsolutePath(toDeploy.getFile()));
-                deployable.setValue("deployables/" + new File(toDeploy.getFile()).getName());
-                java.addSysproperty(deployable);
+                java.setSystemProperty(
+                    "sshjava.shift." + getFileHandler().getAbsolutePath(toDeploy.getFile()),
+                    "deployables/" + new File(toDeploy.getFile()).getName());
             }
         }
 
         if (getHome() != null)
         {
-            Variable home = new Variable();
-            home.setKey("sshjava.shift." + getFileHandler().getAbsolutePath(getHome()));
-            home.setValue("containers/" + getId());
-            java.addSysproperty(home);
+            java.setSystemProperty("sshjava.shift." + getFileHandler().getAbsolutePath(getHome()),
+                "containers/" + getId());
         }
 
         Properties properties = new Properties();
@@ -399,10 +400,8 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
         for (Map.Entry<?, ?> entry : properties.entrySet())
         {
-            Variable var = new Variable();
-            var.setKey(entry.getKey().toString());
-            var.setValue(getConfiguration().getPropertyValue(entry.getValue().toString()));
-            java.addSysproperty(var);
+            java.setSystemProperty(entry.getKey().toString(),
+                getConfiguration().getPropertyValue(entry.getValue().toString()));
         }
     }
 
@@ -426,7 +425,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * 
      * @param java the java command that will start the container
      */
-    protected void setJvmToLaunchContainerIn(Java java)
+    protected void setJvmToLaunchContainerIn(JvmLauncher java)
     {
         String javaHome = getJavaHome();
         if (javaHome != null)
@@ -446,78 +445,68 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * 
      * @param java the java command that will start the container
      */
-    private void addSystemProperties(Java java)
+    private void addSystemProperties(JvmLauncher java)
     {
         for (Map.Entry<String, String> systemProperty : getSystemProperties().entrySet())
         {
-            java.addSysproperty(getAntUtils().createSysProperty(systemProperty.getKey(),
-                systemProperty.getValue()));
+            java.setSystemProperty(systemProperty.getKey(), systemProperty.getValue());
         }
     }
 
     /**
      * Adds the tools.jar to the classpath, except for Mac OSX as it is not needed.
      * 
-     * @param classpath the classpath object to which to add the tools.jar
+     * @param java the JVM launcher to which to add the tools.jar
      * @exception FileNotFoundException in case the tools.jar file cannot be found
      */
-    protected final void addToolsJarToClasspath(Path classpath) throws FileNotFoundException
+    protected final void addToolsJarToClasspath(JvmLauncher java) throws FileNotFoundException
     {
         // On OSX, the tools.jar classes are included in the classes.jar so there is no need to
         // include any tools.jar file to the cp.
         if (!getJdkUtils().isOSX())
         {
-            classpath.createPathElement().setLocation(getJdkUtils().getToolsJar(getJavaHome()));
+            java.addClasspathEntries(getJdkUtils().getToolsJar(getJavaHome()));
         }
     }
 
     /**
      * Add extra container classpath entries specified by the user.
      * 
-     * @param javaCommand the java command used to start/stop the container
+     * @param java the java command used to start/stop the container
      */
-    private void addExtraClasspath(Java javaCommand)
+    private void addExtraClasspath(JvmLauncher java)
     {
-        Path classpath = javaCommand.createClasspath();
         if (extraClasspath.size() > 0)
         {
-            Path path = new Path(getAntUtils().createProject());
-
             for (String extraClasspathItem : extraClasspath)
             {
-                Path pathElement = new Path(getAntUtils().createProject(), extraClasspathItem);
-                path.addExisting(pathElement);
+                java.addClasspathEntries(extraClasspathItem);
 
-                getLogger().debug("Adding [" + pathElement + "] to execution classpath",
+                getLogger().debug("Adding [" + extraClasspathItem + "] to execution classpath",
                     this.getClass().getName());
             }
-
-            classpath.addExisting(path);
         }
     }
 
     /**
      * Add command line arguments to the java command.
-     * @param javacommand The java command
+     * @param java The java command
      */
-    private void addRuntimeArgs(Java javacommand)
+    private void addRuntimeArgs(JvmLauncher java)
     {
         String runtimeArgs = getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS);
         if (runtimeArgs != null)
         {
             String[] arguments = runtimeArgs.split(" ");
-            for (String argument : arguments)
-            {
-                javacommand.createArg().setValue(argument);
-            }
+            java.addAppArguments(arguments);
         }
     }
 
     /**
      * Add the @link{GeneralPropertySet#JVMARGS} arguments to the java command.
-     * @param javacommand The java command
+     * @param java The java command
      */
-    private void addJvmArgs(Java javacommand)
+    private void addJvmArgs(JvmLauncher java)
     {
         String jvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
         if (jvmargs != null)
@@ -527,34 +516,34 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             jvmargs = jvmargs.replace('\n', ' ');
             jvmargs = jvmargs.replace('\r', ' ');
             jvmargs = jvmargs.replace('\t', ' ');
-            javacommand.createJvmarg().setLine(jvmargs);
+            java.addJvmArgumentLine(jvmargs);
         }
     }
 
     /**
      * Adds the JVM memory arguments.
      * 
-     * @param java the predefined Ant {@link Java} command on which to add memory-related arguments
+     * @param java the predefined JVM launcher on which to add memory-related arguments
      */
-    protected void addMemoryArguments(Java java)
+    protected void addMemoryArguments(JvmLauncher java)
     {
         // if the jvmArgs don't alread contain memory settings add the default
         String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
         if (jvmArgs == null || !jvmArgs.contains("-Xms"))
         {
-            java.createJvmarg().setValue("-Xms128m");
+            java.addJvmArguments("-Xms128m");
         }
         if (jvmArgs == null || !jvmArgs.contains("-Xmx"))
         {
-            java.createJvmarg().setValue("-Xmx512m");
+            java.addJvmArguments("-Xmx512m");
         }
         if (jvmArgs == null || !jvmArgs.contains("-XX:PermSize"))
         {
-            java.createJvmarg().setValue("-XX:PermSize=48m");
+            java.addJvmArguments("-XX:PermSize=48m");
         }
         if (jvmArgs == null || !jvmArgs.contains("-XX:MaxPermSize"))
         {
-            java.createJvmarg().setValue("-XX:MaxPermSize=128m");
+            java.addJvmArguments("-XX:MaxPermSize=128m");
         }
     }
 

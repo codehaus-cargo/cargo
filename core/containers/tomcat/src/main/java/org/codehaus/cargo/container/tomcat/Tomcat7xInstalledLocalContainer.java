@@ -24,9 +24,8 @@ package org.codehaus.cargo.container.tomcat;
 
 import java.io.File;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaInstalledLocalContainer;
 
 /**
@@ -76,10 +75,9 @@ public class Tomcat7xInstalledLocalContainer extends AbstractCatalinaInstalledLo
      * @exception Exception in case of container invocation error
      */
     @Override
-    protected void invokeContainer(String action, Java java) throws Exception
+    protected void invokeContainer(String action, JvmLauncher java) throws Exception
     {
-        Path classpath = java.getCommandLine().getClasspath();
-        classpath.createPathElement().setLocation(new File(getHome(), "bin/tomcat-juli.jar"));
+        java.addClasspathEntries(new File(getHome(), "bin/tomcat-juli.jar"));
         super.invokeContainer(action, java);
     }
 }

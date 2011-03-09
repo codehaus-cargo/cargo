@@ -22,20 +22,19 @@ package org.codehaus.cargo.container.geronimo;
 import java.io.File;
 import java.util.Map;
 
-import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.geronimo.deployable.GeronimoDeployable;
 import org.codehaus.cargo.container.geronimo.internal.GeronimoUtils;
-import org.codehaus.cargo.container.internal.util.AntBuildListener;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncherException;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
 import org.codehaus.cargo.util.AntUtils;
 
 /**
@@ -89,19 +88,19 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     @Override
     public void deploy(Deployable deployable)
     {
-        Java java = createAdminDeployerJava("deploy");
+        JvmLauncher java = createAdminDeployerJava("deploy");
         addPathArgument(java, deployable);
         String deployableId = getModuleId(deployable);
 
         try
         {
-            int retval = java.executeJava();
+            int retval = java.execute();
             if (retval != 0)
             {
                 throw new ContainerException("Failed to deploy [" + deployableId + "]");
             }
         }
-        catch (BuildException e)
+        catch (JvmLauncherException e)
         {
             throw new ContainerException("Failed to deploy [" + deployableId + "]", e);
         }
@@ -116,19 +115,19 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
      */
     public void distribute(Deployable deployable)
     {
-        Java java = createDeployerJava("distribute");
+        JvmLauncher java = createDeployerJava("distribute");
         addPathArgument(java, deployable);
         String deployableId = getModuleId(deployable);
 
         try
         {
-            int retval = java.executeJava();
+            int retval = java.execute();
             if (retval != 0)
             {
                 throw new ContainerException("Failed to distribute [" + deployableId + "]");
             }
         }
-        catch (BuildException e)
+        catch (JvmLauncherException e)
         {
             throw new ContainerException("Failed to distribute [" + deployableId + "]", e);
         }
@@ -159,17 +158,17 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         }
         else
         {
-            Java java = createAdminDeployerJava("start");
-            java.createArg().setValue(deployableId);
+            JvmLauncher java = createAdminDeployerJava("start");
+            java.addAppArguments(deployableId);
             try
             {
-                int retval = java.executeJava();
+                int retval = java.execute();
                 if (retval != 0)
                 {
                     throw new ContainerException("Failed to start [" + deployableId + "]");
                 }
             }
-            catch (BuildException e)
+            catch (JvmLauncherException e)
             {
                 throw new ContainerException("Failed to start [" + deployableId + "]", e);
             }
@@ -200,18 +199,18 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         }
         else
         {
-            Java java = createAdminDeployerJava("stop");
-            java.createArg().setValue(deployableId);
+            JvmLauncher java = createAdminDeployerJava("stop");
+            java.addAppArguments(deployableId);
 
             try
             {
-                int retval = java.executeJava();
+                int retval = java.execute();
                 if (retval != 0)
                 {
                     throw new ContainerException("Failed to stop [" + deployableId + "]");
                 }
             }
-            catch (BuildException e)
+            catch (JvmLauncherException e)
             {
                 throw new ContainerException("Failed to stop [" + deployableId + "]", e);
             }
@@ -242,18 +241,18 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         }
         else
         {
-            Java java = createAdminDeployerJava("undeploy");
-            java.createArg().setValue(deployableId);
+            JvmLauncher java = createAdminDeployerJava("undeploy");
+            java.addAppArguments(deployableId);
 
             try
             {
-                int retval = java.executeJava();
+                int retval = java.execute();
                 if (retval != 0)
                 {
                     throw new ContainerException("Failed to undeploy [" + deployableId + "]");
                 }
             }
-            catch (BuildException e)
+            catch (JvmLauncherException e)
             {
                 throw new ContainerException("Failed to undeploy [" + deployableId + "]", e);
             }
@@ -267,39 +266,36 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     @Override
     public void redeploy(Deployable deployable)
     {
-        Java java = createAdminDeployerJava("redeploy");
+        JvmLauncher java = createAdminDeployerJava("redeploy");
         addPathArgument(java, deployable);
         String deployableId = getModuleId(deployable);
         addModuleIdArgument(java, deployableId);
 
         try
         {
-            int retval = java.executeJava();
+            int retval = java.execute();
             if (retval != 0)
             {
                 throw new ContainerException("Failed to redeploy [" + deployableId + "]");
             }
         }
-        catch (BuildException e)
+        catch (JvmLauncherException e)
         {
             throw new ContainerException("Failed to redeploy [" + deployableId + "]", e);
         }
     }
 
     /**
-     * Create a preinitialized instance of the Ant Java task to be used for managing Geronimo
+     * Create a preinitialized instance of the JVM launcher to be used for managing Geronimo
      * deployables.
      * 
      * @return The created task instance
      */
-    private Java createJava()
+    private JvmLauncher createJava()
     {
-        Java java = (Java) getAntUtils().createAntTask("java");
-        java.setFork(true);
-
-        // Add a build listener to the Ant project so that we can catch what the Java task logs
-        java.getProject().addBuildListener(
-            new AntBuildListener(getLogger(), this.getClass().getName()));
+        JvmLauncherRequest request = new JvmLauncherRequest(false, this);
+        JvmLauncher java =
+            getInstalledContainer().getJvmLauncherFactory().createJvmLauncher(request);
 
         // Add extra container classpath entries specified by the user.
         addExtraClasspath(java);
@@ -314,67 +310,63 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     }
 
     /**
-     * Create an instance of the Ant Java task preinitialized to invoke the deploy tool jar with the
+     * Create an instance of the JVM launcher preinitialized to invoke the deploy tool jar with the
      * specified command.
      * 
      * @param action the deployer action to take
      * @return The created task instance
      */
-    private Java createDeployerJava(String action)
+    private JvmLauncher createDeployerJava(String action)
     {
-        Java java = createJava();
-        java.setJar(new File(getInstalledContainer().getHome(), "bin/deployer.jar"));
-        java.createArg().setValue(action);
-
-        // Add a build listener to the Ant project so that we can catch what the Java task logs
-        java.getProject().addBuildListener(
-            new AntBuildListener(getLogger(), this.getClass().getName()));
+        JvmLauncher java = createJava();
+        java.setJarFile(new File(getInstalledContainer().getHome(), "bin/deployer.jar"));
+        java.addAppArguments(action);
 
         return java;
     }
 
     /**
-     * Create an instance of the Ant Java task preinitialized to invoke the deploy tool jar with the
+     * Create an instance of the JVM launcher preinitialized to invoke the deploy tool jar with the
      * specified command and admin/manager user auth options.
      * 
      * @param action the deployer action to take
      * @return The created task instance
      */
-    private Java createAdminDeployerJava(String action)
+    private JvmLauncher createAdminDeployerJava(String action)
     {
-        Java java = createJava();
-        java.createArg().setValue("--user");
-        java.createArg().setValue(getContainer().getConfiguration()
-            .getPropertyValue(RemotePropertySet.USERNAME));
-        java.createArg().setValue("--password");
-        java.createArg().setValue(getContainer().getConfiguration()
-            .getPropertyValue(RemotePropertySet.PASSWORD));
+        JvmLauncher java = createJava();
+        java.addAppArguments("--user");
+        java.addAppArguments(getContainer().getConfiguration().getPropertyValue(
+            RemotePropertySet.USERNAME));
+        java.addAppArguments("--password");
+        java.addAppArguments(getContainer().getConfiguration().getPropertyValue(
+            RemotePropertySet.PASSWORD));
         if (geronimoUtils.isGeronimoStarted())
         {
-            java.createArg().setValue("--host");
-            java.createArg().setValue(getContainer().getConfiguration()
-                .getPropertyValue(GeneralPropertySet.HOSTNAME));
-            java.createArg().setValue("--port");
-            java.createArg().setValue(getContainer().getConfiguration()
-                .getPropertyValue(GeneralPropertySet.RMI_PORT));
+            java.addAppArguments("--host");
+            java.addAppArguments(getContainer().getConfiguration().getPropertyValue(
+                GeneralPropertySet.HOSTNAME));
+            java.addAppArguments("--port");
+            java.addAppArguments(getContainer().getConfiguration().getPropertyValue(
+                GeneralPropertySet.RMI_PORT));
         }
         else
         {
-            java.createArg().setValue("--offline");
+            java.addAppArguments("--offline");
         }
 
-        java.setJar(new File(getInstalledContainer().getHome(), "bin/deployer.jar"));
-        java.createArg().setValue(action);
+        java.setJarFile(new File(getInstalledContainer().getHome(), "bin/deployer.jar"));
+        java.addAppArguments(action);
 
         return java;
     }
 
     /**
      * Add deployable path and plan arguments to the deployer Ant Java task.
-     * @param java the Ant Java task
+     * @param java the JVM launcher
      * @param deployable the target deployable
      */
-    private void addPathArgument(Java java, Deployable deployable)
+    private void addPathArgument(JvmLauncher java, Deployable deployable)
     {
         String deployableFile = deployable.getFile();
 
@@ -404,7 +396,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         }
 
         // add deployable path
-        java.createArg().setValue(deployableFile);
+        java.addAppArguments(deployableFile);
 
         // add deployable plan
         if (deployable instanceof GeronimoDeployable)
@@ -421,7 +413,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
                 else
                 {
                     // Append plan path
-                    java.createArg().setValue(geronimoDeployable.getPlan());
+                    java.addAppArguments(geronimoDeployable.getPlan());
                 }
             }
         }
@@ -429,37 +421,36 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
 
     /**
      * Add moduleId argument to the deployer Ant Java task.
-     * @param java the Ant Java task
+     * @param java the JVM launcher
      * @param moduleId the deployable ID
      */
-    private void addModuleIdArgument(Java java, String moduleId)
+    private void addModuleIdArgument(JvmLauncher java, String moduleId)
     {
         if (moduleId != null)
         {
-            java.createArg().setValue(moduleId);
+            java.addAppArguments(moduleId);
         }
     }
 
     /**
      * Add system properties to the Ant java command used to execute the Geronimo deploy tool.
      * 
-     * @param java the java command that will start the container
+     * @param java the JVM launcher that will start the container
      */
-    private void addSystemProperties(Java java)
+    private void addSystemProperties(JvmLauncher java)
     {
         for (Map.Entry<String, String> systemProperty : getInstalledContainer().
             getSystemProperties().entrySet())
         {
-            java.addSysproperty(getAntUtils().createSysProperty(systemProperty.getKey(),
-                systemProperty.getValue()));
+            java.setSystemProperty(systemProperty.getKey(), systemProperty.getValue());
         }
     }
 
     /**
      * Add the @link{GeneralPropertySet#JVMARGS} arguments to the java command.
-     * @param javacommand The java command
+     * @param java The JVM launcher
      */
-    private void addJvmArgs(Java javacommand)
+    private void addJvmArgs(JvmLauncher java)
     {
         String jvmargs = getContainer().getConfiguration().getPropertyValue(
             GeneralPropertySet.JVMARGS);
@@ -471,33 +462,26 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
             jvmargs = jvmargs.replace('\n', ' ');
             jvmargs = jvmargs.replace('\r', ' ');
             jvmargs = jvmargs.replace('\t', ' ');
-            javacommand.createJvmarg().setLine(jvmargs);
+            java.addJvmArgumentLine(jvmargs);
         }
     }
 
     /**
      * Add extra container classpath entries specified by the user.
      * 
-     * @param javaCommand the java command used to start/stop the container
+     * @param java the JVM launcher used to start/stop the container
      */
-    private void addExtraClasspath(Java javaCommand)
+    private void addExtraClasspath(JvmLauncher java)
     {
-        Path classpath = javaCommand.createClasspath();
         if (getInstalledContainer().getExtraClasspath() != null)
         {
-            Path path = new Path(getAntUtils().createProject());
-
-            for (int i = 0; i < getInstalledContainer().getExtraClasspath().length; i++)
+            for (String extraClassPath : getInstalledContainer().getExtraClasspath())
             {
-                Path pathElement = new Path(getAntUtils().createProject(),
-                    getInstalledContainer().getExtraClasspath()[i]);
-                path.addExisting(pathElement);
+                java.addClasspathEntries(extraClassPath);
 
-                getLogger().debug("Adding [" + pathElement + "] to execution classpath",
+                getLogger().debug("Adding [" + extraClassPath + "] to execution classpath",
                     this.getClass().getName());
             }
-
-            classpath.addExisting(path);
         }
     }
 

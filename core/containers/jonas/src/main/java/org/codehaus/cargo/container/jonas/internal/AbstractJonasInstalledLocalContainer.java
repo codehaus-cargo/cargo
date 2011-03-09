@@ -25,10 +25,10 @@ package org.codehaus.cargo.container.jonas.internal;
 import java.io.File;
 import java.util.Map;
 
-import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Support for the JOnAS JEE container.
@@ -50,31 +50,31 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractInstalledLocalContainer#doStart(Java)
+     * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public abstract void doStart(Java java);
+    public abstract void doStart(JvmLauncher java);
 
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractInstalledLocalContainer#doStart(Java)
+     * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public abstract void doStop(Java java);
+    public abstract void doStop(JvmLauncher java);
 
     /**
      * Setup of the target server and domain name for the JOnAS admin command call.
      * 
-     * @param java the target java ant task to setup
+     * @param java the target JVM launcher to setup
      */
-    public void doServerAndDomainNameParam(final Java java)
+    public void doServerAndDomainNameParam(final JvmLauncher java)
     {
         String serverName = getConfiguration().getPropertyValue(JonasPropertySet.JONAS_SERVER_NAME);
         if (serverName != null && serverName.trim().length() != 0)
         {
-            java.createArg().setValue("-n");
-            java.createArg().setValue(serverName);
+            java.addAppArguments("-n");
+            java.addAppArguments(serverName);
         }
         doDomainNameArgs(java);
     }
@@ -82,40 +82,40 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
     /**
      * Setup of the target server and domain name for the JOnAS admin command call.
      * 
-     * @param java the target java ant task to setup
+     * @param java the target JVM launcher to setup
      */
-    public void doServerAndDomainNameArgs(final Java java)
+    public void doServerAndDomainNameArgs(final JvmLauncher java)
     {
         String serverName = getConfiguration().getPropertyValue(JonasPropertySet.JONAS_SERVER_NAME);
         if (serverName == null || serverName.trim().length() == 0)
         {
             serverName = "jonas";
         }
-        java.createJvmarg().setValue("-Djonas.name=" + serverName);
+        java.addJvmArguments("-Djonas.name=" + serverName);
         doDomainNameArgs(java);
     }
 
     /**
      * Setup of the target domain name for the JOnAS admin command call.
      * 
-     * @param java the target java ant task to setup
+     * @param java the target JVM launcher to setup
      */
-    private void doDomainNameArgs(final Java java)
+    private void doDomainNameArgs(final JvmLauncher java)
     {
         String domainName = getConfiguration().getPropertyValue(JonasPropertySet.JONAS_DOMAIN_NAME);
         if (domainName == null || domainName.trim().length() == 0)
         {
             domainName = "jonas";
         }
-        java.createJvmarg().setValue("-Ddomain.name=" + domainName);
+        java.addJvmArguments("-Ddomain.name=" + domainName);
     }
 
     /**
      * Setup of the required java system properties to configure JOnAS properly.
      * 
-     * @param java the target java ant task to setup
+     * @param java the target JVM launcher to setup
      */
-    public void setupSysProps(final Java java)
+    public void setupSysProps(final JvmLauncher java)
     {
         Map<String, String> configuredSysProps = getSystemProperties();
         addSysProp(java, configuredSysProps, "install.root", new File(getHome()).getAbsolutePath()
@@ -141,25 +141,26 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
      * Setup of the Extra required java system properties to configure JOnAS properly. The system
      * properties depends on the JOnAS version.
      * 
-     * @param java the target java ant task to setup
+     * @param java the target JVM launcher to setup
      * @param configuredSysProps the configured system properties
      */
-    protected abstract void setupExtraSysProps(Java java, Map<String, String> configuredSysProps);
+    protected abstract void setupExtraSysProps(JvmLauncher java,
+        Map<String, String> configuredSysProps);
 
     /**
      * Add java system properties (to configure JOnAS properly).
      * 
-     * @param java the target java ant task on which we add the system properties
+     * @param java the target JVM launcher on which we add the system properties
      * @param configuredSysProps the configured system Properties.
      * @param name the system property Name
      * @param value the system property Value
      */
-    public void addSysProp(final Java java, final Map<String, String> configuredSysProps,
+    public void addSysProp(final JvmLauncher java, final Map<String, String> configuredSysProps,
         final String name, final String value)
     {
         if (configuredSysProps == null || !configuredSysProps.containsKey(name))
         {
-            java.addSysproperty(getAntUtils().createSysProperty(name, value));
+            java.setSystemProperty(name, value);
         }
     }
 }

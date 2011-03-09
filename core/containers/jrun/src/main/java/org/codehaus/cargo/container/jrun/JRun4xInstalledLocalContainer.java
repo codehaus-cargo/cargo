@@ -25,10 +25,9 @@ package org.codehaus.cargo.container.jrun;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jrun.internal.AbstractJRunInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Special container support for the Adobe JRun4.x servlet container.
@@ -53,13 +52,13 @@ public class JRun4xInstalledLocalContainer extends AbstractJRunInstalledLocalCon
 
     /**
      * {@inheritDoc}
-     * @see AbstractJRunInstalledLocalContainer#startUpAdditions(Java, Path)
+     * @see AbstractJRunInstalledLocalContainer#startUpAdditions(JvmLauncher)
      */
     @Override
-    protected void startUpAdditions(Java java, Path classpath) throws FileNotFoundException
+    protected void startUpAdditions(JvmLauncher java) throws FileNotFoundException
     {
-        java.addSysproperty(getAntUtils().createSysProperty("sun.io.useCanonCaches", "false"));
-        java.addSysproperty(getAntUtils().createSysProperty("jmx.invoke.getters", "true"));
+        java.setSystemProperty("sun.io.useCanonCaches", "false");
+        java.setSystemProperty("jmx.invoke.getters", "true");
 
         // If getHome() contains spaces a hot fix is required in order for jrun to be able to
         // stop itself. The following property is needed along with the hot fix.
@@ -67,15 +66,14 @@ public class JRun4xInstalledLocalContainer extends AbstractJRunInstalledLocalCon
         File hotFixJar = new File(getHome() + "/servers/lib/54101.jar");
         if (hotFixJar.exists())
         {
-            java.addSysproperty(getAntUtils().createSysProperty(
-                "-Djava.rmi.server.RMIClassLoaderSpi", "jrunx.util.JRunRMIClassLoaderSpi"));
+            java.setSystemProperty("-Djava.rmi.server.RMIClassLoaderSpi",
+                "jrunx.util.JRunRMIClassLoaderSpi");
         }
 
-        java.addSysproperty(getAntUtils()
-            .createSysProperty("java.home", System.getProperty("java.home")));
+        java.setSystemProperty("java.home", System.getProperty("java.home"));
 
         // Add the tools.jar to the classpath.
-        addToolsJarToClasspath(classpath);
+        addToolsJarToClasspath(java);
     }
 
     /**

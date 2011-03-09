@@ -22,10 +22,10 @@
  */
 package org.codehaus.cargo.container.jonas.internal;
 
-import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.jonas.Jonas4xInstalledLocalContainer;
-import org.codehaus.cargo.util.AntUtils;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
 
 /**
  * JOnAS 4X admin command line utils class.
@@ -52,20 +52,19 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
      */
     public boolean isServerRunning(String command, int expectedReturnCode)
     {
-        Java ping = (Java) new AntUtils().createAntTask("java");
-        ping.setFork(true);
+        JvmLauncherRequest request = new JvmLauncherRequest(false, targetContainer);
+        JvmLauncher ping = targetContainer.getJvmLauncherFactory().createJvmLauncher(request);
 
         targetContainer.doAction(ping);
-        ping.createArg().setValue("org.objectweb.jonas.adm.JonasAdmin");
+        ping.addAppArguments("org.objectweb.jonas.adm.JonasAdmin");
         targetContainer.doServerAndDomainNameParam(ping);
-        ping.createArg().setValue("-" + command);
+        ping.addAppArguments("-" + command);
         // IMPORTANT: impose timeout since default is 100 seconds
         // the argument is in seconds in JOnAS 4
-        ping.createArg().setValue("-timeout");
-        ping.createArg().setValue("1");
-        ping.reconfigure();
+        ping.addAppArguments("-timeout");
+        ping.addAppArguments("1");
 
-        int returnCode = ping.executeJava();
+        int returnCode = ping.execute();
         if (returnCode != -1 && returnCode != 0 && returnCode != 1 && returnCode != 2)
         {
             throw new ContainerException("JonasAdmin ping returned " + returnCode
@@ -105,16 +104,16 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
      */
     private boolean genericDeployment(final String beanFileName, final String deploymentParam)
     {
-        Java java = (Java) new AntUtils().createAntTask("java");
-        java.setFork(true);
+        JvmLauncherRequest request = new JvmLauncherRequest(false, targetContainer);
+        JvmLauncher java = targetContainer.getJvmLauncherFactory().createJvmLauncher(request);
 
         targetContainer.doAction(java);
-        java.createArg().setValue("org.objectweb.jonas.adm.JonasAdmin");
+        java.addAppArguments("org.objectweb.jonas.adm.JonasAdmin");
         targetContainer.doServerAndDomainNameParam(java);
-        java.createArg().setValue(deploymentParam);
-        java.createArg().setValue(beanFileName);
+        java.addAppArguments(deploymentParam);
+        java.addAppArguments(beanFileName);
 
-        int returnCode = java.executeJava();
+        int returnCode = java.execute();
         return returnCode == 0;
     }
 }

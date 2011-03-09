@@ -21,18 +21,17 @@ package org.codehaus.cargo.container.geronimo;
 
 import java.io.File;
 
-import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.geronimo.internal.GeronimoUtils;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Geronimo 1.x series container implementation.
@@ -86,20 +85,18 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStart(org.apache.tools.ant.taskdefs.Java)
+     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    protected void doStart(Java java) throws Exception
+    protected void doStart(JvmLauncher java) throws Exception
     {
-        java.setJar(new File(getConfiguration().getHome(), "bin/server.jar"));
+        java.setJarFile(new File(getConfiguration().getHome(), "bin/server.jar"));
 
-        java.addSysproperty(getAntUtils().createSysProperty("org.apache.geronimo.server.dir",
-            getConfiguration().getHome()));
-        java.addSysproperty(getAntUtils().createSysProperty("java.io.tmpdir",
-            new File(getConfiguration().getHome(), "/var/temp").getPath()));
+        java.setSystemProperty("org.apache.geronimo.server.dir", getConfiguration().getHome());
+        java.setSystemProperty("java.io.tmpdir",
+            new File(getConfiguration().getHome(), "/var/temp").getPath());
 
-        AntContainerExecutorThread geronimoStarter = new AntContainerExecutorThread(java);
-        geronimoStarter.start();
+        java.start();
 
         waitForCompletion(true);
 
@@ -113,28 +110,25 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStop(org.apache.tools.ant.taskdefs.Java)
+     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    protected void doStop(Java java) throws Exception
+    protected void doStop(JvmLauncher java) throws Exception
     {
-        java.setJar(new File(getConfiguration().getHome(), "bin/shutdown.jar"));
+        java.setJarFile(new File(getConfiguration().getHome(), "bin/shutdown.jar"));
 
-        java.addSysproperty(getAntUtils().createSysProperty("org.apache.geronimo.server.dir",
-            getConfiguration().getHome()));
-        java.addSysproperty(getAntUtils().createSysProperty("java.io.tmpdir",
-            new File(getConfiguration().getHome(), "/var/temp").getPath()));
+        java.setSystemProperty("org.apache.geronimo.server.dir", getConfiguration().getHome());
+        java.setSystemProperty("java.io.tmpdir",
+            new File(getConfiguration().getHome(), "/var/temp").getPath());
 
-        java.createArg().setValue("--user");
-        java.createArg().setValue(getConfiguration().getPropertyValue(RemotePropertySet.USERNAME));
-        java.createArg().setValue("--password");
-        java.createArg().setValue(getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD));
-        java.createArg().setValue("--port");
-        java.createArg().setValue(getConfiguration().getPropertyValue(
-            GeneralPropertySet.RMI_PORT));
+        java.addAppArguments("--user");
+        java.addAppArguments(getConfiguration().getPropertyValue(RemotePropertySet.USERNAME));
+        java.addAppArguments("--password");
+        java.addAppArguments(getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD));
+        java.addAppArguments("--port");
+        java.addAppArguments(getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
 
-        AntContainerExecutorThread geronimoStopper = new AntContainerExecutorThread(java);
-        geronimoStopper.start();
+        java.start();
     }
 
     /**

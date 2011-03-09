@@ -21,15 +21,13 @@ package org.codehaus.cargo.container.jetty;
 
 import java.io.File;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Special container support for the Jetty 6.x servlet container.
@@ -77,83 +75,78 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStart(Java)
+     * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public final void doStart(Java java) throws Exception
+    public final void doStart(JvmLauncher java) throws Exception
     {
         invoke(java, true);
     }
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStop(Java)
+     * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    public final void doStop(Java java) throws Exception
+    public final void doStop(JvmLauncher java) throws Exception
     {
         invoke(java, false);
     }
 
     /**
-     * @param java the predefined Ant {@link org.apache.tools.ant.taskdefs.Java} command to use to
-     * start the container, passed by Cargo
+     * @param java the predefined JVM launcher to use to start the container, passed by Cargo
      * @param isGettingStarted if true then start the container, stop it otherwise
      * @throws Exception in case of startup or shutdown error
      */
-    private void invoke(Java java, boolean isGettingStarted) throws Exception
+    private void invoke(JvmLauncher java, boolean isGettingStarted) throws Exception
     {
-        Path classpath = java.createClasspath();
-        addToolsJarToClasspath(classpath);
+        addToolsJarToClasspath(java);
 
         // If logging is set to "high" the turn it on by setting the DEBUG system property
         if (getConfiguration().getPropertyValue(GeneralPropertySet.LOGGING) != null
             && getConfiguration().getPropertyValue(GeneralPropertySet.LOGGING).equals("high"))
         {
-            java.addSysproperty(getAntUtils().createSysProperty("DEBUG", "true"));
+            java.setSystemProperty("DEBUG", "true");
         }
 
         // Set location where Jetty is installed
-        java.addSysproperty(getAntUtils().createSysProperty("jetty.home", getHome()));
+        java.setSystemProperty("jetty.home", getHome());
 
         // Add shutdown port
-        java.addSysproperty(getAntUtils().createSysProperty("STOP.PORT",
-            getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT)));
+        java.setSystemProperty("STOP.PORT",
+            getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
         // Add shutdown key
-        java.addSysproperty(getAntUtils().createSysProperty("STOP.KEY", "secret"));
+        java.setSystemProperty("STOP.KEY", "secret");
 
         // Add listening port
-        java.addSysproperty(getAntUtils().createSysProperty("jetty.port",
-            getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
+        java.setSystemProperty("jetty.port",
+            getConfiguration().getPropertyValue(ServletPropertySet.PORT));
 
         // Define the location of the configuration directory as a System property so that it
         // can be referenced from within the jetty.xml file.
-        java.addSysproperty(getAntUtils().createSysProperty("config.home",
-            getConfiguration().getHome()));
+        java.setSystemProperty("config.home", getConfiguration().getHome());
 
         // Location where logs will be generated
-        java.addSysproperty(getAntUtils().createSysProperty("jetty.logs",
-            getFileHandler().append(getConfiguration().getHome(), "logs")));
+        java.setSystemProperty("jetty.logs",
+            getFileHandler().append(getConfiguration().getHome(), "logs"));
 
-        java.setJar(new File(getHome(), "start.jar"));
+        java.setJarFile(new File(getHome(), "start.jar"));
 
         if (isGettingStarted)
         {
-            java.createArg().setValue(
+            java.addAppArguments(
                 getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml"));
         }
         else
         {
-            java.createArg().setValue("--stop");
+            java.addAppArguments("--stop");
         }
 
         // For Jetty to pick up on the extra classpath it needs to export
         // the classpath as an environment variable 'CLASSPATH'
-        java.addSysproperty(getAntUtils().createSysProperty("CLASSPATH",
-                java.getCommandLine().getClasspath()));
+        java.setSystemProperty("CLASSPATH", java.getClasspath());
 
-        AntContainerExecutorThread jettyRunner = new AntContainerExecutorThread(java);
-        jettyRunner.start();
+        java.start();
     }
 
     /**

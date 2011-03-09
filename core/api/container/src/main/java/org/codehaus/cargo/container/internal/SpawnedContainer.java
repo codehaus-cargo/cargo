@@ -21,6 +21,8 @@ package org.codehaus.cargo.container.internal;
 
 import java.util.Map;
 
+import org.codehaus.cargo.container.spi.jvm.JvmLauncherFactory;
+
 /**
  * All methods that a container that is spawned must implement.
  * 
@@ -70,5 +72,20 @@ public interface SpawnedContainer
      * @return the System properties to set in the container executing VM.
      */
     Map<String, String> getSystemProperties();
+
+    /**
+     * Sets the factory used to spawn the container JVM.
+     * 
+     * @param jvmLauncherFactory The factory used to spawn the container JVM, must not be
+     * {@code null}.
+     */
+    void setJvmLauncherFactory(JvmLauncherFactory jvmLauncherFactory);
+
+    /**
+     * Gets the factory used to spawn the container JVM.
+     * 
+     * @return The factory used to spawn the container JVM, never {@code null}.
+     */
+    JvmLauncherFactory getJvmLauncherFactory();
 
 }

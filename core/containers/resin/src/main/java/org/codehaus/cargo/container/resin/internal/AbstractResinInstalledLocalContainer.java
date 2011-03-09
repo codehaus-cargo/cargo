@@ -27,14 +27,12 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.util.DefaultServerRun;
 import org.codehaus.cargo.util.CargoException;
 
@@ -75,87 +73,82 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStart(Java)
+     * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public void doStart(Java java) throws Exception
+    public void doStart(JvmLauncher java) throws Exception
     {
-        Path classpath = doAction(java);
+        doAction(java);
 
-        java.createArg().setValue("-start");
-        java.createArg().setValue("-conf");
+        java.addAppArguments("-start");
+        java.addAppArguments("-conf");
 
         File confDir = new File(getConfiguration().getHome(), "conf");
-        java.createArg().setFile(new File(confDir, "resin.conf"));
+        java.addAppArgument(new File(confDir, "resin.conf"));
 
         // Add settings specific to a given container version
-        startUpAdditions(java, classpath);
+        startUpAdditions(java);
 
-        AntContainerExecutorThread resinRunner = new AntContainerExecutorThread(java);
-        resinRunner.start();
+        java.start();
     }
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStop(Java)
+     * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    public void doStop(Java java) throws Exception
+    public void doStop(JvmLauncher java) throws Exception
     {
         doAction(java);
 
-        java.createArg().setValue("-stop");
+        java.addAppArguments("-stop");
 
-        AntContainerExecutorThread resinRunner = new AntContainerExecutorThread(java);
-        resinRunner.start();
+        java.start();
     }
 
     /**
      * Common Ant Java task settings for start and stop actions.
      * 
-     * @param java the Ant Java object passed by the Cargo underlying container SPI classes
-     * @return the classpath set (this is required as strangely there's no way to query the Ant Java
-     * object for the classapth after it's set)
+     * @param java the JVM launcher passed by the Cargo underlying container SPI classes
      */
-    private Path doAction(Java java)
+    private void doAction(JvmLauncher java)
     {
         // Invoke the main class to start the container
-        java.addSysproperty(getAntUtils().createSysProperty("resin.home",
-            getConfiguration().getHome()));
+        java.setSystemProperty("resin.home", getConfiguration().getHome());
 
         // As Resin has not feature to stop it, we're using a ResinRun class that keeps a reference
         // to the running Resin server and which creates a listener socket so that it can then
         // stop Resin when it receives the signal to do so.
-        java.setClassname(ResinRun.class.getName());
+        java.setMainClass(ResinRun.class.getName());
 
         // However this ResinRun class depends on classes found in other Cargo jars (namely, in
         // Core Util and Core Container) so we also need to include those jars in the container
         // execution classpath.
-        Path classpath = java.createClasspath();
-        classpath.createPathElement().setLocation(getResourceUtils().getResourceLocation("/"
+        java.addClasspathEntries(getResourceUtils().getResourceLocation("/"
             + ResinRun.class.getName().replace('.', '/') + ".class"));
-        classpath.createPathElement().setLocation(getResourceUtils().getResourceLocation("/"
+        java.addClasspathEntries(getResourceUtils().getResourceLocation("/"
             + DefaultServerRun.class.getName().replace('.', '/') + ".class"));
-        classpath.createPathElement().setLocation(getResourceUtils().getResourceLocation("/"
+        java.addClasspathEntries(getResourceUtils().getResourceLocation("/"
             + CargoException.class.getName().replace('.', '/') + ".class"));
 
         FileSet fileSet = new FileSet();
+        fileSet.setProject(getAntUtils().createProject());
         fileSet.setDir(new File(getHome()));
         fileSet.createInclude().setName("lib/*.jar");
-        classpath.addFileset(fileSet);
-
-        return classpath;
+        for (String path : fileSet.getDirectoryScanner().getIncludedFiles())
+        {
+            java.addClasspathEntries(new File(fileSet.getDir(), path));
+        }
     }
 
     /**
      * Allow specific version implementations to add custom settings to the Java container that will
      * be started.
      * 
-     * @param javaContainer the Ant Java object that will start the container
-     * @param classpath the classpath that will be used to start the container
+     * @param javaContainer the JVM launcher that will start the container
      * @throws FileNotFoundException in case the Tools jar cannot be found
      */
-    protected abstract void startUpAdditions(Java javaContainer, Path classpath)
+    protected abstract void startUpAdditions(JvmLauncher javaContainer)
         throws FileNotFoundException;
 
     /**

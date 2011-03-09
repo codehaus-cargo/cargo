@@ -29,15 +29,13 @@ import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Abstract class for JBoss container family.
@@ -68,28 +66,26 @@ public abstract class AbstractJBossInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStart(Java)
+     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    protected void doStart(Java java) throws Exception
+    protected void doStart(JvmLauncher java) throws Exception
     {
-        java.addSysproperty(getAntUtils().createSysProperty("java.endorsed.dirs",
-            new File(getHome(), "/lib/endorsed")));
-        java.addSysproperty(getAntUtils().createSysProperty("jboss.home.dir", getHome()));
-        java.addSysproperty(getAntUtils().createSysProperty("jboss.server.home.dir",
-            getConfiguration().getHome()));
-        java.addSysproperty(getAntUtils().createSysProperty("jboss.server.home.url",
-            new File(getConfiguration().getHome()).toURI().toURL().toString()));
-        java.addSysproperty(getAntUtils().createSysProperty("jboss.server.name",
-            getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
-        java.addSysproperty(getAntUtils()
-            .createSysProperty(
+        java.setSystemProperty("java.endorsed.dirs",
+            new File(getHome(), "/lib/endorsed").getAbsolutePath());
+        java.setSystemProperty("jboss.home.dir", getHome());
+        java.setSystemProperty("jboss.server.home.dir", getConfiguration().getHome());
+        java.setSystemProperty("jboss.server.home.url",
+            new File(getConfiguration().getHome()).toURI().toURL().toString());
+        java.setSystemProperty("jboss.server.name",
+            getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION));
+        java.setSystemProperty(
                 "jboss.server.lib.url",
                 new File(getLibDir(getConfiguration().getPropertyValue(
                     JBossPropertySet.CONFIGURATION)))
-                    .toURI().toURL().toString()));
-        java.addSysproperty(getAntUtils().createSysProperty("jboss.server.log.threshold",
-            getJBossLogLevel(getConfiguration().getPropertyValue(GeneralPropertySet.LOGGING))));
+                    .toURI().toURL().toString());
+        java.setSystemProperty("jboss.server.log.threshold",
+            getJBossLogLevel(getConfiguration().getPropertyValue(GeneralPropertySet.LOGGING)));
 
         // CARGO-758: To allow JBoss to be accessed from remote machines,
         // it must be started with the arguments -b 0.0.0.0 or --host 0.0.0.0
@@ -100,46 +96,42 @@ public abstract class AbstractJBossInstalledLocalContainer extends
         if (runtimeArguments == null || !runtimeArguments.contains("--host 0.0.0.0")
             && !runtimeArguments.contains("-b 0.0.0.0"))
         {
-            java.createArg().setValue(
-                "--host=" + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));
+            java.addAppArguments("--host="
+                + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));
         }
-        java.createArg().setValue(
-                "--configuration="
-                        + getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION));
+        java.addAppArguments("--configuration="
+            + getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION));
 
-        Path classpath = java.createClasspath();
-        classpath.createPathElement().setLocation(new File(getHome(), "bin/run.jar"));
-        addToolsJarToClasspath(classpath);
+        java.addClasspathEntries(new File(getHome(), "bin/run.jar"));
+        addToolsJarToClasspath(java);
 
-        java.setClassname("org.jboss.Main");
+        java.setMainClass("org.jboss.Main");
 
-        AntContainerExecutorThread jbossRunner = new AntContainerExecutorThread(java);
-        jbossRunner.start();
+        java.start();
     }
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStop(Java)
+     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    protected void doStop(Java java) throws Exception
+    protected void doStop(JvmLauncher java) throws Exception
     {
-        Path classPath = java.createClasspath();
-        classPath.createPathElement().setLocation(new File(getHome(), "bin/shutdown.jar"));
-        java.setClassname("org.jboss.Shutdown");
+        java.addClasspathEntries(new File(getHome(), "bin/shutdown.jar"));
+        java.setMainClass("org.jboss.Shutdown");
 
-        java.createArg().setValue(
-            "--server=" + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
-                + getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
+        java.addAppArguments("--server="
+            + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
+            + getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
 
         String jbossUser = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_USER);
         String jbossPassword = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_PASSWORD);
         if (jbossUser != null)
         {
-            java.createArg().setValue("--user=" + jbossUser);
+            java.addAppArguments("--user=" + jbossUser);
             if (jbossPassword != null)
             {
-                java.createArg().setValue("--password=" + jbossPassword);
+                java.addAppArguments("--password=" + jbossPassword);
             }
         }
 

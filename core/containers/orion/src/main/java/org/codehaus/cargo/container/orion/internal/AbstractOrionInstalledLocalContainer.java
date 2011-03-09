@@ -24,15 +24,13 @@ package org.codehaus.cargo.container.orion.internal;
 
 import java.io.File;
 
-import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Basic support for the Orion application server.
@@ -66,18 +64,21 @@ public abstract class AbstractOrionInstalledLocalContainer extends AbstractInsta
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStop(Java)
+     * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    public final void doStop(Java java)
+    public final void doStop(JvmLauncher java)
     {
         // invoke the main class
-        Path classpath = java.createClasspath();
         FileSet fileSet = new FileSet();
+        fileSet.setProject(getAntUtils().createProject());
         fileSet.setDir(new File(getHome()));
         fileSet.createInclude().setName(getContainerClasspathIncludes());
-        classpath.addFileset(fileSet);
-        java.setClassname(getStopClassname());
+        for (String path : fileSet.getDirectoryScanner().getIncludedFiles())
+        {
+            java.addClasspathEntries(new File(fileSet.getDir(), path));
+        }
+        java.setMainClass(getStopClassname());
 
         String shutdownURL = "ormi://"
             + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
@@ -85,38 +86,39 @@ public abstract class AbstractOrionInstalledLocalContainer extends AbstractInsta
 
         getLogger().debug("Shutdown URL [" + shutdownURL + "]", this.getClass().getName());
 
-        java.createArg().setValue(shutdownURL);
-        java.createArg().setValue("cargo");
-        java.createArg().setValue("cargo");
-        java.createArg().setValue("-shutdown");
+        java.addAppArguments(shutdownURL);
+        java.addAppArguments("cargo");
+        java.addAppArguments("cargo");
+        java.addAppArguments("-shutdown");
 
-        AntContainerExecutorThread orionRunner = new AntContainerExecutorThread(java);
-        orionRunner.start();
+        java.start();
     }
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStart(Java)
+     * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public final void doStart(Java java) throws Exception
+    public final void doStart(JvmLauncher java) throws Exception
     {
         // Invoke the main class
-        Path classpath = java.createClasspath();
         FileSet fileSet = new FileSet();
+        fileSet.setProject(getAntUtils().createProject());
         fileSet.setDir(new File(getHome()));
         fileSet.createInclude().setName(getContainerClasspathIncludes());
-        classpath.addFileset(fileSet);
-        addToolsJarToClasspath(classpath);
-        java.setClassname(getStartClassname());
-        java.createArg().setValue("-config");
-        java.createArg().setFile(new File(getConfiguration().getHome(), "conf/server.xml"));
+        for (String path : fileSet.getDirectoryScanner().getIncludedFiles())
+        {
+            java.addClasspathEntries(new File(fileSet.getDir(), path));
+        }
+        addToolsJarToClasspath(java);
+        java.setMainClass(getStartClassname());
+        java.addAppArguments("-config");
+        java.addAppArgument(new File(getConfiguration().getHome(), "conf/server.xml"));
 
         // Add the tools.jar to the classpath.
-        addToolsJarToClasspath(classpath);
+        addToolsJarToClasspath(java);
 
-        AntContainerExecutorThread orionRunner = new AntContainerExecutorThread(java);
-        orionRunner.start();
+        java.start();
     }
 
     /**

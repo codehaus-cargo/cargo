@@ -25,9 +25,8 @@ package org.codehaus.cargo.container.tomcat;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaInstalledLocalContainer;
 
 /**
@@ -72,21 +71,17 @@ public class Tomcat4xInstalledLocalContainer extends AbstractCatalinaInstalledLo
     /**
      * {@inheritDoc}
      * 
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStart(Java)
+     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public void doStart(Java java) throws Exception
+    public void doStart(JvmLauncher java) throws Exception
     {
         File commonLibDirectory = new File(getHome(), "common/lib");
         if (!commonLibDirectory.isDirectory())
         {
             throw new FileNotFoundException("directory " + commonLibDirectory + " does not exist");
         }
-        Path classpath = java.getCommandLine().getClasspath();
-        for (File commonLibrary : commonLibDirectory.listFiles())
-        {
-            classpath.createPathElement().setLocation(commonLibrary);
-        }
+        java.addClasspathEntries(commonLibDirectory.listFiles());
 
         super.doStart(java);
     }

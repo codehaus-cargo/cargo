@@ -25,9 +25,6 @@ package org.codehaus.cargo.container.spi;
 import junit.framework.TestCase;
 
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -35,6 +32,8 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.container.stub.JvmLauncherStub;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 
@@ -125,7 +124,7 @@ public class InstalledLocalContainerTest extends TestCase
         /**
          * Java executable.
          */
-        private Java java;
+        private JvmLauncher java;
 
         /**
          * {@inheritdoc}
@@ -137,12 +136,12 @@ public class InstalledLocalContainerTest extends TestCase
         }
 
         /**
-         * Saves the {@link Java} instance. {@inheritdoc}
+         * Saves the {@link JvmLauncher} instance. {@inheritdoc}
          * @param java Java instance.
          * @throws Exception If anything goes wrong.
          */
         @Override
-        protected void doStart(Java java) throws Exception
+        protected void doStart(JvmLauncher java) throws Exception
         {
             this.java = java;
         }
@@ -153,7 +152,7 @@ public class InstalledLocalContainerTest extends TestCase
          * @throws Exception If anything goes wrong.
          */
         @Override
-        protected void doStop(Java java) throws Exception
+        protected void doStop(JvmLauncher java) throws Exception
         {
         }
 
@@ -186,9 +185,9 @@ public class InstalledLocalContainerTest extends TestCase
 
         /**
          * Method for testing to retrieve the java command created.
-         * @return Passed {@link Java} instance.
+         * @return Passed {@link JvmLauncher} instance.
          */
-        public Java getJava()
+        public JvmLauncher getJava()
         {
             return this.java;
         }
@@ -205,9 +204,9 @@ public class InstalledLocalContainerTest extends TestCase
         configuration.setProperty(GeneralPropertySet.JAVA_HOME, "myTestPath");
         AbstractInstalledLocalContainer container =
             new AbstractInstalledLocalContainerStub(configuration);
-        Path path = new Path(new Project());
-        container.addToolsJarToClasspath(path);
-        assertFalse(path.toString().contains("myTestPath"));
+        JvmLauncherStub java = new JvmLauncherStub();
+        container.addToolsJarToClasspath(java);
+        assertFalse(java.getClasspath().contains("myTestPath"));
     }
 
     /**
@@ -220,9 +219,9 @@ public class InstalledLocalContainerTest extends TestCase
         configuration.setProperty(GeneralPropertySet.JAVA_HOME, "myTestPath");
         AbstractInstalledLocalContainer container =
             new AbstractInstalledLocalContainerStub(configuration);
-        Path path = new Path(new Project());
-        container.addToolsJarToClasspath(path);
-        assertTrue(path.toString().contains("myTestPath"));
+        JvmLauncherStub java = new JvmLauncherStub();
+        container.addToolsJarToClasspath(java);
+        assertTrue(java.getClasspath().contains("myTestPath"));
     }
 
     /**
@@ -234,15 +233,14 @@ public class InstalledLocalContainerTest extends TestCase
         configuration.setProperty(GeneralPropertySet.JAVA_HOME, null);
         AbstractInstalledLocalContainer container =
             new AbstractInstalledLocalContainerStub(configuration);
-        Java java = new Java();
+        JvmLauncherStub java = new JvmLauncherStub();
         container.setJvmToLaunchContainerIn(java);
         // wipe out anything that would break on windows
         String binDir = container.getFileHandler().append(System.getProperty("java.home"), "bin");
         String expected =
             container.getFileHandler().append(binDir, "java").replaceAll("\\\\", "/")
                 .toLowerCase();
-        String vmCmd =
-            java.getCommandLine().getVmCommand().toString().replaceAll("\\\\", "/").toLowerCase();
+        String vmCmd = java.getJvm().replaceAll("\\\\", "/").toLowerCase();
         // vmCmd may be wrapped in double quotes on windows when JAVA_HOME has spaces in it
         vmCmd = vmCmd.replaceAll("\"", "");
         // in windows, it may be .exe, so we'll ignore the extension
@@ -258,11 +256,10 @@ public class InstalledLocalContainerTest extends TestCase
         configuration.setProperty(GeneralPropertySet.JAVA_HOME, "/my/java");
         AbstractInstalledLocalContainer container =
             new AbstractInstalledLocalContainerStub(configuration);
-        Java java = new Java();
+        JvmLauncherStub java = new JvmLauncherStub();
         container.setJvmToLaunchContainerIn(java);
         // wipe out anything that would break on windows
-        String vmCmd =
-            java.getCommandLine().getVmCommand().toString().replaceAll("\\\\", "/").toLowerCase();
+        String vmCmd = java.getJvm().replaceAll("\\\\", "/").toLowerCase();
         assertTrue(vmCmd.startsWith("/my/java/bin/java"));
     }
 
@@ -394,9 +391,9 @@ public class InstalledLocalContainerTest extends TestCase
 
         container.getConfiguration().setProperty("cargo.runtime.args", "hello -world");
         container.startInternal();
-        Java java = container.getJava();
+        JvmLauncher java = container.getJava();
         assertTrue("Expected runtime arguments not contained in the java commandline.",
-            java.getCommandLine().toString().contains("hello -world"));
+            java.getCommandLine().contains("hello -world"));
     }
 
     /**
@@ -412,8 +409,8 @@ public class InstalledLocalContainerTest extends TestCase
             "-Dx.y=z\n\r\t\t-Du.v=w");
 
         container.startInternal();
-        Java java = container.getJava();
-        String commandLine = java.getCommandLine().toString();
+        JvmLauncher java = container.getJava();
+        String commandLine = java.getCommandLine();
         checkString(commandLine, "-Dx.y=z ");
         checkString(commandLine, "-Du.v=w");
         assertFalse("check new lines", commandLine.contains("\n"));
@@ -431,8 +428,8 @@ public class InstalledLocalContainerTest extends TestCase
             new AbstractInstalledLocalContainerStub(configuration);
 
         container.startInternal();
-        Java java = container.getJava();
-        String commandLine = java.getCommandLine().toString();
+        JvmLauncher java = container.getJava();
+        String commandLine = java.getCommandLine();
         checkString(commandLine, "-Xms128m");
         checkString(commandLine, "-Xmx512m");
         checkString(commandLine, "-XX:PermSize=48m");
@@ -451,8 +448,8 @@ public class InstalledLocalContainerTest extends TestCase
         container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-Xms256m");
 
         container.startInternal();
-        Java java = container.getJava();
-        String commandLine = java.getCommandLine().toString();
+        JvmLauncher java = container.getJava();
+        String commandLine = java.getCommandLine();
         checkString(commandLine, "-Xms256m");
         checkString(commandLine, "-Xmx512m");
         checkString(commandLine, "-XX:PermSize=48m");
@@ -471,8 +468,8 @@ public class InstalledLocalContainerTest extends TestCase
         container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-Xmx256m");
 
         container.startInternal();
-        Java java = container.getJava();
-        String commandLine = java.getCommandLine().toString();
+        JvmLauncher java = container.getJava();
+        String commandLine = java.getCommandLine();
         checkString(commandLine, "-Xms128m");
         checkString(commandLine, "-Xmx256m");
         checkString(commandLine, "-XX:PermSize=48m");
@@ -491,8 +488,8 @@ public class InstalledLocalContainerTest extends TestCase
         container.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, "-XX:PermSize=256m");
 
         container.startInternal();
-        Java java = container.getJava();
-        String commandLine = java.getCommandLine().toString();
+        JvmLauncher java = container.getJava();
+        String commandLine = java.getCommandLine();
         checkString(commandLine, "-Xms128m");
         checkString(commandLine, "-Xmx512m");
         checkString(commandLine, "-XX:PermSize=256m");
@@ -512,8 +509,8 @@ public class InstalledLocalContainerTest extends TestCase
             .setProperty(GeneralPropertySet.JVMARGS, "-XX:MaxPermSize=256m");
 
         container.startInternal();
-        Java java = container.getJava();
-        String commandLine = java.getCommandLine().toString();
+        JvmLauncher java = container.getJava();
+        String commandLine = java.getCommandLine();
         checkString(commandLine, "-Xms128m");
         checkString(commandLine, "-Xmx512m");
         checkString(commandLine, "-XX:PermSize=48m");
@@ -533,8 +530,8 @@ public class InstalledLocalContainerTest extends TestCase
                 "-Xms256m -Xmx256m -XX:PermSize=256m -XX:MaxPermSize=256m");
 
         container.startInternal();
-        Java java = container.getJava();
-        String commandLine = java.getCommandLine().toString();
+        JvmLauncher java = container.getJava();
+        String commandLine = java.getCommandLine();
         checkString(commandLine, "-Xms256m");
         checkString(commandLine, "-Xmx256m");
         checkString(commandLine, "-XX:PermSize=256m");

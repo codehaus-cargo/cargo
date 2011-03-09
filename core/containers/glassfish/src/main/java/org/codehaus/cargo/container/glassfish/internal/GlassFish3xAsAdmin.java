@@ -21,8 +21,7 @@ package org.codehaus.cargo.container.glassfish.internal;
 
 import java.io.File;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -57,7 +56,7 @@ public class GlassFish3xAsAdmin extends AbstractAsAdmin
      * {@inheritDoc}
      */
     @Override
-    public void invokeAsAdmin(boolean async, Java java, String[] args)
+    public void invokeAsAdmin(boolean async, JvmLauncher java, String[] args)
     {
         File home = new File(this.home);
         if (!home.isDirectory())
@@ -72,20 +71,16 @@ public class GlassFish3xAsAdmin extends AbstractAsAdmin
                 + adminCli.getName());
         }
 
-        java.setJar(adminCli);
-        for (String arg : args)
-        {
-            java.createArg().setValue(arg);
-        }
+        java.setJarFile(adminCli);
+        java.addAppArguments(args);
 
         if (async)
         {
-            AntContainerExecutorThread glassFishRunner = new AntContainerExecutorThread(java);
-            glassFishRunner.start();
+            java.start();
         }
         else
         {
-            int exitCode = java.executeJava();
+            int exitCode = java.execute();
 
             if (exitCode != 0 && exitCode != 1)
             {

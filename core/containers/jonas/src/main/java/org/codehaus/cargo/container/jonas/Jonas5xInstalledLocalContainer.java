@@ -26,17 +26,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
-import org.codehaus.cargo.container.internal.util.AntBuildListener;
 import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalContainer;
 import org.codehaus.cargo.container.jonas.internal.Jonas5xContainerCapability;
 import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.util.AntUtils;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
 
 /**
  * Support for the JOnAS JEE container.
@@ -64,35 +61,34 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractJonasInstalledLocalContainer#doStart(Java)
+     * @see AbstractJonasInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public void doStart(final Java java)
+    public void doStart(final JvmLauncher java)
     {
         doAction(java);
         doServerAndDomainNameArgs(java);
-        java.createArg().setValue("-start");
+        java.addAppArguments("-start");
         doUsernameAndPasswordArgs(java);
 
-        AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
-        jonasRunner.start();
+        java.start();
     }
 
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractJonasInstalledLocalContainer#doStop(Java)
+     * @see AbstractJonasInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    public void doStop(final Java java)
+    public void doStop(final JvmLauncher java)
     {
         doAction(java);
         doServerAndDomainNameArgs(java);
-        java.createArg().setValue("-stop");
+        java.addAppArguments("-stop");
         doUsernameAndPasswordArgs(java);
 
         // Call java.execute directly since ClientAdmin.stop is synchronous
-        int returnCode = java.executeJava();
+        int returnCode = java.execute();
         if (returnCode != 0 && returnCode != 2)
         {
             throw new ContainerException("JonasAdmin stop returned " + returnCode
@@ -134,35 +130,18 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         long timeout = System.currentTimeMillis() + this.getTimeout();
         while (System.currentTimeMillis() < timeout)
         {
-            Java ping = (Java) new AntUtils().createAntTask("java");
-            ping.setFork(true);
-
-            // Add a build listener to the Ant project so that we can catch what the Java task logs
-            boolean foundBuildListener = false;
-            for (Object listenerObject : ping.getProject().getBuildListeners())
-            {
-                if (listenerObject instanceof AntBuildListener)
-                {
-                    foundBuildListener = true;
-                    break;
-                }
-            }
-            if (!foundBuildListener)
-            {
-                ping.getProject().addBuildListener(
-                    new AntBuildListener(getLogger(), this.getClass().getName()));
-            }
+            JvmLauncherRequest request = new JvmLauncherRequest(false, this);
+            JvmLauncher ping = getJvmLauncherFactory().createJvmLauncher(request);
 
             doAction(ping);
             doServerAndDomainNameArgs(ping);
-            ping.createArg().setValue("-ping");
+            ping.addAppArguments("-ping");
             // IMPORTANT: impose timeout since default is 120 seconds
             // the argument is in milliseconds in JOnAS 5
-            ping.createArg().setValue("-timeout");
-            ping.createArg().setValue("2000");
+            ping.addAppArguments("-timeout");
+            ping.addAppArguments("2000");
             doUsernameAndPasswordArgs(ping);
-            ping.reconfigure();
-            ping.setTimeout(new Long(10000));
+            ping.setTimeout(10000);
             try
             {
                 Thread.sleep(1000);
@@ -172,7 +151,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
                 throw new ContainerException("Thread.sleep failed", e);
             }
 
-            returnCode = ping.executeJava();
+            returnCode = ping.execute();
             if (returnCode != -1 && returnCode != 0 && returnCode != 1 && returnCode != 2)
             {
                 throw new ContainerException("JonasAdmin ping returned " + returnCode
@@ -191,10 +170,10 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractJonasInstalledLocalContainer#setupExtraSysProps(Java, Map)
+     * @see AbstractJonasInstalledLocalContainer#setupExtraSysProps(JvmLauncher, Map)
      */
     @Override
-    protected void setupExtraSysProps(final Java java,
+    protected void setupExtraSysProps(final JvmLauncher java,
         final Map<String, String> configuredSysProps)
     {
         addSysProp(java, configuredSysProps, "org.omg.CORBA.ORBClass", "org.jacorb.orb.ORB");
@@ -210,9 +189,9 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     /**
      * Setup of the username and password for the JOnAS admin command call.
      * 
-     * @param java the target java ant task to setup
+     * @param java the target JVM launcher to setup
      */
-    protected void doUsernameAndPasswordArgs(final Java java)
+    protected void doUsernameAndPasswordArgs(final JvmLauncher java)
     {
         String username = getConfiguration().getPropertyValue(RemotePropertySet.USERNAME);
         String password = getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD);
@@ -220,10 +199,10 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         if (username != null && username.trim().length() != 0
             && password != null && password.trim().length() != 0)
         {
-            java.createArg().setValue("-username");
-            java.createArg().setValue(username);
-            java.createArg().setValue("-password");
-            java.createArg().setValue(password);
+            java.addAppArguments("-username");
+            java.addAppArguments(username);
+            java.addAppArguments("-password");
+            java.addAppArguments(password);
         }
     }
 
@@ -232,31 +211,27 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      * 
      * @param java the target java ant task to setup
      */
-    public void doAction(final Java java)
+    public void doAction(final JvmLauncher java)
     {
         setupSysProps(java);
 
-        Path classpath = java.createClasspath();
-        classpath.createPathElement().setLocation(
-            new File(getHome(), "lib/bootstrap/felix-launcher.jar"));
-        classpath.createPathElement().setLocation(
-            new File(getHome(), "lib/bootstrap/jonas-commands.jar"));
-        classpath.createPathElement().setLocation(
-            new File(getHome(), "lib/bootstrap/jonas-version.jar"));
-        classpath.createPathElement().setLocation(new File(getConfiguration().getHome(), "conf"));
+        java.addClasspathEntries(new File(getHome(), "lib/bootstrap/felix-launcher.jar"));
+        java.addClasspathEntries(new File(getHome(), "lib/bootstrap/jonas-commands.jar"));
+        java.addClasspathEntries(new File(getHome(), "lib/bootstrap/jonas-version.jar"));
+        java.addClasspathEntries(new File(getConfiguration().getHome(), "conf"));
 
         try
         {
-            addToolsJarToClasspath(classpath);
+            addToolsJarToClasspath(java);
         }
         catch (IOException ex)
         {
             throw new ContainerException("IOException occured during java command line setup", ex);
         }
 
-        java.setClassname("org.ow2.jonas.commands.admin.ClientAdmin");
+        java.setMainClass("org.ow2.jonas.commands.admin.ClientAdmin");
 
-        java.setDir(new File(getConfiguration().getHome()));
+        java.setWorkingDirectory(new File(getConfiguration().getHome()));
     }
 
     /**

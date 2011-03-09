@@ -24,6 +24,7 @@ import java.util.Map;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncherFactory;
 
 /**
  * Mock for {@link InstalledLocalContainer}. We need a static class rather than using a dynamic
@@ -173,4 +174,23 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     {
         this.systemProperties = properties;
     }
+
+    /**
+     * {@inheritdoc}
+     * @param jvmLauncherFactory JVM launcher factory.
+     */
+    public void setJvmLauncherFactory(JvmLauncherFactory jvmLauncherFactory)
+    {
+        throw new RuntimeException("Not implemented");
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return JVM launcher factory.
+     */
+    public JvmLauncherFactory getJvmLauncherFactory()
+    {
+        throw new RuntimeException("Not implemented");
+    }
+
 }

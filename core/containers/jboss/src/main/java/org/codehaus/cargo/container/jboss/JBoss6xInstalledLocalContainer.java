@@ -21,11 +21,10 @@ package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.internal.AbstractJBoss5xInstalledLocalContainer;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * JBoss 6.x series container implementation.
@@ -70,13 +69,12 @@ public class JBoss6xInstalledLocalContainer extends AbstractJBoss5xInstalledLoca
      * {@inheritDoc}
      */
     @Override
-    protected void doStop(Java java) throws Exception
+    protected void doStop(JvmLauncher java) throws Exception
     {
-        Path classPath = java.createClasspath();
-        classPath.createPathElement().setLocation(new File(getHome(), "bin/shutdown.jar"));
-        java.setClassname("org.jboss.Shutdown");
+        java.addClasspathEntries(new File(getHome(), "bin/shutdown.jar"));
+        java.setMainClass("org.jboss.Shutdown");
 
-        java.createArg().setValue(
+        java.addAppArguments(
             "--server=service:jmx:rmi:///jndi/rmi://"
                 + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
                 + getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_JRMP_PORT)
@@ -86,10 +84,10 @@ public class JBoss6xInstalledLocalContainer extends AbstractJBoss5xInstalledLoca
         String jbossPassword = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_PASSWORD);
         if (jbossUser != null)
         {
-            java.createArg().setValue("--user=" + jbossUser);
+            java.addAppArguments("--user=" + jbossUser);
             if (jbossPassword != null)
             {
-                java.createArg().setValue("--password=" + jbossPassword);
+                java.addAppArguments("--password=" + jbossPassword);
             }
         }
 

@@ -26,16 +26,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalContainer;
 import org.codehaus.cargo.container.jonas.internal.Jonas4xAdmin;
 import org.codehaus.cargo.container.jonas.internal.Jonas4xAdminImpl;
 import org.codehaus.cargo.container.jonas.internal.Jonas4xContainerCapability;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Support for the JOnAS JEE container.
@@ -69,38 +67,34 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractJonasInstalledLocalContainer#doStart(Java)
+     * @see AbstractJonasInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public void doStart(final Java java)
+    public void doStart(final JvmLauncher java)
     {
         doAction(java);
         doServerAndDomainNameArgs(java);
-        java.createArg().setValue("org.objectweb.jonas.server.Server");
+        java.addAppArguments("org.objectweb.jonas.server.Server");
 
-        AntContainerExecutorThread jonasRunner = new AntContainerExecutorThread(java);
-        jonasRunner.start();
+        java.start();
     }
 
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractJonasInstalledLocalContainer#doStop(Java)
+     * @see AbstractJonasInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    public void doStop(final Java java)
+    public void doStop(final JvmLauncher java)
     {
         // Wait until JonasAdmin stop succeeds, throw exception if anything bad occurs
-        java.setFork(true);
 
         doAction(java);
-        java.createArg().setValue("org.objectweb.jonas.adm.JonasAdmin");
+        java.addAppArguments("org.objectweb.jonas.adm.JonasAdmin");
         doServerAndDomainNameParam(java);
-        java.createArg().setValue("-s");
+        java.addAppArguments("-s");
 
-        java.reconfigure();
-
-        int returnCode = java.executeJava();
+        int returnCode = java.execute();
         if (returnCode != 0 && returnCode != 2)
         {
             throw new IllegalStateException("JonasAdmin stop returned " + returnCode
@@ -155,10 +149,10 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractJonasInstalledLocalContainer#setupExtraSysProps(Java, Map)
+     * @see AbstractJonasInstalledLocalContainer#setupExtraSysProps(JvmLauncher, Map)
      */
     @Override
-    protected void setupExtraSysProps(final Java java,
+    protected void setupExtraSysProps(final JvmLauncher java,
         final Map<String, String> configuredSysProps)
     {
         addSysProp(java, configuredSysProps, "jonas.default.classloader", "true");
@@ -181,31 +175,30 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     /**
      * Configuring the target java ant task to launch a JOnAS command.
      * 
-     * @param java the target java ant task to setup
+     * @param java the target JVM launcher to setup
      */
-    public void doAction(final Java java)
+    public void doAction(final JvmLauncher java)
     {
         setupSysProps(java);
 
-        java.setClassname("org.objectweb.jonas.server.Bootstrap");
+        java.setMainClass("org.objectweb.jonas.server.Bootstrap");
 
-        Path classpath = java.createClasspath();
-        classpath.createPathElement().setLocation(
+        java.addClasspathEntries(
             new File(getHome(), "lib/common/ow_jonas_bootstrap.jar"));
-        classpath.createPathElement().setLocation(
+        java.addClasspathEntries(
             new File(getHome(), "lib/commons/jonas/jakarta-commons/commons-logging-api.jar"));
-        classpath.createPathElement().setLocation(new File(getConfiguration().getHome(), "conf"));
+        java.addClasspathEntries(new File(getConfiguration().getHome(), "conf"));
 
         try
         {
-            addToolsJarToClasspath(classpath);
+            addToolsJarToClasspath(java);
         }
         catch (IOException ex)
         {
             throw new ContainerException("IOException occured during java command line setup", ex);
         }
 
-        java.setDir(new File(getConfiguration().getHome()));
+        java.setWorkingDirectory(new File(getConfiguration().getHome()));
     }
 
     /**

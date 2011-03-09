@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.glassfish.GlassFishInstalledLocalDeployer;
@@ -31,6 +30,7 @@ import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -60,7 +60,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
      */
     public void invokeAsAdmin(boolean async, String[] args)
     {
-        Java java = this.createJavaTask();
+        JvmLauncher java = createJvmLauncher(false);
         invokeAsAdmin(async, java, args);
     }
 
@@ -68,10 +68,10 @@ public abstract class AbstractGlassFishInstalledLocalContainer
      * Invokes asadmin using a Java container.
      * 
      * @param async Asynchronous invoke?
-     * @param java ANT Java container task.
+     * @param java JVM launcher.
      * @param args Invoke arguments.
      */
-    public void invokeAsAdmin(boolean async, Java java, String[] args)
+    public void invokeAsAdmin(boolean async, JvmLauncher java, String[] args)
     {
         AbstractAsAdmin asadmin = getAsAdmin();
         asadmin.invokeAsAdmin(async, java, args);
@@ -88,7 +88,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
      * {@inheritDoc}
      */
     @Override
-    protected void doStart(Java java) throws Exception
+    protected void doStart(JvmLauncher java) throws Exception
     {
         this.getLogger().debug("Starting domain on HTTP port "
             + this.getConfiguration().getPropertyValue(ServletPropertySet.PORT)
@@ -146,7 +146,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
      * {@inheritDoc}
      */
     @Override
-    protected void doStop(Java java) throws Exception
+    protected void doStop(JvmLauncher java) throws Exception
     {
         this.invokeAsAdmin(false, java, new String[]
         {

@@ -24,10 +24,9 @@ package org.codehaus.cargo.container.resin;
 
 import java.io.FileNotFoundException;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.resin.internal.AbstractResinInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Special container support for the Caucho Resin 3.x servlet container.
@@ -52,10 +51,10 @@ public class Resin2xInstalledLocalContainer extends AbstractResinInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see AbstractResinInstalledLocalContainer#startUpAdditions(Java, Path)
+     * @see AbstractResinInstalledLocalContainer#startUpAdditions(JvmLauncher)
      */
     @Override
-    protected void startUpAdditions(Java theJavaContainer, Path theClasspath)
+    protected void startUpAdditions(JvmLauncher theJavaContainer)
         throws FileNotFoundException
     {
         // Nothing additional required

@@ -26,16 +26,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.weblogic.WebLogicLocalContainer;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 
@@ -237,49 +235,37 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStart(Java)
+     * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public final void doStart(final Java java) throws Exception
+    public final void doStart(final JvmLauncher java) throws Exception
     {
         initBeaHome();
 
         // Weblogic looks for files relative to the domain home, which is not
         // necessarily relative
         // to the Bea home
-        java.setDir(new File(getConfiguration().getHome()));
+        java.setWorkingDirectory(new File(getConfiguration().getHome()));
 
         File serverDir = new File(this.getHome(), "server");
 
         if (getConfiguration().getPropertyValue(ServletPropertySet.PORT) != null)
         {
-            java.addSysproperty(getAntUtils().createSysProperty(
-                    "weblogic.ListenPort",
-                    getConfiguration()
-                            .getPropertyValue(ServletPropertySet.PORT)));
+            java.setSystemProperty("weblogic.ListenPort",
+                getConfiguration().getPropertyValue(ServletPropertySet.PORT));
         }
         if (getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) != null)
         {
-            java.addSysproperty(getAntUtils().createSysProperty(
-                    "weblogic.ListenAddress",
-                    getConfiguration()
-                            .getPropertyValue(GeneralPropertySet.HOSTNAME)));
+            java.setSystemProperty("weblogic.ListenAddress",
+                getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));
         }
-        java.addSysproperty(getAntUtils()
-                .createSysProperty(
-                        "weblogic.name",
-                        getConfiguration().getPropertyValue(
-                                WebLogicPropertySet.SERVER)));
-        java.addSysproperty(getAntUtils().createSysProperty("bea.home",
-                this.getBeaHome()));
-        java.addSysproperty(getAntUtils().createSysProperty(
-                "weblogic.management.username",
-                getConfiguration().getPropertyValue(
-                        WebLogicPropertySet.ADMIN_USER)));
-        java.addSysproperty(getAntUtils().createSysProperty(
-                "weblogic.management.password",
-                getConfiguration().getPropertyValue(
-                        WebLogicPropertySet.ADMIN_PWD)));
+        java.setSystemProperty("weblogic.name",
+            getConfiguration().getPropertyValue(WebLogicPropertySet.SERVER));
+        java.setSystemProperty("bea.home", this.getBeaHome());
+        java.setSystemProperty("weblogic.management.username",
+            getConfiguration().getPropertyValue(WebLogicPropertySet.ADMIN_USER));
+        java.setSystemProperty("weblogic.management.password",
+            getConfiguration().getPropertyValue(WebLogicPropertySet.ADMIN_PWD));
 
         // Note: The "=" in the call below is on purpose. It is left so that
         // we end up with:
@@ -287,70 +273,57 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
         // (otherwise, we would end up with:
         // -Djava.security.policy=./server/lib/weblogic.policy, which
         // will not add to the security policy but instead replace it).
-        java.addSysproperty(getAntUtils().createSysProperty(
-                "java.security.policy",
-                "=" + serverDir + "/lib/weblogic.policy"));
+        java.setSystemProperty("java.security.policy", "=" + serverDir + "/lib/weblogic.policy");
 
-        Path classpath = java.getCommandLine().getClasspath();
-        classpath.createPathElement().setLocation(
-                new File(serverDir, "lib/weblogic_sp.jar"));
-        classpath.createPathElement().setLocation(
-                new File(serverDir, "lib/weblogic.jar"));
+        java.addClasspathEntries(new File(serverDir, "lib/weblogic_sp.jar"));
+        java.addClasspathEntries(new File(serverDir, "lib/weblogic.jar"));
 
         // The WebLogic startup scripts automatically includes the domain root folder in the
         // classpath. This folder is a common place to include configuration files, property files,
         // log4j configurations, etc. This is why we're adding it here.
-        classpath.createPathElement().setLocation(
-                new File(getConfiguration().getHome()));
+        java.addClasspathEntries(new File(getConfiguration().getHome()));
 
         // Add the tools jar to the classpath so deployment will succeed due to appc compiles
-        addToolsJarToClasspath(classpath);
+        addToolsJarToClasspath(java);
 
-        java.setClassname("weblogic.Server");
+        java.setMainClass("weblogic.Server");
 
-        AntContainerExecutorThread webLogicRunner = new AntContainerExecutorThread(
-                java);
-        webLogicRunner.start();
+        java.start();
     }
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStop(Java)
+     * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    public final void doStop(final Java java) throws Exception
+    public final void doStop(final JvmLauncher java) throws Exception
     {
         File serverDir = new File(this.getHome(), "server");
 
-        Path classpath = java.createClasspath();
-        classpath.createPathElement().setLocation(
-                new File(serverDir, "lib/weblogic_sp.jar"));
-        classpath.createPathElement().setLocation(
-                new File(serverDir, "lib/weblogic.jar"));
+        java.addClasspathEntries(new File(serverDir, "lib/weblogic_sp.jar"));
+        java.addClasspathEntries(new File(serverDir, "lib/weblogic.jar"));
 
-        java.setClassname("weblogic.Admin");
-        java.createArg().setValue("-url");
-        java.createArg().setValue(
+        java.setMainClass("weblogic.Admin");
+        java.addAppArguments("-url");
+        java.addAppArguments(
                 "t3://" + getConfiguration().getPropertyValue(
                     GeneralPropertySet.HOSTNAME)
                         + ":"
                         + getConfiguration().getPropertyValue(
                                 ServletPropertySet.PORT));
-        java.createArg().setValue("-username");
-        java.createArg().setValue(
+        java.addAppArguments("-username");
+        java.addAppArguments(
                 getConfiguration().getPropertyValue(
                         WebLogicPropertySet.ADMIN_USER));
-        java.createArg().setValue("-password");
-        java.createArg().setValue(
+        java.addAppArguments("-password");
+        java.addAppArguments(
                 getConfiguration().getPropertyValue(
                         WebLogicPropertySet.ADMIN_PWD));
 
         // Forcing WebLogic shutdown to speed up the shutdown process
-        java.createArg().setValue("FORCESHUTDOWN");
+        java.addAppArguments("FORCESHUTDOWN");
 
-        AntContainerExecutorThread webLogicRunner = new AntContainerExecutorThread(
-                java);
-        webLogicRunner.start();
+        java.start();
     }
 
     /**

@@ -21,8 +21,8 @@ package org.codehaus.cargo.container.jboss.internal;
 
 import java.io.File;
 
-import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Abstract class for JBoss 5x container family.
@@ -46,11 +46,10 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
      * {@inheritDoc}
      */
     @Override
-    protected void doStart(Java java) throws Exception
+    protected void doStart(JvmLauncher java) throws Exception
     {
-        java.addSysproperty(getAntUtils().createSysProperty(
-                "jboss.common.lib.url",
-                new File(getCommonLibDir()).toURI().toURL().toString()));
+        java.setSystemProperty("jboss.common.lib.url",
+            new File(getCommonLibDir()).toURI().toURL().toString());
         super.doStart(java);
     }
 

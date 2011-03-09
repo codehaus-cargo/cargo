@@ -28,15 +28,13 @@ import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
-import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.jrun.JRun4xPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Common support for all JRun container versions.
@@ -75,76 +73,69 @@ public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstal
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStart(Java)
+     * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public void doStart(Java java) throws Exception
+    public void doStart(JvmLauncher java) throws Exception
     {
-        Path classpath = doAction(java);
+        doAction(java);
 
-        java.createArg().setValue("-start");
-        java.createArg().setValue(getConfiguration().getPropertyValue(
-                JRun4xPropertySet.SERVER_NAME));
+        java.addAppArguments("-start");
+        java.addAppArguments(getConfiguration().getPropertyValue(JRun4xPropertySet.SERVER_NAME));
 
         // Add settings specific to a given container version
-        startUpAdditions(java, classpath);
+        startUpAdditions(java);
 
-        AntContainerExecutorThread jrunRunner = new AntContainerExecutorThread(java);
-        jrunRunner.start();
+        java.start();
     }
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStop(Java)
+     * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    public void doStop(Java java) throws Exception
+    public void doStop(JvmLauncher java) throws Exception
     {
         doAction(java);
 
-        java.createArg().setValue("-stop");
-        java.createArg().setValue(getConfiguration().getPropertyValue(
-                JRun4xPropertySet.SERVER_NAME));
+        java.addAppArguments("-stop");
+        java.addAppArguments(getConfiguration().getPropertyValue(JRun4xPropertySet.SERVER_NAME));
 
-        AntContainerExecutorThread jrunRunner = new AntContainerExecutorThread(java);
-        jrunRunner.start();
+        java.start();
     }
 
     /**
      * Common Ant Java task settings for start and stop actions.
      * 
      * @param java the Ant Java object passed by the Cargo underlying container SPI classes
-     * @return the classpath set (this is required as strangely there's no way to query the Ant Java
-     * object for the classapth after it's set)
      */
-    private Path doAction(Java java)
+    private void doAction(JvmLauncher java)
     {
         // Invoke the main class to start the container
-        java.addSysproperty(getAntUtils().createSysProperty("jrun.home",
-            getConfiguration().getHome()));
+        java.setSystemProperty("jrun.home", getConfiguration().getHome());
 
-        java.setClassname("jrunx.kernel.JRun");
+        java.setMainClass("jrunx.kernel.JRun");
 
-        Path classPath = java.createClasspath();
-        classPath.setPath(getConfiguration().getHome() + "/lib/jrun.jar");
+        java.addClasspathEntries(getConfiguration().getHome() + "/lib/jrun.jar");
 
         FileSet libFileSet = new FileSet();
+        libFileSet.setProject(getAntUtils().createProject());
         libFileSet.setDir(new File(getHome() + "/lib"));
         libFileSet.setIncludes("webservices.jar,macromedia_drivers.jar");
-        classPath.addFileset(libFileSet);
-
-        return classPath;
+        for (String path : libFileSet.getDirectoryScanner().getIncludedFiles())
+        {
+            java.addClasspathEntries(new File(libFileSet.getDir(), path));
+        }
     }
 
     /**
      * Allow specific version implementations to add custom settings to the Java container that will
      * be started.
      * 
-     * @param javaContainer the Ant Java object that will start the container
-     * @param classpath the classpath that will be used to start the container
+     * @param java the JVM launcher that will start the container
      * @throws FileNotFoundException in case the Tools jar cannot be found
      */
-    protected abstract void startUpAdditions(Java javaContainer, Path classpath)
+    protected abstract void startUpAdditions(JvmLauncher java)
         throws FileNotFoundException;
 
     /**

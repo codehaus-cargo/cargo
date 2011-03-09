@@ -21,15 +21,13 @@ package org.codehaus.cargo.container.jo;
 
 import java.io.File;
 
-import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * jo! 1.1 container implementation.
@@ -67,53 +65,58 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
      * Implementation of {@link org.codehaus.cargo.container.LocalContainer#start()} to all
      * container extending this class must implement.
      * 
-     * @param java the predefined Ant {@link Java} command to use to start the container
+     * @param java the predefined JVM launcher to use to start the container
      * @throws Exception if any error is raised during the container start
      */
     @Override
-    public void doStart(Java java) throws Exception
+    public void doStart(JvmLauncher java) throws Exception
     {
         // Invoke the main class
-        Path classpath = java.createClasspath();
         FileSet fileSet = new FileSet();
+        fileSet.setProject(getAntUtils().createProject());
         fileSet.setDir(new File(getHome()));
         fileSet.createInclude().setName("*.jar");
         fileSet.createInclude().setName("system/*.jar");
-        classpath.addFileset(fileSet);
+        for (String path : fileSet.getDirectoryScanner().getIncludedFiles())
+        {
+            java.addClasspathEntries(new File(fileSet.getDir(), path));
+        }
 
-        addToolsJarToClasspath(classpath);
-        java.setClassname("com.tagtraum.bootstrap.Bootstrap");
-        java.createArg().setValue("cl.jo=" + new File(getHome(), "lib") + "/*.jar");
-        java.createArg().setValue("main.jo=com.tagtraum.jo.JoIgnitionNG");
-        java.createArg().setValue(new File(getConfiguration().getHome(), "etc").toString() + "/");
+        addToolsJarToClasspath(java);
+        java.setMainClass("com.tagtraum.bootstrap.Bootstrap");
+        java.addAppArguments("cl.jo=" + new File(getHome(), "lib") + "/*.jar");
+        java.addAppArguments("main.jo=com.tagtraum.jo.JoIgnitionNG");
+        java.addAppArguments(new File(getConfiguration().getHome(), "etc").toString() + "/");
 
         // set JO_HOME to configuration.dir
-        java.addSysproperty(getAntUtils().createSysProperty("JO_HOME",
-                getConfiguration().getHome()));
+        java.setSystemProperty("JO_HOME", getConfiguration().getHome());
 
-        AntContainerExecutorThread joRunner = new AntContainerExecutorThread(java);
-        joRunner.start();
+        java.start();
     }
 
     /**
      * Implementation of {@link org.codehaus.cargo.container.LocalContainer#stop()} to all container
      * extending this class must implement.
      * 
-     * @param java the predefined Ant {@link Java} command to use to stop the container
+     * @param java the predefined JVM launcher to use to stop the container
      * @throws Exception if any error is raised during the container stop
      */
     @Override
-    public void doStop(Java java) throws Exception
+    public void doStop(JvmLauncher java) throws Exception
     {
-        Path classpath = java.createClasspath();
         FileSet fileSet = new FileSet();
+        fileSet.setProject(getAntUtils().createProject());
         fileSet.setDir(new File(getHome()));
         fileSet.createInclude().setName("lib/*.jar");
-        classpath.addFileset(fileSet);
-        java.setClassname("com.tagtraum.metaserver.StopServer");
-        java.createArg().setValue(getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));
-        java.createArg().setValue(getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
-        java.createArg().setValue("MetaServer");
+        for (String path : fileSet.getDirectoryScanner().getIncludedFiles())
+        {
+            java.addClasspathEntries(new File(fileSet.getDir(), path));
+        }
+
+        java.setMainClass("com.tagtraum.metaserver.StopServer");
+        java.addAppArguments(getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));
+        java.addAppArguments(getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
+        java.addAppArguments("MetaServer");
 
         java.execute();
     }

@@ -21,13 +21,12 @@ package org.codehaus.cargo.container.geronimo;
 
 import java.io.File;
 
-import org.apache.tools.ant.taskdefs.Java;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Geronimo 2.x series container implementation.
@@ -72,48 +71,40 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStop(org.apache.tools.ant.taskdefs.Java)
+     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    protected void doStart(Java java) throws Exception
+    protected void doStart(JvmLauncher java) throws Exception
     {
-        java.setJar(new File(getHome(), "bin/server.jar"));
+        java.setJarFile(new File(getHome(), "bin/server.jar"));
 
         // -javaagent:$GERONIMO_HOME/bin/jpa.jar
         // -Djava.endorsed.dirs=$GERONIMO_HOME/lib/endorsed:$JAVA_HOME/lib/endorsed
         // -Djava.ext.dirs=$GERONIMO_HOME/lib/ext:$JAVA_HOME/lib/ext
 
-        File javaExecutable = new File(java.getCommandLine().getVmCommand().toString());
-        File javaLib = new File(javaExecutable.getParentFile().getParentFile(), "lib");
+        File javaLib = new File(getJavaHome(), "lib");
 
-        java.addSysproperty(getAntUtils().createSysProperty("org.apache.geronimo.home.dir",
-            getHome()));
-        java.addSysproperty(getAntUtils().createSysProperty("org.apache.geronimo.server.dir",
-            getConfiguration().getHome()));
-        java.addSysproperty(getAntUtils().createSysProperty("java.endorsed.dirs",
-            new File(getHome(), "lib/endorsed").getAbsolutePath().replace(File.separatorChar, '/')
-                + File.pathSeparatorChar  + new File(javaLib, "endorsed").getAbsolutePath().
-                    replace(File.separatorChar, '/')));
-        java.addSysproperty(getAntUtils().createSysProperty("java.ext.dirs",
-            new File(getHome(), "lib/ext").getAbsolutePath().replace(File.separatorChar, '/')
-                + File.pathSeparatorChar  + new File(javaLib, "ext").getAbsolutePath().replace(
-                    File.separatorChar, '/')));
-        java.addSysproperty(getAntUtils().createSysProperty("java.io.tmpdir",
-            new File(getConfiguration().getHome(), "/var/temp").getAbsolutePath().replace(
-                File.separatorChar, '/')));
+        java.setSystemProperty("org.apache.geronimo.home.dir", getHome());
+        java.setSystemProperty("org.apache.geronimo.server.dir", getConfiguration().getHome());
+        java.setSystemProperty("java.endorsed.dirs", new File(getHome(), "lib/endorsed")
+            .getAbsolutePath().replace(File.separatorChar, '/')
+            + File.pathSeparatorChar
+            + new File(javaLib, "endorsed").getAbsolutePath().replace(File.separatorChar, '/'));
+        java.setSystemProperty("java.ext.dirs", new File(getHome(), "lib/ext").getAbsolutePath()
+            .replace(File.separatorChar, '/')
+            + File.pathSeparatorChar
+            + new File(javaLib, "ext").getAbsolutePath().replace(File.separatorChar, '/'));
+        java.setSystemProperty("java.io.tmpdir", new File(getConfiguration().getHome(),
+            "/var/temp").getAbsolutePath().replace(File.separatorChar, '/'));
 
-        java.addSysproperty(getAntUtils().createSysProperty(
-            "org.apache.geronimo.config.substitution.NamingPort",
-            getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT)));
-        java.addSysproperty(getAntUtils().createSysProperty(
-            "org.apache.geronimo.config.substitution.HTTPPort",
-            getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
-        java.addSysproperty(getAntUtils().createSysProperty(
-            "org.apache.geronimo.config.substitution.EndPointURI",
-            "http://localhost:" + getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
+        java.setSystemProperty("org.apache.geronimo.config.substitution.NamingPort",
+            getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
+        java.setSystemProperty("org.apache.geronimo.config.substitution.HTTPPort",
+            getConfiguration().getPropertyValue(ServletPropertySet.PORT));
+        java.setSystemProperty("org.apache.geronimo.config.substitution.EndPointURI",
+            "http://localhost:" + getConfiguration().getPropertyValue(ServletPropertySet.PORT));
 
-        AntContainerExecutorThread geronimoStarter = new AntContainerExecutorThread(java);
-        geronimoStarter.start();
+        java.start();
 
         waitForCompletion(true);
 
@@ -127,28 +118,25 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStop(org.apache.tools.ant.taskdefs.Java)
+     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    protected void doStop(Java java) throws Exception
+    protected void doStop(JvmLauncher java) throws Exception
     {
-        java.setJar(new File(getHome(), "bin/shutdown.jar"));
+        java.setJarFile(new File(getHome(), "bin/shutdown.jar"));
 
-        java.addSysproperty(getAntUtils().createSysProperty("org.apache.geronimo.server.dir",
-            getConfiguration().getHome()));
-        java.addSysproperty(getAntUtils().createSysProperty("java.io.tmpdir",
-            new File(getConfiguration().getHome(), "/var/temp").getPath()));
+        java.setSystemProperty("org.apache.geronimo.server.dir", getConfiguration().getHome());
+        java.setSystemProperty("java.io.tmpdir",
+            new File(getConfiguration().getHome(), "/var/temp").getPath());
 
-        java.createArg().setValue("--user");
-        java.createArg().setValue(getConfiguration().getPropertyValue(RemotePropertySet.USERNAME));
-        java.createArg().setValue("--password");
-        java.createArg().setValue(getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD));
-        java.createArg().setValue("--port");
-        java.createArg().setValue(getConfiguration().getPropertyValue(
-            GeneralPropertySet.RMI_PORT));
+        java.addAppArguments("--user");
+        java.addAppArguments(getConfiguration().getPropertyValue(RemotePropertySet.USERNAME));
+        java.addAppArguments("--password");
+        java.addAppArguments(getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD));
+        java.addAppArguments("--port");
+        java.addAppArguments(getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
 
-        AntContainerExecutorThread geronimoStopper = new AntContainerExecutorThread(java);
-        geronimoStopper.start();
+        java.start();
     }
 
     /**
