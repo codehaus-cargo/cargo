@@ -45,16 +45,33 @@ public class JdkUtils
     public final File getToolsJar() throws FileNotFoundException
     {
         String javaHome = System.getProperty("java.home");
-        if (javaHome.contains("jre"))
-        {
-            javaHome = new File(javaHome).getParent();
-        }
-        File libDir = new File(javaHome, "lib");
-        File toolsJar = new File(libDir, "tools.jar");
+        File toolsJar = getToolsJar(javaHome);
         if (!toolsJar.isFile())
         {
             throw new FileNotFoundException(toolsJar.getAbsolutePath());
         }
+        return toolsJar;
+    }
+
+    /**
+     * Returns the file containing the JDK tools (such as the compiler) for the specified Java
+     * installation. This method must not be called on Mac OSX as there is no {@code tools.jar} file
+     * on that platform (everything is included in {@code classes.jar}).
+     * 
+     * @param javaHome The installation directory of the JRE/JDK for which to locate the JDK tools,
+     *            must not be {@code null}.
+     * @return The absolute (and possibly non-existent) path to the {@code tools.jar} file, never
+     *         {@code null}.
+     */
+    public final File getToolsJar(String javaHome)
+    {
+        File jdkHome = new File(javaHome).getAbsoluteFile();
+        if (jdkHome.getName().equals("jre"))
+        {
+            jdkHome = jdkHome.getParentFile();
+        }
+        File libDir = new File(jdkHome, "lib");
+        File toolsJar = new File(libDir, "tools.jar");
         return toolsJar;
     }
 

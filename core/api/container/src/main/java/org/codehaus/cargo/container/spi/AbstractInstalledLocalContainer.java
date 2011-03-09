@@ -407,13 +407,28 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     }
 
     /**
+     * Gets the Java home directory to use for this container.
+     * 
+     * @return The Java home directory to use, never {@code null}.
+     */
+    protected String getJavaHome()
+    {
+        String javaHome = getConfiguration().getPropertyValue(GeneralPropertySet.JAVA_HOME);
+        if (javaHome == null)
+        {
+            javaHome = System.getProperty("java.home");
+        }
+        return javaHome;
+    }
+
+    /**
      * Determines which java virtual machine will run the container.
      * 
      * @param java the java command that will start the container
      */
     protected void setJvmToLaunchContainerIn(Java java)
     {
-        String javaHome = getConfiguration().getPropertyValue(GeneralPropertySet.JAVA_HOME);
+        String javaHome = getJavaHome();
         if (javaHome != null)
         {
             String binDir = getFileHandler().append(javaHome, "bin");
@@ -452,21 +467,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         // include any tools.jar file to the cp.
         if (!getJdkUtils().isOSX())
         {
-            String javaHome = getConfiguration().getPropertyValue(GeneralPropertySet.JAVA_HOME);
-            if (javaHome == null)
-            {
-                classpath.createPathElement().setLocation(getJdkUtils().getToolsJar());
-            }
-            else
-            {
-                if (javaHome.contains("jre"))
-                {
-                    javaHome = getFileHandler().getParent(javaHome);
-                }
-                String libDir = getFileHandler().append(javaHome, "lib");
-                classpath.createPathElement().setLocation(new File(libDir, "tools.jar"));
-            }
-
+            classpath.createPathElement().setLocation(getJdkUtils().getToolsJar(getJavaHome()));
         }
     }
 
