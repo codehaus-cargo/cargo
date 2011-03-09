@@ -154,7 +154,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
 
         if (exitCode != 0)
         {
-            throw new CargoException("Could not create domain, asadmin command return exit code "
+            throw new CargoException("Could not create domain, asadmin command returned exit code "
                 + exitCode);
         }
 
