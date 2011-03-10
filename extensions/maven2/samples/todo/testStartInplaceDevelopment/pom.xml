@@ -47,7 +47,7 @@
                  as the Cargo Jetty implementation is embeddable -->  
             <zipUrlInstaller>
               <url>${downloadUrl}</url>
-              <installDir>${installDir}</installDir>
+              <downloadDir>${installDir}</downloadDir>
             </zipUrlInstaller>
           </container>
           <configuration>

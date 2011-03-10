@@ -55,7 +55,7 @@
                     <log>${project.build.directory}/tomcat5x/cargo.log</log>
                     <zipUrlInstaller>
                       <url>http://www.apache.org/dist/jakarta/tomcat-5/v5.0.30/bin/jakarta-tomcat-5.0.30.zip</url>
-                      <installDir>${installDir}</installDir>
+                      <downloadDir>${installDir}</downloadDir>
                     </zipUrlInstaller>
                   </container>
                   <configuration>
@@ -93,7 +93,7 @@
                     <log>${project.build.directory}/tomcat6x/cargo.log</log>
                     <zipUrlInstaller>
                       <url>http://www.smudge-it.co.uk/pub/apache/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip</url>
-                      <installDir>${installDir}</installDir>
+                      <downloadDir>${installDir}</downloadDir>
                     </zipUrlInstaller>
                   </container>
                   <configuration>

@@ -53,17 +53,7 @@
             <containerId>tomcat7x</containerId>
             <zipUrlInstaller>
               <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.8/bin/apache-tomcat-7.0.8.zip</url>
-              <installDir>${basedir}/../../../../core/samples/java/installs</installDir>
-              <!--
-                If required, enter your proxy server settings here.
-
-              <proxy>
-                <host>someproxy</host>
-                <port>8080</port>
-                <user>alitokmen</user>
-                <password>secret</password>
-              </proxy>
-                -->
+              <downloadDir>${basedir}/../../../../core/samples/java/installs</downloadDir>
             </zipUrlInstaller>
           </container>
           <configuration>

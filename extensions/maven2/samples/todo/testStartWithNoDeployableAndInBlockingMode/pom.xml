@@ -52,7 +52,7 @@
             <log>${project.build.directory}/${containerId}/cargo.log</log>
             <zipUrlInstaller>
               <url>${downloadUrl}</url>
-              <installDir>${installDir}</installDir>
+              <downloadDir>${installDir}</downloadDir>
             </zipUrlInstaller>
           </container>
           <configuration>

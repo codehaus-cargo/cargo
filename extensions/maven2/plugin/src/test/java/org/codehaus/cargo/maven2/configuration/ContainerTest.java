@@ -187,10 +187,10 @@ public class ContainerTest extends MockObjectTestCase
             .setZipUrlInstaller(new org.codehaus.cargo.maven2.configuration.ZipUrlInstaller()
             {
                 @Override
-                public ZipURLInstaller createInstaller()
-               {
-                   return (ZipURLInstaller) mockInstaller.proxy();
-               }
+                public ZipURLInstaller createInstaller(String ignored)
+                {
+                    return (ZipURLInstaller) mockInstaller.proxy();
+                }
             });
 
         org.codehaus.cargo.container.InstalledLocalContainer container =
@@ -227,10 +227,10 @@ public class ContainerTest extends MockObjectTestCase
             .setZipUrlInstaller(new org.codehaus.cargo.maven2.configuration.ZipUrlInstaller()
             {
                 @Override
-                public ZipURLInstaller createInstaller()
-               {
-                   return (ZipURLInstaller) mockInstaller.proxy();
-               }
+                public ZipURLInstaller createInstaller(String ignored)
+                {
+                    return (ZipURLInstaller) mockInstaller.proxy();
+                }
             });
 
         org.codehaus.cargo.container.InstalledLocalContainer container =

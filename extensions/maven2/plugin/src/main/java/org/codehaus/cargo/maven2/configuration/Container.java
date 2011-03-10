@@ -249,11 +249,11 @@ public class Container
             {
                 if (settings == null)
                 {
-                    setupHome((InstalledLocalContainer) container, null);
+                    setupHome((InstalledLocalContainer) container, project, null);
                 }
                 else
                 {
-                    setupHome((InstalledLocalContainer) container, settings.getActiveProxy());
+                    setupHome((InstalledLocalContainer) container, project, settings.getActiveProxy());
                 }
                 setupOutput((InstalledLocalContainer) container, project);
                 setupExtraClasspath((InstalledLocalContainer) container, project);
@@ -361,7 +361,7 @@ public class Container
      * Set up a home dir of container (possibly including installing the container, by a
      * ZipURLInstaller).
      */
-    private void setupHome(InstalledLocalContainer container, Proxy proxy)
+    private void setupHome(InstalledLocalContainer container, CargoProject project, Proxy proxy)
     {
         String tmpHome = null;
 
@@ -381,7 +381,8 @@ public class Container
                 zipUrlInstallerProxy.setUser(proxy.getUsername());
             }
 
-            ZipURLInstaller installer = getZipUrlInstaller().createInstaller();
+            ZipURLInstaller installer = getZipUrlInstaller().createInstaller(
+                project.getBuildDirectory());
             if (getLog() != null)
             {
                 installer.setLogger(container.getLogger());

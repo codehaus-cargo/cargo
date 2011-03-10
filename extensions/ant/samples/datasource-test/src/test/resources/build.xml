@@ -38,7 +38,7 @@
       <cargo containerId="tomcat6x" action="@{action}">
         <zipUrlInstaller
           installURL="http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.32/bin/apache-tomcat-6.0.32.zip"
-          installDir="${basedir}/../../../../core/samples/java/installs">
+          downloadDir="${basedir}/../../../../core/samples/java/installs">
           <!--
             If required, enter your proxy server settings here.
 
