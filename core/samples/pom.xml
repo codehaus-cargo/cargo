@@ -769,10 +769,10 @@
                 <value>${cargo.containers.timeout}</value>
               </property>
 
-              <!-- Location where to download and install the containers for the tests -->
+              <!-- Location where to download the containers for the tests -->
               <property>
-                <name>cargo.install.dir</name>
-                <value>${cargo.install.dir}</value>
+                <name>cargo.download.dir</name>
+                <value>${cargo.download.dir}</value>
               </property>
 
               <!-- Default list of containers to run on. If you want to shorten or change the
@@ -782,7 +782,6 @@
                 <name>cargo.containers</name>
                 <value>${cargo.containers}</value>
               </property>
-
             </systemProperties>
           </configuration>
         </plugin>
@@ -906,7 +905,7 @@
             It would be lovely to install all containers to:
             ${settings.localRepository}/org/codehaus/cargo/installs
       -->
-    <cargo.install.dir>${basedir}/installs</cargo.install.dir>
+    <cargo.download.dir>${basedir}/installs</cargo.download.dir>
     <!-- Tomcat 5x and Jetty 7x require this setting for the embedded tests -->
     <!-- TODO: fix embedded tests and remove the SAXParserFactory property -->
     <javax.xml.parsers.SAXParserFactory>com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl</javax.xml.parsers.SAXParserFactory>

@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.net.URL;
 
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Expand;
 import org.apache.tools.ant.taskdefs.Get;
 import org.apache.tools.ant.taskdefs.Untar;
@@ -59,9 +60,14 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     private URL remoteLocation;
 
     /**
-     * Destination directory where the zipped container install will be downloaded and installed.
+     * Destination directory where the zipped container install will be downloaded.
      */
-    private String installDir;
+    private String downloadDir;
+
+    /**
+     * Destination directory where the zipped container install will be extracted.
+     */
+    private String extractDir;
 
     /**
      * Proxy settings to use when downloading distributions.
@@ -83,17 +89,34 @@ public class ZipURLInstaller extends LoggedObject implements Installer
      */
     public ZipURLInstaller(URL remoteLocation)
     {
-        this(remoteLocation, null);
+        this(remoteLocation, null, null);
     }
 
     /**
      * @param remoteLocation URL where the zipped container is located
-     * @param installDir directory where we will unpack the zip container file
+     * @param installDir directory where the zipped container install will be downloaded and
+     * extracted.
+     * @deprecated Use {@link #ZipURLInstaller(String, String, String)} instead.
      */
+    @Deprecated
     public ZipURLInstaller(URL remoteLocation, String installDir)
     {
+        this(remoteLocation, installDir, installDir);
+
+        getLogger().warn("ZipURLInstaller(URL, String) has been deprecated! Please use "
+            + "ZipURLInstaller(URL, String, String)", this.getClass().getName());
+    }
+
+    /**
+     * @param remoteLocation URL where the zipped container is located
+     * @param downloadDir directory where the zipped container install will be downloaded.
+     * @param extractDir directory where the zipped container install will be extracted.
+     */
+    public ZipURLInstaller(URL remoteLocation, String downloadDir, String extractDir)
+    {
         this.remoteLocation = remoteLocation;
-        this.installDir = installDir;
+        this.downloadDir = downloadDir;
+        this.extractDir = extractDir;
         this.fileHandler = new DefaultFileHandler();
         this.antUtils = new AntUtils();
     }
@@ -101,10 +124,81 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     /**
      * @param installDir the destination directory where the zipped container install will be
      * downloaded and installed.
+     * @deprecated Use {@link #setDownloadDir(String)} and {@link #setExtractDir(String)} instead.
      */
+    @Deprecated
     public void setInstallDir(String installDir)
     {
-        this.installDir = installDir;
+        getLogger().warn("ZipURLInstaller.setInstallDir has been deprecated! Please use "
+            + "ZipURLInstaller.setDownloadDir and ZipURLInstaller.setExtractDir",
+                this.getClass().getName());
+
+        this.setDownloadDir(installDir);
+        this.setExtractDir(installDir);
+    }
+
+    /**
+     * @param downloadDir the destination directory where the zipped container install will be
+     * downloaded.
+     */
+    public void setDownloadDir(String downloadDir)
+    {
+        this.downloadDir = downloadDir;
+    }
+
+    /**
+     * @param extractDir the destination directory where the zipped container install will be
+     * installed.
+     */
+    public void setExtractDir(String extractDir)
+    {
+        this.extractDir = extractDir;
+    }
+
+    /**
+     * @return The destination directory where the zipped container install will be downloaded.
+     */
+    public String getDownloadDir()
+    {
+        if (this.downloadDir == null)
+        {
+            return getFileHandler().getTmpPath("installs");
+        }
+        else
+        {
+            return this.downloadDir;
+        }
+    }
+
+    /**
+     * @return The destination directory where the zipped container install will be extracted.
+     */
+    public String getExtractDir()
+    {
+        String extractDir;
+
+        if (this.extractDir == null)
+        {
+            extractDir = this.getDownloadDir();
+        }
+        else
+        {
+            extractDir = this.extractDir;
+        }
+
+        String name = getSourceFileName();
+
+        for (String element : ARCHIVE_ENDINGS)
+        {
+            int dotPos = name.lastIndexOf(element);
+            if (dotPos > -1)
+            {
+                name = name.substring(0, dotPos);
+                break;
+            }
+        }
+
+        return getFileHandler().append(extractDir, name);
     }
 
     /**
@@ -139,22 +233,40 @@ public class ZipURLInstaller extends LoggedObject implements Installer
      */
     public void install()
     {
-        if (!isAlreadyInstalled())
+        if (!isAlreadyExtracted())
         {
             getLogger().debug("Container [" + getSourceFileName() + "] is not yet installed.",
                 this.getClass().getName());
 
-            createDestinationDirectory();
-            download();
-            unpack();
+            if (!isAlreadyDownloaded())
+            {
+                getLogger().debug("Container [" + getSourceFileName() + "] is not yet downloaded.",
+                    this.getClass().getName());
+
+                download();
+            }
+
+            try
+            {
+                unpack();
+            }
+            catch (BuildException e)
+            {
+                getLogger().debug("Container [" + getSourceFileName() + "] is broken.",
+                    this.getClass().getName());
+
+                download();
+                unpack();
+            }
+
             registerInstallation();
         }
         else
         {
             getLogger().debug("Container [" + getSourceFileName() + "] is already installed",
                 this.getClass().getName());
-            getLogger().debug("Using container installation dir [" + getDestinationDir()
-                + "]", getClass().getName());
+            getLogger().debug("Using container installation dir [" + getExtractDir() + "]",
+                getClass().getName());
         }
     }
 
@@ -167,7 +279,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     {
         try
         {
-            File timestampFile = new File(getDestinationDir(), getInstallDirName() + "/.cargo");
+            File timestampFile = new File(getExtractDir(), ".cargo");
             BufferedWriter bw = new BufferedWriter(new FileWriter(timestampFile));
             bw.write("Do not remove this file");
             bw.close();
@@ -180,19 +292,33 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     }
 
     /**
-     * @return true if the container has already been installed, false otherwise
+     * @return true if the container has already been downloaded, false otherwise
      */
-    public boolean isAlreadyInstalled()
+    public boolean isAlreadyDownloaded()
     {
-        boolean isInstalled = false;
-        String timestampFile =
-            getFileHandler().append(getDestinationDir(), getInstallDirName() + "/.cargo");
-        if (getFileHandler().exists(timestampFile))
+        boolean isDownloaded = false;
+        String targetFile = getFileHandler().append(getDownloadDir(), getSourceFileName());
+        if (getFileHandler().exists(targetFile))
         {
-            isInstalled = true;
+            isDownloaded = true;
         }
 
-        return isInstalled;
+        return isDownloaded;
+    }
+
+    /**
+     * @return true if the container has already been extracted, false otherwise
+     */
+    public boolean isAlreadyExtracted()
+    {
+        boolean isExtracted = false;
+        String timestampFile = getFileHandler().append(getExtractDir(), ".cargo");
+        if (getFileHandler().exists(timestampFile))
+        {
+            isExtracted = true;
+        }
+
+        return isExtracted;
     }
 
     /**
@@ -203,13 +329,13 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     {
         String home;
 
-        if (!isAlreadyInstalled())
+        if (!isAlreadyExtracted())
         {
             throw new ContainerException("Failed to get container installation home as the "
                 + "container has not yet been installed. Please call install() first.");
         }
 
-        String targetDir = getFileHandler().append(getDestinationDir(), getInstallDirName());
+        String targetDir = getExtractDir();
         String[] files = getFileHandler().getChildren(targetDir);
         int nbDirectories = 0;
         String foundDirectory = null;
@@ -241,13 +367,13 @@ public class ZipURLInstaller extends LoggedObject implements Installer
      */
     private void unpack()
     {
-        File targetDir = new File(getDestinationDir(), getInstallDirName());
+        File targetDir = new File(getExtractDir());
 
         getLogger().info("Installing container in [" + targetDir.getPath() + "]",
             getClass().getName());
 
         Expand expandTask = createExpandTask();
-        expandTask.setSrc(new File(getDestinationDir(), getSourceFileName()));
+        expandTask.setSrc(new File(getDownloadDir(), getSourceFileName()));
         expandTask.setDest(targetDir);
         expandTask.execute();
     }
@@ -337,8 +463,15 @@ public class ZipURLInstaller extends LoggedObject implements Installer
      */
     private void doDownload()
     {
-        getLogger().info("Downloading container from [" + this.remoteLocation + "]",
-            getClass().getName());
+        String downloadDir = getDownloadDir();
+        if (!getFileHandler().exists(downloadDir))
+        {
+            getFileHandler().mkdirs(downloadDir);
+        }
+        File targetFile = new File(downloadDir, getSourceFileName());
+
+        getLogger().info("Downloading container from [" + this.remoteLocation + "] to ["
+            + targetFile + "]", getClass().getName());
 
         Get getTask = (Get) this.antUtils.createAntTask("get");
         getTask.setUseTimestamp(true);
@@ -359,7 +492,8 @@ public class ZipURLInstaller extends LoggedObject implements Installer
                 getTask.setUsername(userInfo);
             }
         }
-        getTask.setDest(new File(getDestinationDir(), getSourceFileName()));
+
+        getTask.setDest(targetFile);
         getTask.execute();
     }
 
@@ -376,53 +510,6 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         }
 
         return name;
-    }
-
-    /**
-     * @return the directory where we will unpack the zip container file
-     */
-    protected String getInstallDirName()
-    {
-        String name = getSourceFileName();
-
-        for (String element : ARCHIVE_ENDINGS)
-        {
-            int dotPos = name.lastIndexOf(element);
-            if (dotPos > -1)
-            {
-                name = name.substring(0, dotPos);
-                break;
-            }
-        }
-
-        return name;
-    }
-
-    /**
-     * Create the directory (if need be) where we will unpack the zip container file.
-     */
-    private void createDestinationDirectory()
-    {
-        String destinationDir = getDestinationDir();
-        if (!getFileHandler().exists(destinationDir))
-        {
-            getFileHandler().mkdirs(destinationDir);
-        }
-    }
-
-    /**
-     * @return the directory where we will puth both the zip container file and its unpacking
-     */
-    protected String getDestinationDir()
-    {
-        String dir = this.installDir;
-
-        if (dir == null)
-        {
-            dir = getFileHandler().getTmpPath("installs");
-        }
-
-        return dir;
     }
 
     /**

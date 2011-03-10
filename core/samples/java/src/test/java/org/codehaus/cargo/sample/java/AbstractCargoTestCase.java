@@ -354,8 +354,8 @@ public class AbstractCargoTestCase extends TestCase
 
     private String installContainer()
     {
-        ZipURLInstaller installer =
-            new ZipURLInstaller(getTestData().installURL, getTestData().installDir);
+        ZipURLInstaller installer = new ZipURLInstaller(getTestData().installURL,
+            getTestData().downloadDir, getTestData().extractDir);
         installer.setLogger(getLogger());
 
         // Set up proxy

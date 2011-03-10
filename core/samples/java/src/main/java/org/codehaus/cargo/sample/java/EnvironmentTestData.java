@@ -53,9 +53,14 @@ public class EnvironmentTestData
     public URL installURL;
 
     /**
-     * Location where to put the zipped distributions and where to unpack them.
+     * Location where to put the zipped distributions.
      */
-    public String installDir;
+    public String downloadDir;
+
+    /**
+     * Location where to extract the zipped distributions.
+     */
+    public String extractDir;
 
     /**
      * Port on which to start the web container.
@@ -78,7 +83,7 @@ public class EnvironmentTestData
     public String targetDir;
 
     /**
-     * Home for the already installed container (in that case installDir and installURL are
+     * Home for the already installed container (in that case extractDir and installURL are
      * ignored).
      */
     public String home;
@@ -112,7 +117,9 @@ public class EnvironmentTestData
         this.containerType = containerType;
         this.targetDir = new File(getFileFromString(getSystemProperty("cargo.target.dir")),
             targetDirSuffix).getPath();
-        this.installDir = getSystemProperty("cargo.install.dir");
+        this.downloadDir = getSystemProperty("cargo.download.dir");
+        this.extractDir = new File(getFileFromString(getSystemProperty("cargo.target.dir")),
+            "cargo/container").getPath();
         this.proxy = createProxyElement();
         this.installURL = createInstallURL(containerId);
         this.port = createPort(containerId, "servlet");

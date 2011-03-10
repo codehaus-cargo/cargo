@@ -132,7 +132,8 @@ public class ZipURLInstallerTest extends TestCase
      */
     public void testGetInstallDirName() throws Exception
     {
-        assertEquals("resin-3.0.18", this.installer.getInstallDirName());
+        assertTrue(this.installer.getExtractDir() + " does not end with " + "resin-3.0.18",
+            this.installer.getExtractDir().endsWith("resin-3.0.18"));
     }
 
     /**
@@ -221,7 +222,7 @@ public class ZipURLInstallerTest extends TestCase
      */
     public void testGetHomeWhenContainerNotInstalled() throws Exception
     {
-        this.installer.setInstallDir("ram:///tmp");
+        this.installer.setExtractDir("ram:///tmp");
         try
         {
             this.installer.getHome();
@@ -245,7 +246,7 @@ public class ZipURLInstallerTest extends TestCase
         this.fsManager.resolveFile("ram:///tmp/resin-3.0.18/resin-3.0.18/webapps").createFolder();
         this.fsManager.resolveFile("ram:///tmp/resin-3.0.18/.cargo").createFile();
 
-        this.installer.setInstallDir("ram:///tmp");
+        this.installer.setExtractDir("ram:///tmp");
 
         assertEquals("ram:///tmp/resin-3.0.18/resin-3.0.18", this.installer.getHome());
     }
