@@ -50,7 +50,6 @@
               <properties>
                 <cargo.servlet.port>\${servlet.port}</cargo.servlet.port>
               </properties>
-              <home>${cargo.container.configuration.directory}</home>
             </configuration>
           </configuration>
         </plugin>
