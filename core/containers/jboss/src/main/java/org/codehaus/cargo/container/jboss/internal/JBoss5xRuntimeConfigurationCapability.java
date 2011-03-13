@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
@@ -38,5 +39,7 @@ public class JBoss5xRuntimeConfigurationCapability extends
         super();
 
         this.supportsMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
+        this.supportsMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
+        this.supportsMap.put(JBossPropertySet.CLUSTERED, Boolean.TRUE);
     }
 }

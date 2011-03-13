@@ -26,6 +26,7 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 
 import org.codehaus.cargo.container.RemoteContainer;
+import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.jboss.internal.IJBossProfileManagerDeployer;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
@@ -82,9 +83,9 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
             }
 
             Constructor<?> jbossDeployerConstructor = jbossDeployerClass.getConstructor(
-                String.class);
+                String.class, Configuration.class);
             this.deployer = (IJBossProfileManagerDeployer) jbossDeployerConstructor.newInstance(
-                providerURL.toString());
+                providerURL.toString(), container.getConfiguration());
         }
         catch (ClassNotFoundException e)
         {

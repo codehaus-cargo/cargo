@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.jboss.internal.JBoss5xInstalledLocalContainer;
 
 /**
+ * Configuration to use when using a JBoss local container.
  * 
  * @version $Id$
  */

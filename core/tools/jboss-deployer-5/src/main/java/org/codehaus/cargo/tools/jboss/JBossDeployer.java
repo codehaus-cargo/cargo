@@ -25,6 +25,8 @@ import java.util.Properties;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
+import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.jboss.internal.IJBossProfileManagerDeployer;
 import org.jboss.deployers.spi.management.deploy.DeploymentManager;
 import org.jboss.deployers.spi.management.deploy.DeploymentProgress;
@@ -45,13 +47,20 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
      * RMI provider URL, for example <code>jnp://localhost:1099</code>.
      */
     private final String providerURL;
+    
+    /**
+     * Container configuration.
+     */
+    private Configuration configuration;
 
     /**
      * @param providerURL Provider URL to use.
+     * @param configuration Configuration of the container.
      */
-    public JBossDeployer(final String providerURL)
+    public JBossDeployer(final String providerURL, Configuration configuration)
     {
         this.providerURL = providerURL;
+        this.configuration = configuration;
     }
 
     /**
@@ -62,7 +71,7 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
     {
         DeploymentManager deployMgr = getDeploymentManager();
 
-        deployMgr.loadProfile(new ProfileKey(ProfileKey.DEFAULT), true);
+        deployMgr.loadProfile(getProfile(), true);
         DeploymentProgress distribute = deployMgr.distribute(deploymentName,
             ManagedDeployment.DeploymentPhase.APPLICATION, deploymentFile.toURI().toURL(), true);
         distribute.run();
@@ -85,13 +94,31 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
 
         String[] deploymentNameArray = new String[1];
         deploymentNameArray[0] = deploymentName;
-        deployMgr.loadProfile(new ProfileKey(ProfileKey.DEFAULT), true);
+        deployMgr.loadProfile(getProfile(), true);
         String[] repositoryNames = deployMgr.getRepositoryNames(deploymentNameArray,
             ManagedDeployment.DeploymentPhase.APPLICATION);
         DeploymentProgress stop = deployMgr.stop(ManagedDeployment.DeploymentPhase.APPLICATION,
             repositoryNames);
         stop.run();
         checkFailed(stop);
+    }
+
+    /**
+     * @return JBoss profile for the {@link Configuration}.
+     */
+    private ProfileKey getProfile()
+    {
+        String server = this.configuration.getPropertyValue(JBossPropertySet.CONFIGURATION);
+        if (server == null || server.trim().length() == 0)
+        {
+            server = ProfileKey.DEFAULT;
+        }
+
+        Boolean isClustered = Boolean.valueOf(this.configuration.getPropertyValue(
+            JBossPropertySet.CLUSTERED));
+        String name = isClustered ? "farm" : ProfileKey.DEFAULT;
+
+        return new ProfileKey(ProfileKey.DEFAULT, server, name);
     }
 
     /**
