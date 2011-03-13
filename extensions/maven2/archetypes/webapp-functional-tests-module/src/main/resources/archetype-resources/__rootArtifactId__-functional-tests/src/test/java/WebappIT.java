@@ -1,11 +1,11 @@
-package ${package}.it;
+package ${package};
 
 import junit.framework.TestCase;
 
 import java.net.URL;
 import java.net.HttpURLConnection;
 
-public class WebappTest extends TestCase
+public class WebappIT extends TestCase
 {
     private String baseUrl;
     
@@ -13,7 +13,7 @@ public class WebappTest extends TestCase
     {
         super.setUp();
         String port = System.getProperty("servlet.port");
-        this.baseUrl = "http://localhost:" + port + "/${artifactId}";
+        this.baseUrl = "http://localhost:" + port + "/${rootArtifactId}-webapp";
     }
 
     public void testCallIndexPage() throws Exception

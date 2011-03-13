@@ -20,12 +20,23 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <servlet.port>8080</servlet.port>
   </properties>
 
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.8</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.8</version>
+        </plugin>
         <plugin>
           <groupId>org.codehaus.cargo</groupId>
           <artifactId>cargo-maven2-plugin</artifactId>
@@ -58,42 +69,27 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.6</version>
-        <configuration>
-          <!-- Exclude all integration tests so that they are not executed during the test phase.
-               This is because of a limitation in Maven 2.0.x which only supports compiling a
-               single test source tree. The recommendation is to create a separate module for
-               functional tests as is done in the cargo-archetype-webapp-functional-test-module -->
-          <excludes>
-            <exclude>**/it/**</exclude>
-          </excludes>
-        </configuration>
+        <artifactId>maven-failsafe-plugin</artifactId>
         <executions>
           <execution>
-            <phase>integration-test</phase>
+            <id>perform-it</id>
             <goals>
-              <goal>test</goal>
+              <goal>integration-test</goal>
             </goals>
             <configuration>
-              <!-- Include only integration tests so that they are executed during the
-                   integration-test phase. Again this this is because of a limitation in
-                   Maven 2.0.x which only supports compiling a single test source tree. The
-                   recommendation is to create a separate module for functional tests as is done
-                   in the cargo-archetype-webapp-functional-test-module -->
-              <excludes>
-                <exclude>none</exclude>
-              </excludes>
-              <includes>
-                <include>**/it/**</include>
-              </includes>
               <systemProperties>
                 <property>
                   <name>servlet.port</name>
-                  <value>${servlet.port}</value>
+                  <value>\${servlet.port}</value>
                 </property>
               </systemProperties>
             </configuration>
+          </execution>
+          <execution>
+            <id>verify-it</id>
+            <goals>
+              <goal>verify</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
@@ -102,14 +98,14 @@
         <artifactId>cargo-maven2-plugin</artifactId>
         <executions>
           <execution>
-            <id>start</id>
+            <id>start-cargo</id>
             <phase>pre-integration-test</phase>
             <goals>
               <goal>start</goal>
             </goals>
           </execution>
           <execution>
-            <id>stop</id>
+            <id>stop-cargo</id>
             <phase>post-integration-test</phase>
             <goals>
               <goal>stop</goal>
