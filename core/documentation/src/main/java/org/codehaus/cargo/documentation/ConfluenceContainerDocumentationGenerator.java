@@ -124,20 +124,6 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        else if (containerId.equals("tomcat4x"))
-        {
-            output.append("{note}");
-            output.append(LINE_SEPARATOR);
-            output.append("The Apache Tomcat 4.x container, or perhaps Tomcat 4.x itself, is ");
-            output.append("not very stable nowadays.");
-            output.append(LINE_SEPARATOR);
-            output.append("Please consider upgrading your version of Tomcat is you are ");
-            output.append("experiencing difficulties.");
-            output.append(LINE_SEPARATOR);
-            output.append("{note}");
-            output.append(LINE_SEPARATOR);
-            output.append(LINE_SEPARATOR);
-        }
 
         output.append(generateContainerFeaturesText(containerId));
         output.append(LINE_SEPARATOR);
