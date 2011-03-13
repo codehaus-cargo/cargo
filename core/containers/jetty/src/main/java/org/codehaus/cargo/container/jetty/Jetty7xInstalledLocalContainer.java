@@ -91,9 +91,6 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
     public final void doStop(JvmLauncher java) throws Exception
     {
         invoke(java, false);
-
-        // Jetty.stop is not synchronous, sleep a bit to ensure Jetty is stopped
-        Thread.sleep(5000);
     }
 
     /**

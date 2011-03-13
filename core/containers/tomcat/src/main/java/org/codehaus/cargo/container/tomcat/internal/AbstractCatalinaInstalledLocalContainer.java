@@ -30,8 +30,11 @@ import java.util.zip.ZipEntry;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
  * Base support for Catalina based containers.
@@ -174,4 +177,21 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
         java.addAppArguments(action);
         java.start();
     }
+
+    @Override
+    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
+    {
+        if (!waitForStarting)
+        {
+            LocalConfiguration config = getConfiguration();
+
+            waitForPortShutdown(config.getPropertyValue(ServletPropertySet.PORT),
+                config.getPropertyValue(GeneralPropertySet.RMI_PORT),
+                config.getPropertyValue(TomcatPropertySet.AJP_PORT));
+            return;
+        }
+
+        super.waitForCompletion(waitForStarting);
+    }
+
 }
