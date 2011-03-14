@@ -113,14 +113,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         long timeout = System.currentTimeMillis() + this.getTimeout();
         while (System.currentTimeMillis() < timeout)
         {
-            try
-            {
-                Thread.sleep(1000);
-            }
-            catch (InterruptedException e)
-            {
-                throw new IllegalStateException("Thread.sleep failed");
-            }
+            Thread.sleep(1000);
 
             if (waitForStarting)
             {
@@ -143,7 +136,6 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
         throw new ContainerException("Server.waitForCompletion not finished after "
                 + Long.toString(this.getTimeout()) + " milliseconds!");
-
     }
 
     /**

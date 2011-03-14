@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.container.jetty.internal;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -59,6 +62,58 @@ public abstract class AbstractJettyEmbeddedLocalContainer
     public Object getServer()
     {
         return this.server;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#waitForCompletion(boolean)
+     */
+    @Override
+    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
+    {
+        if (waitForStarting)
+        {
+            long timeout = System.currentTimeMillis() + this.getTimeout();
+            while (System.currentTimeMillis() < timeout)
+            {
+                Thread.sleep(1000);
+
+                Method isStarted;
+                try
+                {
+                    isStarted = getServer().getClass().getMethod("isStarted", null);
+                }
+                catch (NoSuchMethodException e)
+                {
+                    throw new ContainerException("Cannot find method isStarted", e);
+                }
+                Boolean started;
+                try
+                {
+                    started = (Boolean) isStarted.invoke(getServer(), null);
+                }
+                catch (IllegalAccessException e)
+                {
+                    throw new ContainerException("Cannot execute method isStarted", e);
+                }
+                catch (InvocationTargetException e)
+                {
+                    throw new ContainerException("Cannot execute method isStarted", e);
+                }
+                if (started)
+                {
+                    return;
+                }
+            }
+
+            throw new ContainerException("Server did not start after "
+                    + Long.toString(this.getTimeout()) + " milliseconds");
+        }
+        else
+        {
+            super.waitForCompletion(waitForStarting);
+        }
     }
 
     /**

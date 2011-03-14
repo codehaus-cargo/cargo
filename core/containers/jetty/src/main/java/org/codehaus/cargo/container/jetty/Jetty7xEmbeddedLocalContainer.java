@@ -254,13 +254,7 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
             handler, new Object[] {"/" + ((WAR) deployable).getContext()});
         handler.getClass().getMethod("setWar", new Class[] {String.class}).invoke(handler,
             new Object[] {deployable.getFile()});
-        /*
-         * //always expand packed WARs for now. TODO allow per deployment
-         * handler.getClass().getMethod("setExtractWar", new Class[] {Boolean.TYPE})
-         * .invoke(handler, new Object[]{Boolean.TRUE}); //copy web-inf to allow jar replacement
-         * handler.getClass().getMethod("setCopyDir", new Class[] {Boolean.TYPE}) .invoke(handler,
-         * new Object[]{Boolean.TRUE});
-         */
+
         setDefaultRealm(handler);
 
         return handler;
