@@ -241,13 +241,6 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     {
         LocalConfiguration config = getConfiguration();
 
-        if (!waitForStarting)
-        {
-            waitForPortShutdown(config.getPropertyValue(ServletPropertySet.PORT),
-                config.getPropertyValue(GeneralPropertySet.RMI_PORT));
-            return;
-        }
-
         DeployableMonitor monitor =
             new URLDeployableMonitor(ContainerUtils.getCPCURL(config),
                 getTimeout(),
@@ -257,6 +250,17 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         watchdog.setLogger(getLogger());
 
         watchdog.watch(waitForStarting);
+
+        if (!waitForStarting)
+        {
+            waitForPortShutdown(config.getPropertyValue(ServletPropertySet.PORT),
+                config.getPropertyValue(GeneralPropertySet.RMI_PORT));
+
+            // Many container do not fully stop even after having destroyed all their sockets;
+            // as a result wait 5 more seconds and call GC (for embedded containers)
+            Thread.sleep(5000);
+            System.gc();
+        }
     }
 
     /**
