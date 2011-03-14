@@ -199,14 +199,17 @@ public class HttpUtils extends LoggedObject
         catch (IOException e)
         {
             result.responseCode = -1;
+            result.responseMessage = e.toString();
         }
         catch (NoSuchAlgorithmException e)
         {
             result.responseCode = -1;
+            result.responseMessage = e.toString();
         }
         catch (KeyManagementException e)
         {
             result.responseCode = -1;
+            result.responseMessage = e.toString();
         }
 
         getLogger().debug("Pinged [" + url + "], result = [" + result.responseCode + "]",

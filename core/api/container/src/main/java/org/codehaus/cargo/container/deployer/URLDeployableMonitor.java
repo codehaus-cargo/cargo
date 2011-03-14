@@ -128,8 +128,16 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
             isDeployed = results.responseBody.contains(this.contains);
         }
 
-        getLogger().debug("URL [" + this.pingURL + "] is " + (isDeployed ? "" : "not ")
-            + "responding...", this.getClass().getName());
+        String msg = "URL [" + this.pingURL + "] is ";
+        if (isDeployed)
+        {
+            msg += "responding...";
+        }
+        else
+        {
+            msg += "not responding: " + results.responseCode + " " + results.responseMessage;
+        }
+        getLogger().debug(msg, this.getClass().getName());
 
         for (DeployableMonitorListener listener : listeners)
         {
