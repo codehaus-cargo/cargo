@@ -20,7 +20,6 @@
 package org.codehaus.cargo.maven2;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -124,7 +123,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * @required
      * @readonly
      */
-    private List repositories;
+    private List<Object> repositories;
 
     /**
      * Set this to 'true' to bypass cargo execution.
@@ -240,7 +239,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
-     * @see org.codehaus.cargo.maven2.util.CargoProject
+     * @param cargoProject Cargo project
      */
     protected void setCargoProject(CargoProject cargoProject)
     {
@@ -248,7 +247,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
-     * @see org.codehaus.cargo.maven2.util.CargoProject
+     * @return Cargo project
      */
     protected CargoProject getCargoProject()
     {
@@ -336,11 +335,9 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         // corresponds to that identifier, and copy all non-set settings (cargo.remote.uri, ...).
         //
         // This feature helps people out in centralising their configurations.
-        Map properties = configuration.getProperties();
-        Iterator propertiesIterator = properties.entrySet().iterator();
-        while (propertiesIterator.hasNext())
+        Map<String, String> properties = configuration.getProperties();
+        for (Map.Entry<String, String> property : properties.entrySet())
         {
-            Map.Entry property = (Map.Entry) propertiesIterator.next();
             String propertyKey = (String) property.getKey();
             if ("cargo.server.settings".equals(propertyKey))
             {
@@ -349,10 +346,9 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                     .debug(
                         "Found cargo.server.settings: key is " + propertyKey + ", value is "
                             + serverId);
-                Iterator servers = settings.getServers().iterator();
-                while (servers.hasNext())
+                for (Object serverObject : settings.getServers())
                 {
-                    Server server = (Server) servers.next();
+                    Server server = (Server) serverObject;
                     if (serverId.equals(server.getId()))
                     {
                         getLog().debug(
@@ -395,7 +391,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         org.codehaus.cargo.container.Container container = null;
 
         // Try to find the container in the Maven Plugin Context first.
-        Map context = getPluginContext();
+        Map<Object, Object> context = getPluginContext();
 
         String containerKey;
         // Containers don't have a unique ID which makes it hard to start multiple containers
@@ -505,6 +501,10 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
     }
 
+    /**
+     * Loads an embedded container.
+     * @throws MojoExecutionException If dependency resolve failed.
+     */
     protected void loadEmbeddedContainerDependencies() throws MojoExecutionException
     {
         if (getContainerElement().getContainerId().startsWith("jetty"))
@@ -517,6 +517,12 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
     }
 
+    /**
+     * Create the autodeploy deployable (if the current project is a Java EE deployable)
+     * @param container Container.
+     * @return The autodeploy deployable.
+     * @throws MojoExecutionException If deployable creation fails.
+     */
     protected org.codehaus.cargo.container.deployable.Deployable createAutoDeployDeployable(
         org.codehaus.cargo.container.Container container) throws MojoExecutionException
     {
@@ -524,6 +530,12 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         return deployableElement.createDeployable(container.getId(), getCargoProject());
     }
 
+    /**
+     * Checks if the autodeployable is part of deployables.
+     * @param deployableElements Deployable elements.
+     * @return <code>true</code> if autodeployable is in <code>deployableElements</code>,
+     * <code>false</code> otherwise.
+     */
     protected boolean containsAutoDeployable(Deployable[] deployableElements)
     {
         boolean found = false;

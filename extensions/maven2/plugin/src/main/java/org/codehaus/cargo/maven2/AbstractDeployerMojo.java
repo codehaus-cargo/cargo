@@ -33,6 +33,9 @@ import org.codehaus.cargo.generic.deployer.DeployerFactory;
  */
 public abstract class AbstractDeployerMojo extends AbstractCargoMojo
 {
+    /**
+     * Deployer factory.
+     */
     private DeployerFactory deployerFactory = new DefaultDeployerFactory();
 
     /**
@@ -58,16 +61,28 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
         performDeployerActionOnAllDeployables(container, deployer);
     }
 
+    /**
+     * @param factory Deployer factory.
+     */
     public void setDeployerFactory(DeployerFactory factory)
     {
         this.deployerFactory = factory;
     }
 
+    /**
+     * @return Deployer factory.
+     */
     public DeployerFactory getDeployerFactory()
     {
         return this.deployerFactory;
     }
 
+    /**
+     * Create a deployer.
+     * @param container Container.
+     * @return Deployer for <code>container</code>.
+     * @throws MojoExecutionException If deployer creation fails.
+     */
     protected org.codehaus.cargo.container.deployer.Deployer createDeployer(
         org.codehaus.cargo.container.Container container) throws MojoExecutionException
     {
@@ -132,6 +147,13 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
         }
     }
 
+    /**
+     * Perform a deployer action on a single deployable.
+     * @param deployer Deployer.
+     * @param deployable Deployable.
+     * @param pingURL Application ping URL.
+     * @param pingTimeout Timeout (milliseconds).
+     */
     protected abstract void performDeployerActionOnSingleDeployable(
         org.codehaus.cargo.container.deployer.Deployer deployer,
         org.codehaus.cargo.container.deployable.Deployable deployable, URL pingURL,

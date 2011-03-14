@@ -20,7 +20,6 @@
 package org.codehaus.cargo.maven2.configuration;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -41,102 +40,182 @@ import org.codehaus.cargo.maven2.util.CargoProject;
  */
 public class Configuration
 {
+    /**
+     * Configuration type.
+     */
     private String type = ConfigurationType.STANDALONE.getType();
 
+    /**
+     * Implementation name.
+     */
     private String implementation;
 
+    /**
+     * Container home.
+     */
     private String home;
 
-    private Map properties;
+    /**
+     * Container properties.
+     */
+    private Map<String, String> properties;
 
+    /**
+     * Deployables.
+     */
     private Deployable[] deployables;
 
+    /**
+     * Extra files.
+     */
     private FileConfig[] fileConfigs;
 
+    /**
+     * Configuration files.
+     */
     private FileConfig[] configfiles;
 
+    /**
+     * Extra resources.
+     */
     private Resource[] resources;
 
+    /**
+     * @return Configuration type.
+     */
     public ConfigurationType getType()
     {
         return ConfigurationType.toType(this.type);
     }
 
+    /**
+     * @param type Configuration type.
+     */
     public void setType(ConfigurationType type)
     {
         this.type = type.getType();
     }
 
+    /**
+     * @return Container home.
+     */
     public String getHome()
     {
         return this.home;
     }
 
+    /**
+     * @param home Container home.
+     */
     public void setHome(String home)
     {
         this.home = home;
     }
 
-    public Map getProperties()
+    /**
+     * @return Container properties.
+     */
+    public Map<String, String> getProperties()
     {
         return this.properties;
     }
 
-    public void setProperties(Map properties)
+    /**
+     * @param properties Container properties.
+     */
+    public void setProperties(Map<String, String> properties)
     {
         this.properties = properties;
     }
 
+    /**
+     * @return Deployables.
+     */
     public Deployable[] getDeployables()
     {
         return this.deployables;
     }
 
+    /**
+     * @param deployables Deployables.
+     */
     public void setDeployables(Deployable[] deployables)
     {
         this.deployables = deployables;
     }
 
+    /**
+     * @return Configuration files.
+     */
     public FileConfig[] getConfigfiles()
     {
         return this.configfiles;
     }
 
+    /**
+     * @param configfiles Configuration files.
+     */
     public void setConfigfiles(FileConfig[] configfiles)
     {
         this.configfiles = configfiles;
     }
 
+    /**
+     * @return Extra files.
+     */
     public FileConfig[] getFiles()
     {
         return this.fileConfigs;
     }
 
+    /**
+     * @param fileConfigs Extra files.
+     */
     public void setFiles(FileConfig[] fileConfigs)
     {
         this.fileConfigs = fileConfigs;
     }
 
+    /**
+     * @return Implementation name.
+     */
     public String getImplementation()
     {
         return this.implementation;
     }
 
+    /**
+     * @param implementation Implementation name.
+     */
     public void setImplementation(String implementation)
     {
         this.implementation = implementation;
     }
 
+    /**
+     * @return Extra resources.
+     */
     public Resource[] getResources()
     {
         return this.resources;
     }
 
+    /**
+     * @param rlist Extra resources.
+     */
     public void setResources(Resource[] rlist)
     {
         this.resources = rlist;
     }
 
+    /**
+     * Creates a configuration.
+     * @param containerId Container id.
+     * @param containerType Container type.
+     * @param project Cargo project.
+     * @return Configuration.
+     * @throws MojoExecutionException If configuration creation fails.
+     */
     public org.codehaus.cargo.container.configuration.Configuration createConfiguration(
         String containerId, ContainerType containerType, CargoProject project)
         throws MojoExecutionException
@@ -177,22 +256,19 @@ public class Configuration
         // Set all container properties (if any)
         if (getProperties() != null)
         {
-            Iterator itProperties = getProperties().keySet().iterator();
-            while (itProperties.hasNext())
+            for (Map.Entry<String, String> property : getProperties().entrySet())
             {
-                String propertyName = (String) itProperties.next();
-
                 // Maven2 doesn't like empty elements and will set them to Null. Thus we
                 // need to modify that behavior and change them to an empty string. For example
                 // this allows users to pass an empty password for the cargo.remote.password
                 // configuration property.
-                String propertyValue = (String) getProperties().get(propertyName);
+                String propertyValue = property.getValue();
                 if (propertyValue == null)
                 {
                     propertyValue = "";
                 }
 
-                configuration.setProperty(propertyName, propertyValue);
+                configuration.setProperty(property.getKey(), propertyValue);
             }
         }
 
@@ -237,14 +313,13 @@ public class Configuration
 
     /**
      * Add resources to the configuration.
-     * 
-     * @param containerId
-     * @param configuration
-     * @param project
+     * @param containerId Container id.
+     * @param configuration Container configuration.
+     * @param project Cargo project.
+     * @throws MojoExecutionException If resource creation fails.
      */
-    private void addResources(String containerId,
-            LocalConfiguration configuration, CargoProject project)
-        throws MojoExecutionException
+    private void addResources(String containerId, LocalConfiguration configuration,
+        CargoProject project) throws MojoExecutionException
     {
         for (int i = 0; i < getResources().length; i++)
         {
@@ -255,8 +330,10 @@ public class Configuration
     /**
      * Add static deployables to the configuration.
      * 
-     * @param containerId the container id to which to deploy to
-     * @param configuration the local configuration to which to add Deployables to
+     * @param containerId the container id to which to deploy to.
+     * @param configuration the local configuration to which to add Deployables to.
+     * @param project Cargo project.
+     * @throws MojoExecutionException If resource creation fails.
      */
     private void addStaticDeployables(String containerId, LocalConfiguration configuration,
         CargoProject project) throws MojoExecutionException

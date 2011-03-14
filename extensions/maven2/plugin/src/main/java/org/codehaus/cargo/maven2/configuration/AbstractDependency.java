@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.maven2.configuration;
 
-import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
@@ -33,78 +32,128 @@ import org.apache.maven.plugin.logging.Log;
  */
 public abstract class AbstractDependency
 {
+    /**
+     * Group id.
+     */
     private String groupId;
 
+    /**
+     * Artifact id.
+     */
     private String artifactId;
 
+    /**
+     * Type.
+     */
     private String type;
 
+    /**
+     * Location.
+     */
     private String location;
 
+    /**
+     * Classifier.
+     */
     private String classifier;
 
+    /**
+     * @param type Type.
+     */
     public void setType(String type)
     {
         this.type = type;
     }
 
+    /**
+     * @return Type.
+     */
     public String getType()
     {
         return this.type;
     }
 
+    /**
+     * @param location Location.
+     */
     public void setLocation(String location)
     {
         this.location = location;
     }
 
+    /**
+     * @return Location.
+     */
     public String getLocation()
     {
         return this.location;
     }
 
+    /**
+     * @param groupId Group id.
+     */
     public void setGroupId(String groupId)
     {
         this.groupId = groupId;
     }
 
+    /**
+     * @return Group id.
+     */
     public String getGroupId()
     {
         return this.groupId;
     }
 
+    /**
+     * @param artifactId Artifact id.
+     */
     public void setArtifactId(String artifactId)
     {
         this.artifactId = artifactId;
     }
 
+    /**
+     * @return Artifact id.
+     */
     public String getArtifactId()
     {
         return this.artifactId;
     }
 
+    /**
+     * @param classifier Classifier.
+     */
     public void setClassifier(String classifier)
     {
         this.classifier = classifier;
     }
 
+    /**
+     * @return Classifier.
+     */
     public String getClassifier()
     {
         return this.classifier;
     }
 
-    protected String findArtifactLocation(Set artifacts, Log log) throws MojoExecutionException
+    /**
+     * Find artifact location for the artifact of this dependency.
+     * @param artifacts All artifacts' list.
+     * @param log Logger.
+     * @return Artifact location.
+     * @throws MojoExecutionException If resolve fails.
+     */
+    protected String findArtifactLocation(Set<Artifact> artifacts, Log log)
+        throws MojoExecutionException
     {
         Artifact resolvedArtifact = null;
 
         log.debug("Searching for an artifact that matches [" + getGroupId() + ":"
             + getArtifactId() + ":" + getType() + ":" + getClassifier() + "]...");
 
-        Iterator it = artifacts.iterator();
-        while (it.hasNext())
+        for (Artifact artifact : artifacts)
         {
-            Artifact artifact = (Artifact) it.next();
-
             log.debug("Checking artifact [" + artifact.getGroupId() + ":"
                 + artifact.getArtifactId() + ":" + artifact.getType() + ":"
                 + artifact.getClassifier() + "]...");
