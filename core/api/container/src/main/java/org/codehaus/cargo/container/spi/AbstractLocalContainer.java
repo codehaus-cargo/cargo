@@ -326,7 +326,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
                         + " did not shutdown within the timeout period [" + getTimeout() + "]");
                 }
 
-                Thread.sleep(100);
+                Thread.sleep(500);
             }
             finally
             {
