@@ -241,17 +241,19 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     {
         LocalConfiguration config = getConfiguration();
 
-        DeployableMonitor monitor =
-            new URLDeployableMonitor(ContainerUtils.getCPCURL(config),
-                getTimeout(),
-                "Cargo Ping Component used to verify if the container is started.");
-        monitor.setLogger(getLogger());
-        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
-        watchdog.setLogger(getLogger());
+        if (waitForStarting)
+        {
+            DeployableMonitor monitor =
+                new URLDeployableMonitor(ContainerUtils.getCPCURL(config),
+                    getTimeout(),
+                    "Cargo Ping Component used to verify if the container is started.");
+            monitor.setLogger(getLogger());
+            DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
+            watchdog.setLogger(getLogger());
 
-        watchdog.watch(waitForStarting);
-
-        if (!waitForStarting)
+            watchdog.watch(waitForStarting);
+        }
+        else
         {
             waitForPortShutdown(config.getPropertyValue(ServletPropertySet.PORT),
                 config.getPropertyValue(GeneralPropertySet.RMI_PORT));

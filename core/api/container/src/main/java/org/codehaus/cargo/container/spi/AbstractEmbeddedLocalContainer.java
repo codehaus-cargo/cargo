@@ -106,6 +106,25 @@ public abstract class AbstractEmbeddedLocalContainer
     protected abstract void doStop() throws Exception;
 
     /**
+     * {@inheritDoc} Waits 5 seconds after having stopped container.
+     * @param waitForStarting if true then wait for container start, if false wait for container
+     * stop
+     * @throws InterruptedException if the thread sleep is interrupted
+     */
+    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
+    {
+        super.waitForCompletion(waitForStarting);
+
+        if (!waitForStarting)
+        {
+            // Many container do not fully stop even after having destroyed all their sockets;
+            // as a result wait 5 more seconds and call GC (for embedded containers)
+            Thread.sleep(5000);
+            System.gc();
+        }
+    }
+
+    /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getType()
      */
