@@ -32,37 +32,67 @@ import org.codehaus.cargo.generic.deployer.DeployerFactory;
  */
 public class Deployer
 {
+    /**
+     * Deployer type.
+     */
     private String type;
 
+    /**
+     * Deployer implementation.
+     */
     private String implementation;
 
+    /**
+     * Deployables.
+     */
     private Deployable[] deployables;
 
+    /**
+     * @return Deployer implementation.
+     */
     public String getImplementation()
     {
         return this.implementation;
     }
 
+    /**
+     * @param implementation Deployer implementation.
+     */
     public void setImplementation(String implementation)
     {
         this.implementation = implementation;
     }
 
+    /**
+     * @return Deployer type.
+     */
     public String getType()
     {
         return this.type;
     }
 
+    /**
+     * @param type Deployer type.
+     */
     public void setType(String type)
     {
         this.type = type;
     }
 
+    /**
+     * @return Deployables.
+     */
     public Deployable[] getDeployables()
     {
         return this.deployables;
     }
 
+    /**
+     * Create a deployer.
+     * @param container Container.
+     * @return Deployer.
+     * @throws MojoExecutionException If deployer implementation not found.
+     */
     public org.codehaus.cargo.container.deployer.Deployer createDeployer(
         org.codehaus.cargo.container.Container container) throws MojoExecutionException
     {

@@ -34,9 +34,9 @@ import org.codehaus.cargo.maven2.util.CargoProject;
 
 /**
  * Holds configuration data for the <code>&lt;deployable&gt;</code> tag used to configure the plugin
- * in the <code>pom.xml</code> file.
- * 
- * @todo find a way to remove code duplication with Ant's DeployableElement
+ * in the <code>pom.xml</code> file.<br/>
+ * <br/>
+ * <b>TODO</b>: Find a way to remove code duplication with Ant's DeployableElement
  * @version $Id$
  */
 public class Deployable extends AbstractDependency
@@ -44,7 +44,7 @@ public class Deployable extends AbstractDependency
     /**
      * Constant for Maven2 project type <code>ejb</code>.
      */
-    private final static String EJB = "ejb";
+    private static final String EJB = "ejb";
 
     /**
      * Constant for Maven2 project type <code>bundle</code>.
@@ -280,15 +280,12 @@ public class Deployable extends AbstractDependency
             {
                 project
                     .getLog()
-                    .warn(
-                        "The defined deployable has the same groupId and artifactId "
-                            + "as your project's main artifact but the type is different. You've defined a "
-                            + "["
-                            + getType()
-                            + "] type whereas the project's packaging is ["
-                            + project.getPackaging()
-                            + "]. This is possibly an error and as a consequence "
-                            + "the plugin will try to find this deployable in the project's dependencies.");
+                    .warn("The defined deployable has the same groupId and artifactId "
+                        + "as your project's main artifact but the type is different. You've "
+                        + "defined a [" + getType() + "] type whereas the project's packaging is ["
+                        + project.getPackaging() + "]. This is possibly an error and as a "
+                        + "consequence the plugin will try to find this deployable in the "
+                        + "project's dependencies.");
             }
 
             // Let's look in the project's dependencies and find a match.
@@ -308,12 +305,18 @@ public class Deployable extends AbstractDependency
         boolean isMatching = false;
 
         if (getType().equalsIgnoreCase(project.getPackaging())
-            || getType().equalsIgnoreCase("war")
-                && project.getPackaging().equalsIgnoreCase(Deployable.UBERWAR)
-            || project.getPackaging().startsWith(Deployable.JBOSS)
-                && getType().equalsIgnoreCase(
-                    project.getPackaging().substring(Deployable.JBOSS_STRIP))
             || getType().equalsIgnoreCase("file"))
+        {
+            isMatching = true;
+        }
+        else if (getType().equalsIgnoreCase("war")
+            && project.getPackaging().equalsIgnoreCase(Deployable.UBERWAR))
+        {
+            isMatching = true;
+        }
+        else if (project.getPackaging().startsWith(Deployable.JBOSS)
+            && getType().equalsIgnoreCase(
+                project.getPackaging().substring(Deployable.JBOSS_STRIP)))
         {
             isMatching = true;
         }

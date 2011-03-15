@@ -27,51 +27,84 @@ import org.codehaus.cargo.maven2.util.CargoProject;
  * Holds configuration data for the <code>&lt;resource&gt;</code> tag used to configure the plugin
  * in the <code>pom.xml</code> file.
  * 
- * @author Alexander Brill <alexander.brill@nhst.no>
- * 
+ * @version $Id$
  */
 public class Resource
 {
-
+    /**
+     * Resource name.
+     */
     private String name;
-    private String type;
-    private Map parameters;
 
+    /**
+     * Resource type.
+     */
+    private String type;
+
+    /**
+     * Resource parameters.
+     */
+    private Map<String, String> parameters;
+
+    /**
+     * @return Resource name.
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * @param name Resource name.
+     */
     public void setName(String name)
     {
         this.name = name;
     }
 
+    /**
+     * @return Resource type.
+     */
     public String getType()
     {
         return type;
     }
 
+    /**
+     * @param type Resource type.
+     */
     public void setType(String type)
     {
         this.type = type;
     }
 
-    public Map getParameters()
+    /**
+     * @return Resource parameters.
+     */
+    public Map<String, String> getParameters()
     {
         return parameters;
     }
 
-    public void setParameters(Map parameters)
+    /**
+     * @param parameters Resource parameters.
+     */
+    public void setParameters(Map<String, String> parameters)
     {
         this.parameters = parameters;
     }
 
+    /**
+     * Create the resource object.
+     * @param containerId Container identifier.
+     * @param project Cargo project.
+     * @return Cargo resource object.
+     */
     public org.codehaus.cargo.container.configuration.entry.Resource createResource(
         String containerId, CargoProject project)
     {
-        org.codehaus.cargo.container.configuration.entry.Resource resource = new org.codehaus.cargo.container.configuration.entry.Resource(
-            getName(), getType());
+        org.codehaus.cargo.container.configuration.entry.Resource resource =
+            new org.codehaus.cargo.container.configuration.entry.Resource(getName(), getType());
         resource.setParameters(getParameters());
         return resource;
     }

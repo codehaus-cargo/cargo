@@ -38,40 +38,72 @@ public class Packager
      */
     private String outputLocation;
 
+    /**
+     * Packager type.
+     */
     private String type = PackagerType.DIRECTORY.getType();
 
+    /**
+     * Packager implementation.
+     */
     private String implementation;
 
+    /**
+     * @return Packager implementation.
+     */
     public String getImplementation()
     {
         return this.implementation;
     }
 
+    /**
+     * @param implementation Packager implementation.
+     */
     public void setImplementation(String implementation)
     {
         this.implementation = implementation;
     }
 
+    /**
+     * @return Packager type.
+     */
     public String getType()
     {
         return this.type;
     }
 
+    /**
+     * @param type Packager type.
+     */
     public void setType(String type)
     {
         this.type = type;
     }
 
+    /**
+     * @return The location where the package will be generated. For example for a Directory
+     * Packager this will be the directory into which the package will be generated.
+     */
     public String getOutputLocation()
     {
         return this.outputLocation;
     }
 
+    /**
+     * @param outputLocation The location where the package will be generated. For example for a
+     * Directory Packager this will be the directory into which the package will be generated.
+     */
     public void setOutputLocation(String outputLocation)
     {
         this.outputLocation = outputLocation;
     }
 
+    /**
+     * Create packager.
+     * @param container Container.
+     * @return Packager instance.
+     * @throws MojoExecutionException If packager implementation not found.
+     */
     public org.codehaus.cargo.container.packager.Packager createPackager(
         org.codehaus.cargo.container.Container container) throws MojoExecutionException
     {

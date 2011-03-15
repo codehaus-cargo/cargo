@@ -32,6 +32,12 @@ import org.codehaus.cargo.maven2.util.CargoProject;
  */
 public class Dependency extends AbstractDependency
 {
+    /**
+     * Get the path of this dependency.
+     * @param project Cargo project.
+     * @return Path of this dependency.
+     * @throws MojoExecutionException If the artifact is incorrect.
+     */
     public String getDependencyPath(CargoProject project) throws MojoExecutionException
     {
         String path = getLocation();

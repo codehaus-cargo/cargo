@@ -27,39 +27,39 @@ import java.util.Properties;
  * Holds configuration data for the <code>&lt;proxy&gt;</code> tag used to configure the plugin in
  * the <code>pom.xml</code> file.
  * 
- * Note: To be removed once m2 supports configuring custom config POJOs. See MNG-1353
- * 
  * @version $Id$
  */
 public class Proxy
 {
     /**
-     * @see #setHost(String)
+     * Proxy host.
      */
     private String host;
 
     /**
-     * @see #setPort(int)
+     * Proxy port. Default to 80 if not set.
      */
     private int port = 80;
 
     /**
-     * @see #setUser(String)
+     * Username for authenticating proxies.
      */
     private String user;
 
     /**
-     * @see #setPassword(String)
+     * Password for authenticating proxies.
      */
     private String password;
 
     /**
-     * @see #setExcludeHosts(String)
+     * List of hosts that do not go through the proxy server. The value can be a list of hosts,
+     * each seperated by a <code>|</code>, and in addition a wildcard character <code>(*)</code>
+     * can be used for matching. For example: <code>*.foo.com|localhost</code>
      */
     private String excludeHosts = "";
 
     /**
-     * @param host the proxy host
+     * @param host Proxy host.
      */
     public final void setHost(String host)
     {
@@ -67,7 +67,7 @@ public class Proxy
     }
 
     /**
-     * @see #setHost(String)
+     * @return Proxy host.
      */
     public final String getHost()
     {
@@ -75,7 +75,7 @@ public class Proxy
     }
 
     /**
-     * @param port the proxy port. Default to 80 if not set
+     * @param port Proxy port.
      */
     public final void setPort(int port)
     {
@@ -83,7 +83,7 @@ public class Proxy
     }
 
     /**
-     * @see #setPort(int)
+     * @return Proxy port. Default to 80 if not set.
      */
     public final int getPort()
     {
@@ -91,7 +91,7 @@ public class Proxy
     }
 
     /**
-     * @param user the user for authenticating proxies
+     * @param user Username for authenticating proxies.
      */
     public final void setUser(String user)
     {
@@ -99,7 +99,7 @@ public class Proxy
     }
 
     /**
-     * @see #setUser(String)
+     * @return Username for authenticating proxies.
      */
     public final String getUser()
     {
@@ -107,7 +107,7 @@ public class Proxy
     }
 
     /**
-     * @param password the password for authenticating proxies
+     * @param password Password for authenticating proxies.
      */
     public final void setPassword(String password)
     {
@@ -115,7 +115,7 @@ public class Proxy
     }
 
     /**
-     * @see #setPassword(String)
+     * @return Password for authenticating proxies.
      */
     public final String getPassword()
     {
@@ -123,11 +123,10 @@ public class Proxy
     }
 
     /**
-     * List of hosts which should be connected too directly and not through the proxy server. The
-     * value can be a list of hosts, each seperated by a |, and in addition a wildcard character (*)
-     * can be used for matching. For example: -Dhttp.nonProxyHosts="*.foo.com|localhost".
-     * 
-     * @param proxyExcludeHosts list of hosts that do not go through the proxy
+     * @param proxyExcludeHosts List of hosts that do not go through the proxy server. The value
+     * can be a list of hosts, each seperated by a <code>|</code>, and in addition a wildcard
+     * character <code>(*)</code> can be used for matching. For example:
+     * <code>*.foo.com|localhost</code>
      */
     public final void setExcludeHosts(String proxyExcludeHosts)
     {
@@ -135,7 +134,9 @@ public class Proxy
     }
 
     /**
-     * @see #setExcludeHosts(String)
+     * @return List of hosts that do not go through the proxy server. The value can be a list of
+     * hosts, each seperated by a <code>|</code>, and in addition a wildcard character
+     * <code>(*)</code> can be used for matching. For example: <code>*.foo.com|localhost</code>
      */
     public final String getExcludeHosts()
     {
@@ -211,7 +212,7 @@ public class Proxy
         }
 
         /**
-         * @see java.net.Authenticator#getPasswordAuthentication()
+         * @return The {@link PasswordAuthentication} object associated with this authenticator.
          */
         @Override
         protected PasswordAuthentication getPasswordAuthentication()

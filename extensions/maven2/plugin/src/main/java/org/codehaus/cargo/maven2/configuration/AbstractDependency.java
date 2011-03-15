@@ -160,15 +160,20 @@ public abstract class AbstractDependency
 
             // TODO: Find a better to handle match between m2 types and cargo types...
             if (artifact.getGroupId().equals(getGroupId())
-                && artifact.getArtifactId().equals(getArtifactId())
-                && (artifact.getClassifier() == getClassifier()
-                || artifact.getClassifier() != null
-                    && artifact.getClassifier().equals(getClassifier()))
-                && (artifact.getType() == getType()
-                || artifact.getType() != null && artifact.getType().equals(getType())))
+                && artifact.getArtifactId().equals(getArtifactId()))
             {
-                resolvedArtifact = artifact;
-                break;
+                if (artifact.getClassifier() == getClassifier()
+                    || artifact.getClassifier() != null
+                    && artifact.getClassifier().equals(getClassifier()))
+                {
+                    if (artifact.getType() == getType()
+                        || artifact.getType() != null
+                        && artifact.getType().equals(getType()))
+                    {
+                        resolvedArtifact = artifact;
+                        break;
+                    }
+                }
             }
         }
 
