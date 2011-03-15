@@ -314,9 +314,11 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
             if (getContainerElement().getType().isLocal())
             {
+                File home = new File(getCargoProject().getBuildDirectory(), "cargo/configurations/"
+                    + getContainerElement().getContainerId());
+
                 configurationElement.setType(ConfigurationType.STANDALONE);
-                configurationElement.setHome(new File(getCargoProject().getBuildDirectory(),
-                    getContainerElement().getContainerId()).getPath());
+                configurationElement.setHome(home.getAbsolutePath());
             }
             else
             {
