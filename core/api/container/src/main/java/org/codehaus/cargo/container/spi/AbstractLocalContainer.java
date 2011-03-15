@@ -259,9 +259,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
                 config.getPropertyValue(GeneralPropertySet.RMI_PORT));
 
             // Many container do not fully stop even after having destroyed all their sockets;
-            // as a result wait 5 more seconds and call GC (for embedded containers)
+            // as a result wait 5 more seconds
             Thread.sleep(5000);
-            System.gc();
         }
     }
 

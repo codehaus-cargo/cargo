@@ -118,8 +118,7 @@ public abstract class AbstractEmbeddedLocalContainer
         if (!waitForStarting)
         {
             // Many container do not fully stop even after having destroyed all their sockets;
-            // as a result wait 5 more seconds and call GC (for embedded containers)
-            Thread.sleep(5000);
+            // as a result call GC for embedded containers
             System.gc();
         }
     }
