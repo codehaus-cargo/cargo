@@ -242,10 +242,18 @@ public class Configuration
         org.codehaus.cargo.container.configuration.Configuration configuration;
         if (getHome() == null)
         {
-            File home = new File(project.getBuildDirectory(), "cargo/configurations/"
-                + containerId);
-            configuration = factory.createConfiguration(containerId, containerType, getType(),
-                home.getAbsolutePath());
+            if (ConfigurationType.RUNTIME.equals(getType()))
+            {
+                configuration = factory.createConfiguration(containerId, containerType, getType(),
+                    null);
+            }
+            else
+            {
+                File home = new File(project.getBuildDirectory(), "cargo/configurations/"
+                    + containerId);
+                configuration = factory.createConfiguration(containerId, containerType, getType(),
+                    home.getAbsolutePath());
+            }
         }
         else
         {
