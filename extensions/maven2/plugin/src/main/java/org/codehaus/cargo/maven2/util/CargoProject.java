@@ -32,16 +32,56 @@ import org.apache.maven.project.MavenProject;
  */
 public class CargoProject
 {
+    /**
+     * Logger.
+     */
     private Log log;
 
+    /**
+     * Packaging.
+     */
     private String packaging;
+
+    /**
+     * Group id.
+     */
     private String groupId;
+
+    /**
+     * Artifact id.
+     */
     private String artifactId;
+
+    /**
+     * Build directory.
+     */
     private String buildDirectory;
+
+    /**
+     * Final name.
+     */
     private String finalName;
+
+    /**
+     * Project artifacts.
+     */
     private Set<Artifact> artifacts;
+
+    /**
+     * {@link ClassLoader} that's embedded with dependencies.
+     */
     private ClassLoader embeddedClassLoader;
 
+    /**
+     * Saves all attributes.
+     * @param packaging Packaging.
+     * @param groupId Group id.
+     * @param artifactId Artifact id.
+     * @param buildDirectory Build directory.
+     * @param finalName Final name.
+     * @param artifacts Project artifacts.
+     * @param log Logger.
+     */
     public CargoProject(String packaging, String groupId, String artifactId, String buildDirectory,
         String finalName, Set<Artifact> artifacts, Log log)
     {
@@ -54,6 +94,11 @@ public class CargoProject
         this.artifacts = artifacts;
     }
 
+    /**
+     * Saves all attributes.
+     * @param project Maven2 project.
+     * @param log Logger.
+     */
     public CargoProject(MavenProject project, Log log)
     {
         this(
@@ -66,56 +111,108 @@ public class CargoProject
             log);
     }
 
+    /**
+     * @return Packaging.
+     */
     public String getPackaging()
     {
         return this.packaging;
     }
 
+    /**
+     * @return Group id.
+     */
     public String getGroupId()
     {
         return this.groupId;
     }
 
+    /**
+     * @return Artifact id.
+     */
     public String getArtifactId()
     {
         return this.artifactId;
     }
 
+    /**
+     * @return Build directory.
+     */
     public String getBuildDirectory()
     {
         return this.buildDirectory;
     }
 
+    /**
+     * @return Final name.
+     */
     public String getFinalName()
     {
         return this.finalName;
     }
 
+    /**
+     * @return Project artifacts.
+     */
     public Set<Artifact> getArtifacts()
     {
         return this.artifacts;
     }
 
+    /**
+     * @return Logger.
+     */
     public Log getLog()
     {
         return this.log;
     }
 
+    /**
+     * @return <code>true</code> if the project has a Java EE packaging.
+     */
     public boolean isJ2EEPackaging()
     {
-        return getPackaging().equalsIgnoreCase("war")
-            || getPackaging().equalsIgnoreCase("ear")
-            || getPackaging().equalsIgnoreCase("ejb")
-            || getPackaging().equalsIgnoreCase("uberwar")
-            || getPackaging().equalsIgnoreCase("rar")
-            || getPackaging().equalsIgnoreCase("bundle");
+        boolean result = false;
+
+        if (getPackaging().equalsIgnoreCase("war"))
+        {
+            result = true;
+        }
+        else if (getPackaging().equalsIgnoreCase("ear"))
+        {
+            result = true;
+        }
+        else if (getPackaging().equalsIgnoreCase("ejb"))
+        {
+            result = true;
+        }
+        else if (getPackaging().equalsIgnoreCase("uberwar"))
+        {
+            result = true;
+        }
+        else if (getPackaging().equalsIgnoreCase("rar"))
+        {
+            result = true;
+        }
+        else if (getPackaging().equalsIgnoreCase("bundle"))
+        {
+            result = true;
+        }
+
+        return result;
     }
 
+    /**
+     * @param classLoader {@link ClassLoader} that's embedded with dependencies.
+     */
     public void setEmbeddedClassLoader(ClassLoader classLoader)
     {
         this.embeddedClassLoader = classLoader;
     }
 
+    /**
+     * @return {@link ClassLoader} that's embedded with dependencies.
+     */
     public ClassLoader getEmbeddedClassLoader()
     {
         return this.embeddedClassLoader;
