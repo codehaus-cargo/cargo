@@ -89,7 +89,7 @@ public class ZipUrlInstaller
     }
 
     /**
-     * @see org.codehaus.cargo.container.installer.Installer#install()
+     * @param url URL where to find the zipped container installation file.
      */
     public final void setUrl(URL url)
     {
@@ -127,7 +127,7 @@ public class ZipUrlInstaller
     }
 
     /**
-     * @see #setUrl(URL)
+     * @return URL where to find the zipped container installation file.
      */
     public final URL getUrl()
     {
@@ -135,7 +135,7 @@ public class ZipUrlInstaller
     }
 
     /**
-     * @see #createProxy()
+     * @return Proxy properties.
      */
     public final Proxy getProxy()
     {
@@ -143,7 +143,7 @@ public class ZipUrlInstaller
     }
 
     /**
-     * @return the configured {@link Proxy} element
+     * @return The configured {@link Proxy} element.
      */
     public final Proxy createProxy()
     {
@@ -156,6 +156,8 @@ public class ZipUrlInstaller
     }
 
     /**
+     * Creates the {@link ZipURLInstaller} with the appropriate configuration.
+     * @param projectBuildDirectory Project build directory.
      * @return a new instance of {@link ZipURLInstaller} configured using the attributes specified
      * by the user
      */

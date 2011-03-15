@@ -52,27 +52,28 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 /**
  * This class is effectively an unmitigated hack. Any offers to do it 'properly' are gratefully
- * received from someone who can get the guts of Maven to do what want.
- * 
+ * received from someone who can get the guts of Maven to do what want.<br/>
+ * <br/>
  * Basically, given our 'uberwar' project, instead of simply merging WEB-INF/lib files, we wish to
  * treat those war files as ordinary dependencies, and to calculate the 'effective' list of jar
  * files that SHOULD be in WEB-INF/lib that way. I.E, if we are including A.WAR and B.WAR, both of
  * which use different versions of X.JAR, then we should calculate what the 'right' version of the
- * X.JAR that we ought to be using.
- * 
+ * X.JAR that we ought to be using.<br/>
+ * <br/>
  * This seems very hard to do given the tools provided by maven. There are alternate solutions, such
  * as WAR files producing their code in a JAR as well, but this relies on including BOTH the WAR and
- * the JAR, which is not pretty.
- * 
+ * the JAR, which is not pretty.<br/>
+ * <br/>
  * This class does it a hacky way. For each of the war files in the dependency tree (including the
  * caller), it generates an alternate pom file, which 'pretends' that the WAR file is a POM, and
  * replaces any dependent WARS with equivalent dependencies of type POM with a different classifier.
  * It then invokes maven to resolve that project, which appears to resolve the versions (as would
- * have been done in an all-jar universe).
- * 
+ * have been done in an all-jar universe).<br/>
+ * <br/>
  * A better way would probably be to be able to customise the dependency calculation system, but
  * this seems very bound up in all the project/artifact gubbins.
  * 
+ * @version $Id$
  */
 public class DependencyCalculator
 {
@@ -145,7 +146,6 @@ public class DependencyCalculator
             {
                 resolver.resolve(artdep, remoteRepositories, localRepository);
                 filesToAdd.add(artdep.getFile());
-
             }
         }
 
@@ -223,7 +223,6 @@ public class DependencyCalculator
         Model pomFile = pomReader.read(new FileReader(artifactFile));
 
         fixModelAndSaveInRepository(artifact, pomFile);
-
     }
 
     void fixModelAndSaveInRepository(Artifact artifact, Model pomFile)

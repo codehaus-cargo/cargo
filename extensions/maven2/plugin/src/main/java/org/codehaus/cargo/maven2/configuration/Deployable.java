@@ -61,7 +61,7 @@ public class Deployable extends AbstractDependency
      * <br/>
      * JBoss needs special checks, see https://jira.codehaus.org/browse/CARGO-710
      */
-    private static final String JBOSS = "";
+    private static final String JBOSS = "jboss-";
 
     /**
      * Length of {@link Deployable#JBOSS}
