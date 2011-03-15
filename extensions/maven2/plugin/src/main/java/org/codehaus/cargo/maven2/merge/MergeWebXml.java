@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import org.codehaus.cargo.maven2.Merge;
-import org.codehaus.cargo.module.Descriptor;
 import org.codehaus.cargo.module.merge.DescriptorMergerByTag;
 import org.codehaus.cargo.module.merge.MergeProcessor;
 import org.codehaus.cargo.module.merge.tagstrategy.ChooseByNameMergeStrategy;
@@ -40,23 +39,50 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 /**
  * Merge processor designed for web.xml files.
  * 
- * @version $Id:
+ * @version $Id$
  */
 public class MergeWebXml implements MergeProcessorFactory
 {
-    WebXmlMerger webXmlMerger;
-    Descriptor firstItem = null;
-    File configDirectory;
+    /**
+     * <code>web.xml</code> merger.
+     */
+    private WebXmlMerger webXmlMerger;
 
+    /**
+     * Configuration directory.
+     */
+    private File configDirectory;
+
+    /**
+     * Saves attributes.
+     * @param configDirectory Configuration directory.
+     */
     public MergeWebXml(File configDirectory)
     {
         this.configDirectory = configDirectory;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.codehaus.cargo.maven2.merge.MergeType#init(org.codehaus.cargo.maven2.Merge)
+    /**
+     * @return the configDirectory
+     */
+    public File getConfigDirectory()
+    {
+        return this.configDirectory;
+    }
+
+    /**
+     * @param configDirectory the configDirectory to set
+     */
+    public void setConfigDirectory(File configDirectory)
+    {
+        this.configDirectory = configDirectory;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @param wam WAR archive merger.
+     * @param xml XML merge.
+     * @return Merge processor.
      */
     public MergeProcessor create(WarArchiveMerger wam, Merge xml)
     {
@@ -85,9 +111,13 @@ public class MergeWebXml implements MergeProcessorFactory
 
     }
 
+    /**
+     * Create the merge strategy.
+     * @param config {@link Xpp3Dom} configuration.
+     * @return Merge strategy with the given configuration.
+     */
     protected MergeStrategy makeStrategy(Xpp3Dom config)
     {
-
         if (!config.getName().equals("strategy"))
         {
             throw new CargoException("You must specify a merge strategy");
@@ -123,7 +153,6 @@ public class MergeWebXml implements MergeProcessorFactory
         }
         if (strategyName.equalsIgnoreCase("NodeMerge"))
         {
-
             try
             {
                 if (strategyFile != null)
@@ -150,22 +179,6 @@ public class MergeWebXml implements MergeProcessorFactory
 
         throw new CargoException("Must provide a known strategy type (don't understand "
             + strategyName + ")");
-    }
-
-    /**
-     * @return the configDirectory
-     */
-    public File getConfigDirectory()
-    {
-        return this.configDirectory;
-    }
-
-    /**
-     * @param configDirectory the configDirectory to set
-     */
-    public void setConfigDirectory(File configDirectory)
-    {
-        this.configDirectory = configDirectory;
     }
 
 }

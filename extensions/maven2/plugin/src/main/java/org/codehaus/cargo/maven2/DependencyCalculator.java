@@ -20,22 +20,16 @@
 package org.codehaus.cargo.maven2;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.installer.ArtifactInstallationException;
 import org.apache.maven.artifact.installer.ArtifactInstaller;
 import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
-import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
@@ -45,10 +39,7 @@ import org.apache.maven.profiles.DefaultProfileManager;
 import org.apache.maven.profiles.ProfileManager;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectBuilder;
-import org.apache.maven.project.ProjectBuildingException;
-import org.apache.maven.project.artifact.InvalidDependencyVersionException;
 import org.codehaus.plexus.PlexusContainer;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 /**
  * This class is effectively an unmitigated hack. Any offers to do it 'properly' are gratefully
@@ -88,7 +79,7 @@ public class DependencyCalculator
     private ArtifactRepository localRepository;
 
     /** @parameter expression="${project.remoteArtifactRepositories}" */
-    private List remoteRepositories;
+    private List<ArtifactRepository> remoteRepositories;
 
     /** @parameter expression="${project}" */
     private MavenProject mavenProject;
@@ -99,13 +90,24 @@ public class DependencyCalculator
     /** @component */
     private ArtifactInstaller installer;
 
+    /** Container */
     private PlexusContainer container;
 
-    public DependencyCalculator(ArtifactFactory artifactFactory,
-            ArtifactResolver resolver, ArtifactRepository localRepository,
-            List remoteRepositories, MavenProject mavenProject,
-            MavenProjectBuilder mavenProjectBuilder,
-            ArtifactInstaller installer, PlexusContainer container)
+    /**
+     * Saves all attributes.
+     * @param artifactFactory Artifact factory.
+     * @param resolver Artifact resolver.
+     * @param localRepository Artifact repository.
+     * @param remoteRepositories Remote repositories.
+     * @param mavenProject Maven2 project.
+     * @param mavenProjectBuilder Maven2 project builder.
+     * @param installer Artifact installer.
+     * @param container Plexus container.
+     */
+    public DependencyCalculator(ArtifactFactory artifactFactory, ArtifactResolver resolver,
+        ArtifactRepository localRepository, List<ArtifactRepository> remoteRepositories,
+        MavenProject mavenProject, MavenProjectBuilder mavenProjectBuilder,
+        ArtifactInstaller installer, PlexusContainer container)
     {
         this.artifactFactory = artifactFactory;
         this.resolver = resolver;
@@ -118,10 +120,12 @@ public class DependencyCalculator
 
     }
 
-    public Set execute() throws ArtifactResolutionException,
-            ArtifactNotFoundException, ProjectBuildingException,
-            FileNotFoundException, IOException, XmlPullParserException,
-            InvalidDependencyVersionException, ArtifactInstallationException
+    /**
+     * Execute the dependency calculator.
+     * @return List of dependency files.
+     * @throws Exception If anything goes wrong.
+     */
+    public Set<File> execute() throws Exception
     {
         ProfileManager profileManager = new DefaultProfileManager(container);
 
@@ -137,11 +141,11 @@ public class DependencyCalculator
         MavenProject mavenProject = mavenProjectBuilder.buildWithDependencies(
                 art2.getFile(), localRepository, profileManager);
 
-        Set filesToAdd = new HashSet();
+        Set<File> filesToAdd = new HashSet<File>();
 
-        for (Iterator i = mavenProject.getArtifacts().iterator(); i.hasNext();)
+        for (Object artifact : mavenProject.getArtifacts())
         {
-            Artifact artdep = (Artifact) i.next();
+            Artifact artdep = (Artifact) artifact;
             if (artdep.getType().equals("jar"))
             {
                 resolver.resolve(artdep, remoteRepositories, localRepository);
@@ -152,17 +156,17 @@ public class DependencyCalculator
         return filesToAdd;
     }
 
-    void fixupProjectArtifact() throws FileNotFoundException, IOException,
-            XmlPullParserException, ArtifactResolutionException,
-            ArtifactNotFoundException, InvalidDependencyVersionException,
-            ProjectBuildingException, ArtifactInstallationException
+    /**
+     * Fixup the project artifact.
+     * @throws Exception If anything goes wrong.
+     */
+    protected void fixupProjectArtifact() throws Exception
     {
         MavenProject mp2 = new MavenProject(mavenProject);
         // For each of our dependencies..
-        for (Iterator i = mp2.createArtifacts(artifactFactory, null, null)
-                .iterator(); i.hasNext();)
+        for (Object artifact : mp2.createArtifacts(artifactFactory, null, null))
         {
-            Artifact art = (Artifact) i.next();
+            Artifact art = (Artifact) artifact;
             if (art.getType().equals("war"))
             {
                 // Sigh...
@@ -190,11 +194,12 @@ public class DependencyCalculator
         outFile.delete();
     }
 
-    void fixupRepositoryArtifact(Artifact artifact)
-            throws InvalidDependencyVersionException, FileNotFoundException,
-            IOException, XmlPullParserException, ProjectBuildingException,
-            ArtifactResolutionException, ArtifactNotFoundException,
-            ArtifactInstallationException
+    /**
+     * Fixup an artifact.
+     * @param artifact Artifact to fixup.
+     * @throws Exception If anything goes wrong.
+     */
+    protected void fixupRepositoryArtifact(Artifact artifact) throws Exception
     {
 
         // Resolve it
@@ -204,10 +209,9 @@ public class DependencyCalculator
         // Also, create a project for it
         MavenProject mavenProject = mavenProjectBuilder.buildFromRepository(
                 artifact, remoteRepositories, localRepository);
-        for (Iterator i = mavenProject.createArtifacts(artifactFactory, null,
-                null).iterator(); i.hasNext();)
+        for (Object createdArtifact : mavenProject.createArtifacts(artifactFactory, null, null))
         {
-            Artifact art = (Artifact) i.next();
+            Artifact art = (Artifact) createdArtifact;
 
             if (art.getType().equals("war"))
             {
@@ -225,12 +229,17 @@ public class DependencyCalculator
         fixModelAndSaveInRepository(artifact, pomFile);
     }
 
-    void fixModelAndSaveInRepository(Artifact artifact, Model pomFile)
-            throws IOException, ArtifactInstallationException
+    /**
+     * Fix model and save in repository.
+     * @param artifact Artifact.
+     * @param pomFile Maven2 model file.
+     * @throws Exception If anything goes wrong.
+     */
+    protected void fixModelAndSaveInRepository(Artifact artifact, Model pomFile) throws Exception
     {
-        for (Iterator i = pomFile.getDependencies().iterator(); i.hasNext();)
+        for (Object dependency : pomFile.getDependencies())
         {
-            Dependency art = (Dependency) i.next();
+            Dependency art = (Dependency) dependency;
             if (art.getType().equals("war"))
             {
                 art.setGroupId(art.getGroupId() + ".cargodeps");

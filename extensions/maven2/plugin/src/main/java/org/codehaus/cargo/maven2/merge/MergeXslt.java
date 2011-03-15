@@ -33,12 +33,19 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 /**
  * Merge processor that uses XSLT
  * 
- * @version $Id:
+ * @version $Id$
  */
 public class MergeXslt implements MergeProcessorFactory
 {
-    File workingDirectory;
+    /**
+     * Working directory.
+     */
+    private File workingDirectory;
 
+    /**
+     * Save all attributes.
+     * @param directory Working directory.
+     */
     public MergeXslt(File directory)
     {
         this.workingDirectory = directory;
@@ -46,6 +53,9 @@ public class MergeXslt implements MergeProcessorFactory
 
     /**
      * {@inheritDoc}
+     * @param wam WAR archive merger.
+     * @param xml XML merge.
+     * @return Merge processor.
      */
     public MergeProcessor create(WarArchiveMerger wam, Merge xml)
     {
@@ -66,7 +76,6 @@ public class MergeXslt implements MergeProcessorFactory
         {
             throw new CargoException("Exception creating XSLT Merge", ex);
         }
-
     }
 
 }

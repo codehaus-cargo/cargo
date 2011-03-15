@@ -23,7 +23,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -41,24 +40,63 @@ import org.codehaus.cargo.container.internal.util.JdkUtils;
  */
 public class JettyArtifactResolver
 {
+    /**
+     * Artifact resolver.
+     */
     private ArtifactResolver artifactResolver;
 
+    /**
+     * Local repository.
+     */
     private ArtifactRepository localRepository;
 
-    private List repositories;
+    /**
+     * List of repositories to look in.
+     */
+    private List<ArtifactRepository> repositories;
 
+    /**
+     * Artifact factory.
+     */
     private ArtifactFactory artifactFactory;
 
-    private Map jettyDependencies = new HashMap();
+    /**
+     * Map of Jetty dependencies.
+     */
+    private Map<String, List<Dependency>> jettyDependencies =
+        new HashMap<String, List<Dependency>>();
 
+    /**
+     * JDK utilities.
+     */
     private JdkUtils jdkUtils = new JdkUtils();
 
+    /**
+     * Class that represents a dependency.
+     */
     private class Dependency
     {
+        /**
+         * Group id.
+         */
         public String groupId;
+
+        /**
+         * Artifact id.
+         */
         public String artifactId;
+
+        /**
+         * Version.
+         */
         public String version;
 
+        /**
+         * Save all attributes.
+         * @param groupId Group id.
+         * @param artifactId Artifact id.
+         * @param version Version.
+         */
         public Dependency(String groupId, String artifactId, String version)
         {
             this.groupId = groupId;
@@ -67,15 +105,23 @@ public class JettyArtifactResolver
         }
     }
 
+    /**
+     * Save all attributes.
+     * @param artifactResolver Artifact resolver.
+     * @param localRepository Local repository.
+     * @param repositories List of repositories to look in.
+     * @param artifactFactory Artifact factory.
+     */
     public JettyArtifactResolver(ArtifactResolver artifactResolver,
-        ArtifactRepository localRepository, List repositories, ArtifactFactory artifactFactory)
+        ArtifactRepository localRepository, List<ArtifactRepository> repositories,
+        ArtifactFactory artifactFactory)
     {
         this.artifactResolver = artifactResolver;
         this.localRepository = localRepository;
         this.repositories = repositories;
         this.artifactFactory = artifactFactory;
 
-        List jetty4xDependencies = new ArrayList();
+        List<Dependency> jetty4xDependencies = new ArrayList<Dependency>();
         jetty4xDependencies.add(new Dependency("ant", "ant", "1.6.4"));
         jetty4xDependencies.add(new Dependency("jetty", "org.mortbay.jetty", "4.2.27"));
         jetty4xDependencies.add(new Dependency("javax.servlet", "servlet-api", "2.4"));
@@ -83,7 +129,7 @@ public class JettyArtifactResolver
         jetty4xDependencies.add(new Dependency("tomcat", "jasper-compiler", "4.1.30"));
         jetty4xDependencies.add(new Dependency("tomcat", "jasper-runtime", "4.1.30"));
 
-        List jetty5xDependencies = new ArrayList();
+        List<Dependency> jetty5xDependencies = new ArrayList<Dependency>();
         jetty5xDependencies.add(new Dependency("jetty", "org.mortbay.jetty", "5.1.12"));
         jetty5xDependencies.add(new Dependency("javax.servlet", "servlet-api", "2.4"));
         jetty5xDependencies.add(new Dependency("javax.servlet", "jsp-api", "2.0"));
@@ -95,7 +141,7 @@ public class JettyArtifactResolver
         jetty5xDependencies.add(new Dependency("commons-el", "commons-el", "1.0"));
         jetty5xDependencies.add(new Dependency("commons-logging", "commons-logging", "1.0.4"));
 
-        List jetty6xDependencies = new ArrayList();
+        List<Dependency> jetty6xDependencies = new ArrayList<Dependency>();
         jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jsp-api-2.0", "6.1.26"));
         jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "servlet-api-2.5", "6.1.14"));
         jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jetty", "6.1.26"));
@@ -115,7 +161,7 @@ public class JettyArtifactResolver
         jetty6xDependencies.add(new Dependency("commons-logging", "commons-logging", "1.0.4"));
         jetty6xDependencies.add(new Dependency("log4j", "log4j", "1.2.14"));
 
-        List jetty7xDependencies = new ArrayList();
+        List<Dependency> jetty7xDependencies = new ArrayList<Dependency>();
         jetty7xDependencies.add(new Dependency("javax.servlet", "servlet-api", "2.5"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj", "3.5.1"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-continuation",
@@ -149,6 +195,13 @@ public class JettyArtifactResolver
         this.jettyDependencies.put("jetty7x", jetty7xDependencies);
     }
 
+    /**
+     * Resolve dependencies.
+     * @param jettyContainerId Jetty container id.
+     * @param parent Parent {@link ClassLoader}.
+     * @return {@link ClassLoader} with the resolved dependencies and given <code>parent</code>.
+     * @throws MojoExecutionException If dependencies cannot be resolved.
+     */
     public ClassLoader resolveDependencies(String jettyContainerId, ClassLoader parent)
         throws MojoExecutionException
     {
@@ -156,13 +209,11 @@ public class JettyArtifactResolver
 
         try
         {
-            List dependencies = (List) this.jettyDependencies.get(jettyContainerId);
+            List<Dependency> dependencies = this.jettyDependencies.get(jettyContainerId);
 
-            List urls = new ArrayList(dependencies.size() + 1);
-            Iterator it = dependencies.iterator();
-            while (it.hasNext())
+            List<URL> urls = new ArrayList<URL>(dependencies.size() + 1);
+            for (Dependency dependency : dependencies)
             {
-                Dependency dependency = (Dependency) it.next();
                 Artifact artifact = this.artifactFactory.createArtifact(dependency.groupId,
                     dependency.artifactId, dependency.version, "compile", "jar");
                 this.artifactResolver.resolve(artifact, this.repositories, this.localRepository);

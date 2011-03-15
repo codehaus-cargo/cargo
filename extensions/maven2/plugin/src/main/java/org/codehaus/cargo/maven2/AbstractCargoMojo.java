@@ -123,7 +123,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * @required
      * @readonly
      */
-    private List<Object> repositories;
+    private List<ArtifactRepository> repositories;
 
     /**
      * Set this to 'true' to bypass cargo execution.

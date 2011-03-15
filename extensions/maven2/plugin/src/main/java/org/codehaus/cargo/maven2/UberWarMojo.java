@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.maven.archiver.MavenArchiveConfiguration;
@@ -55,18 +54,16 @@ import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.jar.ManifestException;
 import org.codehaus.plexus.archiver.war.WarArchiver;
-import org.codehaus.plexus.configuration.PlexusConfiguration;
 import org.codehaus.plexus.context.Context;
 import org.codehaus.plexus.context.ContextException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Contextualizable;
-import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.jdom.JDOMException;
 
 /**
  * Builds an uber war.
  * 
- * @version
+ * @version $Id$
  * @goal uberwar
  * @phase package
  * @requiresDependencyResolution runtime
@@ -111,20 +108,6 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
      */
     private String descriptorId;
 
-    /**
-     * The list of WAR files to use (in order).
-     * 
-     * @parameter
-     */
-    private List wars;
-
-    /**
-     * The settings to use when building the uber war.
-     * 
-     * @parameter
-     */
-    private PlexusConfiguration settings;
-
     /** @component */
     private ArtifactFactory artifactFactory;
 
@@ -147,7 +130,7 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
      * @required
      * @readonly
      */
-    private List remoteRepositories;
+    private List<ArtifactRepository> remoteRepositories;
 
     /**
      * The Maven project.
@@ -221,20 +204,17 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
             UberWarXpp3Reader reader = new UberWarXpp3Reader();
             MergeRoot root = reader.read(r);
 
-            Xpp3Dom dom;
-
             // Add the war files
             WarArchiveMerger wam = new WarArchiveMerger();
-            List wars = root.getWars();
+            List<String> wars = root.getWars();
             if (wars.size() == 0)
             {
                 addAllWars(wam);
             }
             else
             {
-                for (Iterator i = wars.iterator(); i.hasNext();)
+                for (String id : wars)
                 {
-                    String id = (String) i.next();
                     addWar(wam, id);
                 }
             }
@@ -251,9 +231,9 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
             }
 
             // List of <merge> nodes to perform, in order
-            for (Iterator i = root.getMerges().iterator(); i.hasNext();)
+            for (Object mergeObject : root.getMerges())
             {
-                Merge merge = (Merge) i.next();
+                Merge merge = (Merge) mergeObject;
                 doMerge(wam, merge);
             }
 
@@ -373,9 +353,9 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
 
         try
         {
-            for (Iterator i = dc.execute().iterator(); i.hasNext();)
+            for (File f : dc.execute())
             {
-                wam.addMergeItem(i.next());
+                wam.addMergeItem(f);
             }
         }
         catch (Exception ex)
@@ -393,10 +373,10 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
      */
     protected void addAllDependentJars(WarArchiveMerger wam) throws MojoExecutionException
     {
-        for (Iterator iter = getProject().getArtifacts().iterator(); iter.hasNext();)
+        for (Object artifactObject : getProject().getArtifacts())
         {
-            Artifact artifact = (Artifact) iter.next();
-            System.out.println("See " + artifact);
+            Artifact artifact = (Artifact) artifactObject;
+
             ScopeArtifactFilter filter = new ScopeArtifactFilter(Artifact.SCOPE_RUNTIME);
             if (!artifact.isOptional() && filter.include(artifact))
             {
@@ -404,7 +384,6 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
 
                 if ("jar".equals(type))
                 {
-                    System.out.println("use " + artifact);
                     try
                     {
                         wam.addMergeItem(artifact.getFile());
@@ -413,7 +392,6 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
                     {
                         throw new MojoExecutionException("Problem merging WAR", e);
                     }
-
                 }
             }
         }
@@ -422,9 +400,9 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
     protected void addWar(WarArchiveMerger wam, String artifactIdent)
         throws MojoExecutionException, IOException
     {
-        for (Iterator iter = getProject().getArtifacts().iterator(); iter.hasNext();)
+        for (Object artifactObject : getProject().getArtifacts())
         {
-            Artifact artifact = (Artifact) iter.next();
+            Artifact artifact = (Artifact) artifactObject;
 
             ScopeArtifactFilter filter = new ScopeArtifactFilter(Artifact.SCOPE_RUNTIME);
             if (!artifact.isOptional() && filter.include(artifact))
@@ -448,6 +426,7 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
                 }
             }
         }
+
         // If we get here, we specified something for which there was no dependency
         // matching
         throw new MojoExecutionException("Could not find a dependent WAR file matching "
@@ -456,9 +435,9 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
 
     protected void addAllWars(WarArchiveMerger wam) throws MojoExecutionException, IOException
     {
-        for (Iterator iter = getProject().getArtifacts().iterator(); iter.hasNext();)
+        for (Object artifactObject : getProject().getArtifacts())
         {
-            Artifact artifact = (Artifact) iter.next();
+            Artifact artifact = (Artifact) artifactObject;
 
             ScopeArtifactFilter filter = new ScopeArtifactFilter(Artifact.SCOPE_RUNTIME);
 
