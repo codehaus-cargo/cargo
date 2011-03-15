@@ -21,6 +21,7 @@ package org.codehaus.cargo.maven2.util;
 
 import java.util.Set;
 
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 
@@ -38,11 +39,11 @@ public class CargoProject
     private String artifactId;
     private String buildDirectory;
     private String finalName;
-    private Set artifacts;
+    private Set<Artifact> artifacts;
     private ClassLoader embeddedClassLoader;
 
     public CargoProject(String packaging, String groupId, String artifactId, String buildDirectory,
-        String finalName, Set artifacts, Log log)
+        String finalName, Set<Artifact> artifacts, Log log)
     {
         this.log = log;
         this.packaging = packaging;
@@ -90,7 +91,7 @@ public class CargoProject
         return this.finalName;
     }
 
-    public Set getArtifacts()
+    public Set<Artifact> getArtifacts()
     {
         return this.artifacts;
     }

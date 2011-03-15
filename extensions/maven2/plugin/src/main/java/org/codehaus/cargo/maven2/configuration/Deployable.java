@@ -22,7 +22,7 @@ package org.codehaus.cargo.maven2.configuration;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -41,54 +41,108 @@ import org.codehaus.cargo.maven2.util.CargoProject;
  */
 public class Deployable extends AbstractDependency
 {
+    /**
+     * Constant for Maven2 project type <code>ejb</code>.
+     */
     private final static String EJB = "ejb";
 
-    private final static String BUNDLE = "bundle";
+    /**
+     * Constant for Maven2 project type <code>bundle</code>.
+     */
+    private static final String BUNDLE = "bundle";
 
-    private final static String UBERWAR = "uberwar";
+    /**
+     * Constant for Maven2 project type <code>uberwar</code>.
+     */
+    private static final String UBERWAR = "uberwar";
 
-    // JBoss needs special checks, see https://jira.codehaus.org/browse/CARGO-710
-    private final static String JBOSS = "jboss-";
-    private final static int JBOSS_STRIP = Deployable.JBOSS.length();
+    /**
+     * Constant for Maven2 project type starting with <code>jboss-</code>.<br/>
+     * <br/>
+     * JBoss needs special checks, see https://jira.codehaus.org/browse/CARGO-710
+     */
+    private static final String JBOSS = "";
 
+    /**
+     * Length of {@link Deployable#JBOSS}
+     */
+    private static final int JBOSS_STRIP = Deployable.JBOSS.length();
+
+    /**
+     * Ping URL.
+     */
     private URL pingURL;
 
+    /**
+     * Ping timeout.
+     */
     private Long pingTimeout;
 
+    /**
+     * Implementation.
+     */
     private String implementation;
 
-    private Map properties;
+    /**
+     * Deployable properties.
+     */
+    private Map<String, String> properties;
 
-    public Map getProperties()
+    /**
+     * @return Deployable properties.
+     */
+    public Map<String, String> getProperties()
     {
         return this.properties;
     }
 
-    public void setProperties(Map properties)
+    /**
+     * @param properties Deployable properties.
+     */
+    public void setProperties(Map<String, String> properties)
     {
         this.properties = properties;
     }
 
+    /**
+     * @return Ping URL.
+     */
     public URL getPingURL()
     {
         return this.pingURL;
     }
 
+    /**
+     * @return Ping timeout.
+     */
     public Long getPingTimeout()
     {
         return this.pingTimeout;
     }
 
+    /**
+     * @param implementation Implementation.
+     */
     public void setImplementation(String implementation)
     {
         this.implementation = implementation;
     }
 
+    /**
+     * @return Implementation.
+     */
     public String getImplementation()
     {
         return this.implementation;
     }
 
+    /**
+     * Create a deployable.
+     * @param containerId Container identifier.
+     * @param project Cargo project.
+     * @return Deployable.
+     * @throws MojoExecutionException If location computation or deployable instanciation fails.
+     */
     public org.codehaus.cargo.container.deployable.Deployable createDeployable(String containerId,
         CargoProject project) throws MojoExecutionException
     {
@@ -156,18 +210,17 @@ public class Deployable extends AbstractDependency
 
     /**
      * Set user-defined properties on the created deployable.
-     * 
      * @param deployable the deployable on which to set the properties
+     * @param project Cargo project.
      */
     protected void setPropertiesOnDeployable(
         org.codehaus.cargo.container.deployable.Deployable deployable, CargoProject project)
     {
         if (getProperties() != null)
         {
-            Iterator props = getProperties().keySet().iterator();
-            while (props.hasNext())
+            for (Map.Entry<String, String> property : getProperties().entrySet())
             {
-                String propertyName = (String) props.next();
+                String propertyName = property.getKey();
 
                 project.getLog().debug("Setting deployable property [" + propertyName + "]:["
                     + getProperties().get(propertyName) + "] for [" + getLocation() + "]");
@@ -175,7 +228,7 @@ public class Deployable extends AbstractDependency
                 // Maven2 doesn't like empty elements and will set them to Null. Thus we
                 // need to modify that behavior and change them to an empty string. For example
                 // this allows users to pass an empty context to mean the root context.
-                String propertyValue = (String) getProperties().get(propertyName);
+                String propertyValue = property.getValue();
                 if (propertyValue == null)
                 {
                     propertyValue = "";
@@ -186,6 +239,12 @@ public class Deployable extends AbstractDependency
         }
     }
 
+    /**
+     * Compute the location of the current deployable.
+     * @param project Cargo project.
+     * @return Location of current deployable.
+     * @throws MojoExecutionException If location cannot be found.
+     */
     protected String computeLocation(CargoProject project) throws MojoExecutionException
     {
         String location;
@@ -240,7 +299,9 @@ public class Deployable extends AbstractDependency
     }
 
     /**
-     * @return true if the deployable type is compatible with the project's packaging
+     * Checks if deployable type is compatible with the project's packaging.
+     * @param project Cargo project.
+     * @return <code>true</code> if the deployable type is compatible with the project's packaging.
      */
     protected boolean isTypeCompatible(CargoProject project)
     {
@@ -261,8 +322,9 @@ public class Deployable extends AbstractDependency
     }
 
     /**
-     * @param packaging the Maven project packaging (ex: ejb, ear, rar, war, etc)
-     * @return the artifact extension matching the packaging
+     * Compute the extension for a given Maven2 packaging.
+     * @param packaging Maven2 project packaging (ex: ejb, ear, rar, war, etc)
+     * @return Artifact extension matching the packaging
      */
     protected String computeExtension(String packaging)
     {
@@ -289,9 +351,10 @@ public class Deployable extends AbstractDependency
 
     /**
      * Call setter methods corresponding to deployable properties.
-     * 
-     * @param deployable the deployable on which to call the setter method corresponding to the
-     * specified property
+     * @param deployable Deployable on which to call the setter method corresponding to the
+     * specified property.
+     * @param name Property name.
+     * @param value Property value.
      */
     private void callMethodForProperty(
         org.codehaus.cargo.container.deployable.Deployable deployable, String name, String value)
@@ -312,12 +375,12 @@ public class Deployable extends AbstractDependency
     /**
      * Transform a property into a method name by transforming the first letter of the property name
      * to uppercase.
-     * 
-     * @param propertyName the property name to transform into a setter method
-     * @return the setter method's name
+     * @param propertyName Property name to transform into a setter method
+     * @return Setter method's name
      */
     protected String getSetterMethodName(String propertyName)
     {
-        return "set" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
+        return "set" + propertyName.substring(0, 1).toUpperCase(Locale.ENGLISH)
+            + propertyName.substring(1);
     }
 }

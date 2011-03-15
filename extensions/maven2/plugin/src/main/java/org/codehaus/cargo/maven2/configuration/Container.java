@@ -23,7 +23,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -50,150 +49,266 @@ import org.codehaus.cargo.util.log.Logger;
  */
 public class Container
 {
+    /**
+     * Container id.
+     */
     private String containerId;
 
+    /**
+     * Container implementation.
+     */
     private String implementation;
 
+    /**
+     * List of dependencies.
+     */
     private Dependency[] dependencies;
 
+    /**
+     * Container home.
+     */
     private String home;
 
+    /**
+     * Output file.
+     */
     private String output;
 
+    /**
+     * {@link ZipUrlInstaller} for the container.
+     */
     private ZipUrlInstaller zipUrlInstaller;
 
+    /**
+     * Whether to append logs.
+     */
     private boolean append;
 
+    /**
+     * Log file.
+     */
     private File log;
 
+    /**
+     * Log level.
+     */
     private LogLevel logLevel;
 
+    /**
+     * Container type.
+     */
     private String type = ContainerType.INSTALLED.getType();
 
+    /**
+     * Timeout (in milliseconds).
+     */
     private Long timeout;
 
-    private Map systemProperties;
+    /**
+     * System properties.
+     */
+    private Map<String, String> systemProperties;
 
-    public Map getSystemProperties()
+    /**
+     * @return System properties.
+     */
+    public Map<String, String> getSystemProperties()
     {
         return this.systemProperties;
     }
 
-    public void setSystemProperties(Map systemProperties)
+    /**
+     * @param systemProperties System properties.
+     */
+    public void setSystemProperties(Map<String, String> systemProperties)
     {
         this.systemProperties = systemProperties;
     }
 
+    /**
+     * @return Timeout (in milliseconds).
+     */
     public Long getTimeout()
     {
         return this.timeout;
     }
 
+    /**
+     * @param timeout Timeout (in milliseconds).
+     */
     public void setTimeout(Long timeout)
     {
         this.timeout = timeout;
     }
 
+    /**
+     * @return List of dependencies.
+     */
     public Dependency[] getDependencies()
     {
         return this.dependencies;
     }
 
+    /**
+     * @param dependencies List of dependencies.
+     */
     public void setDependencies(Dependency[] dependencies)
     {
         this.dependencies = dependencies;
     }
 
+    /**
+     * @return Container type.
+     */
     public ContainerType getType()
     {
         return ContainerType.toType(this.type);
     }
 
+    /**
+     * @param type Container type.
+     */
     public void setType(ContainerType type)
     {
         this.type = type.getType();
     }
 
+    /**
+     * @return Container id.
+     */
     public String getContainerId()
     {
         return this.containerId;
     }
 
+    /**
+     * @param containerId Container id.
+     */
     public void setContainerId(String containerId)
     {
         this.containerId = containerId;
     }
 
+    /**
+     * @return Container home.
+     */
     public String getHome()
     {
         return this.home;
     }
 
+    /**
+     * @param home Container home.
+     */
     public void setHome(String home)
     {
         this.home = home;
     }
 
+    /**
+     * @return Output file.
+     */
     public String getOutput()
     {
         return this.output;
     }
 
+    /**
+     * @param output Output file.
+     */
     public void setOutput(String output)
     {
         this.output = output;
     }
 
+    /**
+     * @return {@link ZipUrlInstaller} for the container.
+     */
     public ZipUrlInstaller getZipUrlInstaller()
     {
         return this.zipUrlInstaller;
     }
 
+    /**
+     * @param zipUrlInstaller {@link ZipUrlInstaller} for the container.
+     */
     public void setZipUrlInstaller(ZipUrlInstaller zipUrlInstaller)
     {
         this.zipUrlInstaller = zipUrlInstaller;
     }
 
+    /**
+     * @return Whether to append logs.
+     */
     public boolean shouldAppend()
     {
         return this.append;
     }
 
+    /**
+     * @param append Whether to append logs.
+     */
     public void setAppend(boolean append)
     {
         this.append = append;
     }
 
+    /**
+     * @param log Log file.
+     */
     public void setLog(File log)
     {
         this.log = log;
     }
 
+    /**
+     * @return Log file.
+     */
     public File getLog()
     {
         return this.log;
     }
 
+    /**
+     * @param levelAsString Log level.
+     */
     public void setLogLevel(String levelAsString)
     {
         this.logLevel = LogLevel.toLevel(levelAsString);
     }
 
+    /**
+     * @return Log level.
+     */
     public LogLevel getLogLevel()
     {
         return this.logLevel;
     }
 
+    /**
+     * @return Container implementation.
+     */
     public String getImplementation()
     {
         return this.implementation;
     }
 
+    /**
+     * @param implementation Container implementation.
+     */
     public void setImplementation(String implementation)
     {
         this.implementation = implementation;
     }
 
+    /**
+     * Creates the container based on its configuration and attaches the logger.
+     * @param configuration Container configuration.
+     * @param logger Logger.
+     * @param project Cargo project.
+     * @return Container configuration.
+     * @throws MojoExecutionException If container creation fails.
+     */
     public org.codehaus.cargo.container.Container createContainer(
         Configuration configuration, Logger logger, CargoProject project)
         throws MojoExecutionException
@@ -201,6 +316,15 @@ public class Container
         return createContainer(configuration, logger, project, null);
     }
 
+    /**
+     * Creates the container based on its configuration and attaches the logger.
+     * @param configuration Container configuration.
+     * @param logger Logger.
+     * @param project Cargo project.
+     * @param settings Maven2 settings (to get the proxy).
+     * @return Container configuration.
+     * @throws MojoExecutionException If container creation fails.
+     */
     public org.codehaus.cargo.container.Container createContainer(
         Configuration configuration, Logger logger, CargoProject project, Settings settings)
         throws MojoExecutionException
@@ -253,7 +377,8 @@ public class Container
                 }
                 else
                 {
-                    setupHome((InstalledLocalContainer) container, project, settings.getActiveProxy());
+                    setupHome((InstalledLocalContainer) container, project,
+                        settings.getActiveProxy());
                 }
                 setupOutput((InstalledLocalContainer) container, project);
                 setupExtraClasspath((InstalledLocalContainer) container, project);
@@ -265,6 +390,12 @@ public class Container
         return container;
     }
 
+    /**
+     * Setup the embedded container's extra classpath.
+     * @param container Container.
+     * @param project Cargo project.
+     * @throws MojoExecutionException If dependency extraction fails.
+     */
     private void setupEmbeddedExtraClasspath(EmbeddedLocalContainer container, CargoProject project)
         throws MojoExecutionException
     {
@@ -296,21 +427,29 @@ public class Container
         }
     }
 
+    /**
+     * Setup the embedded container's system properties.
+     * @param container Container.
+     */
     private void setupEmbeddedSystemProperties(EmbeddedLocalContainer container)
     {
         if (getSystemProperties() != null)
         {
-            for (Iterator iter = getSystemProperties().entrySet().iterator(); iter.hasNext();)
+            for (Map.Entry<String, String> systemProperty : getSystemProperties().entrySet())
             {
-                Map.Entry entry = (Map.Entry) iter.next();
-                if (entry.getValue() != null)
+                if (systemProperty.getValue() != null)
                 {
-                    System.setProperty((String) entry.getKey(), (String) entry.getValue());
+                    System.setProperty(systemProperty.getKey(), systemProperty.getValue());
                 }
             }
         }
     }
 
+    /**
+     * Setup the output file.
+     * @param container Container.
+     * @param project Cargo project.
+     */
     private void setupOutput(InstalledLocalContainer container, CargoProject project)
     {
         if (getOutput() != null)
@@ -324,6 +463,11 @@ public class Container
         }
     }
 
+    /**
+     * Setup timeout.
+     * @param container Container.
+     * @param project Cargo project.
+     */
     private void setupTimeout(org.codehaus.cargo.container.LocalContainer container,
         CargoProject project)
     {
@@ -334,6 +478,12 @@ public class Container
         }
     }
 
+    /**
+     * Setup extra classpath.
+     * @param container Container.
+     * @param project Cargo project.
+     * @throws MojoExecutionException If dependency extraction fails.
+     */
     private void setupExtraClasspath(InstalledLocalContainer container, CargoProject project)
         throws MojoExecutionException
     {
@@ -348,6 +498,11 @@ public class Container
         }
     }
 
+    /**
+     * Setup system properties.
+     * @param container Container.
+     * @throws MojoExecutionException If dependency extraction fails.
+     */
     private void setupSystemProperties(InstalledLocalContainer container)
         throws MojoExecutionException
     {
@@ -360,6 +515,9 @@ public class Container
     /**
      * Set up a home dir of container (possibly including installing the container, by a
      * ZipURLInstaller).
+     * @param container Container.
+     * @param project Cargo project.
+     * @param proxy If exists, Maven2 proxy.
      */
     private void setupHome(InstalledLocalContainer container, CargoProject project, Proxy proxy)
     {
@@ -404,6 +562,8 @@ public class Container
 
     /**
      * Set up a logger for the container.
+     * @param container Container.
+     * @param logger Logger.
      */
     private void setupLogger(org.codehaus.cargo.container.Container container, Logger logger)
     {
