@@ -232,7 +232,7 @@
 
               <property>
                 <name>cargo.tomcat7x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.8/bin/apache-tomcat-7.0.8.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.11/bin/apache-tomcat-7.0.11.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat7x.java.home</name>
