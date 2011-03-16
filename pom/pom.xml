@@ -564,12 +564,15 @@
       -->
     </plugins>
 
-    <!-- Codehaus is now using WebDav so we need to use the correct Maven Wagon to access it -->
+    <!--
+      Codehaus is using WebDav for site deployment, so we need to use the correct
+      Maven Wagon to access it.
+    -->
     <extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-webdav</artifactId>
-        <version>1.0-beta-1</version>
+        <version>1.0-beta-2</version>
       </extension>
     </extensions>
 
