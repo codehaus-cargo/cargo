@@ -33,10 +33,21 @@ import org.codehaus.cargo.maven2.util.CargoProject;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 
+/**
+ * Unit tests for the {@link Deployable} class.
+ * 
+ * @version $Id$
+ */
 public class DeployableTest extends MockObjectTestCase
 {
+    /**
+     * Mock {@link Log} implementation.
+     */
     private Mock mockLog;
 
+    /**
+     * {@inheritDoc}. Mock {@link Log} implementation.
+     */
     @Override
     protected void setUp()
     {
@@ -44,6 +55,10 @@ public class DeployableTest extends MockObjectTestCase
         this.mockLog.stubs().method("debug");
     }
 
+    /**
+     * Test create deployable when only its location is specified.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateDeployableWhenOnlyLocationSpecified() throws Exception
     {
         String deployableFile = "testCreateDeployableWhenOnlyLocationSpecified.war";
@@ -51,7 +66,7 @@ public class DeployableTest extends MockObjectTestCase
         Deployable deployableElement = new Deployable();
         deployableElement.setLocation(deployableFile);
 
-        CargoProject project = createDefaultProject("war", new HashSet());
+        CargoProject project = createDefaultProject("war", new HashSet<Artifact>());
         org.codehaus.cargo.container.deployable.Deployable deployable =
             deployableElement.createDeployable("whateverId", project);
 
@@ -62,6 +77,10 @@ public class DeployableTest extends MockObjectTestCase
         assertEquals(project.getPackaging(), deployableElement.getType());
     }
 
+    /**
+     * Test create deployable when it is not a dependency.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateDeployableWhenDeployableIsNotADependency() throws Exception
     {
         Deployable deployableElement = createCustomDeployableElement();
@@ -69,7 +88,7 @@ public class DeployableTest extends MockObjectTestCase
         try
         {
             deployableElement.createDeployable("whateverId",
-                createDefaultProject("war", new HashSet()));
+                createDefaultProject("war", new HashSet<Artifact>()));
             fail("An exception should have been thrown");
         }
         catch (MojoExecutionException expected)
@@ -79,6 +98,10 @@ public class DeployableTest extends MockObjectTestCase
         }
     }
 
+    /**
+     * Test custom deployable creation.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateCustomDeployable() throws Exception
     {
         // Custom deployable type
@@ -89,7 +112,7 @@ public class DeployableTest extends MockObjectTestCase
         // Matching dependency definition
         Artifact artifact = createCustomArtifact(deployableFile);
 
-        Set artifacts = new HashSet();
+        Set<Artifact> artifacts = new HashSet<Artifact>();
         artifacts.add(artifact);
 
         org.codehaus.cargo.container.deployable.Deployable deployable =
@@ -99,6 +122,10 @@ public class DeployableTest extends MockObjectTestCase
         assertEquals(CustomType.class.getName(), deployable.getClass().getName());
     }
 
+    /**
+     * Test compute location for EJBs.
+     * @throws Exception If anything goes wrong.
+     */
     public void testComputeLocationWhenEjbPackaging() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -110,6 +137,10 @@ public class DeployableTest extends MockObjectTestCase
         assertTrue(location.endsWith("projectFinalName.jar"));
     }
 
+    /**
+     * Test compute location for uberwars.
+     * @throws Exception If anything goes wrong.
+     */
     public void testComputeLocationWhenUberwarPackaging() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -121,6 +152,10 @@ public class DeployableTest extends MockObjectTestCase
         assertTrue(location.endsWith("projectFinalName.war"));
     }
 
+    /**
+     * Test compute location for JBoss SARs.
+     * @throws Exception If anything goes wrong.
+     */
     public void testComputeLocationWhenJBossSarPackaging() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -136,6 +171,10 @@ public class DeployableTest extends MockObjectTestCase
         assertTrue(location, location.endsWith("projectFinalName.sar"));
     }
 
+    /**
+     * Test compute location for JBoss HARs.
+     * @throws Exception If anything goes wrong.
+     */
     public void testComputeLocationWhenJBossHarPackaging() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -151,6 +190,10 @@ public class DeployableTest extends MockObjectTestCase
         assertTrue(location, location.endsWith("projectFinalName.har"));
     }
 
+    /**
+     * Test compute location for JBoss Spring packages.
+     * @throws Exception If anything goes wrong.
+     */
     public void testComputeLocationWhenJBossSpringPackaging() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -166,6 +209,10 @@ public class DeployableTest extends MockObjectTestCase
         assertTrue(location, location.endsWith("projectFinalName.spring"));
     }
 
+    /**
+     * Test compute location for JBoss ESB packagings.
+     * @throws Exception If anything goes wrong.
+     */
     public void testComputeLocationWhenJBossEsbPackaging() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -181,6 +228,10 @@ public class DeployableTest extends MockObjectTestCase
         assertTrue(location, location.endsWith("projectFinalName.esb"));
     }
 
+    /**
+     * Test compute location for file types.
+     * @throws Exception If anything goes wrong.
+     */
     public void testComputeLocationWhenAnyPackagingWithDeployableTypeFile() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -206,7 +257,7 @@ public class DeployableTest extends MockObjectTestCase
         Deployable deployableElement = new Deployable();
         WAR war = new WAR("/some/file.war");
 
-        Map properties = new HashMap();
+        Map<String, String> properties = new HashMap<String, String>();
         properties.put("context", null);
         deployableElement.setProperties(properties);
 
@@ -219,6 +270,7 @@ public class DeployableTest extends MockObjectTestCase
      * When the groupId and artifactId of a defined deployable match the project's groupId and
      * artifactId then the type must also be compatible with the projects' packaging. If not the
      * deployable will be looked for in the project's dependencies.
+     * @throws Exception If anything goes wrong.
      */
     public void testComputeLocationWhenDeployableTypeMismatchWithProjectType() throws Exception
     {
@@ -232,15 +284,16 @@ public class DeployableTest extends MockObjectTestCase
             .expects(once())
             .method("warn")
             .with(
-                eq("The defined deployable has the same "
-                    + "groupId and artifactId as your project's main artifact but the type is different. "
-                    + "You've defined a [war] type whereas the project's packaging is [something]. This is "
-                    + "possibly an error and as a consequence the plugin will try to find this deployable "
-                    + "in the project's dependencies."));
+                eq("The defined deployable has the same groupId and artifactId as your project's "
+                    + "main artifact but the type is different. You've defined a [war] type "
+                    + "whereas the project's packaging is [something]. This is possibly an error "
+                    + "and as a consequence the plugin will try to find this deployable in the "
+                    + "project's dependencies."));
 
         try
         {
-            deployableElement.computeLocation(createDefaultProject("something", new HashSet()));
+            deployableElement.computeLocation(createDefaultProject("something",
+                new HashSet<Artifact>()));
             fail("An exception should have been raised");
         }
         catch (MojoExecutionException expected)
@@ -250,12 +303,23 @@ public class DeployableTest extends MockObjectTestCase
         }
     }
 
-    private CargoProject createDefaultProject(String packaging, Set artifacts)
+    /**
+     * Provide a test {@link CargoProject} in lieu of the one that is normally generated from the
+     * {@link org.apache.maven.project.MavenProject} at runtime.
+     * @param packaging Packaging.
+     * @param artifacts Artifacts.
+     * @return {@link CargoProject} with the given <code>packaging</code> and
+     * <code>artifacts</code>.
+     */
+    private CargoProject createDefaultProject(String packaging, Set<Artifact> artifacts)
     {
         return new CargoProject(packaging, "projectGroupId", "projectArtifactId",
             "projectBuildDirectory", "projectFinalName", artifacts, (Log) this.mockLog.proxy());
     }
 
+    /**
+     * @return A custom {@link Deployable} element.
+     */
     private Deployable createCustomDeployableElement()
     {
         Deployable deployableElement = new Deployable();
@@ -266,6 +330,11 @@ public class DeployableTest extends MockObjectTestCase
         return deployableElement;
     }
 
+    /**
+     * Create a custom artifact.
+     * @param deployableFile Deployable file name.
+     * @return {@link Artifact} for given <code>deployableFile</code>.
+     */
     private Artifact createCustomArtifact(String deployableFile)
     {
         Mock mockArtifact = mock(Artifact.class);

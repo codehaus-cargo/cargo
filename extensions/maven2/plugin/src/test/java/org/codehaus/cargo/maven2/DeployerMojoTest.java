@@ -37,6 +37,9 @@ import org.codehaus.cargo.maven2.configuration.Deployer;
  */
 public class DeployerMojoTest extends TestCase
 {
+    /**
+     * Mock {@link AbstractDeployerMojo} implementation.
+     */
     private class TestableDeployerMojo extends AbstractDeployerMojo
     {
         @Override
@@ -49,6 +52,10 @@ public class DeployerMojoTest extends TestCase
         }
     }
 
+    /**
+     * Test create deployer when no deployer element specified.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateDeployerWhenNoDeployerElementSpecified() throws Exception
     {
         TestableDeployerMojo mojo = new TestableDeployerMojo();
@@ -62,6 +69,10 @@ public class DeployerMojoTest extends TestCase
         assertEquals(DeployerType.REMOTE, deployer.getType());
     }
 
+    /**
+     * Test create deployer when a deployer element specified.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateDeployerWhenDeployerElementSpecified() throws Exception
     {
         TestableDeployerMojo mojo = new TestableDeployerMojo();

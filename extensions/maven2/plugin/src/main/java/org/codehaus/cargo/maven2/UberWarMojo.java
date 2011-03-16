@@ -155,8 +155,12 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
     /** @component */
     private ArtifactInstaller installer;
 
+    /** Container */
     private PlexusContainer container;
 
+    /**
+     * @return Parent file of the descriptor.
+     */
     protected File getConfigDirectory()
     {
         return descriptor.getParentFile();
@@ -284,9 +288,14 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
         {
             throw new MojoExecutionException("Dependency resolution exception creating UBERWAR", e);
         }
-
     }
 
+    /**
+     * Do thr actual merge.
+     * @param wam WAR archive merger.
+     * @param merge Merge to apply.
+     * @throws MojoExecutionException If anything goes wrong.
+     */
     private void doMerge(WarArchiveMerger wam, Merge merge) throws MojoExecutionException
     {
         try
@@ -303,12 +312,10 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
                 if (type.equalsIgnoreCase("web.xml"))
                 {
                     merger = new MergeWebXml(getConfigDirectory()).create(wam, merge);
-                    ;
                 }
                 else if (type.equalsIgnoreCase("xslt"))
                 {
                     merger = new MergeXslt(descriptor.getParentFile()).create(wam, merge);
-                    ;
                 }
             }
             else
@@ -341,9 +348,8 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
      * Add all JAR files into the WAR file, calculated transitively and resolved in the normal
      * 'maven' way (I.E if 2 war files contain different versions, resolve to using only *1*
      * version).
-     * 
-     * @param wam
-     * @throws MojoExecutionException
+     * @param wam WAR archive manager.
+     * @throws MojoExecutionException If anything goes wrong.
      */
     protected void addAllTransitiveJars(WarArchiveMerger wam) throws MojoExecutionException
     {
@@ -367,9 +373,8 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
     /**
      * Add all the JAR files specified into the merge - these will appear in the WEB-INF/lib
      * directory.
-     * 
-     * @param wam
-     * @throws MojoExecutionException
+     * @param wam WAR archive manager.
+     * @throws MojoExecutionException If anything goes wrong.
      */
     protected void addAllDependentJars(WarArchiveMerger wam) throws MojoExecutionException
     {
@@ -397,6 +402,13 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
         }
     }
 
+    /**
+     * Add a WAR to the uberwar.
+     * @param wam WAR archive merger.
+     * @param artifactIdent Artifact identifier.
+     * @throws MojoExecutionException If mojos fail.
+     * @throws IOException If reading or writing fails.
+     */
     protected void addWar(WarArchiveMerger wam, String artifactIdent)
         throws MojoExecutionException, IOException
     {
@@ -433,6 +445,12 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
             + artifactIdent);
     }
 
+    /**
+     * Add all WARs from a merger.
+     * @param wam WAR archive merger.
+     * @throws MojoExecutionException If mojos fail.
+     * @throws IOException If reading or writing fails.
+     */
     protected void addAllWars(WarArchiveMerger wam) throws MojoExecutionException, IOException
     {
         for (Object artifactObject : getProject().getArtifacts())
@@ -459,6 +477,11 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
         }
     }
 
+    /**
+     * Contextualize a context on the current container.
+     * @param context Context to contextualize.
+     * @throws ContextException If anything goes wrong.
+     */
     public void contextualize(Context context) throws ContextException
     {
         container = (PlexusContainer) context.get(PlexusConstants.PLEXUS_KEY);

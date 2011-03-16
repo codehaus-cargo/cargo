@@ -27,12 +27,12 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DefaultArtifact;
 import org.apache.maven.artifact.handler.DefaultArtifactHandler;
 import org.apache.maven.artifact.versioning.VersionRange;
@@ -55,11 +55,16 @@ import org.jmock.cglib.MockObjectTestCase;
  */
 public class ContainerTest extends MockObjectTestCase
 {
+    /**
+     * Test embedded container creation with system properties.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateEmbeddedContainerWithSystemPropertiesSet() throws Exception
     {
-        org.codehaus.cargo.maven2.configuration.Container containerElement = setUpContainerElement(new EmbeddedLocalContainerStub());
+        org.codehaus.cargo.maven2.configuration.Container containerElement =
+            setUpContainerElement(new EmbeddedLocalContainerStub());
 
-        Map props = new HashMap();
+        Map<String, String> props = new HashMap<String, String>();
         props.put("id1", "value1");
         props.put("id2", "value2");
 
@@ -70,18 +75,22 @@ public class ContainerTest extends MockObjectTestCase
             new NullLogger(), createTestCargoProject("whatever"));
 
         // For embedded containers, system properties get put into our own vm
-        for (Iterator it = props.entrySet().iterator(); it.hasNext();)
+        for (Map.Entry<String, String> entry : props.entrySet())
         {
-            Map.Entry entry = (Map.Entry) it.next();
-            assertEquals((String) entry.getValue(), System.getProperty((String) entry.getKey()));
+            assertEquals(entry.getValue(), System.getProperty(entry.getKey()));
         }
     }
 
+    /**
+     * Test installed local container creation with system properties.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateInstalledLocalContainerWithSystemPropertiesSet() throws Exception
     {
-        org.codehaus.cargo.maven2.configuration.Container containerElement = setUpContainerElement(new InstalledLocalContainerStub());
+        org.codehaus.cargo.maven2.configuration.Container containerElement =
+            setUpContainerElement(new InstalledLocalContainerStub());
 
-        Map props = new HashMap();
+        Map<String, String> props = new HashMap<String, String>();
         props.put("id1", "value1");
         props.put("id2", "value2");
 
@@ -94,6 +103,10 @@ public class ContainerTest extends MockObjectTestCase
         assertEquals(props, container.getSystemProperties());
     }
 
+    /**
+     * Test embedded container creation with extra classpath dependency.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateEmbeddedContainerWithExtraClasspathDependency() throws Exception
     {
         // 1) Create a JAR file acting as an extra dependency
@@ -113,7 +126,7 @@ public class ContainerTest extends MockObjectTestCase
             VersionRange.createFromVersion("0.1"), "compile", "jar", null,
             new DefaultArtifactHandler());
         artifact.setFile(zipFile);
-        Set artifacts = new HashSet();
+        Set<Artifact> artifacts = new HashSet<Artifact>();
         artifacts.add(artifact);
 
         // 3) Set up the container element and add the extra Dependency to it
@@ -122,7 +135,8 @@ public class ContainerTest extends MockObjectTestCase
         dependencyElement.setArtifactId("customArtifactId");
         dependencyElement.setType("jar");
 
-        org.codehaus.cargo.maven2.configuration.Container containerElement = setUpContainerElement(new EmbeddedLocalContainerStub());
+        org.codehaus.cargo.maven2.configuration.Container containerElement =
+            setUpContainerElement(new EmbeddedLocalContainerStub());
         containerElement.setDependencies(new Dependency[] {dependencyElement});
 
         org.codehaus.cargo.container.EmbeddedLocalContainer container =
@@ -138,6 +152,10 @@ public class ContainerTest extends MockObjectTestCase
             resourceName));
     }
 
+    /**
+     * Test embedded container creation with extra classpath location.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateEmbeddedContainerWithExtraClasspathLocation() throws Exception
     {
         // Create a jar file
@@ -154,7 +172,8 @@ public class ContainerTest extends MockObjectTestCase
         Dependency dependencyElement = new Dependency();
         dependencyElement.setLocation(resourceLocation);
 
-        org.codehaus.cargo.maven2.configuration.Container containerElement = setUpContainerElement(new EmbeddedLocalContainerStub());
+        org.codehaus.cargo.maven2.configuration.Container containerElement =
+            setUpContainerElement(new EmbeddedLocalContainerStub());
         containerElement.setDependencies(new Dependency[] {dependencyElement});
 
         org.codehaus.cargo.container.EmbeddedLocalContainer container =
@@ -167,22 +186,22 @@ public class ContainerTest extends MockObjectTestCase
             resourceName));
     }
 
+    /**
+     * Test installed local container creation with installer and home.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateInstalledLocalContainerWithInstallerAndHome() throws Exception
     {
-        org.codehaus.cargo.maven2.configuration.Container containerElement = setUpContainerElement(new InstalledLocalContainerStub());
+        org.codehaus.cargo.maven2.configuration.Container containerElement =
+            setUpContainerElement(new InstalledLocalContainerStub());
         final String containerHome = "container/overriding_home";
         containerElement.setHome(containerHome);
         final Mock mockInstaller = mock(ZipURLInstaller.class, new Class[] {URL.class},
             new Object[] {new URL("http://whatever")});
-        mockInstaller.expects(once()).method("install"); // install method should be called
-        mockInstaller.stubs().method("getHome").will(returnValue("container/incorrect_home")); // home
-                                                                                               // provided
-                                                                                               // by
-                                                                                               // installer
-                                                                                               // should
-                                                                                               // not
-                                                                                               // be
-                                                                                               // used
+        // install method should be called
+        mockInstaller.expects(once()).method("install");
+        // home provided by installer should not be used
+        mockInstaller.stubs().method("getHome").will(returnValue("container/incorrect_home"));
         containerElement
             .setZipUrlInstaller(new org.codehaus.cargo.maven2.configuration.ZipUrlInstaller()
             {
@@ -201,9 +220,14 @@ public class ContainerTest extends MockObjectTestCase
             container.getHome());
     }
 
+    /**
+     * Test installed local container creation with home.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateInstalledLocalContainerWithHome() throws Exception
     {
-        org.codehaus.cargo.maven2.configuration.Container containerElement = setUpContainerElement(new InstalledLocalContainerStub());
+        org.codehaus.cargo.maven2.configuration.Container containerElement =
+            setUpContainerElement(new InstalledLocalContainerStub());
         final String containerHome = "container/home";
         containerElement.setHome(containerHome);
 
@@ -214,13 +238,18 @@ public class ContainerTest extends MockObjectTestCase
         assertEquals("Specified home not used", containerHome, container.getHome());
     }
 
+    /**
+     * Test installed local container creation with installer.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateInstalledLocalContainerWithInstaller() throws Exception
     {
-        org.codehaus.cargo.maven2.configuration.Container containerElement = setUpContainerElement(new InstalledLocalContainerStub());
+        org.codehaus.cargo.maven2.configuration.Container containerElement =
+            setUpContainerElement(new InstalledLocalContainerStub());
         containerElement.setHome(null);
         final Mock mockInstaller = mock(ZipURLInstaller.class, new Class[] {URL.class},
             new Object[] {new URL("http://whatever")});
-        mockInstaller.expects(once()).method("install"); // install method should be called
+        mockInstaller.expects(once()).method("install");
         final String containerHome = "container/installer_home";
         mockInstaller.stubs().method("getHome").will(returnValue(containerHome));
         containerElement
@@ -240,10 +269,16 @@ public class ContainerTest extends MockObjectTestCase
         assertEquals("Home specified by installer not used", containerHome, container.getHome());
     }
 
+    /**
+     * Setup a container element.
+     * @param container Container definition.
+     * @return Container element.
+     */
     protected org.codehaus.cargo.maven2.configuration.Container setUpContainerElement(
         org.codehaus.cargo.container.Container container)
     {
-        org.codehaus.cargo.maven2.configuration.Container containerElement = new org.codehaus.cargo.maven2.configuration.Container();
+        org.codehaus.cargo.maven2.configuration.Container containerElement =
+            new org.codehaus.cargo.maven2.configuration.Container();
         containerElement.setContainerId(container.getId());
         containerElement.setImplementation(container.getClass().getName());
         containerElement.setHome("container/home");
@@ -253,10 +288,14 @@ public class ContainerTest extends MockObjectTestCase
     }
 
     /**
-     * Provide a test CargoProject in lieu of the one that is normally generated from the
-     * MavenProject at runtime.
+     * Provide a test {@link CargoProject} in lieu of the one that is normally generated from the
+     * {@link org.apache.maven.project.MavenProject} at runtime.
+     * @param packaging Packaging.
+     * @param artifacts Artifacts.
+     * @return {@link CargoProject} with the given <code>packaging</code> and
+     * <code>artifacts</code>.
      */
-    protected CargoProject createTestCargoProject(String packaging, Set artifacts)
+    protected CargoProject createTestCargoProject(String packaging, Set<Artifact> artifacts)
     {
         Mock mockLog = mock(Log.class);
         mockLog.stubs().method("debug");
@@ -265,13 +304,23 @@ public class ContainerTest extends MockObjectTestCase
             "target", "projectFinalName", artifacts, (Log) mockLog.proxy());
     }
 
+    /**
+     * Provide a test {@link CargoProject} in lieu of the one that is normally generated from the
+     * {@link org.apache.maven.project.MavenProject} at runtime.
+     * @param packaging Packaging.
+     * @return {@link CargoProject} with the given <code>packaging</code> and no artifacts.
+     */
     protected CargoProject createTestCargoProject(String packaging)
     {
-        return createTestCargoProject(packaging, new HashSet());
+        return createTestCargoProject(packaging, new HashSet<Artifact>());
     }
 
     /**
      * Get the first line of a resource from a specific classloader.
+     * @param classLoader {@link ClassLoader} to load from.
+     * @param resourceName Resource name.
+     * @return Resource from {@link ClassLoader}.
+     * @throws IOException If anything goes wrong.
      */
     public String getResource(ClassLoader classLoader, String resourceName) throws IOException
     {
@@ -279,13 +328,4 @@ public class ContainerTest extends MockObjectTestCase
             new InputStreamReader(classLoader.getResourceAsStream(resourceName), "UTF-8");
         return new BufferedReader(reader).readLine();
     }
-
-    /*
-     * private class ZipURLInstallerStub extends ZipUrlInstaller { public boolean
-     * installMethodCalled = false;
-     * 
-     * public ZipURLInstallerStub(URL remoteLocation) { super(remoteLocation); }
-     * 
-     * @Override public void install() { installMethodCalled = true; } }
-     */
 }

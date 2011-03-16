@@ -29,15 +29,21 @@ import org.codehaus.cargo.maven2.log.MavenLogger;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.Logger;
 
+/**
+ * Unit tests for {@link AbstractCargoMojo}.
+ * 
+ * @version $Id$
+ */
 public class CargoMojoTest extends TestCase
 {
-    private TestableAbstractCargoMojo mojo;
-
+    /**
+     * {@link AbstractCargoMojo} for testing.
+     */
     public class TestableAbstractCargoMojo extends AbstractCargoMojo
     {
         /**
          * {@inheritDoc}
-         * @see org.codehaus.cargo.maven2.AbstractCargoMojo#doExecute()
+         * @see AbstractCargoMojo#doExecute()
          */
         @Override
         public void doExecute() throws MojoExecutionException
@@ -46,12 +52,24 @@ public class CargoMojoTest extends TestCase
         }
     }
 
+    /**
+     * {@link AbstractCargoMojo} for testing.
+     */
+    private TestableAbstractCargoMojo mojo;
+
+    /**
+     * {@inheritDoc}. Create the {@link AbstractCargoMojo} for testing.
+     */
     @Override
     protected void setUp()
     {
         this.mojo = new TestableAbstractCargoMojo();
     }
 
+    /**
+     * Test logger creation when a log element is specified.
+     * @throws Exception If anything goes wrong.
+     */
     public void testCreateLoggerWhenLogElementSpecified() throws Exception
     {
         // Create temporary log file for the test
@@ -65,6 +83,9 @@ public class CargoMojoTest extends TestCase
         assertEquals(FileLogger.class.getName(), logger.getClass().getName());
     }
 
+    /**
+     * Test logger creation when no log element is specified.
+     */
     public void testCreateLoggerWhenLogElementNotSpecified()
     {
         Logger logger = this.mojo.createLogger();

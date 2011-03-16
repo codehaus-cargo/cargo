@@ -118,14 +118,6 @@
           </execution>
         </executions>
       </plugin>
-
-      <!-- TODO: For now, don't checkstyle the maven2 plugin -->
-      <plugin>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 </project>

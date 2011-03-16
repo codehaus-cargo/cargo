@@ -35,25 +35,35 @@ import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
  */
 public class DeployerDeployMojo extends AbstractDeployerMojo
 {
+    /**
+     * {@link DeployableMonitorListener} that logs.
+     */
     public class DeployerListener implements DeployableMonitorListener
     {
+        /**
+         * {@link Deployable} to listen.
+         */
         private Deployable deployable;
 
+        /**
+         * Saves all attributes.
+         * @param deployable {@link Deployable} to listen.
+         */
         public DeployerListener(Deployable deployable)
         {
             this.deployable = deployable;
         }
 
-        /*
-         * @see org.codehaus.cargo.container.deployer.DeployableMonitorListener#deployed()
+        /**
+         * {@inheritDoc}.
          */
         public void deployed()
         {
             getLog().debug("Watchdog finds [" + this.deployable.getFile() + "] deployed.");
         }
 
-        /*
-         * @see org.codehaus.cargo.container.deployer.DeployableMonitorListener#undeployed()
+        /**
+         * {@inheritDoc}.
          */
         public void undeployed()
         {
@@ -61,6 +71,13 @@ public class DeployerDeployMojo extends AbstractDeployerMojo
         }
     }
 
+    /**
+     * {@inheritDoc}.
+     * @param deployer Deployer.
+     * @param deployable Deployable.
+     * @param pingURL Application ping URL.
+     * @param pingTimeout Timeout (milliseconds).
+     */
     @Override
     protected void performDeployerActionOnSingleDeployable(
         org.codehaus.cargo.container.deployer.Deployer deployer,
@@ -81,6 +98,13 @@ public class DeployerDeployMojo extends AbstractDeployerMojo
         }
     }
 
+    /**
+     * Create a deployable monitor.
+     * @param pingURL Ping URL.
+     * @param pingTimeout Ping timeout (milliseconds).
+     * @param deployable {@link Deployable} to monitor.
+     * @return Deployable monitor with specified arguments.
+     */
     private DeployableMonitor createDeployableMonitor(URL pingURL, Long pingTimeout,
         Deployable deployable)
     {

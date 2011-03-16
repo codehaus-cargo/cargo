@@ -23,33 +23,57 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.util.log.Logger;
 
+/**
+ * Dummy {@link Deployable} implementation.
+ * 
+ * @version $Id$
+ */
 public class CustomType implements Deployable
 {
+    /**
+     * Empty constructor.
+     * @param file Ignored.
+     */
     public CustomType(String file)
     {
         // Voluntarily empty for testing
     }
 
+    /**
+     * @return <code>null</code>
+     */
     public String getFile()
     {
         return null;
     }
 
+    /**
+     * @return {@link DeployableType#toType(String)}<code>("customType")</code>
+     */
     public DeployableType getType()
     {
         return DeployableType.toType("customType");
     }
 
+    /**
+     * @return <code>null</code>
+     */
     public Logger getLogger()
     {
         return null;
     }
 
+    /**
+     * @param logger Ignored.
+     */
     public void setLogger(Logger logger)
     {
         // Voluntarily empty for testing
     }
 
+    /**
+     * @return <code>false</code>
+     */
     public boolean isExpanded()
     {
         return false;

@@ -85,6 +85,12 @@ public class PackageMojo extends AbstractCargoMojo
         createPackager(installedContainer).packageContainer(installedContainer);
     }
 
+    /**
+     * Create the packager.
+     * @param container Container to use.
+     * @return Packager for the container and the Maven2 packager element.
+     * @throws MojoExecutionException If anything goes wrong.
+     */
     protected org.codehaus.cargo.container.packager.Packager createPackager(
         org.codehaus.cargo.container.Container container) throws MojoExecutionException
     {
