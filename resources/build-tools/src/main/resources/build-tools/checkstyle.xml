@@ -110,7 +110,9 @@
          severity. This is because we'd like to make the build fail on error for thise checks
          but there are errors to fix first -->
 
-    <module name="AbstractClassName"/>
+    <module name="AbstractClassName">
+      <property name="ignoreModifier" value="true"/>
+    </module>
 
     <module name="AnonInnerLength">
       <property name="max" value="30"/>
@@ -231,6 +233,7 @@
     <module name="JavadocType">
       <property name="scope" value="private"/>
       <property name="versionFormat" value="\$Id:\s.*\$"/>
+      <property name="allowUnknownTags" value="true"/>
     </module>
 
     <module name="JavadocVariable">
