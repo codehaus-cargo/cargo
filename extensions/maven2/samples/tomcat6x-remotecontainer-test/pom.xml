@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Codehaus CARGO, copyright 2004-2010 Vincent Massol.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-samples-maven2</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-sample-maven2-tomcat6x-remotecontainer-test</artifactId>
+  <name>Cargo Samples - Maven 2 - Tomcat 6 remote container test</name>
+  <packaging>jar</packaging>
+  <description>Sample application that exercises the Cargo Maven2 plugin with a Tomcat 6.x container and a remote container (deploy, undeploy, deploy and redeploy)</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>simple-war</artifactId>
+      <version>${cargo.resources.version}</version>
+      <type>war</type>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>start</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+            <configuration>
+              <container>
+                <containerId>tomcat6x</containerId>
+                <zipUrlInstaller>
+                  <url>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.32/bin/apache-tomcat-6.0.32.zip</url>
+                  <downloadDir>${basedir}/../../../../core/samples/java/installs</downloadDir>
+                  <extractDir>${project.build.directory}/catalina-root</extractDir>
+                </zipUrlInstaller>
+              </container>
+              <configuration>
+                <home>${project.build.directory}/catalina-base</home>
+                <properties>
+                  <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+                  <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
+                </properties>
+              </configuration>
+            </configuration>
+          </execution>
+          <execution>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>deployer-deploy</goal>
+              <goal>deployer-undeploy</goal>
+              <goal>deployer-deploy</goal>
+              <goal>deployer-redeploy</goal>
+            </goals>
+            <configuration>
+              <container>
+                <containerId>tomcat6x</containerId>
+                <type>remote</type>
+              </container>
+              <configuration>
+                <type>runtime</type>
+                <properties>
+                  <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+                  <cargo.remote.username>admin</cargo.remote.username>
+                  <cargo.remote.password></cargo.remote.password>
+                </properties>
+              </configuration>
+              <deployer>
+                <type>remote</type>
+                <deployables>
+                  <deployable>
+                    <groupId>org.codehaus.cargo</groupId>
+                    <artifactId>simple-war</artifactId>
+                    <type>war</type>
+                    <pingURL>http://localhost:${cargo.samples.servlet.port}/simple-war/index.jsp</pingURL>
+                    <properties>
+                      <context>simple-war</context>
+                    </properties>
+                  </deployable>
+                </deployables>
+              </deployer>
+            </configuration>
+          </execution>
+          <execution>
+            <id>stop</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+            <configuration>
+              <container>
+                <containerId>tomcat6x</containerId>
+                <home>${project.build.directory}/catalina-root</home>
+              </container>
+              <configuration>
+                <home>${project.build.directory}/catalina-base</home>
+                <properties>
+                  <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+                  <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
+                </properties>
+              </configuration>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
