@@ -59,16 +59,6 @@
             <zipUrlInstaller>
               <url>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.32/bin/apache-tomcat-6.0.32.zip</url>
               <downloadDir>${basedir}/../../../../core/samples/java/installs</downloadDir>
-              <!--
-                If required, enter your proxy server settings here.
-
-              <proxy>
-                <host>someproxy</host>
-                <port>8080</port>
-                <user>alitokmen</user>
-                <password>secret</password>
-              </proxy>
-                -->
             </zipUrlInstaller>
             <dependencies>
               <dependency>
