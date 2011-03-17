@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.management.AttributeNotFoundException;
+import javax.management.InstanceNotFoundException;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
 import javax.management.remote.JMXConnector;
@@ -92,6 +93,10 @@ public class GeronimoUtils
         catch (SecurityException e)
         {
             // Security error, happens when container is starting
+        }
+        catch (InstanceNotFoundException e)
+        {
+            // happens when container is stopping
         }
         catch (Exception e)
         {
