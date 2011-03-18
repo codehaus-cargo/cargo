@@ -290,6 +290,10 @@
     <system>jira</system>
     <url>http://jira.codehaus.org/browse/CARGO</url>
   </issueManagement>
+  <ciManagement>
+    <system>bamboo</system>
+    <url>http://bamboo.ci.codehaus.org/browse/CARGO</url>
+  </ciManagement>
   <distributionManagement>
     <site>
       <id>cargo-website</id>
