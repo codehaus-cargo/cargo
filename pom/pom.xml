@@ -18,18 +18,24 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-    <parent>
-      <groupId>org.codehaus</groupId>
-      <artifactId>codehaus-parent</artifactId>
-      <version>3</version>
-      <relativePath/>
-    </parent>
+  <parent>
+    <groupId>org.codehaus</groupId>
+    <artifactId>codehaus-parent</artifactId>
+    <version>3</version>
+    <relativePath/>
+  </parent>
   <groupId>org.codehaus.cargo</groupId>
   <artifactId>cargo-parent</artifactId>
-  <name>Cargo</name>
-  <packaging>pom</packaging>
   <version>4.8-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>Cargo</name>
   <url>http://cargo.codehaus.org</url>
+  <inceptionYear>2004</inceptionYear>
+  <organization>
+    <name>Codehaus</name>
+    <url>http://codehaus.org/</url>
+  </organization>
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
@@ -37,18 +43,7 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  <prerequisites>
-    <!--
-      There are some issues with Maven 2.0.4 that have been fixed in Maven 2.0.5
-      See: MNG-1952 and other related (probably minor) issues
-      -->
-    <maven>2.0.5</maven>
-  </prerequisites>
-  <inceptionYear>2004</inceptionYear>
-  <issueManagement>
-    <system>jira</system>
-    <url>http://jira.codehaus.org/browse/CARGO</url>
-  </issueManagement>
+
   <developers>
     <developer>
       <name>Vincent Massol</name>
@@ -277,111 +272,30 @@
       <name>Adriana Danes (OW2)</name>
     </contributor>
   </contributors>
-  <dependencies />
-  <organization>
-    <name>Codehaus</name>
-    <url>http://codehaus.org/</url>
-  </organization>
+
+  <prerequisites>
+    <!--
+      There are some issues with Maven 2.0.4 that have been fixed in Maven 2.0.5
+      See: MNG-1952 and other related (probably minor) issues
+      -->
+    <maven>2.0.5</maven>
+  </prerequisites>
+
+  <scm>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/pom/trunk</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/pom/trunk</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/pom/trunk</url> 
+  </scm>
+  <issueManagement>
+    <system>jira</system>
+    <url>http://jira.codehaus.org/browse/CARGO</url>
+  </issueManagement>
   <distributionManagement>
     <site>
       <id>cargo-website</id>
       <url>dav:https://dav.codehaus.org/cargo/maven-site/</url>
     </site>
   </distributionManagement>
-  <profiles>
-    <profile>
-      <!-- See: http://docs.codehaus.org/display/HAUSMATES/Continuous+Integration+-+Snapshots -->
-      <id>bamboo-deploy</id>
-      <distributionManagement>
-        <snapshotRepository>
-          <id>cargo-snapshot-bamboo</id>
-          <name>Cargo's snapshot repository on Bamboo</name>
-          <url>file:///opt/ci.repository.codehaus.org/</url>
-        </snapshotRepository>
-      </distributionManagement>
-    </profile>
-    <profile>
-      <id>maven-3</id>
-      <activation>
-        <file>
-          <!-- This employs that the basedir expression is only recognized by Maven 3.x (see MNG-2363) -->
-          <exists>${basedir}</exists>
-        </file>
-      </activation>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-site-plugin</artifactId>
-              <version>3.0-beta-3</version>
-            </plugin>          
-          </plugins>
-        </pluginManagement>
-      </build>
-    </profile>
-  </profiles>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/pom/trunk</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/pom/trunk</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/pom/trunk</url> 
-  </scm>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.7</version>
-        <configuration>
-          <tagletArtifacts>
-            <tagletArtifact>
-              <groupId>org.apache.maven.plugin-tools</groupId>
-              <artifactId>maven-plugin-tools-javadoc</artifactId>
-              <version>2.7</version>
-            </tagletArtifact>
-          </tagletArtifacts>
-        </configuration>
-      </plugin>
-      <!-- disabled due to: http://jira.codehaus.org/browse/MCLIRR-7 -->
-      <!--
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>clirr-maven-plugin</artifactId>
-        <configuration>
-          <minSeverity>info</minSeverity>
-          <failOnError>false</failOnError>
-          <textOutputFile>${project.build.directory}/clirr.txt</textOutputFile>
-          <excludes>
-            <exclude>**/internal/**</exclude>
-            <exclude>**/spi/**</exclude>
-            <exclude>org/codehaus/cargo/module/webapp/VendorWebAppDescriptor</exclude>
-            <exclude>org/codehaus/cargo/module/webapp/orion/OrionWebXml</exclude>
-            <exclude>org/codehaus/cargo/module/webapp/resin/ResinWebXml</exclude>
-            <exclude>org/codehaus/cargo/module/webapp/weblogic/WeblogicXml</exclude>
-            <exclude>org/codehaus/cargo/module/webapp/websphere/IbmWebBndXmi</exclude>            
-          </excludes>
-        </configuration>
-      </plugin>
-       -->
-      <!-- Disabling the clover plugin until the license is renewed -->
-      <!--
-        <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-clover-plugin</artifactId>
-      </plugin>
-       -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>2.8</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.3.1</version>
-      </plugin>
-    </plugins>
-  </reporting>
 
   <properties>
     <cargo.derby.version>10.4.2.0</cargo.derby.version>
@@ -610,6 +524,96 @@
         <version>1.0-beta-2</version>
       </extension>
     </extensions>
-
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.7</version>
+        <configuration>
+          <tagletArtifacts>
+            <tagletArtifact>
+              <groupId>org.apache.maven.plugin-tools</groupId>
+              <artifactId>maven-plugin-tools-javadoc</artifactId>
+              <version>2.7</version>
+            </tagletArtifact>
+          </tagletArtifacts>
+        </configuration>
+      </plugin>
+      <!-- disabled due to: http://jira.codehaus.org/browse/MCLIRR-7 -->
+      <!--
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>clirr-maven-plugin</artifactId>
+        <configuration>
+          <minSeverity>info</minSeverity>
+          <failOnError>false</failOnError>
+          <textOutputFile>${project.build.directory}/clirr.txt</textOutputFile>
+          <excludes>
+            <exclude>**/internal/**</exclude>
+            <exclude>**/spi/**</exclude>
+            <exclude>org/codehaus/cargo/module/webapp/VendorWebAppDescriptor</exclude>
+            <exclude>org/codehaus/cargo/module/webapp/orion/OrionWebXml</exclude>
+            <exclude>org/codehaus/cargo/module/webapp/resin/ResinWebXml</exclude>
+            <exclude>org/codehaus/cargo/module/webapp/weblogic/WeblogicXml</exclude>
+            <exclude>org/codehaus/cargo/module/webapp/websphere/IbmWebBndXmi</exclude>            
+          </excludes>
+        </configuration>
+      </plugin>
+       -->
+      <!-- Disabling the clover plugin until the license is renewed -->
+      <!--
+        <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clover-plugin</artifactId>
+      </plugin>
+       -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.8</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.3.1</version>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <profiles>
+    <profile>
+      <!-- See: http://docs.codehaus.org/display/HAUSMATES/Continuous+Integration+-+Snapshots -->
+      <id>bamboo-deploy</id>
+      <distributionManagement>
+        <snapshotRepository>
+          <id>cargo-snapshot-bamboo</id>
+          <name>Cargo's snapshot repository on Bamboo</name>
+          <url>file:///opt/ci.repository.codehaus.org/</url>
+        </snapshotRepository>
+      </distributionManagement>
+    </profile>
+    <profile>
+      <id>maven-3</id>
+      <activation>
+        <file>
+          <!-- This employs that the basedir expression is only recognized by Maven 3.x (see MNG-2363) -->
+          <exists>${basedir}</exists>
+        </file>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-site-plugin</artifactId>
+              <version>3.0-beta-3</version>
+            </plugin>          
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
 </project>
