@@ -30,6 +30,7 @@
   <packaging>pom</packaging>
 
   <name>Cargo</name>
+  <description>Cargo is a thin wrapper that allows you to manipulate Java EE containers in a standard way.</description>
   <url>http://cargo.codehaus.org</url>
   <inceptionYear>2004</inceptionYear>
   <organization>
