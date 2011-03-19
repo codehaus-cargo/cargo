@@ -31,14 +31,14 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
  * 
  * @version $Id$
  */
-public abstract class AbstractJettyStandaloneLocalConfiguration extends
+public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfiguration
 {
     /**
      * {@inheritDoc}
      * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
-    public AbstractJettyStandaloneLocalConfiguration(String dir)
+    public AbstractJettyEmbeddedStandaloneLocalConfiguration(String dir)
     {
         super(dir);
     }

@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.jetty;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.jetty.internal.Jetty5xEmbeddedStandaloneLocalConfigurationCapability;
 
 /**
@@ -32,7 +32,7 @@ import org.codehaus.cargo.container.jetty.internal.Jetty5xEmbeddedStandaloneLoca
  * @version $Id$
  */
 public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
-    AbstractJettyStandaloneLocalConfiguration
+    AbstractJettyEmbeddedStandaloneLocalConfiguration
 {
     /**
      * convenience field for empty Class argument list to reflection methods.
