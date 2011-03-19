@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Codehaus CARGO, copyright 2004-2010 Vincent Massol.
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ package org.codehaus.cargo.maven2;
  * Class used uniquely to provide a goal alias for <code>deployer-deploy</code>.
  * 
  * @goal deploy
+ * @aggregator true
  * @requiresDependencyResolution compile
  * @see DeployerDeployMojo
  * @version $Id$

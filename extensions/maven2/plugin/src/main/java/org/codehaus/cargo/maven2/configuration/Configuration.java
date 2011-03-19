@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Codehaus CARGO, copyright 2004-2010 Vincent Massol.
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,7 +79,12 @@ public class Configuration
      * Extra resources.
      */
     private Resource[] resources;
-
+    
+    /**
+     * Whether project modules artifacts are merged as dependencies.
+     */
+    private boolean mergeModuleArtifacts;
+    
     /**
      * @return Configuration type.
      */
@@ -206,6 +211,22 @@ public class Configuration
     public void setResources(Resource[] rlist)
     {
         this.resources = rlist;
+    }
+
+    /**
+     * @return Whether project modules artifacts are merged as dependencies.
+     */
+    public boolean isMergeModuleArtifacts()
+    {
+        return mergeModuleArtifacts;
+    }
+
+    /**
+     * @param mergeModuleArtifacts Whether project modules artifacts are merged as dependencies.
+     */
+    public void setMergeModuleArtifacts(boolean mergeModuleArtifacts)
+    {
+        this.mergeModuleArtifacts = mergeModuleArtifacts;
     }
 
     /**

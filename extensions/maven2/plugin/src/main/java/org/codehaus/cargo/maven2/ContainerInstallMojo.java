@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Codehaus CARGO, copyright 2004-2010 Vincent Massol.
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,8 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
  * 
  * @version $Id$
  * @goal install
- * @requiresDependencyResolution compile
+ * @aggregator true
+ * @requiresDependencyResolution test
  * @since Cargo Maven2 plugin v0.3
  */
 public class ContainerInstallMojo extends AbstractCargoMojo

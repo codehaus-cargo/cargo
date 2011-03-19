@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Codehaus CARGO, copyright 2004-2010 Vincent Massol.
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -273,7 +273,15 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
         if (this.cargoProject == null)
         {
-            this.cargoProject = new CargoProject(getProject(), getLog());
+            if (getConfigurationElement().isMergeModuleArtifacts())
+            {
+                this.cargoProject = new CargoProject(getProject(), artifactResolver, 
+                    localRepository, getLog());
+            }
+            else
+            {
+                this.cargoProject = new CargoProject(getProject(), getLog());
+            }
         }
         doExecute();
     }

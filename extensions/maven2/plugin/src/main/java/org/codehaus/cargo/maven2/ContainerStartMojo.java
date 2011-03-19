@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Codehaus CARGO, copyright 2004-2010 Vincent Massol.
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,8 @@ import org.codehaus.cargo.container.spi.util.ContainerUtils;
  * 
  * @version $Id$
  * @goal start
- * @requiresDependencyResolution compile
+ * @aggregator true
+ * @requiresDependencyResolution test
  */
 public class ContainerStartMojo extends AbstractCargoMojo
 {
