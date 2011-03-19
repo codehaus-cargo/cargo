@@ -282,7 +282,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         else if (toFile == null && toDir != null)
         {
             // get the filename and add it in the todir directory name
-            String filename = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.length());
+            String filename = new File(fileName).getName();
             finalFile = getHome() + "/" + toDir + "/" + filename;
         }
         else if (toFile != null && toDir == null)
@@ -292,8 +292,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         }
         else if (toFile == null && toDir == null)
         {
-            // use the tofile filename and add it into the conf directory
-            String filename = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.length());
+            // use the filename and add it into the conf directory
+            String filename = new File(fileName).getName();
             finalFile = getHome() + "/" + filename;
         }
         else if (toFile != null && toDir != null)
