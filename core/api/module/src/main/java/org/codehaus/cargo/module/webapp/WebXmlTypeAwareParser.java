@@ -128,8 +128,7 @@ public class WebXmlTypeAwareParser extends DefaultHandler
             catch (SAXException e)
             {
                 // This exception is expected - the handler aborts the reading
-                // when it has worked
-                // out what the type is.
+                // when it has worked out what the type is.
             }
             catch (Exception ex)
             {
@@ -177,22 +176,22 @@ public class WebXmlTypeAwareParser extends DefaultHandler
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}. This is an empty implementation.
      */
     @Override
     public void notationDecl(String namespaceURI, String sName, String qName) throws SAXException
     {
-
+        // Nothing
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}. This is an empty implementation.
      */
     @Override
     public void unparsedEntityDecl(java.lang.String arg0, java.lang.String arg1,
             java.lang.String arg2, java.lang.String arg3) throws org.xml.sax.SAXException
     {
-
+        // Nothing
     }
 
     /**
