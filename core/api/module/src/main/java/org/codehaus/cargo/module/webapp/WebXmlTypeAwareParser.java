@@ -150,9 +150,8 @@ public class WebXmlTypeAwareParser extends DefaultHandler
     {
         bufferedStream.reset();
 
-        // Default to 2.3 if nothing else specified
-        // TODO: Upgrade this to 2.5? Also fix tests...
-        WebXmlType descriptorType = WebXml23Type.getInstance();
+        // Default to 2.5 if nothing else specified
+        WebXmlType descriptorType = WebXml25Type.getInstance();
 
         if (WebXmlVersion.V2_2.equals(getVersion()))
         {

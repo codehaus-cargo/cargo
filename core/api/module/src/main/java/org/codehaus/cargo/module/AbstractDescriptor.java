@@ -319,6 +319,11 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
     {
         List<DescriptorTag> elementOrder =
             this.getDescriptorType().getGrammar().getElementOrder(parent);
+        if (elementOrder == null)
+        {
+            // No order required, just insert anywhere
+            return null;
+        }
         for (int i = 0; i < elementOrder.size(); i++)
         {
             DescriptorTag orderTag = elementOrder.get(i);
