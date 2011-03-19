@@ -25,9 +25,8 @@ import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.jetty.internal.Jetty7xStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
 /**
  * Jetty 7.x standalone
@@ -35,7 +34,8 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
  * 
  * @version $Id$
  */
-public class Jetty7xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
+public class Jetty7xStandaloneLocalConfiguration extends
+    AbstractJettyStandaloneLocalConfiguration
 {
     /**
      * Capability of the Jetty 7.x standalone local configuration.
@@ -45,13 +45,11 @@ public class Jetty7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     * @see AbstractJettyStandaloneLocalConfiguration#AbstractJettyStandaloneLocalConfiguration(String)
      */
     public Jetty7xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
-
-        setProperty(GeneralPropertySet.RMI_PORT, "8079");
     }
 
     /**
