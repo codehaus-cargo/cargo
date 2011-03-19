@@ -299,10 +299,14 @@ public class AbstractCargoTestCase extends TestCase
     private void setUpXercesIfJDK14(Configuration configuration, InstalledLocalContainer container)
     {
         if (configuration.getPropertyValue(GeneralPropertySet.JAVA_HOME).equals(
-            System.getProperty("cargo.java.home.1_4")))
+            getJavaHome("cargo.java.home.1_4")))
         {
 
             String xerces = System.getProperty("cargo.testdata.xerces-jars");
+            if (xerces == null && container.getFileHandler().exists("target/xerces-jars"))
+            {
+                xerces = container.getFileHandler().getAbsolutePath("target/xerces-jars");
+            }
             if (xerces != null)
             {
                 String[] jars = container.getFileHandler().getChildren(xerces);
@@ -326,7 +330,7 @@ public class AbstractCargoTestCase extends TestCase
     private void setUpXercesIfJDK15(Configuration configuration, InstalledLocalContainer container)
     {
         if (configuration.getPropertyValue(GeneralPropertySet.JAVA_HOME).equals(
-            System.getProperty("cargo.java.home.1_5")))
+            getJavaHome("cargo.java.home.1_5")))
         {
             container.getSystemProperties().put("javax.xml.parsers.SAXParserFactory",
                 "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
@@ -334,6 +338,20 @@ public class AbstractCargoTestCase extends TestCase
                 "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl");
         }
 
+    }
+
+    /**
+     * Queries the system property {@code cargo.java.home.x_y}, automatically falling back to
+     * {@code java.home} if not set.
+     */
+    private String getJavaHome(String property)
+    {
+        String javaHome = System.getProperty(property);
+        if (javaHome == null)
+        {
+            javaHome = System.getProperty("java.home");
+        }
+        return javaHome;
     }
 
     /**
