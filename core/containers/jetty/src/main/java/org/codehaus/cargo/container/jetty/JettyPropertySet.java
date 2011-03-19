@@ -27,7 +27,7 @@ package org.codehaus.cargo.container.jetty;
 public interface JettyPropertySet
 {
     /**
-     * The URL for calling the Jetty Deplotyer webapp.
+     * The URL for calling the Jetty Deployer webapp.
      */
     String DEPLOYER_URL = "cargo.jetty.deployer.url";
 
