@@ -35,4 +35,10 @@ public interface JettyPropertySet
      * The default session path to use for all session cookies.
      */
     String SESSION_PATH = "cargo.jetty.session.path";
+
+    /**
+     * The boolean flag controlling the use of memory mapped buffers for serving static content.
+     */
+    String USE_FILE_MAPPED_BUFFER = "cargo.jetty.servlet.default.useFileMappedBuffer";
+
 }

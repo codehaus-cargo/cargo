@@ -24,6 +24,7 @@ import java.io.File;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
@@ -46,6 +47,7 @@ public abstract class AbstractJettyStandaloneLocalConfiguration extends
         super(dir);
 
         setProperty(GeneralPropertySet.RMI_PORT, "8079");
+        setProperty(JettyPropertySet.USE_FILE_MAPPED_BUFFER, "true");
     }
 
     /**
@@ -54,7 +56,15 @@ public abstract class AbstractJettyStandaloneLocalConfiguration extends
      * 
      * @return The filter chain, never {@code null}.
      */
-    protected abstract FilterChain createJettyFilterChain();
+    protected FilterChain createJettyFilterChain()
+    {
+        FilterChain filterChain = createFilterChain();
+
+        getAntUtils().addTokenToFilterChain(filterChain, "cargo.jetty.useFileMappedBuffer",
+            getPropertyValue(JettyPropertySet.USE_FILE_MAPPED_BUFFER));
+
+        return filterChain;
+    }
 
     /**
      * Creates a new deployer for the specified container.

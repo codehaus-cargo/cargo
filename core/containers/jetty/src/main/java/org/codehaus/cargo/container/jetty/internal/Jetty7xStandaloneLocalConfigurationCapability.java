@@ -58,6 +58,7 @@ public class Jetty7xStandaloneLocalConfigurationCapability
         this.supportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
 
         this.supportsMap.put(JettyPropertySet.SESSION_PATH, Boolean.TRUE);
+        this.supportsMap.put(JettyPropertySet.USE_FILE_MAPPED_BUFFER, Boolean.TRUE);
     }
 
     /**

@@ -62,7 +62,7 @@ public class Jetty7xStandaloneLocalConfiguration extends
     @Override
     protected FilterChain createJettyFilterChain()
     {
-        FilterChain filterChain = createFilterChain();
+        FilterChain filterChain = super.createJettyFilterChain();
 
         String sessionPath = getPropertyValue(JettyPropertySet.SESSION_PATH);
         String sessionContextParam = "";
