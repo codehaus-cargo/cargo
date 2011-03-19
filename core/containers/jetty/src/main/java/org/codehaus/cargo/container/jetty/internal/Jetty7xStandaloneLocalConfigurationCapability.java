@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.jetty.internal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
@@ -55,6 +56,8 @@ public class Jetty7xStandaloneLocalConfigurationCapability
 
         this.supportsMap.put(ServletPropertySet.PORT, Boolean.FALSE);
         this.supportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
+
+        this.supportsMap.put(JettyPropertySet.SESSION_PATH, Boolean.TRUE);
     }
 
     /**

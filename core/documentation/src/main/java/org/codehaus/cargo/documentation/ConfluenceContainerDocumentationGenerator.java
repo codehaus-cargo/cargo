@@ -35,6 +35,7 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.geronimo.GeronimoPropertySet;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.jrun.JRun4xPropertySet;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
@@ -696,6 +697,7 @@ public class ConfluenceContainerDocumentationGenerator
             GeronimoPropertySet.class,
             WebLogicPropertySet.class,
             JBossPropertySet.class,
+            JettyPropertySet.class,
             JonasPropertySet.class,
             GlassFishPropertySet.class,
             JRun4xPropertySet.class,
