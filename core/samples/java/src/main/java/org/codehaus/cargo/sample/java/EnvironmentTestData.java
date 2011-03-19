@@ -122,12 +122,12 @@ public class EnvironmentTestData
             "cargo/container").getPath();
         this.proxy = createProxyElement();
         this.installURL = createInstallURL(containerId);
-        this.port = createPort(containerId, "servlet");
-        this.rmiPort = createPort(containerId, "rmi");
+        this.port = createPort(containerId, "servlet", 8080);
+        this.rmiPort = createPort(containerId, "rmi", 1099);
         this.home = getSystemProperty("cargo." + containerId + ".home");
         this.javaHome = getSystemProperty("cargo." + containerId + ".java.home");
         this.version = System.getProperty("cargo.resources.version");
-        this.containerTimeout = Long.parseLong(getSystemProperty("cargo.containers.timeout"));
+        this.containerTimeout = Long.parseLong(getSystemProperty("cargo.containers.timeout", "60000"));
     }
 
     /**
@@ -135,12 +135,16 @@ public class EnvironmentTestData
      * @param type Port type
      * @return the port to use for the specified container
      */
-    private int createPort(String containerId, String type)
+    private int createPort(String containerId, String type, int defaultValue)
     {
         String portString = getSystemProperty("cargo." + containerId + "." + type + ".port");
         if (portString == null)
         {
             portString = getSystemProperty("cargo." + type + ".port");
+        }
+        if (portString == null)
+        {
+            return defaultValue;
         }
         return Integer.parseInt(portString);
     }
