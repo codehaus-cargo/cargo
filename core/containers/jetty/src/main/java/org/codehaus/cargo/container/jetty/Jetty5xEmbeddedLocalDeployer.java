@@ -59,15 +59,13 @@ public class Jetty5xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
                 Jetty5xEmbeddedLocalContainer container =
                     (Jetty5xEmbeddedLocalContainer) getContainer();
 
-                Class wac = container.getClassLoader().loadClass(
-                    "org.mortbay.jetty.servlet.WebApplicationContext");
-                Object webAppContext = container.getServer().getClass().getMethod(
+                Object webapp = container.getServer().getClass().getMethod(
                     "addWebApplication", new Class[] {String.class, String.class}).invoke(
                         container.getServer(),
                         new Object[] {getContext(deployable), deployable.getFile()});
 
-                webAppContext.getClass().getMethod("setDefaultsDescriptor", String.class).invoke(
-                    webAppContext,
+                webapp.getClass().getMethod("setDefaultsDescriptor", String.class).invoke(
+                    webapp,
                     new File(container.getConfiguration().getHome(), 
                         "etc/webdefault.xml").toURI().toString());
 
@@ -75,30 +73,31 @@ public class Jetty5xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
                 String[] virtualHosts = getVirtualHosts();
                 for (int i = 0; virtualHosts != null && i < virtualHosts.length; i++)
                 {
-                    wac.getMethod("addVirtualHost", new Class[] {String.class})
-                        .invoke(webAppContext, new Object[] {virtualHosts[i]});
+                    webapp.getClass().getMethod("addVirtualHost", new Class[] {String.class})
+                        .invoke(webapp, new Object[] {virtualHosts[i]});
                 }
 
                 // check if extracting the war is wanted
                 if (getExtractWar() != null)
                 {
-                    wac.getMethod("setExtractWAR", new Class[] {Boolean.TYPE})
-                        .invoke(webAppContext, new Object[] {getExtractWar()});
+                    webapp.getClass().getMethod("setExtractWAR", new Class[] {Boolean.TYPE})
+                        .invoke(webapp, new Object[] {getExtractWar()});
                 }
 
                 if (getParentLoaderPriority() != null)
                 {
                     // check if user wants to invert the class loading hierarchy
-                    wac.getMethod("setClassLoaderJava2Compliant", new Class[] {Boolean.TYPE})
-                        .invoke(webAppContext, new Object[] {getParentLoaderPriority()});
+                    webapp.getClass()
+                        .getMethod("setClassLoaderJava2Compliant", new Class[] {Boolean.TYPE})
+                        .invoke(webapp, new Object[] {getParentLoaderPriority()});
                 }
 
                 // check if a default realm has been set for the server, if so, use it
-                container.setDefaultRealm(webAppContext);
+                container.setDefaultRealm(webapp);
 
                 // Activate context
-                wac.getMethod("start", null).invoke(webAppContext, null);
-                return webAppContext;
+                webapp.getClass().getMethod("start").invoke(webapp);
+                return webapp;
             }
             catch (Exception e)
             {
@@ -120,13 +119,8 @@ public class Jetty5xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
         stop(deployable);
         try
         {
-            Jetty5xEmbeddedLocalContainer container =
-                (Jetty5xEmbeddedLocalContainer) getContainer();
-
-            Object deployedWebAppContext = getDeployedWebAppContext(deployable);
-            Class wac = container.getClassLoader().loadClass(
-                "org.mortbay.jetty.servlet.WebApplicationContext");
-            wac.getMethod("destroy", null).invoke(deployedWebAppContext, null);
+            Object webapp = getDeployedWebAppContext(deployable);
+            webapp.getClass().getMethod("destroy").invoke(webapp);
         }
         catch (Exception e)
         {
@@ -154,13 +148,8 @@ public class Jetty5xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
     {
         try
         {
-            Jetty5xEmbeddedLocalContainer container =
-                (Jetty5xEmbeddedLocalContainer) getContainer();
-
-            Object deployedWebAppContext = getDeployedWebAppContext(deployable);
-            Class wac = container.getClassLoader().loadClass(
-                "org.mortbay.jetty.servlet.WebApplicationContext");
-            wac.getMethod("start", null).invoke(deployedWebAppContext, null);
+            Object webapp = getDeployedWebAppContext(deployable);
+            webapp.getClass().getMethod("start").invoke(webapp);
         }
         catch (Exception e)
         {
@@ -177,13 +166,8 @@ public class Jetty5xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
     {
         try
         {
-            Jetty5xEmbeddedLocalContainer container =
-                (Jetty5xEmbeddedLocalContainer) getContainer();
-
-            Object deployedWebAppContext = getDeployedWebAppContext(deployable);
-            Class wac = container.getClassLoader().loadClass(
-                "org.mortbay.jetty.servlet.WebApplicationContext");
-            wac.getMethod("stop", null).invoke(deployedWebAppContext, null);
+            Object webapp = getDeployedWebAppContext(deployable);
+            webapp.getClass().getMethod("stop").invoke(webapp);
         }
         catch (Exception e)
         {

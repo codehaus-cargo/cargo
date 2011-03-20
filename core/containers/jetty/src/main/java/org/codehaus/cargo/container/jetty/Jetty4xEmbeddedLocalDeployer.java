@@ -60,22 +60,20 @@ public class Jetty4xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
                 Jetty4xEmbeddedLocalContainer container =
                     (Jetty4xEmbeddedLocalContainer) getContainer();
 
-                Object context = container.getServer().getClass().getMethod("addWebApplication",
+                Object webapp = container.getServer().getClass().getMethod("addWebApplication",
                     new Class[] {String.class, String.class}).invoke(
                         container.getServer(),
                         new Object[] {"/" + ((WAR) deployable).getContext(), deployable.getFile()});
 
-                context.getClass().getMethod("setDefaultsDescriptor", String.class).invoke(
-                    context,
+                webapp.getClass().getMethod("setDefaultsDescriptor", String.class).invoke(
+                    webapp,
                     new File(container.getConfiguration().getHome(),
                         "etc/webdefault.xml").toURI().toString());
 
                 // Activate context by stoppping and re-starting it
-                Class wc = container.getClassLoader().loadClass(
-                    "org.mortbay.jetty.servlet.WebApplicationContext");
-                wc.getMethod("stop", null).invoke(context, null);
-                wc.getMethod("start", null).invoke(context, null);
-                return context;
+                webapp.getClass().getMethod("stop").invoke(webapp);
+                webapp.getClass().getMethod("start").invoke(webapp);
+                return webapp;
             }
             catch (Exception e)
             {
