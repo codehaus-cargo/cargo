@@ -19,14 +19,6 @@
  */
 package org.codehaus.cargo.container.jetty.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.codehaus.cargo.container.jetty.JettyPropertySet;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
-
 /**
  * Capabilities of the Jetty's
  * {@link org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration}
@@ -35,39 +27,15 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
  * @version $Id$
  */
 public class Jetty6xStandaloneLocalConfigurationCapability
-    extends AbstractStandaloneLocalConfigurationCapability
+    extends AbstractJettyStandaloneLocalConfigurationCapability
 {
-    /**
-     * Configuration-specific supports Map.
-     */
-    private Map<String, Boolean> supportsMap;
 
     /**
-     * Initialize the configuration-specific supports Map.
+     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfigurationCapability#AbstractJettyStandaloneLocalConfigurationCapability()
      */
     public Jetty6xStandaloneLocalConfigurationCapability()
     {
         super();
-
-        this.supportsMap = new HashMap<String, Boolean>();
-
-        this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
-        this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
-
-        this.supportsMap.put(ServletPropertySet.PORT, Boolean.FALSE);
-        this.supportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
-
-        this.supportsMap.put(JettyPropertySet.SESSION_PATH, Boolean.TRUE);
-        this.supportsMap.put(JettyPropertySet.USE_FILE_MAPPED_BUFFER, Boolean.TRUE);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.supportsMap;
-    }
 }
