@@ -240,6 +240,8 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
             handler, new Object[] {"/" + ((WAR) deployable).getContext()});
         handler.getClass().getMethod("setWar", new Class[] {String.class}).invoke(handler,
             new Object[] {deployable.getFile()});
+        handler.getClass().getMethod("setDefaultsDescriptor", String.class).invoke(handler,
+            getFileHandler().append(getConfiguration().getHome(), "etc/webdefault.xml"));
 
         setDefaultRealm(handler);
 

@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import java.io.File;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -62,6 +64,11 @@ public class Jetty4xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
                     new Class[] {String.class, String.class}).invoke(
                         container.getServer(),
                         new Object[] {"/" + ((WAR) deployable).getContext(), deployable.getFile()});
+
+                context.getClass().getMethod("setDefaultsDescriptor", String.class).invoke(
+                    context,
+                    new File(container.getConfiguration().getHome(),
+                        "etc/webdefault.xml").toURI().toString());
 
                 // Activate context by stoppping and re-starting it
                 Class wc = container.getClassLoader().loadClass(

@@ -72,6 +72,9 @@ public abstract class AbstractJetty4x5xEmbeddedLocalContainer
         // Set up security realm
         setSecurityRealm();
 
+        String webdefault =
+            new File(getConfiguration().getHome(), "etc/webdefault.xml").toURI().toString();
+
         // Deploy WAR deployables
         for (Deployable deployable : getConfiguration().getDeployables())
         {
@@ -81,6 +84,8 @@ public abstract class AbstractJetty4x5xEmbeddedLocalContainer
                 Object webapp = getServer().getClass().getMethod("addWebApplication",
                     new Class[] {String.class, String.class}).invoke(getServer(),
                         new Object[] {"/" + ((WAR) deployable).getContext(), deployable.getFile()});
+                webapp.getClass().getMethod("setDefaultsDescriptor", String.class)
+                    .invoke(webapp, webdefault);
                 performExtraSetupOnDeployable(webapp);
             }
             else

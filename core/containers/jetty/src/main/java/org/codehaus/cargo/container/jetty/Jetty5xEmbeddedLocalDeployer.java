@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import java.io.File;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -63,6 +65,11 @@ public class Jetty5xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
                     "addWebApplication", new Class[] {String.class, String.class}).invoke(
                         container.getServer(),
                         new Object[] {getContext(deployable), deployable.getFile()});
+
+                webAppContext.getClass().getMethod("setDefaultsDescriptor", String.class).invoke(
+                    webAppContext,
+                    new File(container.getConfiguration().getHome(), 
+                        "etc/webdefault.xml").toURI().toString());
 
                 // set up virtual hosts
                 String[] virtualHosts = getVirtualHosts();

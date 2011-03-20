@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.jetty.internal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
@@ -51,6 +52,8 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfigurationCapabilit
 
         this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
         this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
+
+        this.supportsMap.put(JettyPropertySet.USE_FILE_MAPPED_BUFFER, Boolean.TRUE);
     }
 
     /**

@@ -21,9 +21,11 @@ package org.codehaus.cargo.container.jetty.internal;
 
 import java.io.File;
 
+import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
 /**
@@ -41,6 +43,8 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
     public AbstractJettyEmbeddedStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+
+        setProperty(JettyPropertySet.USE_FILE_MAPPED_BUFFER, "true");
     }
 
     /**
@@ -48,6 +52,22 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
      * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
     public abstract ConfigurationCapability getCapability();
+
+    /**
+     * Creates the filter chain that should be applied while copying container configuration files
+     * to the working directory from which the container is started.
+     * 
+     * @return The filter chain, never {@code null}.
+     */
+    protected FilterChain createJettyFilterChain()
+    {
+        FilterChain filterChain = createFilterChain();
+
+        getAntUtils().addTokenToFilterChain(filterChain, "cargo.jetty.useFileMappedBuffer",
+            getPropertyValue(JettyPropertySet.USE_FILE_MAPPED_BUFFER));
+
+        return filterChain;
+    }
 
     /**
      * {@inheritDoc}
@@ -60,8 +80,13 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
         {
             setupConfigurationDir();
 
+            FilterChain filterChain = createJettyFilterChain();
+
+            String etcDir = getFileHandler().createDirectory(getHome(), "etc");
             getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
                 new File(getHome(), "cargocpc.war"));
+            getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/webdefault.xml",
+                new File(etcDir, "webdefault.xml"), filterChain);
 
             if (container.getOutput() != null)
             {
