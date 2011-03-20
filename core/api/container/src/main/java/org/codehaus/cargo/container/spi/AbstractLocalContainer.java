@@ -324,14 +324,22 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
             {
                 s.bind(null);
                 s.connect(new InetSocketAddress("localhost", port), connectTimeout);
-
-                if (System.currentTimeMillis() > deadline)
+                try
                 {
-                    throw new ContainerException("Server port " + port
-                        + " did not shutdown within the timeout period [" + getTimeout() + "]");
+                    s.shutdownOutput();
                 }
-
-                Thread.sleep(1000);
+                catch (IOException e)
+                {
+                    // ignored, irrelevant
+                }
+                try
+                {
+                    s.shutdownInput();
+                }
+                catch (IOException e)
+                {
+                    // ignored, irrelevant
+                }
             }
             finally
             {
@@ -349,6 +357,14 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
                     System.gc();
                 }
             }
+
+            if (System.currentTimeMillis() > deadline)
+            {
+                throw new ContainerException("Server port " + port
+                    + " did not shutdown within the timeout period [" + getTimeout() + "]");
+            }
+
+            Thread.sleep(1000);
         }
     }
 
