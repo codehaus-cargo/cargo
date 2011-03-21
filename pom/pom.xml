@@ -228,6 +228,15 @@
         <role>Java Developer</role>
       </roles>
     </developer>
+    <developer>
+      <name>Benjamin Bentmann</name>
+      <id>bentmann</id>
+      <email />
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
   </developers>
   <contributors>
     <contributor>
@@ -271,6 +280,9 @@
     </contributor>
     <contributor>
       <name>Adriana Danes (OW2)</name>
+    </contributor>
+    <contributor>
+      <name>Ate Douma</name>
     </contributor>
   </contributors>
 
