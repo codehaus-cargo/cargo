@@ -23,6 +23,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -383,6 +384,7 @@ public class Container
                 setupOutput((InstalledLocalContainer) container, project);
                 setupExtraClasspath((InstalledLocalContainer) container, project);
                 setupSystemProperties((InstalledLocalContainer) container);
+                setupSharedClasspath((InstalledLocalContainer) container, project);
             }
         }
         setupLogger(container, logger);
@@ -489,15 +491,41 @@ public class Container
     {
         if (getDependencies() != null)
         {
-            String[] classpaths = new String[getDependencies().length];
-            for (int i = 0; i < getDependencies().length; i++)
+            HashSet<String> classpaths = new HashSet<String>();
+            for (Dependency dependency : getDependencies())
             {
-                classpaths[i] = getDependencies()[i].getDependencyPath(project);
+                if (dependency.isOnClasspath(Dependency.EXTRA_CLASSPATH))
+                {
+                    classpaths.add(dependency.getDependencyPath(project));
+                }
             }
-            container.setExtraClasspath(classpaths);
+            container.setExtraClasspath(classpaths.toArray(new String[classpaths.size()]));
         }
     }
 
+    /**
+     * Setup shared classpath.
+     * @param container Container.
+     * @param project Cargo project.
+     * @throws MojoExecutionException If dependency extraction fails.
+     */
+    private void setupSharedClasspath(InstalledLocalContainer container, CargoProject project)
+        throws MojoExecutionException
+    {
+        if (getDependencies() != null)
+        {
+            HashSet<String> classpaths = new HashSet<String>();
+            for (Dependency dependency : getDependencies())
+            {
+                if (dependency.isOnClasspath(Dependency.SHARED_CLASSPATH))
+                {
+                    classpaths.add(dependency.getDependencyPath(project));
+                }
+            }
+            container.setSharedClasspath(classpaths.toArray(new String[classpaths.size()]));
+        }
+    }
+    
     /**
      * Setup system properties.
      * @param container Container.

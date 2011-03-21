@@ -30,7 +30,7 @@ import org.codehaus.cargo.container.spi.util.ContainerUtils;
  * 
  * @version $Id$
  * @goal start
- * @requiresDependencyResolution compile
+ * @requiresDependencyResolution test
  */
 public class ContainerStartMojo extends AbstractCargoMojo
 {
