@@ -39,7 +39,7 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfigurationCapabilit
     /**
      * Configuration-specific supports Map.
      */
-    private Map<String, Boolean> supportsMap;
+    protected Map<String, Boolean> supportsMap;
 
     /**
      * Initialize the configuration-specific supports Map.

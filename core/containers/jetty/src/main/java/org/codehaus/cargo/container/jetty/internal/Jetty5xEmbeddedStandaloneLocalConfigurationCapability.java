@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.jetty.internal;
 
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
+
 /**
  * Configuration capability for a Jetty 5.x Embedded container.
  * 
@@ -34,6 +36,8 @@ public class Jetty5xEmbeddedStandaloneLocalConfigurationCapability extends
     public Jetty5xEmbeddedStandaloneLocalConfigurationCapability()
     {
         super();
+
+        this.supportsMap.remove(JettyPropertySet.USE_FILE_MAPPED_BUFFER);
     }
 
 }
