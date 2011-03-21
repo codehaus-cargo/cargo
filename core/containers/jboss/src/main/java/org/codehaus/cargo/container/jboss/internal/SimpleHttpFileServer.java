@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.jboss.internal;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,6 +32,9 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.URL;
 
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.Logger;
@@ -106,20 +110,15 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
 
     /**
      * @param handler file handler to use.
-     * @param filePath path of the file in the handler.
+     * @param deployable deployable to handle.
      */
-    public void setFile(FileHandler handler, String filePath)
+    public void setFile(FileHandler handler, Deployable deployable)
     {
-        if (!handler.exists(filePath) || handler.isDirectory(filePath))
-        {
-            throw new CargoException("File " + filePath + " does not exist or is not a file");
-        }
-        String baseDir = handler.getParent(filePath);
-        String fileName = handler.getName(filePath);
+        String filePath = deployable.getFile();
 
         this.filePath = filePath;
         this.fileHandler = handler;
-        this.remotePath = "/" + fileName;
+        this.remotePath = "/" + getDeployableName(deployable);
     }
 
     /**
@@ -369,5 +368,30 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
                 }
             }
         }
+    }
+
+    /**
+     * Get the deployable name for a given deployable. This also takes into account the WAR context.
+     * @param deployable Deployable to get the name for.
+     * @return Name for <code>deployable</code>.
+     */
+    private String getDeployableName(Deployable deployable)
+    {
+        File localFile = new File(deployable.getFile());
+        String localFileName = localFile.getName();
+        if (deployable.getType() == DeployableType.WAR)
+        {
+            WAR war = (WAR) deployable;
+            if (war.getContext().length() == 0)
+            {
+                localFileName = "rootContext.war";
+            }
+            else
+            {
+                localFileName = war.getContext() + ".war";
+            }
+        }
+
+        return localFileName;
     }
 }

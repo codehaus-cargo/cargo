@@ -201,7 +201,7 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
         boolean expectDownload)
     {
         this.fileServer.setLogger(this.getLogger());
-        this.fileServer.setFile(this.fileHandler, deployable.getFile());
+        this.fileServer.setFile(this.fileHandler, deployable);
         this.fileServer.setListeningParameters(this.deployableServerSocketAddress,
             configuration.getPropertyValue(JBossPropertySet.REMOTEDEPLOY_HOSTNAME));
 
@@ -209,7 +209,11 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
         {
             this.fileServer.start();
             String encodedURL = encodeURLLocation(this.fileServer.getURL());
-            invokeURL(createJBossRemoteURL(deployable, jmxConsoleURL, encodedURL));
+            String invokedURL = this.configuration.getPropertyValue(GeneralPropertySet.PROTOCOL)
+                + "://" + this.configuration.getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
+                + this.configuration.getPropertyValue(ServletPropertySet.PORT) + jmxConsoleURL
+                + encodedURL;
+            invokeURL(invokedURL);
             if (this.fileServer.getCallCount() == 0 && expectDownload)
             {
                 throw new CargoException("Application server didn't request the file");
@@ -310,20 +314,5 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
         }
 
         return encodedString;
-    }
-
-    /**
-     * Compute the JBoss deploy/undeploy URL.
-     * 
-     * @param deployable the file to deploy/undeploy
-     * @param urlPrefix the JBoss static part of the deploy§undeploy URL
-     * @param httpURL URL for JBoss to call back on
-     * @return the full deploy/undeploy URL
-     */
-    protected String createJBossRemoteURL(Deployable deployable, String urlPrefix, String httpURL)
-    {
-        return this.configuration.getPropertyValue(GeneralPropertySet.PROTOCOL) + "://"
-            + this.configuration.getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
-            + this.configuration.getPropertyValue(ServletPropertySet.PORT) + urlPrefix + httpURL;
     }
 }

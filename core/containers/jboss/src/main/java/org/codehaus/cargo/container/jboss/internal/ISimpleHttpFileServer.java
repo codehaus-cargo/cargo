@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.jboss.internal;
 import java.net.InetSocketAddress;
 import java.net.URL;
 
+import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.Logger;
 
@@ -35,9 +36,9 @@ public interface ISimpleHttpFileServer
 
     /**
      * @param handler file handler to use.
-     * @param filePath path of the file in the handler.
+     * @param deployable deployable to handle.
      */
-    void setFile(FileHandler handler, String filePath);
+    void setFile(FileHandler handler, Deployable deployable);
 
     /**
      * @param listenSocket socket to listen on.
