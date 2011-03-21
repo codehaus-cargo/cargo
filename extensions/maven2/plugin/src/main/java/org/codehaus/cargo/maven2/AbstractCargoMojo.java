@@ -273,15 +273,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
         if (this.cargoProject == null)
         {
-            if (getConfigurationElement().isMergeModuleArtifacts())
-            {
-                this.cargoProject = new CargoProject(getProject(), artifactResolver, 
-                    localRepository, getLog());
-            }
-            else
-            {
-                this.cargoProject = new CargoProject(getProject(), getLog());
-            }
+            this.cargoProject = new CargoProject(getProject(), getLog());
         }
         doExecute();
     }

@@ -23,7 +23,6 @@ package org.codehaus.cargo.maven2;
  * Class used uniquely to provide a goal alias for <code>deployer-deploy</code>.
  * 
  * @goal deploy
- * @aggregator true
  * @requiresDependencyResolution compile
  * @see DeployerDeployMojo
  * @version $Id$

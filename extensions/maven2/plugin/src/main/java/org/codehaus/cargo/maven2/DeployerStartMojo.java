@@ -25,7 +25,6 @@ import java.net.URL;
  * Start a deployable which is already installed in a container.
  * 
  * @goal deployer-start
- * @aggregator true
  * @requiresDependencyResolution compile
  * @version $Id$
  */

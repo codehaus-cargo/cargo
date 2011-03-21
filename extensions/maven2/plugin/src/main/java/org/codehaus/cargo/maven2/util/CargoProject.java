@@ -19,14 +19,9 @@
  */
 package org.codehaus.cargo.maven2.util;
 
-import java.io.File;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 
@@ -117,86 +112,6 @@ public class CargoProject
     }
 
     /**
-     * Saves all attributes and merge project module artifacts with the project artifacts.
-     * 
-     * @param project Maven2 project.
-     * @param resolver Maven2 artifact resolver.
-     * @param localRepository Maven2 local artifact repository.
-     * @param log Logger.
-     */
-    public CargoProject(MavenProject project, ArtifactResolver resolver,
-        ArtifactRepository localRepository, Log log)
-    {
-        this(
-            project.getPackaging(),
-            project.getGroupId(),
-            project.getArtifactId(),
-            project.getBuild().getDirectory(),
-            project.getBuild().getFinalName(),
-            aggregateArtifacts(new HashSet<Artifact>(project.getArtifacts()), project, resolver, 
-                localRepository),
-            log);
-    }
-
-    /**
-     * Merge resolved Maven project module artifacts with provided set of artifacts.
-     * 
-     * @param artifacts provided set of artifacts.
-     * @param project Maven2 project.
-     * @param resolver Maven2 artifact resolver.
-     * @param localRepository Maven2 local artifact repository.
-     * @return merged set of artifacts.
-     */
-    protected static Set<Artifact> aggregateArtifacts(Set<Artifact> artifacts, 
-        MavenProject project, ArtifactResolver resolver, ArtifactRepository localRepository)
-    {
-        if (project.getCollectedProjects() != null)
-        {
-            Iterator<?> modulesIterator = project.getCollectedProjects().iterator();
-            while (modulesIterator.hasNext())
-            {
-                MavenProject module = (MavenProject) modulesIterator.next();
-                if ("jar".equals(module.getPackaging()) || isJ2EEPackaging(module.getPackaging()))
-                {
-                    Artifact artifact = (Artifact) module.getArtifact();
-                    File file = artifact.getFile();
-                    if (file == null)
-                    {
-                        // first try to resolve a build target
-                        file = new File(module.getBuild().getDirectory(), 
-                            module.getBuild().getFinalName() + "." + module.getPackaging());
-                    }
-                    if (file != null && (!file.exists() || !file.isFile()))
-                    {
-                        // else try to resolve from local repository only
-                        // (as a child module artifact you should have build it first)
-                        file = null;
-                        try
-                        {
-                            resolver.resolve(artifact, null, localRepository);
-                            file = artifact.getFile();
-                        }
-                        catch (Exception e)
-                        {
-                            // ignore resolver failure:
-                            // if the artifact actually is referenced an error about it
-                            // will be given at a later time
-                        }
-                    }
-                    if (file != null)
-                    {
-                        artifact.setFile(file);
-                        artifact.setScope("provide");
-                        artifacts.add(artifact);
-                    }
-                }
-                aggregateArtifacts(artifacts, module, resolver, localRepository);
-            }
-        }
-        return artifacts;
-    }
-
-    /**
      * @return Packaging.
      */
     public String getPackaging()
@@ -253,48 +168,38 @@ public class CargoProject
     }
 
     /**
-     * Evaluate if a project packaging is a Java EE packaging.
-     * @param packaging a project packaging
-     * @return <code>true</code> if a project packaging is a Java EE packaging.
+     * @return <code>true</code> if the project has a Java EE packaging.
      */
-    protected static boolean isJ2EEPackaging(String packaging)
+    public boolean isJ2EEPackaging()
     {
         boolean result = false;
 
-        if ("war".equalsIgnoreCase(packaging))
+        if (getPackaging().equalsIgnoreCase("war"))
         {
             result = true;
         }
-        else if ("ear".equalsIgnoreCase(packaging))
+        else if (getPackaging().equalsIgnoreCase("ear"))
         {
             result = true;
         }
-        else if ("ejb".equalsIgnoreCase(packaging))
+        else if (getPackaging().equalsIgnoreCase("ejb"))
         {
             result = true;
         }
-        else if ("uberwar".equalsIgnoreCase(packaging))
+        else if (getPackaging().equalsIgnoreCase("uberwar"))
         {
             result = true;
         }
-        else if ("rar".equalsIgnoreCase(packaging))
+        else if (getPackaging().equalsIgnoreCase("rar"))
         {
             result = true;
         }
-        else if ("bundle".equalsIgnoreCase(packaging))
+        else if (getPackaging().equalsIgnoreCase("bundle"))
         {
             result = true;
         }
 
         return result;
-    }
-
-    /**
-     * @return <code>true</code> if the project has a Java EE packaging.
-     */
-    public boolean isJ2EEPackaging()
-    {
-        return isJ2EEPackaging(getPackaging());
     }
 
     /**

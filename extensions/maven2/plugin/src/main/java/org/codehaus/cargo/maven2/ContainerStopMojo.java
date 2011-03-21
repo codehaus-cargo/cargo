@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.LocalContainer;
  * 
  * @version $Id$
  * @goal stop
- * @aggregator true
  * @requiresDependencyResolution compile
  */
 public class ContainerStopMojo extends AbstractCargoMojo

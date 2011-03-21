@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
  * Deploy a deployable to a container.
  * 
  * @goal deployer-deploy
- * @aggregator true
  * @requiresDependencyResolution compile
  * @version $Id$
  */

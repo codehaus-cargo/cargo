@@ -25,7 +25,6 @@ import java.net.URL;
  * Undeploy a deployable from a container.
  * 
  * @goal deployer-undeploy
- * @aggregator true
  * @requiresDependencyResolution compile
  * @version $Id$
  */

@@ -25,7 +25,6 @@ import java.net.URL;
  * Stop a deployable which is already deployed in a container.
  * 
  * @goal deployer-stop
- * @aggregator true
  * @requiresDependencyResolution compile
  * @version $Id$
  */

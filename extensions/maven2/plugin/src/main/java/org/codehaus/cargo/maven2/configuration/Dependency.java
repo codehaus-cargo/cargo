@@ -33,47 +33,6 @@ import org.codehaus.cargo.maven2.util.CargoProject;
 public class Dependency extends AbstractDependency
 {
     /**
-     * Represents the "extra" classpath type.
-     */
-    public static final String EXTRA_CLASSPATH = "extra";
-
-    /**
-     * Represents the "shared" classpath type.
-     */
-    public static final String SHARED_CLASSPATH = "shared";
-
-    /**
-     * The Dependency target classpath.
-     */
-    private String classpath = EXTRA_CLASSPATH;
-
-    /**
-     * @return The Dependency target classpath.
-     */
-    public String getClasspath()
-    {
-        return classpath;
-    }
-
-    /**
-     * @param classpath the Dependency target classpath.
-     */
-    public void setClasspath(String classpath) 
-    {
-        this.classpath = classpath;
-    }
-
-    /**
-     * Evaluates if the Dependency is targeted for a classpath type.
-     * @param classpath a classpath type to compare with
-     * @return <code>true</code> if this Dependency is targeted for the classpath type.
-     */
-    public boolean isOnClasspath(String classpath)
-    {
-        return this.classpath.equals(classpath);
-    }
-
-    /**
      * Get the path of this dependency.
      * @param project Cargo project.
      * @return Path of this dependency.
