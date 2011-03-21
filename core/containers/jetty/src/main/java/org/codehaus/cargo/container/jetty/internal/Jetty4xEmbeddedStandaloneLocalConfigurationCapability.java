@@ -37,6 +37,7 @@ public class Jetty4xEmbeddedStandaloneLocalConfigurationCapability extends
     {
         super();
 
+        this.supportsMap.remove(JettyPropertySet.SESSION_PATH);
         this.supportsMap.remove(JettyPropertySet.USE_FILE_MAPPED_BUFFER);
     }
 }

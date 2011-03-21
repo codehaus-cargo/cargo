@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedStandaloneLocalConfiguration;
@@ -55,6 +56,28 @@ public class Jetty6xEmbeddedStandaloneLocalConfiguration extends
     public ConfigurationCapability getCapability()
     {
         return capability;
+    }
+
+    @Override
+    protected FilterChain createJettyFilterChain()
+    {
+        FilterChain filterChain = super.createJettyFilterChain();
+
+        String sessionPath = getPropertyValue(JettyPropertySet.SESSION_PATH);
+        String sessionContextParam = "";
+        if (sessionPath != null)
+        {
+            sessionContextParam =
+                "  <context-param>\n"
+                    + "    <param-name>org.mortbay.jetty.servlet.SessionPath</param-name>\n"
+                    + "    <param-value>" + sessionPath + "</param-value>\n"
+                    + "  </context-param>\n";
+        }
+
+        getAntUtils().addTokenToFilterChain(filterChain,
+            "cargo.jetty.session.path.context-param", sessionContextParam);
+
+        return filterChain;
     }
 
     /**

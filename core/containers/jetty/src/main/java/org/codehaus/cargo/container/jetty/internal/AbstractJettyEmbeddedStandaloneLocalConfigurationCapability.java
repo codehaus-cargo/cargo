@@ -53,6 +53,7 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfigurationCapabilit
         this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
         this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
 
+        this.supportsMap.put(JettyPropertySet.SESSION_PATH, Boolean.TRUE);
         this.supportsMap.put(JettyPropertySet.USE_FILE_MAPPED_BUFFER, Boolean.TRUE);
     }
 
