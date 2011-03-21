@@ -33,7 +33,6 @@ import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.ResourceSupport;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -100,28 +99,17 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         if (container instanceof InstalledLocalContainer)
         {
             InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
-            String[] classPath = installedContainer.getExtraClasspath();
-            if (classPath != null)
+            String[] sharedClassPath = installedContainer.getSharedClasspath();
+            StringBuilder tmp = new StringBuilder();
+            if (sharedClassPath != null)
             {
-                for (String path : classPath)
+                for (String element : sharedClassPath)
                 {
-                    FileConfig fc = new FileConfig();
-                    fc.setFile(path);
-                    fc.setToDir("common/lib");
-                    setFileProperty(fc);
+                    tmp.append(',').append(escapePath(element));
                 }
             }
-            classPath = installedContainer.getSharedClasspath();
-            if (classPath != null)
-            {
-                for (String path : classPath)
-                {
-                    FileConfig fc = new FileConfig();
-                    fc.setFile(path);
-                    fc.setToDir("shared/lib");
-                    setFileProperty(fc);
-                }
-            }
+            getAntUtils().addTokenToFilterChain(filterChain, "catalina.common.loader",
+                tmp.toString());
         }
 
         setupConfFiles(container, filterChain);
