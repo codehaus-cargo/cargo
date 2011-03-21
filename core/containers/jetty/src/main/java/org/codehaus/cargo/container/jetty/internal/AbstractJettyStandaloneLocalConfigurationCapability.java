@@ -54,7 +54,6 @@ public abstract class AbstractJettyStandaloneLocalConfigurationCapability
         this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
 
-        this.supportsMap.put(ServletPropertySet.PORT, Boolean.FALSE);
         this.supportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
 
         this.supportsMap.put(JettyPropertySet.SESSION_PATH, Boolean.TRUE);
