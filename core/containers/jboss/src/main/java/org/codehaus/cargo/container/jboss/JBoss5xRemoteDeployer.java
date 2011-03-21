@@ -28,6 +28,8 @@ import java.lang.reflect.Constructor;
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.jboss.internal.IJBossProfileManagerDeployer;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
@@ -110,7 +112,7 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
         File deployableFile = new File(deployable.getFile());
         try
         {
-            this.deployer.deploy(deployableFile, deployableFile.getName());
+            this.deployer.deploy(deployableFile, getDeployableName(deployable));
         }
         catch (Throwable t)
         {
@@ -125,10 +127,9 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
     @Override
     public void undeploy(Deployable deployable)
     {
-        File deployableFile = new File(deployable.getFile());
         try
         {
-            this.deployer.undeploy(deployableFile.getName());
+            this.deployer.undeploy(getDeployableName(deployable));
         }
         catch (Throwable t)
         {
@@ -155,4 +156,28 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
         this.deploy(deployable);
     }
 
+    /**
+     * Get the deployable name for a given deployable. This also takes into account the WAR context.
+     * @param deployable Deployable to get the name for.
+     * @return Name for <code>deployable</code>.
+     */
+    private String getDeployableName(Deployable deployable)
+    {
+        File localFile = new File(deployable.getFile());
+        String localFileName = localFile.getName();
+        if (deployable.getType() == DeployableType.WAR)
+        {
+            WAR war = (WAR) deployable;
+            if (war.getContext().length() == 0)
+            {
+                localFileName = "rootContext.war";
+            }
+            else
+            {
+                localFileName = war.getContext() + ".war";
+            }
+        }
+
+        return localFileName;
+    }
 }
