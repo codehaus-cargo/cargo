@@ -59,10 +59,6 @@ public abstract class AbstractJettyStandaloneLocalConfiguration extends
     protected FilterChain createJettyFilterChain()
     {
         FilterChain filterChain = createFilterChain();
-
-        getAntUtils().addTokenToFilterChain(filterChain, "cargo.jetty.useFileMappedBuffer",
-            getPropertyValue(JettyPropertySet.USE_FILE_MAPPED_BUFFER));
-
         return filterChain;
     }
 

@@ -162,7 +162,7 @@
     </init-param>
     <init-param>
       <param-name>useFileMappedBuffer</param-name>
-      <param-value>@cargo.jetty.useFileMappedBuffer@</param-value>
+      <param-value>@cargo.jetty.servlet.default.useFileMappedBuffer@</param-value>
     </init-param>  
     <!--
     <init-param>
