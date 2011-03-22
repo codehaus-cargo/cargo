@@ -37,6 +37,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.codehaus.cargo.util.Base64;
 import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
@@ -166,6 +167,13 @@ public class HttpUtils extends LoggedObject
             else
             {
                 connection = (HttpURLConnection) url.openConnection();
+            }
+
+            String userInfo = url.getUserInfo();
+            if (userInfo != null)
+            {
+                userInfo = Base64.encode(userInfo);
+                connection.setRequestProperty("Authorization", "Basic " + userInfo);
             }
 
             connection.setRequestProperty("Connection", "close");
