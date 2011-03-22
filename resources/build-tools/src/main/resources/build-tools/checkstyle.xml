@@ -233,6 +233,7 @@
     <module name="JavadocType">
       <property name="scope" value="private"/>
       <property name="versionFormat" value="\$Id:\s.*\$"/>
+      <property name="allowMissingParamTags" value="true"/>
       <property name="allowUnknownTags" value="true"/>
     </module>
 
