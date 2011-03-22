@@ -46,13 +46,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
     /**
      * The name of the user agent when communicating with Tomcat manager.
      */
-    private static final String NAME = "Cargo";
-
-    /**
-     * The version of the user agent when communicating with Tomcat manager.
-     * @TODO Do not hardcode the version!!!
-     */
-    private static final String VERSION = "1.0-SNAPSHOT";
+    private static final String NAME = "Codehaus Cargo";
 
     /**
      * Context where the Tomcat manager lives.
@@ -310,9 +304,16 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
                 + "] properties are mandatory and need to be defined " + "in your configuration.");
         }
 
+        StringBuilder userAgent = new StringBuilder(NAME);
+        String version = this.getClass().getPackage().getImplementationVersion();
+        if (version != null && version.length() > 0)
+        {
+            userAgent.append('/');
+            userAgent.append(version);
+        }
         manager = new TomcatManager(managerURL, username, password);
         manager.setLogger(getLogger());
-        manager.setUserAgent(NAME + "/" + VERSION);
+        manager.setUserAgent(userAgent.toString());
 
         return manager;
     }
