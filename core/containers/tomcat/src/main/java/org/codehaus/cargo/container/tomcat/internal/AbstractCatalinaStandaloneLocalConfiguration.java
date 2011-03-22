@@ -80,6 +80,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         setProperty(GeneralPropertySet.RMI_PORT, "8205");
         setProperty(GeneralPropertySet.URI_ENCODING, "ISO-8859-1");
         setProperty(TomcatPropertySet.AJP_PORT, "8009");
+        setProperty(TomcatPropertySet.CONTEXT_RELOADABLE, "false");
     }
 
     /**
@@ -336,23 +337,30 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     protected String createContextToken(WAR deployable)
     {
         StringBuilder contextTokenValue = new StringBuilder();
+        contextTokenValue.append("<Context");
 
-        contextTokenValue.append("<Context path=\"");
         // Tomcat requires a context path equal to a zero-length string for default web application
+        contextTokenValue.append(" path=\"");
         if (!"".equals(deployable.getContext()) && !"/".equals(deployable.getContext()))
         {
             contextTokenValue.append("/" + deployable.getContext());
         }
-        contextTokenValue.append("\" docBase=\"");
+        contextTokenValue.append("\"");
 
         // Tomcat requires an absolute path for the "docBase" attribute.
+        contextTokenValue.append(" docBase=\"");
         contextTokenValue.append(new File(deployable.getFile()).getAbsolutePath());
+        contextTokenValue.append("\"");
 
-        contextTokenValue.append("\" debug=\"");
-        contextTokenValue
-            .append(getTomcatLoggingLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
-        contextTokenValue.append("\">");
+        contextTokenValue.append(" debug=\"");
+        contextTokenValue.append(getTomcatLoggingLevel(getPropertyValue(
+            GeneralPropertySet.LOGGING)));
 
+        contextTokenValue.append("\" reloadable=\"");
+        contextTokenValue.append(getPropertyValue(TomcatPropertySet.CONTEXT_RELOADABLE));
+        contextTokenValue.append("\"");
+
+        contextTokenValue.append(">");
         contextTokenValue.append("</Context>");
         return contextTokenValue.toString();
     }

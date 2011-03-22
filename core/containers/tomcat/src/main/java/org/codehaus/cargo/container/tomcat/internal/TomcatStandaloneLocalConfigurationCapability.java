@@ -49,6 +49,7 @@ public class TomcatStandaloneLocalConfigurationCapability extends
 
         this.supportsMap = new HashMap<String, Boolean>();
         this.supportsMap.put(TomcatPropertySet.AJP_PORT, Boolean.TRUE);
+        this.supportsMap.put(TomcatPropertySet.CONTEXT_RELOADABLE, Boolean.TRUE);
         this.supportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.supportsMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
     }

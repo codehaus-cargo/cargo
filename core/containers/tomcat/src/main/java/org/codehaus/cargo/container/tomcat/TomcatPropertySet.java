@@ -40,4 +40,9 @@ public interface TomcatPropertySet
      * Port tomcat will listen on for AJP 1.3 requests.
      */
     String AJP_PORT = "cargo.tomcat.ajp.port";
+
+    /**
+     * Whether the contexts for deployed Web applications should be set as reloadable.
+     */
+    String CONTEXT_RELOADABLE = "cargo.tomcat.context.reloadable";
 }
