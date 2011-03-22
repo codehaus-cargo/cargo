@@ -36,6 +36,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -57,9 +58,8 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
     private FileHandler fileHandler = new DefaultFileHandler();
 
     private InstalledLocalContainer localContainer;
-    private Deployable war;
     private Deployer deployer;
-    private URL warPingURL;
+    private WAR war;
 
     public RemoteDeploymentTest(String testName, EnvironmentTestData testData)
         throws Exception
@@ -164,11 +164,8 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
                 "password");
         }
 
-        this.war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
+        this.war = (WAR) new DefaultDeployableFactory().createDeployable(getContainer().getId(),
             getTestData().getTestDataFileFor("simple-war"), DeployableType.WAR);
-
-        this.warPingURL = new URL("http://localhost:" + getTestData().port
-            + "/simple-war-" + getTestData().version + "/index.jsp");
 
         this.deployer = createDeployer(DeployerType.REMOTE, getRemoteContainer());
     }
@@ -249,17 +246,19 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
      */
     public void testDeployUndeployRedeployWarRemotely() throws Exception
     {
+        URL warPingURL = new URL("http://localhost:" + getTestData().port
+            + "/simple-war-" + getTestData().version + "/index.jsp");
+
         deployer.deploy(this.war);
-        PingUtils.assertPingTrue("simple war not correctly deployed", this.warPingURL, getLogger());
+        PingUtils.assertPingTrue("simple war not correctly deployed", warPingURL, getLogger());
 
         deployer.undeploy(this.war);
-        PingUtils.assertPingFalse("simple war not correctly undeployed", "", this.warPingURL,
+        PingUtils.assertPingFalse("simple war not correctly undeployed", "", warPingURL,
             getLogger());
 
         // Redeploy a second time to ensure that the undeploy worked.
         deployer.deploy(this.war);
-        PingUtils.assertPingTrue("simple war not correctly redeployed", this.warPingURL,
-            getLogger());
+        PingUtils.assertPingTrue("simple war not correctly redeployed", warPingURL, getLogger());
 
         if ("jonas4x".equals(getTestData().containerId))
         {
@@ -279,6 +278,24 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         URL newWarPingURL = new URL("http://localhost:" + getTestData().port
             + "/simple-war-" + getTestData().version + "/some.html");
         PingUtils.assertPingTrue("simple war not correctly redeployed", newWarPingURL, getLogger());
+    }
+
+    /**
+     * Verify that WAR context change works.
+     */
+    public void testChangeWarContextAndDeployUndeployRemotely() throws Exception
+    {
+        this.war.setContext("simple");
+
+        URL warPingURL = new URL("http://localhost:" + getTestData().port + "/"
+            + this.war.getContext() + "/index.jsp");
+
+        deployer.deploy(this.war);
+        PingUtils.assertPingTrue("simple war not correctly deployed", warPingURL, getLogger());
+
+        deployer.undeploy(this.war);
+        PingUtils.assertPingFalse("simple war not correctly undeployed", "", warPingURL,
+            getLogger());
     }
 
     /**
