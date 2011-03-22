@@ -34,7 +34,8 @@ import org.codehaus.cargo.generic.internal.util.RegistrationKey;
  * 
  * @version $Id$
  */
-public abstract class AbstractIntrospectionGenericHintFactory extends AbstractGenericHintFactory
+public abstract class AbstractIntrospectionGenericHintFactory<T> extends
+    AbstractGenericHintFactory<T>
 {
     /**
      * Contains all the default mappings that were not properly registered because the
@@ -42,7 +43,8 @@ public abstract class AbstractIntrospectionGenericHintFactory extends AbstractGe
      * forgotten to add the container implementation jar to its classpath). We record them in order
      * to throw a nice error message if the user tries to use any of them.
      */
-    private Map<RegistrationKey, String> rejectedMappings = new HashMap<RegistrationKey, String>();
+    private Map<RegistrationKey, String> rejectedMappings =
+        new HashMap<RegistrationKey, String>();
 
     /**
      * Allow registering container objects using introspection so that at build time and runtime the
@@ -53,11 +55,13 @@ public abstract class AbstractIntrospectionGenericHintFactory extends AbstractGe
      * @param key the key under which to register the class name
      * @param objectClassName the object to register
      */
+    @SuppressWarnings("unchecked")
     protected void registerImplementation(RegistrationKey key, String objectClassName)
     {
         try
         {
-            Class objectClass = this.getClass().getClassLoader().loadClass(objectClassName);
+            Class<T> objectClass =
+                (Class<T>) this.getClass().getClassLoader().loadClass(objectClassName);
             registerImplementation(key, objectClass);
         }
         catch (Exception e)
@@ -68,20 +72,22 @@ public abstract class AbstractIntrospectionGenericHintFactory extends AbstractGe
 
             // We do not rethrow an exception because we want to allow registering only container
             // implementation classes that are in the classloader.
-            getLogger().warn("Not registering class [" + objectClassName
-                + "] as there was an error: [" + e.getMessage() + "]", this.getClass().getName());
+            getLogger().warn(
+                "Not registering class [" + objectClassName + "] as there was an error: ["
+                    + e.getMessage() + "]", this.getClass().getName());
         }
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see AbstractGenericHintFactory#createImplementation
      */
     @Override
-    protected Object createImplementation(RegistrationKey key, GenericParameters parameters,
+    protected T createImplementation(RegistrationKey key, GenericParameters parameters,
         String implementationConceptName)
     {
-        Object object;
+        T object;
         try
         {
             object = super.createImplementation(key, parameters, implementationConceptName);
@@ -90,12 +96,17 @@ public abstract class AbstractIntrospectionGenericHintFactory extends AbstractGe
         {
             if (this.rejectedMappings.containsKey(key))
             {
-                String message = "Failed to create a " + implementationConceptName
-                    + " for parameters (" + key.toString(implementationConceptName) + ")."
-                    + "The container has not been properly registered for that "
-                    + implementationConceptName + " type and that's probably because that "
-                    + "container implementation class could not been loaded. Are you sure you "
-                    + "have added that container's implementation jar to the classpath?";
+                String message =
+                    "Failed to create a "
+                        + implementationConceptName
+                        + " for parameters ("
+                        + key.toString(implementationConceptName)
+                        + ")."
+                        + "The container has not been properly registered for that "
+                        + implementationConceptName
+                        + " type and that's probably because that "
+                        + "container implementation class could not been loaded. Are you sure you "
+                        + "have added that container's implementation jar to the classpath?";
 
                 throw new ContainerException(message, e);
             }

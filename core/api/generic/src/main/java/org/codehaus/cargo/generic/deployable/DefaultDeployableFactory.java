@@ -42,7 +42,7 @@ import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
  * 
  * @version $Id$
  */
-public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFactory
+public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFactory<Deployable>
     implements DeployableFactory
 {
     /**
@@ -53,6 +53,7 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory.GenericParameters
      */
     private static class DeployableFactoryParameters implements GenericParameters
@@ -75,8 +76,8 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
      * Register deployable classes mappings.
      * 
      * @param classLoader ClassLoader to discover implementations from. See
-     * {@link AbstractFactoryRegistry#register(ClassLoader, DeployableFactory)} for the details of
-     * what this value means.
+     *            {@link AbstractFactoryRegistry#register(ClassLoader, DeployableFactory)} for the
+     *            details of what this value means.
      */
     public DefaultDeployableFactory(ClassLoader classLoader)
     {
@@ -96,10 +97,11 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
 
     /**
      * {@inheritDoc}
+     * 
      * @see DeployableFactory#registerDeployable(String, DeployableType, Class)
      */
     public void registerDeployable(String containerId, DeployableType deployableType,
-        Class deployableClass)
+        Class<? extends Deployable> deployableClass)
     {
         registerImplementation(new RegistrationKey(new SimpleContainerIdentity(containerId),
             deployableType.getType()), deployableClass);
@@ -122,6 +124,7 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
 
     /**
      * {@inheritDoc}
+     * 
      * @see DeployableFactory#isDeployableRegistered
      */
     public boolean isDeployableRegistered(String containerId, DeployableType deployableType)
@@ -132,6 +135,7 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
 
     /**
      * {@inheritDoc}
+     * 
      * @see DeployableFactory#createDeployable
      */
     public Deployable createDeployable(String containerId, String deployableLocation,
@@ -145,16 +149,18 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
         // First, try to locate a container-specific deployable mapping
         if (isDeployableRegistered(containerId, deployableType))
         {
-            deployable = (Deployable) createImplementation(new RegistrationKey(
-                new SimpleContainerIdentity(containerId), deployableType.getType()),
-                parameters, "deployable");
+            deployable =
+                createImplementation(
+                    new RegistrationKey(new SimpleContainerIdentity(containerId),
+                        deployableType.getType()), parameters, "deployable");
         }
         else
         {
             // Use a default deployable
-            deployable = (Deployable) createImplementation(new RegistrationKey(
-                new SimpleContainerIdentity(DEFAULT_CONTAINER_ID), deployableType.getType()),
-                parameters, "deployable");
+            deployable =
+                createImplementation(
+                    new RegistrationKey(new SimpleContainerIdentity(DEFAULT_CONTAINER_ID),
+                        deployableType.getType()), parameters, "deployable");
         }
 
         return deployable;
@@ -162,22 +168,25 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor
      */
     @Override
-    protected Constructor getConstructor(Class deployableClass, String hint,
-        GenericParameters parameters) throws NoSuchMethodException
+    protected Constructor<? extends Deployable> getConstructor(
+        Class<? extends Deployable> deployableClass, String hint, GenericParameters parameters)
+        throws NoSuchMethodException
     {
         return deployableClass.getConstructor(new Class[] {String.class});
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
     @Override
-    protected Object createInstance(Constructor constructor, String hint,
-        GenericParameters parameters) throws Exception
+    protected Deployable createInstance(Constructor<? extends Deployable> constructor,
+        String hint, GenericParameters parameters) throws Exception
     {
         String deployable = ((DeployableFactoryParameters) parameters).deployable;
         return constructor.newInstance(new Object[] {deployable});

@@ -32,8 +32,9 @@ import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
  * 
  * @version $Id$
  */
-public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGenericHintFactory
-    implements ContainerCapabilityFactory
+public class DefaultContainerCapabilityFactory extends
+    AbstractIntrospectionGenericHintFactory<ContainerCapability> implements
+    ContainerCapabilityFactory
 {
     /**
      * Initialize container capability name mappings with container ids.
@@ -47,8 +48,8 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
      * Register container capability name mappings.
      * 
      * @param classLoader ClassLoader to discover implementations from. See
-     * {@link AbstractFactoryRegistry#register(ClassLoader, ContainerCapabilityFactory)} for the
-     * details of what this value means.
+     *            {@link AbstractFactoryRegistry#register(ClassLoader, ContainerCapabilityFactory)}
+     *            for the details of what this value means.
      */
     public DefaultContainerCapabilityFactory(ClassLoader classLoader)
     {
@@ -59,10 +60,12 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.ContainerCapabilityFactory#registerContainerCapability(String,
-     * Class)
+     *      Class)
      */
-    public void registerContainerCapability(String containerId, Class containerCapabilityClass)
+    public void registerContainerCapability(String containerId,
+        Class<? extends ContainerCapability> containerCapabilityClass)
     {
         registerImplementation(new RegistrationKey(new SimpleContainerIdentity(containerId),
             "default"), containerCapabilityClass);
@@ -73,10 +76,11 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
      * 
      * @param containerId {@inheritDoc}
      * @param containerCapabilityClassName the container capability implementation class to register
-     * as a String
+     *            as a String
      * @see #registerContainerCapability(String, Class)
      */
-    public void registerContainerCapability(String containerId, String containerCapabilityClassName)
+    public void registerContainerCapability(String containerId,
+        String containerCapabilityClassName)
     {
         registerImplementation(new RegistrationKey(new SimpleContainerIdentity(containerId),
             "default"), containerCapabilityClassName);
@@ -84,33 +88,38 @@ public class DefaultContainerCapabilityFactory extends AbstractIntrospectionGene
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.ContainerCapabilityFactory#createContainerCapability(String)
      */
     public ContainerCapability createContainerCapability(String containerId)
     {
-        return (ContainerCapability) createImplementation(new RegistrationKey(
-            new SimpleContainerIdentity(containerId), "default"), null, "container capability");
+        return createImplementation(new RegistrationKey(new SimpleContainerIdentity(containerId),
+            "default"), null, "container capability");
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor
      */
     @Override
-    protected Constructor getConstructor(Class containerCapabilityClass, String hint,
+    protected Constructor<? extends ContainerCapability> getConstructor(
+        Class<? extends ContainerCapability> containerCapabilityClass, String hint,
         GenericParameters parameters) throws NoSuchMethodException
     {
-        return containerCapabilityClass.getConstructor(null);
+        return containerCapabilityClass.getConstructor((Class[]) null);
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
     @Override
-    protected Object createInstance(Constructor constructor, String hint,
+    protected ContainerCapability createInstance(
+        Constructor<? extends ContainerCapability> constructor, String hint,
         GenericParameters parameters) throws Exception
     {
-        return constructor.newInstance(null);
+        return constructor.newInstance((Object[]) null);
     }
 }

@@ -40,7 +40,7 @@ import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
  * 
  * @version $Id$
  */
-public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFactory
+public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFactory<Container>
     implements ContainerFactory
 {
     /**
@@ -66,8 +66,8 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
      * Register packager name mappings.
      * 
      * @param classLoader ClassLoader to discover implementations from. See
-     * {@link AbstractFactoryRegistry#register(ClassLoader, ContainerFactory)} for the details of
-     * what this value means.
+     *            {@link AbstractFactoryRegistry#register(ClassLoader, ContainerFactory)} for the
+     *            details of what this value means.
      */
     public DefaultContainerFactory(ClassLoader classLoader)
     {
@@ -78,6 +78,7 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
     /**
      * {@inheritDoc}
+     * 
      * @see ContainerFactory#isContainerRegistered(String, ContainerType)
      */
     public boolean isContainerRegistered(String containerId, ContainerType containerType)
@@ -88,11 +89,12 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
     /**
      * {@inheritDoc}
+     * 
      * @see ContainerFactory#registerContainer(String, org.codehaus.cargo.container.ContainerType,
-     * Class)
+     *      Class)
      */
     public void registerContainer(String containerId, ContainerType containerType,
-        Class containerClass)
+        Class<? extends Container> containerClass)
     {
         registerImplementation(new RegistrationKey(new SimpleContainerIdentity(containerId),
             containerType.getType()), containerClass);
@@ -115,9 +117,11 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
     /**
      * {@inheritDoc}
+     * 
      * @see ContainerFactory#getContainerClass
      */
-    public Class getContainerClass(String containerId, ContainerType containerType)
+    public Class<? extends Container> getContainerClass(String containerId,
+        ContainerType containerType)
     {
         return getMapping(new RegistrationKey(new SimpleContainerIdentity(containerId),
             containerType.getType()));
@@ -125,6 +129,7 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
     /**
      * {@inheritDoc}
+     * 
      * @see ContainerFactory#createContainer(String, ContainerType, Configuration)
      */
     public Container createContainer(String containerId, ContainerType containerType,
@@ -133,19 +138,22 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
         ContainerFactoryParameters parameters = new ContainerFactoryParameters();
         parameters.configuration = configuration;
 
-        return (Container) createImplementation(new RegistrationKey(new SimpleContainerIdentity(
-            containerId), containerType.getType()), parameters, "container");
+        return createImplementation(
+            new RegistrationKey(new SimpleContainerIdentity(containerId), containerType.getType()),
+            parameters, "container");
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor
      */
     @Override
-    protected Constructor getConstructor(Class containerClass, String containerType,
+    protected Constructor<? extends Container> getConstructor(
+        Class<? extends Container> containerClass, String containerType,
         GenericParameters parameters) throws NoSuchMethodException
     {
-        Constructor constructor;
+        Constructor<? extends Container> constructor;
 
         ContainerType type = ContainerType.toType(containerType);
 
@@ -167,11 +175,12 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
     @Override
-    protected Object createInstance(Constructor constructor, String containerType,
-        GenericParameters parameters) throws Exception
+    protected Container createInstance(Constructor<? extends Container> constructor,
+        String containerType, GenericParameters parameters) throws Exception
     {
         Configuration configuration = ((ContainerFactoryParameters) parameters).configuration;
 
@@ -188,17 +197,20 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.ContainerFactory#getContainerIds()
      */
     public Map<String, Set<ContainerType>> getContainerIds()
     {
         Map<String, Set<ContainerType>> containerIds = new HashMap<String, Set<ContainerType>>();
 
-        for (Map.Entry<RegistrationKey, Class> mapping : getMappings().entrySet())
+        for (Map.Entry<RegistrationKey, Class<? extends Container>> mapping : getMappings()
+            .entrySet())
         {
             RegistrationKey key = mapping.getKey();
 
-            SimpleContainerIdentity identity = (SimpleContainerIdentity) key.getContainerIdentity();
+            SimpleContainerIdentity identity =
+                (SimpleContainerIdentity) key.getContainerIdentity();
             if (containerIds.containsKey(identity.getId()))
             {
                 Set<ContainerType> hints = containerIds.get(identity.getId());

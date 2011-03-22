@@ -39,8 +39,8 @@ import org.codehaus.cargo.util.FileHandler;
  * 
  * @version $Id$
  */
-public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHintFactory
-    implements ConfigurationFactory
+public class DefaultConfigurationFactory extends
+    AbstractIntrospectionGenericHintFactory<Configuration> implements ConfigurationFactory
 {
     /**
      * File utility class.
@@ -70,8 +70,8 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
      * Register configuration name mappings.
      * 
      * @param classLoader ClassLoader to discover implementations from. See
-     * {@link AbstractFactoryRegistry#register(ClassLoader, ConfigurationFactory)} for the details
-     * of what this value means.
+     *            {@link AbstractFactoryRegistry#register(ClassLoader, ConfigurationFactory)} for
+     *            the details of what this value means.
      */
     public DefaultConfigurationFactory(ClassLoader classLoader)
     {
@@ -82,6 +82,7 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
     /**
      * {@inheritDoc}
+     * 
      * @see ConfigurationFactory#isConfigurationRegistered
      */
     public boolean isConfigurationRegistered(String containerId, ContainerType containerType,
@@ -93,10 +94,11 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
     /**
      * {@inheritDoc}
+     * 
      * @see ConfigurationFactory#registerConfiguration
      */
     public void registerConfiguration(String containerId, ContainerType containerType,
-        ConfigurationType configurationType, Class configurationClass)
+        ConfigurationType configurationType, Class<? extends Configuration> configurationClass)
     {
         registerImplementation(new RegistrationKey(new FullContainerIdentity(containerId,
             containerType), configurationType.getType()), configurationClass);
@@ -110,7 +112,7 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
      * @param configurationType {@inheritDoc}
      * @param configurationClassName the configuration implementation class to register as a String
      * @see #registerConfiguration(String, org.codehaus.cargo.container.ContainerType,
-     * org.codehaus.cargo.container.configuration.ConfigurationType, Class)
+     *      org.codehaus.cargo.container.configuration.ConfigurationType, Class)
      */
     public void registerConfiguration(String containerId, ContainerType containerType,
         ConfigurationType configurationType, String configurationClassName)
@@ -121,10 +123,11 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
     /**
      * {@inheritDoc}
+     * 
      * @see ConfigurationFactory#getConfigurationClass
      */
-    public Class getConfigurationClass(String containerId, ContainerType containerType,
-        ConfigurationType configurationType)
+    public Class<? extends Configuration> getConfigurationClass(String containerId,
+        ContainerType containerType, ConfigurationType configurationType)
     {
         return getMapping(new RegistrationKey(new FullContainerIdentity(containerId,
             containerType), configurationType.getType()));
@@ -132,9 +135,10 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
     /**
      * {@inheritDoc}
+     * 
      * @see ConfigurationFactory#createConfiguration(String,
-     * org.codehaus.cargo.container.ContainerType,
-     * org.codehaus.cargo.container.configuration.ConfigurationType)
+     *      org.codehaus.cargo.container.ContainerType,
+     *      org.codehaus.cargo.container.configuration.ConfigurationType)
      */
     public Configuration createConfiguration(String containerId, ContainerType containerType,
         ConfigurationType configurationType)
@@ -144,9 +148,10 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
     /**
      * {@inheritDoc}
+     * 
      * @see ConfigurationFactory#createConfiguration(String,
-     * org.codehaus.cargo.container.ContainerType,
-     * org.codehaus.cargo.container.configuration.ConfigurationType, String)
+     *      org.codehaus.cargo.container.ContainerType,
+     *      org.codehaus.cargo.container.configuration.ConfigurationType, String)
      */
     public Configuration createConfiguration(String containerId, ContainerType containerType,
         ConfigurationType configurationType, String home)
@@ -154,21 +159,22 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
         ConfigurationFactoryParameters parameters = new ConfigurationFactoryParameters();
         parameters.home = home;
 
-        return (Configuration) createImplementation(new RegistrationKey(
-            new FullContainerIdentity(containerId, containerType), configurationType.getType()),
-            parameters, "configuration");
+        return createImplementation(new RegistrationKey(new FullContainerIdentity(containerId,
+            containerType), configurationType.getType()), parameters, "configuration");
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor(Class, String,
-     * GenericParameters)
+     *      GenericParameters)
      */
     @Override
-    protected Constructor getConstructor(Class configurationClass, String hint,
+    protected Constructor<? extends Configuration> getConstructor(
+        Class<? extends Configuration> configurationClass, String hint,
         GenericParameters parameters) throws NoSuchMethodException
     {
-        Constructor constructor;
+        Constructor<? extends Configuration> constructor;
 
         // Runtime configurations have constructors that do not take any parameter.
         if (ConfigurationType.toType(hint) == ConfigurationType.RUNTIME)
@@ -190,13 +196,14 @@ public class DefaultConfigurationFactory extends AbstractIntrospectionGenericHin
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
     @Override
-    protected Object createInstance(Constructor constructor, String hint,
-        GenericParameters parameters) throws Exception
+    protected Configuration createInstance(Constructor<? extends Configuration> constructor,
+        String hint, GenericParameters parameters) throws Exception
     {
-        Object instance;
+        Configuration instance;
 
         String home = ((ConfigurationFactoryParameters) parameters).home;
 

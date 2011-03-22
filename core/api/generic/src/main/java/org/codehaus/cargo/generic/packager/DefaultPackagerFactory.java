@@ -36,11 +36,12 @@ import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
  * 
  * @version $Id$
  */
-public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFactory
+public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFactory<Packager>
     implements PackagerFactory
 {
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory.GenericParameters
      */
     private static class PackagerFactoryParameters implements GenericParameters
@@ -63,8 +64,8 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
      * Register packager name mappings.
      * 
      * @param classLoader ClassLoader to discover implementations from. See
-     * {@link AbstractFactoryRegistry#register(ClassLoader, PackagerFactory)} for the details of
-     * what this value means.
+     *            {@link AbstractFactoryRegistry#register(ClassLoader, PackagerFactory)} for the
+     *            details of what this value means.
      */
     public DefaultPackagerFactory(ClassLoader classLoader)
     {
@@ -75,10 +76,12 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.packager.PackagerFactory#registerPackager(String,
-     * org.codehaus.cargo.container.packager.PackagerType, Class)
+     *      org.codehaus.cargo.container.packager.PackagerType, Class)
      */
-    public void registerPackager(String containerId, PackagerType packagerType, Class packagerClass)
+    public void registerPackager(String containerId, PackagerType packagerType,
+        Class<? extends Packager> packagerClass)
     {
         registerImplementation(new RegistrationKey(new SimpleContainerIdentity(containerId),
             packagerType.getType()), packagerClass);
@@ -101,8 +104,9 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
+     * 
      * @see PackagerFactory#isPackagerRegistered(String,
-     * org.codehaus.cargo.container.packager.PackagerType)
+     *      org.codehaus.cargo.container.packager.PackagerType)
      */
     public boolean isPackagerRegistered(String containerId, PackagerType packagerType)
     {
@@ -112,6 +116,7 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.packager.PackagerFactory#createPackager
      */
     public Packager createPackager(String containerId, PackagerType packagerType,
@@ -120,20 +125,22 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
         PackagerFactoryParameters parameters = new PackagerFactoryParameters();
         parameters.outputLocation = outputLocation;
 
-        return (Packager) createImplementation(new RegistrationKey(new SimpleContainerIdentity(
-            containerId), packagerType.getType()), parameters, "packager");
+        return createImplementation(new RegistrationKey(new SimpleContainerIdentity(containerId),
+            packagerType.getType()), parameters, "packager");
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor(Class, String,
-     * org.codehaus.cargo.generic.spi.AbstractGenericHintFactory.GenericParameters)
+     *      org.codehaus.cargo.generic.spi.AbstractGenericHintFactory.GenericParameters)
      */
     @Override
-    protected Constructor getConstructor(Class deployerClass, String hint,
-        GenericParameters parameters) throws NoSuchMethodException
+    protected Constructor<? extends Packager> getConstructor(
+        Class<? extends Packager> deployerClass, String hint, GenericParameters parameters)
+        throws NoSuchMethodException
     {
-        Constructor constructor;
+        Constructor<? extends Packager> constructor;
 
         PackagerType type = PackagerType.toType(hint);
 
@@ -151,10 +158,11 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
     @Override
-    protected Object createInstance(Constructor constructor, String hint,
+    protected Packager createInstance(Constructor<? extends Packager> constructor, String hint,
         GenericParameters parameters) throws Exception
     {
         String outputLocation = ((PackagerFactoryParameters) parameters).outputLocation;

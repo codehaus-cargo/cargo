@@ -53,7 +53,7 @@ public interface DeployerFactory
      * @param deployerType the deployer's type
      * @return the deployer implementation class
      */
-    Class getDeployerClass(String containerId, DeployerType deployerType);
+    Class<? extends Deployer> getDeployerClass(String containerId, DeployerType deployerType);
 
     /**
      * Create a {@link Deployer} instance matching the specified container and type.

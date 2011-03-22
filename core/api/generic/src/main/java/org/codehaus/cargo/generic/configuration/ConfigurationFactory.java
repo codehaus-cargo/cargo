@@ -39,7 +39,7 @@ public interface ConfigurationFactory
      * @param containerId the container id attached to this configuration class
      * @param containerType the container type attached to this configuration class
      * @param configurationType the type to differentiate this configuration from others for the
-     * specified container
+     *            specified container
      * @param configurationClass the configuration implementation class to register
      */
     void registerConfiguration(String containerId, ContainerType containerType,
@@ -51,14 +51,14 @@ public interface ConfigurationFactory
      * @param configurationType the configuration's type
      * @return the configuration implementation class
      */
-    Class getConfigurationClass(String containerId, ContainerType containerType,
-        ConfigurationType configurationType);
+    Class<? extends Configuration> getConfigurationClass(String containerId,
+        ContainerType containerType, ConfigurationType configurationType);
 
     /**
      * @param containerId the container id attached to this configuration class
      * @param containerType the container type attached to this configuration class
      * @param configurationType the type to differentiate this configuration from others for the
-     * specified container
+     *            specified container
      * @return true if the specified configuration is already registered or false otherwise
      */
     boolean isConfigurationRegistered(String containerId, ContainerType containerType,
@@ -70,8 +70,8 @@ public interface ConfigurationFactory
      * @param containerId the id of the container for which to create a configuration
      * @param containerType the type of the container for which to create a configuration
      * @param configurationType the type that differentiates the configuration we wish to create
-     * from other configurations for this container
-     * @return the configuation instance
+     *            from other configurations for this container
+     * @return the configuration instance
      */
     Configuration createConfiguration(String containerId, ContainerType containerType,
         ConfigurationType configurationType);
@@ -82,9 +82,9 @@ public interface ConfigurationFactory
      * @param containerId the id of the container for which to create a configuration
      * @param containerType the type of the container for which to create a configuration
      * @param configurationType the type that differentiates the configuration we wish to create
-     * from other configurations for this container
+     *            from other configurations for this container
      * @param home the configuration home
-     * @return the configuation instance
+     * @return the configuration instance
      */
     Configuration createConfiguration(String containerId, ContainerType containerType,
         ConfigurationType configurationType, String home);

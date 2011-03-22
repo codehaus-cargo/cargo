@@ -37,12 +37,12 @@ import org.codehaus.cargo.util.log.LoggedObject;
  * 
  * @version $Id$
  */
-public abstract class AbstractGenericHintFactory extends LoggedObject
+public abstract class AbstractGenericHintFactory<T> extends LoggedObject
 {
     /**
      * List of name mappings for implementation classes.
      */
-    private Map<RegistrationKey, Class> mappings;
+    private Map<RegistrationKey, Class<? extends T>> mappings;
 
     /**
      * Generic class to be extended by implementors of {@link AbstractGenericHintFactory} in order
@@ -58,7 +58,7 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
      */
     protected AbstractGenericHintFactory()
     {
-        this.mappings = new HashMap<RegistrationKey, Class>();
+        this.mappings = new HashMap<RegistrationKey, Class< ? extends T>>();
     }
 
     /**
@@ -74,7 +74,7 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
      * @param key the key associated with the implementation class to return
      * @return the implementation class
      */
-    protected Class getMapping(RegistrationKey key)
+    protected Class<? extends T> getMapping(RegistrationKey key)
     {
         return getMappings().get(key);
     }
@@ -82,7 +82,7 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
     /**
      * @return the mappings indexed using a {@see RegistrationKey}.
      */
-    protected Map<RegistrationKey, Class> getMappings()
+    protected Map<RegistrationKey, Class<? extends T>> getMappings()
     {
         return this.mappings;
     }
@@ -93,7 +93,8 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
      * @param key the key under which to register the implementation class
      * @param implementationClass the implementation class to register
      */
-    protected void registerImplementation(RegistrationKey key, Class implementationClass)
+    protected void registerImplementation(RegistrationKey key,
+        Class<? extends T> implementationClass)
     {
         getMappings().put(key, implementationClass);
     }
@@ -104,24 +105,27 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
      * @param key the key under which the implementation class is registered
      * @param parameters the additional parameters necessary to create the constructor object
      * @param implementationConceptName the name of what the implementation class is representing.
-     * This is used in exception text messages to provide message customization. For example
-     * "container", "configuration", "deployable', etc.
+     *            This is used in exception text messages to provide message customization. For
+     *            example "container", "configuration", "deployable', etc.
      * @return the created instance
      */
-    protected Object createImplementation(RegistrationKey key, GenericParameters parameters,
+    protected T createImplementation(RegistrationKey key, GenericParameters parameters,
         String implementationConceptName)
     {
         if (!getMappings().containsKey(key))
         {
-            String message = "Cannot create " + implementationConceptName
-                + ". There's no registered " + implementationConceptName + " for the parameters "
-                + "(" + key.toString(implementationConceptName) + "). ";
+            String message =
+                "Cannot create " + implementationConceptName + ". There's no registered "
+                    + implementationConceptName + " for the parameters " + "("
+                    + key.toString(implementationConceptName) + "). ";
 
             List<String> hints = getHints(key.getContainerIdentity());
             if (hints.isEmpty())
             {
-                message = message + "Actually there are no valid types registered for this "
-                    + implementationConceptName + ". Maybe you've made a mistake spelling it?";
+                message =
+                    message + "Actually there are no valid types registered for this "
+                        + implementationConceptName
+                        + ". Maybe you've made a mistake spelling it?";
             }
             else
             {
@@ -136,13 +140,13 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
             throw new ContainerException(message);
         }
 
-        Class implementationClass = getMappings().get(key);
+        Class<? extends T> implementationClass = getMappings().get(key);
 
-        Object implementation;
+        T implementation;
         try
         {
-            Constructor constructor = getConstructor(implementationClass, key.getHint(),
-                parameters);
+            Constructor< ? extends T> constructor =
+                getConstructor(implementationClass, key.getHint(), parameters);
             implementation = createInstance(constructor, key.getHint(), parameters);
         }
         catch (Exception e)
@@ -164,8 +168,9 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
      * @return the constructor to use for creating an instance
      * @throws NoSuchMethodException in case of error
      */
-    protected abstract Constructor getConstructor(Class implementationClass, String hint,
-        GenericParameters parameters) throws NoSuchMethodException;
+    protected abstract Constructor<? extends T> getConstructor(
+        Class<? extends T> implementationClass, String hint, GenericParameters parameters)
+        throws NoSuchMethodException;
 
     /**
      * Create an implementation class instance.
@@ -176,7 +181,7 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
      * @return the created instance
      * @throws Exception in case of error
      */
-    protected abstract Object createInstance(Constructor constructor, String hint,
+    protected abstract T createInstance(Constructor<? extends T> constructor, String hint,
         GenericParameters parameters) throws Exception;
 
     /**
@@ -186,7 +191,7 @@ public abstract class AbstractGenericHintFactory extends LoggedObject
     private List<String> getHints(ContainerIdentity containerIdentity)
     {
         List<String> hints = new ArrayList<String>();
-        for (Map.Entry<RegistrationKey, Class> mapping : getMappings().entrySet())
+        for (Map.Entry<RegistrationKey, Class< ? extends T>> mapping : getMappings().entrySet())
         {
             RegistrationKey key = mapping.getKey();
             if (key.getContainerIdentity().equals(containerIdentity))

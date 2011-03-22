@@ -36,7 +36,7 @@ public interface ContainerFactory
     /**
      * @param containerId the id of the container to register
      * @param containerType the container type to register ({@link ContainerType#INSTALLED},
-     * {@link ContainerType#EMBEDDED} or {@link ContainerType#REMOTE})
+     *            {@link ContainerType#EMBEDDED} or {@link ContainerType#REMOTE})
      * @param containerClass the container implementation class to register
      */
     void registerContainer(String containerId, ContainerType containerType,
@@ -45,10 +45,10 @@ public interface ContainerFactory
     /**
      * @param containerId the id of the container for which to retrieve the implementation class
      * @param containerType the container's type ({@link ContainerType#INSTALLED},
-     * {@link ContainerType#EMBEDDED} or {@link ContainerType#REMOTE})
+     *            {@link ContainerType#EMBEDDED} or {@link ContainerType#REMOTE})
      * @return the container implementation class
      */
-    Class getContainerClass(String containerId, ContainerType containerType);
+    Class<? extends Container> getContainerClass(String containerId, ContainerType containerType);
 
     /**
      * @param containerId the id of the container to check

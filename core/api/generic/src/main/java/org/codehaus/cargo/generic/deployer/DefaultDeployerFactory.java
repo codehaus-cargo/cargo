@@ -40,11 +40,12 @@ import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
  * 
  * @version $Id$
  */
-public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFactory
+public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFactory<Deployer>
     implements DeployerFactory
 {
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory.GenericParameters
      */
     private static class DeployerFactoryParameters implements GenericParameters
@@ -67,8 +68,8 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
      * Register deployer name mappings.
      * 
      * @param classLoader ClassLoader to discover implementations from. See
-     * {@link AbstractFactoryRegistry#register(ClassLoader, DeployerFactory)} for the details of
-     * what this value means.
+     *            {@link AbstractFactoryRegistry#register(ClassLoader, DeployerFactory)} for the
+     *            details of what this value means.
      */
     public DefaultDeployerFactory(ClassLoader classLoader)
     {
@@ -79,9 +80,11 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
+     * 
      * @see DeployerFactory#registerDeployer(String, DeployerType, Class)
      */
-    public void registerDeployer(String containerId, DeployerType deployerType, Class deployerClass)
+    public void registerDeployer(String containerId, DeployerType deployerType,
+        Class<? extends Deployer> deployerClass)
     {
         registerImplementation(new RegistrationKey(new SimpleContainerIdentity(containerId),
             deployerType.getType()), deployerClass);
@@ -104,6 +107,7 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
+     * 
      * @see DeployerFactory#isDeployerRegistered(String, DeployerType)
      */
     public boolean isDeployerRegistered(String containerId, DeployerType deployerType)
@@ -114,10 +118,11 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
+     * 
      * @see DeployerFactory#getDeployerClass(String,
-     * org.codehaus.cargo.container.deployer.DeployerType)
+     *      org.codehaus.cargo.container.deployer.DeployerType)
      */
-    public Class getDeployerClass(String containerId, DeployerType deployerType)
+    public Class<? extends Deployer> getDeployerClass(String containerId, DeployerType deployerType)
     {
         return getMapping(new RegistrationKey(new SimpleContainerIdentity(containerId),
             deployerType.getType()));
@@ -125,6 +130,7 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
+     * 
      * @see DeployerFactory#createDeployer(Container, DeployerType)
      */
     public Deployer createDeployer(Container container, DeployerType deployerType)
@@ -132,12 +138,14 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
         DeployerFactoryParameters parameters = new DeployerFactoryParameters();
         parameters.container = container;
 
-        return (Deployer) createImplementation(new RegistrationKey(new SimpleContainerIdentity(
-            container.getId()), deployerType.getType()), parameters, "deployer");
+        return createImplementation(
+            new RegistrationKey(new SimpleContainerIdentity(container.getId()),
+                deployerType.getType()), parameters, "deployer");
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see DeployerFactory#createDeployer(Container)
      */
     public Deployer createDeployer(Container container)
@@ -148,8 +156,8 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
 
         if (isDeployerRegistered(container.getId(), type))
         {
-            getLogger().debug(
-                "Creating a default [" + type + "] deployer", this.getClass().getName());
+            getLogger().debug("Creating a default [" + type + "] deployer",
+                this.getClass().getName());
             deployer = createDeployer(container, type);
         }
         else
@@ -163,24 +171,28 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor(Class, String,
-     * GenericParameters)
+     *      GenericParameters)
      */
     @Override
-    protected Constructor getConstructor(Class deployerClass, String hint,
-        GenericParameters parameters) throws NoSuchMethodException
+    protected Constructor<? extends Deployer> getConstructor(
+        Class<? extends Deployer> deployerClass, String hint, GenericParameters parameters)
+        throws NoSuchMethodException
     {
-        Constructor constructor;
+        Constructor<? extends Deployer> constructor;
 
         DeployerType type = DeployerType.toType(hint);
 
         if (type == DeployerType.INSTALLED)
         {
-            constructor = deployerClass.getConstructor(new Class[] {InstalledLocalContainer.class});
+            constructor =
+                deployerClass.getConstructor(new Class[] {InstalledLocalContainer.class});
         }
         else if (type == DeployerType.EMBEDDED)
         {
-            constructor = deployerClass.getConstructor(new Class[] {EmbeddedLocalContainer.class});
+            constructor =
+                deployerClass.getConstructor(new Class[] {EmbeddedLocalContainer.class});
         }
         else if (type == DeployerType.REMOTE)
         {
@@ -196,10 +208,11 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
     @Override
-    protected Object createInstance(Constructor constructor, String hint,
+    protected Deployer createInstance(Constructor<? extends Deployer> constructor, String hint,
         GenericParameters parameters) throws Exception
     {
         Container container = ((DeployerFactoryParameters) parameters).container;
