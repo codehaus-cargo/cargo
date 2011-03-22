@@ -36,7 +36,10 @@ import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.util.CargoException;
+import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * JSR-88 remote deployer.
@@ -52,6 +55,11 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
     private final RuntimeConfiguration configuration;
 
     /**
+     * File handler.
+     */
+    private final FileHandler fileHandler;
+
+    /**
      * Constructor.
      * 
      * @param container the remote container
@@ -59,6 +67,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
     public AbstractJsr88Deployer(RemoteContainer container)
     {
         this.configuration = container.getConfiguration();
+        this.fileHandler = new DefaultFileHandler();
     }
 
     /**
@@ -69,14 +78,59 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
     @Override
     public void deploy(Deployable deployable)
     {
-        DeploymentManager deploymentManager = this.getDeploymentManager();
+        File deployableFile;
+        File tempDirectory;
+        if (deployable.getType() == DeployableType.WAR)
+        {
+            String localFileName;
+            WAR war = (WAR) deployable;
+            if (war.getContext().length() == 0)
+            {
+                localFileName = "rootContext.war";
+            }
+            else
+            {
+                localFileName = war.getContext() + ".war";
+            }
+            tempDirectory = new File(fileHandler.createUniqueTmpDirectory());
+            deployableFile = new File(tempDirectory, localFileName);
+            fileHandler.copyFile(deployable.getFile(), deployableFile.getAbsolutePath());
+            deployableFile.deleteOnExit();
+        }
+        else
+        {
+            deployableFile = new File(deployable.getFile());
+            tempDirectory = null;
+        }
 
-        ProgressObject progressObject = deploymentManager.distribute(
-            deploymentManager.getTargets(), new File(deployable.getFile()), null);
-        this.waitForProgressObject(progressObject);
+        try
+        {
+            DeploymentManager deploymentManager = this.getDeploymentManager();
+    
+            ProgressObject progressObject = deploymentManager.distribute(
+                deploymentManager.getTargets(), deployableFile, null);
+            this.waitForProgressObject(progressObject);
+    
+            progressObject = deploymentManager.start(progressObject.getResultTargetModuleIDs());
+            this.waitForProgressObject(progressObject);
+        }
+        finally
+        {
+            if (tempDirectory != null)
+            {
+                if (!deployableFile.delete())
+                {
+                    getLogger().warn("Cannot delete the temporary file: " + deployableFile,
+                        this.getClass().getName());
+                }
 
-        progressObject = deploymentManager.start(progressObject.getResultTargetModuleIDs());
-        this.waitForProgressObject(progressObject);
+                if (!tempDirectory.delete())
+                {
+                    getLogger().warn("Cannot delete the temporary directory: " + tempDirectory,
+                        this.getClass().getName());
+                }
+            }
+        }
     }
 
     /**
@@ -315,12 +369,28 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
     private TargetModuleID[] findTargetModule(DeploymentManager deploymentManager,
         Deployable deployable) throws CargoException, TargetException
     {
-        File moduleFile = new File(deployable.getFile());
-        String moduleName = moduleFile.getName();
-        int extensionSeparator = moduleName.lastIndexOf('.');
-        if (extensionSeparator != -1)
+        String moduleName;
+        if (deployable.getType() == DeployableType.WAR)
         {
-            moduleName = moduleName.substring(0, extensionSeparator);
+            WAR war = (WAR) deployable;
+            if (war.getContext().length() == 0)
+            {
+                moduleName = "rootContext";
+            }
+            else
+            {
+                moduleName = war.getContext();
+            }
+        }
+        else
+        {
+            File moduleFile = new File(deployable.getFile());
+            moduleName = moduleFile.getName();
+            int extensionSeparator = moduleName.lastIndexOf('.');
+            if (extensionSeparator != -1)
+            {
+                moduleName = moduleName.substring(0, extensionSeparator);
+            }
         }
 
         ModuleType moduleType;
