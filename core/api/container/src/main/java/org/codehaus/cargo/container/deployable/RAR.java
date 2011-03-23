@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.deployable;
 import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 
 /**
- * Wraps an RAR file that will be deployed in the container.
+ * Wraps a RAR file that will be deployed in the container.
  * 
  * @version $Id$
  */
@@ -46,7 +46,7 @@ public class RAR extends AbstractDeployable
     }
 
     /**
-     * Parse the EAR file name to set up the EAR name. The parsing occurs only if the user has not
+     * Parse the file name to set up the RAR name. The parsing occurs only if the user has not
      * already specified a custom name.
      * 
      * @see #setName(String)
@@ -80,7 +80,7 @@ public class RAR extends AbstractDeployable
 
     /**
      * Return whether the RAR is exploded or not.
-     * @return true if the rar is a directory
+     * @return true if the RAR is a directory
      * @deprecated Use {@link #isExpanded()} instead.
      */
     @Deprecated
@@ -90,8 +90,8 @@ public class RAR extends AbstractDeployable
     }
 
     /**
-     * @param name the name of this deployable. It can be anything (there's no special rule). If not
-     * specified by user, it is computed from the RAR's file name (removing the filename extension).
+     * Sets the name of this deployable. It can be anything (there's no special rule).
+     * @param name the name of this deployable
      */
     public synchronized void setName(String name)
     {
@@ -99,6 +99,8 @@ public class RAR extends AbstractDeployable
     }
 
     /**
+     * Returns the name of this deployable. If not specified by user, it is computed from the
+     * RAR's file name (removing the filename extension).
      * @return the name of this deployable
      */
     public synchronized String getName()

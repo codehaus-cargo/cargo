@@ -126,8 +126,8 @@ public class EAR extends AbstractDeployable
     }
 
     /**
-     * @param name the name of this deployable. It can be anything (there's no special rule). If not
-     * specified by user, it is computed from the EAR's file name (removing the filename extension).
+     * Sets the name of this deployable. It can be anything (there's no special rule).
+     * @param name the name of this deployable
      */
     public synchronized void setName(String name)
     {
@@ -135,6 +135,8 @@ public class EAR extends AbstractDeployable
     }
 
     /**
+     * Returns the name of this deployable. If not specified by user, it is computed from the
+     * EAR's file name (removing the filename extension).
      * @return the name of this deployable
      */
     public synchronized String getName()

@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.deployable;
 import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 
 /**
- * Wraps an SAR file that will be deployed in the container.
+ * Wraps a SAR file that will be deployed in the container.
  * 
  * @version $Id$
  */
