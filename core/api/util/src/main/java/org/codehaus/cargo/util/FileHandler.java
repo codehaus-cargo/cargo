@@ -235,7 +235,7 @@ public interface FileHandler
 
     /**
      * @param file the file name for which to return the file name
-     * @return the file name (without path nor extension)
+     * @return the file name (without path)
      */
     String getName(String file);
 
