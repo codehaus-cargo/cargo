@@ -39,30 +39,21 @@ import org.codehaus.cargo.container.deployable.SAR;
 import org.codehaus.cargo.container.deployable.WAR;
 
 /**
- * Local deployer that deploys WARs, EJBs and EARs to a <code>deployable</code> directory of the
- * given installed container. Note that this deployer supports expanded WARs by copying the expanded
- * WAR to the <code>deployable</code> directory. In other words it does not support in-place
- * expanded WARs (i.e. expanded WARs located in a different directory).
+ * Local deployer that deploys deployables to a <code>deployable</code> directory of the given
+ * installed container. Note that this deployer supports some expanded deployables by copying the
+ * expanded deployable to the <code>deployable</code> directory. In other words it does not
+ * support in-place expanded deployables (e.g. expanded WARs located in a different directory).
  * 
  * @version $Id$
  */
 public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInstalledLocalDeployer
 {
     /**
-     * @see #setShouldDeployExpandedWARs(boolean)
+     * Contains those DeployableTypes that should not be deployed expanded. Default is to allow
+     * expanded deployment and the exceptions to that rule are set here.
      */
-    private boolean shouldDeployExpandedWARs;
-
-    /**
-     * @see #setShouldDeployExpandedSARs(boolean)
-     */
-    private boolean shouldDeployExpandedSARs;
-
-    /**
-     * @see #setShouldDeployExpandedRARs(boolean)
-     */
-    private boolean shouldDeployExpandedRARs;
-
+    private Set<DeployableType> doNotDeployExpanded = new HashSet<DeployableType>();
+    
     /**
      * Deployed Deployables.
      */
@@ -76,12 +67,41 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     {
         super(container);
 
-        this.shouldDeployExpandedWARs = true;
-        this.shouldDeployExpandedSARs = true;
-        this.shouldDeployExpandedRARs = true;
         this.deployedDeployables = new ArrayList<Deployable>();
     }
 
+    /**
+     * Decide whether some expanded deployables of the specified type should be deployed or not.
+     * Some classes using this deployer may not want to deploy some expanded deployables, as they
+     * may want to deploy them in-situ by modifying the container's configuration file to point
+     * to the location of the expanded deployable. This saves some copying time and make it easier
+     * for development round-trips.
+     * 
+     * @param type the deployable type
+     * @param flag whether expanded deployment of the specified deployment type should be allowed
+     * or not
+     */
+    public void setShouldDeployExpanded(DeployableType type, boolean flag)
+    {
+        if (flag)
+        {
+            this.doNotDeployExpanded.remove(type);
+        }
+        else
+        {
+            this.doNotDeployExpanded.add(type);
+        }
+    }
+    
+    /**
+     * @param type the deployable type
+     * @return whether expanded deployment of the specified deployment type should be done
+     */
+    protected boolean shouldDeployExpanded(DeployableType type)
+    {
+        return !this.doNotDeployExpanded.contains(type);
+    }
+    
     /**
      * Decide whether expanded WARs should be deployed. Some classes using this deployer may not
      * want to deploy expanded WARs as they may want to deploy them in-situ by modifying the
@@ -89,10 +109,11 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      * copying time and make it easier for development round-trips.
      * 
      * @param flag if true expanded WARs will be deployed
+     * @deprecated Use {@link #setShouldDeployExpanded(DeployableType, boolean)} instead
      */
     public void setShouldDeployExpandedWARs(boolean flag)
     {
-        this.shouldDeployExpandedWARs = flag;
+        setShouldDeployExpanded(DeployableType.WAR, flag);
     }
 
     /**
@@ -102,10 +123,11 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      * copying time and make it easier for development round-trips.
      * 
      * @param flag if true expanded SARs will be deployed
+     * @deprecated Use {@link #setShouldDeployExpanded(DeployableType, boolean)} instead
      */
     public void setShouldDeployExpandedSARs(boolean flag)
     {
-        this.shouldDeployExpandedSARs = flag;
+        setShouldDeployExpanded(DeployableType.SAR, flag);
     }
 
     /**
@@ -115,10 +137,11 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      * copying time and make it easier for development round-trips.
      * 
      * @param flag if true expanded RARs will be deployed
+     * @deprecated Use {@link #setShouldDeployExpanded(DeployableType, boolean)} instead
      */
     public void setShouldDeployExpandedRARs(boolean flag)
     {
-        this.shouldDeployExpandedRARs = flag;
+        setShouldDeployExpanded(DeployableType.RAR, flag);
     }
 
     /**
@@ -155,7 +178,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
                 {
                     deployWar(deployableDir, (WAR) deployable);
                 }
-                else if (this.shouldDeployExpandedWARs)
+                else if (shouldDeployExpanded(DeployableType.WAR))
                 {
                     deployExpandedWar(deployableDir, (WAR) deployable);
                 }
@@ -170,7 +193,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
             }
             else if (deployable.getType() == DeployableType.SAR)
             {
-                if (deployable.isExpanded() && this.shouldDeployExpandedSARs)
+                if (deployable.isExpanded() && shouldDeployExpanded(DeployableType.SAR))
                 {
                     deployExpandedSar(deployableDir, (SAR) deployable);
                 }
@@ -181,7 +204,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
             }
             else if (deployable.getType() == DeployableType.RAR)
             {
-                if (deployable.isExpanded() && this.shouldDeployExpandedRARs)
+                if (deployable.isExpanded() && shouldDeployExpanded(DeployableType.RAR))
                 {
                     deployExpandedRar(deployableDir, (RAR) deployable);
                 }
@@ -201,7 +224,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
             else
             {
                 throw new ContainerException(
-                        "Only WAR, EJB, EAR, RAR and SAR are currently supported");
+                        "Deployable type is currently not supported");
             }
         }
         catch (Exception e)
