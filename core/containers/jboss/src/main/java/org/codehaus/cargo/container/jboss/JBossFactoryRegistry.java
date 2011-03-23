@@ -47,7 +47,8 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
 {
 
     /**
-     * Register deployable factory.
+     * Registers additional {@link org.codehaus.cargo.container.deployable.Deployable}
+     * implementations, that the JBoss containers support, to the given {@link DeployableFactory}.
      * 
      * @param deployableFactory Factory on which to register.
      */
