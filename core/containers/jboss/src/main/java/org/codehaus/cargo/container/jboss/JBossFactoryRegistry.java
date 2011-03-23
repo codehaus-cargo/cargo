@@ -23,6 +23,7 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployer.DeployerType;
+import org.codehaus.cargo.container.jboss.deployable.JBossWAR;
 import org.codehaus.cargo.container.jboss.internal.JBoss4xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss5xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBossContainerCapability;
