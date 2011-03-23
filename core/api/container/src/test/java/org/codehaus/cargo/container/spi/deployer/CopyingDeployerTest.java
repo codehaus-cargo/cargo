@@ -103,6 +103,57 @@ public class CopyingDeployerTest extends MockObjectTestCase
     }
 
     /**
+     * Test that the handling of ShouldDeployExpanded functions correctly.
+     */
+    public void testShouldDeployExpanded()
+    {
+        AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
+            createContainer(createContainerCapability(DeployableType.WAR)));
+        
+        assertTrue(deployer.shouldDeployExpanded(DeployableType.WAR));
+        deployer.setShouldDeployExpanded(DeployableType.WAR, true);
+        assertTrue(deployer.shouldDeployExpanded(DeployableType.WAR));
+        deployer.setShouldDeployExpanded(DeployableType.WAR, false);
+        assertFalse(deployer.shouldDeployExpanded(DeployableType.WAR));
+        deployer.setShouldDeployExpanded(DeployableType.WAR, true);
+        assertTrue(deployer.shouldDeployExpanded(DeployableType.WAR));
+    }
+    
+    /**
+     * Test that the deprecated setShouldDeployExpandedXXXs methods function correctly.
+     */
+    @SuppressWarnings("deprecation")
+    public void testDeprecatedShouldDeployExpandedMethods()
+    {
+        AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
+            createContainer(createContainerCapability(DeployableType.WAR)));
+        
+        assertTrue(deployer.shouldDeployExpanded(DeployableType.WAR));
+        deployer.setShouldDeployExpandedWARs(true);
+        assertTrue(deployer.shouldDeployExpanded(DeployableType.WAR));
+        deployer.setShouldDeployExpandedWARs(false);
+        assertFalse(deployer.shouldDeployExpanded(DeployableType.WAR));
+        deployer.setShouldDeployExpandedWARs(true);
+        assertTrue(deployer.shouldDeployExpanded(DeployableType.WAR));
+
+        assertTrue(deployer.shouldDeployExpanded(DeployableType.RAR));
+        deployer.setShouldDeployExpandedRARs(true);
+        assertTrue(deployer.shouldDeployExpanded(DeployableType.RAR));
+        deployer.setShouldDeployExpandedRARs(false);
+        assertFalse(deployer.shouldDeployExpanded(DeployableType.RAR));
+        deployer.setShouldDeployExpandedRARs(true);
+        assertTrue(deployer.shouldDeployExpanded(DeployableType.RAR));
+
+        assertTrue(deployer.shouldDeployExpanded(DeployableType.SAR));
+        deployer.setShouldDeployExpandedSARs(true);
+        assertTrue(deployer.shouldDeployExpanded(DeployableType.SAR));
+        deployer.setShouldDeployExpandedSARs(false);
+        assertFalse(deployer.shouldDeployExpanded(DeployableType.SAR));
+        deployer.setShouldDeployExpandedSARs(true);
+        assertTrue(deployer.shouldDeployExpanded(DeployableType.SAR));
+    }
+
+    /**
      * Test whether two WARs can be deployed to the same context.
      * @throws Exception If anything goes wrong.
      */
