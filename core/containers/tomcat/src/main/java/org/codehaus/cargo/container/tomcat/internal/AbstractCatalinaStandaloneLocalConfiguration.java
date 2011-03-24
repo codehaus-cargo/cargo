@@ -48,7 +48,6 @@ import org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalContainer;
 import org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalDeployer;
 import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
-import org.codehaus.cargo.container.tomcat.TomcatWAR;
 
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -312,13 +311,9 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
 
             // Do not create tokens for WARs containing a context file as they
             // are copied to the webapps directory.
-            if (deployable instanceof TomcatWAR)
+            if (TomcatUtils.containsContextFile(deployable))
             {
-                TomcatWAR tomcatWar = (TomcatWAR) deployable;
-                if (tomcatWar.containsContextFile())
-                {
-                    continue;
-                }
+                continue;
             }
 
             webappTokenValue.append(createContextToken((WAR) deployable));
@@ -435,7 +430,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         for (String file : getConfFiles())
         {
             getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/" + file,
-                getFileHandler().append(confDir, file), getFileHandler(), filterChain);
+                getFileHandler().append(confDir, file), getFileHandler(), filterChain, "UTF-8");
         }
     }
 

@@ -26,6 +26,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
+import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
 
 /**
  * Static deployer that deploys WARs to the Tomcat <code>webapps</code> directory.
@@ -84,21 +85,12 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
     @Override
     protected void deployWar(String deployableDir, WAR war)
     {
-        if (war instanceof TomcatWAR)
+        // If the WAR contains a META-INF/context.xml then it means the user is
+        // defining how to deploy it.
+        if (TomcatUtils.containsContextFile(war))
         {
-            TomcatWAR tomcatWar = (TomcatWAR) war;
-
-            // If the WAR contains a META-INF/context.xml then it means the user is
-            // defining how to deploy it.
-            if (tomcatWar.containsContextFile())
-            {
-                // Drop WAR files into the webapps dir, Tomcat will read META-INF/context.xml itself
-                super.deployWar(deployableDir, war);
-            }
-            else if (this.shouldCopyWars)
-            {
-                super.deployWar(deployableDir, war);
-            }
+            // Drop WAR files into the webapps dir, Tomcat will read META-INF/context.xml itself
+            super.deployWar(deployableDir, war);
         }
         else if (this.shouldCopyWars)
         {
@@ -118,38 +110,26 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
     @Override
     protected void deployExpandedWar(String deployableDir, WAR war)
     {
-        if (war instanceof TomcatWAR)
+        // If the WAR contains a META-INF/context.xml then it means the user is
+        // defining how to deploy it.
+        if (TomcatUtils.containsContextFile(war))
         {
-            TomcatWAR tomcatWar = (TomcatWAR) war;
+            // Note: We know here that the war is an expanded war as this method is only called
+            // for expanded wars...
 
-            // If the WAR contains a META-INF/context.xml then it means the user is
-            // defining how to deploy it.
-            if (tomcatWar.containsContextFile())
-            {
-                // Note: We know here that the war is an expanded war as this method is only called
-                // for expanded wars...
+            String contextDir = getFileHandler().createDirectory(
+                getContainer().getConfiguration().getHome(),
+                "conf/Catalina/" + getContainer().getConfiguration().getPropertyValue(
+                    GeneralPropertySet.HOSTNAME));
 
-                String contextDir = getFileHandler().createDirectory(
-                    getContainer().getConfiguration().getHome(),
-                    "conf/Catalina/" + getContainer().getConfiguration().getPropertyValue(
-                        GeneralPropertySet.HOSTNAME));
-
-                // Copy context.xml to <config>/Catalina/<hostname>/<context-path>.xml
-                getFileHandler().copyFile(
-                    getFileHandler().append(tomcatWar.getFile(), "META-INF/context.xml"),
-                    getFileHandler().append(contextDir, tomcatWar.getContext() + ".xml"));
-            }
-            else if (this.shouldCopyWars)
-            {
-                super.deployExpandedWar(deployableDir, war);
-            }
+            // Copy context.xml to <config>/Catalina/<hostname>/<context-path>.xml
+            getFileHandler().copyFile(
+                getFileHandler().append(war.getFile(), "META-INF/context.xml"),
+                getFileHandler().append(contextDir, war.getContext() + ".xml"));
         }
-        else
+        else if (this.shouldCopyWars)
         {
-            if (this.shouldCopyWars)
-            {
-                super.deployExpandedWar(deployableDir, war);
-            }
+            super.deployExpandedWar(deployableDir, war);
         }
     }
 
