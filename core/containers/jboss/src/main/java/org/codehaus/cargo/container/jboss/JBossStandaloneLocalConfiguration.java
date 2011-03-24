@@ -33,6 +33,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBossInstalledLocalContainer;
 import org.codehaus.cargo.container.jboss.internal.JBossStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
@@ -383,11 +384,11 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
     {
         String level;
 
-        if (cargoLogLevel.equalsIgnoreCase("low"))
+        if (LoggingLevel.LOW.equalsLevel(cargoLogLevel))
         {
             level = "ERROR";
         }
-        else if (cargoLogLevel.equalsIgnoreCase("medium"))
+        else if (LoggingLevel.MEDIUM.equalsLevel(cargoLogLevel))
         {
             level = "WARN";
         }

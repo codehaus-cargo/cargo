@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.resin.internal.AbstractResinStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.resin.internal.Resin2xConfigurationBuilder;
 
@@ -122,7 +123,7 @@ public class Resin2xStandaloneLocalConfiguration extends
         // the Ant filtering code fails.
         String tokenValue = " ";
         String logLevel = getPropertyValue(GeneralPropertySet.LOGGING);
-        if (logLevel.equalsIgnoreCase("high"))
+        if (LoggingLevel.HIGH.equalsLevel(logLevel))
         {
             tokenValue = "<log id='/' href='stdout:' timestamp='[%H:%M:%S.%s]'/>";
         }

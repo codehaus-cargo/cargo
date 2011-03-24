@@ -36,12 +36,12 @@ public enum LoggingLevel
     HIGH,
 
     /**
-     * Medium amount of log output, e.g. info logging.
+     * Medium amount of log output, e.g. info and warn logging.
      */
     MEDIUM,
 
     /**
-     * Low amount of log output, e.g. warn/error logging.
+     * Low amount of log output, e.g. error logging only.
      */
     LOW;
 

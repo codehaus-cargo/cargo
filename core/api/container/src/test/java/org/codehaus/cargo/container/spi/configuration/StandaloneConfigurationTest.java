@@ -31,6 +31,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.util.VFSFileHandler;
 
@@ -178,7 +179,8 @@ public class StandaloneConfigurationTest extends TestCase
             new TestableAbstractStandaloneConfiguration("dummy");
 
         assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
-        assertEquals("medium", configuration.getPropertyValue(GeneralPropertySet.LOGGING));
+        assertEquals(LoggingLevel.MEDIUM.getLevel(),
+            configuration.getPropertyValue(GeneralPropertySet.LOGGING));
         assertEquals("localhost", configuration.getPropertyValue(GeneralPropertySet.HOSTNAME));
     }
 

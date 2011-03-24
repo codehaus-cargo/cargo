@@ -34,6 +34,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
@@ -344,18 +345,17 @@ public abstract class AbstractJBossInstalledLocalContainer extends
     {
         String returnVal = "INFO";
 
-        if (cargoLogLevel == null || cargoLogLevel.trim().equals("")
-            || cargoLogLevel.equalsIgnoreCase("medium"))
-        {
-            // accept default of medium/Info
-        }
-        else if (cargoLogLevel.equalsIgnoreCase("low"))
+        if (LoggingLevel.LOW.equalsLevel(cargoLogLevel))
         {
             returnVal = "WARN";
         }
-        else if (cargoLogLevel.equalsIgnoreCase("high"))
+        else if (LoggingLevel.HIGH.equalsLevel(cargoLogLevel))
         {
             returnVal = "DEBUG";
+        }
+        else
+        {
+            // accept default of medium/Info
         }
 
         return returnVal;

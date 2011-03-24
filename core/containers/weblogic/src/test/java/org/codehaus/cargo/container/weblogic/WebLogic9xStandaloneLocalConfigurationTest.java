@@ -27,6 +27,7 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10xAnd103xConfigurationChecker;
 import org.codehaus.cargo.util.Dom4JUtil;
@@ -389,7 +390,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      */
     public void testDoConfigureSetsHighLogging() throws Exception
     {
-        configuration.setProperty(GeneralPropertySet.LOGGING, "high");
+        configuration.setProperty(GeneralPropertySet.LOGGING, LoggingLevel.HIGH.getLevel());
         configuration.configure(container);
         String config =
             configuration.getFileHandler().readTextFile(
@@ -403,7 +404,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      */
     public void testDoConfigureSetsMediumLogging() throws Exception
     {
-        configuration.setProperty(GeneralPropertySet.LOGGING, "medium");
+        configuration.setProperty(GeneralPropertySet.LOGGING, LoggingLevel.MEDIUM.getLevel());
         configuration.configure(container);
         String config =
             configuration.getFileHandler().readTextFile(
@@ -417,7 +418,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      */
     public void testDoConfigureSetsLowLogging() throws Exception
     {
-        configuration.setProperty(GeneralPropertySet.LOGGING, "low");
+        configuration.setProperty(GeneralPropertySet.LOGGING, LoggingLevel.LOW.getLevel());
         configuration.configure(container);
         String config =
             configuration.getFileHandler().readTextFile(

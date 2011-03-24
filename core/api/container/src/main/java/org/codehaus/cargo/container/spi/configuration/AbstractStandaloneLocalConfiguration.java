@@ -32,6 +32,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -63,7 +64,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         super(dir);
 
         // Add all required properties that are common to all standalone configurations
-        setProperty(GeneralPropertySet.LOGGING, "medium");
+        setProperty(GeneralPropertySet.LOGGING, LoggingLevel.MEDIUM.getLevel());
         this.files = new ArrayList<FileConfig>();
     }
 
@@ -153,9 +154,11 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     private void verifyLogging()
     {
         String level = getPropertyValue(GeneralPropertySet.LOGGING);
-        if (!level.equalsIgnoreCase("low")
-            && !level.equalsIgnoreCase("medium")
-            && !level.equalsIgnoreCase("high"))
+        try
+        {
+            LoggingLevel.toLevel(level);
+        }
+        catch (IllegalArgumentException e)
         {
             throw new ContainerException("Invalid logging level [" + level
                 + "]. Valid levels are {\"low\", \"medium\", " + "\"high\"}");

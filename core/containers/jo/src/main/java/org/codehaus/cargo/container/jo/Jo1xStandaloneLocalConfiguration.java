@@ -31,6 +31,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.jo.internal.Jo1xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
@@ -71,11 +72,6 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
      * Default port.
      */
     private static final String DEFAULT_PORT = "8080";
-
-    /**
-     * Default loglevel.
-     */
-    private static final String DEFAULT_LOGLEVEL = "medium";
 
     /**
      * Default metaserver port.
@@ -302,25 +298,12 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
         tokenLogLevel.setKey(TOKEN_KEY_LOGLEVEL);
 
         String logLevel = getPropertyValue(GeneralPropertySet.LOGGING);
-        // default to medium
-        if (logLevel == null)
-        {
-            logLevel = DEFAULT_LOGLEVEL;
-        }
-        else
-        {
-            logLevel = logLevel.toLowerCase();
-        }
         String joLogLevel;
-        if ("low".equals(logLevel))
+        if (LoggingLevel.LOW.equalsLevel(logLevel))
         {
             joLogLevel = "1";
         }
-        else if ("medium".equals(logLevel))
-        {
-            joLogLevel = "2";
-        }
-        else if ("high".equals(logLevel))
+        else if (LoggingLevel.HIGH.equalsLevel(logLevel))
         {
             joLogLevel = "5";
         }

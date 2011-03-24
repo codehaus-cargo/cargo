@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.dom4j.DocumentHelper;
@@ -126,11 +127,12 @@ public class JRun4xFilterChain extends FilterChain
         String debugEnabled = "false";
 
         String cargoLogLevel = getPropertyValue(GeneralPropertySet.LOGGING);
-        if ("low".equalsIgnoreCase(cargoLogLevel))
+        if (LoggingLevel.LOW.equalsLevel(cargoLogLevel))
         {
             warningEnabled = "false";
+            infoEnabled = "false";
         }
-        if ("high".equalsIgnoreCase(cargoLogLevel))
+        else if (LoggingLevel.HIGH.equalsLevel(cargoLogLevel))
         {
             debugEnabled = "true";
         }

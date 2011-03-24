@@ -25,6 +25,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.jetty.internal.Jetty4xEmbeddedStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.LoggingLevel;
 
 /**
  * A mostly canned config for a Jetty 4.x container.
@@ -90,7 +91,7 @@ public class Jetty4xEmbeddedStandaloneLocalConfiguration
 
         // Turn debugging level on if logging level is high only
         String logLevel = getPropertyValue(GeneralPropertySet.LOGGING);
-        if (logLevel.equalsIgnoreCase("high"))
+        if (LoggingLevel.HIGH.equalsLevel(logLevel))
         {
             Class codeClass = cl.loadClass("org.mortbay.util.Code");
             codeClass.getMethod("setDebug", new Class[] {boolean.class})

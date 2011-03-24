@@ -25,6 +25,7 @@ import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
@@ -103,8 +104,8 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
         addToolsJarToClasspath(java);
 
         // If logging is set to "high" the turn it on by setting the DEBUG system property
-        if (getConfiguration().getPropertyValue(GeneralPropertySet.LOGGING) != null
-            && getConfiguration().getPropertyValue(GeneralPropertySet.LOGGING).equals("high"))
+        if (LoggingLevel.HIGH.equalsLevel(getConfiguration().getPropertyValue(
+            GeneralPropertySet.LOGGING)))
         {
             java.setSystemProperty("DEBUG", "true");
         }

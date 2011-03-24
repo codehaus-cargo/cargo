@@ -38,6 +38,7 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.installer.Proxy;
 import org.codehaus.cargo.container.installer.ZipURLInstaller;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
@@ -170,7 +171,7 @@ public class AbstractCargoTestCase extends TestCase
         {
             configuration.setProperty(GeneralPropertySet.JAVA_HOME, getTestData().javaHome);
         }
-        configuration.setProperty(GeneralPropertySet.LOGGING, "high");
+        configuration.setProperty(GeneralPropertySet.LOGGING, LoggingLevel.HIGH.getLevel());
 
         configuration.setLogger(getLogger());
 

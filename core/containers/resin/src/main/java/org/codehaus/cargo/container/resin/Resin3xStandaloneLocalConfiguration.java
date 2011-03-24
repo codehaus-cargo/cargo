@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.resin.internal.AbstractResinStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.resin.internal.Resin3xConfigurationBuilder;
 
@@ -110,11 +111,11 @@ public class Resin3xStandaloneLocalConfiguration extends
     {
         String level;
 
-        if (cargoLoggingLevel.equalsIgnoreCase("low"))
+        if (LoggingLevel.LOW.equalsLevel(cargoLoggingLevel))
         {
             level = "severe";
         }
-        else if (cargoLoggingLevel.equalsIgnoreCase("medium"))
+        else if (LoggingLevel.MEDIUM.equalsLevel(cargoLoggingLevel))
         {
             level = "warning";
         }

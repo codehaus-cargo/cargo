@@ -40,6 +40,7 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
@@ -247,11 +248,11 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     {
         String level;
 
-        if (cargoLoggingLevel.equalsIgnoreCase("low"))
+        if (LoggingLevel.LOW.equalsLevel(cargoLoggingLevel))
         {
             level = "1";
         }
-        else if (cargoLoggingLevel.equalsIgnoreCase("medium"))
+        else if (LoggingLevel.MEDIUM.equalsLevel(cargoLoggingLevel))
         {
             level = "2";
         }

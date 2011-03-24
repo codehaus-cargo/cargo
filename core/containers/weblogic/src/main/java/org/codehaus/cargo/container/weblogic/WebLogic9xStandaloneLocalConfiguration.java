@@ -31,6 +31,7 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic8xConfigurationBuilder;
@@ -187,18 +188,17 @@ public class WebLogic9xStandaloneLocalConfiguration extends
     {
         String returnVal = "Info";
 
-        if (cargoLogLevel == null || cargoLogLevel.trim().equals("")
-            || cargoLogLevel.equalsIgnoreCase("medium"))
-        {
-            // accept default of medium/Info
-        }
-        else if (cargoLogLevel.equalsIgnoreCase("low"))
+        if (LoggingLevel.LOW.equalsLevel(cargoLogLevel))
         {
             returnVal = "Warning";
         }
-        else if (cargoLogLevel.equalsIgnoreCase("high"))
+        else if (LoggingLevel.HIGH.equalsLevel(cargoLogLevel))
         {
             returnVal = "Debug";
+        }
+        else
+        {
+            // accept default of medium/Info
         }
 
         return returnVal;
