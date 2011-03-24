@@ -107,7 +107,7 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
         if (LoggingLevel.HIGH.equalsLevel(getConfiguration().getPropertyValue(
             GeneralPropertySet.LOGGING)))
         {
-            java.setSystemProperty("DEBUG", "true");
+            java.setSystemProperty("org.eclipse.jetty.util.log.DEBUG", "true");
         }
 
         // Set location where Jetty is installed
