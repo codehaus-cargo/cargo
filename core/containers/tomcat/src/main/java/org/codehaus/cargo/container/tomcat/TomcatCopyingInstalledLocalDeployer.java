@@ -27,6 +27,9 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
+import org.codehaus.cargo.util.Dom4JUtil;
+import org.dom4j.Document;
+import org.dom4j.Element;
 
 /**
  * Static deployer that deploys WARs to the Tomcat <code>webapps</code> directory.
@@ -122,10 +125,18 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
                 "conf/Catalina/" + getContainer().getConfiguration().getPropertyValue(
                     GeneralPropertySet.HOSTNAME));
 
-            // Copy context.xml to <config>/Catalina/<hostname>/<context-path>.xml
-            getFileHandler().copyFile(
-                getFileHandler().append(war.getFile(), "META-INF/context.xml"),
-                getFileHandler().append(contextDir, war.getContext() + ".xml"));
+            // Copy only the context.xml to <config>/Catalina/<hostname>/<context-path>.xml and set
+            // docBase to point at the expanded WAR
+            Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
+            Document doc =
+                xmlUtil.loadXmlFromFile(getFileHandler().append(war.getFile(),
+                    "META-INF/context.xml"));
+            Element context = doc.getRootElement();
+            if (context.attributeValue("docBase", "").length() <= 0)
+            {
+                context.addAttribute("docBase", war.getFile());
+            }
+            xmlUtil.saveXml(doc, getFileHandler().append(contextDir, war.getContext() + ".xml"));
         }
         else if (this.shouldCopyWars)
         {
