@@ -87,7 +87,7 @@ public abstract class AbstractJettyStandaloneLocalConfiguration extends
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/jetty.xml",
             new File(etcDir, "jetty.xml"));
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/webdefault.xml",
-            new File(etcDir, "webdefault.xml"), filterChain);
+            new File(etcDir, "webdefault.xml"), filterChain, "UTF-8");
 
         // Create a webapps directory for automatic deployment of WARs dropped inside.
         String appDir = getFileHandler().createDirectory(getHome(), "webapps");

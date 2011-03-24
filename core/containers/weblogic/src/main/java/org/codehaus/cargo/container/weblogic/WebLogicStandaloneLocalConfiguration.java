@@ -87,7 +87,7 @@ public class WebLogicStandaloneLocalConfiguration extends
         // This is especially important for unit testing
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/config.xml",
             getFileHandler().append(getDomainHome(), "config.xml"), getFileHandler(),
-            getFilterChain());
+            getFilterChain(), "UTF-8");
 
         WebLogic8xConfigXmlInstalledLocalDeployer deployer =
             new WebLogic8xConfigXmlInstalledLocalDeployer(container);
@@ -96,7 +96,7 @@ public class WebLogicStandaloneLocalConfiguration extends
         getResourceUtils().copyResource(
             RESOURCE_PATH + container.getId() + "/DefaultAuthenticatorInit.ldift",
             getFileHandler().append(getDomainHome(), "DefaultAuthenticatorInit.ldift"),
-            getFileHandler(), getFilterChain());
+            getFileHandler(), getFilterChain(), "UTF-8");
 
         deployCargoPing((WebLogicLocalContainer) container);
     }

@@ -82,7 +82,7 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
             getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
                 new File(getHome(), "cargocpc.war"));
             getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/webdefault.xml",
-                new File(etcDir, "webdefault.xml"), filterChain);
+                new File(etcDir, "webdefault.xml"), filterChain, "UTF-8");
 
             if (container.getOutput() != null)
             {

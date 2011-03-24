@@ -136,7 +136,7 @@ public class JBoss6xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
         {
             getResourceUtils().copyResource(
                 RESOURCE_PATH + jbossContainer.getId() + "/" + cargoConfigFile,
-                new File(confDir, cargoConfigFile), filterChain);
+                new File(confDir, cargoConfigFile), filterChain, "UTF-8");
         }
 
         // Copy resources from jboss installation folder and exclude files
@@ -151,7 +151,7 @@ public class JBoss6xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
 
         getResourceUtils().copyResource(RESOURCE_PATH + jbossContainer.getId() + "/"
             + "bindings-jboss-beans.xml", new File(confDir + "/bindingservice.beans/META-INF",
-                "bindings-jboss-beans.xml"), filterChain);
+                "bindings-jboss-beans.xml"), filterChain, "UTF-8");
 
         // Copy the files within the JBoss Deployers directory to the cargo deployers directory
         copyExternalResources(new File(((JBoss5xInstalledLocalContainer) jbossContainer)

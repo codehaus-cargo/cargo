@@ -100,7 +100,7 @@ public class Resin3xStandaloneLocalConfiguration extends
     {
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/app-default.xml",
             getFileHandler().append(getHome(), "app-default.xml"), getFileHandler(),
-            getFilterChain());
+            getFilterChain(), "UTF-8");
     }
 
     /**

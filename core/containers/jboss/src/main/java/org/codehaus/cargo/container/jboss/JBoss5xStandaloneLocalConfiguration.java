@@ -139,7 +139,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
         {
             getResourceUtils().copyResource(
                 RESOURCE_PATH + jbossContainer.getId() + "/" + cargoConfigFile,
-                new File(confDir, cargoConfigFile), filterChain);
+                new File(confDir, cargoConfigFile), filterChain, "UTF-8");
         }
 
         // Copy bootstrap configuration files from cargo resources directory with token replacement
@@ -148,7 +148,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
         {
             getResourceUtils().copyResource(
                 RESOURCE_PATH + jbossContainer.getId() + "/" + cargoConfigBootstrapFile,
-                new File(confBootstrapDir, cargoConfigBootstrapFile), filterChain);
+                new File(confBootstrapDir, cargoConfigBootstrapFile), filterChain, "UTF-8");
         }
 
         // Copy deploy configuration files from cargo resources directory with token replacement
@@ -157,7 +157,7 @@ public class JBoss5xStandaloneLocalConfiguration extends JBossStandaloneLocalCon
         {
             getResourceUtils().copyResource(
                 RESOURCE_PATH + jbossContainer.getId() + "/" + cargoConfigDeployFile,
-                new File(deployDir, cargoConfigDeployFile), filterChain);
+                new File(deployDir, cargoConfigDeployFile), filterChain, "UTF-8");
         }
 
         // Copy resources from jboss installation folder and exclude files

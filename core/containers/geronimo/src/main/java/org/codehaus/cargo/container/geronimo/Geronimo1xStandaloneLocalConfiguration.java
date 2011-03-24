@@ -68,14 +68,14 @@ public class Geronimo1xStandaloneLocalConfiguration extends
         String configDir = getFileHandler().createDirectory(getHome(), "var/config");
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/"
             + getPropertyValue(GeronimoPropertySet.GERONIMO_SERVLET_CONTAINER_ID)
-            + "/config.xml", new File(configDir, "config.xml"), filterChain);
+            + "/config.xml", new File(configDir, "config.xml"), filterChain, "UTF-8");
 
         // Copy security-related files
         String securityDir = getFileHandler().createDirectory(getHome(), "/var/security");
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/users.properties",
-            new File(securityDir, "users.properties"), filterChain);
+            new File(securityDir, "users.properties"), filterChain, "ISO-8859-1");
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/groups.properties",
-            new File(securityDir, "groups.properties"), filterChain);
+            new File(securityDir, "groups.properties"), filterChain, "ISO-8859-1");
         String keystoresDir = getFileHandler().createDirectory(securityDir, "keystores");
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/keystore",
             new File(keystoresDir, "geronimo-default"));
@@ -84,12 +84,13 @@ public class Geronimo1xStandaloneLocalConfiguration extends
         String logDir = getFileHandler().createDirectory(getHome(), "/var/log");
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId()
             + "/server-log4j.properties",
-            new File(logDir, "server-log4j.properties"), filterChain);
+            new File(logDir, "server-log4j.properties"), filterChain, "ISO-8859-1");
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId()
-            + "/client-log4j.properties", new File(logDir, "client-log4j.properties"), filterChain);
+            + "/client-log4j.properties", new File(logDir, "client-log4j.properties"), filterChain, 
+            "ISO-8859-1");
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId()
             + "/deployer-log4j.properties",
-            new File(logDir, "deployer-log4j.properties"), filterChain);
+            new File(logDir, "deployer-log4j.properties"), filterChain, "ISO-8859-1");
 
         String deployDir = getFileHandler().createDirectory(getHome(), "deploy");
 

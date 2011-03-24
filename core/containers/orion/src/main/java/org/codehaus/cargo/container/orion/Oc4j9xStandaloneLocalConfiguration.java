@@ -48,7 +48,7 @@ public class Oc4j9xStandaloneLocalConfiguration extends AbstractOrionStandaloneL
     {
         getResourceUtils().copyResource(RESOURCE_PATH + "oc4j9x" + "/global-web-application.xml",
             getFileHandler().append(confDir, "global-web-application.xml"), getFileHandler(),
-            filterChain);
+            filterChain, "UTF-8");
     }
 
     /**

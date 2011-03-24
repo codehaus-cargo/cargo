@@ -160,7 +160,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         {
             getResourceUtils().copyResource(
                 RESOURCE_PATH + jbossContainer.getId() + "/" + cargoFile,
-                new File(confDir, cargoFile), filterChain);
+                new File(confDir, cargoFile), filterChain, "UTF-8");
         }
 
         // Copy resources from jboss installation folder and exclude files

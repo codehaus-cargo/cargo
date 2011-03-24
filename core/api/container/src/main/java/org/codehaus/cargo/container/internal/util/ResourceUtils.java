@@ -115,7 +115,10 @@ public final class ResourceUtils extends LoggedObject
      * @param destFile The file to which the contents of the resource should be copied
      * @param filterChain The ordered list of filter readers that should be applied while copying
      * @throws IOException If an I/O error occurs while copying the resource
+     * @deprecated Use {@link #copyResource(String, File, FilterChain, String)} instead and specify
+     *             the actual file encoding.
      */
+    @Deprecated
     public void copyResource(String resourceName, File destFile, FilterChain filterChain)
         throws IOException
     {
@@ -150,7 +153,10 @@ public final class ResourceUtils extends LoggedObject
      * @param handler The file handler to be used for file copy
      * @param filterChain The ordered list of filter readers that should be applied while copying
      * @throws IOException If an I/O error occurs while copying the resource
+     * @deprecated Use {@link #copyResource(String, String, FileHandler, FilterChain, String)}
+     *             instead and specify the actual file encoding.
      */
+    @Deprecated
     public void copyResource(String resourceName, String destFile, FileHandler handler,
         FilterChain filterChain) throws IOException
     {

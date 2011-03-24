@@ -178,27 +178,27 @@ public class JRun4xStandaloneLocalConfiguration extends
 
         // filter server name in servers.xml
         getResourceUtils().copyResource(resourcePath + "/servers.xml",
-            new File(libDir, "/servers.xml"), chain);
+            new File(libDir, "/servers.xml"), chain, "UTF-8");
 
         // filter VM config in jvm.config
         getFileHandler().createDirectory(to, "bin");
         getResourceUtils().copyResource(resourcePath + "/jvm.config",
-            new File(to + "/bin/jvm.config"), chain);
+            new File(to + "/bin/jvm.config"), chain, "UTF-8");
 
         String serverInf = "servers/" + getServerName() + "/SERVER-INF";
         String serverInfDir = getFileHandler().createDirectory(getHome(), serverInf);
 
         // filter port and logging level in jrun.xml
         getResourceUtils().copyResource(resourcePath + "/jrun.xml",
-            new File(serverInfDir, "/jrun.xml"), chain);
+            new File(serverInfDir, "/jrun.xml"), chain, "UTF-8");
 
         // filter users in jrun-users.xml
         getResourceUtils().copyResource(resourcePath + "/jrun-users.xml",
-            new File(serverInfDir, "/jrun-users.xml"), chain);
+            new File(serverInfDir, "/jrun-users.xml"), chain, "UTF-8");
 
         // filter rmi port in jndi.propertiess
         getResourceUtils().copyResource(resourcePath + "/jndi.properties",
-            new File(serverInfDir, "/jndi.properties"), chain);
+            new File(serverInfDir, "/jndi.properties"), chain, "ISO-8859-1");
     }
 
     /**

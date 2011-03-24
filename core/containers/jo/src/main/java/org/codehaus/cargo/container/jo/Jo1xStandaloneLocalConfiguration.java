@@ -119,26 +119,26 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
         String resourcePath = RESOURCE_PATH + container.getId();
 
         getResourceUtils().copyResource(resourcePath + "/factory.properties",
-                new File(confDir, "factory.properties"), filterChain);
+                new File(confDir, "factory.properties"), filterChain, "ISO-8859-1");
         getResourceUtils().copyResource(resourcePath + "/groups.properties",
-                new File(confDir, "groups.properties"), filterChain);
+                new File(confDir, "groups.properties"), filterChain, "ISO-8859-1");
         getResourceUtils().copyResource(resourcePath + "/hosts.properties",
-                new File(confDir, "hosts.properties"), filterChain);
+                new File(confDir, "hosts.properties"), filterChain, "ISO-8859-1");
 
         getResourceUtils().copyResource(resourcePath + "/listener.properties",
-                new File(confDir, "listener.properties"), filterChain);
+                new File(confDir, "listener.properties"), filterChain, "ISO-8859-1");
         getResourceUtils().copyResource(resourcePath + "/mime.properties",
-                new File(confDir, "mime.properties"), filterChain);
+                new File(confDir, "mime.properties"), filterChain, "ISO-8859-1");
         getResourceUtils().copyResource(resourcePath + "/roles.properties",
-                new File(confDir, "roles.properties"), filterChain);
+                new File(confDir, "roles.properties"), filterChain, "ISO-8859-1");
         getResourceUtils().copyResource(resourcePath + "/server.properties",
-                new File(confDir, "server.properties"), filterChain);
+                new File(confDir, "server.properties"), filterChain, "ISO-8859-1");
         getResourceUtils().copyResource(resourcePath + "/users.properties",
-                new File(confDir, "users.properties"), filterChain);
+                new File(confDir, "users.properties"), filterChain, "ISO-8859-1");
         getResourceUtils().copyResource(resourcePath + "/metaserver.properties",
-                new File(confDir, "metaserver.properties"), filterChain);
+                new File(confDir, "metaserver.properties"), filterChain, "ISO-8859-1");
         getResourceUtils().copyResource(resourcePath + "/metalistener.properties",
-                new File(confDir, "metalistener.properties"), filterChain);
+                new File(confDir, "metalistener.properties"), filterChain, "ISO-8859-1");
 
         // jo! log directory
         getFileHandler().createDirectory(getHome(), "log");

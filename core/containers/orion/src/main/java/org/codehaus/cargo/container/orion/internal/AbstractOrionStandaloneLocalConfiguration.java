@@ -163,23 +163,29 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
         String confDir = getFileHandler().createDirectory(getHome(), "conf");
 
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/server.xml",
-            getFileHandler().append(confDir, "server.xml"), getFileHandler(), filterChain);
+            getFileHandler().append(confDir, "server.xml"), getFileHandler(), filterChain, 
+            "UTF-8");
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/application.xml",
-            getFileHandler().append(confDir, "application.xml"), getFileHandler(), filterChain);
+            getFileHandler().append(confDir, "application.xml"), getFileHandler(), filterChain,
+            "UTF-8");
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/default-web-site.xml",
             getFileHandler().append(confDir, "default-web-site.xml"), getFileHandler(),
-            filterChain);
+            filterChain, "UTF-8");
 
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/mime.types",
-            getFileHandler().append(confDir, "mime.types"), getFileHandler(), filterChain);
+            getFileHandler().append(confDir, "mime.types"), getFileHandler(), filterChain, 
+            "UTF-8");
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/principals.xml",
-            getFileHandler().append(confDir, "principals.xml"), getFileHandler(), filterChain);
+            getFileHandler().append(confDir, "principals.xml"), getFileHandler(), filterChain, 
+            "UTF-8");
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/rmi.xml",
-            getFileHandler().append(confDir, "rmi.xml"), getFileHandler(), filterChain);
+            getFileHandler().append(confDir, "rmi.xml"), getFileHandler(), filterChain, 
+            "UTF-8");
 
         // create a default data-sources.xml file/
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/data-sources.xml",
-            getFileHandler().append(confDir, "data-sources.xml"), getFileHandler(), filterChain);
+            getFileHandler().append(confDir, "data-sources.xml"), getFileHandler(), filterChain, 
+            "UTF-8");
 
         copyCustomResources(confDir, filterChain);
 
@@ -187,7 +193,8 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
         String defaultWebAppDir =
             getFileHandler().createDirectory(getHome(), "default-web-app/WEB-INF");
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/web.xml",
-            getFileHandler().append(defaultWebAppDir, "web.xml"), getFileHandler(), filterChain);
+            getFileHandler().append(defaultWebAppDir, "web.xml"), getFileHandler(), filterChain, 
+            "UTF-8");
 
         // Orion need to have a /persistence directory created, otherwise it
         // throws an error

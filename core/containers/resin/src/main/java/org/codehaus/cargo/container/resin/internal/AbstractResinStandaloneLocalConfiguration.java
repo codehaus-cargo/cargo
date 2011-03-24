@@ -141,7 +141,8 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
         // that created the directory will be used to copy the resource.
         // This is especially important for unit testing
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/resin.conf",
-            getFileHandler().append(confDir, "resin.conf"), getFileHandler(), getFilterChain());
+            getFileHandler().append(confDir, "resin.conf"), getFileHandler(), getFilterChain(), 
+            "UTF-8");
 
         String webappsDir = getFileHandler().createDirectory(getHome(), "webapps");
 
