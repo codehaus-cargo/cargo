@@ -38,6 +38,8 @@ public interface GeneralPropertySet
 
     /**
      * Logging level for logging container information.
+     * 
+     * @see LoggingLevel
      */
     String LOGGING = "cargo.logging";
 
