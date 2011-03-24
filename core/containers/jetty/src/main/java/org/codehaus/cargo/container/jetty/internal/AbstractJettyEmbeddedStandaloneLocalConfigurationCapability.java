@@ -50,6 +50,7 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfigurationCapabilit
 
         this.supportsMap = new HashMap<String, Boolean>();
 
+        this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
         this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
         this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
 
