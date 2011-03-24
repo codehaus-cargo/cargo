@@ -111,7 +111,7 @@ public final class ResourceUtils extends LoggedObject
      * specified filters.
      * 
      * @param resourceName The name of the resource, relative to the
-     * org.apache.cactus.integration.ant.container package
+     * org.codehaus.cargo.container.internal.util package
      * @param destFile The file to which the contents of the resource should be copied
      * @param filterChain The ordered list of filter readers that should be applied while copying
      * @throws IOException If an I/O error occurs while copying the resource
@@ -127,7 +127,7 @@ public final class ResourceUtils extends LoggedObject
      * specified filters.
      * 
      * @param resourceName The name of the resource, relative to the
-     * org.apache.cactus.integration.ant.container package
+     * org.codehaus.cargo.container.internal.util package
      * @param destFile The file to which the contents of the resource should be copied
      * @param filterChain The ordered list of filter readers that should be applied while copying
      * @param encoding The encoding that should be used when copying the resource. Use null for
@@ -145,7 +145,7 @@ public final class ResourceUtils extends LoggedObject
      * handler thereby applying the specified filters.
      * 
      * @param resourceName The name of the resource, relative to the
-     * org.apache.cactus.integration.ant.container package
+     * org.codehaus.cargo.container.internal.util package
      * @param destFile The file to which the contents of the resource should be copied
      * @param handler The file handler to be used for file copy
      * @param filterChain The ordered list of filter readers that should be applied while copying
@@ -162,7 +162,7 @@ public final class ResourceUtils extends LoggedObject
      * handler thereby applying the specified filters.
      * 
      * @param resourceName The name of the resource, relative to the
-     * org.apache.cactus.integration.ant.container package
+     * org.codehaus.cargo.container.internal.util package
      * @param destFile The file to which the contents of the resource should be copied
      * @param handler The file handler to be used for file copy
      * @param filterChain The ordered list of filter readers that should be applied while copying
