@@ -149,7 +149,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
         // expanded WARs which remain in their initial location (we point
         // Resin to them).
         ResinInstalledLocalDeployer deployer = new ResinInstalledLocalDeployer(resinContainer);
-        deployer.setShouldDeployExpandedWARs(false);
+        deployer.setShouldDeployExpanded(DeployableType.WAR, false);
         deployer.deploy(getDeployables());
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory.

@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.jetty;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.jetty.internal.Jetty6xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
@@ -86,7 +87,7 @@ public class Jetty6xStandaloneLocalConfiguration extends
         InstalledLocalContainer container)
     {
         Jetty6xInstalledLocalDeployer deployer = new Jetty6xInstalledLocalDeployer(container);
-        deployer.setShouldDeployExpandedWARs(true);
+        deployer.setShouldDeployExpanded(DeployableType.WAR, true);
         return deployer;
     }
 
