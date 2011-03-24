@@ -179,7 +179,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
 
         if (this.extractDir == null)
         {
-            extractDir = this.getDownloadDir();
+            extractDir = getFileHandler().getTmpPath("installs");
         }
         else
         {
