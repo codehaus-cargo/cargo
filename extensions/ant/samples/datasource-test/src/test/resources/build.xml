@@ -26,6 +26,7 @@
     </classpath>
   </taskdef>
 
+  <property name="catalina.root" value="${project.build.directory}/catalina-root"/>
   <property name="catalina.base" value="${project.build.directory}/catalina-base"/>
   <property name="http.port" value="${cargo.samples.servlet.port}"/>
   <property name="ajp.port" value="${cargo.samples.tomcat.ajp.port}"/>
@@ -38,7 +39,8 @@
       <cargo containerId="tomcat6x" action="@{action}">
         <zipUrlInstaller
           installURL="http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.32/bin/apache-tomcat-6.0.32.zip"
-          downloadDir="${basedir}/../../../../core/samples/java/installs">
+          downloadDir="${basedir}/../../../../core/samples/java/installs"
+          installDir="${catalina.root}">
           <!--
             If required, enter your proxy server settings here.
 
