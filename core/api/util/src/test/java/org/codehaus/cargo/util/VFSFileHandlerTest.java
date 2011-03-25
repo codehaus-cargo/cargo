@@ -111,6 +111,27 @@ public class VFSFileHandlerTest extends TestCase
     }
 
     /**
+     * Test the {@link FileHandler#copyFile(java.lang.String, java.lang.String, boolean)} method.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testCopyFileOverwrite() throws Exception
+    {
+        String source = "ram:///some/path/file.war";
+        String target = "ram:///other/path/newfile.war";
+
+        FileObject sourceObject = this.fsManager.resolveFile(source);
+        sourceObject.createFile();
+
+        FileObject targetObject = this.fsManager.resolveFile(target);
+
+        assertFalse(targetObject.exists());
+
+        this.fileHandler.copyFile(source, target, true);
+
+        assertTrue(targetObject.exists());
+    }
+
+    /**
      * Test the {@link FileHandler#getName(java.lang.String)} method.
      * @throws Exception If anything goes wrong.
      */

@@ -103,6 +103,18 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
+     * Copy a file, ignoring the <code>overwrite</code> parameter. {@inheritdoc}
+     * @param source Source file.
+     * @param target Destination file.
+     * @param overwrite Ignored.
+     */
+    @Override
+    public void copyFile(String source, String target, boolean overwrite)
+    {
+        copyFile(source, target);
+    }
+
+    /**
      * Copy a directory. {@inheritdoc}
      * @param source Source directory.
      * @param target Destination directory.
