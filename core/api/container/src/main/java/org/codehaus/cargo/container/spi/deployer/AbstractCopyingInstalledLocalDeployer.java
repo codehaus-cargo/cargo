@@ -223,8 +223,8 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
             }
             else
             {
-                throw new ContainerException(
-                        "Deployable type is currently not supported");
+                throw new ContainerException("Deployable type " + deployable.getType()
+                    + " is currently not supported");
             }
         }
         catch (Exception e)
@@ -328,7 +328,8 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
             earName = earName + ".ear";
         }
 
-        getFileHandler().copyFile(ear.getFile(), getFileHandler().append(deployableDir, earName));
+        getFileHandler().copyFile(ear.getFile(), getFileHandler().append(deployableDir, earName),
+            true);
     }
 
     /**
@@ -339,7 +340,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     protected void deploySar(String deployableDir, SAR sar)
     {
         getFileHandler().copyFile(sar.getFile(),
-            getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())));
+            getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())), true);
     }
 
     /**
@@ -358,8 +359,8 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
         {
             rarName = rarName + ".rar";
         }
-        getFileHandler().copyFile(rar.getFile(),
-            getFileHandler().append(deployableDir, rarName));
+        getFileHandler().copyFile(rar.getFile(), getFileHandler().append(deployableDir, rarName),
+            true);
     }
 
     /**
@@ -371,7 +372,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     protected void deployEjb(String deployableDir, EJB ejb)
     {
         getFileHandler().copyFile(ejb.getFile(),
-            getFileHandler().append(deployableDir, getFileHandler().getName(ejb.getFile())));
+            getFileHandler().append(deployableDir, getFileHandler().getName(ejb.getFile())), true);
     }
 
     /**
@@ -392,8 +393,8 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
             context = "ROOT";
         }
 
-        getFileHandler().copyFile(
-            war.getFile(), getFileHandler().append(deployableDir, context + ".war"));
+        getFileHandler().copyFile(war.getFile(),
+            getFileHandler().append(deployableDir, context + ".war"), true);
     }
 
     /**
@@ -414,8 +415,8 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
             context = "ROOT";
         }
 
-        getFileHandler().copyDirectory(
-            war.getFile(), getFileHandler().append(deployableDir, context));
+        getFileHandler().copyDirectory(war.getFile(),
+            getFileHandler().append(deployableDir, context));
     }
 
     /**
@@ -451,17 +452,14 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     {
         if (getFileHandler().isDirectory(file.getFile()))
         {
-            getFileHandler().copyDirectory(
-                    file.getFile(),
-                    getFileHandler()
-                            .append(deployableDir, getFileHandler().getName(file.getFile())));
+            getFileHandler().copyDirectory(file.getFile(),
+                getFileHandler().append(deployableDir, getFileHandler().getName(file.getFile())));
         }
         else
         {
-            getFileHandler().copyFile(
-                    file.getFile(),
-                    getFileHandler()
-                            .append(deployableDir, getFileHandler().getName(file.getFile())));
+            getFileHandler().copyFile(file.getFile(),
+                getFileHandler().append(deployableDir, getFileHandler().getName(file.getFile())),
+                true);
         }
     }
 
@@ -474,6 +472,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     protected void deployBundle(String deployableDir, Bundle bundle)
     {
         getFileHandler().copyFile(bundle.getFile(),
-            getFileHandler().append(deployableDir, getFileHandler().getName(bundle.getFile())));
+            getFileHandler().append(deployableDir, getFileHandler().getName(bundle.getFile())),
+            true);
     }
 }
