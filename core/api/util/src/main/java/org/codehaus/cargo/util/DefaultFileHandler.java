@@ -414,6 +414,12 @@ public class DefaultFileHandler implements FileHandler
      */
     public OutputStream getOutputStream(String file)
     {
+        String parent = getParent(file);
+        if (parent != null)
+        {
+            mkdirs(parent);
+        }
+
         OutputStream os;
         try
         {
