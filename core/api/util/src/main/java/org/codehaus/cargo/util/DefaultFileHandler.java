@@ -113,7 +113,7 @@ public class DefaultFileHandler implements FileHandler
         try
         {
             getFileUtils().copyFile(new File(source).getAbsolutePath(),
-                new File(target).getAbsolutePath(), null, true);
+                new File(target).getAbsolutePath(), null, overwrite);
         }
         catch (IOException e)
         {
