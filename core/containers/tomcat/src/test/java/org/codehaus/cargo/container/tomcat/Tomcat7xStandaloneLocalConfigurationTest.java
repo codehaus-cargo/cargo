@@ -56,8 +56,6 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
     @Override
     protected void setUpManager()
     {
-        configuration.getFileHandler().mkdirs(container.getHome() + "/lib");
-        configuration.getFileHandler().createFile(container.getHome() + "/lib/catalina.jar");
         configuration.getFileHandler().mkdirs(container.getHome() + "/webapps/manager");
         configuration.getFileHandler().mkdirs(container.getHome() + "/webapps/host-manager");
     }
@@ -69,8 +67,6 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
     public void testConfigureManager()
     {
         configuration.configure(container);
-        assertTrue(configuration.getFileHandler().exists(
-            configuration.getHome() + "/lib/catalina.jar"));
         assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/webapps/manager"));
         assertTrue(configuration.getFileHandler().exists(

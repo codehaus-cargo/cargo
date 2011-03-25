@@ -108,14 +108,11 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
     protected void setUpManager()
     {
         configuration.getFileHandler().mkdirs(container.getHome() + "/webapps");
-        configuration.getFileHandler().mkdirs(container.getHome() + "/server/lib");
         configuration.getFileHandler().mkdirs(container.getHome() + "/server/webapps/manager");
         configuration.getFileHandler().createFile(container.getHome() + "/webapps/manager.xml");
         // seems copy needs to have a file present
         configuration.getFileHandler().createFile(
             container.getHome() + "/server/webapps/manager/touch.txt");
-        configuration.getFileHandler().createFile(
-            container.getHome() + "/server/lib/catalina.jar");
     }
 
     /**
@@ -128,8 +125,6 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
         assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/webapps/manager.xml"));
-        assertTrue(configuration.getFileHandler().exists(
-            configuration.getHome() + "/server/lib/catalina.jar"));
         assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/server/webapps/manager"));
     }

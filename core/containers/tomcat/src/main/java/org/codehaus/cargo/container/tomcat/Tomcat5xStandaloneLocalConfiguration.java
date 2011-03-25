@@ -93,8 +93,6 @@ public class Tomcat5xStandaloneLocalConfiguration extends
             String to = getHome();
             getFileHandler().copyDirectory(from + "/server/webapps/manager",
                 to + "/server/webapps/manager");
-            getFileHandler().copyFile(from + "/server/lib/catalina.jar",
-                to + "/server/lib/catalina.jar");
             getFileHandler().copyFile(from + "/conf/Catalina/localhost/manager.xml",
                 to + "/conf/Catalina/localhost/manager.xml");
         }

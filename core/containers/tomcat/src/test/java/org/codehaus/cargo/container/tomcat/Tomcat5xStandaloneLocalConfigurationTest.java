@@ -115,12 +115,9 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
     protected void setUpManager()
     {
         configuration.getFileHandler().mkdirs(container.getHome() + "/webapps");
-        configuration.getFileHandler().mkdirs(container.getHome() + "/server/lib");
         configuration.getFileHandler().mkdirs(container.getHome() + "/server/webapps/manager");
         configuration.getFileHandler().createFile(
             container.getHome() + "/conf/Catalina/localhost/manager.xml");
-        configuration.getFileHandler().createFile(
-            container.getHome() + "/server/lib/catalina.jar");
     }
 
     /**
@@ -137,8 +134,6 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
             configuration.getHome() + "/conf/catalina.properties"));
         assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/Catalina/localhost/manager.xml"));
-        assertTrue(configuration.getFileHandler().exists(
-            configuration.getHome() + "/server/lib/catalina.jar"));
         assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/server/webapps/manager"));
     }

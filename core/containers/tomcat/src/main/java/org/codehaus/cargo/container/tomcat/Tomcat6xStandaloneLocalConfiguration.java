@@ -62,8 +62,6 @@ public class Tomcat6xStandaloneLocalConfiguration
             String to = getHome();
             getFileHandler().copyDirectory(from + "/webapps/manager",
                 to + "/webapps/manager");
-            getFileHandler().copyFile(from + "/lib/catalina.jar",
-                to + "/lib/catalina.jar");
             getFileHandler().copyDirectory(from + "/webapps/host-manager",
                 to + "/webapps/host-manager");
         }
