@@ -68,7 +68,7 @@ public class DefaultFileHandler implements FileHandler
     /**
      * Ant helper API to manipulate files.
      */
-    private org.apache.tools.ant.util.FileUtils fileUtils;
+    private FileUtils fileUtils;
 
     /**
      * Initializations.
@@ -101,16 +101,7 @@ public class DefaultFileHandler implements FileHandler
      */
     public void copyFile(String source, String target)
     {
-        try
-        {
-            getFileUtils().copyFile(new File(source).getAbsolutePath(),
-                new File(target).getAbsolutePath());
-        }
-        catch (IOException e)
-        {
-            throw new CargoException("Failed to copy source file [" + source + "] to ["
-                + target + "]", e);
-        }
+        copyFile(source, target, false);
     }
 
     /**
@@ -122,7 +113,7 @@ public class DefaultFileHandler implements FileHandler
         try
         {
             getFileUtils().copyFile(new File(source).getAbsolutePath(),
-                    new File(target).getAbsolutePath(), null, overwrite);
+                new File(target).getAbsolutePath(), null, true);
         }
         catch (IOException e)
         {
