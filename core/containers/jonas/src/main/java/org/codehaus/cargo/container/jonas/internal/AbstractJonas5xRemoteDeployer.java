@@ -318,7 +318,7 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
         catch (Throwable t)
         {
             // The AttributeNotFoundException is directly t if there is no JMX security,
-            // else it is deeper embedded somewhere
+            // else it is deeper embedded somewhere on some versions due to bug JONAS-385
             Throwable cause = t;
             while (cause != null)
             {
