@@ -23,12 +23,10 @@
 package org.codehaus.cargo.container.jonas.internal;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import javax.management.Attribute;
 import javax.management.AttributeNotFoundException;
-import javax.management.JMException;
 import javax.management.MBeanServerConnection;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
@@ -178,14 +176,14 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                         development));
                 }
             }
-            catch (Exception ex)
+            catch (Throwable t)
             {
-                if (ex instanceof ContainerException)
+                if (t instanceof ContainerException)
                 {
-                    throw (ContainerException) ex;
+                    throw (ContainerException) t;
                 }
 
-                throw new ContainerException("Deployment error", ex);
+                throw new ContainerException("Deployment error", t);
             }
             finally
             {
@@ -261,14 +259,14 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                         development));
                 }
             }
-            catch (Exception ex)
+            catch (Throwable t)
             {
-                if (ex instanceof ContainerException)
+                if (t instanceof ContainerException)
                 {
-                    throw (ContainerException) ex;
+                    throw (ContainerException) t;
                 }
 
-                throw new ContainerException("Deployment error", ex);
+                throw new ContainerException("Deployment error", t);
             }
             finally
             {
@@ -306,11 +304,10 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
      * @param depmonitor Object name of the depmonitor service.
      * @param mbsc MBean server connection.
      * @return the attribute name for the "development" attribute.
-     * @throws JMException MBean exception.
-     * @throws IOException Communication exception.
+     * @throws Throwable If anything fails.
      */
     protected String getDeploymentAttributeName(ObjectName depmonitor, MBeanServerConnection mbsc)
-        throws JMException, IOException
+        throws Throwable
     {
         try
         {
@@ -318,11 +315,32 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
             mbsc.getAttribute(depmonitor, "developmentMode");
             return "developmentMode";
         }
-        catch (AttributeNotFoundException e)
+        catch (Throwable t)
         {
-            // JOnAS 5.2.x
-            mbsc.getAttribute(depmonitor, "development");
-            return "development";
+            // The AttributeNotFoundException is directly t if there is no JMX security,
+            // else it is deeper embedded somewhere
+            Throwable cause = t;
+            while (cause != null)
+            {
+                if (cause instanceof AttributeNotFoundException)
+                {
+                    break;
+                }
+                else
+                {
+                    cause = cause.getCause();
+                }
+            }
+            if (cause != null && cause instanceof AttributeNotFoundException)
+            {
+                // JOnAS 5.2.x
+                mbsc.getAttribute(depmonitor, "development");
+                return "development";
+            }
+            else
+            {
+                throw t;
+            }
         }
     }
 
