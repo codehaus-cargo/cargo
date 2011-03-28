@@ -73,8 +73,12 @@ public abstract class AbstractJBossInstalledLocalContainer extends
     @Override
     protected void doStart(JvmLauncher java) throws Exception
     {
-        java.setSystemProperty("java.endorsed.dirs",
-            new File(getHome(), "/lib/endorsed").getAbsolutePath());
+        File javaLib = new File(getJavaHome(), "lib");
+
+        java.setSystemProperty("java.endorsed.dirs", new File(getHome(), "/lib/endorsed")
+            .getAbsolutePath().replace(File.separatorChar, '/')
+            + File.pathSeparatorChar
+            + new File(javaLib, "endorsed").getAbsolutePath().replace(File.separatorChar, '/'));
         java.setSystemProperty("jboss.home.dir", getHome());
         java.setSystemProperty("jboss.server.home.dir", getConfiguration().getHome());
         java.setSystemProperty("jboss.server.home.url",
