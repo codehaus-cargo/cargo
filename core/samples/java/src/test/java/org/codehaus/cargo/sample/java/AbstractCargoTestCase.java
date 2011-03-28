@@ -209,8 +209,8 @@ public class AbstractCargoTestCase extends TestCase
         {
             setUpHome((InstalledLocalContainer) container);
             setUpClover((InstalledLocalContainer) container);
-            setUpXercesIfJDK14(configuration, (InstalledLocalContainer) container);
-            setUpXercesIfJDK15(configuration, (InstalledLocalContainer) container);
+            // setUpXercesIfJDK14(configuration, (InstalledLocalContainer) container);
+            // setUpXercesIfJDK15(configuration, (InstalledLocalContainer) container);
         }
 
         File logFile = new File(new File(getTestData().targetDir).getParentFile(), "output.log");
@@ -302,7 +302,6 @@ public class AbstractCargoTestCase extends TestCase
         if (configuration.getPropertyValue(GeneralPropertySet.JAVA_HOME).equals(
             getJavaHome("cargo.java.home.1_4")))
         {
-
             String xerces = System.getProperty("cargo.testdata.xerces-jars");
             if (xerces == null && container.getFileHandler().exists("target/xerces-jars"))
             {
