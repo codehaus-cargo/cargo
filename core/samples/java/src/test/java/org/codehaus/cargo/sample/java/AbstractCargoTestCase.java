@@ -209,8 +209,6 @@ public class AbstractCargoTestCase extends TestCase
         {
             setUpHome((InstalledLocalContainer) container);
             setUpClover((InstalledLocalContainer) container);
-            // setUpXercesIfJDK14(configuration, (InstalledLocalContainer) container);
-            // setUpXercesIfJDK15(configuration, (InstalledLocalContainer) container);
         }
 
         File logFile = new File(new File(getTestData().targetDir).getParentFile(), "output.log");
@@ -292,52 +290,6 @@ public class AbstractCargoTestCase extends TestCase
                     .getProperty("cargo.clover.license"));
             }
         }
-    }
-
-    /**
-     * need a modern parser that may not be present in JDK 1.4
-     */
-    private void setUpXercesIfJDK14(Configuration configuration, InstalledLocalContainer container)
-    {
-        if (configuration.getPropertyValue(GeneralPropertySet.JAVA_HOME).equals(
-            getJavaHome("cargo.java.home.1_4")))
-        {
-            String xerces = System.getProperty("cargo.testdata.xerces-jars");
-            if (xerces == null && container.getFileHandler().exists("target/xerces-jars"))
-            {
-                xerces = container.getFileHandler().getAbsolutePath("target/xerces-jars");
-            }
-            if (xerces != null)
-            {
-                String[] jars = container.getFileHandler().getChildren(xerces);
-                for (String jar : jars)
-                {
-                    container.addExtraClasspath(jar);
-                }
-                container.getSystemProperties().put("javax.xml.parsers.SAXParserFactory",
-                    "org.apache.xerces.jaxp.SAXParserFactoryImpl");
-                container.getSystemProperties().put("javax.xml.parsers.DocumentBuilderFactory",
-                    "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl");
-            }
-
-        }
-
-    }
-
-    /**
-     * some old containers include old versions of crimson that cannot parse schema
-     */
-    private void setUpXercesIfJDK15(Configuration configuration, InstalledLocalContainer container)
-    {
-        if (configuration.getPropertyValue(GeneralPropertySet.JAVA_HOME).equals(
-            getJavaHome("cargo.java.home.1_5")))
-        {
-            container.getSystemProperties().put("javax.xml.parsers.SAXParserFactory",
-                "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
-            container.getSystemProperties().put("javax.xml.parsers.DocumentBuilderFactory",
-                "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl");
-        }
-
     }
 
     /**
