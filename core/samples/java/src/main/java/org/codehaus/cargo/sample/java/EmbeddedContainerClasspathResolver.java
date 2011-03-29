@@ -41,19 +41,20 @@ import org.codehaus.cargo.util.CargoException;
  */
 public class EmbeddedContainerClasspathResolver
 {
-    private static final Map dependencies = new HashMap();
+    private static final Map<String, List<String>> dependencies =
+        new HashMap<String, List<String>>();
 
     static
     {
-        List jetty4xDependencies = new ArrayList();
+        List<String> jetty4xDependencies = new ArrayList<String>();
         jetty4xDependencies.add("lib/*.jar");
         jetty4xDependencies.add("ext/*.jar");
 
-        List jetty5xDependencies = new ArrayList();
+        List<String> jetty5xDependencies = new ArrayList<String>();
         jetty5xDependencies.add("lib/*.jar");
         jetty5xDependencies.add("ext/*.jar");
 
-        List jetty6xDependencies = new ArrayList();
+        List<String> jetty6xDependencies = new ArrayList<String>();
         jetty6xDependencies.add("lib/*.jar");
         jetty6xDependencies.add("lib/jsp-2.0/*.jar");
         jetty6xDependencies.add("lib/management/*.jar");
@@ -61,12 +62,12 @@ public class EmbeddedContainerClasspathResolver
         jetty6xDependencies.add("lib/plus/*.jar");
         jetty6xDependencies.add("lib/xbean/*.jar");
 
-        List jetty7xDependencies = new ArrayList();
+        List<String> jetty7xDependencies = new ArrayList<String>();
         jetty7xDependencies.add("lib/*.jar");
         jetty7xDependencies.add("lib/jndi/*.jar");
         jetty7xDependencies.add("lib/jsp/*.jar");
 
-        List tomcat5xDependencies = new ArrayList();
+        List<String> tomcat5xDependencies = new ArrayList<String>();
         tomcat5xDependencies.add("bin/*.jar");
         tomcat5xDependencies.add("common/lib/*.jar");
         tomcat5xDependencies.add("server/lib/*.jar");
@@ -86,7 +87,7 @@ public class EmbeddedContainerClasspathResolver
     public ClassLoader resolveDependencies(String containerId, String containerHome)
         throws FileNotFoundException
     {
-        List depList = (List) dependencies.get(containerId);
+        List<String> depList = dependencies.get(containerId);
         if (depList == null)
         {
             return null;
@@ -96,7 +97,7 @@ public class EmbeddedContainerClasspathResolver
 
         try
         {
-            List urls = new ArrayList();
+            List<URL> urls = new ArrayList<URL>();
 
             if (containerId.equals("jetty7x"))
             {
@@ -116,21 +117,21 @@ public class EmbeddedContainerClasspathResolver
                 }
             }
 
-            Iterator it = depList.iterator();
+            Iterator<String> it = depList.iterator();
             while (it.hasNext())
             {
-                String dependencyRelativePath = (String) it.next();
+                String dependencyRelativePath = it.next();
                 if (dependencyRelativePath.endsWith("*.jar"))
                 {
                     // jar folder. add all jars in this directory
                     File folder = new File(containerHome, dependencyRelativePath).getParentFile();
                     File[] jars = folder.listFiles(new FilenameFilter()
+                    {
+                        public boolean accept(File dir, String name)
                         {
-                            public boolean accept(File dir, String name)
-                            {
-                                return name.endsWith(".jar");
-                            }
-                        });
+                            return name.endsWith(".jar");
+                        }
+                    });
                     if (jars == null)
                     {
                         throw new FileNotFoundException("No files matched: " + folder.toString()
@@ -192,7 +193,7 @@ public class EmbeddedContainerClasspathResolver
                 classloader = new URLClassLoader(new URL[0], getClass().getClassLoader())
                 {
                     @Override
-                    protected synchronized Class loadClass(String name, boolean resolve)
+                    protected synchronized Class<?> loadClass(String name, boolean resolve)
                         throws ClassNotFoundException
                     {
                         if (name.startsWith("org.apache.tools.ant"))

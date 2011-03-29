@@ -84,7 +84,7 @@ public class WarAuthenticationTest extends AbstractCargoTestCase
 
             getLocalContainer().start();
 
-            Map requestProperties = new HashMap();
+            Map<String, String> requestProperties = new HashMap<String, String>();
             requestProperties.put("Authorization", "Basic "
                 + new String(Base64.encodeBase64("someone:password".getBytes())));
 

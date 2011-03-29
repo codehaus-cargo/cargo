@@ -35,7 +35,7 @@ import org.codehaus.cargo.util.log.Logger;
 public class PingUtils extends Assert
 {
     public static void assertPing(String message, String expectedContent, URL pingURL,
-        Map requestProperties, boolean expectTrue, Logger errorLogger)
+        Map<String, String> requestProperties, boolean expectTrue, Logger errorLogger)
     {
         HttpUtils httpUtils = new HttpUtils();
         httpUtils.setLogger(errorLogger);
@@ -78,7 +78,7 @@ public class PingUtils extends Assert
     }
 
     public static void assertPingTrue(String message, String expectedContent, URL pingURL,
-        Map requestProperties, Logger errorLogger)
+        Map<String, String> requestProperties, Logger errorLogger)
     {
         assertPing(message, expectedContent, pingURL, requestProperties, true, errorLogger);
     }

@@ -39,9 +39,9 @@ public class CargoTestSuite extends TestSuite
 {
     private static final String SYSTEM_PROPERTY_CONTAINER_IDS = "cargo.containers";
 
-    private Map registeredContainers;
+    private Map<String, Set<ContainerType>> registeredContainers;
 
-    private List containerIds;
+    private List<String> containerIds;
 
     public CargoTestSuite(String suiteName)
     {
@@ -52,7 +52,7 @@ public class CargoTestSuite extends TestSuite
     private void initialize()
     {
         this.registeredContainers = new DefaultContainerFactory().getContainerIds();
-        this.containerIds = new ArrayList();
+        this.containerIds = new ArrayList<String>();
 
         if (System.getProperty(SYSTEM_PROPERTY_CONTAINER_IDS) == null)
         {
@@ -69,17 +69,18 @@ public class CargoTestSuite extends TestSuite
         }
     }
 
-    public void addTestSuite(Class testClass, Validator[] validators)
+    public void addTestSuite(Class<? extends Test> testClass, Validator[] validators)
     {
         addTestSuite(testClass, validators, null);
     }
 
-    public void addTestSuite(Class testClass, Validator[] validators, Set excludedContainerIds)
+    public void addTestSuite(Class<? extends Test> testClass, Validator[] validators,
+        Set<String> excludedContainerIds)
     {
-        Iterator it = this.containerIds.iterator();
+        Iterator<String> it = this.containerIds.iterator();
         while (it.hasNext())
         {
-            String containerId = (String) it.next();
+            String containerId = it.next();
 
             // Skip container ids that are excluded by the user, as some containers don't support
             // everything. for example, OSGi containers cannot support shared class loaders.
@@ -91,16 +92,16 @@ public class CargoTestSuite extends TestSuite
             // Find out all registered container types for this container id and for each of them
             // verify if the couple (containerId, type) should be added as a container identity
             // that can run tests in this suite.
-            Set registeredTypes = (Set) this.registeredContainers.get(containerId);
+            Set<ContainerType> registeredTypes = this.registeredContainers.get(containerId);
 
             if (registeredTypes == null)
             {
                 throw new RuntimeException("Invalid container id [" + containerId + "]");
             }
 
-            for (Iterator types = registeredTypes.iterator(); types.hasNext();)
+            for (Iterator<ContainerType> types = registeredTypes.iterator(); types.hasNext();)
             {
-                ContainerType type = (ContainerType) types.next();
+                ContainerType type = types.next();
 
                 // Verify that the test passes all validators
                 boolean shouldAddTest = true;
@@ -130,8 +131,8 @@ public class CargoTestSuite extends TestSuite
         }
     }
 
-    private void addContainerToSuite(String containerId, ContainerType type, Class testClass)
-        throws Exception
+    private void addContainerToSuite(String containerId, ContainerType type,
+        Class<? extends Test> testClass) throws Exception
     {
         // Find all methods starting with "test" and add them
         Method[] methods = testClass.getMethods();
@@ -145,7 +146,7 @@ public class CargoTestSuite extends TestSuite
     }
 
     private void addContainerToTest(String containerId, ContainerType type, String testName,
-        Class testClass) throws Exception
+        Class<? extends Test> testClass) throws Exception
     {
         String testClassName =
             testClass.getName().substring(testClass.getName().lastIndexOf(".") + 1);
@@ -157,9 +158,9 @@ public class CargoTestSuite extends TestSuite
 
         EnvironmentTestData testData = new EnvironmentTestData(containerId, type, targetDir);
 
-        Constructor constructor = testClass.getConstructor(
+        Constructor<? extends Test> constructor = testClass.getConstructor(
             new Class[] {String.class, EnvironmentTestData.class});
-        Test test = (Test) constructor.newInstance(new Object[] {testName, testData});
+        Test test = constructor.newInstance(new Object[] {testName, testData});
         addTest(test);
     }
 }

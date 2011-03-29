@@ -53,7 +53,7 @@ public class TomcatWarTest extends AbstractCargoTestCase
     {
         // We exclude tomcat4x container as it does not support context.xml files
         // We exclude tomcat7x container as Tomcat 7.x has changed context.xml
-        Set excludedContainerIds = new TreeSet();
+        Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("tomcat4x");
         excludedContainerIds.add("tomcat7x");
 
