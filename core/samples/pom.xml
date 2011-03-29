@@ -69,7 +69,7 @@
             <useManifestOnlyJar>${surefire.useManifestOnlyJar}</useManifestOnlyJar>
             <useSystemClassLoader>${surefire.useSystemClassLoader}</useSystemClassLoader>
 
-            <forkMode>pertest</forkMode>
+            <forkMode>always</forkMode>
             <useFile>true</useFile>
             <reportFormat>plain</reportFormat>
 
