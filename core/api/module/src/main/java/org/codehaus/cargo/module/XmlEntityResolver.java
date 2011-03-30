@@ -77,6 +77,12 @@ public class XmlEntityResolver implements EntityResolver
                               "service-ref_4_0.dtd");
         publicIdentifiers.put("-//JBoss//DTD Web Application 2.4//EN",
                               "jboss-web_4_0.dtd");
+        publicIdentifiers.put("-//JBoss//DTD JBOSS 4.2//EN",
+                              "jboss_4_2.dtd");
+        publicIdentifiers.put("-//JBoss//DTD Web Service Reference 4.2//EN",
+                              "service-ref_4_2.dtd");
+        publicIdentifiers.put("-//JBoss//DTD Web Application 4.2//EN",
+                              "jboss-web_4_2.dtd");
     }
 
     /**
@@ -95,7 +101,14 @@ public class XmlEntityResolver implements EntityResolver
         if (in == null)
         {
             URL url = new URL(theSystemId);
-            in = url.openStream();
+            try
+            {
+                in = url.openStream();
+            }
+            catch (IOException ignored)
+            {
+                // Failed to connect to remote resource, is internet down?
+            }
         }
 
         if (in != null)
