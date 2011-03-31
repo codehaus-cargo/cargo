@@ -20,31 +20,21 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
-    <artifactId>cargo-resources</artifactId>
+    <artifactId>cargo-samples-testdata</artifactId>
     <version>1.1.0-SNAPSHOT</version>
   </parent>
-  <groupId>org.codehaus.cargo</groupId>
-  <artifactId>cargo-samples-testdata</artifactId>
-  <packaging>pom</packaging>
-  <name>Cargo Samples Test Data</name>
-  <description>Test data for the Sample applications</description>
-  <modules>
-    <module>empty-jar</module>
-    <module>empty-ear</module>
-    <module>simple-jar</module>
-    <module>simple-war</module>
-    <module>datasource-war</module>
-    <module>two-datasources-war</module>
-    <module>xadatasource-war</module>
-    <module>mailsession-war</module>
-    <module>datasource-cmt-local-war</module>
-    <module>classpath-war</module>
-    <module>simple-ejb</module>
-    <module>simple-ear</module>
-    <module>authentication-war</module>
-    <module>expanded-war</module>
-    <module>tomcat-context</module>
-    <module>simple-bundle</module>
-    <module>simple-har</module>
-  </modules>
+  <artifactId>simple-har</artifactId>
+  <name>Cargo Simple HAR test data for samples</name>
+  <packaging>jboss-har</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jboss-packaging-maven-plugin</artifactId>
+        <version>2.2</version>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
 </project>

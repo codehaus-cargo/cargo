@@ -1,0 +1,10 @@
+<server>
+    <mbean code="org.jboss.hibernate.jmx.Hibernate" name="cargo.testdata:name=simple-har">
+        <attribute name="DatasourceName">java:/DefaultDS</attribute>
+        <attribute name="Dialect">org.hibernate.dialect.HSQLDialect</attribute>
+        <attribute name="SessionFactoryName">java:/hibernate/CaveatEmptorSessionFactory</attribute>
+        
+        <attribute name="Hbm2ddlAuto">create-drop</attribute>
+        <attribute name="ShowSqlEnabled">true</attribute>
+    </mbean>
+</server>
