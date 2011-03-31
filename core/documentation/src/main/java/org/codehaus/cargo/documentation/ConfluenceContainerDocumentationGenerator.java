@@ -408,6 +408,28 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(LINE_SEPARATOR);
 
         if (this.containerCapabilityFactory.createContainerCapability(
+            containerId).supportsDeployableType(DeployableType.HAR))
+        {
+            output.append("| [Static deployment of HAR]              | (/) | (/) | (/) | |");
+        }
+        else
+        {
+            output.append("| [Static deployment of HAR]              | (x) | (x) | (x) | |");
+        }
+        output.append(LINE_SEPARATOR);
+
+        if (this.containerCapabilityFactory.createContainerCapability(
+            containerId).supportsDeployableType(DeployableType.SAR))
+        {
+            output.append("| [Static deployment of SAR]              | (/) | (/) | (/) | |");
+        }
+        else
+        {
+            output.append("| [Static deployment of SAR]              | (x) | (x) | (x) | |");
+        }
+        output.append(LINE_SEPARATOR);
+
+        if (this.containerCapabilityFactory.createContainerCapability(
             containerId).supportsDeployableType(DeployableType.FILE))
         {
             output.append(
