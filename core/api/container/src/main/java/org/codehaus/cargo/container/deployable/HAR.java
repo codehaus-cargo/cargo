@@ -17,23 +17,34 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container;
+package org.codehaus.cargo.container.deployable;
 
-import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 
 /**
- * Represents the capability of a container. More specifically what deployable type it supports,
- * etc.
+ * Wraps a HAR (Hibernate Archive) file that will be deployed in the container.
  * 
  * @version $Id$
  */
-public interface ContainerCapability
+public class HAR extends AbstractDeployable
 {
     /**
-     * Checks if the container supports the specified deployable type or not.
+     * {@inheritDoc}
      * 
-     * @param type the deployable type
-     * @return true if the container supports the specified deployable type
+     * @see AbstractDeployable#AbstractDeployable(String)
      */
-    boolean supportsDeployableType(DeployableType type);
+    public HAR(String har)
+    {
+        super(har);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see Deployable#getType()
+     */
+    public DeployableType getType()
+    {
+        return DeployableType.HAR;
+    }
 }

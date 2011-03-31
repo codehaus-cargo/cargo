@@ -62,6 +62,11 @@ public final class DeployableType
     public static final DeployableType BUNDLE = new DeployableType("bundle");
 
     /**
+     * The HAR deployable type.
+     */
+    public static final DeployableType HAR = new DeployableType("har");
+
+    /**
      * A unique id that identifies a deployable type.
      */
     private String type;

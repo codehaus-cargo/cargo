@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 
@@ -30,14 +33,22 @@ import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 public class JBossContainerCapability extends J2EEContainerCapability
 {
     /**
-     * Add support for EJB deployable types. {@inheritDoc}
+     * The deployable types supported by the JBoss container, in addition to those specified in
+     * <code>J2EEContainerCapability</code>.
+     */
+    private static final List<DeployableType> ADDITIONAL_SUPPORTED_DEPLOYABLE_TYPES = Arrays
+        .asList(DeployableType.EJB, DeployableType.HAR, DeployableType.RAR, DeployableType.SAR);
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see J2EEContainerCapability#supportsDeployableType(DeployableType)
      */
     @Override
     public boolean supportsDeployableType(DeployableType type)
     {
-        return type == DeployableType.EJB || type == DeployableType.SAR
-                || type == DeployableType.RAR || super.supportsDeployableType(type);
+        return super.supportsDeployableType(type)
+            || ADDITIONAL_SUPPORTED_DEPLOYABLE_TYPES.contains(type);
     }
 
 }

@@ -17,23 +17,31 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container;
+package org.codehaus.cargo.sample.java.validator;
 
-import org.codehaus.cargo.container.deployable.DeployableType;
+import java.util.regex.Pattern;
+
+import org.codehaus.cargo.container.ContainerType;
 
 /**
- * Represents the capability of a container. More specifically what deployable type it supports,
- * etc.
+ * Validate that the container id matches a specific regular expression.
  * 
  * @version $Id$
  */
-public interface ContainerCapability
+public class ContainerIdRegExValidator implements Validator
 {
+    private Pattern pattern;
+
+    public ContainerIdRegExValidator(String regExPattern)
+    {
+        this.pattern = Pattern.compile(regExPattern);
+    }
+
     /**
-     * Checks if the container supports the specified deployable type or not.
-     * 
-     * @param type the deployable type
-     * @return true if the container supports the specified deployable type
+     * @return true if the container id starts with the passed container id prefix, false otherwise
      */
-    boolean supportsDeployableType(DeployableType type);
+    public boolean validate(String containerId, ContainerType type)
+    {
+        return this.pattern.matcher(containerId).matches();
+    }
 }

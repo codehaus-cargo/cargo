@@ -27,6 +27,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.EJB;
 import org.codehaus.cargo.container.deployable.File;
+import org.codehaus.cargo.container.deployable.HAR;
 import org.codehaus.cargo.container.deployable.RAR;
 import org.codehaus.cargo.container.deployable.SAR;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -81,7 +82,7 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
      */
     public DefaultDeployableFactory(ClassLoader classLoader)
     {
-        // The WAR, EJB and EAR deployables are registered by default against all containers.
+        // The default implementation of every Cargo supported deployable is registered here.
         // In order not to have to individually register against each container id we
         // create a fictitious default container id.
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.WAR, WAR.class);
@@ -91,6 +92,7 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.RAR, RAR.class);
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.FILE, File.class);
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.BUNDLE, Bundle.class);
+        registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.HAR, HAR.class);
 
         AbstractFactoryRegistry.register(classLoader, this);
     }

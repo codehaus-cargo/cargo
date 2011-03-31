@@ -34,6 +34,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.EJB;
 import org.codehaus.cargo.container.deployable.File;
+import org.codehaus.cargo.container.deployable.HAR;
 import org.codehaus.cargo.container.deployable.RAR;
 import org.codehaus.cargo.container.deployable.SAR;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -46,14 +47,15 @@ import org.codehaus.cargo.container.deployable.WAR;
  * 
  * @version $Id$
  */
-public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInstalledLocalDeployer
+public abstract class AbstractCopyingInstalledLocalDeployer extends
+    AbstractInstalledLocalDeployer
 {
     /**
      * Contains those DeployableTypes that should not be deployed expanded. Default is to allow
      * expanded deployment and the exceptions to that rule are set here.
      */
     private Set<DeployableType> doNotDeployExpanded = new HashSet<DeployableType>();
-    
+
     /**
      * Deployed Deployables.
      */
@@ -61,6 +63,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
 
     /**
      * {@inheritDoc}
+     * 
      * @see AbstractInstalledLocalDeployer#AbstractInstalledLocalDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
      */
     public AbstractCopyingInstalledLocalDeployer(InstalledLocalContainer container)
@@ -79,7 +82,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      * 
      * @param type the deployable type
      * @param flag whether expanded deployment of the specified deployment type should be allowed
-     * or not
+     *            or not
      */
     public void setShouldDeployExpanded(DeployableType type, boolean flag)
     {
@@ -92,7 +95,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
             this.doNotDeployExpanded.add(type);
         }
     }
-    
+
     /**
      * @param type the deployable type
      * @return whether expanded deployment of the specified deployment type should be done
@@ -101,7 +104,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     {
         return !this.doNotDeployExpanded.contains(type);
     }
-    
+
     /**
      * Decide whether expanded WARs should be deployed. Some classes using this deployer may not
      * want to deploy expanded WARs as they may want to deploy them in-situ by modifying the
@@ -146,6 +149,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.container.deployer.Deployer#deploy(Deployable)
      */
     @Override
@@ -159,7 +163,8 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
         }
 
         String deployableDir = getDeployableDir();
-        getLogger().info("Deploying [" + deployable.getFile() + "] to [" + deployableDir + "]...",
+        getLogger().info(
+            "Deploying [" + deployable.getFile() + "] to [" + deployableDir + "]...",
             this.getClass().getName());
 
         // Check that the container supports the deployable type to deploy
@@ -220,6 +225,17 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
             else if (deployable.getType() == DeployableType.BUNDLE)
             {
                 deployBundle(deployableDir, (Bundle) deployable);
+            }
+            else if (deployable.getType() == DeployableType.HAR)
+            {
+                if (deployable.isExpanded() && shouldDeployExpanded(DeployableType.HAR))
+                {
+                    deployExpandedHar(deployableDir, (HAR) deployable);
+                }
+                else
+                {
+                    deployHar(deployableDir, (HAR) deployable);
+                }
             }
             else
             {
@@ -312,7 +328,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      * Copy the EAR file to the deployable directory.
      * 
      * @param deployableDir the directory where the container is expecting deployables to be dropped
-     * for deployments
+     *            for deployments
      * @param ear the EAR deployable
      */
     protected void deployEar(String deployableDir, EAR ear)
@@ -334,17 +350,21 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
 
     /**
      * Copy the SAR file to the deployable directory.
+     * 
      * @param deployableDir The directory to copy it too
      * @param sar the sar to copy
      */
     protected void deploySar(String deployableDir, SAR sar)
     {
-        getFileHandler().copyFile(sar.getFile(),
-            getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())), true);
+        getFileHandler()
+            .copyFile(sar.getFile(),
+                getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())),
+                true);
     }
 
     /**
      * Copy the RAR file to the deployable directory.
+     * 
      * @param deployableDir The directory to copy it too
      * @param rar the rar to copy
      */
@@ -371,8 +391,10 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      */
     protected void deployEjb(String deployableDir, EJB ejb)
     {
-        getFileHandler().copyFile(ejb.getFile(),
-            getFileHandler().append(deployableDir, getFileHandler().getName(ejb.getFile())), true);
+        getFileHandler()
+            .copyFile(ejb.getFile(),
+                getFileHandler().append(deployableDir, getFileHandler().getName(ejb.getFile())),
+                true);
     }
 
     /**
@@ -380,7 +402,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      * context for this WAR.
      * 
      * @param deployableDir the directory where the container is expecting deployables to be dropped
-     * for deployments
+     *            for deployments
      * @param war the WAR war
      */
     protected void deployWar(String deployableDir, WAR war)
@@ -388,8 +410,9 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
         String context = war.getContext();
         if ("".equals(context) || "/".equals(context))
         {
-            getLogger().info("The WAR file has its context set to / and will therefore be "
-                + "deployed as ROOT.war", this.getClass().getName());
+            getLogger().info(
+                "The WAR file has its context set to / and will therefore be "
+                    + "deployed as ROOT.war", this.getClass().getName());
             context = "ROOT";
         }
 
@@ -402,7 +425,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
      * specified a custom context for this expanded WAR.
      * 
      * @param deployableDir the directory where the container is expecting deployables to be dropped
-     * for deployments
+     *            for deployments
      * @param war the expanded WAR war
      */
     protected void deployExpandedWar(String deployableDir, WAR war)
@@ -410,8 +433,9 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
         String context = war.getContext();
         if ("".equals(context) || "/".equals(context))
         {
-            getLogger().info("The expanded WAR has its context set to / and will therefore be "
-                + "deployed as ROOT", this.getClass().getName());
+            getLogger().info(
+                "The expanded WAR has its context set to / and will therefore be "
+                    + "deployed as ROOT", this.getClass().getName());
             context = "ROOT";
         }
 
@@ -422,6 +446,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     /**
      * Copy the full expanded SAR directory to the deployable directory, renaming it if the user has
      * specified a custom context for this expanded SAR.
+     * 
      * @param deployableDir the directory to deploy the expanded SAR
      * @param sar the expanded SAR sar
      */
@@ -434,6 +459,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
     /**
      * Copy the full expanded RAR directory to the deployable directory, renaming it if the user has
      * specified a custom context for this expanded RAR.
+     * 
      * @param deployableDir the directory to deploy the expanded RAR
      * @param rar the expanded RAR rar
      */
@@ -445,6 +471,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
 
     /**
      * Copy the file to the deployable directory.
+     * 
      * @param deployableDir the directory to hold the file
      * @param file The file to copy
      */
@@ -474,5 +501,32 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends AbstractInst
         getFileHandler().copyFile(bundle.getFile(),
             getFileHandler().append(deployableDir, getFileHandler().getName(bundle.getFile())),
             true);
+    }
+
+    /**
+     * Copy the HAR file to the deployable directory.
+     * 
+     * @param deployableDir the directory to copy it to
+     * @param har the HAR deployable to copy
+     */
+    protected void deployHar(String deployableDir, HAR har)
+    {
+        getFileHandler()
+            .copyFile(har.getFile(),
+                getFileHandler().append(deployableDir, getFileHandler().getName(har.getFile())),
+                true);
+    }
+    
+    /**
+     * Copy the full expanded HAR directory to the deployable directory, renaming it if the user has
+     * specified a custom context for this expanded HAR.
+     * 
+     * @param deployableDir the directory to deploy the expanded HAR to
+     * @param har the expanded HAR deployable
+     */
+    protected void deployExpandedHar(String deployableDir, HAR har)
+    {
+        getFileHandler().copyDirectory(har.getFile(),
+            getFileHandler().append(deployableDir, getFileHandler().getName(har.getFile())));
     }
 }

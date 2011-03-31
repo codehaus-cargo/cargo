@@ -756,6 +756,10 @@
                 <name>cargo.testdata.mail-jars</name>
                 <value>${basedir}/target/mail-jars</value>
               </property>
+              <property>
+                <name>cargo.testdata.simple-har</name>
+                <value>org/codehaus/cargo/simple-har/${cargo.resources.version}/simple-har-${cargo.resources.version}.har</value>
+              </property>
 
               <!-- Version used to compute the location of the test data files in the local Maven
                    repository. -->
