@@ -22,7 +22,6 @@ package org.codehaus.cargo.sample.java;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,20 +34,41 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
+/**
+ * Cargo test suite.
+ * 
+ * @version $Id$
+ */
 public class CargoTestSuite extends TestSuite
 {
+    /**
+     * The system property for the container identifiers to run tests on.
+     */
     private static final String SYSTEM_PROPERTY_CONTAINER_IDS = "cargo.containers";
 
+    /**
+     * Registered containers.
+     */
     private Map<String, Set<ContainerType>> registeredContainers;
 
+    /**
+     * Container identifiers on which to run tests.
+     */
     private List<String> containerIds;
 
+    /**
+     * Initialize with the given suite name.
+     * @param suiteName Suite name.
+     */
     public CargoTestSuite(String suiteName)
     {
         super(suiteName);
         initialize();
     }
 
+    /**
+     * Parse the list of containers.
+     */
     private void initialize()
     {
         this.registeredContainers = new DefaultContainerFactory().getContainerIds();
@@ -69,19 +89,28 @@ public class CargoTestSuite extends TestSuite
         }
     }
 
+    /**
+     * Add a given test suite.
+     * @param testClass Test class.
+     * @param validators List of validators, to check if tests should be run on a given container.
+     */
     public void addTestSuite(Class<? extends Test> testClass, Validator[] validators)
     {
         addTestSuite(testClass, validators, null);
     }
 
+    /**
+     * 
+     * Add a given test suite.
+     * @param testClass Test class.
+     * @param validators List of validators, to check if tests should be run on a given container.
+     * @param excludedContainerIds Containers to exclude.
+     */
     public void addTestSuite(Class<? extends Test> testClass, Validator[] validators,
         Set<String> excludedContainerIds)
     {
-        Iterator<String> it = this.containerIds.iterator();
-        while (it.hasNext())
+        for (String containerId : this.containerIds)
         {
-            String containerId = it.next();
-
             // Skip container ids that are excluded by the user, as some containers don't support
             // everything. for example, OSGi containers cannot support shared class loaders.
             if (excludedContainerIds != null && excludedContainerIds.contains(containerId))
@@ -99,10 +128,8 @@ public class CargoTestSuite extends TestSuite
                 throw new RuntimeException("Invalid container id [" + containerId + "]");
             }
 
-            for (Iterator<ContainerType> types = registeredTypes.iterator(); types.hasNext();)
+            for (ContainerType type : registeredTypes)
             {
-                ContainerType type = types.next();
-
                 // Verify that the test passes all validators
                 boolean shouldAddTest = true;
                 for (int i = 0; i < validators.length; i++)
@@ -131,6 +158,13 @@ public class CargoTestSuite extends TestSuite
         }
     }
 
+    /**
+     * Add a container to a test suite.
+     * @param containerId Container identifier.
+     * @param type Container type.
+     * @param testClass Test class.
+     * @throws Exception If anything goes wrong.
+     */
     private void addContainerToSuite(String containerId, ContainerType type,
         Class<? extends Test> testClass) throws Exception
     {
@@ -145,6 +179,14 @@ public class CargoTestSuite extends TestSuite
         }
     }
 
+    /**
+     * Add a container to a test of a test suite.
+     * @param containerId Container identifier.
+     * @param type Container type.
+     * @param testName Test name.
+     * @param testClass Test class.
+     * @throws Exception If anything goes wrong.
+     */
     private void addContainerToTest(String containerId, ContainerType type, String testName,
         Class<? extends Test> testClass) throws Exception
     {

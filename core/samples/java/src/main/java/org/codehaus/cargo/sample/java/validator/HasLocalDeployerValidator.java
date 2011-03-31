@@ -21,18 +21,14 @@ package org.codehaus.cargo.sample.java.validator;
 
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployer.DeployerType;
-import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
-import org.codehaus.cargo.generic.deployer.DeployerFactory;
 
 /**
  * Validate that the specified container has a local deployer.
  * 
  * @version $Id$
  */
-public class HasLocalDeployerValidator implements Validator
+public class HasLocalDeployerValidator extends AbstractDeployerFactoryValidator
 {
-    private DeployerFactory factory = new DefaultDeployerFactory();
-
     public boolean validate(String containerId, ContainerType type)
     {
         return this.factory.isDeployerRegistered(containerId, DeployerType.EMBEDDED)

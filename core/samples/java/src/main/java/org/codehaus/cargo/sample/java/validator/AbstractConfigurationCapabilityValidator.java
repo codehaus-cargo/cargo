@@ -19,21 +19,18 @@
  */
 package org.codehaus.cargo.sample.java.validator;
 
-import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.container.packager.PackagerType;
+import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
+import org.codehaus.cargo.generic.configuration.DefaultConfigurationCapabilityFactory;
 
 /**
- * Validate that the specified container has a directory packager registered.
+ * Abstract validator, that instanciates the {@link ConfigurationCapabilityFactory}.
  * 
  * @version $Id$
  */
-public class HasDirectoryPackagerValidator extends AbstractPackagerValidator
+public abstract class AbstractConfigurationCapabilityValidator implements Validator
 {
     /**
-     * {@inheritDoc}
+     * Configuration capability factory.
      */
-    public boolean validate(String containerId, ContainerType type)
-    {
-        return this.factory.isPackagerRegistered(containerId, PackagerType.DIRECTORY);
-    }
+    protected final ConfigurationCapabilityFactory factory = new DefaultConfigurationCapabilityFactory();
 }

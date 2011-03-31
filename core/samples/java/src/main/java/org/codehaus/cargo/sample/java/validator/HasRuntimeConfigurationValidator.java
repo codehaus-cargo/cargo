@@ -21,18 +21,14 @@ package org.codehaus.cargo.sample.java.validator;
 
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
-import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 
 /**
  * Validate that a container has a runtime configuration.
  * 
  * @version $Id$
  */
-public class HasRuntimeConfigurationValidator implements Validator
+public class HasRuntimeConfigurationValidator extends AbstractConfigurationFactoryValidator
 {
-    private ConfigurationFactory factory = new DefaultConfigurationFactory();
-
     /**
      * @return true if the container has a runtime configuration implementation available, false
      * otherwise

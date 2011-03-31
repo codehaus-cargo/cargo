@@ -253,8 +253,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         PingUtils.assertPingTrue("simple war not correctly deployed", warPingURL, getLogger());
 
         deployer.undeploy(this.war);
-        PingUtils.assertPingFalse("simple war not correctly undeployed", "", warPingURL,
-            getLogger());
+        PingUtils.assertPingFalse("simple war not correctly undeployed", warPingURL, getLogger());
 
         // Redeploy a second time to ensure that the undeploy worked.
         deployer.deploy(this.war);
@@ -294,8 +293,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         PingUtils.assertPingTrue("simple war not correctly deployed", warPingURL, getLogger());
 
         deployer.undeploy(this.war);
-        PingUtils.assertPingFalse("simple war not correctly undeployed", "", warPingURL,
-            getLogger());
+        PingUtils.assertPingFalse("simple war not correctly undeployed", warPingURL, getLogger());
     }
 
     /**

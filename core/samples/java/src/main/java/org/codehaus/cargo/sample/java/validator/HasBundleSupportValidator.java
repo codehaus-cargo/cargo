@@ -19,23 +19,20 @@
  */
 package org.codehaus.cargo.sample.java.validator;
 
-import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.generic.ContainerCapabilityFactory;
-import org.codehaus.cargo.generic.DefaultContainerCapabilityFactory;
 
 /**
  * Validate that a container supports OSGi bundles.
  * 
  * @version $Id$
  */
-public class HasBundleSupportValidator implements Validator
+public class HasBundleSupportValidator extends AbstractContainerCapabilityValidator
 {
-    private ContainerCapabilityFactory factory = new DefaultContainerCapabilityFactory();
-
-    public boolean validate(String containerId, ContainerType type)
+    /**
+     * Initializes the {@link AbstractContainerCapabilityValidator} with {@link DeployableType#BUNDLE}.
+     */
+    public HasBundleSupportValidator()
     {
-        return this.factory.createContainerCapability(containerId).supportsDeployableType(
-            DeployableType.BUNDLE);
+        super(DeployableType.BUNDLE);
     }
 }

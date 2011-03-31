@@ -127,12 +127,14 @@ public class EnvironmentTestData
         this.home = getSystemProperty("cargo." + containerId + ".home");
         this.javaHome = getSystemProperty("cargo." + containerId + ".java.home");
         this.version = System.getProperty("cargo.resources.version");
-        this.containerTimeout = Long.parseLong(getSystemProperty("cargo.containers.timeout", "60000"));
+        this.containerTimeout = Long.parseLong(getSystemProperty("cargo.containers.timeout",
+            "60000"));
     }
 
     /**
      * @param containerId the container's id
      * @param type Port type
+     * @param defaultValue Default value
      * @return the port to use for the specified container
      */
     private int createPort(String containerId, String type, int defaultValue)

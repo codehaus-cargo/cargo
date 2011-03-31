@@ -27,7 +27,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -41,7 +40,10 @@ import org.codehaus.cargo.util.CargoException;
  */
 public class EmbeddedContainerClasspathResolver
 {
-    private static final Map<String, List<String>> dependencies =
+    /**
+     * Map of dependencies, with key the container identifier and value the list of dependencies.
+     */
+    private static final Map<String, List<String>> DEPENDENCIES =
         new HashMap<String, List<String>>();
 
     static
@@ -72,22 +74,30 @@ public class EmbeddedContainerClasspathResolver
         tomcat5xDependencies.add("common/lib/*.jar");
         tomcat5xDependencies.add("server/lib/*.jar");
 
-        dependencies.put("jetty4x", jetty4xDependencies);
-        dependencies.put("jetty5x", jetty5xDependencies);
-        dependencies.put("jetty6x", jetty6xDependencies);
-        dependencies.put("jetty7x", jetty7xDependencies);
-        dependencies.put("tomcat5x", tomcat5xDependencies);
+        DEPENDENCIES.put("jetty4x", jetty4xDependencies);
+        DEPENDENCIES.put("jetty5x", jetty5xDependencies);
+        DEPENDENCIES.put("jetty6x", jetty6xDependencies);
+        DEPENDENCIES.put("jetty7x", jetty7xDependencies);
+        DEPENDENCIES.put("tomcat5x", tomcat5xDependencies);
     }
 
+    /**
+     * JDK utilities.
+     */
     private JdkUtils jdkUtils = new JdkUtils();
 
     /**
-     * @return null if the container is not supported in the embedded mode.
+     * Resolve dependencies for an embedded container and create classpath.
+     * @param containerId Container identifier.
+     * @param containerHome Container home.
+     * @return {@link ClassLoader} with dependencies, <code>null</code> if the container is not
+     * supported in the embedded mode.
+     * @throws FileNotFoundException If some dependencies cannot be found.
      */
     public ClassLoader resolveDependencies(String containerId, String containerHome)
         throws FileNotFoundException
     {
-        List<String> depList = dependencies.get(containerId);
+        List<String> depList = DEPENDENCIES.get(containerId);
         if (depList == null)
         {
             return null;
@@ -117,10 +127,8 @@ public class EmbeddedContainerClasspathResolver
                 }
             }
 
-            Iterator<String> it = depList.iterator();
-            while (it.hasNext())
+            for (String dependencyRelativePath : depList)
             {
-                String dependencyRelativePath = it.next();
                 if (dependencyRelativePath.endsWith("*.jar"))
                 {
                     // jar folder. add all jars in this directory
@@ -174,7 +182,7 @@ public class EmbeddedContainerClasspathResolver
                  * ancestors. To avoid loading JavaSE classes from war (the servlet spec describes
                  * some of those), this classloader checks the system classloader.
                  * 
-                 * So when we load Tomcat 5.x classes (URLClassLoader below), this classloader nees
+                 * So when we load Tomcat 5.x classes (URLClassLoader below), this classloader needs
                  * to delegate to the system class loader, so that both tomcat implementation and
                  * web application loads the servlet API from the same place. Otherwise you get
                  * ClassCastException. So that's why we set "getClass().getClassLoader()" as the
@@ -207,7 +215,7 @@ public class EmbeddedContainerClasspathResolver
 
             // We pass null as the parent to ensure no jars outside of the ones we've added are
             // added to the classpath.
-            classloader = new URLClassLoader((URL[]) urls.toArray(new URL[0]), classloader);
+            classloader = new URLClassLoader(urls.toArray(new URL[urls.size()]), classloader);
         }
         catch (MalformedURLException e)
         {

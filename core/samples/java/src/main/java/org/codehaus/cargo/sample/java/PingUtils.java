@@ -34,6 +34,16 @@ import org.codehaus.cargo.util.log.Logger;
  */
 public class PingUtils extends Assert
 {
+    /**
+     * Ping a container and check the result.
+     * @param message Error message.
+     * @param expectedContent Expected content.
+     * @param pingURL Ping URL.
+     * @param requestProperties Properties for the request.
+     * @param expectTrue <code>true</code> if expecting the container to respond with a correct
+     * content, <code>false</code> if you expect the container to return an error code.
+     * @param errorLogger Logger used to log errors.
+     */
     public static void assertPing(String message, String expectedContent, URL pingURL,
         Map<String, String> requestProperties, boolean expectTrue, Logger errorLogger)
     {
@@ -53,19 +63,13 @@ public class PingUtils extends Assert
                 + result.responseBody + "], Code = [" + result.responseCode + "]";
         }
 
-        // FIXME: Tomcat 7.0.0 has trouble with the "404 not found" messages, it indeed returns an
-        // empty page with code 200 instead of 404. This will be fixed in Tomcat 7.0.1, see:
-        // https://issues.apache.org/bugzilla/show_bug.cgi?id=49536
-        if (!"".equals(expectedContent))
+        if (expectTrue)
         {
-            if (expectTrue)
-            {
-                assertTrue(text, success);
-            }
-            else
-            {
-                assertFalse(text, success);
-            }
+            assertTrue(text, success);
+        }
+        else
+        {
+            assertFalse(text, success);
         }
 
         if (expectedContent != null)
@@ -77,29 +81,63 @@ public class PingUtils extends Assert
         }
     }
 
+    /**
+     * Ping a container and expect it to return a given content.
+     * @param message Error message.
+     * @param expectedContent Expected content.
+     * @param pingURL Ping URL.
+     * @param requestProperties Properties for the request.
+     * @param errorLogger Logger used to log errors.
+     */
     public static void assertPingTrue(String message, String expectedContent, URL pingURL,
         Map<String, String> requestProperties, Logger errorLogger)
     {
         assertPing(message, expectedContent, pingURL, requestProperties, true, errorLogger);
     }
 
+    /**
+     * Ping a container and expect it to return a given content.
+     * @param message Error message.
+     * @param expectedContent Expected content.
+     * @param pingURL Ping URL.
+     * @param errorLogger Logger used to log errors.
+     */
     public static void assertPingTrue(String message, String expectedContent, URL pingURL,
         Logger errorLogger)
     {
         assertPing(message, expectedContent, pingURL, null, true, errorLogger);
     }
 
+    /**
+     * Ping a container and expect it to return an error.
+     * @param message Error message.
+     * @param expectedContent Expected content.
+     * @param pingURL Ping URL.
+     * @param errorLogger Logger used to log errors.
+     */
     public static void assertPingFalse(String message, String expectedContent, URL pingURL,
         Logger errorLogger)
     {
         assertPing(message, expectedContent, pingURL, null, false, errorLogger);
     }
 
+    /**
+     * Ping a container and expect it to return any content.
+     * @param message Error message.
+     * @param pingURL Ping URL.
+     * @param errorLogger Logger used to log errors.
+     */
     public static void assertPingTrue(String message, URL pingURL, Logger errorLogger)
     {
         assertPingTrue(message, null, pingURL, errorLogger);
     }
 
+    /**
+     * Ping a container and expect it to return an error.
+     * @param message Error message.
+     * @param pingURL Ping URL.
+     * @param errorLogger Logger used to log errors.
+     */
     public static void assertPingFalse(String message, URL pingURL, Logger errorLogger)
     {
         assertPingFalse(message, null, pingURL, errorLogger);

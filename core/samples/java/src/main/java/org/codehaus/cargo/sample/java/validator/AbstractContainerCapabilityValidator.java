@@ -20,20 +20,42 @@
 package org.codehaus.cargo.sample.java.validator;
 
 import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.container.packager.PackagerType;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.generic.ContainerCapabilityFactory;
+import org.codehaus.cargo.generic.DefaultContainerCapabilityFactory;
 
 /**
- * Validate that the specified container has a directory packager registered.
+ * Abstract validator, that instanciates the {@link ContainerCapabilityFactory}.
  * 
  * @version $Id$
  */
-public class HasDirectoryPackagerValidator extends AbstractPackagerValidator
+public abstract class AbstractContainerCapabilityValidator implements Validator
 {
+    /**
+     * Deployable type.
+     */
+    private DeployableType deployableType;
+
+    /**
+     * Container capability factory.
+     */
+    private final ContainerCapabilityFactory factory = new DefaultContainerCapabilityFactory();
+
+    /**
+     * Saves the type to check for.
+     * @param deployableType type to check for.
+     */
+    public AbstractContainerCapabilityValidator(DeployableType deployableType)
+    {
+        this.deployableType = deployableType;
+    }
+
     /**
      * {@inheritDoc}
      */
     public boolean validate(String containerId, ContainerType type)
     {
-        return this.factory.isPackagerRegistered(containerId, PackagerType.DIRECTORY);
+        return this.factory.createContainerCapability(containerId).supportsDeployableType(
+            this.deployableType);
     }
 }

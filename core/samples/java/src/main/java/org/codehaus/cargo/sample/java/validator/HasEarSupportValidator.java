@@ -19,23 +19,20 @@
  */
 package org.codehaus.cargo.sample.java.validator;
 
-import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.generic.ContainerCapabilityFactory;
-import org.codehaus.cargo.generic.DefaultContainerCapabilityFactory;
 
 /**
  * Validate that a container supports EAR archives.
  * 
  * @version $Id$
  */
-public class HasEarSupportValidator implements Validator
+public class HasEarSupportValidator extends AbstractContainerCapabilityValidator
 {
-    private ContainerCapabilityFactory factory = new DefaultContainerCapabilityFactory();
-
-    public boolean validate(String containerId, ContainerType type)
+    /**
+     * Initializes the {@link AbstractContainerCapabilityValidator} with {@link DeployableType#EAR}.
+     */
+    public HasEarSupportValidator()
     {
-        return this.factory.createContainerCapability(containerId).supportsDeployableType(
-            DeployableType.EAR);
+        super(DeployableType.EAR);
     }
 }

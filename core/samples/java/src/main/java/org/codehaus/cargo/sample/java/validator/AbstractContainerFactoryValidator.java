@@ -20,20 +20,40 @@
 package org.codehaus.cargo.sample.java.validator;
 
 import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.container.packager.PackagerType;
+import org.codehaus.cargo.generic.ContainerFactory;
+import org.codehaus.cargo.generic.DefaultContainerFactory;
 
 /**
- * Validate that the specified container has a directory packager registered.
+ * Abstract validator, that instanciates the {@link ContainerFactory}.
  * 
  * @version $Id$
  */
-public class HasDirectoryPackagerValidator extends AbstractPackagerValidator
+public abstract class AbstractContainerFactoryValidator implements Validator
 {
+    /**
+     * Container type.
+     */
+    private ContainerType type;
+
+    /**
+     * Container factory.
+     */
+    private final ContainerFactory factory = new DefaultContainerFactory();
+
+    /**
+     * Saves the type to check for.
+     * @param type type to check for.
+     */
+    public AbstractContainerFactoryValidator(ContainerType type)
+    {
+        this.type = type;
+    }
+
     /**
      * {@inheritDoc}
      */
     public boolean validate(String containerId, ContainerType type)
     {
-        return this.factory.isPackagerRegistered(containerId, PackagerType.DIRECTORY);
+        return this.factory.isContainerRegistered(containerId, this.type);
     }
 }

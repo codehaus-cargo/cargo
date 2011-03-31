@@ -22,18 +22,14 @@ package org.codehaus.cargo.sample.java.validator;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
-import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
-import org.codehaus.cargo.generic.configuration.DefaultConfigurationCapabilityFactory;
 
 /**
  * Validate that a container supports Resource configuration.
  * 
  * @version $Id$
  */
-public class HasResourceSupportValidator implements Validator
+public class HasResourceSupportValidator extends AbstractConfigurationCapabilityValidator
 {
-    private ConfigurationCapabilityFactory factory = new DefaultConfigurationCapabilityFactory();
-
     private ConfigurationType type;
 
     public HasResourceSupportValidator(ConfigurationType type)

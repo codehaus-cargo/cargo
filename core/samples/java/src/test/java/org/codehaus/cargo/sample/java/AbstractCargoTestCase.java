@@ -293,20 +293,6 @@ public class AbstractCargoTestCase extends TestCase
     }
 
     /**
-     * Queries the system property {@code cargo.java.home.x_y}, automatically falling back to
-     * {@code java.home} if not set.
-     */
-    private String getJavaHome(String property)
-    {
-        String javaHome = System.getProperty(property);
-        if (javaHome == null)
-        {
-            javaHome = System.getProperty("java.home");
-        }
-        return javaHome;
-    }
-
-    /**
      * Use the home dir if specified by the user or download the container distribution and installs
      * it if an install URL has been specified.
      */

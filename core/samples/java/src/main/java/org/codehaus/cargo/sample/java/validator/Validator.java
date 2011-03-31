@@ -21,7 +21,19 @@ package org.codehaus.cargo.sample.java.validator;
 
 import org.codehaus.cargo.container.ContainerType;
 
+/**
+ * Validate that a container.
+ * 
+ * @version $Id$
+ */
 public interface Validator
 {
+    /**
+     * Validate if a container has a given configuration.
+     * @param containerId Container identifier.
+     * @param type Container type.
+     * @return <code>true</code> if the given container supports the current validator,
+     * <code>false</code> otherwise.
+     */
     boolean validate(String containerId, ContainerType type);
 }
