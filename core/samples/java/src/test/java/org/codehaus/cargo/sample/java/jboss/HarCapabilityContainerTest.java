@@ -50,7 +50,8 @@ public class HarCapabilityContainerTest extends AbstractJBossCapabilityTestCase
     public static Test suite() throws Exception
     {
         CargoTestSuite suite =
-            new CargoTestSuite("Tests that run on local installed JBoss containers supporting HAR deployments");
+            new CargoTestSuite("Test that verifies that deployment of HAR archive work on local "
+                + "installed JBoss 5+ containers");
 
         suite.addTestSuite(HarCapabilityContainerTest.class, new Validator[] {
         new ContainerIdRegExValidator("^jboss[5-9].*"), // the verification of the deployment via
