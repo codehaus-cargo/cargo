@@ -53,7 +53,7 @@ public interface DatasourcePropertySet
 
     /**
      * The class name of the Driver or XADataSource implementation clas. Example:
-     * <code>org.hsqldb.jdbcDriver/code>. <br>
+     * <code>org.hsqldb.jdbcDriver</code>. <br>
      */
     String DRIVER_CLASS = "cargo.datasource.driver";
 

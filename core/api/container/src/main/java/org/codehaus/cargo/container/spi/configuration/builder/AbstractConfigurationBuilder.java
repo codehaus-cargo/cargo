@@ -64,6 +64,7 @@ public abstract class AbstractConfigurationBuilder implements ConfigurationBuild
      * <li>{@link DataSource#getJndiLocation()} is set to a unique path for the container.</li>
      * <li>{@link DataSource#getDriverClass()} is an implementation of
      * <code>java.sql.Driver</code></li>
+     * </ul>
      * @return configuration binding a container provided implementation of type
      * <code>javax.sql.DataSource</code> to the JNDI path specified at
      * {@link DataSource#getJndiLocation()}.
