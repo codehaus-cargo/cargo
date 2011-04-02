@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.deployable.AOP;
 import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -235,6 +236,17 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
                 else
                 {
                     deployHar(deployableDir, (HAR) deployable);
+                }
+            }
+            else if (deployable.getType() == DeployableType.AOP)
+            {
+                if (deployable.isExpanded() && shouldDeployExpanded(DeployableType.AOP))
+                {
+                    deployExpandedAop(deployableDir, (AOP) deployable);
+                }
+                else
+                {
+                    deployAop(deployableDir, (AOP) deployable);
                 }
             }
             else
@@ -528,5 +540,32 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
     {
         getFileHandler().copyDirectory(har.getFile(),
             getFileHandler().append(deployableDir, getFileHandler().getName(har.getFile())));
+    }
+
+    /**
+     * Copy the AOP file to the deployable directory.
+     * 
+     * @param deployableDir the directory to copy it to
+     * @param aop the AOP deployable to copy
+     */
+    protected void deployAop(String deployableDir, AOP aop)
+    {
+        getFileHandler()
+            .copyFile(aop.getFile(),
+                getFileHandler().append(deployableDir, getFileHandler().getName(aop.getFile())),
+                true);
+    }
+    
+    /**
+     * Copy the full expanded AOP directory to the deployable directory, renaming it if the user has
+     * specified a custom context for this expanded AOP.
+     * 
+     * @param deployableDir the directory to deploy the expanded AOP to
+     * @param aop the expanded AOP deployable
+     */
+    protected void deployExpandedAop(String deployableDir, AOP aop)
+    {
+        getFileHandler().copyDirectory(aop.getFile(),
+            getFileHandler().append(deployableDir, getFileHandler().getName(aop.getFile())));
     }
 }

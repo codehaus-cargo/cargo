@@ -67,6 +67,11 @@ public final class DeployableType
     public static final DeployableType HAR = new DeployableType("har");
 
     /**
+     * The AOP deployable type.
+     */
+    public static final DeployableType AOP = new DeployableType("aop");
+
+    /**
      * A unique id that identifies a deployable type.
      */
     private String type;

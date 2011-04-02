@@ -430,6 +430,17 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(LINE_SEPARATOR);
 
         if (this.containerCapabilityFactory.createContainerCapability(
+            containerId).supportsDeployableType(DeployableType.AOP))
+        {
+            output.append("| [Static deployment of (JBoss) AOP]      | (/) | (/) | (/) | |");
+        }
+        else
+        {
+            output.append("| [Static deployment of (JBoss) AOP]      | (x) | (x) | (x) | |");
+        }
+        output.append(LINE_SEPARATOR);
+
+        if (this.containerCapabilityFactory.createContainerCapability(
             containerId).supportsDeployableType(DeployableType.FILE))
         {
             output.append(

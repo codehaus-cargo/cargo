@@ -21,6 +21,7 @@ package org.codehaus.cargo.generic.deployable;
 
 import java.lang.reflect.Constructor;
 
+import org.codehaus.cargo.container.deployable.AOP;
 import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -93,6 +94,7 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.FILE, File.class);
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.BUNDLE, Bundle.class);
         registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.HAR, HAR.class);
+        registerDeployable(DEFAULT_CONTAINER_ID, DeployableType.AOP, AOP.class);
 
         AbstractFactoryRegistry.register(classLoader, this);
     }
