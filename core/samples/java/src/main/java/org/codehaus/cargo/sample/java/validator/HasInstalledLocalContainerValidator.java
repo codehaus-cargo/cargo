@@ -29,7 +29,8 @@ import org.codehaus.cargo.container.ContainerType;
 public class HasInstalledLocalContainerValidator extends AbstractContainerFactoryValidator
 {
     /**
-     * Initializes the {@link AbstractContainerFactoryValidator} with {@link ContainerType#INSTALLED}.
+     * Initializes the {@link AbstractContainerFactoryValidator} with
+     * {@link ContainerType#INSTALLED}.
      */
     public HasInstalledLocalContainerValidator()
     {

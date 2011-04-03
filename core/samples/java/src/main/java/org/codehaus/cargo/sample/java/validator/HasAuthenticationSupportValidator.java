@@ -27,7 +27,8 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
  * 
  * @version $Id$
  */
-public class HasAuthenticationSupportValidator extends AbstractConfigurationCapabilityAndTypeValidator
+public class HasAuthenticationSupportValidator
+    extends AbstractConfigurationCapabilityAndTypeValidator
 {
     /**
      * Saves configuration type.

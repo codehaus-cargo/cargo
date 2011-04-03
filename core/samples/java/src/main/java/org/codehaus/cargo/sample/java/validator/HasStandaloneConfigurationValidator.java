@@ -30,8 +30,8 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 public class HasStandaloneConfigurationValidator extends AbstractConfigurationFactoryValidator
 {
     /**
-     * @return true if the container has a standalone configuration implementation available, false
-     * otherwise
+     * Check if the container has a standalone configuration implementation available.
+     * {@inheritDoc}
      */
     public boolean validate(String containerId, ContainerType type)
     {

@@ -29,6 +29,9 @@ import org.codehaus.cargo.container.deployer.DeployerType;
  */
 public class HasLocalDeployerValidator extends AbstractDeployerFactoryValidator
 {
+    /**
+     * Check if the container has a local deployer available. {@inheritDoc}
+     */
     public boolean validate(String containerId, ContainerType type)
     {
         return this.factory.isDeployerRegistered(containerId, DeployerType.EMBEDDED)

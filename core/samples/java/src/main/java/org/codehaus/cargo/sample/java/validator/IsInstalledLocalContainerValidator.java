@@ -29,8 +29,7 @@ import org.codehaus.cargo.container.ContainerType;
 public class IsInstalledLocalContainerValidator extends AbstractConfigurationCapabilityValidator
 {
     /**
-     * @return true if the container has an installed local container implementation available,
-     * false otherwise
+     * Check if the container is an installed local container. {@inheritDoc}
      */
     public boolean validate(String containerId, ContainerType type)
     {

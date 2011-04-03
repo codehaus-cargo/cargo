@@ -28,15 +28,22 @@ import org.codehaus.cargo.container.ContainerType;
  */
 public class StartsWithContainerValidator implements Validator
 {
+    /**
+     * Container identifier prefix.
+     */
     private String containerIdPrefix;
 
+    /**
+     * Saves attributes.
+     * @param containerIdPrefix Container identifier prefix.
+     */
     public StartsWithContainerValidator(String containerIdPrefix)
     {
         this.containerIdPrefix = containerIdPrefix;
     }
 
     /**
-     * @return true if the container id starts with the passed container id prefix, false otherwise
+     * Check if the container id starts with the passed container id prefix. {@inheritDoc}
      */
     public boolean validate(String containerId, ContainerType type)
     {

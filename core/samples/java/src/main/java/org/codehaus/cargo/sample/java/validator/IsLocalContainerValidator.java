@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.ContainerType;
 public class IsLocalContainerValidator implements Validator
 {
     /**
-     * @return true if the container has a local container implementation available, false otherwise
+     * Check if the container is a local container. {@inheritDoc}
      */
     public boolean validate(String containerId, ContainerType type)
     {

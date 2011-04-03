@@ -29,6 +29,9 @@ import org.codehaus.cargo.container.deployer.DeployerType;
  */
 public class HasRemoteDeployerValidator extends AbstractDeployerFactoryValidator
 {
+    /**
+     * Check if the container has a remote deployer available. {@inheritDoc}
+     */
     public boolean validate(String containerId, ContainerType type)
     {
         return this.factory.isDeployerRegistered(containerId, DeployerType.REMOTE);
