@@ -32,6 +32,11 @@ import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.util.CargoException;
 
+/**
+ * Abstract test case for container with datasource capabilities.
+ * 
+ * @version $Id$
+ */
 public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
     AbstractCargoTestCase
 {

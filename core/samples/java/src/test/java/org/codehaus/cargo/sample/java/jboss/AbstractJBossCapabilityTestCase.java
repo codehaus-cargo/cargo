@@ -35,6 +35,11 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
 import org.codehaus.cargo.sample.java.EnvironmentTestData;
 
+/**
+ * Abstract test case for JBoss capabilities.
+ * 
+ * @version $Id$
+ */
 public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestCase
 {
     public AbstractJBossCapabilityTestCase(String testName, EnvironmentTestData testData) throws Exception

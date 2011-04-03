@@ -46,6 +46,9 @@ import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
+ * Test for Tomcat packager.
+ * 
+ * @version $Id$
  */
 public class TomcatPackagerTest extends AbstractCargoTestCase
 {

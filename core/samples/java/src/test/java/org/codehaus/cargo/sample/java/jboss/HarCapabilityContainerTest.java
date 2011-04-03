@@ -37,6 +37,11 @@ import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValida
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
+/**
+ * Test for JBoss HAR support.
+ * 
+ * @version $Id$
+ */
 public class HarCapabilityContainerTest extends AbstractJBossCapabilityTestCase
 {
     private static final String SIMPLE_HAR_OBJECT_NAME = "cargo.testdata:name=simple-har";

@@ -42,6 +42,11 @@ import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.AntUtils;
 
+/**
+ * Test for Tomcat WARs.
+ * 
+ * @version $Id$
+ */
 public class TomcatWarTest extends AbstractCargoTestCase
 {
     public TomcatWarTest(String testName, EnvironmentTestData testData) throws Exception

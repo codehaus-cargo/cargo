@@ -27,6 +27,11 @@ import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValida
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
+/**
+ * Test for local containers.
+ * 
+ * @version $Id$
+ */
 public class AllLocalContainerTest extends AbstractCargoTestCase
 {
     public AllLocalContainerTest(String testName, EnvironmentTestData testData)

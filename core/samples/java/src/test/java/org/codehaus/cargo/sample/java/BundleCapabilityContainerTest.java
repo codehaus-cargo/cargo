@@ -37,6 +37,11 @@ import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValida
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
+/**
+ * Test for OSGi bundle support.
+ * 
+ * @version $Id$
+ */
 public class BundleCapabilityContainerTest extends AbstractCargoTestCase
 {
     public BundleCapabilityContainerTest(String testName, EnvironmentTestData testData)

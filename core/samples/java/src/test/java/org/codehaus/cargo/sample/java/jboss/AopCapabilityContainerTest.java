@@ -36,6 +36,11 @@ import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValida
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
+/**
+ * Test for JBoss AOP support.
+ * 
+ * @version $Id$
+ */
 public class AopCapabilityContainerTest extends AbstractJBossCapabilityTestCase
 {
     private static final String JBOSSAOP_ASPECTMANAGER_OBJECT_NAME =

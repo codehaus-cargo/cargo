@@ -37,6 +37,11 @@ import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
+/**
+ * Validates WAR archives with authentication.
+ * 
+ * @version $Id$
+ */
 public class WarAuthenticationTest extends AbstractCargoTestCase
 {
     public WarAuthenticationTest(String testName, EnvironmentTestData testData)

@@ -35,6 +35,11 @@ import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.AntUtils;
 
+/**
+ * Test for WAR support.
+ * 
+ * @version $Id$
+ */
 public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTestCase
 {
     public WarCapabilityContainerTest(String testName, EnvironmentTestData testData)

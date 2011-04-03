@@ -39,6 +39,11 @@ import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidat
 import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.CargoException;
 
+/**
+ * Test for extra classpath support.
+ * 
+ * @version $Id$
+ */
 public class ExtraClasspathOnStandaloneConfigurationTest extends
     AbstractCargoTestCase
 {

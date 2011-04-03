@@ -28,6 +28,11 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.util.AntUtils;
 
+/**
+ * Abstract test case for container with WAR capabilities.
+ * 
+ * @version $Id$
+ */
 public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCargoTestCase
 {
     public AbstractWarCapabilityContainerTestCase(String testName, EnvironmentTestData testData)

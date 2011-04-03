@@ -50,15 +50,32 @@ import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.LogLevel;
 import org.codehaus.cargo.util.log.Logger;
 
+/**
+ * Abstract test case for Cargo samples.
+ * 
+ * @version $Id$
+ */
 public class AbstractCargoTestCase extends TestCase
 {
+    /**
+     * Container factory.
+     */
     private static final ContainerFactory CONTAINER_FACTORY = new DefaultContainerFactory();
 
+    /**
+     * Configuration factory.
+     */
     private static final ConfigurationFactory CONFIGURATION_FACTORY =
         new DefaultConfigurationFactory();
 
+    /**
+     * Deployer factory.
+     */
     private static final DeployerFactory DEPLOYER_FACTORY = new DefaultDeployerFactory();
 
+    /**
+     * Container that's currently being tested.
+     */
     private Container container;
 
     /**
@@ -66,10 +83,22 @@ public class AbstractCargoTestCase extends TestCase
      */
     private EnvironmentTestData testData;
 
-    protected Logger logger;
+    /**
+     * Logger.
+     */
+    private Logger logger;
 
+    /**
+     * Class loader, used for embedded containers.
+     */
     private ClassLoader classLoader;
 
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public AbstractCargoTestCase(String testName, EnvironmentTestData testData) throws Exception
     {
         super(testName);
@@ -86,31 +115,52 @@ public class AbstractCargoTestCase extends TestCase
         this.logger.setLevel(LogLevel.DEBUG);
     }
 
+    /**
+     * @param container Container to set.
+     */
     protected void setContainer(Container container)
     {
         this.container = container;
     }
 
+    /**
+     * @return Container cast as {@link LocalContainer}.
+     */
     protected LocalContainer getLocalContainer()
     {
         return (LocalContainer) this.container;
     }
 
+    /**
+     * @return Container cast as {@link InstalledLocalContainer}.
+     */
     protected InstalledLocalContainer getInstalledLocalContainer()
     {
         return (InstalledLocalContainer) this.container;
     }
 
+    /**
+     * @return Container cast as {@link RemoteContainer}.
+     */
     protected RemoteContainer getRemoteContainer()
     {
         return (RemoteContainer) this.container;
     }
 
+    /**
+     * @return Container as it is.
+     */
     protected Container getContainer()
     {
         return this.container;
     }
 
+    /**
+     * Creates a deployer.
+     * @param type Deployer type.
+     * @param container Container to create a deployer for.
+     * @return {@link Deployer} instance for the given {@link Container} and {@link DeployerType}.
+     */
     public Deployer createDeployer(DeployerType type, Container container)
     {
         Deployer deployer = DEPLOYER_FACTORY.createDeployer(container, type);
@@ -119,6 +169,11 @@ public class AbstractCargoTestCase extends TestCase
         return deployer;
     }
 
+    /**
+     * Creates a deployer.
+     * @param container Container to create a deployer for.
+     * @return {@link Deployer} instance for the given {@link Container}.
+     */
     public Deployer createDeployer(Container container)
     {
         Deployer deployer = DEPLOYER_FACTORY.createDeployer(container);
@@ -127,11 +182,23 @@ public class AbstractCargoTestCase extends TestCase
         return deployer;
     }
 
+    /**
+     * Creates a configuration.
+     * @param type Configuration type.
+     * @return {@link Configuration} instance for the given {@link ConfigurationType}.
+     */
     public Configuration createConfiguration(ConfigurationType type)
     {
         return createConfiguration(type, getTestData().targetDir);
     }
 
+    /**
+     * Creates a configuration.
+     * @param type Configuration type.
+     * @param targetDir Target directory.
+     * @return {@link Configuration} instance for the given {@link ConfigurationType} created in
+     * the given directory.
+     */
     public Configuration createConfiguration(ConfigurationType type, String targetDir)
     {
         Configuration configuration;
@@ -178,11 +245,23 @@ public class AbstractCargoTestCase extends TestCase
         return configuration;
     }
 
+    /**
+     * Creates a container for a given configuration.
+     * @param configuration Container configuration.
+     * @return {@link Container} for the given {@link Configuration}.
+     */
     public Container createContainer(Configuration configuration)
     {
         return createContainer(getTestData().containerType, configuration);
     }
 
+    /**
+     * Creates a container of a given type for a given configuration.
+     * @param type Container type.
+     * @param configuration Container configuration.
+     * @return {@link Container} of a given {@link ContainerType} for the given
+     * {@link Configuration}.
+     */
     public Container createContainer(ContainerType type, Configuration configuration)
     {
         Container container =
@@ -199,6 +278,11 @@ public class AbstractCargoTestCase extends TestCase
         return container;
     }
 
+    /**
+     * Setup local settings.
+     * @param configuration Container configuration.
+     * @param container Local container.
+     */
     private void setUpLocalSettings(Configuration configuration, LocalContainer container)
     {
         if (container.getType() == ContainerType.EMBEDDED)
@@ -219,18 +303,25 @@ public class AbstractCargoTestCase extends TestCase
     }
 
     /**
-     * @return the test data such as the target directory where to install configurations, etc
+     * @return the test data such as the target directory where to install configurations, etc.
      */
     protected EnvironmentTestData getTestData()
     {
         return this.testData;
     }
 
+    /**
+     * @return logger.
+     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
+    /**
+     * {@inheritDoc}
+     * @return nicely formatted test name (with container id and type).
+     */
     @Override
     public String getName()
     {
@@ -238,6 +329,9 @@ public class AbstractCargoTestCase extends TestCase
             + getTestData().containerType + ")";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -278,6 +372,7 @@ public class AbstractCargoTestCase extends TestCase
     /**
      * Add the Clover jar to the container classpath to support Clovering the tests and set up the
      * Clover license.
+     * @param container Container to add Clover JAR into.
      */
     private void setUpClover(InstalledLocalContainer container)
     {
@@ -295,6 +390,7 @@ public class AbstractCargoTestCase extends TestCase
     /**
      * Use the home dir if specified by the user or download the container distribution and installs
      * it if an install URL has been specified.
+     * @param container Container to configure with the extracted home.
      */
     private void setUpHome(InstalledLocalContainer container)
     {
@@ -308,6 +404,10 @@ public class AbstractCargoTestCase extends TestCase
         }
     }
 
+    /**
+     * Install container using {@link ZipURLInstaller}.
+     * @return Location in which the container has been installed.
+     */
     private String installContainer()
     {
         ZipURLInstaller installer = new ZipURLInstaller(getTestData().installURL,
@@ -326,11 +426,28 @@ public class AbstractCargoTestCase extends TestCase
         return installer.getHome();
     }
 
+    /**
+     * Load embedded container dependencies.
+     * @throws Exception If anything goes wrong.
+     */
     private void loadEmbeddedContainerDependencies() throws Exception
     {
         if (testData.containerId.startsWith("jetty"))
         {
-            if (isCustomContextClassLoaderLoaded())
+            boolean found;
+
+            try
+            {
+                ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
+                currentClassLoader.loadClass("org.mortbay.jetty.Server");
+                found = true;
+            }
+            catch (ClassNotFoundException e)
+            {
+                found = false;
+            }
+
+            if (found)
             {
                 this.classLoader = Thread.currentThread().getContextClassLoader();
                 return;
@@ -344,24 +461,5 @@ public class AbstractCargoTestCase extends TestCase
         {
             Thread.currentThread().setContextClassLoader(this.classLoader);
         }
-    }
-
-    private boolean isCustomContextClassLoaderLoaded()
-    {
-        boolean found;
-
-        ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
-
-        try
-        {
-            currentClassLoader.loadClass("org.mortbay.jetty.Server");
-            found = true;
-        }
-        catch (Exception e)
-        {
-            found = false;
-        }
-
-        return found;
     }
 }

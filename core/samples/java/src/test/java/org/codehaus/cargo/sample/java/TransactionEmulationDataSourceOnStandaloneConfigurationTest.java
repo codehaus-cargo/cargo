@@ -33,6 +33,11 @@ import org.codehaus.cargo.sample.java.validator.HasXAEmulationValidator;
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
+/**
+ * Test for datasource with transaction emulation capabilities.
+ * 
+ * @version $Id$
+ */
 public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
 {

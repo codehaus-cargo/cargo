@@ -45,6 +45,11 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.sample.testdata.ejb.Sample;
 import org.codehaus.cargo.sample.testdata.ejb.SampleHome;
 
+/**
+ * Test for JBoss EJB support.
+ * 
+ * @version $Id$
+ */
 public class EjbCapabilityContainerTest extends AbstractCargoTestCase
 {
     public EjbCapabilityContainerTest(String testName, EnvironmentTestData testData)

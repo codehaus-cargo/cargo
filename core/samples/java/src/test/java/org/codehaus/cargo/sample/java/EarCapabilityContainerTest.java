@@ -33,6 +33,11 @@ import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValida
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
+/**
+ * Test for EAR support.
+ * 
+ * @version $Id$
+ */
 public class EarCapabilityContainerTest extends AbstractCargoTestCase
 {
     public EarCapabilityContainerTest(String testName, EnvironmentTestData testData)

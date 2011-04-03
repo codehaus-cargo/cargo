@@ -29,6 +29,11 @@ import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
+/**
+ * Test for existing configuration.
+ * 
+ * @version $Id$
+ */
 public class ExistingConfigurationTest extends AbstractWarCapabilityContainerTestCase
 {
     public ExistingConfigurationTest(String testName, EnvironmentTestData testData)

@@ -53,6 +53,11 @@ import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 
+/**
+ * Test for remote deployment.
+ * 
+ * @version $Id$
+ */
 public class RemoteDeploymentTest extends AbstractCargoTestCase
 {
     private FileHandler fileHandler = new DefaultFileHandler();
