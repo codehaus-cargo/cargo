@@ -442,8 +442,8 @@ public class AbstractCargoTestCase extends TestCase
                 if (currentClassLoader != null)
                 {
                     currentClassLoader.loadClass("org.mortbay.jetty.Server");
+                    found = true;
                 }
-                found = true;
             }
             catch (ClassNotFoundException e)
             {
