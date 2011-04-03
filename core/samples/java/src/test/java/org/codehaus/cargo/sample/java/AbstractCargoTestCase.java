@@ -340,19 +340,28 @@ public class AbstractCargoTestCase extends TestCase
         // Set up the thread context classloader for embedded containers. We're doing this here
         // instead of in the constructor as this needs to be set for each single test as otherwise
         // the diferent embedded containers will conflict with each other.
-        // TODO: Modify the Jetty embedded container implementation so that this is done at each
-        // method invoked using reflection, as it's done for the Tomcat 5.x embedded implementation.
         if (getTestData().containerType == ContainerType.EMBEDDED)
         {
-            loadEmbeddedContainerDependencies();
+            EmbeddedContainerClasspathResolver resolver = new EmbeddedContainerClasspathResolver();
+            this.classLoader = resolver.resolveDependencies(testData.containerId, installContainer());
+            if (this.classLoader != null)
+            {
+                Thread.currentThread().setContextClassLoader(this.classLoader);
+            }
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void tearDown()
     {
         // Reset context classloader. See the comment in setUp().
-        Thread.currentThread().setContextClassLoader(null);
+        if (getTestData().containerType == ContainerType.EMBEDDED)
+        {
+            Thread.currentThread().setContextClassLoader(null);
+        }
 
         // Stop any local container that is still running
         if (this.container != null && this.container.getType().isLocal())
@@ -424,45 +433,5 @@ public class AbstractCargoTestCase extends TestCase
         installer.install();
 
         return installer.getHome();
-    }
-
-    /**
-     * Load embedded container dependencies.
-     * @throws Exception If anything goes wrong.
-     */
-    private void loadEmbeddedContainerDependencies() throws Exception
-    {
-        if (testData.containerId.startsWith("jetty"))
-        {
-            boolean found;
-
-            try
-            {
-                ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
-                if (currentClassLoader != null)
-                {
-                    currentClassLoader.loadClass("org.mortbay.jetty.Server");
-                    found = true;
-                }
-            }
-            catch (ClassNotFoundException e)
-            {
-                found = false;
-            }
-
-            if (found)
-            {
-                this.classLoader = Thread.currentThread().getContextClassLoader();
-                return;
-            }
-        }
-
-        // Otherwise create a classloader and load them externally
-        EmbeddedContainerClasspathResolver resolver = new EmbeddedContainerClasspathResolver();
-        this.classLoader = resolver.resolveDependencies(testData.containerId, installContainer());
-        if (this.classLoader != null)
-        {
-            Thread.currentThread().setContextClassLoader(this.classLoader);
-        }
     }
 }
