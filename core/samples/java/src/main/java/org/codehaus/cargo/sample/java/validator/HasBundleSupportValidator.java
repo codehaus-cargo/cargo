@@ -29,7 +29,8 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 public class HasBundleSupportValidator extends AbstractContainerCapabilityValidator
 {
     /**
-     * Initializes the {@link AbstractContainerCapabilityValidator} with {@link DeployableType#BUNDLE}.
+     * Initializes the {@link AbstractContainerCapabilityValidator} with
+     * {@link DeployableType#BUNDLE}.
      */
     public HasBundleSupportValidator()
     {

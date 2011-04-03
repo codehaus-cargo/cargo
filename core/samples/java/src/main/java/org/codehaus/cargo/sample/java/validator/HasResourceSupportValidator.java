@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.sample.java.validator;
 
-import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
 
@@ -28,18 +27,14 @@ import org.codehaus.cargo.container.property.ResourcePropertySet;
  * 
  * @version $Id$
  */
-public class HasResourceSupportValidator extends AbstractConfigurationCapabilityValidator
+public class HasResourceSupportValidator extends AbstractConfigurationCapabilityAndTypeValidator
 {
-    private ConfigurationType type;
-
+    /**
+     * Saves configuration type.
+     * @param type Configuration type.
+     */
     public HasResourceSupportValidator(ConfigurationType type)
     {
-        this.type = type;
-    }
-
-    public boolean validate(String containerId, ContainerType containerType)
-    {
-        return factory.createConfigurationCapability(containerId, containerType, this.type)
-            .supportsProperty(ResourcePropertySet.RESOURCE);
+        super(type, ResourcePropertySet.RESOURCE);
     }
 }

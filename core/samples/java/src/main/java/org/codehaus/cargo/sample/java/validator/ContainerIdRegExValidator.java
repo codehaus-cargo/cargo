@@ -30,15 +30,23 @@ import org.codehaus.cargo.container.ContainerType;
  */
 public class ContainerIdRegExValidator implements Validator
 {
+    /**
+     * Regular expression pattern.
+     */
     private Pattern pattern;
 
+    /**
+     * @param regExPattern Regular expression pattern.
+     */
     public ContainerIdRegExValidator(String regExPattern)
     {
         this.pattern = Pattern.compile(regExPattern);
     }
 
     /**
-     * @return true if the container id starts with the passed container id prefix, false otherwise
+     * {@inheritDoc}
+     * @return <code>true</code> if the container id starts with the passed container id prefix,
+     * <code>false</code> otherwise
      */
     public boolean validate(String containerId, ContainerType type)
     {

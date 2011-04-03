@@ -32,5 +32,6 @@ public abstract class AbstractConfigurationCapabilityValidator implements Valida
     /**
      * Configuration capability factory.
      */
-    protected final ConfigurationCapabilityFactory factory = new DefaultConfigurationCapabilityFactory();
+    protected final ConfigurationCapabilityFactory factory =
+        new DefaultConfigurationCapabilityFactory();
 }

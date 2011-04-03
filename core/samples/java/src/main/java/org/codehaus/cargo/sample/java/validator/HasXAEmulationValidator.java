@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.sample.java.validator;
 
-import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 
@@ -28,18 +27,14 @@ import org.codehaus.cargo.container.property.DatasourcePropertySet;
  * 
  * @version $Id$
  */
-public class HasXAEmulationValidator extends AbstractConfigurationCapabilityValidator
+public class HasXAEmulationValidator extends AbstractConfigurationCapabilityAndTypeValidator
 {
-    private ConfigurationType type;
-
+    /**
+     * Saves configuration type.
+     * @param type Configuration type.
+     */
     public HasXAEmulationValidator(ConfigurationType type)
     {
-        this.type = type;
-    }
-
-    public boolean validate(String containerId, ContainerType containerType)
-    {
-        return factory.createConfigurationCapability(containerId, containerType, this.type)
-            .supportsProperty(DatasourcePropertySet.TRANSACTION_SUPPORT);
+        super(type, DatasourcePropertySet.TRANSACTION_SUPPORT);
     }
 }

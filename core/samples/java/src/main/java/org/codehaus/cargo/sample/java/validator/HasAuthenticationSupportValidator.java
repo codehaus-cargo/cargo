@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.sample.java.validator;
 
-import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 
@@ -28,28 +27,14 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
  * 
  * @version $Id$
  */
-public class HasAuthenticationSupportValidator extends AbstractConfigurationCapabilityValidator
+public class HasAuthenticationSupportValidator extends AbstractConfigurationCapabilityAndTypeValidator
 {
-    /**
-     * Configuration type.
-     */
-    private ConfigurationType type;
-
     /**
      * Saves configuration type.
      * @param type Configuration type.
      */
     public HasAuthenticationSupportValidator(ConfigurationType type)
     {
-        this.type = type;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean validate(String containerId, ContainerType containerType)
-    {
-        return factory.createConfigurationCapability(containerId, containerType,
-            this.type).supportsProperty(ServletPropertySet.USERS);
+        super(type, ServletPropertySet.USERS);
     }
 }
