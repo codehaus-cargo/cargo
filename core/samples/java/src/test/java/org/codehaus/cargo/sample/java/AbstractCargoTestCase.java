@@ -439,7 +439,10 @@ public class AbstractCargoTestCase extends TestCase
             try
             {
                 ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
-                currentClassLoader.loadClass("org.mortbay.jetty.Server");
+                if (currentClassLoader != null)
+                {
+                    currentClassLoader.loadClass("org.mortbay.jetty.Server");
+                }
                 found = true;
             }
             catch (ClassNotFoundException e)
