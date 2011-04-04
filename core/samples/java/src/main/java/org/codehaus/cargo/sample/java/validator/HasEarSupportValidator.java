@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
  * 
  * @version $Id$
  */
-public class HasEarSupportValidator extends AbstractContainerCapabilityValidator
+public class HasEarSupportValidator extends HasDeployableSupportValidator
 {
     /**
      * Initializes the {@link AbstractContainerCapabilityValidator} with {@link DeployableType#EAR}.

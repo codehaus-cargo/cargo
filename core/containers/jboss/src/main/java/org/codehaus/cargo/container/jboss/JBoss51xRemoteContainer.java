@@ -20,14 +20,13 @@
 package org.codehaus.cargo.container.jboss;
 
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-import org.codehaus.cargo.container.jboss.internal.AbstractJBossRemoteContainer;
 
 /**
  * Special container support for wrapping a running instance of JBoss 5.x.
  * 
  * @version $Id$
  */
-public class JBoss51xRemoteContainer extends AbstractJBossRemoteContainer
+public class JBoss51xRemoteContainer extends JBoss5xRemoteContainer
 {
     /**
      * Unique container id.
@@ -36,7 +35,7 @@ public class JBoss51xRemoteContainer extends AbstractJBossRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see AbstractJBossRemoteContainer#AbstractJBossRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
+     * @see JBoss5xRemoteContainer#JBoss5xRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
      */
     public JBoss51xRemoteContainer(RuntimeConfiguration configuration)
     {
@@ -47,7 +46,7 @@ public class JBoss51xRemoteContainer extends AbstractJBossRemoteContainer
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getName()
      */
-    public final String getName()
+    public String getName()
     {
         return "JBoss 5.1.x Remote";
     }
@@ -56,7 +55,7 @@ public class JBoss51xRemoteContainer extends AbstractJBossRemoteContainer
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getId()
      */
-    public final String getId()
+    public String getId()
     {
         return ID;
     }

@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.jboss.internal;
 
 import java.io.File;
+import org.codehaus.cargo.container.ContainerCapability;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
@@ -30,8 +31,12 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
  * @version $Id$
  */
 public abstract class AbstractJBoss5xInstalledLocalContainer extends
-        AbstractJBossInstalledLocalContainer implements JBoss5xInstalledLocalContainer
+    AbstractJBossInstalledLocalContainer implements JBoss5xInstalledLocalContainer
 {
+    /**
+     * Capability of the JBoss container.
+     */
+    private static final ContainerCapability CAPABILITY = new JBoss5xContainerCapability();
 
     /**
      * {@inheritDoc}
@@ -67,5 +72,14 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
     public String getCommonLibDir()
     {
         return getFileHandler().append(getHome(), "common/lib");
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.Container#getCapability()
+     */
+    public ContainerCapability getCapability()
+    {
+        return CAPABILITY;
     }
 }

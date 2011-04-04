@@ -19,37 +19,43 @@
  */
 package org.codehaus.cargo.sample.java.validator;
 
-import java.util.regex.Pattern;
-
 import org.codehaus.cargo.container.ContainerType;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.generic.ContainerCapabilityFactory;
+import org.codehaus.cargo.generic.DefaultContainerCapabilityFactory;
 
 /**
- * Validate that the container id matches a specific regular expression.
+ * Validator, that instanciates the {@link ContainerCapabilityFactory} for {@link DeployableType}.
  * 
  * @version $Id$
  */
-public class ContainerIdRegExValidator implements Validator
+public class HasDeployableSupportValidator implements Validator
 {
     /**
-     * Regular expression pattern.
+     * Deployable type.
      */
-    private Pattern pattern;
+    private DeployableType deployableType;
 
     /**
-     * @param regExPattern Regular expression pattern.
+     * Container capability factory.
      */
-    public ContainerIdRegExValidator(String regExPattern)
+    private final ContainerCapabilityFactory factory = new DefaultContainerCapabilityFactory();
+
+    /**
+     * Saves the type to check for.
+     * @param deployableType type to check for.
+     */
+    public HasDeployableSupportValidator(DeployableType deployableType)
     {
-        this.pattern = Pattern.compile(regExPattern);
+        this.deployableType = deployableType;
     }
 
     /**
      * {@inheritDoc}
-     * @return <code>true</code> if the container id starts with the passed container id prefix,
-     * <code>false</code> otherwise
      */
     public boolean validate(String containerId, ContainerType type)
     {
-        return this.pattern.matcher(containerId).matches();
+        return this.factory.createContainerCapability(containerId).supportsDeployableType(
+            this.deployableType);
     }
 }

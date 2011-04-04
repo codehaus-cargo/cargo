@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
-
 import org.codehaus.cargo.container.ContainerCapability;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
@@ -48,9 +48,9 @@ public abstract class AbstractJBossInstalledLocalContainer extends
     AbstractInstalledLocalContainer implements JBossInstalledLocalContainer
 {
     /**
-     * Capability of the JBoss Container.
+     * Capability of the JBoss container.
      */
-    private ContainerCapability capability = new JBossContainerCapability();
+    private static final ContainerCapability CAPABILITY = new JBossContainerCapability();
 
     /**
      * JBoss version.
@@ -185,7 +185,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
      */
     public ContainerCapability getCapability()
     {
-        return this.capability;
+        return CAPABILITY;
     }
 
     /**

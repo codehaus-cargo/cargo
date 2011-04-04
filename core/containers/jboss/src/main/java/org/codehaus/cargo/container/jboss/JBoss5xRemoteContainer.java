@@ -19,24 +19,31 @@
  */
 package org.codehaus.cargo.container.jboss;
 
+import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-import org.codehaus.cargo.container.jboss.internal.AbstractJBossRemoteContainer;
+import org.codehaus.cargo.container.jboss.internal.JBoss5xContainerCapability;
+import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
 
 /**
  * Special container support for wrapping a running instance of JBoss 5.x.
  * 
  * @version $Id$
  */
-public class JBoss5xRemoteContainer extends AbstractJBossRemoteContainer
+public class JBoss5xRemoteContainer extends AbstractRemoteContainer
 {
     /**
      * Unique container id.
      */
-    public static final String ID = "jboss5x";
+    private static final String ID = "jboss5x";
+
+    /**
+     * Capability of the JBoss container.
+     */
+    private static final ContainerCapability CAPABILITY = new JBoss5xContainerCapability();
 
     /**
      * {@inheritDoc}
-     * @see AbstractJBossRemoteContainer#AbstractJBossRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
+     * @see AbstractRemoteContainer#AbstractRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
      */
     public JBoss5xRemoteContainer(RuntimeConfiguration configuration)
     {
@@ -47,7 +54,7 @@ public class JBoss5xRemoteContainer extends AbstractJBossRemoteContainer
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getName()
      */
-    public final String getName()
+    public String getName()
     {
         return "JBoss 5.x Remote";
     }
@@ -56,8 +63,17 @@ public class JBoss5xRemoteContainer extends AbstractJBossRemoteContainer
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getId()
      */
-    public final String getId()
+    public String getId()
     {
         return ID;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.Container#getCapability()
+     */
+    public ContainerCapability getCapability()
+    {
+        return CAPABILITY;
     }
 }
