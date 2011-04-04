@@ -1,4 +1,4 @@
-<Server port="@cargo.rmi.port@" shutdown="SHUTDOWN" debug="@catalina.logging.level@">
+<Server port="@cargo.rmi.port@" shutdown="SHUTDOWN">
 
   <!--APR library loader. Documentation at /docs/apr.html -->
   <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
@@ -8,7 +8,7 @@
   <Listener className="org.apache.catalina.mbeans.ServerLifecycleListener" />
   <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
 
-  <Service name="Catalina" debug="@catalina.logging.level@">
+  <Service name="Catalina">
 
     <Connector port="@cargo.servlet.port@" protocol="HTTP/1.1" 
                connectionTimeout="20000" 
@@ -16,15 +16,13 @@
                scheme="@cargo.protocol@"
                secure="@catalina.secure@"
                SSLEnabled="@catalina.secure@"
-               debug="@catalina.logging.level@"
                emptySessionPath="@catalina.connector.emptySessionPath@"
                URIEncoding="@catalina.servlet.uriencoding@" />
 
     <!-- Define an AJP 1.3 Connector on port @cargo.tomcat.ajp.port@ -->
     <Connector port="@cargo.tomcat.ajp.port@" protocol="AJP/1.3" redirectPort="8443" />
 
-    <Engine name="Catalina" defaultHost="@cargo.hostname@"
-         debug="@catalina.logging.level@">
+    <Engine name="Catalina" defaultHost="@cargo.hostname@">
 
       <Realm className="org.apache.catalina.realm.MemoryRealm"/>
 
@@ -33,8 +31,7 @@
        -->
       <Host name="@cargo.hostname@" appBase="webapps"
             unpackWARs="true" autoDeploy="true"
-            xmlValidation="false" xmlNamespaceAware="false"
-            debug="@catalina.logging.level@">
+            xmlValidation="false" xmlNamespaceAware="false">
 
             @tomcat.webapps@        
 

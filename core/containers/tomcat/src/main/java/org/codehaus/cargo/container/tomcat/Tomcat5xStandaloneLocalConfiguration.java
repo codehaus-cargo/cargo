@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.io.File;
 import java.util.Properties;
 import java.util.Set;
 
@@ -28,7 +29,9 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.Resource;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.internal.util.PropertyUtils;
+import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5And6xConfigurationBuilder;
 
@@ -135,6 +138,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     protected Set<String> getConfFiles()
     {
         Set<String> files = super.getConfFiles();
+        files.add("logging.properties");
         files.add("catalina.properties");
         files.add("context.xml");
         return files;
@@ -174,6 +178,68 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     {
         String confDir = getFileHandler().createDirectory(getHome(), "conf");
         return getFileHandler().append(confDir, "context.xml");
+    }
+
+    /**
+     * Translate Cargo logging levels into java.util.logging levels.
+     * Available levels are: SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST or ALL.
+     * @param cargoLoggingLevel Cargo logging level
+     * @return the corresponding Tomcat java.util.logging level
+     */
+    @Override
+    protected String getTomcatLoggingLevel(String cargoLoggingLevel)
+    {
+        String level;
+
+        if (LoggingLevel.LOW.equalsLevel(cargoLoggingLevel))
+        {
+            level = "WARNING";
+        }
+        else if (LoggingLevel.MEDIUM.equalsLevel(cargoLoggingLevel))
+        {
+            level = "INFO";
+        }
+        else
+        {
+            level = "FINE";
+        }
+
+        return level;
+    }
+
+    /**
+     * Override the context element creation as Tomcat 5x and newer don't support the
+     * debug attribute.
+     * @param deployable the WAR to deploy
+     * @return the "context" XML element to instert in the Tomcat <code>server.xml</code>
+     * configuration file
+     */
+    @Override
+    protected String createContextToken(WAR deployable)
+    {
+        StringBuilder contextTokenValue = new StringBuilder();
+        contextTokenValue.append("<Context");
+
+        // Tomcat requires a context path equal to a zero-length string for default web application
+        contextTokenValue.append(" path=\"");
+        if (!"".equals(deployable.getContext()) && !"/".equals(deployable.getContext()))
+        {
+            contextTokenValue.append("/" + deployable.getContext());
+        }
+        contextTokenValue.append("\"");
+
+        // Tomcat requires an absolute path for the "docBase" attribute.
+        contextTokenValue.append(" docBase=\"");
+        contextTokenValue.append(new File(deployable.getFile()).getAbsolutePath());
+        contextTokenValue.append("\"");
+
+        contextTokenValue.append("\" reloadable=\"");
+        contextTokenValue.append(getPropertyValue(TomcatPropertySet.CONTEXT_RELOADABLE));
+        contextTokenValue.append("\"");
+
+        contextTokenValue.append(">");
+        contextTokenValue.append("</Context>");
+        return contextTokenValue.toString();
     }
 
 }

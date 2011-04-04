@@ -243,7 +243,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      * @param cargoLoggingLevel Cargo logging level
      * @return the corresponding Tomcat logging level
      */
-    private String getTomcatLoggingLevel(String cargoLoggingLevel)
+    protected String getTomcatLoggingLevel(String cargoLoggingLevel)
     {
         String level;
 

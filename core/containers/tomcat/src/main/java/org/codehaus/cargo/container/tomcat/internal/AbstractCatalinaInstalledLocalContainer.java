@@ -165,12 +165,14 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
      */
     protected void invokeContainer(String action, JvmLauncher java) throws Exception
     {
+        String base = getFileHandler().getAbsolutePath(getConfiguration().getHome()); 
         java.setSystemProperty("catalina.home", getFileHandler().getAbsolutePath(getHome()));
-        java.setSystemProperty("catalina.base",
-            getFileHandler().getAbsolutePath(getConfiguration().getHome()));
+        java.setSystemProperty("catalina.base", base);
         File tempFile = new File(getConfiguration().getHome(), "temp");
         java.setSystemProperty("java.io.tmpdir",
             getFileHandler().getAbsolutePath(tempFile.getAbsolutePath()));
+        java.setSystemProperty("java.util.logging.config.file",
+                getFileHandler().append(base, "conf/logging.properties"));
         java.addClasspathEntries(new File(getHome(), "bin/bootstrap.jar"));
         addToolsJarToClasspath(java);
         java.setMainClass("org.apache.catalina.startup.Bootstrap");
