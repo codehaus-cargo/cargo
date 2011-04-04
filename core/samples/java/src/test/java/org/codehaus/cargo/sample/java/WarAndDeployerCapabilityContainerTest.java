@@ -43,12 +43,23 @@ import org.codehaus.cargo.sample.java.validator.Validator;
  */
 public class WarAndDeployerCapabilityContainerTest extends AbstractCargoTestCase
 {
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public WarAndDeployerCapabilityContainerTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
     }
 
+    /**
+     * Creates the test suite, using the {@link Validator}s.
+     * @return Test suite.
+     * @throws Exception If anything goes wrong.
+     */
     public static Test suite() throws Exception
     {
         CargoTestSuite suite = new CargoTestSuite(
@@ -62,6 +73,10 @@ public class WarAndDeployerCapabilityContainerTest extends AbstractCargoTestCase
         return suite;
     }
 
+    /**
+     * Test WAR hot deployment.
+     * @throws Exception If anything goes wrong.
+     */
     public void testWarHotDeployment() throws Exception
     {
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));

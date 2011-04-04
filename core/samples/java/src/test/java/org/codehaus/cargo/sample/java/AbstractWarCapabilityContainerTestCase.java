@@ -35,6 +35,12 @@ import org.codehaus.cargo.util.AntUtils;
  */
 public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCargoTestCase
 {
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public AbstractWarCapabilityContainerTestCase(String testName, EnvironmentTestData testData)
         throws Exception
     {
@@ -42,7 +48,7 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCar
     }
 
     /**
-     * make sure we always stop the container
+     * {@inheritDoc}
      */
     @Override
     public void tearDown()
@@ -57,6 +63,10 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCar
         }
     }
 
+    /**
+     * Deploy WAR statically.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDeployWarStatically() throws Exception
     {
         Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
@@ -68,9 +78,12 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCar
             + "/simple-war-" + getTestData().version + "/index.jsp");
 
         startAndStop(warPingURL);
-
     }
 
+    /**
+     * Test start with one expanded WAR.
+     * @throws Exception If anything goes wrong.
+     */
     public void testStartWithOneExpandedWarDeployed() throws Exception
     {
         if (getContainer().getId().startsWith("geronimo"))
@@ -95,11 +108,11 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCar
             + "/expanded-war" + "/index.html");
 
         startAndStop(warPingURL);
-
     }
 
     /**
-     * @param warPingURL
+     * Start, test and stop WAR.
+     * @param warPingURL WAR ping URL.
      */
     public void startAndStop(URL warPingURL)
     {

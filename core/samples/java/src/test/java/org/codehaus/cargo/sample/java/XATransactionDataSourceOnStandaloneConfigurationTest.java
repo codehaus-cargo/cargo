@@ -41,12 +41,21 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 public class XATransactionDataSourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
 {
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public XATransactionDataSourceOnStandaloneConfigurationTest(String testName,
         EnvironmentTestData testData) throws Exception
     {
         super(testName, testData);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -54,11 +63,16 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
     }
 
+    /**
+     * Creates the test suite, using the {@link Validator}s.
+     * @return Test suite.
+     * @throws Exception If anything goes wrong.
+     */
     public static Test suite() throws Exception
     {
         CargoTestSuite suite =
-            new CargoTestSuite(
-                "Tests that run on local containers supporting XADataSource configured DataSources and WAR deployments");
+            new CargoTestSuite("Tests that run on local containers supporting XADataSource "
+                + "configured DataSources and WAR deployments");
 
         suite.addTestSuite(XATransactionDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {
@@ -73,6 +87,7 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
     /**
      * User configures javax.sql.XADataSource -> container provides javax.sql.DataSource with xa
      * transaction support
+     * @throws MalformedURLException If servlet WAR URL cannot be created.
      */
     public void testUserConfiguresXADataSourceAndRequestsDataSourceWithXaTransactionSupport()
         throws MalformedURLException
@@ -80,7 +95,7 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
         DataSourceFixture fixture =
             ConfigurationFixtureFactory.createXADataSourceConfiguredDataSource();
 
-        _testServletThatIssuesGetConnectionFrom(fixture, "datasource-cmt-local");
+        testServletThatIssuesGetConnectionFrom(fixture, "datasource-cmt-local");
     }
 
 }

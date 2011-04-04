@@ -42,12 +42,21 @@ import org.codehaus.cargo.util.AntUtils;
  */
 public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTestCase
 {
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public WarCapabilityContainerTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -55,6 +64,11 @@ public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTe
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
     }
 
+    /**
+     * Creates the test suite, using the {@link Validator}s.
+     * @return Test suite.
+     * @throws Exception If anything goes wrong.
+     */
     public static Test suite() throws Exception
     {
         CargoTestSuite suite = new CargoTestSuite(
@@ -67,6 +81,10 @@ public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTe
         return suite;
     }
 
+    /**
+     * Test deployment of a WAR with relative path.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDeployWarDefinedWithRelativePath() throws Exception
     {
         // Copies the testdata artifact so that we can easily specify a relative path
@@ -91,7 +109,6 @@ public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTe
         URL warPingURL = new URL("http://localhost:" + getTestData().port + "/simple/index.jsp");
 
         startAndStop(warPingURL);
-
     }
 
 }

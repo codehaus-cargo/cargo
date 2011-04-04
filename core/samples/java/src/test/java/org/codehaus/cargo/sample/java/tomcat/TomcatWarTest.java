@@ -49,11 +49,22 @@ import org.codehaus.cargo.util.AntUtils;
  */
 public class TomcatWarTest extends AbstractCargoTestCase
 {
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public TomcatWarTest(String testName, EnvironmentTestData testData) throws Exception
     {
         super(testName, testData);
     }
 
+    /**
+     * Creates the test suite, using the {@link Validator}s.
+     * @return Test suite.
+     * @throws Exception If anything goes wrong.
+     */
     public static Test suite() throws Exception
     {
         // We exclude tomcat4x container as it does not support context.xml files
@@ -71,6 +82,9 @@ public class TomcatWarTest extends AbstractCargoTestCase
         return suite;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -78,6 +92,10 @@ public class TomcatWarTest extends AbstractCargoTestCase
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
     }
 
+    /**
+     * Test WAR with a <code>context.xml</code> file.
+     * @throws Exception If anything goes wrong.
+     */
     public void testWarWithContextXmlFile() throws Exception
     {
         // Copies the tomcat context war in order to rename it so that it matches the context
@@ -103,6 +121,10 @@ public class TomcatWarTest extends AbstractCargoTestCase
         PingUtils.assertPingFalse("tomcat context war not stopped", warPingURL, getLogger());
     }
 
+    /**
+     * Test expanded WAR with a <code>context.xml</code> file.
+     * @throws Exception If anything goes wrong.
+     */
     public void testExpandedWarWithContextXmlFile() throws Exception
     {
         // Copy the war from the Maven local repository in order to expand it

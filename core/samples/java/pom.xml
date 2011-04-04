@@ -46,16 +46,4 @@
       <version>3.8.1</version>
     </dependency>
   </dependencies>
-
-  <!-- TODO: For now, don't checkstyle the samples -->
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>

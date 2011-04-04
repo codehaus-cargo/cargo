@@ -40,6 +40,12 @@ import org.codehaus.cargo.util.CargoException;
 public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
     AbstractCargoTestCase
 {
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public AbstractDataSourceWarCapabilityContainerTestCase(String testName,
         EnvironmentTestData testData) throws Exception
     {
@@ -47,11 +53,12 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
     }
 
     /**
-     * @param property - property looked up to build the datasource
-     * @param type
-     * @throws MalformedURLException
+     * Adds datasource and Tests servlet.
+     * @param fixture Datasource definition.
+     * @param type WAR type.
+     * @throws MalformedURLException If URL cannot be built.
      */
-    protected void _testServletThatIssuesGetConnectionFrom(DataSourceFixture fixture, String type)
+    protected void testServletThatIssuesGetConnectionFrom(DataSourceFixture fixture, String type)
         throws MalformedURLException
     {
         addDataSourceToConfigurationViaProperty(fixture);
@@ -59,6 +66,11 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
         testWar(type);
     }
 
+    /**
+     * Tests servlet.
+     * @param type WAR type.
+     * @throws MalformedURLException If URL cannot be built.
+     */
     protected void testWar(String type) throws MalformedURLException
     {
         Deployable war =
@@ -74,12 +86,8 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
         startAndStop(warPingURL);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.codehaus.cargo.sample.java.AbstractCargoTestCase#createContainer(org.codehaus.cargo.container
-     * .configuration.Configuration)
+    /**
+     * {@inheritDoc}
      */
     @Override
     public Container createContainer(Configuration configuration)
@@ -90,6 +98,10 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
         return container;
     }
 
+    /**
+     * Add datasource.
+     * @param fixture Datasource definition.
+     */
     public void addDataSourceToConfigurationViaProperty(DataSourceFixture fixture)
     {
         Configuration config = getLocalContainer().getConfiguration();
@@ -97,6 +109,10 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
             .buildDataSourcePropertyString());
     }
 
+    /**
+     * Setup a Derby datasource.
+     * @param container Container to set on.
+     */
     private void setUpDerby(InstalledLocalContainer container)
     {
         String jdbcdriver = System.getProperty("cargo.testdata.derby-jar");
@@ -114,7 +130,8 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
     }
 
     /**
-     * @param warPingURL
+     * Start, test and stop WAR.
+     * @param warPingURL WAR ping URL.
      */
     public void startAndStop(URL warPingURL)
     {
@@ -125,8 +142,9 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
         PingUtils.assertPingFalse(warPingURL.getPath() + " not stopped", warPingURL, getLogger());
     }
 
+
     /**
-     * make sure we always stop the container
+     * {@inheritDoc}
      */
     @Override
     public void tearDown()

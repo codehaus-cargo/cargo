@@ -343,7 +343,8 @@ public class AbstractCargoTestCase extends TestCase
         if (getTestData().containerType == ContainerType.EMBEDDED)
         {
             EmbeddedContainerClasspathResolver resolver = new EmbeddedContainerClasspathResolver();
-            this.classLoader = resolver.resolveDependencies(testData.containerId, installContainer());
+            this.classLoader =
+                resolver.resolveDependencies(testData.containerId, installContainer());
             if (this.classLoader != null)
             {
                 Thread.currentThread().setContextClassLoader(this.classLoader);

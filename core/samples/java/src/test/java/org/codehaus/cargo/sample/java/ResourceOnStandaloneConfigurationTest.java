@@ -45,12 +45,21 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 public class ResourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
 {
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public ResourceOnStandaloneConfigurationTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -58,6 +67,9 @@ public class ResourceOnStandaloneConfigurationTest extends
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Container createContainer(ContainerType type, Configuration configuration)
     {
@@ -68,6 +80,10 @@ public class ResourceOnStandaloneConfigurationTest extends
 
     }
 
+    /**
+     * Add mail JARs to extra classpath.
+     * @param container Container.
+     */
     private void addMailJarsToExtraClasspath(InstalledLocalContainer container)
     {
         String mail = System.getProperty("cargo.testdata.mail-jars");
@@ -81,6 +97,11 @@ public class ResourceOnStandaloneConfigurationTest extends
         }
     }
 
+    /**
+     * Creates the test suite, using the {@link Validator}s.
+     * @return Test suite.
+     * @throws Exception If anything goes wrong.
+     */
     public static Test suite() throws Exception
     {
         CargoTestSuite suite =
@@ -97,6 +118,7 @@ public class ResourceOnStandaloneConfigurationTest extends
 
     /**
      * User configures javax.sql.XADataSource -> container provides that same javax.sql.XADataSource
+     * @throws MalformedURLException If URL for the test WAR cannot be built.
      */
     public void testUserConfiguresXADataSourceAsResource() throws MalformedURLException
     {
@@ -109,6 +131,7 @@ public class ResourceOnStandaloneConfigurationTest extends
 
     /**
      * User configures javax.mail.Session -> container provides that same javax.mail.Session
+     * @throws MalformedURLException If URL for the test WAR cannot be built.
      */
     public void testUserConfiguresMailSessionAsResource() throws MalformedURLException
     {
@@ -119,6 +142,10 @@ public class ResourceOnStandaloneConfigurationTest extends
         testWar("mailsession");
     }
 
+    /**
+     * Add resource to configuration using properties.
+     * @param fixture Container.
+     */
     private void addResourceToConfigurationViaProperty(ResourceFixture fixture)
     {
         Configuration config = getLocalContainer().getConfiguration();

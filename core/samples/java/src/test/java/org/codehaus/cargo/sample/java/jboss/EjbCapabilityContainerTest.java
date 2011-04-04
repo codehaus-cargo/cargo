@@ -52,12 +52,23 @@ import org.codehaus.cargo.sample.testdata.ejb.SampleHome;
  */
 public class EjbCapabilityContainerTest extends AbstractCargoTestCase
 {
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public EjbCapabilityContainerTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
     }
 
+    /**
+     * Creates the test suite, using the {@link Validator}s.
+     * @return Test suite.
+     * @throws Exception If anything goes wrong.
+     */
     public static Test suite() throws Exception
     {
         CargoTestSuite suite = new CargoTestSuite(
@@ -69,6 +80,10 @@ public class EjbCapabilityContainerTest extends AbstractCargoTestCase
         return suite;
     }
 
+    /**
+     * Test static EJB deployment.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDeployEjbStatically() throws Exception
     {
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
@@ -82,7 +97,7 @@ public class EjbCapabilityContainerTest extends AbstractCargoTestCase
 
         // Call the EJB to verify it's correctly deployed. Unfortunately this is a bit tricky here.
         // Indeed calling an EJB remotely is different for each container and requires:
-        // - a container-specific inital context factory
+        // - a container-specific initial context factory
         // - having container client jars in the classpath
         // In addition we must be sure to use the same container client jar version as the container
         // being deployed to. Thus our solution is to use an URL classloader to load the container

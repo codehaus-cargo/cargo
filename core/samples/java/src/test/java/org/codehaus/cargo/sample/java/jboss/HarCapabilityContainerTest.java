@@ -44,14 +44,28 @@ import org.codehaus.cargo.sample.java.validator.Validator;
  */
 public class HarCapabilityContainerTest extends AbstractJBossCapabilityTestCase
 {
+    /**
+     * MBean name for the deployed HAR.
+     */
     private static final String SIMPLE_HAR_OBJECT_NAME = "cargo.testdata:name=simple-har";
 
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public HarCapabilityContainerTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
     }
 
+    /**
+     * Creates the test suite, using the {@link Validator}s.
+     * @return Test suite.
+     * @throws Exception If anything goes wrong.
+     */
     public static Test suite() throws Exception
     {
         CargoTestSuite suite =
@@ -59,13 +73,17 @@ public class HarCapabilityContainerTest extends AbstractJBossCapabilityTestCase
                 + "installed JBoss 5+ containers");
 
         suite.addTestSuite(HarCapabilityContainerTest.class, new Validator[] {
-        new ContainerIdRegExValidator("^jboss[5-9].*"), // the verification of the deployment via
-                                                        // jmx only works with JBoss 5+
-        new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator()});
+            // the verification of the deployment via jmx only works with JBoss 5+
+            new ContainerIdRegExValidator("^jboss[5-9].*"),
+            new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator()
+        });
 
         return suite;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -73,6 +91,10 @@ public class HarCapabilityContainerTest extends AbstractJBossCapabilityTestCase
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
     }
 
+    /**
+     * Test HAR deployment.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDeployHarStatically() throws Exception
     {
         Deployable har =
@@ -87,7 +109,8 @@ public class HarCapabilityContainerTest extends AbstractJBossCapabilityTestCase
         // We're verifying that the HAR is successfully deployed by querying it via jmx
         MBeanServerConnection server = createMBeanServerConnection(null, null);
         ObjectName objectName = ObjectName.getInstance(SIMPLE_HAR_OBJECT_NAME);
-        MBeanInfo mbeanInfo = server.getMBeanInfo(objectName); // will throw exception if not found
+        // getMBeanInfo will throw exception if not found
+        MBeanInfo mbeanInfo = server.getMBeanInfo(objectName);
         getLogger().debug("The HAR MBean found: " + mbeanInfo.getDescription(),
             this.getClass().getName());
         assertNotNull("MBean description is null", mbeanInfo.getDescription());

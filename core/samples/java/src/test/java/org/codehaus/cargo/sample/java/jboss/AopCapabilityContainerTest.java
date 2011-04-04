@@ -43,15 +43,29 @@ import org.codehaus.cargo.sample.java.validator.Validator;
  */
 public class AopCapabilityContainerTest extends AbstractJBossCapabilityTestCase
 {
+    /**
+     * MBean name for the JBoss AOP aspect manager.
+     */
     private static final String JBOSSAOP_ASPECTMANAGER_OBJECT_NAME =
         "jboss.aop:service=AspectManager";
 
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public AopCapabilityContainerTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
     }
 
+    /**
+     * Creates the test suite, using the {@link Validator}s.
+     * @return Test suite.
+     * @throws Exception If anything goes wrong.
+     */
     public static Test suite() throws Exception
     {
         CargoTestSuite suite =
@@ -59,13 +73,17 @@ public class AopCapabilityContainerTest extends AbstractJBossCapabilityTestCase
                 + "installed JBoss 5+ containers");
 
         suite.addTestSuite(AopCapabilityContainerTest.class, new Validator[] {
-        new ContainerIdRegExValidator("^jboss[5-9].*"), // the verification of the deployment via
-                                                        // jmx only works with JBoss 5+
-        new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator()});
+            // the verification of the deployment via jmx only works with JBoss 5+
+            new ContainerIdRegExValidator("^jboss[5-9].*"),
+            new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator()
+        });
 
         return suite;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -73,6 +91,10 @@ public class AopCapabilityContainerTest extends AbstractJBossCapabilityTestCase
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
     }
 
+    /**
+     * Test static AOP deployment.
+     * @throws Exception If anything goes wrong.
+     */
     public void testDeployAopStatically() throws Exception
     {
         Deployable aop =
@@ -90,8 +112,10 @@ public class AopCapabilityContainerTest extends AbstractJBossCapabilityTestCase
         ObjectName objectName = ObjectName.getInstance(JBOSSAOP_ASPECTMANAGER_OBJECT_NAME);
         String pointcuts =
             (String) server.invoke(objectName, "pointcuts", new Object[] {}, new String[] {});
-        getLogger().debug("Registered aop pointcuts: " + pointcuts.toString(), this.getClass().getName());
-        assertTrue("Dummy cargo aop pointcut not found", pointcuts.contains("cargoTestDataSimpleAop"));
+        getLogger().debug("Registered aop pointcuts: " + pointcuts.toString(),
+            this.getClass().getName());
+        assertTrue("Dummy cargo aop pointcut not found",
+            pointcuts.contains("cargoTestDataSimpleAop"));
 
         getLocalContainer().stop();
     }

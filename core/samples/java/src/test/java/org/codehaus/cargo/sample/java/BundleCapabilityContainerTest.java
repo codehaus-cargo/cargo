@@ -44,12 +44,23 @@ import org.codehaus.cargo.sample.java.validator.Validator;
  */
 public class BundleCapabilityContainerTest extends AbstractCargoTestCase
 {
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public BundleCapabilityContainerTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
     }
 
+    /**
+     * Creates the test suite, using the {@link Validator}s.
+     * @return Test suite.
+     * @throws Exception If anything goes wrong.
+     */
     public static Test suite() throws Exception
     {
         CargoTestSuite suite = new CargoTestSuite(
@@ -62,6 +73,9 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
         return suite;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -69,6 +83,10 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
     }
 
+    /**
+     * Test bundle deployment.
+     * @throws Exception If anything goes wrong.
+     */
     public void testStartWithBundleDeployed() throws Exception
     {
         BufferedReader reader;

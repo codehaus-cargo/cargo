@@ -41,12 +41,21 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
 {
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public TransactionEmulationDataSourceOnStandaloneConfigurationTest(String testName,
         EnvironmentTestData testData) throws Exception
     {
         super(testName, testData);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -54,6 +63,11 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
     }
 
+    /**
+     * Creates the test suite, using the {@link Validator}s.
+     * @return Test suite.
+     * @throws Exception If anything goes wrong.
+     */
     public static Test suite() throws Exception
     {
         CargoTestSuite suite =
@@ -73,6 +87,7 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
     /**
      * User configures java.sql.Driver -> container provides javax.sql.DataSource with local
      * transaction support
+     * @throws MalformedURLException If servlet WAR URL cannot be created.
      */
     public void testUserConfiguresDriverAndRequestsDataSourceWithLocalTransactionSupport()
         throws MalformedURLException
@@ -81,12 +96,13 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
             ConfigurationFixtureFactory
                 .createDriverConfiguredDataSourceWithLocalTransactionSupport();
 
-        _testServletThatIssuesGetConnectionFrom(fixture, "datasource-cmt-local");
+        testServletThatIssuesGetConnectionFrom(fixture, "datasource-cmt-local");
     }
 
     /**
      * User configures java.sql.Driver -> container provides javax.sql.DataSource with emulated xa
      * transaction support
+     * @throws MalformedURLException If servlet WAR URL cannot be created.
      */
     public void testUserConfiguresDriverAndRequestsDataSourceWithXaTransactionSupport()
         throws MalformedURLException
@@ -94,6 +110,6 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
         DataSourceFixture fixture =
             ConfigurationFixtureFactory.createDriverConfiguredDataSourceWithXaTransactionSupport();
 
-        _testServletThatIssuesGetConnectionFrom(fixture, "datasource-cmt-local");
+        testServletThatIssuesGetConnectionFrom(fixture, "datasource-cmt-local");
     }
 }

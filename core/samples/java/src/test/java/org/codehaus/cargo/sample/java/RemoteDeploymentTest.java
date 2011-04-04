@@ -60,18 +60,42 @@ import org.codehaus.cargo.util.FileHandler;
  */
 public class RemoteDeploymentTest extends AbstractCargoTestCase
 {
+    /**
+     * File handler.
+     */
     private FileHandler fileHandler = new DefaultFileHandler();
 
+    /**
+     * Local container.
+     */
     private InstalledLocalContainer localContainer;
+
+    /**
+     * Remote deployer.
+     */
     private Deployer deployer;
+
+    /**
+     * WAR to deploy.
+     */
     private WAR war;
 
-    public RemoteDeploymentTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
+    public RemoteDeploymentTest(String testName, EnvironmentTestData testData) throws Exception
     {
         super(testName, testData);
     }
 
+    /**
+     * Creates the test suite, using the {@link Validator}s.
+     * @return Test suite.
+     * @throws Exception If anything goes wrong.
+     */
     public static Test suite() throws Exception
     {
         CargoTestSuite suite = new CargoTestSuite(
@@ -83,14 +107,17 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             new HasRemoteDeployerValidator(),
             new HasWarSupportValidator(),
 
-        // We cannot add the HasInstalledLocalContainerValidator and
-        // HasStandaloneConfigurationValidator, else the Remote container would need to
-        // implement a Standalone configration, which doesn't make sense
-            });
+            // We cannot add the HasInstalledLocalContainerValidator and
+            // HasStandaloneConfigurationValidator, else the Remote container would need to
+            // implement a Standalone configuration, which doesn't make sense
+        });
 
         return suite;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -175,8 +202,15 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         this.deployer = createDeployer(DeployerType.REMOTE, getRemoteContainer());
     }
 
+    /**
+     * Start the local container, on which we will remotely deploy.
+     * @throws Exception If anything goes wrong.
+     */
     private void startLocalContainer() throws Exception
     {
+        // Variable externalized to keep checkstyle happy
+        EnvironmentTestData testData = getTestData();
+
         final String message = "You have implemented the Remote container. Please also implement a "
             + "standalone local container for the CARGO samples to pass.";
         assertTrue(message, new HasInstalledLocalContainerValidator().validate(
@@ -185,14 +219,14 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             getTestData().containerId, ContainerType.INSTALLED));
 
         final ContainerType oldContainerType = getTestData().containerType;
-        getTestData().containerType = ContainerType.INSTALLED;
+        testData.containerType = ContainerType.INSTALLED;
 
         // First install a local container and start it. This is the container into which we'll
         // deploy into. It'll act as a remote container, already running.
         this.localContainer = (InstalledLocalContainer) createContainer(createConfiguration(
             ConfigurationType.STANDALONE));
 
-        getTestData().containerType = oldContainerType;
+        testData.containerType = oldContainerType;
 
         // Jetty requires its deployer application
         if (getTestData().containerId.startsWith("jetty"))
@@ -240,6 +274,9 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         this.localContainer.start();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void tearDown()
     {
@@ -248,6 +285,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
     /**
      * Verify that a WAR can be deployed, undeployed and redeployed remotely.
+     * @throws Exception If anything goes wrong.
      */
     public void testDeployUndeployRedeployWarRemotely() throws Exception
     {
@@ -286,6 +324,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
     /**
      * Verify that WAR context change works.
+     * @throws Exception If anything goes wrong.
      */
     public void testChangeWarContextAndDeployUndeployRemotely() throws Exception
     {
@@ -302,8 +341,11 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
     }
 
     /**
-     * Modify the original simple WAR file to add a new HTML file which we will later ping to verify
-     * the new WAR has been deployed.
+     * Modify the original simple WAR file to add a new HTML file which we will later ping to
+     * verify the new WAR has been deployed.
+     * @param originalDeployable {@link Deployable} to modify.
+     * @return Modified {@link Deployable} (an HTML file is added).
+     * @throws Exception If anything goes wrong.
      */
     private Deployable modifyWar(Deployable originalDeployable) throws Exception
     {

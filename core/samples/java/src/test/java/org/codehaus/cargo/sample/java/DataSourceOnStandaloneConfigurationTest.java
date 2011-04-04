@@ -42,12 +42,21 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 public class DataSourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
 {
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public DataSourceOnStandaloneConfigurationTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -55,6 +64,11 @@ public class DataSourceOnStandaloneConfigurationTest extends
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
     }
 
+    /**
+     * Creates the test suite, using the {@link Validator}s.
+     * @return Test suite.
+     * @throws Exception If anything goes wrong.
+     */
     public static Test suite() throws Exception
     {
         CargoTestSuite suite =
@@ -72,13 +86,18 @@ public class DataSourceOnStandaloneConfigurationTest extends
     /**
      * User configures java.sql.Driver -> container provides javax.sql.DataSource with no
      * transaction support
+     * @throws MalformedURLException If servlet WAR URL cannot be created.
      */
     public void testUserConfiguresDriverAndRequestsDataSource() throws MalformedURLException
     {
         DataSourceFixture fixture = ConfigurationFixtureFactory.createDataSource();
-        _testServletThatIssuesGetConnectionFrom(fixture, "datasource");
+        testServletThatIssuesGetConnectionFrom(fixture, "datasource");
     }
 
+    /**
+     * Test multiple datasources.
+     * @throws MalformedURLException If servlet WAR URL cannot be created.
+     */
     public void testMultipleDataSources() throws MalformedURLException
     {
         DataSourceFixture fixture = ConfigurationFixtureFactory.createDataSource();
@@ -87,6 +106,6 @@ public class DataSourceOnStandaloneConfigurationTest extends
         config.setProperty(DatasourcePropertySet.DATASOURCE + ".1", fixture
             .buildDataSourcePropertyString());
         fixture = ConfigurationFixtureFactory.createAnotherDataSource();
-        _testServletThatIssuesGetConnectionFrom(fixture, "two-datasources");
+        testServletThatIssuesGetConnectionFrom(fixture, "two-datasources");
     }
 }

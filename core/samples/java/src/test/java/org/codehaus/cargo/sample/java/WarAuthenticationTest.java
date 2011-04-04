@@ -44,12 +44,23 @@ import org.codehaus.cargo.sample.java.validator.Validator;
  */
 public class WarAuthenticationTest extends AbstractCargoTestCase
 {
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public WarAuthenticationTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
     }
 
+    /**
+     * Creates the test suite, using the {@link Validator}s.
+     * @return Test suite.
+     * @throws Exception If anything goes wrong.
+     */
     public static Test suite() throws Exception
     {
         CargoTestSuite suite = new CargoTestSuite("Tests that run on local containers supporting "
@@ -63,41 +74,36 @@ public class WarAuthenticationTest extends AbstractCargoTestCase
         return suite;
     }
 
+    /**
+     * Test authenticated WAR.
+     * @throws Exception If anything goes wrong.
+     */
     public void testExecutionWithAuthenticatedWar() throws Exception
     {
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
 
-        // TODO: Find a better way to exclude a test if a configuration doesn't support a property.
-        // The way it is implemented here is not ideal as this test will be shown as executed in the
-        // JUnit report whereas it won't be for container who do not support the
-        // ServletPropertySet.USERS property.
-        if (getLocalContainer().getConfiguration().getCapability().supportsProperty(
-            ServletPropertySet.USERS))
-        {
-            Deployable war = new DefaultDeployableFactory().createDeployable(
-                getContainer().getId(),
-                getTestData().getTestDataFileFor("authentication-war"), DeployableType.WAR);
+        Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
+            getTestData().getTestDataFileFor("authentication-war"), DeployableType.WAR);
 
-            getLocalContainer().getConfiguration().addDeployable(war);
+        getLocalContainer().getConfiguration().addDeployable(war);
 
-            // Add authentication data
-            getLocalContainer().getConfiguration().setProperty(ServletPropertySet.USERS,
-                "someone:password:cargo");
+        // Add authentication data
+        getLocalContainer().getConfiguration().setProperty(ServletPropertySet.USERS,
+            "someone:password:cargo");
 
-            URL warPingURL = new URL("http://localhost:" + getTestData().port
-                + "/authentication-war-" + getTestData().version + "/test");
+        URL warPingURL = new URL("http://localhost:" + getTestData().port
+            + "/authentication-war-" + getTestData().version + "/test");
 
-            getLocalContainer().start();
+        getLocalContainer().start();
 
-            Map<String, String> requestProperties = new HashMap<String, String>();
-            requestProperties.put("Authorization", "Basic "
-                + new String(Base64.encodeBase64("someone:password".getBytes())));
+        Map<String, String> requestProperties = new HashMap<String, String>();
+        requestProperties.put("Authorization", "Basic "
+            + new String(Base64.encodeBase64("someone:password".getBytes())));
 
-            PingUtils.assertPingTrue("Failed authentication", "Principal name [someone], "
-                + "Is user in \"cargo\" role [true]", warPingURL, requestProperties, getLogger());
+        PingUtils.assertPingTrue("Failed authentication", "Principal name [someone], "
+            + "Is user in \"cargo\" role [true]", warPingURL, requestProperties, getLogger());
 
-            getLocalContainer().stop();
-            PingUtils.assertPingFalse("Authentication war not stopped", warPingURL, getLogger());
-        }
+        getLocalContainer().stop();
+        PingUtils.assertPingFalse("Authentication war not stopped", warPingURL, getLogger());
     }
 }

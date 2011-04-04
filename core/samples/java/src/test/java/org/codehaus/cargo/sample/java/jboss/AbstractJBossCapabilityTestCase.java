@@ -42,7 +42,14 @@ import org.codehaus.cargo.sample.java.EnvironmentTestData;
  */
 public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestCase
 {
-    public AbstractJBossCapabilityTestCase(String testName, EnvironmentTestData testData) throws Exception
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
+    public AbstractJBossCapabilityTestCase(String testName, EnvironmentTestData testData)
+        throws Exception
     {
         super(testName, testData);
     }
@@ -56,6 +63,8 @@ public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestC
      * @param password the password to use for authentication, or <code>null</code> for no
      *            authentication
      * @return a <code>MBeanServerConnection</code>
+     * @throws NamingException If a naming exception occurs.
+     * @throws IOException If cannot connect to JBoss server.
      */
     protected MBeanServerConnection createMBeanServerConnection(String username, String password)
         throws NamingException, IOException
@@ -78,6 +87,9 @@ public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestC
         return srvCon;
     }
 
+    /**
+     * @return JBoss service URL.
+     */
     private String getServiceUrl()
     {
         String hostname =
@@ -89,16 +101,18 @@ public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestC
         String objectName;
         if (Pattern.matches("^jboss[5].*", containerId))
         {
-            objectName = "jmxconnector"; // object name is "jmxconnector" for JBoss 5.x
+            // object name is "jmxconnector" for JBoss 5.x
+            objectName = "jmxconnector";
         }
         else if (Pattern.matches("^jboss[6-9].*", containerId))
         {
-            objectName = "jmxrmi"; // object name is "jmxrmi" starting with JBoss 6.0.0M3
+            // object name is "jmxrmi" starting with JBoss 6.0.0M3
+            objectName = "jmxrmi";
         }
         else
         {
-            throw new UnsupportedOperationException("Method not supported for the current container: "
-                + containerId);
+            throw new UnsupportedOperationException("Method not supported for the current "
+                + "container: " + containerId);
         }
 
         String serviceUrl =

@@ -34,12 +34,23 @@ import org.codehaus.cargo.sample.java.validator.Validator;
  */
 public class AllLocalContainerTest extends AbstractCargoTestCase
 {
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public AllLocalContainerTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
     }
 
+    /**
+     * Creates the test suite, using the {@link Validator}s.
+     * @return Test suite.
+     * @throws Exception If anything goes wrong.
+     */
     public static Test suite() throws Exception
     {
         CargoTestSuite suite = new CargoTestSuite("Tests that can run on all local containers");
@@ -49,6 +60,10 @@ public class AllLocalContainerTest extends AbstractCargoTestCase
         return suite;
     }
 
+    /**
+     * Smoke test: startup with no deployable.
+     * @throws Exception If anything goes wrong.
+     */
     public void testStartWithNoDeployable() throws Exception
     {
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));

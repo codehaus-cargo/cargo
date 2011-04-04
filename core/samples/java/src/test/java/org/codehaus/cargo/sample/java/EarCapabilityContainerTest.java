@@ -40,12 +40,23 @@ import org.codehaus.cargo.sample.java.validator.Validator;
  */
 public class EarCapabilityContainerTest extends AbstractCargoTestCase
 {
+    /**
+     * Initializes the test case.
+     * @param testName Test name.
+     * @param testData Test environment data.
+     * @throws Exception If anything goes wrong.
+     */
     public EarCapabilityContainerTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
     }
 
+    /**
+     * Creates the test suite, using the {@link Validator}s.
+     * @return Test suite.
+     * @throws Exception If anything goes wrong.
+     */
     public static Test suite() throws Exception
     {
         CargoTestSuite suite = new CargoTestSuite(
@@ -58,6 +69,9 @@ public class EarCapabilityContainerTest extends AbstractCargoTestCase
         return suite;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -65,6 +79,10 @@ public class EarCapabilityContainerTest extends AbstractCargoTestCase
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
     }
 
+    /**
+     * Start container with an empty EAR.
+     * @throws Exception If anything goes wrong.
+     */
     public void testStartWithOneEmptyEarDeployed() throws Exception
     {
         if (getContainer().getId().startsWith("geronimo"))
@@ -85,6 +103,10 @@ public class EarCapabilityContainerTest extends AbstractCargoTestCase
         assertEquals(State.STOPPED, getContainer().getState());
     }
 
+    /**
+     * Start container with an EAR containing one WAR.
+     * @throws Exception If anything goes wrong.
+     */
     public void testStartWithOneEarWithOneWarDeployed() throws Exception
     {
         Deployable ear = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
