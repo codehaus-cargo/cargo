@@ -407,38 +407,41 @@ public class ConfluenceContainerDocumentationGenerator
         }
         output.append(LINE_SEPARATOR);
 
-        if (this.containerCapabilityFactory.createContainerCapability(
-            containerId).supportsDeployableType(DeployableType.HAR))
+        if (containerId.startsWith("jboss"))
         {
-            output.append("| [Static deployment of HAR]              | (/) | (/) | (/) | |");
+            if (this.containerCapabilityFactory.createContainerCapability(
+                containerId).supportsDeployableType(DeployableType.HAR))
+            {
+                output.append("| [Static deployment of (JBoss) HAR]      | (/) | (/) | (/) | |");
+            }
+            else
+            {
+                output.append("| [Static deployment of (JBoss) HAR]      | (x) | (x) | (x) | |");
+            }
+            output.append(LINE_SEPARATOR);
+    
+            if (this.containerCapabilityFactory.createContainerCapability(
+                containerId).supportsDeployableType(DeployableType.SAR))
+            {
+                output.append("| [Static deployment of (JBoss) SAR]      | (/) | (/) | (/) | |");
+            }
+            else
+            {
+                output.append("| [Static deployment of (JBoss) SAR]      | (x) | (x) | (x) | |");
+            }
+            output.append(LINE_SEPARATOR);
+    
+            if (this.containerCapabilityFactory.createContainerCapability(
+                containerId).supportsDeployableType(DeployableType.AOP))
+            {
+                output.append("| [Static deployment of (JBoss) AOP]      | (/) | (/) | (/) | |");
+            }
+            else
+            {
+                output.append("| [Static deployment of (JBoss) AOP]      | (x) | (x) | (x) | |");
+            }
+            output.append(LINE_SEPARATOR);
         }
-        else
-        {
-            output.append("| [Static deployment of HAR]              | (x) | (x) | (x) | |");
-        }
-        output.append(LINE_SEPARATOR);
-
-        if (this.containerCapabilityFactory.createContainerCapability(
-            containerId).supportsDeployableType(DeployableType.SAR))
-        {
-            output.append("| [Static deployment of SAR]              | (/) | (/) | (/) | |");
-        }
-        else
-        {
-            output.append("| [Static deployment of SAR]              | (x) | (x) | (x) | |");
-        }
-        output.append(LINE_SEPARATOR);
-
-        if (this.containerCapabilityFactory.createContainerCapability(
-            containerId).supportsDeployableType(DeployableType.AOP))
-        {
-            output.append("| [Static deployment of (JBoss) AOP]      | (/) | (/) | (/) | |");
-        }
-        else
-        {
-            output.append("| [Static deployment of (JBoss) AOP]      | (x) | (x) | (x) | |");
-        }
-        output.append(LINE_SEPARATOR);
 
         if (this.containerCapabilityFactory.createContainerCapability(
             containerId).supportsDeployableType(DeployableType.FILE))
