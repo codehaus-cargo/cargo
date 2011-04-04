@@ -351,8 +351,9 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         contextTokenValue.append(" debug=\"");
         contextTokenValue.append(getTomcatLoggingLevel(getPropertyValue(
             GeneralPropertySet.LOGGING)));
+        contextTokenValue.append("\"");
 
-        contextTokenValue.append("\" reloadable=\"");
+        contextTokenValue.append(" reloadable=\"");
         contextTokenValue.append(getPropertyValue(TomcatPropertySet.CONTEXT_RELOADABLE));
         contextTokenValue.append("\"");
 

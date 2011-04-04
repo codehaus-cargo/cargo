@@ -233,7 +233,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         contextTokenValue.append(new File(deployable.getFile()).getAbsolutePath());
         contextTokenValue.append("\"");
 
-        contextTokenValue.append("\" reloadable=\"");
+        contextTokenValue.append(" reloadable=\"");
         contextTokenValue.append(getPropertyValue(TomcatPropertySet.CONTEXT_RELOADABLE));
         contextTokenValue.append("\"");
 
