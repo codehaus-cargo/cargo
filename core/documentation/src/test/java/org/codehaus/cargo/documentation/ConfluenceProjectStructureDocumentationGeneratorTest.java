@@ -28,15 +28,18 @@ import junit.framework.TestCase;
 /**
  * Generates project structure documentation using ConfluenceProjectStructureDocumentationGenerator.
  * 
- * @version $Id: ConfluenceProjectStructureDocumentationGeneratorTest.java 2335 2010-07-01 23:35:19Z
- * alitokmen $
+ * @version $Id$
  */
 public class ConfluenceProjectStructureDocumentationGeneratorTest extends TestCase
 {
-
-    /** The doc generator under test. */
+    /**
+     * The doc generator under test.
+     */
     private ConfluenceProjectStructureDocumentationGenerator generator;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setUp()
     {

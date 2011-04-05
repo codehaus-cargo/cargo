@@ -52,6 +52,9 @@ import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
  */
 public class Snippets
 {
+    /**
+     * Snippet for starting and stopping a Resin 3.x container.
+     */
     public void snippetResin3xStartAndStopTyped()
     {
         // START SNIPPET: qs-typed
@@ -75,6 +78,9 @@ public class Snippets
         // END SNIPPET: qs-typed
     }
 
+    /**
+     * Snippet for starting and stopping a Resin 3.x container.
+     */
     public void snippetResin3xStartAndStopUntyped()
     {
         // START SNIPPET: qs-untyped
@@ -103,6 +109,10 @@ public class Snippets
         // END SNIPPET: qs-untyped
     }
 
+    /**
+     * Snippet for local deployment on a Resin 3.x container.
+     * @throws Exception If the snippet throws an exception.
+     */
     public void snippetResin3xLocalDeploy() throws Exception
     {
         // START SNIPPET: qs-deploy

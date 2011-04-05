@@ -21,43 +21,54 @@ package org.codehaus.cargo.documentation;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 /**
  * Generate project structure documentation using Confluence markup language. The generated text is
  * meant to be copied on the Cargo Confluence web site. Warning: Uses a relative path to determine
  * the base cargo directory and the sandbox is hard-coded.
  * 
- * @version $Id: ConfluenceProjectStructureDocumentationGenerator.java 2407 2010-08-06 14:11:02Z
- * alitokmen $
+ * @version $Id$
  */
 public class ConfluenceProjectStructureDocumentationGenerator
 {
-    /** The MavenXpp3Reader used to get project info from pom files. */
+    /**
+     * The MavenXpp3Reader used to get project info from pom files.
+     */
     private static final MavenXpp3Reader POM_READER = new MavenXpp3Reader();
 
-    /** Relative path to the cargo-trunks base directory. */
+    /**
+     * Relative path to the cargo-trunks base directory.
+     */
     private static final String PROJECT_BASE = System.getProperty("basedir") + "/../../";
 
-    /** Constant for known POM file name. */
+    /**
+     * Constant for known POM file name.
+     */
     private static final String POM = "/pom.xml";
 
-    /** Constant holding the value of the line.separator system property. */
+    /**
+     * Constant holding the value of the line.separator system property.
+     */
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
-    /** Opening tag for the red markup. */
+    /**
+     * Opening tag for the red markup.
+     */
     private static final String START_COLOR = "{color:red}{*}";
 
-    /** Closing tag for color markup. */
+    /**
+     * Closing tag for color markup.
+     */
     private static final String END_COLOR = "*{color}";
 
-    /** Constant for the "*" character. */
+    /**
+     * Constant for the <code>*</code> character.
+     */
     private static final String ASTERISK = "*";
 
     /**
@@ -101,8 +112,8 @@ public class ConfluenceProjectStructureDocumentationGenerator
         markup.append(LINE_SEPARATOR);
         markup.append("* *directory/* : represents a directory");
         markup.append(LINE_SEPARATOR);
-        markup
-            .append("* {color:red}{*}directory/*{color} : represents a directory containing a Maven project");
+        markup.append("* {color:red}{*}directory/*{color} : represents a directory containing "
+            + "a Maven project");
         markup.append(LINE_SEPARATOR);
         markup.append("{info}");
         markup.append(LINE_SEPARATOR);
@@ -147,12 +158,11 @@ public class ConfluenceProjectStructureDocumentationGenerator
     private String getModuleTree(MavenProject aProject, int treeIndex)
     {
         StringBuilder markup = new StringBuilder();
-        List modules = aProject.getModules();
+        List<String> modules = aProject.getModules();
         int newTreeIndex = modules.size() > 0 ? treeIndex + 1 : treeIndex;
-        for (Object moduleArtifactId : modules)
+        for (String moduleArtifactId : modules)
         {
-            File moduleDirectory = new File(aProject.getFile().getParent(),
-                (String) moduleArtifactId);
+            File moduleDirectory = new File(aProject.getFile().getParent(), moduleArtifactId);
             MavenProject moduleProject = createProjectFromPom(new File(moduleDirectory, POM));
             for (int i = 0; i < treeIndex; i++)
             {
@@ -175,13 +185,9 @@ public class ConfluenceProjectStructureDocumentationGenerator
         {
             model = POM_READER.read(new FileReader(pom));
         }
-        catch (IOException ioe)
+        catch (Exception e)
         {
-            System.out.println("Caught Exception reading pom.xml: " + ioe);
-        }
-        catch (XmlPullParserException ppe)
-        {
-            System.out.println("Caught Exception reading pom.xml: " + ppe);
+            throw new IllegalStateException("Caught Exception reading pom.xml", e);
         }
 
         MavenProject project = new MavenProject(model);

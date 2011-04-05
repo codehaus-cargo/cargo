@@ -21,7 +21,6 @@ package org.codehaus.cargo.documentation;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -60,55 +59,105 @@ import org.codehaus.cargo.generic.deployer.DeployerFactory;
  * Generate container documentation using Confluence markup language. The generated text is meant to
  * be copied on the Cargo Confluence web site.
  * 
- * @version $Id: ConfluenceContainerDocumentationGenerator.java 2615 2011-01-16 16:44:06Z alitokmen
- * $
+ * @version $Id$
  */
 public class ConfluenceContainerDocumentationGenerator
 {
+    /**
+     * Line separator character.
+     */
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
-    private static final List<String> JAVA4_CONTAINERS = Arrays.asList(new String[]
-        {
-            "geronimo1x",
-            "jboss3x",
-            "jboss4x",
-            "jetty4x",
-            "jetty5x",
-            "jo1x",
-            "jonas4x",
-            "oc4j9x",
-            "resin2x",
-            "tomcat4x",
-            "tomcat5x",
-            "weblogic8x"
-        });
+    /**
+     * Containers that work on Java 4.
+     */
+    private static final List<String> JAVA4_CONTAINERS = Arrays.asList(new String[] {
+        "geronimo1x",
+        "jboss3x",
+        "jboss4x",
+        "jetty4x",
+        "jetty5x",
+        "jo1x",
+        "jonas4x",
+        "oc4j9x",
+        "resin2x",
+        "tomcat4x",
+        "tomcat5x",
+        "weblogic8x"
+    });
 
-    private static final List<String> JAVA5_CONTAINERS = Arrays.asList(new String[]
-        {
-            "geronimo2x",
-            "glassfish2x",
-            "jboss42x",
-            "jboss5x",
-            "jboss51x",
-            "jetty6x",
-            "jetty7x",
-            "jonas5x",
-            "jrun4x",
-            "oc4j10x",
-            "resin3x",
-            "tomcat6x",
-            "weblogic9x",
-            "weblogic10x"
-        });
+    /**
+     * Containers that work on Java 5.
+     */
+    private static final List<String> JAVA5_CONTAINERS = Arrays.asList(new String[] {
+        "geronimo2x",
+        "glassfish2x",
+        "jboss42x",
+        "jboss5x",
+        "jboss51x",
+        "jetty6x",
+        "jetty7x",
+        "jonas5x",
+        "jrun4x",
+        "oc4j10x",
+        "resin3x",
+        "tomcat6x",
+        "weblogic9x",
+        "weblogic10x"
+    });
 
+    /**
+     * Classes that are used to get the property names.
+     */
+    private static final Class[] PROPERTY_SET_CLASSES = {
+        GeneralPropertySet.class,
+        ServletPropertySet.class,
+        RemotePropertySet.class,
+        TomcatPropertySet.class,
+        GeronimoPropertySet.class,
+        WebLogicPropertySet.class,
+        JBossPropertySet.class,
+        JettyPropertySet.class,
+        JonasPropertySet.class,
+        GlassFishPropertySet.class,
+        JRun4xPropertySet.class,
+        DatasourcePropertySet.class,
+        ResourcePropertySet.class
+    };
+
+    /**
+     * Container factory.
+     */
     private ContainerFactory containerFactory = new DefaultContainerFactory();
+
+    /**
+     * Configuration factory.
+     */
     private ConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
+
+    /**
+     * Deployer factory.
+     */
     private DeployerFactory deployerFactory = new DefaultDeployerFactory();
+
+    /**
+     * Container capability factory.
+     */
     private ContainerCapabilityFactory containerCapabilityFactory =
         new DefaultContainerCapabilityFactory();
+
+    /**
+     * Configuration capability factory.
+     */
     private ConfigurationCapabilityFactory configurationCapabilityFactory =
         new DefaultConfigurationCapabilityFactory();
 
+    /**
+     * Generate documentation for a given container.
+     * @param containerId Container id.
+     * @return Generated documentation.
+     * @throws Exception If anything goes wrong.
+     */
     public String generateDocumentation(String containerId) throws Exception
     {
         StringBuilder output = new StringBuilder();
@@ -140,6 +189,11 @@ public class ConfluenceContainerDocumentationGenerator
         return output.toString();
     }
 
+    /**
+     * Generate documentation for the container features of a given container.
+     * @param containerId Container id.
+     * @return Generated container features documentation.
+     */
     protected String generateContainerFeaturesText(String containerId)
     {
         StringBuilder output = new StringBuilder();
@@ -163,9 +217,9 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             if (containerId.startsWith("geronimo"))
             {
-                output
-                    .append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
-                        + "| Changing the the container classpath is not supported on Apache Geronimo |");
+                output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
+                    + "| Changing the the container classpath is not supported on"
+                    + "Apache Geronimo |");
             }
             else if (containerId.equals("glassfish2x"))
             {
@@ -174,14 +228,13 @@ public class ConfluenceContainerDocumentationGenerator
             }
             else if (containerId.equals("glassfish3x") || containerId.equals("jonas5x"))
             {
-                output
-                    .append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
-                        + "| OSGi application servers do not support changing the container classpath |");
+                output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
+                    + "| OSGi application servers do not support changing the "
+                    + "container classpath |");
             }
             else
             {
-                output
-                    .append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) | |");
+                output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) | |");
             }
             output.append(LINE_SEPARATOR);
             output.append("| &nbsp; [Container Start]                | (/) | (/) | (/) | |");
@@ -266,6 +319,12 @@ public class ConfluenceContainerDocumentationGenerator
         return output.toString();
     }
 
+    /**
+     * Generate documentation for the standalone configuration of a given container.
+     * @param containerId Container id.
+     * @param type Container type.
+     * @return Generated standalone configuration documentation.
+     */
     protected String generateStandaloneConfigurationText(String containerId,
         ContainerType type)
     {
@@ -288,8 +347,13 @@ public class ConfluenceContainerDocumentationGenerator
         return output.toString();
     }
 
-    protected String generateExistingConfigurationText(String containerId,
-        ContainerType type)
+    /**
+     * Generate documentation for the existing configuration of a given container.
+     * @param containerId Container id.
+     * @param type Container type.
+     * @return Generated existing configuration documentation.
+     */
+    protected String generateExistingConfigurationText(String containerId, ContainerType type)
     {
         StringBuilder output = new StringBuilder();
 
@@ -310,6 +374,11 @@ public class ConfluenceContainerDocumentationGenerator
         return output.toString();
     }
 
+    /**
+     * Generate documentation for the configuration features of a given container.
+     * @param containerId Container id.
+     * @return Generated configuration features documentation.
+     */
     protected String generateConfigurationFeaturesText(String containerId)
     {
         StringBuilder output = new StringBuilder();
@@ -358,14 +427,12 @@ public class ConfluenceContainerDocumentationGenerator
             // TODO: Need to introduce expanded WAR as a proper deployable type
             if (containerId.startsWith("geronimo"))
             {
-                output.append(
-                    "| [Static deployment of expanded WAR]     | (x) | (x) | (x) | "
-                        + "The Apache Geronimo container does not support expanded WARs |");
+                output.append("| [Static deployment of expanded WAR]     | (x) | (x) | (x) | "
+                    + "The Apache Geronimo container does not support expanded WARs |");
             }
             else
             {
-                output.append(
-                    "| [Static deployment of expanded WAR]     | (/) | (/) | (/) | |");
+                output.append("| [Static deployment of expanded WAR]     | (/) | (/) | (/) | |");
             }
         }
         else
@@ -472,6 +539,11 @@ public class ConfluenceContainerDocumentationGenerator
         return output.toString();
     }
 
+    /**
+     * Generate documentation for the deployer features of a given container.
+     * @param containerId Container id.
+     * @return Generated deployer features documentation.
+     */
     protected String generateDeployerFeaturesText(String containerId)
     {
         StringBuilder output = new StringBuilder();
@@ -521,6 +593,11 @@ public class ConfluenceContainerDocumentationGenerator
         return output.toString();
     }
 
+    /**
+     * Generate documentation for other features of a given container.
+     * @param containerId Container id.
+     * @return Generated other features' documentation.
+     */
     protected String generateOtherFeaturesText(String containerId)
     {
         StringBuilder output = new StringBuilder();
@@ -537,6 +614,12 @@ public class ConfluenceContainerDocumentationGenerator
         return output.toString();
     }
 
+    /**
+     * Generate documentation for the configuration properties of a given container.
+     * @param containerId Container id.
+     * @return Generated configuration properties documentation.
+     * @throws Exception If anything goes wrong.
+     */
     protected String generateConfigurationPropertiesText(String containerId)
         throws Exception
     {
@@ -653,6 +736,15 @@ public class ConfluenceContainerDocumentationGenerator
         return output.toString();
     }
 
+    /**
+     * Generate documentation for the configuration properties of a given container.
+     * @param typeAsName Configuration type's "human" name.
+     * @param type Configuration type.
+     * @param containerId Container id.
+     * @param containerType Container type.
+     * @return Generated configuration properties documentation.
+     * @throws Exception If anything goes wrong.
+     */
     protected String generateConfigurationPropertiesForConfigurationTypeForContainerType(
         String typeAsName, ConfigurationType type, String containerId, ContainerType containerType)
         throws Exception
@@ -683,16 +775,15 @@ public class ConfluenceContainerDocumentationGenerator
             slc = (RuntimeConfiguration) configurationClass.newInstance();
         }
 
-        Map properties = this.configurationCapabilityFactory.createConfigurationCapability(
-            containerId, containerType, type).getProperties();
-        Iterator keys = properties.keySet().iterator();
-        while (keys.hasNext())
+        Map<String, Boolean> properties = this.configurationCapabilityFactory.
+            createConfigurationCapability(containerId, containerType, type).getProperties();
+        for (Map.Entry<String, Boolean> propertyEntry : properties.entrySet())
         {
-            String property = (String) keys.next();
+            String property = propertyEntry.getKey();
             output.append("| [" + property + "|Configuration properties] | ");
             output.append(
                 "[" + findPropertySetFieldName(property) + "|Configuration properties] | ");
-            boolean supported = ((Boolean) properties.get(property)).booleanValue();
+            boolean supported = propertyEntry.getValue();
             output.append(supported ? "(/)" : "(x)");
             if (GeneralPropertySet.JAVA_HOME.equals(property))
             {
@@ -723,32 +814,27 @@ public class ConfluenceContainerDocumentationGenerator
         return output.toString();
     }
 
+    /**
+     * Create the short class name for a given class name.
+     * @param className Original class name.
+     * @return Short class name.
+     */
     protected String computedFQCN(String className)
     {
         return "o.c.c.c" + className.substring(
             className.substring(0, className.lastIndexOf(".")).lastIndexOf("."));
     }
 
+    /**
+     * Find the property set field name for a given value.
+     * @param propertyValue Property value name.
+     * @return Property set field name for the given value.
+     * @throws Exception If anything goes wrong.
+     */
     protected String findPropertySetFieldName(String propertyValue) throws Exception
     {
         String result = null;
-        Class[] propertySetClasses = {
-            GeneralPropertySet.class,
-            ServletPropertySet.class,
-            RemotePropertySet.class,
-            TomcatPropertySet.class,
-            GeronimoPropertySet.class,
-            WebLogicPropertySet.class,
-            JBossPropertySet.class,
-            JettyPropertySet.class,
-            JonasPropertySet.class,
-            GlassFishPropertySet.class,
-            JRun4xPropertySet.class,
-            DatasourcePropertySet.class,
-            ResourcePropertySet.class
-        };
-
-        for (Class propertySetClasse : propertySetClasses)
+        for (Class propertySetClasse : PROPERTY_SET_CLASSES)
         {
             result = findPropertySetFieldName(propertyValue, propertySetClasse);
             if (result != null)
@@ -760,6 +846,14 @@ public class ConfluenceContainerDocumentationGenerator
         return result;
     }
 
+    /**
+     * Find the property set field name for a given value on a given class.
+     * @param propertyValue Property value name.
+     * @param propertySetClass Class name.
+     * @return Property set field name for the given value, <code>null</code> if the given class
+     * does not have such a value.
+     * @throws Exception If anything goes wrong.
+     */
     protected String findPropertySetFieldName(String propertyValue, Class propertySetClass)
         throws Exception
     {
