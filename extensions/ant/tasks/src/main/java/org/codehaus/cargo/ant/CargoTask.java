@@ -460,7 +460,6 @@ public class CargoTask extends Task
         verify();
 
         // Setup all attributes and nested elements
-
         setupLogger();
 
         if (getContainer().getType().isLocal())
@@ -845,19 +844,11 @@ public class CargoTask extends Task
 
         if (getHome() == null && getZipURLInstaller() == null)
         {
-            boolean doFail = false;
-
-            if (getRefid() == null)
-            {
-                doFail = true;
-            }
-            else if (getContainer().getType() == ContainerType.INSTALLED
+            // CARGO-962: verify() is always called after makeContainer(), hence getContainer() is
+            // not null and has taken care of references. We just need to check the actual
+            // container type.
+            if (getContainer().getType() == ContainerType.INSTALLED
                 && ((InstalledLocalContainer) getContainer()).getHome() == null)
-            {
-                doFail = true;
-            }
-
-            if (doFail)
             {
                 throw new BuildException("You must specify either a [home] attribute pointing "
                     + "to the location where the " + getContainer().getName()
