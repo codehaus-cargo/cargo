@@ -38,8 +38,14 @@
       7) Tell ANT to remotely redeploy
       8) Only run SimpleTest
       9) Stop the container using ANT
-
-    But I do not know how to manage such a complexity with Maven2
+    But I do not know how to manage such a complexity with Maven2.
+    So what we currently do is:
+      1) Start the container using ANT
+      2) Tell ANT to remotely deploy
+      3) Run CargoTest + SimpleTest
+      4) Tell ANT to remotely undeploy
+      5) Tell ANT to remotely redeploy
+      6) Stop the container using ANT
     -->
   <build>
     <plugins>
