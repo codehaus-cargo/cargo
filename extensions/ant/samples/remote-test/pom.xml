@@ -57,8 +57,8 @@
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
-            <id>start-deploy-undeploy-redeploy-stop</id>
-            <phase>integration-test</phase>
+            <id>start-and-deploy</id>
+            <phase>pre-integration-test</phase>
             <goals>
               <goal>run</goal>
             </goals>
@@ -66,13 +66,26 @@
               <tasks>
                 <!-- Avoid CARGO-827: Cannot build on Windows -->
                 <replace file="${cargo-ant-buildfiles.directory}/build.xml">
-                  <replacefilter token="extensions\\ant\\samples\\remote-test/../../../../" value="" />
+                  <replacefilter token="extensions\\ant\\samples\\datasource-test/../../../../" value="" />
                   <replacefilter token="\\" value="\" />
                   <replacefilter token="\:" value=":" />
                 </replace>
                 <ant antfile="${cargo-ant-buildfiles.directory}/build.xml">
                   <target name="start" />
                   <target name="deploy" />
+                </ant>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>undeploy-redeploy-and-stop</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <ant antfile="${cargo-ant-buildfiles.directory}/build.xml">
                   <target name="undeploy" />
                   <target name="redeploy" />
                   <target name="stop" />
