@@ -36,7 +36,7 @@ public class JBoss5xContainerCapability extends JBossContainerCapability
      * <code>J2EEContainerCapability</code>.
      */
     private static final List<DeployableType> ADDITIONAL_SUPPORTED_DEPLOYABLE_TYPES = Arrays
-        .asList(DeployableType.AOP, DeployableType.HAR, DeployableType.SAR);
+        .asList(DeployableType.AOP, DeployableType.HAR);
 
     /**
      * {@inheritDoc}
