@@ -582,7 +582,7 @@ public class ConfluenceContainerDocumentationGenerator
         {
             output.append("| [Remote Deployer]                       | ");
             output.append("(/) {{" + computedFQCN(this.deployerFactory.getDeployerClass(
-                containerId, DeployerType.REMOTE).getName()) + "}} | (x) | (/) | |");
+                containerId, DeployerType.REMOTE).getName()) + "}} | (/) | (/) | |");
         }
         else
         {
