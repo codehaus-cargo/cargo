@@ -20,8 +20,10 @@
 package org.codehaus.cargo.ant;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -36,10 +38,14 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.RemoteContainer;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.installer.ZipURLInstaller;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
+import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
+import org.codehaus.cargo.generic.deployer.DeployerFactory;
 import org.codehaus.cargo.util.log.AntLogger;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.LogLevel;
@@ -71,6 +77,40 @@ public class CargoTask extends Task
      * @see #setAction(String)
      */
     private static final String ACTION_STOP = "stop";
+
+    /**
+     * All actions for local containers.
+     * @see #setAction(String)
+     */
+    private static final List<String> LOCAL_ACTIONS = Arrays.asList(new String[] {
+        ACTION_START, ACTION_STOP, ACTION_CONFIGURE
+    });
+
+    /**
+     * Represents a deploy to container action.
+     * @see #setAction(String)
+     */
+    private static final String ACTION_DEPLOY = "deploy";
+
+    /**
+     * Represents an undeploy from container action.
+     * @see #setAction(String)
+     */
+    private static final String ACTION_UNDEPLOY = "undeploy";
+
+    /**
+     * Represents a redeploy to container action.
+     * @see #setAction(String)
+     */
+    private static final String ACTION_REDEPLOY = "redeploy";
+
+    /**
+     * All actions for remote containers.
+     * @see #setAction(String)
+     */
+    private static final List<String> REMOTE_ACTIONS = Arrays.asList(new String[] {
+        ACTION_DEPLOY, ACTION_UNDEPLOY, ACTION_REDEPLOY
+    });
 
     /**
      * The action that will be executed by this task.
@@ -163,7 +203,12 @@ public class CargoTask extends Task
     /**
      * Factory to create container instances from a container id.
      */
-    private ContainerFactory factory = new DefaultContainerFactory();
+    private ContainerFactory containerFactory = new DefaultContainerFactory();
+
+    /**
+     * Factory to create deployer instances from a container id.
+     */
+    private DeployerFactory deployerFactory = new DefaultDeployerFactory();
 
     /**
      * Custom container implementation class to use.
@@ -490,16 +535,17 @@ public class CargoTask extends Task
      */
     protected void executeActions()
     {
-        if (getAction() != null)
+        if (getAction() == null)
         {
-            if (!getContainer().getType().isLocal())
-            {
-                throw new BuildException("Only local containers can execute actions");
-            }
+            // Nothing to execute...
+            return;
+        }
 
+        if (getContainer().getType().isLocal())
+        {
             LocalContainer localContainer = (LocalContainer) getContainer();
 
-            if (getAction().equalsIgnoreCase(ACTION_START))
+            if (ACTION_START.equalsIgnoreCase(getAction()))
             {
                 localContainer.start();
 
@@ -509,13 +555,46 @@ public class CargoTask extends Task
                     ContainerUtils.waitTillContainerIsStopped(getContainer());
                 }
             }
-            else if (getAction().equalsIgnoreCase(ACTION_STOP))
+            else if (ACTION_STOP.equalsIgnoreCase(getAction()))
             {
                 localContainer.stop();
             }
-            else if (getAction().equalsIgnoreCase(ACTION_CONFIGURE))
+            else if (ACTION_CONFIGURE.equalsIgnoreCase(getAction()))
             {
                 localContainer.getConfiguration().configure(localContainer);
+            }
+            else
+            {
+                throw new BuildException("Unknown action [" + getAction()
+                    + "] for local container");
+            }
+        }
+        else
+        {
+            Deployer deployer = deployerFactory.createDeployer(getContainer());
+            deployer.setLogger(getLogger());
+
+            for (DeployableElement deployableElement : getConfiguration().getDeployables())
+            {
+                Deployable deployable = deployableElement.createDeployable(getContainerId());
+
+                if (ACTION_DEPLOY.equalsIgnoreCase(getAction()))
+                {
+                    deployer.deploy(deployable);
+                }
+                else if (ACTION_UNDEPLOY.equalsIgnoreCase(getAction()))
+                {
+                    deployer.undeploy(deployable);
+                }
+                else if (ACTION_REDEPLOY.equalsIgnoreCase(getAction()))
+                {
+                    deployer.redeploy(deployable);
+                }
+                else
+                {
+                    throw new BuildException("Unknown action [" + getAction()
+                        + "] for remote container");
+                }
             }
         }
     }
@@ -753,11 +832,11 @@ public class CargoTask extends Task
             // container factory.
             if (getContainerClass() != null)
             {
-                this.factory.registerContainer(this.containerId, this.containerType,
+                this.containerFactory.registerContainer(this.containerId, this.containerType,
                     getContainerClass());
             }
 
-            container = this.factory.createContainer(this.containerId, this.containerType,
+            container = this.containerFactory.createContainer(this.containerId, this.containerType,
                 getConfiguration().createConfiguration(this.containerId, this.containerType));
 
             createCargoLogger();
@@ -829,31 +908,38 @@ public class CargoTask extends Task
 
         if (getId() == null && getAction() == null)
         {
-            throw new BuildException("You must specify an [action] attribute with values ["
-                + ACTION_CONFIGURE + "], [" + ACTION_START + "] or [" + ACTION_STOP + "]");
+            throw new BuildException("You must specify an [action] attribute with values "
+                + LOCAL_ACTIONS + " (for local containers) or " + REMOTE_ACTIONS
+                + " (for remote containers)");
         }
 
-        if (getAction() != null
-            && !getAction().equalsIgnoreCase(ACTION_START)
-                && !getAction().equalsIgnoreCase(ACTION_STOP)
-                && !getAction().equalsIgnoreCase(ACTION_CONFIGURE))
+        if (getId() == null)
         {
-            throw new BuildException("Valid actions are: [" + ACTION_CONFIGURE + "], ["
-                    + ACTION_START + "] and [" + ACTION_STOP + "]");
-        }
-
-        if (getHome() == null && getZipURLInstaller() == null)
-        {
-            // CARGO-962: verify() is always called after makeContainer(), hence getContainer() is
-            // not null and has taken care of references. We just need to check the actual
-            // container type.
-            if (getContainer().getType() == ContainerType.INSTALLED
-                && ((InstalledLocalContainer) getContainer()).getHome() == null)
+            if (getContainer().getType().isLocal())
             {
-                throw new BuildException("You must specify either a [home] attribute pointing "
-                    + "to the location where the " + getContainer().getName()
-                    + " is installed, or a nested [zipurlinstaller] element");
+                if (!LOCAL_ACTIONS.contains(getAction()))
+                {
+                    throw new BuildException("Valid actions for local containers are: "
+                        + LOCAL_ACTIONS);
+                }
             }
+            else
+            {
+                if (!REMOTE_ACTIONS.contains(getAction()))
+                {
+                    throw new BuildException("Valid actions for remote containers are: "
+                        + REMOTE_ACTIONS);
+                }
+            }
+        }
+
+        if (getHome() == null && getZipURLInstaller() == null
+            && getContainer().getType() == ContainerType.INSTALLED
+            && ((InstalledLocalContainer) getContainer()).getHome() == null)
+        {
+            throw new BuildException("You must specify either a [home] attribute pointing "
+                + "to the location where the " + getContainer().getName()
+                + " is installed, or a nested [zipurlinstaller] element");
         }
     }
 
@@ -862,7 +948,7 @@ public class CargoTask extends Task
      */
     public void setContainerFactory(ContainerFactory containerFactory)
     {
-        this.factory = containerFactory;
+        this.containerFactory = containerFactory;
     }
 
     /**

@@ -29,10 +29,86 @@
   <description>Cargo Samples for ANT</description>
   <modules>
     <module>datasource-test</module>
+    <module>remote-test</module>
   </modules>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-sample-java</artifactId>
+      <version>${cargo.core.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <cargo-ant-tasks.directory>
+      ${project.build.directory}/cargo-ant-tasks
+    </cargo-ant-tasks.directory>
+    <cargo-ant-buildfiles.directory>
+      ${project.build.directory}/cargo-ant-buildfiles
+    </cargo-ant-buildfiles.directory>
+    <cargo-test-applications.directory>
+      ${project.build.directory}/cargo-test-applications
+    </cargo-test-applications.directory>
+  </properties>
+
   <build>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/build.xml</include>
+        </includes>
+        <targetPath>${cargo-ant-buildfiles.directory}</targetPath>
+      </testResource>
+    </testResources>
     <plugins>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-ant-tasks</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${cargo-ant-tasks.directory}</outputDirectory>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-ant</artifactId>
+                  <version>${project.version}</version>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-core-uberjar</artifactId>
+                  <version>${cargo.core.version}</version>
+                </artifactItem>
+
+                <artifactItem>
+                  <groupId>commons-discovery</groupId>
+                  <artifactId>commons-discovery</artifactId>
+                  <version>0.4</version>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>commons-logging</groupId>
+                  <artifactId>commons-logging</artifactId>
+                  <version>1.1.1</version>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>dom4j</groupId>
+                  <artifactId>dom4j</artifactId>
+                  <version>1.4</version>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
       <!--
         Make sure tests always use randomly assigned and available ports
       -->
@@ -52,6 +128,31 @@
                 <portName>cargo.samples.rmi.port</portName>
                 <portName>cargo.samples.tomcat.ajp.port</portName>
               </portNames>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+        <executions>
+          <execution>
+            <id>surefire-it</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <skip>${maven.test.skip}</skip>
+              <systemProperties>
+                <property>
+                  <name>http.port</name>
+                  <value>${cargo.samples.servlet.port}</value>
+                </property>
+              </systemProperties>
             </configuration>
           </execution>
         </executions>

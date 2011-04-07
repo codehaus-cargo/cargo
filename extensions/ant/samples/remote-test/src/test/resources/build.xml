@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Codehaus CARGO, copyright 2004-2011 Vincent Massol.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project name="cargo-ant-tasks">
+
+  <taskdef resource="cargo.tasks">
+    <classpath>
+      <fileset dir="${cargo-ant-tasks.directory}">
+        <include name="**/*.jar"/>
+      </fileset>
+    </classpath>
+  </taskdef>
+
+  <property name="catalina.root" value="${project.build.directory}/catalina-root"/>
+  <property name="catalina.base" value="${project.build.directory}/catalina-base"/>
+  <property name="http.port" value="${cargo.samples.servlet.port}"/>
+  <property name="ajp.port" value="${cargo.samples.tomcat.ajp.port}"/>
+  <property name="rmi.port" value="${cargo.samples.rmi.port}"/>
+
+  <macrodef name="cargo-local-action">
+    <attribute name="action"/>
+
+    <sequential>
+      <cargo containerId="tomcat6x" action="@{action}">
+        <zipUrlInstaller
+          installURL="http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.32/bin/apache-tomcat-6.0.32.zip"
+          downloadDir="${basedir}/../../../../core/samples/java/installs"
+          installDir="${catalina.root}">
+          <!--
+            If required, enter your proxy server settings here.
+
+          <proxy>
+            <host>someproxy</host>
+            <port>8080</port>
+            <user>alitokmen</user>
+            <password>secret</password>
+          </proxy>
+            -->
+        </zipUrlInstaller>
+        <configuration home="${catalina.base}">
+          <property name="cargo.servlet.port" value="${http.port}"/>
+          <property name="cargo.tomcat.ajp.port" value="${ajp.port}"/>
+          <property name="cargo.rmi.port" value="${rmi.port}"/>
+        </configuration>
+      </cargo>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="cargo-remote-action">
+    <attribute name="action"/>
+
+    <sequential>
+      <cargo containerId="tomcat6x" action="@{action}" type="remote">
+        <configuration type="runtime">
+          <property name="cargo.servlet.port" value="${http.port}"/>
+          <property name="cargo.remote.username" value="admin"/>
+          <property name="cargo.remote.password" value=""/>
+          <deployable type="war" file="${cargo-test-applications.directory}/simple-war-${cargo.resources.version}.war">
+            <property name="context" value="simple-test"/>
+          </deployable>
+        </configuration>
+      </cargo>
+    </sequential>
+  </macrodef>
+
+  <target name="start">
+    <delete dir="${catalina.base}"/>
+    <cargo-local-action action="start"/>
+  </target>
+
+  <target name="deploy">
+    <cargo-remote-action action="deploy"/>
+  </target>
+
+  <target name="undeploy">
+    <cargo-remote-action action="undeploy"/>
+  </target>
+
+  <target name="redeploy">
+    <cargo-remote-action action="redeploy"/>
+  </target>
+
+  <target name="stop">
+    <cargo-local-action action="stop"/>
+  </target>
+
+</project>

@@ -150,13 +150,12 @@ public class CargoTaskTest extends TestCase
             this.task.execute();
             fail("Should have thrown an exception because an action must be specified unless the "
                 + "id attribute is set");
-
         }
         catch (BuildException expected)
         {
-            assertEquals(
-                "You must specify an [action] attribute with values [configure], [start] or [stop]",
-                expected.getMessage());
+            final String messageStart = "You must specify an [action] attribute with values ";
+            assertTrue(expected.getMessage() + " does not start with: " + messageStart,
+                expected.getMessage().startsWith(messageStart));
         }
     }
 
@@ -173,8 +172,9 @@ public class CargoTaskTest extends TestCase
         }
         catch (BuildException expected)
         {
-            assertEquals("Valid actions are: [configure], [start] and [stop]",
-                expected.getMessage());
+            final String messageStart = "Valid actions for local containers are: ";
+            assertTrue(expected.getMessage() + " does not start with: " + messageStart,
+                expected.getMessage().startsWith(messageStart));
         }
     }
 
