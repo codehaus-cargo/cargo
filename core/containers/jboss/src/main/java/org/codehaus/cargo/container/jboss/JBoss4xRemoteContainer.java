@@ -21,7 +21,7 @@ package org.codehaus.cargo.container.jboss;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-import org.codehaus.cargo.container.jboss.internal.JBossContainerCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss4xContainerCapability;
 import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
 
 /**
@@ -39,7 +39,7 @@ public class JBoss4xRemoteContainer extends AbstractRemoteContainer
     /**
      * Capability of the JBoss container.
      */
-    private static final ContainerCapability CAPABILITY = new JBossContainerCapability();
+    private static final ContainerCapability CAPABILITY = new JBoss4xContainerCapability();
 
     /**
      * {@inheritDoc}
