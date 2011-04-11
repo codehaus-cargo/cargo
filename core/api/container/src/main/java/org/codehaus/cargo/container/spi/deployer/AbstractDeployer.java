@@ -76,6 +76,48 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
 
     /**
      * {@inheritDoc}
+     * @see Deployer#redeploy(Deployable, DeployableMonitor)
+     */
+    public void redeploy(Deployable deployable, DeployableMonitor monitor)
+    {
+        redeploy(deployable);
+
+        // Wait for the Deployable to be deployed
+        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
+        watchdog.setLogger(getLogger());
+        watchdog.watchForAvailability();
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see Deployer#start(Deployable, DeployableMonitor)
+     */
+    public void start(Deployable deployable, DeployableMonitor monitor)
+    {
+        start(deployable);
+
+        // Wait for the Deployable to be started
+        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
+        watchdog.setLogger(getLogger());
+        watchdog.watchForAvailability();
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see Deployer#stop(Deployable, DeployableMonitor)
+     */
+    public void stop(Deployable deployable, DeployableMonitor monitor)
+    {
+        redeploy(deployable);
+
+        // Wait for the Deployable to be stopped
+        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
+        watchdog.setLogger(getLogger());
+        watchdog.watchForUnavailability();
+    }
+
+    /**
+     * {@inheritDoc}
      * @see Deployer#deploy(Deployable)
      */
     public void deploy(Deployable deployable)

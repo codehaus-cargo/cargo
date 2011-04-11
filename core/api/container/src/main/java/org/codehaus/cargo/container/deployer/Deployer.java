@@ -77,6 +77,20 @@ public interface Deployer extends Loggable
     void redeploy(Deployable deployable);
 
     /**
+     * <p>
+     * Redeploy a {@link Deployable} already deployed to the running container. The service becomes
+     * available for requests.
+     * <p>
+     * Note that this method will be unsupported by the {@link Deployer}s based on the
+     * {@link org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer}.
+     * @param deployable the {@link Deployable} to redeploy
+     * @param monitor the monitor that checks for deployment status
+     * @see Deployer#deploy(Deployable)
+     * @see Deployer#undeploy(Deployable)
+     */
+    void redeploy(Deployable deployable, DeployableMonitor monitor);
+
+    /**
      * Starts a {@link Deployable} that is already deployed in the running container but that is not
      * servicing requests.
      * 
@@ -85,12 +99,30 @@ public interface Deployer extends Loggable
     void start(Deployable deployable);
 
     /**
+     * Starts a {@link Deployable} that is already deployed in the running container but that is not
+     * servicing requests.
+     *
+     * @param deployable the {@link Deployable} to start
+     * @param monitor the monitor that checks for start status
+     */
+    void start(Deployable deployable, DeployableMonitor monitor);
+
+    /**
      * Stop a {@link Deployable} that is already deployed in the running container in order to
      * prevent it from servicing requests.
      * 
      * @param deployable the {@link Deployable} to stop
      */
     void stop(Deployable deployable);
+
+    /**
+     * Stop a {@link Deployable} that is already deployed in the running container in order to
+     * prevent it from servicing requests.
+     *
+     * @param deployable the {@link Deployable} to stop
+     * @param monitor the monitor that checks for stop status
+     */
+    void stop(Deployable deployable, DeployableMonitor monitor);
 
     /**
      * @return the deployer's type (local, remote, etc)

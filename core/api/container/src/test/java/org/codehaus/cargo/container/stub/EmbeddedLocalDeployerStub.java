@@ -94,6 +94,16 @@ public class EmbeddedLocalDeployerStub extends LoggedObject implements Deployer
     /**
      * Voluntarily do nothing for testing. {@inheritdoc}
      * @param deployable Ignored.
+     * @param monitor Ignored.
+     */
+    public void redeploy(Deployable deployable, DeployableMonitor monitor)
+    {
+        // Nothing
+    }
+
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
      */
     public void start(Deployable deployable)
     {
@@ -103,8 +113,28 @@ public class EmbeddedLocalDeployerStub extends LoggedObject implements Deployer
     /**
      * Voluntarily do nothing for testing. {@inheritdoc}
      * @param deployable Ignored.
+     * @param monitor Ignored.
+     */
+    public void start(Deployable deployable, DeployableMonitor monitor)
+    {
+        // Nothing
+    }
+
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
      */
     public void stop(Deployable deployable)
+    {
+        // Nothing
+    }
+
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param deployable Ignored.
+     * @param monitor Ignored.
+     */
+    public void stop(Deployable deployable, DeployableMonitor monitor)
     {
         // Nothing
     }
