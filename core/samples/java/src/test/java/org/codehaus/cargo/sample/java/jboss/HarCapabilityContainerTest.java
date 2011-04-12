@@ -34,6 +34,7 @@ import org.codehaus.cargo.sample.java.CargoTestSuite;
 import org.codehaus.cargo.sample.java.EnvironmentTestData;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
+import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
@@ -72,6 +73,7 @@ public class HarCapabilityContainerTest extends AbstractJBossCapabilityTestCase
                 + "installed JBoss 5+ containers");
 
         suite.addTestSuite(HarCapabilityContainerTest.class, new Validator[] {
+            new StartsWithContainerValidator("jboss"),
             new IsInstalledLocalContainerValidator(),
             new HasStandaloneConfigurationValidator()
         });
