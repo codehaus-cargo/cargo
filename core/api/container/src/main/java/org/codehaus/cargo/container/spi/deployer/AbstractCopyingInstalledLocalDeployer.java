@@ -19,11 +19,13 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.codehaus.cargo.container.ContainerException;
@@ -178,82 +180,45 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
 
         try
         {
-            if (deployable.getType() == DeployableType.WAR)
+            String methodName = "deploy";
+
+            if (deployable.isExpanded())
             {
-                if (!deployable.isExpanded())
+                if (!shouldDeployExpanded(deployable.getType()))
                 {
-                    deployWar(deployableDir, (WAR) deployable);
+                    throw new ContainerException("Container " + getContainer().getName()
+                        + " cannot deployed expanded " + deployable.getType() + " deployables");
                 }
-                else if (shouldDeployExpanded(DeployableType.WAR))
-                {
-                    deployExpandedWar(deployableDir, (WAR) deployable);
-                }
+
+                methodName += "Expanded";
             }
-            else if (deployable.getType() == DeployableType.EAR)
+
+            String deployableTypeString = deployable.getType().getType();
+            methodName += deployableTypeString.substring(0, 1).toUpperCase(Locale.ENGLISH)
+                + deployableTypeString.substring(1).toLowerCase(Locale.ENGLISH);
+
+            Method deployMethod = null;
+            Class cl = this.getClass();
+            while (!Object.class.equals(cl))
             {
-                deployEar(deployableDir, (EAR) deployable);
-            }
-            else if (deployable.getType() == DeployableType.EJB)
-            {
-                deployEjb(deployableDir, (EJB) deployable);
-            }
-            else if (deployable.getType() == DeployableType.SAR)
-            {
-                if (deployable.isExpanded() && shouldDeployExpanded(DeployableType.SAR))
+                for (Method m : cl.getDeclaredMethods())
                 {
-                    deployExpandedSar(deployableDir, (SAR) deployable);
+                    if (m.getName().equals(methodName))
+                    {
+                        deployMethod = m;
+                        break;
+                    }
                 }
-                else
-                {
-                    deploySar(deployableDir, (SAR) deployable);
-                }
+
+                cl = cl.getSuperclass();
             }
-            else if (deployable.getType() == DeployableType.RAR)
-            {
-                if (deployable.isExpanded() && shouldDeployExpanded(DeployableType.RAR))
-                {
-                    deployExpandedRar(deployableDir, (RAR) deployable);
-                }
-                else
-                {
-                    deployRar(deployableDir, (RAR) deployable);
-                }
-            }
-            else if (deployable.getType() == DeployableType.FILE)
-            {
-                deployFile(deployableDir, (File) deployable);
-            }
-            else if (deployable.getType() == DeployableType.BUNDLE)
-            {
-                deployBundle(deployableDir, (Bundle) deployable);
-            }
-            else if (deployable.getType() == DeployableType.HAR)
-            {
-                if (deployable.isExpanded() && shouldDeployExpanded(DeployableType.HAR))
-                {
-                    deployExpandedHar(deployableDir, (HAR) deployable);
-                }
-                else
-                {
-                    deployHar(deployableDir, (HAR) deployable);
-                }
-            }
-            else if (deployable.getType() == DeployableType.AOP)
-            {
-                if (deployable.isExpanded() && shouldDeployExpanded(DeployableType.AOP))
-                {
-                    deployExpandedAop(deployableDir, (AOP) deployable);
-                }
-                else
-                {
-                    deployAop(deployableDir, (AOP) deployable);
-                }
-            }
-            else
+            if (deployMethod == null)
             {
                 throw new ContainerException("Deployable type " + deployable.getType()
-                    + " is currently not supported");
+                    + " is currently not supported: missing method " + methodName);
             }
+
+            deployMethod.invoke(this, deployableDir, deployable);
         }
         catch (Exception e)
         {
