@@ -19,19 +19,26 @@
  */
 package org.codehaus.cargo.sample.java.jboss;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
+import java.util.Properties;
 
 import javax.management.MBeanServerConnection;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
 import org.codehaus.cargo.sample.java.EnvironmentTestData;
 
@@ -55,68 +62,119 @@ public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestC
     }
 
     /**
-     * Returns an <code>MBeanServerConnection</code> to use to query the JBoss container via jmx.
-     * <b>Important: This only works with JBoss 5+!</b>
-     * 
-     * @param username the username to use for authentication, or <code>null</code> for no
-     *            authentication
-     * @param password the password to use for authentication, or <code>null</code> for no
-     *            authentication
+     * Perform a JNDI lookup on JBoss. <b>Important</b>: This method will change the Thread's
+     * ContextClassLoader, else the <code>create</code> method for EJB2's will fail on JBoss 5+
+     * with <code>ClassNotFoundException: org.jboss.security.plugins.JBossSecurityContext</code>.
+     * @param <T> Class of the JNDI object looked for.
+     * @param name Name in the JNDI directory.
+     * @return Reference to the remote object.
+     * @throws NamingException If cannot connect to the JNDI or <code>name</code> cannot be found
+     * in the JNDI directory.
+     */
+    protected <T> T jndiLookup(String name) throws NamingException
+    {
+        try
+        {
+            String port = getLocalContainer().getConfiguration().getPropertyValue(
+                GeneralPropertySet.RMI_PORT);
+
+            // In order to do JNDI lookups on JBoss, the Java Naming Context requires stub classes
+            // from JBoss; and one of the place in which it looks for these is the Thread's
+            // ContextClassLoader. We therefore need to include the JBoss client JAR in there.
+            File allClientJar =
+                new File(getInstalledLocalContainer().getHome(), "client/jbossall-client.jar");
+            if (!allClientJar.isFile())
+            {
+                throw new IllegalStateException("Cannot find " + allClientJar);
+            }
+            URL[] urls = new URL[] {allClientJar.toURI().toURL()};
+            URLClassLoader classloader = new URLClassLoader(urls, getClass().getClassLoader());
+            Thread.currentThread().setContextClassLoader(classloader);
+
+            Properties props = new Properties();
+            props.setProperty(
+                Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
+            props.setProperty(Context.PROVIDER_URL, "jnp://localhost:" + port);
+            props.setProperty(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
+            Context jndi = new InitialContext(props);
+            return (T) jndi.lookup(name);
+        }
+        catch (MalformedURLException e)
+        {
+            throw new IllegalStateException("Failed creating JBoss classpath", e);
+        }
+    }
+
+    /**
+     * Returns an <code>MBeanServerConnection</code> to use to query the JBoss container via JMX.
      * @return a <code>MBeanServerConnection</code>
      * @throws NamingException If a naming exception occurs.
      * @throws IOException If cannot connect to JBoss server.
      */
-    protected MBeanServerConnection createMBeanServerConnection(String username, String password)
-        throws NamingException, IOException
+    protected MBeanServerConnection createMBeanServerConnection() throws NamingException,
+        IOException
     {
-        Map<String, Object> env = new HashMap<String, Object>();
-        if (username != null && password != null)
-        {
-            String[] credentials = new String[] {username, password};
-            env.put(JMXConnector.CREDENTIALS, credentials);
-        }
-        String serviceUrl = getServiceUrl();
-        JMXServiceURL url = new JMXServiceURL(serviceUrl);
+        final String containerId = this.getContainer().getId();
 
-        getLogger().debug("Creating MBeanServerConnection for service URL '" + serviceUrl + "'",
-            this.getClass().getName());
-        JMXConnector jmxc = JMXConnectorFactory.connect(url, env);
-        MBeanServerConnection srvCon = jmxc.getMBeanServerConnection();
-        getLogger().debug("MBeanServerConnection created", this.getClass().getName());
-
-        return srvCon;
-    }
-
-    /**
-     * @return JBoss service URL.
-     */
-    private String getServiceUrl()
-    {
-        String hostname =
-            getLocalContainer().getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME);
-        String port =
-            getLocalContainer().getConfiguration().getPropertyValue(
-                JBossPropertySet.JBOSS_JRMP_PORT);
-        String containerId = this.getContainer().getId();
-        String objectName;
-        if (Pattern.matches("^jboss[5].*", containerId))
+        if (containerId.startsWith("jboss4"))
         {
-            // object name is "jmxconnector" for JBoss 5.x
-            objectName = "jmxconnector";
-        }
-        else if (Pattern.matches("^jboss[6-9].*", containerId))
-        {
-            // object name is "jmxrmi" starting with JBoss 6.0.0M3
-            objectName = "jmxrmi";
+            // JNDI name is "jmx/invoker/RMIAdaptor" for JBoss 4.x
+            final ClassLoader oldTCCL = Thread.currentThread().getContextClassLoader();
+            try
+            {
+                return jndiLookup("jmx/invoker/RMIAdaptor");
+            }
+            finally
+            {
+                Thread.currentThread().setContextClassLoader(oldTCCL);
+            }
         }
         else
         {
-            throw new UnsupportedOperationException("Method not supported for the current "
-                + "container: " + containerId);
-        }
+            String username = getLocalContainer().getConfiguration().getPropertyValue(
+                RemotePropertySet.USERNAME);
+            String password = getLocalContainer().getConfiguration().getPropertyValue(
+                RemotePropertySet.PASSWORD);
 
-        String serviceUrl =
-            "service:jmx:rmi:///jndi/rmi://" + hostname + ":" + port + "/" + objectName;
-        return serviceUrl;
+            Map<String, Object> env = new HashMap<String, Object>();
+            if (username != null && password != null)
+            {
+                String[] credentials = new String[] {username, password};
+                env.put(JMXConnector.CREDENTIALS, credentials);
+            }
+
+            String jndiName;
+            if (containerId.startsWith("jboss5"))
+            {
+                // JNDI name is "jmxconnector" for JBoss 5.x
+                jndiName = "jmxconnector";
+            }
+            else if (containerId.startsWith("jboss6"))
+            {
+                // JNDI name is "jmxrmi" starting with JBoss 6.0.0 M3
+                jndiName = "jmxrmi";
+            }
+            else
+            {
+                throw new UnsupportedOperationException("Method not supported for the current "
+                    + "container: " + containerId);
+            }
+
+            String port =
+                getLocalContainer().getConfiguration().getPropertyValue(
+                    JBossPropertySet.JBOSS_JRMP_PORT);
+
+            String serviceUrl =
+                "service:jmx:rmi:///jndi/rmi://localhost:" + port + "/" + jndiName;
+            JMXServiceURL url = new JMXServiceURL(serviceUrl);
+
+            getLogger().debug("Creating MBeanServerConnection for service URL '" + serviceUrl + "'",
+                this.getClass().getName());
+            MBeanServerConnection srvCon;
+            JMXConnector jmxc = JMXConnectorFactory.connect(url, env);
+            srvCon = jmxc.getMBeanServerConnection();
+            getLogger().debug("MBeanServerConnection created", this.getClass().getName());
+            return srvCon;
+        }
     }
 }
