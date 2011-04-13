@@ -67,26 +67,20 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
     }
 
     /**
-     * Copy the full expanded WAR directory to the deployable directory, renaming it if the user has
-     * specified a custom context for this expanded WAR.
-     * 
-     * @param deployableDir the directory where the container is expecting deployables to be dropped
-     * for deployments
-     * @param war the expanded WAR war
-     * 
-     * <p>
-     * JBoss requires that expanded WAR directories end with <code>.war</code> so we have to rename
-     * the expanded WAR directory. See the <a
-     * href="http://docs.jboss.org/jbossas/jboss4guide/r4/html/ch2.chapter.html#d0e5347"> JBoss
-     * documentation for AbstractWebDeployer</a>.
-     * </p>
-     * 
+     * {@inheritDoc}. We override the base implementation because JBoss requires that expanded WAR
+     * directories to end with <code>.war</code> so we have to rename the expanded WAR directory.
+     * See <a href="http://docs.jboss.org/jbossas/jboss4guide/r4/html/ch2.chapter.html#d0e5347">
+     * the JBoss documentation for AbstractWebDeployer</a>.
      */
     @Override
-    protected void deployExpandedWar(String deployableDir, WAR war)
+    protected String getDeployableName(Deployable deployable)
     {
-        getFileHandler().copyDirectory(
-                war.getFile(), getFileHandler().append(deployableDir, war.getContext() + ".war"));
+        String deployableName = super.getDeployableName(deployable);
+        if (DeployableType.WAR.equals(deployable.getType()) && deployable.isExpanded())
+        {
+            deployableName += ".war";
+        }
+        return deployableName;
     }
 
     /**

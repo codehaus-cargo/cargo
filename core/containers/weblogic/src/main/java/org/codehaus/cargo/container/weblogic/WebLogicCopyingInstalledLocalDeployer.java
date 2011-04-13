@@ -62,28 +62,20 @@ public class WebLogicCopyingInstalledLocalDeployer extends
     }
 
     /**
-     * Copy the full expanded WAR directory to the deployable directory, renaming it if the user has
-     * specified a custom context for this expanded WAR.
-     * 
-     * @param deployableDir the directory where the container is expecting deployables to be dropped
-     * for deployments
-     * @param war the expanded WAR war
-     * 
-     * <p>
-     * WebLogic requires that expanded WAR directories end with <code>.war</code> so we have to
-     * rename the expanded WAR directory. See the <a
-     * href="http://e-docs.bea.com/wls/docs81/deployment/overview.html#1036349"> WebLogic
-     * documentation for Exploded Archive Directories</a>.
-     * </p>
-     * 
+     * {@inheritDoc}. We override the base implementation because WebLogic requires that expanded
+     * WAR directories to end with <code>.war</code> so we have to rename the expanded WAR
+     * directory. See <a href="http://e-docs.bea.com/wls/docs81/deployment/overview.html#1036349">
+     * the WebLogic documentation for Exploded Archive Directories</a>.
      */
     @Override
-    protected void deployExpandedWar(String deployableDir, WAR war)
+    protected String getDeployableName(Deployable deployable)
     {
-        getFileHandler().copyDirectory(
-                war.getFile(),
-                getFileHandler().append(deployableDir,
-                        war.getContext() + ".war"));
+        String deployableName = super.getDeployableName(deployable);
+        if (DeployableType.WAR.equals(deployable.getType()) && deployable.isExpanded())
+        {
+            deployableName += ".war";
+        }
+        return deployableName;
     }
 
     /**

@@ -23,12 +23,6 @@
 package org.codehaus.cargo.container.jonas;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.deployable.Bundle;
-import org.codehaus.cargo.container.deployable.EAR;
-import org.codehaus.cargo.container.deployable.EJB;
-import org.codehaus.cargo.container.deployable.File;
-import org.codehaus.cargo.container.deployable.RAR;
-import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.util.FileHandler;
 
@@ -74,86 +68,5 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     public String getDeployableDir()
     {
         return getContainer().getConfiguration().getHome() + "/deploy";
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#deployRar(String, RAR)
-     */
-    @Override
-    public void deployRar(String deployableDir, RAR rar)
-    {
-        super.deployRar(deployableDir, rar);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#deployWar(String, WAR)
-     */
-    @Override
-    public void deployWar(String deployableDir, WAR war)
-    {
-        super.deployWar(deployableDir, war);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#deployEjb(String, EJB)
-     */
-    @Override
-    public void deployEjb(String deployableDir, EJB ejb)
-    {
-        super.deployEjb(deployableDir, ejb);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#deployEar(String, EAR)
-     */
-    @Override
-    public void deployEar(String deployableDir, EAR ear)
-    {
-        super.deployEar(deployableDir, ear);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#deployFile(String, File)
-     */
-    @Override
-    public void deployFile(String deployableDir, File file)
-    {
-        super.deployFile(deployableDir, file);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#deployBundle(String, Bundle)
-     */
-    @Override
-    public void deployBundle(String deployableDir, Bundle bundle)
-    {
-        super.deployBundle(deployableDir, bundle);
-    }
-
-    /**
-     * Copy the full expanded WAR directory to the deployable directory, renaming it if the user has
-     * specified a custom context for this expanded WAR.
-     * 
-     * @param deployableDir the directory where the container is expecting deployables to be dropped
-     * for deployments
-     * @param war the expanded WAR war
-     */
-    @Override
-    public void deployExpandedWar(String deployableDir, WAR war)
-    {
-        getFileHandler().copyDirectory(
-            war.getFile(), getFileHandler().append(deployableDir, war.getContext()));
     }
 }

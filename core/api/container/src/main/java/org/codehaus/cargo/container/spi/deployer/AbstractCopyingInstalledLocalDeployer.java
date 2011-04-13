@@ -19,27 +19,19 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.deployable.AOP;
-import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
-import org.codehaus.cargo.container.deployable.EJB;
-import org.codehaus.cargo.container.deployable.File;
-import org.codehaus.cargo.container.deployable.HAR;
 import org.codehaus.cargo.container.deployable.RAR;
-import org.codehaus.cargo.container.deployable.SAR;
 import org.codehaus.cargo.container.deployable.WAR;
 
 /**
@@ -180,45 +172,22 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
 
         try
         {
-            String methodName = "deploy";
-
             if (deployable.isExpanded())
             {
                 if (!shouldDeployExpanded(deployable.getType()))
                 {
                     throw new ContainerException("Container " + getContainer().getName()
-                        + " cannot deployed expanded " + deployable.getType() + " deployables");
+                        + " cannot deploy expanded " + deployable.getType() + " deployables");
                 }
 
-                methodName += "Expanded";
-            }
-
-            String deployableTypeString = deployable.getType().getType();
-            methodName += deployableTypeString.substring(0, 1).toUpperCase(Locale.ENGLISH)
-                + deployableTypeString.substring(1).toLowerCase(Locale.ENGLISH);
-
-            Method deployMethod = null;
-            Class cl = this.getClass();
-            while (!Object.class.equals(cl))
-            {
-                for (Method m : cl.getDeclaredMethods())
+                if (!getFileHandler().isDirectory(deployable.getFile()))
                 {
-                    if (m.getName().equals(methodName))
-                    {
-                        deployMethod = m;
-                        break;
-                    }
+                    throw new ContainerException("The deployable's file " + deployable.getFile()
+                        + " is not a directory, hence cannot be deployed as expanded");
                 }
-
-                cl = cl.getSuperclass();
-            }
-            if (deployMethod == null)
-            {
-                throw new ContainerException("Deployable type " + deployable.getType()
-                    + " is currently not supported: missing method " + methodName);
             }
 
-            deployMethod.invoke(this, deployableDir, deployable);
+            doDeploy(deployableDir, deployable);
         }
         catch (Exception e)
         {
@@ -302,235 +271,87 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
     public abstract String getDeployableDir();
 
     /**
-     * Copy the EAR file to the deployable directory.
-     * 
-     * @param deployableDir the directory where the container is expecting deployables to be dropped
-     *            for deployments
-     * @param ear the EAR deployable
+     * Do the actual deployment. This can be overriden.
+     * @param deployableDir Directory in which to deploy.
+     * @param deployable Deployable to deploy.
      */
-    protected void deployEar(String deployableDir, EAR ear)
+    protected void doDeploy(String deployableDir, Deployable deployable)
     {
-        // CARGO-598: If the EAR has a name property, use that one (instead of the EAR file name)
-        String earName = ear.getName();
-        if (earName == null)
+        String deployableName = getDeployableName(deployable);
+        if (deployable.isExpanded())
         {
-            earName = getFileHandler().getName(ear.getFile());
-        }
-        if (!earName.toLowerCase().contains(".ear"))
-        {
-            earName = earName + ".ear";
-        }
-
-        getFileHandler().copyFile(ear.getFile(), getFileHandler().append(deployableDir, earName),
-            true);
-    }
-
-    /**
-     * Copy the SAR file to the deployable directory.
-     * 
-     * @param deployableDir The directory to copy it too
-     * @param sar the sar to copy
-     */
-    protected void deploySar(String deployableDir, SAR sar)
-    {
-        getFileHandler()
-            .copyFile(sar.getFile(),
-                getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())),
-                true);
-    }
-
-    /**
-     * Copy the RAR file to the deployable directory.
-     * 
-     * @param deployableDir The directory to copy it too
-     * @param rar the rar to copy
-     */
-    protected void deployRar(String deployableDir, RAR rar)
-    {
-        String rarName = rar.getName();
-        if (rarName == null)
-        {
-            rarName = getFileHandler().getName(rar.getName());
-        }
-        if (!rarName.toLowerCase().contains(".rar"))
-        {
-            rarName = rarName + ".rar";
-        }
-        getFileHandler().copyFile(rar.getFile(), getFileHandler().append(deployableDir, rarName),
-            true);
-    }
-
-    /**
-     * Copy the EJB file to the deployable directory.
-     * 
-     * @param deployableDir the container's deployable directory
-     * @param ejb the EJB deployable
-     */
-    protected void deployEjb(String deployableDir, EJB ejb)
-    {
-        getFileHandler()
-            .copyFile(ejb.getFile(),
-                getFileHandler().append(deployableDir, getFileHandler().getName(ejb.getFile())),
-                true);
-    }
-
-    /**
-     * Copy the WAR file to the deployable directory, renaming it if the user has specified a custom
-     * context for this WAR.
-     * 
-     * @param deployableDir the directory where the container is expecting deployables to be dropped
-     *            for deployments
-     * @param war the WAR war
-     */
-    protected void deployWar(String deployableDir, WAR war)
-    {
-        String context = war.getContext();
-        if ("".equals(context) || "/".equals(context))
-        {
-            getLogger().info(
-                "The WAR file has its context set to / and will therefore be "
-                    + "deployed as ROOT.war", this.getClass().getName());
-            context = "ROOT";
-        }
-
-        getFileHandler().copyFile(war.getFile(),
-            getFileHandler().append(deployableDir, context + ".war"), true);
-    }
-
-    /**
-     * Copy the full expanded WAR directory to the deployable directory, renaming it if the user has
-     * specified a custom context for this expanded WAR.
-     * 
-     * @param deployableDir the directory where the container is expecting deployables to be dropped
-     *            for deployments
-     * @param war the expanded WAR war
-     */
-    protected void deployExpandedWar(String deployableDir, WAR war)
-    {
-        String context = war.getContext();
-        if ("".equals(context) || "/".equals(context))
-        {
-            getLogger().info(
-                "The expanded WAR has its context set to / and will therefore be "
-                    + "deployed as ROOT", this.getClass().getName());
-            context = "ROOT";
-        }
-
-        getFileHandler().copyDirectory(war.getFile(),
-            getFileHandler().append(deployableDir, context));
-    }
-
-    /**
-     * Copy the full expanded SAR directory to the deployable directory, renaming it if the user has
-     * specified a custom context for this expanded SAR.
-     * 
-     * @param deployableDir the directory to deploy the expanded SAR
-     * @param sar the expanded SAR sar
-     */
-    protected void deployExpandedSar(String deployableDir, SAR sar)
-    {
-        getFileHandler().copyDirectory(sar.getFile(),
-            getFileHandler().append(deployableDir, getFileHandler().getName(sar.getFile())));
-    }
-
-    /**
-     * Copy the full expanded RAR directory to the deployable directory, renaming it if the user has
-     * specified a custom context for this expanded RAR.
-     * 
-     * @param deployableDir the directory to deploy the expanded RAR
-     * @param rar the expanded RAR rar
-     */
-    protected void deployExpandedRar(String deployableDir, RAR rar)
-    {
-        getFileHandler().copyDirectory(rar.getFile(),
-            getFileHandler().append(deployableDir, getFileHandler().getName(rar.getFile())));
-    }
-
-    /**
-     * Copy the file to the deployable directory.
-     * 
-     * @param deployableDir the directory to hold the file
-     * @param file The file to copy
-     */
-    protected void deployFile(String deployableDir, File file)
-    {
-        if (getFileHandler().isDirectory(file.getFile()))
-        {
-            getFileHandler().copyDirectory(file.getFile(),
-                getFileHandler().append(deployableDir, getFileHandler().getName(file.getFile())));
+            getFileHandler().copyDirectory(deployable.getFile(),
+                getFileHandler().append(deployableDir, deployableName));
         }
         else
         {
-            getFileHandler().copyFile(file.getFile(),
-                getFileHandler().append(deployableDir, getFileHandler().getName(file.getFile())),
+            getFileHandler().copyFile(deployable.getFile(),
+                getFileHandler().append(deployableDir, deployableName),
                 true);
         }
     }
 
     /**
-     * Copy the OSGi bundle file to the deployable directory.
-     * 
-     * @param deployableDir the container's deployable directory
-     * @param bundle the OSGi bundle deployable
+     * Gets the deployable name for the given <code>deployable</code>.
+     * @param deployable Deployable to get the name for.
+     * @return Deployable name.
      */
-    protected void deployBundle(String deployableDir, Bundle bundle)
+    protected String getDeployableName(Deployable deployable)
     {
-        getFileHandler().copyFile(bundle.getFile(),
-            getFileHandler().append(deployableDir, getFileHandler().getName(bundle.getFile())),
-            true);
-    }
-
-    /**
-     * Copy the HAR file to the deployable directory.
-     * 
-     * @param deployableDir the directory to copy it to
-     * @param har the HAR deployable to copy
-     */
-    protected void deployHar(String deployableDir, HAR har)
-    {
-        getFileHandler()
-            .copyFile(har.getFile(),
-                getFileHandler().append(deployableDir, getFileHandler().getName(har.getFile())),
-                true);
-    }
-    
-    /**
-     * Copy the full expanded HAR directory to the deployable directory, renaming it if the user has
-     * specified a custom context for this expanded HAR.
-     * 
-     * @param deployableDir the directory to deploy the expanded HAR to
-     * @param har the expanded HAR deployable
-     */
-    protected void deployExpandedHar(String deployableDir, HAR har)
-    {
-        getFileHandler().copyDirectory(har.getFile(),
-            getFileHandler().append(deployableDir, getFileHandler().getName(har.getFile())));
-    }
-
-    /**
-     * Copy the AOP file to the deployable directory.
-     * 
-     * @param deployableDir the directory to copy it to
-     * @param aop the AOP deployable to copy
-     */
-    protected void deployAop(String deployableDir, AOP aop)
-    {
-        getFileHandler()
-            .copyFile(aop.getFile(),
-                getFileHandler().append(deployableDir, getFileHandler().getName(aop.getFile())),
-                true);
-    }
-    
-    /**
-     * Copy the full expanded AOP directory to the deployable directory, renaming it if the user has
-     * specified a custom context for this expanded AOP.
-     * 
-     * @param deployableDir the directory to deploy the expanded AOP to
-     * @param aop the expanded AOP deployable
-     */
-    protected void deployExpandedAop(String deployableDir, AOP aop)
-    {
-        getFileHandler().copyDirectory(aop.getFile(),
-            getFileHandler().append(deployableDir, getFileHandler().getName(aop.getFile())));
+        String deployableName;
+        if (DeployableType.WAR.equals(deployable.getType()))
+        {
+            WAR war = (WAR) deployable;
+            String context = war.getContext();
+            if ("".equals(context) || "/".equals(context))
+            {
+                getLogger().info(
+                    "The WAR file has its context set to / and will therefore be "
+                        + "deployed as ROOT.war", this.getClass().getName());
+                context = "ROOT";
+            }
+            if (war.isExpanded())
+            {
+                deployableName = context;
+            }
+            else
+            {
+                deployableName = context + ".war";
+            }
+        }
+        else if (DeployableType.EAR.equals(deployable.getType()))
+        {
+            // CARGO-598: If the EAR has a name property, use that one instead of file name
+            EAR ear = (EAR) deployable;
+            String earName = ear.getName();
+            if (earName == null || "".equals(earName))
+            {
+                earName = getFileHandler().getName(ear.getFile());
+            }
+            if (!earName.toLowerCase().endsWith(".ear"))
+            {
+                earName = earName + ".ear";
+            }
+            deployableName = earName;
+        }
+        else if (DeployableType.RAR.equals(deployable.getType()))
+        {
+            RAR rar = (RAR) deployable;
+            String rarName = rar.getName();
+            if (rarName == null || "".equals(rarName))
+            {
+                rarName = getFileHandler().getName(rar.getFile());
+            }
+            if (!rarName.toLowerCase().endsWith(".rar"))
+            {
+                rarName = rarName + ".rar";
+            }
+            deployableName = rarName;
+        }
+        else
+        {
+            deployableName = getFileHandler().getName(deployable.getFile());
+        }
+        return deployableName;
     }
 }

@@ -24,6 +24,8 @@ import java.io.OutputStream;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
@@ -56,45 +58,57 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * <p>
-     * We override the base implementation because Jetty requires a context XML file deployed in its
-     * context dir to perform hot deployment. Thus we need to create that context file
-     * </p>
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#deployWar(String,
-     * org.codehaus.cargo.container.deployable.WAR)
+     * {@inheritDoc}. We override the base implementation because Jetty requires a context XML file
+     * deployed in its context dir to perform hot deployment. Thus we need to create that context
+     * file.
      */
     @Override
-    protected void deployWar(String deployableDir, WAR war)
+    protected void doDeploy(String deployableDir, Deployable deployable)
     {
-        // Create a Jetty context file. This is useful for various purposes:
-        // - ability to hot deploy
-        // - ability to tell Jetty to install the WAR under a given context name
-        // - ability to accelerate deployment by avoiding an actual copy of the WAR
-        String contextDir = getFileHandler().append(getContainer().getConfiguration().getHome(),
-            "contexts");
-        String contextFile = getFileHandler().append(contextDir, war.getContext() + ".xml");
-        getFileHandler().createFile(contextFile);
-
-        OutputStream out = getFileHandler().getOutputStream(contextFile);
-        try
+        if (DeployableType.WAR.equals(deployable.getType()))
         {
-            out.write(createContextXml(war).getBytes("UTF-8"));
-            out.close();
-        }
-        catch (IOException e)
-        {
-            throw new ContainerException("Failed to create Jetty Context file for ["
-                + war.getFile() + "]");
-        }
-    }
+            WAR war = (WAR) deployable;
+            // Create a Jetty context file. This is useful for various purposes:
+            // - ability to hot deploy
+            // - ability to tell Jetty to install the WAR under a given context name
+            // - ability to accelerate deployment by avoiding an actual copy of the WAR
+            String contextDir = getFileHandler().append(
+                getContainer().getConfiguration().getHome(), "contexts");
+            String contextFile = getFileHandler().append(contextDir, war.getContext() + ".xml");
+            getFileHandler().createFile(contextFile);
 
-    @Override
-    protected void deployExpandedWar(String deployableDir, WAR war)
-    {
-        deployWar(deployableDir, war);
+            OutputStream out = getFileHandler().getOutputStream(contextFile);
+            try
+            {
+                out.write(createContextXml(war).getBytes("UTF-8"));
+                out.close();
+            }
+            catch (IOException e)
+            {
+                throw new ContainerException("Failed to create Jetty Context file for ["
+                    + war.getFile() + "]", e);
+            }
+            finally
+            {
+                try
+                {
+                    out.close();
+                }
+                catch (IOException ignored)
+                {
+                    // Ignored
+                }
+                finally
+                {
+                    out = null;
+                    System.gc();
+                }
+            }
+        }
+        else
+        {
+            super.doDeploy(deployableDir, deployable);
+        }
     }
 
     /**

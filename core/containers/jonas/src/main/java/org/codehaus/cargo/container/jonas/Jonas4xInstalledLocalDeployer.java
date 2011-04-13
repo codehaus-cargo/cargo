@@ -22,12 +22,10 @@
  */
 package org.codehaus.cargo.container.jonas;
 
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.EAR;
-import org.codehaus.cargo.container.deployable.EJB;
-import org.codehaus.cargo.container.deployable.RAR;
-import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.jonas.internal.Jonas4xAdmin;
 import org.codehaus.cargo.container.jonas.internal.Jonas4xAdminImpl;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
@@ -76,82 +74,54 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#deployEar(String,
-     * org.codehaus.cargo.container.deployable.EAR)
+     * {@inheritDoc}. We override the base implementation because JOnAS 4 has different folders for
+     * different deployable types.
      */
     @Override
-    protected void deployEar(String deployableDir, EAR ear) throws CargoException
+    protected void doDeploy(String deployableDir, Deployable deployable)
     {
-        deploy(deployableDir + "/apps", ear, getFileHandler().getName(ear.getFile()),
-            new GenericCopyingDeployable());
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#deployEjb(String,
-     * org.codehaus.cargo.container.deployable.EJB)
-     */
-    @Override
-    protected void deployEjb(String deployableDir, EJB ejb) throws CargoException
-    {
-        deploy(deployableDir + "/ejbjars", ejb, getFileHandler().getName(ejb.getFile()),
-            new GenericCopyingDeployable());
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#deployRar(String,
-     * org.codehaus.cargo.container.deployable.RAR)
-     */
-    @Override
-    protected void deployRar(String deployableDir, RAR rar) throws CargoException
-    {
-        deploy(deployableDir + "/rars", rar, getFileHandler().getName(rar.getFile()),
-            new GenericCopyingDeployable());
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#deployExpandedWar(String,
-     * org.codehaus.cargo.container.deployable.WAR)
-     */
-    @Override
-    protected void deployExpandedWar(String deployableDir, WAR war) throws CargoException
-    {
-        if (admin.isServerRunning("ping", 0))
+        String jonasDeployableDir = deployableDir;
+        if (DeployableType.WAR.equals(deployable.getType()))
         {
-            getLogger()
-                .warn("Hot deployment of expanded war impossible", this.getClass().getName());
-            return;
+            jonasDeployableDir += "/webapps";
         }
-        super.deployExpandedWar(deployableDir + "/webapps/autoload", war);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#deployWar(String,
-     * org.codehaus.cargo.container.deployable.WAR)
-     */
-    @Override
-    protected void deployWar(String deployableDir, WAR war) throws CargoException
-    {
-        deploy(deployableDir + "/webapps", war, war.getContext() + ".war", new CopyingDeployable()
+        else if (DeployableType.EAR.equals(deployable.getType()))
         {
+            jonasDeployableDir += "/apps";
+        }
+        else if (DeployableType.EJB.equals(deployable.getType()))
+        {
+            jonasDeployableDir += "/ejbjars";
+        }
+        else if (DeployableType.RAR.equals(deployable.getType()))
+        {
+            jonasDeployableDir += "/rars";
+        }
+        else
+        {
+            throw new ContainerException("Container " + getContainer().getName()
+                + " cannot deploy " + deployable.getType() + " deployables");
+        }
 
-            public void copyDeployable(String deployableDir, Deployable deployable)
+        boolean isRunning = admin.isServerRunning("ping", 0);
+        if (!isRunning)
+        {
+            jonasDeployableDir += "/autoload";
+        }
+
+        super.doDeploy(jonasDeployableDir, deployable);
+
+        if (isRunning)
+        {
+            // hot deployment through JOnAS admin
+            String deployableName = getDeployableName(deployable);
+            boolean deployed = admin.deploy(deployableName);
+            if (!deployed)
             {
-                getFileHandler().copyFile(
-                    deployable.getFile(),
-                    getFileHandler()
-                        .append(deployableDir, ((WAR) deployable).getContext() + ".war"));
+                throw new CargoException("Unable to deploy file " + deployableName
+                    + " through JOnAS admin");
             }
-        });
+        }
     }
 
     /**
@@ -174,55 +144,16 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     @Override
     public void undeploy(Deployable deployable) throws CargoException
     {
-        String fileName = getFileHandler().getName(deployable.getFile());
-        if (deployable instanceof WAR)
-        {
-            fileName = ((WAR) deployable).getContext() + ".war";
-        }
+        String deployableName = getDeployableName(deployable);
         boolean isRunning = false;
 
         isRunning = admin.isServerRunning("ping", 0);
         if (isRunning)
         {
-            boolean undeployed = admin.unDeploy(fileName);
+            boolean undeployed = admin.unDeploy(deployableName);
             if (!undeployed)
             {
-                throw new CargoException("Unable to undeploy file " + fileName
-                    + " through JOnAS admin");
-            }
-        }
-    }
-
-    /**
-     * Deploy a deployable to JOnAS.
-     * 
-     * @param targetDir target directory
-     * @param deployable deployable name
-     * @param fileName deployable file name
-     * @param copying deployable that copies files in the file system
-     * 
-     * @throws CargoException if deployment fails
-     */
-    private void deploy(String targetDir, Deployable deployable, String fileName,
-        CopyingDeployable copying) throws CargoException
-    {
-        boolean isRunning = false;
-        String targetDirectory = targetDir;
-
-        isRunning = admin.isServerRunning("ping", 0);
-        if (!isRunning)
-        {
-            targetDirectory += "/autoload";
-        }
-
-        copying.copyDeployable(targetDirectory, deployable);
-        if (isRunning)
-        {
-            // hot deployment through JOnAS admin
-            boolean deployed = admin.deploy(fileName);
-            if (!deployed)
-            {
-                throw new CargoException("Unable to deploy file " + fileName
+                throw new CargoException("Unable to undeploy file " + deployableName
                     + " through JOnAS admin");
             }
         }

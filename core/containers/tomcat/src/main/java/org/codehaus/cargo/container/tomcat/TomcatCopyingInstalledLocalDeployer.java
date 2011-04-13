@@ -77,70 +77,70 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
     }
 
     /**
-     * We override the default implementation from {@link AbstractCopyingInstalledLocalDeployer} in
-     * order to handle the special Tomcat scenarios: if the deployable is a {@link TomcatWAR}
-     * instance and it containts a <code>context.xml</code> file that we need to manually copy.
-     * 
-     * {@inheritDoc}
-     * @see AbstractCopyingInstalledLocalDeployer#deployWar(String,
-     * org.codehaus.cargo.container.deployable.WAR)
+     * {@inheritDoc}. We override the base implementation in order to handle the special Tomcat
+     * scenarios: if the deployable is a {@link TomcatWAR} instance and it contains a
+     * <code>context.xml</code> file that we need to manually copy.
      */
     @Override
-    protected void deployWar(String deployableDir, WAR war)
+    protected void doDeploy(String deployableDir, Deployable deployable)
     {
-        // If the WAR contains a META-INF/context.xml then it means the user is
-        // defining how to deploy it.
-        if (TomcatUtils.containsContextFile(war))
+        if (DeployableType.WAR.equals(deployable.getType()))
         {
-            // Drop WAR files into the webapps dir, Tomcat will read META-INF/context.xml itself
-            super.deployWar(deployableDir, war);
-        }
-        else if (this.shouldCopyWars)
-        {
-            super.deployWar(deployableDir, war);
-        }
-    }
-
-    /**
-     * We override the default implementation from {@link AbstractCopyingInstalledLocalDeployer} in
-     * order to handle the special Tomcat scenarios: if the deployable is a {@link TomcatWAR}
-     * instance and it contains a <code>context.xml</code> file that we need to manually copy.
-     * 
-     * {@inheritDoc}
-     * @see AbstractCopyingInstalledLocalDeployer#deployExpandedWar(String,
-     * org.codehaus.cargo.container.deployable.WAR)
-     */
-    @Override
-    protected void deployExpandedWar(String deployableDir, WAR war)
-    {
-        // If the WAR contains a META-INF/context.xml then it means the user is
-        // defining how to deploy it.
-        if (TomcatUtils.containsContextFile(war))
-        {
-            // Note: We know here that the war is an expanded war as this method is only called
-            // for expanded wars...
-
-            String contextDir = getFileHandler().createDirectory(
-                getContainer().getConfiguration().getHome(),
-                "conf/Catalina/" + getContainer().getConfiguration().getPropertyValue(
-                    GeneralPropertySet.HOSTNAME));
-
-            // Copy only the context.xml to <config>/Catalina/<hostname>/<context-path>.xml and set
-            // docBase to point at the expanded WAR
-            Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
-            Document doc =
-                xmlUtil.loadXmlFromFile(getFileHandler().append(war.getFile(),
-                    "META-INF/context.xml"));
-            Element context = doc.getRootElement();
-            if (context.attributeValue("docBase", "").length() <= 0)
+            WAR war = (WAR) deployable;
+            if (deployable.isExpanded())
             {
-                context.addAttribute("docBase", war.getFile());
+                if (TomcatUtils.containsContextFile(war))
+                {
+                    // If the WAR contains a META-INF/context.xml then it means the user is
+                    // defining how to deploy it.
+                    String contextDir = getFileHandler().createDirectory(
+                        getContainer().getConfiguration().getHome(),
+                            "conf/Catalina/" + getContainer().getConfiguration().getPropertyValue(
+                                GeneralPropertySet.HOSTNAME));
+
+                    // Copy only the context.xml to <config>/Catalina/<hostname>/<context-path>.xml
+                    // and set docBase to point at the expanded WAR
+                    Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
+                    Document doc =
+                        xmlUtil.loadXmlFromFile(getFileHandler().append(war.getFile(),
+                            "META-INF/context.xml"));
+                    Element context = doc.getRootElement();
+                    if (context.attributeValue("docBase", "").length() <= 0)
+                    {
+                        context.addAttribute("docBase", war.getFile());
+                    }
+                    xmlUtil.saveXml(doc, getFileHandler().append(contextDir, war.getContext()
+                        + ".xml"));
+                }
+                else if (this.shouldCopyWars)
+                {
+                    super.doDeploy(deployableDir, war);
+                }
+                else
+                {
+                    // Else, do nothing since the context.xml will reference the existing file
+                }
             }
-            xmlUtil.saveXml(doc, getFileHandler().append(contextDir, war.getContext() + ".xml"));
+            else
+            {
+                if (TomcatUtils.containsContextFile(war))
+                {
+                    // Drop WAR file into the webapps dir, Tomcat will read META-INF/context.xml
+                    super.doDeploy(deployableDir, war);
+                }
+                else if (this.shouldCopyWars)
+                {
+                    super.doDeploy(deployableDir, war);
+                }
+                else
+                {
+                    // Else, do nothing since the context.xml will reference the existing file
+                }
+            }
         }
-        else if (this.shouldCopyWars)
+        else
         {
-            super.deployExpandedWar(deployableDir, war);
+            super.doDeploy(deployableDir, deployable);
         }
     }
 

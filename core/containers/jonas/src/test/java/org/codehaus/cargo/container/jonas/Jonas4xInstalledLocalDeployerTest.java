@@ -156,144 +156,269 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
     }
 
     /**
-     * Test EJB deployment.
+     * Test EJB cold deployment.
      */
-    public void testDeployEJBJar()
+    public void testColdDeployEJBJar()
     {
         this.fileHandler.createFile("ram:///test.jar");
         EJB ejb = (EJB) factory.createDeployable("jonas4x", "ram:///test.jar", DeployableType.EJB);
 
         setupAdminColdDeployment();
-        deployer.deployEjb(deployer.getDeployableDir(), ejb);
+        deployer.deploy(ejb);
         assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/ejbjars/autoload/test.jar"));
+    }
+
+    /**
+     * Test EJB hot deployment.
+     */
+    public void testHotDeployEJBJar()
+    {
+        this.fileHandler.createFile("ram:///test.jar");
+        EJB ejb = (EJB) factory.createDeployable("jonas4x", "ram:///test.jar", DeployableType.EJB);
 
         setupAdminHotDeployment();
-        deployer.deployEjb(deployer.getDeployableDir(), ejb);
+        deployer.deploy(ejb);
         assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/ejbjars/test.jar"));
+    }
+
+    /**
+     * Test EJB hot deployment failure.
+     */
+    public void testHotDeployFailureEJBJar()
+    {
+        this.fileHandler.createFile("ram:///test.jar");
+        EJB ejb = (EJB) factory.createDeployable("jonas4x", "ram:///test.jar", DeployableType.EJB);
 
         setupAdminHotDeploymentFailure();
         try
         {
-            deployer.deployEjb(deployer.getDeployableDir(), ejb);
+            deployer.deploy(ejb);
             fail("No CargoException raised");
         }
         catch (CargoException expected)
         {
-            // Expected
+            assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/ejbjars/test.jar"));
         }
     }
 
     /**
-     * Test EAR deployment.
+     * Test EAR cold deployment.
      */
-    public void testDeployEar()
+    public void testColdDeployEar()
     {
-        this.fileHandler.createFile("ram:///test.ear");
-        EAR ear = (EAR) factory.createDeployable("jonas4x", "ram:///test.ear", DeployableType.EAR);
+        // EARs need to be real since they're analyzed by the deployer
+        java.io.File earFile = new java.io.File("target/test-artifacts/simple-ear.ear");
+        EAR ear = (EAR) factory.createDeployable("jonas4x", earFile.getAbsolutePath(),
+            DeployableType.EAR);
+        ear.setName("test");
 
         setupAdminColdDeployment();
-        deployer.deployEar(deployer.getDeployableDir(), ear);
+        deployer.deploy(ear);
+        assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/apps/simple-ear.ear"));
         assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/apps/autoload/test.ear"));
+    }
+
+    /**
+     * Test EAR hot deployment.
+     */
+    public void testHotDeployEar()
+    {
+        // EARs need to be real since they're analyzed by the deployer
+        java.io.File earFile = new java.io.File("target/test-artifacts/simple-ear.ear");
+        EAR ear = (EAR) factory.createDeployable("jonas4x", earFile.getAbsolutePath(),
+            DeployableType.EAR);
+        ear.setName("test");
 
         setupAdminHotDeployment();
-        deployer.deployEar(deployer.getDeployableDir(), ear);
+        deployer.deploy(ear);
+        assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/apps/simple-ear.ear"));
         assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/apps/test.ear"));
+    }
+
+    /**
+     * Test EAR hot deployment failure.
+     */
+    public void testHotDeployFailureEar()
+    {
+        // EARs need to be real since they're analyzed by the deployer
+        java.io.File earFile = new java.io.File("target/test-artifacts/simple-ear.ear");
+        EAR ear = (EAR) factory.createDeployable("jonas4x", earFile.getAbsolutePath(),
+            DeployableType.EAR);
+        ear.setName("test");
 
         setupAdminHotDeploymentFailure();
         try
         {
-            deployer.deployEar(deployer.getDeployableDir(), ear);
+            deployer.deploy(ear);
             fail("No CargoException raised");
         }
         catch (CargoException expected)
         {
-            // Expected
+            assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/apps/simple-ear.ear"));
+            assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/apps/test.ear"));
         }
     }
 
     /**
-     * Test WAR deployment.
+     * Test WAR cold deployment.
      */
-    public void testDeployWar()
+    public void testColdDeployWar()
     {
         this.fileHandler.createFile("ram:///test.war");
         WAR war = (WAR) factory.createDeployable("jonas4x", "ram:///test.war", DeployableType.WAR);
         war.setContext("testContext");
 
-        System.gc();
-
         setupAdminColdDeployment();
-        deployer.deployWar(deployer.getDeployableDir(), war);
+        deployer.deploy(war);
         assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/webapps/autoload/test.war"));
         assertTrue(fileHandler.exists(deployer.getDeployableDir()
             + "/webapps/autoload/testContext.war"));
+    }
+
+    /**
+     * Test WAR hot deployment.
+     */
+    public void testHotDeployWar()
+    {
+        this.fileHandler.createFile("ram:///test.war");
+        WAR war = (WAR) factory.createDeployable("jonas4x", "ram:///test.war", DeployableType.WAR);
+        war.setContext("testContext");
 
         setupAdminHotDeployment();
-        deployer.deployWar(deployer.getDeployableDir(), war);
+        deployer.deploy(war);
         assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/webapps/test.war"));
         assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/webapps/testContext.war"));
+    }
+
+    /**
+     * Test WAR hot deployment failure.
+     */
+    public void testHotDeployFailureWar()
+    {
+        this.fileHandler.createFile("ram:///test.war");
+        WAR war = (WAR) factory.createDeployable("jonas4x", "ram:///test.war", DeployableType.WAR);
+        war.setContext("testContext");
 
         setupAdminHotDeploymentFailure();
         try
         {
-            deployer.deployWar(deployer.getDeployableDir(), war);
+            deployer.deploy(war);
             fail("No CargoException raised");
         }
         catch (CargoException expected)
         {
-            // Expected
+            assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/webapps/test.war"));
+            assertTrue(fileHandler.exists(deployer.getDeployableDir()
+                + "/webapps/testContext.war"));
         }
     }
 
     /**
-     * Test expanded WAR deployment.
+     * Test expanded WAR cold deployment.
      */
-    public void testDeployExpandedWar()
+    public void testColdDeployExpandedWar()
     {
-        this.fileHandler.createFile("ram:///testExpandedWar");
-        WAR war = (WAR) factory.createDeployable("jonas4x", "ram:///testExpandedWar",
+        // Expanded WARs need to be real since they're analyzed by the archive definition
+        java.io.File warFile = new java.io.File("target/test-artifacts/simple-war");
+        WAR war = (WAR) factory.createDeployable("jonas4x", warFile.getAbsolutePath(),
             DeployableType.WAR);
         war.setContext("testExpandedWarContext");
 
         setupAdminColdDeployment();
-        deployer.deployExpandedWar(deployer.getDeployableDir(), war);
+        deployer.deploy(war);
         assertFalse(fileHandler.exists(deployer.getDeployableDir()
             + "/webapps/autoload/testExpandedWar"));
         assertTrue(fileHandler.exists(deployer.getDeployableDir()
             + "/webapps/autoload/testExpandedWarContext"));
+    }
+
+    /**
+     * Test expanded WAR hot deployment.
+     */
+    public void testHotDeployExpandedWar()
+    {
+        // Expanded WARs need to be real since they're analyzed by the archive definition
+        java.io.File warFile = new java.io.File("target/test-artifacts/simple-war");
+        WAR war = (WAR) factory.createDeployable("jonas4x", warFile.getAbsolutePath(),
+            DeployableType.WAR);
+        war.setContext("testExpandedWarContext");
 
         setupAdminHotDeployment();
-        deployer.deployExpandedWar(deployer.getDeployableDir(), war);
+        deployer.deploy(war);
         assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/webapps/testExpandedWar"));
-        assertFalse(fileHandler.exists(deployer.getDeployableDir()
+        assertTrue(fileHandler.exists(deployer.getDeployableDir()
             + "/webapps/testExpandedWarContext"));
     }
 
     /**
-     * Test RAR deployment.
+     * Test expanded WAR hot deployment.
      */
-    public void testDeployRar()
+    public void testHotDeployFailureExpandedWar()
+    {
+        // Expanded WARs need to be real since they're analyzed by the archive definition
+        java.io.File warFile = new java.io.File("target/test-artifacts/simple-war");
+        WAR war = (WAR) factory.createDeployable("jonas4x", warFile.getAbsolutePath(),
+            DeployableType.WAR);
+        war.setContext("testExpandedWarContext");
+
+        setupAdminHotDeploymentFailure();
+        try
+        {
+            deployer.deploy(war);
+            fail("No CargoException raised");
+        }
+        catch (CargoException expected)
+        {
+            assertFalse(fileHandler.exists(deployer.getDeployableDir()
+                + "/webapps/testExpandedWar"));
+            assertTrue(fileHandler.exists(deployer.getDeployableDir()
+                + "/webapps/testExpandedWarContext"));
+        }
+    }
+
+    /**
+     * Test RAR cold deployment.
+     */
+    public void testColdDeployRar()
     {
         this.fileHandler.createFile("ram:///test.rar");
         RAR rar = (RAR) factory.createDeployable("jonas4x", "ram:///test.rar", DeployableType.RAR);
 
         setupAdminColdDeployment();
-        deployer.deployRar(deployer.getDeployableDir(), rar);
+        deployer.deploy(rar);
         assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/rars/autoload/test.rar"));
+    }
+
+    /**
+     * Test RAR hot deployment.
+     */
+    public void testHotDeployRar()
+    {
+        this.fileHandler.createFile("ram:///test.rar");
+        RAR rar = (RAR) factory.createDeployable("jonas4x", "ram:///test.rar", DeployableType.RAR);
 
         setupAdminHotDeployment();
-        deployer.deployRar(deployer.getDeployableDir(), rar);
+        deployer.deploy(rar);
         assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/rars/test.rar"));
+    }
+
+    /**
+     * Test RAR hot deployment failure.
+     */
+    public void testHotDeployFailureRar()
+    {
+        this.fileHandler.createFile("ram:///test.rar");
+        RAR rar = (RAR) factory.createDeployable("jonas4x", "ram:///test.rar", DeployableType.RAR);
 
         setupAdminHotDeploymentFailure();
         try
         {
-            deployer.deployRar(deployer.getDeployableDir(), rar);
+            deployer.deploy(rar);
             fail("No CargoException raised");
         }
         catch (CargoException expected)
         {
-            // Expected
+            assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/rars/test.rar"));
         }
     }
 
