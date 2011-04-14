@@ -109,6 +109,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
      * @param flag if true expanded WARs will be deployed
      * @deprecated Use {@link #setShouldDeployExpanded(DeployableType, boolean)} instead
      */
+    @Deprecated
     public void setShouldDeployExpandedWARs(boolean flag)
     {
         setShouldDeployExpanded(DeployableType.WAR, flag);
@@ -123,6 +124,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
      * @param flag if true expanded SARs will be deployed
      * @deprecated Use {@link #setShouldDeployExpanded(DeployableType, boolean)} instead
      */
+    @Deprecated
     public void setShouldDeployExpandedSARs(boolean flag)
     {
         setShouldDeployExpanded(DeployableType.SAR, flag);
@@ -137,6 +139,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
      * @param flag if true expanded RARs will be deployed
      * @deprecated Use {@link #setShouldDeployExpanded(DeployableType, boolean)} instead
      */
+    @Deprecated
     public void setShouldDeployExpandedRARs(boolean flag)
     {
         setShouldDeployExpanded(DeployableType.RAR, flag);

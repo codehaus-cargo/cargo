@@ -146,11 +146,8 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
 
         String webappsDir = getFileHandler().createDirectory(getHome(), "webapps");
 
-        // Deploy all deployables into the webapps directory, except for
-        // expanded WARs which remain in their initial location (we point
-        // Resin to them).
+        // Deploy the deployables
         ResinInstalledLocalDeployer deployer = new ResinInstalledLocalDeployer(resinContainer);
-        deployer.setShouldDeployExpanded(DeployableType.WAR, false);
         deployer.deploy(getDeployables());
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory.

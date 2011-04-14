@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.TomcatExistingLocalConfigurationCapability;
 
@@ -88,7 +87,6 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
 
             TomcatCopyingInstalledLocalDeployer deployer =
                 new TomcatCopyingInstalledLocalDeployer(tomcatContainer);
-            deployer.setShouldDeployExpanded(DeployableType.WAR, true);
             deployer.setShouldCopyWars(true);
             deployer.deploy(getDeployables());
 

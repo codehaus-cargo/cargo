@@ -221,7 +221,6 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
                 // Deploy all deployables into the webapps directory.
                 TomcatCopyingInstalledLocalDeployer deployer =
                     new TomcatCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
-                deployer.setShouldDeployExpanded(DeployableType.WAR, true);
                 deployer.setShouldCopyWars(false);
                 deployer.deploy(getDeployables());
 

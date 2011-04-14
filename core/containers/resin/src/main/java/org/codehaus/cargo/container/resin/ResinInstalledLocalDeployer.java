@@ -20,6 +20,8 @@
 package org.codehaus.cargo.container.resin;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
@@ -48,5 +50,23 @@ public class ResinInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
     public String getDeployableDir()
     {
         return getFileHandler().append(getContainer().getConfiguration().getHome(), "webapps");
+    }
+
+    /**
+     * {@inheritDoc}. We override the base implementation since we like to deploy all deployables
+     * into the webapps directory, except for expanded WARs which remain in their initial location
+     * (we point Resin to them).
+     */
+    @Override
+    protected void doDeploy(String deployableDir, Deployable deployable)
+    {
+        if (DeployableType.WAR.equals(deployable.getType()) && deployable.isExpanded())
+        {
+            // Nothing
+        }
+        else
+        {
+            super.doDeploy(deployableDir, deployable);
+        }
     }
 }
