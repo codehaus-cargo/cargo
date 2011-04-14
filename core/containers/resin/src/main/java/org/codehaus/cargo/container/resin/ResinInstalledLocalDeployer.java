@@ -20,7 +20,6 @@
 package org.codehaus.cargo.container.resin;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
