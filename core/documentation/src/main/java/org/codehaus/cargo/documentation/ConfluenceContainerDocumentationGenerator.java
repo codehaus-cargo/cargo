@@ -19,10 +19,17 @@
  */
 package org.codehaus.cargo.documentation;
 
+import java.io.File;
+import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.Plugin;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.apache.maven.project.MavenProject;
 
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.Configuration;
@@ -54,6 +61,7 @@ import org.codehaus.cargo.generic.configuration.DefaultConfigurationCapabilityFa
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
+import org.codehaus.plexus.util.xml.Xpp3Dom;
 
 /**
  * Generate container documentation using Confluence markup language. The generated text is meant to
@@ -126,6 +134,36 @@ public class ConfluenceContainerDocumentationGenerator
     };
 
     /**
+     * The MavenXpp3Reader used to get project info from pom files.
+     */
+    private static final MavenXpp3Reader POM_READER = new MavenXpp3Reader();
+
+    /**
+     * Relative path to the cargo-core-samples directory.
+     */
+    private static final String SAMPLES_DIRECTORY = System.getProperty("basedir") + "/../samples/";
+
+    /**
+     * Constant for known POM file name.
+     */
+    private static final String POM = "pom.xml";
+
+    /**
+     * Constant for the Surefire plugin name.
+     */
+    private static final String SUREFIRE_PLUGIN = "org.apache.maven.plugins:maven-surefire-plugin";
+
+    /**
+     * Constant for the systemProperties node of the Surefire plugin.
+     */
+    private static final String SYSTEM_PROPERTIES = "systemProperties";
+
+    /**
+     * Constant for the CI URL.
+     */
+    private static final String CI_URL = "http://bamboo.ci.codehaus.org/browse/CARGO-SAMPLES";
+
+    /**
      * Container factory.
      */
     private ContainerFactory containerFactory = new DefaultContainerFactory();
@@ -184,6 +222,8 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(generateOtherFeaturesText(containerId));
         output.append(LINE_SEPARATOR);
         output.append(generateConfigurationPropertiesText(containerId));
+        output.append(LINE_SEPARATOR);
+        output.append(generateSamplesInfoText(containerId));
         output.append(LINE_SEPARATOR);
 
         return output.toString();
@@ -873,5 +913,87 @@ public class ConfluenceContainerDocumentationGenerator
         }
 
         return result;
+    }
+
+    /**
+     * Generate documentation for the Samples of a given container.
+     * @param containerId Container id.
+     * @return Generated configuration properties documentation.
+     * @throws Exception If anything goes wrong.
+     */
+    protected String generateSamplesInfoText(String containerId)
+        throws Exception
+    {
+        File pom = new File(SAMPLES_DIRECTORY, POM).getAbsoluteFile();
+
+        Model model = new Model();
+        try
+        {
+            model = POM_READER.read(new FileReader(pom));
+        }
+        catch (Exception e)
+        {
+            throw new IllegalStateException("Caught Exception reading pom.xml", e);
+        }
+
+        MavenProject project = new MavenProject(model);
+        project.setFile(pom);
+
+        Map<String, Plugin> plugins = project.getPluginManagement().getPluginsAsMap();
+        Plugin surefire = plugins.get(SUREFIRE_PLUGIN);
+        if (surefire == null)
+        {
+            throw new IllegalStateException("Cannot find plugin " + SUREFIRE_PLUGIN
+                + " in pom file " + pom + ". Found plugins: " + plugins.keySet());
+        }
+
+        Xpp3Dom configuration = (Xpp3Dom) surefire.getConfiguration();
+        if (configuration == null)
+        {
+            throw new IllegalStateException("Plugin " + SUREFIRE_PLUGIN + " in pom file " + pom
+                + " does not have any configuration.");
+        }
+        Xpp3Dom systemProperties = configuration.getChild(SYSTEM_PROPERTIES);
+        if (systemProperties == null)
+        {
+            throw new IllegalStateException("Plugin " + SUREFIRE_PLUGIN + " in pom file " + pom
+                + " does not have any " + SYSTEM_PROPERTIES + " in its configuration.");
+        }
+
+        StringBuilder output = new StringBuilder();
+
+        boolean found = false;
+        String urlName = "cargo." + containerId + ".url";
+        for (Xpp3Dom property : systemProperties.getChildren())
+        {
+            Xpp3Dom nameChild = property.getChild("name");
+            Xpp3Dom valueChild = property.getChild("value");
+            if (nameChild == null || valueChild == null)
+            {
+                throw new IllegalStateException("One of the " + SUREFIRE_PLUGIN
+                    + "'s configuration options in pom file " + pom + " is incomplete:\n"
+                    + property);
+            }
+
+            if (urlName.equals(nameChild.getValue()))
+            {
+                output.append("h3.Tested On");
+                output.append(LINE_SEPARATOR);
+
+                output.append("This container is automatically tested on its server using the "
+                    + "Codehaus Cargo Continous Integration System once a day.");
+                output.append(LINE_SEPARATOR);
+                output.append("* The server used for tests is downloaded from: ");
+                output.append(valueChild.getValue());
+                output.append(LINE_SEPARATOR);
+                output.append("* Link to the build plan: ");
+                output.append(CI_URL + containerId.toUpperCase(Locale.ENGLISH));
+                output.append(LINE_SEPARATOR);
+                output.append(LINE_SEPARATOR);
+                return output.toString();
+            }
+        }
+
+        return "";
     }
 }
