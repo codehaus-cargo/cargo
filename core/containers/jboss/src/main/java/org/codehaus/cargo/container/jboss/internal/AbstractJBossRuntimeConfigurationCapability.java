@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.jboss.internal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
 
@@ -48,11 +47,8 @@ public abstract class AbstractJBossRuntimeConfigurationCapability extends
         super();
 
         this.supportsMap = new HashMap<String, Boolean>();
-        this.supportsMap.put(RemotePropertySet.URI, Boolean.FALSE);
-        this.supportsMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
-        this.supportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
 
-        this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
+        this.supportsMap.put(RemotePropertySet.URI, Boolean.FALSE);
     }
 
     /**

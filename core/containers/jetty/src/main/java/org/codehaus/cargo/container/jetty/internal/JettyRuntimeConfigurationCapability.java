@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.jetty.internal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
 
 /**
@@ -45,6 +46,8 @@ public class JettyRuntimeConfigurationCapability extends AbstractRuntimeConfigur
         super();
 
         this.supportsMap = new HashMap<String, Boolean>();
+
+        this.supportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
     }
 
     /**

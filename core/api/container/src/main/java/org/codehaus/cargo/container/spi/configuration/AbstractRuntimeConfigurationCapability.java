@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.spi.configuration;
 
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 
 /**
@@ -38,6 +39,7 @@ public abstract class AbstractRuntimeConfigurationCapability
     {
         super();
 
+        this.defaultSupportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.defaultSupportsMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
         this.defaultSupportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
     }

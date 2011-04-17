@@ -326,7 +326,19 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
     {
         URL url;
 
-        String managerURL = configuration.getPropertyValue(TomcatPropertySet.MANAGER_URL);
+        String managerURL = configuration.getPropertyValue(RemotePropertySet.URI);
+
+        String oldManagerURL = configuration.getPropertyValue(TomcatPropertySet.MANAGER_URL);
+        if (oldManagerURL != null)
+        {
+            getLogger().warn("The property " + TomcatPropertySet.MANAGER_URL
+                + " has been deprecated, please use " + RemotePropertySet.URI + " instead.",
+                this.getClass().getName());
+            if (managerURL == null)
+            {
+                managerURL = oldManagerURL;
+            }
+        }
 
         // If not defined by the user use a default URL
         if (managerURL == null)

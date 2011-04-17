@@ -28,7 +28,9 @@ public interface TomcatPropertySet
 {
     /**
      * The URL for calling the Tomcat Manager app.
+     * @deprecated Use {@link org.codehaus.cargo.container.property.RemotePropertySet#URI} instead.
      */
+    @Deprecated
     String MANAGER_URL = "cargo.tomcat.manager.url";
 
     /**

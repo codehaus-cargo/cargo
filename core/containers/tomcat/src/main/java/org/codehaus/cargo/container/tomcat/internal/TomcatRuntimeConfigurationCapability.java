@@ -23,9 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
-import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
  * Capabilities of Tomcat's {@link org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration}
@@ -50,9 +50,8 @@ public class TomcatRuntimeConfigurationCapability extends AbstractRuntimeConfigu
         this.supportsMap = new HashMap<String, Boolean>();
 
         this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
-        this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.supportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.MANAGER_URL, Boolean.TRUE);
+        this.supportsMap.put(RemotePropertySet.URI, Boolean.TRUE);
     }
 
     /**

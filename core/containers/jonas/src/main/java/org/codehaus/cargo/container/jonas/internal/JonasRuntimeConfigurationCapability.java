@@ -45,7 +45,6 @@ public class JonasRuntimeConfigurationCapability extends AbstractRuntimeConfigur
     {
         super();
 
-        this.defaultSupportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.defaultSupportsMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
 
         this.defaultSupportsMap.put(RemotePropertySet.URI, Boolean.TRUE);
