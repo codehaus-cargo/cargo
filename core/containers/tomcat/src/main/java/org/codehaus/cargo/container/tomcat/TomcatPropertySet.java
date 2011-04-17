@@ -47,4 +47,9 @@ public interface TomcatPropertySet
      * Whether the contexts for deployed Web applications should be set as reloadable.
      */
     String CONTEXT_RELOADABLE = "cargo.tomcat.context.reloadable";
+
+    /**
+     * Whether WAR deployables should be copied or referenced.
+     */
+    String COPY_WARS = "cargo.tomcat.copywars";
 }

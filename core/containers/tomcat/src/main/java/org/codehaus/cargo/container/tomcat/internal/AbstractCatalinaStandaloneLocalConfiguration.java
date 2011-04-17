@@ -81,6 +81,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         setProperty(GeneralPropertySet.URI_ENCODING, "ISO-8859-1");
         setProperty(TomcatPropertySet.AJP_PORT, "8009");
         setProperty(TomcatPropertySet.CONTEXT_RELOADABLE, "false");
+        setProperty(TomcatPropertySet.COPY_WARS, "true");
     }
 
     /**
@@ -221,7 +222,8 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
                 // Deploy all deployables into the webapps directory.
                 TomcatCopyingInstalledLocalDeployer deployer =
                     new TomcatCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
-                deployer.setShouldCopyWars(false);
+                deployer.setShouldCopyWars(Boolean.parseBoolean(
+                    getPropertyValue(TomcatPropertySet.COPY_WARS)));
                 deployer.deploy(getDeployables());
 
                 // Deploy the CPC (Cargo Ping Component) to the webapps directory
@@ -300,6 +302,9 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         // wars are located.
         StringBuilder webappTokenValue = new StringBuilder(" ");
 
+        // Determine whether to copyWars on deployment
+        boolean copyWars = Boolean.parseBoolean(getPropertyValue(TomcatPropertySet.COPY_WARS));
+
         for (Deployable deployable : getDeployables())
         {
             if (deployable.getType() != DeployableType.WAR)
@@ -308,9 +313,9 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
                     + "in Tomcat. Got [" + deployable.getFile() + "]");
             }
 
-            // Do not create tokens for WARs containing a context file as they
-            // are copied to the webapps directory.
-            if (TomcatUtils.containsContextFile(deployable))
+            // Do not create tokens for WARs which are copied to the webapps directory:
+            // either by configuration or when containing a context file.
+            if (copyWars || TomcatUtils.containsContextFile(deployable))
             {
                 continue;
             }
