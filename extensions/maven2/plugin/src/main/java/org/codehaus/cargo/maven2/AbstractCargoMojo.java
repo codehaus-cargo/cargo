@@ -481,7 +481,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
 
         container = getContainerElement().createContainer(createConfiguration(),
-            createLogger(), getCargoProject(), settings);
+            createLogger(), getCargoProject(), artifactFactory, artifactResolver, localRepository,
+            repositories, settings);
 
         return container;
     }

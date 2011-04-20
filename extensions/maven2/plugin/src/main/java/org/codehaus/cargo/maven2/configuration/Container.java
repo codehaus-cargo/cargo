@@ -24,7 +24,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import org.apache.maven.artifact.factory.ArtifactFactory;
+import org.apache.maven.artifact.repository.ArtifactRepository;
+import org.apache.maven.artifact.resolver.ArtifactResolver;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Proxy;
@@ -79,6 +83,11 @@ public class Container
      * {@link ZipUrlInstaller} for the container.
      */
     private ZipUrlInstaller zipUrlInstaller;
+
+    /**
+     * {@link ArtifactInstaller} for the container.
+     */
+    private ArtifactInstaller artifactInstaller;
 
     /**
      * Whether to append logs.
@@ -239,6 +248,22 @@ public class Container
     }
 
     /**
+     * @return {@link ArtifactInstaller} for the container.
+     */
+    public ArtifactInstaller getArtifactInstaller()
+    {
+        return this.artifactInstaller;
+    }
+
+    /**
+     * @param artifactInstaller {@link ArtifactInstaller} for the container.
+     */
+    public void setArtifactInstaller(ArtifactInstaller artifactInstaller)
+    {
+        this.artifactInstaller = artifactInstaller;
+    }
+
+    /**
      * @return Whether to append logs.
      */
     public boolean shouldAppend()
@@ -314,7 +339,7 @@ public class Container
         Configuration configuration, Logger logger, CargoProject project)
         throws MojoExecutionException
     {
-        return createContainer(configuration, logger, project, null);
+        return createContainer(configuration, logger, project, null, null, null, null, null);
     }
 
     /**
@@ -322,13 +347,25 @@ public class Container
      * @param configuration Container configuration.
      * @param logger Logger.
      * @param project Cargo project.
-     * @param settings Maven2 settings (to get the proxy).
+     * @param artifactFactory The artifact factory is used to create valid Maven
+     * {@link org.apache.maven.artifact.Artifact} objects.
+     * @param artifactResolver The artifact resolver is used to dynamically resolve
+     * {@link org.apache.maven.artifact.Artifact} objects. It will automatically download whatever
+     * needed.
+     * @param localRepository The local Maven repository. This is used by the artifact resolver to
+     * download resolved artifacts and put them in the local repository so that they won't have to
+     * be fetched again next time the plugin is executed.
+     * @param repositories The remote Maven repositories used by the artifact resolver to look for
+     * artifacts.
+     * @param settings Maven2 settings.
      * @return Container configuration.
      * @throws MojoExecutionException If container creation fails.
      */
     public org.codehaus.cargo.container.Container createContainer(
-        Configuration configuration, Logger logger, CargoProject project, Settings settings)
-        throws MojoExecutionException
+        Configuration configuration, Logger logger, CargoProject project,
+        ArtifactFactory artifactFactory, ArtifactResolver artifactResolver,
+        ArtifactRepository localRepository, List<ArtifactRepository> repositories,
+        Settings settings) throws MojoExecutionException
     {
         ContainerFactory factory = new DefaultContainerFactory();
 
@@ -372,15 +409,13 @@ public class Container
             }
             else if (container.getType() == ContainerType.INSTALLED)
             {
-                if (settings == null)
+                Proxy proxy = null;
+                if (settings != null)
                 {
-                    setupHome((InstalledLocalContainer) container, project, null);
+                    proxy = settings.getActiveProxy();
                 }
-                else
-                {
-                    setupHome((InstalledLocalContainer) container, project,
-                        settings.getActiveProxy());
-                }
+                setupHome((InstalledLocalContainer) container, project, artifactFactory,
+                    artifactResolver, localRepository, repositories, proxy);
                 setupOutput((InstalledLocalContainer) container, project);
                 setupExtraClasspath((InstalledLocalContainer) container, project);
                 setupSystemProperties((InstalledLocalContainer) container);
@@ -542,15 +577,59 @@ public class Container
 
     /**
      * Set up a home dir of container (possibly including installing the container, by a
-     * ZipURLInstaller).
+     * {@link ZipUrlInstaller} or {@link ArtifactInstaller}).
      * @param container Container.
      * @param project Cargo project.
+     * @param artifactFactory The artifact factory is used to create valid Maven
+     * {@link org.apache.maven.artifact.Artifact} objects.
+     * @param artifactResolver The artifact resolver is used to dynamically resolve
+     * {@link org.apache.maven.artifact.Artifact} objects. It will automatically download whatever
+     * needed.
+     * @param localRepository The local Maven repository. This is used by the artifact resolver to
+     * download resolved artifacts and put them in the local repository so that they won't have to
+     * be fetched again next time the plugin is executed.
+     * @param repositories The remote Maven repositories used by the artifact resolver to look for
+     * artifacts.
      * @param proxy If exists, Maven2 proxy.
+     * @throws MojoExecutionException If anything goes wrong.
      */
-    private void setupHome(InstalledLocalContainer container, CargoProject project, Proxy proxy)
+    private void setupHome(InstalledLocalContainer container, CargoProject project,
+        ArtifactFactory artifactFactory, ArtifactResolver artifactResolver,
+        ArtifactRepository localRepository, List<ArtifactRepository> repositories, Proxy proxy)
+        throws MojoExecutionException
     {
         String tmpHome = null;
 
+        if (getZipUrlInstaller() != null && getArtifactInstaller() != null)
+        {
+            throw new MojoExecutionException(
+                "You can use either ZipUrlInstaller or ArtifactInstaller; not both!");
+        }
+
+        // if a ArtifactInstaller is specified, use it to install
+        if (getArtifactInstaller() != null)
+        {
+            File home;
+            URL homeURL;
+            try
+            {
+                home = getArtifactInstaller().resolve(artifactFactory, artifactResolver,
+                    localRepository, repositories);
+                homeURL = home.toURI().toURL();
+            }
+            catch (Exception e)
+            {
+                throw new MojoExecutionException("Failed resolving artifact", e);
+            }
+            ZipURLInstaller installer = new ZipURLInstaller(homeURL, home.getParent(),
+                project.getBuildDirectory());
+            if (getLog() != null)
+            {
+                installer.setLogger(container.getLogger());
+            }
+            installer.install();
+            tmpHome = installer.getHome();
+        }
         // if a ZipUrlInstaller is specified, use it to install
         if (getZipUrlInstaller() != null)
         {
