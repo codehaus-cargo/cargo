@@ -126,7 +126,7 @@
 
   <profiles>
     <profile>
-      <id>jetty6x</id>
+      <id>jetty7x</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
@@ -138,8 +138,12 @@
               <artifactId>cargo-maven2-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>jetty6x</containerId>
-                  <type>embedded</type>
+                  <containerId>jetty7x</containerId>
+                  <artifactInstaller>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-distribution</artifactId>
+                    <version>7.3.1.v20110307</version>
+                  </artifactInstaller>
                 </container>
               </configuration>
             </plugin>
@@ -179,9 +183,12 @@
               <configuration>
                 <container>
                   <containerId>jonas5x</containerId>
-                  <zipUrlInstaller>
-                    <url>http://download.fr.forge.objectweb.org/jonas/jonas-full-5.1.6-bin.tar.gz</url>
-                  </zipUrlInstaller>
+                  <artifactInstaller>
+                    <groupId>org.ow2.jonas.assemblies.profiles</groupId>
+                    <artifactId>jonas-full</artifactId>
+                    <version>5.1.6</version>
+                    <classifier>bin</classifier>
+                  </artifactInstaller>
                 </container>
               </configuration>
             </plugin>
