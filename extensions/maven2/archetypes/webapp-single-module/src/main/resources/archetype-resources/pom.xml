@@ -144,6 +144,25 @@
       </build>
     </profile>
     <profile>
+      <id>jetty6x</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-maven2-plugin</artifactId>
+              <configuration>
+                <container>
+                  <containerId>jetty6x</containerId>
+                  <type>embedded</type>
+                </container>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
       <id>tomcat6x</id>
       <build>
         <pluginManagement>
