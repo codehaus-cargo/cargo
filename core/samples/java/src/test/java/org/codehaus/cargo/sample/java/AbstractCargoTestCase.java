@@ -109,15 +109,12 @@ public class AbstractCargoTestCase extends TestCase
         // Ensure target dir exists so that we can create the log file
         File targetDir = new File(getTestData().targetDir);
         targetDir.mkdirs();
-        System.gc();
         if (!targetDir.isDirectory())
         {
             fail("Directory " + targetDir + " does not exist");
         }
 
-        this.logger =
-            new FileLogger(new File(new File(getTestData().targetDir).getParentFile(),
-                "cargo.log"), true);
+        this.logger = new FileLogger(new File(targetDir.getParentFile(), "cargo.log"), true);
         this.logger.setLevel(LogLevel.DEBUG);
     }
 
