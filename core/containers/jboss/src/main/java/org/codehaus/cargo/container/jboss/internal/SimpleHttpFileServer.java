@@ -259,7 +259,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     {
         final String expectedGetRequest = "GET " + this.remotePath;
 
-        while (true)
+        while (!this.stopped)
         {
             Socket socket = null;
 
