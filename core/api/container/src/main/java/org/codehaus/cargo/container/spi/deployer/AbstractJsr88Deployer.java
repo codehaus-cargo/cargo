@@ -36,6 +36,7 @@ import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
@@ -92,6 +93,15 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
             {
                 localFileName = war.getContext() + ".war";
             }
+            tempDirectory = new File(fileHandler.createUniqueTmpDirectory());
+            deployableFile = new File(tempDirectory, localFileName);
+            fileHandler.copyFile(deployable.getFile(), deployableFile.getAbsolutePath());
+            deployableFile.deleteOnExit();
+        }
+        else if (deployable.getType() == DeployableType.EAR)
+        {
+            EAR ear = (EAR) deployable;
+            String localFileName = ear.getName() + ".ear";
             tempDirectory = new File(fileHandler.createUniqueTmpDirectory());
             deployableFile = new File(tempDirectory, localFileName);
             fileHandler.copyFile(deployable.getFile(), deployableFile.getAbsolutePath());
