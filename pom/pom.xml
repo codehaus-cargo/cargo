@@ -22,11 +22,11 @@
     <groupId>org.codehaus</groupId>
     <artifactId>codehaus-parent</artifactId>
     <version>3</version>
-    <relativePath/>
+    <relativePath />
   </parent>
   <groupId>org.codehaus.cargo</groupId>
   <artifactId>cargo-parent</artifactId>
-  <version>4.8-SNAPSHOT</version>
+  <version>4.8</version>
   <packaging>pom</packaging>
 
   <name>Cargo</name>
@@ -295,9 +295,9 @@
   </prerequisites>
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/pom/trunk</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/pom/trunk</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/pom/trunk</url> 
+    <connection>scm:svn:http://svn.codehaus.org/cargo/pom/tags/cargo-parent-4.8</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/pom/tags/cargo-parent-4.8</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/pom/tags/cargo-parent-4.8</url> 
   </scm>
   <issueManagement>
     <system>jira</system>
