@@ -84,6 +84,11 @@ public class ConfluenceProjectStructureDocumentationGenerator
         // create markup for the base maven build and all modules.
         File baseDir = new File(PROJECT_BASE).getCanonicalFile();
         File basePom = new File(baseDir, POM);
+        if (!basePom.isFile())
+        {
+            return "";
+        }
+
         MavenProject baseProject = createProjectFromPom(basePom);
         markup.append(getProjectInfo(baseProject, 1));
 
