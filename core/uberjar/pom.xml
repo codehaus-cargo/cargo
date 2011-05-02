@@ -101,7 +101,7 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <createDependencyReducedPom>false</createDependencyReducedPom>
+              <createDependencyReducedPom>true</createDependencyReducedPom>
               <filters>
                 <filter>
                   <artifact>*:*</artifact>
@@ -112,6 +112,12 @@
 
                     <!-- JSR-88 -->
                     <include>javax/enterprise/deploy/**</include>
+
+                    <!-- JSR-160 -->
+                    <include>javax/management/j2ee/**</include>
+
+                    <!-- EJB (since some JSR-160 implementations can use EJB) -->
+                    <include>javax/ejb/**</include>
 
                     <!-- The JOnAS container uses the OW2 API -->
                     <include>org/ow2/jonas/tools/configurator/**</include>
