@@ -34,6 +34,15 @@
     <module>tomcat6x-remotecontainer-test</module>
   </modules>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-sample-java</artifactId>
+      <version>${cargo.core.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
   <build>
     <plugins>
       <!--

@@ -30,7 +30,7 @@
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-api-container</artifactId>
+      <artifactId>cargo-core-uberjar</artifactId>
       <version>${cargo.core.version}</version>
       <type>test-jar</type>
       <scope>test</scope>

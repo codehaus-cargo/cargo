@@ -31,12 +31,6 @@
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-sample-java</artifactId>
-      <version>${cargo.core.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-war</artifactId>
       <version>${cargo.resources.version}</version>
       <type>war</type>

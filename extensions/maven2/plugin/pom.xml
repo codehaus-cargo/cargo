@@ -29,16 +29,6 @@
   <description>Cargo Maven 2 Plugin</description>
   <dependencies>
     <dependency>
-      <groupId>dom4j</groupId>
-      <artifactId>dom4j</artifactId>
-      <version>1.4</version>
-    </dependency>
-    <dependency>
-      <groupId>jdom</groupId>
-      <artifactId>jdom</artifactId>
-      <version>1.0</version>
-    </dependency>
-    <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
       <version>2.0</version>
@@ -65,7 +55,7 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-api-container</artifactId>
+      <artifactId>cargo-core-uberjar</artifactId>
       <version>${cargo.core.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
@@ -74,12 +64,6 @@
       <groupId>jmock</groupId>
       <artifactId>jmock-cglib</artifactId>
       <version>1.2.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-vfs</groupId>
-      <artifactId>commons-vfs</artifactId>
-      <version>1.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
