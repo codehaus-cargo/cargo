@@ -42,6 +42,7 @@
       <artifactId>cargo-core-uberjar</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
+      <scope>test</scope>
     </dependency>
 
     <!-- The EJB includes its API -->
@@ -50,6 +51,7 @@
       <artifactId>simple-ejb</artifactId>
       <version>${cargo.resources.version}</version>
       <type>ejb</type>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
