@@ -42,6 +42,16 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.7.1</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-discovery</groupId>
+      <artifactId>commons-discovery</artifactId>
+      <version>0.4</version>
+    </dependency>
+    <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-uberjar</artifactId>
       <version>${cargo.core.version}</version>
