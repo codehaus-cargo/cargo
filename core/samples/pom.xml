@@ -34,15 +34,20 @@
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-uberjar</artifactId>
+      <artifactId>cargo-core-api-generic</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-uberjar</artifactId>
       <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-container</artifactId>
+      <version>${project.version}</version>
       <type>test-jar</type>
-      <scope>test</scope>
     </dependency>
 
     <!-- The EJB includes its API -->
@@ -51,7 +56,6 @@
       <artifactId>simple-ejb</artifactId>
       <version>${cargo.resources.version}</version>
       <type>ejb</type>
-      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
