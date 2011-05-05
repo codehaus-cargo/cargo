@@ -30,7 +30,7 @@ import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
 
 /**
- * An ArtifactDownloader encapsulates the resolving of an artifact from a local
+ * An ArtifactInstaller encapsulates the resolving of an artifact from a local
  * or remote Maven repository.
  *
  * @version $Id$

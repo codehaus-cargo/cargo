@@ -621,8 +621,10 @@ public class Container
             {
                 throw new MojoExecutionException("Failed resolving artifact", e);
             }
+            File installDirectory = new File(project.getBuildDirectory(),
+                org.codehaus.cargo.maven2.configuration.ZipUrlInstaller.EXTRACT_SUBDIRECTORY);
             ZipURLInstaller installer = new ZipURLInstaller(homeURL, home.getParent(),
-                project.getBuildDirectory());
+                installDirectory.getPath());
             if (getLog() != null)
             {
                 installer.setLogger(container.getLogger());

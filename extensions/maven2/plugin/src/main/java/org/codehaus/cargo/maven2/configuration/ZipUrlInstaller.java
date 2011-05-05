@@ -35,6 +35,11 @@ import org.codehaus.cargo.container.installer.ZipURLInstaller;
 public class ZipUrlInstaller
 {
     /**
+     * Default extraction subdirectory.
+     */
+    public static final String EXTRACT_SUBDIRECTORY = "cargo/installs";
+
+    /**
      * URL where to find the zipped container installation file.
      */
     private URL url;
@@ -166,7 +171,7 @@ public class ZipUrlInstaller
         String extractDir = getExtractDir();
         if (extractDir == null)
         {
-            extractDir = new File(projectBuildDirectory, "cargo/installs").getPath();
+            extractDir = new File(projectBuildDirectory, EXTRACT_SUBDIRECTORY).getPath();
         }
         ZipURLInstaller installer = new ZipURLInstaller(getUrl(), getDownloadDir(), extractDir);
         if (getProxy() != null)
