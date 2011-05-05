@@ -64,6 +64,11 @@ public class ArtifactInstaller
     private String classifier;
 
     /**
+     * Destination directory where the zipped container install will be extracted.
+     */
+    private String extractDir;
+
+    /**
      * @return Group id.
      */
     public String getGroupId()
@@ -141,6 +146,23 @@ public class ArtifactInstaller
     public void setClassifier(String classifier)
     {
         this.classifier = classifier;
+    }
+
+    /**
+     * @return the destination directory where the zipped container install will be installed.
+     */
+    public String getExtractDir()
+    {
+        return this.extractDir;
+    }
+
+    /**
+     * @param extractDir the destination directory where the zipped container install will be
+     * installed.
+     */
+    public void setExtractDir(String extractDir)
+    {
+        this.extractDir = extractDir;
     }
 
     /**
