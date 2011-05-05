@@ -37,13 +37,22 @@ public class ArtifactInstallerTest extends TestCase
         {
             if (contents.isDirectory())
             {
-                if(contents.getName().equals("jetty-base"))
+                if (contents.getName().equals("jetty-base"))
                 {
                     foundJettyBase = true;
                 }
-                else if(contents.getName().startsWith("jetty-distribution-"))
+                else if (contents.getName().equals("cargo"))
                 {
-                    foundJettyDistribution = true;
+                    File installs = new File(contents, "installs");
+                    assertTrue(installs + " is not a directory", installs.isDirectory());
+                    for (File jettyDistribution : installs.listFiles())
+                    {
+                        if (jettyDistribution.isDirectory() &&
+                            jettyDistribution.getName().startsWith("jetty-distribution-"))
+                        {
+                            foundJettyDistribution = true;
+                        }
+                    }
                 }
             }
         }
