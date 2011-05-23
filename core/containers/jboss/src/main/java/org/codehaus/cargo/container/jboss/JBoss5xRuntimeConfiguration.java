@@ -43,6 +43,10 @@ public class JBoss5xRuntimeConfiguration extends AbstractRuntimeConfiguration
     {
         setProperty(GeneralPropertySet.HOSTNAME, "localhost");
         setProperty(GeneralPropertySet.RMI_PORT, "1099");
+
+        setProperty(JBossPropertySet.CONFIGURATION, "default");
+        setProperty(JBossPropertySet.PROFILE, "default");
+        setProperty(JBossPropertySet.CLUSTERED, "false");
     }
 
     /**

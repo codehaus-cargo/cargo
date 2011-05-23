@@ -32,6 +32,11 @@ public interface JBossPropertySet
     String CONFIGURATION = "cargo.jboss.configuration";
 
     /**
+     * The JBoss profile. Examples of valid values: "default", "farm".
+     */
+    String PROFILE = "cargo.jboss.profile";
+
+    /**
      * Whether the JBoss Configuration should be clustered.
      */
     String CLUSTERED = "cargo.jboss.clustered";

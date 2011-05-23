@@ -41,5 +41,6 @@ public class JBoss5xRuntimeConfigurationCapability extends
         this.supportsMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
         this.supportsMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
         this.supportsMap.put(JBossPropertySet.CLUSTERED, Boolean.TRUE);
+        this.supportsMap.put(JBossPropertySet.PROFILE, Boolean.TRUE);
     }
 }
