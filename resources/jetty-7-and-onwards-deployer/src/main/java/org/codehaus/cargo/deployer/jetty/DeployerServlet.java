@@ -111,12 +111,9 @@ public class DeployerServlet extends HttpServlet
         }
         this.webAppDirectory = configHome + File.separator + "webapps";
 
-        // TODO there could potentially be more than one context handler
-        // collection
-        // and there is also the chance that a web application can be deployed
-        // under the same
-        // context. These situations should be looked after but are currently
-        // not.
+        // TODO there could potentially be more than one context handler collection and there is
+        // also the chance that a web application can be deployed under the same context. These
+        // situations should be looked after but are currently not.
         Handler[] handles = server.getChildHandlers();
         for (Handler handle : handles)
         {
@@ -285,8 +282,8 @@ public class DeployerServlet extends HttpServlet
     }
 
     /**
-     * Returns the file if it exists for the specified context path. If the file does not exist then
-     * it will return null.
+     * Returns the file if it exists for the specified context path. If the file does not exist
+     * then it will return null.
      * @param contextPath The context path for the web app
      * @return The file associated with the context path
      */
@@ -469,7 +466,7 @@ public class DeployerServlet extends HttpServlet
             sendError(response, "Path must start with a forward slash");
             error = true;
         }
-        ContextHandler handler = getContextHandler(contextPath);
+        ContextHandler handler = (ContextHandler) getContextHandler(contextPath);
         if (handler == null)
         {
             sendError(response, "Could not find handler for the context");
@@ -618,16 +615,16 @@ public class DeployerServlet extends HttpServlet
     }
 
     /**
-     * Returns the context handler for the given context.
+     * Returns the context handler for the given context. It returns as Object to avoid bug
+     * CARGO-983 (Jetty 7.4 throwing NoClassDefFoundError with ContextHandler).
      * @param context The webapp context
-     * @return The context handler
+     * @return The context handler, of type {@link ContextHandler}
      */
-    protected ContextHandler getContextHandler(String context)
+    protected Object getContextHandler(String context)
     {
-        // Note: this is very inefficient, but I think its the only way that
-        // will
-        // work. It would have been nice if they used a map and a context could
-        // have been used to retrieve the handler.
+        // Note: this is very inefficient, but I think its the only way that will work. It would
+        // have been nice if they used a map and a context could have been used to retrieve the
+        // handler.
         Handler[] handlers = chc.getHandlers();
         for (Handler handler : handlers)
         {
@@ -635,7 +632,7 @@ public class DeployerServlet extends HttpServlet
             {
                 if (((ContextHandler) handler).getContextPath().equals(context))
                 {
-                    return (ContextHandler) handler;
+                    return handler;
                 }
             }
         }
