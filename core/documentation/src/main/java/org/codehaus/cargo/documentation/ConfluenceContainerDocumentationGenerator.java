@@ -771,6 +771,23 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(generateConfigurationPropertiesForConfigurationTypeForContainerType(
                 "Runtime", ConfigurationType.RUNTIME, containerId, ContainerType.REMOTE));
             output.append(LINE_SEPARATOR);
+            if (containerId.equals("tomcat7x"))
+            {
+                output.append("{info}With Tomcat 7, the Tomcat manager has multiple URLs. You ");
+                output.append("can read more about it [on the Tomcat Manager howto document|");
+                output.append("http://tomcat.apache.org/tomcat-7.0-doc/manager-howto.html#");
+                output.append("Supported_Manager_Commands], what you need to know is that your ");
+                output.append("browser by default accesses the HTML-based manager whereas CARGO ");
+                output.append("needs to use the text-based manager.");
+                output.append(LINE_SEPARATOR);
+                output.append(LINE_SEPARATOR);
+                output.append("As a result, if you want to set the {{RemotePropertySet.URI}} ");
+                output.append("manually, please make sure you set the *base* URL for the Tomcat ");
+                output.append("Manager, for example {{http://production27:8080/manager/}} (and ");
+                output.append("*NOT* {{http://production27:8080/manager/html}} or ");
+                output.append("{{http://production27:8080/manager/text}}){info}");
+                output.append(LINE_SEPARATOR);
+            }
         }
 
         return output.toString();
