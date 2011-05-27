@@ -212,6 +212,19 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
+        else if (containerId.startsWith("jetty"))
+        {
+            String versionString = containerId.substring("jetty".length()).replace("x", "");
+            int version = Integer.parseInt(versionString);
+            if (version >= 7)
+            {
+                output.append("{info}The Jetty " + version + ".x container works best with the ");
+                output.append("*Jetty@Eclipse* version; i.e. the ones downloaded from ");
+                output.append("http://download.eclipse.org/jetty/{info}");
+                output.append(LINE_SEPARATOR);
+                output.append(LINE_SEPARATOR);
+            }
+        }
 
         output.append(generateContainerFeaturesText(containerId));
         output.append(LINE_SEPARATOR);
