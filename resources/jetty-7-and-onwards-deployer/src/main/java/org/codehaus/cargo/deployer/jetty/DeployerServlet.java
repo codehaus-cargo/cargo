@@ -466,7 +466,7 @@ public class DeployerServlet extends HttpServlet
             sendError(response, "Path must start with a forward slash");
             error = true;
         }
-        ContextHandler handler = (ContextHandler) getContextHandler(contextPath);
+        ContextHandler handler = getContextHandler(contextPath);
         if (handler == null)
         {
             sendError(response, "Could not find handler for the context");
@@ -615,12 +615,11 @@ public class DeployerServlet extends HttpServlet
     }
 
     /**
-     * Returns the context handler for the given context. It returns as Object to avoid bug
-     * CARGO-983 (Jetty 7.4 throwing NoClassDefFoundError with ContextHandler).
+     * Returns the context handler for the given context.
      * @param context The webapp context
-     * @return The context handler, of type {@link ContextHandler}
+     * @return The context handler, of type {@link }
      */
-    protected Object getContextHandler(String context)
+    protected ContextHandler getContextHandler(String context)
     {
         // Note: this is very inefficient, but I think its the only way that will work. It would
         // have been nice if they used a map and a context could have been used to retrieve the
@@ -632,7 +631,7 @@ public class DeployerServlet extends HttpServlet
             {
                 if (((ContextHandler) handler).getContextPath().equals(context))
                 {
-                    return handler;
+                    return (ContextHandler) handler;
                 }
             }
         }
