@@ -779,15 +779,6 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("{info}Before using the GlassFish remote deployer, ");
                 output.append("please read: [JSR88]{info}");
             }
-            if (containerId.startsWith("tomcat"))
-            {
-                output.append(LINE_SEPARATOR);
-                output.append(LINE_SEPARATOR);
-                output.append("{info}Note that the recommended way for changing the target ");
-                output.append("Tomcat server is using the {{GeneralPropertySet.HOSTNAME}} and ");
-                output.append("{{ServletPropertySet.PORT}} properties (as opposed to the ");
-                output.append("{{RemotePropertySet.URI}} property).{info}");
-            }
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
             output.append(generateConfigurationPropertiesForConfigurationTypeForContainerType(
