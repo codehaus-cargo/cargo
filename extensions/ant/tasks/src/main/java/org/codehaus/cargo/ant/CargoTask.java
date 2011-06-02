@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.Environment;
 import org.apache.tools.ant.types.Environment.Variable;
@@ -73,6 +74,12 @@ public class CargoTask extends Task
     private static final String ACTION_START = "start";
 
     /**
+     * Represents a run container action.
+     * @see #setAction(String)
+     */
+    private static final String ACTION_RUN = "run";
+
+    /**
      * Represents a stop container action.
      * @see #setAction(String)
      */
@@ -83,7 +90,7 @@ public class CargoTask extends Task
      * @see #setAction(String)
      */
     private static final List<String> LOCAL_ACTIONS = Arrays.asList(new String[] {
-        ACTION_START, ACTION_STOP, ACTION_CONFIGURE
+        ACTION_START, ACTION_RUN, ACTION_STOP, ACTION_CONFIGURE
     });
 
     /**
@@ -229,12 +236,14 @@ public class CargoTask extends Task
      * Decides whether to wait after the container is started or to return the execution flow to the
      * user.
      */
+    @Deprecated
     private boolean wait = false;
 
     /**
      * @param wait if true wait indefinitely after the container is started, if false return the
      * execution flow to the user
      */
+    @Deprecated
     public void setWait(boolean wait)
     {
         this.wait = wait;
@@ -243,6 +252,7 @@ public class CargoTask extends Task
     /**
      * @return whether the task will block execution after the container is started or not
      */
+    @Deprecated
     public boolean getWait()
     {
         return this.wait;
@@ -266,7 +276,7 @@ public class CargoTask extends Task
     }
 
     /**
-     * Sets the action to execute (either "start" or "stop").
+     * Sets the action to execute ("start", "stop", etc.).
      * 
      * @param action the action that will be executed by this task
      */
@@ -551,9 +561,19 @@ public class CargoTask extends Task
 
                 if (getWait())
                 {
+                    log("The wait parameter is now deprecated, please use the run task instead",
+                        Project.MSG_WARN);
+                    log("", Project.MSG_WARN);
                     log("Press Ctrl-C to stop the container...");
                     ContainerUtils.waitTillContainerIsStopped(getContainer());
                 }
+            }
+            else if (ACTION_RUN.equalsIgnoreCase(getAction()))
+            {
+                localContainer.start();
+
+                log("Press Ctrl-C to stop the container...");
+                ContainerUtils.waitTillContainerIsStopped(getContainer());
             }
             else if (ACTION_STOP.equalsIgnoreCase(getAction()))
             {
