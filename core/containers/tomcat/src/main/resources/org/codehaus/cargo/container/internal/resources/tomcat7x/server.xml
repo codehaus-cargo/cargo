@@ -125,7 +125,7 @@
                resourceName="UserDatabase"/>
       </Realm>
 
-      <Host name="@cargo.hostname@" appBase="webapps"
+      <Host name="@cargo.hostname@" appBase="@cargo.tomcat.webappsDirectory@"
             unpackWARs="true" autoDeploy="true"
             xmlValidation="false" xmlNamespaceAware="false">
 

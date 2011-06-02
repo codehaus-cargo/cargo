@@ -61,7 +61,9 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
     @Override
     public String getDeployableDir()
     {
-        return getFileHandler().append(getContainer().getConfiguration().getHome(), "webapps");
+        return getFileHandler().append(getContainer().getConfiguration().getHome(),
+            getContainer().getConfiguration().getPropertyValue(
+                TomcatPropertySet.WEBAPPS_DIRECTORY));
     }
 
     /**

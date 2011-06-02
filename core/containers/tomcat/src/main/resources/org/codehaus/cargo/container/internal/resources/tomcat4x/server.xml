@@ -18,7 +18,7 @@
       <Realm className="org.apache.catalina.realm.MemoryRealm" />
 
       <Host name="@cargo.hostname@" debug="@catalina.logging.level@" 
-          appBase="webapps" unpackWARs="true">
+          appBase="@cargo.tomcat.webappsDirectory@" unpackWARs="true">
       
         <!-- Contexts to explicitely point to where the wars are located -->
         @tomcat.webapps@

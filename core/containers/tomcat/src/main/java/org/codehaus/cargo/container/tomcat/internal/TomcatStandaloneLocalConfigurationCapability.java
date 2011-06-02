@@ -53,6 +53,7 @@ public class TomcatStandaloneLocalConfigurationCapability extends
         this.supportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.supportsMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
         this.supportsMap.put(TomcatPropertySet.COPY_WARS, Boolean.TRUE);
+        this.supportsMap.put(TomcatPropertySet.WEBAPPS_DIRECTORY, Boolean.TRUE);
     }
 
     /**

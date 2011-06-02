@@ -52,4 +52,9 @@ public interface TomcatPropertySet
      * Whether WAR deployables should be copied or referenced.
      */
     String COPY_WARS = "cargo.tomcat.copywars";
+
+    /**
+     * The <code>webapps</code> directory of Tomcat.
+     */
+    String WEBAPPS_DIRECTORY = "cargo.tomcat.webappsDirectory";
 }

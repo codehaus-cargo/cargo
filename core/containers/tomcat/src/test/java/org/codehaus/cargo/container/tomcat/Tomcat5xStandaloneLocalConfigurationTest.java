@@ -181,4 +181,31 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
         XMLAssert.assertXpathEvaluatesTo("1001", "//Connector[@protocol='AJP/1.3']/@port", config);
     }
 
+    /**
+     * Test webapps directory configuration.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testConfigureDefaultWebappsDirectory() throws Exception
+    {
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
+        XMLAssert.assertXpathEvaluatesTo("webapps", "//Host/@appBase", config);
+    }
+
+    /**
+     * Test webapps directory configuration.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testConfigureSetsWebappsDirectory() throws Exception
+    {
+        configuration.setProperty(TomcatPropertySet.WEBAPPS_DIRECTORY, "some_directory");
+        configuration.configure(container);
+        String config =
+            configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
+        XMLAssert.assertXpathEvaluatesTo("some_directory", "//Host/@appBase", config);
+    }
+
 }

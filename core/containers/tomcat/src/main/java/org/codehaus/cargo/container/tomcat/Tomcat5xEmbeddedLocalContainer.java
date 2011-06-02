@@ -123,7 +123,8 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContain
         engine.setParentClassLoader(getClassLoader());
 
         // create just one Host
-        host = controller.createHost("localhost", new File(home, "webapps"));
+        host = controller.createHost("localhost", new File(home,
+            getConfiguration().getPropertyValue(TomcatPropertySet.WEBAPPS_DIRECTORY)));
         host.setAutoDeploy(true);
         engine.addChild(host);
         engine.setDefaultHost(host.getName());

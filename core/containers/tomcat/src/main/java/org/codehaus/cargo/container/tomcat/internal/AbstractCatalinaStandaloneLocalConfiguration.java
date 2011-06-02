@@ -82,6 +82,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         setProperty(TomcatPropertySet.AJP_PORT, "8009");
         setProperty(TomcatPropertySet.CONTEXT_RELOADABLE, "false");
         setProperty(TomcatPropertySet.COPY_WARS, "true");
+        setProperty(TomcatPropertySet.WEBAPPS_DIRECTORY, "webapps");
     }
 
     /**
@@ -217,7 +218,8 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
             else
             {
                 // Create a webapps directory for automatic deployment of WARs dropped inside.
-                String appDir = getFileHandler().createDirectory(getHome(), "webapps");
+                String appDir = getFileHandler().createDirectory(getHome(),
+                    getPropertyValue(TomcatPropertySet.WEBAPPS_DIRECTORY));
 
                 // Deploy all deployables into the webapps directory.
                 TomcatCopyingInstalledLocalDeployer deployer =

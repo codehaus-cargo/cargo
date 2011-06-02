@@ -77,7 +77,8 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
         {
             InstalledLocalContainer tomcatContainer = (InstalledLocalContainer) container;
 
-            File webappsDir = new File(getHome(), "webapps");
+            File webappsDir = new File(getHome(),
+                getPropertyValue(TomcatPropertySet.WEBAPPS_DIRECTORY));
 
             if (!webappsDir.exists())
             {
