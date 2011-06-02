@@ -23,24 +23,14 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
 
 /**
- * Start a container using Cargo.
+ * Start a container using Cargo and wait until user pressed CTRL + C to stop.
  * 
  * @version $Id$
- * @goal start
+ * @goal run
  * @requiresDependencyResolution test
  */
-public class ContainerStartMojo extends AbstractContainerStartMojo
+public class ContainerRunMojo extends AbstractContainerStartMojo
 {
-    /**
-     * Decides whether to wait after the container is started or to return the execution flow to the
-     * user.
-     * 
-     * @parameter expression="${cargo.maven.wait}" default-value="false"
-     * @required
-     */
-    @Deprecated
-    private boolean wait;
-
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.maven2.AbstractCargoMojo#doExecute()
@@ -50,12 +40,7 @@ public class ContainerStartMojo extends AbstractContainerStartMojo
     {
         super.doExecute();
 
-        if (this.wait)
-        {
-            getLog().warn("The wait parameter is now deprecated, please use cargo:run instead");
-            getLog().warn("");
-            getLog().info("Press Ctrl-C to stop the container...");
-            ContainerUtils.waitTillContainerIsStopped(this.localContainer);
-        }
+        getLog().info("Press Ctrl-C to stop the container...");
+        ContainerUtils.waitTillContainerIsStopped(this.localContainer);
     }
 }
