@@ -48,6 +48,8 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
     public TomcatExistingLocalConfiguration(String dir)
     {
         super(dir);
+
+        setProperty(TomcatPropertySet.WEBAPPS_DIRECTORY, "webapps");
     }
 
     /**
