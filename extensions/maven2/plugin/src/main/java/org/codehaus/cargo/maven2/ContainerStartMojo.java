@@ -36,6 +36,7 @@ public class ContainerStartMojo extends AbstractContainerStartMojo
      * user.
      * 
      * @parameter expression="${cargo.maven.wait}" default-value="false"
+     * @deprecated The wait parameter is now deprecated, please use cargo:run instead
      * @required
      */
     @Deprecated

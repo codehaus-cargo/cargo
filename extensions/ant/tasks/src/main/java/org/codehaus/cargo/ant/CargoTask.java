@@ -247,6 +247,8 @@ public class CargoTask extends Task
     public void setWait(boolean wait)
     {
         this.wait = wait;
+        log("The wait parameter is now deprecated, please use the run task instead",
+            Project.MSG_WARN);
     }
 
     /**
