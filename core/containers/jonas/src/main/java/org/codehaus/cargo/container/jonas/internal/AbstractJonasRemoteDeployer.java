@@ -53,16 +53,6 @@ import org.codehaus.cargo.util.FileHandler;
 public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 {
     /**
-     * The default JOnAS target server name to be used for deployment.
-     */
-    protected static final String DEFAULT_JONAS_SERVER_NAME = "jonas";
-
-    /**
-     * The default JOnAS target domain name to be used for deployment.
-     */
-    protected static final String DEFAULT_JONAS_DOMAIN_NAME = "jonas";
-
-    /**
      * The run time configuration.
      */
     protected RuntimeConfiguration configuration;
@@ -524,16 +514,6 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
             .getPropertyValue(JonasPropertySet.JONAS_DOMAIN_NAME));
         config.setClusterName(this.configuration
             .getPropertyValue(JonasPropertySet.JONAS_CLUSTER_NAME));
-
-        if (config.getServerName() == null)
-        {
-            config.setServerName(DEFAULT_JONAS_SERVER_NAME);
-        }
-
-        if (config.getDomainName() == null)
-        {
-            config.setDomainName(DEFAULT_JONAS_DOMAIN_NAME);
-        }
 
         return config;
     }

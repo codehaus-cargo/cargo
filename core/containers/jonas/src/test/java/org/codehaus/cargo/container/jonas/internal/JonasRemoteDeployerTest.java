@@ -176,10 +176,8 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
         AbstractJonasRemoteDeployer remoteDeployer = new TestDeployer(remoteContainer);
         RemoteDeployerConfig deployerConfig = remoteDeployer.getConfig();
 
-        assertEquals(AbstractJonasRemoteDeployer.DEFAULT_JONAS_SERVER_NAME,
-            deployerConfig.getServerName());
-        assertEquals(AbstractJonasRemoteDeployer.DEFAULT_JONAS_DOMAIN_NAME,
-            deployerConfig.getDomainName());
+        assertEquals("jonas", deployerConfig.getServerName());
+        assertEquals("jonas", deployerConfig.getDomainName());
         assertNull(deployerConfig.getClusterName());
     }
 
@@ -196,8 +194,7 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
         RemoteDeployerConfig deployerConfig = remoteDeployer.getConfig();
 
         assertEquals("foo", deployerConfig.getServerName());
-        assertEquals(AbstractJonasRemoteDeployer.DEFAULT_JONAS_DOMAIN_NAME,
-            deployerConfig.getDomainName());
+        assertEquals("jonas", deployerConfig.getDomainName());
         assertNull(deployerConfig.getClusterName());
     }
 

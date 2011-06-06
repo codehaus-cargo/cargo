@@ -32,6 +32,7 @@ import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 
@@ -79,6 +80,13 @@ public class JSR160MBeanServerConnectionFactory implements MBeanServerConnection
             if (hostname != null)
             {
                 jmxRemoteURL = jmxRemoteURL.replace("localhost", hostname);
+            }
+
+            String servername = configuration.getPropertyValue(JonasPropertySet.JONAS_SERVER_NAME);
+            if (servername != null)
+            {
+                jmxRemoteURL = jmxRemoteURL.replace("jrmpconnector_jonas",
+                    "jrmpconnector_" + servername);
             }
         }
 

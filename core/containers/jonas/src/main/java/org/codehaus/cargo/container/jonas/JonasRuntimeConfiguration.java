@@ -24,6 +24,7 @@ package org.codehaus.cargo.container.jonas;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jonas.internal.JonasRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
 
 /**
@@ -37,6 +38,17 @@ public class JonasRuntimeConfiguration extends AbstractRuntimeConfiguration
      * Capability of the JOnAS runtime configuration.
      */
     private static ConfigurationCapability capability = new JonasRuntimeConfigurationCapability();
+
+    /**
+     * Creates the configuration and saves the default values of options.
+     */
+    public JonasRuntimeConfiguration()
+    {
+        setProperty(GeneralPropertySet.RMI_PORT, "1099");
+        setProperty(GeneralPropertySet.HOSTNAME, "localhost");
+        setProperty(JonasPropertySet.JONAS_SERVER_NAME, "jonas");
+        setProperty(JonasPropertySet.JONAS_DOMAIN_NAME, "jonas");
+    }
 
     /**
      * {@inheritDoc}
