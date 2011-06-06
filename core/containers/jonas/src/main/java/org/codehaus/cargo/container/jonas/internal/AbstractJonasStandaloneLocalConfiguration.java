@@ -25,11 +25,13 @@ package org.codehaus.cargo.container.jonas.internal;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.ow2.jonas.tools.configurator.Jonas;
+import org.ow2.jonas.tools.configurator.api.JDBCConfiguration;
 import org.ow2.jonas.tools.configurator.api.JonasConfigurator;
 
 /**
@@ -110,6 +112,19 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
         configurator.setProtocolsJrmpPort(getPropertyValue(GeneralPropertySet.RMI_PORT));
         configurator.setHttpPort(getPropertyValue(ServletPropertySet.PORT));
         configurator.setJmsPort(getPropertyValue(JonasPropertySet.JONAS_JMS_PORT));
+
+        // Add datasources
+        for (DataSource ds : getDataSources())
+        {
+            JDBCConfiguration dsConfiguration = new JDBCConfiguration();
+            dsConfiguration.driverName = ds.getDriverClass();
+            dsConfiguration.url = ds.getUrl();
+            dsConfiguration.mappername = "rdb";
+            dsConfiguration.user = ds.getUsername();
+            dsConfiguration.password = ds.getPassword();
+            dsConfiguration.jndiName = ds.getJndiLocation();
+            configurator.addJdbcRA(ds.getId(), dsConfiguration);
+        }
 
         // Run
         configurator.execute();

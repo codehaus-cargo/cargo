@@ -274,16 +274,10 @@ public class ConfluenceContainerDocumentationGenerator
                     + "| Changing the the container classpath is not supported on"
                     + "Apache Geronimo |");
             }
-            else if (containerId.equals("glassfish2x"))
+            else if (containerId.startsWith("glassfish"))
             {
                 output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
-                    + "| Changing the the container classpath is not supported on GlassFish 2.x |");
-            }
-            else if (containerId.equals("glassfish3x") || containerId.equals("jonas5x"))
-            {
-                output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
-                    + "| OSGi application servers do not support changing the "
-                    + "container classpath |");
+                    + "| Changing the the container classpath is not supported on GlassFish |");
             }
             else
             {

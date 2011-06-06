@@ -593,7 +593,7 @@
               </property>
               <property>
                 <name>cargo.samples.jonas4x.jonas.services.list</name>
-                <value>registry,jmx,security,web,ear</value>
+                <value>registry,jmx,security,jtm,resource,web,ear</value>
               </property>
 
               <property>

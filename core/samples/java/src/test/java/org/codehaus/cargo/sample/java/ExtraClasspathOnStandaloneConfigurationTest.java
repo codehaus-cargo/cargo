@@ -81,15 +81,12 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
             new CargoTestSuite("Tests that run on local containers to test extra classpath");
 
         // We exclude geronimo1x and geronimo2x as it doesn't support extra classpath
-        // We exclude glassfish2x as it doesn't support extra classpath
-        // We exclude glassfish3x container (OSGi) as it cannot support extra classpath.
-        // We exclude jonas5x container (OSGi) as it cannot support extra classpath.
+        // We exclude glassfish2x and glassfish3x as it cannot support extra classpath
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("geronimo1x");
         excludedContainerIds.add("geronimo2x");
         excludedContainerIds.add("glassfish2x");
         excludedContainerIds.add("glassfish3x");
-        excludedContainerIds.add("jonas5x");
         suite.addTestSuite(ExtraClasspathOnStandaloneConfigurationTest.class, new Validator[] {
             new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator(),
             new HasWarSupportValidator()}, excludedContainerIds);
