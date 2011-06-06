@@ -22,7 +22,9 @@
  */
 package org.codehaus.cargo.container.jonas;
 
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.util.FileHandler;
 
@@ -57,6 +59,32 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
         {
             super.setFileHandler(fileHandler);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see AbstractCopyingInstalledLocalDeployer#undeploy(Deployable)
+     */
+    @Override
+    public void undeploy(Deployable deployable)
+    {
+        throw new ContainerException(
+            "The jonas5x local container does not support undeploy or redeploy operations. "
+            + "Please use the jonas5x remote container instead.");
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see AbstractCopyingInstalledLocalDeployer#redeploy(Deployable)
+     */
+    @Override
+    public void redeploy(Deployable deployable)
+    {
+        throw new ContainerException(
+            "The jonas5x local container does not support undeploy or redeploy operations. "
+            + "Please use the jonas5x remote container instead.");
     }
 
     /**
