@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jonas-web-app PUBLIC "-//ObjectWeb//DTD JOnAS Web App 3.1//EN" "http://www.objectweb.org/jonas/dtds/jonas-web-app_3_1.dtd">
+
+<jonas-web-app>
+    <jonas-resource>
+        <res-ref-name>jdbc/CargoDS</res-ref-name>
+        <jndi-name>jdbc/CargoDS</jndi-name>
+    </jonas-resource>
+    <jonas-resource>
+        <res-ref-name>jdbc/CargoDS2</res-ref-name>
+        <jndi-name>jdbc/CargoDS2</jndi-name>
+    </jonas-resource>
+</jonas-web-app>
