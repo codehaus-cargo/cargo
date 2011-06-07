@@ -22,6 +22,9 @@
  */
 package org.codehaus.cargo.container.jonas.internal;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -103,27 +106,40 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
         Jonas jonas = new Jonas(installedContainer.getHome());
         JonasConfigurator configurator = jonas.getJonasConfigurator();
 
-        // Set the configuration
-        configurator.setJonasBase(getHome());
-        configurator.setJonasName(getPropertyValue(JonasPropertySet.JONAS_SERVER_NAME));
-        configurator.setJonasName(getPropertyValue(JonasPropertySet.JONAS_DOMAIN_NAME));
-        configurator.setServices(getPropertyValue(JonasPropertySet.JONAS_SERVICES_LIST));
-        configurator.setHost(getPropertyValue(GeneralPropertySet.HOSTNAME));
-        configurator.setProtocolsJrmpPort(getPropertyValue(GeneralPropertySet.RMI_PORT));
-        configurator.setHttpPort(getPropertyValue(ServletPropertySet.PORT));
-        configurator.setJmsPort(getPropertyValue(JonasPropertySet.JONAS_JMS_PORT));
-
-        // Add datasources
-        for (DataSource ds : getDataSources())
+        Logger configuratorNotApplicableLogger = Logger.getLogger(
+            "org.ow2.jonas.tools.configurator.impl.NotApplicableHelper");
+        Level oldLevel = configuratorNotApplicableLogger.getLevel();
+        try
         {
-            JDBCConfiguration dsConfiguration = new JDBCConfiguration();
-            dsConfiguration.driverName = ds.getDriverClass();
-            dsConfiguration.url = ds.getUrl();
-            dsConfiguration.mappername = "rdb";
-            dsConfiguration.user = ds.getUsername();
-            dsConfiguration.password = ds.getPassword();
-            dsConfiguration.jndiName = ds.getJndiLocation();
-            configurator.addJdbcRA(ds.getId(), dsConfiguration);
+            configuratorNotApplicableLogger.setLevel(Level.SEVERE);
+
+            // Set the configuration
+            configurator.setJonasBase(getHome());
+            configurator.setJonasName(getPropertyValue(JonasPropertySet.JONAS_SERVER_NAME));
+            configurator.setJonasName(getPropertyValue(JonasPropertySet.JONAS_DOMAIN_NAME));
+            configurator.setServices(getPropertyValue(JonasPropertySet.JONAS_SERVICES_LIST));
+            configurator.setHost(getPropertyValue(GeneralPropertySet.HOSTNAME));
+            configurator.setProtocolsJrmpPort(getPropertyValue(GeneralPropertySet.RMI_PORT));
+            configurator.setHttpPort(getPropertyValue(ServletPropertySet.PORT));
+            configurator.setJmsPort(getPropertyValue(JonasPropertySet.JONAS_JMS_PORT));
+
+            // Add datasources
+            for (DataSource ds : getDataSources())
+            {
+                JDBCConfiguration dsConfiguration = new JDBCConfiguration();
+                dsConfiguration.datasourceClass = ds.getDriverClass();
+                dsConfiguration.driverName = ds.getDriverClass();
+                dsConfiguration.url = ds.getUrl();
+                dsConfiguration.mappername = "rdb";
+                dsConfiguration.user = ds.getUsername();
+                dsConfiguration.password = ds.getPassword();
+                dsConfiguration.jndiName = ds.getJndiLocation();
+                configurator.addJdbcRA(ds.getId(), dsConfiguration);
+            }
+        }
+        finally
+        {
+            configuratorNotApplicableLogger.setLevel(oldLevel);
         }
 
         // Run
