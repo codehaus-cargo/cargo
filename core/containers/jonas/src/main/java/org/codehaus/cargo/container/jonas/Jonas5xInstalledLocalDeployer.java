@@ -22,14 +22,8 @@
  */
 package org.codehaus.cargo.container.jonas;
 
-import java.io.IOException;
-import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.RemoteContainer;
-import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployer.Deployer;
-import org.codehaus.cargo.container.jonas.internal.MBeanServerConnectionFactory;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.util.FileHandler;
 
@@ -40,6 +34,11 @@ import org.codehaus.cargo.util.FileHandler;
  */
 public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {
+    /**
+     * Whether calls to methods of this deployer should generate warnings.
+     */
+    private boolean warn;
+
     /**
      * {@inheritDoc}
      * 
@@ -64,6 +63,17 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
         {
             super.setFileHandler(fileHandler);
         }
+
+        // By default, warn the user about this deployer's limitations
+        this.warn = true;
+    }
+
+    /**
+     * @param warn Whether calls to methods of this deployer should generate warnings.
+     */
+    public void setWarn(boolean warn)
+    {
+        this.warn = warn;
     }
 
     /**
@@ -74,19 +84,10 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     @Override
     public void deploy(Deployable deployable)
     {
-        Deployer hotDeployer;
-        try
-        {
-            hotDeployer = getRemoteDeployer();
-        }
-        catch (IOException e)
-        {
-            // Cannot get remote deployer, therefore cold deploy
-            super.deploy(deployable);
-            return;
-        }
+        // If necessary, warn the user about this deployer's limitations
+        warn();
 
-        hotDeployer.deploy(deployable);
+        super.deploy(deployable);
     }
 
     /**
@@ -97,20 +98,11 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     @Override
     public void undeploy(Deployable deployable)
     {
-        Deployer hotDeployer;
-        try
-        {
-            hotDeployer = getRemoteDeployer();
-        }
-        catch (IOException e)
-        {
-            // Cannot get remote deployer, therefore cold undeploy
-            String deployableFilename = getDeployableDir() + "/" + getDeployableName(deployable);
-            getFileHandler().delete(deployableFilename);
-            return;
-        }
+        // If necessary, warn the user about this deployer's limitations
+        warn();
 
-        hotDeployer.undeploy(deployable);
+        String deployableFilename = getDeployableDir() + "/" + getDeployableName(deployable);
+        getFileHandler().delete(deployableFilename);
     }
 
     /**
@@ -137,47 +129,19 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     }
 
     /**
-     * @return A remote {@link Deployer} implementation that resembles the current one.
-     * @throws IOException If connection has failed because the remote server is not accessible.
-     * Note that {@link SecurityException}s are catched and transformed into
-     * {@link ContainerException}s.
+     * If necessary, warn the user about this deployer's limitations.
      */
-    protected Deployer getRemoteDeployer() throws IOException
+    protected void warn()
     {
-        RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
-        configuration.setLogger(this.getContainer().getConfiguration().getLogger());
-        configuration.getProperties().putAll(
-            this.getContainer().getConfiguration().getProperties());
-        RemoteContainer container = new Jonas5xRemoteContainer(configuration);
-        Jonas5xJsr160RemoteDeployer remoteDeployer = new Jonas5xJsr160RemoteDeployer(container);
-
-        MBeanServerConnectionFactory connectionFactory =
-            remoteDeployer.getMBeanServerConnectionFactory();
-        try
+        if (this.warn)
         {
-            connectionFactory.getServerConnection(configuration);
-            connectionFactory.destroy();
+            getLogger().warn("The jonas5x local deployer requires the target JOnAS server to be in"
+                + " development mode.", getClass().getName());
+            getLogger().warn("", getClass().getName());
+            getLogger().warn("If this is not the case, please use the jonas5x remote deployer.",
+                getClass().getName());
+            getLogger().warn("Note that the jonas5x remote deployer can be used on a local server"
+                + " by setting the server name to localhost.", getClass().getName());
         }
-        catch (SecurityException e)
-        {
-            throw new ContainerException(
-                "Cannot connect to the target JOnAS server due to a security issue. "
-                + "Please check the username and passeword.", e);
-        }
-        catch (IOException e)
-        {
-            throw e;
-        }
-        catch (Exception e)
-        {
-            throw new ContainerException("Cannot instantiate JSR160 JMX connector", e);
-        }
-        finally
-        {
-            connectionFactory = null;
-            System.gc();
-        }
-
-        return remoteDeployer;
     }
 }

@@ -598,6 +598,22 @@ public class ConfluenceContainerDocumentationGenerator
         output.append("h3.Deployer Features");
         output.append(LINE_SEPARATOR);
         output.append(LINE_SEPARATOR);
+
+        if (containerId.equals("jonas5x"))
+        {
+            output.append("{note}The {{jonas5x}} local deployer requires the target JOnAS server "
+                + "to be in {{development}} mode.");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+            output.append("If this is not the case, please use the {{jonas5x}} remote deployer.");
+            output.append(LINE_SEPARATOR);
+            output.append("Note that the {{jonas5x}} remote deployer can be used on a local "
+                + "server by setting the {{GeneralPropertySet.HOSTNAME}} parameter to "
+                + "{{localhost}}.{note}");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+        }
+
         output.append("|| Feature name || Java || Ant || Maven2 || Comment ||");
         output.append(LINE_SEPARATOR);
 

@@ -66,6 +66,7 @@ public class Jonas5xStandaloneLocalConfiguration extends AbstractJonasStandalone
         // Deploy with user defined deployables with the appropriate deployer
         Jonas5xInstalledLocalDeployer deployer = new Jonas5xInstalledLocalDeployer(
             installedContainer);
+        deployer.setWarn(false);
         deployer.deploy(getDeployables());
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
