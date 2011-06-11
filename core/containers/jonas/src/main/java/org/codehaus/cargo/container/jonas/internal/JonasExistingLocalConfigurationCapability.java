@@ -25,6 +25,7 @@ package org.codehaus.cargo.container.jonas.internal;
 import java.util.Map;
 
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
 /**
@@ -42,6 +43,8 @@ public class JonasExistingLocalConfigurationCapability extends
     public JonasExistingLocalConfigurationCapability()
     {
         super();
+        this.defaultSupportsMap.remove(GeneralPropertySet.PROTOCOL);
+        this.defaultSupportsMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
         this.defaultSupportsMap.put(JonasPropertySet.JONAS_SERVER_NAME, Boolean.TRUE);
         this.defaultSupportsMap.put(JonasPropertySet.JONAS_DOMAIN_NAME, Boolean.TRUE);
     }

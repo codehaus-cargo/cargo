@@ -67,7 +67,6 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
         super(dir);
 
         setProperty(GeneralPropertySet.RMI_PORT, "1099");
-        setProperty(GeneralPropertySet.PROTOCOL, "http");
         setProperty(GeneralPropertySet.HOSTNAME, "localhost");
         setProperty(ServletPropertySet.PORT, "9000");
         setProperty(JonasPropertySet.JONAS_SERVER_NAME, "jonas");
@@ -93,12 +92,6 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
-        if (!"http".equals(getPropertyValue(GeneralPropertySet.PROTOCOL)))
-        {
-            throw new IllegalArgumentException(
-                "Currently, the CARGO JOnAS container only supports HTTP");
-        }
-
         this.installedContainer = (InstalledLocalContainer) container;
         setupConfigurationDir();
 

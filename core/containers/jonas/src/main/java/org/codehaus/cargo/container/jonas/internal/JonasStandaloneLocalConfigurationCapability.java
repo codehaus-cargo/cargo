@@ -46,6 +46,8 @@ public class JonasStandaloneLocalConfigurationCapability extends
     {
         super();
 
+        this.defaultSupportsMap.remove(GeneralPropertySet.PROTOCOL);
+        this.defaultSupportsMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
         this.defaultSupportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
 
         this.defaultSupportsMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
