@@ -48,7 +48,7 @@
     <repository>
       <id>repository.jboss.org</id>
       <name>JBoss.org repository</name>
-      <url>http://repository.jboss.org/maven2</url>
+      <url>http://repository.jboss.org/nexus/content/groups/public/</url>
       <releases>
         <enabled>true</enabled>
       </releases>
