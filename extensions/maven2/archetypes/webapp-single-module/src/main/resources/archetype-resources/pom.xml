@@ -197,7 +197,7 @@
                   <artifactInstaller>
                     <groupId>org.ow2.jonas.assemblies.profiles</groupId>
                     <artifactId>jonas-full</artifactId>
-                    <version>5.1.6</version>
+                    <version>5.2.0</version>
                     <classifier>bin</classifier>
                   </artifactInstaller>
                 </container>
@@ -240,7 +240,7 @@
                 <container>
                   <containerId>glassfish3x</containerId>
                   <zipUrlInstaller>
-                    <url>http://download.java.net/glassfish/3.0.1/release/glassfish-3.0.1-web.zip</url>
+                    <url>http://download.java.net/glassfish/3.1/release/glassfish-3.1.zip</url>
                   </zipUrlInstaller>
                 </container>
               </configuration>
