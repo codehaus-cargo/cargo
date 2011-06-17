@@ -58,6 +58,7 @@ public class Jonas5xExistingLocalConfiguration extends AbstractJonasExistingLoca
         checkDirExists("deploy");
 
         Jonas5xInstalledLocalDeployer deployer = new Jonas5xInstalledLocalDeployer(jonasContainer);
+        deployer.setWarn(false);
         deployer.deploy(getDeployables());
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory.
