@@ -90,7 +90,7 @@
                 </cargo.datasource.datasource.derby>
                 <property>
                   <name>derby.system.home</name>
-                  <value>${project.build.directory}/derby</value>
+                  <value>\${project.build.directory}/derby</value>
                 </property>
               </properties>
             </configuration>
