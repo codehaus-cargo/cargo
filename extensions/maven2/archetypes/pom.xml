@@ -31,6 +31,7 @@
   <modules>
     <module>webapp-single-module</module>
     <module>webapp-functional-tests-module</module>
+    <module>webapp-with-datasource</module>
   </modules>
 
   <build>

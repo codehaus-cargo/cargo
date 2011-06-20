@@ -29,7 +29,6 @@
   <description>Cargo Samples for Maven 2</description>
   <modules>
     <module>artifactInstaller-test</module>
-    <module>datasource-test</module>
     <module>jetty7x-embedded-test</module>
     <module>tomcat6x-remotecontainer-test</module>
   </modules>
