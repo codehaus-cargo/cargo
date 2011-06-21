@@ -186,4 +186,45 @@ public abstract class AbstractDependency
         return resolvedArtifact.getFile().getPath();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        return "AbstractDependency"
+            + "{ groupId=" + groupId
+            + ", artifactId=" + artifactId
+            + ", type=" + type
+            + ", classifier=" + classifier
+            + " }";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object other)
+    {
+        if (other == null)
+        {
+            return false;
+        }
+        if (!(other instanceof AbstractDependency))
+        {
+            return false;
+        }
+
+        return this.toString().equals(((AbstractDependency) other).toString());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode()
+    {
+        return this.toString().hashCode();
+    }
+
 }

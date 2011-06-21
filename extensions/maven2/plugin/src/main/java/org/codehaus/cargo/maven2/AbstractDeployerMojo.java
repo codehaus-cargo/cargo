@@ -20,10 +20,13 @@
 package org.codehaus.cargo.maven2;
 
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
+import org.codehaus.cargo.maven2.configuration.Deployable;
 
 /**
  * Common mojo for all deployer actions (start deployable, stop deployable, deploy deployable,
@@ -116,27 +119,43 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
     {
         getLog().debug("Performing deployment action into [" + container.getName() + "]...");
 
+        Set<Deployable> deployableElements = new HashSet<Deployable>();
+
         // Perform deployment action on all deployables defined in the deployer config element
-        // (if any).
         if (getDeployerElement() != null && getDeployerElement().getDeployables() != null)
         {
-            for (int i = 0; i < getDeployerElement().getDeployables().length; i++)
+            for (Deployable deployableElement : getDeployerElement().getDeployables())
             {
-                org.codehaus.cargo.container.deployable.Deployable deployable =
-                    getDeployerElement().getDeployables()[i].createDeployable(
-                        container.getId(), getCargoProject());
-                URL pingURL = getDeployerElement().getDeployables()[i].getPingURL();
-                Long pingTimeout = getDeployerElement().getDeployables()[i].getPingTimeout();
-                performDeployerActionOnSingleDeployable(deployer, deployable, pingURL, pingTimeout);
+                deployableElements.add(deployableElement);
             }
+        }
+
+        // Perform deployment action on all deployables defined in the configuration config element
+        if (getConfigurationElement() != null
+            && getConfigurationElement().getDeployables() != null)
+        {
+            for (Deployable deployableElement : getConfigurationElement().getDeployables())
+            {
+                deployableElements.add(deployableElement);
+            }
+        }
+
+        for (Deployable deployableElement : deployableElements)
+        {
+            org.codehaus.cargo.container.deployable.Deployable deployable =
+                deployableElement.createDeployable(container.getId(), getCargoProject());
+            URL pingURL = deployableElement.getPingURL();
+            Long pingTimeout = deployableElement.getPingTimeout();
+            performDeployerActionOnSingleDeployable(deployer, deployable, pingURL, pingTimeout);
         }
 
         // Perform deployment action on the autodeployable (if any).
         if (getCargoProject().getPackaging() != null && getCargoProject().isJ2EEPackaging())
         {
-            if (getDeployerElement() == null
-                || getDeployerElement().getDeployables() == null
-                || !containsAutoDeployable(getDeployerElement().getDeployables()))
+            Deployable[] deployableElementsArray = new Deployable[deployableElements.size()];
+            deployableElements.toArray(deployableElementsArray);
+
+            if (!containsAutoDeployable(deployableElementsArray))
             {
                 // The ping URL is always null here because if the user has specified a ping URL
                 // then the auto deployable has already been deployed as it's been explicitely
