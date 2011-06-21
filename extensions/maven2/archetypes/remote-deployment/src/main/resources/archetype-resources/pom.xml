@@ -49,6 +49,15 @@
               <type>remote</type>
             </container>
             <configuration>
+              <type>runtime</type>
+              <properties>
+                <cargo.hostname>\${hostname}</cargo.hostname>
+                <cargo.servlet.port>\${servlet.port}</cargo.servlet.port>
+                <cargo.remote.username>${username}</cargo.remote.username>
+                <cargo.remote.password>${password}</cargo.remote.password>
+              </properties>
+            </configuration>
+            <deployer>
               <deployables>
                 <!--
                   The project's artifact is automatically deployed if no deployable
@@ -64,14 +73,7 @@
                   </properties>
                 </deployable>
               </deployables>
-              <properties>
-                <cargo.hostname>\${hostname}</cargo.hostname>
-                <cargo.servlet.port>\${servlet.port}</cargo.servlet.port>
-                <cargo.remote.username>${username}</cargo.remote.username>
-                <cargo.remote.password>${password}</cargo.remote.password>
-              </properties>
-              <type>runtime</type>
-            </configuration>
+            </deployer>
           </configuration>
         </plugin>
       </plugins>
@@ -112,14 +114,14 @@
         <artifactId>cargo-maven2-plugin</artifactId>
         <executions>
           <execution>
-            <id>start-cargo</id>
+            <id>deploy-cargo</id>
             <phase>pre-integration-test</phase>
             <goals>
               <goal>deployer-deploy</goal>
             </goals>
           </execution>
           <execution>
-            <id>stop-cargo</id>
+            <id>undeploy-cargo</id>
             <phase>post-integration-test</phase>
             <goals>
               <goal>deployer-undeploy</goal>
@@ -131,6 +133,10 @@
   </build>
 
   <profiles>
+    <!--
+      Before using the Jetty remote deployer, please read:
+      http://cargo.codehaus.org/Jetty+Remote+Deployer
+      -->
     <profile>
       <id>jetty7x</id>
       <build>
@@ -149,6 +155,10 @@
         </pluginManagement>
       </build>
     </profile>
+    <!--
+      Before using the Jetty remote deployer, please read:
+      http://cargo.codehaus.org/Jetty+Remote+Deployer
+      -->
     <profile>
       <id>jetty6x</id>
       <build>
