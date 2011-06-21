@@ -30,7 +30,6 @@
   <modules>
     <module>artifactInstaller-test</module>
     <module>jetty7x-embedded-test</module>
-    <module>tomcat6x-remotecontainer-test</module>
   </modules>
 
   <build>
