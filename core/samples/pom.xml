@@ -604,7 +604,7 @@
 
               <property>
                 <name>cargo.jonas5x.url</name>
-                <value>http://download.fr.forge.objectweb.org/jonas/jonas-full-5.2.0-bin.tar.gz</value>
+                <value>http://download.fr.forge.objectweb.org/jonas/jonas-full-5.2.1-bin.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jonas5x.java.home</name>
