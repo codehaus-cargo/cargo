@@ -197,7 +197,7 @@
                   <artifactInstaller>
                     <groupId>org.ow2.jonas.assemblies.profiles</groupId>
                     <artifactId>jonas-full</artifactId>
-                    <version>5.2.0</version>
+                    <version>5.2.1</version>
                     <classifier>bin</classifier>
                   </artifactInstaller>
                 </container>
