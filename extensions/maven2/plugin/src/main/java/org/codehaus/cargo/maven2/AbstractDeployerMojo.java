@@ -20,8 +20,8 @@
 package org.codehaus.cargo.maven2;
 
 import java.net.URL;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
@@ -119,7 +119,7 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
     {
         getLog().debug("Performing deployment action into [" + container.getName() + "]...");
 
-        Set<Deployable> deployableElements = new HashSet<Deployable>();
+        List<Deployable> deployableElements = new ArrayList<Deployable>();
 
         // Perform deployment action on all deployables defined in the deployer config element
         if (getDeployerElement() != null && getDeployerElement().getDeployables() != null)
@@ -136,7 +136,10 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
         {
             for (Deployable deployableElement : getConfigurationElement().getDeployables())
             {
-                deployableElements.add(deployableElement);
+                if (!deployableElements.contains(deployableElement))
+                {
+                    deployableElements.add(deployableElement);
+                }
             }
         }
 
