@@ -501,7 +501,29 @@ public class TomcatManager extends LoggedObject
             pipe(data, connection.getOutputStream());
         }
 
-        String response = toString(connection.getInputStream(), MANAGER_CHARSET);
+        String response;
+        try
+        {
+            response = toString(connection.getInputStream(), MANAGER_CHARSET);
+        }
+        catch (IOException e)
+        {
+            if (connection.getResponseCode() == 401)
+            {
+                throw new TomcatManagerException(
+                    "The username and password you provided are not correct (error 401)", e);
+            }
+            else if (connection.getResponseCode() == 403)
+            {
+                throw new TomcatManagerException("The username you provided is not allowed to "
+                    + "use the text-based Tomcat Manager (error 403)", e);
+            }
+            else
+            {
+                throw e;
+            }
+        }
+
         if (!response.startsWith("OK -"))
         {
             throw new TomcatManagerException(response);

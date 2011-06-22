@@ -796,18 +796,22 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             if (containerId.equals("tomcat7x"))
             {
-                output.append("{info}With Tomcat 7, the Tomcat manager has multiple URLs. You ");
-                output.append("can read more about it [on the Tomcat Manager howto document|");
-                output.append("http://tomcat.apache.org/tomcat-7.0-doc/manager-howto.html#");
-                output.append("Supported_Manager_Commands], what you need to know is that your ");
-                output.append("browser by default accesses the HTML-based manager whereas CARGO ");
-                output.append("needs to use the text-based manager.");
+                output.append("{info}With Tomcat 7, the Tomcat manager has multiple aspects to ");
+                output.append("be careful about:");
                 output.append(LINE_SEPARATOR);
+                output.append("* Your browser by default accesses the HTML-based manager ");
+                output.append("whereas CARGO needs to use the text-based manager. As a result, ");
+                output.append("if you want to set the {{RemotePropertySet.URI}} manually, ");
+                output.append("please make sure you set the URL for the text-based manager, ");
+                output.append("for example {{http://production27:8080/manager/text}}");
                 output.append(LINE_SEPARATOR);
-                output.append("As a result, if you want to set the {{RemotePropertySet.URI}} ");
-                output.append("manually, please make sure you set the URL for the text-based ");
-                output.append("manager, for example {{http://production27:8080/manager/text}}");
-                output.append("{info}");
+                output.append("* The text-based manager requires to be accessed by a user with ");
+                output.append("a user with the {{manager-script}} role; and by default no user ");
+                output.append("has that role. As a result, please make sure you modify your ");
+                output.append("{{tomcat-users.xml}} file to give that role to a user.");
+                output.append(LINE_SEPARATOR);
+                output.append("You can read more on the Tomcat documentation: ");
+                output.append("http://tomcat.apache.org/tomcat-7.0-doc/manager-howto.html{info}");
                 output.append(LINE_SEPARATOR);
             }
         }
