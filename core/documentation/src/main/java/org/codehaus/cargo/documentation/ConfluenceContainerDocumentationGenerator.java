@@ -806,8 +806,8 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("for example {{http://production27:8080/manager/text}}");
                 output.append(LINE_SEPARATOR);
                 output.append("* The text-based manager requires to be accessed by a user with ");
-                output.append("a user with the {{manager-script}} role; and by default no user ");
-                output.append("has that role. As a result, please make sure you modify your ");
+                output.append("the {{manager-script}} role; and by default no user has that ");
+                output.append("role. As a result, please make sure you modify your ");
                 output.append("{{tomcat-users.xml}} file to give that role to a user.");
                 output.append(LINE_SEPARATOR);
                 output.append("You can read more on the Tomcat documentation: ");
