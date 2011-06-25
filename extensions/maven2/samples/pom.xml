@@ -30,6 +30,7 @@
   <modules>
     <module>artifactInstaller-test</module>
     <module>autoDeployable-test</module>
+    <module>inPlaceDevelopment-test</module>
     <module>jetty7x-embedded-test</module>
   </modules>
 
