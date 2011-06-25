@@ -19,7 +19,9 @@
  */
 package org.codehaus.cargo.util;
 
+import java.util.UUID;
 import junit.framework.TestCase;
+import org.apache.tools.ant.types.FilterChain;
 
 /**
  * Unit tests for {@link DefaultFileHandler}.
@@ -62,6 +64,24 @@ public class DefaultFileHandlerTest extends TestCase
     {
         String path = this.fileHandler.getAbsolutePath(System.getProperty("user.home"));
         assertEquals(path, System.getProperty("user.home"));
+    }
+
+    /**
+     * Test file copy to a non-existing path.<br />
+     * This has been raised by https://jira.codehaus.org/browse/CARGO-1004
+     */
+    public void testCopyToNonExistingPath()
+    {
+        String random = UUID.randomUUID().toString();
+        assertFalse("Subdirectory " + random + " already exists",
+            this.fileHandler.isDirectory("target/" + random));
+        this.fileHandler.createFile("target/random.txt");
+        this.fileHandler.copyFile("target/random.txt", "target/" + random + "/random.txt",
+            new FilterChain(), "UTF-8");
+        assertTrue("Subdirectory " + random + " does not exist after copy",
+            this.fileHandler.isDirectory("target/" + random));
+        assertTrue("File in subdirectory " + random + " missing after copy",
+            this.fileHandler.exists("target/" + random + "/random.txt"));
     }
 
 }

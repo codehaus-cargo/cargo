@@ -663,6 +663,12 @@ public class DefaultFileHandler implements FileHandler
      */
     private Writer newWriter(String file, String encoding) throws IOException
     {
+        String parent = getParent(file);
+        if (!isDirectory(parent))
+        {
+            mkdirs(parent);
+        }
+
         if (encoding == null || encoding.length() <= 0)
         {
             return new FileWriter(file);
