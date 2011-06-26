@@ -16,23 +16,24 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
-    <artifactId>cargo-samples-testAll</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>cargo-samples-maven2</artifactId>
+    <version>1.1.2-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-maven2-plugin-it-test1</artifactId>
-  <name>Integration Test Case 1 for Cargo Maven 2 plugin</name>
+  <artifactId>cargo-sample-maven2-implementationClasses-test</artifactId>
+  <name>Cargo Samples - Maven 2 - Implementation classes' personalisation test</name>
   <packaging>war</packaging>
-  <description>Integration Test Case for Cargo Maven 2 Plugin which sets implementation classes</description>
+  <description>Sample application that exercises the Cargo Maven2 plugin with personalized implementation classes</description>
+
   <build>
     <plugins>
       <plugin>
         <groupId>org.codehaus.cargo</groupId>
         <artifactId>cargo-maven2-plugin</artifactId>
+        <version>${project.version}</version>
         <configuration>
           <container>
             <implementation>org.codehaus.cargo.container.stub.EmbeddedLocalContainerStub</implementation>
@@ -46,7 +47,6 @@
           <deployer>
             <implementation>org.codehaus.cargo.container.stub.EmbeddedLocalDeployerStub</implementation>
             <type>embedded</type>
-            <deployables/>
           </deployer>
         </configuration>
         <executions>
@@ -63,11 +63,38 @@
           <dependency>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-core-api-container</artifactId>
-            <version>${cargo.core.version}</version>
+            <version>${project.version}</version>
             <type>test-jar</type>
-            <scope>test</scope>
           </dependency>
         </dependencies>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+        <executions>
+          <execution>
+            <id>surefire-it</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <skip>${maven.test.skip}</skip>
+              <systemProperties>
+                <property>
+                  <name>artifactId</name>
+                  <value>${project.artifactId}</value>
+                </property>
+                <property>
+                  <name>target</name>
+                  <value>${project.build.directory}</value>
+                </property>
+              </systemProperties>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
