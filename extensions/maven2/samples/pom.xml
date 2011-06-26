@@ -30,7 +30,6 @@
   <modules>
     <module>artifactInstaller-test</module>
     <module>autoDeployable-test</module>
-    <module>implementationClasses-test</module>
     <module>inPlaceDevelopment-test</module>
     <module>jetty7x-embedded-test</module>
   </modules>
@@ -71,6 +70,25 @@
       </activation>
       <modules>
         <module>tomcat7x-context-test</module>
+      </modules>
+    </profile>
+
+    <!--
+      The implementationClasses test uses a CARGO plugin definition with added dependencies. Since
+      the plugin is also used in previous modules but without dependencies, Maven2 cannot add these
+      dependencies into the plugin. Maven3 fixes this problem.
+      -->
+    <profile>
+      <activation>
+        <file>
+          <!--
+            This employs that the basedir expression is only recognized by Maven 3.x (see MNG-2363)
+            -->
+          <exists>${basedir}</exists>
+        </file>
+      </activation>
+      <modules>
+        <module>implementationClasses-test</module>
       </modules>
     </profile>
   </profiles>
