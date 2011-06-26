@@ -65,6 +65,7 @@
   <profiles>
     <!-- Tomcat7 requires JDK 6 -->
     <profile>
+      <id>java6</id>
       <activation>
         <jdk>1.6</jdk>
       </activation>
@@ -79,6 +80,7 @@
       dependencies into the plugin. Maven3 fixes this problem.
       -->
     <profile>
+      <id>maven3</id>
       <activation>
         <file>
           <!--
