@@ -16,33 +16,30 @@
   ~ limitations under the License.
   -->
 
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
-    <artifactId>cargo-samples-testAll</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>cargo-parent</artifactId>
+    <version>4.8</version>
   </parent>
-  <artifactId>cargo-samples-maven2-testStartWithOneWarOneEarDeployed</artifactId>
-  <packaging>pom</packaging>
-  <name>cargo-samples-maven2-testStartWithOneWarOneEarDeployed</name>
-  <description>testStartWithOneWarOneEarDeployed</description>
-  <scm>
-    <connection>scm:svn:svn://svn.codehaus.org/cargo/cargo/trunk/samples/extensions/maven2/testStartWithOneWarOneEarDeployed</connection>
-    <url>http://svn.cargo.codehaus.org/</url>
-  </scm>
+  <artifactId>cargo-sample-maven2-runMojo-test-artifact</artifactId>
+  <version>${project.version}</version>
+  <description>Sample application that will be used to test the cargo:run MOJO</description>
+  <packaging>jar</packaging>
+
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>simple-war</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <type>war</type>
+      <artifactId>cargo-sample-java</artifactId>
+      <version>${cargo.core.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>simple-ear</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <type>ear</type>
+      <artifactId>simple-war</artifactId>
+      <version>${cargo.resources.version}</version>
+      <type>war</type>
     </dependency>
   </dependencies>
   <build>
@@ -50,40 +47,36 @@
       <plugin>
         <groupId>org.codehaus.cargo</groupId>
         <artifactId>cargo-maven2-plugin</artifactId>
+        <version>${project.version}</version>
         <configuration>
           <container>
-            <containerId>${containerId}</containerId>
-            <log>${project.build.directory}/${containerId}/cargo.log</log>
-            <zipUrlInstaller>
-              <url>${downloadUrl}</url>
-              <downloadDir>${installDir}</downloadDir>
-            </zipUrlInstaller>
+            <containerId>jetty7x</containerId>
+            <type>embedded</type>
           </container>
           <configuration>
-            <home>${project.build.directory}/${containerId}/container</home>
+            <home>${project.build.directory}/jetty-home</home>
             <properties>
-              <cargo.servlet.port>${port}</cargo.servlet.port>
-              <cargo.logging>high</cargo.logging>
+              <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
             </properties>
             <deployables>
               <deployable>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>simple-war</artifactId>
                 <type>war</type>
-                <properties>
-                  <context>simple-war</context>
-                </properties>
-              </deployable>
-              <deployable>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>simple-ear</artifactId>
-                <type>ear</type>
               </deployable>
             </deployables>
           </configuration>
         </configuration>
+        <executions>
+          <execution>
+            <id>start</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
-
 </project>
