@@ -317,13 +317,25 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     private void waitForPortShutdown(int port, int connectTimeout, long deadline)
         throws IOException, InterruptedException
     {
+        getLogger().debug("Waiting for port " + port + " to shutdown, deadline " + deadline,
+            this.getClass().getName());
+
         while (true)
         {
             Socket s = new Socket();
             try
             {
+                getLogger().debug("\tConnection attempt with socket " + s,
+                    this.getClass().getName());
+
+                s.setReuseAddress(false);
                 s.bind(null);
+
+                // If the remote port is closed, s.connect will throw an exception
                 s.connect(new InetSocketAddress("localhost", port), connectTimeout);
+                getLogger().debug("\tSocket " + s + " for port " + port + " managed to connect",
+                    this.getClass().getName());
+
                 try
                 {
                     s.shutdownOutput();
@@ -331,6 +343,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
                 catch (IOException e)
                 {
                     // ignored, irrelevant
+                    getLogger().debug("\tFailed to shutdown output for socket " + s + ": " + e,
+                        this.getClass().getName());
                 }
                 try
                 {
@@ -339,7 +353,12 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
                 catch (IOException e)
                 {
                     // ignored, irrelevant
+                    getLogger().debug("\tFailed to shutdown input for socket " + s + ": " + e,
+                        this.getClass().getName());
                 }
+
+                getLogger().debug("\tSocket " + s + " for port " + port + " shutdown",
+                    this.getClass().getName());
             }
             finally
             {
@@ -350,9 +369,14 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
                 catch (IOException e)
                 {
                     // ignored, irrelevant
+                    getLogger().debug("\tFailed to close socket " + s + ": " + e,
+                        this.getClass().getName());
                 }
                 finally
                 {
+                    getLogger().debug("\tSocket " + s + " for port " + port + " closed",
+                        this.getClass().getName());
+
                     s = null;
                     System.gc();
                 }
