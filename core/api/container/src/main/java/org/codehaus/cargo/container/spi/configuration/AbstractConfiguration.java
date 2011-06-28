@@ -82,6 +82,11 @@ public abstract class AbstractConfiguration extends LoggedObject
      */
     public final String getPropertyValue(String name)
     {
+        String systemProperty = System.getProperties().getProperty(name);
+        if (systemProperty != null)
+        {
+            return systemProperty;
+        }
         return this.properties.get(name);
     }
 

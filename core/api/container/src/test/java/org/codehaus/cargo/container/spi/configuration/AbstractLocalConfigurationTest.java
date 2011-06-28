@@ -137,4 +137,21 @@ public abstract class AbstractLocalConfigurationTest extends TestCase
         super.tearDown();
     }
 
+    /**
+     * Test override.
+     */
+    public void testOverride()
+    {
+        assertEquals(null, this.configuration.getPropertyValue("cargo.test"));
+        try
+        {
+            System.setProperty("cargo.test", "somevalue");
+            assertEquals("somevalue", this.configuration.getPropertyValue("cargo.test"));
+        }
+        finally
+        {
+            System.clearProperty("cargo.test");
+        }
+        assertEquals(null, this.configuration.getPropertyValue("cargo.test"));
+    }
 }
