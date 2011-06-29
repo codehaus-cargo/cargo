@@ -104,7 +104,7 @@
               <createDependencyReducedPom>true</createDependencyReducedPom>
               <filters>
                 <filter>
-                  <artifact>*:*</artifact>
+                  <artifact>org.codehaus.cargo:*</artifact>
                   <includes>
                     <include>org/codehaus/cargo/**</include>
                     <include>**/org.codehaus.cargo.*</include>
