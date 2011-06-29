@@ -41,6 +41,7 @@ import org.codehaus.cargo.maven2.util.CargoProject;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.FileLogger;
+import org.codehaus.cargo.util.log.LogLevel;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 
@@ -580,6 +581,21 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         if (getContainerElement() != null && getContainerElement().getLogLevel() != null)
         {
             logger.setLevel(getContainerElement().getLogLevel());
+        }
+        else
+        {
+            if (getLog().isDebugEnabled())
+            {
+                logger.setLevel(LogLevel.DEBUG);
+            }
+            else if (getLog().isInfoEnabled())
+            {
+                logger.setLevel(LogLevel.INFO);
+            }
+            else
+            {
+                logger.setLevel(LogLevel.WARN);
+            }
         }
 
         return logger;
