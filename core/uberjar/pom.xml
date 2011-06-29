@@ -102,28 +102,17 @@
             </goals>
             <configuration>
               <createDependencyReducedPom>true</createDependencyReducedPom>
-              <filters>
-                <filter>
-                  <artifact>org.codehaus.cargo:*</artifact>
-                  <includes>
-                    <include>org/codehaus/cargo/**</include>
-                    <include>**/org.codehaus.cargo.*</include>
-                    <include>**/org.codehaus.cargo/**</include>
+              <artifactSet>
+                <includes>
+                  <include>org.codehaus.cargo:*</include>
 
-                    <!-- JSR-88 -->
-                    <include>javax/enterprise/deploy/**</include>
-
-                    <!-- JSR-160 -->
-                    <include>javax/management/j2ee/**</include>
-
-                    <!-- EJB (since some JSR-160 implementations can use EJB) -->
-                    <include>javax/ejb/**</include>
+                    <!-- EJB, JSR-88 and JSR-160 -->
+                  <include>org.apache.geronimo.specs:*</include>
 
                     <!-- The JOnAS container uses the OW2 API -->
-                    <include>org/ow2/jonas/tools/configurator/**</include>
-                  </includes>
-                </filter>
-              </filters>
+                  <include>org.ow2.jonas.tools.configurator:*</include>
+                </includes>
+              </artifactSet>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 
