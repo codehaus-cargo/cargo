@@ -29,12 +29,6 @@
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-api-generic</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-geronimo</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -88,40 +82,6 @@
       <artifactId>cargo-core-container-weblogic</artifactId>
       <version>${project.version}</version>
     </dependency>
-
-    <!--
-      Due to limitations of the maven-shade-plugin, dependencies of various submodules need to be
-      repeated here. See: https://jira.codehaus.org/browse/CARGO-1011
-      -->
-    <!-- Dependencies copied from cargo-core-api-util -->
-    <dependency>
-      <groupId>dom4j</groupId>
-      <artifactId>dom4j</artifactId>
-      <version>1.4</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.ant</groupId>
-      <artifactId>ant</artifactId>
-      <version>1.7.1</version>
-    </dependency>
-    <!-- Dependency copied from cargo-core-api-module -->
-    <dependency>
-      <groupId>jdom</groupId>
-      <artifactId>jdom</artifactId>
-      <version>1.0</version>
-    </dependency>
-    <!-- Dependency copied from cargo-core-api-generic -->
-    <dependency>
-      <groupId>commons-discovery</groupId>
-      <artifactId>commons-discovery</artifactId>
-      <version>0.4</version>
-    </dependency>
-    <!-- Dependency copied from cargo-core-container-jonas -->
-    <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
-      <version>2.1.13</version>
-    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -136,6 +96,7 @@
             </goals>
             <configuration>
               <createDependencyReducedPom>true</createDependencyReducedPom>
+              <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
               <artifactSet>
                 <includes>
                   <include>org.codehaus.cargo:*</include>
