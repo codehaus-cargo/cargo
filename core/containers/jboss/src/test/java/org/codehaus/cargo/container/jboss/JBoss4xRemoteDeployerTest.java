@@ -27,6 +27,7 @@ import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.jboss.internal.HttpURLConnection;
 import org.codehaus.cargo.container.jboss.internal.ISimpleHttpFileServer;
+import org.codehaus.cargo.util.log.NullLogger;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 
@@ -64,6 +65,7 @@ public class JBoss4xRemoteDeployerTest extends MockObjectTestCase
         Mock mockContainer = mock(RemoteContainer.class);
         mockContainer.stubs().method("getConfiguration")
             .will(returnValue(mockConfiguration.proxy()));
+        mockContainer.stubs().method("getLogger").will(returnValue(new NullLogger()));
 
         Mock mockDeployable = mock(Deployable.class);
         mockDeployable.stubs().method("getFile").will(

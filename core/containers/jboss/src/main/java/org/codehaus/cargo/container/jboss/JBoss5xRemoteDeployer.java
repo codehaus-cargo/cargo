@@ -54,6 +54,8 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
      */
     public JBoss5xRemoteDeployer(RemoteContainer container)
     {
+        super(container);
+
         final String classToLoad = "org.codehaus.cargo.tools.jboss.JBossDeployer";
 
         StringBuilder providerURL = new StringBuilder();

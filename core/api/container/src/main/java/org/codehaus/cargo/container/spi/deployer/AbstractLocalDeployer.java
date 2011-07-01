@@ -45,11 +45,9 @@ public abstract class AbstractLocalDeployer extends AbstractDeployer
      */
     public AbstractLocalDeployer(LocalContainer container)
     {
-        super();
+        super(container);
         this.container = container;
         this.fileHandler = new DefaultFileHandler();
-
-        setLogger(container.getLogger());
     }
 
     /**

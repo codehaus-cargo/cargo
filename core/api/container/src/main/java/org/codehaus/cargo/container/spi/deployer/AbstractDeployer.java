@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.spi.deployer;
 
 import java.util.List;
 
+import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
@@ -34,6 +35,14 @@ import org.codehaus.cargo.util.log.LoggedObject;
  */
 public abstract class AbstractDeployer extends LoggedObject implements Deployer
 {
+    /**
+     * @param container the container into which to perform deployment operations
+     */
+    public AbstractDeployer(Container container)
+    {
+        setLogger(container.getLogger());
+    }
+
     /**
      * {@inheritDoc}
      * @see #deploy(Deployable)

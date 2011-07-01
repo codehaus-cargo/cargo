@@ -227,6 +227,8 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
      */
     public AbstractJonasRemoteDeployer(RemoteContainer container)
     {
+        super(container);
+
         configuration = container.getConfiguration();
     }
 

@@ -67,6 +67,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
      */
     public AbstractJsr88Deployer(RemoteContainer container)
     {
+        super(container);
         this.configuration = container.getConfiguration();
         this.fileHandler = new DefaultFileHandler();
     }

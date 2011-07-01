@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
+import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.deployer.DeployerType;
 
 /**
@@ -29,6 +30,14 @@ import org.codehaus.cargo.container.deployer.DeployerType;
  */
 public abstract class AbstractRemoteDeployer extends AbstractDeployer
 {
+    /**
+     * @param container the remote container into which to perform deployment operations
+     */
+    public AbstractRemoteDeployer(Container container)
+    {
+        super(container);
+    }
+
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#getType()

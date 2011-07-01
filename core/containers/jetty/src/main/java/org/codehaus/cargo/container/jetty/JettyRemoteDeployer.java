@@ -80,6 +80,8 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
      */
     public JettyRemoteDeployer(RemoteContainer container)
     {
+        super(container);
+
         Configuration configuration = container.getConfiguration();
 
         username = configuration.getPropertyValue(RemotePropertySet.USERNAME);

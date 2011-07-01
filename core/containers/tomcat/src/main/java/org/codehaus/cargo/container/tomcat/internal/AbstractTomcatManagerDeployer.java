@@ -65,7 +65,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
      */
     public AbstractTomcatManagerDeployer(Container container)
     {
-        setLogger(container.getLogger());
+        super(container);
     }
 
     /**

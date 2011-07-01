@@ -126,7 +126,8 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
     protected JBoss4xRemoteDeployer(RemoteContainer container, HttpURLConnection connection,
         ISimpleHttpFileServer fileServer)
     {
-        super();
+        super(container);
+
         this.configuration = container.getConfiguration();
         this.connection = connection;
         this.deployableServerSocketAddress = buildSocketAddressForDeployableServer();

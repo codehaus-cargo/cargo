@@ -19,20 +19,22 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
-import junit.framework.TestCase;
-
+import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.DeployableMonitorListener;
 import org.codehaus.cargo.util.log.LoggedObject;
+import org.codehaus.cargo.util.log.NullLogger;
+import org.jmock.Mock;
+import org.jmock.MockObjectTestCase;
 
 /**
  * Unit tests for {@link AbstractRemoteDeployer}.
  * 
  * @version $Id$
  */
-public class RemoteDeployerTest extends TestCase
+public class RemoteDeployerTest extends MockObjectTestCase
 {
 
     /**
@@ -40,6 +42,14 @@ public class RemoteDeployerTest extends TestCase
      */
     private class TestableAbstractRemoteDeployer extends AbstractRemoteDeployer
     {
+        /**
+         * @param container the remote container into which to perform deployment operations
+         */
+        public TestableAbstractRemoteDeployer(RemoteContainer container)
+        {
+            super(container);
+        }
+
         /**
          * Doesn't do anything. {@inheritDoc}
          * @param deployable Ignored.
@@ -116,7 +126,19 @@ public class RemoteDeployerTest extends TestCase
      */
     public void testDeployMethodWithDeployableMonitorParameterCanBeCalled()
     {
-        TestableAbstractRemoteDeployer deployer = new TestableAbstractRemoteDeployer();
+        TestableAbstractRemoteDeployer deployer = new TestableAbstractRemoteDeployer(
+            createContainer());
         deployer.deploy(new WAR("some/file"), new DeployableMonitorStub("some/file"));
+    }
+
+    /**
+     * Create mock container.
+     * @return Mock container.
+     */
+    private RemoteContainer createContainer()
+    {
+        Mock mockContainer = mock(RemoteContainer.class);
+        mockContainer.stubs().method("getLogger").will(returnValue(new NullLogger()));
+        return (RemoteContainer) mockContainer.proxy();
     }
 }
