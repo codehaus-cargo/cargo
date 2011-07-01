@@ -29,6 +29,12 @@
   <description>Core API to parse/create J2EE Modules</description>
   <dependencies>
     <dependency>
+      <groupId>jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-api-util</artifactId>
       <version>${project.version}</version>
