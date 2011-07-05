@@ -336,20 +336,6 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
                 getLogger().debug("\tSocket " + s + " for port " + port + " managed to connect",
                     this.getClass().getName());
 
-                // TODO: Temporary code inserted to test CARGO-1005
-                try
-                {
-                    getLogger().debug("\tSending a byte on socket " + s + " for port " + port,
-                        this.getClass().getName());
-
-                    s.sendUrgentData(0);
-                }
-                catch (IOException e)
-                {
-                    throw new CargoException("Sending a byte on the socket " + s
-                        + " failed. Is socket closed?", e);
-                }
-
                 try
                 {
                     s.shutdownOutput();
