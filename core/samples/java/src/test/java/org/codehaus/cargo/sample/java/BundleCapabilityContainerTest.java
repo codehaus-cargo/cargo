@@ -99,11 +99,17 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
                 + configuration.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME) + "/config",
                 "bundle-output.txt");
         }
+        else if (getContainer().getId().startsWith("jboss"))
+        {
+            // In JBoss, the file gets created in the current directory
+            bundleOutput = new File("bundle-output.txt");
+        }
         else
         {
             bundleOutput = new File(getLocalContainer().getConfiguration().getHome(),
                 "bundle-output.txt");
         }
+        bundleOutput.delete();
         assertFalse(bundleOutput + " already exists!", bundleOutput.isFile());
 
         Deployable bundle = new DefaultDeployableFactory().createDeployable(getContainer().getId(),

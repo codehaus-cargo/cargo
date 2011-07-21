@@ -33,7 +33,7 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
  * 
  * @version $Id$
  */
-public class JBossStandaloneLocalConfigurationCapability extends
+public class JBoss7xStandaloneLocalConfigurationCapability extends
     AbstractStandaloneLocalConfigurationCapability
 {
     /**
@@ -44,7 +44,7 @@ public class JBossStandaloneLocalConfigurationCapability extends
     /**
      * Initialize JBoss-specific configuration Map.
      */
-    public JBossStandaloneLocalConfigurationCapability()
+    public JBoss7xStandaloneLocalConfigurationCapability()
     {
         super();
 
@@ -52,24 +52,24 @@ public class JBossStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
-        this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.FALSE);
         this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_NAMING_PORT, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_INVOKER_POOL_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_NAMING_PORT, Boolean.FALSE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_INVOKER_POOL_PORT, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT,
-            Boolean.TRUE);
+            Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_JRMP_PORT, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_JMX_PORT, Boolean.FALSE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_OSGI_HTTP_PORT, Boolean.FALSE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_JMX_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT, Boolean.FALSE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_OSGI_HTTP_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT,
-            Boolean.TRUE);
+            Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT,
-            Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_USER, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_PASSWORD, Boolean.TRUE);
+            Boolean.FALSE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_USER, Boolean.FALSE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_PASSWORD, Boolean.FALSE);
     }
 
     /**

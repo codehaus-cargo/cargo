@@ -159,6 +159,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
                 config.getPropertyValue(JBossPropertySet.JBOSS_INVOKER_POOL_PORT),
                 config.getPropertyValue(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT),
                 config.getPropertyValue(JBossPropertySet.JBOSS_JRMP_PORT),
+                config.getPropertyValue(JBossPropertySet.JBOSS_JMX_PORT),
                 config.getPropertyValue(JBossPropertySet.JBOSS_NAMING_PORT),
                 config.getPropertyValue(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT),
                 config.getPropertyValue(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT));

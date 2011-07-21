@@ -279,6 +279,10 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         int connectTimeout = 0;
         for (String p : ports)
         {
+            if (p == null)
+            {
+                continue;
+            }
             int port;
             try
             {

@@ -279,6 +279,11 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
                     + "| Changing the the container classpath is not supported on GlassFish |");
             }
+            else if (containerId.equals("jboss7x"))
+            {
+                output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
+                    + "| Changing the the container classpath is not supported on JBoss 7.x |");
+            }
             else
             {
                 output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) | |");

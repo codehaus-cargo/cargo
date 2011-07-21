@@ -62,6 +62,16 @@ public interface JBossPropertySet
     String JBOSS_NAMING_PORT = "cargo.jboss.naming.port";
 
     /**
+     * The port used for the JMX server.
+     */
+    String JBOSS_JMX_PORT = "cargo.jboss.jmx.port";
+
+    /**
+     * The port used for the OSGi HTTP server.
+     */
+    String JBOSS_OSGI_HTTP_PORT = "cargo.jboss.osgi.http.port";
+
+    /**
      * The port used for the mini webserver used for dynamic and class and resource loading.
      */
     String JBOSS_CLASSLOADING_WEBSERVICE_PORT = "cargo.jboss.classloading.webservice.port";

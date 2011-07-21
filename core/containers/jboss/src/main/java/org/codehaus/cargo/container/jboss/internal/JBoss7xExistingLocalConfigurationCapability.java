@@ -33,7 +33,7 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
  * 
  * @version $Id$
  */
-public class JBossExistingLocalConfigurationCapability extends
+public class JBoss7xExistingLocalConfigurationCapability extends
     AbstractExistingLocalConfigurationCapability
 {
     /**
@@ -44,7 +44,7 @@ public class JBossExistingLocalConfigurationCapability extends
     /**
      * Initialize JBoss-specific configuration Map.
      */
-    public JBossExistingLocalConfigurationCapability()
+    public JBoss7xExistingLocalConfigurationCapability()
     {
         super();
 

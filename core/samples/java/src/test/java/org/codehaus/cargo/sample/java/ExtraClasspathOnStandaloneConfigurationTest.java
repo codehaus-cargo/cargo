@@ -87,6 +87,7 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
         excludedContainerIds.add("geronimo2x");
         excludedContainerIds.add("glassfish2x");
         excludedContainerIds.add("glassfish3x");
+        excludedContainerIds.add("jboss7x");
         suite.addTestSuite(ExtraClasspathOnStandaloneConfigurationTest.class, new Validator[] {
             new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator(),
             new HasWarSupportValidator()}, excludedContainerIds);

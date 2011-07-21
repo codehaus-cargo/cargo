@@ -27,6 +27,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.CargoTestSuite;
 import org.codehaus.cargo.sample.java.EnvironmentTestData;
+import org.codehaus.cargo.sample.java.validator.HasDeployableSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
@@ -64,6 +65,7 @@ public class EjbCapabilityContainerTest extends AbstractJBossCapabilityTestCase
             "Tests that can run on containers supporting EJB deployments");
         suite.addTestSuite(EjbCapabilityContainerTest.class, new Validator[] {
             new StartsWithContainerValidator("jboss"),
+            new HasDeployableSupportValidator(DeployableType.EJB),
             new IsInstalledLocalContainerValidator(),
             new HasStandaloneConfigurationValidator()});
         return suite;

@@ -125,6 +125,10 @@
                 <value>${cargo.samples.jboss.classloading.webservice.port}</value>
               </property>
               <property>
+                <name>cargo.jboss.jmx.port</name>
+                <value>${cargo.samples.jboss.jmx.port}</value>
+              </property>
+              <property>
                 <name>cargo.jboss.jrmp.port</name>
                 <value>${cargo.samples.jboss.jrmp.port}</value>
               </property>
@@ -135,6 +139,10 @@
               <property>
                 <name>cargo.jboss.invoker.pool.port</name>
                 <value>${cargo.samples.jboss.invoker.pool.port}</value>
+              </property>
+              <property>
+                <name>cargo.jboss.osgi.http.port</name>
+                <value>${cargo.samples.jboss.osgi.http.port}</value>
               </property>
               <property>
                 <name>cargo.jboss.remoting.transport.port</name>
@@ -579,6 +587,15 @@
               </property>
 
               <property>
+                <name>cargo.jboss7x.url</name>
+                <value>http://download.jboss.org/jbossas/7.0/jboss-as-7.0.0.Final/jboss-as-7.0.0.Final.zip</value>
+              </property>
+              <property>
+                <name>cargo.jboss7x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <property>
                 <name>cargo.jonas4x.url</name>
                 <value>http://download.fr.forge.objectweb.org/jonas/jonas4.10.9-tomcat5.5.28.tgz</value>
               </property>
@@ -881,6 +898,8 @@
                 <portName>cargo.samples.jboss.transaction.recoveryManager.port</portName>
                 <portName>cargo.samples.jboss.transaction.statusManager.port</portName>
                 <portName>cargo.samples.jboss.remotedeploy.port</portName>
+                <portName>cargo.samples.jboss.jmx.port</portName>
+                <portName>cargo.samples.jboss.osgi.http.port</portName>
                 <portName>cargo.samples.tomcat.ajp.port</portName>
               </portNames>
             </configuration>
@@ -933,14 +952,14 @@
       <!-- All stable containers -->
       <id>all-stable-downloadable</id>
       <properties>
-        <cargo.containers>geronimo1x, geronimo2x, jetty4x, jetty5x, jetty6x, jetty7x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jo1x, jonas4x, jonas5x, resin2x, resin3x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
+        <cargo.containers>geronimo1x, geronimo2x, jetty4x, jetty5x, jetty6x, jetty7x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss7x, jo1x, jonas4x, jonas5x, resin2x, resin3x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <!-- All containers that have a distribution which can be downloaded automatically -->
       <id>all-downloadable</id>
       <properties>
-        <cargo.containers>geronimo1x, geronimo2x, glassfish3x, jetty4x, jetty5x, jetty6x, jetty7x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jo1x, jonas4x, jonas5x, resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
+        <cargo.containers>geronimo1x, geronimo2x, glassfish3x, jetty4x, jetty5x, jetty6x, jetty7x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss7x, jo1x, jonas4x, jonas5x, resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -1099,9 +1118,15 @@
        </properties>
     </profile>
     <profile>
+       <id>jboss7x</id>
+       <properties>
+         <cargo.containers>jboss7x</cargo.containers>
+       </properties>
+    </profile>
+    <profile>
       <id>all-jboss</id>
       <properties>
-        <cargo.containers>jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x</cargo.containers>
+        <cargo.containers>jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss7x</cargo.containers>
       </properties>
     </profile>
 

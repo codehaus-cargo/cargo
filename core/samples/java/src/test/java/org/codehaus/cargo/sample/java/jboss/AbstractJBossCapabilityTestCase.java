@@ -24,7 +24,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -32,8 +34,11 @@ import javax.management.MBeanServerConnection;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
+import javax.naming.Binding;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NameNotFoundException;
+import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
@@ -41,6 +46,7 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
 import org.codehaus.cargo.sample.java.EnvironmentTestData;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Abstract test case for JBoss capabilities.
@@ -81,23 +87,59 @@ public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestC
             // In order to do JNDI lookups on JBoss, the Java Naming Context requires stub classes
             // from JBoss; and one of the place in which it looks for these is the Thread's
             // ContextClassLoader. We therefore need to include the JBoss client JAR in there.
-            File allClientJar =
-                new File(getInstalledLocalContainer().getHome(), "client/jbossall-client.jar");
-            if (!allClientJar.isFile())
+            URL[] urls;
+            if (getContainer().getId().equals("jboss7x"))
             {
-                throw new IllegalStateException("Cannot find " + allClientJar);
+                List<File> files = new ArrayList<File>();
+                addAllJars(new File(getInstalledLocalContainer().getHome(), "modules"), files);
+                urls = new URL[files.size()];
+                for (int i = 0; i < files.size(); i++)
+                {
+                    urls[i] = files.get(i).toURI().toURL();
+                }
             }
-            URL[] urls = new URL[] {allClientJar.toURI().toURL()};
+            else
+            {
+                File allClientJar =
+                    new File(getInstalledLocalContainer().getHome(), "client/jbossall-client.jar");
+                if (!allClientJar.isFile())
+                {
+                    throw new IllegalStateException("Cannot find " + allClientJar);
+                }
+                urls = new URL[] {allClientJar.toURI().toURL()};
+            }
             URLClassLoader classloader = new URLClassLoader(urls, getClass().getClassLoader());
             Thread.currentThread().setContextClassLoader(classloader);
 
             Properties props = new Properties();
-            props.setProperty(
-                Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
+            if (getContainer().getId().equals("jboss7x"))
+            {
+                props.setProperty(
+                    Context.INITIAL_CONTEXT_FACTORY, "org.jboss.as.naming.InitialContextFactory");
+                props.setProperty(Context.URL_PKG_PREFIXES, "org.jboss.as.naming.interfaces");
+            }
+            else
+            {
+                props.setProperty(
+                    Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
+                props.setProperty(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
+            }
             props.setProperty(Context.PROVIDER_URL, "jnp://localhost:" + port);
-            props.setProperty(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
             Context jndi = new InitialContext(props);
-            return (T) jndi.lookup(name);
+            try
+            {
+                return (T) jndi.lookup(name);
+            }
+            catch (NameNotFoundException e)
+            {
+                StringBuilder sb = new StringBuilder("Cannot find " + name + ". Found names:");
+                NamingEnumeration<Binding> list = jndi.listBindings("");
+                while (list.hasMore())
+                {
+                    sb.append("\n\t- " + list.next().getName());
+                }
+                throw new CargoException(sb.toString(), e);
+            }
         }
         catch (MalformedURLException e)
         {
@@ -149,7 +191,7 @@ public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestC
                 // JNDI name is "jmxconnector" for JBoss 5.x
                 jndiName = "jmxconnector";
             }
-            else if (containerId.startsWith("jboss6"))
+            else if (containerId.equals("jboss6x") || containerId.equals("jboss7x"))
             {
                 // JNDI name is "jmxrmi" starting with JBoss 6.0.0 M3
                 jndiName = "jmxrmi";
@@ -175,6 +217,29 @@ public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestC
             srvCon = jmxc.getMBeanServerConnection();
             getLogger().debug("MBeanServerConnection created", this.getClass().getName());
             return srvCon;
+        }
+    }
+
+    /**
+     * Add all JARs in a folder in the list of files (recursive).
+     * @param folder Folder to recursively scan.
+     * @param files List containing all files.
+     */
+    public static void addAllJars(File folder, List<File> files)
+    {
+        if (folder.isDirectory())
+        {
+            for (File file : folder.listFiles())
+            {
+                if (file.isFile() && file.getName().endsWith(".jar"))
+                {
+                    files.add(file);
+                }
+                else if (file.isDirectory())
+                {
+                    addAllJars(file, files);
+                }
+            }
         }
     }
 }

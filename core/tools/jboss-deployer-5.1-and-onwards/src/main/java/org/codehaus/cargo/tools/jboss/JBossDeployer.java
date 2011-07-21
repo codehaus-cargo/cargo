@@ -43,9 +43,9 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
 {
 
     /**
-     * RMI provider URL, for example <code>jnp://localhost:1099</code>.
+     * Properties to create the JNDI Initial Context.
      */
-    private final String providerURL;
+    private final Properties properties;
     
     /**
      * Container configuration.
@@ -53,12 +53,12 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
     private Configuration configuration;
 
     /**
-     * @param providerURL Provider URL to use.
+     * @param properties Properties to create the JNDI Initial Context.
      * @param configuration Configuration of the container.
      */
-    public JBossDeployer(final String providerURL, Configuration configuration)
+    public JBossDeployer(Properties properties, Configuration configuration)
     {
-        this.providerURL = providerURL;
+        this.properties = properties;
         this.configuration = configuration;
     }
 
@@ -159,12 +159,7 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
      */
     private DeploymentManager getDeploymentManager() throws Exception
     {
-        Properties props = new Properties();
-        props.setProperty(
-            Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
-        props.put(Context.PROVIDER_URL, this.providerURL);
-        props.put(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
-        Context ctx = new InitialContext(props);
+        Context ctx = new InitialContext(this.properties);
 
         ProfileService ps = (ProfileService) ctx.lookup("ProfileService");
 

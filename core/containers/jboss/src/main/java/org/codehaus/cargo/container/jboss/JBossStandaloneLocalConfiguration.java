@@ -97,7 +97,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
+     * @see AbstractLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -180,7 +180,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#verify()
+     * @see AbstractStandaloneLocalConfiguration#verify()
      */
     @Override
     public void verify()
