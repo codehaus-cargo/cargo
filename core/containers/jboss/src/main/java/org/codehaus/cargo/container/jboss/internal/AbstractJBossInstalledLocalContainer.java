@@ -73,6 +73,8 @@ public abstract class AbstractJBossInstalledLocalContainer extends
     @Override
     protected void doStart(JvmLauncher java) throws Exception
     {
+        java.setWorkingDirectory(new File(getConfiguration().getHome()));
+
         java.setSystemProperty("java.endorsed.dirs",
             new File(getHome(), "/lib/endorsed").getAbsolutePath());
         java.setSystemProperty("jboss.home.dir", getHome());
@@ -119,6 +121,8 @@ public abstract class AbstractJBossInstalledLocalContainer extends
     @Override
     protected void doStop(JvmLauncher java) throws Exception
     {
+        java.setWorkingDirectory(new File(getConfiguration().getHome()));
+
         java.addClasspathEntries(new File(getHome(), "bin/shutdown.jar"));
         java.setMainClass("org.jboss.Shutdown");
 

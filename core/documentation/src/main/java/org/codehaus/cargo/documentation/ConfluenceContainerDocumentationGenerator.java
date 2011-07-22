@@ -588,6 +588,17 @@ public class ConfluenceContainerDocumentationGenerator
         }
         output.append(LINE_SEPARATOR);
 
+        if (containerId.equals("jboss7x"))
+        {
+            output.append("{note}Even thought the JBoss 7.x container can deploy EJBs, JBoss ");
+            output.append("7.x itself it does not support remote EJB lookups yet.");
+            output.append(LINE_SEPARATOR);
+            output.append("JBoss 7.1 is planned to support these, you can read more on: ");
+            output.append("http://community.jboss.org/message/616870{note}");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+        }
+
         return output.toString();
     }
 

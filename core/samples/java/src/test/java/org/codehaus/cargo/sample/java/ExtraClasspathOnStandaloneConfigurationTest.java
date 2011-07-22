@@ -82,6 +82,7 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
 
         // We exclude geronimo1x and geronimo2x as it doesn't support extra classpath
         // We exclude glassfish2x and glassfish3x as it cannot support extra classpath
+        // We exclude jboss7x as it doesn't support extra classpath
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("geronimo1x");
         excludedContainerIds.add("geronimo2x");

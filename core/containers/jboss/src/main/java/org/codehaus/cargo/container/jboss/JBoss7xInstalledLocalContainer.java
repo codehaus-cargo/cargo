@@ -155,6 +155,8 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
     @Override
     protected void doStart(JvmLauncher java) throws Exception
     {
+        java.setWorkingDirectory(new File(getConfiguration().getHome()));
+
         java.addJvmArguments(
             "-Dorg.jboss.boot.log.file=" + getConfiguration().getHome() + "/log/boot.log",
             "-Dlogging.configuration="
@@ -180,6 +182,8 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
     @Override
     protected void doStop(JvmLauncher java) throws Exception
     {
+        java.setWorkingDirectory(new File(getConfiguration().getHome()));
+
         java.setJarFile(new File(getHome(), "jboss-modules.jar"));
 
         java.addAppArguments(
