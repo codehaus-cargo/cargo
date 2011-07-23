@@ -24,8 +24,6 @@ package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
-import java.util.Properties;
-import javax.naming.Context;
 
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
@@ -33,7 +31,6 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.jboss.internal.IJBossProfileManagerDeployer;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
 import org.codehaus.cargo.util.CargoException;
 
@@ -81,9 +78,9 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
             }
 
             Constructor<?> jbossDeployerConstructor = jbossDeployerClass.getConstructor(
-                Properties.class, Configuration.class);
-            this.deployer = (IJBossProfileManagerDeployer) jbossDeployerConstructor.newInstance(
-                getInitialContextProperties(container), container.getConfiguration());
+                Configuration.class);
+            this.deployer = (IJBossProfileManagerDeployer)
+                jbossDeployerConstructor.newInstance(container.getConfiguration());
         }
         catch (ClassNotFoundException e)
         {
@@ -150,30 +147,6 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
         }
 
         this.deploy(deployable);
-    }
-
-    /**
-     * Get the properties to create the JNDI Initial Context.
-     * @param container Remote container.
-     * @return Properties to create the JNDI Initial Context.
-     */
-    protected Properties getInitialContextProperties(RemoteContainer container)
-    {
-        StringBuilder providerURL = new StringBuilder();
-        providerURL.append("jnp://");
-        providerURL.append(container.getConfiguration().getPropertyValue(
-            GeneralPropertySet.HOSTNAME));
-        providerURL.append(':');
-        providerURL.append(container.getConfiguration().getPropertyValue(
-            GeneralPropertySet.RMI_PORT));
-
-        Properties properties = new Properties();
-        properties.setProperty(
-            Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
-        properties.setProperty(Context.PROVIDER_URL, providerURL.toString());
-        properties.setProperty(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
-
-        return properties;
     }
 
     /**

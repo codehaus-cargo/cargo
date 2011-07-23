@@ -53,6 +53,7 @@ public class JBoss7xExistingLocalConfigurationCapability extends
         this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
         this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_PORT, Boolean.TRUE);
 
         // We don't support this property since it's not required as the configuration home already
         // points to the JBoss configuration to use...

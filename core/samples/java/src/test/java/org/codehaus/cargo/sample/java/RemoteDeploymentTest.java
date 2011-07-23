@@ -42,6 +42,7 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
+import org.codehaus.cargo.sample.java.jboss.AbstractJBossCapabilityTestCase;
 import org.codehaus.cargo.sample.java.validator.HasInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.HasRemoteContainerValidator;
 import org.codehaus.cargo.sample.java.validator.HasRemoteDeployerValidator;
@@ -50,6 +51,7 @@ import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValida
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.AntUtils;
+import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 
@@ -155,24 +157,42 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
                     filesToAddToClasspath.add(new File(getTestData().getTestDataFileFor(
                         "cargo-core-tools-jboss-deployer-5")));
                 }
-                else
+                else if (jbossVersion == 51 || jbossVersion == 6)
                 {
                     filesToAddToClasspath.add(new File(getTestData().getTestDataFileFor(
-                        "cargo-core-tools-jboss-deployer-5.1-and-onwards")));
+                        "cargo-core-tools-jboss-deployer-5.1-and-6")));
+                }
+                else if (jbossVersion == 7)
+                {
+                    filesToAddToClasspath.add(new File(getTestData().getTestDataFileFor(
+                        "cargo-core-tools-jboss-deployer-7")));
+                }
+                else
+                {
+                    throw new CargoException("Unkown JBoss version: " + jbossVersion);
                 }
 
-                for (File jar : new File(this.localContainer.getHome(), "lib").listFiles())
+                if (jbossVersion == 7)
                 {
-                    if (jar.isFile())
-                    {
-                        filesToAddToClasspath.add(jar);
-                    }
+                    AbstractJBossCapabilityTestCase.addAllJars(
+                        new File(this.localContainer.getHome(), "modules"), filesToAddToClasspath);
                 }
-                for (File jar : new File(this.localContainer.getHome(), "common/lib").listFiles())
+                else
                 {
-                    if (jar.isFile())
+                    for (File jar : new File(this.localContainer.getHome(), "lib").listFiles())
                     {
-                        filesToAddToClasspath.add(jar);
+                        if (jar.isFile())
+                        {
+                            filesToAddToClasspath.add(jar);
+                        }
+                    }
+                    for (File jar : new File(this.localContainer.getHome(),
+                        "common/lib").listFiles())
+                    {
+                        if (jar.isFile())
+                        {
+                            filesToAddToClasspath.add(jar);
+                        }
                     }
                 }
             }

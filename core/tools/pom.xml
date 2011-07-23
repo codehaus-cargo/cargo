@@ -29,6 +29,7 @@
   <description>Tools for the Core API</description>
   <modules>
     <module>jboss-deployer-5</module>
-    <module>jboss-deployer-5.1-and-onwards</module>
+    <module>jboss-deployer-5.1-and-6</module>
+    <module>jboss-deployer-7</module>
   </modules>
 </project>

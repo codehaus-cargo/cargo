@@ -61,6 +61,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         setProperty(GeneralPropertySet.RMI_PORT, "1099");
         setProperty(JBossPropertySet.JBOSS_JRMP_PORT, "1090");
         setProperty(JBossPropertySet.JBOSS_JMX_PORT, "1091");
+        setProperty(JBossPropertySet.JBOSS_MANAGEMENT_PORT, "9999");
         setProperty(JBossPropertySet.JBOSS_OSGI_HTTP_PORT, "8090");
         setProperty(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, "4447");
         setProperty(JBossPropertySet.CONFIGURATION, CONFIGURATION);
@@ -112,6 +113,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         replacements.put("1090", getPropertyValue(JBossPropertySet.JBOSS_JRMP_PORT));
         replacements.put("1091", getPropertyValue(JBossPropertySet.JBOSS_JMX_PORT));
         replacements.put("1099", getPropertyValue(GeneralPropertySet.RMI_PORT));
+        replacements.put("9999", getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_PORT));
         replacements.put("8090", getPropertyValue(JBossPropertySet.JBOSS_OSGI_HTTP_PORT));
         replacements.put("4447", getPropertyValue(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT));
         getFileHandler().replaceInFile(configurationXML, replacements, "UTF-8");

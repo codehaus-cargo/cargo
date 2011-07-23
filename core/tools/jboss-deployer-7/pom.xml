@@ -23,10 +23,10 @@
     <artifactId>cargo-core-tools</artifactId>
     <version>1.1.2-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-core-tools-jboss-deployer-5.1-and-onwards</artifactId>
-  <name>Cargo Tools JBoss deployer for versions 5.1.x and onwards</name>
+  <artifactId>cargo-core-tools-jboss-deployer-7</artifactId>
+  <name>Cargo Tools JBoss 7.x deployer</name>
   <packaging>jar</packaging>
-  <description>Remote deployer for JBoss 5.1.x and onwards</description>
+  <description>Remote deployer for JBoss 7.x</description>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
@@ -36,15 +36,15 @@
     </dependency>
 
     <dependency>
-      <groupId>org.jboss.integration</groupId>
-      <artifactId>jboss-profileservice-spi</artifactId>
-      <version>5.1.0.SP1</version>
+      <groupId>org.jboss.as</groupId>
+      <artifactId>jboss-as-controller-client</artifactId>
+      <version>7.0.0.Final</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
 
   <repositories>
-    <!-- The JBoss.org repository is required for org.jboss.integration:jboss-profileservice-spi -->
+    <!-- The JBoss.org repository is required for org.jboss.as:jboss-as-controller-client -->
     <repository>
       <id>repository.jboss.org</id>
       <name>JBoss.org repository</name>

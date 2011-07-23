@@ -141,6 +141,10 @@
                 <value>${cargo.samples.jboss.invoker.pool.port}</value>
               </property>
               <property>
+                <name>cargo.jboss.management.port</name>
+                <value>${cargo.samples.jboss.management.port}</value>
+              </property>
+              <property>
                 <name>cargo.jboss.osgi.http.port</name>
                 <value>${cargo.samples.jboss.osgi.http.port}</value>
               </property>
@@ -752,8 +756,12 @@
                 <value>org/codehaus/cargo/cargo-core-tools-jboss-deployer-5/${project.version}/cargo-core-tools-jboss-deployer-5-${project.version}.jar</value>
               </property>
               <property>
-                <name>cargo.testdata.cargo-core-tools-jboss-deployer-5.1-and-onwards</name>
-                <value>org/codehaus/cargo/cargo-core-tools-jboss-deployer-5.1-and-onwards/${project.version}/cargo-core-tools-jboss-deployer-5.1-and-onwards-${project.version}.jar</value>
+                <name>cargo.testdata.cargo-core-tools-jboss-deployer-5.1-and-6</name>
+                <value>org/codehaus/cargo/cargo-core-tools-jboss-deployer-5.1-and-6/${project.version}/cargo-core-tools-jboss-deployer-5.1-and-6-${project.version}.jar</value>
+              </property>
+              <property>
+                <name>cargo.testdata.cargo-core-tools-jboss-deployer-7</name>
+                <value>org/codehaus/cargo/cargo-core-tools-jboss-deployer-7/${project.version}/cargo-core-tools-jboss-deployer-7-${project.version}.jar</value>
               </property>
               <property>
                 <name>cargo.testdata.derby-jar</name>
@@ -899,6 +907,7 @@
                 <portName>cargo.samples.jboss.transaction.statusManager.port</portName>
                 <portName>cargo.samples.jboss.remotedeploy.port</portName>
                 <portName>cargo.samples.jboss.jmx.port</portName>
+                <portName>cargo.samples.jboss.management.port</portName>
                 <portName>cargo.samples.jboss.osgi.http.port</portName>
                 <portName>cargo.samples.tomcat.ajp.port</portName>
               </portNames>

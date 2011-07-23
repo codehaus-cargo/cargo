@@ -28,6 +28,7 @@ import javax.naming.InitialContext;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.jboss.internal.IJBossProfileManagerDeployer;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.jboss.deployers.spi.management.deploy.DeploymentManager;
 import org.jboss.deployers.spi.management.deploy.DeploymentProgress;
 import org.jboss.deployers.spi.management.deploy.DeploymentStatus;
@@ -41,11 +42,6 @@ import org.jboss.profileservice.spi.ProfileService;
  */
 public class JBossDeployer implements IJBossProfileManagerDeployer
 {
-
-    /**
-     * Properties to create the JNDI Initial Context.
-     */
-    private final Properties properties;
     
     /**
      * Container configuration.
@@ -53,12 +49,10 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
     private Configuration configuration;
 
     /**
-     * @param properties Properties to create the JNDI Initial Context.
      * @param configuration Configuration of the container.
      */
-    public JBossDeployer(Properties properties, Configuration configuration)
+    public JBossDeployer(Configuration configuration)
     {
-        this.properties = properties;
         this.configuration = configuration;
     }
 
@@ -159,7 +153,19 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
      */
     private DeploymentManager getDeploymentManager() throws Exception
     {
-        Context ctx = new InitialContext(this.properties);
+        StringBuilder providerURL = new StringBuilder();
+        providerURL.append("jnp://");
+        providerURL.append(this.configuration.getPropertyValue(GeneralPropertySet.HOSTNAME));
+        providerURL.append(':');
+        providerURL.append(this.configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
+
+        Properties properties = new Properties();
+        properties.setProperty(
+            Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
+        properties.setProperty(Context.PROVIDER_URL, providerURL.toString());
+        properties.setProperty(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
+
+        Context ctx = new InitialContext(properties);
 
         ProfileService ps = (ProfileService) ctx.lookup("ProfileService");
 
