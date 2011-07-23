@@ -30,6 +30,18 @@
   <modules>
     <module>jboss-deployer-5</module>
     <module>jboss-deployer-5.1-and-6</module>
-    <module>jboss-deployer-7</module>
   </modules>
+
+  <profiles>
+    <!-- JBoss 7 requires JDK 6 -->
+    <profile>
+      <id>java6</id>
+      <activation>
+        <jdk>1.6</jdk>
+      </activation>
+      <modules>
+        <module>jboss-deployer-7</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>
