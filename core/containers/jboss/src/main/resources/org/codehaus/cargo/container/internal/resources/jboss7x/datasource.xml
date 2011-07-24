@@ -1,0 +1,18 @@
+                <datasource jndi-name="@cargo.datasource.jndi@"
+                            pool-name="CargoDS_@cargo.datasource.id@_Pool"
+                            enabled="true">
+                    <connection-url>
+                        @cargo.datasource.url@
+                    </connection-url>
+                    <driver>
+                        @cargo.datasource.jar@
+                    </driver>
+                    <security>
+                        <user-name>
+                            @cargo.datasource.username@
+                        </user-name>
+                        <password>
+                            @cargo.datasource.password@
+                        </password>
+                    </security>
+                </datasource>

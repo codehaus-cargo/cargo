@@ -20,15 +20,16 @@
 package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.apache.tools.ant.types.FilterChain;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.codehaus.cargo.util.CargoException;
 
@@ -107,24 +108,90 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
             throw new CargoException("Missing configuration XML file: " + configurationXML);
         }
 
-        // TODO: Replace better
-        Map<String, String> replacements = new HashMap<String, String>();
-        replacements.put("8080", getPropertyValue(ServletPropertySet.PORT));
-        replacements.put("1090", getPropertyValue(JBossPropertySet.JBOSS_JRMP_PORT));
-        replacements.put("1091", getPropertyValue(JBossPropertySet.JBOSS_JMX_PORT));
-        replacements.put("1099", getPropertyValue(GeneralPropertySet.RMI_PORT));
-        replacements.put("9999", getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_PORT));
-        replacements.put("8090", getPropertyValue(JBossPropertySet.JBOSS_OSGI_HTTP_PORT));
-        replacements.put("4447", getPropertyValue(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT));
-        getFileHandler().replaceInFile(configurationXML, replacements, "UTF-8");
+        // Generate datasources
+        StringBuilder datasources = new StringBuilder();
+        /**
+         * TODO: DataSource configuration not working with JBoss 7 yet.
+         *       I get error messages like:
+         *           Services with missing/unavailable dependencies
+         *               jboss.naming.context.java.jboss.resources/java:jboss/datasources/CargoDS
+
+        File datasourceXMLLocation = File.createTempFile("cargo-" + c.getId() + "-", ".xml");
+        getResourceUtils().copyResource(RESOURCE_PATH + c.getId() + "/datasource.xml",
+            datasourceXMLLocation);
+        String datasourceXML = getFileHandler().readTextFile(
+            datasourceXMLLocation.getAbsolutePath(), "UTF-8");
+        for (DataSource datasource : getDataSources())
+        {
+            // TODO: Find the JAR file
+            String jarFile = "derby.jar";
+
+            String datasourceDefinition = datasourceXML;
+            datasourceDefinition = datasourceDefinition.replace("@cargo.datasource.jar@", jarFile);
+            datasourceDefinition = datasourceDefinition.replace("@cargo.datasource.jndi@",
+                datasource.getJndiLocation());
+            datasourceDefinition = datasourceDefinition.replace("@cargo.datasource.id@",
+                datasource.getId());
+            datasourceDefinition = datasourceDefinition.replace("@cargo.datasource.url@",
+                datasource.getUrl());
+            datasourceDefinition = datasourceDefinition.replace("@cargo.datasource.username@",
+                datasource.getUsername());
+            datasourceDefinition = datasourceDefinition.replace("@cargo.datasource.password@",
+                datasource.getPassword());
+            datasources.append(datasourceDefinition);
+        }
+         */
+
+        // Apply configuration
+        FilterChain filterChain = createFilterChain();
+        getAntUtils().addTokenToFilterChain(filterChain, "cargo.jboss.logging",
+            getJBossLogLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
+        getAntUtils().addTokenToFilterChain(filterChain, "cargo.datasources",
+            datasources.toString());
+        getResourceUtils().copyResource(RESOURCE_PATH + c.getId() + "/standalone.xml",
+            new File(configurationXML), filterChain, "UTF-8");
+
+        // Add extra classpath
+        String deployments = getFileHandler().append(getHome(), "deployments");
+        for (String classPathEntry : container.getExtraClasspath())
+        {
+            String destinationFile = deployments + "/" + getFileHandler().getName(classPathEntry);
+            getFileHandler().copyFile(classPathEntry, destinationFile);
+        }
 
         // Deploy the CPC (Cargo Ping Component) to the deployments directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-            new File(getHome(), "/deployments/cargocpc.war"));
+            new File(deployments, "cargocpc.war"));
 
         // Deploy with user defined deployables with the appropriate deployer
         JBoss7xInstalledLocalDeployer deployer = new JBoss7xInstalledLocalDeployer(container);
         deployer.deploy(getDeployables());
+    }
+
+    /**
+     * Translate Cargo logging levels into JBoss logging levels.
+     * 
+     * @param cargoLogLevel Cargo logging level
+     * @return the corresponding JBoss logging level
+     */
+    private String getJBossLogLevel(String cargoLogLevel)
+    {
+        String level;
+
+        if (LoggingLevel.LOW.equalsLevel(cargoLogLevel))
+        {
+            level = "ERROR";
+        }
+        else if (LoggingLevel.MEDIUM.equalsLevel(cargoLogLevel))
+        {
+            level = "INFO";
+        }
+        else
+        {
+            level = "DEBUG";
+        }
+
+        return level;
     }
 
 }
