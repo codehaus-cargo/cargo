@@ -140,20 +140,19 @@ public class NodeMergeStrategy implements MergeStrategy
         }
         else if (content instanceof Text)
         {
-            Text element = (Text) content;
-            String str = element.getText();
-
             Pattern pat = Pattern.compile("\\$(left:|right:)[^ \\t]*");
 
-            Matcher m = pat.matcher(str);
-
+            Text element = (Text) content;
+            Matcher m = pat.matcher(element.getText());
+            StringBuffer sb = new StringBuffer();
             while (m.find())
             {
-                str = m.replaceFirst(replaceValue(m.group(), left, right));
-                m = pat.matcher(str);
+                String repl = replaceValue(m.group(), left, right).replaceAll("\\$", "\\\\\\$");
+                m.appendReplacement(sb, repl);
             }
+            m.appendTail(sb);
 
-            element.setText(str);
+            element.setText(sb.toString());
         }
     }
 
