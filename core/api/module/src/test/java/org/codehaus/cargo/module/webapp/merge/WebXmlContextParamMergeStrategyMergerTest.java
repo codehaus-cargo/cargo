@@ -377,7 +377,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
     }
 
     /**
-     * Tests NodeMerge merge strategy.
+     * Tests NodeMerge merge strategy. In this test one of the values to be
+     * replaced contains dollar sign.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -393,6 +394,27 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
         assertEquals("value1 ${value2}",
+                getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
+    }
+
+    /**
+     * Tests NodeMerge merge strategy. In this test target pattern contains
+     * comma as a delimiter.
+     * 
+     * @throws Exception If an unexpected error occurs
+     */
+    public void testMergeInBothWithNodeMergeStrategyWithCommaInPattern() throws Exception
+    {
+        WebXml srcWebXml = getWebXml("param", "value1");
+        WebXml mergeWebXml = getWebXml("param", "value2");
+        WebXmlMerger merger = new WebXmlMerger(srcWebXml);
+        Element format = getContextParamElement("$left:param-name",
+                "$left:param-value,$right:param-value");
+        NodeMergeStrategy strategy = new NodeMergeStrategy(null, format);
+        merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, strategy);
+        merger.merge(mergeWebXml);
+        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        assertEquals("value1,value2",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 

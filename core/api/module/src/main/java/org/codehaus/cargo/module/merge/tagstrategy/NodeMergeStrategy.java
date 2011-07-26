@@ -140,7 +140,7 @@ public class NodeMergeStrategy implements MergeStrategy
         }
         else if (content instanceof Text)
         {
-            Pattern pat = Pattern.compile("\\$(left:|right:)[^ \\t]*");
+            Pattern pat = Pattern.compile("\\$(left:|right:)[^ ,\\t]*");
 
             Text element = (Text) content;
             Matcher m = pat.matcher(element.getText());
