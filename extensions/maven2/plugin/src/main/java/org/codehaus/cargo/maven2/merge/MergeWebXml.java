@@ -94,9 +94,6 @@ public class MergeWebXml implements MergeProcessorFactory
 
         if (defaultNode != null)
         {
-
-            DescriptorMergerByTag dmt = (DescriptorMergerByTag) webXmlMerger.getMergers().get(0);
-
             Xpp3Dom[] tags = defaultNode.getChildren("tag");
             for (Xpp3Dom tag : tags)
             {
@@ -104,7 +101,7 @@ public class MergeWebXml implements MergeProcessorFactory
                 Xpp3Dom strategy = tag.getChild("strategy");
                 MergeStrategy ms = makeStrategy(strategy);
 
-                dmt.setStrategy(tagName, ms);
+                webXmlMerger.setMergeStrategy(tagName, ms);
             }
         }
         return null;
