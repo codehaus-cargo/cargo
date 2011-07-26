@@ -135,6 +135,15 @@ public class WebXmlMerger extends XmlMerger
             throw new MergeException("Exception merging web.xml files", e);
         }
     }
+    
+    /**
+     * Retrieves merged descriptor.
+     * @return WebXml object
+     */
+    public WebXml getResult()
+    {
+        return this.webXml;
+    }
 
     /**
      * Get the vendor web app descriptor out of the web xml.

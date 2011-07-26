@@ -127,6 +127,7 @@ public class MergedWarArchive implements WarArchive
     {
         if (this.webXmlMerger == null)
         {
+            // TODO: consider cloning the web.xml instead of in-place editing
             this.webXmlMerger = new WebXmlMerger(firstWarFile().getWebXml());
         }
 
@@ -143,14 +144,18 @@ public class MergedWarArchive implements WarArchive
     {
         if (this.mergedWebXml == null)
         {
+            // The merger is based on the first WAR file
             WebXmlMerger wxm = getWebXmlMerger();
-
-            for (MergeWarFileDetails details : this.warFiles)
+            
+            // Merge the rest of web.xml files
+            for (int cnt = 1; cnt < this.warFiles.size(); cnt++)
             {
+                MergeWarFileDetails details = this.warFiles.get(cnt);
                 WarArchive wa = details.getWarFile();
                 wxm.merge(wa.getWebXml());
             }
-            this.mergedWebXml = firstWarFile().getWebXml();
+
+            this.mergedWebXml = wxm.getResult();
         }
         return this.mergedWebXml;
     }
