@@ -28,6 +28,7 @@ import org.codehaus.cargo.module.Descriptor;
 import org.codehaus.cargo.module.XmlMerger;
 import org.codehaus.cargo.module.merge.DescriptorMergerByTag;
 import org.codehaus.cargo.module.merge.MergeException;
+import org.codehaus.cargo.module.merge.tagstrategy.MergeStrategy;
 import org.codehaus.cargo.module.webapp.VendorWebAppDescriptor;
 import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlType;
@@ -93,6 +94,17 @@ public class WebXmlMerger extends XmlMerger
         this.webXml = (WebXml) base;
         descriptorMergerByTag.setDescriptorType(base.getDescriptorType());
         super.init(base);
+    }
+
+    /**
+     * Set the merging strategy for a particular tag.
+     * 
+     * @param tag Tag to set
+     * @param strategy Strategy to use
+     */
+    public void setMergeStrategy(String tag, MergeStrategy strategy)
+    {
+        descriptorMergerByTag.setStrategy(tag, strategy);
     }
 
     /**
