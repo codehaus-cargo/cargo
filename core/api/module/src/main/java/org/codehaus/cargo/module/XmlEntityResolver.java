@@ -21,6 +21,7 @@ package org.codehaus.cargo.module;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -114,9 +115,14 @@ public class XmlEntityResolver implements EntityResolver
         if (in != null)
         {
             inSource = new InputSource(in);
-            inSource.setPublicId(thePublicId);
-            inSource.setSystemId(theSystemId);
         }
+        else
+        {
+            inSource = new InputSource(new StringReader(""));
+        }
+
+        inSource.setPublicId(thePublicId);
+        inSource.setSystemId(theSystemId);
         return inSource;
     }
 
