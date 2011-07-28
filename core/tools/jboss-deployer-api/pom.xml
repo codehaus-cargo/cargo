@@ -23,38 +23,15 @@
     <artifactId>cargo-core-tools</artifactId>
     <version>1.1.2-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-core-tools-jboss-deployer-5</artifactId>
-  <name>Cargo Core Tools JBoss 5.0.x deployer</name>
+  <artifactId>cargo-core-tools-jboss-deployer-api</artifactId>
+  <name>Cargo Core Tools JBoss deployer API</name>
   <packaging>jar</packaging>
-  <description>Remote deployer for JBoss 5.0.x</description>
+  <description>JBoss remote deployer API</description>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-tools-jboss-deployer-api</artifactId>
+      <artifactId>cargo-core-api-generic</artifactId>
       <version>${project.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jboss.integration</groupId>
-      <artifactId>jboss-profileservice-spi</artifactId>
-      <version>5.0.3.GA</version>
-      <scope>provided</scope>
     </dependency>
   </dependencies>
-
-  <repositories>
-    <!-- The JBoss.org repository is required for org.jboss.integration:jboss-profileservice-spi -->
-    <repository>
-      <id>repository.jboss.org</id>
-      <name>JBoss.org repository</name>
-      <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 </project>

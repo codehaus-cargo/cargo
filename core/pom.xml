@@ -67,9 +67,9 @@
 
   <modules>
     <module>api</module>
+    <module>tools</module>
     <module>containers</module>
     <module>uberjar</module>
-    <module>tools</module>
     <module>samples</module>
     <module>documentation</module>
   </modules>

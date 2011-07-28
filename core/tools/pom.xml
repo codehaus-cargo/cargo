@@ -24,10 +24,12 @@
     <version>1.1.2-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-core-tools</artifactId>
-  <name>Cargo Tools</name>
+  <name>Cargo Core Tools</name>
   <packaging>pom</packaging>
   <description>Tools for the Core API</description>
   <modules>
+    <module>jboss-deployer-api</module>
+
     <module>jboss-deployer-5</module>
     <module>jboss-deployer-5.1-and-6</module>
   </modules>

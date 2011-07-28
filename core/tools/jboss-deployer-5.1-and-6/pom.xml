@@ -24,13 +24,13 @@
     <version>1.1.2-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-core-tools-jboss-deployer-5.1-and-6</artifactId>
-  <name>Cargo Tools JBoss deployer for versions 5.1.x and 6.x</name>
+  <name>Cargo Core Tools JBoss deployer for versions 5.1.x and 6.x</name>
   <packaging>jar</packaging>
   <description>Remote deployer for JBoss 5.1.x and 6.x</description>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-container-jboss</artifactId>
+      <artifactId>cargo-core-tools-jboss-deployer-api</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
