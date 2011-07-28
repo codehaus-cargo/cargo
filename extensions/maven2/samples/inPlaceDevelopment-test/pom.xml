@@ -52,6 +52,16 @@
           <configuration>
             <properties>
               <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+
+              <!--
+                Set JettyPropertySet.USE_FILE_MAPPED_BUFFER to false, else tests fail in Windows
+                with an exception stating: The requested operation cannot be performed on a file
+                with a user-mapped section open.
+                See: http://old.nabble.com/Test-failure-%2d-inPlaceDevelopment-test-to32141276.html
+                -->
+              <cargo.jetty.servlet.default.useFileMappedBuffer>
+                false
+              </cargo.jetty.servlet.default.useFileMappedBuffer>
             </properties>
             <deployables>
               <deployable>

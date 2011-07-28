@@ -46,8 +46,6 @@ public class InPlaceDevelopmentTest extends TestCase
         final String modifiedExpected = "Modified page for testing";
         File index = new File(System.getProperty("expandedWebapp.directory"), "index.html");
         assertTrue(index + " does not exist", index.isFile());
-        assertTrue(index + " cannot be deleted", index.delete());
-        assertFalse(index + " still exists after deletion", index.isFile());
         FileWriter writer = new FileWriter(index);
         writer.write(modifiedExpected);
         writer.close();
