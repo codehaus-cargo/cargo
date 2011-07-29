@@ -57,6 +57,43 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <configuration>
+              <outputDirectory>
+                ${project.build.directory}/classes/org/codehaus/cargo/container/jboss/deployer
+              </outputDirectory>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-core-tools-jboss-deployer-5</artifactId>
+                  <version>${project.version}</version>
+                  <destFileName>jboss-deployer-5.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-core-tools-jboss-deployer-5.1-and-6</artifactId>
+                  <version>${project.version}</version>
+                  <destFileName>jboss-deployer-5.1-and-6.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-core-tools-jboss-deployer-7</artifactId>
+                  <version>${project.version}</version>
+                  <destFileName>jboss-deployer-7.jar</destFileName>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>

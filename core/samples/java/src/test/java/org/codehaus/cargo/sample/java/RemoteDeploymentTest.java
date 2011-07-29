@@ -51,7 +51,6 @@ import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValida
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.AntUtils;
-import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 
@@ -152,26 +151,6 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
             if (jbossVersion < 10 && jbossVersion >= 5 || jbossVersion >= 50)
             {
-                if (jbossVersion == 5)
-                {
-                    filesToAddToClasspath.add(new File(getTestData().getTestDataFileFor(
-                        "cargo-core-tools-jboss-deployer-5")));
-                }
-                else if (jbossVersion == 51 || jbossVersion == 6)
-                {
-                    filesToAddToClasspath.add(new File(getTestData().getTestDataFileFor(
-                        "cargo-core-tools-jboss-deployer-5.1-and-6")));
-                }
-                else if (jbossVersion == 7)
-                {
-                    filesToAddToClasspath.add(new File(getTestData().getTestDataFileFor(
-                        "cargo-core-tools-jboss-deployer-7")));
-                }
-                else
-                {
-                    throw new CargoException("Unkown JBoss version: " + jbossVersion);
-                }
-
                 if (jbossVersion == 7)
                 {
                     AbstractJBossCapabilityTestCase.addAllJars(
@@ -203,7 +182,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             urlsArray[i] = filesToAddToClasspath.get(i).toURI().toURL();
         }
         URLClassLoader classLoader = new URLClassLoader(urlsArray,
-            Thread.currentThread().getContextClassLoader());
+            this.getClass().getClassLoader());
         Thread.currentThread().setContextClassLoader(classLoader);
 
         // Warning: the GlassFish 3.x configuration generation cannot change password

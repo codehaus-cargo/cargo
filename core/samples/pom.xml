@@ -765,19 +765,19 @@
               </property>
               <property>
                 <name>cargo.testdata.derby-jar</name>
-                <value>${basedir}/target/test-jars/derby.jar</value>
+                <value>${project.build.directory}/test-jars/derby.jar</value>
               </property>
               <property>
                 <name>cargo.testdata.simple-jar</name>
-                <value>${basedir}/target/test-jars/simple.jar</value>
+                <value>${project.build.directory}/test-jars/simple.jar</value>
               </property>
               <property>
                 <name>cargo.testdata.xerces-jars</name>
-                <value>${basedir}/target/xerces-jars</value>
+                <value>${project.build.directory}/xerces-jars</value>
               </property>
               <property>
                 <name>cargo.testdata.mail-jars</name>
-                <value>${basedir}/target/mail-jars</value>
+                <value>${project.build.directory}/mail-jars</value>
               </property>
               <property>
                 <name>cargo.testdata.simple-har</name>
@@ -833,14 +833,14 @@
                   <groupId>org.apache.derby</groupId>
                   <artifactId>derby</artifactId>
                   <version>${cargo.derby.version}</version>
-                  <outputDirectory>${basedir}/target/test-jars</outputDirectory>
+                  <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
                   <destFileName>derby.jar</destFileName>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-jar</artifactId>
                   <version>${cargo.resources.version}</version>
-                  <outputDirectory>${basedir}/target/test-jars</outputDirectory>
+                  <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
                   <destFileName>simple.jar</destFileName>
                 </artifactItem>
                 <!-- to allow jdk 1.4 containers to parse schema files -->
@@ -848,26 +848,26 @@
                   <groupId>xerces</groupId>
                   <artifactId>xercesImpl</artifactId>
                   <version>2.9.1</version>
-                  <outputDirectory>${basedir}/target/xerces-jars</outputDirectory>
+                  <outputDirectory>${project.build.directory}/xerces-jars</outputDirectory>
                 </artifactItem>
                 <artifactItem>
                   <groupId>xml-apis</groupId>
                   <artifactId>xml-apis</artifactId>
                   <version>1.3.04</version>
-                  <outputDirectory>${basedir}/target/xerces-jars</outputDirectory>
+                  <outputDirectory>${project.build.directory}/xerces-jars</outputDirectory>
                 </artifactItem>
                 <!-- to get sun licensed jars needed for tomcat to work with mail sessions -->
                 <artifactItem>
                   <groupId>javax.activation</groupId>
                   <artifactId>activation</artifactId>
                   <version>1.1</version>
-                  <outputDirectory>${basedir}/target/mail-jars</outputDirectory>
+                  <outputDirectory>${project.build.directory}/mail-jars</outputDirectory>
                 </artifactItem>
                 <artifactItem>
                   <groupId>javax.mail</groupId>
                   <artifactId>mail</artifactId>
                   <version>1.4</version>
-                  <outputDirectory>${basedir}/target/mail-jars</outputDirectory>
+                  <outputDirectory>${project.build.directory}/mail-jars</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>

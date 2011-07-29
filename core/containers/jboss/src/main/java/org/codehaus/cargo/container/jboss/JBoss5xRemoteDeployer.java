@@ -23,7 +23,12 @@
 package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
@@ -55,44 +60,128 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
     {
         super(container);
 
-        final String classToLoad = "org.codehaus.cargo.tools.jboss.JBossDeployer";
+        String deployerJarName = "org/codehaus/cargo/container/jboss/deployer/"
+            + getJBossRemoteDeployerJarName() + ".jar";
 
+        InputStream deployerJarInputStream =
+            this.getClass().getClassLoader().getResourceAsStream(deployerJarName);
+        if (deployerJarInputStream == null)
+        {
+            throw new CargoException("Cannot locate the JBoss deployer helper JAR, "
+                + "is the CARGO JBoss container JAR broken?");
+        }
+        URL deployerJarURL;
+        FileOutputStream deployerJarOutputStream = null;
         try
         {
-            Class<?> jbossDeployerClass = null;
+            File deployerJarFile = File.createTempFile("cargo-jboss-deployer-", ".jar");
+            deployerJarOutputStream = new FileOutputStream(deployerJarFile);
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = deployerJarInputStream.read(buf)) > 0)
+            {
+                deployerJarOutputStream.write(buf, 0, len);
+            }
+            deployerJarURL = deployerJarFile.toURI().toURL();
+        }
+        catch (IOException e)
+        {
+            throw new CargoException("Cannot create the JBoss remote deployer: "
+                + e.getMessage(), e);
+        }
+        finally
+        {
+            try
+            {
+                deployerJarInputStream.close();
+            }
+            catch (IOException e)
+            {
+                // Ignored
+            }
+
+            if (deployerJarOutputStream != null)
+            {
+                try
+                {
+                    deployerJarOutputStream.close();
+                }
+                catch (IOException e)
+                {
+                    // Ignored
+                }
+            }
+
+            deployerJarInputStream = null;
+            deployerJarOutputStream = null;
+            System.gc();
+        }
+
+        ClassLoader jBossConnectorClassLoader = null;
+        try
+        {
+            String jBossConnectorClassName = getJBossConnectorClassName();
+
             final ClassLoader tcccl = Thread.currentThread().getContextClassLoader();
             if (tcccl != null)
             {
                 try
                 {
-                    jbossDeployerClass = tcccl.loadClass(classToLoad);
+                    tcccl.loadClass(jBossConnectorClassName);
+                    jBossConnectorClassLoader = tcccl;
                 }
                 catch (ClassNotFoundException e)
                 {
-                    jbossDeployerClass = null;
+                    // Never mind, we'll look for this class elsewhere
                 }
             }
-            if (jbossDeployerClass == null)
+            if (jBossConnectorClassLoader == null)
             {
-                jbossDeployerClass = this.getClass().getClassLoader().loadClass(classToLoad);
+                jBossConnectorClassLoader = this.getClass().getClassLoader();
+                jBossConnectorClassLoader.loadClass(jBossConnectorClassName);
             }
+        }
+        catch (ClassNotFoundException e)
+        {
+            throw new CargoException("Cannot locate the JBoss connector classes! Make sure the "
+                + "required JBoss JARs (or Maven dependencies) are in CARGO's classpath.\n"
+                + "More information on: http://cargo.codehaus.org/JBoss+Remote+Deployer", e);
+        }
+
+        URL[] deployerJarURLArray = new URL[] {deployerJarURL};
+        ClassLoader deployerClassLoader =
+            new URLClassLoader(deployerJarURLArray, jBossConnectorClassLoader);
+        try
+        {
+            final String classToLoad = "org.codehaus.cargo.tools.jboss.JBossDeployer";
+            Class<?> jbossDeployerClass = deployerClassLoader.loadClass(classToLoad);
 
             Constructor<?> jbossDeployerConstructor = jbossDeployerClass.getConstructor(
                 Configuration.class);
             this.deployer = (IJBossProfileManagerDeployer)
                 jbossDeployerConstructor.newInstance(container.getConfiguration());
         }
-        catch (ClassNotFoundException e)
-        {
-            throw new CargoException(
-                "Cannot locate the JBoss deployer class! Make sure the jboss-deployer for your\n"
-                    + "JBoss version as well as all required JBoss JARs are in CARGO's classpath.\n"
-                    + "More information on: http://cargo.codehaus.org/JBoss+Remote+Deployer", e);
-        }
         catch (Throwable t)
         {
-            throw new CargoException("Cannot create a JBoss deployer: " + t.getMessage(), t);
+            throw new CargoException("Cannot create the JBoss remote deployer: "
+                + t.getMessage(), t);
         }
+    }
+
+    /**
+     * @return The JAR name to load for the JBoss remote deployer.
+     */
+    protected String getJBossRemoteDeployerJarName()
+    {
+        return "jboss-deployer-5";
+    }
+
+    /**
+     * @return The class name to load for the JBoss JNDI context.
+     */
+    protected String getJBossConnectorClassName()
+    {
+        return "org.jnp.interfaces.NamingContextFactory";
     }
 
     /**

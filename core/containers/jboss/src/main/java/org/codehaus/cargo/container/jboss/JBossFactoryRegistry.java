@@ -231,17 +231,17 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
         deployerFactory.registerDeployer("jboss51x", DeployerType.INSTALLED,
             JBossInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jboss51x", DeployerType.REMOTE,
-            JBoss5xRemoteDeployer.class);
+            JBoss51xRemoteDeployer.class);
 
         deployerFactory.registerDeployer("jboss6x", DeployerType.INSTALLED,
             JBossInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jboss6x", DeployerType.REMOTE,
-            JBoss5xRemoteDeployer.class);
+            JBoss51xRemoteDeployer.class);
 
         deployerFactory.registerDeployer("jboss7x", DeployerType.INSTALLED,
             JBoss7xInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jboss7x", DeployerType.REMOTE,
-            JBoss5xRemoteDeployer.class);
+            JBoss7xRemoteDeployer.class);
     }
 
     /**
