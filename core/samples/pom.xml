@@ -752,18 +752,6 @@
                 <value>org/codehaus/cargo/cargo-jetty-7-and-onwards-deployer/${cargo.resources.version}/cargo-jetty-7-and-onwards-deployer-${cargo.resources.version}.war</value>
               </property>
               <property>
-                <name>cargo.testdata.cargo-core-tools-jboss-deployer-5</name>
-                <value>org/codehaus/cargo/cargo-core-tools-jboss-deployer-5/${project.version}/cargo-core-tools-jboss-deployer-5-${project.version}.jar</value>
-              </property>
-              <property>
-                <name>cargo.testdata.cargo-core-tools-jboss-deployer-5.1-and-6</name>
-                <value>org/codehaus/cargo/cargo-core-tools-jboss-deployer-5.1-and-6/${project.version}/cargo-core-tools-jboss-deployer-5.1-and-6-${project.version}.jar</value>
-              </property>
-              <property>
-                <name>cargo.testdata.cargo-core-tools-jboss-deployer-7</name>
-                <value>org/codehaus/cargo/cargo-core-tools-jboss-deployer-7/${project.version}/cargo-core-tools-jboss-deployer-7-${project.version}.jar</value>
-              </property>
-              <property>
                 <name>cargo.testdata.derby-jar</name>
                 <value>${project.build.directory}/test-jars/derby.jar</value>
               </property>
