@@ -236,17 +236,10 @@
                 -->
               <dependencies>
                 <dependency>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>cargo-core-tools-jboss-deployer-5.1-and-6</artifactId>
-                  <version>${project.version}</version>
-                </dependency>
-
-                <dependency>
                   <groupId>org.jboss.integration</groupId>
                   <artifactId>jboss-profileservice-spi</artifactId>
                   <version>5.1.0.GA</version>
                 </dependency>
-
                 <dependency>
                   <groupId>org.jboss.jbossas</groupId>
                   <artifactId>jboss-as-client</artifactId>
@@ -264,6 +257,59 @@
         on the JBoss repository. Read more on:
         http://community.jboss.org/wiki/MavenRepositoryCentralSynchronization
         -->
+      <pluginRepositories>
+        <pluginRepository>
+          <id>jboss</id>
+          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+        </pluginRepository>
+      </pluginRepositories>
+      <repositories>
+        <repository>
+          <id>jboss</id>
+          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+        </repository>
+      </repositories>
+    </profile>
+    <profile>
+      <id>jboss7x</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-maven2-plugin</artifactId>
+              <configuration>
+                <container>
+                  <containerId>jboss7x</containerId>
+                </container>
+              </configuration>
+
+              <!--
+                The JBoss remote deployer requires some additional dependencies. Read more on:
+                http://cargo.codehaus.org/JBoss+Remote+Deployer
+                -->
+              <dependencies>
+                <dependency>
+                  <groupId>org.jboss.as</groupId>
+                  <artifactId>jboss-as-controller-client</artifactId>
+                  <version>7.0.0.Final</version>
+                </dependency>
+              </dependencies>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+
+      <!--
+        The org.jboss.as dependency is currently only available on the JBoss repository. Read more
+        on: http://community.jboss.org/wiki/MavenRepositoryCentralSynchronization
+        -->
+      <pluginRepositories>
+        <pluginRepository>
+          <id>jboss</id>
+          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+        </pluginRepository>
+      </pluginRepositories>
       <repositories>
         <repository>
           <id>jboss</id>
@@ -305,10 +351,16 @@
         The org.glassfish.deployment dependencies are currently only available on the GlassFish
         repository.
         -->
+      <pluginRepositories>
+        <pluginRepository>
+          <id>glassfish</id>
+          <url>http://download.java.net/maven/glassfish/</url>
+        </pluginRepository>
+      </pluginRepositories>
       <repositories>
         <repository>
           <id>glassfish</id>
-          <url>http://download.java.net/maven/glassfish/</url>
+          <url>http://download.java.net/maven/glassfish</url>
         </repository>
       </repositories>
     </profile>
