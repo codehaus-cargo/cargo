@@ -55,6 +55,10 @@ public class ImplementationClassesTest extends TestCase
             {
                 // Expected
             }
+            else if (name.startsWith("javadoc"))
+            {
+                // Expected
+            }
             else
             {
                 fail("Found unexpected file: " + content);
