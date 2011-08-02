@@ -62,7 +62,7 @@
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
-            <phase>process-resources</phase>
+            <phase>package</phase>
             <configuration>
               <outputDirectory>
                 ${project.build.directory}/classes/org/codehaus/cargo/container/jboss/deployer
