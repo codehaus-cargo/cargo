@@ -43,7 +43,11 @@ public class ImplementationClassesTest extends TestCase
             {
                 foundWebapp = true;
             }
-            else if (name.equals("test-classes"))
+            else if (name.equals("apidocs"))
+            {
+                // Expected
+            }
+            else if (name.startsWith("javadoc"))
             {
                 // Expected
             }
@@ -51,11 +55,15 @@ public class ImplementationClassesTest extends TestCase
             {
                 // Expected
             }
+            else if (name.equals("site"))
+            {
+                // Expected
+            }
             else if (name.startsWith("surefire"))
             {
                 // Expected
             }
-            else if (name.startsWith("javadoc"))
+            else if (name.equals("test-classes"))
             {
                 // Expected
             }
