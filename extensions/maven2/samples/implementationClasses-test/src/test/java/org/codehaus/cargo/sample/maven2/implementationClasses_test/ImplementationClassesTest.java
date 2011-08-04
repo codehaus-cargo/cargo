@@ -27,6 +27,14 @@ public class ImplementationClassesTest extends TestCase
 {
 
     /**
+     * List of file or folder names to ignore.
+     */
+    public static String[] IGNORED_FILENAME_PREFIXES = new String[]
+    {
+        "apidocs", "javadoc", "maven-archiver", "site", "surefire", "test-classes"
+    };
+
+    /**
      * The implementation classes we set during the test are supposed to create no configuration
      * directory; so tests verify that nothing has been created.
      */
@@ -42,32 +50,19 @@ public class ImplementationClassesTest extends TestCase
             if (name.startsWith(artifactId))
             {
                 foundWebapp = true;
+                continue;
             }
-            else if (name.equals("apidocs"))
+
+            boolean toBeIgnored = false;
+            for (String ignoredFilenamePrefix : IGNORED_FILENAME_PREFIXES)
             {
-                // Expected
+                if (name.startsWith(ignoredFilenamePrefix))
+                {
+                    toBeIgnored = true;
+                    break;
+                }
             }
-            else if (name.startsWith("javadoc"))
-            {
-                // Expected
-            }
-            else if (name.equals("maven-archiver"))
-            {
-                // Expected
-            }
-            else if (name.equals("site"))
-            {
-                // Expected
-            }
-            else if (name.startsWith("surefire"))
-            {
-                // Expected
-            }
-            else if (name.equals("test-classes"))
-            {
-                // Expected
-            }
-            else
+            if (!toBeIgnored)
             {
                 fail("Found unexpected file: " + content);
             }
