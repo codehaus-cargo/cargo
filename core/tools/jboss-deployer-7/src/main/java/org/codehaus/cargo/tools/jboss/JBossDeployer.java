@@ -111,7 +111,6 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
         String username = this.configuration.getPropertyValue(RemotePropertySet.USERNAME);
         String password = this.configuration.getPropertyValue(RemotePropertySet.PASSWORD);
 
-        // TODO: Username, password
         ModelControllerClient client = ModelControllerClient.Factory.create(hostname, portnumber,
             new UsernamePasswordCallbackHandler(username, password));
         ServerDeploymentManager manager = ServerDeploymentManager.Factory.create(client);
