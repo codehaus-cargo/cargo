@@ -339,7 +339,7 @@
                 <dependency>
                   <groupId>org.glassfish.deployment</groupId>
                   <artifactId>deployment-client</artifactId>
-                  <version>3.1.0</version>
+                  <version>3.1.1</version>
                 </dependency>
               </dependencies>
             </plugin>
