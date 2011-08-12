@@ -77,6 +77,9 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
             String contextFile = getFileHandler().append(contextDir, war.getContext() + ".xml");
             getFileHandler().createFile(contextFile);
 
+            getLogger().info("Deploying WAR by creating Jetty context XML file in [" + contextFile
+                + "]...", getClass().getName());
+
             OutputStream out = getFileHandler().getOutputStream(contextFile);
             try
             {

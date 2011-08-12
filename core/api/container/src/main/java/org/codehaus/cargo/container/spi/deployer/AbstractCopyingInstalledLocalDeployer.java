@@ -160,11 +160,6 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
                 + " by another application.");
         }
 
-        String deployableDir = getDeployableDir();
-        getLogger().info(
-            "Deploying [" + deployable.getFile() + "] to [" + deployableDir + "]...",
-            this.getClass().getName());
-
         // Check that the container supports the deployable type to deploy
         if (!getContainer().getCapability().supportsDeployableType(deployable.getType()))
         {
@@ -172,6 +167,8 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
                 + " archives are not supported for deployment in [" + getContainer().getId()
                 + "]. Got [" + deployable.getFile() + "]");
         }
+
+        String deployableDir = getDeployableDir();
 
         try
         {
@@ -280,6 +277,9 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
      */
     protected void doDeploy(String deployableDir, Deployable deployable)
     {
+        getLogger().info("Deploying [" + deployable.getFile() + "] to [" + deployableDir + "]...",
+            this.getClass().getName());
+
         String deployableName = getDeployableName(deployable);
         if (deployable.isExpanded())
         {

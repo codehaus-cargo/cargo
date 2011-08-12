@@ -100,6 +100,9 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
                             "conf/Catalina/" + getContainer().getConfiguration().getPropertyValue(
                                 GeneralPropertySet.HOSTNAME));
 
+                    getLogger().info("Deploying WAR by creating Tomcat context XML file in ["
+                        + contextDir + "]...", getClass().getName());
+
                     // Copy only the context.xml to <config>/Catalina/<hostname>/<context-path>.xml
                     // and set docBase to point at the expanded WAR
                     Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
