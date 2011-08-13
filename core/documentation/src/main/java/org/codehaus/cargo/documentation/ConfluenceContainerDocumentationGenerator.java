@@ -26,6 +26,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
@@ -132,6 +134,16 @@ public class ConfluenceContainerDocumentationGenerator
         DatasourcePropertySet.class,
         ResourcePropertySet.class
     };
+
+    /**
+     * Prefix for all datasource-related properties.
+     */
+    private static final String DATASOURCE_PREFIX = "cargo.datasource.";
+
+    /**
+     * Prefix for all resource-related properties.
+     */
+    private static final String RESOURCE_PREFIX = "cargo.resource.";
 
     /**
      * The MavenXpp3Reader used to get project info from pom files.
@@ -874,15 +886,23 @@ public class ConfluenceContainerDocumentationGenerator
             slc = (RuntimeConfiguration) configurationClass.newInstance();
         }
 
+        boolean supportsDatasourceOrResource = false;
         Map<String, Boolean> properties = this.configurationCapabilityFactory.
             createConfigurationCapability(containerId, containerType, type).getProperties();
-        for (Map.Entry<String, Boolean> propertyEntry : properties.entrySet())
+        Set<String> sortedPropertyNames = new TreeSet<String>(properties.keySet());
+        for (String property : sortedPropertyNames)
         {
-            String property = propertyEntry.getKey();
+            if (property.startsWith(DATASOURCE_PREFIX) || property.startsWith(RESOURCE_PREFIX))
+            {
+                // These are documented afterwards
+                supportsDatasourceOrResource = true;
+                continue;
+            }
+
             output.append("| [" + property + "|Configuration properties] | ");
             output.append(
                 "[" + findPropertySetFieldName(property) + "|Configuration properties] | ");
-            boolean supported = propertyEntry.getValue();
+            boolean supported = properties.get(property);
             output.append(supported ? "(/)" : "(x)");
             if (GeneralPropertySet.JAVA_HOME.equals(property))
             {
@@ -907,6 +927,20 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append(" | " + (slc.getPropertyValue(property) == null ? "N/A"
                     : slc.getPropertyValue(property)) + " | |");
             }
+            output.append(LINE_SEPARATOR);
+        }
+
+        if (supportsDatasourceOrResource)
+        {
+            output.append("{info:title=Datasource and Resource configuration}");
+            output.append(LINE_SEPARATOR);
+            output.append("In addition to the forementioned properties, this container ");
+            output.append("configuration can also set up datasources and/or resources. ");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+            output.append("For more details, please read: [DataSource and Resource Support].");
+            output.append(LINE_SEPARATOR);
+            output.append("{info}");
             output.append(LINE_SEPARATOR);
         }
 
