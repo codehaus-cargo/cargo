@@ -64,13 +64,14 @@
   </build>
 
   <profiles>
-    <!-- Tomcat7 requires JDK 6 -->
+    <!-- Tomcat7 and Jetty8 require JDK 6 -->
     <profile>
       <id>java6</id>
       <activation>
         <jdk>1.6</jdk>
       </activation>
       <modules>
+        <module>jetty8x-embedded-test</module>
         <module>tomcat7x-context-test</module>
       </modules>
     </profile>

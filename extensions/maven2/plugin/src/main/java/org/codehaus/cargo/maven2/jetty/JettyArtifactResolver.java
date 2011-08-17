@@ -189,10 +189,37 @@ public class JettyArtifactResolver
         jetty7xDependencies.add(new Dependency("org.mortbay.jetty", "jsp-api-2.1-glassfish",
             "2.1.v20100127"));
 
+        List<Dependency> jetty8xDependencies = new ArrayList<Dependency>();
+        jetty8xDependencies.add(new Dependency("org.mortbay.jetty", "servlet-api", "3.0.20100224"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-continuation",
+            "8.0.0.RC0"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http",
+            "8.0.0.RC0"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io",
+            "8.0.0.RC0"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-util",
+            "8.0.0.RC0"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-security",
+            "8.0.0.RC0"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-server",
+            "8.0.0.RC0"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-servlet",
+            "8.0.0.RC0"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-webapp",
+            "8.0.0.RC0"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml",
+            "8.0.0.RC0"));
+        jetty8xDependencies.add(new Dependency("javax.el", "el-api", "2.2"));
+        jetty8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api",
+            "7.0.20"));
+        jetty8xDependencies.add(new Dependency("org.glassfish.web", "jsp-impl",
+            "2.2.1"));
+
         this.jettyDependencies.put("jetty4x", jetty4xDependencies);
         this.jettyDependencies.put("jetty5x", jetty5xDependencies);
         this.jettyDependencies.put("jetty6x", jetty6xDependencies);
         this.jettyDependencies.put("jetty7x", jetty7xDependencies);
+        this.jettyDependencies.put("jetty8x", jetty8xDependencies);
     }
 
     /**
