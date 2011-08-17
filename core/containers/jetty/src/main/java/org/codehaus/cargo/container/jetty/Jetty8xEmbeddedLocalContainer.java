@@ -19,45 +19,47 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-import org.codehaus.cargo.container.jetty.internal.AbstractJettyRemoteContainer;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
- * Special container support for wrapping a running instance of Jetty.
+ * A Jetty 8.x instance running embedded.
  * 
  * @version $Id$
  */
-public class Jetty6xRemoteContainer extends AbstractJettyRemoteContainer
+public class Jetty8xEmbeddedLocalContainer extends Jetty7xEmbeddedLocalContainer
 {
     /**
      * Unique container id.
      */
-    public static final String ID = "jetty6x";
+    public static final String ID = "jetty8x";
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyRemoteContainer#AbstractJettyRemoteContainer(RuntimeConfiguration)
+     * 
+     * @see Jetty7xEmbeddedLocalContainer#Jetty7xEmbeddedLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
-    public Jetty6xRemoteContainer(RuntimeConfiguration configuration)
+    public Jetty8xEmbeddedLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
     }
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
-     */
-    public String getName()
-    {
-        return "Jetty 6.x Remote";
-    }
-
-    /**
-     * {@inheritDoc}
+     * 
      * @see org.codehaus.cargo.container.Container#getId()
      */
     public String getId()
     {
         return ID;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.Container#getName()
+     */
+    public String getName()
+    {
+        return "Jetty 8.x Embedded";
     }
 }

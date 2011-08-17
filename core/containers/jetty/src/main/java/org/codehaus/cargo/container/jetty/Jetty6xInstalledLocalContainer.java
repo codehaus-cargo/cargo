@@ -60,7 +60,7 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getId()
      */
-    public final String getId()
+    public String getId()
     {
         return ID;
     }
@@ -69,7 +69,7 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getName()
      */
-    public final String getName()
+    public String getName()
     {
         return "Jetty 6.x";
     }
@@ -79,7 +79,7 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
      * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public final void doStart(JvmLauncher java) throws Exception
+    public void doStart(JvmLauncher java) throws Exception
     {
         invoke(java, true);
     }
@@ -89,7 +89,7 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
      * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    public final void doStop(JvmLauncher java) throws Exception
+    public void doStop(JvmLauncher java) throws Exception
     {
         invoke(java, false);
     }
