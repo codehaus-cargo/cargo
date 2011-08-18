@@ -146,6 +146,12 @@ public class ConfluenceContainerDocumentationGenerator
     private static final String RESOURCE_PREFIX = "cargo.resource.";
 
     /**
+     * Prefix for all Javadoc URLs.
+     */
+    private static final String JAVADOC_URL_PREFIX =
+        "http://cargo.codehaus.org/maven-site/cargo-core/apidocs/";
+
+    /**
      * The MavenXpp3Reader used to get project info from pom files.
      */
     private static final MavenXpp3Reader POM_READER = new MavenXpp3Reader();
@@ -868,7 +874,7 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(LINE_SEPARATOR);
 
         output.append(
-            "|| Property name || Java Property || Supported? || Default value || Comment ||");
+            "|| Property name || Java Property || Supported? || Default value || Javadoc ||");
         output.append(LINE_SEPARATOR);
 
         Class configurationClass = Class.forName(
@@ -899,9 +905,16 @@ public class ConfluenceContainerDocumentationGenerator
                 continue;
             }
 
+            Field propertySetField = findPropertySetFieldName(property);
             output.append("| [" + property + "|Configuration properties] | ");
-            output.append(
-                "[" + findPropertySetFieldName(property) + "|Configuration properties] | ");
+            if (propertySetField != null)
+            {
+                String propertySetFieldClassName =
+                    propertySetField.getDeclaringClass().getSimpleName();
+                output.append("[" + propertySetFieldClassName + "."
+                    + propertySetField.getName() + "|Configuration properties]");
+            }
+            output.append(" | ");
             boolean supported = properties.get(property);
             output.append(supported ? "(/)" : "(x)");
             if (GeneralPropertySet.JAVA_HOME.equals(property))
@@ -920,13 +933,21 @@ public class ConfluenceContainerDocumentationGenerator
                     javaVersion = "1.6";
                 }
 
-                output.append(" | {_}JAVA_HOME version " + javaVersion + " or newer{_} | |");
+                output.append(" | {_}JAVA_HOME version " + javaVersion + " or newer{_} |");
             }
             else
             {
                 output.append(" | " + (slc.getPropertyValue(property) == null ? "N/A"
-                    : slc.getPropertyValue(property)) + " | |");
+                    : "{{" + slc.getPropertyValue(property) + "}}") + " |");
             }
+            if (supported && propertySetField != null)
+            {
+                String propertySetFieldUrl = JAVADOC_URL_PREFIX
+                    + propertySetField.getDeclaringClass().getName().replace('.', '/') + ".html#"
+                    + propertySetField.getName();
+                output.append(" [(*g)|" + propertySetFieldUrl + "]");
+            }
+            output.append(" |");
             output.append(LINE_SEPARATOR);
         }
 
@@ -959,53 +980,47 @@ public class ConfluenceContainerDocumentationGenerator
     }
 
     /**
-     * Find the property set field name for a given value.
+     * Find the property set field for a given value.
      * @param propertyValue Property value name.
-     * @return Property set field name for the given value.
+     * @return Property set field for the given value.
      * @throws Exception If anything goes wrong.
      */
-    protected String findPropertySetFieldName(String propertyValue) throws Exception
+    protected Field findPropertySetFieldName(String propertyValue) throws Exception
     {
-        String result = null;
         for (Class propertySetClasse : PROPERTY_SET_CLASSES)
         {
-            result = findPropertySetFieldName(propertyValue, propertySetClasse);
+            Field result = findPropertySetField(propertyValue, propertySetClasse);
             if (result != null)
             {
-                break;
+                return result;
             }
         }
 
-        return result;
+        return null;
     }
 
     /**
      * Find the property set field name for a given value on a given class.
      * @param propertyValue Property value name.
      * @param propertySetClass Class name.
-     * @return Property set field name for the given value, <code>null</code> if the given class
-     * does not have such a value.
+     * @return Property set field for the given value, <code>null</code> if the given class does
+     * not have such a value.
      * @throws Exception If anything goes wrong.
      */
-    protected String findPropertySetFieldName(String propertyValue, Class propertySetClass)
+    protected Field findPropertySetField(String propertyValue, Class propertySetClass)
         throws Exception
     {
-        String result = null;
-
         Field[] fields = propertySetClass.getFields();
         for (Field field : fields)
         {
             String value = (String) field.get(null);
             if (value.equals(propertyValue))
             {
-                result = propertySetClass.getName().substring(
-                    propertySetClass.getName().lastIndexOf(".") + 1) + "."
-                        + field.getName();
-                break;
+                return field;
             }
         }
 
-        return result;
+        return null;
     }
 
     /**
