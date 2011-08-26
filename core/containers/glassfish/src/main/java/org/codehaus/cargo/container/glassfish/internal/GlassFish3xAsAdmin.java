@@ -83,7 +83,7 @@ public class GlassFish3xAsAdmin extends AbstractAsAdmin
         {
             exitCode = java.execute();
 
-            if (exitCode != 0 && exitCode != 1)
+            if (exitCode != 0)
             {
                 throw new CargoException("Command " + args[0] + " failed: asadmin exited "
                     + exitCode);

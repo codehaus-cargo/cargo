@@ -355,6 +355,9 @@
 
               <property>
                 <name>cargo.glassfish3x.url</name>
+                <!--
+                <value>http://download.java.net/glassfish/3.0.1/release/glassfish-3.0.1.zip</value>
+                 -->
                 <value>http://download.java.net/glassfish/3.1.1/release/glassfish-3.1.1.zip</value>
               </property>
               <property>
