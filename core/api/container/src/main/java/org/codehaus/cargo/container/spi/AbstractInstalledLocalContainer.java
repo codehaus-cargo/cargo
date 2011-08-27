@@ -474,7 +474,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * 
      * @param java the java command used to start/stop the container
      */
-    private void addExtraClasspath(JvmLauncher java)
+    protected void addExtraClasspath(JvmLauncher java)
     {
         if (extraClasspath.size() > 0)
         {

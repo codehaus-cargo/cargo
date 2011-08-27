@@ -56,13 +56,6 @@ public class Jonas5xStandaloneLocalConfiguration extends AbstractJonasStandalone
     {
         super.doConfigure(container);
 
-        String libExt = getHome() + "/lib/ext";
-        for (String extraClasspath : installedContainer.getExtraClasspath())
-        {
-            String destinationFile = libExt + "/" + getFileHandler().getName(extraClasspath);
-            getFileHandler().copyFile(extraClasspath, destinationFile);
-        }
-
         // Deploy with user defined deployables with the appropriate deployer
         Jonas5xInstalledLocalDeployer deployer = new Jonas5xInstalledLocalDeployer(
             installedContainer);

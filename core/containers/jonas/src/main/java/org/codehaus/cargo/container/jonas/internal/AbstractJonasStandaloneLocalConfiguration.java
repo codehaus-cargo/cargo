@@ -137,6 +137,13 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
 
         // Run
         configurator.execute();
+
+        String libExt = getHome() + "/lib/ext";
+        for (String extraClasspath : installedContainer.getExtraClasspath())
+        {
+            String destinationFile = libExt + "/" + getFileHandler().getName(extraClasspath);
+            getFileHandler().copyFile(extraClasspath, destinationFile);
+        }
     }
 
 }

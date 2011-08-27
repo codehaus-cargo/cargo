@@ -19,7 +19,10 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.util.Arrays;
 import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
@@ -120,6 +123,44 @@ public class Tomcat4xStandaloneLocalConfiguration extends
     {
         String confDir = getFileHandler().createDirectory(getHome(), "conf");
         return getFileHandler().append(confDir, "server.xml");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doConfigure(LocalContainer container) throws Exception
+    {
+        // Tomcat 4.x does not load $CATALINA_BASE/common/lib,
+        // see http://tomcat.apache.org/tomcat-4.1-doc/class-loader-howto.html
+
+        if (container instanceof InstalledLocalContainer)
+        {
+            InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
+            Set<String> classPath = new TreeSet<String>();
+            String[] extraClasspath = installedContainer.getExtraClasspath();
+            if (extraClasspath != null)
+            {
+                classPath.addAll(Arrays.asList(extraClasspath));
+            }
+            String[] sharedClasspath = installedContainer.getSharedClasspath();
+            if (sharedClasspath != null)
+            {
+                classPath.addAll(Arrays.asList(sharedClasspath));
+            }
+
+            if (!classPath.isEmpty())
+            {
+                extraClasspath = new String[0];
+                installedContainer.setExtraClasspath(extraClasspath);
+
+                sharedClasspath = new String[classPath.size()];
+                sharedClasspath = classPath.toArray(sharedClasspath);
+                installedContainer.setSharedClasspath(sharedClasspath);
+            }
+        }
+
+        super.doConfigure(container);
     }
 
 }

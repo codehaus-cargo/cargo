@@ -156,6 +156,18 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
     }
 
     /**
+     * Does not add anything to the extra classpath since this is already handled by the
+     * {@link AbstractCatalinaStandaloneLocalConfiguration}. {@inheritDoc}
+     * 
+     * @see AbstractInstalledLocalContainer#addExtraClasspath(JvmLauncher)
+     */
+    @Override
+    protected void addExtraClasspath(JvmLauncher java)
+    {
+        // Nothing, else we have bug https://jira.codehaus.org/browse/CARGO-1032
+    }
+
+    /**
      * Invokes the container bootstrap class to start or stop the container, depending on the value
      * of the provided argument.
      * 
@@ -181,6 +193,9 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
         java.start();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
     {
