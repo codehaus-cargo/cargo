@@ -78,10 +78,10 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
     protected void register(ConfigurationFactory configurationFactory)
     {
         configurationFactory.registerConfiguration("glassfish2x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, GlassFishStandaloneLocalConfiguration.class);
+            ConfigurationType.STANDALONE, GlassFish2xStandaloneLocalConfiguration.class);
 
         configurationFactory.registerConfiguration("glassfish3x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, GlassFishStandaloneLocalConfiguration.class);
+            ConfigurationType.STANDALONE, GlassFish3xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("glassfish3x", ContainerType.REMOTE,
             ConfigurationType.RUNTIME, GlassFish3xRuntimeConfiguration.class);
     }
@@ -95,10 +95,10 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
     protected void register(DeployerFactory deployerFactory)
     {
         deployerFactory.registerDeployer("glassfish2x", DeployerType.INSTALLED,
-            GlassFishInstalledLocalDeployer.class);
+            GlassFish2xInstalledLocalDeployer.class);
 
         deployerFactory.registerDeployer("glassfish3x", DeployerType.INSTALLED,
-            GlassFishInstalledLocalDeployer.class);
+            GlassFish3xInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("glassfish3x", DeployerType.REMOTE,
             GlassFish3xRemoteDeployer.class);
     }

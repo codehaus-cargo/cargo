@@ -23,6 +23,7 @@ import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.glassfish.internal.AbstractAsAdmin;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalContainer;
+import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
 import org.codehaus.cargo.container.glassfish.internal.GlassFish3xAsAdmin;
 
 /**
@@ -55,6 +56,15 @@ public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstall
     protected AbstractAsAdmin getAsAdmin()
     {
         return new GlassFish3xAsAdmin(this.getHome());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected AbstractGlassFishInstalledLocalDeployer getLocalDeployer()
+    {
+        return new GlassFish3xInstalledLocalDeployer(this);
     }
 
     /**

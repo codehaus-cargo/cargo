@@ -17,18 +17,14 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.glassfish;
+package org.codehaus.cargo.container.glassfish.internal;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.DeployerType;
-import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalContainer;
+import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
 
@@ -38,7 +34,7 @@ import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
  * 
  * @version $Id$
  */
-public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
+public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLocalDeployer
 {
 
     /**
@@ -46,7 +42,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
      * 
      * @param localContainer Container.
      */
-    public GlassFishInstalledLocalDeployer(InstalledLocalContainer localContainer)
+    public AbstractGlassFishInstalledLocalDeployer(InstalledLocalContainer localContainer)
     {
         super(localContainer);
     }
@@ -66,9 +62,10 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
      * 
      * @return Cast configuration.
      */
-    private GlassFishStandaloneLocalConfiguration getConfiguration()
+    private AbstractGlassFishStandaloneLocalConfiguration getConfiguration()
     {
-        return (GlassFishStandaloneLocalConfiguration) this.getLocalContainer().getConfiguration();
+        return (AbstractGlassFishStandaloneLocalConfiguration)
+            this.getLocalContainer().getConfiguration();
     }
 
     /**
@@ -103,52 +100,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
      * @param deployable Deployable to deploy.
      * @param overwrite Whether to overwrite.
      */
-    protected void doDeploy(Deployable deployable, boolean overwrite)
-    {
-        List<String> args = new ArrayList<String>();
-        args.add("deploy");
-        if (overwrite)
-        {
-            args.add("--force");
-        }
-
-        if (deployable instanceof WAR)
-        {
-            args.add("--contextroot");
-            args.add(((WAR) deployable).getContext());
-        }
-        else if (deployable instanceof Bundle)
-        {
-            args.add("--type=osgi");
-        }
-
-        this.addConnectOptions(args);
-
-        args.add(new File(deployable.getFile()).getAbsolutePath());
-
-        String[] arguments = new String[args.size()];
-        args.toArray(arguments);
-        this.getLocalContainer().invokeAsAdmin(false, arguments);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void undeploy(Deployable deployable)
-    {
-        List<String> args = new ArrayList<String>();
-        args.add("undeploy");
-
-        this.addConnectOptions(args);
-
-        // not too sure how asadmin determines 'name'
-        args.add(this.cutExtension(this.getFileHandler().getName(deployable.getFile())));
-
-        String[] arguments = new String[args.size()];
-        args.toArray(arguments);
-        this.getLocalContainer().invokeAsAdmin(false, arguments);
-    }
+    protected abstract void doDeploy(Deployable deployable, boolean overwrite);
 
     /**
      * {@inheritDoc}
@@ -174,7 +126,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
      * @param name Filename.
      * @return Filename without its extension.
      */
-    private String cutExtension(String name)
+    protected String cutExtension(String name)
     {
         int idx = name.lastIndexOf('.');
         if (idx >= 0)
@@ -192,7 +144,7 @@ public class GlassFishInstalledLocalDeployer extends AbstractLocalDeployer
      * 
      * @param args List to add to.
      */
-    private void addConnectOptions(List<String> args)
+    protected void addConnectOptions(List<String> args)
     {
         args.add("--interactive=false");
         args.add("--port");

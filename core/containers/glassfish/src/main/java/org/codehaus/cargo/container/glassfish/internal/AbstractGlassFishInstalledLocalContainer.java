@@ -25,7 +25,6 @@ import java.net.URL;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.glassfish.GlassFishInstalledLocalDeployer;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
@@ -136,7 +135,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
                 + " after " + this.getTimeout() + " milliseconds!");
         }
 
-        GlassFishInstalledLocalDeployer deployer = new GlassFishInstalledLocalDeployer(this);
+        AbstractGlassFishInstalledLocalDeployer deployer = getLocalDeployer();
         // deploy scheduled deployables
         for (Deployable deployable : this.getConfiguration().getDeployables())
         {
@@ -158,5 +157,10 @@ public abstract class AbstractGlassFishInstalledLocalContainer
             this.getConfiguration().getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
         });
     }
+
+    /**
+     * @return Local deployer for this local container.
+     */
+    protected abstract AbstractGlassFishInstalledLocalDeployer getLocalDeployer();
 
 }

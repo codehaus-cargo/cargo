@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.glassfish;
+package org.codehaus.cargo.container.glassfish.internal;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -28,10 +28,10 @@ import java.util.Map;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalContainer;
+import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
+import org.codehaus.cargo.container.glassfish.GlassFishStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
@@ -41,7 +41,8 @@ import org.codehaus.cargo.util.DefaultFileHandler;
  * 
  * @version $Id$
  */
-public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
+public abstract class AbstractGlassFishStandaloneLocalConfiguration
+    extends AbstractStandaloneLocalConfiguration
 {
 
     /**
@@ -55,7 +56,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
      * 
      * @param home The work directory where files needed to run Glassfish will be created.
      */
-    public GlassFishStandaloneLocalConfiguration(String home)
+    public AbstractGlassFishStandaloneLocalConfiguration(String home)
     {
         super(home);
 
@@ -88,7 +89,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
      * 
      * @return The password file that contains admin's password.
      */
-    File getPasswordFile()
+    public File getPasswordFile()
     {
         String password = this.getPropertyValue(RemotePropertySet.PASSWORD);
         if (password == null)
@@ -103,9 +104,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
             {
                 this.getFileHandler().mkdirs(this.getHome());
                 FileWriter w = new FileWriter(f);
-                // somehow glassfish uses both. Brain-dead.
                 w.write("AS_ADMIN_PASSWORD=" + password + "\n");
-                w.write("AS_ADMIN_ADMINPASSWORD=" + password + "\n");
                 w.close();
             }
             return f;
@@ -127,30 +126,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
         DefaultFileHandler fileHandler = new DefaultFileHandler();
         fileHandler.delete(this.getHome());
 
-        int exitCode =
-            ((AbstractGlassFishInstalledLocalContainer) container).invokeAsAdmin(
-                false,
-                "create-domain",
-                "--interactive=false",
-                "--adminport",
-                this.getPropertyValue(GlassFishPropertySet.ADMIN_PORT),
-                "--user",
-                this.getPropertyValue(RemotePropertySet.USERNAME),
-                "--passwordfile",
-                this.getPasswordFile().getAbsolutePath(),
-                "--instanceport",
-                this.getPropertyValue(ServletPropertySet.PORT),
-                "--domainproperties",
-
-                this.getPropertyValueString(GlassFishPropertySet.JMS_PORT) + ':'
-                    + this.getPropertyValueString(GlassFishPropertySet.IIOP_PORT) + ':'
-                    + this.getPropertyValueString(GlassFishPropertySet.IIOPS_PORT) + ':'
-                    + this.getPropertyValueString(GlassFishPropertySet.HTTPS_PORT) + ':'
-                    + this.getPropertyValueString(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT)
-                    + ':' + this.getPropertyValueString(GlassFishPropertySet.JMX_ADMIN_PORT),
-
-                "--domaindir", this.getHome(), this
-                    .getPropertyValue(GlassFishPropertySet.DOMAIN_NAME));
+        int exitCode = configureUsingAsAdmin((AbstractGlassFishInstalledLocalContainer) container);
 
         if (exitCode != 0)
         {
@@ -223,7 +199,7 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
      * @param key Key to look for.
      * @return Associated value.
      */
-    private String getPropertyValueString(String key)
+    protected String getPropertyValueString(String key)
     {
         String value = this.getPropertyValue(key);
         return key.substring("cargo.glassfish.".length()) + '=' + value;
@@ -250,5 +226,13 @@ public class GlassFishStandaloneLocalConfiguration extends AbstractStandaloneLoc
         }
         return jvmArgs.substring(startIndex, endIndex);
     }
+
+    /**
+     * Configures the domain using <code>asadmin</code>.
+     * @param abstractGlassFishInstalledLocalContainer GlassFish container.
+     * @return Whatever <code>asadmin</code> returned.
+     */
+    protected abstract int configureUsingAsAdmin(
+        AbstractGlassFishInstalledLocalContainer abstractGlassFishInstalledLocalContainer);
 
 }
