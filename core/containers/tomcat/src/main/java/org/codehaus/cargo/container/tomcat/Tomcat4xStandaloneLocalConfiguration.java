@@ -19,10 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import java.util.Arrays;
 import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
@@ -126,37 +123,32 @@ public class Tomcat4xStandaloneLocalConfiguration extends
     }
 
     /**
-     * {@inheritDoc}
+     * Tomcat 4.x does not load <code>$CATALINA_BASE/common/lib</code> (as explained in
+     * http://tomcat.apache.org/tomcat-4.1-doc/class-loader-howto.html), therefore we copy the
+     * extra classpath into <code>$CATALINA_HOME/common/lib</code>. {@inheritDoc}
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
-        // Tomcat 4.x does not load $CATALINA_BASE/common/lib,
-        // see http://tomcat.apache.org/tomcat-4.1-doc/class-loader-howto.html
-
         if (container instanceof InstalledLocalContainer)
         {
             InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
-            Set<String> classPath = new TreeSet<String>();
-            String[] extraClasspath = installedContainer.getExtraClasspath();
-            if (extraClasspath != null)
+            String[] classPath = installedContainer.getExtraClasspath();
+            if (classPath != null)
             {
-                classPath.addAll(Arrays.asList(extraClasspath));
-            }
-            String[] sharedClasspath = installedContainer.getSharedClasspath();
-            if (sharedClasspath != null)
-            {
-                classPath.addAll(Arrays.asList(sharedClasspath));
-            }
+                String commonLib = getFileHandler().append(installedContainer.getHome(),
+                    "common/lib");
 
-            if (!classPath.isEmpty())
-            {
-                extraClasspath = new String[0];
-                installedContainer.setExtraClasspath(extraClasspath);
+                for (String path : classPath)
+                {
+                    String target = getFileHandler().append(commonLib,
+                        getFileHandler().getName(path));
 
-                sharedClasspath = new String[classPath.size()];
-                sharedClasspath = classPath.toArray(sharedClasspath);
-                installedContainer.setSharedClasspath(sharedClasspath);
+                    getLogger().debug("Copying extra classpath JAR to " + target,
+                        this.getClass().getName());
+
+                    getFileHandler().copyFile(path, target);
+                }
             }
         }
 
