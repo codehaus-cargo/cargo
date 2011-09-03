@@ -239,7 +239,7 @@
 
               <property>
                 <name>cargo.tomcat7x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.20/bin/apache-tomcat-7.0.20.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.21/bin/apache-tomcat-7.0.21.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat7x.java.home</name>
@@ -293,7 +293,7 @@
 
               <property>
                 <name>cargo.jetty8x.url</name>
-                <value>http://download.eclipse.org/jetty/8.0.0.RC0/dist/jetty-distribution-8.0.0.RC0.tar.gz</value>
+                <value>http://download.eclipse.org/jetty/8.0.0.v20110901/dist/jetty-distribution-8.0.0.v20110901.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty8x.java.home</name>
