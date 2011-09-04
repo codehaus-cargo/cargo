@@ -25,8 +25,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.glassfish.GlassFishStandaloneLocalConfigurationCapability;
@@ -191,6 +193,24 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
         String cpcWar = this.getFileHandler().append(this.getHome(), "cargocpc.war");
         this.getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war", new File(cpcWar));
         this.getDeployables().add(new WAR(cpcWar));
+
+        if (container instanceof InstalledLocalContainer)
+        {
+            InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
+            String[] classPath = installedContainer.getExtraClasspath();
+            if (classPath != null)
+            {
+                String toDir = this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME) + "/lib";
+
+                for (String path : classPath)
+                {
+                    FileConfig fc = new FileConfig();
+                    fc.setFile(path);
+                    fc.setToDir(toDir);
+                    setFileProperty(fc);
+                }
+            }
+        }
     }
 
     /**
