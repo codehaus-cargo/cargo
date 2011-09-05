@@ -174,6 +174,39 @@
       </build>
     </profile>
     <profile>
+      <id>glassfish3x</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-maven2-plugin</artifactId>
+              <configuration>
+                <container>
+                  <containerId>glassfish3x</containerId>
+                  <zipUrlInstaller>
+                    <url>http://download.java.net/glassfish/3.1.1/release/glassfish-3.1.1.zip</url>
+                  </zipUrlInstaller>
+                  <dependencies>
+                    <!--
+                      Remove the org.apache.derby dependency since GlassFish 3.x is already
+                      shipped with Derby, and adding the dependency twice results in a
+                      java.lang.SecurityException: sealing violation: package org.apache.derby.
+                      -->
+                      <dependency>
+                        <groupId>org.apache.derby</groupId>
+                        <artifactId>derby</artifactId>
+                        <classpath>none</classpath>
+                      </dependency>
+                  </dependencies>
+                </container>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
       <id>jonas5x</id>
       <build>
         <pluginManagement>
