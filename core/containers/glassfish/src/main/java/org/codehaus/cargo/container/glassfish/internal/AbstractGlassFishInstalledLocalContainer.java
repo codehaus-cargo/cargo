@@ -23,7 +23,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import java.util.List;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
@@ -49,6 +51,21 @@ public abstract class AbstractGlassFishInstalledLocalContainer
     public AbstractGlassFishInstalledLocalContainer(LocalConfiguration localConfiguration)
     {
         super(localConfiguration);
+    }
+
+    /**
+     * Invokes asadmin.
+     * 
+     * @param async Asynchronous invoke?
+     * @param args Invoke arguments.
+     * @return The exit code from asadmin, always {@code 0} when using asynchronous invocation.
+     */
+    public int invokeAsAdmin(boolean async, List<String> args)
+    {
+        JvmLauncher java = createJvmLauncher(false);
+        String[] argsArray = new String[args.size()];
+        argsArray = args.toArray(argsArray);
+        return invokeAsAdmin(async, java, argsArray);
     }
 
     /**
@@ -136,7 +153,14 @@ public abstract class AbstractGlassFishInstalledLocalContainer
         }
 
         AbstractGlassFishInstalledLocalDeployer deployer = getLocalDeployer();
-        // deploy scheduled deployables
+
+        // Deploy datasources
+        for (DataSource dataSource : this.getConfiguration().getDataSources())
+        {
+            deployer.deployDatasource(dataSource);
+        }
+
+        // Deploy scheduled deployables
         for (Deployable deployable : this.getConfiguration().getDeployables())
         {
             deployer.deploy(deployable);

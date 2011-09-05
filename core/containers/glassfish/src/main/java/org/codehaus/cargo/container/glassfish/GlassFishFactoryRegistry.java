@@ -59,11 +59,11 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
     {
         configurationCapabilityFactory.registerConfigurationCapability("glassfish2x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            GlassFishStandaloneLocalConfigurationCapability.class);
+            GlassFish2xStandaloneLocalConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("glassfish3x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            GlassFishStandaloneLocalConfigurationCapability.class);
+            GlassFish3xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("glassfish3x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             GlassFish3xRuntimeConfigurationCapability.class);

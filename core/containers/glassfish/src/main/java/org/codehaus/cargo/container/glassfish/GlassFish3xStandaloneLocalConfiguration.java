@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalContainer;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -34,6 +35,12 @@ public class GlassFish3xStandaloneLocalConfiguration
 {
 
     /**
+     * Container capability instance.
+     */
+    private static final ConfigurationCapability CAPABILITY =
+        new GlassFish3xStandaloneLocalConfigurationCapability();
+
+    /**
      * Creates the local configuration object.
      * 
      * @param home The work directory where files needed to run Glassfish will be created.
@@ -41,6 +48,14 @@ public class GlassFish3xStandaloneLocalConfiguration
     public GlassFish3xStandaloneLocalConfiguration(String home)
     {
         super(home);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public ConfigurationCapability getCapability()
+    {
+        return CAPABILITY;
     }
 
     /**

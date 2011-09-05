@@ -24,10 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * GlassFish 3.x installed local deployer, which uses the GlassFish asadmin to deploy and undeploy
@@ -54,8 +56,9 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
     protected void doDeploy(Deployable deployable, boolean overwrite)
     {
         List<String> args = new ArrayList<String>();
-        args.add("deploy");
         this.addConnectOptions(args);
+
+        args.add("deploy");
 
         if (overwrite)
         {
@@ -74,9 +77,11 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
 
         args.add(new File(deployable.getFile()).getAbsolutePath());
 
-        String[] arguments = new String[args.size()];
-        args.toArray(arguments);
-        this.getLocalContainer().invokeAsAdmin(false, arguments);
+        int returnValue =  this.getLocalContainer().invokeAsAdmin(false, args);
+        if (returnValue != 0)
+        {
+            throw new CargoException("The call to deploy returned " + returnValue);
+        }
     }
 
     /**
@@ -93,9 +98,72 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         // not too sure how asadmin determines 'name'
         args.add(this.cutExtension(this.getFileHandler().getName(deployable.getFile())));
 
-        String[] arguments = new String[args.size()];
-        args.toArray(arguments);
-        this.getLocalContainer().invokeAsAdmin(false, arguments);
+        int returnValue =  this.getLocalContainer().invokeAsAdmin(false, args);
+        if (returnValue != 0)
+        {
+            throw new CargoException("The call to deploy returned " + returnValue);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deployDatasource(DataSource dataSource)
+    {
+        List<String> args = new ArrayList<String>();
+
+        String escapedUrl = dataSource.getUrl().replace("\\", "\\\\").replace(":", "\\:");
+
+        StringBuilder dataSourceProperty = new StringBuilder();
+        dataSourceProperty.append("user=");
+        dataSourceProperty.append(dataSource.getUsername());
+        dataSourceProperty.append(":password=");
+        dataSourceProperty.append(dataSource.getPassword());
+        dataSourceProperty.append(":url=\"");
+        dataSourceProperty.append(escapedUrl);
+        dataSourceProperty.append("\"");
+
+        String dataSourceId = "cargo-datasource-" + dataSource.getId();
+
+        args.clear();
+        this.addConnectOptions(args);
+        args.add("create-jdbc-connection-pool");
+        args.add("--restype");
+        args.add(dataSource.getConnectionType());
+        if ("javax.sql.XADataSource".equals(dataSource.getConnectionType()))
+        {
+            args.add("--datasourceclassname");
+        }
+        else
+        {
+            args.add("--driverclassname");
+        }
+        args.add(dataSource.getDriverClass());
+        args.add("--property");
+        args.add(dataSourceProperty.toString());
+        args.add(dataSourceId);
+
+        int returnValue =  this.getLocalContainer().invokeAsAdmin(false, args);
+        if (returnValue != 0)
+        {
+            throw new CargoException("The call to create-jdbc-connection-pool returned "
+                + returnValue);
+        }
+
+        args.clear();
+        this.addConnectOptions(args);
+        args.add("create-jdbc-resource");
+        args.add("--connectionpoolid");
+        args.add(dataSourceId);
+        args.add(dataSource.getJndiLocation());
+
+        returnValue =  this.getLocalContainer().invokeAsAdmin(false, args);
+        if (returnValue != 0)
+        {
+            throw new CargoException("The call to create-jdbc-resource returned "
+                + returnValue);
+        }
     }
 
 }

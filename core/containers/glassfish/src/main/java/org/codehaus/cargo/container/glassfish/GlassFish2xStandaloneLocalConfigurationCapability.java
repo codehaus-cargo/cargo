@@ -27,18 +27,18 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 /**
- * GlassFish standalone local configuration capability.
+ * GlassFish 2.x standalone local configuration capability.
  * 
  * @version $Id$
  */
-public final class GlassFishStandaloneLocalConfigurationCapability extends
+public class GlassFish2xStandaloneLocalConfigurationCapability extends
     AbstractStandaloneLocalConfigurationCapability
 {
 
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public GlassFishStandaloneLocalConfigurationCapability()
+    public GlassFish2xStandaloneLocalConfigurationCapability()
     {
         super();
 

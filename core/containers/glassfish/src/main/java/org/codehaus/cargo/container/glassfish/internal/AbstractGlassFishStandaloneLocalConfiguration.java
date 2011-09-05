@@ -27,11 +27,9 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
-import org.codehaus.cargo.container.glassfish.GlassFishStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
@@ -46,12 +44,6 @@ import org.codehaus.cargo.util.DefaultFileHandler;
 public abstract class AbstractGlassFishStandaloneLocalConfiguration
     extends AbstractStandaloneLocalConfiguration
 {
-
-    /**
-     * Container capability instance.
-     */
-    private static final ConfigurationCapability CAPABILITY =
-        new GlassFishStandaloneLocalConfigurationCapability();
 
     /**
      * Creates the local configuration object.
@@ -76,14 +68,6 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
         this.setProperty(GlassFishPropertySet.DOMAIN_NAME, "cargo-domain");
 
         // ServletPropertySet.PORT default set to 8080 by the super class
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public ConfigurationCapability getCapability()
-    {
-        return CAPABILITY;
     }
 
     /**

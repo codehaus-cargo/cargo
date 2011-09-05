@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.glassfish.internal;
 import java.util.List;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
@@ -101,6 +102,13 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
      * @param overwrite Whether to overwrite.
      */
     protected abstract void doDeploy(Deployable deployable, boolean overwrite);
+
+    /**
+     * Deploy a datasource.
+     * 
+     * @param dataSource Datasource to deploy.
+     */
+    public abstract void deployDatasource(DataSource dataSource);
 
     /**
      * {@inheritDoc}

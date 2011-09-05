@@ -24,9 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * GlassFish 2.x installed local deployer, which uses the GlassFish asadmin to deploy and undeploy
@@ -71,9 +73,11 @@ public class GlassFish2xInstalledLocalDeployer extends AbstractGlassFishInstalle
 
         args.add(new File(deployable.getFile()).getAbsolutePath());
 
-        String[] arguments = new String[args.size()];
-        args.toArray(arguments);
-        this.getLocalContainer().invokeAsAdmin(false, arguments);
+        int returnValue =  this.getLocalContainer().invokeAsAdmin(false, args);
+        if (returnValue != 0)
+        {
+            throw new CargoException("The call to deploy returned " + returnValue);
+        }
     }
 
     /**
@@ -90,9 +94,21 @@ public class GlassFish2xInstalledLocalDeployer extends AbstractGlassFishInstalle
         // not too sure how asadmin determines 'name'
         args.add(this.cutExtension(this.getFileHandler().getName(deployable.getFile())));
 
-        String[] arguments = new String[args.size()];
-        args.toArray(arguments);
-        this.getLocalContainer().invokeAsAdmin(false, arguments);
+        int returnValue =  this.getLocalContainer().invokeAsAdmin(false, args);
+        if (returnValue != 0)
+        {
+            throw new CargoException("The call to undeploy returned " + returnValue);
+        }
+    }
+
+    /**
+     * Does not do anything since GlassFish 2.x cannot deploy datasources using
+     * <code>java.sql.Driver</code> drivers. {@inheritDoc}
+     */
+    @Override
+    public void deployDatasource(DataSource dataSource)
+    {
+        // Nothing
     }
 
 }
