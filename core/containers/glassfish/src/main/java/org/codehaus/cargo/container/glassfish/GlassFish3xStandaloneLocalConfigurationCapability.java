@@ -38,8 +38,9 @@ public class GlassFish3xStandaloneLocalConfigurationCapability extends
     {
         super();
 
-        // recognize those
+        // recognize those as well
         this.defaultSupportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.defaultSupportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
     }
 
 }

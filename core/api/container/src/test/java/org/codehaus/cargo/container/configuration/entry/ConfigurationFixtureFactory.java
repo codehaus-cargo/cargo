@@ -83,7 +83,7 @@ public final class ConfigurationFixtureFactory
             "jdbc:derby:derbyDB;create=true",
             "jdbc/CargoDS",
             "APP",
-            "",
+            "nonemptypassword",
             null);
     }
 
@@ -100,7 +100,7 @@ public final class ConfigurationFixtureFactory
             "jdbc:derby:derbyDB;create=true",
             "jdbc/CargoDS",
             "APP",
-            "",
+            "nonemptypassword",
             null);
     }
 
