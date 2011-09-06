@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jonas-web-app xmlns="http://www.objectweb.org/jonas/ns"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://www.objectweb.org/jonas/ns
+               http://www.objectweb.org/jonas/ns/jonas-web-app_4_0.xsd">
+
+    <jonas-resource>
+        <res-ref-name>jdbc/CargoDS</res-ref-name>
+        <jndi-name>jdbc/CargoDS</jndi-name>
+    </jonas-resource>
+</jonas-web-app>
