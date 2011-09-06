@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
-import org.codehaus.cargo.util.CargoException;
 
 /**
  * GlassFish 3.x installed local deployer, which uses the GlassFish asadmin to deploy and undeploy
@@ -77,11 +76,8 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
 
         args.add(new File(deployable.getFile()).getAbsolutePath());
 
-        int returnValue =  this.getLocalContainer().invokeAsAdmin(false, args);
-        if (returnValue != 0)
-        {
-            throw new CargoException("The call to deploy returned " + returnValue);
-        }
+        // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
+        this.getLocalContainer().invokeAsAdmin(false, args);
     }
 
     /**
@@ -98,11 +94,8 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         // not too sure how asadmin determines 'name'
         args.add(this.cutExtension(this.getFileHandler().getName(deployable.getFile())));
 
-        int returnValue =  this.getLocalContainer().invokeAsAdmin(false, args);
-        if (returnValue != 0)
-        {
-            throw new CargoException("The call to deploy returned " + returnValue);
-        }
+        // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
+        this.getLocalContainer().invokeAsAdmin(false, args);
     }
 
     /**
@@ -144,12 +137,8 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         args.add(dataSourceProperty.toString());
         args.add(dataSourceId);
 
-        int returnValue =  this.getLocalContainer().invokeAsAdmin(false, args);
-        if (returnValue != 0)
-        {
-            throw new CargoException("The call to create-jdbc-connection-pool returned "
-                + returnValue);
-        }
+        // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
+        this.getLocalContainer().invokeAsAdmin(false, args);
 
         args.clear();
         this.addConnectOptions(args);
@@ -158,12 +147,8 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         args.add(dataSourceId);
         args.add(dataSource.getJndiLocation());
 
-        returnValue =  this.getLocalContainer().invokeAsAdmin(false, args);
-        if (returnValue != 0)
-        {
-            throw new CargoException("The call to create-jdbc-resource returned "
-                + returnValue);
-        }
+        // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
+        this.getLocalContainer().invokeAsAdmin(false, args);
     }
 
 }

@@ -73,7 +73,7 @@ public class GlassFish2xInstalledLocalDeployer extends AbstractGlassFishInstalle
 
         args.add(new File(deployable.getFile()).getAbsolutePath());
 
-        int returnValue =  this.getLocalContainer().invokeAsAdmin(false, args);
+        int returnValue = this.getLocalContainer().invokeAsAdmin(false, args);
         if (returnValue != 0)
         {
             throw new CargoException("The call to deploy returned " + returnValue);
@@ -94,7 +94,7 @@ public class GlassFish2xInstalledLocalDeployer extends AbstractGlassFishInstalle
         // not too sure how asadmin determines 'name'
         args.add(this.cutExtension(this.getFileHandler().getName(deployable.getFile())));
 
-        int returnValue =  this.getLocalContainer().invokeAsAdmin(false, args);
+        int returnValue = this.getLocalContainer().invokeAsAdmin(false, args);
         if (returnValue != 0)
         {
             throw new CargoException("The call to undeploy returned " + returnValue);
