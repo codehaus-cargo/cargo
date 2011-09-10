@@ -37,9 +37,9 @@
   <profiles>
     <!-- JBoss 7 requires JDK 6 -->
     <profile>
-      <id>java6</id>
+      <id>java6+</id>
       <activation>
-        <jdk>1.6</jdk>
+        <jdk>[1.6,)</jdk>
       </activation>
       <modules>
         <module>jboss-deployer-7</module>
