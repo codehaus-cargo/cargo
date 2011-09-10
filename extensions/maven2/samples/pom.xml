@@ -66,9 +66,9 @@
   <profiles>
     <!-- Tomcat7 and Jetty8 require JDK 6 -->
     <profile>
-      <id>java6</id>
+      <id>java6+</id>
       <activation>
-        <jdk>1.6</jdk>
+        <jdk>[1.6,)</jdk>
       </activation>
       <modules>
         <module>jetty8x-embedded-test</module>
