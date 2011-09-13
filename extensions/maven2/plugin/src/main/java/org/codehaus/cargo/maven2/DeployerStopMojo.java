@@ -36,7 +36,17 @@ public class DeployerStopMojo extends AbstractDeployerMojo
         org.codehaus.cargo.container.deployable.Deployable deployable, URL pingURL,
         Long pingTimeout)
     {
-        getLog().debug("Stopping [" + deployable.getFile() + "] ...");
-        deployer.stop(deployable);
+        getLog().debug("Stopping [" + deployable.getFile() + "]"
+            + (pingURL == null ? " ..." : " using ping URL [" + pingURL + "]"
+                + (pingTimeout == null ? "" : " and ping timeout [" + pingTimeout + "]")));
+
+        if (pingURL != null)
+        {
+            deployer.stop(deployable, createDeployableMonitor(pingURL, pingTimeout, deployable));
+        }
+        else
+        {
+            deployer.stop(deployable);
+        }
     }
 }

@@ -36,7 +36,17 @@ public class DeployerStartMojo extends AbstractDeployerMojo
         org.codehaus.cargo.container.deployable.Deployable deployable, URL pingURL,
         Long pingTimeout)
     {
-        getLog().debug("Starting [" + deployable.getFile() + "] ...");
-        deployer.start(deployable);
+        getLog().debug("Starting [" + deployable.getFile() + "]"
+            + (pingURL == null ? " ..." : " using ping URL [" + pingURL + "]"
+                + (pingTimeout == null ? "" : " and ping timeout [" + pingTimeout + "]")));
+
+        if (pingURL != null)
+        {
+            deployer.start(deployable, createDeployableMonitor(pingURL, pingTimeout, deployable));
+        }
+        else
+        {
+            deployer.start(deployable);
+        }
     }
 }

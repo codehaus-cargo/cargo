@@ -36,7 +36,18 @@ public class DeployerRedeployMojo extends AbstractDeployerMojo
         org.codehaus.cargo.container.deployable.Deployable deployable,
         URL pingURL, Long pingTimeout)
     {
-        getLog().debug("Redeploying [" + deployable.getFile() + "] ...");
-        deployer.redeploy(deployable);
+        getLog().debug("Redeploying [" + deployable.getFile() + "]"
+            + (pingURL == null ? " ..." : " using ping URL [" + pingURL + "]"
+                + (pingTimeout == null ? "" : " and ping timeout [" + pingTimeout + "]")));
+
+        if (pingURL != null)
+        {
+            deployer.redeploy(deployable, createDeployableMonitor(pingURL, pingTimeout,
+                deployable));
+        }
+        else
+        {
+            deployer.redeploy(deployable);
+        }
     }
 }

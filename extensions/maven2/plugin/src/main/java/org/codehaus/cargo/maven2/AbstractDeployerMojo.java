@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.codehaus.cargo.container.deployer.DeployableMonitor;
+import org.codehaus.cargo.container.deployer.DeployableMonitorListener;
+import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
 import org.codehaus.cargo.maven2.configuration.Deployable;
@@ -36,6 +39,42 @@ import org.codehaus.cargo.maven2.configuration.Deployable;
  */
 public abstract class AbstractDeployerMojo extends AbstractCargoMojo
 {
+    /**
+     * {@link DeployableMonitorListener} that logs.
+     */
+    public class DeployerListener implements DeployableMonitorListener
+    {
+        /**
+         * {@link Deployable} to listen.
+         */
+        private org.codehaus.cargo.container.deployable.Deployable deployable;
+
+        /**
+         * Saves all attributes.
+         * @param deployable {@link Deployable} to listen.
+         */
+        public DeployerListener(org.codehaus.cargo.container.deployable.Deployable deployable)
+        {
+            this.deployable = deployable;
+        }
+
+        /**
+         * {@inheritDoc}.
+         */
+        public void deployed()
+        {
+            getLog().debug("Watchdog finds [" + this.deployable.getFile() + "] deployed.");
+        }
+
+        /**
+         * {@inheritDoc}.
+         */
+        public void undeployed()
+        {
+            getLog().debug("Watchdog finds [" + this.deployable.getFile() + "] not deployed yet.");
+        }
+    }
+
     /**
      * Deployer factory.
      */
@@ -180,4 +219,28 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
         org.codehaus.cargo.container.deployer.Deployer deployer,
         org.codehaus.cargo.container.deployable.Deployable deployable, URL pingURL,
         Long pingTimeout);
+
+    /**
+     * Create a deployable monitor.
+     * @param pingURL Ping URL.
+     * @param pingTimeout Ping timeout (milliseconds).
+     * @param deployable {@link Deployable} to monitor.
+     * @return Deployable monitor with specified arguments.
+     */
+    protected DeployableMonitor createDeployableMonitor(URL pingURL, Long pingTimeout,
+        org.codehaus.cargo.container.deployable.Deployable deployable)
+    {
+        DeployableMonitor monitor;
+        if (pingTimeout == null)
+        {
+            monitor = new URLDeployableMonitor(pingURL);
+        }
+        else
+        {
+            monitor = new URLDeployableMonitor(pingURL, pingTimeout.longValue());
+        }
+        DeployerListener listener = new DeployerListener(deployable);
+        monitor.registerListener(listener);
+        return monitor;
+    }
 }
