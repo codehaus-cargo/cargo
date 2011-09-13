@@ -24,6 +24,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
@@ -97,7 +99,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
     /**
      * {@inheritDoc}
-     * @see AbstractLocalConfiguration#configure(LocalContainer)
+     * @see AbstractStandaloneLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -170,8 +172,18 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
             new File(confDir), cargoFiles);
 
         // Copy the files within the JBoss Deploy directory to the cargo deploy directory
+        //
+        // CARGO-1037: Ignore all JBoss deployables that coincide with user deployables
+        List<String> deployDirContents = new ArrayList<String>();
+        File deployDirectory = new File(deployDir);
+        for (File deployDirectoryContent : deployDirectory.listFiles())
+        {
+            deployDirContents.add(deployDirectoryContent.getName());
+        }
+        String[] deployDirContentsArray = new String[deployDirContents.size()];
+        deployDirContentsArray = deployDirContents.toArray(deployDirContentsArray);
         copyExternalResources(new File(jbossContainer.getDeployDir(getPropertyValue(
-            JBossPropertySet.CONFIGURATION))), new File(deployDir), new String[0]);
+            JBossPropertySet.CONFIGURATION))), deployDirectory, deployDirContentsArray);
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
