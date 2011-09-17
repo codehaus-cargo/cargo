@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import java.util.StringTokenizer;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.tools.ant.BuildException;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -395,18 +395,13 @@ public class Deployable extends AbstractDependency
                 new Class[] {String[].class});
 
             List<String> valueList = new ArrayList<String>();
-            StringTokenizer valueLineN = new StringTokenizer(value, "\n");
-            while (valueLineN.hasMoreTokens())
+            StringTokenizer commaSeparatedValue = new StringTokenizer(value, ",");
+            while (commaSeparatedValue.hasMoreTokens())
             {
-                String lineN = valueLineN.nextToken();
-                StringTokenizer valueLineR = new StringTokenizer(value, "\r");
-                while (valueLineR.hasMoreTokens())
+                String commaSeparatedLine = commaSeparatedValue.nextToken().trim();
+                if (commaSeparatedLine.length() > 0)
                 {
-                    String line = valueLineR.nextToken().trim();
-                    if (line.length() > 0)
-                    {
-                        valueList.add(line);
-                    }
+                    valueList.add(commaSeparatedLine);
                 }
             }
             String[] valueArray = new String[valueList.size()];
