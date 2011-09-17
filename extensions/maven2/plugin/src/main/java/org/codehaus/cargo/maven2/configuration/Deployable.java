@@ -22,9 +22,12 @@ package org.codehaus.cargo.maven2.configuration;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import java.util.StringTokenizer;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.tools.ant.BuildException;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -234,7 +237,15 @@ public class Deployable extends AbstractDependency
                     propertyValue = "";
                 }
 
-                callMethodForProperty(deployable, propertyName, propertyValue);
+                try
+                {
+                    callMethodForProperty(deployable, propertyName, propertyValue, project);
+                }
+                catch (Exception e)
+                {
+                    throw new BuildException("Invalid property [" + propertyName
+                        + "] for deployable type [" + deployable.getType() + "]", e);
+                }
             }
         }
     }
@@ -358,21 +369,55 @@ public class Deployable extends AbstractDependency
      * specified property.
      * @param name Property name.
      * @param value Property value.
+     * @param project Cargo project.
+     * @throws Exception if anything goes wrong.
      */
     private void callMethodForProperty(
-        org.codehaus.cargo.container.deployable.Deployable deployable, String name, String value)
+        org.codehaus.cargo.container.deployable.Deployable deployable, String name, String value,
+        CargoProject project) throws Exception
     {
+        String setterMethodName = getSetterMethodName(name);
+
+        Method method;
+        Object argument;
+
         try
         {
-            Method method = deployable.getClass().getMethod(getSetterMethodName(name),
-                new Class[] {String.class});
-            method.invoke(deployable, new Object[] {value});
+            method = deployable.getClass().getMethod(setterMethodName, new Class[] {String.class});
+            argument = value;
         }
-        catch (Exception e)
+        catch (NoSuchMethodException e)
         {
-            throw new BuildException("Invalid property [" + name + "] for deployable type ["
-                + deployable.getType() + "]", e);
+            // If we reach this line, it means there is no String setter for the given property
+            // name with a String argument. Check if there is a setter with String[] argument; if
+            // there is one split the value at each line and call the setter.
+            method = deployable.getClass().getMethod(setterMethodName,
+                new Class[] {String[].class});
+
+            List<String> valueList = new ArrayList<String>();
+            StringTokenizer valueLineN = new StringTokenizer(value, "\n");
+            while (valueLineN.hasMoreTokens())
+            {
+                String lineN = valueLineN.nextToken();
+                StringTokenizer valueLineR = new StringTokenizer(value, "\r");
+                while (valueLineR.hasMoreTokens())
+                {
+                    String line = valueLineR.nextToken().trim();
+                    if (line.length() > 0)
+                    {
+                        valueList.add(line);
+                    }
+                }
+            }
+            String[] valueArray = new String[valueList.size()];
+            valueArray = valueList.toArray(valueArray);
+            argument = valueArray;
         }
+
+        project.getLog().debug("Invoking setter method " + method + " for deployable "
+            + deployable + " with argument " + argument);
+
+        method.invoke(deployable, new Object[] {argument});
     }
 
     /**
