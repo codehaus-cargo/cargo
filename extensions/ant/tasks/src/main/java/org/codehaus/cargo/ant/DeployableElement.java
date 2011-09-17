@@ -22,6 +22,7 @@ package org.codehaus.cargo.ant;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.tools.ant.BuildException;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -122,7 +123,15 @@ public class DeployableElement
         // Set user-defined properties on the created deployable.
         for (Property property : getProperties())
         {
-            callMethodForProperty(deployable, property);
+            try
+            {
+                callMethodForProperty(deployable, property);
+            }
+            catch (Exception e)
+            {
+                throw new BuildException("Invalid property [" + property.getName()
+                    + "] for deployable type [" + deployable.getType() + "]", e);
+            }
         }
 
         return deployable;
@@ -134,21 +143,44 @@ public class DeployableElement
      * @param deployable the deployable on which to call the setter method corresponding to the
      * specified property
      * @param property the deployable property used to call the setter method
+     * @throws Exception if anything goes wrong.
      */
-    private void callMethodForProperty(Deployable deployable, Property property)
+    private void callMethodForProperty(Deployable deployable, Property property) throws Exception
     {
+        String setterMethodName = getSetterMethodName(property.getName());
+
+        Method method;
+        Object argument;
+
         try
         {
-            Method method = deployable.getClass().getMethod(
-                getSetterMethodName(property.getName()),
-                new Class[] {String.class});
-            method.invoke(deployable, new Object[] {property.getValue()});
+            method = deployable.getClass().getMethod(setterMethodName, new Class[] {String.class});
+            argument = property.getValue();
         }
-        catch (Exception e)
+        catch (NoSuchMethodException e)
         {
-            throw new BuildException("Invalid property [" + property.getName()
-                + "] for deployable type [" + deployable.getType() + "]", e);
+            // If we reach this line, it means there is no String setter for the given property
+            // name with a String argument. Check if there is a setter with String[] argument; if
+            // there is one split the value at each line and call the setter.
+            method = deployable.getClass().getMethod(setterMethodName,
+                new Class[] {String[].class});
+
+            List<String> valueList = new ArrayList<String>();
+            StringTokenizer commaSeparatedValue = new StringTokenizer(property.getValue(), ",");
+            while (commaSeparatedValue.hasMoreTokens())
+            {
+                String commaSeparatedLine = commaSeparatedValue.nextToken().trim();
+                if (commaSeparatedLine.length() > 0)
+                {
+                    valueList.add(commaSeparatedLine);
+                }
+            }
+            String[] valueArray = new String[valueList.size()];
+            valueArray = valueList.toArray(valueArray);
+            argument = valueArray;
         }
+
+        method.invoke(deployable, new Object[] {argument});
     }
 
     /**
