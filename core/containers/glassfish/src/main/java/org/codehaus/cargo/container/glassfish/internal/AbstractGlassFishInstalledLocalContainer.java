@@ -154,16 +154,37 @@ public abstract class AbstractGlassFishInstalledLocalContainer
 
         AbstractGlassFishInstalledLocalDeployer deployer = getLocalDeployer();
 
-        // Deploy datasources
-        for (DataSource dataSource : this.getConfiguration().getDataSources())
+        try
         {
-            deployer.deployDatasource(dataSource);
-        }
+            // Deploy datasources
+            for (DataSource dataSource : this.getConfiguration().getDataSources())
+            {
+                deployer.deployDatasource(dataSource);
+            }
 
-        // Deploy scheduled deployables
-        for (Deployable deployable : this.getConfiguration().getDeployables())
+            // Deploy scheduled deployables
+            for (Deployable deployable : this.getConfiguration().getDeployables())
+            {
+                deployer.deploy(deployable);
+            }
+        }
+        catch (Throwable t)
         {
-            deployer.deploy(deployable);
+            StringBuilder sb = new StringBuilder();
+            sb.append("At least one GlassFish deployment has failed: ");
+            sb.append(t.toString());
+
+            try
+            {
+                this.stop();
+            }
+            catch (Throwable stopException)
+            {
+                sb.append("; moreover stopping the container has also failed: ");
+                sb.append(stopException.toString());
+            }
+
+            throw new CargoException(sb.toString(), t);
         }
     }
 
