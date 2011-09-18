@@ -165,29 +165,29 @@ public class JettyArtifactResolver
         jetty7xDependencies.add(new Dependency("javax.servlet", "servlet-api", "2.5"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj", "3.5.1"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-continuation",
-            "7.5.1.v20110908"));
+            "7.4.5.v20110725"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http",
-            "7.5.1.v20110908"));
+            "7.4.5.v20110725"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io",
-            "7.5.1.v20110908"));
+            "7.4.5.v20110725"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jsp-2.1",
-            "7.5.1.v20110908"));
+            "7.4.5.v20110725"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-util",
-            "7.5.1.v20110908"));
+            "7.4.5.v20110725"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-security",
-            "7.5.1.v20110908"));
+            "7.4.5.v20110725"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-server",
-            "7.5.1.v20110908"));
+            "7.4.5.v20110725"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-servlet",
-            "7.5.1.v20110908"));
+            "7.4.5.v20110725"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-webapp",
-            "7.5.1.v20110908"));
+            "7.4.5.v20110725"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml",
-            "7.5.1.v20110908"));
+            "7.4.5.v20110725"));
         jetty7xDependencies.add(new Dependency("org.mortbay.jetty", "jsp-api-2.1-glassfish",
             "2.1.v20100127"));
-        jetty7xDependencies.add(new Dependency("org.glassfish.web", "jsp-impl",
-            "2.1.3-b10"));
+        jetty7xDependencies.add(new Dependency("org.mortbay.jetty", "jsp-2.1-glassfish",
+            "2.1.v20100127"));
 
         List<Dependency> jetty8xDependencies = new ArrayList<Dependency>();
         jetty8xDependencies.add(new Dependency("org.mortbay.jetty", "servlet-api", "3.0.20100224"));
