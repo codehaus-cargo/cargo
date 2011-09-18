@@ -184,10 +184,10 @@ public class JettyArtifactResolver
             "7.5.1.v20110908"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml",
             "7.5.1.v20110908"));
-        jetty7xDependencies.add(new Dependency("org.mortbay.jetty", "jsp-2.1-glassfish",
-            "2.1.v20100127"));
         jetty7xDependencies.add(new Dependency("org.mortbay.jetty", "jsp-api-2.1-glassfish",
             "2.1.v20100127"));
+        jetty7xDependencies.add(new Dependency("org.glassfish.web", "jsp-impl",
+            "2.1.3-b10"));
 
         List<Dependency> jetty8xDependencies = new ArrayList<Dependency>();
         jetty8xDependencies.add(new Dependency("org.mortbay.jetty", "servlet-api", "3.0.20100224"));
