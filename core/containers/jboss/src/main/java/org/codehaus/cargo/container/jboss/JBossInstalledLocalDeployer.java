@@ -84,18 +84,6 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
     }
 
     /**
-     * Undeploys and then deploys artifact. Assumes that server is shutdown.
-     * 
-     * @param deployable artifact to redeploy
-     */
-    @Override
-    public void redeploy(Deployable deployable)
-    {
-        undeploy(deployable);
-        deploy(deployable);
-    }
-
-    /**
      * Removes previously deployed artifact.
      * 
      * @param deployable artifact to undeploy

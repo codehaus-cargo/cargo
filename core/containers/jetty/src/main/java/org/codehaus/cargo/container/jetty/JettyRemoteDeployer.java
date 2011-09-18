@@ -149,16 +149,6 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void redeploy(Deployable deployable)
-    {
-        undeploy(deployable);
-        deploy(deployable);
-    }
-
-    /**
      * Creates an deploy connection for the deployer.
      * @param war The war to be deployed
      * @return The URL for the deployer

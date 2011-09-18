@@ -34,6 +34,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.jboss.internal.HttpURLConnection;
 import org.codehaus.cargo.container.jboss.internal.ISimpleHttpFileServer;
 import org.codehaus.cargo.container.jboss.internal.JdkHttpURLConnection;
@@ -42,6 +43,7 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
+import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
@@ -191,6 +193,21 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
     public void redeploy(Deployable deployable)
     {
         invokeRemotely(deployable, this.redeployURL, true);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable, DeployableMonitor)
+     */
+    @Override
+    public void redeploy(Deployable deployable, DeployableMonitor monitor)
+    {
+        this.redeploy(deployable);
+
+        // Wait for the Deployable to be redeployed
+        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
+        watchdog.setLogger(getLogger());
+        watchdog.watchForAvailability();
     }
 
     /**

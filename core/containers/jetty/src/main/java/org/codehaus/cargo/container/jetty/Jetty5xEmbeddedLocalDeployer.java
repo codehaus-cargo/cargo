@@ -130,17 +130,6 @@ public class Jetty5xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(org.codehaus.cargo.container.deployable.Deployable)
-     */
-    @Override
-    public void redeploy(Deployable deployable)
-    {
-        undeploy(deployable);
-        deploy(deployable);
-    }
-
-    /**
-     * {@inheritDoc}
      * @see org.codehaus.cargo.container.deployer.Deployer#start(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override

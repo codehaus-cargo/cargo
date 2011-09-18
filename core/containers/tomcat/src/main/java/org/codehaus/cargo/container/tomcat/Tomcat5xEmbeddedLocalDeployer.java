@@ -33,8 +33,10 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
+import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5xEmbedded;
 import org.codehaus.cargo.module.webapp.tomcat.TomcatWarArchive;
 import org.jdom.Attribute;
@@ -156,6 +158,21 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
     {
         Tomcat5xEmbedded.Context context = getExistingContext(deployable);
         context.reload();
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see AbstractLocalDeployer#redeploy(org.codehaus.cargo.container.deployable.Deployable, org.codehaus.cargo.container.deployer.DeployableMonitor)
+     */
+    @Override
+    public void redeploy(Deployable deployable, DeployableMonitor monitor)
+    {
+        this.redeploy(deployable);
+
+        // Wait for the Deployable to be redeployed
+        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
+        watchdog.setLogger(getLogger());
+        watchdog.watchForAvailability();
     }
 
     /**

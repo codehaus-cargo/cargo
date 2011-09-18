@@ -27,11 +27,13 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.geronimo.deployable.GeronimoDeployable;
 import org.codehaus.cargo.container.geronimo.internal.GeronimoUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
+import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherException;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
@@ -283,6 +285,21 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         {
             throw new ContainerException("Failed to redeploy [" + deployableId + "]", e);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(org.codehaus.cargo.container.deployable.Deployable, org.codehaus.cargo.container.deployer.DeployableMonitor)
+     */
+    @Override
+    public void redeploy(Deployable deployable, DeployableMonitor monitor)
+    {
+        this.redeploy(deployable);
+
+        // Wait for the Deployable to be redeployed
+        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
+        watchdog.setLogger(getLogger());
+        watchdog.watchForAvailability();
     }
 
     /**

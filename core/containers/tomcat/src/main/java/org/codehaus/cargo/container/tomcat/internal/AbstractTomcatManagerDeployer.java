@@ -30,10 +30,12 @@ import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
+import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
@@ -190,6 +192,21 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
         {
             throw new ContainerException("Failed to redeploy [" + file + "]", exception);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(org.codehaus.cargo.container.deployable.Deployable, org.codehaus.cargo.container.deployer.DeployableMonitor)
+     */
+    @Override
+    public void redeploy(Deployable deployable, DeployableMonitor monitor)
+    {
+        this.redeploy(deployable);
+
+        // Wait for the Deployable to be redeployed
+        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
+        watchdog.setLogger(getLogger());
+        watchdog.watchForAvailability();
     }
 
     /**

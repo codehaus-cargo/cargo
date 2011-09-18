@@ -337,26 +337,6 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
     /**
      * {@inheritDoc}
      * 
-     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable)
-     */
-    @Override
-    public void redeploy(Deployable deployable)
-    {
-        try
-        {
-            undeploy(deployable);
-        }
-        catch (Exception e)
-        {
-            this.getLogger().warn("Undeploying failed when redeploying: " + e.toString(),
-                this.getClass().getName());
-        }
-        deploy(deployable);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
      * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(Deployable)
      */
     @Override

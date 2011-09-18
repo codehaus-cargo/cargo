@@ -220,25 +220,6 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
     }
 
     /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable)
-     */
-    @Override
-    public void redeploy(Deployable deployable)
-    {
-        try
-        {
-            this.undeploy(deployable);
-        }
-        catch (Throwable ignored)
-        {
-            // Ignored
-        }
-
-        this.deploy(deployable);
-    }
-
-    /**
      * Get the deployable name for a given deployable. This also takes into account the WAR context.
      * @param deployable Deployable to get the name for.
      * @return Name for <code>deployable</code>.

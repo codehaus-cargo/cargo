@@ -79,18 +79,6 @@ public class WebLogicCopyingInstalledLocalDeployer extends
     }
 
     /**
-     * Undeploys and then deploys artifact.
-     * 
-     * @param deployable artifact to redeploy
-     */
-    @Override
-    public void redeploy(Deployable deployable)
-    {
-        undeploy(deployable);
-        deploy(deployable);
-    }
-
-    /**
      * Removes previously deployed artifact.
      * 
      * @param deployable artifact to undeploy

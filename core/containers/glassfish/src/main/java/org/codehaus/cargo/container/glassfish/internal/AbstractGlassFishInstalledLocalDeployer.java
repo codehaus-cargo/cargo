@@ -24,10 +24,12 @@ import java.util.List;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
+import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 
 /**
  * GlassFish installed local deployer, which uses the GlassFish asadmin to deploy and undeploy
@@ -93,6 +95,20 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
     public void redeploy(Deployable deployable)
     {
         this.doDeploy(deployable, true);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void redeploy(Deployable deployable, DeployableMonitor monitor)
+    {
+        this.redeploy(deployable);
+
+        // Wait for the Deployable to be redeployed
+        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
+        watchdog.setLogger(getLogger());
+        watchdog.watchForAvailability();
     }
 
     /**

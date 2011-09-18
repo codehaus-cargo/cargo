@@ -127,18 +127,6 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     /**
      * {@inheritDoc}
      * 
-     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable)
-     */
-    @Override
-    public void redeploy(Deployable deployable) throws CargoException
-    {
-        undeploy(deployable);
-        deploy(deployable);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
      * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(Deployable)
      */
     @Override

@@ -89,12 +89,22 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
      */
     public void redeploy(Deployable deployable, DeployableMonitor monitor)
     {
-        redeploy(deployable);
+        try
+        {
+            undeploy(deployable);
+        }
+        catch (Throwable t)
+        {
+            getLogger().info("The undeployment phase of the redeploy action has failed: "
+                + t.toString(), this.getClass().getName());
+        }
 
-        // Wait for the Deployable to be deployed
+        // Wait for the Deployable to be undeployed
         DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
         watchdog.setLogger(getLogger());
-        watchdog.watchForAvailability();
+        watchdog.watchForUnavailability();
+
+        deploy(deployable, monitor);
     }
 
     /**
@@ -167,6 +177,16 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
      */
     public void redeploy(Deployable deployable)
     {
-        throw new ContainerException("Not supported");
+        try
+        {
+            undeploy(deployable);
+        }
+        catch (Throwable t)
+        {
+            getLogger().info("The undeployment phase of the redeploy action has failed: "
+                + t.toString(), this.getClass().getName());
+        }
+
+        deploy(deployable);
     }
 }

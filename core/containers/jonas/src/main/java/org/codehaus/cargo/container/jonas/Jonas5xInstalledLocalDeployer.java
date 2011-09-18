@@ -107,18 +107,6 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
     /**
      * {@inheritDoc}
-     *
-     * @see AbstractCopyingInstalledLocalDeployer#redeploy(Deployable)
-     */
-    @Override
-    public void redeploy(Deployable deployable)
-    {
-        this.undeploy(deployable);
-        this.deploy(deployable);
-    }
-
-    /**
-     * {@inheritDoc}
      * 
      * @see AbstractCopyingInstalledLocalDeployer#getDeployableDir()
      */
