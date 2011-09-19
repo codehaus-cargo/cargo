@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.glassfish;
 
 import java.util.Map;
 
+import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
@@ -48,6 +49,9 @@ public class GlassFish3xExistingLocalConfigurationCapability extends
         this.defaultSupportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
         this.defaultSupportsMap.put(GlassFishPropertySet.ADMIN_PORT, Boolean.TRUE);
         this.defaultSupportsMap.put(GlassFishPropertySet.DOMAIN_NAME, Boolean.TRUE);
+
+        this.defaultSupportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.defaultSupportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
     }
 
     /**
