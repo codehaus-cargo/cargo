@@ -19,6 +19,11 @@
  */
 package org.codehaus.cargo.container.glassfish.internal;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.util.CargoException;
 
@@ -41,5 +46,37 @@ public abstract class AbstractAsAdmin
      */
     public abstract int invokeAsAdmin(boolean async, JvmLauncher java, String[] args)
         throws CargoException;
+
+    /**
+     * Creates and returns the password file that contains admin's password.
+     * 
+     * @param configuration local configuration.
+     * @return The password file that contains admin's password.
+     */
+    public static File getPasswordFile(LocalConfiguration configuration)
+    {
+        String password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
+        if (password == null)
+        {
+            password = "";
+        }
+
+        try
+        {
+            File f = new File(configuration.getHome(), "password.properties");
+            if (!f.exists())
+            {
+                configuration.getFileHandler().mkdirs(configuration.getHome());
+                FileWriter w = new FileWriter(f);
+                w.write("AS_ADMIN_PASSWORD=" + password + "\n");
+                w.close();
+            }
+            return f;
+        }
+        catch (IOException e)
+        {
+            throw new CargoException("Failed to create a password file", e);
+        }
+    }
 
 }

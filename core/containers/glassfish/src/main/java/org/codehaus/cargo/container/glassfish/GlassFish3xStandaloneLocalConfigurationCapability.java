@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 
 /**

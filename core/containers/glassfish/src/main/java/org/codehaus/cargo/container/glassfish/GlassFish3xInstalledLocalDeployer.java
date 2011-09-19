@@ -48,6 +48,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
     {
         super(localContainer);
     }
+
     /**
      * {@inheritDoc}
      */

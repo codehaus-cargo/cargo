@@ -22,8 +22,8 @@ package org.codehaus.cargo.container.glassfish.internal;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-
 import java.util.List;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.deployable.Deployable;

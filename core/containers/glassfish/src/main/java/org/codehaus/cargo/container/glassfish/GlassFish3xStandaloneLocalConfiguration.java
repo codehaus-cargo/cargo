@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.glassfish;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.glassfish.internal.AbstractAsAdmin;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalContainer;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -71,7 +72,7 @@ public class GlassFish3xStandaloneLocalConfiguration
                 "--user",
                 this.getPropertyValue(RemotePropertySet.USERNAME),
                 "--passwordfile",
-                this.getPasswordFile().getAbsolutePath(),
+                AbstractAsAdmin.getPasswordFile(this).getAbsolutePath(),
 
                 "create-domain",
 

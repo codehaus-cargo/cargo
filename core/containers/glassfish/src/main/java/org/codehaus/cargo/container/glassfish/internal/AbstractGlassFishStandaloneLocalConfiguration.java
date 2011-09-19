@@ -20,8 +20,6 @@
 package org.codehaus.cargo.container.glassfish.internal;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,37 +66,6 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
         this.setProperty(GlassFishPropertySet.DOMAIN_NAME, "cargo-domain");
 
         // ServletPropertySet.PORT default set to 8080 by the super class
-    }
-
-    /**
-     * Returns the password file that contains admin's password.
-     * 
-     * @return The password file that contains admin's password.
-     */
-    public File getPasswordFile()
-    {
-        String password = this.getPropertyValue(RemotePropertySet.PASSWORD);
-        if (password == null)
-        {
-            password = "";
-        }
-
-        try
-        {
-            File f = new File(this.getHome(), "password.properties");
-            if (!f.exists())
-            {
-                this.getFileHandler().mkdirs(this.getHome());
-                FileWriter w = new FileWriter(f);
-                w.write("AS_ADMIN_PASSWORD=" + password + "\n");
-                w.close();
-            }
-            return f;
-        }
-        catch (IOException e)
-        {
-            throw new CargoException("Failed to create a password file", e);
-        }
     }
 
     /**

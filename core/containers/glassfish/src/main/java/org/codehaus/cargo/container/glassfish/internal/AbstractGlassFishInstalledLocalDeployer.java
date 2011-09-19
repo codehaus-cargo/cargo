@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.glassfish.internal;
 import java.util.List;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
@@ -65,10 +66,9 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
      * 
      * @return Cast configuration.
      */
-    private AbstractGlassFishStandaloneLocalConfiguration getConfiguration()
+    private LocalConfiguration getConfiguration()
     {
-        return (AbstractGlassFishStandaloneLocalConfiguration)
-            this.getLocalContainer().getConfiguration();
+        return (LocalConfiguration) this.getLocalContainer().getConfiguration();
     }
 
     /**
@@ -176,7 +176,7 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
         args.add("--user");
         args.add(this.getConfiguration().getPropertyValue(RemotePropertySet.USERNAME));
         args.add("--passwordfile");
-        args.add(this.getConfiguration().getPasswordFile().getAbsolutePath());
+        args.add(AbstractAsAdmin.getPasswordFile(this.getConfiguration()).getAbsolutePath());
     }
 
 }
