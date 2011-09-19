@@ -19,20 +19,16 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import java.io.File;
-
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 
 /**
- * GlassFish 3.x standalone local configuration.
+ * GlassFish 3.x existing local configuration.
  * 
  * @version $Id$
  */
-public class GlassFish3xExistingLocalConfiguration extends AbstractExistingLocalConfiguration
+public class GlassFish3xExistingLocalConfiguration extends GlassFish2xExistingLocalConfiguration
 {
 
     /**
@@ -49,14 +45,6 @@ public class GlassFish3xExistingLocalConfiguration extends AbstractExistingLocal
     public GlassFish3xExistingLocalConfiguration(String home)
     {
         super(home);
-
-        // default properties
-        this.setProperty(RemotePropertySet.USERNAME, "admin");
-        this.setProperty(RemotePropertySet.PASSWORD, "adminadmin");
-        this.setProperty(GlassFishPropertySet.ADMIN_PORT, "4848");
-        this.setProperty(GlassFishPropertySet.DOMAIN_NAME, "cargo-domain");
-
-        // ServletPropertySet.PORT default set to 8080 by the super class
     }
 
     /**
@@ -73,10 +61,21 @@ public class GlassFish3xExistingLocalConfiguration extends AbstractExistingLocal
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
-        // schedule cargocpc for deployment
-        String cpcWar = this.getFileHandler().append(this.getHome(), "cargocpc.war");
-        this.getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war", new File(cpcWar));
-        this.getDeployables().add(new WAR(cpcWar));
+        super.doConfigure(container);
+
+        InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
+        String[] classPath = installedContainer.getExtraClasspath();
+        if (classPath != null)
+        {
+            String toDir = getFileHandler().append(this.getHome(),
+                this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME) + "/lib");
+
+            for (String path : classPath)
+            {
+                String dest = getFileHandler().append(toDir, getFileHandler().getName(path));
+                getFileHandler().copyFile(path, dest);
+            }
+        }
     }
 
 }

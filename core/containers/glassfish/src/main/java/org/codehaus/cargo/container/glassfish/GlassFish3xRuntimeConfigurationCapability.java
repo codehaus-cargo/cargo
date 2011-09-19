@@ -40,6 +40,7 @@ public class GlassFish3xRuntimeConfigurationCapability
     public GlassFish3xRuntimeConfigurationCapability()
     {
         super();
+
         this.defaultSupportsMap.put(GlassFishPropertySet.ADMIN_PORT, Boolean.TRUE);
         this.defaultSupportsMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
         this.defaultSupportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);

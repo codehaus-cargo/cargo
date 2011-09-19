@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 
 /**
- * GlassFish 2.x standalone local configuration.
+ * GlassFish 2.x existing local configuration.
  * 
  * @version $Id$
  */

@@ -145,21 +145,18 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
         this.getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war", new File(cpcWar));
         this.getDeployables().add(new WAR(cpcWar));
 
-        if (container instanceof InstalledLocalContainer)
+        InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
+        String[] classPath = installedContainer.getExtraClasspath();
+        if (classPath != null)
         {
-            InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
-            String[] classPath = installedContainer.getExtraClasspath();
-            if (classPath != null)
-            {
-                String toDir = this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME) + "/lib";
+            String toDir = this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME) + "/lib";
 
-                for (String path : classPath)
-                {
-                    FileConfig fc = new FileConfig();
-                    fc.setFile(path);
-                    fc.setToDir(toDir);
-                    setFileProperty(fc);
-                }
+            for (String path : classPath)
+            {
+                FileConfig fc = new FileConfig();
+                fc.setFile(path);
+                fc.setToDir(toDir);
+                setFileProperty(fc);
             }
         }
     }

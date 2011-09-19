@@ -19,20 +19,15 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import java.util.Map;
-
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
 /**
- * GlassFish existing local configuration capability.
+ * GlassFish 3.x existing local configuration capability.
  * 
  * @version $Id$
  */
 public class GlassFish3xExistingLocalConfigurationCapability extends
-    AbstractExistingLocalConfigurationCapability
+    GlassFish2xExistingLocalConfigurationCapability
 {
 
     /**
@@ -42,25 +37,9 @@ public class GlassFish3xExistingLocalConfigurationCapability extends
     {
         super();
 
-        this.defaultSupportsMap.remove(GeneralPropertySet.PROTOCOL);
-        this.defaultSupportsMap.remove(GeneralPropertySet.JAVA_HOME);
-
-        this.defaultSupportsMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.ADMIN_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.DOMAIN_NAME, Boolean.TRUE);
-
+        // recognize those as well
         this.defaultSupportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.defaultSupportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.defaultSupportsMap;
     }
 
 }
