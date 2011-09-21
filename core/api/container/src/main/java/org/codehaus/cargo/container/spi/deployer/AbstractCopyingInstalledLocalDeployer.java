@@ -280,17 +280,28 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
         getLogger().info("Deploying [" + deployable.getFile() + "] to [" + deployableDir + "]...",
             this.getClass().getName());
 
-        String deployableName = getDeployableName(deployable);
+        String target = getFileHandler().append(deployableDir, getDeployableName(deployable));
         if (deployable.isExpanded())
         {
-            getFileHandler().copyDirectory(deployable.getFile(),
-                getFileHandler().append(deployableDir, deployableName));
+            if (getFileHandler().exists(target) && !getFileHandler().isDirectory(target))
+            {
+                // We are trying to deploy an expanded deployable but there already exists a file
+                // with the same name as the deployable. Delete, else we have bug CARGO-1037.
+                getFileHandler().delete(target);
+            }
+
+            getFileHandler().copyDirectory(deployable.getFile(), target);
         }
         else
         {
-            getFileHandler().copyFile(deployable.getFile(),
-                getFileHandler().append(deployableDir, deployableName),
-                true);
+            if (getFileHandler().exists(target) && getFileHandler().isDirectory(target))
+            {
+                // We are trying to deploy a file deployable but there already exists a directory
+                // with the same name as the deployable. Delete, else we have bug CARGO-1037.
+                getFileHandler().delete(target);
+            }
+
+            getFileHandler().copyFile(deployable.getFile(), target, true);
         }
     }
 
