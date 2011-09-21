@@ -75,12 +75,12 @@ public class JBoss7xExistingLocalConfiguration extends AbstractExistingLocalConf
                 + deployDir.getPath() + "] directory does not exist");
         }
 
-        JBoss7xInstalledLocalDeployer deployer = new JBoss7xInstalledLocalDeployer(jbossContainer);
-        deployer.deploy(getDeployables());
-
         // Deploy the CPC (Cargo Ping Component) to the deploy directory.
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             new File(deployDir, "cargocpc.war"));
+
+        JBoss7xInstalledLocalDeployer deployer = new JBoss7xInstalledLocalDeployer(jbossContainer);
+        deployer.deploy(getDeployables());
     }
 
     /**

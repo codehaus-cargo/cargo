@@ -88,10 +88,6 @@ public class JBoss51xStandaloneLocalConfiguration extends JBossStandaloneLocalCo
         FilterChain filterChain = createJBossFilterChain(
                 (JBoss51xInstalledLocalContainer) jbossContainer);
 
-        // Deploy with user defined deployables with the appropriate deployer
-        JBossInstalledLocalDeployer deployer = new JBossInstalledLocalDeployer(jbossContainer);
-        deployer.deploy(getDeployables());
-
         // Setup the shared class path
         if (container instanceof InstalledLocalContainer)
         {
@@ -162,6 +158,10 @@ public class JBoss51xStandaloneLocalConfiguration extends JBossStandaloneLocalCo
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             new File(getHome(), "/deploy/cargocpc.war"));
+
+        // Deploy with user defined deployables with the appropriate deployer
+        JBossInstalledLocalDeployer deployer = new JBossInstalledLocalDeployer(jbossContainer);
+        deployer.deploy(getDeployables());
     }
 
 }
