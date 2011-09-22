@@ -84,4 +84,20 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
     {
         return getFileHandler().isDirectory(getFile());
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        if (getFileHandler() != null && getFile() != null)
+        {
+            return this.getClass().getName() + "[" + getFileHandler().getName(getFile()) + "]";
+        }
+        else
+        {
+            return this.getClass().getName() + "[File not set]";
+        }
+    }
 }

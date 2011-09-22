@@ -266,7 +266,7 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                     throw (ContainerException) t;
                 }
 
-                throw new ContainerException("Deployment error", t);
+                throw new ContainerException("Deployment error: " + t.getMessage(), t);
             }
             finally
             {

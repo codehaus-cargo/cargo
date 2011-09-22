@@ -417,7 +417,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
         }
         catch (Exception ex)
         {
-            throw new ContainerException("Undeployment error", ex);
+            throw new ContainerException("Undeployment error: " + ex.getMessage(), ex);
         }
         finally
         {
