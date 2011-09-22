@@ -131,8 +131,8 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
             }
             else
             {
-                getLogger().debug("Deployable [" + ((WAR) deployable).getContext()
-                    + "] already undeployed", this.getClass().getName());
+                getLogger().debug("Deployable [" + getPath(deployable) + "] already undeployed",
+                    this.getClass().getName());
             }
         }
         catch (TomcatManagerException exception)
@@ -228,8 +228,8 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
             }
             else
             {
-                getLogger().debug("Deployable [" + ((WAR) deployable).getContext()
-                    + "] already started or doesn't exists", this.getClass().getName());
+                getLogger().debug("Deployable [" + getPath(deployable)
+                    + "] already started or doesn't exist", this.getClass().getName());
             }
         }
         catch (TomcatManagerException exception)
@@ -261,8 +261,8 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
             }
             else
             {
-                getLogger().debug("Deployable [" + ((WAR) deployable).getContext()
-                    + "] already stopped or doesn't exists", this.getClass().getName());
+                getLogger().debug("Deployable [" + getPath(deployable)
+                    + "] already stopped or doesn't exist", this.getClass().getName());
             }
         }
         catch (TomcatManagerException exception)
@@ -396,6 +396,6 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
                 + "Tomcat. Got [" + deployable.getFile() + "]");
         }
 
-        return "/" + ((WAR) deployable).getContext();
+        return "/" + ((WAR) deployable).getContext().replace('#', '/');
     }
 }

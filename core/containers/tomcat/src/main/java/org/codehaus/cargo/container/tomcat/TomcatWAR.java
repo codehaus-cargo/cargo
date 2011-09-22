@@ -67,10 +67,10 @@ public class TomcatWAR extends WAR
         String result = parseTomcatContextXml();
         if (result == null)
         {
-            result = fixForMultiLevelContext(super.getContext());
+            result = super.getContext();
         }
 
-        return result;
+        return fixForMultiLevelContext(result);
     }
 
     /**

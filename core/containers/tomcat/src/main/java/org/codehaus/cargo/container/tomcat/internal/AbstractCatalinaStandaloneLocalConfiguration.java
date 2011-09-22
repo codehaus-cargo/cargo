@@ -345,7 +345,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         contextTokenValue.append(" path=\"");
         if (!"".equals(deployable.getContext()) && !"/".equals(deployable.getContext()))
         {
-            contextTokenValue.append("/" + deployable.getContext());
+            contextTokenValue.append("/" + deployable.getContext().replace('#', '/'));
         }
         contextTokenValue.append("\"");
 

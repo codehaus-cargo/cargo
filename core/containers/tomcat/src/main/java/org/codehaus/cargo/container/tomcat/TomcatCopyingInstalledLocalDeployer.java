@@ -173,8 +173,8 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
             {
                 WAR war = (WAR) deployable;
                 String context = war.getContext();
-                getLogger().info("Undeploying context [" + context + "] from [" + deployableDir
-                    + "]...", this.getClass().getName());
+                getLogger().info("Undeploying context [" + context.replace('#', '/') + "] from ["
+                    + deployableDir + "]...", this.getClass().getName());
 
                 // Delete either the WAR file or the expanded WAR directory.
                 String warLocation;

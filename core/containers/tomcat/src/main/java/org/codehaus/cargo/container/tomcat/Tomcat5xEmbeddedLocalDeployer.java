@@ -110,7 +110,7 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
         }
 
         Tomcat5xEmbedded.Context context = container.getController().createContext(
-            '/' + war.getContext(), docBase);
+            '/' + war.getContext().replace('#', '/'), docBase);
 
         try
         {
