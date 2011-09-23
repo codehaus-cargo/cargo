@@ -396,6 +396,6 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
                 + "Tomcat. Got [" + deployable.getFile() + "]");
         }
 
-        return "/" + ((WAR) deployable).getContext().replace('#', '/');
+        return "/" + ((WAR) deployable).getContext();
     }
 }

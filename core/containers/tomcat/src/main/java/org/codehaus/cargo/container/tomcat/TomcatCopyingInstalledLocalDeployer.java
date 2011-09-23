@@ -173,8 +173,8 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
             {
                 WAR war = (WAR) deployable;
                 String context = war.getContext();
-                getLogger().info("Undeploying context [" + context.replace('#', '/') + "] from ["
-                    + deployableDir + "]...", this.getClass().getName());
+                getLogger().info("Undeploying context [" + context + "] from [" + deployableDir
+                    + "]...", this.getClass().getName());
 
                 // Delete either the WAR file or the expanded WAR directory.
                 String warLocation;
@@ -209,5 +209,15 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
             throw new ContainerException("Failed to undeploy [" + deployable.getFile()
                 + "] from [" + deployableDir + "]", e);
         }
+    }
+
+    /**
+     * Replace the slashes with <code>#</code> in the deployable name (see: CARGO-1041).
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getDeployableName(Deployable deployable)
+    {
+        return super.getDeployableName(deployable).replace('/', '#');
     }
 }
