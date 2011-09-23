@@ -163,9 +163,10 @@ public abstract class AbstractGlassFishInstalledLocalContainer
             }
 
             // Deploy scheduled deployables
+            // CARGO-1039: Use redeploy and not deploy
             for (Deployable deployable : this.getConfiguration().getDeployables())
             {
-                deployer.deploy(deployable);
+                deployer.redeploy(deployable);
             }
         }
         catch (Throwable t)
