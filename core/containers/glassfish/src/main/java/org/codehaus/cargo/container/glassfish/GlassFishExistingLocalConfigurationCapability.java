@@ -26,18 +26,18 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
 /**
- * GlassFish 2.x existing local configuration capability.
+ * GlassFish existing local configuration capability.
  * 
  * @version $Id$
  */
-public class GlassFish2xExistingLocalConfigurationCapability extends
+public class GlassFishExistingLocalConfigurationCapability extends
     AbstractExistingLocalConfigurationCapability
 {
 
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public GlassFish2xExistingLocalConfigurationCapability()
+    public GlassFishExistingLocalConfigurationCapability()
     {
         super();
 

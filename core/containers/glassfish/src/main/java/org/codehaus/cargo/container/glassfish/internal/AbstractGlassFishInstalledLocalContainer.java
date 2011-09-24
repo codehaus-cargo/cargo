@@ -25,6 +25,7 @@ import java.net.URL;
 import java.util.List;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
@@ -157,9 +158,13 @@ public abstract class AbstractGlassFishInstalledLocalContainer
         try
         {
             // Deploy datasources
-            for (DataSource dataSource : this.getConfiguration().getDataSources())
+            // CARGO-1035: Only for standalone local configuration
+            if (this.getConfiguration() instanceof StandaloneLocalConfiguration)
             {
-                deployer.deployDatasource(dataSource);
+                for (DataSource dataSource : this.getConfiguration().getDataSources())
+                {
+                    deployer.deployDatasource(dataSource);
+                }
             }
 
             // Deploy scheduled deployables
