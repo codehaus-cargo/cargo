@@ -19,13 +19,16 @@
  */
 package org.codehaus.cargo.container.jetty.internal;
 
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+
 /**
  * Configuration capability for a Jetty 6.x Embedded container.
  * 
  * @version $Id$
  */
 public class Jetty6xEmbeddedStandaloneLocalConfigurationCapability extends
-        AbstractJettyEmbeddedStandaloneLocalConfigurationCapability
+    Jetty4xEmbeddedStandaloneLocalConfigurationCapability
 {
     /**
      * {@inheritDoc}
@@ -34,5 +37,11 @@ public class Jetty6xEmbeddedStandaloneLocalConfigurationCapability extends
     public Jetty6xEmbeddedStandaloneLocalConfigurationCapability()
     {
         super();
+
+        this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
+
+        this.supportsMap.put(JettyPropertySet.SESSION_PATH, Boolean.TRUE);
+        this.supportsMap.put(JettyPropertySet.USE_FILE_MAPPED_BUFFER, Boolean.TRUE);
+        this.supportsMap.put(JettyPropertySet.CREATE_CONTEXT_XML, Boolean.TRUE);
     }
 }

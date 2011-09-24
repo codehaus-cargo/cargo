@@ -20,8 +20,6 @@
 package org.codehaus.cargo.container.jetty;
 
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jetty.internal.Jetty8xEmbeddedStandaloneLocalConfigurationCapability;
 
 /**
  * A mostly canned configuration for an embedded Jetty 8.x instance.
@@ -32,28 +30,12 @@ public class Jetty8xEmbeddedStandaloneLocalConfiguration extends
     Jetty7xEmbeddedStandaloneLocalConfiguration
 {
     /**
-     * capabilities supported by this config.
-     */
-    private static Jetty8xEmbeddedStandaloneLocalConfigurationCapability capability =
-        new Jetty8xEmbeddedStandaloneLocalConfigurationCapability();
-
-    /**
      * {@inheritDoc}
      * @see Jetty7xEmbeddedStandaloneLocalConfiguration#Jetty7xEmbeddedStandaloneLocalConfiguration(String)
      */
     public Jetty8xEmbeddedStandaloneLocalConfiguration(String dir)
     {
         super(dir);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
-     */
-    @Override
-    public ConfigurationCapability getCapability()
-    {
-        return capability;
     }
 
     /**

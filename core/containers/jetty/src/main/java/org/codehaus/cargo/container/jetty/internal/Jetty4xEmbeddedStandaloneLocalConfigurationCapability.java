@@ -19,8 +19,11 @@
  */
 package org.codehaus.cargo.container.jetty.internal;
 
-import org.codehaus.cargo.container.jetty.JettyPropertySet;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 /**
  * Configuration capability for a Jetty 4.x Embedded container.
@@ -28,18 +31,35 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
  * @version $Id$
  */
 public class Jetty4xEmbeddedStandaloneLocalConfigurationCapability extends
-        AbstractJettyEmbeddedStandaloneLocalConfigurationCapability
+    AbstractStandaloneLocalConfigurationCapability
 {
     /**
-     * {@inheritDoc}
+     * Configuration-specific supports Map.
+     */
+    protected Map<String, Boolean> supportsMap;
+
+    /**
+     * Initialize the configuration-specific supports Map.
      * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedStandaloneLocalConfigurationCapability#AbstractJettyEmbeddedStandaloneLocalConfigurationCapability()
      */
     public Jetty4xEmbeddedStandaloneLocalConfigurationCapability()
     {
         super();
 
+        this.supportsMap = new HashMap<String, Boolean>();
+
         this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.TRUE);
-        this.supportsMap.remove(JettyPropertySet.SESSION_PATH);
-        this.supportsMap.remove(JettyPropertySet.USE_FILE_MAPPED_BUFFER);
+        this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
+        this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
+     */
+    @Override
+    protected Map<String, Boolean> getPropertySupportMap()
+    {
+        return this.supportsMap;
     }
 }

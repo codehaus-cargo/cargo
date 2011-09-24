@@ -23,7 +23,7 @@ import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.jetty.internal.Jetty7xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.JettyStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
@@ -39,7 +39,7 @@ public class Jetty7xStandaloneLocalConfiguration extends
      * Capability of the Jetty 7.x standalone local configuration.
      */
     private static ConfigurationCapability capability =
-        new Jetty7xStandaloneLocalConfigurationCapability();
+        new JettyStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}

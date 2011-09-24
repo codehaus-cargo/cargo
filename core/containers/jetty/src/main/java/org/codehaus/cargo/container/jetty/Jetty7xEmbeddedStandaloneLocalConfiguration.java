@@ -23,7 +23,7 @@ import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.jetty.internal.Jetty7xEmbeddedStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty6xEmbeddedStandaloneLocalConfigurationCapability;
 
 /**
  * A mostly canned configuration for an embedded Jetty 7.x instance.
@@ -36,12 +36,12 @@ public class Jetty7xEmbeddedStandaloneLocalConfiguration extends
     /**
      * capabilities supported by this config.
      */
-    private static Jetty7xEmbeddedStandaloneLocalConfigurationCapability capability =
-        new Jetty7xEmbeddedStandaloneLocalConfigurationCapability();
+    private static ConfigurationCapability capability =
+        new Jetty6xEmbeddedStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
-     * @see AbstractJettyStandaloneLocalConfiguration#AbstractJettyStandaloneLocalConfiguration(String)
+     * @see AbstractJettyEmbeddedStandaloneLocalConfiguration#AbstractJettyEmbeddedStandaloneLocalConfiguration(String)
      */
     public Jetty7xEmbeddedStandaloneLocalConfiguration(String dir)
     {
@@ -82,7 +82,7 @@ public class Jetty7xEmbeddedStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration#activateLogging(org.codehaus.cargo.container.LocalContainer)
+     * @see AbstractJettyEmbeddedStandaloneLocalConfiguration#activateLogging(org.codehaus.cargo.container.LocalContainer)
      */
     @Override
     protected void activateLogging(LocalContainer container)

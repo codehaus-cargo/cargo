@@ -24,38 +24,41 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 /**
  * Capabilities of the Jetty's
  * {@link org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration}
- * configuration for Embedded containers.
+ * configuration for installed containers.
  * 
  * @version $Id$
  */
-public abstract class AbstractJettyEmbeddedStandaloneLocalConfigurationCapability
-        extends AbstractStandaloneLocalConfigurationCapability
+public class JettyStandaloneLocalConfigurationCapability extends
+    AbstractStandaloneLocalConfigurationCapability
 {
     /**
      * Configuration-specific supports Map.
      */
-    protected Map<String, Boolean> supportsMap;
+    private Map<String, Boolean> supportsMap;
 
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public AbstractJettyEmbeddedStandaloneLocalConfigurationCapability()
+    public JettyStandaloneLocalConfigurationCapability()
     {
         super();
 
         this.supportsMap = new HashMap<String, Boolean>();
 
-        this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
-        this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
         this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
+        this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
+
+        this.supportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
 
         this.supportsMap.put(JettyPropertySet.SESSION_PATH, Boolean.TRUE);
         this.supportsMap.put(JettyPropertySet.USE_FILE_MAPPED_BUFFER, Boolean.TRUE);
+        this.supportsMap.put(JettyPropertySet.CREATE_CONTEXT_XML, Boolean.TRUE);
     }
 
     /**

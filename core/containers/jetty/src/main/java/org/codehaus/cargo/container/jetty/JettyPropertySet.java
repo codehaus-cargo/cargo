@@ -41,4 +41,9 @@ public interface JettyPropertySet
      */
     String USE_FILE_MAPPED_BUFFER = "cargo.jetty.servlet.default.useFileMappedBuffer";
 
+    /**
+     * Whether to create <code>context.xml</code> files to deploy WARs.
+     */
+    String CREATE_CONTEXT_XML = "cargo.jetty.createContextXml";
+
 }

@@ -65,7 +65,11 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     @Override
     protected void doDeploy(String deployableDir, Deployable deployable)
     {
-        if (DeployableType.WAR.equals(deployable.getType()))
+        String createContextXml = getContainer().getConfiguration().getPropertyValue(
+            JettyPropertySet.CREATE_CONTEXT_XML);
+
+        if (DeployableType.WAR.equals(deployable.getType())
+            && Boolean.valueOf(createContextXml).booleanValue())
         {
             WAR war = (WAR) deployable;
             // Create a Jetty context file. This is useful for various purposes:

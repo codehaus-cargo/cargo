@@ -48,6 +48,7 @@ public abstract class AbstractJettyStandaloneLocalConfiguration extends
 
         setProperty(GeneralPropertySet.RMI_PORT, "8079");
         setProperty(JettyPropertySet.USE_FILE_MAPPED_BUFFER, "true");
+        setProperty(JettyPropertySet.CREATE_CONTEXT_XML, "true");
     }
 
     /**

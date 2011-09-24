@@ -45,6 +45,7 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
         super(dir);
 
         setProperty(JettyPropertySet.USE_FILE_MAPPED_BUFFER, "true");
+        setProperty(JettyPropertySet.CREATE_CONTEXT_XML, "true");
     }
 
     /**

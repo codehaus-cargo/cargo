@@ -23,7 +23,7 @@ import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.jetty.internal.Jetty5xEmbeddedStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty4xEmbeddedStandaloneLocalConfigurationCapability;
 
 /**
  * A mostly canned configuration for a Jetty 5.x running embedded. User uses properties to minimally
@@ -47,12 +47,12 @@ public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
     /**
      * Capability set for this type of config.
      */
-    private static Jetty5xEmbeddedStandaloneLocalConfigurationCapability capability =
-        new Jetty5xEmbeddedStandaloneLocalConfigurationCapability();
+    private static ConfigurationCapability capability =
+        new Jetty4xEmbeddedStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
-     * @see AbstractJettyStandaloneLocalConfiguration#AbstractJettyStandaloneLocalConfiguration(String)
+     * @see AbstractJettyEmbeddedStandaloneLocalConfiguration#AbstractJettyEmbeddedStandaloneLocalConfiguration(String)
      */
     public Jetty5xEmbeddedStandaloneLocalConfiguration(String dir)
     {
@@ -85,7 +85,7 @@ public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
      * already have come out on stderr.
      * 
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration#activateLogging(org.codehaus.cargo.container.LocalContainer)
+     * @see AbstractJettyEmbeddedStandaloneLocalConfiguration#activateLogging(org.codehaus.cargo.container.LocalContainer)
      */
     @Override
     protected void activateLogging(LocalContainer container) throws Exception
