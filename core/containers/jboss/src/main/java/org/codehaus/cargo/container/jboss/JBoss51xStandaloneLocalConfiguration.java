@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -100,8 +101,9 @@ public class JBoss51xStandaloneLocalConfiguration extends JBossStandaloneLocalCo
                 {
                     String fileName = getFileHandler().getName(element);
                     String directoryName = getFileHandler().getParent(element);
+                    URL directoryUrl = new File(directoryName).toURI().toURL();
 
-                    tmp.append("<classpath codebase=\"" + directoryName + "\" archives=\""
+                    tmp.append("<classpath codebase=\"" + directoryUrl + "\" archives=\""
                             + fileName + "\"/>");
                     tmp.append("\n");
                 }

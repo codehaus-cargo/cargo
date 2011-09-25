@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
@@ -124,8 +125,9 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
                 {
                     String fileName = getFileHandler().getName(element);
                     String directoryName = getFileHandler().getParent(element);
+                    URL directoryUrl = new File(directoryName).toURI().toURL();
 
-                    tmp.append("<classpath codebase=\"" + directoryName + "\" archives=\""
+                    tmp.append("<classpath codebase=\"" + directoryUrl + "\" archives=\""
                             + fileName + "\"/>");
                     tmp.append("\n");
                 }
