@@ -191,7 +191,7 @@ public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestC
                 // JNDI name is "jmxconnector" for JBoss 5.x
                 jndiName = "jmxconnector";
             }
-            else if (containerId.equals("jboss6x") || containerId.equals("jboss7x"))
+            else if (containerId.startsWith("jboss6") || containerId.equals("jboss7x"))
             {
                 // JNDI name is "jmxrmi" starting with JBoss 6.0.0 M3
                 jndiName = "jmxrmi";

@@ -19,26 +19,28 @@
  */
 package org.codehaus.cargo.container.jboss;
 
+import java.io.File;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.jboss.internal.AbstractJBossInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
- * JBoss 3.x series container implementation.
+ * JBoss 6.1.x series container implementation.
  * 
  * @version $Id$
  */
-public class JBoss3xInstalledLocalContainer extends AbstractJBossInstalledLocalContainer
+public class JBoss61xInstalledLocalContainer extends JBoss6xInstalledLocalContainer
 {
     /**
-     * JBoss 3.x series unique id.
+     * JBoss 6.1.x series unique id.
      */
-    public static final String ID = "jboss3x";
+    public static final String ID = "jboss61x";
 
     /**
      * {@inheritDoc}
-     * @see AbstractJBossInstalledLocalContainer#AbstractJBossInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see JBoss6xInstalledLocalContainer#JBoss6xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
-    public JBoss3xInstalledLocalContainer(LocalConfiguration configuration)
+    public JBoss61xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
     }
@@ -58,6 +60,20 @@ public class JBoss3xInstalledLocalContainer extends AbstractJBossInstalledLocalC
      */
     public String getName()
     {
-        return "JBoss " + getVersion("3.x");
+        return "JBoss " + getVersion("6.1.x");
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doStart(JvmLauncher java) throws Exception
+    {
+        String loggingPropertiesFile = getFileHandler().append(
+            getHome(), "bin/logging.properties");
+        java.setSystemProperty("logging.configuration",
+            new File(loggingPropertiesFile).toURI().toURL().toString());
+        super.doStart(java);
+    }
+
 }

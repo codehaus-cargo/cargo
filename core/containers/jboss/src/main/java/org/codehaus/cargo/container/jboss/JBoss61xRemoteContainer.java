@@ -19,28 +19,36 @@
  */
 package org.codehaus.cargo.container.jboss;
 
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.jboss.internal.AbstractJBossInstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 
 /**
- * JBoss 3.x series container implementation.
+ * Special container support for wrapping a running instance of JBoss 6.1.x.
  * 
  * @version $Id$
  */
-public class JBoss3xInstalledLocalContainer extends AbstractJBossInstalledLocalContainer
+public class JBoss61xRemoteContainer extends JBoss6xRemoteContainer
 {
     /**
-     * JBoss 3.x series unique id.
+     * Unique container id.
      */
-    public static final String ID = "jboss3x";
+    public static final String ID = "jboss61x";
 
     /**
      * {@inheritDoc}
-     * @see AbstractJBossInstalledLocalContainer#AbstractJBossInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see JBoss6xRemoteContainer#JBoss6xRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
      */
-    public JBoss3xInstalledLocalContainer(LocalConfiguration configuration)
+    public JBoss61xRemoteContainer(RuntimeConfiguration configuration)
     {
         super(configuration);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.Container#getName()
+     */
+    public String getName()
+    {
+        return "JBoss 6.1.x Remote";
     }
 
     /**
@@ -50,14 +58,5 @@ public class JBoss3xInstalledLocalContainer extends AbstractJBossInstalledLocalC
     public String getId()
     {
         return ID;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
-     */
-    public String getName()
-    {
-        return "JBoss " + getVersion("3.x");
     }
 }

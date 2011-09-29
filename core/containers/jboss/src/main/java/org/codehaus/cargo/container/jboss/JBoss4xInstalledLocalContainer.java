@@ -65,7 +65,7 @@ public class JBoss4xInstalledLocalContainer extends AbstractJBossInstalledLocalC
      */
     public String getName()
     {
-        return "JBoss " + getVersion("4x");
+        return "JBoss " + getVersion("4.x");
     }
 
     /**

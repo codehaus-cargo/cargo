@@ -58,6 +58,6 @@ public class JBoss51xInstalledLocalContainer extends AbstractJBoss5xInstalledLoc
      */
     public String getName()
     {
-        return "JBoss " + getVersion("51x");
+        return "JBoss " + getVersion("5.1.x");
     }
 }

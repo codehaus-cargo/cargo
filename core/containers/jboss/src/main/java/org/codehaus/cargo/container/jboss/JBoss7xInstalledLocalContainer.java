@@ -74,7 +74,7 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
      */
     public String getName()
     {
-        return "JBoss " + getVersion("7x");
+        return "JBoss " + getVersion("7.x");
     }
 
     /**

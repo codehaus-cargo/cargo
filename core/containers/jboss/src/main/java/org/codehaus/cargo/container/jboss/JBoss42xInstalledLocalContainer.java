@@ -65,7 +65,7 @@ public class JBoss42xInstalledLocalContainer extends AbstractJBossInstalledLocal
      */
     public String getName()
     {
-        return "JBoss " + getVersion("42x");
+        return "JBoss " + getVersion("4.2.x");
     }
     
     /**
