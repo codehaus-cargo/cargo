@@ -292,7 +292,7 @@
                 <dependency>
                   <groupId>org.jboss.as</groupId>
                   <artifactId>jboss-as-controller-client</artifactId>
-                  <version>7.0.0.Final</version>
+                  <version>7.0.2.Final</version>
                 </dependency>
               </dependencies>
             </plugin>
