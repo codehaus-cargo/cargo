@@ -33,7 +33,8 @@ public class JBoss4xRuntimeConfiguration extends AbstractRuntimeConfiguration
     /**
      * Capability of the JBoss runtime configuration.
      */
-    private static ConfigurationCapability capability = new JBoss4xRuntimeConfigurationCapability();
+    private static final ConfigurationCapability CAPABILITY =
+        new JBoss4xRuntimeConfigurationCapability();
 
     /**
      * {@inheritDoc}
@@ -50,7 +51,7 @@ public class JBoss4xRuntimeConfiguration extends AbstractRuntimeConfiguration
      */
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

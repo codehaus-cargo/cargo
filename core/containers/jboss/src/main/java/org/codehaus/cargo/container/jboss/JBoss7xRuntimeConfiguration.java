@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.jboss;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jboss.internal.JBoss5xRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss7xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
 
@@ -34,7 +34,8 @@ public class JBoss7xRuntimeConfiguration extends AbstractRuntimeConfiguration
     /**
      * Capability of the JBoss runtime configuration.
      */
-    private static ConfigurationCapability capability = new JBoss5xRuntimeConfigurationCapability();
+    private static final ConfigurationCapability CAPABILITY =
+        new JBoss7xRuntimeConfigurationCapability();
 
     /**
      * Set the default values for various port numbers.
@@ -53,7 +54,7 @@ public class JBoss7xRuntimeConfiguration extends AbstractRuntimeConfiguration
      */
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

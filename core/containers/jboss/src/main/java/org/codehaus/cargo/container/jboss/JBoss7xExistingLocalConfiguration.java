@@ -39,7 +39,7 @@ public class JBoss7xExistingLocalConfiguration extends AbstractExistingLocalConf
     /**
      * JBoss container capability.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new JBoss7xExistingLocalConfigurationCapability();
 
     /**
@@ -89,7 +89,7 @@ public class JBoss7xExistingLocalConfiguration extends AbstractExistingLocalConf
      */
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

@@ -34,7 +34,8 @@ public class JBoss5xRuntimeConfiguration extends AbstractRuntimeConfiguration
     /**
      * Capability of the JBoss runtime configuration.
      */
-    private static ConfigurationCapability capability = new JBoss5xRuntimeConfigurationCapability();
+    private static final ConfigurationCapability CAPABILITY =
+        new JBoss5xRuntimeConfigurationCapability();
 
     /**
      * Set the default values for various port numbers.
@@ -55,7 +56,7 @@ public class JBoss5xRuntimeConfiguration extends AbstractRuntimeConfiguration
      */
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**
