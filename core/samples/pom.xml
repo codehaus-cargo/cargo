@@ -607,7 +607,7 @@
 
               <property>
                 <name>cargo.jboss61x.url</name>
-                <value>http://downloads.sourceforge.net/jboss/jboss-as-distribution-6.1.0.Final.zip?big_mirror=1</value>
+                <value>http://download.jboss.org/jbossas/6.1/jboss-as-distribution-6.1.0.Final.zip</value>
               </property>
               <property>
                 <name>cargo.jboss61x.java.home</name>
