@@ -205,9 +205,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
 
         try
         {
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
+            WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
                 getEntityResolver());
-            Assert.fail("expected web.xml parsing exception");
+            Assert.fail("expected web.xml parsing exception but got: " + webXml);
         }
         catch (CargoException ce)
         {
