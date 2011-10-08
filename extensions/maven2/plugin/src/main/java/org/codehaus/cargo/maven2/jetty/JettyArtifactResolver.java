@@ -210,8 +210,9 @@ public class JettyArtifactResolver
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml",
             "8.0.2.v20111006"));
         jetty8xDependencies.add(new Dependency("javax.el", "el-api", "2.2"));
+        // Tomcat JSP API 7.0.22 not available at the time of commit, use 7.0.21
         jetty8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api",
-            "7.0.22"));
+            "7.0.21"));
         jetty8xDependencies.add(new Dependency("org.glassfish.web", "jsp-impl",
             "2.2.1"));
 
