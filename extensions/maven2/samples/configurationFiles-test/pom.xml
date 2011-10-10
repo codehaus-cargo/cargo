@@ -70,6 +70,16 @@
                     <file>src/test/resources/test-subfolder/test.properties</file>
                     <todir>test-file-file</todir>
                   </file>
+                  <file>
+                    <file>src/test/resources</file>
+                    <todir>test-file-configfile-directory</todir>
+                    <configfile>true</configfile>
+                  </file>
+                  <file>
+                    <file>src/test/resources/test-subfolder/test.properties</file>
+                    <todir>test-file-configfile-file</todir>
+                    <configfile>true</configfile>
+                  </file>
                 </files>
               </configuration>
             </configuration>

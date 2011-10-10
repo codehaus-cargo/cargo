@@ -52,6 +52,18 @@ public class ConfigurationFilesTest extends TestCase
         assertEquals("@cargo.servlet.port@", properties.getProperty("cargo.servlet.port"));
     }
 
+    public void testFileDirectoryWithConfigOption() throws Exception
+    {
+        Properties properties = loadProperties("test-file-configfile-directory/test-subfolder");
+        assertEquals("12345", properties.getProperty("cargo.servlet.port"));
+    }
+
+    public void testFileFileWithConfigOption() throws Exception
+    {
+        Properties properties = loadProperties("test-file-configfile-file");
+        assertEquals("12345", properties.getProperty("cargo.servlet.port"));
+    }
+
     private Properties loadProperties(String subDirectory) throws Exception
     {
         File jettyBase = new File("target/jetty-base");
