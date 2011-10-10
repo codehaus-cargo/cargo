@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Codehaus CARGO, copyright 2004-2011 Vincent Massol.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-samples-maven2</artifactId>
+    <version>1.1.4-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-sample-maven2-configurationFiles-test</artifactId>
+  <name>Cargo Samples - Maven 2 - Configuration files test</name>
+  <packaging>jar</packaging>
+  <description>Sample application that tests the configuration files options</description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>configure</id>
+            <phase>generate-test-resources</phase>
+            <goals>
+              <goal>configure</goal>
+            </goals>
+            <configuration>
+              <container>
+                <containerId>jetty7x</containerId>
+                <type>embedded</type>
+              </container>
+              <configuration>
+                <home>${project.build.directory}/jetty-base</home>
+                <properties>
+                  <cargo.servlet.port>12345</cargo.servlet.port>
+                </properties>
+                <configfiles>
+                  <configfile>
+                    <file>src/test/resources</file>
+                    <todir>test-configFile-directory</todir>
+                  </configfile>
+                  <configfile>
+                    <file>src/test/resources/test-subfolder/test.properties</file>
+                    <todir>test-configFile-file</todir>
+                  </configfile>
+                </configfiles>
+                <files>
+                  <file>
+                    <file>src/test/resources</file>
+                    <todir>test-file-directory</todir>
+                  </file>
+                  <file>
+                    <file>src/test/resources/test-subfolder/test.properties</file>
+                    <todir>test-file-file</todir>
+                  </file>
+                </files>
+              </configuration>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
