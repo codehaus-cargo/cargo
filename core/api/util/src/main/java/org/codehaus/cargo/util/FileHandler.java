@@ -95,6 +95,18 @@ public interface FileHandler
     void copyDirectory(String source, String target, List<String> excludes);
 
     /**
+     * Copy a directory from a source to a destination using a filterchain to specify token
+     * replacement.
+     * 
+     * @param source the directory to copy from. Must not be <code>null</code>
+     * @param target the directory to copy to. Must not be <code>null</code>
+     * @param filterChain the filterChain to use. Must not be <code>null</code>
+     * @param encoding The character encoding to use, may be {@code null} or empty to use the
+     *            platform's default encoding.
+     */
+    void copyDirectory(String source, String target, FilterChain filterChain, String encoding);
+
+    /**
      * Convenience method for creating a new directory inside another one. If the directory already
      * exists, it will return the already created directory.
      * 

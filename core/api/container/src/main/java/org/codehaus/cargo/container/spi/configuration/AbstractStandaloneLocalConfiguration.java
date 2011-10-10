@@ -246,21 +246,33 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
             // we don't want to do anything if the file exists and overwrite is false
             if (!origFile.exists() || fileConfig.getOverwrite())
             {
-                if (fileConfig.getConfigfile())
-                {
-                    getFileHandler().copyFile(fileConfig.getFile(), destFile, filterChain,
-                        fileConfig.getEncoding());
-                }
-                else if (isDirectory)
+                if (isDirectory)
                 {
                     String destDir = getDestDirectoryLocation(fileConfig.getFile(), fileConfig
                             .getToDir());
-                    getFileHandler().copyDirectory(fileConfig.getFile(), destDir);
+
+                    if (fileConfig.getConfigfile())
+                    {
+                        getFileHandler().copyDirectory(fileConfig.getFile(), destDir, filterChain,
+                            fileConfig.getEncoding());
+                    }
+                    else
+                    {
+                        getFileHandler().copyDirectory(fileConfig.getFile(), destDir);
+                    }
                 }
                 else
                 {
-                    getFileHandler().copyFile(fileConfig.getFile(), destFile,
-                            fileConfig.getOverwrite());
+                    if (fileConfig.getConfigfile())
+                    {
+                        getFileHandler().copyFile(fileConfig.getFile(), destFile, filterChain,
+                            fileConfig.getEncoding());
+                    }
+                    else
+                    {
+                        getFileHandler().copyFile(fileConfig.getFile(), destFile,
+                                fileConfig.getOverwrite());
+                    }
                 }
             }
         }

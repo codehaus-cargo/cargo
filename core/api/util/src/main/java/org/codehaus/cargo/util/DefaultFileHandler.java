@@ -234,6 +234,45 @@ public class DefaultFileHandler implements FileHandler
 
     /**
      * {@inheritDoc}
+     * @see FileHander#copyDirectory(String, String, FilterChain, String)
+     */
+    public void copyDirectory(String source, String target, FilterChain filterChain,
+        String encoding)
+    {
+        File sourceDirectory = new File(source);
+        if (!sourceDirectory.isDirectory())
+        {
+            throw new CargoException("Source [" + source + "] is not a directory");
+        }
+
+        File targetDirectory = new File(target);
+        if (!targetDirectory.isDirectory())
+        {
+            targetDirectory.mkdirs();
+        }
+        if (!targetDirectory.isDirectory())
+        {
+            throw new CargoException("Target directory [" + target + "] cannot be created");
+        }
+
+        for (File sourceDirectoryContent : sourceDirectory.listFiles())
+        {
+            File targetFile = new File(targetDirectory, sourceDirectoryContent.getName());
+            if (sourceDirectoryContent.isFile())
+            {
+                copyFile(sourceDirectoryContent.getAbsolutePath(), targetFile.getAbsolutePath(),
+                    filterChain, encoding);
+            }
+            else
+            {
+                copyDirectory(sourceDirectoryContent.getAbsolutePath(),
+                    targetFile.getAbsolutePath(), filterChain, encoding);
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
      * @see FileHandler#createDirectory(String, String)
      */
     public String createDirectory(String parentDir, String name)
