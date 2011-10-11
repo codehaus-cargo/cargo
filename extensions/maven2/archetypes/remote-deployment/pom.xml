@@ -67,7 +67,7 @@
               <containerId>tomcat6x</containerId>
               <zipUrlInstaller>
                 <url>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.33/bin/apache-tomcat-6.0.33.zip</url>
-                <downloadDir>${basedir}/../../../../core/samples/java/installs</downloadDir>
+                <downloadDir>${project.basedir}/../../../../core/samples/java/installs</downloadDir>
               </zipUrlInstaller>
             </container>
             <configuration>

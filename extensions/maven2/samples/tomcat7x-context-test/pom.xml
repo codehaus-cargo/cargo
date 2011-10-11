@@ -53,7 +53,7 @@
             <containerId>tomcat7x</containerId>
             <zipUrlInstaller>
               <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.22/bin/apache-tomcat-7.0.22.zip</url>
-              <downloadDir>${basedir}/../../../../core/samples/java/installs</downloadDir>
+              <downloadDir>${project.basedir}/../../../../core/samples/java/installs</downloadDir>
             </zipUrlInstaller>
           </container>
           <configuration>
