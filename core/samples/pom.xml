@@ -951,7 +951,7 @@
             It would be lovely to install all containers to:
             ${settings.localRepository}/org/codehaus/cargo/installs
       -->
-    <cargo.download.dir>${basedir}/installs</cargo.download.dir>
+    <cargo.download.dir>${project.basedir}/installs</cargo.download.dir>
     <!-- Tomcat 5x and Jetty 7x require this setting for the embedded tests -->
     <!-- TODO: fix embedded tests and remove the SAXParserFactory property -->
     <javax.xml.parsers.SAXParserFactory>com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl</javax.xml.parsers.SAXParserFactory>
