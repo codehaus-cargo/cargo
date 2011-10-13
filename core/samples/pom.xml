@@ -285,9 +285,9 @@
                 <value>http://download.eclipse.org/jetty/7.3.1.v20110307/dist/jetty-distribution-7.3.1.v20110307.tar.gz</value>
                  -->
                 <!--
-                <value>http://download.eclipse.org/jetty/7.5.2.v20111006/dist/jetty-distribution-7.5.2.v20111006.tar.gz</value>
-                 -->
                 <value>http://download.eclipse.org/jetty/7.4.5.v20110725/dist/jetty-distribution-7.4.5.v20110725.tar.gz</value>
+                 -->
+                <value>http://download.eclipse.org/jetty/7.5.3.v20111011/dist/jetty-distribution-7.5.3.v20111011.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty7x.java.home</name>
@@ -296,7 +296,7 @@
 
               <property>
                 <name>cargo.jetty8x.url</name>
-                <value>http://download.eclipse.org/jetty/8.0.2.v20111006/dist/jetty-distribution-8.0.2.v20111006.tar.gz</value>
+                <value>http://download.eclipse.org/jetty/8.0.3.v20111011/dist/jetty-distribution-8.0.3.v20111011.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty8x.java.home</name>
