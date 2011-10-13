@@ -23,6 +23,7 @@
 package org.codehaus.cargo.container.jonas.internal;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import javax.management.Attribute;
@@ -402,6 +403,15 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                 localFileName = war.getContext() + ".war";
             }
         }
+        else if (deployable.getType() == DeployableType.FILE)
+        {
+            if (deployable.getFile().endsWith(".pom"))
+            {
+                localFileName = deployable.getFile().substring(
+                    deployable.getFile().lastIndexOf('/') + 1,
+                    deployable.getFile().length() - 3) + "xml";
+            }
+        }
 
         String result = null;
         if (askFromServer)
@@ -409,6 +419,8 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
             MBeanServerConnectionFactory factory = null;
             try
             {
+                String lookForFile = '/' + localFileName;
+
                 factory = getMBeanServerConnectionFactory();
                 MBeanServerConnection mbsc = factory.getServerConnection(configuration);
                 RemoteDeployerConfig config = getConfig();
@@ -416,10 +428,21 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                 ObjectName serverMBeanName = getServerMBeanName(config.getDomainName(), config
                     .getServerName());
 
-                List<String> remoteFiles;
-                String lookForFile = "/deploy/" + localFileName;
+                List<String> remoteFiles = (List<String>)
+                    mbsc.getAttribute(serverMBeanName, "deployedFiles");
 
-                remoteFiles = (List<String>) mbsc.getAttribute(serverMBeanName, "deployedFiles");
+                ObjectName deploymentPlan = new ObjectName(
+                    config.getDomainName() + ":type=deployment,name=deploymentPlan");
+                if (!mbsc.queryMBeans(deploymentPlan, null).isEmpty())
+                {
+                    String[] deploymentPlans = (String[])
+                        mbsc.getAttribute(deploymentPlan, "DeploymentPlans");
+                    if (deploymentPlans != null)
+                    {
+                        Collections.addAll(remoteFiles, deploymentPlans);
+                    }
+                }
+                
                 for (String remoteFile : remoteFiles)
                 {
                     remoteFile = remoteFile.replace('\\', '/');
