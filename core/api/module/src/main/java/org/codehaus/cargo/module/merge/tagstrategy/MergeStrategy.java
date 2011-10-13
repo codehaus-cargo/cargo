@@ -47,7 +47,7 @@ public interface MergeStrategy
     int inLeft(Descriptor target, DescriptorElement left);
 
     /**
-     * Process when the element appears just in the left descriptor.
+     * Process when the element appears just in the right descriptor.
      * 
      * @param target output descriptor
      * @param right right element
