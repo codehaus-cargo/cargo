@@ -419,7 +419,8 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
             MBeanServerConnectionFactory factory = null;
             try
             {
-                String lookForFile = '/' + localFileName;
+                // Only look for deployables in JONAS_BASE/deploy
+                String lookForFile = "/deploy/" + localFileName;
 
                 factory = getMBeanServerConnectionFactory();
                 MBeanServerConnection mbsc = factory.getServerConnection(configuration);
@@ -486,7 +487,7 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
         if (result == null)
         {
             throw new ContainerException("Cannot find deployable " + deployable
-                + " in JONAS_BASE");
+                + " in the remote JONAS_BASE/deploy");
         }
         return result;
     }
