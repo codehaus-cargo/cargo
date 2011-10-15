@@ -43,6 +43,13 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
     public static final String ID = "jetty7x";
 
     /**
+     * List of default OPTIONs. Apart from the ones specified here, CARGO will add the
+     * <code>Server</code> option and if the JSP support is here the <code>jsp</code> option.
+     * Any options specified here will be appended.
+     */
+    protected String defaultFinalOptions = "jmx,resources,websocket,ext";
+
+    /**
      * Capability of the Jetty container.
      */
     private ContainerCapability capability = new ServletContainerCapability();
@@ -152,7 +159,7 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
                         + ", JSP support will be disabled", this.getClass().getName());
                 }
 
-                options.append(",jmx,resources,websocket,ext");
+                options.append("," + this.defaultFinalOptions);
                 java.addAppArguments(options.toString());
 
                 // ignore everything in the start.ini file

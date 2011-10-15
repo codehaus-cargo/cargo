@@ -40,6 +40,8 @@ public class Jetty8xInstalledLocalContainer extends Jetty7xInstalledLocalContain
     public Jetty8xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
+
+        this.defaultFinalOptions = "jmx,resources,websocket,ext,plus,annotations";
     }
 
     /**
