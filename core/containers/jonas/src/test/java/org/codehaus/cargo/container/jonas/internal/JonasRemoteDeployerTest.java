@@ -30,8 +30,8 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.jonas.Jonas4xRemoteContainer;
+import org.codehaus.cargo.container.jonas.Jonas4xRuntimeConfiguration;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
-import org.codehaus.cargo.container.jonas.JonasRuntimeConfiguration;
 import org.codehaus.cargo.container.jonas.internal.AbstractJonasRemoteDeployer.RemoteDeployerConfig;
 import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
@@ -69,7 +69,7 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
     {
         super.setUp();
 
-        runtime = new JonasRuntimeConfiguration();
+        runtime = new Jonas4xRuntimeConfiguration();
         container = new Jonas4xRemoteContainer(runtime);
         deployer = new TestDeployer(container);
     }
@@ -170,7 +170,7 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
      */
     public void testRuntimeConfigurationDefaultValues()
     {
-        RuntimeConfiguration runtimeConfiguration = new JonasRuntimeConfiguration();
+        RuntimeConfiguration runtimeConfiguration = new Jonas4xRuntimeConfiguration();
 
         AbstractRemoteContainer remoteContainer = new Jonas4xRemoteContainer(runtimeConfiguration);
         AbstractJonasRemoteDeployer remoteDeployer = new TestDeployer(remoteContainer);
@@ -186,7 +186,7 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
      */
     public void testRuntimeConfigurationServerName()
     {
-        RuntimeConfiguration runtimeConfiguration = new JonasRuntimeConfiguration();
+        RuntimeConfiguration runtimeConfiguration = new Jonas4xRuntimeConfiguration();
         runtimeConfiguration.setProperty(JonasPropertySet.JONAS_SERVER_NAME, "foo");
 
         AbstractRemoteContainer remoteContainer = new Jonas4xRemoteContainer(runtimeConfiguration);
@@ -203,7 +203,7 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
      */
     public void testRuntimeConfigurationDomainName()
     {
-        RuntimeConfiguration runtimeConfiguration = new JonasRuntimeConfiguration();
+        RuntimeConfiguration runtimeConfiguration = new Jonas4xRuntimeConfiguration();
         runtimeConfiguration.setProperty(JonasPropertySet.JONAS_SERVER_NAME, "foo");
         runtimeConfiguration.setProperty(JonasPropertySet.JONAS_DOMAIN_NAME, "bar");
 
@@ -221,7 +221,7 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
      */
     public void testRuntimeConfigurationClusterName()
     {
-        RuntimeConfiguration runtimeConfiguration = new JonasRuntimeConfiguration();
+        RuntimeConfiguration runtimeConfiguration = new Jonas4xRuntimeConfiguration();
         runtimeConfiguration.setProperty(JonasPropertySet.JONAS_SERVER_NAME, "foo");
         runtimeConfiguration.setProperty(JonasPropertySet.JONAS_DOMAIN_NAME, "bar");
         runtimeConfiguration.setProperty(JonasPropertySet.JONAS_CLUSTER_NAME, "jar");

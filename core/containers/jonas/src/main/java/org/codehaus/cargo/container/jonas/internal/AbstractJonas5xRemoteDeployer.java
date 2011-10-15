@@ -37,6 +37,7 @@ import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.jonas.JonasPropertySet;
 
 /**
  * Remote deployer for JOnAS 5.x.
@@ -443,7 +444,7 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                         Collections.addAll(remoteFiles, deploymentPlans);
                     }
                 }
-                
+
                 for (String remoteFile : remoteFiles)
                 {
                     remoteFile = remoteFile.replace('\\', '/');
@@ -451,6 +452,42 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                     {
                         result = remoteFile;
                         break;
+                    }
+                }
+
+                if (result == null && Boolean.parseBoolean(configuration.getPropertyValue(
+                    JonasPropertySet.JONAS_UNDEPLOY_IGNORE_VERSION)))
+                {
+                    StringBuilder localFileNameBuilder = new StringBuilder();
+                    String extension = lookForFile.substring(lookForFile.length() - 4);
+
+                    String[] elements = localFileName.split("-");
+                    for (String element : elements)
+                    {
+                        localFileNameBuilder.append(element);
+                        if (localFileNameBuilder.length() > 0)
+                        {
+                            // Only look for deployables in JONAS_BASE/deploy with the same prefix
+                            // and the same extension
+                            for (String remoteFile : remoteFiles)
+                            {
+                                remoteFile = remoteFile.replace('\\', '/');
+                                if (remoteFile.contains("/deploy/" + localFileNameBuilder)
+                                    && remoteFile.endsWith(extension))
+                                {
+                                    result = remoteFile;
+                                }
+                            }
+                        }
+                    }
+
+                    if (result != null)
+                    {
+                        getLogger().info("Could not find the deployable with the exact name ["
+                            + localFileName + "] and "
+                            + JonasPropertySet.JONAS_UNDEPLOY_IGNORE_VERSION
+                            + " is set to true. Action will be done on the deployable: " + result,
+                            this.getClass().getName());
                     }
                 }
             }

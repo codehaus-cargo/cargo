@@ -92,6 +92,15 @@ public class JonasPropertySet
     public static final String JONAS_JMS_PORT = "cargo.jonas.jms.port";
 
     /**
+     * Tells whether to ignore the version of the deployable when undeploying deployables. When
+     * this is set to <code>true</code>, trying to undeploy <code>example-1.0.1.war</code> would
+     * undeploy <code>JONAS_BASE/deploy/example.war</code>,
+     * <code>JONAS_BASE/deploy/example-1.0.0.war</code>, etc. as long as the prefix and the
+     * extension match.
+     */
+    public static final String JONAS_UNDEPLOY_IGNORE_VERSION = "cargo.jonas.undeploy.ignoreVersion";
+
+    /**
      * Utility classes don't have a public constructor.
      */
     protected JonasPropertySet()

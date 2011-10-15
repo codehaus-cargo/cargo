@@ -32,8 +32,8 @@ import javax.security.auth.callback.TextInputCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.jonas.Jonas4xRuntimeConfiguration;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
-import org.codehaus.cargo.container.jonas.JonasRuntimeConfiguration;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.jmock.MockObjectTestCase;
 
@@ -65,7 +65,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
      */
     public void testDefaultConfiguration()
     {
-        RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
+        RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
@@ -88,7 +88,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
      */
     public void testInitialContextFactory()
     {
-        RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
+        RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
         configuration.setProperty(JonasPropertySet.JONAS_MEJB_JNDI_INIT_CTX_FACT, "foo");
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
@@ -111,7 +111,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
      */
     public void testProviderURL()
     {
-        RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
+        RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
         configuration.setProperty(RemotePropertySet.URI, "foo");
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
@@ -134,7 +134,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
      */
     public void testUsername()
     {
-        RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
+        RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
         configuration.setProperty(RemotePropertySet.USERNAME, "foo");
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
@@ -158,7 +158,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
      */
     public void testPassword()
     {
-        RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
+        RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
         configuration.setProperty(RemotePropertySet.PASSWORD, "foo");
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
@@ -182,7 +182,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
      */
     public void testUsernameAndPassword()
     {
-        RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
+        RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
         configuration.setProperty(RemotePropertySet.USERNAME, "foo");
         configuration.setProperty(RemotePropertySet.PASSWORD, "bar");
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
@@ -207,7 +207,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
      */
     public void testJAASFile()
     {
-        RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
+        RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
         configuration.setProperty(JonasPropertySet.JONAS_MEJB_JAAS_FILE, "foo");
         try
         {
@@ -225,7 +225,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
      */
     public void testJAASEntry()
     {
-        RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
+        RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
         configuration.setProperty(JonasPropertySet.JONAS_MEJB_JAAS_ENTRY, "foo");
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
@@ -249,7 +249,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
      */
     public void testJAASFileAndEntry()
     {
-        RuntimeConfiguration configuration = new JonasRuntimeConfiguration();
+        RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
         configuration.setProperty(JonasPropertySet.JONAS_MEJB_JAAS_FILE, "foo");
         configuration.setProperty(JonasPropertySet.JONAS_MEJB_JAAS_ENTRY, "bar");
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);

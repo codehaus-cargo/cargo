@@ -26,9 +26,10 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.jonas.internal.Jonas4xContainerCapability;
+import org.codehaus.cargo.container.jonas.internal.Jonas4xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jonas.internal.Jonas5xContainerCapability;
+import org.codehaus.cargo.container.jonas.internal.Jonas5xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jonas.internal.JonasExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.jonas.internal.JonasRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jonas.internal.JonasStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
@@ -67,7 +68,7 @@ public class JonasFactoryRegistry extends AbstractFactoryRegistry
     {
         configurationCapabilityFactory.registerConfigurationCapability("jonas4x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            JonasRuntimeConfigurationCapability.class);
+            Jonas4xRuntimeConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jonas4x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             JonasExistingLocalConfigurationCapability.class);
@@ -77,7 +78,7 @@ public class JonasFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("jonas5x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            JonasRuntimeConfigurationCapability.class);
+            Jonas5xRuntimeConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jonas5x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             JonasExistingLocalConfigurationCapability.class);
@@ -96,7 +97,7 @@ public class JonasFactoryRegistry extends AbstractFactoryRegistry
     {
         configurationFactory.registerConfiguration("jonas4x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            JonasRuntimeConfiguration.class);
+            Jonas4xRuntimeConfiguration.class);
         configurationFactory.registerConfiguration("jonas4x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             Jonas4xExistingLocalConfiguration.class);
@@ -106,7 +107,7 @@ public class JonasFactoryRegistry extends AbstractFactoryRegistry
 
         configurationFactory.registerConfiguration("jonas5x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            JonasRuntimeConfiguration.class);
+            Jonas5xRuntimeConfiguration.class);
         configurationFactory.registerConfiguration("jonas5x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             Jonas5xExistingLocalConfiguration.class);

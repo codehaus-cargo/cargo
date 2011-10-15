@@ -30,18 +30,18 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
 
 /**
- * Capabilities of JOnAS {@link org.codehaus.cargo.container.jonas.JonasRuntimeConfiguration}
+ * Capabilities of JOnAS {@link org.codehaus.cargo.container.jonas.Jonas4xRuntimeConfiguration}
  * configuration.
  * 
  * @version $Id$
  */
-public class JonasRuntimeConfigurationCapability extends AbstractRuntimeConfigurationCapability
+public class Jonas4xRuntimeConfigurationCapability extends AbstractRuntimeConfigurationCapability
 {
 
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public JonasRuntimeConfigurationCapability()
+    public Jonas4xRuntimeConfigurationCapability()
     {
         super();
 
