@@ -466,7 +466,7 @@ public class DeployerServlet extends HttpServlet
             sendError(response, "Path must start with a forward slash");
             error = true;
         }
-        ContextHandler handler = getContextHandler(contextPath);
+        Object handler = getContextHandler(contextPath);
         if (handler == null)
         {
             sendError(response, "Could not find handler for the context");
@@ -474,7 +474,7 @@ public class DeployerServlet extends HttpServlet
         }
         try
         {
-            handler.stop();
+            ((ContextHandler) handler).stop();
         }
         catch (Exception e)
         {
@@ -489,7 +489,7 @@ public class DeployerServlet extends HttpServlet
         }
         else
         {
-            chc.removeHandler(handler);
+            chc.removeHandler((ContextHandler) handler);
 
             // NOTE THIS ACTUALLY DELETES THE FILE FROM THE FILESYSTEM
             // PLEASE BE VERY CAREFUL WHEN MAKING CHANGES HERE
@@ -615,11 +615,14 @@ public class DeployerServlet extends HttpServlet
     }
 
     /**
-     * Returns the context handler for the given context.
+     * Returns the context handler for the given context.<br/><b>Note</b>: We need to return an
+     * <code>Object</code> in order to avoid <a href="https://jira.codehaus.org/browse/CARGO-1049">
+     * bug CARGO-1049</a>.
      * @param context The webapp context
-     * @return The context handler, of type {@link }
+     * @return The context handler, of type
+     * <code>org.eclipse.jetty.server.handler.ContextHandler</code>.
      */
-    protected ContextHandler getContextHandler(String context)
+    protected Object getContextHandler(String context)
     {
         // Note: this is very inefficient, but I think its the only way that will work. It would
         // have been nice if they used a map and a context could have been used to retrieve the
@@ -631,7 +634,7 @@ public class DeployerServlet extends HttpServlet
             {
                 if (((ContextHandler) handler).getContextPath().equals(context))
                 {
-                    return (ContextHandler) handler;
+                    return handler;
                 }
             }
         }
