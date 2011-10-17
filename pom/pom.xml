@@ -541,17 +541,6 @@
 
   <profiles>
     <profile>
-      <!-- See: http://docs.codehaus.org/display/HAUSMATES/Continuous+Integration+-+Snapshots -->
-      <id>bamboo-deploy</id>
-      <distributionManagement>
-        <snapshotRepository>
-          <id>cargo-snapshot-bamboo</id>
-          <name>Cargo's snapshot repository on Bamboo</name>
-          <url>file:///opt/ci.repository.codehaus.org/</url>
-        </snapshotRepository>
-      </distributionManagement>
-    </profile>
-    <profile>
       <id>maven-3</id>
       <activation>
         <file>
