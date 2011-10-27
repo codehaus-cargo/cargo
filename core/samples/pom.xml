@@ -276,18 +276,21 @@
               <property>
                 <name>cargo.jetty7x.url</name>
                 <!--
-                <value>http://download.eclipse.org/jetty/7.1.6.v20100715/dist/jetty-distribution-7.1.6.v20100715.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.1.6.v20100715/jetty-distribution-7.1.6.v20100715.tar.gz</value>
                  -->
                 <!--
-                <value>http://download.eclipse.org/jetty/7.2.2.v20101205/dist/jetty-distribution-7.2.2.v20101205.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.2.2.v20101205/jetty-distribution-7.2.2.v20101205.tar.gz</value>
                  -->
                 <!--
-                <value>http://download.eclipse.org/jetty/7.3.1.v20110307/dist/jetty-distribution-7.3.1.v20110307.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.3.1.v20110307/jetty-distribution-7.3.1.v20110307.tar.gz</value>
                  -->
                 <!--
-                <value>http://download.eclipse.org/jetty/7.4.5.v20110725/dist/jetty-distribution-7.4.5.v20110725.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.4.5.v20110725/jetty-distribution-7.4.5.v20110725.tar.gz</value>
                  -->
-                <value>http://download.eclipse.org/jetty/7.5.4.v20111024/dist/jetty-distribution-7.5.4.v20111024.tar.gz</value>
+                <!--
+                  Jetty 7.5.4.v20111024 cannot be used due to a NPE in SelectorManager.register
+                  -->
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.5.3.v20111011/jetty-distribution-7.5.3.v20111011.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty7x.java.home</name>
@@ -296,7 +299,10 @@
 
               <property>
                 <name>cargo.jetty8x.url</name>
-                <value>http://download.eclipse.org/jetty/8.0.4.v20111024/dist/jetty-distribution-8.0.4.v20111024.tar.gz</value>
+                <!--
+                  Jetty 8.0.4.v20111024 cannot be used due to a NPE in SelectorManager.register
+                  -->
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.0.3.v20111011/jetty-distribution-8.0.3.v20111011.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty8x.java.home</name>
