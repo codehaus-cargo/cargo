@@ -30,7 +30,11 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
 import org.codehaus.cargo.container.ContainerType;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.maven2.configuration.Configuration;
 import org.codehaus.cargo.maven2.configuration.Container;
 import org.codehaus.cargo.maven2.configuration.Deployable;
@@ -396,22 +400,15 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         // Try to find the container in the Maven Plugin Context first.
         Map<Object, Object> context = getPluginContext();
 
-        String containerKey;
-        // Containers don't have a unique ID which makes it hard to start multiple containers
-        // on the same system. If the configuration has a home, then we can use that as an ID.
-        // some containers (like embedded containers) do not have a home element specified, in
-        // that case we will have to use the container type as the id (note: this means we can't
-        // start multiple embedded servers of the same type).
-        // TODO: come up with a proper unique ID for each container.
-        if (getConfigurationElement() == null)
+        String containerKey = CONTEXT_KEY_CONTAINER;
+        if (getContainerElement() != null)
         {
-            // since we don't have a home element, just use the container
-            containerKey = CONTEXT_KEY_CONTAINER;
+            containerKey += "." + getContainerElement().getType()
+                + "." + getContainerElement().getHome();
         }
-        else
+        if (getConfigurationElement() != null)
         {
-            // use both the container and the container home
-            containerKey = CONTEXT_KEY_CONTAINER + "." + getConfigurationElement().getHome();
+            containerKey += "." + getConfigurationElement().getHome();
         }
 
         if (context != null)
@@ -422,6 +419,47 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         if (container == null)
         {
             container = createNewContainer();
+        }
+        else if (getConfigurationElement() != null)
+        {
+            createDefaultContainerElementIfNecessary();
+            org.codehaus.cargo.container.configuration.Configuration configuration =
+                createConfiguration();
+
+            // CARGO-1053: Update the container's configuration, since different executions might
+            //             have defined different configurations but the "put the container in the
+            //             Maven2 context" (for handling multiple containers and also for handling
+            //             embedded containers) mechanism will reuse existing container along with
+            //             its configuration.
+            if (container instanceof RemoteContainer)
+            {
+                if (!(configuration instanceof RuntimeConfiguration))
+                {
+                    throw new MojoExecutionException("Expected a "
+                        + RuntimeConfiguration.class.getName()
+                        + " but got a " + configuration.getClass().getName());
+                }
+
+                ((RemoteContainer) container).setConfiguration(
+                    (RuntimeConfiguration) configuration);
+            }
+            else if (container instanceof LocalContainer)
+            {
+                if (!(configuration instanceof LocalConfiguration))
+                {
+                    throw new MojoExecutionException("Expected a "
+                        + LocalConfiguration.class.getName()
+                        + " but got a " + configuration.getClass().getName());
+                }
+
+                ((LocalContainer) container).setConfiguration(
+                    (LocalConfiguration) createConfiguration());
+            }
+            else
+            {
+                throw new MojoExecutionException("Unknown container type "
+                    + container.getClass().getName());
+            }
         }
 
         if (context != null)
@@ -448,33 +486,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     {
         org.codehaus.cargo.container.Container container;
 
-        if (getContainerElement() == null)
-        {
-            // Only accept default configuration if the packaging is not of type EAR as Cargo
-            // currently doesn't have an embedded container that supports EAR (we need to add
-            // openEJB support!).
-            if (getCargoProject().getPackaging() != null
-                && !getCargoProject().getPackaging().equalsIgnoreCase("war"))
-            {
-                throw new MojoExecutionException("For all packaging other than war you need to "
-                    + "configure the container you wishes to use.");
-            }
-
-            Container containerElement = new Container();
-            computeContainerId(containerElement);
-
-            getLog().info("No container defined, using a default ["
-                + containerElement.getContainerId() + ", " + containerElement.getType().getType()
-                + "] container");
-
-            setContainerElement(containerElement);
-        }
-
-        // If no container id is specified, default to Jetty
-        if (getContainerElement().getContainerId() == null)
-        {
-            computeContainerId(getContainerElement());
-        }
+        createDefaultContainerElementIfNecessary();
 
         if (getContainerElement().getType() == ContainerType.EMBEDDED)
         {
@@ -489,19 +501,38 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
-     * Sets the default container (Jetty 6.x) in the passed container element.
-     * 
-     * @param containerElement the configuration specified by the user in the
-     * <code>&lt;container&gt;</code> element. Note that this parameter's is modified when the
-     * method returns.
+     * Creates a container element if required.
+     *
+     * @throws MojoExecutionException in case of error or if a default container could not be
+     * created
      */
-    private void computeContainerId(Container containerElement)
+    protected void createDefaultContainerElementIfNecessary() throws MojoExecutionException
     {
-        // If no container has been specified then default to Jetty 6.x
-        if (containerElement.getContainerId() == null)
+        if (getContainerElement() == null)
         {
-            containerElement.setContainerId("jetty6x");
-            containerElement.setType(ContainerType.EMBEDDED);
+            // Only accept default configuration if the packaging is not of type EAR as Cargo
+            // currently doesn't have an embedded container that supports EAR (we need to add
+            // openEJB support!).
+            if (getCargoProject().getPackaging() != null
+                && !getCargoProject().getPackaging().equalsIgnoreCase("war"))
+            {
+                throw new MojoExecutionException("For all packaging other than war you need to "
+                    + "configure the container you wishes to use.");
+            }
+
+            Container containerElement = new Container();
+            setContainerElement(containerElement);
+        }
+
+        // If no container id is specified, default to Jetty
+        if (getContainerElement().getContainerId() == null)
+        {
+            getContainerElement().setContainerId("jetty6x");
+            getContainerElement().setType(ContainerType.EMBEDDED);
+
+            getLog().info("No container defined, using a default ["
+                + getContainerElement().getContainerId() + ", "
+                + getContainerElement().getType().getType() + "] container");
         }
     }
 

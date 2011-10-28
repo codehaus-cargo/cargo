@@ -142,6 +142,38 @@ public class ContainerStartMojoTest extends MockObjectTestCase
     }
 
     /**
+     * Test two executions with different configurations in a single project.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testTwoExecutionsWithDifferentConfigurationsInProject() throws Exception
+    {
+        Map<String, org.codehaus.cargo.container.Container> context =
+            new HashMap<String, org.codehaus.cargo.container.Container>();
+        setUpMojo(InstalledLocalContainerStub.class, InstalledLocalContainerStub.ID,
+            StandaloneLocalConfigurationStub.class);
+        this.mojo.setPluginContext(context);
+        this.mojo.setCargoProject(createTestCargoProject("pom"));
+        this.mojo.getConfigurationElement().setProperties(new HashMap<String, String>());
+
+        this.mojo.getConfigurationElement().getProperties().put("foo", "bar");
+        this.mojo.execute();
+        assertEquals(1, context.size());
+        Iterator<org.codehaus.cargo.container.Container> iter = context.values().iterator();
+        org.codehaus.cargo.container.Container container = iter.next();
+        assertEquals("bar",
+            ((LocalContainer) container).getConfiguration().getPropertyValue("foo"));
+
+        this.mojo.getConfigurationElement().getProperties().put("foo", "qux");
+        this.mojo.execute();
+        assertEquals(1, context.size());
+        iter = context.values().iterator();
+        container = iter.next();
+        assertEquals("qux",
+            ((LocalContainer) container).getConfiguration().getPropertyValue("foo"));
+
+    }
+
+    /**
      * Provide a test {@link CargoProject} in lieu of the one that is normally generated from the
      * {@link org.apache.maven.project.MavenProject} at runtime.
      * @param packaging Packaging.
