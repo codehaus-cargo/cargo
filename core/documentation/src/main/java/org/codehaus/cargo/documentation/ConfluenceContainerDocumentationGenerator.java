@@ -390,6 +390,21 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("(/) {{" + computedFQCN(this.configurationFactory.getConfigurationClass(
                 containerId, type, ConfigurationType.STANDALONE).getName())
                 + "}} | (/) | (/) | |");
+
+            if (containerId.startsWith("jonas"))
+            {
+                output.append(LINE_SEPARATOR);
+                output.append("{info}In addition to the forementioned properties, you can set ");
+                output.append("any JOnAS configuration property that's configurable via the ");
+                output.append("JOnAS configurator using the {{");
+                output.append(JonasPropertySet.CONFIGURATOR_PREFIX
+                    .substring(0, JonasPropertySet.CONFIGURATOR_PREFIX.length() - 1));
+                output.append("}} prefix. For example, to set the Tomcat AJP port, use the ");
+                output.append("the property {{");
+                output.append(JonasPropertySet.CONFIGURATOR_PREFIX);
+                output.append("ajpPort}} and give the value you like.{info}");
+                output.append(LINE_SEPARATOR);
+            }
         }
         else
         {

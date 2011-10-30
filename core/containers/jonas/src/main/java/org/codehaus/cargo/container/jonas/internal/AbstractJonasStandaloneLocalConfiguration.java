@@ -22,6 +22,9 @@
  */
 package org.codehaus.cargo.container.jonas.internal;
 
+import java.lang.reflect.Method;
+import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -129,6 +132,57 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
                 dsConfiguration.jndiName = ds.getJndiLocation();
                 configurator.addJdbcRA(ds.getId(), dsConfiguration);
             }
+
+            for (Map.Entry<String, String> property : getProperties().entrySet())
+            {
+                if (property.getKey() != null
+                    && property.getKey().startsWith(JonasPropertySet.CONFIGURATOR_PREFIX))
+                {
+                    String setterName = getConfiguratorSetterName(property.getKey());
+
+                    for (Method method : configurator.getClass().getMethods())
+                    {
+                        if (method.getName().equals(setterName)
+                            && method.getParameterTypes().length == 1)
+                        {
+                            Class<?> parameterType = method.getParameterTypes()[0];
+
+                            if (parameterType.equals(String.class))
+                            {
+                                method.invoke(configurator, property.getValue());
+                                break;
+                            }
+                            else if (parameterType.equals(Boolean.class)
+                                || parameterType.equals(boolean.class))
+                            {
+                                boolean parsedProperty = Boolean.parseBoolean(property.getValue());
+                                method.invoke(configurator, parsedProperty);
+                                break;
+                            }
+                            else if (parameterType.equals(Integer.class)
+                                || parameterType.equals(int.class))
+                            {
+                                int parsedProperty = Integer.parseInt(property.getValue());
+                                method.invoke(configurator, parsedProperty);
+                                break;
+                            }
+                            else if (parameterType.equals(Long.class)
+                                || parameterType.equals(long.class))
+                            {
+                                long parsedProperty = Long.parseLong(property.getValue());
+                                method.invoke(configurator, parsedProperty);
+                                break;
+                            }
+                            else
+                            {
+                                getLogger().warn("Property " + property.getKey()
+                                    + " ignored since no appropriate setter could be found on "
+                                    + "the JOnAS configurator", this.getClass().getName());
+                            }
+                        }
+                    }
+                }
+            }
         }
         finally
         {
@@ -146,4 +200,23 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
         }
     }
 
+    /**
+     * Returns the configurator setter name based on the property name.
+     *
+     * @param propertyName Property name.
+     * @return Configurator setter name for <code>propertyName</code>.
+     */
+    public static String getConfiguratorSetterName(String propertyName)
+    {
+        if (!propertyName.startsWith(JonasPropertySet.CONFIGURATOR_PREFIX))
+        {
+            throw new IllegalArgumentException("Property name does not start with "
+                + JonasPropertySet.CONFIGURATOR_PREFIX);
+        }
+
+        String propertyNameWithoutPrefix = propertyName.substring(
+            JonasPropertySet.CONFIGURATOR_PREFIX.length());
+        return "set" + propertyNameWithoutPrefix.substring(0, 1).toUpperCase(Locale.ENGLISH)
+            + propertyNameWithoutPrefix.substring(1);
+    }
 }

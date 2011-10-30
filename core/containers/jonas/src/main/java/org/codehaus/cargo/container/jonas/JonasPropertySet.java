@@ -101,6 +101,11 @@ public class JonasPropertySet
     public static final String JONAS_UNDEPLOY_IGNORE_VERSION = "cargo.jonas.undeploy.ignoreVersion";
 
     /**
+     * Prefix used for configuration properties that will set values on the JOnAS configurator.
+     */
+    public static final String CONFIGURATOR_PREFIX = "cargo.jonas.configurator.";
+
+    /**
      * Utility classes don't have a public constructor.
      */
     protected JonasPropertySet()
