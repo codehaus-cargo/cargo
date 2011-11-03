@@ -40,8 +40,9 @@ public class JdkHttpURLConnection implements HttpURLConnection
     private int timeout;
 
     /**
-     * {@inheritDoc}
-     * @see HttpURLConnection#setTimeout(long)
+     * Sets the timeout to a specified value, in milliseconds.
+     * @param timeout Timeout value (in milliseconds).
+     * @see java.net.HttpURLConnection#setReadTimeout(int)
      */
     public void setTimeout(int timeout)
     {

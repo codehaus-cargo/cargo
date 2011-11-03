@@ -46,11 +46,17 @@ public class GlassFish2xAsAdmin extends AbstractAsAdmin
     private String home;
 
     /**
-     * Saves the GlassFish home directory.
+     * Timeout when calling asadmin.
+     */
+    private long timeout;
+
+    /**
+     * Saves the GlassFish home directory and the timeout.
      * 
      * @param home GlassFish home directory.
+     * @param timeout Timeout when calling asadmin (in milliseconds).
      */
-    public GlassFish2xAsAdmin(String home)
+    public GlassFish2xAsAdmin(String home, long timeout)
     {
         if (home == null)
         {
@@ -58,6 +64,7 @@ public class GlassFish2xAsAdmin extends AbstractAsAdmin
         }
 
         this.home = home;
+        this.timeout = timeout;
     }
 
     /**
@@ -116,7 +123,7 @@ public class GlassFish2xAsAdmin extends AbstractAsAdmin
         int exitCode = 0;
         try
         {
-            Execute exe = new Execute(new PumpStreamHandler(), new ExecuteWatchdog(30 * 1000L));
+            Execute exe = new Execute(new PumpStreamHandler(), new ExecuteWatchdog(this.timeout));
             exe.setAntRun(new Project());
             String[] arguments = new String[cmds.size()];
             cmds.toArray(arguments);
