@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-parent</artifactId>
-    <version>4.9</version>
+    <version>4.10-SNAPSHOT</version>
     <relativePath>../pom/pom.xml</relativePath>
   </parent>
   <artifactId>cargo-core</artifactId>
@@ -69,6 +69,7 @@
     <module>api</module>
     <module>tools</module>
     <module>containers</module>
+    <module>uberpom</module>
     <module>uberjar</module>
     <module>samples</module>
     <module>documentation</module>
