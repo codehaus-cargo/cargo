@@ -21,10 +21,22 @@ package org.codehaus.cargo.container.spi.configuration;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
@@ -34,6 +46,8 @@ import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.util.CargoException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * Base implementation for a standalone local configuration.
@@ -43,6 +57,94 @@ import org.codehaus.cargo.util.CargoException;
 public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocalConfiguration
     implements StandaloneLocalConfiguration
 {
+
+    /**
+     * Represents an XML replacement.
+     */
+    private class XmlReplacement
+    {
+        /**
+         * XPath expression.
+         */
+        private String xpathExpression;
+
+        /**
+         * XML attribute name.
+         */
+        private String attributeName;
+
+        /**
+         * String form.
+         */
+        private String toString;
+
+        /**
+         * Saves the attributes for this XML replacement.
+         * 
+         * @param xpathExpression XPath expression.
+         * @param attributeName XML attribute name.
+         */
+        public XmlReplacement(String xpathExpression, String attributeName)
+        {
+            this.xpathExpression = xpathExpression;
+            this.attributeName = attributeName;
+            this.toString = "XmlReplacement[xpathExpression='" + xpathExpression
+                + "',attributeName='" + attributeName + "']";
+        }
+
+        /**
+         * @return XPath expression.
+         */
+        public String getXpathExpression()
+        {
+            return xpathExpression;
+        }
+
+        /**
+         * @return XML attribute name.
+         */
+        public String getAttributeName()
+        {
+            return attributeName;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String toString()
+        {
+            return toString;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (getClass() != obj.getClass())
+            {
+                return false;
+            }
+
+            final XmlReplacement other = (XmlReplacement) obj;
+            return this.toString.equals(other.toString);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode()
+        {
+            return this.toString.hashCode();
+        }
+    }
 
     /**
      * List of {@link FileConfig}s to use for the container.
@@ -56,6 +158,12 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     private FilterChain filterChain;
 
     /**
+     * The XML replacements for the configuration files. The first map's key is the file name,
+     * the inner map's key is the {@link XmlReplacement} and value the configuration property.
+     */
+    private Map<String, Map<XmlReplacement, String>> xmlReplacements;
+
+    /**
      * {@inheritDoc}
      * @see AbstractLocalConfiguration#AbstractLocalConfiguration(String)
      */
@@ -66,6 +174,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         // Add all required properties that are common to all standalone configurations
         setProperty(GeneralPropertySet.LOGGING, LoggingLevel.MEDIUM.getLevel());
         this.files = new ArrayList<FileConfig>();
+        this.xmlReplacements = new HashMap<String, Map<XmlReplacement, String>>();
     }
 
     /**
@@ -77,6 +186,100 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     {
         super.configure(container);
         configureFiles(getFilterChain());
+
+        if (!this.xmlReplacements.isEmpty())
+        {
+            try
+            {
+                DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = domFactory.newDocumentBuilder();
+
+                XPathFactory xPathFactory = XPathFactory.newInstance();
+                XPath xPath = xPathFactory.newXPath();
+
+                TransformerFactory tFactory = TransformerFactory.newInstance();
+                Transformer transformer = tFactory.newTransformer();
+
+                for (Map.Entry<String, Map<XmlReplacement, String>> xmlReplacements
+                    : this.xmlReplacements.entrySet())
+                {
+                    String destinationFile = getFileHandler().append(
+                        container.getConfiguration().getHome(), xmlReplacements.getKey());
+                    if (!getFileHandler().exists(destinationFile))
+                    {
+                        throw new CargoException("Cannot find file " + destinationFile);
+                    }
+                    if (getFileHandler().isDirectory(destinationFile))
+                    {
+                        throw new CargoException("The destination is a directory: "
+                            + destinationFile);
+                    }
+
+                    InputStream read = getFileHandler().getInputStream(destinationFile);
+                    Document doc;
+                    try
+                    {
+                        doc = builder.parse(read);
+                    }
+                    finally
+                    {
+                        read.close();
+                        read = null;
+                        System.gc();
+                    }
+
+                    for (Map.Entry<XmlReplacement, String> xmlReplacement
+                        : xmlReplacements.getValue().entrySet())
+                    {
+                        String value = container.getConfiguration().getPropertyValue(
+                            xmlReplacement.getValue());
+
+                        if (value != null)
+                        {
+                            String expression = xmlReplacement.getKey().getXpathExpression();
+                            String attributeName = xmlReplacement.getKey().getAttributeName();
+
+                            XPathExpression xPathExpr = xPath.compile(expression);
+
+                            Node node = (Node) xPathExpr.evaluate(doc, XPathConstants.NODE);
+
+                            if (node == null)
+                            {
+                                throw new CargoException("Node " + expression
+                                    + " not found in file " + destinationFile);
+                            }
+
+                            if (attributeName != null)
+                            {
+                                Node attribute = node.getAttributes().getNamedItem(attributeName);
+
+                                if (attribute == null)
+                                {
+                                    throw new CargoException("Attribute " + attributeName
+                                        + " not found in node " + expression
+                                        + " in file " + destinationFile);
+                                }
+
+                                attribute.setNodeValue(value);
+                            }
+                            else
+                            {
+                                node.setTextContent(value);
+                            }
+                        }
+                    }
+
+                    File modifiedXml = new File(destinationFile);
+                    modifiedXml.delete();
+
+                    transformer.transform(new DOMSource(doc), new StreamResult(modifiedXml));
+                }
+            }
+            catch (Exception e)
+            {
+                throw new CargoException("Cannot create XML-based configuration", e);
+            }
+        }
     }
 
     /**
@@ -133,6 +336,44 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         getAntUtils().addTokensToFilterChain(filterChain, getProperties());
 
         return filterChain;
+    }
+
+    /**
+     * Adds an XML replacement.
+     * 
+     * @param filename File in which to replace.
+     * @param xpathExpression XPath expression to look for.
+     * @param configurationPropertyName Name of the configuration property to set. The XML
+     * replacement will be ignored if the property is set to <code>null</code>.
+     */
+    protected void addXmlReplacement(String filename, String xpathExpression,
+        String configurationPropertyName)
+    {
+        addXmlReplacement(filename, xpathExpression, null, configurationPropertyName);
+    }
+
+    /**
+     * Adds an XML replacement.
+     * 
+     * @param filename File in which to replace.
+     * @param xpathExpression XPath expression to look for.
+     * @param attributeName Attribute name to modify. If <code>null</code>, the node's contents
+     * will be modified.
+     * @param configurationPropertyName Name of the configuration property to set. The XML
+     * replacement will be ignored if the property is set to <code>null</code>.
+     */
+    protected void addXmlReplacement(String filename, String xpathExpression, String attributeName,
+        String configurationPropertyName)
+    {
+        Map<XmlReplacement, String> fileReplacements = this.xmlReplacements.get(filename);
+        if (fileReplacements == null)
+        {
+            fileReplacements = new HashMap<XmlReplacement, String>();
+            this.xmlReplacements.put(filename, fileReplacements);
+        }
+
+        fileReplacements.put(new XmlReplacement(xpathExpression, attributeName),
+            configurationPropertyName);
     }
 
     /**
