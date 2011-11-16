@@ -21,10 +21,8 @@ package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URL;
 
 import org.apache.tools.ant.types.FilterChain;
-import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.jboss.internal.JBoss5xInstalledLocalContainer;
 
