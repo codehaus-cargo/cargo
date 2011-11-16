@@ -113,32 +113,6 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
         FilterChain filterChain = createJBossFilterChain(jbossContainer);
 
-        // Setup the shared class path
-        if (container instanceof InstalledLocalContainer)
-        {
-            InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
-            String[] sharedClassPath = installedContainer.getSharedClasspath();
-            StringBuilder tmp = new StringBuilder();
-            if (sharedClassPath != null)
-            {
-                for (String element : sharedClassPath)
-                {
-                    String fileName = getFileHandler().getName(element);
-                    String directoryName = getFileHandler().getParent(element);
-                    URL directoryUrl = new File(directoryName).toURI().toURL();
-
-                    tmp.append("<classpath codebase=\"" + directoryUrl + "\" archives=\""
-                            + fileName + "\"/>");
-                    tmp.append("\n");
-                }
-            }
-            String sharedClassPathString = tmp.toString();
-            getLogger().debug("Shared loader classpath is " + sharedClassPathString,
-                getClass().getName());
-            getAntUtils().addTokenToFilterChain(filterChain, "jboss.shared.classpath",
-                tmp.toString());
-        }
-
         String deployDir = getFileHandler().createDirectory(getHome(), "/deploy");
         String libDir = getFileHandler().createDirectory(getHome(), "/lib");
         String confDir = getFileHandler().createDirectory(getHome(), "/conf");
@@ -372,6 +346,28 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         // By placing these files in the cargo home directory we will now be able to configure them
         // with cargo.
         getAntUtils().addTokenToFilterChain(filterChain, "cargo.server.deploy.url", "deploy/");
+
+        // Setup the shared class path
+        String[] sharedClassPath = container.getSharedClasspath();
+        StringBuilder tmp = new StringBuilder();
+        if (sharedClassPath != null)
+        {
+            for (String element : sharedClassPath)
+            {
+                String fileName = getFileHandler().getName(element);
+                String directoryName = getFileHandler().getParent(element);
+                URL directoryUrl = new File(directoryName).toURI().toURL();
+
+                tmp.append("<classpath codebase=\"" + directoryUrl + "\" archives=\""
+                        + fileName + "\"/>");
+                tmp.append("\n");
+            }
+        }
+        String sharedClassPathString = tmp.toString();
+        getLogger().debug("Shared loader classpath is " + sharedClassPathString,
+            getClass().getName());
+        getAntUtils().addTokenToFilterChain(filterChain, "jboss.shared.classpath",
+            tmp.toString());
 
         return filterChain;
     }

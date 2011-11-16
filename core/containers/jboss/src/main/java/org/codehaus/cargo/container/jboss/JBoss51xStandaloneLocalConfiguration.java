@@ -89,32 +89,6 @@ public class JBoss51xStandaloneLocalConfiguration extends JBossStandaloneLocalCo
         FilterChain filterChain = createJBossFilterChain(
                 (JBoss51xInstalledLocalContainer) jbossContainer);
 
-        // Setup the shared class path
-        if (container instanceof InstalledLocalContainer)
-        {
-            InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
-            String[] sharedClassPath = installedContainer.getSharedClasspath();
-            StringBuilder tmp = new StringBuilder();
-            if (sharedClassPath != null)
-            {
-                for (String element : sharedClassPath)
-                {
-                    String fileName = getFileHandler().getName(element);
-                    String directoryName = getFileHandler().getParent(element);
-                    URL directoryUrl = new File(directoryName).toURI().toURL();
-
-                    tmp.append("<classpath codebase=\"" + directoryUrl + "\" archives=\""
-                            + fileName + "\"/>");
-                    tmp.append("\n");
-                }
-            }
-            String sharedClassPathString = tmp.toString();
-            getLogger().debug("Shared loader classpath is " + sharedClassPathString,
-                getClass().getName());
-            getAntUtils().addTokenToFilterChain(filterChain, "jboss.shared.classpath",
-                tmp.toString());
-        }
-
         String deployDir = getFileHandler().createDirectory(getHome(), "/deploy");
         String deployersDir = getFileHandler().createDirectory(getHome(), "/deployers");
         String libDir = getFileHandler().createDirectory(getHome(), "/lib");
