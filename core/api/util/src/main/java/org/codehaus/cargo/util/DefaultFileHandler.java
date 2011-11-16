@@ -41,6 +41,20 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.filters.util.ChainReaderHelper;
 import org.apache.tools.ant.taskdefs.Copy;
@@ -361,6 +375,127 @@ public class DefaultFileHandler implements FileHandler
         catch (IOException e)
         {
             throw new CargoException("Cannot write file " + file, e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}.
+     * @see FileHandler#replaceInXmlFile(String, Map)
+     */
+    public void replaceInXmlFile(String file, Map<XmlReplacement, String> replacements)
+        throws CargoException
+    {
+        InputStream is = null;
+        OutputStream os = null;
+
+        try
+        {
+            DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = domFactory.newDocumentBuilder();
+
+            XPathFactory xPathFactory = XPathFactory.newInstance();
+            XPath xPath = xPathFactory.newXPath();
+
+            TransformerFactory tFactory = TransformerFactory.newInstance();
+            Transformer transformer = tFactory.newTransformer();
+
+            if (!exists(file))
+            {
+                throw new CargoException("Cannot find file " + file);
+            }
+            if (isDirectory(file))
+            {
+                throw new CargoException("The destination is a directory: " + file);
+            }
+
+            is = getInputStream(file);
+            Document doc;
+            try
+            {
+                doc = builder.parse(is);
+            }
+            finally
+            {
+                is.close();
+                is = null;
+                System.gc();
+            }
+
+            for (Map.Entry<XmlReplacement, String> replacement : replacements.entrySet())
+            {
+                String expression = replacement.getKey().getXpathExpression();
+                String attributeName = replacement.getKey().getAttributeName();
+
+                XPathExpression xPathExpr = xPath.compile(expression);
+
+                Node node = (Node) xPathExpr.evaluate(doc, XPathConstants.NODE);
+
+                if (node == null)
+                {
+                    throw new CargoException("Node " + expression + " not found in file " + file);
+                }
+
+                if (attributeName != null)
+                {
+                    Node attribute = node.getAttributes().getNamedItem(attributeName);
+
+                    if (attribute == null)
+                    {
+                        throw new CargoException("Attribute " + attributeName
+                            + " not found in node " + expression + " in file " + file);
+                    }
+
+                    attribute.setNodeValue(replacement.getValue());
+                }
+                else
+                {
+                    node.setTextContent(replacement.getValue());
+                }
+            }
+
+            delete(file);
+            os = getOutputStream(file);
+            transformer.transform(new DOMSource(doc), new StreamResult(os));
+        }
+        catch (Exception e)
+        {
+            throw new CargoException("Cannot modify XML file " + file, e);
+        }
+        finally
+        {
+            if (is != null)
+            {
+                try
+                {
+                    is.close();
+                }
+                catch (Exception ignored)
+                {
+                    // Ignored
+                }
+                finally
+                {
+                    is = null;
+                }
+            }
+
+            if (os != null)
+            {
+                try
+                {
+                    os.close();
+                }
+                catch (Exception ignored)
+                {
+                    // Ignored
+                }
+                finally
+                {
+                    os = null;
+                }
+            }
+
+            System.gc();
         }
     }
 

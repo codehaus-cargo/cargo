@@ -35,6 +35,95 @@ import org.apache.tools.ant.types.FilterChain;
  */
 public interface FileHandler
 {
+
+    /**
+     * Represents an XML replacement.
+     */
+    class XmlReplacement
+    {
+        /**
+         * XPath expression.
+         */
+        private String xpathExpression;
+
+        /**
+         * XML attribute name.
+         */
+        private String attributeName;
+
+        /**
+         * String form.
+         */
+        private String toString;
+
+        /**
+         * Saves the attributes for this XML replacement.
+         * 
+         * @param xpathExpression XPath expression.
+         * @param attributeName XML attribute name.
+         */
+        public XmlReplacement(String xpathExpression, String attributeName)
+        {
+            this.xpathExpression = xpathExpression;
+            this.attributeName = attributeName;
+            this.toString = "XmlReplacement[xpathExpression='" + xpathExpression
+                + "',attributeName='" + attributeName + "']";
+        }
+
+        /**
+         * @return XPath expression.
+         */
+        public String getXpathExpression()
+        {
+            return xpathExpression;
+        }
+
+        /**
+         * @return XML attribute name.
+         */
+        public String getAttributeName()
+        {
+            return attributeName;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String toString()
+        {
+            return toString;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (getClass() != obj.getClass())
+            {
+                return false;
+            }
+
+            final XmlReplacement other = (XmlReplacement) obj;
+            return this.toString.equals(other.toString);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode()
+        {
+            return this.toString.hashCode();
+        }
+    }
+
     /**
      * Copy a file from a source to a destination. If destination file already exists, it is not
      * overwritten.
@@ -156,6 +245,17 @@ public interface FileHandler
      * exist in the file.
      */
     void replaceInFile(String file, Map<String, String> replacements, String encoding)
+        throws CargoException;
+
+    /**
+     * Replaces using a map of XML replacements in a given file.
+     * 
+     * @param file File to replace in.
+     * @param xmlReplacements Map containing XML replacements.
+     * @throws CargoException If anything fails, most notably if one of the replacements does not
+     * exist in the file.
+     */
+    void replaceInXmlFile(String file, Map<XmlReplacement, String> xmlReplacements)
         throws CargoException;
 
     /**
