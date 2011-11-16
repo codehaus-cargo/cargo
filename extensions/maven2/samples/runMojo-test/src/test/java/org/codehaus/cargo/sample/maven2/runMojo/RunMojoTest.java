@@ -63,6 +63,11 @@ public class RunMojoTest extends TestCase
             {
                 return;
             }
+            else if (outputString.contains("BUILD FAILURE"))
+            {
+                fail("There has been a BUILD FAILURE. Please check file " + output);
+                return;
+            }
 
             Thread.sleep(1000);
         }
