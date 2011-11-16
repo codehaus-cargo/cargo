@@ -221,7 +221,7 @@
 
               <property>
                 <name>cargo.tomcat5x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.33/bin/apache-tomcat-5.5.33.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.34/bin/apache-tomcat-5.5.34.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat5x.java.home</name>
