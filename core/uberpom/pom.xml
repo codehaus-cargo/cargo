@@ -25,6 +25,7 @@
   </parent>
   <artifactId>cargo-core-uberpom</artifactId>
   <name>Cargo Core POM which puts together all containers</name>
+  <packaging>pom</packaging>
   <description>The Cargo Core POM which puts together all containers</description>
   <dependencies>
     <dependency>
