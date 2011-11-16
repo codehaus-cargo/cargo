@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.jboss.internal.IJBossProfileManagerDeployer;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.jboss.deployers.spi.management.deploy.DeploymentManager;
 import org.jboss.deployers.spi.management.deploy.DeploymentProgress;
 import org.jboss.deployers.spi.management.deploy.DeploymentStatus;
@@ -164,6 +165,14 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
             Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
         properties.setProperty(Context.PROVIDER_URL, providerURL.toString());
         properties.setProperty(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
+
+        String username = this.configuration.getPropertyValue(RemotePropertySet.USERNAME);
+        String password = this.configuration.getPropertyValue(RemotePropertySet.PASSWORD);
+        if (username != null && password != null)
+        {
+            properties.setProperty(Context.SECURITY_PRINCIPAL, username);
+            properties.setProperty(Context.SECURITY_CREDENTIALS, password);
+        }
 
         Context ctx = new InitialContext(properties);
 
