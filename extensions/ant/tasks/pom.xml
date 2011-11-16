@@ -32,6 +32,7 @@
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-uberpom</artifactId>
       <version>${cargo.core.version}</version>
+      <type>pom</type>
     </dependency>
 
     <dependency>
