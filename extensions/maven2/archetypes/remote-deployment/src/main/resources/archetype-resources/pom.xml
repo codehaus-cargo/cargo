@@ -299,23 +299,6 @@
           </plugins>
         </pluginManagement>
       </build>
-
-      <!--
-        The org.jboss.as dependency is currently only available on the JBoss repository. Read more
-        on: http://community.jboss.org/wiki/MavenRepositoryCentralSynchronization
-        -->
-      <pluginRepositories>
-        <pluginRepository>
-          <id>jboss</id>
-          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-        </pluginRepository>
-      </pluginRepositories>
-      <repositories>
-        <repository>
-          <id>jboss</id>
-          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-        </repository>
-      </repositories>
     </profile>
     <profile>
       <id>glassfish3x</id>
