@@ -42,19 +42,4 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
-
-  <repositories>
-    <!-- The JBoss.org repository is required for org.jboss.as:jboss-as-controller-client -->
-    <repository>
-      <id>repository.jboss.org</id>
-      <name>JBoss.org repository</name>
-      <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 </project>
