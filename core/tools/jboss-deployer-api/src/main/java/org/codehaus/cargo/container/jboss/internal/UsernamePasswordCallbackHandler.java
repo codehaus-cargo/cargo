@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.tools.jboss;
+package org.codehaus.cargo.container.jboss.internal;
 
 import java.io.IOException;
 import javax.security.auth.callback.Callback;
@@ -25,6 +25,9 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
+import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.property.RemotePropertySet;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Handler that responds to username and password requests.
@@ -33,6 +36,11 @@ import javax.security.auth.callback.UnsupportedCallbackException;
  */
 public class UsernamePasswordCallbackHandler implements CallbackHandler
 {
+
+    /**
+     * Logger.
+     */
+    private Logger logger;
 
     /**
      * Username.
@@ -45,14 +53,15 @@ public class UsernamePasswordCallbackHandler implements CallbackHandler
     private String password;
 
     /**
-     * Saves the username and password.
-     * @param username Username.
-     * @param password Password.
+     * Saves the username and password based on the CARGO {@link Configuration}.
+     * @param configuration CARGO {@link Configuration} from which to retrieve the username,
+     * password or other data.
      */
-    public UsernamePasswordCallbackHandler(String username, String password)
+    public UsernamePasswordCallbackHandler(Configuration configuration)
     {
-        this.username = username;
-        this.password = password;
+        this.logger = configuration.getLogger();
+        this.username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
+        this.password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
     }
 
     /**
@@ -65,11 +74,25 @@ public class UsernamePasswordCallbackHandler implements CallbackHandler
         {
             if (callback instanceof NameCallback)
             {
+                if (this.username == null)
+                {
+                    throw new NullPointerException("User name not set. Please set it using the \""
+                        + RemotePropertySet.USERNAME + "\" option.");
+                }
+
                 ((NameCallback) callback).setName(this.username);
+                this.logger.debug("Responded to a NameCallback", this.getClass().getName());
             }
             else if (callback instanceof PasswordCallback)
             {
+                if (this.password == null)
+                {
+                    throw new NullPointerException("Password not set. Please set it using the \""
+                        + RemotePropertySet.PASSWORD + "\" option.");
+                }
+
                 ((PasswordCallback) callback).setPassword(this.password.toCharArray());
+                this.logger.debug("Responded to a PasswordCallback", this.getClass().getName());
             }
             else
             {

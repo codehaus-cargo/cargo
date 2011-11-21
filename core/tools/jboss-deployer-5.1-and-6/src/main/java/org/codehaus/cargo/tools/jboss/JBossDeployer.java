@@ -20,16 +20,19 @@
 package org.codehaus.cargo.tools.jboss;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.security.auth.login.LoginContext;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.jboss.internal.IJBossProfileManagerDeployer;
+import org.codehaus.cargo.container.jboss.internal.UsernamePasswordCallbackHandler;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.jboss.deployers.spi.management.deploy.DeploymentManager;
 import org.jboss.deployers.spi.management.deploy.DeploymentProgress;
 import org.jboss.deployers.spi.management.deploy.DeploymentStatus;
@@ -63,16 +66,17 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
      */
     public void deploy(File deploymentFile, String deploymentName) throws Exception
     {
-        DeploymentManager deployMgr = getDeploymentManager();
+        DeploymentManager deploymentManager = getDeploymentManager();
 
-        deployMgr.loadProfile(getProfile());
-        DeploymentProgress distribute = deployMgr.distribute(deploymentName,
+        deploymentManager.loadProfile(getProfile());
+
+        DeploymentProgress distribute = deploymentManager.distribute(deploymentName,
             deploymentFile.toURI().toURL(), true);
         distribute.run();
         checkFailed(distribute);
 
         String[] repositoryNames = distribute.getDeploymentID().getRepositoryNames();
-        DeploymentProgress start = deployMgr.start(repositoryNames);
+        DeploymentProgress start = deploymentManager.start(repositoryNames);
         start.run();
         checkFailed(start);
     }
@@ -83,16 +87,18 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
      */
     public void undeploy(final String deploymentName) throws Exception
     {
-        DeploymentManager deployMgr = getDeploymentManager();
+        DeploymentManager deploymentManager = getDeploymentManager();
 
         String[] deploymentNameArray = new String[1];
         deploymentNameArray[0] = deploymentName;
-        deployMgr.loadProfile(getProfile());
-        String[] repositoryNames = deployMgr.getRepositoryNames(deploymentNameArray);
-        DeploymentProgress stop = deployMgr.stop(repositoryNames);
+        deploymentManager.loadProfile(getProfile());
+
+        String[] repositoryNames = deploymentManager.getRepositoryNames(deploymentNameArray);
+        DeploymentProgress stop = deploymentManager.stop(repositoryNames);
         stop.run();
         checkFailed(stop);
-        DeploymentProgress remove = deployMgr.remove(repositoryNames);
+
+        DeploymentProgress remove = deploymentManager.remove(repositoryNames);
         remove.run();
         checkFailed(remove);
     }
@@ -166,19 +172,45 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
         properties.setProperty(Context.PROVIDER_URL, providerURL.toString());
         properties.setProperty(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
 
-        String username = this.configuration.getPropertyValue(RemotePropertySet.USERNAME);
-        String password = this.configuration.getPropertyValue(RemotePropertySet.PASSWORD);
-        if (username != null && password != null)
+        File file = File.createTempFile("cargo-jboss-remote-jaas-", ".conf");
+        InputStream is = getClass().getResourceAsStream("jboss-jaas.conf");
+        try
         {
-            properties.setProperty(Context.SECURITY_PRINCIPAL, username);
-            properties.setProperty(Context.SECURITY_CREDENTIALS, password);
+            FileOutputStream fos = new FileOutputStream(file);
+            try
+            {
+                while (is.available() > 0)
+                {
+                    byte[] read = new byte[1024];
+                    int count = is.read(read);
+                    fos.write(read, 0, count);
+                }
+            }
+            finally
+            {
+                fos.close();
+                fos = null;
+                System.gc();
+            }
         }
+        finally
+        {
+            is.close();
+            is = null;
+            System.gc();
+        }
+
+        System.setProperty("java.security.auth.login.config", file.getAbsolutePath());
+        new LoginContext("jboss-jaas",
+            new UsernamePasswordCallbackHandler(this.configuration)).login();
 
         Context ctx = new InitialContext(properties);
 
         ProfileService ps = (ProfileService) ctx.lookup("ProfileService");
 
         return ps.getDeploymentManager();
+
+        // TODO: think about logout ?
     }
 
 }

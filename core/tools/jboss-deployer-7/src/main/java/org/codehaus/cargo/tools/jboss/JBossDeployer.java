@@ -34,8 +34,8 @@ import org.jboss.as.controller.client.helpers.standalone.ServerUpdateActionResul
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.jboss.internal.IJBossProfileManagerDeployer;
+import org.codehaus.cargo.container.jboss.internal.UsernamePasswordCallbackHandler;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -108,11 +108,8 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
             this.configuration.getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_PORT);
         int portnumber = Integer.parseInt(portname);
 
-        String username = this.configuration.getPropertyValue(RemotePropertySet.USERNAME);
-        String password = this.configuration.getPropertyValue(RemotePropertySet.PASSWORD);
-
         ModelControllerClient client = ModelControllerClient.Factory.create(hostname, portnumber,
-            new UsernamePasswordCallbackHandler(username, password));
+            new UsernamePasswordCallbackHandler(this.configuration));
         ServerDeploymentManager manager = ServerDeploymentManager.Factory.create(client);
         DeploymentPlanBuilder builder = manager.newDeploymentPlan();
         DeploymentPlan plan;

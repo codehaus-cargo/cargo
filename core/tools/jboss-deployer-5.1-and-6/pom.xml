@@ -24,7 +24,7 @@
     <version>1.1.4-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-core-tools-jboss-deployer-5.1-and-6</artifactId>
-  <name>Cargo Core Tools JBoss deployer for versions 5.1.x and 6.x</name>
+  <name>Cargo Core Tools JBoss 5.1.x and 6.x deployer</name>
   <packaging>jar</packaging>
   <description>Remote deployer for JBoss 5.1.x and 6.x</description>
   <dependencies>
