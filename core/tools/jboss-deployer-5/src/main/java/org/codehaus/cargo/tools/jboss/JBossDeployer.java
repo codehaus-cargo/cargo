@@ -20,17 +20,18 @@
 package org.codehaus.cargo.tools.jboss;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.util.Collections;
 import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.LoginContext;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.jboss.internal.IJBossProfileManagerDeployer;
+import org.codehaus.cargo.container.jboss.internal.JaasConfiguration;
 import org.codehaus.cargo.container.jboss.internal.UsernamePasswordCallbackHandler;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.jboss.deployers.spi.management.deploy.DeploymentManager;
@@ -172,37 +173,12 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
         properties.setProperty(Context.PROVIDER_URL, providerURL.toString());
         properties.setProperty(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
 
-        File file = File.createTempFile("cargo-jboss-remote-jaas-", ".conf");
-        InputStream is = getClass().getResourceAsStream("jboss-jaas.conf");
-        try
-        {
-            FileOutputStream fos = new FileOutputStream(file);
-            try
-            {
-                while (is.available() > 0)
-                {
-                    byte[] read = new byte[1024];
-                    int count = is.read(read);
-                    fos.write(read, 0, count);
-                }
-            }
-            finally
-            {
-                fos.close();
-                fos = null;
-                System.gc();
-            }
-        }
-        finally
-        {
-            is.close();
-            is = null;
-            System.gc();
-        }
-
-        System.setProperty("java.security.auth.login.config", file.getAbsolutePath());
-        new LoginContext("jboss-jaas",
-            new UsernamePasswordCallbackHandler(this.configuration)).login();
+        new LoginContext("jboss-jaas", null,
+            new UsernamePasswordCallbackHandler(this.configuration),
+            new JaasConfiguration(new AppConfigurationEntry(
+                "org.jboss.security.ClientLoginModule",
+                AppConfigurationEntry.LoginModuleControlFlag.REQUIRED,
+                Collections.EMPTY_MAP))).login();
 
         Context ctx = new InitialContext(properties);
 
