@@ -122,6 +122,36 @@ public class DefaultFileHandlerTest extends TestCase
     }
 
     /**
+     * Test valid XML replacement for replacing a neighbor
+     */
+    public void testXmlNeighborReplacement()
+    {
+        final String file = "target/bindings-jboss-beans.xml";
+        final String old = "<property name=\"port\">@cargo.rmi.port@</property>";
+        final String permanent = "<property name=\"port\">@cargo.jboss.naming.port@</property>";
+        final String new1 = "<property name=\"port\">test1</property>";
+
+        this.fileHandler.copyFile("src/test/resources/bindings-jboss-beans.xml", file, true);
+
+        String read = this.fileHandler.readTextFile(file, "UTF-8");
+        assertTrue("File " + file + " does not contain: " + old, read.contains(old));
+        assertTrue("File " + file + " does not contain: " + permanent, read.contains(permanent));
+
+        Map<XmlReplacement, String> replacements = new HashMap<XmlReplacement, String>();
+        replacements.put(new XmlReplacement(
+            "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
+                + "/property[@name='serviceName' and text()='jboss:service=Naming']/.."
+                + "/property[@name='bindingName' and text()='Port']/.."
+                + "/property[@name='port']", null), "test1");
+        this.fileHandler.replaceInXmlFile(file, replacements);
+        read = this.fileHandler.readTextFile(file, "UTF-8");
+        assertFalse("File " + file + " still contains: " + old, read.contains(old));
+        assertTrue("File " + file + " does not contain: " + new1, read.contains(new1));
+        assertTrue("File " + file + " does not contain anymore: " + permanent,
+            read.contains(permanent));
+    }
+
+    /**
      * Test invalid XML XPath replacement
      */
     public void testInvalidXmlXpathReplacement()
