@@ -90,6 +90,8 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
     @Override
     protected void doStart(JvmLauncher java) throws Exception
     {
+        this.getLogger().debug("Starting container " + getName(), this.getClass().getName());
+
         java.setJarFile(new File(getConfiguration().getHome(), "bin/server.jar"));
 
         java.setSystemProperty("org.apache.geronimo.server.dir", getConfiguration().getHome());
@@ -115,6 +117,8 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
     @Override
     protected void doStop(JvmLauncher java) throws Exception
     {
+        this.getLogger().debug("Stopping container " + getName(), this.getClass().getName());
+
         java.setJarFile(new File(getConfiguration().getHome(), "bin/shutdown.jar"));
 
         java.setSystemProperty("org.apache.geronimo.server.dir", getConfiguration().getHome());

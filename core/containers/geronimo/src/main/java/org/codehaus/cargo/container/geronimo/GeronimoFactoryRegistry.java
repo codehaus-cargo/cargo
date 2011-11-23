@@ -26,8 +26,9 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.geronimo.deployable.GeronimoEAR;
 import org.codehaus.cargo.container.geronimo.deployable.GeronimoEJB;
 import org.codehaus.cargo.container.geronimo.deployable.GeronimoWAR;
+import org.codehaus.cargo.container.geronimo.internal.Geronimo1xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.geronimo.internal.Geronimo2xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.geronimo.internal.GeronimoExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.geronimo.internal.GeronimoStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
@@ -83,14 +84,14 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
     {
         configurationCapabilityFactory.registerConfigurationCapability("geronimo1x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            GeronimoStandaloneLocalConfigurationCapability.class);
+            Geronimo1xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("geronimo1x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             GeronimoExistingLocalConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("geronimo2x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            GeronimoStandaloneLocalConfigurationCapability.class);
+            Geronimo2xStandaloneLocalConfigurationCapability.class);
     }
 
     /**

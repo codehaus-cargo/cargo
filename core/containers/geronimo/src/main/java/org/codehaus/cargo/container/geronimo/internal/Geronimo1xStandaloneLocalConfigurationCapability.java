@@ -33,18 +33,18 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
  * 
  * @version $Id$
  */
-public class GeronimoStandaloneLocalConfigurationCapability
+public class Geronimo1xStandaloneLocalConfigurationCapability
     extends AbstractStandaloneLocalConfigurationCapability
 {
     /**
      * Geronimo-specific configuration Map.
      */
-    private Map<String, Boolean> propertySupportMap;
+    protected Map<String, Boolean> propertySupportMap;
 
     /**
      * Initialize Geronimo-specific configuration Map.
      */
-    public GeronimoStandaloneLocalConfigurationCapability()
+    public Geronimo1xStandaloneLocalConfigurationCapability()
     {
         super();
 

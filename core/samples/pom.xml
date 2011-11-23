@@ -321,7 +321,6 @@
 
               <property>
                 <name>cargo.geronimo2x.url</name>
-                <!-- the default cargo.geronimo.servlet.containerId is tomcat, therefore use Tomcat -->
                 <!--
                   DO NOT try to use versions 2.1.7 or 2.2.1, because of Geronimo issue
                   https://issues.apache.org/jira/browse/GERONIMO-5723

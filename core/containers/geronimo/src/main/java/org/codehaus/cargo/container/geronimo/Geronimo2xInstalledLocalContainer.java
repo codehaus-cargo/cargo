@@ -36,7 +36,7 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalContainer
 {
     /**
-     * Geronimo 1.x series unique id.
+     * Geronimo 2.x series unique id.
      */
     public static final String ID = "geronimo2x";
 
@@ -76,11 +76,11 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
     @Override
     protected void doStart(JvmLauncher java) throws Exception
     {
+        this.getLogger().debug("Starting container " + getName(), this.getClass().getName());
+
         java.setJarFile(new File(getHome(), "bin/server.jar"));
 
         // -javaagent:$GERONIMO_HOME/bin/jpa.jar
-        // -Djava.endorsed.dirs=$GERONIMO_HOME/lib/endorsed:$JAVA_HOME/lib/endorsed
-        // -Djava.ext.dirs=$GERONIMO_HOME/lib/ext:$JAVA_HOME/lib/ext
 
         File javaLib = new File(getJavaHome(), "lib");
 
@@ -123,6 +123,8 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
     @Override
     protected void doStop(JvmLauncher java) throws Exception
     {
+        this.getLogger().debug("Stopping container " + getName(), this.getClass().getName());
+
         java.setJarFile(new File(getHome(), "bin/shutdown.jar"));
 
         java.setSystemProperty("org.apache.geronimo.server.dir", getConfiguration().getHome());

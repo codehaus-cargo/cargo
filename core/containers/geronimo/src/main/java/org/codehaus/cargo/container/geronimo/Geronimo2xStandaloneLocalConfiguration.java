@@ -24,7 +24,9 @@ import java.io.File;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.geronimo.internal.AbstractGeronimoStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.geronimo.internal.Geronimo2xStandaloneLocalConfigurationCapability;
 
 /**
  * Geronimo 2.x series standalone {@link org.codehaus.cargo.container.configuration.Configuration}
@@ -36,12 +38,27 @@ public class Geronimo2xStandaloneLocalConfiguration extends
     AbstractGeronimoStandaloneLocalConfiguration
 {
     /**
+     * Geronimo configuration capability.
+     */
+    private static ConfigurationCapability capability =
+        new Geronimo2xStandaloneLocalConfigurationCapability();
+
+    /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.geronimo.internal.AbstractGeronimoStandaloneLocalConfiguration#AbstractGeronimoStandaloneLocalConfiguration(String)
      */
     public Geronimo2xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
+     */
+    public ConfigurationCapability getCapability()
+    {
+        return capability;
     }
 
     /**

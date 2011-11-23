@@ -29,7 +29,6 @@ import java.util.Set;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.geronimo.GeronimoPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -47,12 +46,6 @@ public abstract class AbstractGeronimoStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfiguration
 {
     /**
-     * Geronimo configuration capability.
-     */
-    private static ConfigurationCapability capability =
-        new GeronimoStandaloneLocalConfigurationCapability();
-
-    /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
@@ -65,15 +58,6 @@ public abstract class AbstractGeronimoStandaloneLocalConfiguration extends
         setProperty(GeronimoPropertySet.GERONIMO_CONSOLE_LOGLEVEL, "INFO");
         setProperty(GeronimoPropertySet.GERONIMO_FILE_LOGLEVEL, "DEBUG");
         setProperty(GeronimoPropertySet.GERONIMO_SERVLET_CONTAINER_ID, "tomcat");
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
-     */
-    public ConfigurationCapability getCapability()
-    {
-        return capability;
     }
 
     /**
