@@ -20,6 +20,8 @@
 package org.codehaus.cargo.container.jboss.internal;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.LocalContainer;
@@ -74,29 +76,27 @@ public abstract class AbstractJBoss5xStandaloneLocalConfiguration
             String farmDir = getFileHandler().createDirectory(getHome(), "/farm");
         }
 
-        String[] configFiles = new String[] {"jboss-service.xml"};
-
-        // Copy configuration files from cargo resources directory with token replacement
-        for (String configFile : configFiles)
-        {
-            getResourceUtils().copyResource(
-                RESOURCE_PATH + jbossContainer.getId() + "/" + configFile,
-                new File(confDir, configFile), filterChain, "UTF-8");
-        }
-
-        // Copy resources from jboss installation folder and exclude files
-        // that already copied from cargo resources folder
+        // Copy the files within the JBoss Configuration directory to the cargo conf directory
         copyExternalResources(new File(jbossContainer.getConfDir(getPropertyValue(
-            JBossPropertySet.CONFIGURATION))), new File(confDir), configFiles);
+            JBossPropertySet.CONFIGURATION))), new File(confDir));
+
+        // Setup the shared classpath
+        String jbossServiceXml = getFileHandler().append(confDir, "jboss-service.xml");
+        Map<String, String> replacements = new HashMap<String, String>(1);
+        replacements.put(
+            "<classpath codebase=\"${jboss.common.lib.url}\" archives=\"*\"/>",
+            "<classpath codebase=\"${jboss.common.lib.url}\" archives=\"*\"/>\n    "
+                + this.getSharedClasspathXml(jbossContainer));
+        getFileHandler().replaceInFile(jbossServiceXml, replacements, "UTF-8");
 
         // Copy the files within the JBoss Deploy directory to the cargo deploy directory
         copyExternalResources(new File(jbossContainer.getDeployDir(getPropertyValue(
-            JBossPropertySet.CONFIGURATION))), new File(deployDir), new String[0]);
+            JBossPropertySet.CONFIGURATION))), new File(deployDir));
 
         // Copy the files within the JBoss Deployers directory to the cargo deployers directory
         copyExternalResources(new File(((JBoss5xInstalledLocalContainer) jbossContainer)
             .getDeployersDir(getPropertyValue(JBossPropertySet.CONFIGURATION))),
-            new File(deployersDir), new String[0]);
+            new File(deployersDir));
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",

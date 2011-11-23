@@ -142,7 +142,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
         // Copy the files within the JBoss Deploy directory to the cargo deploy directory
         copyExternalResources(new File(jbossContainer.getDeployDir(getPropertyValue(
-            JBossPropertySet.CONFIGURATION))), new File(deployDir), new String[0]);
+            JBossPropertySet.CONFIGURATION))), new File(deployDir));
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
@@ -168,6 +168,19 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
             throw new ContainerException("Invalid JBoss configuration: ["
                 + JBossPropertySet.CONFIGURATION + "] doesn't exist.");
         }
+    }
+
+    /**
+     * Copy external resources to cargo configuration directory. This method will copy entire
+     * resources in the sourceDir (recursive), if it's a directory.
+     * 
+     * @param sourceDir resource file / directory to be copied
+     * @param destDir cargo configuration directory
+     * @throws IOException If an error occurs during the copy.
+     */
+    protected void copyExternalResources(File sourceDir, File destDir) throws IOException
+    {
+        copyExternalResources(sourceDir, destDir, null);
     }
 
     /**
@@ -220,6 +233,11 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
      */
     private boolean isExcluded(String[] cargoFiles, String filename)
     {
+        if (cargoFiles == null)
+        {
+            return false;
+        }
+
         for (String cargoFile : cargoFiles)
         {
             if (cargoFile.equals(filename))
@@ -233,7 +251,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
     /**
      * Create filter to replace token in configuration file with user defined token.
      * 
-     * @param container the JBoss contaiber instance from which we'll find the JBoss installed files
+     * @param container the JBoss container instance from which we'll find the JBoss installed files
      * to reference
      * @return token with all the user-defined token value
      * @throws MalformedURLException If an URL is malformed.
@@ -346,9 +364,27 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         // with cargo.
         getAntUtils().addTokenToFilterChain(filterChain, "cargo.server.deploy.url", "deploy/");
 
-        // Setup the shared class path
+        // Setup the shared classpath
+        getAntUtils().addTokenToFilterChain(filterChain, "jboss.shared.classpath",
+            getSharedClasspathXml(container));
+
+        return filterChain;
+    }
+
+    /**
+     * Construct the shared classpath XML based on the container.
+     * 
+     * @param container the JBoss container instance from which we'll find the JBoss installed files
+     * to reference
+     * @return Shared classpath XML based on the container.
+     * @throws MalformedURLException If URL building fails.
+     */
+    protected String getSharedClasspathXml(JBossInstalledLocalContainer container)
+        throws MalformedURLException
+    {
         String[] sharedClassPath = container.getSharedClasspath();
         StringBuilder tmp = new StringBuilder();
+
         if (sharedClassPath != null)
         {
             for (String element : sharedClassPath)
@@ -362,13 +398,11 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
                 tmp.append("\n");
             }
         }
+
         String sharedClassPathString = tmp.toString();
         getLogger().debug("Shared loader classpath is " + sharedClassPathString,
             getClass().getName());
-        getAntUtils().addTokenToFilterChain(filterChain, "jboss.shared.classpath",
-            tmp.toString());
-
-        return filterChain;
+        return sharedClassPathString;
     }
 
     /**
