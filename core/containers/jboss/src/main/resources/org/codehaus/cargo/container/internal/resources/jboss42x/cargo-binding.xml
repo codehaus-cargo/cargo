@@ -167,9 +167,9 @@
       <service-config name="jboss.remoting:type=Connector,name=DefaultEjb3Connector,handler=ejb3"
          delegateClass="org.jboss.services.binding.AttributeMappingDelegate">
         <delegate-config>
-           <attribute name="InvokerLocator">socket://${jboss.bind.address}:3873</attribute>
+           <attribute name="InvokerLocator">socket://${jboss.bind.address}:@cargo.jboss.ejb3.remoting.port@</attribute>
         </delegate-config>
-         <binding port="3873"/>
+         <binding port="@cargo.jboss.ejb3.remoting.port@"/>
       </service-config>
 
         <!-- JMXInvoker -->

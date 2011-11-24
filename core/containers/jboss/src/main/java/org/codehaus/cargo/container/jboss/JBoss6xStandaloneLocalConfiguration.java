@@ -108,6 +108,12 @@ public class JBoss6xStandaloneLocalConfiguration
                 + "/property[@name='bindingName' and text()='transactionStatusManager']/.."
                 + "/property[@name='port']", null,
             JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT);
+
+        addXmlReplacement(
+            "deploy/ejb3-connectors-jboss-beans.xml",
+            "//deployment/bean[@name='org.jboss.ejb3.RemotingConnector']/property/value-factory"
+                + "/parameter[last()]", null,
+            JBossPropertySet.JBOSS_EJB3_REMOTING_PORT);
     }
 
 }
