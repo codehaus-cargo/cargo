@@ -25,16 +25,16 @@ import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
 import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
 
 /**
- * Special container support for wrapping a running instance of JBoss 7.x.
+ * Special container support for wrapping a running instance of JBoss 7.1.x.
  * 
  * @version $Id$
  */
-public class JBoss7xRemoteContainer extends AbstractRemoteContainer
+public class JBoss71xRemoteContainer extends AbstractRemoteContainer
 {
     /**
      * Unique container id.
      */
-    public static final String ID = "jboss7x";
+    public static final String ID = "jboss71x";
 
     /**
      * Capability of the JBoss container.
@@ -45,7 +45,7 @@ public class JBoss7xRemoteContainer extends AbstractRemoteContainer
      * {@inheritDoc}
      * @see AbstractRemoteContainer#AbstractRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
      */
-    public JBoss7xRemoteContainer(RuntimeConfiguration configuration)
+    public JBoss71xRemoteContainer(RuntimeConfiguration configuration)
     {
         super(configuration);
     }
@@ -56,7 +56,7 @@ public class JBoss7xRemoteContainer extends AbstractRemoteContainer
      */
     public String getName()
     {
-        return "JBoss 7.x Remote";
+        return "JBoss 7.1.x Remote";
     }
 
     /**

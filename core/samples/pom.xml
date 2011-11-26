@@ -629,6 +629,15 @@
               </property>
 
               <property>
+                <name>cargo.jboss71x.url</name>
+                <value>http://download.jboss.org/jbossas/7.1/jboss-as-7.1.0.Beta1/jboss-as-7.1.0.Beta1.zip</value>
+              </property>
+              <property>
+                <name>cargo.jboss71x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <property>
                 <name>cargo.jonas4x.url</name>
                 <value>http://download.fr.forge.objectweb.org/jonas/jonas4.10.9-tomcat5.5.28.tgz</value>
               </property>
@@ -978,14 +987,14 @@
       <!-- All stable containers -->
       <id>all-stable-downloadable</id>
       <properties>
-        <cargo.containers>geronimo1x, geronimo2x, jetty4x, jetty5x, jetty6x, jetty7x, jetty8x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x, jo1x, jonas4x, jonas5x, resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
+        <cargo.containers>geronimo1x, geronimo2x, jetty4x, jetty5x, jetty6x, jetty7x, jetty8x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x, jboss71x, jo1x, jonas4x, jonas5x, resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <!-- All containers that have a distribution which can be downloaded automatically -->
       <id>all-downloadable</id>
       <properties>
-        <cargo.containers>geronimo1x, geronimo2x, glassfish3x, jetty4x, jetty5x, jetty6x, jetty7x, jetty8x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x, jo1x, jonas4x, jonas5x, resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
+        <cargo.containers>geronimo1x, geronimo2x, glassfish3x, jetty4x, jetty5x, jetty6x, jetty7x, jetty8x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x, jboss71x, jo1x, jonas4x, jonas5x, resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -1162,9 +1171,15 @@
        </properties>
     </profile>
     <profile>
+       <id>jboss71x</id>
+       <properties>
+         <cargo.containers>jboss71x</cargo.containers>
+       </properties>
+    </profile>
+    <profile>
       <id>all-jboss</id>
       <properties>
-        <cargo.containers>jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x</cargo.containers>
+        <cargo.containers>jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x, jboss71x</cargo.containers>
       </properties>
     </profile>
 

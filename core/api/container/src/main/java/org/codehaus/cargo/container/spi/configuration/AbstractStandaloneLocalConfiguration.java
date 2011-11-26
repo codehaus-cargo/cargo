@@ -208,6 +208,40 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     }
 
     /**
+     * Removes an XML replacement.
+     * 
+     * @param filename File in which to replace.
+     * @param xpathExpression XPath expression to look for.
+     */
+    protected void removeXmlReplacement(String filename, String xpathExpression)
+    {
+        removeXmlReplacement(filename, xpathExpression, null);
+    }
+
+    /**
+     * Removes an XML replacement.
+     * 
+     * @param filename File in which to replace.
+     * @param xpathExpression XPath expression to look for.
+     * @param attributeName Attribute name to modify. If <code>null</code>, the node's contents
+     * will be modified.
+     */
+    protected void removeXmlReplacement(String filename, String xpathExpression,
+        String attributeName)
+    {
+        Map<XmlReplacement, String> fileReplacements = this.xmlReplacements.get(filename);
+        if (fileReplacements != null)
+        {
+            fileReplacements.remove(new XmlReplacement(xpathExpression, attributeName));
+
+            if (fileReplacements.isEmpty())
+            {
+                this.xmlReplacements.remove(filename);
+            }
+        }
+    }
+
+    /**
      * {@inheritDoc}
      * @see ContainerConfiguration#verify()
      */

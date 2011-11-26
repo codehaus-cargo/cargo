@@ -19,22 +19,22 @@
  */
 package org.codehaus.cargo.container.jboss;
 
+
 import org.codehaus.cargo.container.ContainerCapability;
-import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
-import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
 
 /**
- * Special container support for wrapping a running instance of JBoss 7.x.
+ * JBoss 7.1.x series container implementation.
  * 
  * @version $Id$
  */
-public class JBoss7xRemoteContainer extends AbstractRemoteContainer
+public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContainer
 {
     /**
-     * Unique container id.
+     * JBoss 7.1.x series unique id.
      */
-    public static final String ID = "jboss7x";
+    public static final String ID = "jboss71x";
 
     /**
      * Capability of the JBoss container.
@@ -43,26 +43,18 @@ public class JBoss7xRemoteContainer extends AbstractRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see AbstractRemoteContainer#AbstractRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
+     * @see JBoss7xInstalledLocalContainer#JBoss7xInstalledLocalContainer(LocalConfiguration)
      */
-    public JBoss7xRemoteContainer(RuntimeConfiguration configuration)
+    public JBoss71xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
     }
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
-     */
-    public String getName()
-    {
-        return "JBoss 7.x Remote";
-    }
-
-    /**
-     * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -70,10 +62,22 @@ public class JBoss7xRemoteContainer extends AbstractRemoteContainer
 
     /**
      * {@inheritDoc}
+     * @see org.codehaus.cargo.container.Container#getName()
+     */
+    @Override
+    public String getName()
+    {
+        return "JBoss " + getVersion("7.1.x");
+    }
+
+    /**
+     * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return CAPABILITY;
     }
+
 }

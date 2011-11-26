@@ -24,95 +24,64 @@ import java.io.File;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jboss.internal.JBoss7xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss71xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
-import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.codehaus.cargo.util.CargoException;
 
 /**
- * JBoss 7.x standalone local configuration.
+ * JBoss 7.1.x standalone local configuration.
  * 
  * @version $Id$
  */
-public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
+public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocalConfiguration
 {
-
-    /**
-     * JBoss configuration used as base.
-     */
-    public static final String CONFIGURATION = "standalone";
 
     /**
      * JBoss container capability.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new JBoss7xStandaloneLocalConfigurationCapability();
+        new JBoss71xStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     * @see JBoss7xStandaloneLocalConfiguration#JBoss7xStandaloneLocalConfiguration(String)
      */
-    public JBoss7xStandaloneLocalConfiguration(String dir)
+    public JBoss71xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
 
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='http']",
-            "port", ServletPropertySet.PORT);
-
-        setProperty(GeneralPropertySet.RMI_PORT, "1099");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='jndi']",
-            "port", GeneralPropertySet.RMI_PORT);
-
-        setProperty(JBossPropertySet.JBOSS_JRMP_PORT, "1090");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='jmx-connector-registry']",
-            "port", JBossPropertySet.JBOSS_JRMP_PORT);
-
-        setProperty(JBossPropertySet.JBOSS_JMX_PORT, "1091");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='jmx-connector-server']",
-            "port", JBossPropertySet.JBOSS_JMX_PORT);
-
-        setProperty(JBossPropertySet.JBOSS_MANAGEMENT_PORT, "9999");
-        addXmlReplacement(
+        removeXmlReplacement(
             "configuration/standalone.xml",
             "//server/management/management-interfaces/native-interface[@interface='management']",
+            "port");
+        addXmlReplacement(
+            "configuration/standalone.xml",
+            "//server/socket-binding-group/socket-binding[@name='management-native']",
             "port", JBossPropertySet.JBOSS_MANAGEMENT_PORT);
 
-        setProperty(JBossPropertySet.JBOSS_OSGI_HTTP_PORT, "8090");
+        setProperty(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT, "4712");
         addXmlReplacement(
             "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='osgi-http']",
-            "port", JBossPropertySet.JBOSS_OSGI_HTTP_PORT);
+            "//server/socket-binding-group/socket-binding[@name='txn-recovery-environment']",
+            "port", JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT);
 
-        setProperty(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, "4447");
+        setProperty(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, "1099");
         addXmlReplacement(
             "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='remoting']",
-            "port", JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT);
+            "//server/socket-binding-group/socket-binding[@name='txn-status-manager']",
+            "port", JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT);
 
-        setProperty(JBossPropertySet.CONFIGURATION, CONFIGURATION);
-
-        addXmlReplacement(
+        getProperties().remove(GeneralPropertySet.RMI_PORT);
+        removeXmlReplacement(
             "configuration/standalone.xml",
-            "//server/profile/subsystem/console-handler/level",
-            "name", "cargo.jboss.logging");
-        addXmlReplacement(
+            "//server/socket-binding-group/socket-binding[@name='jndi']",
+            "port");
+
+        removeXmlReplacement(
             "configuration/standalone.xml",
             "//server/profile/subsystem/periodic-rotating-file-handler/level",
-            "name", "cargo.jboss.logging");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/profile/subsystem/root-logger/level",
-            "name", "cargo.jboss.logging");
+            "name");
     }
 
     /**
@@ -126,7 +95,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#configure(LocalContainer)
+     * @see JBoss7xStandaloneLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer c) throws Exception

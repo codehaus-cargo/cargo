@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.sample.java.jboss;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import javax.management.MBeanInfo;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
@@ -69,6 +72,10 @@ public class HarCapabilityContainerTest extends AbstractJBossCapabilityTestCase
      */
     public static Test suite() throws Exception
     {
+        // We exclude jboss71x as it doesn't support remote remote JNDI (at least at Beta 1)
+        Set<String> excludedContainerIds = new TreeSet<String>();
+        excludedContainerIds.add("jboss71x");
+
         CargoTestSuite suite =
             new CargoTestSuite("Test that verifies that deployment of HAR archive work on local "
                 + "installed JBoss containers");
@@ -78,7 +85,7 @@ public class HarCapabilityContainerTest extends AbstractJBossCapabilityTestCase
             new HasDeployableSupportValidator(DeployableType.HAR),
             new IsInstalledLocalContainerValidator(),
             new HasStandaloneConfigurationValidator()
-        });
+        }, excludedContainerIds);
 
         return suite;
     }

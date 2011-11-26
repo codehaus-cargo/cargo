@@ -284,6 +284,11 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
                     + "| Changing the the container classpath is not supported on JBoss 7.x |");
             }
+            else if (containerId.equals("jboss71x"))
+            {
+                output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
+                    + "| Changing the the container classpath is not supported on JBoss 7.1.x |");
+            }
             else
             {
                 output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) | |");

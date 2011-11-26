@@ -151,7 +151,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
             if (jbossVersion < 10 && jbossVersion >= 5 || jbossVersion >= 50)
             {
-                if (jbossVersion == 7)
+                if (jbossVersion == 7 || jbossVersion >= 70)
                 {
                     AbstractJBossCapabilityTestCase.addAllJars(
                         new File(this.localContainer.getHome(), "modules"), filesToAddToClasspath);
