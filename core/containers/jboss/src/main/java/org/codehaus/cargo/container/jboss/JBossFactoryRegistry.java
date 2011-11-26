@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.jboss.internal.JBoss4xContainerCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss4xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss42xContainerCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss5xRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss6xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss71xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xExistingLocalConfigurationCapability;
@@ -130,7 +131,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("jboss6x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            JBossStandaloneLocalConfigurationCapability.class);
+            JBoss6xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jboss6x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             JBossExistingLocalConfigurationCapability.class);
@@ -140,7 +141,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("jboss61x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            JBossStandaloneLocalConfigurationCapability.class);
+            JBoss6xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jboss61x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             JBossExistingLocalConfigurationCapability.class);

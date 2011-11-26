@@ -19,7 +19,9 @@
  */
 package org.codehaus.cargo.container.jboss;
 
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.AbstractJBoss5xStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.jboss.internal.JBoss6xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 
@@ -31,6 +33,12 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 public class JBoss6xStandaloneLocalConfiguration
     extends AbstractJBoss5xStandaloneLocalConfiguration
 {
+
+    /**
+     * JBoss container capability.
+     */
+    private static final ConfigurationCapability CAPABILITY =
+        new JBoss6xStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
@@ -85,6 +93,15 @@ public class JBoss6xStandaloneLocalConfiguration
                 + "/property[@name='port']", null,
             JBossPropertySet.JBOSS_JRMP_PORT);
 
+        setProperty(JBossPropertySet.JBOSS_JMX_PORT, "1091");
+        addXmlReplacement(
+            "conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml",
+            "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
+                + "/property[@name='serviceName' and "
+                    + "text()='jboss.remoting:service=JMXConnectorServer,protocol=rmiServer']/.."
+                + "/property[@name='port']", null,
+            JBossPropertySet.JBOSS_JMX_PORT);
+
         addXmlReplacement(
             "conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
@@ -114,6 +131,16 @@ public class JBoss6xStandaloneLocalConfiguration
             "//deployment/bean[@name='org.jboss.ejb3.RemotingConnector']/property/value-factory"
                 + "/parameter[last()]", null,
             JBossPropertySet.JBOSS_EJB3_REMOTING_PORT);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return CAPABILITY;
     }
 
 }
