@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
@@ -21,7 +37,7 @@
   <!-- The default servlet for all web applications, that serves static     -->
   <!-- resources.  It processes all requests that are not mapped to other   -->
   <!-- servlets with servlet mappings (defined either here or in your own   -->
-  <!-- web.xml file.  This servlet supports the following initialization    -->
+  <!-- web.xml file).  This servlet supports the following initialization   -->
   <!-- parameters (default values are in square brackets):                  -->
   <!--                                                                      -->
   <!--   debug               Debugging detail level for messages logged     -->
@@ -54,13 +70,21 @@
   <!--                       which sendfile will be used. Use a negative    -->
   <!--                       value to always disable sendfile.  [48]        -->
   <!--                                                                      -->
+  <!--   useAcceptRanges     Should the Accept-Ranges header be included    -->
+  <!--                       in responses where appropriate? [true]         -->
+  <!--                                                                      -->
   <!--  For directory listing customization. Checks localXsltFile, then     -->
   <!--  globalXsltFile, then defaults to original behavior.                 -->
   <!--                                                                      -->
   <!--   localXsltFile       Make directory listings an XML doc and         -->
   <!--                       pass the result to this style sheet residing   -->
   <!--                       in that directory. This overrides              -->
-  <!--                        globalXsltFile[null]                          -->
+  <!--                       contextXsltFile and globalXsltFile[null]       -->
+  <!--                                                                      -->
+  <!--   contextXsltFile     Make directory listings an XML doc and         -->
+  <!--                       pass the result to this style sheet which is   -->
+  <!--                       relative to the context root. This overrides   -->
+  <!--                       globalXsltFile[null]                           -->
   <!--                                                                      -->
   <!--   globalXsltFile      Site wide configuration version of             -->
   <!--                       localXsltFile This argument is expected        -->
@@ -83,6 +107,9 @@
     </servlet>
 
 
+  <!-- This servlet has been deprecated due to security concerns. Servlets  -->
+  <!-- should be explicitly mapped in web.xml                               -->
+  <!--                                                                      -->
   <!-- The "invoker" servlet, which executes anonymous servlet classes      -->
   <!-- that have not been defined in a web.xml file.  Traditionally, this   -->
   <!-- servlet is mapped to the URL pattern "/servlet/*", but you can map   -->
@@ -120,21 +147,8 @@
   <!--   checkInterval       If development is false and checkInterval is   -->
   <!--                       greater than zero, background compilations are -->
   <!--                       enabled. checkInterval is the time in seconds  -->
-  <!--                       between checks to see if a JSP page needs to   -->
-  <!--                       be recompiled. [0]                             -->
-  <!--                                                                      -->
-  <!--   modificationTestInterval                                           -->
-  <!--                       Causes a JSP (and its dependent files) to not  -->
-  <!--                       be checked for modification during the         -->
-  <!--                       specified time interval (in seconds) from the  -->
-  <!--                       last time the JSP was checked for              -->
-  <!--                       modification. A value of 0 will cause the JSP  -->
-  <!--                       to be checked on every access.                 -->
-  <!--                       Used in development mode only. [4]             -->
-  <!--                                                                      -->
-  <!--   compiler            Which compiler Ant should use to compile JSP   -->
-  <!--                       pages.  See the jasper documentation for more  -->
-  <!--                       information.                                   -->
+  <!--                       between checks to see if a JSP page (and its   -->
+  <!--                       dependent files) needs to  be recompiled. [0]  -->
   <!--                                                                      -->
   <!--   classdebuginfo      Should the class file be compiled with         -->
   <!--                       debugging information?  [true]                 -->
@@ -143,17 +157,48 @@
   <!--                       generated servlets?  [Created dynamically      -->
   <!--                       based on the current web application]          -->
   <!--                                                                      -->
+  <!--   compiler            Which compiler Ant should use to compile JSP   -->
+  <!--                       pages.  See the jasper documentation for more  -->
+  <!--                       information.                                   -->
+  <!--                                                                      -->
+  <!--   compilerSourceVM    Compiler source VM. [1.5]                      -->
+  <!--                                                                      -->
+  <!--   compilerTargetVM    Compiler target VM. [1.5]                      -->  
+  <!--                                                                      -->
   <!--   development         Is Jasper used in development mode? If true,   -->
   <!--                       the frequency at which JSPs are checked for    -->
   <!--                       modification may be specified via the          -->
   <!--                       modificationTestInterval parameter. [true]     -->
   <!--                                                                      -->
+  <!--   displaySourceFragment                                              -->
+  <!--                       Should a source fragment be included in        -->
+  <!--                       exception messages? [true]                     -->
+  <!--                                                                      -->
+  <!--   dumpSmap            Should the SMAP info for JSR45 debugging be    -->
+  <!--                       dumped to a file? [false]                      -->
+  <!--                       False if suppressSmap is true                  -->
+  <!--                                                                      -->
   <!--   enablePooling       Determines whether tag handler pooling is      -->
-  <!--                       enabled  [true]                                -->
+  <!--                       enabled. This is a compilation option. It will -->
+  <!--                       not alter the behaviour of JSPs that have      -->
+  <!--                       already been compiled. [true]                  -->
+  <!--                                                                      -->
+  <!--   engineOptionsClass  Allows specifying the Options class used to    -->
+  <!--                       configure Jasper. If not present, the default  -->
+  <!--                       EmbeddedServletOptions will be used.           -->
+  <!--                                                                      -->
+  <!--   errorOnUseBeanInvalidClassAttribute                                -->
+  <!--                       Should Jasper issue an error when the value of -->
+  <!--                       the class attribute in an useBean action is    -->
+  <!--                       not a valid bean class?  [true]                -->
   <!--                                                                      -->
   <!--   fork                Tell Ant to fork compiles of JSP pages so that -->
   <!--                       a separate JVM is used for JSP page compiles   -->
   <!--                       from the one Tomcat is running in. [true]      -->
+  <!--                                                                      -->
+  <!--   genStrAsCharArray   Should text strings be generated as char       -->
+  <!--                       arrays, to improve performance in some cases?  -->
+  <!--                       [false]                                        -->
   <!--                                                                      -->
   <!--   ieClassId           The class-id value to be sent to Internet      -->
   <!--                       Explorer when using <jsp:plugin> tags.         -->
@@ -169,41 +214,35 @@
   <!--                       print statement per input line, to ease        -->
   <!--                       debugging?  [true]                             -->
   <!--                                                                      -->
-  <!--   trimSpaces          Should white spaces in template text between   -->
-  <!--                       actions or directives be trimmed?  [false]     -->
+  <!--   modificationTestInterval                                           -->
+  <!--                       Causes a JSP (and its dependent files) to not  -->
+  <!--                       be checked for modification during the         -->
+  <!--                       specified time interval (in seconds) from the  -->
+  <!--                       last time the JSP was checked for              -->
+  <!--                       modification. A value of 0 will cause the JSP  -->
+  <!--                       to be checked on every access.                 -->
+  <!--                       Used in development mode only. [4]             -->
   <!--                                                                      -->
-  <!--   suppressSmap        Should the generation of SMAP info for JSR45   -->
-  <!--                       debugging be suppressed?  [false]              -->
-  <!--                                                                      -->
-  <!--   dumpSmap            Should the SMAP info for JSR45 debugging be    -->
-  <!--                       dumped to a file? [false]                      -->
-  <!--                       False if suppressSmap is true                  -->
-  <!--                                                                      -->
-  <!--   genStrAsCharArray   Should text strings be generated as char       -->
-  <!--                       arrays, to improve performance in some cases?  -->
+  <!--   recompileOnFail     If a JSP compilation fails should the          -->
+  <!--                       modificationTestInterval be ignored and the    -->
+  <!--                       next access trigger a re-compilation attempt?  -->
+  <!--                       Used in development mode only and is disabled  -->
+  <!--                       by default as compilation may be expensive and -->
+  <!--                       could lead to excessive resource usage.        -->
   <!--                       [false]                                        -->
-  <!--                                                                      -->
-  <!--   errorOnUseBeanInvalidClassAttribute                                -->
-  <!--                       Should Jasper issue an error when the value of -->
-  <!--                       the class attribute in an useBean action is    -->
-  <!--                       not a valid bean class?  [true]                -->
   <!--                                                                      -->
   <!--   scratchdir          What scratch directory should we use when      -->
   <!--                       compiling JSP pages?  [default work directory  -->
   <!--                       for the current web application]               -->
   <!--                                                                      -->
+  <!--   suppressSmap        Should the generation of SMAP info for JSR45   -->
+  <!--                       debugging be suppressed?  [false]              -->
+  <!--                                                                      -->
+  <!--   trimSpaces          Should white spaces in template text between   -->
+  <!--                       actions or directives be trimmed?  [false]     -->
+  <!--                                                                      -->
   <!--   xpoweredBy          Determines whether X-Powered-By response       -->
   <!--                       header is added by generated servlet  [false]  -->
-  <!--                                                                      -->
-  <!--   compilerTargetVM    Compiler target VM                             -->  
-  <!--                       default is System.properties                   -->
-  <!--                        java.specification.version > 1.4              -->
-  <!--                        [1.5] else [1.4]                              -->
-  <!--                                                                      -->
-  <!--   compilerSourceVM    Compiler source VM                             -->
-  <!--                       default is System.properties                   -->
-  <!--                        java.specification.version > 1.4              -->
-  <!--                        [1.5] else [1.4]                              -->
   <!--                                                                      -->
   <!-- If you wish to use Jikes to compile JSP pages:                       -->
   <!--   Please see the "Using Jikes" section of the Jasper-HowTo           -->
@@ -254,10 +293,7 @@
   <!--   outputEncoding      The encoding to use for the page that results  -->
   <!--                       from the SSI processing. [UTF-8]               -->
   <!--                                                                      -->
-  <!--                                                                      -->
-  <!-- IMPORTANT: To use the SSI servlet, you also need to rename the       -->
-  <!--            $CATALINA_HOME/server/lib/servlets-ssi.renametojar file   -->
-  <!--            to $CATALINA_HOME/server/lib/servlets-ssi.jar             -->
+  <!--   allowExec           Is use of the exec command enabled? [false]    -->
 
 <!--
     <servlet>
@@ -301,7 +337,7 @@
   <!--   debug                Debugging detail level for messages logged    -->
   <!--                        by this servlet.  [0]                         -->
   <!--                                                                      -->
-  <!--   executable           Name of the exectuable used to run the        -->
+  <!--   executable           Name of the executable used to run the        -->
   <!--                        script. [perl]                                -->
   <!--                                                                      -->
   <!--   parameterEncoding    Name of parameter encoding to be used with    -->
@@ -311,9 +347,9 @@
   <!--   passShellEnvironment Should the shell environment variables (if    -->
   <!--                        any) be passed to the CGI script? [false]     -->
   <!--                                                                      -->
-  <!-- IMPORTANT: To use the CGI servlet, you also need to rename the       -->
-  <!--            $CATALINA_HOME/server/lib/servlets-cgi.renametojar file   -->
-  <!--            to $CATALINA_HOME/server/lib/servlets-cgi.jar             -->
+  <!--   stderrTimeout        The time (in milliseconds) to wait for the    -->
+  <!--                        reading of stderr to complete before          -->
+  <!--                        terminating the CGI process. [2000]           -->
 
 <!--
     <servlet>
@@ -346,7 +382,7 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!-- The mapping for the invoker servlet -->
+    <!-- The mapping for the deprecated invoker servlet -->
 <!--
     <servlet-mapping>
         <servlet-name>invoker</servlet-name>
@@ -385,6 +421,19 @@
 
   <!-- ================== Built In Filter Definitions ===================== -->
 
+  <!-- A filter that triggers request parameters parsing and rejects the    -->
+  <!-- request if some parameters were skipped because of parsing errors or -->
+  <!-- request size limitations.                                            -->
+<!--
+    <filter>
+        <filter-name>failedRequestFilter</filter-name>
+        <filter-class>
+          org.apache.catalina.filters.FailedRequestFilter
+        </filter-class>
+    </filter>
+-->
+
+
   <!-- NOTE: An SSI Servlet is also available as an alternative SSI         -->
   <!-- implementation. Use either the Servlet or the Filter but NOT both.   -->
   <!--                                                                      -->
@@ -415,10 +464,7 @@
   <!--                       relative to the context root, instead of       -->
   <!--                       the server root?  (0=false, 1=true) [0]        -->
   <!--                                                                      -->
-  <!--                                                                      -->
-  <!-- IMPORTANT: To use the SSI filter, you also need to rename the        -->
-  <!--            $CATALINA_HOME/server/lib/servlets-ssi.renametojar file   -->
-  <!--            to $CATALINA_HOME/server/lib/servlets-ssi.jar             -->
+  <!--   allowExec           Is use of the exec command enabled? [false]    -->
 
 <!--
     <filter>
@@ -447,6 +493,14 @@
 
 
   <!-- ==================== Built In Filter Mappings ====================== -->
+
+  <!-- The mapping for the Failed Request Filter -->
+<!--
+    <filter-mapping>
+        <filter-name>failedRequestFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+-->
 
   <!-- The mapping for the SSI Filter -->
 <!--
@@ -824,7 +878,7 @@
     </mime-mapping>
     <mime-mapping>
         <!-- OpenDocument Drawing Template -->
-        <extension>otg </extension>
+        <extension>otg</extension>
         <mime-type>application/vnd.oasis.opendocument.graphics-template</mime-type>
     </mime-mapping>
     <mime-mapping>
@@ -840,7 +894,7 @@
     <mime-mapping>
         <!-- OpenDocument Spreadsheet Template -->
         <extension>ots</extension>
-        <mime-type>application/vnd.oasis.opendocument.spreadsheet-template </mime-type>
+        <mime-type>application/vnd.oasis.opendocument.spreadsheet-template</mime-type>
     </mime-mapping>
     <mime-mapping>
         <!-- OpenDocument Text Template -->
@@ -893,7 +947,11 @@
     </mime-mapping>
     <mime-mapping>
         <extension>ppt</extension>
-        <mime-type>application/powerpoint</mime-type>
+        <mime-type>application/vnd.ms-powerpoint</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>pps</extension>
+        <mime-type>application/vnd.ms-powerpoint</mime-type>
     </mime-mapping>
     <mime-mapping>
         <extension>ps</extension>
@@ -982,6 +1040,14 @@
         <mime-type>application/x-sv4crc</mime-type>
     </mime-mapping>
     <mime-mapping>
+        <extension>svg</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svgz</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
         <extension>swf</extension>
         <mime-type>application/x-shockwave-flash</mime-type>
     </mime-mapping>
@@ -1054,6 +1120,10 @@
         <mime-type>application/xhtml+xml</mime-type>
     </mime-mapping>
     <mime-mapping>
+        <extension>xls</extension>
+        <mime-type>application/vnd.ms-excel</mime-type>
+    </mime-mapping>
+    <mime-mapping>
         <extension>xml</extension>
         <mime-type>application/xml</mime-type>
     </mime-mapping>
@@ -1078,20 +1148,12 @@
         <mime-type>image/x-xwindowdump</mime-type>
     </mime-mapping>
     <mime-mapping>
-        <extension>wav</extension>
-        <mime-type>audio/x-wav</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>svg</extension>
-        <mime-type>image/svg+xml</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>svgz</extension>
-        <mime-type>image/svg+xml</mime-type>
-    </mime-mapping>
-    <mime-mapping>
         <extension>vsd</extension>
         <mime-type>application/x-visio</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>wav</extension>
+        <mime-type>audio/x-wav</mime-type>
     </mime-mapping>
     <mime-mapping>
         <!-- Wireless Bitmap -->
@@ -1127,6 +1189,10 @@
         <mime-type>x-world/x-vrml</mime-type>
     </mime-mapping>
     <mime-mapping>
+        <extension>wspolicy</extension>
+        <mime-type>application/wspolicy+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
         <extension>Z</extension>
         <mime-type>application/x-compress</mime-type>
     </mime-mapping>
@@ -1137,18 +1203,6 @@
     <mime-mapping>
         <extension>zip</extension>
         <mime-type>application/zip</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>xls</extension>
-        <mime-type>application/vnd.ms-excel</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>doc</extension>
-        <mime-type>application/vnd.ms-word</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ppt</extension>
-        <mime-type>application/vnd.ms-powerpoint</mime-type>
     </mime-mapping>
 
   <!-- ==================== Default Welcome File List ===================== -->
