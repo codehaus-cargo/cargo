@@ -390,30 +390,6 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
                     String[].class.getName(), String.class.getName()
                 });
             }
-
-            // misc configuration property to avoid to remove the file on the server side.
-            // used to avoid a bug with JOnAS removeModuleFile remote method call
-            // who is removing a wrong file during the
-            // org.codehaus.cargo.sample.java.RemoteDeploymentTest
-            // unit test call
-            String skipRemoval = this.configuration
-                .getPropertyValue("cargo.jonas.remote.deployer.skip.module.removal");
-            if (skipRemoval == null || !Boolean.valueOf(skipRemoval).booleanValue())
-            {
-                Boolean removed = (Boolean) mbsc.invoke(serverMBeanName, "removeModuleFile",
-                    new Object[]
-                    {
-                        remoteFileName
-                    }, new String[]
-                    {
-                        String.class.getName()
-                    });
-                if (!removed.booleanValue())
-                {
-                    getLogger().warn("Unable to remove remote file " + remoteFileName,
-                        this.getClass().getName());
-                }
-            }
         }
         catch (Exception ex)
         {
