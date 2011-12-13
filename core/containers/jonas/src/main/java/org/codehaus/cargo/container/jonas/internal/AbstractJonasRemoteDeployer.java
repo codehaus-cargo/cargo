@@ -477,7 +477,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
     }
 
     /**
-     * Upload the deploybale on the server.
+     * Upload the deployable on the server.
      * 
      * @param deployable he deployable Object
      * @param mbsc MBean Server Connection
@@ -507,6 +507,8 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
         // Send file
         String remoteFileName = getRemoteFileName(deployable, config.getDeployableIdentifier(),
             false);
+        getLogger().debug("Sending file to server with file name " + remoteFileName,
+            this.getClass().getName());
         String filePathOnServer = (String) mbsc.invoke(serverMBeanName, "sendFile", new Object[]
         {
             out.toByteArray(), remoteFileName, Boolean.TRUE

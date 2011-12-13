@@ -356,6 +356,10 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
     protected String findRemoteFileName(Deployable deployable, String deployableIdentifier,
         boolean askFromServer)
     {
+        getLogger().debug("Finding remote file name for deployable " + deployable
+            + " with deployable identifier " + deployableIdentifier + " and ask from server"
+            + askFromServer, this.getClass().getName());
+
         String deployableId = deployableIdentifier;
 
         if (deployableId != null && deployableId.trim().length() > 0)
@@ -406,11 +410,10 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
         }
         else if (deployable.getType() == DeployableType.FILE)
         {
-            if (deployable.getFile().endsWith(".pom"))
+            if (localFileName.endsWith(".pom"))
             {
-                localFileName = deployable.getFile().substring(
-                    deployable.getFile().lastIndexOf('/') + 1,
-                    deployable.getFile().length() - 3) + "xml";
+                localFileName = localFileName.substring(0,
+                    localFileName.length() - 3) + "xml";
             }
         }
 
