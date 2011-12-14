@@ -83,7 +83,7 @@ public class JonasDeploymentPlanTest extends AbstractCargoTestCase
             new CargoTestSuite("Test that verifies JOnAS-specific standalone local configuration "
                 + "options");
 
-        suite.addTestSuite(JonasStandaloneConfigurationTest.class, new Validator[] {
+        suite.addTestSuite(JonasDeploymentPlanTest.class, new Validator[] {
             new StartsWithContainerValidator("jonas"),
             new IsInstalledLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),
@@ -102,7 +102,7 @@ public class JonasDeploymentPlanTest extends AbstractCargoTestCase
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
 
         String urlInternal = this.fileHandler.createDirectory(
-            getLocalContainer().getConfiguration().getHome(), "repositories/url-internal");
+            getInstalledLocalContainer().getHome(), "repositories/url-internal");
         this.fileHandler.copyFile(getTestData().getTestDataFileFor("simple-war"),
             urlInternal + "/cargo-simple-war.war");
 
