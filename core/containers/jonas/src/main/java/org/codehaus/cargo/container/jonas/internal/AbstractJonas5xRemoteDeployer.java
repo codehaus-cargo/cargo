@@ -357,7 +357,7 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
         boolean askFromServer)
     {
         getLogger().debug("Finding remote file name for deployable " + deployable
-            + " with deployable identifier " + deployableIdentifier + " and ask from server"
+            + " with deployable identifier " + deployableIdentifier + " and ask from server "
             + askFromServer, this.getClass().getName());
 
         String deployableId = deployableIdentifier;
