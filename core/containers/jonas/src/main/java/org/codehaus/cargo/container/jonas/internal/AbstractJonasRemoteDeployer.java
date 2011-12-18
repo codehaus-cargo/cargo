@@ -349,14 +349,14 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
             factory = getMBeanServerConnectionFactory();
             MBeanServerConnection mbsc = factory.getServerConnection(configuration);
 
-            ObjectName serverMBeanName = getServerMBeanName(config.getDomainName(), config
-                .getServerName());
-
             String remoteFileName = getRemoteFileName(deployable, config.getDeployableIdentifier(),
                 true);
 
             if (config.getClusterName() == null)
             {
+                ObjectName serverMBeanName = getServerMBeanName(config.getDomainName(), config
+                    .getServerName());
+
                 String operationName = getOperationName(ActionType.UNDEPLOY, deployable.getType(),
                     TargetType.SERVER);
                 getLogger().debug("Calling undeployment operation " + operationName + " on server",

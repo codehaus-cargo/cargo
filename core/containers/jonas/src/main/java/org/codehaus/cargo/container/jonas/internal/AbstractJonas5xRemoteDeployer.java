@@ -37,6 +37,7 @@ import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
 
 /**
@@ -530,5 +531,65 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                 + " in the remote JONAS_BASE/deploy");
         }
         return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable, DeployableMonitor)
+     */
+    @Override
+    public void redeploy(Deployable deployable, DeployableMonitor monitor)
+    {
+        RemoteDeployerConfig config = getConfig();
+
+        boolean shouldUndeploy;
+        try
+        {
+            getRemoteFileName(deployable, config.getDeployableIdentifier(), true);
+            shouldUndeploy = true;
+        }
+        catch (ContainerException e)
+        {
+            getLogger().info("Cannot find remote deployable " + deployable
+                + ", skipping undeploy phase of redeploy", this.getClass().getName());
+            shouldUndeploy = false;
+        }
+
+        if (shouldUndeploy)
+        {
+            undeploy(deployable, monitor);
+        }
+
+        deploy(deployable, monitor);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable)
+     */
+    @Override
+    public void redeploy(Deployable deployable)
+    {
+        RemoteDeployerConfig config = getConfig();
+
+        boolean shouldUndeploy;
+        try
+        {
+            getRemoteFileName(deployable, config.getDeployableIdentifier(), true);
+            shouldUndeploy = true;
+        }
+        catch (ContainerException e)
+        {
+            getLogger().info("Cannot find remote deployable " + deployable
+                + ", skipping undeploy phase of redeploy", this.getClass().getName());
+            shouldUndeploy = false;
+        }
+
+        if (shouldUndeploy)
+        {
+            undeploy(deployable);
+        }
+
+        deploy(deployable);
     }
 }
