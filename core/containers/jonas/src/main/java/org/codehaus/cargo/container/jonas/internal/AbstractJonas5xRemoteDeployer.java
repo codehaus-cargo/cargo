@@ -447,8 +447,8 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                     {
                         for (String deploymentPlan : deploymentPlans)
                         {
-                            // The DeploymentPlan MBean returns file names with unescaped URL
-                            // forms, for example: /C:/Documents%20and%20Settings/...
+                            // Bug JONAS-713: The DeploymentPlan MBean returns file names with
+                            // unescaped URL forms, for example: /C:/Documents%20and%20Settings/...
                             deploymentPlan = URLDecoder.decode(deploymentPlan, "UTF-8");
                             remoteFiles.add(deploymentPlan);
                         }

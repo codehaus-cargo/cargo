@@ -128,14 +128,6 @@ public class JonasDeploymentPlanTest extends AbstractCargoTestCase
         PingUtils.assertPingFalse("simple war should have been stopped at this point", warPingURL,
             getLogger());
 
-        deployer.deploy(deploymentPlan, deployableMonitor);
-        PingUtils.assertPingTrue("simple war should have been started at this point", warPingURL,
-            getLogger());
-
-        deployer.redeploy(deploymentPlan, deployableMonitor);
-        PingUtils.assertPingTrue("simple war should have been started at this point", warPingURL,
-            getLogger());
-
         getLocalContainer().stop();
     }
 }
