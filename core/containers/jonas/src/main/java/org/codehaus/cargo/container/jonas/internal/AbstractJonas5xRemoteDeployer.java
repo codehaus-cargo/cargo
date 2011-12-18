@@ -23,7 +23,7 @@
 package org.codehaus.cargo.container.jonas.internal;
 
 import java.io.File;
-import java.util.Collections;
+import java.net.URLDecoder;
 import java.util.List;
 
 import javax.management.Attribute;
@@ -437,21 +437,26 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                 List<String> remoteFiles = (List<String>)
                     mbsc.getAttribute(serverMBeanName, "deployedFiles");
 
-                ObjectName deploymentPlan = new ObjectName(
+                ObjectName deploymentPlanMBean = new ObjectName(
                     config.getDomainName() + ":type=deployment,name=deploymentPlan");
-                if (!mbsc.queryMBeans(deploymentPlan, null).isEmpty())
+                if (!mbsc.queryMBeans(deploymentPlanMBean, null).isEmpty())
                 {
                     String[] deploymentPlans = (String[])
-                        mbsc.getAttribute(deploymentPlan, "DeploymentPlans");
+                        mbsc.getAttribute(deploymentPlanMBean, "DeploymentPlans");
                     if (deploymentPlans != null)
                     {
-                        Collections.addAll(remoteFiles, deploymentPlans);
+                        for (String deploymentPlan : deploymentPlans)
+                        {
+                            // The DeploymentPlan MBean returns file names with unescaped URL
+                            // forms, for example: /C:/Documents%20and%20Settings/...
+                            deploymentPlan = URLDecoder.decode(deploymentPlan, "UTF-8");
+                            remoteFiles.add(deploymentPlan);
+                        }
                     }
                 }
 
                 for (String remoteFile : remoteFiles)
                 {
-                    remoteFile = remoteFile.replace('\\', '/');
                     if (remoteFile.endsWith(lookForFile))
                     {
                         result = remoteFile;
@@ -475,7 +480,6 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                             // and the same extension
                             for (String remoteFile : remoteFiles)
                             {
-                                remoteFile = remoteFile.replace('\\', '/');
                                 if (remoteFile.contains("/deploy/" + localFileNameBuilder)
                                     && remoteFile.endsWith(extension))
                                 {

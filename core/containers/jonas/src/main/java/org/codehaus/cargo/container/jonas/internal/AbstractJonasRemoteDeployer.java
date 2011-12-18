@@ -274,8 +274,8 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
             {
                 String operationName = getOperationName(ActionType.DEPLOY, deployable.getType(),
                     TargetType.SERVER);
-                getLogger().debug("Calling deployment operation " + operationName + " on server",
-                    getClass().getName());
+                getLogger().debug("Calling deployment operation " + operationName
+                     + " on server with argument " + filePathOnServer, getClass().getName());
                 mbsc.invoke(serverMBeanName, operationName, new Object[]
                 {
                     filePathOnServer
@@ -288,9 +288,8 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
             {
                 String operationName = getOperationName(ActionType.UPLOAD_DEPLOY,
                     deployable.getType(), TargetType.DOMAIN);
-                getLogger().debug(
-                    "Calling deployment operation " + operationName + " on domain master",
-                    getClass().getName());
+                getLogger().debug("Calling deployment operation " + operationName
+                     + " on domain master with argument " + filePathOnServer, getClass().getName());
                 ObjectName domainMBeanName = getDomainMBeanName(config.getDomainName());
                 String[] serverNames = (String[]) mbsc.invoke(domainMBeanName, "getServerNames",
                     new Object[]
@@ -359,8 +358,8 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 
                 String operationName = getOperationName(ActionType.UNDEPLOY, deployable.getType(),
                     TargetType.SERVER);
-                getLogger().debug("Calling undeployment operation " + operationName + " on server",
-                    getClass().getName());
+                getLogger().debug("Calling undeployment operation " + operationName
+                     + " on server with argument " + remoteFileName, getClass().getName());
                 mbsc.invoke(serverMBeanName, operationName, new Object[]
                 {
                     remoteFileName
@@ -377,9 +376,8 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
             {
                 String operationName = getOperationName(ActionType.UNDEPLOY, deployable.getType(),
                     TargetType.DOMAIN);
-                getLogger().debug(
-                    "Calling undeployment operation " + operationName + " on domain master",
-                    getClass().getName());
+                getLogger().debug("Calling undeployment operation " + operationName
+                     + " on domain master with argument " + remoteFileName, getClass().getName());
                 ObjectName domainMBeanName = getDomainMBeanName(config.getDomainName());
                 String[] serverNames = (String[]) mbsc.getAttribute(domainMBeanName, "serverNames");
                 mbsc.invoke(domainMBeanName, operationName, new Object[]
