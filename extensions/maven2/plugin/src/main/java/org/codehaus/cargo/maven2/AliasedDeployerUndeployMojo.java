@@ -23,7 +23,7 @@ package org.codehaus.cargo.maven2;
  * Class used uniquely to provide a goal alias for <code>deployer-undeploy</code>.
  * 
  * @goal undeploy
- * @requiresDependencyResolution compile
+ * @requiresDependencyResolution test
  * @see org.codehaus.cargo.maven2.DeployerUndeployMojo
  * @version $Id$
  */

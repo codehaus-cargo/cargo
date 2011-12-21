@@ -25,7 +25,7 @@ import java.net.URL;
  * Start a deployable which is already installed in a container.
  * 
  * @goal deployer-start
- * @requiresDependencyResolution compile
+ * @requiresDependencyResolution test
  * @version $Id$
  */
 public class DeployerStartMojo extends AbstractDeployerMojo

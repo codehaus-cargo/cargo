@@ -25,7 +25,7 @@ import java.net.URL;
  * Undeploy a deployable from a container.
  * 
  * @goal deployer-undeploy
- * @requiresDependencyResolution compile
+ * @requiresDependencyResolution test
  * @version $Id$
  */
 public class DeployerUndeployMojo extends AbstractDeployerMojo
