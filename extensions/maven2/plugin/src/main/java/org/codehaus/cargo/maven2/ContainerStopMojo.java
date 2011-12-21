@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.LocalContainer;
  * 
  * @version $Id$
  * @goal stop
- * @requiresDependencyResolution compile
+ * @requiresDependencyResolution test
  */
 public class ContainerStopMojo extends AbstractCargoMojo
 {
