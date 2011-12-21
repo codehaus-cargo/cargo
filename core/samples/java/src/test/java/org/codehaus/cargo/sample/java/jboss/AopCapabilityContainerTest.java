@@ -73,7 +73,7 @@ public class AopCapabilityContainerTest extends AbstractJBossCapabilityTestCase
             new CargoTestSuite("Test that verifies that deployment of AOP archive work on local "
                 + "installed JBoss containers");
 
-        suite.addTestSuite(HarCapabilityContainerTest.class, new Validator[] {
+        suite.addTestSuite(AopCapabilityContainerTest.class, new Validator[] {
             new StartsWithContainerValidator("jboss"),
             new HasDeployableSupportValidator(DeployableType.AOP),
             new IsInstalledLocalContainerValidator(),

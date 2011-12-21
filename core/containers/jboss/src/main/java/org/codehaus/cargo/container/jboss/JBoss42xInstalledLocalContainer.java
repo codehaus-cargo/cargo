@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.jboss;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.internal.AbstractJBossInstalledLocalContainer;
-import org.codehaus.cargo.container.jboss.internal.JBoss42xContainerCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss4xContainerCapability;
 
 /**
  * JBoss 4.2.x series container implementation.
@@ -39,7 +39,7 @@ public class JBoss42xInstalledLocalContainer extends AbstractJBossInstalledLocal
     /**
      * Capability of the JBoss container.
      */
-    private static final ContainerCapability CAPABILITY = new JBoss42xContainerCapability();
+    private static final ContainerCapability CAPABILITY = new JBoss4xContainerCapability();
 
     /**
      * {@inheritDoc}

@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.jboss.deployable.JBossWAR;
 import org.codehaus.cargo.container.jboss.internal.JBoss4xContainerCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss4xRuntimeConfigurationCapability;
-import org.codehaus.cargo.container.jboss.internal.JBoss42xContainerCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss5xContainerCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss5xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss6xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss71xStandaloneLocalConfigurationCapability;
@@ -369,19 +369,19 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
             JBoss4xContainerCapability.class);
 
         containerCapabilityFactory.registerContainerCapability("jboss42x",
-            JBoss42xContainerCapability.class);
+            JBoss4xContainerCapability.class);
 
         containerCapabilityFactory.registerContainerCapability("jboss5x",
-            JBoss42xContainerCapability.class);
+            JBoss5xContainerCapability.class);
 
         containerCapabilityFactory.registerContainerCapability("jboss51x",
-            JBoss42xContainerCapability.class);
+            JBoss5xContainerCapability.class);
 
         containerCapabilityFactory.registerContainerCapability("jboss6x",
-            JBoss42xContainerCapability.class);
+            JBoss5xContainerCapability.class);
 
         containerCapabilityFactory.registerContainerCapability("jboss61x",
-            JBoss42xContainerCapability.class);
+            JBoss5xContainerCapability.class);
 
         containerCapabilityFactory.registerContainerCapability("jboss7x",
             JBoss7xContainerCapability.class);

@@ -21,7 +21,7 @@ package org.codehaus.cargo.container.jboss;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-import org.codehaus.cargo.container.jboss.internal.JBoss42xContainerCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss4xContainerCapability;
 
 /**
  * Special container support for wrapping a running instance of JBoss 4.2.x.
@@ -38,7 +38,7 @@ public class JBoss42xRemoteContainer extends JBoss4xRemoteContainer
     /**
      * Capability of the JBoss container.
      */
-    private static final ContainerCapability CAPABILITY = new JBoss42xContainerCapability();
+    private static final ContainerCapability CAPABILITY = new JBoss4xContainerCapability();
 
     /**
      * {@inheritDoc}

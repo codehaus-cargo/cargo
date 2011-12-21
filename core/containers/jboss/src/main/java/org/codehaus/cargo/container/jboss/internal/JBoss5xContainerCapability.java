@@ -22,16 +22,16 @@ package org.codehaus.cargo.container.jboss.internal;
 import org.codehaus.cargo.container.deployable.DeployableType;
 
 /**
- * Capabilities of the JBoss 4.2.x and onwards containers.
+ * Capabilities of the JBoss 5.x and onwards containers.
  * 
  * @version $Id$
  */
-public class JBoss42xContainerCapability extends JBoss4xContainerCapability
+public class JBoss5xContainerCapability extends JBoss4xContainerCapability
 {
     /**
      * {@inheritDoc}
      * 
-     * @see J2EEContainerCapability#supportsDeployableType(DeployableType)
+     * @see JBoss4xContainerCapability#supportsDeployableType(DeployableType)
      */
     @Override
     public boolean supportsDeployableType(DeployableType type)
