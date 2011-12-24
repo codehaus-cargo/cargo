@@ -95,11 +95,6 @@
 
     <dependency>
       <groupId>org.ow2.jonas.tools.configurator</groupId>
-      <artifactId>api</artifactId>
-      <version>1.3.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.ow2.jonas.tools.configurator</groupId>
       <artifactId>configurator</artifactId>
       <version>1.3.2</version>
     </dependency>
