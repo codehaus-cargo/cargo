@@ -630,7 +630,7 @@
 
               <property>
                 <name>cargo.jboss71x.url</name>
-                <value>http://download.jboss.org/jbossas/7.1/jboss-as-7.1.0.Beta1/jboss-as-7.1.0.Beta1.zip</value>
+                <value>http://download.jboss.org/jbossas/7.1/jboss-as-7.1.0.CR1b/jboss-as-7.1.0.CR1b.zip</value>
               </property>
               <property>
                 <name>cargo.jboss71x.java.home</name>
