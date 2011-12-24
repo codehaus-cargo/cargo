@@ -61,4 +61,24 @@ public class Jetty8xInstalledLocalContainer extends Jetty7xInstalledLocalContain
     {
         return "Jetty 8.x";
     }
+
+    /**
+     * @return Arguments to add to the Jetty <code>start.jar</code> command.
+     */
+    @Override
+    protected String[] getStartArguments()
+    {
+        return new String[]
+        {
+            "--pre",
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-logging.xml"),
+
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml"),
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-annotations.xml"),
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-deploy.xml"),
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-webapps.xml"),
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-contexts.xml"),
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-testrealm.xml")
+        };
+    }
 }

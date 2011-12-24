@@ -114,7 +114,7 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
         if (LoggingLevel.HIGH.equalsLevel(getConfiguration().getPropertyValue(
             GeneralPropertySet.LOGGING)))
         {
-            java.setSystemProperty("org.eclipse.jetty.util.log.DEBUG", "true");
+            java.setSystemProperty("org.eclipse.jetty.DEBUG", "true");
         }
 
         // Set location where Jetty is installed
@@ -147,6 +147,7 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
             {
                 // sample: OPTIONS=Server,jsp,jmx,resources,websocket,ext
                 StringBuilder options = new StringBuilder("OPTIONS=Server");
+
                 // Enable JSP compilation from Jetty 7x
                 File jspLib = new File(getHome(), "lib/jsp");
                 if (jspLib.isDirectory())
@@ -165,8 +166,7 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
                 // ignore everything in the start.ini file
                 java.addAppArguments("--ini");
 
-                java.addAppArguments(getFileHandler().append(getConfiguration().getHome(),
-                    "etc/jetty.xml"));
+                java.addAppArguments(getStartArguments());
 
                 // Extra classpath
                 java.addAppArguments("path=" + java.getClasspath());
@@ -182,6 +182,24 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
                 this.getClass().getName());
 
         java.start();
+    }
+
+    /**
+     * @return Arguments to add to the Jetty <code>start.jar</code> command.
+     */
+    protected String[] getStartArguments()
+    {
+        return new String[]
+        {
+            "--pre",
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-logging.xml"),
+
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml"),
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-deploy.xml"),
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-webapps.xml"),
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-contexts.xml"),
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-testrealm.xml")
+        };
     }
 
     /**

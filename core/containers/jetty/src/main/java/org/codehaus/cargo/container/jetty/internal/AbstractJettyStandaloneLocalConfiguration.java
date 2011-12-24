@@ -21,6 +21,8 @@ package org.codehaus.cargo.container.jetty.internal;
 
 import java.io.File;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
@@ -80,13 +82,23 @@ public abstract class AbstractJettyStandaloneLocalConfiguration extends
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
+        InstalledLocalContainer ilContainer = (InstalledLocalContainer) container;
+
         setupConfigurationDir();
 
         FilterChain filterChain = createJettyFilterChain();
 
         String etcDir = getFileHandler().createDirectory(getHome(), "etc");
-        getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/jetty.xml",
-            new File(etcDir, "jetty.xml"));
+        getFileHandler().copyDirectory(
+            getFileHandler().append(ilContainer.getHome(), "etc"), etcDir);
+        Map<String, String> jettyXmlReplacements = new HashMap<String, String>();
+        jettyXmlReplacements.put("jetty.home", "config.home");
+        for (String replaceJettyHomeInFile : replaceJettyHomeInFiles())
+        {
+            getFileHandler().replaceInFile(
+                getFileHandler().append(etcDir, replaceJettyHomeInFile),
+                jettyXmlReplacements, "UTF-8");
+        }
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/webdefault.xml",
             new File(etcDir, "webdefault.xml"), filterChain, "UTF-8");
 
@@ -100,13 +112,18 @@ public abstract class AbstractJettyStandaloneLocalConfiguration extends
         getFileHandler().createDirectory(getHome(), "contexts");
 
         // Deploy all deployables into the webapps directory.
-        AbstractCopyingInstalledLocalDeployer deployer =
-            createDeployer((InstalledLocalContainer) container);
+        AbstractCopyingInstalledLocalDeployer deployer = createDeployer(ilContainer);
         deployer.deploy(getDeployables());
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             new File(appDir, "cargocpc.war"));
     }
+
+    /**
+     * @return The list of files in which to replace <code>jetty.home</code> with
+     * <code>config.hoome</code>.
+     */
+    protected abstract String[] replaceJettyHomeInFiles();
 
 }

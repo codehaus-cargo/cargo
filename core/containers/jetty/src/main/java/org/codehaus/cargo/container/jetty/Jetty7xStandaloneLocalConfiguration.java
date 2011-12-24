@@ -19,8 +19,11 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.jetty.internal.JettyStandaloneLocalConfigurationCapability;
@@ -40,6 +43,22 @@ public class Jetty7xStandaloneLocalConfiguration extends
      */
     private static ConfigurationCapability capability =
         new JettyStandaloneLocalConfigurationCapability();
+
+    /**
+     * The list of files in which to replace <code>jetty.home</code> with
+     * <code>config.hoome</code>.
+     */
+    private static String[] replaceJettyHomeInFiles = new String[]
+    {
+        "jetty-bio-ssl.xml",
+        "jetty-contexts.xml",
+        "jetty-overlay.xml",
+        "jetty-plus.xml",
+        "jetty-policy.xml",
+        "jetty-ssl.xml",
+        "jetty-testrealm.xml",
+        "jetty-webapps.xml"
+    };
 
     /**
      * {@inheritDoc}
@@ -81,12 +100,38 @@ public class Jetty7xStandaloneLocalConfiguration extends
         return filterChain;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doConfigure(LocalContainer container) throws Exception
+    {
+        super.doConfigure(container);
+
+        String etcDir = getFileHandler().append(getHome(), "etc");
+        Map<String, String> jettyXmlReplacements = new HashMap<String, String>();
+        jettyXmlReplacements.put("<Property", "<SystemProperty");
+        getFileHandler().replaceInFile(
+            getFileHandler().append(etcDir, "jetty.xml"), jettyXmlReplacements, "UTF-8");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected AbstractCopyingInstalledLocalDeployer createDeployer(
         InstalledLocalContainer container)
     {
         Jetty7xInstalledLocalDeployer deployer = new Jetty7xInstalledLocalDeployer(container);
         return deployer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected String[] replaceJettyHomeInFiles()
+    {
+        return Jetty7xStandaloneLocalConfiguration.replaceJettyHomeInFiles;
     }
 
     /**

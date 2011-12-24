@@ -136,6 +136,8 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
         if (isGettingStarted)
         {
             java.addAppArguments(
+                getFileHandler().append(getConfiguration().getHome(), "etc/jetty-logging.xml"));
+            java.addAppArguments(
                 getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml"));
         }
         else
