@@ -114,7 +114,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     /**
      * Test that EARs cannot be deployed.
      */
-    public void testCreateTomcatFilterChainWhenTryingToDeployAnEar()
+    public void testCreateTomcatWebappsTokenWhenTryingToDeployAnEar()
     {
         Tomcat4xStandaloneLocalConfiguration configuration =
             new Tomcat4xStandaloneLocalConfiguration("somewhere");
@@ -122,7 +122,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
 
         try
         {
-            configuration.createTomcatFilterChain();
+            configuration.createTomcatWebappsToken();
             fail("An exception should have been raised here!");
         }
         catch (CargoException expected)

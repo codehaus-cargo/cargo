@@ -19,6 +19,10 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.util.Map;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.util.FileHandler.XmlReplacement;
+
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
@@ -45,5 +49,44 @@ public class Tomcat7xStandaloneLocalConfiguration
     public String toString()
     {
         return "Tomcat 7.x Standalone Configuration";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void setupConfFiles(String confDir)
+    {
+        Map<String, String> replacements = getCatalinaPropertiertiesReplacements();
+        getFileHandler().replaceInFile(getFileHandler().append(confDir, "catalina.properties"),
+            replacements, "UTF-8");
+
+        replacements.clear();
+        replacements.put("</Host>", this.createTomcatWebappsToken()
+            + "\n      </Host>");
+        getFileHandler().replaceInFile(getFileHandler().append(confDir, "server.xml"),
+            replacements, "UTF-8");
+
+        Map<XmlReplacement, String> xmlReplacements = getServerXmlReplacements();
+        getFileHandler().replaceInXmlFile(getFileHandler().append(confDir, "server.xml"),
+            xmlReplacements);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Map<XmlReplacement, String> getServerXmlReplacements()
+    {
+        Map<XmlReplacement, String> xmlReplacements = super.getServerXmlReplacements();
+
+        xmlReplacements.put(new XmlReplacement("//Server/Service/Engine/Host/Valve["
+            + "@className='org.apache.catalina.valves.AccessLogValve']",
+                "prefix"), getPropertyValue(GeneralPropertySet.HOSTNAME) + "_access_log.");
+        xmlReplacements.put(new XmlReplacement("//Server/Service/Engine/Host/Valve["
+            + "@className='org.apache.catalina.valves.AccessLogValve']",
+                "resolveHosts"), "false");
+
+        return xmlReplacements;
     }
 }

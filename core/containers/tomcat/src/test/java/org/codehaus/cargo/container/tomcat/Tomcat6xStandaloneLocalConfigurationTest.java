@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.tomcat;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.custommonkey.xmlunit.XMLAssert;
 
 /**
  * Tests for the Tomcat 6 implementation of StandaloneLocalConfigurationTest
@@ -40,7 +39,14 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
     @Override
     protected LocalConfiguration createLocalConfiguration(String home)
     {
-        return new Tomcat6xStandaloneLocalConfiguration(home);
+        return new Tomcat6xStandaloneLocalConfiguration(home)
+        {
+            @Override
+            protected void setupConfFiles(String confDir)
+            {
+                setupManager(container);
+            }
+        };
     }
 
     /**
@@ -57,6 +63,7 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
     @Override
     protected void setUpManager()
     {
+        configuration.getFileHandler().mkdirs(container.getHome() + "/conf");
         configuration.getFileHandler().mkdirs(container.getHome() + "/webapps/manager");
         configuration.getFileHandler().mkdirs(container.getHome() + "/webapps/host-manager");
     }
@@ -72,76 +79,6 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
             configuration.getHome() + "/webapps/manager"));
         assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/webapps/host-manager"));
-    }
-
-    /**
-     * Test AJP configuration.
-     * @throws Exception If anything goes wrong.
-     */
-    public void testConfigureSetsCorrectAJPConnectorIdentifier() throws Exception
-    {
-        // check protocol instead of classname, as class is not required.
-        configuration.configure(container);
-        String config =
-            configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
-        XMLAssert.assertXpathEvaluatesTo("AJP/1.3", "//Connector[@port='8009']/@protocol", config);
-    }
-
-    /**
-     * Test AJP configuration.
-     * @throws Exception If anything goes wrong.
-     */
-    public void testConfigureSetsDefaultAJPPort() throws Exception
-    {
-        configuration.configure(container);
-        String config =
-            configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
-        XMLAssert.assertXpathEvaluatesTo(configuration
-            .getPropertyValue(TomcatPropertySet.AJP_PORT),
-            "//Connector[@protocol='AJP/1.3']/@port", config);
-    }
-
-    /**
-     * Test AJP configuration.
-     * @throws Exception If anything goes wrong.
-     */
-    public void testConfigureSetsAJPPort() throws Exception
-    {
-        configuration.setProperty(TomcatPropertySet.AJP_PORT, "1001");
-        configuration.configure(container);
-        String config =
-            configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
-        XMLAssert.assertXpathEvaluatesTo("1001", "//Connector[@protocol='AJP/1.3']/@port", config);
-    }
-
-    /**
-     * Test webapps directory configuration.
-     * @throws Exception If anything goes wrong.
-     */
-    public void testConfigureDefaultWebappsDirectory() throws Exception
-    {
-        configuration.configure(container);
-        String config =
-            configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
-        XMLAssert.assertXpathEvaluatesTo("webapps", "//Host/@appBase", config);
-    }
-
-    /**
-     * Test webapps directory configuration.
-     * @throws Exception If anything goes wrong.
-     */
-    public void testConfigureSetsWebappsDirectory() throws Exception
-    {
-        configuration.setProperty(TomcatPropertySet.WEBAPPS_DIRECTORY, "some_directory");
-        configuration.configure(container);
-        String config =
-            configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
-        XMLAssert.assertXpathEvaluatesTo("some_directory", "//Host/@appBase", config);
     }
 
 }

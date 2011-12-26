@@ -20,12 +20,10 @@
 package org.codehaus.cargo.container.tomcat.internal;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
@@ -95,7 +93,8 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     {
         setupConfigurationDir();
 
-        FilterChain filterChain = createTomcatFilterChain();
+        String confDir = getFileHandler().createDirectory(getHome(), "conf");
+        FilterChain emptyFilterChain = createFilterChain();
 
         getFileHandler().createDirectory(getHome(), "temp");
         getFileHandler().createDirectory(getHome(), "logs");
@@ -125,9 +124,36 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
                     setFileProperty(fc);
                 }
             }
+
+            String sourceConf = getFileHandler().append(installedContainer.getHome(), "conf");
+            String targetConf = getFileHandler().createDirectory(getHome(), "conf");
+            getFileHandler().copyDirectory(sourceConf, targetConf);
+
+            setupConfFiles(targetConf);
+        }
+        else if (container instanceof EmbeddedLocalContainer)
+        {
+            String webXml = getFileHandler().append(confDir, "web.xml");
+            getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/web.xml", webXml,
+                getFileHandler(), emptyFilterChain, "UTF-8");
         }
 
-        setupConfFiles(container, filterChain);
+        String tomcatUsersXml = getFileHandler().append(confDir, "tomcat-users.xml");
+        getResourceUtils().copyResource(RESOURCE_PATH + "tomcat/tomcat-users.xml", tomcatUsersXml,
+            getFileHandler(), emptyFilterChain, "UTF-8");
+        Map<String, String> replacements = new HashMap<String, String>(1);
+        replacements.put("@tomcat.users@", getSecurityToken());
+        getFileHandler().replaceInFile(tomcatUsersXml, replacements, "UTF-8");
+        String loggingProperties = getFileHandler().append(confDir, "logging.properties");
+        getResourceUtils().copyResource(RESOURCE_PATH + "tomcat/logging.properties",
+            loggingProperties, getFileHandler(), emptyFilterChain, "UTF-8");
+        replacements.clear();
+        replacements.put("@catalina.logging.level@",
+            getTomcatLoggingLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
+        getFileHandler().replaceInFile(loggingProperties, replacements, "UTF-8");
+        getResourceUtils().copyResource(RESOURCE_PATH + "tomcat/context.xml",
+            getFileHandler().append(confDir, "context.xml"), getFileHandler(),
+            createFilterChain(), "UTF-8");
 
         setupManager(container);
 
@@ -177,20 +203,6 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      * Adds an implementation of UserTransaction to the configuration.
      */
     protected abstract void setupTransactionManager();
-
-    /**
-     * files that should be copied to the conf directory for the server to operate.
-     * 
-     * @return set of filenames to copy upon doConfigure
-     */
-    protected Set<String> getConfFiles()
-    {
-        Set<String> confFiles = new HashSet<String>();
-        confFiles.add("server.xml");
-        confFiles.add("tomcat-users.xml");
-        confFiles.add("web.xml");
-        return confFiles;
-    }
 
     /**
      * Setup the manager webapp.
@@ -267,39 +279,12 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     }
 
     /**
-     * {@inheritDoc}
+     * Create the Tomcat <code>&lt;webapp&gt;</code> token.
      * 
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#createFilterChain()
+     * @return The Tomcat <code>&lt;webapp&gt;</code> token.
      */
-    protected FilterChain createTomcatFilterChain()
+    protected String createTomcatWebappsToken()
     {
-        FilterChain filterChain = getFilterChain();
-
-        // Add logging property tokens
-        getAntUtils().addTokenToFilterChain(filterChain, "catalina.logging.level",
-            getTomcatLoggingLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
-
-        // Add Tomcat shutdown port token
-        getAntUtils().addTokenToFilterChain(filterChain, GeneralPropertySet.RMI_PORT,
-            getPropertyValue(GeneralPropertySet.RMI_PORT));
-
-        // Add AJP connector port token
-        getAntUtils().addTokenToFilterChain(filterChain, TomcatPropertySet.AJP_PORT,
-            getPropertyValue(TomcatPropertySet.AJP_PORT));
-
-        // Add Catalina secure token, set to true if the protocol is https, false otherwise
-        getAntUtils().addTokenToFilterChain(
-            filterChain,
-            "catalina.secure",
-            String.valueOf("https"
-                .equalsIgnoreCase(getPropertyValue(GeneralPropertySet.PROTOCOL))));
-
-        // Add token filters for authenticated users
-        getAntUtils().addTokenToFilterChain(filterChain, "tomcat.users", getSecurityToken());
-
-        getAntUtils().addTokenToFilterChain(filterChain, "catalina.servlet.uriencoding",
-            getPropertyValue(GeneralPropertySet.URI_ENCODING));
-
         // Add webapp contexts in order to explicitely point to where the
         // wars are located.
         StringBuilder webappTokenValue = new StringBuilder(" ");
@@ -325,10 +310,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
             webappTokenValue.append(createContextToken((WAR) deployable));
         }
 
-        getAntUtils().addTokenToFilterChain(filterChain, "tomcat.webapps",
-            webappTokenValue.toString());
-
-        return filterChain;
+        return webappTokenValue.toString();
     }
 
     /**
@@ -424,22 +406,11 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     }
 
     /**
-     * copy files to the conf directory, replacing tokens based on the filterchain parameter.
+     * setup the files in the configuration's <code>conf</code> directory.
      * 
-     * @param container - type of container configuration we are using.
-     * @param filterChain - holds tokenization details
-     * @throws IOException - if we cannot copy a file to the 'conf' directory
+     * @param confDir - the <code>conf</code> directory.
      */
-    protected void setupConfFiles(LocalContainer container, FilterChain filterChain)
-        throws IOException
-    {
-        String confDir = getFileHandler().createDirectory(getHome(), "conf");
-        for (String file : getConfFiles())
-        {
-            getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/" + file,
-                getFileHandler().append(confDir, file), getFileHandler(), filterChain, "UTF-8");
-        }
-    }
+    protected abstract void setupConfFiles(String confDir);
 
     /**
      * Resource entries must be stored in the xml configuration file. Under which element do we

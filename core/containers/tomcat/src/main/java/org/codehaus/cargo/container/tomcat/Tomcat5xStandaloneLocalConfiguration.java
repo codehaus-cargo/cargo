@@ -20,10 +20,10 @@
 package org.codehaus.cargo.container.tomcat;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
@@ -31,9 +31,12 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.internal.util.PropertyUtils;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5And6xConfigurationBuilder;
+import org.codehaus.cargo.util.FileHandler.XmlReplacement;
 
 /**
  * StandAloneLocalConfiguration that is appropriate for Tomcat 5.x containers.
@@ -102,23 +105,6 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     }
 
     /**
-     * Configure the emptySessionPath property token on the filter chain for the server.xml
-     * configuration file. {@inheritDoc}
-     * 
-     * @see AbstractCatalinaStandaloneLocalConfiguration#createTomcatFilterChain()
-     */
-    @Override
-    protected FilterChain createTomcatFilterChain()
-    {
-        FilterChain filterChain = super.createTomcatFilterChain();
-
-        getAntUtils().addTokenToFilterChain(filterChain, "catalina.connector.emptySessionPath",
-            getPropertyValue(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH));
-
-        return filterChain;
-    }
-
-    /**
      * {@inheritDoc}
      * 
      * @see Object#toString()
@@ -127,21 +113,6 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     public String toString()
     {
         return "Tomcat 5.x Standalone Configuration";
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractCatalinaStandaloneLocalConfiguration#setupManager(org.codehaus.cargo.container.LocalContainer)
-     */
-    @Override
-    protected Set<String> getConfFiles()
-    {
-        Set<String> files = super.getConfFiles();
-        files.add("logging.properties");
-        files.add("catalina.properties");
-        files.add("context.xml");
-        return files;
     }
 
     /**
@@ -240,6 +211,90 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         contextTokenValue.append(">");
         contextTokenValue.append("</Context>");
         return contextTokenValue.toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void setupConfFiles(String confDir)
+    {
+        Map<String, String> replacements = getCatalinaPropertiertiesReplacements();
+        getFileHandler().replaceInFile(getFileHandler().append(confDir, "catalina.properties"),
+            replacements, "UTF-8");
+
+        replacements.clear();
+        replacements.put("</Host>", this.createTomcatWebappsToken()
+            + "\n        <Valve className=\"org.apache.catalina.valves.AccessLogValve\" "
+            + "\n               directory=\"logs\" prefix=\""
+                + getPropertyValue(GeneralPropertySet.HOSTNAME) + "_access_log.\" "
+            + "\n               suffix=\".txt\""
+            + "\n               pattern=\"%h %l %u %t &quot;%r&quot; %s %b\""
+            + "\n               resolveHosts=\"false\"/>"
+            + "\n      </Host>");
+        getFileHandler().replaceInFile(getFileHandler().append(confDir, "server.xml"),
+            replacements, "UTF-8");
+
+        Map<XmlReplacement, String> xmlReplacements = getServerXmlReplacements();
+        getFileHandler().replaceInXmlFile(getFileHandler().append(confDir, "server.xml"),
+            xmlReplacements);
+    }
+
+    /**
+     * @return The replacements for <code>catalina.properties</code>.
+     */
+    protected Map<String, String> getCatalinaPropertiertiesReplacements()
+    {
+        Map<String, String> replacements = new HashMap<String, String>();
+        replacements.put("common.loader=",
+            "common.loader=${catalina.base}/common/classes,${catalina.base}/common/lib/*.jar,");
+        replacements.put("server.loader=",
+            "server.loader=${catalina.base}/server/classes,${catalina.base}/server/lib/*.jar,");
+        return replacements;
+    }
+
+    /**
+     * @return The replacements for <code>server.xml</code>.
+     */
+    protected Map<XmlReplacement, String> getServerXmlReplacements()
+    {
+        Map<XmlReplacement, String> xmlReplacements = new HashMap<XmlReplacement, String>();
+
+        xmlReplacements.put(new XmlReplacement("//Server", "port"),
+            getPropertyValue(GeneralPropertySet.RMI_PORT));
+        xmlReplacements.put(new XmlReplacement(
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
+                "port"), getPropertyValue(ServletPropertySet.PORT));
+        xmlReplacements.put(new XmlReplacement(
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
+                "scheme"), getPropertyValue(GeneralPropertySet.PROTOCOL));
+        xmlReplacements.put(new XmlReplacement(
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
+                "secure"), String.valueOf(
+                    "https".equalsIgnoreCase(getPropertyValue(GeneralPropertySet.PROTOCOL))));
+        xmlReplacements.put(new XmlReplacement(
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
+                "emptySessionPath"),
+                    getPropertyValue(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH));
+        xmlReplacements.put(new XmlReplacement(
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
+                "URIEncoding"), getPropertyValue(GeneralPropertySet.URI_ENCODING));
+        xmlReplacements.put(new XmlReplacement(
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
+                "port"), getPropertyValue(ServletPropertySet.PORT));
+        xmlReplacements.put(new XmlReplacement(
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
+                "port"), getPropertyValue(ServletPropertySet.PORT));
+        xmlReplacements.put(new XmlReplacement("//Server/Service/Connector[@protocol='AJP/1.3']",
+            "port"), getPropertyValue(TomcatPropertySet.AJP_PORT));
+        xmlReplacements.put(new XmlReplacement("//Server/Service/Engine",
+            "defaultHost"), getPropertyValue(GeneralPropertySet.HOSTNAME));
+        xmlReplacements.put(new XmlReplacement("//Server/Service/Engine/Host",
+            "name"), getPropertyValue(GeneralPropertySet.HOSTNAME));
+        xmlReplacements.put(new XmlReplacement("//Server/Service/Engine/Host",
+            "appBase"), getPropertyValue(TomcatPropertySet.WEBAPPS_DIRECTORY));
+
+        return xmlReplacements;
     }
 
 }

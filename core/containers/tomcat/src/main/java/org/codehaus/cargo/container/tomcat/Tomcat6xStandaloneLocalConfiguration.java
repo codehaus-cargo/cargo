@@ -19,9 +19,14 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.util.FileHandler.XmlReplacement;
 
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -75,5 +80,35 @@ public class Tomcat6xStandaloneLocalConfiguration
     public String toString()
     {
         return "Tomcat 6.x Standalone Configuration";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Map<String, String> getCatalinaPropertiertiesReplacements()
+    {
+        Map<String, String> replacements = new HashMap<String, String>();
+        replacements.put("common.loader=",
+            "common.loader=${catalina.base}/common/classes,${catalina.base}/common/lib/*.jar,");
+        replacements.put("shared.loader=",
+            "shared.loader=${catalina.base}/shared/classes,${catalina.base}/shared/lib/*.jar");
+        return replacements;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Map<XmlReplacement, String> getServerXmlReplacements()
+    {
+        Map<XmlReplacement, String> xmlReplacements = super.getServerXmlReplacements();
+
+        xmlReplacements.put(new XmlReplacement(
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
+                "SSLEnabled"), String.valueOf(
+                    "https".equalsIgnoreCase(getPropertyValue(GeneralPropertySet.PROTOCOL))));
+
+        return xmlReplacements;
     }
 }

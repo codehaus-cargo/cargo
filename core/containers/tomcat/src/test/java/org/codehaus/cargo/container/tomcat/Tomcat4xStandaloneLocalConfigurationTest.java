@@ -107,6 +107,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
     @Override
     protected void setUpManager()
     {
+        configuration.getFileHandler().mkdirs(container.getHome() + "/conf");
         configuration.getFileHandler().mkdirs(container.getHome() + "/webapps");
         configuration.getFileHandler().mkdirs(container.getHome() + "/server/webapps/manager");
         configuration.getFileHandler().createFile(container.getHome() + "/webapps/manager.xml");
@@ -142,8 +143,6 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         assertTrue(configuration.getFileHandler().exists(configuration.getHome() + "/logs"));
         assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/server.xml"));
-        assertTrue(configuration.getFileHandler().exists(
-            configuration.getHome() + "/conf/web.xml"));
         assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/tomcat-users.xml"));
         assertTrue(configuration.getFileHandler().exists(

@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
@@ -48,6 +49,7 @@ public class TomcatStandaloneLocalConfigurationCapability extends
         super();
 
         this.supportsMap = new HashMap<String, Boolean>();
+        this.supportsMap.put(GeneralPropertySet.URI_ENCODING, Boolean.TRUE);
         this.supportsMap.put(TomcatPropertySet.AJP_PORT, Boolean.TRUE);
         this.supportsMap.put(TomcatPropertySet.CONTEXT_RELOADABLE, Boolean.TRUE);
         this.supportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);

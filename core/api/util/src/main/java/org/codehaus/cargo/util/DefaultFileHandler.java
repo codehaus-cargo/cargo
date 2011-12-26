@@ -25,7 +25,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -53,6 +52,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import org.apache.tools.ant.BuildException;
@@ -441,11 +441,12 @@ public class DefaultFileHandler implements FileHandler
 
                     if (attribute == null)
                     {
-                        throw new CargoException("Attribute " + attributeName
-                            + " not found in node " + expression + " in file " + file);
+                        ((Element) node).setAttribute(attributeName, replacement.getValue());
                     }
-
-                    attribute.setNodeValue(replacement.getValue());
+                    else
+                    {
+                        attribute.setNodeValue(replacement.getValue());
+                    }
                 }
                 else
                 {
@@ -826,7 +827,10 @@ public class DefaultFileHandler implements FileHandler
         {
             return new InputStreamReader(is);
         }
-        return new InputStreamReader(is, encoding);
+        else
+        {
+            return new InputStreamReader(is, encoding);
+        }
     }
 
     /**
@@ -845,9 +849,12 @@ public class DefaultFileHandler implements FileHandler
 
         if (encoding == null || encoding.length() <= 0)
         {
-            return new FileWriter(file);
+            return new OutputStreamWriter(getOutputStream(file));
         }
-        return new OutputStreamWriter(new FileOutputStream(file), encoding);
+        else
+        {
+            return new OutputStreamWriter(getOutputStream(file), encoding);
+        }
     }
 
 }

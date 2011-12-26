@@ -180,12 +180,13 @@ public class DefaultFileHandlerTest extends TestCase
     }
 
     /**
-     * Test invalid XML attribute replacement
+     * Test non-existing XML attribute replacement
      */
-    public void testInvalidXmlAttributeReplacement()
+    public void testNonExistingXmlAttributeReplacement()
     {
-        final String file = "target/jboss-standalone-invalid-xml-attribute.xml";
+        final String file = "target/jboss-standalone-nonexisting-xml-attribute.xml";
         final String nonExistingAttribute = "nonexisting";
+        final String test = "nonexisting=\"test\"";
 
         this.fileHandler.copyFile("src/test/resources/jboss-standalone.xml", file, true);
 
@@ -194,18 +195,9 @@ public class DefaultFileHandlerTest extends TestCase
             "//server/socket-binding-group/socket-binding[@name='http']", nonExistingAttribute),
             "test");
 
-        try
-        {
-            this.fileHandler.replaceInXmlFile(file, replacements);
-            fail();
-        }
-        catch (CargoException e)
-        {
-            assertNotNull(e.getCause());
-            assertNotNull(e.getCause().getMessage());
-            assertTrue(e.getCause().getMessage().contains(
-                "Attribute " + nonExistingAttribute + " not found"));
-        }
+        this.fileHandler.replaceInXmlFile(file, replacements);
+        String read = this.fileHandler.readTextFile(file, "UTF-8");
+        assertTrue("File " + file + " does not contain: " + test, read.contains(test));
     }
 
 }

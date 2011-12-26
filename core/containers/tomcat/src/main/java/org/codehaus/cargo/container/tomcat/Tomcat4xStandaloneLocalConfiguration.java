@@ -21,11 +21,13 @@ package org.codehaus.cargo.container.tomcat;
 
 import java.util.Properties;
 
+import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.internal.util.PropertyUtils;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat4xConfigurationBuilder;
 
@@ -153,6 +155,24 @@ public class Tomcat4xStandaloneLocalConfiguration extends
         }
 
         super.doConfigure(container);
+
+        String serverXml = getFileHandler().append(getHome() + "/conf", "server.xml");
+        FilterChain filterChain = createFilterChain();
+        getAntUtils().addTokenToFilterChain(filterChain, "catalina.logging.level",
+            getTomcatLoggingLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
+        getAntUtils().addTokenToFilterChain(filterChain, "tomcat.webapps",
+            createTomcatWebappsToken());
+        getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/server.xml",
+            serverXml, getFileHandler(), filterChain, "UTF-8");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void setupConfFiles(String confDir)
+    {
+        // Nothing to do
     }
 
 }
