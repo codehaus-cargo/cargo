@@ -315,7 +315,7 @@
   </distributionManagement>
 
   <properties>
-    <cargo.derby.version>10.4.2.0</cargo.derby.version>
+    <cargo.derby.version>10.8.2.2</cargo.derby.version>
   </properties>
 
   <build>
