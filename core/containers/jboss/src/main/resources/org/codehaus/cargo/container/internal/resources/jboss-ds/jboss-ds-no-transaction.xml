@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources>
+  <no-tx-datasource>
+    <jndi-name>@jndiName@</jndi-name>
+    <connection-url>@url@</connection-url>
+    <driver-class>@driverClass@</driver-class>
+    <user-name>@username@</user-name>
+    <password>@password@</password>
+  </no-tx-datasource>
+</datasources>

@@ -30,12 +30,15 @@ import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.jboss.internal.JBossInstalledLocalContainer;
 import org.codehaus.cargo.container.jboss.internal.JBossStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.TransactionSupport;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Implementation of a standalone {@link org.codehaus.cargo.container.configuration.Configuration}
@@ -119,8 +122,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         String clustered = jbossContainer.getConfiguration().
             getPropertyValue(JBossPropertySet.CLUSTERED);
 
-        if (Boolean.valueOf(jbossContainer.getConfiguration().
-                getPropertyValue(JBossPropertySet.CLUSTERED)).booleanValue())
+        if (Boolean.valueOf(clustered).booleanValue())
         {
             String farmDir = getFileHandler().createDirectory(getHome(), "/farm");
         }
@@ -151,6 +153,50 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         // Deploy with user defined deployables with the appropriate deployer
         JBossInstalledLocalDeployer deployer = new JBossInstalledLocalDeployer(jbossContainer);
         deployer.deploy(getDeployables());
+
+        deployDatasources(deployDir);
+    }
+
+    /**
+     * Deploys the JBoss datasources.
+     * 
+     * @param deployDir The JBoss <code>deploy</code> directory.
+     * @throws IOException If copying the datasource XMLs fail.
+     */
+    protected void deployDatasources(String deployDir) throws IOException
+    {
+        for (DataSource ds : getDataSources())
+        {
+            String sourceFile = RESOURCE_PATH + "jboss-ds/";
+
+            if (TransactionSupport.NO_TRANSACTION.equals(ds.getTransactionSupport()))
+            {
+                sourceFile += "jboss-ds-no-transaction.xml";
+            }
+            else if (TransactionSupport.LOCAL_TRANSACTION.equals(ds.getTransactionSupport()))
+            {
+                sourceFile += "jboss-ds-local-transaction.xml";
+            }
+            else if (TransactionSupport.XA_TRANSACTION.equals(ds.getTransactionSupport()))
+            {
+                sourceFile += "jboss-ds-xa-transaction.xml";
+            }
+            else
+            {
+                throw new CargoException("Unknown transaction type " + ds.getTransactionSupport());
+            }
+
+            FilterChain filterChain = createFilterChain();
+            getAntUtils().addTokenToFilterChain(filterChain, "jndiName", ds.getJndiLocation());
+            getAntUtils().addTokenToFilterChain(filterChain, "url", ds.getUrl());
+            getAntUtils().addTokenToFilterChain(filterChain, "driverClass", ds.getDriverClass());
+            getAntUtils().addTokenToFilterChain(filterChain, "username", ds.getUsername());
+            getAntUtils().addTokenToFilterChain(filterChain, "password", ds.getPassword());
+
+            getResourceUtils().copyResource(sourceFile, new File(
+                getFileHandler().append(deployDir, "cargo-" + ds.getId() + "-ds.xml")),
+                filterChain, "UTF-8");
+        }
     }
 
     /**

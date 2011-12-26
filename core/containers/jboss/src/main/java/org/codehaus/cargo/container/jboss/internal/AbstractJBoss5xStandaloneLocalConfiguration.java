@@ -105,6 +105,8 @@ public abstract class AbstractJBoss5xStandaloneLocalConfiguration
         // Deploy with user defined deployables with the appropriate deployer
         JBossInstalledLocalDeployer deployer = new JBossInstalledLocalDeployer(jbossContainer);
         deployer.deploy(getDeployables());
+
+        deployDatasources(deployDir);
     }
 
 }

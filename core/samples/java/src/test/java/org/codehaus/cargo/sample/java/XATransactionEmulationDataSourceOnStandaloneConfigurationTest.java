@@ -20,6 +20,8 @@
 package org.codehaus.cargo.sample.java;
 
 import java.net.MalformedURLException;
+import java.util.Set;
+import java.util.TreeSet;
 
 import junit.framework.Test;
 
@@ -34,11 +36,11 @@ import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidat
 import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
- * Test for datasource with transaction emulation capabilities.
+ * Test for datasource with XA transaction emulation capabilities.
  * 
  * @version $Id$
  */
-public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
+public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
 {
     /**
@@ -47,7 +49,7 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
      * @param testData Test environment data.
      * @throws Exception If anything goes wrong.
      */
-    public TransactionEmulationDataSourceOnStandaloneConfigurationTest(String testName,
+    public XATransactionEmulationDataSourceOnStandaloneConfigurationTest(String testName,
         EnvironmentTestData testData) throws Exception
     {
         super(testName, testData);
@@ -74,27 +76,38 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
-        suite.addTestSuite(TransactionEmulationDataSourceOnStandaloneConfigurationTest.class,
+        // We exclude jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x and jboss61x as these
+        // don't support XA transaction emulation the way CARGO tests it
+        Set<String> excludedContainerIds = new TreeSet<String>();
+        excludedContainerIds.add("jboss3x");
+        excludedContainerIds.add("jboss4x");
+        excludedContainerIds.add("jboss42x");
+        excludedContainerIds.add("jboss5x");
+        excludedContainerIds.add("jboss51x");
+        excludedContainerIds.add("jboss6x");
+        excludedContainerIds.add("jboss61x");
+
+        suite.addTestSuite(XATransactionEmulationDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {
                 new IsInstalledLocalContainerValidator(),
                 new HasStandaloneConfigurationValidator(),
                 new HasEarSupportValidator(),
                 new HasDataSourceSupportValidator(ConfigurationType.STANDALONE),
-                new HasXAEmulationValidator(ConfigurationType.STANDALONE)});
+                new HasXAEmulationValidator(ConfigurationType.STANDALONE)},
+            excludedContainerIds);
         return suite;
     }
 
     /**
-     * User configures java.sql.Driver -> container provides javax.sql.DataSource with local
+     * User configures java.sql.Driver -> container provides javax.sql.DataSource with emulated xa
      * transaction support
      * @throws MalformedURLException If servlet WAR URL cannot be created.
      */
-    public void testUserConfiguresDriverAndRequestsDataSourceWithLocalTransactionSupport()
+    public void testUserConfiguresDriverAndRequestsDataSourceWithXaTransactionSupport()
         throws MalformedURLException
     {
         DataSourceFixture fixture =
-            ConfigurationFixtureFactory
-                .createDriverConfiguredDataSourceWithLocalTransactionSupport();
+            ConfigurationFixtureFactory.createDriverConfiguredDataSourceWithXaTransactionSupport();
 
         testServletThatIssuesGetConnectionFrom(fixture, "datasource-cmt-local");
     }
