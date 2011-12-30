@@ -87,6 +87,15 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         super.configure(container);
         configureFiles(getFilterChain());
 
+        performXmlReplacements(container);
+    }
+
+    /**
+     * Perform the XML replacements for the specified container.
+     * @param container the container to configure
+     */
+    protected void performXmlReplacements(LocalContainer container)
+    {
         for (Map.Entry<String, Map<XmlReplacement, String>> xmlReplacements
             : this.xmlReplacements.entrySet())
         {
@@ -101,6 +110,10 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
                 if (value != null)
                 {
                     replacements.put(xmlReplacement.getKey(), value);
+                }
+                else
+                {
+                    replacements.put(xmlReplacement.getKey(), xmlReplacement.getValue());
                 }
             }
 

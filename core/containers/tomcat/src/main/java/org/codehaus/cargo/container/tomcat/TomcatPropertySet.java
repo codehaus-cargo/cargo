@@ -57,4 +57,9 @@ public interface TomcatPropertySet
      * The <code>webapps</code> directory of Tomcat.
      */
     String WEBAPPS_DIRECTORY = "cargo.tomcat.webappsDirectory";
+
+    /**
+     * Whether the HTTP container is secured.
+     */
+    String HTTP_SECURE = "cargo.tomcat.httpSecure";
 }

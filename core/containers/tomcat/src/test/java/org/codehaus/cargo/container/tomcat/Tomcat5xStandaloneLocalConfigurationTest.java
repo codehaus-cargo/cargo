@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.tomcat;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
@@ -52,6 +53,12 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
             protected void setupConfFiles(String confDir)
             {
                 setupManager(container);
+            }
+
+            @Override
+            protected void performXmlReplacements(LocalContainer container)
+            {
+                // Nothing
             }
         };
     }
