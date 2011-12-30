@@ -2,6 +2,6 @@
 <jboss-web>
     <resource-ref>
         <res-ref-name>jdbc/CargoDS</res-ref-name>
-        <jndi-name>java:jdbc/CargoDS</jndi-name>
+        <jndi-name>java:/jdbc/CargoDS</jndi-name>
     </resource-ref>
 </jboss-web>
