@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
+import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
@@ -71,6 +72,8 @@ public class JBoss7xStandaloneLocalConfigurationCapability extends
             Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_USER, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_PASSWORD, Boolean.FALSE);
+        this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
     }
 
     /**

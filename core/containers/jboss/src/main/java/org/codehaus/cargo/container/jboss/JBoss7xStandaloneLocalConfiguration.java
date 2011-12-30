@@ -21,13 +21,22 @@ package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipFile;
+
+import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.TransactionSupport;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.codehaus.cargo.util.CargoException;
 
@@ -158,14 +167,115 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
             throw new CargoException("Missing configuration XML file: " + configurationXML);
         }
 
-        // Apply configuration
-        String deployments = getFileHandler().append(getHome(), "deployments");
+        // Create JARs for modules
+        for (String extraClasspath : container.getExtraClasspath())
+        {
+            String fileName = getFileHandler().getName(extraClasspath);
+            String moduleName = fileName.substring(0, fileName.lastIndexOf('.'));
+            String folder = container.getHome()
+                + "/modules/org/codehaus/cargo/classpath/" + moduleName + "/main";
+            getFileHandler().mkdirs(folder);
 
-        // Deploy the CPC (Cargo Ping Component) to the deployments directory
+            FilterChain filterChain = createFilterChain();
+            getAntUtils().addTokenToFilterChain(filterChain, "moduleName", moduleName);
+
+            getFileHandler().copyFile(extraClasspath, getFileHandler().append(folder, fileName));
+            getResourceUtils().copyResource(
+                RESOURCE_PATH + "jboss-module/jboss-module.xml",
+                getFileHandler().append(folder, "module.xml"),
+                getFileHandler(), filterChain, "UTF-8");
+        }
+
+        String tmpDir = getFileHandler().createUniqueTmpDirectory();
+        try
+        {
+            List<String> driversList = new ArrayList<String>();
+
+            StringBuilder datasources = new StringBuilder();
+            StringBuilder drivers = new StringBuilder();
+
+            for (DataSource dataSource : getDataSources())
+            {
+                String dataSourceClass = dataSource.getDriverClass().replace('.', '/') + ".class";
+                String dataSourceFile = null;
+
+                for (String extraClasspath : container.getExtraClasspath())
+                {
+                    ZipFile zip = new ZipFile(extraClasspath);
+                    if (zip.getEntry(dataSourceClass) != null)
+                    {
+                        dataSourceFile = extraClasspath;
+                    }
+                    zip.close();
+                }
+
+                if (dataSourceFile == null)
+                {
+                    throw new CargoException("Datasource class " + dataSource.getDriverClass()
+                        + " not found in the extra classpath");
+                }
+
+                String moduleName = getFileHandler().getName(dataSourceFile);
+                moduleName = moduleName.substring(0, moduleName.lastIndexOf('.'));
+
+                FilterChain filterChain = createFilterChain();
+                getAntUtils().addTokenToFilterChain(filterChain, "moduleName", moduleName);
+                getAntUtils().addTokenToFilterChain(filterChain, "driverClass",
+                    dataSource.getDriverClass());
+                String jndiName = dataSource.getJndiLocation();
+                if (!jndiName.startsWith("java:/"))
+                {
+                    jndiName = "java:/" + jndiName;
+                    getLogger().warn("JBoss 7 requires datasource JNDI names to start with "
+                        + "java:/, hence changing the given JNDI name to: " + jndiName,
+                        this.getClass().getName());
+                }
+                getAntUtils().addTokenToFilterChain(filterChain, "jndiName", jndiName);
+                getAntUtils().addTokenToFilterChain(filterChain, "url", dataSource.getUrl());
+                getAntUtils().addTokenToFilterChain(filterChain, "username",
+                    dataSource.getUsername());
+                getAntUtils().addTokenToFilterChain(filterChain, "password",
+                    dataSource.getPassword());
+
+                String xa = "";
+                if (TransactionSupport.XA_TRANSACTION.equals(dataSource.getTransactionSupport()))
+                {
+                    xa = "-xa";
+                }
+
+                if (!driversList.contains(dataSource.getDriverClass()))
+                {
+                    driversList.add(dataSource.getDriverClass());
+
+                    String temporaryDriver = getFileHandler().append(tmpDir, "driver.xml");
+                    getResourceUtils().copyResource(
+                        RESOURCE_PATH + "jboss-ds/jboss-driver" + xa + ".xml",
+                        temporaryDriver, getFileHandler(), filterChain, "UTF-8");
+                    drivers.append("\n");
+                    drivers.append(getFileHandler().readTextFile(temporaryDriver, "UTF-8"));
+                }
+
+                String temporaryDatasource = getFileHandler().append(tmpDir, "datasource.xml");
+                getResourceUtils().copyResource(
+                    RESOURCE_PATH + "jboss-ds/jboss-datasource.xml",
+                    temporaryDatasource, getFileHandler(), filterChain, "UTF-8");
+                datasources.append("\n");
+                datasources.append(getFileHandler().readTextFile(temporaryDatasource, "UTF-8"));
+            }
+
+            Map<String, String> replacements = new HashMap<String, String>(1);
+            replacements.put("<drivers>", datasources + "<drivers>" + drivers);
+            getFileHandler().replaceInFile(configurationXML, replacements, "UTF-8");
+        }
+        finally
+        {
+            getFileHandler().delete(tmpDir);
+        }
+
+        // Deploy the deployables into the deployments directory
+        String deployments = getFileHandler().append(getHome(), "deployments");
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             new File(deployments, "cargocpc.war"));
-
-        // Deploy with user defined deployables with the appropriate deployer
         JBoss7xInstalledLocalDeployer deployer = new JBoss7xInstalledLocalDeployer(container);
         deployer.deploy(getDeployables());
     }

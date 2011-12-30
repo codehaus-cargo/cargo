@@ -19,10 +19,7 @@
  */
 package org.codehaus.cargo.container.jboss;
 
-
-import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
 
 /**
  * JBoss 7.1.x series container implementation.
@@ -35,11 +32,6 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
      * JBoss 7.1.x series unique id.
      */
     public static final String ID = "jboss71x";
-
-    /**
-     * Capability of the JBoss container.
-     */
-    private static final ContainerCapability CAPABILITY = new JBoss7xContainerCapability();
 
     /**
      * {@inheritDoc}
@@ -68,16 +60,6 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
     public String getName()
     {
         return "JBoss " + getVersion("7.1.x");
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
-     */
-    @Override
-    public ContainerCapability getCapability()
-    {
-        return CAPABILITY;
     }
 
 }

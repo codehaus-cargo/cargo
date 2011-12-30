@@ -1,0 +1,5 @@
+                    <driver name="@driverClass@" module="org.codehaus.cargo.classpath.@moduleName@">
+                        <driver-class>
+                            @driverClass@
+                        </driver-class>
+                    </driver>

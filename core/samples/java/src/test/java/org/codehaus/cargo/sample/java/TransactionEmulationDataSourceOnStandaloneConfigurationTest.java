@@ -21,6 +21,9 @@ package org.codehaus.cargo.sample.java;
 
 import java.net.MalformedURLException;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import junit.framework.Test;
 
 import org.codehaus.cargo.container.configuration.ConfigurationType;
@@ -74,13 +77,20 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
+        // We exclude jboss7x and jboss71x as these don't support transaction emulation the way
+        // CARGO tests it
+        Set<String> excludedContainerIds = new TreeSet<String>();
+        excludedContainerIds.add("jboss7x");
+        excludedContainerIds.add("jboss71x");
+
         suite.addTestSuite(TransactionEmulationDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {
                 new IsInstalledLocalContainerValidator(),
                 new HasStandaloneConfigurationValidator(),
                 new HasEarSupportValidator(),
                 new HasDataSourceSupportValidator(ConfigurationType.STANDALONE),
-                new HasXAEmulationValidator(ConfigurationType.STANDALONE)});
+                new HasXAEmulationValidator(ConfigurationType.STANDALONE)},
+            excludedContainerIds);
         return suite;
     }
 

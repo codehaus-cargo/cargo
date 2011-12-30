@@ -281,13 +281,15 @@ public class ConfluenceContainerDocumentationGenerator
             }
             else if (containerId.equals("jboss7x"))
             {
-                output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
-                    + "| Changing the the container classpath is not supported on JBoss 7.x |");
+                output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) "
+                    + "| JARs are added to the JBoss 7.x classpath using modules and tested "
+                    + "with JDBC drivers only |");
             }
             else if (containerId.equals("jboss71x"))
             {
-                output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
-                    + "| Changing the the container classpath is not supported on JBoss 7.1.x |");
+                output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) "
+                    + "| JARs are added to the JBoss 7.1.x classpath using modules and tested "
+                    + "with JDBC drivers only |");
             }
             else
             {
@@ -598,7 +600,8 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("{note}Even thought the JBoss 7.x container can deploy EJBs, JBoss ");
             output.append("7.0 itself it does not support remote EJB lookups yet.");
             output.append(LINE_SEPARATOR);
-            output.append("JBoss 7.1 is planned to support these, you can read more on: ");
+            output.append("If you plan to use remote EJBs on JBoss 7, please use ");
+            output.append("[JBoss 7.1 or above|JBoss 7.1.x]. For further details, please read: ");
             output.append("http://community.jboss.org/message/616870{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);

@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.jboss.internal.JBoss4xRuntimeConfigurationCa
 import org.codehaus.cargo.container.jboss.internal.JBoss5xContainerCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss5xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss6xStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.jboss.internal.JBoss71xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xRuntimeConfigurationCapability;
@@ -161,7 +160,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("jboss71x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            JBoss71xStandaloneLocalConfigurationCapability.class);
+            JBoss7xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jboss71x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             JBoss7xExistingLocalConfigurationCapability.class);

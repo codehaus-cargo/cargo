@@ -76,8 +76,8 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
             new CargoTestSuite(
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
-        // We exclude jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x and jboss61x as these
-        // don't support XA transaction emulation the way CARGO tests it
+        // We exclude jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x
+        // and jboss71x as these don't support XA transaction emulation the way CARGO tests it
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("jboss3x");
         excludedContainerIds.add("jboss4x");
@@ -86,6 +86,8 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
         excludedContainerIds.add("jboss51x");
         excludedContainerIds.add("jboss6x");
         excludedContainerIds.add("jboss61x");
+        excludedContainerIds.add("jboss7x");
+        excludedContainerIds.add("jboss71x");
 
         suite.addTestSuite(XATransactionEmulationDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {

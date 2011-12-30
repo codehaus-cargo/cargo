@@ -1,0 +1,5 @@
+                    <driver name="@driverClass@" module="org.codehaus.cargo.classpath.@moduleName@">
+                        <xa-datasource-class>
+                            @driverClass@
+                        </xa-datasource-class>
+                    </driver>
