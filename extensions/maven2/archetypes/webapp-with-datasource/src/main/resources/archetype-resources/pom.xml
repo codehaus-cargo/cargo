@@ -207,6 +207,27 @@
       </build>
     </profile>
     <profile>
+      <id>jboss51x</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-maven2-plugin</artifactId>
+              <configuration>
+                <container>
+                  <containerId>jboss51x</containerId>
+                  <zipUrlInstaller>
+                    <url>http://downloads.sourceforge.net/jboss/jboss-5.1.0.GA.zip?big_mirror=1</url>
+                  </zipUrlInstaller>
+                </container>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
       <id>jonas5x</id>
       <build>
         <pluginManagement>
