@@ -190,7 +190,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
             ConfigurationType.RUNTIME, JBoss4xRuntimeConfiguration.class);
 
         configurationFactory.registerConfiguration("jboss42x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, JBoss42xStandaloneLocalConfiguration.class);
+            ConfigurationType.STANDALONE, JBossStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("jboss42x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, JBossExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("jboss42x", ContainerType.REMOTE,

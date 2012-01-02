@@ -19,17 +19,14 @@
  */
 package org.codehaus.cargo.container.jboss;
 
-import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.jboss.internal.AbstractJBossInstalledLocalContainer;
-import org.codehaus.cargo.container.jboss.internal.JBoss4xContainerCapability;
 
 /**
  * JBoss 4.2.x series container implementation.
  * 
  * @version $Id$
  */
-public class JBoss42xInstalledLocalContainer extends AbstractJBossInstalledLocalContainer
+public class JBoss42xInstalledLocalContainer extends JBoss4xInstalledLocalContainer
 {
     /**
      * JBoss 4.2.x series unique id.
@@ -37,13 +34,8 @@ public class JBoss42xInstalledLocalContainer extends AbstractJBossInstalledLocal
     public static final String ID = "jboss42x";
 
     /**
-     * Capability of the JBoss container.
-     */
-    private static final ContainerCapability CAPABILITY = new JBoss4xContainerCapability();
-
-    /**
      * {@inheritDoc}
-     * @see AbstractJBossInstalledLocalContainer#AbstractJBossInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see JBoss4xInstalledLocalContainer#JBoss4xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public JBoss42xInstalledLocalContainer(LocalConfiguration configuration)
     {
@@ -66,14 +58,5 @@ public class JBoss42xInstalledLocalContainer extends AbstractJBossInstalledLocal
     public String getName()
     {
         return "JBoss " + getVersion("4.2.x");
-    }
-    
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
-     */
-    public ContainerCapability getCapability()
-    {
-        return CAPABILITY;
     }
 }
