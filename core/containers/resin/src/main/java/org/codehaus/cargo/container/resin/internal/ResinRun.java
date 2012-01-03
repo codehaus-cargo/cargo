@@ -295,10 +295,30 @@ public class ResinRun extends DefaultServerRun
         @Override
         public void run()
         {
+            Class resinClass;
+            String resinVersion = "3.x";
+
             try
             {
-                Class resinClass = Class.forName("com.caucho.server.http.ResinServer");
+                resinClass = Class.forName("com.caucho.server.http.ResinServer");
+            }
+            catch (ClassNotFoundException e)
+            {
+                try
+                {
+                    resinClass = Class.forName("com.caucho.server.resin.Resin");
+                }
+                catch (ClassNotFoundException ee)
+                {
+                    throw new ContainerException(
+                        "Failed to start Resin 3.x or 3.1.x: " + e + ", " + ee);
+                }
 
+                resinVersion = "3.1.x";
+            }
+
+            try
+            {
                 Method mainMethod = resinClass.getMethod("main",
                     new Class[] {String[].class});
 
@@ -316,7 +336,7 @@ public class ResinRun extends DefaultServerRun
             }
             catch (Exception e)
             {
-                throw new ContainerException("Failed to start Resin 3.x", e);
+                throw new ContainerException("Failed to start Resin " + resinVersion, e);
             }
         }
 

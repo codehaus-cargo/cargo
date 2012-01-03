@@ -22,52 +22,27 @@
  */
 package org.codehaus.cargo.container.resin;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.resin.internal.AbstractResinInstalledLocalContainer;
-import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
- * Special container support for the Caucho Resin 3.x servlet container.
+ * Special container support for the Caucho Resin 3.1.x servlet container.
  * 
  * @version $Id$
  */
-public class Resin3xInstalledLocalContainer extends AbstractResinInstalledLocalContainer
+public class Resin31xInstalledLocalContainer extends Resin3xInstalledLocalContainer
 {
     /**
      * Unique container id.
      */
-    public static final String ID = "resin3x";
+    public static final String ID = "resin31x";
 
     /**
      * {@inheritDoc}
-     * @see AbstractResinInstalledLocalContainer#AbstractResinInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see Resin3xInstalledLocalContainer#Resin3xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
-    public Resin3xInstalledLocalContainer(LocalConfiguration configuration)
+    public Resin31xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see AbstractResinInstalledLocalContainer#startUpAdditions(JvmLauncher)
-     */
-    @Override
-    protected void startUpAdditions(JvmLauncher java) throws FileNotFoundException
-    {
-        // It seems Resin 3.x requires the following property to be
-        // set in order to start...
-        java.setSystemProperty("java.util.logging.manager", "com.caucho.log.LogManagerImpl");
-
-        // Add the resin_home/bin directory to the library path so that the
-        // Resin dll/so can be loaded.
-        java.setSystemProperty("java.library.path", new File(getHome(), "bin").getAbsolutePath());
-
-        // Add the tools.jar to the classpath. This is not required for
-        // Resin 2.x but it is for Resin 3.x
-        addToolsJarToClasspath(java);
     }
 
     /**
@@ -85,6 +60,6 @@ public class Resin3xInstalledLocalContainer extends AbstractResinInstalledLocalC
      */
     public String getName()
     {
-        return "Resin " + getVersion("3.x");
+        return "Resin " + getVersion("3.1.x");
     }
 }

@@ -42,7 +42,7 @@ public class Resin2xInstalledLocalContainer extends AbstractResinInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see AbstractResinInstalledLocalContainer#AbstractInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see AbstractResinInstalledLocalContainer#AbstractResinInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Resin2xInstalledLocalContainer(LocalConfiguration configuration)
     {

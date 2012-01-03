@@ -210,6 +210,15 @@
               </property>
 
               <property>
+                <name>cargo.resin31x.url</name>
+                <value>http://www.caucho.com/download/resin-3.1.12.zip</value>
+              </property>
+              <property>
+                <name>cargo.resin31x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <property>
                 <name>cargo.tomcat4x.url</name>
                 <!-- note that we want the larger download (not LE), as it contains dbcp needed for database tests -->
                 <value>http://archive.apache.org/dist/tomcat/tomcat-4/v4.1.40/bin/apache-tomcat-4.1.40.zip</value>
@@ -984,26 +993,26 @@
       <!-- All stable containers -->
       <id>all-stable-downloadable</id>
       <properties>
-        <cargo.containers>geronimo1x, geronimo2x, jetty4x, jetty5x, jetty6x, jetty7x, jetty8x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x, jboss71x, jo1x, jonas4x, jonas5x, resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
+        <cargo.containers>geronimo1x, geronimo2x, jetty4x, jetty5x, jetty6x, jetty7x, jetty8x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x, jboss71x, jo1x, jonas4x, jonas5x, resin2x, resin3x, resin31x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <!-- All containers that have a distribution which can be downloaded automatically -->
       <id>all-downloadable</id>
       <properties>
-        <cargo.containers>geronimo1x, geronimo2x, glassfish3x, jetty4x, jetty5x, jetty6x, jetty7x, jetty8x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x, jboss71x, jo1x, jonas4x, jonas5x, resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
+        <cargo.containers>geronimo1x, geronimo2x, glassfish3x, jetty4x, jetty5x, jetty6x, jetty7x, jetty8x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x, jboss71x, jo1x, jonas4x, jonas5x, resin2x, resin3x, resin31x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <id>all-datasource</id>
       <properties>
-        <cargo.containers>jrun4x, oc4j9x, resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, tomcat7x, weblogic8x, weblogic9x, weblogic10x, weblogic103x</cargo.containers>
+        <cargo.containers>jrun4x, oc4j9x, resin2x, resin3x, resin31x, tomcat4x, tomcat5x, tomcat6x, tomcat7x, weblogic8x, weblogic9x, weblogic10x, weblogic103x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <id>all-resource</id>
       <properties>
-        <cargo.containers>resin2x, resin3x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, resin31x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -1045,9 +1054,15 @@
       </properties>
     </profile>
     <profile>
+      <id>resin31x</id>
+      <properties>
+        <cargo.containers>resin31x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
       <id>all-resin</id>
       <properties>
-        <cargo.containers>resin2x, resin3x</cargo.containers>
+        <cargo.containers>resin2x, resin3x, resin31x</cargo.containers>
       </properties>
     </profile>
 

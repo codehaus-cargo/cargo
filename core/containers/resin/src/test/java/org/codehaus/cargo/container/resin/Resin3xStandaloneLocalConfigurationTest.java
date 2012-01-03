@@ -70,7 +70,7 @@ public class Resin3xStandaloneLocalConfigurationTest extends
         getFileHandler().createFile(container.getHome() + "/conf/app-default.xml");
         super.testConfigure();
         assertTrue(configuration.getFileHandler().exists(
-            configuration.getHome() + "/app-default.xml"));
+            configuration.getHome() + "/conf/app-default.xml"));
     }
 
     /**

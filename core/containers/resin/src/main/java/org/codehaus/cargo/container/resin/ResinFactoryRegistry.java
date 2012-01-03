@@ -73,6 +73,13 @@ public class ResinFactoryRegistry extends AbstractFactoryRegistry
         configurationCapabilityFactory.registerConfigurationCapability("resin3x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             ResinExistingLocalConfigurationCapability.class);
+
+        configurationCapabilityFactory.registerConfigurationCapability("resin31x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            ResinStandaloneLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("resin31x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            ResinExistingLocalConfigurationCapability.class);
     }
 
     /**
@@ -96,6 +103,13 @@ public class ResinFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("resin3x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             ResinExistingLocalConfiguration.class);
+
+        configurationFactory.registerConfiguration("resin31x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            Resin3xStandaloneLocalConfiguration.class);
+        configurationFactory.registerConfiguration("resin31x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            ResinExistingLocalConfiguration.class);
     }
 
     /**
@@ -110,6 +124,9 @@ public class ResinFactoryRegistry extends AbstractFactoryRegistry
             ResinInstalledLocalDeployer.class);
 
         deployerFactory.registerDeployer("resin3x", DeployerType.INSTALLED,
+            ResinInstalledLocalDeployer.class);
+
+        deployerFactory.registerDeployer("resin31x", DeployerType.INSTALLED,
             ResinInstalledLocalDeployer.class);
     }
 
@@ -136,6 +153,9 @@ public class ResinFactoryRegistry extends AbstractFactoryRegistry
 
         containerFactory.registerContainer("resin3x", ContainerType.INSTALLED,
             Resin3xInstalledLocalContainer.class);
+
+        containerFactory.registerContainer("resin31x", ContainerType.INSTALLED,
+            Resin31xInstalledLocalContainer.class);
     }
 
     /**
@@ -150,6 +170,9 @@ public class ResinFactoryRegistry extends AbstractFactoryRegistry
             ServletContainerCapability.class);
 
         containerCapabilityFactory.registerContainerCapability("resin3x",
+            ServletContainerCapability.class);
+
+        containerCapabilityFactory.registerContainerCapability("resin31x",
             ServletContainerCapability.class);
     }
 

@@ -99,11 +99,13 @@ public class Resin3xStandaloneLocalConfiguration extends
     protected void prepareAdditions(Container container, FilterChain theFilterChain)
         throws IOException
     {
-        String conf = getFileHandler().append(
+        String sourceConf = getFileHandler().append(
             ((InstalledLocalContainer) container).getHome(), "conf");
 
-        getFileHandler().copyFile(getFileHandler().append(conf, "app-default.xml"),
-            getFileHandler().append(getHome(), "app-default.xml"));
+        String destinationConf = getFileHandler().append(getHome(), "conf");
+
+        getFileHandler().copyFile(getFileHandler().append(sourceConf, "app-default.xml"),
+            getFileHandler().append(destinationConf, "app-default.xml"));
     }
 
     /**
