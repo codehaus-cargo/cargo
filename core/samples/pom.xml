@@ -322,13 +322,10 @@
               <property>
                 <name>cargo.geronimo2x.url</name>
                 <!--
-                  DO NOT try to use versions 2.1.7 or 2.2.1, because of Geronimo issue
-                  https://issues.apache.org/jira/browse/GERONIMO-5723
-
-                  The versions that fix this issue are 2.1.8 and 2.2.2 (none of them is out yet);
-                  latest version known to work correctly is Geronimo 2.1.6.
+                  DO NOT try to use version 2.2.1 because of Geronimo issue
+                  https://issues.apache.org/jira/browse/GERONIMO-5723. This will be fixed in Geronimo 2.2.2.
                   -->
-                <value>http://archive.eu.apache.org/dist/geronimo/2.1.6/geronimo-tomcat6-javaee5-2.1.6-bin.zip</value>
+                <value>http://archive.eu.apache.org/dist/geronimo/2.1.8/geronimo-tomcat6-javaee5-2.1.8-bin.zip</value>
               </property>
               <property>
                 <name>cargo.geronimo2x.java.home</name>
