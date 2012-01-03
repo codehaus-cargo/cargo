@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.Container;
+import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
@@ -98,9 +99,11 @@ public class Resin3xStandaloneLocalConfiguration extends
     protected void prepareAdditions(Container container, FilterChain theFilterChain)
         throws IOException
     {
-        getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/app-default.xml",
-            getFileHandler().append(getHome(), "app-default.xml"), getFileHandler(),
-            getFilterChain(), "UTF-8");
+        String conf = getFileHandler().append(
+            ((InstalledLocalContainer) container).getHome(), "conf");
+
+        getFileHandler().copyFile(getFileHandler().append(conf, "app-default.xml"),
+            getFileHandler().append(getHome(), "app-default.xml"));
     }
 
     /**

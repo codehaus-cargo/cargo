@@ -67,6 +67,7 @@ public class Resin3xStandaloneLocalConfigurationTest extends
     @Override
     public void testConfigure() throws Exception
     {
+        getFileHandler().createFile(container.getHome() + "/conf/app-default.xml");
         super.testConfigure();
         assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/app-default.xml"));
