@@ -25,6 +25,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 import org.codehaus.cargo.util.log.NullLogger;
@@ -60,6 +61,8 @@ public class CopyingDeployerTest extends MockObjectTestCase
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
+
+        this.fileHandler.createDirectory("ram:///", "webapps");
     }
 
     /**
@@ -99,6 +102,32 @@ public class CopyingDeployerTest extends MockObjectTestCase
         public String getDeployableDir()
         {
             return "ram:///webapps";
+        }
+    }
+
+    /**
+     * Mock {@link AbstractCopyingInstalledLocalDeployer} implementation.
+     */
+    private class TestableCopyingDeployerWithDifferentDirectory
+        extends AbstractCopyingInstalledLocalDeployer
+    {
+        /**
+         * {@inheritDoc}
+         * @param container Local container.
+         */
+        public TestableCopyingDeployerWithDifferentDirectory(InstalledLocalContainer container)
+        {
+            super(container);
+        }
+
+        /**
+         * {@inheritDoc}
+         * @return Mock directory.
+         */
+        @Override
+        public String getDeployableDir()
+        {
+            return "ram:///webapps-nonexisting";
         }
     }
 
@@ -269,6 +298,32 @@ public class CopyingDeployerTest extends MockObjectTestCase
         assertFalse(this.fsManager.resolveFile("ram:///webapps/context").exists());
         deployer.deploy(war);
         assertTrue(this.fsManager.resolveFile("ram:///webapps/context").exists());
+    }
+
+    /**
+     * Test deployment of an expanded WAR in a custom context.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testDeployToNonExistingDirectory() throws Exception
+    {
+        WAR war = new WAR("ram:///some/warfile.war");
+        this.fsManager.resolveFile(war.getFile()).createFile();
+
+        AbstractCopyingInstalledLocalDeployer deployer =
+            new TestableCopyingDeployerWithDifferentDirectory(
+                createContainer(createContainerCapability(DeployableType.WAR)));
+
+        deployer.setFileHandler(this.fileHandler);
+
+        try
+        {
+            deployer.deploy(war);
+            fail();
+        }
+        catch (CargoException e)
+        {
+            assertTrue(e.getMessage().contains("ram:///webapps-nonexisting"));
+        }
     }
 
     /**

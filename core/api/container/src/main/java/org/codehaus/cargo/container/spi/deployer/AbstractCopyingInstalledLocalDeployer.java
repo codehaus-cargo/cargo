@@ -33,6 +33,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.RAR;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Local deployer that deploys deployables to a <code>deployable</code> directory of the given
@@ -279,6 +280,12 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
     {
         getLogger().info("Deploying [" + deployable.getFile() + "] to [" + deployableDir + "]...",
             this.getClass().getName());
+
+        if (!getFileHandler().isDirectory(deployableDir))
+        {
+            throw new CargoException("Target deployable directory does not exist: "
+                + deployableDir);
+        }
 
         String target = getFileHandler().append(deployableDir, getDeployableName(deployable));
         if (deployable.isExpanded())

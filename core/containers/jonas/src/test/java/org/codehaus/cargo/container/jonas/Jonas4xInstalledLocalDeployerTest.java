@@ -109,6 +109,11 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
             this.fileHandler);
 
         this.factory = new DefaultDeployableFactory();
+
+        this.fileHandler.createDirectory(JONAS_BASE, "apps/autoload");
+        this.fileHandler.createDirectory(JONAS_BASE, "ejbjars/autoload");
+        this.fileHandler.createDirectory(JONAS_BASE, "rars/autoload");
+        this.fileHandler.createDirectory(JONAS_BASE, "webapps/autoload");
     }
 
     /**
