@@ -32,7 +32,7 @@ import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
 
 /**
- * Contains XML logic used to validate the XML output of a WebLogic 9-10.3x DataSource
+ * Contains XML logic used to validate the XML output of a WebLogic 9.x - 10.3.x DataSource
  * configuration.
  * 
  * @version $Id$

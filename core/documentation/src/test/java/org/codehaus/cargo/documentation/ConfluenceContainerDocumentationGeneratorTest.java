@@ -61,6 +61,17 @@ public class ConfluenceContainerDocumentationGeneratorTest extends TestCase
     }
 
     /**
+     * Generate datasource documentation.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testGenerateDatasourceDocumentation() throws Exception
+    {
+        Writer writer = new FileWriter(System.getProperty("basedir") + "/target/datasource.log");
+        writer.write(this.generator.generateDatasourceDocumentation());
+        writer.close();
+    }
+
+    /**
      * Generate documentation for all containers.
      * @throws Exception If anything goes wrong.
      */
