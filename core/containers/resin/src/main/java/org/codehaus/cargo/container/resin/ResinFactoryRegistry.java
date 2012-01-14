@@ -106,7 +106,7 @@ public class ResinFactoryRegistry extends AbstractFactoryRegistry
 
         configurationFactory.registerConfiguration("resin31x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            Resin3xStandaloneLocalConfiguration.class);
+            Resin31xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("resin31x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             ResinExistingLocalConfiguration.class);

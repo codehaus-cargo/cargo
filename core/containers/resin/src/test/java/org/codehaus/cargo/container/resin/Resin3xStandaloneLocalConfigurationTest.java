@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.container.resin;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
@@ -68,9 +71,32 @@ public class Resin3xStandaloneLocalConfigurationTest extends
     public void testConfigure() throws Exception
     {
         getFileHandler().createFile(container.getHome() + "/conf/app-default.xml");
+
+        getFileHandler().delete(container.getHome() + "/conf/resin.conf");
+        getFileHandler().createFile(container.getHome() + "/conf/resin.conf");
+        OutputStream resinConf =
+            getFileHandler().getOutputStream(container.getHome() + "/conf/resin.conf");
+        InputStream originalResinConf = getResinConfiguration();
+        assertNotNull("Cannot load Resin configuration file for tests", originalResinConf);
+        getFileHandler().copy(originalResinConf, resinConf);
+        originalResinConf.close();
+        originalResinConf = null;
+        resinConf.close();
+        resinConf = null;
+        System.gc();
+
         super.testConfigure();
+
         assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/app-default.xml"));
+    }
+
+    /**
+     * @return The Resin configuration file to use for tests.
+     */
+    protected InputStream getResinConfiguration()
+    {
+        return this.getClass().getClassLoader().getResourceAsStream("resin3x.conf");
     }
 
     /**

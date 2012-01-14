@@ -23,13 +23,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.resin.internal.AbstractResinStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.resin.internal.Resin3xConfigurationBuilder;
 
@@ -91,24 +91,6 @@ public class Resin3xStandaloneLocalConfiguration extends
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractResinStandaloneLocalConfiguration#prepareAdditions(Container, FilterChain)
-     */
-    @Override
-    protected void prepareAdditions(Container container, FilterChain theFilterChain)
-        throws IOException
-    {
-        String sourceConf = getFileHandler().append(
-            ((InstalledLocalContainer) container).getHome(), "conf");
-
-        String destinationConf = getFileHandler().append(getHome(), "conf");
-
-        getFileHandler().copyFile(getFileHandler().append(sourceConf, "app-default.xml"),
-            getFileHandler().append(destinationConf, "app-default.xml"));
-    }
-
-    /**
      * @param cargoLoggingLevel the cargo logging level (ie "low", "medium" or "high")
      * @return the Resin logging level corresponding to the cargo logging level
      */
@@ -135,26 +117,40 @@ public class Resin3xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractResinStandaloneLocalConfiguration#createResinFilterChain()
+     * @see AbstractResinStandaloneLocalConfiguration#prepareConfigurationDirectory(org.codehaus.cargo.container.Container, java.lang.String)
      */
-    @Override
-    protected FilterChain createResinFilterChain()
+    protected void prepareConfigurationDirectory(Container container, String confDir)
+        throws IOException
     {
-        FilterChain filterChain = getFilterChain();
+        String sourceConf = getFileHandler().append(
+            ((InstalledLocalContainer) container).getHome(), "conf");
 
-        // Add expanded WAR support
-        getAntUtils().addTokenToFilterChain(filterChain, "resin.expanded.webapps",
-            createExpandedWarTokenValue("document-directory"));
+        getFileHandler().copyFile(getFileHandler().append(sourceConf, "app-default.xml"),
+            getFileHandler().append(confDir, "app-default.xml"));
+        getFileHandler().copyFile(getFileHandler().append(sourceConf, "resin.conf"),
+            getFileHandler().append(confDir, "resin.conf"));
 
-        // Add token filters for authenticated users
-        getAntUtils().addTokenToFilterChain(filterChain, "resin3x.users",
-            getSecurityToken("<user>", "</user>"));
+        Map<String, String> replacements = new HashMap<String, String>();
+        replacements.put("<allow-servlet-el/>",
+            "<allow-servlet-el/>\n"
+            + "\n"
+            + "<authenticator>\n"
+                + "<type>com.caucho.server.security.XmlAuthenticator</type>\n"
+                + "<init>\n"
+                    + getSecurityToken("<user>", "</user>") + "\n"
+                    + "<password-digest>none</password-digest>\n"
+                + "</init>\n"
+            + "</authenticator>");
+        replacements.put("<host id=\"\" root-directory=\".\">",
+            "<host id=\"\" root-directory=\".\">\n"
+            + createExpandedWarTokenValue("document-directory"));
+        getFileHandler().replaceInFile(getFileHandler().append(confDir, "resin.conf"),
+            replacements, "UTF-8");
 
-        // Add logging support
-        getAntUtils().addTokenToFilterChain(filterChain, "resin3x.logging.level",
+        addXmlReplacement("conf/resin.conf", "//resin/log[@name='']", "level",
             getResinLoggingLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
-
-        return filterChain;
+        addXmlReplacement("conf/resin.conf", "//resin/server/http", "port",
+            ServletPropertySet.PORT);
     }
 
 }

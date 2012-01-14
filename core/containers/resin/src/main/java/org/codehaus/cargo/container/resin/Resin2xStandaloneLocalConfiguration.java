@@ -90,22 +90,10 @@ public class Resin2xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractResinStandaloneLocalConfiguration#prepareAdditions(Container, FilterChain)
+     * @see AbstractResinStandaloneLocalConfiguration#prepareConfigurationDirectory(org.codehaus.cargo.container.Container, java.lang.String)
      */
-    @Override
-    protected void prepareAdditions(Container container, FilterChain theFilterChain)
+    protected void prepareConfigurationDirectory(Container container, String confDir)
         throws IOException
-    {
-        // Nothing additional required
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractResinStandaloneLocalConfiguration#createResinFilterChain()
-     */
-    @Override
-    protected FilterChain createResinFilterChain()
     {
         FilterChain filterChain = getFilterChain();
 
@@ -129,7 +117,12 @@ public class Resin2xStandaloneLocalConfiguration extends
         }
         getAntUtils().addTokenToFilterChain(filterChain, "resin2x.debuglog", tokenValue);
 
-        return filterChain;
+        // make sure you use this method, as it ensures the same filehandler
+        // that created the directory will be used to copy the resource.
+        // This is especially important for unit testing
+        getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/resin.conf",
+            getFileHandler().append(confDir, "resin.conf"), getFileHandler(), getFilterChain(), 
+            "UTF-8");
     }
 
 }

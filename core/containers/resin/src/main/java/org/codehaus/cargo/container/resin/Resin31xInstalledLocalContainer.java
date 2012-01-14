@@ -49,6 +49,7 @@ public class Resin31xInstalledLocalContainer extends Resin3xInstalledLocalContai
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -58,6 +59,7 @@ public class Resin31xInstalledLocalContainer extends Resin3xInstalledLocalContai
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "Resin " + getVersion("3.1.x");
