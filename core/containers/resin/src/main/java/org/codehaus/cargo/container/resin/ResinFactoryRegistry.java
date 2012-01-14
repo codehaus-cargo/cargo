@@ -23,8 +23,10 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
-import org.codehaus.cargo.container.resin.internal.ResinExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.resin.internal.ResinStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.resin.internal.Resin2xExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.resin.internal.Resin2xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.resin.internal.Resin3xExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.resin.internal.Resin3xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
@@ -62,24 +64,24 @@ public class ResinFactoryRegistry extends AbstractFactoryRegistry
     {
         configurationCapabilityFactory.registerConfigurationCapability("resin2x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            ResinStandaloneLocalConfigurationCapability.class);
+            Resin2xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("resin2x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            ResinExistingLocalConfigurationCapability.class);
+            Resin2xExistingLocalConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("resin3x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            ResinStandaloneLocalConfigurationCapability.class);
+            Resin3xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("resin3x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            ResinExistingLocalConfigurationCapability.class);
+            Resin3xExistingLocalConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("resin31x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            ResinStandaloneLocalConfigurationCapability.class);
+            Resin3xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("resin31x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            ResinExistingLocalConfigurationCapability.class);
+            Resin3xExistingLocalConfigurationCapability.class);
     }
 
     /**
@@ -95,21 +97,21 @@ public class ResinFactoryRegistry extends AbstractFactoryRegistry
             Resin2xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("resin2x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            ResinExistingLocalConfiguration.class);
+            Resin2xExistingLocalConfiguration.class);
 
         configurationFactory.registerConfiguration("resin3x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Resin3xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("resin3x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            ResinExistingLocalConfiguration.class);
+            Resin3xExistingLocalConfiguration.class);
 
         configurationFactory.registerConfiguration("resin31x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Resin31xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("resin31x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            ResinExistingLocalConfiguration.class);
+            Resin3xExistingLocalConfiguration.class);
     }
 
     /**

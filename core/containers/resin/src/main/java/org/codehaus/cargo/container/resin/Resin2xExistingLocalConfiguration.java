@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.resin.internal.ResinExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.resin.internal.Resin2xExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 
 /**
@@ -33,19 +33,19 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
  * 
  * @version $Id$
  */
-public class ResinExistingLocalConfiguration extends AbstractExistingLocalConfiguration
+public class Resin2xExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {
     /**
      * Capability of the Resin standalone configuration.
      */
     private static ConfigurationCapability capability =
-        new ResinExistingLocalConfigurationCapability();
+        new Resin2xExistingLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
      * @see AbstractExistingLocalConfiguration#AbstractExistingLocalConfiguration(String)
      */
-    public ResinExistingLocalConfiguration(String dir)
+    public Resin2xExistingLocalConfiguration(String dir)
     {
         super(dir);
     }

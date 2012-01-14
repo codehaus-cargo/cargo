@@ -26,22 +26,24 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
 /**
- * Capabilities of the Resin's {@link ResinExistingLocalConfigurationCapability} configuration.
+ * Capabilities of the Resin's
+ * {@link org.codehaus.cargo.container.resin.Resin2xExistingLocalConfiguration}
+ * configuration.
  * 
  * @version $Id$
  */
-public class ResinExistingLocalConfigurationCapability
+public class Resin2xExistingLocalConfigurationCapability
     extends AbstractExistingLocalConfigurationCapability
 {
     /**
      * Configuration-specific supports Map.
      */
-    private Map<String, Boolean> supportsMap;
+    protected Map<String, Boolean> supportsMap;
 
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public ResinExistingLocalConfigurationCapability()
+    public Resin2xExistingLocalConfigurationCapability()
     {
         super();
 

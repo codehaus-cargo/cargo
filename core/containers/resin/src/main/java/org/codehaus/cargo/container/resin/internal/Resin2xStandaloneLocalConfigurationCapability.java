@@ -29,23 +29,23 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 
 /**
  * Capabilities of the Resin's
- * {@link org.codehaus.cargo.container.resin.internal.AbstractResinStandaloneLocalConfiguration}
+ * {@link org.codehaus.cargo.container.resin.Resin2xStandaloneLocalConfiguration}
  * configuration.
  * 
  * @version $Id$
  */
-public class ResinStandaloneLocalConfigurationCapability
+public class Resin2xStandaloneLocalConfigurationCapability
     extends AbstractStandaloneLocalConfigurationCapability
 {
     /**
      * Configuration-specific supports Map.
      */
-    private Map<String, Boolean> supportsMap;
+    protected Map<String, Boolean> supportsMap;
 
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public ResinStandaloneLocalConfigurationCapability()
+    public Resin2xStandaloneLocalConfigurationCapability()
     {
         super();
 

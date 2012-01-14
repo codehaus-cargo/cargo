@@ -26,11 +26,13 @@ import java.util.Map;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.resin.internal.AbstractResinStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.resin.internal.Resin2xConfigurationBuilder;
+import org.codehaus.cargo.container.resin.internal.Resin2xStandaloneLocalConfigurationCapability;
 
 /**
  * Resin 2.x standalone
@@ -47,6 +49,14 @@ public class Resin2xStandaloneLocalConfiguration extends
     public static final String XML_PARENT_OF_RESOURCES = "//caucho.com";
 
     /**
+     * Capability of the Resin standalone configuration.
+     * 
+     * @see ResinStandaloneLocalConfigurationCapability
+     */
+    private static ConfigurationCapability capability =
+        new Resin2xStandaloneLocalConfigurationCapability();
+
+    /**
      * {@inheritDoc}
      * 
      * @see AbstractResinStandaloneLocalConfiguration#AbstractResinStandaloneLocalConfiguration(String)
@@ -54,6 +64,16 @@ public class Resin2xStandaloneLocalConfiguration extends
     public Resin2xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     */
+    public ConfigurationCapability getCapability()
+    {
+        return capability;
     }
 
     /**

@@ -65,6 +65,10 @@ public class Resin3xInstalledLocalContainer extends AbstractResinInstalledLocalC
         // Resin dll/so can be loaded.
         java.setSystemProperty("java.library.path", new File(getHome(), "bin").getAbsolutePath());
 
+        java.addAppArguments("-socketwait");
+        java.addAppArguments(
+            getConfiguration().getPropertyValue(ResinPropertySet.SOCKETWAIT_PORT));
+
         // Add the tools.jar to the classpath. This is not required for
         // Resin 2.x but it is for Resin 3.x
         addToolsJarToClasspath(java);

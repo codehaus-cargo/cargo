@@ -26,12 +26,15 @@ import java.util.Map;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.resin.internal.AbstractResinStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.resin.internal.Resin3xConfigurationBuilder;
+import org.codehaus.cargo.container.resin.internal.Resin3xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.resin.internal.ResinRun;
 
 /**
  * Resin 3.x standalone
@@ -49,6 +52,14 @@ public class Resin3xStandaloneLocalConfiguration extends
     public static final String XML_PARENT_OF_RESOURCES = "//resin:resin";
 
     /**
+     * Capability of the Resin standalone configuration.
+     * 
+     * @see ResinStandaloneLocalConfigurationCapability
+     */
+    private static ConfigurationCapability capability =
+        new Resin3xStandaloneLocalConfigurationCapability();
+
+    /**
      * {@inheritDoc}
      * 
      * @see AbstractResinStandaloneLocalConfiguration#AbstractResinStandaloneLocalConfiguration(String)
@@ -56,6 +67,19 @@ public class Resin3xStandaloneLocalConfiguration extends
     public Resin3xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+
+        setProperty(ResinPropertySet.SOCKETWAIT_PORT,
+            Integer.toString(ResinRun.DEFAULT_KEEPALIVE_SOCKET_PORT));
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     */
+    public ConfigurationCapability getCapability()
+    {
+        return capability;
     }
 
     /**

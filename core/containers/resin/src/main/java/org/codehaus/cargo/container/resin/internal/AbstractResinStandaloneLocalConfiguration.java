@@ -26,7 +26,6 @@ import java.util.Iterator;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -47,14 +46,6 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder
 {
     /**
-     * Capability of the Resin standalone configuration.
-     * 
-     * @see ResinStandaloneLocalConfigurationCapability
-     */
-    private static ConfigurationCapability capability =
-        new ResinStandaloneLocalConfigurationCapability();
-
-    /**
      * {@inheritDoc}
      * 
      * @see AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder#AbstractStandaloneLocalConfigurationWithDataSourcesDefinedInXml(String)
@@ -62,16 +53,6 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
     public AbstractResinStandaloneLocalConfiguration(String dir)
     {
         super(dir);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
-     */
-    public ConfigurationCapability getCapability()
-    {
-        return capability;
     }
 
     /**

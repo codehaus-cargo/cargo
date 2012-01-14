@@ -169,6 +169,12 @@
                 <value>${cargo.samples.jboss.remotedeploy.port}</value>
               </property>
 
+              <!-- avoid port number clashes in Resin -->
+              <property>
+                <name>cargo.resin.socketwait.port</name>
+                <value>${cargo.samples.resin.socketwait.port}</value>
+              </property>
+
               <!-- avoid port number clashes in Tomcat -->
               <property>
                 <name>cargo.tomcat.ajp.port</name>
@@ -941,6 +947,7 @@
                 <portName>cargo.samples.jboss.jmx.port</portName>
                 <portName>cargo.samples.jboss.management.port</portName>
                 <portName>cargo.samples.jboss.osgi.http.port</portName>
+                <portName>cargo.samples.resin.socketwait.port</portName>
                 <portName>cargo.samples.tomcat.ajp.port</portName>
               </portNames>
             </configuration>

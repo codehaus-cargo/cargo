@@ -101,7 +101,33 @@ public class ResinRun extends DefaultServerRun
             }
             else if (isResinVersion("3"))
             {
-                startResin3x(args);
+                // Add the Resin "-socketwait" argument to setup a keepalive socket that we will
+                // use to stop Resin (this is a Resin feature)
+                boolean socketwait = false;
+                for (int i = 0; i < args.length; i++)
+                {
+                    if ("-socketwait".equals(args[i]))
+                    {
+                        socketwait = true;
+                        break;
+                    }
+                }
+
+                String[] modifiedArgs;
+                if (socketwait)
+                {
+                    modifiedArgs = args;
+                }
+                else
+                {
+                    modifiedArgs = new String[args.length + 2];
+                    System.arraycopy(args, 0, modifiedArgs, 0, args.length);
+                    modifiedArgs[args.length] = "-socketwait";
+                    modifiedArgs[args.length + 1] =
+                        Integer.toString(DEFAULT_KEEPALIVE_SOCKET_PORT);
+                }
+
+                startResin3x(modifiedArgs);
             }
             else
             {
@@ -174,10 +200,22 @@ public class ResinRun extends DefaultServerRun
             {
                 try
                 {
+                    // Add the Resin "-socketwait" argument to setup a keepalive socket that we will
+                    // use to stop Resin (this is a Resin feature)
+                    int socketwait = -1;
+                    for (int i = 0; i < args.length; i++)
+                    {
+                        if ("-socketwait".equals(args[i]))
+                        {
+                            socketwait = Integer.parseInt(args[i + 1]);
+                            break;
+                        }
+                    }
+
                     // Note: We must not call accept() here as Resin is trying to connect with
                     // us in its waitForExit() loop and if we do, Resin will exit before we tell
                     // it to do so!
-                    resin3xKeepAliveSocket = new ServerSocket(DEFAULT_KEEPALIVE_SOCKET_PORT);
+                    resin3xKeepAliveSocket = new ServerSocket(socketwait);
                 }
                 catch (Exception e)
                 {
@@ -322,17 +360,7 @@ public class ResinRun extends DefaultServerRun
                 Method mainMethod = resinClass.getMethod("main",
                     new Class[] {String[].class});
 
-                // Add the Resin "-socketwait" argument to setup a keepalive socket that we will
-                // use to stop Resin (this is a Resin feature)
-                String[] modifiedArgs = new String[args.length + 2];
-                for (int i = 0; i < args.length; i++)
-                {
-                    modifiedArgs[i] = args[i];
-                }
-                modifiedArgs[args.length] = "-socketwait";
-                modifiedArgs[args.length + 1] = "" + DEFAULT_KEEPALIVE_SOCKET_PORT;
-
-                mainMethod.invoke(null, new Object[] {modifiedArgs});
+                mainMethod.invoke(null, new Object[] {args});
             }
             catch (Exception e)
             {
