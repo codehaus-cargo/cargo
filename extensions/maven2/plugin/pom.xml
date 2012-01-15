@@ -55,9 +55,8 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-uberpom</artifactId>
+      <artifactId>cargo-core-api-generic</artifactId>
       <version>${cargo.core.version}</version>
-      <type>pom</type>
     </dependency>
 
     <dependency>
@@ -98,6 +97,16 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            </manifest>
+          </archive>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-plugin-plugin</artifactId>

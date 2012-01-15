@@ -67,6 +67,19 @@ public class CargoMojoTest extends TestCase
     }
 
     /**
+     * Test the calculation of container artifact IDs.
+     */
+    public void testCalculateContainerArtifactId()
+    {
+        assertEquals(
+            "cargo-core-container-jboss",
+            AbstractCargoMojo.calculateContainerArtifactId("jboss42x"));
+        assertEquals(
+            "cargo-core-container-oc4j",
+            AbstractCargoMojo.calculateContainerArtifactId("oc4j10x"));
+    }
+
+    /**
      * Test logger creation when a log element is specified.
      * @throws Exception If anything goes wrong.
      */

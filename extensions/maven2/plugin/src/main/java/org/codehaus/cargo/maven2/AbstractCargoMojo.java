@@ -20,8 +20,12 @@
 package org.codehaus.cargo.maven2;
 
 import java.io.File;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.List;
 import java.util.Map;
+import org.apache.maven.artifact.Artifact;
 
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -160,6 +164,19 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * @readonly
      */
     private Settings settings;
+
+    /**
+     * Calculates the container artifact ID for a given container ID. Note that all containers
+     * identifier are in the form <code>containerArtifactId + the version number + x</code>; for
+     * example <code>jboss42x</code> is from container artifact ID
+     * <code>cargo-core-container-jboss</code>.
+     * @param containerId Container ID, for example <code>jboss42x</code>.
+     * @return Container artifact ID, for example <code>cargo-core-container-jboss</code>.
+     */
+    public static String calculateContainerArtifactId(String containerId)
+    {
+        return "cargo-core-container-" + containerId.replaceAll("\\d+x", "");
+    }
 
     /**
      * @return the Cargo file utility class
@@ -310,6 +327,36 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     protected org.codehaus.cargo.container.configuration.Configuration createConfiguration()
         throws MojoExecutionException
     {
+        String containerId = getContainerElement().getContainerId();
+
+        if (containerId != null && artifactFactory != null)
+        {
+            String containerArtifactId =
+                AbstractCargoMojo.calculateContainerArtifactId(containerId);
+            String pluginVersion = this.getClass().getPackage().getImplementationVersion();
+            Artifact containerArtifact = artifactFactory.createArtifact("org.codehaus.cargo",
+                containerArtifactId, pluginVersion, null, "jar");
+            try
+            {
+                artifactResolver.resolve(containerArtifact, repositories, localRepository);
+
+                URLClassLoader classLoader = (URLClassLoader) this.getClass().getClassLoader();
+                Method method = classLoader.getClass().getDeclaredMethod(
+                    "addURL", new Class[]{URL.class});
+                method.setAccessible(true); 
+                method.invoke(classLoader, containerArtifact.getFile().toURI().toURL());
+
+                createLogger().info("Resolved container artifact " + containerArtifact
+                    + " for container " + containerId, this.getClass().getName());
+            }
+            catch (Exception e)
+            {
+                createLogger().warn("Cannot resolve container artifact " + containerArtifact
+                    + " for container " + containerId + ": " + e.toString(),
+                    this.getClass().getName());
+            }
+        }
+
         org.codehaus.cargo.container.configuration.Configuration configuration;
 
         // If no configuration element has been specified create one with default values.
