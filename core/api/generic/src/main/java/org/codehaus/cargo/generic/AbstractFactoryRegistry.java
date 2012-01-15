@@ -257,10 +257,6 @@ public abstract class AbstractFactoryRegistry
         List<AbstractFactoryRegistry> registries = new ArrayList<AbstractFactoryRegistry>();
         Enumeration providers = Service.providers(
                 new SPInterface(AbstractFactoryRegistry.class), loaders);
-        if (!providers.hasMoreElements())
-        {
-            throw new IllegalStateException("No containers found!");
-        }
         while (providers.hasMoreElements())
         {
             Object provider = providers.nextElement();
