@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Plugin;
@@ -228,7 +230,16 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(LINE_SEPARATOR);
 
         Map<String, Set<ContainerType>> containerIds = containerFactory.getContainerIds();
-        for (String containerId : new TreeSet<String>(containerIds.keySet()))
+        SortedMap<String, String> sortedContainerIds = new TreeMap<String, String>();
+        for (String containerId : containerIds.keySet())
+        {
+            String sortedContainerId = containerId.
+                replace("8x", "08x").
+                replace("9x", "09x").
+                replace("x", "0x");
+            sortedContainerIds.put(sortedContainerId, containerId);
+        }
+        for (String containerId : sortedContainerIds.values())
         {
             Map<String, Boolean> properties;
             try
