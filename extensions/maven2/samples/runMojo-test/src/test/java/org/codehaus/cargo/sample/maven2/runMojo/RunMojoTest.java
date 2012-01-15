@@ -46,7 +46,7 @@ public class RunMojoTest extends TestCase
         final PrintStream outputStream = new PrintStream(output);
 
         String portOption = "-Dcargo.samples.servlet.port=" + System.getProperty("http.port");
-        final String[] options = new String[] { portOption, "-o", "clean", "cargo:run" };
+        final String[] options = new String[] { portOption, "-o", "-X", "clean", "cargo:run" };
 
         new Thread(new Runnable() {
             public void run() {
