@@ -25,8 +25,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
 import java.util.Map;
-import org.apache.maven.artifact.Artifact;
 
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
@@ -341,8 +341,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 artifactResolver.resolve(containerArtifact, repositories, localRepository);
 
                 URLClassLoader classLoader = (URLClassLoader) this.getClass().getClassLoader();
-                Method method = classLoader.getClass().getDeclaredMethod(
-                    "addURL", new Class[]{URL.class});
+                Method method = classLoader.getClass().getMethod("addURL", new Class[]{URL.class});
                 method.setAccessible(true); 
                 method.invoke(classLoader, containerArtifact.getFile().toURI().toURL());
 
