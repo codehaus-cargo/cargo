@@ -21,6 +21,10 @@ package org.codehaus.cargo.maven2;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -336,34 +340,79 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 containerArtifactId, pluginVersion, null, "jar");
             try
             {
+                // Here, we are to resolve the container's Maven artifact dynamically and, most
+                // importantly, add it to the list of JARs the generic API searches into.
+                //
+                // Unfortunately, we have a problem: the easy (and much more compliant) method
+                // would simply be to create a new URLClassLoader, add the container's JAR to it
+                // and let it run. This is unfortunately not compatible with the way the various
+                // CARGO utilities, for example ResourceUtils, works: ResourceUtils looks for the
+                // resources in its own class loader -i.e. resources in child class loaders cannot
+                // be located.
+                //
+                // As a result, we need to:
+                //
+                //  1) Assume that the class loader is a URLClassLoader (or a child of it)
+                //  2) Use the protected (but part of the standard) URLClassLoader.addURL method
+
                 artifactResolver.resolve(containerArtifact, repositories, localRepository);
+                URL containerArtifactUrl = containerArtifact.getFile().toURI().toURL();
 
                 ClassLoader classLoader = this.getClass().getClassLoader();
-                Method addURLMethod = null;
-                Class classLoaderClass = classLoader.getClass();
-                while (addURLMethod == null && classLoaderClass != null)
+                if (!(classLoader instanceof URLClassLoader))
                 {
-                    for (Method declaredMethod : classLoaderClass.getDeclaredMethods())
+                    throw new Exception("The class loader " + classLoader
+                        + " is not a URLClassLoader; as a result container artifacts cannot"
+                        + " be added dynamically");
+                }
+                URLClassLoader urlClassLoader = (URLClassLoader) classLoader;
+
+                List<URL> urlClassLoaderURLs = new ArrayList<URL>();
+                while (classLoader != null)
+                {
+                    if (classLoader instanceof URLClassLoader)
                     {
-                        if (declaredMethod.getName().equalsIgnoreCase("addURL"))
-                        {
-                            addURLMethod = declaredMethod;
-                            break;
-                        }
+                        urlClassLoaderURLs.addAll(
+                            Arrays.asList(((URLClassLoader) classLoader).getURLs()));
                     }
 
-                    classLoaderClass = classLoaderClass.getSuperclass();
+                    classLoader = classLoader.getParent();
                 }
-                if (addURLMethod == null)
-                {
-                    throw new IllegalStateException("Class " + classLoader.getClass().getName()
-                        + " has no addURL method");
-                }
-                addURLMethod.setAccessible(true);
-                addURLMethod.invoke(classLoader, containerArtifact.getFile().toURI().toURL());
 
-                createLogger().info("Resolved container artifact " + containerArtifact
-                    + " for container " + containerId, this.getClass().getName());
+                if (urlClassLoaderURLs.contains(containerArtifactUrl))
+                {
+                    createLogger().debug("Container artifact " + containerArtifact
+                        + " for container " + containerId + " already in class loader",
+                        this.getClass().getName());
+                }
+                else
+                {
+                    Method addURLMethod = null;
+                    Class classLoaderClass = urlClassLoader.getClass();
+                    while (addURLMethod == null && classLoaderClass != null)
+                    {
+                        for (Method declaredMethod : classLoaderClass.getDeclaredMethods())
+                        {
+                            if (declaredMethod.getName().equalsIgnoreCase("addURL"))
+                            {
+                                addURLMethod = declaredMethod;
+                                break;
+                            }
+                        }
+
+                        classLoaderClass = classLoaderClass.getSuperclass();
+                    }
+                    if (addURLMethod == null)
+                    {
+                        throw new IllegalStateException("Class "
+                            + urlClassLoader.getClass().getName() + " has no addURL method");
+                    }
+                    addURLMethod.setAccessible(true);
+                    addURLMethod.invoke(urlClassLoader, containerArtifactUrl);
+
+                    createLogger().info("Resolved container artifact " + containerArtifact
+                        + " for container " + containerId, this.getClass().getName());
+                }
             }
             catch (Exception e)
             {
