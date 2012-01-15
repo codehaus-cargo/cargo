@@ -48,7 +48,7 @@ public class WebLogic9xConfigXmlInstalledLocalDeployer extends AbstractInstalled
      * The path under which the container resources are stored in the JAR.
      */
     protected static final String RESOURCE_PATH =
-        "/org/codehaus/cargo/container/internal/resources/";
+        "org/codehaus/cargo/container/internal/resources/";
 
     /**
      * used to manipulate the config.xml document.

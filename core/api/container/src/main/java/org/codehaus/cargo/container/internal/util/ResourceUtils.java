@@ -55,6 +55,27 @@ public final class ResourceUtils extends LoggedObject
     private static FileHandler defaultFileHandler = new DefaultFileHandler();
 
     /**
+     * Class loader used for the <code>getResourceAsStream</code> calls.
+     */
+    private static ClassLoader resourceLoader = ResourceUtils.class.getClassLoader();
+
+    /**
+     * @return Class loader used for the <code>getResourceAsStream</code> calls.
+     */
+    public static ClassLoader getResourceLoader()
+    {
+        return ResourceUtils.resourceLoader;
+    }
+
+    /**
+     * @param resourceLoader Class loader used for the <code>getResourceAsStream</code> calls.
+     */
+    public static void setResourceLoader(ClassLoader resourceLoader)
+    {
+        ResourceUtils.resourceLoader = resourceLoader;
+    }
+
+    /**
      * Copies a container resource from the JAR into the specified file.
      * 
      * @param resourceName The name of the resource
@@ -78,10 +99,11 @@ public final class ResourceUtils extends LoggedObject
     public void copyResource(String resourceName, String destFile, FileHandler handler)
         throws IOException
     {
-        InputStream in = ResourceUtils.class.getResourceAsStream(resourceName);
+        InputStream in = ResourceUtils.resourceLoader.getResourceAsStream(resourceName);
         if (in == null)
         {
-            throw new IOException("Resource [" + resourceName + "] not found");
+            throw new IOException("Resource [" + resourceName
+                + "] not found in resource loader " + ResourceUtils.resourceLoader);
         }
 
         OutputStream out = null;
@@ -179,10 +201,11 @@ public final class ResourceUtils extends LoggedObject
     public void copyResource(String resourceName, String destFile, FileHandler handler,
         FilterChain filterChain, String encoding) throws IOException
     {
-        InputStream resource = ResourceUtils.class.getResourceAsStream(resourceName);
+        InputStream resource = ResourceUtils.resourceLoader.getResourceAsStream(resourceName);
         if (resource == null)
         {
-            throw new IOException("Resource [" + resourceName + "] not found");
+            throw new IOException("Resource [" + resourceName
+                + "] not found in resource loader " + ResourceUtils.resourceLoader);
         }
 
         BufferedReader in = null;

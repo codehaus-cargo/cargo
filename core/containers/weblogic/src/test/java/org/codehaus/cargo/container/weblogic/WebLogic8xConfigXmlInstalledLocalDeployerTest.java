@@ -50,7 +50,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
      * Resources' path.
      */
     protected static final String RESOURCE_PATH =
-        "/org/codehaus/cargo/container/internal/resources/";
+        "org/codehaus/cargo/container/internal/resources/";
 
     /**
      * BEA_HOME

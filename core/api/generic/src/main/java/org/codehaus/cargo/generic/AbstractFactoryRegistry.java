@@ -28,6 +28,7 @@ import org.apache.commons.discovery.jdk.JDKHooks;
 import org.apache.commons.discovery.resource.ClassLoaders;
 import org.apache.commons.discovery.tools.SPInterface;
 import org.apache.commons.discovery.tools.Service;
+import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
@@ -237,6 +238,12 @@ public abstract class AbstractFactoryRegistry
         }
 
         cl = AbstractFactoryRegistry.class.getClassLoader();
+        if (cl != null)
+        {
+            loaders.put(cl);
+        }
+
+        cl = ResourceUtils.getResourceLoader();
         if (cl != null)
         {
             loaders.put(cl);
