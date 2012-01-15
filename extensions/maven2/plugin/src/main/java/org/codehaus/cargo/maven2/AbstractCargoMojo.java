@@ -22,7 +22,6 @@ package org.codehaus.cargo.maven2;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.List;
 import java.util.Map;
 
@@ -340,9 +339,19 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             {
                 artifactResolver.resolve(containerArtifact, repositories, localRepository);
 
-                URLClassLoader classLoader = (URLClassLoader) this.getClass().getClassLoader();
-                Method method = classLoader.getClass().getMethod("addURL", new Class[]{URL.class});
-                method.setAccessible(true); 
+                ClassLoader classLoader = (ClassLoader) this.getClass().getClassLoader();
+                Method method;
+                if (classLoader.getClass().getName().equals(
+                    "org.codehaus.classworlds.RealmClassLoader"))
+                {
+                    method = classLoader.getClass().getMethod("addConstituent",
+                        new Class[]{URL.class});
+                }
+                else
+                {
+                    method = classLoader.getClass().getMethod("addURL", new Class[]{URL.class});
+                }
+                method.setAccessible(true);
                 method.invoke(classLoader, containerArtifact.getFile().toURI().toURL());
 
                 createLogger().info("Resolved container artifact " + containerArtifact
