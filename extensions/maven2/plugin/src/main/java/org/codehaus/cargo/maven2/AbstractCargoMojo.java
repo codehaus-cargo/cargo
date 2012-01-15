@@ -20,7 +20,6 @@
 package org.codehaus.cargo.maven2;
 
 import java.io.File;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -41,6 +40,7 @@ import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.maven2.configuration.Configuration;
 import org.codehaus.cargo.maven2.configuration.Container;
 import org.codehaus.cargo.maven2.configuration.Deployable;
@@ -343,30 +343,12 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 // Here, we are to resolve the container's Maven artifact dynamically and, most
                 // importantly, add it to the list of JARs the generic API searches into.
                 //
-                // Unfortunately, we have a problem: the easy (and much more compliant) method
-                // would simply be to create a new URLClassLoader, add the container's JAR to it
-                // and let it run. This is unfortunately not compatible with the way the various
-                // CARGO utilities, for example ResourceUtils, works: ResourceUtils looks for the
-                // resources in its own class loader -i.e. resources in child class loaders cannot
-                // be located.
-                //
-                // As a result, we need to:
-                //
-                //  1) Assume that the class loader is a URLClassLoader (or a child of it)
-                //  2) Use the protected (but part of the standard) URLClassLoader.addURL method
+                // The central place for this is the CARGO ResourceUtils.
 
                 artifactResolver.resolve(containerArtifact, repositories, localRepository);
                 URL containerArtifactUrl = containerArtifact.getFile().toURI().toURL();
 
-                ClassLoader classLoader = this.getClass().getClassLoader();
-                if (!(classLoader instanceof URLClassLoader))
-                {
-                    throw new Exception("The class loader " + classLoader
-                        + " is not a URLClassLoader; as a result container artifacts cannot"
-                        + " be added dynamically");
-                }
-                URLClassLoader urlClassLoader = (URLClassLoader) classLoader;
-
+                ClassLoader classLoader = ResourceUtils.getResourceLoader();
                 List<URL> urlClassLoaderURLs = new ArrayList<URL>();
                 while (classLoader != null)
                 {
@@ -387,28 +369,10 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 }
                 else
                 {
-                    Method addURLMethod = null;
-                    Class classLoaderClass = urlClassLoader.getClass();
-                    while (addURLMethod == null && classLoaderClass != null)
-                    {
-                        for (Method declaredMethod : classLoaderClass.getDeclaredMethods())
-                        {
-                            if (declaredMethod.getName().equalsIgnoreCase("addURL"))
-                            {
-                                addURLMethod = declaredMethod;
-                                break;
-                            }
-                        }
-
-                        classLoaderClass = classLoaderClass.getSuperclass();
-                    }
-                    if (addURLMethod == null)
-                    {
-                        throw new IllegalStateException("Class "
-                            + urlClassLoader.getClass().getName() + " has no addURL method");
-                    }
-                    addURLMethod.setAccessible(true);
-                    addURLMethod.invoke(urlClassLoader, containerArtifactUrl);
+                    URLClassLoader containerArtifactClassLoader =
+                        new URLClassLoader(new URL[] {containerArtifactUrl},
+                            this.getClass().getClassLoader());
+                    ResourceUtils.setResourceLoader(containerArtifactClassLoader);
 
                     createLogger().info("Resolved container artifact " + containerArtifact
                         + " for container " + containerId, this.getClass().getName());
