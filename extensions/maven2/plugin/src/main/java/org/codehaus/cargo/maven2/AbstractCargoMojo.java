@@ -21,7 +21,6 @@ package org.codehaus.cargo.maven2;
 
 import java.io.File;
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -339,20 +338,29 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             {
                 artifactResolver.resolve(containerArtifact, repositories, localRepository);
 
-                ClassLoader classLoader = (ClassLoader) this.getClass().getClassLoader();
-                Method method;
-                if (classLoader.getClass().getName().equals(
-                    "org.codehaus.classworlds.RealmClassLoader"))
+                ClassLoader classLoader = this.getClass().getClassLoader();
+                Method addURLMethod = null;
+                Class classLoaderClass = classLoader.getClass();
+                while (addURLMethod == null && classLoaderClass != null)
                 {
-                    method = classLoader.getClass().getMethod("addConstituent",
-                        new Class[]{URL.class});
+                    for (Method declaredMethod : classLoaderClass.getDeclaredMethods())
+                    {
+                        if (declaredMethod.getName().equalsIgnoreCase("addURL"))
+                        {
+                            addURLMethod = declaredMethod;
+                            break;
+                        }
+                    }
+
+                    classLoaderClass = classLoaderClass.getSuperclass();
                 }
-                else
+                if (addURLMethod == null)
                 {
-                    method = classLoader.getClass().getMethod("addURL", new Class[]{URL.class});
+                    throw new IllegalStateException("Class " + classLoader.getClass().getName()
+                        + " has no addURL method");
                 }
-                method.setAccessible(true);
-                method.invoke(classLoader, containerArtifact.getFile().toURI().toURL());
+                addURLMethod.setAccessible(true);
+                addURLMethod.invoke(classLoader, containerArtifact.getFile().toURI().toURL());
 
                 createLogger().info("Resolved container artifact " + containerArtifact
                     + " for container " + containerId, this.getClass().getName());
