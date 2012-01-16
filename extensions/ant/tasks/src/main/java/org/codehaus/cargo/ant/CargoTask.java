@@ -304,17 +304,6 @@ public class CargoTask extends Task
     }
 
     /**
-     * @param hint the container's type (e.g. "installed", "embedded" or "remote")
-     * @deprecated see {@link #setType(ContainerType)}
-     */
-    @Deprecated
-    public void setHint(String hint)
-    {
-        throw new BuildException("The \"hint\" attribute has been removed. You should use the "
-            + "\"type\" attribute instead.");
-    }
-
-    /**
      * Sets the home dir.
      * @param home home dir to set.
      */

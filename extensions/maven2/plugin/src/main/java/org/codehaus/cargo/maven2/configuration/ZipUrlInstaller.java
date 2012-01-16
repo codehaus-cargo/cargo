@@ -21,7 +21,6 @@ package org.codehaus.cargo.maven2.configuration;
 
 import java.io.File;
 import java.net.URL;
-import java.util.logging.Logger;
 
 import org.codehaus.cargo.container.installer.Proxy;
 import org.codehaus.cargo.container.installer.ZipURLInstaller;
@@ -60,22 +59,6 @@ public class ZipUrlInstaller
     private Proxy proxy;
 
     /**
-     * @param installDir the destination directory where the zipped container install will be
-     * downloaded and installed.
-     * @deprecated Use {@link #setDownloadDir(String)} and {@link #setExtractDir(String)} instead.
-     */
-    @Deprecated
-    public void setInstallDir(String installDir)
-    {
-        Logger.getLogger(this.getClass().getName()).warning("The ZipURLInstallerElement's "
-            + "installDir attribute has been deprecated! Please use the downloadDir and "
-            + "extractDir attributes.");
-
-        this.setDownloadDir(installDir);
-        this.setExtractDir(installDir);
-    }
-
-    /**
      * @param downloadDir the destination directory where the zipped container install will be
      * downloaded.
      */
@@ -99,20 +82,6 @@ public class ZipUrlInstaller
     public final void setUrl(URL url)
     {
         this.url = url;
-    }
-
-    /**
-     * @return <code>null</code>
-     * @deprecated Use {@link #getDownloadDir()} and {@link #getExtractDir()} instead.
-     */
-    @Deprecated
-    public final String getInstallDir()
-    {
-        Logger.getLogger(this.getClass().getName()).warning("The ZipURLInstallerElement's "
-            + "installDir attribute has been deprecated! Please use the downloadDir and "
-            + "extractDir attributes.");
-
-        return null;
     }
 
     /**
