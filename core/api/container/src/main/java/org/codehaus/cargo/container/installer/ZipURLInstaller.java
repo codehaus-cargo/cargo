@@ -94,21 +94,6 @@ public class ZipURLInstaller extends LoggedObject implements Installer
 
     /**
      * @param remoteLocation URL where the zipped container is located
-     * @param installDir directory where the zipped container install will be downloaded and
-     * extracted.
-     * @deprecated Use {@link #ZipURLInstaller(String, String, String)} instead.
-     */
-    @Deprecated
-    public ZipURLInstaller(URL remoteLocation, String installDir)
-    {
-        this(remoteLocation, installDir, installDir);
-
-        getLogger().warn("ZipURLInstaller(URL, String) has been deprecated! Please use "
-            + "ZipURLInstaller(URL, String, String)", this.getClass().getName());
-    }
-
-    /**
-     * @param remoteLocation URL where the zipped container is located
      * @param downloadDir directory where the zipped container install will be downloaded.
      * @param extractDir directory where the zipped container install will be extracted.
      */
@@ -119,22 +104,6 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         this.extractDir = extractDir;
         this.fileHandler = new DefaultFileHandler();
         this.antUtils = new AntUtils();
-    }
-
-    /**
-     * @param installDir the destination directory where the zipped container install will be
-     * downloaded and installed.
-     * @deprecated Use {@link #setDownloadDir(String)} and {@link #setExtractDir(String)} instead.
-     */
-    @Deprecated
-    public void setInstallDir(String installDir)
-    {
-        getLogger().warn("ZipURLInstaller.setInstallDir has been deprecated! Please use "
-            + "ZipURLInstaller.setDownloadDir and ZipURLInstaller.setExtractDir",
-                this.getClass().getName());
-
-        this.setDownloadDir(installDir);
-        this.setExtractDir(installDir);
     }
 
     /**

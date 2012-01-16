@@ -36,7 +36,6 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
-import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
  * Common code to perform both local or remote deployments using a Tomcat manager-based deployer.
@@ -344,18 +343,6 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
         URL url;
 
         String managerURL = configuration.getPropertyValue(RemotePropertySet.URI);
-
-        String oldManagerURL = configuration.getPropertyValue(TomcatPropertySet.MANAGER_URL);
-        if (oldManagerURL != null)
-        {
-            getLogger().warn("The property " + TomcatPropertySet.MANAGER_URL
-                + " has been deprecated, please use " + RemotePropertySet.URI + " instead.",
-                this.getClass().getName());
-            if (managerURL == null)
-            {
-                managerURL = oldManagerURL;
-            }
-        }
 
         // If not defined by the user use a default URL
         if (managerURL == null)

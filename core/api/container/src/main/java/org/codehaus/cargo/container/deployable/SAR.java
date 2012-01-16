@@ -49,15 +49,4 @@ public class SAR extends AbstractDeployable
         return DeployableType.SAR;
     }
 
-    /**
-     * Return whether the SAR is exploded or not.
-     * @return true if the sar is a directory
-     * @deprecated Use {@link #isExpanded()} instead.
-     */
-    @Deprecated
-    public boolean isExpandedSar()
-    {
-        return isExpanded();
-    }
-
 }

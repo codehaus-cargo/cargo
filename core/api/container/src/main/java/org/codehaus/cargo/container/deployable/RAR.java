@@ -79,17 +79,6 @@ public class RAR extends AbstractDeployable
     }
 
     /**
-     * Return whether the RAR is exploded or not.
-     * @return true if the RAR is a directory
-     * @deprecated Use {@link #isExpanded()} instead.
-     */
-    @Deprecated
-    public boolean isExpandedRar()
-    {
-        return isExpanded();
-    }
-
-    /**
      * Sets the name of this deployable. It can be anything (there's no special rule).
      * @param name the name of this deployable
      */

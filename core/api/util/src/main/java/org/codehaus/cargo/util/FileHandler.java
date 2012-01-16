@@ -149,17 +149,6 @@ public interface FileHandler
      * @param source the file to copy from. Must not be <code>null</code>
      * @param target the file to copy to. Must not be <code>null</code>
      * @param filterChain the filterChain to use. Must not be <code>null</code>
-     * @deprecated Use {@link #copyFile(String, String, FilterChain, String)} instead.
-     */
-    @Deprecated
-    void copyFile(String source, String target, FilterChain filterChain);
-
-    /**
-     * Copy a file from a source to a destination using a filterchain to specify token replacement.
-     * 
-     * @param source the file to copy from. Must not be <code>null</code>
-     * @param target the file to copy to. Must not be <code>null</code>
-     * @param filterChain the filterChain to use. Must not be <code>null</code>
      * @param encoding The character encoding to use, may be {@code null} or empty to use the
      *            platform's default encoding.
      */
@@ -221,18 +210,6 @@ public interface FileHandler
      * @param out OutputStream to copy data to
      */
     void copy(InputStream in, OutputStream out);
-
-    /**
-     * Replaces using a map of replacements in a given file.
-     * 
-     * @param file File to replace in.
-     * @param replacements Map containing replacements.
-     * @throws CargoException If anything fails, most notably if one of the replacements does not
-     * exist in the file.
-     * @deprecated Use {@link #replaceInFile(String, Map, String)} instead.
-     */
-    @Deprecated
-    void replaceInFile(String file, Map<String, String> replacements) throws CargoException;
 
     /**
      * Replaces using a map of replacements in a given file.
@@ -370,14 +347,6 @@ public interface FileHandler
      * @return - absolute path to the file
      */
     String getAbsolutePath(String path);
-
-    /**
-     * @param file the file for which to load into a String object.
-     * @return a String with the file's contents.
-     * @deprecated Use {@link #readTextFile(String, String)} instead.
-     */
-    @Deprecated
-    String readTextFile(String file);
 
     /**
      * @param file the file for which to load into a String object.

@@ -136,25 +136,6 @@ public final class ResourceUtils extends LoggedObject
      * org.codehaus.cargo.container.internal.util package
      * @param destFile The file to which the contents of the resource should be copied
      * @param filterChain The ordered list of filter readers that should be applied while copying
-     * @throws IOException If an I/O error occurs while copying the resource
-     * @deprecated Use {@link #copyResource(String, File, FilterChain, String)} instead and specify
-     *             the actual file encoding.
-     */
-    @Deprecated
-    public void copyResource(String resourceName, File destFile, FilterChain filterChain)
-        throws IOException
-    {
-        copyResource(resourceName, destFile.getPath(), defaultFileHandler, filterChain);
-    }
-
-    /**
-     * Copies a container resource from the JAR into the specified file, thereby applying the
-     * specified filters.
-     * 
-     * @param resourceName The name of the resource, relative to the
-     * org.codehaus.cargo.container.internal.util package
-     * @param destFile The file to which the contents of the resource should be copied
-     * @param filterChain The ordered list of filter readers that should be applied while copying
      * @param encoding The encoding that should be used when copying the resource. Use null for
      * system default encoding
      * @throws IOException If an I/O error occurs while copying the resource
@@ -163,26 +144,6 @@ public final class ResourceUtils extends LoggedObject
         String encoding) throws IOException
     {
         copyResource(resourceName, destFile.getPath(), defaultFileHandler, filterChain, encoding);
-    }
-
-    /**
-     * Copies a container resource from the JAR into the specified file, using the specified file
-     * handler thereby applying the specified filters.
-     * 
-     * @param resourceName The name of the resource, relative to the
-     * org.codehaus.cargo.container.internal.util package
-     * @param destFile The file to which the contents of the resource should be copied
-     * @param handler The file handler to be used for file copy
-     * @param filterChain The ordered list of filter readers that should be applied while copying
-     * @throws IOException If an I/O error occurs while copying the resource
-     * @deprecated Use {@link #copyResource(String, String, FileHandler, FilterChain, String)}
-     *             instead and specify the actual file encoding.
-     */
-    @Deprecated
-    public void copyResource(String resourceName, String destFile, FileHandler handler,
-        FilterChain filterChain) throws IOException
-    {
-        copyResource(resourceName, destFile, handler, filterChain, null);
     }
 
     /**

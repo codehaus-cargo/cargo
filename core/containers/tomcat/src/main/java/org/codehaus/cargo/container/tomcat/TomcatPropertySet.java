@@ -27,13 +27,6 @@ package org.codehaus.cargo.container.tomcat;
 public interface TomcatPropertySet
 {
     /**
-     * The URL for calling the Tomcat Manager app.
-     * @deprecated Use {@link org.codehaus.cargo.container.property.RemotePropertySet#URI} instead.
-     */
-    @Deprecated
-    String MANAGER_URL = "cargo.tomcat.manager.url";
-
-    /**
      * The boolean value for the empty session path connector property.
      */
     String CONNECTOR_EMPTY_SESSION_PATH = "cargo.tomcat.connector.emptySessionPath";

@@ -102,51 +102,6 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
     }
 
     /**
-     * Decide whether expanded WARs should be deployed. Some classes using this deployer may not
-     * want to deploy expanded WARs as they may want to deploy them in-situ by modifying the
-     * container's configuration file to point to the location of the expanded WAR. This saves some
-     * copying time and make it easier for development round-trips.
-     * 
-     * @param flag if true expanded WARs will be deployed
-     * @deprecated Use {@link #setShouldDeployExpanded(DeployableType, boolean)} instead
-     */
-    @Deprecated
-    public void setShouldDeployExpandedWARs(boolean flag)
-    {
-        setShouldDeployExpanded(DeployableType.WAR, flag);
-    }
-
-    /**
-     * Decide whether expanded SARs should be deployed. Some classes using this deployer may not
-     * want to deploy expanded SARs as they may want to deploy them in-situ by modifying the
-     * container's configuration file to point to the location of the expanded SAR. This saves some
-     * copying time and make it easier for development round-trips.
-     * 
-     * @param flag if true expanded SARs will be deployed
-     * @deprecated Use {@link #setShouldDeployExpanded(DeployableType, boolean)} instead
-     */
-    @Deprecated
-    public void setShouldDeployExpandedSARs(boolean flag)
-    {
-        setShouldDeployExpanded(DeployableType.SAR, flag);
-    }
-
-    /**
-     * Decide whether expanded RARs should be deployed. Some classes using this deployer may not
-     * want to deploy expanded RARs as they may want to deploy them in-situ by modifying the
-     * container's configuration file to point to the location of the expanded RAR. This saves some
-     * copying time and make it easier for development round-trips.
-     * 
-     * @param flag if true expanded RARs will be deployed
-     * @deprecated Use {@link #setShouldDeployExpanded(DeployableType, boolean)} instead
-     */
-    @Deprecated
-    public void setShouldDeployExpandedRARs(boolean flag)
-    {
-        setShouldDeployExpanded(DeployableType.RAR, flag);
-    }
-
-    /**
      * {@inheritDoc}
      * 
      * @see org.codehaus.cargo.container.deployer.Deployer#deploy(Deployable)
