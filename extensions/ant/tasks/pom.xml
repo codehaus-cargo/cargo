@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-extensions-ant</artifactId>
-    <version>1.1.5-SNAPSHOT</version>
+    <version>1.2.0</version>
   </parent>
   <artifactId>cargo-ant</artifactId>
   <name>Cargo Ant tasks</name>
