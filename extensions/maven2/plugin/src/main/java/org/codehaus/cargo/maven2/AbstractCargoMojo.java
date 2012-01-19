@@ -374,6 +374,9 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                             this.getClass().getClassLoader());
                     ResourceUtils.setResourceLoader(containerArtifactClassLoader);
 
+                    // For JBoss remote deployers
+                    Thread.currentThread().setContextClassLoader(containerArtifactClassLoader);
+
                     createLogger().info("Resolved container artifact " + containerArtifact
                         + " for container " + containerId, this.getClass().getName());
                 }
