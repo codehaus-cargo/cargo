@@ -403,7 +403,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                     ResourceUtils.setResourceLoader(containerArtifactClassLoader);
 
                     createLogger().debug("Resolved artifact and dependencies: "
-                        + containerArtifactArray, this.getClass().getName());
+                        + containerArtifactURLs, this.getClass().getName());
                     createLogger().info("Resolved container artifact " + containerArtifact
                         + " for container " + containerId, this.getClass().getName());
                 }
