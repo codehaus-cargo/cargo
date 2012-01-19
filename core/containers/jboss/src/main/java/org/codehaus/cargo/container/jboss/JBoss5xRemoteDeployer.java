@@ -35,6 +35,7 @@ import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.container.jboss.internal.IJBossProfileManagerDeployer;
 import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
 import org.codehaus.cargo.util.CargoException;
@@ -122,19 +123,33 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
         {
             String jBossConnectorClassName = getJBossConnectorClassName();
 
-            final ClassLoader tcccl = Thread.currentThread().getContextClassLoader();
-            if (tcccl != null)
+            try
             {
-                try
+                ResourceUtils.getResourceLoader().loadClass(jBossConnectorClassName);
+                jBossConnectorClassLoader = ResourceUtils.getResourceLoader();
+            }
+            catch (ClassNotFoundException e)
+            {
+                // Never mind, we'll look for this class elsewhere
+            }
+
+            if (jBossConnectorClassLoader == null)
+            {
+                final ClassLoader tcccl = Thread.currentThread().getContextClassLoader();
+                if (tcccl != null)
                 {
-                    tcccl.loadClass(jBossConnectorClassName);
-                    jBossConnectorClassLoader = tcccl;
-                }
-                catch (ClassNotFoundException e)
-                {
-                    // Never mind, we'll look for this class elsewhere
+                    try
+                    {
+                        tcccl.loadClass(jBossConnectorClassName);
+                        jBossConnectorClassLoader = tcccl;
+                    }
+                    catch (ClassNotFoundException e)
+                    {
+                        // Never mind, we'll look for this class elsewhere
+                    }
                 }
             }
+
             if (jBossConnectorClassLoader == null)
             {
                 jBossConnectorClassLoader = this.getClass().getClassLoader();
