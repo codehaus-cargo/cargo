@@ -24,18 +24,18 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
+import org.apache.maven.artifact.metadata.ArtifactMetadataSource;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
-import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
+import org.apache.maven.artifact.resolver.filter.ExcludesArtifactFilter;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.project.MavenProject;
-import org.apache.maven.project.MavenProjectBuilder;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
 import org.codehaus.cargo.container.ContainerType;
@@ -111,13 +111,11 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     private Deployer deployer;
 
     /**
-     * Maven project builder, used to resolve transitive dependencies.
+     * The metadata source.
      * 
-     * @component role="org.apache.maven.project.MavenProjectBuilder"
-     * @required
-     * @readonly
+     * @component
      */
-    private MavenProjectBuilder mavenProjectBuilder; 
+    private ArtifactMetadataSource metadataSource;
 
     /**
      * Maven artifact resolver, used to dynamically resolve JARs for the containers and also to
@@ -379,20 +377,22 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 }
                 else
                 {
-                    MavenProject artifactProject = mavenProjectBuilder.buildFromRepository(
-                        containerArtifact, repositories, localRepository);
-                    Set<Artifact> artifacts = artifactProject.createArtifacts(artifactFactory,
-                        Artifact.SCOPE_COMPILE, new ScopeArtifactFilter(Artifact.SCOPE_COMPILE));
+                    Artifact dummy =
+                        artifactFactory.createArtifact("dummy", "dummy", "0.1", null, "pom");
 
-                    List<URL> containerArtifactURLs = new ArrayList<URL>();
+                    List<String> artifactsToIgnore = new ArrayList<String>(1);
+                    artifactsToIgnore.add("org.codehaus.cargo:*");
+                    Set<Artifact> artifacts = new HashSet<Artifact>(1);
+                    artifacts.add(containerArtifact);
+                    artifacts = artifactResolver.resolveTransitively(artifacts, dummy,
+                        localRepository, repositories, metadataSource,
+                        new ExcludesArtifactFilter(artifactsToIgnore)).getArtifacts();
+
+                    List<URL> containerArtifactURLs = new ArrayList<URL>(artifacts.size());
                     containerArtifactURLs.add(containerArtifact.getFile().toURI().toURL());
                     for (Artifact artifact : artifacts)
                     {
-                        if (!artifact.getGroupId().startsWith("org.codehaus.cargo"))
-                        {
-                            artifactResolver.resolve(artifact, repositories, localRepository);
-                            containerArtifactURLs.add(artifact.getFile().toURI().toURL());
-                        }
+                        containerArtifactURLs.add(artifact.getFile().toURI().toURL());
                     }
                     URL[] containerArtifactArray = new URL[containerArtifactURLs.size()];
                     containerArtifactArray = containerArtifactURLs.toArray(containerArtifactArray);
