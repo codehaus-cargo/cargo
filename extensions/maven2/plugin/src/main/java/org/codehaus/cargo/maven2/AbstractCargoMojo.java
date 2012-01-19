@@ -26,12 +26,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
+import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.MavenProjectBuilder;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
 import org.codehaus.cargo.container.ContainerType;
@@ -107,10 +111,17 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     private Deployer deployer;
 
     /**
-     * The artifact resolver is used to dynamically resolve JARs that have to be in the embedded
-     * container's classpaths. Another solution would have been to statically define them a
-     * dependencies in the plugin's POM. Resolving them in a dynamic manner is much better as only
-     * the required JARs for the defined embedded container are downloaded.
+     * Maven project builder, used to resolve transitive dependencies.
+     * 
+     * @component role="org.apache.maven.project.MavenProjectBuilder"
+     * @required
+     * @readonly
+     */
+    private MavenProjectBuilder mavenProjectBuilder; 
+
+    /**
+     * Maven artifact resolver, used to dynamically resolve JARs for the containers and also to
+     * resolve the JARs for the embedded container's classpaths.
      * 
      * @component
      */
@@ -347,7 +358,6 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
                 artifactResolver.resolve(containerArtifact, repositories, localRepository);
                 URL containerArtifactUrl = containerArtifact.getFile().toURI().toURL();
-
                 ClassLoader classLoader = ResourceUtils.getResourceLoader();
                 List<URL> urlClassLoaderURLs = new ArrayList<URL>();
                 while (classLoader != null)
@@ -369,14 +379,31 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 }
                 else
                 {
+                    MavenProject artifactProject = mavenProjectBuilder.buildFromRepository(
+                        containerArtifact, repositories, localRepository);
+                    Set<Artifact> artifacts = artifactProject.createArtifacts(artifactFactory,
+                        Artifact.SCOPE_COMPILE, new ScopeArtifactFilter(Artifact.SCOPE_COMPILE));
+
+                    List<URL> containerArtifactURLs = new ArrayList<URL>();
+                    containerArtifactURLs.add(containerArtifact.getFile().toURI().toURL());
+                    for (Artifact artifact : artifacts)
+                    {
+                        if (!artifact.getGroupId().startsWith("org.codehaus.cargo"))
+                        {
+                            artifactResolver.resolve(artifact, repositories, localRepository);
+                            containerArtifactURLs.add(artifact.getFile().toURI().toURL());
+                        }
+                    }
+                    URL[] containerArtifactArray = new URL[containerArtifactURLs.size()];
+                    containerArtifactArray = containerArtifactURLs.toArray(containerArtifactArray);
+
                     URLClassLoader containerArtifactClassLoader =
-                        new URLClassLoader(new URL[] {containerArtifactUrl},
+                        new URLClassLoader(containerArtifactArray,
                             this.getClass().getClassLoader());
                     ResourceUtils.setResourceLoader(containerArtifactClassLoader);
 
-                    // For JBoss remote deployers
-                    Thread.currentThread().setContextClassLoader(containerArtifactClassLoader);
-
+                    createLogger().debug("Resolved artifact and dependencies: "
+                        + containerArtifactArray, this.getClass().getName());
                     createLogger().info("Resolved container artifact " + containerArtifact
                         + " for container " + containerId, this.getClass().getName());
                 }
