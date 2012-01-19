@@ -393,6 +393,11 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
                 moduleName = war.getContext();
             }
         }
+        else if (deployable.getType() == DeployableType.EAR)
+        {
+            EAR ear = (EAR) deployable;
+            moduleName = ear.getName();
+        }
         else
         {
             File moduleFile = new File(deployable.getFile());
