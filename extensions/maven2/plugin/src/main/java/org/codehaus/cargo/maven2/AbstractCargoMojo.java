@@ -34,7 +34,6 @@ import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.metadata.ArtifactMetadataSource;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
-import org.apache.maven.artifact.resolver.filter.ExcludesArtifactFilter;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
@@ -604,19 +603,19 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                     Artifact dummy =
                         artifactFactory.createArtifact("dummy", "dummy", "0.1", null, "pom");
 
-                    List<String> artifactsToIgnore = new ArrayList<String>(1);
-                    artifactsToIgnore.add("org.codehaus.cargo:*");
                     Set<Artifact> artifacts = new HashSet<Artifact>(1);
                     artifacts.add(containerArtifact);
                     artifacts = artifactResolver.resolveTransitively(artifacts, dummy,
-                        localRepository, repositories, metadataSource,
-                        new ExcludesArtifactFilter(artifactsToIgnore)).getArtifacts();
+                        repositories, localRepository, metadataSource).getArtifacts();
 
-                    List<URL> containerArtifactURLs = new ArrayList<URL>(artifacts.size());
-                    containerArtifactURLs.add(containerArtifact.getFile().toURI().toURL());
+                    List<URL> containerArtifactURLs = new ArrayList<URL>();
                     for (Artifact artifact : artifacts)
                     {
-                        containerArtifactURLs.add(artifact.getFile().toURI().toURL());
+                        URL artifactURL = artifact.getFile().toURI().toURL();
+                        if (!urlClassLoaderURLs.contains(artifactURL))
+                        {
+                            containerArtifactURLs.add(artifactURL);
+                        }
                     }
                     URL[] containerArtifactArray = new URL[containerArtifactURLs.size()];
                     containerArtifactArray = containerArtifactURLs.toArray(containerArtifactArray);
