@@ -338,84 +338,6 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     protected org.codehaus.cargo.container.configuration.Configuration createConfiguration()
         throws MojoExecutionException
     {
-        String containerId = getContainerElement().getContainerId();
-
-        if (containerId != null && artifactFactory != null)
-        {
-            String containerArtifactId =
-                AbstractCargoMojo.calculateContainerArtifactId(containerId);
-            String pluginVersion = this.getClass().getPackage().getImplementationVersion();
-            Artifact containerArtifact = artifactFactory.createArtifact("org.codehaus.cargo",
-                containerArtifactId, pluginVersion, null, "jar");
-            try
-            {
-                // Here, we are to resolve the container's Maven artifact dynamically and, most
-                // importantly, add it to the list of JARs the generic API searches into.
-                //
-                // The central place for this is the CARGO ResourceUtils.
-
-                artifactResolver.resolve(containerArtifact, repositories, localRepository);
-                URL containerArtifactUrl = containerArtifact.getFile().toURI().toURL();
-                ClassLoader classLoader = ResourceUtils.getResourceLoader();
-                List<URL> urlClassLoaderURLs = new ArrayList<URL>();
-                while (classLoader != null)
-                {
-                    if (classLoader instanceof URLClassLoader)
-                    {
-                        urlClassLoaderURLs.addAll(
-                            Arrays.asList(((URLClassLoader) classLoader).getURLs()));
-                    }
-
-                    classLoader = classLoader.getParent();
-                }
-
-                if (urlClassLoaderURLs.contains(containerArtifactUrl))
-                {
-                    createLogger().debug("Container artifact " + containerArtifact
-                        + " for container " + containerId + " already in class loader",
-                        this.getClass().getName());
-                }
-                else
-                {
-                    Artifact dummy =
-                        artifactFactory.createArtifact("dummy", "dummy", "0.1", null, "pom");
-
-                    List<String> artifactsToIgnore = new ArrayList<String>(1);
-                    artifactsToIgnore.add("org.codehaus.cargo:*");
-                    Set<Artifact> artifacts = new HashSet<Artifact>(1);
-                    artifacts.add(containerArtifact);
-                    artifacts = artifactResolver.resolveTransitively(artifacts, dummy,
-                        localRepository, repositories, metadataSource,
-                        new ExcludesArtifactFilter(artifactsToIgnore)).getArtifacts();
-
-                    List<URL> containerArtifactURLs = new ArrayList<URL>(artifacts.size());
-                    containerArtifactURLs.add(containerArtifact.getFile().toURI().toURL());
-                    for (Artifact artifact : artifacts)
-                    {
-                        containerArtifactURLs.add(artifact.getFile().toURI().toURL());
-                    }
-                    URL[] containerArtifactArray = new URL[containerArtifactURLs.size()];
-                    containerArtifactArray = containerArtifactURLs.toArray(containerArtifactArray);
-
-                    URLClassLoader containerArtifactClassLoader =
-                        new URLClassLoader(containerArtifactArray,
-                            this.getClass().getClassLoader());
-                    ResourceUtils.setResourceLoader(containerArtifactClassLoader);
-
-                    createLogger().debug("Resolved artifact and dependencies: "
-                        + containerArtifactURLs, this.getClass().getName());
-                    createLogger().info("Resolved container artifact " + containerArtifact
-                        + " for container " + containerId, this.getClass().getName());
-                }
-            }
-            catch (Exception e)
-            {
-                createLogger().warn("Cannot resolve container artifact " + containerArtifact
-                    + " for container " + containerId + ": " + e.toString(),
-                    this.getClass().getName());
-            }
-        }
-
         org.codehaus.cargo.container.configuration.Configuration configuration;
 
         // If no configuration element has been specified create one with default values.
@@ -639,6 +561,83 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             getLog().info("No container defined, using a default ["
                 + getContainerElement().getContainerId() + ", "
                 + getContainerElement().getType().getType() + "] container");
+        }
+
+        String containerId = getContainerElement().getContainerId();
+        if (containerId != null && artifactFactory != null)
+        {
+            String containerArtifactId =
+                AbstractCargoMojo.calculateContainerArtifactId(containerId);
+            String pluginVersion = this.getClass().getPackage().getImplementationVersion();
+            Artifact containerArtifact = artifactFactory.createArtifact("org.codehaus.cargo",
+                containerArtifactId, pluginVersion, null, "jar");
+            try
+            {
+                // Here, we are to resolve the container's Maven artifact dynamically and, most
+                // importantly, add it to the list of JARs the generic API searches into.
+                //
+                // The central place for this is the CARGO ResourceUtils.
+
+                artifactResolver.resolve(containerArtifact, repositories, localRepository);
+                URL containerArtifactUrl = containerArtifact.getFile().toURI().toURL();
+                ClassLoader classLoader = ResourceUtils.getResourceLoader();
+                List<URL> urlClassLoaderURLs = new ArrayList<URL>();
+                while (classLoader != null)
+                {
+                    if (classLoader instanceof URLClassLoader)
+                    {
+                        urlClassLoaderURLs.addAll(
+                            Arrays.asList(((URLClassLoader) classLoader).getURLs()));
+                    }
+
+                    classLoader = classLoader.getParent();
+                }
+
+                if (urlClassLoaderURLs.contains(containerArtifactUrl))
+                {
+                    createLogger().debug("Container artifact " + containerArtifact
+                        + " for container " + containerId + " already in class loader",
+                        this.getClass().getName());
+                }
+                else
+                {
+                    Artifact dummy =
+                        artifactFactory.createArtifact("dummy", "dummy", "0.1", null, "pom");
+
+                    List<String> artifactsToIgnore = new ArrayList<String>(1);
+                    artifactsToIgnore.add("org.codehaus.cargo:*");
+                    Set<Artifact> artifacts = new HashSet<Artifact>(1);
+                    artifacts.add(containerArtifact);
+                    artifacts = artifactResolver.resolveTransitively(artifacts, dummy,
+                        localRepository, repositories, metadataSource,
+                        new ExcludesArtifactFilter(artifactsToIgnore)).getArtifacts();
+
+                    List<URL> containerArtifactURLs = new ArrayList<URL>(artifacts.size());
+                    containerArtifactURLs.add(containerArtifact.getFile().toURI().toURL());
+                    for (Artifact artifact : artifacts)
+                    {
+                        containerArtifactURLs.add(artifact.getFile().toURI().toURL());
+                    }
+                    URL[] containerArtifactArray = new URL[containerArtifactURLs.size()];
+                    containerArtifactArray = containerArtifactURLs.toArray(containerArtifactArray);
+
+                    URLClassLoader containerArtifactClassLoader =
+                        new URLClassLoader(containerArtifactArray,
+                            this.getClass().getClassLoader());
+                    ResourceUtils.setResourceLoader(containerArtifactClassLoader);
+
+                    createLogger().debug("Resolved artifact and dependencies: "
+                        + containerArtifactURLs, this.getClass().getName());
+                    createLogger().info("Resolved container artifact " + containerArtifact
+                        + " for container " + containerId, this.getClass().getName());
+                }
+            }
+            catch (Exception e)
+            {
+                createLogger().warn("Cannot resolve container artifact " + containerArtifact
+                    + " for container " + containerId + ": " + e.toString(),
+                    this.getClass().getName());
+            }
         }
     }
 

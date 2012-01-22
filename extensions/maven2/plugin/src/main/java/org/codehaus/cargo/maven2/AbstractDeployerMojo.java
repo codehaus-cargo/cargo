@@ -76,11 +76,6 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
     }
 
     /**
-     * Deployer factory.
-     */
-    private DeployerFactory deployerFactory = new DefaultDeployerFactory();
-
-    /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.maven2.AbstractCargoMojo#doExecute()
      */
@@ -104,22 +99,6 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
     }
 
     /**
-     * @param factory Deployer factory.
-     */
-    public void setDeployerFactory(DeployerFactory factory)
-    {
-        this.deployerFactory = factory;
-    }
-
-    /**
-     * @return Deployer factory.
-     */
-    public DeployerFactory getDeployerFactory()
-    {
-        return this.deployerFactory;
-    }
-
-    /**
      * Create a deployer.
      * @param container Container.
      * @return Deployer for <code>container</code>.
@@ -134,7 +113,7 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
         // @see DeployerFactory#createDeployer(Container)
         if (getDeployerElement() == null)
         {
-            deployer = getDeployerFactory().createDeployer(container);
+            deployer = createDeployerFactory().createDeployer(container);
         }
         else
         {
@@ -142,6 +121,14 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
         }
 
         return deployer;
+    }
+
+    /**
+     * @return Deployer factory.
+     */
+    protected DeployerFactory createDeployerFactory()
+    {
+        return new DefaultDeployerFactory();
     }
 
     /**

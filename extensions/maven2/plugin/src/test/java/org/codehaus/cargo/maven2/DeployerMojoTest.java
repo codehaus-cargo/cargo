@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
 import org.codehaus.cargo.container.stub.InstalledLocalDeployerStub;
 import org.codehaus.cargo.container.stub.RemoteContainerStub;
 import org.codehaus.cargo.container.stub.RemoteDeployerStub;
+import org.codehaus.cargo.generic.deployer.DeployerFactory;
 import org.codehaus.cargo.maven2.configuration.Deployer;
 
 /**
@@ -42,6 +43,15 @@ public class DeployerMojoTest extends TestCase
      */
     private class TestableDeployerMojo extends AbstractDeployerMojo
     {
+        @Override
+        protected DeployerFactory createDeployerFactory()
+        {
+            DeployerFactory deployerFactory = super.createDeployerFactory();
+            deployerFactory.registerDeployer(
+                RemoteContainerStub.ID, DeployerType.REMOTE, RemoteDeployerStub.class);
+            return deployerFactory;
+        }
+
         @Override
         protected void performDeployerActionOnSingleDeployable(
             org.codehaus.cargo.container.deployer.Deployer deployer,
@@ -59,8 +69,6 @@ public class DeployerMojoTest extends TestCase
     public void testCreateDeployerWhenNoDeployerElementSpecified() throws Exception
     {
         TestableDeployerMojo mojo = new TestableDeployerMojo();
-        mojo.getDeployerFactory().registerDeployer(RemoteContainerStub.ID, DeployerType.REMOTE,
-            RemoteDeployerStub.class);
 
         org.codehaus.cargo.container.deployer.Deployer deployer = mojo.createDeployer(
             new RemoteContainerStub());
