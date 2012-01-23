@@ -117,14 +117,14 @@ public abstract class AbstractGlassFishInstalledLocalContainer
 
         // see https://glassfish.dev.java.net/issues/show_bug.cgi?id=885
         // needs to spawn
-        this.invokeAsAdmin(true, java, new String[]
-        {
+        this.invokeAsAdmin(true, java,
             "start-domain",
             "--interactive=false",
             "--domaindir",
             this.getConfiguration().getHome(),
+            "--debug=" + this.getConfiguration().getPropertyValue(GlassFishPropertySet.DEBUG_MODE),
             this.getConfiguration().getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
-        });
+        );
 
         // wait for the server to start
         boolean started = false;

@@ -55,6 +55,7 @@ public class GlassFishExistingLocalConfiguration extends AbstractExistingLocalCo
         this.setProperty(RemotePropertySet.PASSWORD, "adminadmin");
         this.setProperty(GlassFishPropertySet.ADMIN_PORT, "4848");
         this.setProperty(GlassFishPropertySet.DOMAIN_NAME, "cargo-domain");
+        this.setProperty(GlassFishPropertySet.DEBUG_MODE, "false");
 
         // ServletPropertySet.PORT default set to 8080 by the super class
     }

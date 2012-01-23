@@ -48,6 +48,7 @@ public class GlassFishExistingLocalConfigurationCapability extends
         this.defaultSupportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
         this.defaultSupportsMap.put(GlassFishPropertySet.ADMIN_PORT, Boolean.TRUE);
         this.defaultSupportsMap.put(GlassFishPropertySet.DOMAIN_NAME, Boolean.TRUE);
+        this.defaultSupportsMap.put(GlassFishPropertySet.DEBUG_MODE, Boolean.TRUE);
     }
 
     /**

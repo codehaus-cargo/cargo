@@ -64,6 +64,7 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
         this.setProperty(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT, "3920");
         this.setProperty(GlassFishPropertySet.JMX_ADMIN_PORT, "8686");
         this.setProperty(GlassFishPropertySet.DOMAIN_NAME, "cargo-domain");
+        this.setProperty(GlassFishPropertySet.DEBUG_MODE, "false");
 
         // ServletPropertySet.PORT default set to 8080 by the super class
     }

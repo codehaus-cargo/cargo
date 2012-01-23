@@ -69,4 +69,9 @@ public interface GlassFishPropertySet
      * Glassfish domain name.
      */
     String DOMAIN_NAME = "cargo.glassfish.domain.name";
+
+    /**
+     * Glassfish domain debug mode.
+     */
+    String DEBUG_MODE = "cargo.glassfish.domain.debug";
 }
