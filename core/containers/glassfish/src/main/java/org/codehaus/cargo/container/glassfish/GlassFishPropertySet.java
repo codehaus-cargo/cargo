@@ -31,6 +31,11 @@ public interface GlassFishPropertySet
      */
     String ADMIN_PORT = "cargo.glassfish.adminPort";
 
+    /**
+     * The value for --portbase parameter. No default.
+     */
+    String PORT_BASE = "cargo.glassfish.portbase";
+
     //
     // these names are named to match asadmin --domainproperties option
     //
@@ -64,6 +69,20 @@ public interface GlassFishPropertySet
      * JMX admin port. Defaults to 8686.
      */
     String JMX_ADMIN_PORT = "cargo.glassfish.domain.jmxPort";
+
+    /**
+     * Debugger port. Defaults to 9009.
+     *
+     * GlassFish 3 only.
+     */
+    String DEBUGGER_PORT = "cargo.glassfish.java.debugger.port";
+
+    /**
+     * Felix shell service port. Defaults to 6666.
+     *
+     * GlassFish 3 only.
+     */
+    String OSGI_SHELL_PORT = "cargo.glassfish.osgi.shell.telnet.port";
 
     /**
      * Glassfish domain name.

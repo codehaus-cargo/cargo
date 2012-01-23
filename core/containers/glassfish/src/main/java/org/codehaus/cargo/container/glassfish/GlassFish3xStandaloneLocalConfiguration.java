@@ -86,8 +86,10 @@ public class GlassFish3xStandaloneLocalConfiguration
                     + this.getPropertyValueString(GlassFishPropertySet.IIOP_PORT) + ':'
                     + this.getPropertyValueString(GlassFishPropertySet.IIOPS_PORT) + ':'
                     + this.getPropertyValueString(GlassFishPropertySet.HTTPS_PORT) + ':'
-                    + this.getPropertyValueString(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT)
-                    + ':' + this.getPropertyValueString(GlassFishPropertySet.JMX_ADMIN_PORT),
+                    + this.getPropertyValueString(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT) + ':'
+                    + this.getPropertyValueString(GlassFishPropertySet.JMX_ADMIN_PORT) + ':'
+                    + this.getPropertyValueString(GlassFishPropertySet.DEBUGGER_PORT) + ':'
+                    + this.getPropertyValueString(GlassFishPropertySet.OSGI_SHELL_PORT),
 
                 "--domaindir", this.getHome(), this
                     .getPropertyValue(GlassFishPropertySet.DOMAIN_NAME));

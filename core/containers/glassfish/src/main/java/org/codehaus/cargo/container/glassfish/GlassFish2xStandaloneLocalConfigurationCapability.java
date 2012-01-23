@@ -60,6 +60,7 @@ public class GlassFish2xStandaloneLocalConfigurationCapability extends
         this.defaultSupportsMap.put(GlassFishPropertySet.JMX_ADMIN_PORT, Boolean.TRUE);
         this.defaultSupportsMap.put(GlassFishPropertySet.DOMAIN_NAME, Boolean.TRUE);
         this.defaultSupportsMap.put(GlassFishPropertySet.DEBUG_MODE, Boolean.TRUE);
+        this.defaultSupportsMap.put(GlassFishPropertySet.PORT_BASE, Boolean.TRUE);
 
         // this.defaultSupportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
     }

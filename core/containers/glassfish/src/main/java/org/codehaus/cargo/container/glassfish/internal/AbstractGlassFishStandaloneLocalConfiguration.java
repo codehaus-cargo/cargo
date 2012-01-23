@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.FileConfig;
@@ -30,6 +31,7 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
@@ -63,10 +65,47 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
         this.setProperty(GlassFishPropertySet.IIOPS_PORT, "3820");
         this.setProperty(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT, "3920");
         this.setProperty(GlassFishPropertySet.JMX_ADMIN_PORT, "8686");
+        this.setProperty(GlassFishPropertySet.DEBUGGER_PORT, "9009");
+        this.setProperty(GlassFishPropertySet.OSGI_SHELL_PORT, "6666");
         this.setProperty(GlassFishPropertySet.DOMAIN_NAME, "cargo-domain");
         this.setProperty(GlassFishPropertySet.DEBUG_MODE, "false");
 
         // ServletPropertySet.PORT default set to 8080 by the super class
+    }
+
+    @Override 
+    public void verify()
+    {
+        // If portBase is specfied we override settings for various ports accordingly.
+        // It is neccessary that depolyer has valid admin and http ports.
+        String portBase = this.getPropertyValue(GlassFishPropertySet.PORT_BASE);
+        if (portBase != null && portBase.trim().length() > 0)
+        {
+            try
+            {
+                int base = Integer.parseInt(portBase);
+                this.setProperty(ServletPropertySet.PORT, Integer.toString(base + 80));
+                this.setProperty(GlassFishPropertySet.ADMIN_PORT, Integer.toString(base + 48));
+                this.setProperty(GlassFishPropertySet.JMS_PORT, Integer.toString(base + 76));
+                this.setProperty(GlassFishPropertySet.IIOP_PORT, Integer.toString(base + 37));
+                this.setProperty(GlassFishPropertySet.HTTPS_PORT, Integer.toString(base + 81));
+                this.setProperty(GlassFishPropertySet.IIOPS_PORT, Integer.toString(base + 38));
+                this.setProperty(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT,
+                        Integer.toString(base + 39));
+                this.setProperty(GlassFishPropertySet.JMX_ADMIN_PORT, Integer.toString(base + 86));
+                this.setProperty(GlassFishPropertySet.DEBUGGER_PORT, Integer.toString(base + 9));
+                this.setProperty(GlassFishPropertySet.OSGI_SHELL_PORT, Integer.toString(base + 66));
+            }
+            catch (NumberFormatException e)
+            {
+                throw new ContainerException("Invalid portbase value ["
+                        + portBase + "]. The portbase value must be an integer", e);
+            }
+        }
+
+        // We call super at the end, so it has a chance to verify
+        // properties we could have overriden.
+        super.verify();
     }
 
     /**
