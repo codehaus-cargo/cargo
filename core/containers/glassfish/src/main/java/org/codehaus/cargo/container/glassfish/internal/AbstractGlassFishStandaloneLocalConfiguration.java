@@ -77,7 +77,8 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
     protected void doConfigure(LocalContainer container) throws Exception
     {
         DefaultFileHandler fileHandler = new DefaultFileHandler();
-        fileHandler.delete(this.getHome());
+        fileHandler.delete(fileHandler.append(this.getHome(),
+            this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)));
 
         int exitCode = configureUsingAsAdmin((AbstractGlassFishInstalledLocalContainer) container);
 
