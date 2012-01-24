@@ -34,6 +34,7 @@ import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.metadata.ArtifactMetadataSource;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
+import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
@@ -606,7 +607,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                     Set<Artifact> artifacts = new HashSet<Artifact>(1);
                     artifacts.add(containerArtifact);
                     artifacts = artifactResolver.resolveTransitively(artifacts, dummy,
-                        repositories, localRepository, metadataSource).getArtifacts();
+                        localRepository, repositories, metadataSource,
+                        new ScopeArtifactFilter(Artifact.SCOPE_COMPILE)).getArtifacts();
 
                     List<URL> containerArtifactURLs = new ArrayList<URL>();
                     for (Artifact artifact : artifacts)
