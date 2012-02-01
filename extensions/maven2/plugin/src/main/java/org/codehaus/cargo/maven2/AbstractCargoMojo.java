@@ -635,7 +635,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             }
             catch (Exception e)
             {
-                createLogger().warn("Cannot resolve container artifact " + containerArtifact
+                createLogger().debug("Cannot resolve container artifact " + containerArtifact
                     + " for container " + containerId + ": " + e.toString(),
                     this.getClass().getName());
             }
