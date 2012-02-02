@@ -33,7 +33,7 @@ import org.codehaus.cargo.module.webapp.WebXmlUtils;
 /**
  * Unit tests for {@link WebXmlMerger}.
  * 
- * @version $Id: WebXmlMergerTest.java 2760 2011-03-19 17:33:47Z alitokmen $
+ * @version $Id$
  */
 public final class WebXmlSecurityRoleMergerTest extends AbstractDocumentBuilderTest
 {

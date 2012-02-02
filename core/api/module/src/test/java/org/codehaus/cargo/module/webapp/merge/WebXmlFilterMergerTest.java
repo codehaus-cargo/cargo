@@ -33,7 +33,7 @@ import org.codehaus.cargo.module.webapp.WebXmlUtils;
 /**
  * Unit tests for {@link WebXmlMerger}.
  * 
- * @version $Id: WebXmlMergerTest.java 2760 2011-03-19 17:33:47Z alitokmen $
+ * @version $Id$
  */
 public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
 {
@@ -224,7 +224,7 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests wether a single filter with multiple mappings is correctly merged into an empty
+     * Tests whether a single filter with multiple mappings is correctly merged into an empty
      * descriptor.
      * 
      * @throws Exception If an unexpected error occurs
@@ -262,6 +262,45 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
         assertEquals("/f1mapping1", filterMappings.get(0));
         assertEquals("/f1mapping2", filterMappings.get(1));
         assertEquals("/f1mapping3", filterMappings.get(2));
+    }
+
+    /**
+     * Tests whether the same filter in two different files is mapped correctly (i.e., once).
+     * 
+     * @throws Exception If an unexpected error occurs
+     */
+    public void testMergeSameFilterInTwoDocuments() throws Exception
+    {
+        String srcXml = "<web-app>"
+            + "  <filter>"
+            + "    <filter-name>f1</filter-name>"
+            + "    <filter-class>fclass1</filter-class>"
+            + "  </filter>"
+            + "  <filter-mapping>"
+            + "    <filter-name>f1</filter-name>"
+            + "    <url-pattern>/f1mapping1</url-pattern>"
+            + "  </filter-mapping>"
+            + "</web-app>";
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        String mergeXml = "<web-app>"
+            + "  <filter>"
+            + "    <filter-name>f1</filter-name>"
+            + "    <filter-class>fclass1</filter-class>"
+            + "  </filter>"
+            + "  <filter-mapping>"
+            + "    <filter-name>f1</filter-name>"
+            + "    <url-pattern>/f1mapping1</url-pattern>"
+            + "  </filter-mapping>"
+            + "</web-app>";
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXmlMerger merger = new WebXmlMerger(srcWebXml);
+        merger.mergeFilters(mergeWebXml);
+        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
+        List<String> filterMappings = WebXmlUtils.getFilterMappings(srcWebXml, "f1");
+        assertEquals(1, filterMappings.size());
+        assertEquals("/f1mapping1", filterMappings.get(0));
     }
 
     /**

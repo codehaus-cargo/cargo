@@ -20,6 +20,7 @@
 package org.codehaus.cargo.module.webapp;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.codehaus.cargo.module.Descriptor;
@@ -857,39 +858,70 @@ public final class WebXmlUtils
             throw new IllegalStateException("Filter '" + filterName + "' not defined");
         }
 
-        FilterMapping filterMappingElement = (FilterMapping) webXml.getDescriptorType()
-                .getTagByName(WebXmlType.FILTER_MAPPING).create();
+        List<FilterMapping> mappings = WebXmlUtils.getFilterMappingElements(webXml,
+            filterName);
 
-        filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
-            WebXmlType.FILTER_NAME).create().setText(
-            filterName));
-
-        String urlPattern = rhs.getUrlPattern();
-
-        if (urlPattern != null)
+        FilterMapping filterMappingElement = null;
+        for (FilterMapping mapping : mappings)
         {
-            filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
-                    WebXmlType.URL_PATTERN).create().setText(urlPattern));
-        }
-        else
-        {
-            // must be servlet name instead
-            String servletName = rhs.getServletName();
-            if (servletName == null)
+            if (rhs.getUrlPattern() != null)
             {
-                throw new IllegalStateException("Filter '" + filterName
-                        + "' has neither a servlet-name nor a url-pattern.");
+                if (rhs.getUrlPattern().equals(mapping.getUrlPattern()))
+                {
+                    filterMappingElement = mapping;
+                    break;
+                }
             }
-            filterMappingElement.setServletName(servletName);
+            else if (rhs.getServletName() != null)
+            {
+                if (rhs.getServletName().equals(mapping.getServletName()))
+                {
+                    filterMappingElement = mapping;
+                    break;
+                }
+            }
+        }
+
+        if (filterMappingElement == null)
+        {
+            filterMappingElement = (FilterMapping) webXml.getDescriptorType()
+                    .getTagByName(WebXmlType.FILTER_MAPPING).create();
+
+            filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
+                WebXmlType.FILTER_NAME).create().setText(filterName));
+
+            String urlPattern = rhs.getUrlPattern();
+
+            if (urlPattern != null)
+            {
+                filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
+                        WebXmlType.URL_PATTERN).create().setText(urlPattern));
+            }
+            else
+            {
+                // must be servlet name instead
+                String servletName = rhs.getServletName();
+                if (servletName == null)
+                {
+                    throw new IllegalStateException("Filter '" + filterName
+                            + "' has neither a servlet-name nor a url-pattern.");
+                }
+                filterMappingElement.setServletName(servletName);
+            }
         }
 
         String[] dispatchers = rhs.getDispatchers();
+        List<String> filterMappingElementDispatchers =
+            Arrays.asList(filterMappingElement.getDispatchers());
 
         if (dispatchers != null)
         {
             for (String dispatcher : dispatchers)
             {
-                filterMappingElement.addDispatcher(dispatcher);
+                if (!filterMappingElementDispatchers.contains(dispatcher))
+                {
+                    filterMappingElement.addDispatcher(dispatcher);
+                }
             }
         }
 
@@ -1006,7 +1038,6 @@ public final class WebXmlUtils
         }
 
         return initParam.getParamValue();
-
     }
 
     /**

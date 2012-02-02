@@ -35,7 +35,9 @@ import org.codehaus.cargo.module.webapp.WebXmlType;
 import org.codehaus.cargo.module.webapp.WebXmlUtils;
 import org.codehaus.cargo.module.webapp.WebXmlVersion;
 import org.codehaus.cargo.module.webapp.elements.FilterMapping;
+import org.codehaus.cargo.module.webapp.elements.MimeMapping;
 import org.codehaus.cargo.util.CargoException;
+import org.jdom.Element;
 
 /**
  * Helper class that can merge two web deployment descriptors.
@@ -70,6 +72,8 @@ public class WebXmlMerger extends XmlMerger
             WebXmlType.FILTER_MAPPING, DescriptorMergerByTag.IGNORE);
         descriptorMergerByTag.setStrategy(
             WebXmlType.SERVLET, DescriptorMergerByTag.IGNORE);
+        descriptorMergerByTag.setStrategy(
+            WebXmlType.MIME_MAPPING, DescriptorMergerByTag.IGNORE);
 
         addMerger(descriptorMergerByTag);
     }
@@ -129,6 +133,7 @@ public class WebXmlMerger extends XmlMerger
 
             mergeSecurityRoles(theMergeWebXml);
 
+            mergeMimeMappings(theMergeWebXml);
         }
         catch (Exception e)
         {
@@ -311,5 +316,54 @@ public class WebXmlMerger extends XmlMerger
             getLogger().debug("Merged " + count + " security roles into the descriptor",
                 this.getClass().getName());
         }
+    }
+
+    /**
+     * Merges the servlet definitions from the specified descriptor into the original descriptor.
+     * 
+     * @param theWebXml The descriptor that contains the filter definitions that are to be merged
+     * into the original descriptor
+     */
+    protected final void mergeMimeMappings(WebXml theWebXml)
+    {
+        int count = 0;
+
+        List<Element> srcItems = webXml.getTags(WebXmlType.MIME_MAPPING);
+        List<Element> targetItems = theWebXml.getTags(WebXmlType.MIME_MAPPING);
+
+        for (Element targetItem : targetItems)
+        {
+            boolean foundItem = false;
+
+            MimeMapping targetMimeMapping = (MimeMapping) targetItem;
+
+            for (Element srcItem : srcItems)
+            {
+                MimeMapping srcMimeMapping = (MimeMapping) srcItem;
+
+                if (targetMimeMapping.getExtension().equals(srcMimeMapping.getExtension()))
+                {
+                    foundItem = true;
+                    break;
+                }
+            }
+
+            if (!foundItem)
+            {
+                MimeMapping mimeMappingElement = (MimeMapping) webXml.getDescriptorType().
+                    getTagByName(WebXmlType.MIME_MAPPING).create();
+
+                mimeMappingElement.setExtension(targetMimeMapping.getExtension());
+                mimeMappingElement.setMimeType(targetMimeMapping.getMimeType());
+
+                this.webXml.addElement(mimeMappingElement.getTag(), mimeMappingElement,
+                    this.webXml.getRootElement());
+                this.webXml.addTag(mimeMappingElement);
+            }
+        }
+
+        getLogger().debug("Merged " + count + " mime mapping definition"
+            + (count != 1 ? "s " : " ") + "into the descriptor",
+            this.getClass().getName());
     }
 }

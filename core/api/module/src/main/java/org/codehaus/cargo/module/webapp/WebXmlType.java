@@ -148,6 +148,16 @@ public abstract class WebXmlType extends AbstractDescriptorType
     public static final String MIME_MAPPING = "mime-mapping";
 
     /**
+     * Element name 'extension'.
+     */
+    public static final String EXTENSION = "extension";
+
+    /**
+     * Element name 'mime-type'.
+     */
+    public static final String MIME_TYPE = "mime-type";
+
+    /**
      * Element name 'welcome-file-list'.
      */
     public static final String WELCOME_FILE_LIST = "welcome-file-list";

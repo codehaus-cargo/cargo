@@ -33,6 +33,7 @@ import org.codehaus.cargo.module.webapp.elements.Filter;
 import org.codehaus.cargo.module.webapp.elements.FilterMapping;
 import org.codehaus.cargo.module.webapp.elements.InitParam;
 import org.codehaus.cargo.module.webapp.elements.Listener;
+import org.codehaus.cargo.module.webapp.elements.MimeMapping;
 import org.codehaus.cargo.module.webapp.elements.SecurityConstraint;
 import org.codehaus.cargo.module.webapp.elements.Servlet;
 
@@ -99,7 +100,7 @@ public class WebXml24Type extends WebXmlType
             new WebXmlTag(this, "servlet-mapping"),
             new WebXmlTag(this, "url-pattern"),
             new WebXmlTag(this, "session-config", false),
-            new WebXmlTag(this, "mime-mapping"),
+            new WebXmlTag(this, "mime-mapping", false, null, MimeMapping.class),
             new WebXmlTag(this, "welcome-file-list", false),
             new WebXmlTag(this, "error-page", true, new Identifier(
                         "concat(error-code,'>',exception-type)"), null),
