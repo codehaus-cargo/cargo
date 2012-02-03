@@ -43,7 +43,7 @@ public class MimeMapping extends WebXmlElement
      */
     public String getExtension()
     {
-        Element e = getChild(WebXmlType.EXTENSION, this.getNamespace());
+        Element e = child(WebXmlType.EXTENSION);
         return e.getText();
     }
 
@@ -63,7 +63,7 @@ public class MimeMapping extends WebXmlElement
      */
     public String getMimeType()
     {
-        Element e = getChild(WebXmlType.MIME_TYPE, this.getNamespace());
+        Element e = child(WebXmlType.MIME_TYPE);
         return e.getText();
     }
 

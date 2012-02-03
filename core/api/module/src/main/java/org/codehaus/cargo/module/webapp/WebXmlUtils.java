@@ -324,7 +324,6 @@ public final class WebXmlUtils
             {
                 servletNames.add(servletElement.getChild(
                     WebXmlType.SERVLET_NAME, servletElement.getNamespace()).getText());
-
             }
         }
         return servletNames;
