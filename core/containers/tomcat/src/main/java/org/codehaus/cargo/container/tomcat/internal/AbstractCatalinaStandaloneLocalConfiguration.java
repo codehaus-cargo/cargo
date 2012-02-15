@@ -22,8 +22,10 @@ package org.codehaus.cargo.container.tomcat.internal;
 import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
@@ -376,30 +378,42 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      */
     protected String getSecurityToken()
     {
-        StringBuilder token = new StringBuilder(" ");
+        StringBuilder token = new StringBuilder("");
 
         // Add token filters for authenticated users
         if (getPropertyValue(ServletPropertySet.USERS) != null)
         {
+            StringBuilder usersToken = new StringBuilder("");
+
+            Set<String> rolesSet = new HashSet<String>();
             for (User user : User.parseUsers(getPropertyValue(ServletPropertySet.USERS)))
             {
-                token.append("<user ");
-                token.append("name=\"" + user.getName() + "\" ");
-                token.append("password=\"" + user.getPassword() + "\" ");
+                usersToken.append("<user ");
+                usersToken.append("name=\"" + user.getName() + "\" ");
+                usersToken.append("password=\"" + user.getPassword() + "\" ");
 
-                token.append("roles=\"");
+                usersToken.append("roles=\"");
                 Iterator<String> roles = user.getRoles().iterator();
                 while (roles.hasNext())
                 {
                     String role = roles.next();
-                    token.append(role);
+                    usersToken.append(role);
                     if (roles.hasNext())
                     {
-                        token.append(',');
+                        usersToken.append(',');
                     }
+                    rolesSet.add(role);
                 }
-                token.append("\"/>");
+                usersToken.append("\"/>\n  ");
             }
+
+            StringBuilder rolesToken = new StringBuilder("");
+            for (String role : rolesSet)
+            {
+                rolesToken.append("<role rolename=\"" + role + "\"/>\n  ");
+            }
+
+            token.append(rolesToken).append(usersToken);
         }
 
         return token.toString();
