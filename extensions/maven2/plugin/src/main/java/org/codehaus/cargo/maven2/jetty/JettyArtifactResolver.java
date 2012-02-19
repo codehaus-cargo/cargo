@@ -170,7 +170,7 @@ public class JettyArtifactResolver
             "7.6.1.v20120215"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io",
             "7.6.1.v20120215"));
-        jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jsp-2.1",
+        jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jsp",
             "7.6.1.v20120215"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-util",
             "7.6.1.v20120215"));
