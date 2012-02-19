@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.jboss;
 
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss71xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
@@ -28,6 +30,12 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
  */
 public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocalConfiguration
 {
+
+    /**
+     * JBoss container capability.
+     */
+    private static final ConfigurationCapability CAPABILITY =
+        new JBoss71xStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
@@ -52,7 +60,7 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
             "//server/socket-binding-group/socket-binding[@name='txn-recovery-environment']",
             "port", JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT);
 
-        setProperty(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, "1099");
+        setProperty(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, "4713");
         addXmlReplacement(
             "configuration/standalone.xml",
             "//server/socket-binding-group/socket-binding[@name='txn-status-manager']",
@@ -64,10 +72,31 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
             "//server/socket-binding-group/socket-binding[@name='jndi']",
             "port");
 
+        getProperties().remove(JBossPropertySet.JBOSS_JRMP_PORT);
+        removeXmlReplacement(
+            "configuration/standalone.xml",
+            "//server/socket-binding-group/socket-binding[@name='jmx-connector-registry']",
+            "port");
+
+        getProperties().remove(JBossPropertySet.JBOSS_JMX_PORT);
+        removeXmlReplacement(
+            "configuration/standalone.xml",
+            "//server/socket-binding-group/socket-binding[@name='jmx-connector-server']",
+            "port");
+
         removeXmlReplacement(
             "configuration/standalone.xml",
             "//server/profile/subsystem/periodic-rotating-file-handler/level",
             "name");
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
+     */
+    public ConfigurationCapability getCapability()
+    {
+        return CAPABILITY;
     }
 
 }
