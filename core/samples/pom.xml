@@ -305,7 +305,10 @@
                 <!--
                   Jetty 7.5.4.v20111024 cannot be used due to a NPE in SelectorManager.register
                   -->
+                <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.5.3.v20111011/jetty-distribution-7.5.3.v20111011.tar.gz</value>
+                 -->
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.1.v20120215/jetty-distribution-7.6.1.v20120215.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty7x.java.home</name>
@@ -317,7 +320,10 @@
                 <!--
                   Jetty 8.0.4.v20111024 cannot be used due to a NPE in SelectorManager.register
                   -->
+                <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.0.3.v20111011/jetty-distribution-8.0.3.v20111011.tar.gz</value>
+                 -->
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.1.v20120215/jetty-distribution-8.1.1.v20120215.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty8x.java.home</name>

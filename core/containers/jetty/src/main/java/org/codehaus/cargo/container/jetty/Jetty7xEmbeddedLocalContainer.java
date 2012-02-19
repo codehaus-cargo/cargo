@@ -336,11 +336,22 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
                 ServletPropertySet.USERS)))
             {
                 String userName = user.getName();
-                Class credentialClass = getClassLoader()
-                    .loadClass("org.eclipse.jetty.http.security.Credential");
+                Class credentialClass;
+                try
+                {
+                    // Name until Jetty 7.5 (inclusive) and Jetty 8.0
+                    credentialClass = getClassLoader()
+                        .loadClass("org.eclipse.jetty.http.security.Credential");
+                }
+                catch (ClassNotFoundException e)
+                {
+                    // Name after Jetty 7.6 and Jetty 8.1
+                    credentialClass = getClassLoader()
+                        .loadClass("org.eclipse.jetty.util.security.Credential");
+                }
                 Object credential = credentialClass.getMethod("getCredential", String.class)
                     .invoke(credentialClass, user.getPassword());
-                String[] roles = user.getRoles().toArray(new String[0]);
+                String[] roles = user.getRoles().toArray(new String[user.getRoles().size()]);
 
                 Method putUser =
                     this.defaultRealm.getClass().getMethod("putUser",
