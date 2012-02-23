@@ -20,12 +20,14 @@
 package org.codehaus.cargo.container.jetty;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -110,7 +112,7 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
 
             String response = getResponseMessage(connection);
 
-            if (!response.startsWith("OK -"))
+            if (!lastLine(response).startsWith("OK -"))
             {
                 throw new ContainerException("Response when calling " + connection.getURL()
                     + " was: " + response);
@@ -137,7 +139,7 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
 
             String response = getResponseMessage(connection);
 
-            if (!response.startsWith("OK -"))
+            if (!lastLine(response).startsWith("OK -"))
             {
                 throw new ContainerException(response);
             }
@@ -353,6 +355,34 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
             buffer.append(password);
         }
         return "Basic " + new String(Base64.encodeBase64(buffer.toString().getBytes()));
+    }
+
+    /**
+     * Returns the last line of a string.
+     * @param string String of which to get the last line
+     * @return Last line of <code>string</code>
+     * @throws IOException if an i/o error occurs
+     */
+    protected String lastLine(String string) throws IOException
+    {
+        BufferedReader reader = new BufferedReader(new StringReader(string));
+        try
+        {
+            String lastNonNullLine = "";
+            String lastLine = null;
+            while ((lastLine = reader.readLine()) != null)
+            {
+                if (!"".equals(lastLine))
+                {
+                    lastNonNullLine = lastLine;
+                }
+            }
+            return lastNonNullLine;
+        }
+        finally
+        {
+            reader.close();
+        }
     }
 
 }
