@@ -29,7 +29,7 @@ import java.io.File;
 
 /** Abstract configuration for existing local Jetty
  *
- * @version $Id: $
+ * @version $Id$
  */
 public abstract class AbstractJettyExistingLocalConfiguration
         extends AbstractExistingLocalConfiguration
