@@ -116,8 +116,8 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
         }
 
         String profile = this.configuration.getPropertyValue(JBossPropertySet.PROFILE);
-        Boolean isClustered = Boolean.valueOf(this.configuration.getPropertyValue(
-            JBossPropertySet.CLUSTERED));
+        boolean isClustered = Boolean.valueOf(this.configuration.getPropertyValue(
+            JBossPropertySet.CLUSTERED)).booleanValue();
         String name = isClustered ? "farm" : profile;
         if (name == null || name.trim().length() == 0)
         {
