@@ -25,6 +25,7 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty4xEmbeddedStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty6xEmbeddedStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.JettyExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.JettyRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.JettyStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
@@ -38,7 +39,7 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
  * Registers Jetty support into default factories.
- * 
+ *
  * @version $Id$
  */
 public class JettyFactoryRegistry extends AbstractFactoryRegistry
@@ -46,7 +47,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register deployable factory. Doesn't register anything.
-     * 
+     *
      * @param deployableFactory Factory on which to register.
      */
     @Override
@@ -56,7 +57,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register configuration capabilities.
-     * 
+     *
      * @param configurationCapabilityFactory Factory on which to register.
      */
     @Override
@@ -77,6 +78,9 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             JettyStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jetty6x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            JettyExistingLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("jetty6x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             JettyRuntimeConfigurationCapability.class);
 
@@ -87,6 +91,9 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             JettyStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jetty7x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            JettyExistingLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("jetty7x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             JettyRuntimeConfigurationCapability.class);
 
@@ -96,6 +103,9 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
         configurationCapabilityFactory.registerConfigurationCapability("jetty8x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             JettyStandaloneLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("jetty8x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            JettyExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jetty8x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             JettyRuntimeConfigurationCapability.class);
@@ -103,7 +113,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register configuration factories.
-     * 
+     *
      * @param configurationFactory Factory on which to register.
      */
     @Override
@@ -124,6 +134,9 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Jetty6xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("jetty6x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            Jetty6xExistingLocalConfiguration.class);
+        configurationFactory.registerConfiguration("jetty6x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             JettyRuntimeConfiguration.class);
 
@@ -133,6 +146,9 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("jetty7x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Jetty7xStandaloneLocalConfiguration.class);
+        configurationFactory.registerConfiguration("jetty7x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            Jetty7xExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("jetty7x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             JettyRuntimeConfiguration.class);
@@ -144,13 +160,16 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Jetty8xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("jetty8x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            Jetty8xExistingLocalConfiguration.class);
+        configurationFactory.registerConfiguration("jetty8x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             JettyRuntimeConfiguration.class);
     }
 
     /**
      * Register deployer.
-     * 
+     *
      * @param deployerFactory Factory on which to register.
      */
     @Override
@@ -186,7 +205,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register packager. Doesn't register anything.
-     * 
+     *
      * @param packagerFactory Factory on which to register.
      */
     @Override
@@ -196,7 +215,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register container.
-     * 
+     *
      * @param containerFactory Factory on which to register.
      */
     @Override
@@ -232,7 +251,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register container capabilities.
-     * 
+     *
      * @param containerCapabilityFactory Factory on which to register.
      */
     @Override
