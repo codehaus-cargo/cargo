@@ -26,6 +26,7 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
+import javax.security.sasl.RealmCallback;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -74,12 +75,24 @@ public class UsernamePasswordCallbackHandler implements CallbackHandler
     {
         for (Callback callback : callbacks)
         {
-            if (callback instanceof NameCallback)
+            if (callback instanceof RealmCallback)
+            {
+                // For now just use the realm suggested
+                RealmCallback realmCallback = (RealmCallback) callback;
+                String defaultText = realmCallback.getDefaultText();
+                realmCallback.setText(defaultText);
+
+                this.logger.debug("Responded to a RealmCallback", this.getClass().getName());
+            }
+            else if (callback instanceof NameCallback)
             {
                 if (this.username == null)
                 {
-                    throw new NullPointerException("User name not set. Please set it using the \""
-                        + RemotePropertySet.USERNAME + "\" option.");
+                    final String error = "User name not set. Please set it using the \""
+                        + RemotePropertySet.USERNAME + "\" option.";
+
+                    this.logger.warn(error, this.getClass().getName());
+                    throw new NullPointerException(error);
                 }
 
                 ((NameCallback) callback).setName(this.username);
@@ -89,8 +102,11 @@ public class UsernamePasswordCallbackHandler implements CallbackHandler
             {
                 if (this.password == null)
                 {
-                    throw new NullPointerException("Password not set. Please set it using the \""
-                        + RemotePropertySet.PASSWORD + "\" option.");
+                    final String error = "Password not set. Please set it using the \""
+                        + RemotePropertySet.PASSWORD + "\" option.";
+
+                    this.logger.warn(error, this.getClass().getName());
+                    throw new NullPointerException(error);
                 }
 
                 ((PasswordCallback) callback).setPassword(this.password.toCharArray());
@@ -98,6 +114,9 @@ public class UsernamePasswordCallbackHandler implements CallbackHandler
             }
             else
             {
+                this.logger.warn("Unsupportted callback " + callback.getClass(),
+                    this.getClass().getName());
+
                 throw new UnsupportedCallbackException(callback);
             }
         }
