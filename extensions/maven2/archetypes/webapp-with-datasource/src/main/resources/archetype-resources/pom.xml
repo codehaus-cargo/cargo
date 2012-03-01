@@ -185,7 +185,7 @@
                 <container>
                   <containerId>glassfish3x</containerId>
                   <zipUrlInstaller>
-                    <url>http://download.java.net/glassfish/3.1.1/release/glassfish-3.1.1.zip</url>
+                    <url>http://download.java.net/glassfish/3.1.2/release/glassfish-3.1.2.zip</url>
                   </zipUrlInstaller>
                   <dependencies>
                     <!--
