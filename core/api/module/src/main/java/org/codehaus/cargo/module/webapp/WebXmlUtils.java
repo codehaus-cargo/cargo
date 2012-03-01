@@ -639,25 +639,33 @@ public final class WebXmlUtils
             throw new NullPointerException();
         }
         List<Element> securityConstraintElements = webXml.getTags(WebXmlType.SECURITY_CONSTRAINT);
+        SecurityConstraint result = null;
         for (Element securityConstraintElement : securityConstraintElements)
         {
             List<Element> webResourceCollectionElements = securityConstraintElement.getChildren(
                     WebXmlType.WEB_RESOURCE_COLLECTION, securityConstraintElement.getNamespace());
             if (!webResourceCollectionElements.isEmpty())
             {
-                Element webResourceCollectionElement = webResourceCollectionElements.get(0);
-
-                String url =
-                    webResourceCollectionElement.getChildText(WebXmlType.URL_PATTERN,
-                        securityConstraintElement.getNamespace());
-
-                if (theUrlPattern.equals(url))
+                for (Element webResourceCollectionElement : webResourceCollectionElements)
                 {
-                    return (SecurityConstraint) securityConstraintElement;
+                    String url =
+                        webResourceCollectionElement.getChildText(WebXmlType.URL_PATTERN,
+                            securityConstraintElement.getNamespace());
+
+                    if (theUrlPattern.equals(url))
+                    {
+                        if (result != null)
+                        {
+                            throw new IllegalStateException("Security constraint for URL pattern '"
+                                + theUrlPattern + "' is defined twice");
+                        }
+
+                        result = (SecurityConstraint) securityConstraintElement;
+                    }
                 }
             }
         }
-        return null;
+        return result;
     }
 
     /**

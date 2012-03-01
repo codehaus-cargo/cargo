@@ -55,7 +55,7 @@ public final class WebXmlSecurityRoleMergerTest extends AbstractDocumentBuilderT
         WebXml mergeWebXml =
             WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
-        merger.mergeSecurityRoles(mergeWebXml);
+        merger.merge(mergeWebXml);
         List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(srcWebXml);
         assertEquals(1, securityRoleNames.size());
         assertEquals("role1", securityRoleNames.get(0));
@@ -85,7 +85,7 @@ public final class WebXmlSecurityRoleMergerTest extends AbstractDocumentBuilderT
         WebXml mergeWebXml =
             WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
-        merger.mergeSecurityRoles(mergeWebXml);
+        merger.merge(mergeWebXml);
         List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(srcWebXml);
         assertEquals(1, securityRoleNames.size());
         assertEquals("role1", securityRoleNames.get(0));

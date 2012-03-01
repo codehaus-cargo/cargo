@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom.Comment;
+import org.jdom.Content;
 import org.jdom.Document;
 import org.jdom.Element;
 
@@ -291,7 +292,10 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
         if (idx == -1)
         {
             // parent.getChildren().add(importedNode);
-            parent.addContent(importedNode);
+            if (!containsElement(parent.getChildren(), importedNode))
+            {
+                parent.addContent(importedNode);
+            }
         }
         else
         {
@@ -305,6 +309,109 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
         }
 
         return importedNode;
+    }
+
+    /**
+     * Checks if <code>haystack</code> contains <code>needle</code>.
+     * @param haystack List of element to look into.
+     * @param needle Element to look for.
+     * @return Whether <code>haystack</code> contains <code>needle</code>.
+     */
+    protected boolean containsElement(List<Element> haystack, Element needle)
+    {
+        for (Element element : haystack)
+        {
+            if (sameElement(element, needle))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if two elements are the same.
+     * @param element1 First element.
+     * @param element2 Second element.
+     * @return Whether <code>element1</code> and <code>element2</code> are the same.
+     */
+    protected boolean sameElement(Element element1, Element element2)
+    {
+        if (!element1.getClass().equals(element2.getClass()))
+        {
+            return false;
+        }
+
+        List<Element> children1 = element1.getChildren();
+        List<Element> children2 = element2.getChildren();
+        if (children1.size() != children2.size())
+        {
+            return false;
+        }
+        if (children1.isEmpty())
+        {
+            return sameContent(element1, element2);
+        }
+
+        for (int i = 0; i < children1.size(); i++)
+        {
+            if (!sameElement(children1.get(i), children2.get(i)))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if two elements have the same content (excluding comments).
+     * @param element1 First element.
+     * @param element2 Second element.
+     * @return Whether <code>element1</code> and <code>element2</code> have the same content
+     * (excluding comments).
+     */
+    protected boolean sameContent(Element element1, Element element2)
+    {
+        List<Content> content1 = getContentExceptComments(element1);
+        List<Content> content2 = getContentExceptComments(element2);
+        if (content1.size() != content2.size())
+        {
+            return false;
+        }
+        for (int i = 0; i < content1.size(); i++)
+        {
+            String content1Value = content1.get(i).getValue();
+            String content2Value = content2.get(i).getValue();
+            if (content1Value == null || content2Value == null)
+            {
+                return content1Value == content2Value;
+            }
+            if (!content1Value.equals(content2Value))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Gets the content of an element (excluding comments).
+     * @param element Element to get the contents for.
+     * @return All content for <code>element</code> (excluding comments).
+     */
+    protected List<Content> getContentExceptComments(Element element)
+    {
+        List<Content> content = element.getContent();
+        List<Content> filteredContent = new ArrayList<Content>();
+        for (Content contentToCheck : content)
+        {
+            if (!(contentToCheck instanceof Comment))
+            {
+                filteredContent.add(contentToCheck);
+            }
+        }
+        return filteredContent;
     }
 
     /**

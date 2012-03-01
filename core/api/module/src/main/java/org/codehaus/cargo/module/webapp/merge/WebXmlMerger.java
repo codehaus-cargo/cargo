@@ -282,7 +282,8 @@ public class WebXmlMerger extends XmlMerger
                 {
                     List<String> existingServletMappings =
                         WebXmlUtils.getServletMappings(this.webXml, servletName);
-                    if (!existingServletMappings.contains(urlPattern)) {
+                    if (!existingServletMappings.contains(urlPattern))
+                    {
                         WebXmlUtils.addServletMapping(this.webXml, servletName, urlPattern);
                     }
                 }

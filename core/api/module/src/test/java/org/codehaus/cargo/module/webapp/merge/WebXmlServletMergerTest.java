@@ -57,7 +57,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml =
             WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
-        merger.mergeServlets(mergeWebXml);
+        merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
     }
 
@@ -86,7 +86,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml =
             WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
-        merger.mergeServlets(mergeWebXml);
+        merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s2"));
     }
@@ -116,7 +116,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml =
             WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
-        merger.mergeServlets(mergeWebXml);
+        merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
     }
 
@@ -149,7 +149,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml =
             WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
-        merger.mergeServlets(mergeWebXml);
+        merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
         List<String> initParams = WebXmlUtils.getServletInitParamNames(srcWebXml, "s1");
         assertEquals(1, initParams.size());
@@ -190,7 +190,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml =
             WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
-        merger.mergeServlets(mergeWebXml);
+        merger.merge(mergeWebXml);
         List<String> servletNames = WebXmlUtils.getServletNames(srcWebXml);
         assertEquals(4, servletNames.size());
         assertEquals("s1", servletNames.get(0));
@@ -229,7 +229,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml =
             WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
-        merger.mergeServlets(mergeWebXml);
+        merger.merge(mergeWebXml);
         Element servletElement = WebXmlUtils.getServlet(srcWebXml, "s1");
         assertEquals("load-on-startup",
             ((Element) servletElement.getChildren().get(servletElement.getChildren().size() - 1))
@@ -264,7 +264,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml =
             WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
-        merger.mergeServlets(mergeWebXml);
+        merger.merge(mergeWebXml);
         List<String> servletNames = WebXmlUtils.getServletNames(srcWebXml);
         assertEquals(3, servletNames.size());
         assertEquals("s1", servletNames.get(0));
@@ -296,7 +296,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml =
             WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
-        merger.mergeServlets(mergeWebXml);
+        merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
         List<String> servletMappings = WebXmlUtils.getServletMappings(srcWebXml, "s1");
         assertEquals(1, servletMappings.size());
@@ -335,7 +335,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml =
             WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
-        merger.mergeServlets(mergeWebXml);
+        merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
         List<String> servletMappings = WebXmlUtils.getServletMappings(srcWebXml, "s1");
         assertEquals(3, servletMappings.size());
@@ -376,7 +376,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
         WebXml mergeWebXml =
             WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
-        merger.mergeServlets(mergeWebXml);
+        merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
         List<String> servletMappings = WebXmlUtils.getServletMappings(srcWebXml, "s1");
         assertEquals(1, servletMappings.size());

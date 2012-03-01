@@ -163,7 +163,6 @@ public class DescriptorMergerByTag implements DescriptorMerger
      */
     public void merge(Descriptor other)
     {
-
         for (DescriptorTag tag : descriptorTagFactory.getAllTags())
         {
             Identifier identifier = tag.getIdentifier();
