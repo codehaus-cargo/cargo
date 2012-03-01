@@ -344,4 +344,43 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
         assertEquals("/s1mapping3", servletMappings.get(2));
     }
 
+    /**
+     * Tests the merging of multiple servlet mappings.
+     * 
+     * @throws Exception If an unexpected error occurs
+     */
+    public void testMergeMultipleServletMappings() throws Exception
+    {
+        String srcXml = "<web-app>"
+            + "  <servlet>"
+            + "    <servlet-name>s1</servlet-name>"
+            + "    <servlet-class>sclass1</servlet-class>"
+            + "  </servlet>"
+            + "  <servlet-mapping>"
+            + "    <servlet-name>s1</servlet-name>"
+            + "    <url-pattern>/s1</url-pattern>"
+            + "  </servlet-mapping>"
+            + "</web-app>";
+        WebXml srcWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        String mergeXml = "<web-app>"
+            + "  <servlet>"
+            + "    <servlet-name>s1</servlet-name>"
+            + "    <servlet-class>sclass1</servlet-class>"
+            + "  </servlet>"
+            + "  <servlet-mapping>"
+            + "    <servlet-name>s1</servlet-name>"
+            + "    <url-pattern>/s1</url-pattern>"
+            + "  </servlet-mapping>"
+            + "</web-app>";
+        WebXml mergeWebXml =
+            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXmlMerger merger = new WebXmlMerger(srcWebXml);
+        merger.mergeServlets(mergeWebXml);
+        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
+        List<String> servletMappings = WebXmlUtils.getServletMappings(srcWebXml, "s1");
+        assertEquals(1, servletMappings.size());
+        assertEquals("/s1", servletMappings.get(0));
+    }
+
 }
