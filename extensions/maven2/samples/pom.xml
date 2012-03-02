@@ -34,6 +34,7 @@
     <module>inPlaceDevelopment-test</module>
     <module>jetty7x-embedded-test</module>
     <module>ping-test</module>
+    <module>multi-datasource-test</module>
     <module>runMojo-test</module>
   </modules>
 
