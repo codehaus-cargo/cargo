@@ -338,7 +338,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      */
     protected boolean sameElement(Element element1, Element element2)
     {
-        if (!element1.getClass().equals(element2.getClass()))
+        if (!element1.getName().equals(element2.getName()))
         {
             return false;
         }
