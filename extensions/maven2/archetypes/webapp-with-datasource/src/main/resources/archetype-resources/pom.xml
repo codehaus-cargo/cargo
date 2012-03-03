@@ -62,6 +62,9 @@
                   <artifactId>derby</artifactId>
                 </dependency>
               </dependencies>
+              <systemProperties>
+                <derby.system.home>\${project.build.directory}/derby</derby.system.home>
+              </systemProperties>
             </container>
             <configuration>
               <deployables>
@@ -88,10 +91,6 @@
                   cargo.datasource.username=APP|
                   cargo.datasource.password=nonemptypassword
                 </cargo.datasource.datasource.derby>
-                <property>
-                  <name>derby.system.home</name>
-                  <value>\${project.build.directory}/derby</value>
-                </property>
               </properties>
             </configuration>
           </configuration>

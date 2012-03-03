@@ -55,6 +55,7 @@
         <extraClasspath>
           <pathelement location="${cargo-test-applications.directory}/derby-${cargo.derby.version}.jar"/>
         </extraClasspath>
+        <sysproperty key="derby.system.home" value="${project.build.directory}/derby"/>
         <configuration home="${catalina.base}">
           <property name="cargo.servlet.port" value="${http.port}"/>
           <property name="cargo.tomcat.ajp.port" value="${ajp.port}"/>
@@ -66,7 +67,6 @@
                 cargo.datasource.username=APP|
                 cargo.datasource.password=nonemptypassword
                 "/>
-          <property name="cargo.jvmargs" value="-Dderby.system.home=&quot;${project.build.directory}/derby&quot;"/>
           <deployable type="war" file="${cargo-test-applications.directory}/datasource-war-${cargo.resources.version}.war">
             <property name="context" value="datasource-test"/>
           </deployable>
