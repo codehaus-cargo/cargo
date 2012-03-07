@@ -328,6 +328,11 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
         JvmLauncher java = jvmLauncherFactory.createJvmLauncher(request);
 
+        // Most container configurations assume that the container would be started from the same
+        // working directory as the configuration; so set this here.
+        java.setWorkingDirectory(new File(getFileHandler().getAbsolutePath(
+            getConfiguration().getHome())));
+
         if (ssh)
         {
             addSshProperties(java);
@@ -371,10 +376,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      */
     private void addSshProperties(JvmLauncher java)
     {
-        // setup working directory
-        java.setWorkingDirectory(new File(getFileHandler().getAbsolutePath(
-            getConfiguration().getHome())));
-
         if (getConfiguration().getDeployables() != null)
         {
             for (Deployable toDeploy : getConfiguration().getDeployables())

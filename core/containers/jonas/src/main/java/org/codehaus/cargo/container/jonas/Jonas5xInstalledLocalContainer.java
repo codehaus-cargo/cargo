@@ -230,8 +230,6 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         }
 
         java.setMainClass("org.ow2.jonas.commands.admin.ClientAdmin");
-
-        java.setWorkingDirectory(new File(getConfiguration().getHome()));
     }
 
     /**

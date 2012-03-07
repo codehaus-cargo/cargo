@@ -243,10 +243,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
         initBeaHome();
 
         // Weblogic looks for files relative to the domain home, which is not
-        // necessarily relative
-        // to the Bea home
-        java.setWorkingDirectory(new File(getConfiguration().getHome()));
-
+        // necessarily relative to the Bea home
         File serverDir = new File(this.getHome(), "server");
 
         if (getConfiguration().getPropertyValue(ServletPropertySet.PORT) != null)

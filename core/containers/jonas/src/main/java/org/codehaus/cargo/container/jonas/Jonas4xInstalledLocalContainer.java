@@ -189,8 +189,6 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         {
             throw new ContainerException("IOException occured during java command line setup", ex);
         }
-
-        java.setWorkingDirectory(new File(getConfiguration().getHome()));
     }
 
     /**
