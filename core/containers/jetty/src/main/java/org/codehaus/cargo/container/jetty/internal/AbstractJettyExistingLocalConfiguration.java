@@ -21,7 +21,9 @@ package org.codehaus.cargo.container.jetty.internal;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
 
@@ -47,6 +49,9 @@ public abstract class AbstractJettyExistingLocalConfiguration
     public AbstractJettyExistingLocalConfiguration(String dir)
     {
         super(dir);
+
+        setProperty(GeneralPropertySet.RMI_PORT, "8079");
+        setProperty(JettyPropertySet.CREATE_CONTEXT_XML, "true");
     }
 
     /** Creation of deployer according to the container
