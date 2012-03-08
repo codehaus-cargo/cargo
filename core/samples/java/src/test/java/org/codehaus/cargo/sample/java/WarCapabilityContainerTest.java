@@ -87,22 +87,16 @@ public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTe
      */
     public void testDeployWarDefinedWithRelativePath() throws Exception
     {
-        // Copies the testdata artifact so that we can easily specify a relative path
+        // Copies the testdata artifact
         File artifactDir = new File(getTestData().targetDir).getParentFile();
+        File artifactFile = new File(artifactDir, "simple.war").getAbsoluteFile();
         Copy copyTask = (Copy) new AntUtils().createProject().createTask("copy");
-        copyTask.setTofile(new File(artifactDir, "simple.war"));
+        copyTask.setTofile(artifactFile);
         copyTask.setFile(new File(getTestData().getTestDataFileFor("simple-war")));
         copyTask.execute();
 
-        // Compute the relative path so that it works from anywhere where the tests are started
-        // from.
-        File rootPath = new File("");
-        int pos = artifactDir.getCanonicalPath().indexOf(rootPath.getCanonicalPath());
-        String relativePath = artifactDir.getCanonicalPath().substring(
-            pos + rootPath.getCanonicalPath().length() + 1);
-
         Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            new File(relativePath + "/simple.war").getPath(), DeployableType.WAR);
+            artifactFile.getAbsolutePath(), DeployableType.WAR);
 
         getLocalContainer().getConfiguration().addDeployable(war);
 
