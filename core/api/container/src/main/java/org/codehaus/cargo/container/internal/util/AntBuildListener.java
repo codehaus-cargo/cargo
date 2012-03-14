@@ -112,6 +112,13 @@ public class AntBuildListener implements BuildListener
      */
     public void messageLogged(BuildEvent event)
     {
+        if ("WARNING: System properties and/or JVM args set.  Consider using --dry-run or --exec".
+            equals(event.getMessage()))
+        {
+            // CARGO-1095: Ignore this particular message
+            return;
+        }
+
         if (event.getPriority() == Project.MSG_DEBUG
             || event.getPriority() == Project.MSG_VERBOSE)
         {

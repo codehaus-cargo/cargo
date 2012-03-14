@@ -178,7 +178,7 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
         }
 
         // integration tests need to let us verify how we're running
-        this.getLogger().info("Running Jetty As: " + java.getCommandLine(),
+        this.getLogger().debug("Running Jetty As: " + java.getCommandLine(),
                 this.getClass().getName());
 
         java.start();

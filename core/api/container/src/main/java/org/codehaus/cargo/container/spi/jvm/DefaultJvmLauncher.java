@@ -257,8 +257,8 @@ class DefaultJvmLauncher implements JvmLauncher
      */
     public void start() throws JvmLauncherException
     {
-        Thread catalinaRunner = new AntContainerExecutorThread(this.java);
-        catalinaRunner.start();
+        Thread runner = new AntContainerExecutorThread(this.java);
+        runner.start();
     }
 
     /**
