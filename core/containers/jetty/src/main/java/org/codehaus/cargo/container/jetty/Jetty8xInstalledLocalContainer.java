@@ -70,15 +70,20 @@ public class Jetty8xInstalledLocalContainer extends Jetty7xInstalledLocalContain
     {
         return new String[]
         {
-            "--pre",
-            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-logging.xml"),
-
-            getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml"),
-            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-annotations.xml"),
-            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-deploy.xml"),
-            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-webapps.xml"),
-            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-contexts.xml"),
-            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-testrealm.xml")
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-logging.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-annotations.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-deploy.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-webapps.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-contexts.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-testrealm.xml")
         };
     }
 }
