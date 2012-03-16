@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -203,12 +204,23 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
     public static void writeDescriptor(Descriptor descriptor, OutputStream out, String encoding,
         boolean isIndent) throws IOException
     {
+        if (encoding == null)
+        {
+            throw new IllegalArgumentException("Encoding must not be null");
+        }
+
         XMLOutputter serializer = new XMLOutputter();
         Format format = Format.getPrettyFormat();
 
+        // First, output as a String so we can fix some known issues with output
         serializer.setFormat(format);
-        serializer.output((Document) descriptor, out);
+        StringWriter writer = new StringWriter();
+        serializer.output((Document) descriptor, writer);
+        String result = writer.toString();
+        result = result.replace(" xmlns=\"\"", "");
 
+        // Then, output the String into the OutputStream
+        out.write(result.getBytes(encoding));
     }
 
     /**

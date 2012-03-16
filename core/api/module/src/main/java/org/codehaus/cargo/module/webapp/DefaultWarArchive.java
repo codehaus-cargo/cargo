@@ -173,13 +173,13 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
         JarEntry webXmlEntry = new JarEntry("WEB-INF/" + getWebXml().getFileName());
         out.putNextEntry(webXmlEntry);
-        AbstractDescriptorIo.writeDescriptor(getWebXml(), out, null, true);
+        AbstractDescriptorIo.writeDescriptor(getWebXml(), out, "UTF-8", true);
 
         for (Descriptor descriptor : getWebXml().getVendorDescriptors())
         {
             JarEntry descriptorEntry = new JarEntry("WEB-INF/" + descriptor.getFileName());
             out.putNextEntry(descriptorEntry);
-            AbstractDescriptorIo.writeDescriptor(descriptor, out, null, true);
+            AbstractDescriptorIo.writeDescriptor(descriptor, out, "UTF-8", true);
         }
 
         out.close();
