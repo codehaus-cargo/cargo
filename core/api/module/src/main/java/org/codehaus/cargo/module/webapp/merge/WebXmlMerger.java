@@ -211,15 +211,20 @@ public class WebXmlMerger extends XmlMerger
                     WebXmlUtils.getFilterInitParamNames(theWebXml, filterName);
                 for (String paramName : filterInitParamNames)
                 {
-                    String paramValue =
-                        WebXmlUtils.getFilterInitParam(theWebXml, filterName, paramName);
-                    WebXmlUtils.addFilterInitParam(this.webXml,
-                        filterName, paramName, paramValue);
+                    List<String> existingInitParams =
+                        WebXmlUtils.getFilterInitParamNames(this.webXml, filterName);
+                    if (!existingInitParams.contains(paramName))
+                    {
+                        String paramValue =
+                            WebXmlUtils.getFilterInitParam(theWebXml, filterName, paramName);
+                        WebXmlUtils.addFilterInitParam(this.webXml, filterName, paramName,
+                            paramValue);
+                    }
                 }
             }
             // merge the mappings
-            List<FilterMapping> mappings = WebXmlUtils.getFilterMappingElements(theWebXml,
-                filterName);
+            List<FilterMapping> mappings =
+                WebXmlUtils.getFilterMappingElements(theWebXml, filterName);
             for (FilterMapping mapping : mappings)
             {
                 WebXmlUtils.addFilterMapping(this.webXml, mapping);
