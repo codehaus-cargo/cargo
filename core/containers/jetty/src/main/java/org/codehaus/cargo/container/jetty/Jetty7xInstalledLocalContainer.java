@@ -114,7 +114,8 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
         //    It will skip the settings below if there are RUNTIME_ARGS with --ini=
         //         this will allow full usage of --ini=file.ini
         if (getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS) == null
-                || (!getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS).contains("--ini=")))
+                || (!getConfiguration().getPropertyValue(
+                    GeneralPropertySet.RUNTIME_ARGS).contains("--ini=")))
         {
             // If logging is set to "high" the turn it on by setting the DEBUG system property
             if (LoggingLevel.HIGH.equalsLevel(getConfiguration().getPropertyValue(
