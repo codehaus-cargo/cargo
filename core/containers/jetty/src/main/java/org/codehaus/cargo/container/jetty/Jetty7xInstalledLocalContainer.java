@@ -110,33 +110,41 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
     {
         addToolsJarToClasspath(java);
 
-        // If logging is set to "high" the turn it on by setting the DEBUG system property
-        if (LoggingLevel.HIGH.equalsLevel(getConfiguration().getPropertyValue(
-            GeneralPropertySet.LOGGING)))
+        // CARGO-1093 allow container to start/stop with configuration only on the server
+        //    It will skip the settings below if there are RUNTIME_ARGS with --ini=
+        //         this will allow full usage of --ini=file.ini
+        if (getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS) == null
+                || (!getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS).contains("--ini=")))
         {
-            java.setSystemProperty("org.eclipse.jetty.DEBUG", "true");
+            // If logging is set to "high" the turn it on by setting the DEBUG system property
+            if (LoggingLevel.HIGH.equalsLevel(getConfiguration().getPropertyValue(
+                GeneralPropertySet.LOGGING)))
+            {
+                java.setSystemProperty("org.eclipse.jetty.DEBUG", "true");
+            }
+
+            // Set location where Jetty is installed
+            java.setSystemProperty("jetty.home", getHome());
+
+            // Add shutdown port
+            java.setSystemProperty("STOP.PORT",
+                getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
+            // Add shutdown key
+            java.setSystemProperty("STOP.KEY", "secret");
+
+            // Add listening port
+            java.setSystemProperty("jetty.port",
+                getConfiguration().getPropertyValue(ServletPropertySet.PORT));
+
+            // Define the location of the configuration directory as a System property so that it
+            // can be referenced from within the jetty.xml file.
+            java.setSystemProperty("config.home", getConfiguration().getHome());
+
+            // Location where logs will be generated
+            java.setSystemProperty("jetty.logs",
+                getFileHandler().append(getConfiguration().getHome(), "logs"));
+
         }
-
-        // Set location where Jetty is installed
-        java.setSystemProperty("jetty.home", getHome());
-
-        // Add shutdown port
-        java.setSystemProperty("STOP.PORT",
-            getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
-        // Add shutdown key
-        java.setSystemProperty("STOP.KEY", "secret");
-
-        // Add listening port
-        java.setSystemProperty("jetty.port",
-            getConfiguration().getPropertyValue(ServletPropertySet.PORT));
-
-        // Define the location of the configuration directory as a System property so that it
-        // can be referenced from within the jetty.xml file.
-        java.setSystemProperty("config.home", getConfiguration().getHome());
-
-        // Location where logs will be generated
-        java.setSystemProperty("jetty.logs",
-            getFileHandler().append(getConfiguration().getHome(), "logs"));
 
         java.setJarFile(new File(getHome(), "start.jar"));
 

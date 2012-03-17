@@ -533,7 +533,16 @@ public class ConfluenceContainerDocumentationGenerator
                 + " container|Existing Local Configuration]          | ");
             output.append("(/) {{" + computedFQCN(this.configurationFactory.getConfigurationClass(
                 containerId, type, ConfigurationType.EXISTING).getName())
-                + "}} | (/) | (/) | |");
+                + "}} | (/) | (/) |");
+
+            if (containerId.startsWith("jetty") && type.equals(ContainerType.INSTALLED))
+            {
+                output.append("If you specify {{cargo.runtime.args}} with {{--ini=anyfile.ini}}" +
+                        " any Jetty default property will be ignored");
+            }
+
+            output.append(" |");
+
         }
         else
         {
