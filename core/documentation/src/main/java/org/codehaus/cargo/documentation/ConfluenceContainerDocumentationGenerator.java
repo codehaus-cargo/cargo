@@ -533,16 +533,7 @@ public class ConfluenceContainerDocumentationGenerator
                 + " container|Existing Local Configuration]          | ");
             output.append("(/) {{" + computedFQCN(this.configurationFactory.getConfigurationClass(
                 containerId, type, ConfigurationType.EXISTING).getName())
-                + "}} | (/) | (/) |");
-
-            if (containerId.startsWith("jetty") && type.equals(ContainerType.INSTALLED))
-            {
-                output.append("If you specify {{cargo.runtime.args}} with {{--ini=anyfile.ini}}" +
-                        " any Jetty default property will be ignored");
-            }
-
-            output.append(" |");
-
+                + "}} | (/) | (/) | |");
         }
         else
         {
@@ -909,6 +900,18 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append(generateConfigurationPropertiesForConfigurationTypeForContainerType(
                     "Existing Local", ConfigurationType.EXISTING, containerId,
                     ContainerType.INSTALLED));
+
+                if (containerId.startsWith("jetty"))
+                {
+                    output.append(LINE_SEPARATOR);
+                    output.append("{info}If you specify {{cargo.runtime.args}} with ");
+                    output.append("{{--ini=anyfile.ini}} (where {{anyfile.ini}} points to a ");
+                    output.append("Jetty INI file), any property set in the CARGO Jetty ");
+                    output.append("container will be ignored and the ones read from the INI file ");
+                    output.append("used instead.{info}");
+                    output.append(LINE_SEPARATOR);
+                }
+
                 output.append(LINE_SEPARATOR);
             }
             if (this.configurationFactory.isConfigurationRegistered(containerId,
