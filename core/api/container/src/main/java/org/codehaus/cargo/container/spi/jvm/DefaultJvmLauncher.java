@@ -41,6 +41,11 @@ class DefaultJvmLauncher implements JvmLauncher
     private final Java java;
 
     /**
+     * {@code true} to launch the JVM in spawn - separate thread independent of the initial thread
+     */
+    private boolean spawn;
+
+    /**
      * Creates a new launcher using the specified Ant Java task.
      * 
      * @param java The Ant Java task to use for launching, must not be {@code null}.
@@ -255,9 +260,17 @@ class DefaultJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    public void setSpawn(boolean spawn)
+    {
+        this.spawn = spawn;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public void start() throws JvmLauncherException
     {
-        Thread runner = new AntContainerExecutorThread(this.java);
+        Thread runner = new AntContainerExecutorThread(this.java, this.spawn);
         runner.start();
     }
 

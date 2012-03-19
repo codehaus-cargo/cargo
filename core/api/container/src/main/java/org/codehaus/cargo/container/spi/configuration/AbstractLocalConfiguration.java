@@ -111,6 +111,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
         this.home = home;
         setProperty(GeneralPropertySet.JAVA_HOME, System.getProperty("java.home"));
+        setProperty(GeneralPropertySet.SPAWN_PROCESS, "false");
     }
 
     /**

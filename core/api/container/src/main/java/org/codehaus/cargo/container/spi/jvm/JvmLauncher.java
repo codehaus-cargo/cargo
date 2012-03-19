@@ -161,6 +161,13 @@ public interface JvmLauncher
     void setTimeout(long millis);
 
     /**
+     *  Sets whether the JVM should be launched in spawn mode
+     *
+     * @param spawn {@code true} to launch JVM in spawn, {@code false} to launch normal JVM.
+     */
+    void setSpawn(boolean spawn);
+
+    /**
      * Launches a JVM according to the configuration of this launcher. The method returns as soon as
      * the JVM got launched and does not wait for its termination.
      * 

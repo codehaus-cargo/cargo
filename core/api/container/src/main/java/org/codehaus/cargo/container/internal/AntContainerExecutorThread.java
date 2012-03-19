@@ -37,6 +37,11 @@ public class AntContainerExecutorThread extends Thread
      */
     private Java java;
 
+    /**
+     * {@code true} to launch the JVM in spawn - separate thread independent of the initial thread
+     */
+    private boolean spawn;
+
     /** Build exception. */
     private AtomicReference ex = new AtomicReference();
 
@@ -45,10 +50,12 @@ public class AntContainerExecutorThread extends Thread
 
     /**
      * @param java the Ant java command to execute
+     * @param spawn {@code true} to launch JVM in spawn, {@code false} to launch normal JVM.
      */
-    public AntContainerExecutorThread(Java java)
+    public AntContainerExecutorThread(Java java, boolean spawn)
     {
         this.java = java;
+        this.spawn = spawn;
     }
 
     /**
@@ -93,9 +100,16 @@ public class AntContainerExecutorThread extends Thread
     @Override
     public void run()
     {
-        // This makes Ant Java task to throw an exception when something goes
-        // wrong.
-        this.java.setFailonerror(true);
+
+        this.java.setSpawn(spawn);
+
+        // if it's not spawn, allow exception to be throw
+        //    (with spawn this option is not supported by Ant task)
+        if (!spawn)
+        {
+            // This makes Ant Java task to throw an exception when something goes wrong.
+            this.java.setFailonerror(true);
+        }
 
         try
         {

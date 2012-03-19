@@ -366,6 +366,9 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         // Add JVM args if defined
         addJvmArgs(java);
 
+        // Add spawn options if defined
+        addSpawn(java);
+
         return java;
     }
 
@@ -546,6 +549,20 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         {
             java.addJvmArguments("-XX:MaxPermSize=128m");
         }
+    }
+
+    /** Add option of spawn if property exists
+     * 
+     * @param java the predefined JVM launcher which will spawn
+     */
+    private void addSpawn(JvmLauncher java)
+    {
+        boolean spawn = Boolean.parseBoolean(
+                getConfiguration().getPropertyValue(GeneralPropertySet.SPAWN_PROCESS));
+        java.setSpawn(spawn);
+
+        getLogger().debug("Jvm Spawn flag [" + spawn + "]",
+                    this.getClass().getName());
     }
 
     /**

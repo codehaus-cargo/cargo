@@ -67,4 +67,9 @@ public interface GeneralPropertySet
      * The location of the jvm to use when starting/stopping containers.
      */
     String JAVA_HOME = "cargo.java.home";
+
+    /**
+     * Specify if the process should run spawned - as background task
+     */
+    String SPAWN_PROCESS = "cargo.process.spawn";
 }

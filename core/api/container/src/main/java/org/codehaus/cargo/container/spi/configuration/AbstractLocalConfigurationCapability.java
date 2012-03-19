@@ -42,5 +42,6 @@ public abstract class AbstractLocalConfigurationCapability extends AbstractConfi
         this.defaultSupportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.defaultSupportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
         this.defaultSupportsMap.put(GeneralPropertySet.JAVA_HOME, Boolean.TRUE);
+        this.defaultSupportsMap.put(GeneralPropertySet.SPAWN_PROCESS, Boolean.TRUE);
     }
 }
