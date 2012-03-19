@@ -19,23 +19,28 @@
  */
 package org.codehaus.cargo.container.spi.configuration;
 
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
+
 /**
  * Base implementation of {@link org.codehaus.cargo.container.configuration.ConfigurationCapability}
- * that needs to be extended by each existing configuration's implementation.
+ * that needs to be extended by each local configuration's implementation.
  * 
  * @version $Id$
  */
-public abstract class AbstractExistingLocalConfigurationCapability
-    extends AbstractLocalConfigurationCapability
+public abstract class AbstractLocalConfigurationCapability extends AbstractConfigurationCapability
 {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfigurationCapability#AbstractLocalConfigurationCapability()
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractConfigurationCapability#AbstractConfigurationCapability()
      */
-    public AbstractExistingLocalConfigurationCapability()
+    public AbstractLocalConfigurationCapability()
     {
         super();
 
-        // Nothing to add
+        this.defaultSupportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
+        this.defaultSupportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
+        this.defaultSupportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
+        this.defaultSupportsMap.put(GeneralPropertySet.JAVA_HOME, Boolean.TRUE);
     }
 }

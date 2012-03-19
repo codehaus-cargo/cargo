@@ -29,24 +29,20 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
  * @version $Id$
  */
 public abstract class AbstractStandaloneLocalConfigurationCapability
-    extends AbstractConfigurationCapability
+    extends AbstractLocalConfigurationCapability
 {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractConfigurationCapability#AbstractConfigurationCapability()
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfigurationCapability#AbstractLocalConfigurationCapability()
      */
     public AbstractStandaloneLocalConfigurationCapability()
     {
         super();
 
         this.defaultSupportsMap.put(GeneralPropertySet.LOGGING, Boolean.TRUE);
-        this.defaultSupportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
-        this.defaultSupportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.defaultSupportsMap.put(GeneralPropertySet.JVMARGS, Boolean.TRUE);
         this.defaultSupportsMap.put(GeneralPropertySet.RUNTIME_ARGS, Boolean.TRUE);
-        this.defaultSupportsMap.put(GeneralPropertySet.JAVA_HOME, Boolean.TRUE);
 
-        this.defaultSupportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
         this.defaultSupportsMap.put(ServletPropertySet.USERS, Boolean.TRUE);
     }
 }
