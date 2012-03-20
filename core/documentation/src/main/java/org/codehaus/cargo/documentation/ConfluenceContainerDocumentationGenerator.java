@@ -1024,6 +1024,13 @@ public class ConfluenceContainerDocumentationGenerator
         Set<String> sortedPropertyNames = new TreeSet<String>(properties.keySet());
         for (String property : sortedPropertyNames)
         {
+            if (property.equals(GeneralPropertySet.SPAWN_PROCESS)
+                && ContainerType.EMBEDDED.equals(containerType))
+            {
+                // Embedded containers don't support SPAWN_PROCESS
+                continue;
+            }
+
             if (property.startsWith(DATASOURCE_PREFIX)
                 || ResourcePropertySet.RESOURCE.equals(property))
             {
