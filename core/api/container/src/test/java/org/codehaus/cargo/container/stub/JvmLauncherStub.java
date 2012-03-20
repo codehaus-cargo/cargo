@@ -232,6 +232,14 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    public void setSpawn(boolean spawn)
+    {
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public void start() throws JvmLauncherException
     {
     }
