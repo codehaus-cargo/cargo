@@ -235,7 +235,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
     {
         List<File> files = new ArrayList<File>();
         File webXmlFile = new File(dir, "web.xml");
-        writeDescriptor(descriptor, webXmlFile, null, true);
+        writeDescriptor(descriptor, webXmlFile, "UTF-8", true);
         files.add(webXmlFile);
         for (Descriptor descr : descriptor.getVendorDescriptors())
         {
