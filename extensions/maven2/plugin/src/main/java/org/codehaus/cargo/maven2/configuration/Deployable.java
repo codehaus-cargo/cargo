@@ -268,18 +268,31 @@ public class Deployable extends AbstractDependency
             && project.getArtifactId().equals(getArtifactId())
             && isTypeCompatible(project))
         {
-            String classifier = getClassifier();
-            // Compute default location.
-            if (classifier == null)
+            String type = this.getType();
+            this.setType(project.getPackaging());
+            try
             {
-                location = new File(project.getBuildDirectory(), project.getFinalName() + "."
-                    + computeExtension(project.getPackaging())).getPath();
+                // Let's look in the project's dependencies and find a match.
+                location = findArtifactLocation(project.getArtifacts(), project.getLog());
             }
-            else
+            catch (MojoExecutionException e)
             {
-                location = new File(project.getBuildDirectory(), project.getFinalName() + "-"
-                    + classifier + "."
+                String classifier = getClassifier();
+                // Compute default location.
+                if (classifier == null)
+                {
+                    location = new File(project.getBuildDirectory(), project.getFinalName() + "."
                         + computeExtension(project.getPackaging())).getPath();
+                }
+                else
+                {
+                    location = new File(project.getBuildDirectory(), project.getFinalName() + "-"
+                        + classifier + "." + computeExtension(project.getPackaging())).getPath();
+                }
+            }
+            finally
+            {
+                this.setType(type);
             }
         }
         else

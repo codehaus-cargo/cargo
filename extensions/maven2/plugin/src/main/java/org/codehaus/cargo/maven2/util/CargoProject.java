@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.maven2.util;
 
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
@@ -85,13 +88,16 @@ public class CargoProject
     public CargoProject(String packaging, String groupId, String artifactId, String buildDirectory,
         String finalName, Set<Artifact> artifacts, Log log)
     {
-        this.log = log;
-        this.packaging = packaging;
-        this.groupId = groupId;
-        this.artifactId = artifactId;
-        this.buildDirectory = buildDirectory;
-        this.finalName = finalName;
-        this.artifacts = artifacts;
+        this(
+            packaging,
+            groupId,
+            artifactId,
+            buildDirectory,
+            finalName,
+            null,
+            Collections.<Artifact>emptyList(),
+            artifacts,
+            log);
     }
 
     /**
@@ -107,8 +113,42 @@ public class CargoProject
             project.getArtifactId(),
             project.getBuild().getDirectory(),
             project.getBuild().getFinalName(),
+            project.getArtifact(),
+            project.getAttachedArtifacts(), 
             project.getArtifacts(),
             log);
+    }
+
+    /**
+     * Saves all attributes.
+     * @param packaging Packaging.
+     * @param groupId Group id.
+     * @param artifactId Artifact id.
+     * @param buildDirectory Build directory.
+     * @param finalName Final name.
+     * @param artifact Artifact.
+     * @param attachedArtifacts Attach artifacts.
+     * @param artifacts Project artifacts.
+     * @param log Logger.
+     */
+    private CargoProject(String packaging, String groupId, String artifactId,
+        String buildDirectory, String finalName, Artifact artifact,
+        List<Artifact> attachedArtifacts, Set<Artifact> artifacts, Log log)
+    {
+        this.log = log;
+        this.packaging = packaging;
+        this.groupId = groupId;
+        this.artifactId = artifactId;
+        this.buildDirectory = buildDirectory;
+        this.finalName = finalName;
+        this.artifacts =
+            new LinkedHashSet<Artifact>(1 + attachedArtifacts.size() + artifacts.size());
+        if (artifact != null)
+        {
+            this.artifacts.add(artifact);
+        }
+        this.artifacts.addAll(attachedArtifacts);
+        this.artifacts.addAll(artifacts);
     }
 
     /**

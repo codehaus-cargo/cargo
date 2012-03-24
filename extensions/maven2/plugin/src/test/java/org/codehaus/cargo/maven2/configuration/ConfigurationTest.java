@@ -19,12 +19,14 @@
  */
 package org.codehaus.cargo.maven2.configuration;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.apache.maven.artifact.Artifact;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
 import org.codehaus.cargo.maven2.util.CargoProject;
@@ -66,7 +68,8 @@ public class ConfigurationTest extends TestCase
 
         org.codehaus.cargo.container.configuration.Configuration configuration =
             configurationElement.createConfiguration("testcontainer", ContainerType.INSTALLED,
-                new CargoProject(null, null, null, null, null, null, null));
+                new CargoProject(
+                    null, null, null, null, null, Collections.<Artifact>emptySet(), null));
 
         assertEquals("", configuration.getPropertyValue("someName"));
     }
@@ -90,7 +93,8 @@ public class ConfigurationTest extends TestCase
 
         org.codehaus.cargo.container.configuration.Configuration configuration =
             configurationElement.createConfiguration("testContainer", ContainerType.INSTALLED,
-                new CargoProject(null, null, null, null, null, null, null));
+                new CargoProject(
+                    null, null, null, null, null, Collections.<Artifact>emptySet(), null));
 
         StandaloneLocalConfigurationStub conf = (StandaloneLocalConfigurationStub) configuration;
         List<org.codehaus.cargo.container.configuration.entry.Resource> resources = conf

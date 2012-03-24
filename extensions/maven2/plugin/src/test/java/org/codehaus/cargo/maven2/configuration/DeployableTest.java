@@ -20,6 +20,7 @@
 package org.codehaus.cargo.maven2.configuration;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -314,7 +315,9 @@ public class DeployableTest extends MockObjectTestCase
     private CargoProject createDefaultProject(String packaging, Set<Artifact> artifacts)
     {
         return new CargoProject(packaging, "projectGroupId", "projectArtifactId",
-            "projectBuildDirectory", "projectFinalName", artifacts, (Log) this.mockLog.proxy());
+            "projectBuildDirectory", "projectFinalName",
+            artifacts == null ? Collections.<Artifact>emptySet() : artifacts,
+            (Log) this.mockLog.proxy());
     }
 
     /**
