@@ -140,7 +140,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
      */
     public static void writeDescriptor(Descriptor descriptor, File file) throws IOException
     {
-        writeDescriptor(descriptor, file, null, false);
+        writeDescriptor(descriptor, file, "UTF-8", false);
     }
 
     /**
