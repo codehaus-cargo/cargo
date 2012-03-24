@@ -211,6 +211,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
 
         XMLOutputter serializer = new XMLOutputter();
         Format format = Format.getPrettyFormat();
+        format.setEncoding(encoding);
 
         // First, output as a String so we can fix some known issues with output
         serializer.setFormat(format);
@@ -240,7 +241,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
         for (Descriptor descr : descriptor.getVendorDescriptors())
         {
             File file = new File(dir, descr.getFileName());
-            AbstractDescriptorIo.writeDescriptor(descr, file, null, true);
+            AbstractDescriptorIo.writeDescriptor(descr, file, "UTF-8", true);
             files.add(file);
         }
 
