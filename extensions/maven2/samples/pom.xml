@@ -36,6 +36,7 @@
     <module>ping-test</module>
     <module>multi-datasource-test</module>
     <module>runMojo-test</module>
+    <module>uberwar-test</module>
   </modules>
 
   <build>

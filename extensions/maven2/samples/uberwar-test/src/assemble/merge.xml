@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<uberwar>
+  <wars>
+    <war>org.codehaus.cargo:authentication-war</war>
+    <war>org.codehaus.cargo:datasource-war</war>
+  </wars>
+</uberwar>
