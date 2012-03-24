@@ -291,7 +291,6 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
         int idx = parent.getContent().indexOf(refNode);
         if (idx == -1)
         {
-            // parent.getChildren().add(importedNode);
             if (!containsElement(parent.getChildren(), importedNode))
             {
                 parent.addContent(importedNode);
@@ -305,7 +304,10 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
                 idx--;
             }
 
-            parent.addContent(idx, importedNode);
+            if (!containsElement(parent.getChildren(), importedNode))
+            {
+                parent.addContent(idx, importedNode);
+            }
         }
 
         return importedNode;
