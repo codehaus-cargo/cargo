@@ -21,7 +21,11 @@ package org.codehaus.cargo.sample.maven2.uberwar_test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.PrintStream;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.maven.cli.MavenCli;
 
 import org.jdom.Element;
 
@@ -33,15 +37,55 @@ import org.codehaus.cargo.module.webapp.WebXmlType;
 public class UberwarTest extends AbstractDocumentBuilderTest
 {
 
-    private static final String UBERWAR_EXPANDED_LOCATION_PROPERTY = "uberwar.expanded.location";
-
-    public void testUberwar() throws Exception
+    public void testUberwarExecution() throws Exception
     {
-        String uberwarExpandedLocation = System.getProperty(UBERWAR_EXPANDED_LOCATION_PROPERTY);
-        assertNotNull("System property " + UBERWAR_EXPANDED_LOCATION_PROPERTY + " not set",
-            uberwarExpandedLocation);
+        File target = new File(System.getProperty("target"));
+        final File projectDirectory = new File(target, "classes").getAbsoluteFile();
 
-        File uberwarExpandedDirectory = new File(uberwarExpandedLocation);
+        final File output = new File(target, "output.log");
+        final PrintStream outputStream = new PrintStream(output);
+
+        final String[] options = new String[] { "-o", "-X", "clean", "verify" };
+
+        new Thread(new Runnable()
+        {
+            public void run()
+            {
+                MavenCli maven2 = new MavenCli();
+                maven2.doMain(options , projectDirectory.getPath(), outputStream, outputStream);
+            }
+        }).start();
+
+        long timeout = 60 * 1000 + System.currentTimeMillis();
+        while (System.currentTimeMillis() < timeout)
+        {
+            String outputString = FileUtils.readFileToString(output);
+            if (outputString.contains("BUILD SUCCESS"))
+            {
+                return;
+            }
+            else if (outputString.contains("BUILD FAILURE"))
+            {
+                fail("There has been a BUILD FAILURE. Please check file " + output);
+                return;
+            }
+
+            Thread.sleep(1000);
+        }
+
+        fail("The file " + output + " did not have a BUILD SUCCESS message after 60 seconds");
+    }
+
+    public void testUberwarResult() throws Exception
+    {
+        String projectVersion = System.getProperty("project.version");
+        assertNotNull("System property project.version not set", projectVersion);
+
+        String target = System.getProperty("target");
+        assertNotNull("System property target not set", target);
+
+        File uberwarExpandedDirectory = new File(target,
+            "classes/target/cargo-sample-maven2-uberwar-test-artifact-" + projectVersion);
         assertNotNull("Not a directory: " + uberwarExpandedDirectory,
             uberwarExpandedDirectory.isDirectory());
 
