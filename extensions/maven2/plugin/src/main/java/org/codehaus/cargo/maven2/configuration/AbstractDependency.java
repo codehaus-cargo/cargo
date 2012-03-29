@@ -183,6 +183,12 @@ public abstract class AbstractDependency
                 + ":" + getType() + "] is not a dependency of the project.");
         }
 
+        if (resolvedArtifact.getFile() == null)
+        {
+            throw new MojoExecutionException("The file for artifact [" + resolvedArtifact
+                + " is null (probably does not exist).");
+        }
+
         return resolvedArtifact.getFile().getPath();
     }
 
