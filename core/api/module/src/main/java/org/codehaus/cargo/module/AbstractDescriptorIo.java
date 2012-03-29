@@ -218,7 +218,20 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
         StringWriter writer = new StringWriter();
         serializer.output((Document) descriptor, writer);
         String result = writer.toString();
-        result = result.replace(" xmlns=\"\"", "");
+
+        // Save the root tag (including namespace) and replace all other xmlns attributes
+        String root = descriptor.getRootElement().getName();
+        int startRoot = result.indexOf(root);
+        int endRoot = result.indexOf('>', startRoot);
+
+        String subString = result.substring(endRoot + 1);
+        subString = subString.replaceAll(" xmlns=\".*\"", "");
+        StringBuilder sb = new StringBuilder(result.substring(0, endRoot + 1));
+        sb.append(subString);
+        result = sb.toString();
+
+        // Remove empty extension tags
+        result = result.replace("<extension />", "");
 
         // Then, output the String into the OutputStream
         out.write(result.getBytes(encoding));
