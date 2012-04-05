@@ -61,7 +61,18 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
      */
     public void deploy(Deployable deployable, DeployableMonitor monitor)
     {
-        deploy(deployable);
+        try
+        {
+            deploy(deployable);
+        }
+        catch (Throwable t)
+        {
+            // CARGO-1100: When the deployment action has failed, log the failure and then wait for
+            // the watchdog to return. If deployment was indeed complete, the watchdog will detect
+            // it; else it will make the method fail.
+            getLogger().info("The deployment has failed: " + t.toString(),
+                this.getClass().getName());
+        }
 
         // Wait for the Deployable to be deployed
         DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
@@ -75,7 +86,18 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
      */
     public void undeploy(Deployable deployable, DeployableMonitor monitor)
     {
-        undeploy(deployable);
+        try
+        {
+            undeploy(deployable);
+        }
+        catch (Throwable t)
+        {
+            // CARGO-1100: When the undeployment action has failed, log the failure and then wait
+            // for the watchdog to return. If undeployment was indeed complete, the watchdog will
+            // detect it; else it will make the method fail.
+            getLogger().info("The undeployment has failed: " + t.toString(),
+                this.getClass().getName());
+        }
 
         // Wait for the Deployable to be undeployed
         DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
