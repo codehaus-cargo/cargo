@@ -211,7 +211,7 @@ public class JettyArtifactResolver
             "8.1.2.v20120308"));
         jetty8xDependencies.add(new Dependency("javax.el", "el-api", "2.2"));
         jetty8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api",
-            "7.0.26"));
+            "7.0.27"));
         jetty8xDependencies.add(new Dependency("org.glassfish.web", "jsp-impl",
             "2.2.1"));
 
