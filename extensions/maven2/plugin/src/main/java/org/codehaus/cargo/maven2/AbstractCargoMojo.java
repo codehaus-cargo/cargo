@@ -308,7 +308,23 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         {
             this.cargoProject = new CargoProject(getProject(), getLog());
         }
-        doExecute();
+
+        // CARGO-1042: Clear proxy settings before starting execution
+        String httpProxyHost = System.getProperty("http.proxyHost");
+        String httpProxyPort = System.getProperty("http.proxyPort");
+
+        try
+        {
+            System.clearProperty("http.proxyHost");
+            System.clearProperty("http.proxyPort");
+
+            doExecute();
+        }
+        finally
+        {
+            System.setProperty("http.proxyHost", httpProxyHost);
+            System.setProperty("http.proxyPort", httpProxyPort);
+        }
     }
 
     /**
