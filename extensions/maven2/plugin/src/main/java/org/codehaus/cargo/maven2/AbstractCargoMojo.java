@@ -310,8 +310,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
 
         // CARGO-1042: Clear proxy settings before starting execution
-        String httpProxyHost = System.getProperty("http.proxyHost");
-        String httpProxyPort = System.getProperty("http.proxyPort");
+        final String httpProxyHost = System.getProperty("http.proxyHost");
+        final String httpProxyPort = System.getProperty("http.proxyPort");
 
         try
         {
@@ -322,8 +322,14 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
         finally
         {
-            System.setProperty("http.proxyHost", httpProxyHost);
-            System.setProperty("http.proxyPort", httpProxyPort);
+            if (httpProxyHost != null)
+            {
+                System.setProperty("http.proxyHost", httpProxyHost);
+            }
+            if (httpProxyPort != null)
+            {
+                System.setProperty("http.proxyPort", httpProxyPort);
+            }
         }
     }
 
