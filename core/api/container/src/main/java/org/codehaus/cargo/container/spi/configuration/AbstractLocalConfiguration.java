@@ -41,6 +41,7 @@ import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Base implementation of
@@ -112,6 +113,19 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
         this.home = home;
         setProperty(GeneralPropertySet.JAVA_HOME, System.getProperty("java.home"));
         setProperty(GeneralPropertySet.SPAWN_PROCESS, "false");
+    }
+
+    /**
+     * Overriden in order to set the logger on ancillary components.
+     * 
+     * @param logger the logger to set and set in the ancillary objects
+     * @see org.codehaus.cargo.util.log.Loggable#setLogger(org.codehaus.cargo.util.log.Logger)
+     */
+    @Override
+    public void setLogger(Logger logger)
+    {
+        super.setLogger(logger);
+        this.fileHandler.setLogger(logger);
     }
 
     /**

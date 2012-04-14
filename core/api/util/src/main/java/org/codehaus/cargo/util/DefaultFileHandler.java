@@ -62,12 +62,14 @@ import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.FilterChain;
 import org.apache.tools.ant.util.FileUtils;
 
+import org.codehaus.cargo.util.log.LoggedObject;
+
 /**
  * File operations that are performed in Cargo. All file operations must use this class.
  * 
  * @version $Id$
  */
-public class DefaultFileHandler implements FileHandler
+public class DefaultFileHandler extends LoggedObject implements FileHandler
 {
     /**
      * Counter for creating unique temp directories.
@@ -333,19 +335,20 @@ public class DefaultFileHandler implements FileHandler
 
     /**
      * {@inheritDoc}.
-     * @see FileHandler#replaceInFile(String, Map)
-     */
-    public void replaceInFile(String file, Map<String, String> replacements) throws CargoException
-    {
-        replaceInFile(file, replacements, null);
-    }
-
-    /**
-     * {@inheritDoc}.
      * @see FileHandler#replaceInFile(String, Map, String)
      */
     public void replaceInFile(String file, Map<String, String> replacements, String encoding)
         throws CargoException
+    {
+        replaceInFile(file, replacements, encoding, false);
+    }
+
+    /**
+     * {@inheritDoc}.
+     * @see FileHandler#replaceInFile(String, Map, String, boolean)
+     */
+    public void replaceInFile(String file, Map<String, String> replacements, String encoding,
+        boolean ignoreNonExistingProperties) throws CargoException
     {
         String fileContents = readTextFile(file, encoding);
 
@@ -353,8 +356,18 @@ public class DefaultFileHandler implements FileHandler
         {
             if (!fileContents.contains(replacement.getKey()))
             {
-                throw new CargoException("File " + file + " does not contain replacement key "
-                    + replacement.getKey());
+                String message = "File " + file + " does not contain replacement key "
+                    + replacement.getKey();
+
+                if (ignoreNonExistingProperties)
+                {
+                    getLogger().warn(message, this.getClass().getName());
+                    continue;
+                }
+                else
+                {
+                    throw new CargoException(message);
+                }
             }
 
             fileContents = fileContents.replace(replacement.getKey(), replacement.getValue());
@@ -384,6 +397,16 @@ public class DefaultFileHandler implements FileHandler
      */
     public void replaceInXmlFile(String file, Map<XmlReplacement, String> replacements)
         throws CargoException
+    {
+        replaceInXmlFile(file, replacements, false);
+    }
+
+    /**
+     * {@inheritDoc}.
+     * @see FileHandler#replaceInXmlFile(String, Map, boolean)
+     */
+    public void replaceInXmlFile(String file, Map<XmlReplacement, String> replacements,
+        boolean ignoreNonExistingProperties) throws CargoException
     {
         InputStream is = null;
         OutputStream os = null;
@@ -432,7 +455,17 @@ public class DefaultFileHandler implements FileHandler
 
                 if (node == null)
                 {
-                    throw new CargoException("Node " + expression + " not found in file " + file);
+                    String message = "Node " + expression + " not found in file " + file;
+
+                    if (ignoreNonExistingProperties)
+                    {
+                        getLogger().warn(message, this.getClass().getName());
+                        continue;
+                    }
+                    else
+                    {
+                        throw new CargoException(message);
+                    }
                 }
 
                 if (attributeName != null)
@@ -766,15 +799,6 @@ public class DefaultFileHandler implements FileHandler
             file = new File(System.getProperty("user.dir"), file.getPath());
         }
         return file.getAbsolutePath();
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see FileHandler#readTextFile(String)
-     */
-    public String readTextFile(String file)
-    {
-        return readTextFile(file, null);
     }
 
     /**

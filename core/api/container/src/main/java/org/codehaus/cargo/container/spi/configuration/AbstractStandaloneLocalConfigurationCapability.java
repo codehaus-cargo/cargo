@@ -43,6 +43,9 @@ public abstract class AbstractStandaloneLocalConfigurationCapability
         this.defaultSupportsMap.put(GeneralPropertySet.JVMARGS, Boolean.TRUE);
         this.defaultSupportsMap.put(GeneralPropertySet.RUNTIME_ARGS, Boolean.TRUE);
 
+        this.defaultSupportsMap.put(GeneralPropertySet.IGNORE_NON_EXISTING_PROPERTIES,
+            Boolean.TRUE);
+
         this.defaultSupportsMap.put(ServletPropertySet.USERS, Boolean.TRUE);
     }
 }

@@ -69,7 +69,14 @@ public interface GeneralPropertySet
     String JAVA_HOME = "cargo.java.home";
 
     /**
-     * Specify if the process should run spawned - as background task
+     * Specify if the process should run spawned; i.e. outlive CARGO's process and that the started
+     * container keeps running even after CARGO itself has terminated.
      */
     String SPAWN_PROCESS = "cargo.process.spawn";
+
+    /**
+     * Specify if CARGO's configuration generator for standalone containers should ignore when a
+     * property cannot be replaced because it does not exist in the source file.
+     */
+    String IGNORE_NON_EXISTING_PROPERTIES = "cargo.standalone.ignoreNonExistingProperties";
 }

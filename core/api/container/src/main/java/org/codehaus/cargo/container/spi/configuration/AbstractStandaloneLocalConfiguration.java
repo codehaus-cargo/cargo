@@ -73,6 +73,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
 
         // Add all required properties that are common to all standalone configurations
         setProperty(GeneralPropertySet.LOGGING, LoggingLevel.MEDIUM.getLevel());
+        setProperty(GeneralPropertySet.IGNORE_NON_EXISTING_PROPERTIES, "false");
         this.files = new ArrayList<FileConfig>();
         this.xmlReplacements = new HashMap<String, Map<XmlReplacement, String>>();
     }
@@ -96,6 +97,9 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      */
     protected void performXmlReplacements(LocalContainer container)
     {
+        boolean ignoreNonExistingProperties = Boolean.valueOf(
+            getPropertyValue(GeneralPropertySet.IGNORE_NON_EXISTING_PROPERTIES)).booleanValue();
+
         for (Map.Entry<String, Map<XmlReplacement, String>> xmlReplacements
             : this.xmlReplacements.entrySet())
         {
@@ -121,7 +125,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
             {
                 String destinationFile = getFileHandler().append(
                     container.getConfiguration().getHome(), xmlReplacements.getKey());
-                getFileHandler().replaceInXmlFile(destinationFile, replacements);
+                getFileHandler().replaceInXmlFile(destinationFile, replacements,
+                    ignoreNonExistingProperties);
             }
         }
     }
@@ -490,11 +495,14 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     protected void replaceInFile(String file, Map<String, String> replacements, String encoding)
         throws CargoException
     {
+        boolean ignoreNonExistingProperties = Boolean.valueOf(
+            getPropertyValue(GeneralPropertySet.IGNORE_NON_EXISTING_PROPERTIES)).booleanValue();
+
         if (replacements.isEmpty())
         {
             return;
         }
         String path = getHome() + "/" + file;
-        getFileHandler().replaceInFile(path, replacements, encoding);
+        getFileHandler().replaceInFile(path, replacements, encoding, ignoreNonExistingProperties);
     }
 }

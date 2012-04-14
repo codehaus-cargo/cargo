@@ -26,6 +26,8 @@ import java.util.Map;
 
 import org.apache.tools.ant.types.FilterChain;
 
+import org.codehaus.cargo.util.log.Loggable;
+
 /**
  * File operations that are performed in Cargo. All file operations must use this interface. This
  * interface is also useful for unit testing as it's possible to create a mock implementation of it
@@ -33,7 +35,7 @@ import org.apache.tools.ant.types.FilterChain;
  * 
  * @version $Id$
  */
-public interface FileHandler
+public interface FileHandler extends Loggable
 {
 
     /**
@@ -225,6 +227,20 @@ public interface FileHandler
         throws CargoException;
 
     /**
+     * Replaces using a map of replacements in a given file.
+     * 
+     * @param file File to replace in.
+     * @param replacements Map containing replacements.
+     * @param ignoreNonExistingProperties Whether to ignore if one of the keys cannot be found.
+     * @param encoding The character encoding to use, may be {@code null} or empty to use the
+     *            platform's default encoding.
+     * @throws CargoException If anything fails, most notably if one of the replacements does not
+     * exist in the file.
+     */
+    void replaceInFile(String file, Map<String, String> replacements, String encoding,
+        boolean ignoreNonExistingProperties) throws CargoException;
+
+    /**
      * Replaces using a map of XML replacements in a given file.
      * 
      * @param file File to replace in.
@@ -234,6 +250,18 @@ public interface FileHandler
      */
     void replaceInXmlFile(String file, Map<XmlReplacement, String> xmlReplacements)
         throws CargoException;
+
+    /**
+     * Replaces using a map of XML replacements in a given file.
+     * 
+     * @param file File to replace in.
+     * @param xmlReplacements Map containing XML replacements.
+     * @param ignoreNonExistingProperties Whether to ignore if one of the keys cannot be found.
+     * @throws CargoException If anything fails, most notably if one of the replacements does not
+     * exist in the file.
+     */
+    void replaceInXmlFile(String file, Map<XmlReplacement, String> xmlReplacements,
+        boolean ignoreNonExistingProperties) throws CargoException;
 
     /**
      * Compute the location of a temporary directory.
