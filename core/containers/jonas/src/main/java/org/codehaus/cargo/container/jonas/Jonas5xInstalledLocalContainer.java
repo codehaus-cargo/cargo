@@ -164,7 +164,8 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         }
 
         throw new ContainerException("Server did not reach wanted state after "
-                + Long.toString(this.getTimeout()) + " milliseconds (code " + returnCode + ")");
+                + Long.toString(this.getTimeout()) + " milliseconds: last ping return code was "
+                    + returnCode + ", expected return code was " + expectedReturnCode);
     }
 
     /**
