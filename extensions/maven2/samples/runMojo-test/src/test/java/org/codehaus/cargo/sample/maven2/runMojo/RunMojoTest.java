@@ -35,14 +35,25 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 public class RunMojoTest extends TestCase
 {
 
-    Logger logger = new SimpleLogger();
+    private Logger logger = new SimpleLogger();
+
+    private File projectDirectory;
+
+    private File output;
+
+    @Override
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+
+        File target = new File(System.getProperty("target"));
+        this.projectDirectory = new File(target, "classes").getAbsoluteFile();
+
+        this.output = new File(target, "output.log");
+    }
 
     public void testRunMojo() throws Exception
     {
-        File target = new File(System.getProperty("target"));
-        final File projectDirectory = new File(target, "classes").getAbsoluteFile();
-
-        final File output = new File(target, "output.log");
         final PrintStream outputStream = new PrintStream(output);
 
         String portOption = "-Dcargo.samples.servlet.port=" + System.getProperty("http.port");
@@ -55,6 +66,33 @@ public class RunMojoTest extends TestCase
             }
         }).start();
 
+        waitForRunMojoStart();
+    }
+
+    public void testCargo() throws Exception
+    {
+        waitForRunMojoStart();
+
+        final URL url = new URL("http://localhost:" + System.getProperty("http.port")
+            + "/cargocpc/");
+        final String expected = "Cargo Ping Component";
+
+        PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
+    }
+
+    public void testSimpleWarJsp() throws Exception
+    {
+        waitForRunMojoStart();
+
+        final URL url = new URL("http://localhost:" + System.getProperty("http.port")
+            + "/simple-war-" + System.getProperty("cargo.resources.version") + "/index.jsp");
+        final String expected = "Sample page for testing";
+
+        PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
+    }
+
+    private void waitForRunMojoStart() throws Exception
+    {
         long timeout = 60 * 1000 + System.currentTimeMillis();
         while (System.currentTimeMillis() < timeout)
         {
@@ -73,24 +111,6 @@ public class RunMojoTest extends TestCase
         }
 
         fail("The file " + output + " did not have the Ctrl-C message after 60 seconds");
-    }
-
-    public void testCargo() throws Exception
-    {
-        final URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/cargocpc/");
-        final String expected = "Cargo Ping Component";
-
-        PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
-    }
-
-    public void testSimpleWarJsp() throws Exception
-    {
-        final URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/simple-war-" + System.getProperty("cargo.resources.version") + "/index.jsp");
-        final String expected = "Sample page for testing";
-
-        PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }
 
 }
