@@ -20,6 +20,7 @@
 package org.codehaus.cargo.sample.maven2.runMojo;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.net.URL;
 
@@ -96,7 +97,16 @@ public class RunMojoTest extends TestCase
         long timeout = 60 * 1000 + System.currentTimeMillis();
         while (System.currentTimeMillis() < timeout)
         {
-            String outputString = FileUtils.readFileToString(output);
+            String outputString;
+            try
+            {
+                outputString = FileUtils.readFileToString(output);
+            }
+            catch (FileNotFoundException e)
+            {
+                outputString = "";
+            }
+
             if (outputString.contains("Press Ctrl-C to stop the container..."))
             {
                 return;
