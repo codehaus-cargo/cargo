@@ -97,6 +97,14 @@ public class JBoss5xStandaloneLocalConfiguration
         addXmlReplacement(
             "conf/bootstrap/bindings.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
+                + "/property[@name='serviceName' "
+                    + "and text()='jboss:service=invoker,type=pooled']/.."
+                + "/property[@name='port']", null,
+            JBossPropertySet.JBOSS_INVOKER_POOL_PORT);
+
+        addXmlReplacement(
+            "conf/bootstrap/bindings.xml",
+            "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
                 + "/property[@name='serviceName' and text()='TransactionManager']/.."
                 + "/property[@name='bindingName' and text()='recoveryManager']/.."
                 + "/property[@name='port']", null,
