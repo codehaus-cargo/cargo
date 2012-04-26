@@ -62,4 +62,18 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
         return "JBoss " + getVersion("7.1.x");
     }
 
+    /**
+     * {@inheritDoc}. Wait 5 seconds more for JBoss 7.1.1 to start completely.
+     */
+    @Override
+    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
+    {
+        super.waitForCompletion(waitForStarting);
+
+        if (waitForStarting)
+        {
+            Thread.sleep(5000);
+        }
+    }
+
 }
