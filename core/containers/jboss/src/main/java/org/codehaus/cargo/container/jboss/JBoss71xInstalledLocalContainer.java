@@ -63,11 +63,17 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
     }
 
     /**
-     * {@inheritDoc}. Wait 5 seconds more for JBoss 7.1.1 to start completely.
+     * {@inheritDoc}. Wait 5 seconds more for JBoss 7.1.1 to start completely + 5 seconds before
+     * pinging for stop.
      */
     @Override
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
     {
+        if (!waitForStarting)
+        {
+            Thread.sleep(5000);
+        }
+
         super.waitForCompletion(waitForStarting);
 
         if (waitForStarting)
