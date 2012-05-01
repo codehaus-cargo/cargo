@@ -302,6 +302,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
             }
             catch (IOException e)
             {
+                getLogger().debug("\tPort " + port + " is shutdown", this.getClass().getName());
+
                 connectTimeout = 250;
                 continue;
             }
@@ -329,8 +331,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
             Socket s = new Socket();
             try
             {
-                getLogger().debug("\tConnection attempt with socket " + s,
-                    this.getClass().getName());
+                getLogger().debug("\tConnection attempt with socket " + s + ", current time is "
+                    + System.currentTimeMillis(), this.getClass().getName());
 
                 s.bind(null);
 
