@@ -308,6 +308,12 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             return;
         }
 
+        if ("jetty8x".equals(getTestData().containerId))
+        {
+            // Some Jetty 8.x flavors do not detect modified WARs properly
+            return;
+        }
+
         // Redeploy the WAR after modifying its content
         Deployable modifiedDeployable = modifyWar(this.war);
         File modifiedWar = new File(modifiedDeployable.getFile());
