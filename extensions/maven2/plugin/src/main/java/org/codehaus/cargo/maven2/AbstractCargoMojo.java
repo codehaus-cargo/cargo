@@ -45,6 +45,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
+import org.codehaus.cargo.maven2.configuration.ArtifactInstaller;
 import org.codehaus.cargo.maven2.configuration.Configuration;
 import org.codehaus.cargo.maven2.configuration.Container;
 import org.codehaus.cargo.maven2.configuration.Deployable;
@@ -577,8 +578,14 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         // If no container id is specified, default to Jetty
         if (getContainerElement().getContainerId() == null)
         {
-            getContainerElement().setContainerId("jetty6x");
-            getContainerElement().setType(ContainerType.EMBEDDED);
+            getContainerElement().setContainerId("jetty7x");
+            getContainerElement().setType(ContainerType.INSTALLED);
+
+            ArtifactInstaller artifactInstaller = new ArtifactInstaller();
+            artifactInstaller.setGroupId("org.eclipse.jetty");
+            artifactInstaller.setArtifactId("jetty-distribution");
+            artifactInstaller.setVersion("7.6.3.v20120416");
+            getContainerElement().setArtifactInstaller(artifactInstaller);
 
             getLog().info("No container defined, using a default ["
                 + getContainerElement().getContainerId() + ", "
