@@ -76,11 +76,13 @@ public class DocumentMerger implements MergeProcessor
 
         for (int i = 1; i < this.documents.size(); i++)
         {
-            merge(doc, this.documents.get(i));
+            Document temp = merge(doc, this.documents.get(i));
+            doc = temp;
         }
 
         return doc;
     }
+
 
     /**
      * Merge the right hand document into the left hand document, currently by just adding all the
@@ -88,17 +90,24 @@ public class DocumentMerger implements MergeProcessor
      * 
      * @param left in the left hand document
      * @param right the right hand document
+     * @return merged document
      */
-    private void merge(Document left, Document right)
+    private Document merge(Document left, Document right)
     {
-        List<Content> children = right.getRootElement().getContent();
+        List<Content> children = new ArrayList<Content>(); 
+        children.addAll(right.getRootElement().getContent()); 
+        
+        Document tempLeft = (Document) left.clone();
+        
         for (Content node : children)
         {
             if (node instanceof Element)
             {
                 Content clone = ((Element) node).detach();
-                left.getRootElement().addContent(clone);
+                tempLeft.getRootElement().addContent(clone);
             }
         }
+        
+        return tempLeft;
     }
 }
