@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
@@ -68,22 +71,30 @@ public class Jetty8xInstalledLocalContainer extends Jetty7xInstalledLocalContain
     @Override
     protected String[] getStartArguments()
     {
-        return new String[]
+        List<String> startArguments = new ArrayList<String>();
+
+        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-logging.xml"));
+        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty.xml"));
+        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-annotations.xml"));
+        if (getConfiguration().getDataSources() != null
+            && !getConfiguration().getDataSources().isEmpty())
         {
-            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-logging.xml"),
-            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty.xml"),
-            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-annotations.xml"),
-            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-deploy.xml"),
-            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-webapps.xml"),
-            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-contexts.xml"),
-            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-testrealm.xml")
-        };
+            startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                    "etc/jetty-plus.xml"));
+        }
+        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-deploy.xml"));
+        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-webapps.xml"));
+        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-contexts.xml"));
+        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-testrealm.xml"));
+
+        String[] startArgumentsArray = new String[startArguments.size()];
+        return startArguments.toArray(startArgumentsArray);
     }
 }

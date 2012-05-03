@@ -19,8 +19,11 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jetty.internal.JettyStandaloneLocalConfigurationCapability;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.codehaus.cargo.container.LocalContainer;
 
 /**
  * Jetty 8.x standalone
@@ -30,12 +33,6 @@ import org.codehaus.cargo.container.jetty.internal.JettyStandaloneLocalConfigura
  */
 public class Jetty8xStandaloneLocalConfiguration extends Jetty7xStandaloneLocalConfiguration
 {
-    /**
-     * Capability of the Jetty 8.x standalone local configuration.
-     */
-    private static ConfigurationCapability capability =
-        new JettyStandaloneLocalConfigurationCapability();
-
     /**
      * {@inheritDoc}
      * @see Jetty7xStandaloneLocalConfiguration#Jetty7xStandaloneLocalConfiguration(String)
@@ -47,11 +44,17 @@ public class Jetty8xStandaloneLocalConfiguration extends Jetty7xStandaloneLocalC
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
-    public ConfigurationCapability getCapability()
+    @Override
+    protected void configureDatasource(LocalContainer container, String etcDir) throws IOException
     {
-        return capability;
+        StringBuilder sb = new StringBuilder();
+        createDatasourceDefinitions(sb, container);
+
+        Map<String, String> jettyXmlReplacements = new HashMap<String, String>();
+        jettyXmlReplacements.put("</Configure>", sb.toString() + "</Configure>");
+        getFileHandler().replaceInFile(
+            getFileHandler().append(etcDir, "jetty-plus.xml"), jettyXmlReplacements, "UTF-8");
     }
 
     /**

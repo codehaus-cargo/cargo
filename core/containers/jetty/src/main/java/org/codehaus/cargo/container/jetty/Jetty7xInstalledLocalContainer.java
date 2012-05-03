@@ -47,7 +47,7 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
      * <code>Server</code> option and if the JSP support is here the <code>jsp</code> option.
      * Any options specified here will be appended.
      */
-    protected String defaultFinalOptions = "jmx,resources,websocket,ext";
+    protected String defaultFinalOptions = "jmx,resources,websocket,ext,plus";
 
     /**
      * Capability of the Jetty container.

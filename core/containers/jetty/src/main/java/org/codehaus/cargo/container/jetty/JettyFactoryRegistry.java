@@ -25,6 +25,7 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty4xEmbeddedStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty6xEmbeddedStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty7xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.JettyExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.JettyRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.JettyStandaloneLocalConfigurationCapability;
@@ -89,7 +90,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
             Jetty6xEmbeddedStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jetty7x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            JettyStandaloneLocalConfigurationCapability.class);
+            Jetty7xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jetty7x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             JettyExistingLocalConfigurationCapability.class);
@@ -102,7 +103,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
             Jetty6xEmbeddedStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jetty8x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            JettyStandaloneLocalConfigurationCapability.class);
+            Jetty7xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jetty8x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             JettyExistingLocalConfigurationCapability.class);

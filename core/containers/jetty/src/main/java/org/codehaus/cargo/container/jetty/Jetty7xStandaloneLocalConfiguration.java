@@ -19,14 +19,19 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.jetty.internal.JettyStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty7xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
@@ -42,7 +47,7 @@ public class Jetty7xStandaloneLocalConfiguration extends
      * Capability of the Jetty 7.x standalone local configuration.
      */
     private static ConfigurationCapability capability =
-        new JettyStandaloneLocalConfigurationCapability();
+        new Jetty7xStandaloneLocalConfigurationCapability();
 
     /**
      * The list of files in which to replace <code>jetty.home</code> with
@@ -109,8 +114,15 @@ public class Jetty7xStandaloneLocalConfiguration extends
         super.doConfigure(container);
 
         String etcDir = getFileHandler().append(getHome(), "etc");
+
         Map<String, String> jettyXmlReplacements = new HashMap<String, String>();
         jettyXmlReplacements.put("<Property", "<SystemProperty");
+
+        if (getDataSources() != null && !getDataSources().isEmpty())
+        {
+            configureDatasource(container, etcDir);
+        }
+
         getFileHandler().replaceInFile(
             getFileHandler().append(etcDir, "jetty.xml"), jettyXmlReplacements, "UTF-8");
     }
@@ -124,6 +136,85 @@ public class Jetty7xStandaloneLocalConfiguration extends
     {
         Jetty7xInstalledLocalDeployer deployer = new Jetty7xInstalledLocalDeployer(container);
         return deployer;
+    }
+
+    /**
+     * Configure datasource definitions.
+     * @param container Container.
+     * @param etcDir The <code>etc</code> directory of the configuration.
+     * @throws IOException If the pooling component cannot be copied.
+     */
+    protected void configureDatasource(LocalContainer container, String etcDir) throws IOException
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<Call name=\"setAttribute\">\n");
+        sb.append("  <Arg>org.eclipse.jetty.webapp.configuration</Arg>\n");
+        sb.append("  <Arg>\n");
+        sb.append("    <Array type=\"java.lang.String\">\n");
+        sb.append("      <Item>org.eclipse.jetty.webapp.WebInfConfiguration</Item>\n");
+        sb.append("      <Item>org.eclipse.jetty.webapp.WebXmlConfiguration</Item>\n");
+        sb.append("      <Item>org.eclipse.jetty.webapp.MetaInfConfiguration</Item>\n");
+        sb.append("      <Item>org.eclipse.jetty.webapp.FragmentConfiguration</Item>\n");
+        sb.append("      <Item>org.eclipse.jetty.plus.webapp.EnvConfiguration</Item>\n");
+        sb.append("      <Item>org.eclipse.jetty.plus.webapp.PlusConfiguration</Item>\n");
+        sb.append("      <Item>org.eclipse.jetty.webapp.JettyWebXmlConfiguration</Item>\n");
+        sb.append("      <Item>org.eclipse.jetty.webapp.TagLibConfiguration</Item>\n");
+        sb.append("    </Array>\n");
+        sb.append("  </Arg>\n");
+        sb.append("</Call>\n");
+
+        createDatasourceDefinitions(sb, container);
+
+        Map<String, String> jettyXmlReplacements = new HashMap<String, String>();
+        jettyXmlReplacements.put("</Configure>", sb.toString() + "</Configure>");
+        getFileHandler().replaceInFile(
+            getFileHandler().append(etcDir, "jetty.xml"), jettyXmlReplacements, "UTF-8");
+    }
+
+    /**
+     * Creates datasource definitions.
+     * @param sb String buffer to print the definitions into.
+     * @param container Container.
+     * @throws IOException If the pooling component cannot be copied.
+     */
+    protected void createDatasourceDefinitions(StringBuilder sb, LocalContainer container)
+        throws IOException
+    {
+        // Add datasources
+        for (DataSource ds : getDataSources())
+        {
+            sb.append("\n");
+            sb.append("<New id=\"" + ds.getId()
+                + "\" class=\"org.eclipse.jetty.plus.jndi.Resource\">\n");
+            sb.append("  <Arg>" + ds.getJndiLocation() + "</Arg>\n");
+            sb.append("  <Arg>\n");
+            sb.append("    <New class=\"com.mchange.v2.c3p0.ComboPooledDataSource\">\n");
+            sb.append("      <Set name=\"driverClass\">" + ds.getDriverClass() + "</Set>\n");
+            sb.append("      <Set name=\"jdbcUrl\">" + ds.getUrl() + "</Set>\n");
+            sb.append("      <Set name=\"user\">" + ds.getUsername() + "</Set>\n");
+            sb.append("      <Set name=\"password\">" + ds.getPassword() + "</Set>\n");
+            sb.append("    </New>\n");
+            sb.append("  </Arg>\n");
+            sb.append("</New>\n");
+        }
+
+        InputStream c3p0Reader = getClass().getClassLoader().getResourceAsStream(
+            "org/codehaus/cargo/container/jetty/datasource/c3p0.jar");
+        String c3p0File = getFileHandler().append(getHome(), "lib/ext/c3p0.jar");
+        OutputStream c3p0Writer = getFileHandler().getOutputStream(c3p0File);
+        try
+        {
+            getFileHandler().copy(c3p0Reader, c3p0Writer);
+        }
+        finally
+        {
+            c3p0Writer.close();
+            c3p0Writer = null;
+            System.gc();
+        }
+
+        InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
+        installedContainer.addExtraClasspath(c3p0File);
     }
 
     /**
@@ -143,5 +234,4 @@ public class Jetty7xStandaloneLocalConfiguration extends
     {
         return "Jetty 7.x Standalone Configuration";
     }
-
 }

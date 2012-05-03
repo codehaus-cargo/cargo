@@ -27,4 +27,33 @@
   <name>Cargo Core Jetty Container</name>
   <packaging>jar</packaging>
   <description>Core API implementation for Jetty containers</description>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>c3p0</groupId>
+                  <artifactId>c3p0</artifactId>
+                  <version>0.9.1.1</version>
+                  <outputDirectory>
+                    ${project.build.directory}/classes/org/codehaus/cargo/container/jetty/datasource
+                  </outputDirectory>
+                  <destFileName>c3p0.jar</destFileName>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>

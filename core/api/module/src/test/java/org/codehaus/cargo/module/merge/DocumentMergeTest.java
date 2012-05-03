@@ -31,7 +31,7 @@ import java.io.StringReader;
 /**
  * Test class which verifies that the DocumentMerge class is merging two Document objects correctly.
  * 
- * @version $Id: DocumentMergeTest.java 2012-05-02 08:33:00Z $
+ * @version $Id$
  */
 public class DocumentMergeTest extends TestCase
 {
@@ -65,21 +65,10 @@ public class DocumentMergeTest extends TestCase
         // verify this one Document has both entries
         Element rootNode = mergedDoc.getRootElement();
         List<Element> list = rootNode.getChildren("parentnode");
-        for (int i = 0; i < list.size(); i++)
-        {
-            Element node = (Element) list.get(i);
-            if (i == 0)
-            {
-                assertEquals(node.getChildText("value"), "8");
-            }
-            if (i == 1)
-            {
-                assertEquals(node.getChildText("value"), "13");
-            }
-            if (i == 2)
-            {
-                assertEquals(node.getChildText("value"), "26");
-            }
-        }
+        assertNotNull(list);
+        assertEquals(3, list.size());
+        assertEquals(((Element) list.get(0)).getChildText("value"), "8");
+        assertEquals(((Element) list.get(1)).getChildText("value"), "13");
+        assertEquals(((Element) list.get(2)).getChildText("value"), "26");
     }
 }
