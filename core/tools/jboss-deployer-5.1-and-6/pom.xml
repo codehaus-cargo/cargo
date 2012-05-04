@@ -44,11 +44,25 @@
   </dependencies>
 
   <repositories>
-    <!-- The JBoss.org repository is required for org.jboss.integration:jboss-profileservice-spi -->
+    <!--
+      Some transitive dependencies of JBoss artifacts, for example apache-xerces:xml-apis, are only
+      available on the JBoss third party repository.
+      -->
     <repository>
-      <id>repository.jboss.org</id>
-      <name>JBoss.org repository</name>
-      <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+      <id>repository.jboss.org_thirdparty-releases</id>
+      <name>JBoss.org third party releases repository</name>
+      <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>repository.jboss.org_thirdparty-uploads</id>
+      <name>JBoss.org third party uploads repository</name>
+      <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-uploads</url>
       <releases>
         <enabled>true</enabled>
       </releases>
