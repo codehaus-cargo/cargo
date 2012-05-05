@@ -26,6 +26,7 @@ import java.util.UUID;
 import junit.framework.Test;
 
 import org.apache.tools.ant.taskdefs.Copy;
+import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -89,6 +90,12 @@ public class SystemPropertyCapabilityTest extends AbstractCargoTestCase
      */
     public void testSystemProperty() throws Exception
     {
+        if (getContainer() instanceof EmbeddedLocalContainer)
+        {
+            // Skip the system property capability test for embedded containers
+            return;
+        }
+
         String random = UUID.randomUUID().toString();
 
         // Copies the testdata artifact
