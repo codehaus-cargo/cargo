@@ -41,11 +41,11 @@
         <artifactId>maven-ear-plugin</artifactId>
         <configuration>
           <modules>
-            <javaModule>
+            <jarModule>
               <groupId>org.codehaus.cargo</groupId>
               <artifactId>empty-jar</artifactId>
               <includeInApplicationXml>true</includeInApplicationXml>
-            </javaModule>
+            </jarModule>
           </modules>
         </configuration>
       </plugin>
