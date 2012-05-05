@@ -112,6 +112,11 @@ public class AntBuildListener implements BuildListener
      */
     public void messageLogged(BuildEvent event)
     {
+        if (event.getMessage() == null)
+        {
+            return;
+        }
+
         if (event.getPriority() == Project.MSG_DEBUG
             || event.getPriority() == Project.MSG_VERBOSE)
         {
@@ -124,7 +129,22 @@ public class AntBuildListener implements BuildListener
         else if (event.getPriority() == Project.MSG_WARN
             || event.getPriority() == Project.MSG_ERR)
         {
-            this.logger.warn(event.getMessage(), this.category);
+            // CARGO-1095: Some containers output all messages on stderr, which then would make
+            // CARGO output everything as WARN. Avoid this situation by reading the message.
+            if (event.getMessage().contains("DEBUG") || event.getMessage().contains("FINE")
+                || event.getMessage().contains("TRACE"))
+            {
+                this.logger.debug(event.getMessage(), this.category);
+            }
+            else if (event.getMessage().contains("WARN") || event.getMessage().contains("ERROR")
+                || event.getMessage().contains("FATAL"))
+            {
+                this.logger.warn(event.getMessage(), this.category);
+            }
+            else
+            {
+                this.logger.info(event.getMessage(), this.category);
+            }
         }
         else
         {
