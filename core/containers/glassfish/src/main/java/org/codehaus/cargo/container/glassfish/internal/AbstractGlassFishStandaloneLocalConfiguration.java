@@ -76,7 +76,7 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
     @Override 
     public void verify()
     {
-        // If portBase is specfied we override settings for various ports accordingly.
+        // If portBase is specified we override settings for various ports accordingly.
         // It is neccessary that depolyer has valid admin and http ports.
         String portBase = this.getPropertyValue(GlassFishPropertySet.PORT_BASE);
         if (portBase != null && portBase.trim().length() > 0)
@@ -175,7 +175,26 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
             {
                 domainXmlReplacements.put("-XX:MaxPermSize=192m", maxPermSize);
             }
+        }
 
+        if (container instanceof InstalledLocalContainer)
+        {
+            InstalledLocalContainer installedLocalContainer = (InstalledLocalContainer) container;
+
+            if (installedLocalContainer.getSystemProperties() != null)
+            {
+                StringBuilder jvmOptions = new StringBuilder();
+
+                for (Map.Entry<String, String> systemProperty
+                    : installedLocalContainer.getSystemProperties().entrySet())
+                {
+                    jvmOptions.append("<jvm-options>-D" + systemProperty.getKey()
+                        + "=\"" + systemProperty.getValue() + "\"</jvm-options>\n");
+                }
+
+                jvmOptions.append("</java-config>");
+                domainXmlReplacements.put("</java-config>", jvmOptions.toString());
+            }
         }
 
         this.replaceInFile(this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)

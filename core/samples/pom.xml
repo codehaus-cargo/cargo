@@ -831,6 +831,10 @@
                 <name>cargo.testdata.simple-aop</name>
                 <value>org/codehaus/cargo/simple-aop/${cargo.resources.version}/simple-aop-${cargo.resources.version}.aop</value>
               </property>
+              <property>
+                <name>cargo.testdata.systemproperty-war</name>
+                <value>org/codehaus/cargo/systemproperty-war/${cargo.resources.version}/systemproperty-war-${cargo.resources.version}.war</value>
+              </property>
 
               <!-- Version used to compute the location of the test data files in the local Maven
                    repository. -->
