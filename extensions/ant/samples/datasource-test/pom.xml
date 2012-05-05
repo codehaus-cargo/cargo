@@ -68,7 +68,7 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <!-- Avoid CARGO-827: Cannot build on Windows -->
                 <replace file="${cargo-ant-buildfiles.directory}/build.xml">
                   <replacefilter token="extensions\\ant\\samples\\datasource-test/../../../../" value="" />
@@ -78,7 +78,7 @@
                 <ant antfile="${cargo-ant-buildfiles.directory}/build.xml">
                   <target name="start" />
                 </ant>
-              </tasks>
+              </target>
             </configuration>
           </execution>
           <execution>
@@ -88,11 +88,11 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <ant antfile="${cargo-ant-buildfiles.directory}/build.xml">
                   <target name="stop" />
                 </ant>
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>

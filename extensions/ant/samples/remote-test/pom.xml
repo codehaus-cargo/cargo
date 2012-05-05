@@ -82,7 +82,7 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <!-- Avoid CARGO-827: Cannot build on Windows -->
                 <replace file="${cargo-ant-buildfiles.directory}/build.xml">
                   <replacefilter token="extensions\\ant\\samples\\remote-test/../../../../" value="" />
@@ -93,7 +93,7 @@
                   <target name="start" />
                   <target name="deploy" />
                 </ant>
-              </tasks>
+              </target>
             </configuration>
           </execution>
           <execution>
@@ -103,13 +103,13 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <ant antfile="${cargo-ant-buildfiles.directory}/build.xml">
                   <target name="undeploy" />
                   <target name="redeploy" />
                   <target name="stop" />
                 </ant>
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>
