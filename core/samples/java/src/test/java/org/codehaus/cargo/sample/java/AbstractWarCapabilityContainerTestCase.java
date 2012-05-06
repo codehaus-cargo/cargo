@@ -113,21 +113,11 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCar
     /**
      * Start, test and stop WAR.
      * @param warPingURL WAR ping URL.
-     * @throws Exception If anything goes wrong.
      */
-    public void startAndStop(URL warPingURL) throws Exception
+    public void startAndStop(URL warPingURL)
     {
         getLocalContainer().start();
         PingUtils.assertPingTrue(warPingURL.getPath() + " not started", warPingURL, getLogger());
-
-        if ("jboss71x".equals(this.getContainer().getId()))
-        {
-            // Some versions of JBoss 7.1.x need a short rest before getting shut down
-            Thread.sleep(2000);
-            System.gc();
-            Thread.sleep(3000);
-            System.gc();
-        }
 
         getLocalContainer().stop();
         PingUtils.assertPingFalse(warPingURL.getPath() + " not stopped", warPingURL, getLogger());
