@@ -26,15 +26,13 @@ import java.util.UUID;
 import junit.framework.Test;
 
 import org.apache.tools.ant.taskdefs.Copy;
-import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
+import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.AntUtils;
 
@@ -78,8 +76,7 @@ public class SystemPropertyCapabilityTest extends AbstractCargoTestCase
             "Tests that run on local containers supporting system properties");
 
         suite.addTestSuite(SystemPropertyCapabilityTest.class, new Validator[] {
-            new IsLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
+            new IsInstalledLocalContainerValidator(),
             new HasWarSupportValidator()});
         return suite;
     }
@@ -90,12 +87,6 @@ public class SystemPropertyCapabilityTest extends AbstractCargoTestCase
      */
     public void testSystemProperty() throws Exception
     {
-        if (getContainer() instanceof EmbeddedLocalContainer)
-        {
-            // Skip the system property capability test for embedded containers
-            return;
-        }
-
         String random = UUID.randomUUID().toString();
 
         // Copies the testdata artifact
