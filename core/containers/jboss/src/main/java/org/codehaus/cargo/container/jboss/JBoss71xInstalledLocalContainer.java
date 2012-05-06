@@ -19,7 +19,10 @@
  */
 package org.codehaus.cargo.container.jboss;
 
+import java.io.File;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * JBoss 7.1.x series container implementation.
@@ -62,4 +65,46 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
         return "JBoss " + getVersion("7.1.x");
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doStart(JvmLauncher java) throws Exception
+    {
+        java.addJvmArguments(
+            "-Dorg.jboss.boot.log.file=" + getConfiguration().getHome() + "/log/boot.log",
+            "-Dlogging.configuration="
+                + new File(getConfiguration().getHome()
+                    + "/configuration/logging.properties").toURI().toURL(),
+            "-Djboss.home.dir=" + getHome(),
+            "-Djboss.server.base.dir=" + getConfiguration().getHome());
+
+        java.setJarFile(new File(getHome(), "jboss-modules.jar"));
+
+        java.addAppArguments(
+            "-mp", getHome() + "/modules",
+            "-jaxpmodule", "javax.xml.jaxp-provider",
+            "org.jboss.as.standalone");
+
+        java.start();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doStop(JvmLauncher java) throws Exception
+    {
+        String port = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_PORT);
+
+        java.setJarFile(new File(getHome(), "jboss-modules.jar"));
+
+        java.addAppArguments(
+            "-mp", getHome() + "/modules",
+            "org.jboss.as.cli",
+            "--connect", "--controller=localhost:" + port,
+            "command=:shutdown");
+
+        java.start();
+    }
 }
