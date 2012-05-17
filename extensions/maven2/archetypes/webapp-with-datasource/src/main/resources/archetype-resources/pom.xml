@@ -227,6 +227,29 @@
       </build>
     </profile>
     <profile>
+      <id>jboss71x</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-maven2-plugin</artifactId>
+              <configuration>
+                <container>
+                  <containerId>jboss71x</containerId>
+                  <artifactInstaller>
+                    <groupId>org.jboss.as</groupId>
+                    <artifactId>jboss-as-dist</artifactId>
+                    <version>7.1.1.Final</version>
+                  </artifactInstaller>
+                </container>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
       <id>jonas5x</id>
       <build>
         <pluginManagement>
