@@ -170,8 +170,8 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         // Create JARs for modules
         for (String extraClasspath : container.getExtraClasspath())
         {
-            String fileName = getFileHandler().getName(extraClasspath);
-            String moduleName = fileName.substring(0, fileName.lastIndexOf('.'));
+            String moduleName = getFileHandler().getName(extraClasspath);
+            moduleName = moduleName.substring(0, moduleName.indexOf('.') - 1);
             String folder = container.getHome()
                 + "/modules/org/codehaus/cargo/classpath/" + moduleName + "/main";
             getFileHandler().mkdirs(folder);
@@ -179,7 +179,8 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
             FilterChain filterChain = createFilterChain();
             getAntUtils().addTokenToFilterChain(filterChain, "moduleName", moduleName);
 
-            getFileHandler().copyFile(extraClasspath, getFileHandler().append(folder, fileName));
+            getFileHandler().copyFile(extraClasspath,
+                getFileHandler().append(folder, moduleName + ".jar"));
             getResourceUtils().copyResource(
                 RESOURCE_PATH + "jboss-module/jboss-module.xml",
                 getFileHandler().append(folder, "module.xml"),
@@ -216,7 +217,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
                 }
 
                 String moduleName = getFileHandler().getName(dataSourceFile);
-                moduleName = moduleName.substring(0, moduleName.lastIndexOf('.'));
+                moduleName = moduleName.substring(0, moduleName.indexOf('.') - 1);
 
                 FilterChain filterChain = createFilterChain();
                 getAntUtils().addTokenToFilterChain(filterChain, "moduleName", moduleName);
