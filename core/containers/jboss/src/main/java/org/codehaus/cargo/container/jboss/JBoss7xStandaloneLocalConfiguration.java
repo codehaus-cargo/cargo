@@ -171,7 +171,11 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         for (String extraClasspath : container.getExtraClasspath())
         {
             String moduleName = getFileHandler().getName(extraClasspath);
-            moduleName = moduleName.substring(0, moduleName.indexOf('.') - 1);
+            // Strip extension from JAR file to get module name
+            moduleName = moduleName.substring(0, moduleName.lastIndexOf('.'));
+            // CARGO-1091: JBoss expects subdirectories when the module name contains dots.
+            //             Replace all dots with minus to keep a version separator.
+            moduleName = moduleName.replace('.', '-');
             String folder = container.getHome()
                 + "/modules/org/codehaus/cargo/classpath/" + moduleName + "/main";
             getFileHandler().mkdirs(folder);
@@ -217,7 +221,11 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
                 }
 
                 String moduleName = getFileHandler().getName(dataSourceFile);
-                moduleName = moduleName.substring(0, moduleName.indexOf('.') - 1);
+                // Strip extension from JAR file to get module name
+                moduleName = moduleName.substring(0, moduleName.lastIndexOf('.'));
+                // CARGO-1091: JBoss expects subdirectories when the module name contains dots.
+                //             Replace all dots with minus to keep a version separator.
+                moduleName = moduleName.replace('.', '-');
 
                 FilterChain filterChain = createFilterChain();
                 getAntUtils().addTokenToFilterChain(filterChain, "moduleName", moduleName);
