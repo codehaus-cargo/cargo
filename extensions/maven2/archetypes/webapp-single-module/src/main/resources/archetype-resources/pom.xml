@@ -184,30 +184,6 @@
       </build>
     </profile>
     <profile>
-      <id>jonas5x</id>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.codehaus.cargo</groupId>
-              <artifactId>cargo-maven2-plugin</artifactId>
-              <configuration>
-                <container>
-                  <containerId>jonas5x</containerId>
-                  <artifactInstaller>
-                    <groupId>org.ow2.jonas.assemblies.profiles</groupId>
-                    <artifactId>jonas-full</artifactId>
-                    <version>5.2.3</version>
-                    <classifier>bin</classifier>
-                  </artifactInstaller>
-                </container>
-              </configuration>
-            </plugin>
-          </plugins>
-        </pluginManagement>
-      </build>
-    </profile>
-    <profile>
       <id>jboss51x</id>
       <build>
         <pluginManagement>
@@ -243,6 +219,30 @@
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-dist</artifactId>
                     <version>7.1.1.Final</version>
+                  </artifactInstaller>
+                </container>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>jonas5x</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-maven2-plugin</artifactId>
+              <configuration>
+                <container>
+                  <containerId>jonas5x</containerId>
+                  <artifactInstaller>
+                    <groupId>org.ow2.jonas.assemblies.profiles</groupId>
+                    <artifactId>jonas-full</artifactId>
+                    <version>5.2.3</version>
+                    <classifier>bin</classifier>
                   </artifactInstaller>
                 </container>
               </configuration>
