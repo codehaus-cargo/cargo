@@ -31,6 +31,7 @@ import java.util.zip.ZipEntry;
 import org.codehaus.cargo.container.ContainerCapability;
 
 import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.configuration.ExistingLocalConfiguration;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
@@ -279,12 +280,20 @@ public abstract class AbstractJBossInstalledLocalContainer extends
     /**
      * @param location the name of the directory to return inside the server configuration
      * @param configurationName the server configuration name to use. A server configuration is
-     * located in the <code>server/</code> directory inside the JBoss installation ir.
+     * located in the <code>server/</code> directory inside the JBoss installation dir.
      * @return the location of the passed directory name inside the server configuration, as a File
      */
     protected String getSpecificConfigurationDir(String location, String configurationName)
     {
-        return getFileHandler().append(getHome(), "server/" + configurationName + "/" + location);
+        if (getConfiguration() instanceof ExistingLocalConfiguration)
+        {
+            return getFileHandler().append(getConfiguration().getHome(), location);
+        }
+        else
+        {
+            return getFileHandler().append(getHome(),
+                "server/" + configurationName + "/" + location);
+        }
     }
 
     /**
