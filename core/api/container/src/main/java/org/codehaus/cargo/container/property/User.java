@@ -188,17 +188,34 @@ public final class User
             else
             {
                 user.setPassword(token);
-                if (!":".equals(fieldTokens.nextToken()))
-                {
-                    throw new ContainerException("Invalid format for [" + userAsString + "]");
-                }
             }
-
-            user.addRoles(parseRoles(fieldTokens.nextToken()));
         }
         catch (NoSuchElementException exception)
         {
             throw new ContainerException("Invalid format for [" + userAsString + "]");
+        }
+
+        try
+        {
+            if (user.getPassword().length() > 0 && !":".equals(fieldTokens.nextToken()))
+            {
+                throw new ContainerException("Invalid format for [" + userAsString + "]");
+            }
+            user.addRoles(parseRoles(fieldTokens.nextToken()));
+        }
+        catch (NoSuchElementException exception)
+        {
+            // CARGO-526: No roles defined, that's OK
+        }
+
+        try
+        {
+            fieldTokens.nextToken();
+            throw new ContainerException("Invalid format for [" + userAsString + "]");
+        }
+        catch (NoSuchElementException exception)
+        {
+            // That's expected: we only have 3 tokens
         }
 
         return user;

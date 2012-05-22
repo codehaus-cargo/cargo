@@ -87,12 +87,12 @@ public class UserTest extends TestCase
     {
         try
         {
-            User.parseUser("name:role");
+            User.parseUser("name:password:role:");
             fail("Should have raised an exception here");
         }
         catch (ContainerException expected)
         {
-            assertEquals("Invalid format for [name:role]", expected.getMessage());
+            assertEquals("Invalid format for [name:password:role:]", expected.getMessage());
         }
     }
 
@@ -107,6 +107,19 @@ public class UserTest extends TestCase
         expectedUser.addRole("role");
 
         User user = User.parseUser("name::role");
+        assertEquals(expectedUser, user);
+    }
+
+    /**
+     * Test user parsing with no roles.
+     */
+    public void testParseUserWithNoRoles()
+    {
+        User expectedUser = new User();
+        expectedUser.setName("name");
+        expectedUser.setPassword("pwd");
+
+        User user = User.parseUser("name:pwd");
         assertEquals(expectedUser, user);
     }
 
