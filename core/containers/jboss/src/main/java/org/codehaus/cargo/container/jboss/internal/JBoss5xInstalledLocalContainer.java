@@ -29,9 +29,11 @@ public interface JBoss5xInstalledLocalContainer extends JBossInstalledLocalConta
 {
 
     /**
-     * @return The deployer directory located under the container's configuration directory
+     * @param configurationName the JBoss server configuration name for which to return the deployer
+     * dir.
+     * @return The deployer directory located under the container's home installation directory
      */
-    String getDeployersDir();
+    String getDeployersDir(String configurationName);
 
     /**
      * Return the location of the common lib directory.

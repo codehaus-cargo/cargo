@@ -139,10 +139,12 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         // Copy resources from jboss installation folder and exclude files
         // that already copied from cargo resources folder
         copyExternalResources(
-            new File(jbossContainer.getConfDir()), new File(confDir), cargoFiles);
+            new File(jbossContainer.getConfDir(getPropertyValue(JBossPropertySet.CONFIGURATION))),
+            new File(confDir), cargoFiles);
 
         // Copy the files within the JBoss Deploy directory to the cargo deploy directory
-        copyExternalResources(new File(jbossContainer.getDeployDir()), new File(deployDir));
+        copyExternalResources(new File(jbossContainer.getDeployDir(getPropertyValue(
+            JBossPropertySet.CONFIGURATION))), new File(deployDir));
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
@@ -387,7 +389,8 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         getAntUtils().addTokenToFilterChain(filterChain, GeneralPropertySet.LOGGING,
             getJBossLogLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
 
-        File libDir = new File(container.getLibDir());
+        File libDir =
+            new File(container.getLibDir(getPropertyValue(JBossPropertySet.CONFIGURATION)));
         getAntUtils().addTokenToFilterChain(filterChain, "cargo.server.lib.url",
             libDir.toURI().toURL().toString());
 
@@ -396,7 +399,8 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
         // Initiate the value of scanned folder or archive with cargo deploy
         // directory and existing jboss deploy directory
-        File deployDir = new File(container.getDeployDir());
+        File deployDir =
+            new File(container.getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION)));
         buffer.append("deploy/, ").append(deployDir.toURI().toURL().toString());
 
         // just use the original deploy directory and copy all the deployables from the server

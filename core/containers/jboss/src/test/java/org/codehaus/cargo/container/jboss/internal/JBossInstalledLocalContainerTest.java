@@ -102,7 +102,8 @@ public class JBossInstalledLocalContainerTest extends TestCase
     public void testGetConfDir()
     {
         String expected = this.fileHandler.append(CONFIGURATION_HOME, "conf");
-        assertEquals(expected, this.container.getConfDir());
+        assertEquals(expected, this.container.getConfDir(
+            this.container.getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
     }
 
     /**
@@ -111,7 +112,8 @@ public class JBossInstalledLocalContainerTest extends TestCase
     public void testGetLibDir()
     {
         String expected = this.fileHandler.append(CONFIGURATION_HOME, "lib");
-        assertEquals(expected, this.container.getLibDir());
+        assertEquals(expected, this.container.getLibDir(
+            this.container.getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
     }
 
     /**
@@ -120,7 +122,8 @@ public class JBossInstalledLocalContainerTest extends TestCase
     public void testGetDeployDir()
     {
         String expected = this.fileHandler.append(CONFIGURATION_HOME, "deploy");
-        assertEquals(expected, this.container.getDeployDir());
+        assertEquals(expected, this.container.getDeployDir(
+            this.container.getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
     }
 
     /**
@@ -130,7 +133,8 @@ public class JBossInstalledLocalContainerTest extends TestCase
     {
         this.container.getConfiguration().setProperty(JBossPropertySet.CLUSTERED, "true");
         String expected = this.fileHandler.append(CONFIGURATION_HOME, "farm");
-        assertEquals(expected, this.container.getDeployDir());
+        assertEquals(expected, this.container.getDeployDir(
+            this.container.getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
     }
 
     /**

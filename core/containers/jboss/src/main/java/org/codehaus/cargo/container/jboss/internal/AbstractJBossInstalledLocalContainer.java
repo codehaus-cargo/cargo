@@ -82,7 +82,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
         java.setSystemProperty("jboss.server.name",
             getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION));
         java.setSystemProperty("jboss.server.lib.url",
-            new File(getLibDir()).toURI().toURL().toString());
+                new File(getConfiguration().getHome(), "lib").toURI().toURL().toString());
         java.setSystemProperty("jboss.server.log.threshold",
             getJBossLogLevel(getConfiguration().getPropertyValue(GeneralPropertySet.LOGGING)));
 
@@ -240,46 +240,48 @@ public abstract class AbstractJBossInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see JBossInstalledLocalContainer#getConfDir()
+     * @see JBossInstalledLocalContainer#getConfDir(String)
      */
-    public String getConfDir()
+    public String getConfDir(String configurationName)
     {
-        return getSpecificConfigurationDir("conf");
+        return getSpecificConfigurationDir("conf", configurationName);
     }
 
     /**
      * {@inheritDoc}
-     * @see JBossInstalledLocalContainer#getLibDir()
+     * @see JBossInstalledLocalContainer#getLibDir(String)
      */
-    public String getLibDir()
+    public String getLibDir(String configurationName)
     {
-        return getSpecificConfigurationDir("lib");
+        return getSpecificConfigurationDir("lib", configurationName);
     }
 
     /**
      * {@inheritDoc}
-     * @see JBossInstalledLocalContainer#getDeployDir()
+     * @see JBossInstalledLocalContainer#getDeployDir(String)
      */
-    public String getDeployDir()
+    public String getDeployDir(String configurationName)
     {
         String clustered = getConfiguration().getPropertyValue(JBossPropertySet.CLUSTERED);
         if (Boolean.valueOf(clustered).booleanValue())
         {
-            return getSpecificConfigurationDir("farm");
+            return getSpecificConfigurationDir("farm", configurationName);
         }
         else
         {
-            return getSpecificConfigurationDir("deploy");
+            return getSpecificConfigurationDir("deploy", configurationName);
         }
     }
 
     /**
      * @param location the name of the directory to return inside the server configuration
+     * @param configurationName the server configuration name to use. A server configuration is
+     * located in the <code>server/</code> directory inside the JBoss installation dir.
      * @return the location of the passed directory name inside the server configuration, as a File
      */
-    protected String getSpecificConfigurationDir(String location)
+    protected String getSpecificConfigurationDir(String location, String configurationName)
     {
-        return getFileHandler().append(getConfiguration().getHome(), location);
+        return getFileHandler().append(getHome(), "server/" + configurationName + "/" + location);
     }
 
     /**

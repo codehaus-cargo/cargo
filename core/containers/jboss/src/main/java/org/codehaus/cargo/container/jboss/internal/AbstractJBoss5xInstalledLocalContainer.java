@@ -61,9 +61,9 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
     /**
      * {@inheritDoc}
      */
-    public String getDeployersDir()
+    public String getDeployersDir(String configurationName)
     {
-        return getSpecificConfigurationDir("deployers");
+        return getSpecificConfigurationDir("deployers", configurationName);
     }
 
     /**
