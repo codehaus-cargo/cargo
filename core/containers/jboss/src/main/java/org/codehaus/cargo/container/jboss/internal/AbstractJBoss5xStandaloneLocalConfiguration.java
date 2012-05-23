@@ -77,8 +77,7 @@ public abstract class AbstractJBoss5xStandaloneLocalConfiguration
         }
 
         // Copy the files within the JBoss Configuration directory to the cargo conf directory
-        copyExternalResources(new File(jbossContainer.getConfDir(getPropertyValue(
-            JBossPropertySet.CONFIGURATION))), new File(confDir));
+        copyExternalResources(new File(jbossContainer.getConfDir()), new File(confDir));
 
         // Setup the shared classpath
         String jbossServiceXml = getFileHandler().append(confDir, "jboss-service.xml");
@@ -90,12 +89,11 @@ public abstract class AbstractJBoss5xStandaloneLocalConfiguration
         getFileHandler().replaceInFile(jbossServiceXml, replacements, "UTF-8");
 
         // Copy the files within the JBoss Deploy directory to the cargo deploy directory
-        copyExternalResources(new File(jbossContainer.getDeployDir(getPropertyValue(
-            JBossPropertySet.CONFIGURATION))), new File(deployDir));
+        copyExternalResources(new File(jbossContainer.getDeployDir()), new File(deployDir));
 
         // Copy the files within the JBoss Deployers directory to the cargo deployers directory
-        copyExternalResources(new File(((JBoss5xInstalledLocalContainer) jbossContainer)
-            .getDeployersDir(getPropertyValue(JBossPropertySet.CONFIGURATION))),
+        copyExternalResources(
+            new File(((JBoss5xInstalledLocalContainer) jbossContainer).getDeployersDir()),
             new File(deployersDir));
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory

@@ -30,20 +30,17 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 public interface JBossInstalledLocalContainer extends InstalledLocalContainer
 {
     /**
-     * @param configurationName the JBoss server configuration name for which to return the conf dir
-     * @return The conf directory located under the container's home installation directory
+     * @return The conf directory located under the container's configuration directory
      */
-    String getConfDir(String configurationName);
+    String getConfDir();
 
     /**
-     * @param configurationName the JBoss server configuration name for which to return the conf dir
-     * @return The lib directory located under the container's home installation directory
+     * @return The lib directory located under the container's configuration directory
      */
-    String getLibDir(String configurationName);
+    String getLibDir();
 
     /**
-     * @param configurationName the JBoss server configuration name for which to return the conf dir
-     * @return The deploy directory located under the container's home installation directory
+     * @return The deploy directory located under the container's configuration directory
      */
-    String getDeployDir(String configurationName);
+    String getDeployDir();
 }
