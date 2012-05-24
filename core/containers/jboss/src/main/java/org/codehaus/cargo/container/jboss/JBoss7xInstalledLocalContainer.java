@@ -20,11 +20,14 @@
 package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.util.Map;
 import java.util.jar.JarFile;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
@@ -155,13 +158,7 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
     @Override
     protected void doStart(JvmLauncher java) throws Exception
     {
-        java.addJvmArguments(
-            "-Dorg.jboss.boot.log.file=" + getConfiguration().getHome() + "/log/boot.log",
-            "-Dlogging.configuration="
-                + new File(getConfiguration().getHome()
-                    + "/configuration/logging.properties").toURI().toURL(),
-            "-Djboss.home.dir=" + getHome(),
-            "-Djboss.server.base.dir=" + getConfiguration().getHome());
+        setProperties(java);
 
         java.setJarFile(new File(getHome(), "jboss-modules.jar"));
 
@@ -192,5 +189,36 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
             "command=:shutdown");
 
         java.start();
+    }
+
+    /**
+     * Set the properties on the JVM launcher.<br/>
+     * <br/>
+     * CARGO-1111: To allow JBoss 7.x and onwards to be accessed from remote machines,
+     * the system property <code>jboss.bind.address<code> must be set.
+     * @param java JVM launcher to set the properties on.
+     * @throws MalformedURLException If URL construction fails.
+     */
+    protected void setProperties(JvmLauncher java) throws MalformedURLException
+    {
+        java.setSystemProperty("org.jboss.boot.log.file",
+            getConfiguration().getHome() + "/log/boot.log");
+        java.setSystemProperty("logging.configuration",
+            new File(getConfiguration().getHome() + "/configuration/logging.properties")
+                .toURI().toURL().toString());
+        java.setSystemProperty("jboss.home.dir", getHome());
+        java.setSystemProperty("jboss.server.base.dir", getConfiguration().getHome());
+
+        final Map<String, String> systemProperties = getSystemProperties();
+        if (!systemProperties.containsKey("jboss.bind.address"))
+        {
+            String hostname = getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME);
+            if ("localhost".equals(hostname))
+            {
+                hostname = "0.0.0.0";
+            }
+
+            java.setSystemProperty("jboss.bind.address", hostname);
+        }
     }
 }

@@ -71,13 +71,7 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
     @Override
     protected void doStart(JvmLauncher java) throws Exception
     {
-        java.addJvmArguments(
-            "-Dorg.jboss.boot.log.file=" + getConfiguration().getHome() + "/log/boot.log",
-            "-Dlogging.configuration="
-                + new File(getConfiguration().getHome()
-                    + "/configuration/logging.properties").toURI().toURL(),
-            "-Djboss.home.dir=" + getHome(),
-            "-Djboss.server.base.dir=" + getConfiguration().getHome());
+        setProperties(java);
 
         java.setJarFile(new File(getHome(), "jboss-modules.jar"));
 
