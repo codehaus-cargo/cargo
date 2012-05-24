@@ -25,6 +25,7 @@ package org.codehaus.cargo.container.jboss.internal;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
@@ -85,21 +86,29 @@ public abstract class AbstractJBossInstalledLocalContainer extends
                 new File(getConfiguration().getHome(), "lib").toURI().toURL().toString());
         java.setSystemProperty("jboss.server.log.threshold",
             getJBossLogLevel(getConfiguration().getPropertyValue(GeneralPropertySet.LOGGING)));
-
-        // CARGO-758: To allow JBoss to be accessed from remote machines,
-        // it must be started with the arguments -b 0.0.0.0 or --host 0.0.0.0
-        //
-        // As a result, allow the --host or -b to be different than GeneralPropertySet.HOSTNAME
-        final String runtimeArguments = getConfiguration().getPropertyValue(
-            GeneralPropertySet.RUNTIME_ARGS);
-        if (runtimeArguments == null || !runtimeArguments.contains("--host 0.0.0.0")
-            && !runtimeArguments.contains("-b 0.0.0.0"))
-        {
-            java.addAppArguments("--host="
-                + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));
-        }
         java.addAppArguments("--configuration="
             + getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION));
+
+        // CARGO-758 and CARGO-1111: To allow JBoss to be accessed from remote machines,
+        // it must be started with the arguments -b 0.0.0.0 or --host 0.0.0.0 and
+        // the system property jboss.bind.address must be set.
+        String hostname = getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME);
+        if ("localhost".equals(hostname))
+        {
+            hostname = "0.0.0.0";
+        }
+        final String runtimeArguments = getConfiguration().getPropertyValue(
+            GeneralPropertySet.RUNTIME_ARGS);
+        if (runtimeArguments == null || !runtimeArguments.contains("--host ")
+            && !runtimeArguments.contains("-b "))
+        {
+            java.addAppArguments("--host=" + hostname);
+        }
+        Map<String, String> systemProperties = getSystemProperties();
+        if (!systemProperties.containsKey("jboss.bind.address"))
+        {
+            systemProperties.put("jboss.bind.address", hostname);
+        }
 
         java.addClasspathEntries(new File(getHome(), "bin/run.jar"));
         addToolsJarToClasspath(java);
