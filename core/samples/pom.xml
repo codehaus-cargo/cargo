@@ -117,6 +117,10 @@
 
               <!-- ports required for JBoss tests to pass -->
               <property>
+                <name>cargo.jboss.ajp.port</name>
+                <value>${cargo.samples.jboss.ajp.port}</value>
+              </property>
+              <property>
                 <name>cargo.jboss.naming.port</name>
                 <value>${cargo.samples.jboss.naming.port}</value>
               </property>
@@ -944,6 +948,7 @@
                 <portName>cargo.samples.servlet.port</portName>
                 <portName>cargo.samples.rmi.port</portName>
                 <portName>cargo.samples.glassfish.adminPort</portName>
+                <portName>cargo.samples.jboss.ajp.port</portName>
                 <portName>cargo.samples.jboss.naming.port</portName>
                 <portName>cargo.samples.jboss.classloading.webservice.port</portName>
                 <portName>cargo.samples.jboss.jrmp.port</portName>

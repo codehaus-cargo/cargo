@@ -110,6 +110,15 @@ public class JBoss6xStandaloneLocalConfiguration
                 + "/property[@name='port']", null,
             ServletPropertySet.PORT);
 
+        setProperty(JBossPropertySet.JBOSS_AJP_PORT, "8009");
+        addXmlReplacement(
+            "conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml",
+            "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
+                + "/property[@name='serviceName' and text()='jboss.web:service=WebServer']/.."
+                + "/property[@name='bindingName' and text()='AjpConnector']/.."
+                + "/property[@name='port']", null,
+            JBossPropertySet.JBOSS_AJP_PORT);
+
         addXmlReplacement(
             "conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"

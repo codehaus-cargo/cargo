@@ -37,6 +37,7 @@ public class JBoss6xStandaloneLocalConfigurationCapability extends
     {
         super();
 
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_AJP_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_JMX_PORT, Boolean.TRUE);
     }
 }

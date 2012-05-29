@@ -55,6 +55,7 @@ public class JBoss7xStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.FALSE);
         this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_AJP_PORT, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_NAMING_PORT, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_INVOKER_POOL_PORT, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT,

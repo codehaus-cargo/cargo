@@ -45,6 +45,12 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
     {
         super(dir);
 
+        setProperty(JBossPropertySet.JBOSS_AJP_PORT, "8009");
+        addXmlReplacement(
+            "configuration/standalone.xml",
+            "//server/socket-binding-group/socket-binding[@name='ajp']",
+            "port", JBossPropertySet.JBOSS_AJP_PORT);
+
         removeXmlReplacement(
             "configuration/standalone.xml",
             "//server/management/management-interfaces/native-interface[@interface='management']",

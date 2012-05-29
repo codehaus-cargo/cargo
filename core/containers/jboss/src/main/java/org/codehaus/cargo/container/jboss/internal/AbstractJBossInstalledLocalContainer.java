@@ -154,6 +154,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             waitForPortShutdown(
                 config.getPropertyValue(ServletPropertySet.PORT),
                 config.getPropertyValue(GeneralPropertySet.RMI_PORT),
+                config.getPropertyValue(JBossPropertySet.JBOSS_AJP_PORT),
                 config.getPropertyValue(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT),
                 config.getPropertyValue(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT),
                 config.getPropertyValue(JBossPropertySet.JBOSS_INVOKER_POOL_PORT),
