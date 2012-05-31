@@ -80,7 +80,15 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
             "-jaxpmodule", "javax.xml.jaxp-provider",
             "org.jboss.as.standalone");
 
+        System.gc();
+        Thread.sleep(5000);
+        System.gc();
+
         java.start();
+
+        System.gc();
+        Thread.sleep(5000);
+        System.gc();
     }
 
     /**
@@ -99,6 +107,14 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
             "--connect", "--controller=localhost:" + port,
             "command=:shutdown");
 
+        System.gc();
+        Thread.sleep(5000);
+        System.gc();
+
         java.start();
+
+        System.gc();
+        Thread.sleep(5000);
+        System.gc();
     }
 }
