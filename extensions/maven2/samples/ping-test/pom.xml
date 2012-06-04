@@ -53,19 +53,19 @@
             <properties>
               <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
             </properties>
-            <deployables>
-              <deployable>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>cargo-sample-maven2-ping-test</artifactId>
-                <type>war</type>
-                <properties>
-                  <context>/ping-test</context>
-                </properties>
-                <pingURL>http://localhost:${cargo.samples.servlet.port}/ping-test/</pingURL>
-                <pingTimeout>30000</pingTimeout>
-              </deployable>
-            </deployables>
           </configuration>
+          <deployables>
+            <deployable>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-sample-maven2-ping-test</artifactId>
+              <type>war</type>
+              <properties>
+                <context>/ping-test</context>
+              </properties>
+              <pingURL>http://localhost:${cargo.samples.servlet.port}/ping-test/</pingURL>
+              <pingTimeout>30000</pingTimeout>
+            </deployable>
+          </deployables>
         </configuration>
         <executions>
           <execution>

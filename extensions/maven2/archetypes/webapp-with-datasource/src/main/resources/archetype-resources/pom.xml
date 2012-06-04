@@ -67,21 +67,6 @@
               </systemProperties>
             </container>
             <configuration>
-              <deployables>
-                <!--
-                  The project's artifact is automatically deployed if no deployable
-                  is defined. However, we define it here so that we can specify the
-                  context (we don't want the version to be included in the context).
-                -->
-                <deployable>
-                  <groupId>\${project.groupId}</groupId>
-                  <artifactId>\${project.artifactId}</artifactId>
-                  <type>war</type>
-                  <properties>
-                    <context>\${project.artifactId}</context>
-                  </properties>
-                </deployable>
-              </deployables>
               <properties>
                 <cargo.servlet.port>\${servlet.port}</cargo.servlet.port>
                 <cargo.datasource.datasource.derby>
@@ -93,6 +78,21 @@
                 </cargo.datasource.datasource.derby>
               </properties>
             </configuration>
+            <deployables>
+              <!--
+                The project's artifact is automatically deployed if no deployable
+                is defined. However, we define it here so that we can specify the
+                context (we don't want the version to be included in the context).
+                -->
+              <deployable>
+                <groupId>\${project.groupId}</groupId>
+                <artifactId>\${project.artifactId}</artifactId>
+                <type>war</type>
+                <properties>
+                  <context>\${project.artifactId}</context>
+                </properties>
+              </deployable>
+            </deployables>
           </configuration>
         </plugin>
       </plugins>

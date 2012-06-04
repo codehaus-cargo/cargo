@@ -58,14 +58,14 @@
             <properties>
               <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
             </properties>
-            <deployables>
-              <deployable>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>simple-war</artifactId>
-                <type>war</type>
-              </deployable>
-            </deployables>
           </configuration>
+          <deployables>
+            <deployable>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>simple-war</artifactId>
+              <type>war</type>
+            </deployable>
+          </deployables>
         </configuration>
 
         <!-- Add dependency due to a limitation of the Maven embedder plugin -->

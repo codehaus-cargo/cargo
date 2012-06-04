@@ -60,10 +60,9 @@ public class AbstractContainerStartMojo extends AbstractCargoMojo
         addAutoDeployDeployable(this.localContainer);
         this.localContainer.start();
 
-        if (getConfigurationElement() != null
-            && getConfigurationElement().getDeployables() != null)
+        if (getDeployablesElement() != null)
         {
-            for (Deployable deployable : getConfigurationElement().getDeployables())
+            for (Deployable deployable : getDeployablesElement())
             {
                 URL pingURL = deployable.getPingURL();
                 if (pingURL != null)
@@ -104,9 +103,8 @@ public class AbstractContainerStartMojo extends AbstractCargoMojo
         {
             // Has the auto-deployable already been specified as part of the <deployables> config
             // element?
-            if (getConfigurationElement() == null
-                || getConfigurationElement().getDeployables() == null
-                || !containsAutoDeployable(getConfigurationElement().getDeployables()))
+            if (getDeployablesElement() == null
+                || !containsAutoDeployable(getDeployablesElement()))
             {
                 LocalConfiguration configuration = container.getConfiguration();
                 configuration.addDeployable(createAutoDeployDeployable(container));

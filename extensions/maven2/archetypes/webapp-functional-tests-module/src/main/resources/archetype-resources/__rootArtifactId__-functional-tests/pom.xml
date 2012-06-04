@@ -38,20 +38,20 @@
           <artifactId>cargo-maven2-plugin</artifactId>
           <configuration>
             <configuration>
-              <deployables>
-                <deployable>
-                  <groupId>${project.groupId}</groupId>
-                  <artifactId>${rootArtifactId}-webapp</artifactId>
-                  <type>war</type>
-                  <properties>
-                    <context>${rootArtifactId}-webapp</context>
-                  </properties>
-                </deployable>
-              </deployables>
               <properties>
                 <cargo.servlet.port>${servlet.port}</cargo.servlet.port>
               </properties>
             </configuration>
+            <deployables>
+              <deployable>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${rootArtifactId}-webapp</artifactId>
+                <type>war</type>
+                <properties>
+                  <context>${rootArtifactId}-webapp</context>
+                </properties>
+              </deployable>
+            </deployables>
           </configuration>
         </plugin>
       </plugins>

@@ -212,13 +212,14 @@ public class Configuration
      * Creates a configuration.
      * @param containerId Container id.
      * @param containerType Container type.
+     * @param deployables Deployables to deploy.
      * @param project Cargo project.
      * @return Configuration.
      * @throws MojoExecutionException If configuration creation fails.
      */
     public org.codehaus.cargo.container.configuration.Configuration createConfiguration(
-        String containerId, ContainerType containerType, CargoProject project)
-        throws MojoExecutionException
+        String containerId, ContainerType containerType, Deployable[] deployables,
+        CargoProject project) throws MojoExecutionException
     {
         ConfigurationFactory factory = new DefaultConfigurationFactory();
 
@@ -283,9 +284,10 @@ public class Configuration
         // Add static deployables for local configurations
         if (configuration instanceof LocalConfiguration)
         {
-            if (getDeployables() != null)
+            if (deployables != null)
             {
-                addStaticDeployables(containerId, (LocalConfiguration) configuration, project);
+                addStaticDeployables(
+                    containerId, (LocalConfiguration) configuration, deployables, project);
             }
 
             if (getResources() != null)
@@ -340,23 +342,23 @@ public class Configuration
      * 
      * @param containerId the container id to which to deploy to.
      * @param configuration the local configuration to which to add Deployables to.
+     * @param deployables Deployables to deploy.
      * @param project Cargo project.
      * @throws MojoExecutionException If resource creation fails.
      */
     private void addStaticDeployables(String containerId, LocalConfiguration configuration,
-        CargoProject project) throws MojoExecutionException
+        Deployable[] deployables, CargoProject project) throws MojoExecutionException
     {
-        for (int i = 0; i < getDeployables().length; i++)
+        for (Deployable deployable : deployables)
         {
             project.getLog().debug("Scheduling deployable for deployment: [groupId ["
-                + getDeployables()[i].getGroupId() + "], artifactId ["
-                + getDeployables()[i].getArtifactId() + "], type ["
-                + getDeployables()[i].getType() + "], location ["
-                + getDeployables()[i].getLocation() + "], pingURL ["
-                + getDeployables()[i].getPingURL() + "]]");
+                + deployable.getGroupId() + "], artifactId ["
+                + deployable.getArtifactId() + "], type ["
+                + deployable.getType() + "], location ["
+                + deployable.getLocation() + "], pingURL ["
+                + deployable.getPingURL() + "]]");
 
-            configuration.addDeployable(
-                getDeployables()[i].createDeployable(containerId, project));
+            configuration.addDeployable(deployable.createDeployable(containerId, project));
         }
     }
 }

@@ -48,7 +48,7 @@ public class ConfigurationTest extends TestCase
         configuration.setImplementation(StandaloneLocalConfigurationStub.class.getName());
         configuration.setHome("/some/path");
 
-        configuration.createConfiguration("testcontainer", ContainerType.INSTALLED, null);
+        configuration.createConfiguration("testcontainer", ContainerType.INSTALLED, null, null);
     }
 
     /**
@@ -68,7 +68,7 @@ public class ConfigurationTest extends TestCase
 
         org.codehaus.cargo.container.configuration.Configuration configuration =
             configurationElement.createConfiguration("testcontainer", ContainerType.INSTALLED,
-                new CargoProject(
+                null, new CargoProject(
                     null, null, null, null, null, Collections.<Artifact>emptySet(), null));
 
         assertEquals("", configuration.getPropertyValue("someName"));
@@ -93,7 +93,7 @@ public class ConfigurationTest extends TestCase
 
         org.codehaus.cargo.container.configuration.Configuration configuration =
             configurationElement.createConfiguration("testContainer", ContainerType.INSTALLED,
-                new CargoProject(
+                null, new CargoProject(
                     null, null, null, null, null, Collections.<Artifact>emptySet(), null));
 
         StandaloneLocalConfigurationStub conf = (StandaloneLocalConfigurationStub) configuration;

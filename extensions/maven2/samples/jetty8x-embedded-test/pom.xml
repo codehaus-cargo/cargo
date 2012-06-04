@@ -59,14 +59,14 @@
               <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
               <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
             </properties>
-            <deployables>
-              <deployable>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>simple-war</artifactId>
-                <type>war</type>
-              </deployable>
-            </deployables>
           </configuration>
+          <deployables>
+            <deployable>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>simple-war</artifactId>
+              <type>war</type>
+            </deployable>
+          </deployables>
         </configuration>
         <executions>
           <execution>

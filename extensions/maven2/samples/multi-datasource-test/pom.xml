@@ -92,17 +92,17 @@
                 cargo.datasource.password=nonemptypassword
               </cargo.datasource.datasource.derby2>
             </properties>
-            <deployables>
-              <deployable>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>two-datasources-war</artifactId>
-                <type>war</type>
-                <properties>
-                  <context>/multi-datasource-test</context>
-                </properties>
-              </deployable>
-            </deployables>
           </configuration>
+          <deployables>
+            <deployable>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>two-datasources-war</artifactId>
+              <type>war</type>
+              <properties>
+                <context>/multi-datasource-test</context>
+              </properties>
+            </deployable>
+          </deployables>
         </configuration>
         <executions>
           <execution>

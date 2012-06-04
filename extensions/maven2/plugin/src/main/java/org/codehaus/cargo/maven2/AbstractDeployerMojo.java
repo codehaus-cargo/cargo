@@ -84,8 +84,7 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
     {
         if (getCargoProject().getPackaging() == null || !getCargoProject().isJ2EEPackaging())
         {
-            if (getDeployerElement() == null || getDeployerElement().getDeployables() == null
-                || getDeployerElement().getDeployables().length == 0)
+            if (getDeployablesElement() == null || getDeployablesElement().length == 0)
             {
                 getLog().info("There's nothing to deploy or undeploy");
                 return;
@@ -147,20 +146,9 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
 
         List<Deployable> deployableElements = new ArrayList<Deployable>();
 
-        // Perform deployment action on all deployables defined in the deployer config element
-        if (getDeployerElement() != null && getDeployerElement().getDeployables() != null)
+        if (getDeployablesElement() != null)
         {
-            for (Deployable deployableElement : getDeployerElement().getDeployables())
-            {
-                deployableElements.add(deployableElement);
-            }
-        }
-
-        // Perform deployment action on all deployables defined in the configuration config element
-        if (getConfigurationElement() != null
-            && getConfigurationElement().getDeployables() != null)
-        {
-            for (Deployable deployableElement : getConfigurationElement().getDeployables())
+            for (Deployable deployableElement : getDeployablesElement())
             {
                 if (!deployableElements.contains(deployableElement))
                 {

@@ -63,17 +63,17 @@
               <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
               <cargo.tomcat.ajp.port>${cargo.samples.tomcat.ajp.port}</cargo.tomcat.ajp.port>
             </properties>
-            <deployables>
-              <deployable>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>simple-war</artifactId>
-                <type>war</type>
-                <properties>
-                  <context>/user-context-test</context>
-                </properties>
-              </deployable>
-            </deployables>
           </configuration>
+          <deployables>
+            <deployable>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>simple-war</artifactId>
+              <type>war</type>
+              <properties>
+                <context>/user-context-test</context>
+              </properties>
+            </deployable>
+          </deployables>
         </configuration>
         <executions>
           <execution>

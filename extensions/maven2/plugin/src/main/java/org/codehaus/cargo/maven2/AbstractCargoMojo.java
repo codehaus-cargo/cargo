@@ -112,6 +112,16 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     private Deployer deployer;
 
     /**
+     * List of {@link org.codehaus.cargo.maven2.configuration.Deployable}. See the <a
+     * href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin reference
+     * guide</a> for more details.
+     * 
+     * @parameter
+     * @see #getDeployablesElement()
+     */
+    private Deployable[] deployables;
+
+    /**
      * The metadata source.
      * 
      * @component
@@ -227,6 +237,56 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     protected void setDeployerElement(Deployer deployerElement)
     {
         this.deployer = deployerElement;
+    }
+
+    /**
+     * @return the user configuration of the list of
+     * {@link org.codehaus.cargo.maven2.configuration.Deployable}. See the <a
+     * href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin reference
+     * guide</a> for more details.
+     */
+    protected Deployable[] getDeployablesElement()
+    {
+        Deployable[] deployables = this.deployables;
+
+        if (getConfigurationElement() != null && getConfigurationElement().getDeployables() != null
+            && getConfigurationElement().getDeployables().length != 0)
+        {
+            List<Deployable> deployablesList = Arrays.asList(deployables);
+            deployablesList.addAll(Arrays.asList(getConfigurationElement().getDeployables()));
+            deployables = new Deployable[deployablesList.size()];
+            deployables = deployablesList.toArray(deployables);
+
+            getLog().warn("The <deployables> element under the inner <configuration> element is "
+                + "deprecated. Please use <deployables> under the plugin <configuration> "
+                + "instead.");
+        }
+
+        if (getDeployerElement() != null && getDeployerElement().getDeployables() != null
+            && getDeployerElement().getDeployables().length != 0)
+        {
+            List<Deployable> deployablesList = Arrays.asList(deployables);
+            deployablesList.addAll(Arrays.asList(getDeployerElement().getDeployables()));
+            deployables = new Deployable[deployablesList.size()];
+            deployables = deployablesList.toArray(deployables);
+
+            getLog().warn("The <deployables> element under the <deployer> element is deprecated. "
+                + "Please use <deployables> under the plugin <configuration> instead.");
+        }
+
+        return deployables;
+    }
+
+    /**
+     * @param deployablesElement the list of
+     * {@link org.codehaus.cargo.maven2.configuration.Deployable}. See the <a
+     * href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin reference
+     * guide</a> for more details.
+     * @see #getDeployablesElement()
+     */
+    protected void setDeployablesElement(Deployable[] deployablesElement)
+    {
+        this.deployables = deployablesElement;
     }
 
     /**
@@ -386,7 +446,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
         configuration = getConfigurationElement().createConfiguration(
             getContainerElement().getContainerId(), getContainerElement().getType(),
-            getCargoProject());
+            getDeployablesElement(), getCargoProject());
 
         // Find the cargo.server.settings for the current configuration. When found, iterate in
         // the list of servers in Maven's settings.xml file in order to find out which server id

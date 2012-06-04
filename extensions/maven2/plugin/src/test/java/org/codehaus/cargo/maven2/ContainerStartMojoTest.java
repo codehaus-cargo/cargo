@@ -86,7 +86,7 @@ public class ContainerStartMojoTest extends MockObjectTestCase
 
         setUpMojo(InstalledLocalContainerStub.class, InstalledLocalContainerStub.ID,
             StandaloneLocalConfigurationStub.class);
-        this.mojo.getConfigurationElement().setDeployables(new Deployable[] {deployableElement});
+        this.mojo.setDeployablesElement(new Deployable[] {deployableElement});
 
         this.mojo.setCargoProject(createTestCargoProject("war"));
         this.mojo.execute();
@@ -210,7 +210,8 @@ public class ContainerStartMojoTest extends MockObjectTestCase
         Configuration configurationElement = new Configuration();
         configurationElement.setImplementation(configurationStubClass.getName());
         configurationElement.setHome("configuration/home");
-        configurationElement.setDeployables(new Deployable[0]);
         this.mojo.setConfigurationElement(configurationElement);
+
+        this.mojo.setDeployablesElement(new Deployable[0]);
     }
 }

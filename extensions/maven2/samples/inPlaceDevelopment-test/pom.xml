@@ -63,16 +63,16 @@
                 false
               </cargo.jetty.servlet.default.useFileMappedBuffer>
             </properties>
-            <deployables>
-              <deployable>
-                <!--
-                  Override location to point to the exploded webapp; otherwise Cargo will deploy
-                  the generated WAR.
-                  -->
-                <location>${expandedWebapp.directory}</location>
-              </deployable>
-            </deployables>
           </configuration>
+          <deployables>
+            <deployable>
+              <!--
+                Override location to point to the exploded webapp;
+                otherwise Cargo will deploy the generated WAR.
+                -->
+              <location>${expandedWebapp.directory}</location>
+            </deployable>
+          </deployables>
         </configuration>
         <executions>
           <execution>
