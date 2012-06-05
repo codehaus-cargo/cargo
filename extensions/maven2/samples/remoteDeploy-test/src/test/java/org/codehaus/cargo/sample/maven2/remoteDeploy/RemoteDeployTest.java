@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.sample.maven2.runMojo;
+package org.codehaus.cargo.sample.maven2.remoteDeploy;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,7 +33,7 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
-public class RunMojoTest extends TestCase
+public class RemoteDeployTest extends TestCase
 {
 
     private Logger logger = new SimpleLogger();
@@ -53,12 +53,12 @@ public class RunMojoTest extends TestCase
         this.output = new File(target, "output.log");
     }
 
-    public void testRunMojo() throws Exception
+    public void testRemoteDeploy() throws Exception
     {
         final PrintStream outputStream = new PrintStream(output);
 
         String portOption = "-Dcargo.samples.servlet.port=" + System.getProperty("http.port");
-        final String[] options = new String[] { portOption, "-o", "-X", "clean", "cargo:run" };
+        final String[] options = new String[] { portOption, "-o", "-X", "clean", "cargo:deploy" };
 
         new Thread(new Runnable() {
             public void run() {
@@ -67,12 +67,12 @@ public class RunMojoTest extends TestCase
             }
         }).start();
 
-        waitForRunMojoStart();
+        waitForRemoteDeployStart();
     }
 
     public void testCargo() throws Exception
     {
-        waitForRunMojoStart();
+        waitForRemoteDeployStart();
 
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
             + "/cargocpc/");
@@ -83,7 +83,7 @@ public class RunMojoTest extends TestCase
 
     public void testSimpleWarJspInMainDeployables() throws Exception
     {
-        waitForRunMojoStart();
+        waitForRemoteDeployStart();
 
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
             + "/simple-war-main-deployables/index.jsp");
@@ -94,7 +94,7 @@ public class RunMojoTest extends TestCase
 
     public void testSimpleWarJspInConfigurationDeployables() throws Exception
     {
-        waitForRunMojoStart();
+        waitForRemoteDeployStart();
 
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
             + "/simple-war-inner-configuration-deployables/index.jsp");
@@ -105,7 +105,7 @@ public class RunMojoTest extends TestCase
 
     public void testSimpleWarJspInDeployerDeployables() throws Exception
     {
-        waitForRunMojoStart();
+        waitForRemoteDeployStart();
 
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
             + "/simple-war-deployer-deployables/index.jsp");
@@ -114,7 +114,7 @@ public class RunMojoTest extends TestCase
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }
 
-    private void waitForRunMojoStart() throws Exception
+    private void waitForRemoteDeployStart() throws Exception
     {
         long timeout = 60 * 1000 + System.currentTimeMillis();
         while (System.currentTimeMillis() < timeout)
@@ -129,7 +129,7 @@ public class RunMojoTest extends TestCase
                 outputString = "";
             }
 
-            if (outputString.contains("Press Ctrl-C to stop the container..."))
+            if (outputString.contains("BUILD SUCCESS"))
             {
                 return;
             }
@@ -142,7 +142,7 @@ public class RunMojoTest extends TestCase
             Thread.sleep(1000);
         }
 
-        fail("The file " + output + " did not have the Ctrl-C message after 60 seconds");
+        fail("The file " + output + " did not have the BUILD SUCCESS message after 60 seconds");
     }
 
 }

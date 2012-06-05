@@ -23,13 +23,13 @@
     <artifactId>cargo-samples-maven2</artifactId>
     <version>1.2.3-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-sample-maven2-runMojo-test</artifactId>
-  <name>Cargo Samples - Maven 2 - cargo:run MOJO test</name>
+  <artifactId>cargo-sample-maven2-remoteDeploy-test</artifactId>
+  <name>Cargo Samples - Maven 2 - Remote deployment test</name>
   <packaging>jar</packaging>
-  <description>Sample application that tries the cargo:run MOJO</description>
+  <description>Sample application that tries remote deployment</description>
 
   <properties>
-    <cargo.runMojo-test.servlet.port>${cargo.samples.servlet.port}</cargo.runMojo-test.servlet.port>
+    <cargo.remoteDeploy-test.servlet.port>${cargo.samples.servlet.port}</cargo.remoteDeploy-test.servlet.port>
   </properties>
 
   <dependencies>
@@ -68,17 +68,29 @@
         <version>${project.version}</version>
         <configuration>
           <container>
-            <containerId>jetty7x</containerId>
-            <type>embedded</type>
+            <containerId>tomcat6x</containerId>
+            <zipUrlInstaller>
+              <url>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.35/bin/apache-tomcat-6.0.35.zip</url>
+              <downloadDir>${project.basedir}/../../../../core/samples/java/installs</downloadDir>
+            </zipUrlInstaller>
           </container>
           <configuration>
-            <home>${project.build.directory}/jetty-home</home>
+            <home>${project.build.directory}/catalina-base</home>
             <properties>
               <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+              <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
+              <cargo.tomcat.ajp.port>${cargo.samples.tomcat.ajp.port}</cargo.tomcat.ajp.port>
             </properties>
           </configuration>
         </configuration>
         <executions>
+          <execution>
+            <id>start</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+          </execution>
           <execution>
             <id>stop</id>
             <phase>post-integration-test</phase>

@@ -23,10 +23,10 @@
     <artifactId>cargo-parent</artifactId>
     <version>4.11</version>
   </parent>
-  <artifactId>cargo-sample-maven2-runMojo-test-artifact</artifactId>
+  <artifactId>cargo-sample-maven2-remote-deployment-test-artifact</artifactId>
   <version>${project.version}</version>
-  <description>Sample application that will be used to test the cargo:run MOJO</description>
-  <packaging>jar</packaging>
+  <description>Sample application that will be used to test remote deployment</description>
+  <packaging>pom</packaging>
 
   <dependencies>
     <dependency>
@@ -49,65 +49,35 @@
         <artifactId>cargo-maven2-plugin</artifactId>
         <version>${project.version}</version>
         <configuration>
+          <skip>true</skip>
           <container>
-            <containerId>jetty7x</containerId>
-            <type>embedded</type>
+            <containerId>tomcat6x</containerId>
+            <type>remote</type>
           </container>
           <configuration>
-            <home>${project.build.directory}/jetty-home</home>
+            <type>runtime</type>
             <properties>
               <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+              <cargo.remote.username>admin</cargo.remote.username>
+              <cargo.remote.password></cargo.remote.password>
             </properties>
-            <deployables>
-              <deployable>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>simple-war</artifactId>
-                <type>war</type>
-                <properties>
-                  <context>
-                    simple-war-inner-configuration-deployables
-                  </context>
-                </properties>
-              </deployable>
-            </deployables>
           </configuration>
-          <deployables>
-            <deployable>
-              <groupId>org.codehaus.cargo</groupId>
-              <artifactId>simple-war</artifactId>
-              <type>war</type>
-              <properties>
-                <context>
-                  simple-war-main-deployables
-                </context>
-              </properties>
-            </deployable>
-          </deployables>
-          <deployer>
-            <deployables>
-              <deployable>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>simple-war</artifactId>
-                <type>war</type>
-                <properties>
-                  <context>
-                    simple-war-deployer-deployables
-                  </context>
-                </properties>
-              </deployable>
-            </deployables>
-          </deployer>
         </configuration>
 
         <!-- Add dependency due to a limitation of the Maven embedder plugin -->
         <dependencies>
           <dependency>
             <groupId>org.codehaus.cargo</groupId>
-            <artifactId>cargo-core-container-jetty</artifactId>
+            <artifactId>cargo-core-container-tomcat</artifactId>
             <version>${cargo.core.version}</version>
           </dependency>
         </dependencies>
       </plugin>
     </plugins>
   </build>
+  <modules>
+    <module>deployer-deployables</module>
+    <module>inner-configuration-deployables</module>
+    <module>main-deployables</module>
+  </modules>
 </project>

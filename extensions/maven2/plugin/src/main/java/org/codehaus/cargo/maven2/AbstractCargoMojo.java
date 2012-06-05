@@ -252,7 +252,11 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         if (getConfigurationElement() != null && getConfigurationElement().getDeployables() != null
             && getConfigurationElement().getDeployables().length != 0)
         {
-            List<Deployable> deployablesList = Arrays.asList(deployables);
+            List<Deployable> deployablesList = new ArrayList<Deployable>();
+            if (deployables != null)
+            {
+                deployablesList.addAll(Arrays.asList(deployables));
+            }
             deployablesList.addAll(Arrays.asList(getConfigurationElement().getDeployables()));
             deployables = new Deployable[deployablesList.size()];
             deployables = deployablesList.toArray(deployables);
@@ -265,7 +269,11 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         if (getDeployerElement() != null && getDeployerElement().getDeployables() != null
             && getDeployerElement().getDeployables().length != 0)
         {
-            List<Deployable> deployablesList = Arrays.asList(deployables);
+            List<Deployable> deployablesList = new ArrayList<Deployable>();
+            if (deployables != null)
+            {
+                deployablesList.addAll(Arrays.asList(deployables));
+            }
             deployablesList.addAll(Arrays.asList(getDeployerElement().getDeployables()));
             deployables = new Deployable[deployablesList.size()];
             deployables = deployablesList.toArray(deployables);

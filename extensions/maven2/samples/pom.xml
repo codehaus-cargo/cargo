@@ -36,6 +36,7 @@
     <module>jetty7x-root-context-test</module>
     <module>ping-test</module>
     <module>multi-datasource-test</module>
+    <module>remoteDeploy-test</module>
     <module>runMojo-test</module>
     <module>uberwar-test</module>
   </modules>
