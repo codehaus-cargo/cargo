@@ -44,8 +44,9 @@ public class Tomcat6xStandaloneLocalConfiguration
         super(dir);
 
         addXmlReplacement("conf/server.xml",
-            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
-                "SSLEnabled", TomcatPropertySet.HTTP_SECURE);
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
+                + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']",
+                    "SSLEnabled", TomcatPropertySet.HTTP_SECURE);
     }
 
     /**

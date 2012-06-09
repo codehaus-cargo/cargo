@@ -70,26 +70,29 @@ public class Tomcat5xStandaloneLocalConfiguration extends
             "//Server", "port",
                 GeneralPropertySet.RMI_PORT);
         addXmlReplacement("conf/server.xml",
-            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
-                "port", ServletPropertySet.PORT);
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
+                + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']",
+                    "port", ServletPropertySet.PORT);
         addXmlReplacement("conf/server.xml",
-            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
-                "scheme", GeneralPropertySet.PROTOCOL);
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
+                + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']",
+                    "scheme", GeneralPropertySet.PROTOCOL);
         addXmlReplacement("conf/server.xml",
-            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
-                "secure", TomcatPropertySet.HTTP_SECURE);
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
+                + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']",
+                    "secure", TomcatPropertySet.HTTP_SECURE);
         addXmlReplacement("conf/server.xml",
-            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
-                "emptySessionPath", TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
+                + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']",
+                    "emptySessionPath", TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
         addXmlReplacement("conf/server.xml",
-            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
-                "URIEncoding", GeneralPropertySet.URI_ENCODING);
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
+                + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']",
+                    "URIEncoding", GeneralPropertySet.URI_ENCODING);
         addXmlReplacement("conf/server.xml",
-            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
-                "port", ServletPropertySet.PORT);
-        addXmlReplacement("conf/server.xml",
-            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1']",
-                "port", ServletPropertySet.PORT);
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
+                + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']",
+                    "port", ServletPropertySet.PORT);
         addXmlReplacement("conf/server.xml",
             "//Server/Service/Connector[@protocol='AJP/1.3']",
                 "port", TomcatPropertySet.AJP_PORT);
