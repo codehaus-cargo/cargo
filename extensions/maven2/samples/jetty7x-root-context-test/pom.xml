@@ -52,7 +52,7 @@
           <container>
             <containerId>jetty7x</containerId>
             <zipUrlInstaller>
-              <url>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.3.v20120416/jetty-distribution-7.6.3.v20120416.tar.gz</url>
+              <url>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.4.v20120524/jetty-distribution-7.6.4.v20120524.tar.gz</url>
               <downloadDir>${project.basedir}/../../../../core/samples/java/installs</downloadDir>
             </zipUrlInstaller>
           </container>

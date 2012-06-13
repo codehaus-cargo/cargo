@@ -116,7 +116,7 @@ public class RemoteDeployTest extends TestCase
 
     private void waitForRemoteDeployStart() throws Exception
     {
-        long timeout = 60 * 1000 + System.currentTimeMillis();
+        long timeout = 90 * 1000 + System.currentTimeMillis();
         while (System.currentTimeMillis() < timeout)
         {
             String outputString;
