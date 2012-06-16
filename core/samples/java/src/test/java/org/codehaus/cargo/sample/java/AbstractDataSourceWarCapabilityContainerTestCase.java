@@ -157,6 +157,10 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
                 // Try again
                 getLocalContainer().stop();
             }
+            else
+            {
+                throw e;
+            }
         }
         PingUtils.assertPingFalse(warPingURL.getPath() + " not stopped", warPingURL, getLogger());
     }
