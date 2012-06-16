@@ -23,6 +23,7 @@ import java.io.File;
 import java.net.URL;
 
 import org.apache.tools.ant.taskdefs.Expand;
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
@@ -119,7 +120,18 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCar
         getLocalContainer().start();
         PingUtils.assertPingTrue(warPingURL.getPath() + " not started", warPingURL, getLogger());
 
-        getLocalContainer().stop();
+        try
+        {
+            getLocalContainer().stop();
+        }
+        catch (ContainerException e)
+        {
+            if ("jboss71x".equals(getLocalContainer().getId()))
+            {
+                // Try again
+                getLocalContainer().stop();
+            }
+        }
         PingUtils.assertPingFalse(warPingURL.getPath() + " not stopped", warPingURL, getLogger());
     }
 }
