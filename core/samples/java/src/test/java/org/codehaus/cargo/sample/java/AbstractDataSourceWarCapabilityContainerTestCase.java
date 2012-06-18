@@ -23,7 +23,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.codehaus.cargo.container.Container;
-import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
@@ -146,22 +145,7 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
         getLocalContainer().start();
         PingUtils.assertPingTrue(warPingURL.getPath() + " not started", warPingURL, getLogger());
 
-        try
-        {
-            getLocalContainer().stop();
-        }
-        catch (ContainerException e)
-        {
-            if ("jboss71x".equals(getLocalContainer().getId()))
-            {
-                // Try again
-                getLocalContainer().stop();
-            }
-            else
-            {
-                throw e;
-            }
-        }
+        getLocalContainer().stop();
         PingUtils.assertPingFalse(warPingURL.getPath() + " not stopped", warPingURL, getLogger());
     }
 

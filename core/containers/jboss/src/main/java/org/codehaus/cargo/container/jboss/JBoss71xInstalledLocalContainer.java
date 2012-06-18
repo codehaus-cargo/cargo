@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
+import org.codehaus.cargo.container.ContainerException;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
@@ -35,6 +36,11 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
      * JBoss 7.1.x series unique id.
      */
     public static final String ID = "jboss71x";
+
+    /**
+     * Since JBoss 7.1.x is not always very stable when stopping, try twice.
+     */
+    private boolean firstAttemptStopping = true;
 
     /**
      * {@inheritDoc}
@@ -100,5 +106,36 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
             "command=:shutdown");
 
         java.start();
+    }
+
+    /**
+     * {@inheritDoc}. Since JBoss 7.1.x is not always very stable when stopping, try twice.
+     */
+    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
+    {
+        if (!waitForStarting)
+        {
+            try
+            {
+                super.waitForCompletion(waitForStarting);
+            }
+            catch (ContainerException e)
+            {
+                if (this.firstAttemptStopping)
+                {
+                    // Since JBoss 7.1.x is not always very stable when stopping, try twice.
+                    this.firstAttemptStopping = false;
+                    this.stop();
+                }
+                else
+                {
+                    throw e;
+                }
+            }
+        }
+        else
+        {
+            super.waitForCompletion(waitForStarting);
+        }
     }
 }
