@@ -124,6 +124,8 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
                 if (this.firstAttemptStopping)
                 {
                     // Since JBoss 7.1.x is not always very stable when stopping, try twice.
+                    getLogger().debug("First attempt to stop the JBoss server has failed (" + e
+                        + "), trying one last time", this.getClass().getName());
                     this.firstAttemptStopping = false;
                     this.stop();
                 }
