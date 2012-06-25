@@ -387,6 +387,18 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             System.clearProperty("http.proxyHost");
             System.clearProperty("http.proxyPort");
 
+            // CARGO-1119: Set proxy settings using cargo.proxyHost and cargo.proxyPort
+            final String cargoProxyHost = System.getProperty("cargo.proxyHost");
+            final String cargoProxyPort = System.getProperty("cargo.proxyPort");
+            if (cargoProxyHost != null)
+            {
+                System.setProperty("http.proxyHost", cargoProxyHost);
+            }
+            if (cargoProxyPort != null)
+            {
+                System.setProperty("http.proxyPort", cargoProxyPort);
+            }
+
             doExecute();
         }
         finally
