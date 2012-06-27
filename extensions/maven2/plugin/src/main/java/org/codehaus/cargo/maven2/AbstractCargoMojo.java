@@ -24,6 +24,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
 import org.codehaus.cargo.container.ContainerType;
@@ -379,37 +381,67 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
 
         // CARGO-1042: Clear proxy settings before starting execution
-        final String httpProxyHost = System.getProperty("http.proxyHost");
-        final String httpProxyPort = System.getProperty("http.proxyPort");
+        // CARGO-1119 and CARGO-1121: Use proxy settings from the Maven2 proxy settings
+        final Map<String, String> previousProperties = new HashMap<String, String>(10);
+        previousProperties.put("http.proxyHost", System.clearProperty("http.proxyHost"));
+        previousProperties.put("http.proxyPort", System.clearProperty("http.proxyPort"));
+        previousProperties.put("https.proxyHost", System.clearProperty("https.proxyHost"));
+        previousProperties.put("https.proxyPort", System.clearProperty("https.proxyPort"));
+        previousProperties.put("http.proxyUser", System.clearProperty("http.proxyUser"));
+        previousProperties.put("http.proxyPassword", System.clearProperty("http.proxyPassword"));
+        previousProperties.put("https.proxyUser", System.clearProperty("https.proxyUser"));
+        previousProperties.put("https.proxyPassword", System.clearProperty("https.proxyPassword"));
+        previousProperties.put("http.nonProxyHosts", System.clearProperty("http.nonProxyHosts"));
+        previousProperties.put("https.nonProxyHosts", System.clearProperty("https.nonProxyHosts"));
 
         try
         {
-            System.clearProperty("http.proxyHost");
-            System.clearProperty("http.proxyPort");
-
-            // CARGO-1119: Set proxy settings using cargo.proxyHost and cargo.proxyPort
-            final String cargoProxyHost = System.getProperty("cargo.proxyHost");
-            final String cargoProxyPort = System.getProperty("cargo.proxyPort");
-            if (cargoProxyHost != null)
+            Proxy proxy = null;
+            if (settings != null)
             {
-                System.setProperty("http.proxyHost", cargoProxyHost);
+                proxy = settings.getActiveProxy();
             }
-            if (cargoProxyPort != null)
+            if (proxy != null)
             {
-                System.setProperty("http.proxyPort", cargoProxyPort);
+                if (proxy.getHost() != null)
+                {
+                    System.setProperty("http.proxyHost", proxy.getHost());
+                    System.setProperty("https.proxyHost", proxy.getHost());
+
+                    System.setProperty("http.proxyPort", Integer.toString(proxy.getPort()));
+                    System.setProperty("https.proxyPort", Integer.toString(proxy.getPort()));
+                }
+
+                if (proxy.getUsername() != null && proxy.getPassword() != null)
+                {
+                    System.setProperty("http.proxyUser", proxy.getUsername());
+                    System.setProperty("https.proxyUser", proxy.getUsername());
+
+                    System.setProperty("http.proxyPassword", proxy.getPassword());
+                    System.setProperty("https.proxyPassword", proxy.getPassword());
+                }
+
+                if (proxy.getNonProxyHosts() != null)
+                {
+                    System.setProperty("http.nonProxyHosts", proxy.getNonProxyHosts());
+                    System.setProperty("https.nonProxyHosts", proxy.getNonProxyHosts());
+                }
             }
 
             doExecute();
         }
         finally
         {
-            if (httpProxyHost != null)
+            for (Map.Entry<String, String> previousProperty : previousProperties.entrySet())
             {
-                System.setProperty("http.proxyHost", httpProxyHost);
-            }
-            if (httpProxyPort != null)
-            {
-                System.setProperty("http.proxyPort", httpProxyPort);
+                if (previousProperty.getValue() != null)
+                {
+                    System.setProperty(previousProperty.getKey(), previousProperty.getValue());
+                }
+                else
+                {
+                    System.clearProperty(previousProperty.getKey());
+                }
             }
         }
     }
