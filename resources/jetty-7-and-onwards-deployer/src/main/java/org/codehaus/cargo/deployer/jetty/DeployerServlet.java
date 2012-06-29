@@ -55,14 +55,14 @@ public class DeployerServlet extends HttpServlet
 {
 
     /**
+     * Timeout when deploying.
+     */
+    private static final long TIMEOUT = 30000;
+
+    /**
      * The context.
      */
     private WebAppContext context;
-
-    /**
-     * The server object.
-     */
-    private Server server;
 
     /**
      * The ContectHandlerCollection for the server.
@@ -99,7 +99,7 @@ public class DeployerServlet extends HttpServlet
             throw new IllegalStateException("Cannot get the Jetty Web application context", e);
         }
 
-        this.server = this.context.getServer();
+        Server server = this.context.getServer();
         // TODO find a better means of determining the configuration and webapp directories
         if (System.getProperty("config.home") != null)
         {
@@ -124,7 +124,8 @@ public class DeployerServlet extends HttpServlet
             }
         }
 
-        Log.debug("Started the CARGO Jetty deployer servlet with context " + this.context);
+        Log.getLogger(this.getClass()).debug(
+            "Started the CARGO Jetty deployer servlet with context " + this.context);
     }
 
     /**
@@ -156,18 +157,6 @@ public class DeployerServlet extends HttpServlet
             else if (command.equals("/undeploy"))
             {
                 undeploy(response, contextPath);
-            }
-            else if (command.equals("/stop"))
-            {
-                stop(response, contextPath);
-            }
-            else if (command.equals("/start"))
-            {
-                start(response, contextPath);
-            }
-            else if (command.equals("/reload"))
-            {
-                reload(response, contextPath);
             }
             else
             {
@@ -205,7 +194,7 @@ public class DeployerServlet extends HttpServlet
             }
             else
             {
-                sendError(response, "Command " + command + " is not reconized with PUT");
+                sendError(response, "Command " + command + " is not recognized with PUT");
             }
         }
         finally
@@ -224,7 +213,8 @@ public class DeployerServlet extends HttpServlet
     protected void deployArchive(HttpServletRequest request, HttpServletResponse response,
             String contextPath) throws IOException
     {
-        Log.debug("Remotely deploying a remote web archive with context " + contextPath);
+        Log.getLogger(this.getClass()).debug(
+            "Remotely deploying a remote web archive with context " + contextPath);
 
         if (contextPath == null)
         {
@@ -240,7 +230,8 @@ public class DeployerServlet extends HttpServlet
         }
         else
         {
-            Log.debug("trying to get the remote web archive");
+            Log.getLogger(this.getClass()).debug("trying to get the remote web archive");
+
             String webappLocation = webAppDirectory + contextPath
                     + (contextPath.equals("/") ? "ROOT" : "") + ".war";
             File webappFile = new File(webappLocation);
@@ -261,24 +252,30 @@ public class DeployerServlet extends HttpServlet
             outputStream.flush();
             outputStream.close();
 
-            WebAppContext webappcontext = new WebAppContext();
-            webappcontext.setContextPath(contextPath);
-            webappcontext.setWar(webappLocation);
-            webappcontext.setDefaultsDescriptor(configHome + "/etc/webdefault.xml");
-            chc.addHandler(webappcontext);
-            try
+            // CARGO-1122: Just wait for Jetty to deploy the application by itself
+            long timeout = System.currentTimeMillis() + DeployerServlet.TIMEOUT;
+            while (System.currentTimeMillis() < timeout)
             {
-                webappcontext.start();
-            }
-            catch (Exception e)
-            {
-                sendError(response, "Unexpected error when trying to start the webapp");
-                Log.warn(e);
-                return;
-            }
-        }
+                try
+                {
+                    Thread.sleep(1000);
+                }
+                catch (InterruptedException e)
+                {
+                    sendError(response, "Got interrupted when trying to start the webapp");
+                    return;
+                }
 
-        sendMessage(response, "Deployed Web APP");
+                Handler contextHandler = (Handler) getContextHandler(contextPath);
+                if (contextHandler != null && contextHandler.isStarted())
+                {
+                    sendMessage(response, "Webapp deployed at context " + contextPath);
+                    return;
+                }
+            }
+
+            sendError(response, "Unexpected error when trying to start the webapp");
+        }
     }
 
     /**
@@ -399,9 +396,11 @@ public class DeployerServlet extends HttpServlet
             {
                 uri = new URI(warURL);
             }
-            catch (URISyntaxException e1)
+            catch (URISyntaxException e)
             {
-                e1.printStackTrace();
+                sendError(response, "Cannot parse URL " + warURL);
+                Log.getLogger(this.getClass()).warn(e);
+                return;
             }
 
             File webappSource = new File(uri);
@@ -431,25 +430,12 @@ public class DeployerServlet extends HttpServlet
             catch (Exception e)
             {
                 sendError(response, "Unexpected error when trying to start the webapp");
-                Log.warn(e);
+                Log.getLogger(this.getClass()).warn(e);
                 return;
             }
         }
-        sendMessage(response, "Webapp deployed at context " + contextPath);
-    }
 
-    /**
-     * Reload the application specified with the given context.
-     * 
-     * Not yet implemented
-     * 
-     * @param response The http response
-     * @param contextPath The context path
-     * @throws IOException If an IO exception occurs
-     */
-    protected void reload(HttpServletResponse response, String contextPath) throws IOException
-    {
-        sendError(response, "Not yet implemented");
+        sendMessage(response, "Webapp deployed at context " + contextPath);
     }
 
     /**
@@ -479,7 +465,7 @@ public class DeployerServlet extends HttpServlet
         catch (Exception e)
         {
             sendError(response, "Could not stop context handler");
-            e.printStackTrace();
+            Log.getLogger(this.getClass()).warn(e);
             error = true;
         }
 
@@ -589,32 +575,6 @@ public class DeployerServlet extends HttpServlet
     }
 
     /**
-     * Stop the webapp at the given context.
-     * 
-     * Not yet implemented
-     * 
-     * @param response The http response
-     * @param contextPath The webapp's context
-     * @throws IOException If an IO exception occured
-     */
-    protected void stop(HttpServletResponse response, String contextPath) throws IOException
-    {
-        sendError(response, "Stop is not implemented yet due to errors if restarted again");
-    }
-
-    /**
-     * Start the webapp for the given context path
-     * @param response The http response
-     * @param contextPath The webapp's context
-     * @throws IOException If an IO exception occured
-     */
-    protected void start(HttpServletResponse response, String contextPath) throws IOException
-    {
-        sendError(response, "Start is not implemented yet since restarting a webapp no longer"
-                                                   + " makes it available under its web context");
-    }
-
-    /**
      * Returns the context handler for the given context.<br/><b>Note</b>: We need to return an
      * <code>Object</code> in order to avoid <a href="https://jira.codehaus.org/browse/CARGO-1049">
      * bug CARGO-1049</a>.
@@ -638,7 +598,8 @@ public class DeployerServlet extends HttpServlet
                 }
             }
         }
-        // return null if no instance was found;
+
+        // return null if no instance was found
         return null;
     }
 

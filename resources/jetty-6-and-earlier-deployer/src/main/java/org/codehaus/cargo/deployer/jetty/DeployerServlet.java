@@ -53,11 +53,6 @@ public class DeployerServlet extends HttpServlet
 {
 
     /**
-     * The server object.
-     */
-    private Server server;
-
-    /**
      * The ContectHandlerCollection for the server.
      */
     private ContextHandlerCollection chc;
@@ -80,7 +75,6 @@ public class DeployerServlet extends HttpServlet
      */
     public DeployerServlet(Server server)
     {
-        this.server = server;
         // TODO find a better means of determining the configuration and webapp directories
         if (System.getProperty("config.home") != null)
         {
@@ -92,12 +86,9 @@ public class DeployerServlet extends HttpServlet
         }
         this.webAppDirectory = configHome + File.separator + "webapps";
 
-        // TODO there could potentially be more than one context handler
-        // collection
-        // and there is also the chance that a web application can be deployed
-        // under the same
-        // context. These situations should be looked after but are currently
-        // not.
+        // TODO there could potentially be more than one context handler collection and there is
+        // also the chance that a web application can be deployed under the same context. These
+        // situations should be looked after but are currently not.
         Handler[] handles = server.getChildHandlers();
         for (Handler handle : handles)
         {
@@ -120,7 +111,6 @@ public class DeployerServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-
         String contextPath = request.getParameter("path");
         String warURL = request.getParameter("war");
 
@@ -134,23 +124,10 @@ public class DeployerServlet extends HttpServlet
         {
             undeploy(response, contextPath);
         }
-        else if (command.equals("/stop"))
-        {
-            stop(response, contextPath);
-        }
-        else if (command.equals("/start"))
-        {
-            start(response, contextPath);
-        }
-        else if (command.equals("/reload"))
-        {
-            reload(response, contextPath);
-        }
         else
         {
             response.sendError(400, "Command " + command + " is unknown");
         }
-
     }
 
     /**
@@ -164,7 +141,6 @@ public class DeployerServlet extends HttpServlet
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-
         String command = request.getServletPath();
         if (command.equals("/deploy"))
         {
@@ -173,7 +149,7 @@ public class DeployerServlet extends HttpServlet
         }
         else
         {
-            sendError(response, "Command " + command + " is not reconized with PUT");
+            sendError(response, "Command " + command + " is not recognized with PUT");
         }
     }
 
@@ -224,6 +200,7 @@ public class DeployerServlet extends HttpServlet
             outputStream.flush();
             outputStream.close();
 
+            // deploy webapp
             WebAppContext webappcontext = new WebAppContext();
             webappcontext.setContextPath(contextPath);
             webappcontext.setWar(webappLocation);
@@ -241,7 +218,7 @@ public class DeployerServlet extends HttpServlet
             }
         }
 
-        sendMessage(response, "Deployed Web APP");
+        sendMessage(response, "Webapp deployed at context " + contextPath);
     }
 
     /**
@@ -362,9 +339,11 @@ public class DeployerServlet extends HttpServlet
             {
                 uri = new URI(warURL);
             }
-            catch (URISyntaxException e1)
+            catch (URISyntaxException e)
             {
-                e1.printStackTrace();
+                sendError(response, "Cannot parse URL " + warURL);
+                Log.warn(e);
+                return;
             }
 
             File webappSource = new File(uri);
@@ -398,21 +377,8 @@ public class DeployerServlet extends HttpServlet
                 return;
             }
         }
-        sendMessage(response, "Webapp deployed at context " + contextPath);
-    }
 
-    /**
-     * Reload the application specified with the given context.
-     * 
-     * Not yet implemented
-     * 
-     * @param response The http response
-     * @param contextPath The context path
-     * @throws IOException If an IO exception occurs
-     */
-    protected void reload(HttpServletResponse response, String contextPath) throws IOException
-    {
-        sendError(response, "Not yet implemented");
+        sendMessage(response, "Webapp deployed at context " + contextPath);
     }
 
     /**
@@ -442,7 +408,7 @@ public class DeployerServlet extends HttpServlet
         catch (Exception e)
         {
             sendError(response, "Could not stop context handler");
-            e.printStackTrace();
+            Log.warn(e);
             error = true;
         }
 
@@ -552,32 +518,6 @@ public class DeployerServlet extends HttpServlet
     }
 
     /**
-     * Stop the webapp at the given context.
-     * 
-     * Not yet implemented
-     * 
-     * @param response The http response
-     * @param contextPath The webapp's context
-     * @throws IOException If an IO exception occured
-     */
-    protected void stop(HttpServletResponse response, String contextPath) throws IOException
-    {
-        sendError(response, "Stop is not implemented yet due to errors if restarted again");
-    }
-
-    /**
-     * Start the webapp for the given context path
-     * @param response The http response
-     * @param contextPath The webapp's context
-     * @throws IOException If an IO exception occured
-     */
-    protected void start(HttpServletResponse response, String contextPath) throws IOException
-    {
-        sendError(response, "Start is not implemented yet since restarting a webapp no longer"
-                                                   + " makes it available under its web context");
-    }
-
-    /**
      * Returns the context handler for the given context.
      * @param context The webapp context
      * @return The context handler
@@ -599,7 +539,8 @@ public class DeployerServlet extends HttpServlet
                 }
             }
         }
-        // return null if no instance was found;
+
+        // return null if no instance was found
         return null;
     }
 
