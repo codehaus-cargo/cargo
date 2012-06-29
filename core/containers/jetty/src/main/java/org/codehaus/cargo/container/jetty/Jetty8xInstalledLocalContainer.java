@@ -79,12 +79,9 @@ public class Jetty8xInstalledLocalContainer extends Jetty7xInstalledLocalContain
                 "etc/jetty.xml"));
         startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-annotations.xml"));
-        if (getConfiguration().getDataSources() != null
-            && !getConfiguration().getDataSources().isEmpty())
-        {
-            startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                    "etc/jetty-plus.xml"));
-        }
+        // Make sure Jetty-plus is part of startup so that CARGO-1122 is tested
+        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-plus.xml"));
         startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-deploy.xml"));
         startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
