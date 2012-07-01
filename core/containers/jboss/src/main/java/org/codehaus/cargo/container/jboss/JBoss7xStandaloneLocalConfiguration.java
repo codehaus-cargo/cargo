@@ -32,6 +32,8 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
@@ -131,6 +133,34 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
     public ConfigurationCapability getCapability()
     {
         return CAPABILITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see AbstractStandaloneLocalConfiguration#configure(LocalContainer)
+     */
+    @Override
+    public void configure(LocalContainer container)
+    {
+        for (Deployable deployable : getDeployables())
+        {
+            if (deployable instanceof WAR)
+            {
+                WAR war = (WAR) deployable;
+                if (war.getContext() == null || war.getContext().equals("")
+                    || war.getContext().equals("/") || war.getContext().equalsIgnoreCase("ROOT"))
+                {
+                    // CARGO-1090: Disable the welcome root application
+                    addXmlReplacement(
+                        "configuration/standalone.xml",
+                        "//server/profile/subsystem/virtual-server",
+                        "enable-welcome-root", "false");
+                    break;
+                }
+            }
+        }
+
+        super.configure(container);
     }
 
     /**
