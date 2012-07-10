@@ -21,6 +21,7 @@ package org.codehaus.cargo.maven2;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
@@ -57,6 +58,31 @@ public class ContainerRunMojo extends AbstractContainerStartMojo
     @Override
     public void doExecute() throws MojoExecutionException
     {
+        // When Ctrl-C is pressed, stop the container
+        Runtime.getRuntime().addShutdownHook(new Thread()
+        {
+            @Override
+            public void run()
+            {
+                try 
+                {
+                    if (ContainerRunMojo.this.localContainer != null
+                        && (org.codehaus.cargo.container.State.STARTED
+                            == ContainerRunMojo.this.localContainer.getState()
+                        ||
+                            org.codehaus.cargo.container.State.STARTING
+                            == ContainerRunMojo.this.localContainer.getState()))
+                    {
+                        ContainerRunMojo.this.localContainer.stop();
+                    }
+                }
+                catch (Exception e)
+                {
+                    ContainerRunMojo.this.getLog().warn("Failed stopping the container", e);
+                }
+            }
+        });
+
         super.doExecute();
 
         getLog().info("Press Ctrl-C to stop the container...");

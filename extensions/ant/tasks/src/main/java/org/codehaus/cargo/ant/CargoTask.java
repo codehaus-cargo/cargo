@@ -544,7 +544,7 @@ public class CargoTask extends Task
 
         if (getContainer().getType().isLocal())
         {
-            LocalContainer localContainer = (LocalContainer) getContainer();
+            final LocalContainer localContainer = (LocalContainer) getContainer();
 
             if (ACTION_START.equalsIgnoreCase(getAction()))
             {
@@ -561,6 +561,31 @@ public class CargoTask extends Task
             }
             else if (ACTION_RUN.equalsIgnoreCase(getAction()))
             {
+                // When Ctrl-C is pressed, stop the container
+                Runtime.getRuntime().addShutdownHook(new Thread()
+                {
+                    @Override
+                    public void run()
+                    {
+                        try 
+                        {
+                            if (org.codehaus.cargo.container.State.STARTED
+                                == localContainer.getState()
+                                ||
+                                org.codehaus.cargo.container.State.STARTING
+                                == localContainer.getState())
+                            {
+                                localContainer.stop();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            CargoTask.this.log(
+                                "Failed stopping the container", e, Project.MSG_WARN);
+                        }
+                    }
+                });
+
                 localContainer.start();
 
                 log("Press Ctrl-C to stop the container...");
