@@ -19,8 +19,15 @@
  */
 package org.codehaus.cargo.maven2.configuration;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.container.ContainerType;
@@ -59,6 +66,11 @@ public class Configuration
      * Container properties.
      */
     private Map<String, String> properties;
+
+    /**
+     * Container properties loaded from file.
+     */    
+    private File propertiesFile;
 
     /**
      * Deployables.
@@ -126,6 +138,22 @@ public class Configuration
     public void setProperties(Map<String, String> properties)
     {
         this.properties = properties;
+    }
+
+    /**
+     * @return Container properties loaded from file.
+     */
+    public File getPropertiesFile()
+    {
+        return propertiesFile;
+    }
+
+    /**
+     * @param propertiesFile Container properties loaded from file.
+     */
+    public void setPropertiesFile(File propertiesFile)
+    {
+        this.propertiesFile = propertiesFile;
     }
 
     /**
@@ -261,8 +289,43 @@ public class Configuration
             configuration = factory.createConfiguration(containerId, containerType, getType(),
                 getHome());
         }
+        
+        // Set container properties loaded from file (if any)
+        if (getPropertiesFile() != null)
+        {
+            Properties properties = new Properties();
+            try
+            {
+                InputStream inputStream = new FileInputStream(getPropertiesFile());
+                try
+                {
+                    properties.load(new BufferedInputStream(inputStream));
+                }
+                finally
+                {
+                    inputStream.close();
+                }
+                for (Enumeration<?> propertyNames = properties.propertyNames(); 
+                    propertyNames.hasMoreElements();)
+                {
+                    String propertyName = (String) propertyNames.nextElement();
+                    String propertyValue = properties.getProperty(propertyName);
+                    configuration.setProperty(propertyName, propertyValue);
+                }
+            }
+            catch (FileNotFoundException e)
+            {
+                configuration.getLogger().warn("Configuration property file ["
+                    + getPropertiesFile() + "] cannot be read", getClass().getName());
+            }
+            catch (IOException ioe)
+            {
+                throw new MojoExecutionException("Configuration property file ["
+                    + getPropertiesFile() + "] cannot be loaded", ioe);
+            }
+        }
 
-        // Set all container properties (if any)
+        // Set static container properties (if any)
         if (getProperties() != null)
         {
             for (Map.Entry<String, String> property : getProperties().entrySet())

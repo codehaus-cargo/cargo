@@ -588,6 +588,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             createDefaultContainerElementIfNecessary();
             org.codehaus.cargo.container.configuration.Configuration configuration =
                 createConfiguration();
+            configuration.setLogger(container.getLogger());
 
             // CARGO-1053: Update the container's configuration, since different executions might
             //             have defined different configurations but the "put the container in the
@@ -616,7 +617,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 }
 
                 ((LocalContainer) container).setConfiguration(
-                    (LocalConfiguration) createConfiguration());
+                    (LocalConfiguration) configuration);
             }
             else
             {
@@ -656,8 +657,12 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             loadEmbeddedContainerDependencies();
         }
 
-        container = getContainerElement().createContainer(createConfiguration(),
-            createLogger(), getCargoProject(), artifactFactory, artifactResolver, localRepository,
+        Logger logger = createLogger();
+        org.codehaus.cargo.container.configuration.Configuration configuration = 
+            createConfiguration();
+        configuration.setLogger(logger);
+        container = getContainerElement().createContainer(configuration,
+            logger, getCargoProject(), artifactFactory, artifactResolver, localRepository,
             repositories, settings);
 
         return container;

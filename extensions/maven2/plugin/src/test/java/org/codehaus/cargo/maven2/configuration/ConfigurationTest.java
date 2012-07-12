@@ -19,10 +19,14 @@
  */
 package org.codehaus.cargo.maven2.configuration;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import junit.framework.TestCase;
 
@@ -73,6 +77,51 @@ public class ConfigurationTest extends TestCase
 
         assertEquals("", configuration.getPropertyValue("someName"));
     }
+    
+    /**
+     * Test property file based configuration elements which override static counterparts
+     * @throws Exception If anything goes wrong.
+     */
+    public void testCreateConfigurationWithPropertiesFile() throws Exception
+    {
+        Configuration configurationElement = new Configuration();
+        configurationElement.setImplementation(StandaloneLocalConfigurationStub.class.getName());
+
+        Map<String, String> properties = new HashMap<String, String>();
+        properties.put("someName1", "someValue1");
+        configurationElement.setProperties(properties);
+        
+        org.codehaus.cargo.container.configuration.Configuration configuration;
+        File propertiesFile = File.createTempFile(ConfigurationTest.class.getName(), ".properties");
+        try
+        {
+            OutputStream outputStream = new FileOutputStream(propertiesFile);
+            try
+            {        
+                Properties fileProperties = new Properties();
+                fileProperties.put("someName1", "foobar");
+                fileProperties.put("someName2", "someValue2");
+                fileProperties.store(outputStream, null);
+            }
+            finally
+            {
+                outputStream.close();
+            }
+            configurationElement.setPropertiesFile(propertiesFile);
+    
+            configuration =
+                configurationElement.createConfiguration("testcontainer", ContainerType.INSTALLED,
+                    null, new CargoProject(
+                        null, null, null, null, null, Collections.<Artifact>emptySet(), null));
+        }
+        finally
+        {
+            propertiesFile.delete();
+        }
+
+        assertEquals("someValue1", configuration.getPropertyValue("someName1"));
+        assertEquals("someValue2", configuration.getPropertyValue("someName2"));
+    }    
 
     /**
      * Test adding resources to the configuration.

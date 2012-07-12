@@ -19,17 +19,25 @@
  */
 package org.codehaus.cargo.maven2.configuration;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Settings;
@@ -37,13 +45,13 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.installer.ZipURLInstaller;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.maven2.util.CargoProject;
 import org.codehaus.cargo.util.log.LogLevel;
+import org.codehaus.cargo.util.log.Loggable;
 import org.codehaus.cargo.util.log.Logger;
 
 /**
@@ -120,6 +128,11 @@ public class Container
     private Map<String, String> systemProperties;
 
     /**
+     * System properties loaded from file.
+     */    
+    private File systemPropertiesFile;
+
+    /**
      * @return System properties.
      */
     public Map<String, String> getSystemProperties()
@@ -133,6 +146,22 @@ public class Container
     public void setSystemProperties(Map<String, String> systemProperties)
     {
         this.systemProperties = systemProperties;
+    }
+
+    /**
+     * @return System properties loaded from file.
+     */
+    public File getSystemPropertiesFile()
+    {
+        return systemPropertiesFile;
+    }
+
+    /**
+     * @param systemPropertiesFile System properties loaded from file.
+     */
+    public void setSystemPropertiesFile(File systemPropertiesFile)
+    {
+        this.systemPropertiesFile = systemPropertiesFile;
     }
 
     /**
@@ -388,6 +417,7 @@ public class Container
 
         org.codehaus.cargo.container.Container container = factory.createContainer(
             getContainerId(), getType(), configuration);
+        container.setLogger(logger);
 
         if (container.getType().isLocal())
         {
@@ -422,7 +452,6 @@ public class Container
                 setupSharedClasspath((InstalledLocalContainer) container, project);
             }
         }
-        setupLogger(container, logger);
 
         return container;
     }
@@ -463,16 +492,77 @@ public class Container
             project.setEmbeddedClassLoader(urlClassloader);
         }
     }
+    
+    /**
+     * Merges static and system properties loaded from file together
+     * @param container Container. 
+     * @return merged system properties
+     * @throws MojoExecutionException 
+     */
+    private Map<String, String> mergeSystemProperties(Loggable container)
+        throws MojoExecutionException
+    {
+        Map<String, String> systemProperties = null;
+        if (getSystemPropertiesFile() != null)
+        {
+            Properties properties = new Properties();
+            try
+            {
+                InputStream inputStream = new FileInputStream(getSystemPropertiesFile());
+                try
+                {
+                    properties.load(new BufferedInputStream(inputStream));
+                }
+                finally
+                {
+                    inputStream.close();
+                }
+                systemProperties = new HashMap<String, String>(properties.size());
+                for (Enumeration<?> propertyNames = properties.propertyNames();
+                    propertyNames.hasMoreElements();)
+                {
+                    String propertyName = (String) propertyNames.nextElement();
+                    String propertyValue = properties.getProperty(propertyName);
+                    systemProperties.put(propertyName, propertyValue);
+                }
+            }
+            catch (FileNotFoundException e)
+            {
+                container.getLogger().warn("System property file ["
+                    + getSystemPropertiesFile() + "] cannot be read", getClass().getName());
+            }
+            catch (IOException ioe)
+            {
+                throw new MojoExecutionException("System property file ["
+                    + getSystemPropertiesFile() + "] cannot be loaded", ioe);
+            }
+        }
+        if (getSystemProperties() != null)
+        {
+            if (systemProperties != null)
+            {
+                systemProperties.putAll(getSystemProperties());
+            } 
+            else 
+            {
+                systemProperties = getSystemProperties();
+            }
+        }
+        return systemProperties;
+    }
 
     /**
      * Setup the embedded container's system properties.
      * @param container Container.
+     * @throws MojoExecutionException 
      */
     private void setupEmbeddedSystemProperties(EmbeddedLocalContainer container)
+        throws MojoExecutionException
     {
-        if (getSystemProperties() != null)
+        Map<String, String> systemProperties = mergeSystemProperties(container);
+        if (systemProperties != null)
         {
-            for (Map.Entry<String, String> systemProperty : getSystemProperties().entrySet())
+            for (Map.Entry<String, String> systemProperty : systemProperties.entrySet())
             {
                 if (systemProperty.getValue() != null)
                 {
@@ -569,9 +659,10 @@ public class Container
     private void setupSystemProperties(InstalledLocalContainer container)
         throws MojoExecutionException
     {
-        if (getSystemProperties() != null)
+        Map<String, String> systemProperties = mergeSystemProperties(container);
+        if (systemProperties != null)
         {
-            container.setSystemProperties(getSystemProperties());
+            container.setSystemProperties(systemProperties);
         }
     }
 
@@ -674,24 +765,4 @@ public class Container
         }
     }
 
-    /**
-     * Set up a logger for the container.
-     * @param container Container.
-     * @param logger Logger.
-     */
-    private void setupLogger(org.codehaus.cargo.container.Container container, Logger logger)
-    {
-        container.setLogger(logger);
-
-        // TODO: Split this task into 2 (one for local containers and one for remote containers
-        // so that there's no need to check the container type).
-        if (container instanceof LocalContainer)
-        {
-            ((LocalContainer) container).getConfiguration().setLogger(logger);
-        }
-        else
-        {
-            ((RemoteContainer) container).getConfiguration().setLogger(logger);
-        }
-    }
 }

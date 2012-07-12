@@ -24,10 +24,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -69,11 +71,35 @@ public class ContainerTest extends MockObjectTestCase
         props.put("id2", "value2");
 
         containerElement.setSystemProperties(props);
+        
+        File systemPropertiesFile =
+            File.createTempFile(ConfigurationTest.class.getName(), ".properties");
+        try
+        {
+            OutputStream outputStream = new FileOutputStream(systemPropertiesFile);
+            try
+            {        
+                Properties properties = new Properties();
+                properties.put("id2", "foobar");
+                properties.put("id3", "value3");
+                properties.store(outputStream, null);
+            }
+            finally
+            {
+                outputStream.close();
+            }
+            containerElement.setSystemPropertiesFile(systemPropertiesFile);
 
-        containerElement.createContainer(
-            new StandaloneLocalConfigurationStub("configuration/home"),
-            new NullLogger(), createTestCargoProject("whatever"));
-
+            containerElement.createContainer(
+                new StandaloneLocalConfigurationStub("configuration/home"),
+                new NullLogger(), createTestCargoProject("whatever"));
+        }
+        finally
+        {
+            systemPropertiesFile.delete();
+        }
+        props.put("id3", "value3");
+        
         // For embedded containers, system properties get put into our own vm
         for (Map.Entry<String, String> entry : props.entrySet())
         {
@@ -95,11 +121,37 @@ public class ContainerTest extends MockObjectTestCase
         props.put("id2", "value2");
 
         containerElement.setSystemProperties(props);
+        
+        org.codehaus.cargo.container.InstalledLocalContainer container;
+        File systemPropertiesFile =
+            File.createTempFile(ConfigurationTest.class.getName(), ".properties");
+        try
+        {
+            OutputStream outputStream = new FileOutputStream(systemPropertiesFile);
+            try
+            {        
+                Properties properties = new Properties();
+                properties.put("id2", "foobar");
+                properties.put("id3", "value3");
+                properties.store(outputStream, null);
+            }
+            finally
+            {
+                outputStream.close();
+            }
+            containerElement.setSystemPropertiesFile(systemPropertiesFile);
 
-        org.codehaus.cargo.container.InstalledLocalContainer container =
-            (InstalledLocalContainer) containerElement.createContainer(
-                new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
-                createTestCargoProject("whatever"));
+            container =
+                (InstalledLocalContainer) containerElement.createContainer(
+                    new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
+                    createTestCargoProject("whatever"));
+        }
+        finally
+        {
+            systemPropertiesFile.delete();
+        }
+        props.put("id3", "value3");
+
         assertEquals(props, container.getSystemProperties());
     }
 
