@@ -83,6 +83,7 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
             {
                 contextFile = "root";
             }
+            contextFile = contextFile.replace('/', '-');
             contextFile = getFileHandler().append(contextDir, contextFile + ".xml");
             getFileHandler().createFile(contextFile);
 
