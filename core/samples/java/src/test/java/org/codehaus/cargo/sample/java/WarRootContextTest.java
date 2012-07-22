@@ -77,6 +77,7 @@ public class WarRootContextTest extends AbstractCargoTestCase
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("geronimo1x");
         excludedContainerIds.add("geronimo2x");
+        excludedContainerIds.add("geronimo3x");
         excludedContainerIds.add("glassfish2x");
         excludedContainerIds.add("jo1x");
         excludedContainerIds.add("jonas4x");

@@ -27,12 +27,12 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 
 /**
- * Geronimo 1.x series existing {@link org.codehaus.cargo.container.configuration.Configuration}
+ * Geronimo existing {@link org.codehaus.cargo.container.configuration.Configuration}
  * implementation.
  * 
  * @version $Id$
  */
-public class Geronimo1xExistingLocalConfiguration extends AbstractExistingLocalConfiguration
+public class GeronimoExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {
     /**
      * Geronimo configuration capability.
@@ -44,7 +44,7 @@ public class Geronimo1xExistingLocalConfiguration extends AbstractExistingLocalC
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration#AbstractExistingLocalConfiguration(String)
      */
-    public Geronimo1xExistingLocalConfiguration(String dir)
+    public GeronimoExistingLocalConfiguration(String dir)
     {
         super(dir);
 
@@ -79,11 +79,6 @@ public class Geronimo1xExistingLocalConfiguration extends AbstractExistingLocalC
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
-        String deployDir = getFileHandler().createDirectory(getHome(), "deploy");
-
-        if (!getFileHandler().exists(deployDir))
-        {
-            getFileHandler().mkdirs(deployDir);
-        }
+        // Nothing to configure
     }
 }

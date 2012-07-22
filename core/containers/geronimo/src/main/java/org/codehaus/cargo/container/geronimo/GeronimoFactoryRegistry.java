@@ -101,10 +101,16 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
         configurationCapabilityFactory.registerConfigurationCapability("geronimo2x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Geronimo2xStandaloneLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("geronimo2x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            GeronimoExistingLocalConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("geronimo3x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Geronimo2xStandaloneLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("geronimo3x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            GeronimoExistingLocalConfigurationCapability.class);
     }
 
     /**
@@ -120,15 +126,21 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
             Geronimo1xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("geronimo1x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            Geronimo1xExistingLocalConfiguration.class);
+            GeronimoExistingLocalConfiguration.class);
 
         configurationFactory.registerConfiguration("geronimo2x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Geronimo2xStandaloneLocalConfiguration.class);
+        configurationFactory.registerConfiguration("geronimo2x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            GeronimoExistingLocalConfiguration.class);
 
         configurationFactory.registerConfiguration("geronimo3x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Geronimo3xStandaloneLocalConfiguration.class);
+        configurationFactory.registerConfiguration("geronimo3x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            GeronimoExistingLocalConfiguration.class);
     }
 
     /**
