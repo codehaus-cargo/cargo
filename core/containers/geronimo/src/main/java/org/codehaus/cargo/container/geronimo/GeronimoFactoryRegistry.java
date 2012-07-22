@@ -72,6 +72,15 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
 
         deployableFactory.registerDeployable("geronimo2x", DeployableType.EJB,
             GeronimoEJB.class);
+
+        deployableFactory.registerDeployable("geronimo3x", DeployableType.WAR,
+            GeronimoWAR.class);
+
+        deployableFactory.registerDeployable("geronimo3x", DeployableType.EAR,
+            GeronimoEAR.class);
+
+        deployableFactory.registerDeployable("geronimo3x", DeployableType.EJB,
+            GeronimoEJB.class);
     }
 
     /**
@@ -90,6 +99,10 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
             GeronimoExistingLocalConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("geronimo2x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            Geronimo2xStandaloneLocalConfigurationCapability.class);
+
+        configurationCapabilityFactory.registerConfigurationCapability("geronimo3x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Geronimo2xStandaloneLocalConfigurationCapability.class);
     }
@@ -112,6 +125,10 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("geronimo2x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Geronimo2xStandaloneLocalConfiguration.class);
+
+        configurationFactory.registerConfiguration("geronimo3x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            Geronimo3xStandaloneLocalConfiguration.class);
     }
 
     /**
@@ -126,6 +143,9 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
             GeronimoInstalledLocalDeployer.class);
 
         deployerFactory.registerDeployer("geronimo2x", DeployerType.INSTALLED,
+            GeronimoInstalledLocalDeployer.class);
+
+        deployerFactory.registerDeployer("geronimo3x", DeployerType.INSTALLED,
             GeronimoInstalledLocalDeployer.class);
     }
 
@@ -152,6 +172,9 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
 
         containerFactory.registerContainer("geronimo2x", ContainerType.INSTALLED,
             Geronimo2xInstalledLocalContainer.class);
+
+        containerFactory.registerContainer("geronimo3x", ContainerType.INSTALLED,
+            Geronimo3xInstalledLocalContainer.class);
     }
 
     /**
@@ -166,6 +189,9 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
             J2EEContainerCapability.class);
 
         containerCapabilityFactory.registerContainerCapability("geronimo2x",
+            J2EEContainerCapability.class);
+
+        containerCapabilityFactory.registerContainerCapability("geronimo3x",
             J2EEContainerCapability.class);
     }
 

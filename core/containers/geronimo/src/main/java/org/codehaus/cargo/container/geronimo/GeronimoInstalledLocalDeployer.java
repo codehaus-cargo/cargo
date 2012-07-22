@@ -336,7 +336,17 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     private JvmLauncher createDeployerJava(String action)
     {
         JvmLauncher java = createJava();
-        java.setJarFile(new File(getInstalledContainer().getHome(), "bin/deployer.jar"));
+
+        if (getContainer() instanceof Geronimo3xInstalledLocalContainer)
+        {
+            ((Geronimo3xInstalledLocalContainer) getContainer()).prepareJvmLauncher(java);
+            java.setMainClass("org.apache.geronimo.cli.deployer.DeployerCLI");
+        }
+        else
+        {
+            java.setJarFile(new File(getInstalledContainer().getHome(), "bin/deployer.jar"));
+        }
+
         java.addAppArguments(action);
 
         return java;
@@ -372,7 +382,15 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
             java.addAppArguments("--offline");
         }
 
-        java.setJarFile(new File(getInstalledContainer().getHome(), "bin/deployer.jar"));
+        if (getContainer() instanceof Geronimo3xInstalledLocalContainer)
+        {
+            ((Geronimo3xInstalledLocalContainer) getContainer()).prepareJvmLauncher(java);
+            java.setMainClass("org.apache.geronimo.cli.deployer.DeployerCLI");
+        }
+        else
+        {
+            java.setJarFile(new File(getInstalledContainer().getHome(), "bin/deployer.jar"));
+        }
         java.addAppArguments(action);
 
         return java;

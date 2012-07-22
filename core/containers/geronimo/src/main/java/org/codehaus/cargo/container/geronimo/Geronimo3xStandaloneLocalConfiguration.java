@@ -29,12 +29,12 @@ import org.codehaus.cargo.container.geronimo.internal.AbstractGeronimoStandalone
 import org.codehaus.cargo.container.geronimo.internal.Geronimo2xStandaloneLocalConfigurationCapability;
 
 /**
- * Geronimo 2.x series standalone {@link org.codehaus.cargo.container.configuration.Configuration}
+ * Geronimo 3.x series standalone {@link org.codehaus.cargo.container.configuration.Configuration}
  * implementation.
  * 
  * @version $Id$
  */
-public class Geronimo2xStandaloneLocalConfiguration extends
+public class Geronimo3xStandaloneLocalConfiguration extends
     AbstractGeronimoStandaloneLocalConfiguration
 {
     /**
@@ -47,7 +47,7 @@ public class Geronimo2xStandaloneLocalConfiguration extends
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.geronimo.internal.AbstractGeronimoStandaloneLocalConfiguration#AbstractGeronimoStandaloneLocalConfiguration(String)
      */
-    public Geronimo2xStandaloneLocalConfiguration(String dir)
+    public Geronimo3xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
     }
@@ -72,26 +72,28 @@ public class Geronimo2xStandaloneLocalConfiguration extends
 
         FilterChain filterChain = createGeronimoFilterChain(container);
 
-        final String varDirectory = getHome() + "/var";
-        if (!getFileHandler().exists(varDirectory))
-        {
-            getFileHandler().createDirectory(getHome(), "/var");
+        final String containerHome = ((InstalledLocalContainer) container).getHome();
 
-            // The /var directory does not exist, create it
-            final String originalVarDirectory = ((InstalledLocalContainer) container).getHome()
-                + "/var";
-            getFileHandler().copyDirectory(originalVarDirectory, varDirectory);
+        getFileHandler().createDirectory(getHome(), "/deploy");
 
-            String securityDir = getFileHandler().createDirectory(getHome(), "/var/security");
-            getResourceUtils().copyResource(
-                RESOURCE_PATH + container.getId() + "/users.properties",
-                new File(securityDir, "users.properties"), filterChain, "ISO-8859-1");
-            getResourceUtils().copyResource(
-                RESOURCE_PATH + container.getId() + "/groups.properties",
-                new File(securityDir, "groups.properties"), filterChain, "ISO-8859-1");
+        getFileHandler().createDirectory(getHome(), "/etc");
+        getFileHandler().copyDirectory(containerHome + "/etc", getHome() + "/etc");
 
-            getFileHandler().createDirectory(getHome(), "/var/deploy");
-            getFileHandler().createDirectory(getHome(), "/var/temp");
-        }
+        getFileHandler().createDirectory(getHome(), "/hotbundles");
+
+        getFileHandler().createDirectory(getHome(), "/repository");
+
+        getFileHandler().createDirectory(getHome(), "/var");
+        getFileHandler().copyDirectory(containerHome + "/var", getHome() + "/var");
+
+        String securityDir = getFileHandler().createDirectory(getHome(), "/var/security");
+        getResourceUtils().copyResource(
+            RESOURCE_PATH + container.getId() + "/users.properties",
+            new File(securityDir, "users.properties"), filterChain, "ISO-8859-1");
+        getResourceUtils().copyResource(
+            RESOURCE_PATH + container.getId() + "/groups.properties",
+            new File(securityDir, "groups.properties"), filterChain, "ISO-8859-1");
+
+        getFileHandler().createDirectory(getHome(), "/var/temp");
     }
 }
