@@ -165,7 +165,7 @@
                   <artifactInstaller>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-distribution</artifactId>
-                    <version>7.6.4.v20120524</version>
+                    <version>7.6.5.v20120716</version>
                   </artifactInstaller>
                 </container>
               </configuration>
@@ -275,7 +275,7 @@
                 <container>
                   <containerId>glassfish3x</containerId>
                   <zipUrlInstaller>
-                    <url>http://download.java.net/glassfish/3.1.2/release/glassfish-3.1.2.zip</url>
+                    <url>http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2.zip</url>
                   </zipUrlInstaller>
                   <dependencies>
                     <!--
