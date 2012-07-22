@@ -312,7 +312,7 @@
                 <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.5.3.v20111011/jetty-distribution-7.5.3.v20111011.tar.gz</value>
                  -->
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.4.v20120524/jetty-distribution-7.6.4.v20120524.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.5.v20120716/jetty-distribution-7.6.5.v20120716.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty7x.java.home</name>
@@ -327,7 +327,7 @@
                 <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.0.3.v20111011/jetty-distribution-8.0.3.v20111011.tar.gz</value>
                  -->
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.4.v20120524/jetty-distribution-8.1.4.v20120524.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.5.v20120716/jetty-distribution-8.1.5.v20120716.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty8x.java.home</name>
@@ -388,7 +388,7 @@
                 <!--
                 <value>http://download.java.net/glassfish/3.0.1/release/glassfish-3.0.1.zip</value>
                  -->
-                <value>http://download.java.net/glassfish/3.1.2/release/glassfish-3.1.2.zip</value>
+                <value>http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2.zip</value>
               </property>
               <property>
                 <name>cargo.glassfish3x.java.home</name>
