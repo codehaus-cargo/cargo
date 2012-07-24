@@ -685,7 +685,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 && !getCargoProject().getPackaging().equalsIgnoreCase("war"))
             {
                 throw new MojoExecutionException("For all packaging other than war you need to "
-                    + "configure the container you wishes to use.");
+                    + "configure the container you wish to use.");
             }
 
             Container containerElement = new Container();
@@ -695,6 +695,18 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         // If no container id is specified, default to Jetty
         if (getContainerElement().getContainerId() == null)
         {
+            if (getContainerElement().getArtifactInstaller() != null)
+            {
+                throw new MojoExecutionException("You have specified no containerId but have "
+                    + "specified an artifactInstaller. Please check the plugin configuration.");
+            }
+
+            if (getContainerElement().getZipUrlInstaller() != null)
+            {
+                throw new MojoExecutionException("You have specified no containerId but have "
+                    + "specified a zipUrlInstaller. Please check the plugin configuration.");
+            }
+
             getContainerElement().setContainerId("jetty7x");
             getContainerElement().setType(ContainerType.INSTALLED);
 
