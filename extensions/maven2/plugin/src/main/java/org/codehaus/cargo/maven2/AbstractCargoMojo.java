@@ -188,6 +188,15 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * @readonly
      */
     private Settings settings;
+    
+    /**
+     * Cargo plugin version.
+     * 
+     * @parameter expression="${plugin.version}"
+     * @required
+     * @readonly
+     */
+    private String pluginVersion;
 
     /**
      * Calculates the container artifact ID for a given container ID. Note that all containers
@@ -726,7 +735,6 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         {
             String containerArtifactId =
                 AbstractCargoMojo.calculateContainerArtifactId(containerId);
-            String pluginVersion = this.getClass().getPackage().getImplementationVersion();
             Artifact containerArtifact = artifactFactory.createArtifact("org.codehaus.cargo",
                 containerArtifactId, pluginVersion, null, "jar");
             try
