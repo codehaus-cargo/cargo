@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Codehaus CARGO, copyright 2004-2011 Vincent Massol.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project name="cargo-ant-tasks">
+
+  <taskdef resource="cargo.tasks">
+    <classpath>
+      <fileset dir="${cargo-ant-tasks.directory}">
+        <include name="**/*.jar"/>
+      </fileset>
+    </classpath>
+  </taskdef>
+
+  <property name="catalina.root" value="${project.build.directory}/catalina-root"/>
+  <property name="catalina.base" value="${project.build.directory}/catalina-base"/>
+
+  <macrodef name="cargo-action">
+    <attribute name="action"/>
+
+    <sequential>
+      <cargo containerId="tomcat6x" action="@{action}">
+        <zipUrlInstaller
+          installURL="http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.35/bin/apache-tomcat-6.0.35.zip"
+          downloadDir="${basedir}/../../../../core/samples/java/installs"
+          extractDir="${catalina.root}">
+          <!--
+            If required, enter your proxy server settings here.
+
+          <proxy>
+            <host>someproxy</host>
+            <port>8080</port>
+            <user>alitokmen</user>
+            <password>secret</password>
+          </proxy>
+            -->
+        </zipUrlInstaller>
+        <configuration home="${catalina.base}">
+          <property name="cargo.servlet.port" value="12345"/>
+
+          <configfile file="${project.basedir}/src/test/resources" todir="test-configFile-directory"/>
+          <configfile file="${project.basedir}/src/test/resources/test-subfolder/test.properties" todir="test-configFile-file"/>
+
+          <file file="${project.basedir}/src/test/resources" todir="test-file-directory"/>
+          <file file="${project.basedir}/src/test/resources/test-subfolder/test.properties" todir="test-file-file"/>
+          <file file="${project.basedir}/src/test/resources" todir="test-file-configfile-directory" configfile="true"/>
+          <file file="${project.basedir}/src/test/resources/test-subfolder/test.properties" todir="test-file-configfile-file" configfile="true"/>
+        </configuration>
+      </cargo>
+    </sequential>
+  </macrodef>
+
+  <target name="configure">
+    <delete dir="${catalina.base}"/>
+    <cargo-action action="configure"/>
+  </target>
+
+</project>
