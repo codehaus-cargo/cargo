@@ -23,6 +23,7 @@ import org.apache.commons.vfs.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.util.CargoException;
@@ -137,7 +138,7 @@ public class CopyingDeployerTest extends MockObjectTestCase
     public void testShouldDeployExpanded()
     {
         AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
-            createContainer(createContainerCapability(DeployableType.WAR)));
+            createContainer(createContainerCapability(DeployableType.WAR), null));
         
         assertTrue(deployer.shouldDeployExpanded(DeployableType.WAR));
         deployer.setShouldDeployExpanded(DeployableType.WAR, true);
@@ -155,15 +156,13 @@ public class CopyingDeployerTest extends MockObjectTestCase
     public void testCanBeDeployedWhenTwoWARsInSameWebContext() throws Exception
     {
         AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
-            createContainer(createContainerCapability(DeployableType.WAR)));
+            createContainer(createContainerCapability(DeployableType.WAR), null));
 
         // Create WARs and make sure the wrapped files exist
         WAR war1 = new WAR("ram:///path1/warfile.war");
         this.fsManager.resolveFile(war1.getFile()).createFile();
         WAR war2 = new WAR("ram:///path2/warfile.war");
         this.fsManager.resolveFile(war2.getFile()).createFile();
-
-        deployer.setFileHandler(this.fileHandler);
 
         // Deploy the first WAR
         deployer.deploy(war1);
@@ -190,7 +189,7 @@ public class CopyingDeployerTest extends MockObjectTestCase
     public void testDeployWhenContainerDoesNotSupportDeployableType()
     {
         AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
-            createContainer(createContainerCapability(DeployableType.EAR)));
+            createContainer(createContainerCapability(DeployableType.EAR), null));
 
         try
         {
@@ -216,9 +215,7 @@ public class CopyingDeployerTest extends MockObjectTestCase
         war.setContext("context");
 
         AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
-            createContainer(createContainerCapability(DeployableType.WAR)));
-
-        deployer.setFileHandler(this.fileHandler);
+            createContainer(createContainerCapability(DeployableType.WAR), null));
 
         assertFalse(this.fsManager.resolveFile("ram:///webapps/context.war").exists());
         deployer.deploy(war);
@@ -235,9 +232,7 @@ public class CopyingDeployerTest extends MockObjectTestCase
         this.fsManager.resolveFile(war.getFile()).createFile();
 
         AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
-            createContainer(createContainerCapability(DeployableType.WAR)));
-
-        deployer.setFileHandler(this.fileHandler);
+            createContainer(createContainerCapability(DeployableType.WAR), null));
 
         assertFalse(this.fsManager.resolveFile("ram:///webapps/warfile.war").exists());
         deployer.deploy(war);
@@ -257,9 +252,7 @@ public class CopyingDeployerTest extends MockObjectTestCase
         this.fsManager.resolveFile(war.getFile()).createFolder();
 
         AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
-            createContainer(createContainerCapability(DeployableType.WAR)));
-
-        deployer.setFileHandler(this.fileHandler);
+            createContainer(createContainerCapability(DeployableType.WAR), null));
 
         assertFalse(this.fsManager.resolveFile("ram:///webapps/context").exists());
         deployer.deploy(war);
@@ -277,9 +270,7 @@ public class CopyingDeployerTest extends MockObjectTestCase
 
         AbstractCopyingInstalledLocalDeployer deployer =
             new TestableCopyingDeployerWithDifferentDirectory(
-                createContainer(createContainerCapability(DeployableType.WAR)));
-
-        deployer.setFileHandler(this.fileHandler);
+                createContainer(createContainerCapability(DeployableType.WAR), null));
 
         try
         {
@@ -288,7 +279,27 @@ public class CopyingDeployerTest extends MockObjectTestCase
         }
         catch (CargoException e)
         {
-            assertTrue(e.getMessage().contains("ram:///webapps-nonexisting"));
+            assertTrue("Incorrect message: " + e.getMessage(),
+                e.getMessage().contains("ram:///webapps-nonexisting"));
+        }
+    }
+
+    /**
+     * Test deployment when the container configuration does not exist (see CARGO-1131).
+     */
+    public void testDeployWhenContainerConfigurationDoesNotExist()
+    {
+        try
+        {
+            new TestableCopyingDeployer(createContainer(
+                createContainerCapability(DeployableType.WAR), "non-existing"));
+            fail("Should have thrown a ContainerException here");
+        }
+        catch (CargoException expected)
+        {
+            assertEquals("The container configuration directory \"ram:///non-existing\" does not "
+                + "exist. Please configure the container before attempting to perform any local "
+                + "deployment.", expected.getMessage());
         }
     }
 
@@ -310,14 +321,33 @@ public class CopyingDeployerTest extends MockObjectTestCase
     /**
      * Create mock container.
      * @param capability Container capability.
+     * @param home Container home.
      * @return Mock container for given capability.
      */
-    private InstalledLocalContainer createContainer(ContainerCapability capability)
+    private InstalledLocalContainer createContainer(ContainerCapability capability, String home)
     {
+        String homeString;
+        if (home == null)
+        {
+            homeString = "";
+        }
+        else
+        {
+            homeString = home;
+        }
+
+        Mock mockConfiguration = mock(LocalConfiguration.class);
         Mock mockContainer = mock(InstalledLocalContainer.class);
+
+        mockConfiguration.stubs().method("getHome").will(returnValue("ram:///" + homeString));
+        mockContainer.stubs().method("getConfiguration").will(
+            returnValue(mockConfiguration.proxy()));
+
         mockContainer.stubs().method("getCapability").will(returnValue(capability));
+        mockContainer.stubs().method("getFileHandler").will(returnValue(this.fileHandler));
         mockContainer.stubs().method("getLogger").will(returnValue(new NullLogger()));
         mockContainer.stubs().method("getId").will(returnValue("mycontainer"));
+
         return (InstalledLocalContainer) mockContainer.proxy();
     }
 }

@@ -87,6 +87,7 @@ public class JBossInstalledLocalContainerTest extends TestCase
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
+        this.fileHandler.createDirectory(CONTAINER_HOME + "/server", SERVER_CONFIG);
 
         LocalConfiguration configuration =
             new JBossStandaloneLocalConfiguration(CONFIGURATION_HOME);
@@ -94,6 +95,7 @@ public class JBossInstalledLocalContainerTest extends TestCase
 
         this.container = new JBoss4xInstalledLocalContainer(configuration);
         this.container.setHome(CONTAINER_HOME);
+        this.container.setFileHandler(this.fileHandler);
     }
 
     /**
@@ -157,8 +159,6 @@ public class JBossInstalledLocalContainerTest extends TestCase
     {
         this.fsManager.resolveFile("ram:///jboss/bin").createFolder();
 
-        this.container.setFileHandler(this.fileHandler);
-
         try
         {
             this.container.verifyJBossHome();
@@ -184,8 +184,6 @@ public class JBossInstalledLocalContainerTest extends TestCase
         this.fsManager.resolveFile("ram:///jboss/lib/something").createFile();
         this.fsManager.resolveFile("ram:///jboss/lib/endorsed/something").createFile();
         this.fsManager.resolveFile("ram:///jboss/server/something").createFile();
-
-        this.container.setFileHandler(this.fileHandler);
 
         try
         {
@@ -213,8 +211,6 @@ public class JBossInstalledLocalContainerTest extends TestCase
         this.fsManager.resolveFile("ram:///jboss/lib/endorsed/something").createFile();
         this.fsManager.resolveFile("ram:///jboss/server/something").createFile();
 
-        this.container.setFileHandler(this.fileHandler);
-
         try
         {
             this.container.verifyJBossHome();
@@ -236,8 +232,6 @@ public class JBossInstalledLocalContainerTest extends TestCase
     public void testVerifyJBossHomeWhenFileInsteadOfDirectory() throws Exception
     {
         this.fsManager.resolveFile("ram:///jboss/bin").createFile();
-
-        this.container.setFileHandler(this.fileHandler);
 
         try
         {
@@ -267,7 +261,6 @@ public class JBossInstalledLocalContainerTest extends TestCase
         this.fsManager.resolveFile("ram:///jboss/lib/endorsed/something").createFile();
         this.fsManager.resolveFile("ram:///jboss/server/something").createFile();
 
-        this.container.setFileHandler(this.fileHandler);
         this.container.verifyJBossHome();
     }
 }

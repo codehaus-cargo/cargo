@@ -88,11 +88,13 @@ public class WebLogicCopyingInstalledLocalDeployerTest extends TestCase
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
         this.fileHandler.delete(BEA_HOME);
+        this.fileHandler.createDirectory(DOMAIN_HOME, "");
 
         LocalConfiguration configuration = new WebLogic9xStandaloneLocalConfiguration(
                 DOMAIN_HOME);
         this.container = new WebLogic9xInstalledLocalContainer(configuration);
         this.container.setHome(WL_HOME);
+        this.container.setFileHandler(this.fileHandler);
         this.deployer = new WebLogicCopyingInstalledLocalDeployer(container);
     }
 

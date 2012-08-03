@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
-import org.codehaus.cargo.util.FileHandler;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -57,9 +56,6 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     public WebLogic8xConfigXmlInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
-        // using the same filehandler as the container will help pass unit tests
-        FileHandler handler = container.getFileHandler();
-        setFileHandler(handler);
     }
 
     /**

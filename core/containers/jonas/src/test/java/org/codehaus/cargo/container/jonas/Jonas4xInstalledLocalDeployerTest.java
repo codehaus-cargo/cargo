@@ -105,8 +105,7 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
 
         this.admin = mock(Jonas4xAdmin.class);
 
-        this.deployer = new Jonas4xInstalledLocalDeployer(container, (Jonas4xAdmin) admin.proxy(),
-            this.fileHandler);
+        this.deployer = new Jonas4xInstalledLocalDeployer(container, (Jonas4xAdmin) admin.proxy());
 
         this.factory = new DefaultDeployableFactory();
 

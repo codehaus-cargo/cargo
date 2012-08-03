@@ -25,7 +25,6 @@ package org.codehaus.cargo.container.jonas;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
-import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Static deployer that deploys WAR, EAR, EJB, RAR, File and Bundle to JOnAS.
@@ -46,23 +45,7 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      */
     public Jonas5xInstalledLocalDeployer(InstalledLocalContainer container)
     {
-        this(container, null);
-    }
-
-    /**
-     * Creation of a local deployer with a given file handler.
-     * 
-     * @param container the container to be used
-     * @param fileHandler the file handler to use, can be null to use the default file handler
-     * implementation
-     */
-    public Jonas5xInstalledLocalDeployer(InstalledLocalContainer container, FileHandler fileHandler)
-    {
         super(container);
-        if (fileHandler != null)
-        {
-            super.setFileHandler(fileHandler);
-        }
 
         // By default, warn the user about this deployer's limitations
         this.warn = true;

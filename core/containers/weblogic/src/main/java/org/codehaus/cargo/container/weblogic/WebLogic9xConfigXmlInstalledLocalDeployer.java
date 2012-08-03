@@ -69,7 +69,6 @@ public class WebLogic9xConfigXmlInstalledLocalDeployer extends AbstractInstalled
 
         // using the same filehandler as the container will help pass unit tests
         FileHandler handler = container.getFileHandler();
-        this.setFileHandler(handler);
         xmlTool.setFileHandler(handler);
     }
 

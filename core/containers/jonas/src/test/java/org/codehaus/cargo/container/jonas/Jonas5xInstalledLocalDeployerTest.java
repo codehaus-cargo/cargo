@@ -97,7 +97,7 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
         container.setFileHandler(this.fileHandler);
         container.setHome(JONAS_ROOT);
 
-        this.deployer = new Jonas5xInstalledLocalDeployer(container, this.fileHandler);
+        this.deployer = new Jonas5xInstalledLocalDeployer(container);
 
         this.factory = new DefaultDeployableFactory();
 

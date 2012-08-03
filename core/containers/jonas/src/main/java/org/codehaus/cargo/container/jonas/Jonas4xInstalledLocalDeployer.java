@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.jonas.internal.Jonas4xAdmin;
 import org.codehaus.cargo.container.jonas.internal.Jonas4xAdminImpl;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.util.CargoException;
-import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Static deployer that deploys WAR, EAR, EJB and RAR to JOnAS.
@@ -51,26 +50,19 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      */
     public Jonas4xInstalledLocalDeployer(InstalledLocalContainer container)
     {
-        this(container, new Jonas4xAdminImpl((Jonas4xInstalledLocalContainer) container), null);
+        this(container, new Jonas4xAdminImpl((Jonas4xInstalledLocalContainer) container));
     }
 
     /**
-     * Creation of a local depoyer with a given Jonas4xAdmin object and file handler.
+     * Creation of a local deployer with a given Jonas4xAdmin object and file handler.
      * 
      * @param container the container to be used
      * @param admin the JOnAS admin to use for deployment
-     * @param fileHandler the file handler to use, can be null to use the default file handler
-     * implementation
      */
-    public Jonas4xInstalledLocalDeployer(InstalledLocalContainer container, Jonas4xAdmin admin,
-        FileHandler fileHandler)
+    public Jonas4xInstalledLocalDeployer(InstalledLocalContainer container, Jonas4xAdmin admin)
     {
         super(container);
         this.admin = admin;
-        if (fileHandler != null)
-        {
-            super.setFileHandler(fileHandler);
-        }
     }
 
     /**

@@ -109,6 +109,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
         this.fileHandler.delete(BEA_HOME);
+        this.fileHandler.createDirectory(DOMAIN_HOME, "");
 
         LocalConfiguration configuration =
             new WebLogicStandaloneLocalConfiguration(DOMAIN_HOME);

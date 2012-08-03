@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.spi.deployer;
 
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
 
 /**
@@ -36,18 +36,20 @@ public abstract class AbstractLocalDeployer extends AbstractDeployer
     private LocalContainer container;
 
     /**
-     * File utility class.
-     */
-    private FileHandler fileHandler;
-
-    /**
      * @param container the local installed container into which to perform deployment operations
      */
     public AbstractLocalDeployer(LocalContainer container)
     {
         super(container);
         this.container = container;
-        this.fileHandler = new DefaultFileHandler();
+
+        String configurationHome = container.getConfiguration().getHome();
+        if (!getFileHandler().isDirectory(configurationHome))
+        {
+            throw new CargoException("The container configuration directory \""
+                + configurationHome + "\" does not exist. Please configure the container before "
+                + "attempting to perform any local deployment.");
+        }
     }
 
     /**
@@ -63,16 +65,6 @@ public abstract class AbstractLocalDeployer extends AbstractDeployer
      */
     protected FileHandler getFileHandler()
     {
-        return this.fileHandler;
-    }
-
-    /**
-     * @param fileHandler the Cargo file utility class to use. This method is useful for unit
-     * testing with Mock objects as it can be passed a test file handler that doesn't perform any
-     * real file action.
-     */
-    protected void setFileHandler(FileHandler fileHandler)
-    {
-        this.fileHandler = fileHandler;
+        return container.getFileHandler();
     }
 }
