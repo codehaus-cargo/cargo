@@ -275,12 +275,12 @@ public class CopyingDeployerTest extends MockObjectTestCase
         try
         {
             deployer.deploy(war);
-            fail();
+            fail("Should have thrown a CargoException here");
         }
-        catch (CargoException e)
+        catch (CargoException expected)
         {
-            assertTrue("Incorrect message: " + e.getMessage(),
-                e.getMessage().contains("ram:///webapps-nonexisting"));
+            assertTrue("Incorrect message: " + expected.getMessage(),
+                expected.getMessage().contains("ram:///webapps-nonexisting"));
         }
     }
 
@@ -293,13 +293,12 @@ public class CopyingDeployerTest extends MockObjectTestCase
         {
             new TestableCopyingDeployer(createContainer(
                 createContainerCapability(DeployableType.WAR), "non-existing"));
-            fail("Should have thrown a ContainerException here");
+            fail("Should have thrown a CargoException here");
         }
         catch (CargoException expected)
         {
-            assertEquals("The container configuration directory \"ram:///non-existing\" does not "
-                + "exist. Please configure the container before attempting to perform any local "
-                + "deployment.", expected.getMessage());
+            assertTrue("Incorrect message: " + expected.getMessage(),
+                expected.getMessage().contains("ram:///non-existing"));
         }
     }
 

@@ -48,7 +48,8 @@ public abstract class AbstractLocalDeployer extends AbstractDeployer
         {
             throw new CargoException("The container configuration directory \""
                 + configurationHome + "\" does not exist. Please configure the container before "
-                + "attempting to perform any local deployment.");
+                + "attempting to perform any local deployment. Read more on: "
+                + "http://cargo.codehaus.org/Local+Configuration");
         }
     }
 
