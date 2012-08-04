@@ -385,7 +385,7 @@ public class ConfluenceContainerDocumentationGenerator
             if (containerId.startsWith("geronimo"))
             {
                 output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
-                    + "| Changing the the container classpath is not supported on"
+                    + "| Changing the the container classpath is not supported on "
                     + "Apache Geronimo |");
             }
             else if (containerId.equals("jboss7x"))
