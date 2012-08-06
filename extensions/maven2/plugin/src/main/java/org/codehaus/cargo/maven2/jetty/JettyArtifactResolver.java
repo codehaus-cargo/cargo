@@ -191,11 +191,17 @@ public class JettyArtifactResolver
 
         List<Dependency> jetty8xDependencies = new ArrayList<Dependency>();
         jetty8xDependencies.add(new Dependency("org.mortbay.jetty", "servlet-api", "3.0.20100224"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-annotations",
+            "8.1.5.v20120716"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-continuation",
             "8.1.5.v20120716"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http",
             "8.1.5.v20120716"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io",
+            "8.1.5.v20120716"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jndi",
+            "8.1.5.v20120716"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-plus",
             "8.1.5.v20120716"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-util",
             "8.1.5.v20120716"));
@@ -209,6 +215,14 @@ public class JettyArtifactResolver
             "8.1.5.v20120716"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml",
             "8.1.5.v20120716"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty.orbit", "org.objectweb.asm",
+            "3.1.0.v200803061910"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty.orbit", "javax.mail.glassfish",
+            "1.4.1.v201005082020"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty.orbit", "javax.activation",
+            "1.1.0.v201105071233"));
+        jetty8xDependencies.add(new Dependency("org.eclipse.jetty.orbit", "javax.annotation",
+            "1.1.0.v201108011116"));
         jetty8xDependencies.add(new Dependency("javax.el", "el-api", "2.2"));
         jetty8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api",
             "7.0.29"));
