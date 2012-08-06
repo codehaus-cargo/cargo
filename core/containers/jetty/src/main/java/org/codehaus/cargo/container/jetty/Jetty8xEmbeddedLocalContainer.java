@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
@@ -41,6 +44,53 @@ public class Jetty8xEmbeddedLocalContainer extends Jetty7xEmbeddedLocalContainer
     public Jetty8xEmbeddedLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
+    }
+
+    @Override
+    protected void doStart() throws Exception
+    {
+        createServerObject();
+        configureJettyConnectors();
+        setSecurityRealm();
+        addJettyHandlers();
+        addAnnotationConfiguration();
+        addDeployables();
+        startJetty();
+    }
+
+    /**
+     * Add org.eclipse.jetty.annotations.AnnotationConfiguration to allow Servlet 3.0
+     * ServletContainerInitializers to be found.
+     * 
+     * @throws IllegalAccessException thrown if the configuration could not be set
+     * @throws InvocationTargetException thrown if the configuration could not be set
+     * @throws NoSuchMethodException thrown if the configuration could not be set
+     */
+    private void addAnnotationConfiguration() throws IllegalAccessException,
+        InvocationTargetException, NoSuchMethodException
+    {
+        setAttributeMethod().invoke(
+            getServer(),
+            new Object[] {"org.eclipse.jetty.webapp.configuration",
+                new String[] {
+                    "org.eclipse.jetty.webapp.WebInfConfiguration",
+                    "org.eclipse.jetty.webapp.WebXmlConfiguration",
+                    "org.eclipse.jetty.webapp.MetaInfConfiguration",
+                    "org.eclipse.jetty.webapp.FragmentConfiguration",
+                    "org.eclipse.jetty.annotations.AnnotationConfiguration",
+                    "org.eclipse.jetty.webapp.JettyWebXmlConfiguration"}});
+    }
+
+    /**
+     * Locate the method {@code org.eclipse.jetty.server.Server.setAttribute(String, Object)}
+     * 
+     * @return the setAttribute() method
+     * @throws NoSuchMethodException thrown if the configuration could not be set
+     */
+    private Method setAttributeMethod() throws NoSuchMethodException
+    {
+        return getServer().getClass().getMethod("setAttribute",
+            new Class[] {String.class, Object.class});
     }
 
     /**

@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.jetty;
 
 import java.io.File;
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.codehaus.cargo.container.ContainerException;
@@ -138,10 +139,27 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     @Override
     protected void doStart() throws Exception
     {
-        // Server server = new Server();
-        // server.setStopAtShutdown(true);
         createServerObject();
+        configureJettyConnectors();
+        setSecurityRealm();
+        addJettyHandlers();
+        addDeployables();
+        startJetty();
+    }
 
+    /**
+     * Configure Jetty connectors.
+     * 
+     * @throws ClassNotFoundException thrown if the connectors could not be configured
+     * @throws InstantiationException thrown if the connectors could not be configured
+     * @throws IllegalAccessException thrown if the connectors could not be configured
+     * @throws InvocationTargetException thrown if the connectors could not be configured
+     * @throws NoSuchMethodException thrown if the connectors could not be configured
+     */
+    protected void configureJettyConnectors() throws ClassNotFoundException,
+        InstantiationException, IllegalAccessException, InvocationTargetException,
+        NoSuchMethodException
+    {
         // Connector selectConnector = new SelectChannelConnector();
         // selectConnector.setPort(new
         // Integer(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
@@ -155,15 +173,24 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
 
         // server.addConnector(selectConnector);
         Class connectorClass = getClassLoader().loadClass("org.eclipse.jetty.server.Connector");
-        Object connectorArray =
-            Array.newInstance(connectorClass, 1);
+        Object connectorArray = Array.newInstance(connectorClass, 1);
         Array.set(connectorArray, 0, connector);
-        getServer().getClass().getMethod("addConnector", new Class[] {connectorClass}).invoke(
-            getServer(), new Object[] {connector});
+        getServer().getClass().getMethod("addConnector", new Class[] {connectorClass})
+            .invoke(getServer(), new Object[] {connector});
+    }
 
-        // Set security realm
-        setSecurityRealm();
-
+    /**
+     * Add Jetty handlers.
+     * 
+     * @throws ClassNotFoundException thrown if the handlers could not be added
+     * @throws InstantiationException thrown if the handlers could not be added
+     * @throws IllegalAccessException thrown if the handlers could not be added
+     * @throws InvocationTargetException thrown if the handlers could not be added
+     * @throws NoSuchMethodException thrown if the handlers could not be added
+     */
+    protected void addJettyHandlers() throws ClassNotFoundException, InstantiationException,
+        IllegalAccessException, InvocationTargetException, NoSuchMethodException
+    {
         // Set up the context handler structure
         // HandlerCollection handlers = new HandlerCollection();
         // ContextHandlerCollection contextHandlers = new ContextHandlerCollection();
@@ -175,8 +202,8 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
             getClassLoader().loadClass("org.eclipse.jetty.server.handler.HandlerCollection")
                 .newInstance();
         contextHandlers =
-            getClassLoader().loadClass("org.eclipse.jetty.server.handler.ContextHandlerCollection")
-                .newInstance();
+            getClassLoader().loadClass(
+                "org.eclipse.jetty.server.handler.ContextHandlerCollection").newInstance();
         Object defaultHandler =
             getClassLoader().loadClass("org.eclipse.jetty.server.handler.DefaultHandler")
                 .newInstance();
@@ -185,8 +212,8 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
         Array.set(handlerArray, 1, defaultHandler);
         handlers.getClass().getMethod("setHandlers", new Class[] {handlerArray.getClass()})
             .invoke(handlers, new Object[] {handlerArray});
-        getServer().getClass().getMethod("setHandler", new Class[] {handlerClass}).invoke(
-            getServer(), new Object[] {handlers});
+        getServer().getClass().getMethod("setHandler", new Class[] {handlerClass})
+            .invoke(getServer(), new Object[] {handlers});
 
         // Method to add a webappcontext to jetty
         addHandlerMethod =
@@ -195,7 +222,15 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
         // Method to remove a webappcontext from jetty
         removeHandlerMethod =
             contextHandlers.getClass().getMethod("removeHandler", new Class[] {handlerClass});
+    }
 
+    /**
+     * Add the cargo deployables and the Cargo Ping Check.
+     * 
+     * @throws Exception thrown if the deployables could not be added
+     */
+    protected void addDeployables() throws Exception
+    {
         // Deploy statically deployed WARs
         for (Deployable deployable : getConfiguration().getDeployables())
         {
@@ -217,7 +252,13 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
 
         addHandler(createHandler("/cargocpc", new File(getConfiguration().getHome(),
             "cargocpc.war").getPath()));
+    }
 
+    /**
+     * Starts the Jetty server.
+     */
+    protected void startJetty()
+    {
         JettyExecutorThread jettyRunner = new JettyExecutorThread(getServer(), true);
         jettyRunner.setLogger(getLogger());
         jettyRunner.start();
@@ -321,7 +362,7 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
      * 
      * @throws Exception in case of error
      */
-    private void setSecurityRealm() throws Exception
+    protected void setSecurityRealm() throws Exception
     {
         if (getConfiguration().getPropertyValue(ServletPropertySet.USERS) != null)
         {
