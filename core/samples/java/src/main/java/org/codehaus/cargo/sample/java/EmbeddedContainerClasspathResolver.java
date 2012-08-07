@@ -116,7 +116,7 @@ public class EmbeddedContainerClasspathResolver
         {
             List<URL> urls = new ArrayList<URL>();
 
-            if (containerId.equals("jetty7x"))
+            if (containerId.equals("jetty7x") || containerId.equals("jetty8x"))
             {
                 String xerces = System.getProperty("cargo.testdata.xerces-jars");
                 if (xerces == null)
