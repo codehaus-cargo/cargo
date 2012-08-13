@@ -28,14 +28,14 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
  * 
  * @version $Id$
  */
-public class WebLogic9x10xAnd103xStandaloneLocalConfigurationCapability extends
+public class WebLogic9x10x103x12xStandaloneLocalConfigurationCapability extends
     WebLogicStandaloneLocalConfigurationCapability
 {
 
     /**
      * WebLogic 9x supports additional features not available in 8x.
      */
-    public WebLogic9x10xAnd103xStandaloneLocalConfigurationCapability()
+    public WebLogic9x10x103x12xStandaloneLocalConfigurationCapability()
     {
         super();
 

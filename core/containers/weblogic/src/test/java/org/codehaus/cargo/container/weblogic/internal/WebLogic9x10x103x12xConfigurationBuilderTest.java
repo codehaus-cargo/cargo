@@ -17,40 +17,36 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.weblogic;
+package org.codehaus.cargo.container.weblogic.internal;
+
+import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 
 /**
- * WebLogic 10.3.x standalone
- * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
- * WebLogic 10.3.x is only slightly different to configure then WebLogic 10.x.
+ * Integration tests for {@link WebLogic9x10xAnd103xConfigurationBuilder}.
  * 
  * @version $Id$
  */
-public class WebLogic103xStandaloneLocalConfiguration extends
-    WebLogic10xStandaloneLocalConfiguration
+public class WebLogic9x10x103x12xConfigurationBuilderTest extends
+    WebLogic8xConfigurationBuilderTest
 {
-
     /**
-     * {@inheritDoc}
-     * 
-     * @see WebLogic10xStandaloneLocalConfiguration#WebLogic10xStandaloneLocalConfiguration(String)
-     */
-    public WebLogic103xStandaloneLocalConfiguration(String dir)
-    {
-        super(dir);
-        setProperty(WebLogicPropertySet.CONFIGURATION_VERSION, "10.3.0.0");
-        setProperty(WebLogicPropertySet.DOMAIN_VERSION, "10.3.0.0");
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Object#toString()
+     * {@inheritdoc}
+     * @return {@link WebLogic9x10xAnd103xConfigurationBuilder}.
      */
     @Override
-    public String toString()
+    protected ConfigurationBuilder createConfigurationBuilder()
     {
-        return "WebLogic 10.3.x Standalone Configuration";
+        return new WebLogic9x10x103x12xConfigurationBuilder("server");
     }
 
+    /**
+     * {@inheritdoc}
+     * @return {@link WebLogic9x10xAnd103xConfigurationChecker}.
+     */
+    @Override
+    protected ConfigurationChecker createConfigurationChecker()
+    {
+        return new WebLogic9x10x103x12xConfigurationChecker("server");
+    }
 }

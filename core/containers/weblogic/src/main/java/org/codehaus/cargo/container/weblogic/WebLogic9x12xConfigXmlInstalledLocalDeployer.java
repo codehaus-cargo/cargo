@@ -42,7 +42,7 @@ import org.dom4j.QName;
  * 
  * @version $Id$
  */
-public class WebLogic9xConfigXmlInstalledLocalDeployer extends AbstractInstalledLocalDeployer
+public class WebLogic9x12xConfigXmlInstalledLocalDeployer extends AbstractInstalledLocalDeployer
 {
     /**
      * The path under which the container resources are stored in the JAR.
@@ -56,16 +56,29 @@ public class WebLogic9xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     private Dom4JUtil xmlTool;
 
     /**
+     * XML namespace to use.
+     */
+    private String namespace;
+
+    /**
      * {@inheritDoc}
      * 
      * @param container container to configure
      */
-    public WebLogic9xConfigXmlInstalledLocalDeployer(InstalledLocalContainer container)
+    public WebLogic9x12xConfigXmlInstalledLocalDeployer(InstalledLocalContainer container)
     {
         super(container);
 
         xmlTool = new Dom4JUtil();
-        xmlTool.getNamespaces().put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
+        if (container instanceof WebLogic12xInstalledLocalContainer)
+        {
+            namespace = "http://xmlns.oracle.com/weblogic/domain";
+        }
+        else
+        {
+            namespace = "http://www.bea.com/ns/weblogic/920/domain";
+        }
+        xmlTool.getNamespaces().put("weblogic", namespace);
 
         // using the same filehandler as the container will help pass unit tests
         FileHandler handler = container.getFileHandler();
@@ -201,9 +214,7 @@ public class WebLogic9xConfigXmlInstalledLocalDeployer extends AbstractInstalled
      */
     protected Element createElementForDeployableInDomain(Deployable deployable, Element domain)
     {
-        QName appDeploymentQName =
-            new QName("app-deployment", new Namespace("",
-                "http://www.bea.com/ns/weblogic/920/domain"));
+        QName appDeploymentQName = new QName("app-deployment", new Namespace("", namespace));
         Element appDeployment = domain.addElement(appDeploymentQName);
         String id = createIdForDeployable(deployable);
         // the name element is a unique identifier in the config.xml file. that's why this is being

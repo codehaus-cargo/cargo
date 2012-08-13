@@ -35,7 +35,7 @@ import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic8xConfigurationBuilder;
-import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10xAnd103xConfigurationBuilder;
+import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xConfigurationBuilder;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.util.Dom4JUtil;
 import org.codehaus.cargo.util.FileHandler;
@@ -139,8 +139,8 @@ public class WebLogic9xStandaloneLocalConfiguration extends
             getFileHandler().append(configDir, "config.xml"), getFileHandler(), filterChain, 
             "UTF-8");
 
-        WebLogic9xConfigXmlInstalledLocalDeployer deployer =
-            new WebLogic9xConfigXmlInstalledLocalDeployer((InstalledLocalContainer) container);
+        WebLogic9x12xConfigXmlInstalledLocalDeployer deployer =
+            new WebLogic9x12xConfigXmlInstalledLocalDeployer((InstalledLocalContainer) container);
         deployer.deploy(getDeployables());
 
         getResourceUtils().copyResource(
@@ -269,7 +269,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
     {
         String serverName =
             container.getConfiguration().getPropertyValue(WebLogicPropertySet.SERVER);
-        return new WebLogic9x10xAnd103xConfigurationBuilder(serverName);
+        return new WebLogic9x10x103x12xConfigurationBuilder(serverName);
     }
 
     /**

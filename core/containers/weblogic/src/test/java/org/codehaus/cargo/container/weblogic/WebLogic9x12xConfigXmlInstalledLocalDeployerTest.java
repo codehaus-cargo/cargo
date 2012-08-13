@@ -59,7 +59,7 @@ import org.dom4j.QName;
  * 
  * @version $Id$
  */
-public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
+public class WebLogic9x12xConfigXmlInstalledLocalDeployerTest extends TestCase
 {
 
     /**
@@ -91,7 +91,7 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
     /**
      * Deployer.
      */
-    private WebLogic9xConfigXmlInstalledLocalDeployer deployer;
+    private WebLogic9x12xConfigXmlInstalledLocalDeployer deployer;
 
     /**
      * File system manager.
@@ -144,7 +144,7 @@ public class WebLogic9xConfigXmlInstalledLocalDeployerTest extends TestCase
         this.container = new WebLogic9xInstalledLocalContainer(configuration);
         this.container.setHome(WL_HOME);
         this.container.setFileHandler(this.fileHandler);
-        this.deployer = new WebLogic9xConfigXmlInstalledLocalDeployer(container);
+        this.deployer = new WebLogic9x12xConfigXmlInstalledLocalDeployer(container);
         this.resourceUtils = new ResourceUtils();
         this.document = DocumentHelper.createDocument();
         this.domain = document.addElement("domain");

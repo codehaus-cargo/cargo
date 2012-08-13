@@ -519,6 +519,34 @@
               </property>
 
               <!--
+                WebLogic 12.x
+
+                Notes:
+
+                WebLogic 12 runs on JDK 1.6 and JDK 7
+
+                There is no non-interactive download link for WL 12.x.  Here is is a link that requires license agreement:
+                   * http://oracle.com/technetwork/middleware/ias/downloads/wls-main-097127.html
+
+                Once you install this, set the cargo.weblogic103x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.weblogic12x.home</name>
+                    <value>C:/Oracle/Middleware/wlserver_12.1</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.weblogic12x.home</name>
+                <value>${cargo.weblogic12x.home}</value>
+              </property>
+              <property>
+                <name>cargo.weblogic12x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <!--
                 OC4J 9.x
 
                 Notes:
@@ -1037,7 +1065,7 @@
     <profile>
       <id>all-datasource</id>
       <properties>
-        <cargo.containers>jrun4x, oc4j9x, resin2x, resin3x, resin31x, tomcat4x, tomcat5x, tomcat6x, tomcat7x, weblogic8x, weblogic9x, weblogic10x, weblogic103x</cargo.containers>
+        <cargo.containers>jrun4x, oc4j9x, resin2x, resin3x, resin31x, tomcat4x, tomcat5x, tomcat6x, tomcat7x, weblogic8x, weblogic9x, weblogic10x, weblogic103x, weblogic12x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -1340,9 +1368,15 @@
       </properties>
     </profile>
     <profile>
+      <id>weblogic12x</id>
+      <properties>
+        <cargo.containers>weblogic12x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
       <id>all-weblogic</id>
       <properties>
-        <cargo.containers>weblogic8x, weblogic9x, weblogic10x, weblogic103x</cargo.containers>
+        <cargo.containers>weblogic8x, weblogic9x, weblogic10x, weblogic103x, weblogic12x</cargo.containers>
       </properties>
     </profile>
   </profiles>

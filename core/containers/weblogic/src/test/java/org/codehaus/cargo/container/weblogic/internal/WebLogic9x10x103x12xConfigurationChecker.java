@@ -37,7 +37,7 @@ import org.custommonkey.xmlunit.XMLUnit;
  * 
  * @version $Id$
  */
-public class WebLogic9x10xAnd103xConfigurationChecker extends
+public class WebLogic9x10x103x12xConfigurationChecker extends
     WebLogic8xConfigurationChecker
 {
 
@@ -50,7 +50,7 @@ public class WebLogic9x10xAnd103xConfigurationChecker extends
      * Creates the WebLogic XML namespace. {@inheritdoc}
      * @param serverName Server name.
      */
-    public WebLogic9x10xAnd103xConfigurationChecker(String serverName)
+    public WebLogic9x10x103x12xConfigurationChecker(String serverName)
     {
         super(serverName);
         Map<String, String> m = new HashMap<String, String>();

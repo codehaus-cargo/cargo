@@ -33,7 +33,7 @@ import org.dom4j.Element;
  * 
  * @version $Id$
  */
-public class WebLogic9x10xAnd103xConfigurationBuilder extends
+public class WebLogic9x10x103x12xConfigurationBuilder extends
     WebLogic8xConfigurationBuilder
 {
     /**
@@ -41,7 +41,7 @@ public class WebLogic9x10xAnd103xConfigurationBuilder extends
      * 
      * @param serverName which server the resources configured here will be bound to.
      */
-    public WebLogic9x10xAnd103xConfigurationBuilder(String serverName)
+    public WebLogic9x10x103x12xConfigurationBuilder(String serverName)
     {
         super(serverName);
     }

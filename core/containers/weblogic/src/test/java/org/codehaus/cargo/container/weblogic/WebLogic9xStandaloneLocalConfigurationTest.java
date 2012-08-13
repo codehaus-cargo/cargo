@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10xAnd103xConfigurationChecker;
+import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xConfigurationChecker;
 import org.codehaus.cargo.util.Dom4JUtil;
 import org.custommonkey.xmlunit.NamespaceContext;
 import org.custommonkey.xmlunit.SimpleNamespaceContext;
@@ -93,7 +93,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
-        return new WebLogic9x10xAnd103xConfigurationChecker("server");
+        return new WebLogic9x10x103x12xConfigurationChecker("server");
     }
 
     /**
