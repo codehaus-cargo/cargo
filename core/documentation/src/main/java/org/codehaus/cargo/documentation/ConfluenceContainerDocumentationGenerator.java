@@ -234,7 +234,8 @@ public class ConfluenceContainerDocumentationGenerator
         for (String containerId : containerIds.keySet())
         {
             String sortedContainerId = containerId.
-                replace("10", "9z").
+                replace("10", "9y").
+                replace("12", "9z").
                 replace("x", "0x");
             sortedContainerIds.put(sortedContainerId, containerId);
         }
