@@ -44,7 +44,7 @@ public abstract class AbstractLocalDeployer extends AbstractDeployer
         this.container = container;
 
         String configurationHome = container.getConfiguration().getHome();
-        if (!getFileHandler().isDirectory(configurationHome))
+        if (configurationHome != null && !getFileHandler().isDirectory(configurationHome))
         {
             throw new CargoException("The container configuration directory \""
                 + configurationHome + "\" does not exist. Please configure the container before "
