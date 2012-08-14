@@ -48,7 +48,7 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
     @Override
     protected LocalConfiguration createLocalConfiguration(String home)
     {
-        return new WebLogicStandaloneLocalConfiguration(home);
+        return new WebLogic8xStandaloneLocalConfiguration(home);
     }
 
     /**

@@ -34,7 +34,7 @@ import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
  * 
  * @version $Id$
  */
-public class WebLogicStandaloneLocalConfigurationCapability extends
+public class WebLogic8xStandaloneLocalConfigurationCapability extends
     AbstractStandaloneLocalConfigurationCapability
 {
     /**
@@ -45,7 +45,7 @@ public class WebLogicStandaloneLocalConfigurationCapability extends
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public WebLogicStandaloneLocalConfigurationCapability()
+    public WebLogic8xStandaloneLocalConfigurationCapability()
     {
         super();
 

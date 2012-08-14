@@ -38,7 +38,7 @@ import org.codehaus.cargo.util.VFSFileHandler;
  * 
  * @version $Id$
  */
-public class WebLogicCopyingInstalledLocalDeployerTest extends TestCase
+public class WebLogic9x10x103x12xCopyingInstalledLocalDeployerTest extends TestCase
 {
     /**
      * BEA_HOME
@@ -63,7 +63,7 @@ public class WebLogicCopyingInstalledLocalDeployerTest extends TestCase
     /**
      * Deployer.
      */
-    private WebLogicCopyingInstalledLocalDeployer deployer;
+    private WebLogic9x10x103x12xCopyingInstalledLocalDeployer deployer;
 
     /**
      * File system manager.
@@ -95,7 +95,7 @@ public class WebLogicCopyingInstalledLocalDeployerTest extends TestCase
         this.container = new WebLogic9xInstalledLocalContainer(configuration);
         this.container.setHome(WL_HOME);
         this.container.setFileHandler(this.fileHandler);
-        this.deployer = new WebLogicCopyingInstalledLocalDeployer(container);
+        this.deployer = new WebLogic9x10x103x12xCopyingInstalledLocalDeployer(container);
     }
 
     /**

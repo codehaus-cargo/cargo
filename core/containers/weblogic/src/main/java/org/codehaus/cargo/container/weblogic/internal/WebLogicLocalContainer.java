@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.weblogic;
+package org.codehaus.cargo.container.weblogic.internal;
 
 import org.codehaus.cargo.container.LocalContainer;
 

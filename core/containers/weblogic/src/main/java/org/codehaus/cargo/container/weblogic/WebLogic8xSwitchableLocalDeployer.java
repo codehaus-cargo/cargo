@@ -49,7 +49,7 @@ public class WebLogic8xSwitchableLocalDeployer extends AbstractSwitchableLocalDe
     public WebLogic8xSwitchableLocalDeployer(InstalledLocalContainer container)
     {
         super(container);
-        hotDeployer = new WebLogicCopyingInstalledLocalDeployer(container);
+        hotDeployer = new WebLogic9x10x103x12xCopyingInstalledLocalDeployer(container);
         coldDeployer = new WebLogic8xConfigXmlInstalledLocalDeployer(container);
     }
 

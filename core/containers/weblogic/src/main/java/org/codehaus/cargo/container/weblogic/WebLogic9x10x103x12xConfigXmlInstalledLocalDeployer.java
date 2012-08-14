@@ -42,7 +42,8 @@ import org.dom4j.QName;
  * 
  * @version $Id$
  */
-public class WebLogic9x12xConfigXmlInstalledLocalDeployer extends AbstractInstalledLocalDeployer
+public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer
+    extends AbstractInstalledLocalDeployer
 {
     /**
      * The path under which the container resources are stored in the JAR.
@@ -65,7 +66,7 @@ public class WebLogic9x12xConfigXmlInstalledLocalDeployer extends AbstractInstal
      * 
      * @param container container to configure
      */
-    public WebLogic9x12xConfigXmlInstalledLocalDeployer(InstalledLocalContainer container)
+    public WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer(InstalledLocalContainer container)
     {
         super(container);
 

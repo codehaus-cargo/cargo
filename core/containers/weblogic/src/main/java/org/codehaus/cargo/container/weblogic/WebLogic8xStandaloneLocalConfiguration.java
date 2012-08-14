@@ -30,7 +30,8 @@ import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic8xConfigurationBuilder;
-import org.codehaus.cargo.container.weblogic.internal.WebLogicStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
+import org.codehaus.cargo.container.weblogic.internal.WebLogic8xStandaloneLocalConfigurationCapability;
 
 /**
  * WebLogic standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -38,7 +39,7 @@ import org.codehaus.cargo.container.weblogic.internal.WebLogicStandaloneLocalCon
  * 
  * @version $Id$
  */
-public class WebLogicStandaloneLocalConfiguration extends
+public class WebLogic8xStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder implements
     WebLogicConfiguration
 {
@@ -46,14 +47,14 @@ public class WebLogicStandaloneLocalConfiguration extends
      * Capability of the WebLogic standalone configuration.
      */
     private static ConfigurationCapability capability =
-        new WebLogicStandaloneLocalConfigurationCapability();
+        new WebLogic8xStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
      * 
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
-    public WebLogicStandaloneLocalConfiguration(String dir)
+    public WebLogic8xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
 

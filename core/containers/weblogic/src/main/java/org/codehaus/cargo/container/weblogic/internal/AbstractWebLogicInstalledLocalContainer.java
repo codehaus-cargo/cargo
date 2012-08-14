@@ -34,7 +34,6 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
-import org.codehaus.cargo.container.weblogic.WebLogicLocalContainer;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 
 /**

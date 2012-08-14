@@ -36,7 +36,8 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic8xConfigurationBuilder;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xConfigurationBuilder;
-import org.codehaus.cargo.container.weblogic.internal.WebLogicStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
+import org.codehaus.cargo.container.weblogic.internal.WebLogic8xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.util.Dom4JUtil;
 import org.codehaus.cargo.util.FileHandler;
 import org.dom4j.Document;
@@ -57,7 +58,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
      * Capability of the WebLogic standalone configuration.
      */
     private static ConfigurationCapability capability =
-        new WebLogicStandaloneLocalConfigurationCapability();
+        new WebLogic8xStandaloneLocalConfigurationCapability();
 
     /**
      * used to manipulate the config.xml document.
@@ -139,8 +140,9 @@ public class WebLogic9xStandaloneLocalConfiguration extends
             getFileHandler().append(configDir, "config.xml"), getFileHandler(), filterChain, 
             "UTF-8");
 
-        WebLogic9x12xConfigXmlInstalledLocalDeployer deployer =
-            new WebLogic9x12xConfigXmlInstalledLocalDeployer((InstalledLocalContainer) container);
+        WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer deployer =
+            new WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer(
+                (InstalledLocalContainer) container);
         deployer.deploy(getDeployables());
 
         getResourceUtils().copyResource(

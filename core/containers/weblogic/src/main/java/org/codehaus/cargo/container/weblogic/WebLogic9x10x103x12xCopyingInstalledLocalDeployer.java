@@ -26,6 +26,7 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
+import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
 
 /**
  * Static deployer that deploys WARs to the WebLogic auto-deploy directory. EARs and RARs are not
@@ -33,7 +34,7 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
  * 
  * @version $Id$
  */
-public class WebLogicCopyingInstalledLocalDeployer extends
+public class WebLogic9x10x103x12xCopyingInstalledLocalDeployer extends
         AbstractCopyingInstalledLocalDeployer
 {
     /**
@@ -41,7 +42,7 @@ public class WebLogicCopyingInstalledLocalDeployer extends
      * 
      * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(InstalledLocalContainer)
      */
-    public WebLogicCopyingInstalledLocalDeployer(
+    public WebLogic9x10x103x12xCopyingInstalledLocalDeployer(
             InstalledLocalContainer container)
     {
         super(container);

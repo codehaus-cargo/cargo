@@ -112,7 +112,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
         this.fileHandler.createDirectory(DOMAIN_HOME, "");
 
         LocalConfiguration configuration =
-            new WebLogicStandaloneLocalConfiguration(DOMAIN_HOME);
+            new WebLogic8xStandaloneLocalConfiguration(DOMAIN_HOME);
         this.container = new WebLogic8xInstalledLocalContainer(configuration);
         this.container.setHome(WL_HOME);
         this.container.setFileHandler(this.fileHandler);

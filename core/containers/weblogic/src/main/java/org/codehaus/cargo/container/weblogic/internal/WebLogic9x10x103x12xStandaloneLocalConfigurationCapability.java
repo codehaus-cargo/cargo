@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
  * @version $Id$
  */
 public class WebLogic9x10x103x12xStandaloneLocalConfigurationCapability extends
-    WebLogicStandaloneLocalConfigurationCapability
+    WebLogic8xStandaloneLocalConfigurationCapability
 {
 
     /**

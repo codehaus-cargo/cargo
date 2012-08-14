@@ -27,14 +27,15 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
 
 /**
- * WebLogic existing configuration implementation. The configuration home must point to a valid
+ * WebLogic 8.x existing configuration implementation. The configuration home must point to a valid
  * WebLogic domain directory.
  * 
  * @version $Id$
  */
-public class WebLogicExistingLocalConfiguration extends
+public class WebLogic8xExistingLocalConfiguration extends
         AbstractExistingLocalConfiguration implements WebLogicConfiguration
 {
     /**
@@ -47,7 +48,7 @@ public class WebLogicExistingLocalConfiguration extends
      * {@inheritDoc}
      * @see AbstractExistingLocalConfiguration#AbstractExistingLocalConfiguration(String)
      */
-    public WebLogicExistingLocalConfiguration(String dir)
+    public WebLogic8xExistingLocalConfiguration(String dir)
     {
         super(dir);
 

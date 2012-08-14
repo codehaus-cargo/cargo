@@ -24,21 +24,23 @@ import java.io.IOException;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
 
 /**
- * WebLogic existing configuration implementation for WebLogic9x style domains. The configuration
- * home must point to a valid WebLogic domain directory.
+ * WebLogic existing configuration implementation for WebLogic 9.x, 10.x, 10.3.x and 12.x style
+ * domains. The configuration home must point to a valid WebLogic domain directory.
  * 
  * @version $Id$
  */
-public class WebLogic9xExistingLocalConfiguration extends WebLogicExistingLocalConfiguration
+public class WebLogic9x10x103x12xExistingLocalConfiguration
+    extends WebLogic8xExistingLocalConfiguration
 {
     /**
      * {@inheritDoc}
      * 
      * @see WebLogicExistingLocalConfiguration#WebLogicExistingLocalConfiguration(String)
      */
-    public WebLogic9xExistingLocalConfiguration(String dir)
+    public WebLogic9x10x103x12xExistingLocalConfiguration(String dir)
     {
         super(dir);
     }
@@ -63,8 +65,9 @@ public class WebLogic9xExistingLocalConfiguration extends WebLogicExistingLocalC
         }
 
         // use a copying deployer until we have an XML-based one
-        WebLogicCopyingInstalledLocalDeployer deployer =
-            new WebLogicCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
+        WebLogic9x10x103x12xCopyingInstalledLocalDeployer deployer =
+            new WebLogic9x10x103x12xCopyingInstalledLocalDeployer(
+                (InstalledLocalContainer) container);
         deployer.deploy(getDeployables());
 
         // Deploy the cargocpc web-app by copying the WAR file
