@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-maven2</artifactId>
-    <version>1.2.4</version>
+    <version>1.2.5-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-sample-maven2-jetty8x-embedded-test</artifactId>
   <name>Cargo Samples - Maven 2 - Jetty 8.x embedded container test</name>
