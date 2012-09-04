@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.sample.java.validator;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.codehaus.cargo.container.ContainerType;
 
 /**
@@ -29,17 +32,18 @@ import org.codehaus.cargo.container.ContainerType;
 public class StartsWithContainerValidator implements Validator
 {
     /**
-     * Container identifier prefix.
+     * Container identifier prefixes.
      */
-    private String containerIdPrefix;
+    private List<String> containerIdPrefixes;
 
     /**
      * Saves attributes.
      * @param containerIdPrefix Container identifier prefix.
+    this.containerIdPrefix = containerIdPrefix;
      */
-    public StartsWithContainerValidator(String containerIdPrefix)
+    public StartsWithContainerValidator(String... containerIdPrefix)
     {
-        this.containerIdPrefix = containerIdPrefix;
+        this.containerIdPrefixes = Arrays.asList(containerIdPrefix);
     }
 
     /**
@@ -47,6 +51,14 @@ public class StartsWithContainerValidator implements Validator
      */
     public boolean validate(String containerId, ContainerType type)
     {
-        return containerId.startsWith(this.containerIdPrefix);
+        for (String containerIdPrefix : this.containerIdPrefixes)
+        {
+            if (containerId.startsWith(containerIdPrefix))
+            {
+                return true;
+            }
+        }
+        
+        return false; 
     }
 }
