@@ -45,7 +45,7 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 /**
  * Test for Tomcat TLS configuration options.
  * 
- * @version $Id: TomcatPackagerTest.java 2844 2011-04-04 18:30:25Z alitokmen $
+ * @version $Id$
  */
 public class TomcatTLSTest extends AbstractCargoTestCase
 {
