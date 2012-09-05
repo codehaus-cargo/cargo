@@ -514,8 +514,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         // corresponds to that identifier, and copy all non-set settings (cargo.remote.uri, ...).
         //
         // This feature helps people out in centralising their configurations.
-        Map<String, String> properties = configuration.getProperties();
-        for (Map.Entry<String, String> property : properties.entrySet())
+        for (Map.Entry<String, String> property : configuration.getProperties().entrySet())
         {
             String propertyKey = (String) property.getKey();
             if ("cargo.server.settings".equals(propertyKey))
@@ -539,13 +538,10 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                             .getChildren();
                         for (Xpp3Dom option : globalConfigurationOptions)
                         {
-                            if (properties.get(option.getName()) == null)
-                            {
-                                properties.put(option.getName(), option.getValue());
-                                getLog().debug(
-                                    "\tInjected property: " + option.getName() + '='
-                                        + option.getValue());
-                            }
+                            configuration.setProperty(option.getName(), option.getValue());
+                            getLog().debug(
+                                "\tInjected property: " + option.getName() + '='
+                                    + option.getValue());
                         }
                         break;
                     }
