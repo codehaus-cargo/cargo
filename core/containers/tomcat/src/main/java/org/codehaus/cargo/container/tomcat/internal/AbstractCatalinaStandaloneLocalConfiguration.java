@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.ResourceSupport;
@@ -58,14 +57,6 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder implements ResourceSupport
 {
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see TomcatStandaloneLocalConfigurationCapability
-     */
-    private static ConfigurationCapability capability =
-        new TomcatStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
@@ -361,16 +352,6 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     public String toString()
     {
         return "Catalina Standalone Configuration";
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
-     */
-    public ConfigurationCapability getCapability()
-    {
-        return capability;
     }
 
     /**

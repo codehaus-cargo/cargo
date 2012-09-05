@@ -56,49 +56,46 @@ public interface TomcatPropertySet
      */
     String HTTP_SECURE = "cargo.tomcat.httpSecure";
 
-    
     /**
      * The file path for the key store file.
      */
     String CONNECTOR_KEY_STORE_FILE = "cargo.tomcat.connector.keystoreFile";
-    
+
     /**
      * The type of the key store file.
      */
     String CONNECTOR_KEY_STORE_TYPE = "cargo.tomcat.connector.keystoreType";
-    
+
     /**
      * The password for the server key store.
      */
     String CONNECTOR_KEY_STORE_PASSWORD = "cargo.tomcat.connector.keystorePass";
-    
+
     /**
      * The alias of the key in the key store.
      */
     String CONNECTOR_KEY_ALIAS = "cargo.tomcat.connector.keyAlias";
-    
-    
+
     /**
      * The file path for the trust store file.
      */
     String CONNECTOR_TRUST_STORE_FILE = "cargo.tomcat.connector.truststoreFile";
-    
+
     /**
      * The type of the trust store file.
      */
     String CONNECTOR_TRUST_STORE_TYPE = "cargo.tomcat.connector.truststoreType";
-    
+
     /**
      * The password for the server trust store.
      */
     String CONNECTOR_TRUST_STORE_PASSWORD = "cargo.tomcat.connector.truststorePass";
-    
-    
+
     /**
      * The requirements for client authentication.
      */
     String CONNECTOR_CLIENT_AUTH = "cargo.tomcat.connector.clientAuth";
-    
+
     /**
      * The password for the server key store.
      */

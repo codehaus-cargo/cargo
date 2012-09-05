@@ -24,12 +24,14 @@ import java.util.Properties;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.internal.util.PropertyUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat4xConfigurationBuilder;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat4xStandaloneLocalConfigurationCapability;
 
 /**
  * StandAloneLocalConfiguration that is appropriate for Tomcat 4.x containers.
@@ -42,11 +44,29 @@ public class Tomcat4xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      * 
+     * @see TomcatStandaloneLocalConfigurationCapability
+     */
+    private static ConfigurationCapability capability =
+        new Tomcat4xStandaloneLocalConfigurationCapability();
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see AbstractCatalinaStandaloneLocalConfiguration#AbstractCatalinaStandaloneLocalConfiguration(String)
      */
     public Tomcat4xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
+     */
+    public ConfigurationCapability getCapability()
+    {
+        return capability;
     }
 
     /**

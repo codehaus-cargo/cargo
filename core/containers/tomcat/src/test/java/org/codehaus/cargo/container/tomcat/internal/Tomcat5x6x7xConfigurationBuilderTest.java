@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
  * 
  * @version $Id$
  */
-public class Tomcat5And6xConfigurationBuilderTest extends Tomcat4xConfigurationBuilderTest
+public class Tomcat5x6x7xConfigurationBuilderTest extends Tomcat4xConfigurationBuilderTest
 {
     /**
      * @return {@link Tomcat5And6xConfigurationBuilder}.
@@ -35,7 +35,7 @@ public class Tomcat5And6xConfigurationBuilderTest extends Tomcat4xConfigurationB
     @Override
     protected ConfigurationBuilder createConfigurationBuilder()
     {
-        return new Tomcat5And6xConfigurationBuilder();
+        return new Tomcat5x6x7xConfigurationBuilder();
     }
 
     /**
@@ -44,6 +44,6 @@ public class Tomcat5And6xConfigurationBuilderTest extends Tomcat4xConfigurationB
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
-        return new Tomcat5And6xConfigurationChecker();
+        return new Tomcat5x6x7xConfigurationChecker();
     }
 }

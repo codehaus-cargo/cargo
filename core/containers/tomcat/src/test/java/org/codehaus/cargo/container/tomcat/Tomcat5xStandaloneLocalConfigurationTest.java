@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfigurationTest;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat5And6xConfigurationChecker;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xConfigurationChecker;
 import org.codehaus.cargo.util.Dom4JUtil;
 
 import org.dom4j.Document;
@@ -80,7 +80,7 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
-        return new Tomcat5And6xConfigurationChecker();
+        return new Tomcat5x6x7xConfigurationChecker();
     }
 
     /**

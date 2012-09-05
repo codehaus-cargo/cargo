@@ -25,9 +25,10 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.packager.PackagerType;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat4xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.TomcatExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.TomcatRuntimeConfigurationCapability;
-import org.codehaus.cargo.container.tomcat.internal.TomcatStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
@@ -71,7 +72,7 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
     {
         configurationCapabilityFactory.registerConfigurationCapability("tomcat4x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            TomcatStandaloneLocalConfigurationCapability.class);
+            Tomcat4xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomcat4x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             TomcatExistingLocalConfigurationCapability.class);
@@ -81,10 +82,10 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("tomcat5x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            TomcatStandaloneLocalConfigurationCapability.class);
+            Tomcat5x6x7xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomcat5x",
             ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            TomcatStandaloneLocalConfigurationCapability.class);
+            Tomcat5x6x7xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomcat5x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             TomcatExistingLocalConfigurationCapability.class);
@@ -97,7 +98,7 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("tomcat6x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            TomcatStandaloneLocalConfigurationCapability.class);
+            Tomcat5x6x7xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomcat6x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             TomcatExistingLocalConfigurationCapability.class);
@@ -107,7 +108,7 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("tomcat7x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            TomcatStandaloneLocalConfigurationCapability.class);
+            Tomcat5x6x7xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomcat7x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             TomcatExistingLocalConfigurationCapability.class);

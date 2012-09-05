@@ -24,12 +24,12 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.custommonkey.xmlunit.XMLAssert;
 
 /**
- * Contains XML logic used to validate the XML output of a Tomcat 5 and 6.x DataSource
+ * Contains XML logic used to validate the XML output of a Tomcat 5.x, 6.x and 7.x DataSource
  * configuration.
  * 
  * @version $Id$
  */
-public class Tomcat5And6xConfigurationChecker extends Tomcat4xConfigurationChecker
+public class Tomcat5x6x7xConfigurationChecker extends Tomcat4xConfigurationChecker
 {
     /**
      * {@inheritdoc}

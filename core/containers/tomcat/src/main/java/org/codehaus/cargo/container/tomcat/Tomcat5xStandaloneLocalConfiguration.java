@@ -27,6 +27,7 @@ import java.util.Properties;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -35,7 +36,8 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat5And6xConfigurationBuilder;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xConfigurationBuilder;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xStandaloneLocalConfigurationCapability;
 
 /**
  * StandAloneLocalConfiguration that is appropriate for Tomcat 5.x containers.
@@ -50,6 +52,14 @@ public class Tomcat5xStandaloneLocalConfiguration extends
 {
 
     /**
+     * {@inheritDoc}
+     * 
+     * @see TomcatStandaloneLocalConfigurationCapability
+     */
+    private static ConfigurationCapability capability =
+        new Tomcat5x6x7xStandaloneLocalConfigurationCapability();
+
+    /**
      * XPath expression for identifying the "Connector" element in the server.xml file.
      */
     private static final String CONNECTOR_XPATH = 
@@ -59,7 +69,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     /**
      * used to insert DataSources and Resources into the configuration file.
      */
-    private Tomcat5And6xConfigurationBuilder configurationBuilder;
+    private Tomcat5x6x7xConfigurationBuilder configurationBuilder;
 
     /**
      * {@inheritDoc}
@@ -71,9 +81,20 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         super(dir);
 
         setProperty(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH, "true");
-        configurationBuilder = new Tomcat5And6xConfigurationBuilder();
+        setProperty(TomcatPropertySet.HTTP_SECURE, "false");
+        configurationBuilder = new Tomcat5x6x7xConfigurationBuilder();
 
         addXmlReplacements();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
+     */
+    public ConfigurationCapability getCapability()
+    {
+        return capability;
     }
 
     /**

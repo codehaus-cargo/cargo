@@ -23,20 +23,20 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType
 import org.codehaus.cargo.container.configuration.entry.Resource;
 
 /**
- * Constructs xml elements needed to configure DataSource for Tomcat5 and 6x. Note that this
- * implementation converts DataSources into Resources and then uses an appropriate
+ * Constructs xml elements needed to configure DataSource for Tomcat 5.x, 6x and 7.x. Note that
+ * this implementation converts DataSources into Resources and then uses an appropriate
  * {@link org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder} to create the
  * configuration.
  * 
  * @version $Id$
  */
-public class Tomcat5And6xConfigurationBuilder extends AbstractTomcatConfigurationBuilder
+public class Tomcat5x6x7xConfigurationBuilder extends AbstractTomcatConfigurationBuilder
 {
 
     /**
      * generates {@link #typeToFactory}
      */
-    public Tomcat5And6xConfigurationBuilder()
+    public Tomcat5x6x7xConfigurationBuilder()
     {
         super();
         typeToFactory.put(ConfigurationEntryType.DATASOURCE,
