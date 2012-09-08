@@ -539,9 +539,17 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                         for (Xpp3Dom option : globalConfigurationOptions)
                         {
                             configuration.setProperty(option.getName(), option.getValue());
-                            getLog().debug(
-                                "\tInjected property: " + option.getName() + '='
-                                    + option.getValue());
+                            if (option.getName().contains("password"))
+                            {
+                                getLog().debug(
+                                    "\tInjected password property: " + option.getName() + "= ***");
+                            }
+                            else
+                            {
+                                getLog().debug(
+                                    "\tInjected property: " + option.getName() + " = "
+                                        + option.getValue());
+                            }
                         }
                         break;
                     }
