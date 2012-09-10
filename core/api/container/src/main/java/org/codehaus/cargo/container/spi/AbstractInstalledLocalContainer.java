@@ -501,8 +501,12 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         String runtimeArgs = getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS);
         if (runtimeArgs != null)
         {
-            String[] arguments = runtimeArgs.split(" ");
-            java.addAppArguments(arguments);
+            // Replace new lines and tabs, so that Maven or ANT plugins can
+            // specify multiline runtime arguments in their XML files
+            runtimeArgs = runtimeArgs.replace('\n', ' ');
+            runtimeArgs = runtimeArgs.replace('\r', ' ');
+            runtimeArgs = runtimeArgs.replace('\t', ' ');
+            java.addAppArgumentLine(runtimeArgs);
         }
     }
 
