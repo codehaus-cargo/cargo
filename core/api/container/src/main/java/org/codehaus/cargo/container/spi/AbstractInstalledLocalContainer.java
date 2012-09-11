@@ -496,7 +496,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * Add command line arguments to the java command.
      * @param java The java command
      */
-    private void addRuntimeArgs(JvmLauncher java)
+    protected void addRuntimeArgs(JvmLauncher java)
     {
         String runtimeArgs = getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS);
         if (runtimeArgs != null)

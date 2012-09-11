@@ -153,6 +153,17 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
     }
 
     /**
+     * {@inheritDoc}. As JBoss 7.x needs to have the runtime AFTER the arguments passed to the main
+     * class, we need to set the associated argument line when starting container (and not when
+     * initializing the JVM launcher).
+     */
+    @Override
+    protected void addRuntimeArgs(JvmLauncher java)
+    {
+        // Nothing
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -167,6 +178,17 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
             "-logmodule", "org.jboss.logmanager",
             "-jaxpmodule", "javax.xml.jaxp-provider",
             "org.jboss.as.standalone");
+
+        String runtimeArgs = getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS);
+        if (runtimeArgs != null)
+        {
+            // Replace new lines and tabs, so that Maven or ANT plugins can
+            // specify multiline runtime arguments in their XML files
+            runtimeArgs = runtimeArgs.replace('\n', ' ');
+            runtimeArgs = runtimeArgs.replace('\r', ' ');
+            runtimeArgs = runtimeArgs.replace('\t', ' ');
+            java.addAppArgumentLine(runtimeArgs);
+        }
 
         java.start();
     }

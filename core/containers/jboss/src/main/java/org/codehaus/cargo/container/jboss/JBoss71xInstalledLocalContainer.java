@@ -23,6 +23,7 @@ import java.io.File;
 import org.codehaus.cargo.container.ContainerException;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
@@ -85,6 +86,17 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
             "-mp", getHome() + "/modules",
             "-jaxpmodule", "javax.xml.jaxp-provider",
             "org.jboss.as.standalone");
+
+        String runtimeArgs = getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS);
+        if (runtimeArgs != null)
+        {
+            // Replace new lines and tabs, so that Maven or ANT plugins can
+            // specify multiline runtime arguments in their XML files
+            runtimeArgs = runtimeArgs.replace('\n', ' ');
+            runtimeArgs = runtimeArgs.replace('\r', ' ');
+            runtimeArgs = runtimeArgs.replace('\t', ' ');
+            java.addAppArgumentLine(runtimeArgs);
+        }
 
         java.start();
     }
