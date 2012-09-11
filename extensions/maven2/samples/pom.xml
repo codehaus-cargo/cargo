@@ -79,6 +79,7 @@
       <modules>
         <module>jetty8x-embedded-test</module>
         <module>tomcat7x-context-test</module>
+        <module>tomcat7x-systemProperty-test</module>
       </modules>
     </profile>
 
