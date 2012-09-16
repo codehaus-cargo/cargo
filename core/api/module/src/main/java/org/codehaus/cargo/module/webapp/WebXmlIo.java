@@ -29,6 +29,7 @@ import java.io.InputStream;
 
 import org.codehaus.cargo.module.AbstractDescriptorIo;
 import org.codehaus.cargo.module.DescriptorType;
+import org.codehaus.cargo.util.CargoException;
 import org.jdom.DocType;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -184,8 +185,12 @@ public final class WebXmlIo extends AbstractDescriptorIo
         // which one it is.
 
         WebXmlTypeAwareParser handler = new WebXmlTypeAwareParser(theInput, theEntityResolver);
-        return handler.parse();
-
+        WebXml result = handler.parse();
+        if (result == null)
+        {
+            throw new CargoException("Parsing the web.xml returned null");
+        }
+        return result;
     }
 
 }
