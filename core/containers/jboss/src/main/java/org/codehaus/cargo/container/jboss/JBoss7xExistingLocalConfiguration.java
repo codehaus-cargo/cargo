@@ -65,9 +65,24 @@ public class JBoss7xExistingLocalConfiguration extends AbstractExistingLocalConf
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
-        InstalledLocalContainer jbossContainer = (InstalledLocalContainer) container;
+        InstalledLocalContainer jbossContainer = 
+            (InstalledLocalContainer) container;
 
-        File deployDir = new File(getHome(), "deployments");
+        File deployDir;
+        String altDeployDir = container.getConfiguration().
+            getPropertyValue(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR);
+        if (altDeployDir != null && !altDeployDir.equals(""))
+        {
+            container.getLogger().info("Using "
+                + "non-default deployment target directory "
+                + altDeployDir,
+                JBoss7xExistingLocalConfiguration.class.getName());
+            deployDir = new File(getHome(), altDeployDir);
+        }
+        else
+        {
+            deployDir = new File(getHome(), "deployments");
+        }
 
         if (!deployDir.exists())
         {

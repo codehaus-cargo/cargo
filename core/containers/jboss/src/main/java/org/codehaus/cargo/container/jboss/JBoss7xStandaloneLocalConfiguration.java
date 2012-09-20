@@ -311,8 +311,22 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
             getFileHandler().delete(tmpDir);
         }
 
-        // Deploy the deployables into the deployments directory
-        String deployments = getFileHandler().append(getHome(), "deployments");
+        // Deploy the deployables into the deployments directory        
+        String deployments;
+        String altDeployDir = container.getConfiguration().
+            getPropertyValue(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR);
+        if (altDeployDir != null && !altDeployDir.equals(""))
+        {
+            container.getLogger().info("Using non-default deployment target directory " 
+                + altDeployDir,
+                JBoss7xStandaloneLocalConfiguration.class.getName());
+            deployments = getFileHandler().append(getHome(), altDeployDir);
+        }
+        else
+        {
+            deployments = getFileHandler().append(getHome(), "deployments");
+        }
+         
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             new File(deployments, "cargocpc.war"));
         JBoss7xInstalledLocalDeployer deployer = new JBoss7xInstalledLocalDeployer(container);

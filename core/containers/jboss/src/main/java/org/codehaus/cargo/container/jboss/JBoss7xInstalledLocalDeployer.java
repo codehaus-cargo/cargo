@@ -48,7 +48,24 @@ public class JBoss7xInstalledLocalDeployer extends JBossInstalledLocalDeployer
     @Override
     public String getDeployableDir()
     {
-        return getFileHandler().append(getContainer().getConfiguration().getHome(), "deployments");
+        String altDeployDir = getContainer().getConfiguration().
+        getPropertyValue(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR);
+        if (altDeployDir != null && !"".equals(altDeployDir))
+        {
+            getContainer().getLogger().info("Using "
+                + "non-default deployment target directory "
+                + altDeployDir,
+                JBoss7xInstalledLocalDeployer.class.getName());
+            return getFileHandler().append(getContainer().
+                getConfiguration().getHome(),
+                altDeployDir);
+        }
+        else
+        {
+            return getFileHandler().append(getContainer().
+                getConfiguration().getHome()
+                , "deployments");
+        }
     }
 
     /**

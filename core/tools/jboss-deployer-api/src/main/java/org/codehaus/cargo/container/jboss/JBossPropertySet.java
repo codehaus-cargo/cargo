@@ -137,5 +137,10 @@ public interface JBossPropertySet
      * milliseconds.
      */
     String REMOTEDEPLOY_TIMEOUT = "cargo.jboss.remotedeploy.timeout";
+    
+    /**
+     * Deployment target directory to use instead of the default <code>deployments</code> directory.
+     */
+    String ALTERNATIVE_DEPLOYMENT_DIR = "cargo.jboss.deployment.dir";    
 
 }
