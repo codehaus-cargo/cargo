@@ -21,8 +21,10 @@ package org.codehaus.cargo.container.geronimo;
 
 import java.io.File;
 
+import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.geronimo.internal.Geronimo3xContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
@@ -39,6 +41,11 @@ public class Geronimo3xInstalledLocalContainer extends Geronimo1xInstalledLocalC
      * Geronimo 3.x series unique id.
      */
     public static final String ID = "geronimo3x";
+
+    /**
+     * Capability of the Geronimo Container.
+     */
+    private ContainerCapability capability = new Geronimo3xContainerCapability();
 
     /**
      * {@inheritDoc}
@@ -67,6 +74,16 @@ public class Geronimo3xInstalledLocalContainer extends Geronimo1xInstalledLocalC
     public String getName()
     {
         return "Geronimo " + getVersion("3.x");
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.Container#getCapability()
+     */
+    @Override
+    public ContainerCapability getCapability()
+    {
+        return this.capability;
     }
 
     /**

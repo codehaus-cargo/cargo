@@ -26,6 +26,7 @@ import org.apache.tools.ant.taskdefs.Copy;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.geronimo.deployable.GeronimoDeployable;
@@ -90,7 +91,16 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     @Override
     public void deploy(Deployable deployable)
     {
-        JvmLauncher java = createAdminDeployerJava("deploy");
+        JvmLauncher java;
+        if (deployable.getType() == DeployableType.BUNDLE)
+        {
+            java = createAdminDeployerJava("install-bundle");
+            java.addAppArguments("--start");
+        }
+        else
+        {
+            java = createAdminDeployerJava("deploy");
+        }
         addPathArgument(java, deployable);
         String deployableId = getModuleId(deployable);
 
@@ -115,7 +125,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
      * @param deployable the deployable being installed
      * @see org.codehaus.cargo.container.deployer.Deployer#deploy(org.codehaus.cargo.container.deployable.Deployable)
      */
-    public void distribute(Deployable deployable)
+    protected void distribute(Deployable deployable)
     {
         JvmLauncher java = createDeployerJava("distribute");
         addPathArgument(java, deployable);
@@ -152,7 +162,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
      * @param deployableId the ID of the deployable being started
      * @see org.codehaus.cargo.container.deployer.Deployer#start(org.codehaus.cargo.container.deployable.Deployable)
      */
-    public void start(String deployableId)
+    protected void start(String deployableId)
     {
         if (deployableId == null)
         {
@@ -193,7 +203,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
      * @param deployableId the ID of the deployable being stopped
      * @see org.codehaus.cargo.container.deployer.Deployer#stop(org.codehaus.cargo.container.deployable.Deployable)
      */
-    public void stop(String deployableId)
+    protected void stop(String deployableId)
     {
         if (deployableId == null)
         {
@@ -226,16 +236,26 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     @Override
     public void undeploy(Deployable deployable)
     {
-        undeploy(getModuleId(deployable));
+        String command;
+        if (deployable.getType() == DeployableType.BUNDLE)
+        {
+            command = "uninstall-bundle";
+        }
+        else
+        {
+            command = "undeploy";
+        }
+        undeploy(getModuleId(deployable), command);
     }
 
     /**
      * Undeploy a deployable with the given ID.
      * 
      * @param deployableId the ID of the deployable being undeployed
+     * @param command Command name
      * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
-    public void undeploy(String deployableId)
+    protected void undeploy(String deployableId, String command)
     {
         if (deployableId == null)
         {

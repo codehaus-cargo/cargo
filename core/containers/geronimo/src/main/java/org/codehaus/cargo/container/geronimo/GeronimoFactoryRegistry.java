@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.geronimo.deployable.GeronimoEJB;
 import org.codehaus.cargo.container.geronimo.deployable.GeronimoWAR;
 import org.codehaus.cargo.container.geronimo.internal.Geronimo1xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.geronimo.internal.Geronimo2xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.geronimo.internal.Geronimo3xContainerCapability;
 import org.codehaus.cargo.container.geronimo.internal.GeronimoExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
@@ -204,7 +205,7 @@ public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
             J2EEContainerCapability.class);
 
         containerCapabilityFactory.registerContainerCapability("geronimo3x",
-            J2EEContainerCapability.class);
+            Geronimo3xContainerCapability.class);
     }
 
 }
