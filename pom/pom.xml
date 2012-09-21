@@ -237,6 +237,15 @@
         <role>Java Developer</role>
       </roles>
     </developer>
+    <developer>
+      <name>Simon Payne</name>
+      <id>sipayne2012</id>
+      <email />
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>    
   </developers>
   <contributors>
     <contributor>
