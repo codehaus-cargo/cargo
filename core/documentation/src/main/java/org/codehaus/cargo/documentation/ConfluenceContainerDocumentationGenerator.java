@@ -755,7 +755,7 @@ public class ConfluenceContainerDocumentationGenerator
         {
             output.append("| [Installed Deployer]                    | ");
             output.append("(/) {{" + computedFQCN(this.deployerFactory.getDeployerClass(
-                containerId, DeployerType.INSTALLED).getName()) + "}} | (x) | (/) | |");
+                containerId, DeployerType.INSTALLED).getName()) + "}} | (/) | (/) | |");
         }
         else
         {
@@ -767,7 +767,7 @@ public class ConfluenceContainerDocumentationGenerator
         {
             output.append("| [Embedded Deployer]                     | ");
             output.append("(/) {{" + computedFQCN(this.deployerFactory.getDeployerClass(
-                containerId, DeployerType.EMBEDDED).getName()) + "}} | (x) | (/) | |");
+                containerId, DeployerType.EMBEDDED).getName()) + "}} | (/) | (/) | |");
         }
         else
         {
