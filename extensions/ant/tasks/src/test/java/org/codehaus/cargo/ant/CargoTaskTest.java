@@ -172,7 +172,7 @@ public class CargoTaskTest extends TestCase
         }
         catch (BuildException expected)
         {
-            final String messageStart = "Valid actions for local containers are: ";
+            final String messageStart = "Unknown action: ";
             assertTrue(expected.getMessage() + " does not start with: " + messageStart,
                 expected.getMessage().startsWith(messageStart));
         }

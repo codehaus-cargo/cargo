@@ -112,10 +112,10 @@ public class CargoTask extends Task
     private static final String ACTION_REDEPLOY = "redeploy";
 
     /**
-     * All actions for remote containers.
+     * All actions for deployers (local or remote).
      * @see #setAction(String)
      */
-    private static final List<String> REMOTE_ACTIONS = Arrays.asList(new String[] {
+    private static final List<String> DEPLOYER_ACTIONS = Arrays.asList(new String[] {
         ACTION_DEPLOY, ACTION_UNDEPLOY, ACTION_REDEPLOY
     });
 
@@ -542,7 +542,7 @@ public class CargoTask extends Task
             return;
         }
 
-        if (getContainer().getType().isLocal())
+        if (LOCAL_ACTIONS.contains(getAction()))
         {
             final LocalContainer localContainer = (LocalContainer) getContainer();
 
@@ -629,7 +629,7 @@ public class CargoTask extends Task
                 else
                 {
                     throw new BuildException("Unknown action [" + getAction()
-                        + "] for remote container");
+                        + "] for deployer");
                 }
             }
         }
@@ -945,27 +945,21 @@ public class CargoTask extends Task
         if (getId() == null && getAction() == null)
         {
             throw new BuildException("You must specify an [action] attribute with values "
-                + LOCAL_ACTIONS + " (for local containers) or " + REMOTE_ACTIONS
-                + " (for remote containers)");
+                + LOCAL_ACTIONS + " (for local containers) or " + DEPLOYER_ACTIONS
+                + " (for local or remote container deployments)");
         }
 
         if (getId() == null)
         {
-            if (getContainer().getType().isLocal())
+            if (!LOCAL_ACTIONS.contains(getAction()) && !DEPLOYER_ACTIONS.contains(getAction()))
             {
-                if (!LOCAL_ACTIONS.contains(getAction()))
-                {
-                    throw new BuildException("Valid actions for local containers are: "
-                        + LOCAL_ACTIONS);
-                }
+                throw new BuildException("Unknown action: " + DEPLOYER_ACTIONS);
             }
-            else
+
+            if (!getContainer().getType().isLocal() && !DEPLOYER_ACTIONS.contains(getAction()))
             {
-                if (!REMOTE_ACTIONS.contains(getAction()))
-                {
-                    throw new BuildException("Valid actions for remote containers are: "
-                        + REMOTE_ACTIONS);
-                }
+                throw new BuildException("Valid actions for remote containers are: "
+                    + DEPLOYER_ACTIONS);
             }
         }
 
@@ -973,8 +967,8 @@ public class CargoTask extends Task
             && getContainer().getType() == ContainerType.INSTALLED
             && ((InstalledLocalContainer) getContainer()).getHome() == null)
         {
-            throw new BuildException("You must specify either a [home] attribute pointing "
-                + "to the location where the " + getContainer().getName()
+            throw new BuildException("You must specify either a [home] attribute pointing"
+                + " to the location where the " + getContainer().getName()
                 + " is installed, or a nested [zipurlinstaller] element");
         }
     }
