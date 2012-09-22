@@ -39,6 +39,7 @@
     <module>remoteDeploy-test</module>
     <module>runMojo-test</module>
     <module>uberwar-test</module>
+    <module>websphere-test</module>
   </modules>
 
   <build>
