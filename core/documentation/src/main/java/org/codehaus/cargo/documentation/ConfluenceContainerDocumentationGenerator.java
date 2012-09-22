@@ -58,6 +58,7 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.resin.ResinPropertySet;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
+import org.codehaus.cargo.container.websphere.WebSpherePropertySet;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerCapabilityFactory;
@@ -139,7 +140,8 @@ public class ConfluenceContainerDocumentationGenerator
         JRun4xPropertySet.class,
         ResinPropertySet.class,
         TomcatPropertySet.class,
-        WebLogicPropertySet.class
+        WebLogicPropertySet.class,
+        WebSpherePropertySet.class
     };
 
     /**

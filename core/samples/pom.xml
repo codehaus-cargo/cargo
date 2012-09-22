@@ -547,6 +547,34 @@
               </property>
 
               <!--
+                WebSphere 8.5.x
+
+                Notes:
+
+                WebLogic 8.5 runs on JDK 1.6 and JDK 7
+
+                There is no non-interactive download link for WebSphere 8.5.x.  Here is is a link that requires license agreement:
+                   * http://www.ibm.com/developerworks/downloads/ws/was/
+
+                Once you install this, set the cargo.websphere85x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.websphere85x.home</name>
+                    <value>C:/Program Files/IBM/WebSphere/AppServer</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.websphere85x.home</name>
+                <value>${cargo.websphere85x.home}</value>
+              </property>
+              <property>
+                <name>cargo.websphere85x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <!--
                 OC4J 9.x
 
                 Notes:
@@ -1377,6 +1405,19 @@
       <id>all-weblogic</id>
       <properties>
         <cargo.containers>weblogic8x, weblogic9x, weblogic10x, weblogic103x, weblogic12x</cargo.containers>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>websphere85x</id>
+      <properties>
+        <cargo.containers>websphere85x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>all-websphere</id>
+      <properties>
+        <cargo.containers>websphere85x</cargo.containers>
       </properties>
     </profile>
   </profiles>
