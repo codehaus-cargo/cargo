@@ -342,6 +342,23 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
+        else if (containerId.startsWith("websphere"))
+        {
+            output.append("{note}");
+            output.append("CARGO's WebSphere support is in very early stages of development:");
+            output.append(LINE_SEPARATOR);
+            output.append("* Only a very limited number of tests have been run so far");
+            output.append(LINE_SEPARATOR);
+            output.append("* The standalone container uses the WebSphere profile manager and ");
+            output.append("seems not to be very stable for now");
+            output.append(LINE_SEPARATOR);
+            output.append("* Many CARGO features, such as deployment of EARs or datasources, ");
+            output.append("have not been implemented yet for WebSphere");
+            output.append(LINE_SEPARATOR);
+            output.append("{note}");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+        }
 
         output.append(generateContainerFeaturesText(containerId));
         output.append(LINE_SEPARATOR);
@@ -402,6 +419,12 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) "
                     + "| JARs are added to the JBoss 7.1.x classpath using modules and tested "
                     + "with JDBC drivers only |");
+            }
+            else if (containerId.startsWith("websphere"))
+            {
+                output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
+                    + "| Changing the the container classpath is not supported on "
+                    + "IBM WebSphere |");
             }
             else
             {
