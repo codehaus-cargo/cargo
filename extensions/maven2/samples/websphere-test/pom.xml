@@ -69,7 +69,6 @@
                 <type>existing</type>
                 <properties>
                   <cargo.java.home>${cargo.websphere85x.home}/java/jre</cargo.java.home>
-                  <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
                   <cargo.websphere.profile>AppSrv02</cargo.websphere.profile>
                   <cargo.websphere.node>virtualbox-xpNode01</cargo.websphere.node>
                   <cargo.websphere.cell>virtualbox-xpNode01Cell</cargo.websphere.cell>
