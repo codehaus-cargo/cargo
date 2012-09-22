@@ -24,6 +24,7 @@ import java.io.File;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.websphere.internal.WebSphere85xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
@@ -61,6 +62,8 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
     {
         super(dir);
         this.home = dir;
+
+        setProperty(ServletPropertySet.PORT, "9080");
 
         setProperty(WebSpherePropertySet.ADMIN_USERNAME, "websphere");
         setProperty(WebSpherePropertySet.ADMIN_PASSWORD, "websphere");

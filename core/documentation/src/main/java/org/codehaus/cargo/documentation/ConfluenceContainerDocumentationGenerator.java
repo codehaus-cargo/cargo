@@ -601,6 +601,11 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("| [Static deployment of expanded WAR]     | (x) | (x) | (x) | "
                     + "The Apache Geronimo container does not support expanded WARs |");
             }
+            else if (containerId.startsWith("glassfish"))
+            {
+                output.append("| [Static deployment of expanded WAR]     | (x) | (x) | (x) | "
+                    + "The IBM WebSphere container does not support expanded WARs |");
+            }
             else
             {
                 output.append("| [Static deployment of expanded WAR]     | (/) | (/) | (/) | |");

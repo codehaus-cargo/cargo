@@ -551,7 +551,7 @@
 
                 Notes:
 
-                WebLogic 8.5 runs on JDK 1.6 and JDK 7
+                WebSphere 8.5 runs on JDK 1.6 and JDK 7
 
                 There is no non-interactive download link for WebSphere 8.5.x.  Here is is a link that requires license agreement:
                    * http://www.ibm.com/developerworks/downloads/ws/was/
