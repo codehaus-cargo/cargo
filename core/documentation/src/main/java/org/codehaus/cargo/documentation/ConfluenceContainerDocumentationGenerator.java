@@ -402,11 +402,11 @@ public class ConfluenceContainerDocumentationGenerator
         {
             output.append("| [Local Container]                       | (/) | (/) | (/) | |");
             output.append(LINE_SEPARATOR);
-            if (containerId.startsWith("geronimo"))
+            if (containerId.equals("geronimo1x"))
             {
                 output.append("| &nbsp; [Container Classpath]            | (x) | (x) | (x) "
                     + "| Changing the the container classpath is not supported on "
-                    + "Apache Geronimo |");
+                    + "Apache Geronimo 1.x |");
             }
             else if (containerId.equals("jboss7x"))
             {

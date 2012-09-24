@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.geronimo.deployable;
 
+import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.EJB;
 
 /**
@@ -29,11 +30,6 @@ import org.codehaus.cargo.container.deployable.EJB;
 public class GeronimoEJB extends EJB implements GeronimoDeployable
 {
     /**
-     * The path to the location of the EJB deployable being wrapped.
-     */
-    private String plan;
-
-    /**
      * @param ejb the location of the EJB being wrapped
      */
     public GeronimoEJB(String ejb)
@@ -43,19 +39,10 @@ public class GeronimoEJB extends EJB implements GeronimoDeployable
 
     /**
      * {@inheritDoc}
-     * @see GeronimoDeployable#setPlan(String)
+     * @see GeronimoDeployable#getPlan(org.codehaus.cargo.container.InstalledLocalContainer) 
      */
-    public void setPlan(String plan)
+    public String getPlan(InstalledLocalContainer localContainer)
     {
-        this.plan = plan;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see GeronimoDeployable#getPlan()
-     */
-    public String getPlan()
-    {
-        return this.plan;
+        return null;
     }
 }

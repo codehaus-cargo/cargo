@@ -19,7 +19,11 @@
  */
 package org.codehaus.cargo.container.geronimo.deployable;
 
+import java.io.File;
+
+import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.geronimo.Geronimo1xInstalledLocalContainer;
 
 /**
  * Geronimo WAR deployable.
@@ -28,11 +32,6 @@ import org.codehaus.cargo.container.deployable.WAR;
  */
 public class GeronimoWAR extends WAR implements GeronimoDeployable
 {
-    /**
-     * The path to the location of the EAR being wrapped.
-     */
-    private String plan;
-
     /**
      * @param war the location of the WAR being wrapped. This must point to either a WAR file or an
      * expanded WAR directory.
@@ -44,19 +43,62 @@ public class GeronimoWAR extends WAR implements GeronimoDeployable
 
     /**
      * {@inheritDoc}
-     * @see GeronimoDeployable#setPlan(String)
+     * @see GeronimoDeployable#getPlan(org.codehaus.cargo.container.InstalledLocalContainer) 
      */
-    public void setPlan(String plan)
+    public String getPlan(InstalledLocalContainer localContainer)
     {
-        this.plan = plan;
-    }
+        StringBuilder sb = new StringBuilder();
 
-    /**
-     * {@inheritDoc}
-     * @see GeronimoDeployable#getPlan()
-     */
-    public String getPlan()
-    {
-        return this.plan;
+        if (localContainer.getClass().equals(Geronimo1xInstalledLocalContainer.class))
+        {
+            sb.append(
+                "<web-app xmlns=\"http://geronimo.apache.org/xml/ns/j2ee/web/tomcat-1.1\">\n");
+        }
+        else
+        {
+            sb.append("<web-app xmlns=\"http://geronimo.apache.org/xml/ns/j2ee/web-2.0.1\"\n");
+            sb.append("     xmlns:sys=\"http://geronimo.apache.org/xml/ns/deployment-1.2\">\n");
+
+            if (localContainer.getExtraClasspath() != null
+                && localContainer.getExtraClasspath().length > 0)
+            {
+                sb.append("  <sys:environment>\n");
+                sb.append("    <sys:dependencies>\n");
+                sb.append("      <sys:dependency>\n");
+                for (String extraClasspathElement : localContainer.getExtraClasspath())
+                {
+                    extraClasspathElement = new File(extraClasspathElement).getName();
+
+                    String extension = extraClasspathElement.substring(
+                        extraClasspathElement.lastIndexOf('.') + 1);
+                    String artifact = extraClasspathElement.substring(
+                        0, extraClasspathElement.lastIndexOf('.'));
+                    String version;
+                    if (artifact.indexOf('-') == -1)
+                    {
+                        version = "1.0";
+                    }
+                    else
+                    {
+                        version = artifact.substring(artifact.lastIndexOf('-') + 1);
+                        artifact = artifact.substring(0, artifact.lastIndexOf('-'));
+                    }
+
+                    sb.append("        <sys:groupId>org.codehaus.cargo.classpath</sys:groupId>\n");
+                    sb.append("        <sys:artifactId>" + artifact + "</sys:artifactId>\n");
+                    sb.append("        <sys:version>" + version + "</sys:version>\n");
+                    sb.append("        <sys:type>" + extension + "</sys:type>\n");
+                }
+                sb.append("      </sys:dependency>\n");
+                sb.append("    </sys:dependencies>\n");
+                sb.append("  </sys:environment>\n");
+            }
+        }
+
+        sb.append("  <context-root>" + this.getContext() + "</context-root>\n");
+
+        sb.append("</web-app>");
+
+        return sb.toString();
     }
 }

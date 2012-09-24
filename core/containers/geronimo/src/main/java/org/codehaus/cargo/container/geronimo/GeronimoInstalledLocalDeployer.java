@@ -20,9 +20,9 @@
 package org.codehaus.cargo.container.geronimo;
 
 import java.io.File;
-import java.util.Map;
+import java.io.FileWriter;
+import java.io.IOException;
 
-import org.apache.tools.ant.taskdefs.Copy;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -39,6 +39,7 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherException;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
 import org.codehaus.cargo.util.AntUtils;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * A Geronimo deploytool-based deployer to perform deployment to a local container.
@@ -82,6 +83,45 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     protected InstalledLocalContainer getInstalledContainer()
     {
         return (InstalledLocalContainer) super.getContainer();
+    }
+
+    /**
+     * Deploys extra classpath elements to the Geronimo classpath.
+     * @param extraClasspath Classpath elements to deploy
+     */
+    public void deployExtraClasspath(String[] extraClasspath)
+    {
+        for (String extraClasspathElement : extraClasspath)
+        {
+            File extraClasspathElementFile = new File(extraClasspathElement);
+            if (extraClasspathElementFile.getName().indexOf('-') == -1)
+            {
+                String name = extraClasspathElementFile.getName()
+                    .substring(0, extraClasspathElementFile.getName().lastIndexOf('.'));
+                extraClasspathElementFile = new File(
+                    getFileHandler().createUniqueTmpDirectory(), name + "-1.0.jar");
+                getFileHandler().copyFile(
+                    extraClasspathElement, extraClasspathElementFile.getAbsolutePath());
+            }
+            JvmLauncher java = createAdminDeployerJava("install-library");
+            java.addAppArguments("--groupId", "org.codehaus.cargo.classpath");
+            java.addAppArgument(extraClasspathElementFile);
+
+            try
+            {
+                int retval = java.execute();
+                if (retval != 0)
+                {
+                    throw new ContainerException("Failed to add extra classpath element ["
+                        + extraClasspathElement + "]");
+                }
+            }
+            catch (JvmLauncherException e)
+            {
+                throw new ContainerException("Failed to add extra classpath element ["
+                    + extraClasspathElement + "]", e);
+            }
+        }
     }
 
     /**
@@ -334,15 +374,6 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         JvmLauncher java =
             getInstalledContainer().getJvmLauncherFactory().createJvmLauncher(request);
 
-        // Add extra container classpath entries specified by the user.
-        addExtraClasspath(java);
-
-        // Add system properties for the container JVM
-        addSystemProperties(java);
-
-        // Add JVM args if defined
-        addJvmArgs(java);
-
         return java;
     }
 
@@ -425,29 +456,10 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     {
         String deployableFile = deployable.getFile();
 
-        if (deployable instanceof WAR)
+        if (deployable instanceof WAR && ((WAR) deployable).isExpanded())
         {
-            WAR warDeployable = (WAR) deployable;
-
-            if (warDeployable.isExpanded())
-            {
-                throw new ContainerException(
-                    "The Apache Geronimo container does not support expanded WARs");
-            }
-
-            if (warDeployable.getContext() != null)
-            {
-                File toFile = new File(getContainer().getConfiguration().getHome(), "var/temp/"
-                    + warDeployable.getContext() + ".war");
-
-                Copy copyWar = (Copy) getAntUtils().createAntTask("copy");
-                copyWar.setFile(new File(deployableFile));
-                copyWar.setTofile(toFile);
-                copyWar.setOverwrite(true);
-                copyWar.execute();
-
-                deployableFile = toFile.getPath();
-            }
+            throw new ContainerException(
+                "The Apache Geronimo container does not support expanded WARs");
         }
 
         // add deployable path
@@ -457,19 +469,24 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         if (deployable instanceof GeronimoDeployable)
         {
             GeronimoDeployable geronimoDeployable = (GeronimoDeployable) deployable;
-            if (geronimoDeployable.getPlan() != null)
+            String plan =
+                geronimoDeployable.getPlan((InstalledLocalContainer) this.getContainer());
+            if (plan != null)
             {
-                File planFile = new File(geronimoDeployable.getPlan());
-                if (!planFile.exists())
+                File toFile = new File(getContainer().getConfiguration().getHome(), "var/temp/"
+                    + new File(deployableFile).getName() + ".xml");
+                try
                 {
-                    getLogger().warn("Cannot locate deployment plan [" + planFile.getPath()
-                        + "]. Will attempt to deploy without it.", getClass().getName());
+                    FileWriter writer = new FileWriter(toFile);
+                    writer.write(plan);
+                    writer.close();
                 }
-                else
+                catch (IOException e)
                 {
-                    // Append plan path
-                    java.addAppArguments(geronimoDeployable.getPlan());
+                    throw new CargoException("Cannot write deployment plan", e);
                 }
+
+                java.addAppArgument(toFile);
             }
         }
     }
@@ -488,59 +505,6 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     }
 
     /**
-     * Add system properties to the Ant java command used to execute the Geronimo deploy tool.
-     * 
-     * @param java the JVM launcher that will start the container
-     */
-    private void addSystemProperties(JvmLauncher java)
-    {
-        for (Map.Entry<String, String> systemProperty : getInstalledContainer().
-            getSystemProperties().entrySet())
-        {
-            java.setSystemProperty(systemProperty.getKey(), systemProperty.getValue());
-        }
-    }
-
-    /**
-     * Add the @link{GeneralPropertySet#JVMARGS} arguments to the java command.
-     * @param java The JVM launcher
-     */
-    private void addJvmArgs(JvmLauncher java)
-    {
-        String jvmargs = getContainer().getConfiguration().getPropertyValue(
-            GeneralPropertySet.JVMARGS);
-
-        if (jvmargs != null)
-        {
-            // Replace new lines and tabs, so that Maven or ANT plugins can
-            // specify multiline JVM arguments in their XML files
-            jvmargs = jvmargs.replace('\n', ' ');
-            jvmargs = jvmargs.replace('\r', ' ');
-            jvmargs = jvmargs.replace('\t', ' ');
-            java.addJvmArgumentLine(jvmargs);
-        }
-    }
-
-    /**
-     * Add extra container classpath entries specified by the user.
-     * 
-     * @param java the JVM launcher used to start/stop the container
-     */
-    private void addExtraClasspath(JvmLauncher java)
-    {
-        if (getInstalledContainer().getExtraClasspath() != null)
-        {
-            for (String extraClassPath : getInstalledContainer().getExtraClasspath())
-            {
-                java.addClasspathEntries(extraClassPath);
-
-                getLogger().debug("Adding [" + extraClassPath + "] to execution classpath",
-                    this.getClass().getName());
-            }
-        }
-    }
-
-    /**
      * Returns the moduleId for the specified deployable.
      * @param deployable the target deployable
      * @return the moduleId to use for the specified deployable
@@ -553,47 +517,11 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
 
         if (getFileHandler().exists(archiveFile))
         {
-            // TODO: verify how Geronimo computes the default moduleId (i.e. NO plan)
             moduleId = new File(archiveFile).getName();
             int lastDot = moduleId.lastIndexOf('.');
             if (lastDot != -1)
             {
                 moduleId = moduleId.substring(0, lastDot);
-            }
-        }
-
-        if (deployable instanceof WAR)
-        {
-            WAR warDeployable = (WAR) deployable;
-
-            if (warDeployable.getContext() != null)
-            {
-                moduleId = warDeployable.getContext();
-            }
-        }
-        else if (deployable instanceof GeronimoDeployable)
-        {
-            GeronimoDeployable geronimoDeployable = (GeronimoDeployable) deployable;
-
-            if (geronimoDeployable.getPlan() != null)
-            {
-                File planFile = new File(geronimoDeployable.getPlan());
-
-                if (planFile.exists())
-                {
-                    // TODO: parse the configId associated with the deployable from the plan,
-                    // then assign to moduleId
-                }
-                else
-                {
-                    if (archiveFile != null)
-                    {
-                        // TODO: detect if plan is packaged inside the archive.
-                        // If so, extract the plan,
-                        // parse the configId associated with the deployable,
-                        // then assign to moduleId
-                    }
-                }
             }
         }
 

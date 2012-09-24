@@ -75,9 +75,6 @@ public class WarMultiContextTest extends AbstractCargoTestCase
 
         // We exclude containers that cannot deploy on a multiple context (with many slashes)
         Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("geronimo1x");
-        excludedContainerIds.add("geronimo2x");
-        excludedContainerIds.add("geronimo3x");
         excludedContainerIds.add("jboss3x");
         excludedContainerIds.add("jboss4x");
         excludedContainerIds.add("jboss42x");

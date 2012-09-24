@@ -110,8 +110,9 @@ public class Geronimo3xInstalledLocalContainer extends Geronimo1xInstalledLocalC
 
         waitForCompletion(true);
 
-        // deploy scheduled deployables
+        // deploy extra classpath and scheduled deployables
         GeronimoInstalledLocalDeployer deployer = new GeronimoInstalledLocalDeployer(this);
+        deployer.deployExtraClasspath(this.getExtraClasspath());
         for (Deployable deployable : this.getConfiguration().getDeployables())
         {
             deployer.deploy(deployable);

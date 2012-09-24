@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.geronimo.deployable;
 
+import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 
 /**
@@ -29,12 +30,8 @@ import org.codehaus.cargo.container.deployable.Deployable;
 public interface GeronimoDeployable extends Deployable
 {
     /**
-     * @param plan path to the Geronimo plan
+     * @param localContainer Local container.
+     * @return The plan contents.
      */
-    void setPlan(String plan);
-
-    /**
-     * @return the plan path
-     */
-    String getPlan();
+    String getPlan(InstalledLocalContainer localContainer);
 }
