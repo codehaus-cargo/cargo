@@ -30,6 +30,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.validator.HasBundleSupportValidator;
@@ -125,6 +126,12 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
         reader.close();
         reader = null;
         System.gc();
+
+        if (getContainer().getId().startsWith("geronimo"))
+        {
+            Deployer deployer = createDeployer(getContainer());
+            deployer.undeploy(bundle);
+        }
 
         getLocalContainer().stop();
         assertEquals(State.STOPPED, getContainer().getState());

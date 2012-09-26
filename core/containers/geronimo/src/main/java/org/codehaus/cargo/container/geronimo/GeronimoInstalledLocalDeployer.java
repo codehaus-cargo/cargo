@@ -39,7 +39,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherException;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
 import org.codehaus.cargo.util.AntUtils;
-import org.codehaus.cargo.util.CargoException;
 
 /**
  * A Geronimo deploytool-based deployer to perform deployment to a local container.
@@ -142,19 +141,18 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
             java = createAdminDeployerJava("deploy");
         }
         addPathArgument(java, deployable);
-        String deployableId = getModuleId(deployable);
 
         try
         {
             int retval = java.execute();
             if (retval != 0)
             {
-                throw new ContainerException("Failed to deploy [" + deployableId + "]");
+                throw new ContainerException("Failed to deploy [" + deployable + "]");
             }
         }
         catch (JvmLauncherException e)
         {
-            throw new ContainerException("Failed to deploy [" + deployableId + "]", e);
+            throw new ContainerException("Failed to deploy [" + deployable + "]", e);
         }
     }
 
@@ -193,37 +191,21 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     @Override
     public void start(Deployable deployable)
     {
-        start(getModuleId(deployable));
-    }
+        String deployableId = getModuleId(deployable);
 
-    /**
-     * Starts a deployable with the given ID.
-     * 
-     * @param deployableId the ID of the deployable being started
-     * @see org.codehaus.cargo.container.deployer.Deployer#start(org.codehaus.cargo.container.deployable.Deployable)
-     */
-    protected void start(String deployableId)
-    {
-        if (deployableId == null)
+        JvmLauncher java = createAdminDeployerJava("start");
+        java.addAppArguments(deployableId);
+        try
         {
-            throw new ContainerException("Failed: deployable ID cannot be null.");
+            int retval = java.execute();
+            if (retval != 0)
+            {
+                throw new ContainerException("Failed to start [" + deployable + "]");
+            }
         }
-        else
+        catch (JvmLauncherException e)
         {
-            JvmLauncher java = createAdminDeployerJava("start");
-            java.addAppArguments(deployableId);
-            try
-            {
-                int retval = java.execute();
-                if (retval != 0)
-                {
-                    throw new ContainerException("Failed to start [" + deployableId + "]");
-                }
-            }
-            catch (JvmLauncherException e)
-            {
-                throw new ContainerException("Failed to start [" + deployableId + "]", e);
-            }
+            throw new ContainerException("Failed to start [" + deployable + "]", e);
         }
     }
 
@@ -234,38 +216,22 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     @Override
     public void stop(Deployable deployable)
     {
-        stop(getModuleId(deployable));
-    }
+        String deployableId = getModuleId(deployable);
 
-    /**
-     * Stops a deployable with the given ID.
-     * 
-     * @param deployableId the ID of the deployable being stopped
-     * @see org.codehaus.cargo.container.deployer.Deployer#stop(org.codehaus.cargo.container.deployable.Deployable)
-     */
-    protected void stop(String deployableId)
-    {
-        if (deployableId == null)
+        JvmLauncher java = createAdminDeployerJava("stop");
+        java.addAppArguments(deployableId);
+
+        try
         {
-            throw new ContainerException("Failed: deployable ID cannot be null.");
+            int retval = java.execute();
+            if (retval != 0)
+            {
+                throw new ContainerException("Failed to stop [" + deployable + "]");
+            }
         }
-        else
+        catch (JvmLauncherException e)
         {
-            JvmLauncher java = createAdminDeployerJava("stop");
-            java.addAppArguments(deployableId);
-
-            try
-            {
-                int retval = java.execute();
-                if (retval != 0)
-                {
-                    throw new ContainerException("Failed to stop [" + deployableId + "]");
-                }
-            }
-            catch (JvmLauncherException e)
-            {
-                throw new ContainerException("Failed to stop [" + deployableId + "]", e);
-            }
+            throw new ContainerException("Failed to stop [" + deployable + "]", e);
         }
     }
 
@@ -276,6 +242,8 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     @Override
     public void undeploy(Deployable deployable)
     {
+        String deployableId = getModuleId(deployable);
+
         String command;
         if (deployable.getType() == DeployableType.BUNDLE)
         {
@@ -285,39 +253,21 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         {
             command = "undeploy";
         }
-        undeploy(getModuleId(deployable), command);
-    }
 
-    /**
-     * Undeploy a deployable with the given ID.
-     * 
-     * @param deployableId the ID of the deployable being undeployed
-     * @param command Command name
-     * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
-     */
-    protected void undeploy(String deployableId, String command)
-    {
-        if (deployableId == null)
+        JvmLauncher java = createAdminDeployerJava(command);
+        java.addAppArguments(deployableId);
+
+        try
         {
-            throw new ContainerException("Failed: deployable ID cannot be null.");
+            int retval = java.execute();
+            if (retval != 0)
+            {
+                throw new ContainerException("Failed to undeploy [" + deployable + "]");
+            }
         }
-        else
+        catch (JvmLauncherException e)
         {
-            JvmLauncher java = createAdminDeployerJava("undeploy");
-            java.addAppArguments(deployableId);
-
-            try
-            {
-                int retval = java.execute();
-                if (retval != 0)
-                {
-                    throw new ContainerException("Failed to undeploy [" + deployableId + "]");
-                }
-            }
-            catch (JvmLauncherException e)
-            {
-                throw new ContainerException("Failed to undeploy [" + deployableId + "]", e);
-            }
+            throw new ContainerException("Failed to undeploy [" + deployable + "]", e);
         }
     }
 
@@ -328,22 +278,29 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     @Override
     public void redeploy(Deployable deployable)
     {
-        JvmLauncher java = createAdminDeployerJava("redeploy");
-        addPathArgument(java, deployable);
-        String deployableId = getModuleId(deployable);
-        addModuleIdArgument(java, deployableId);
-
-        try
+        if (deployable.getType() == DeployableType.BUNDLE)
         {
-            int retval = java.execute();
-            if (retval != 0)
-            {
-                throw new ContainerException("Failed to redeploy [" + deployableId + "]");
-            }
+            super.redeploy(deployable);
         }
-        catch (JvmLauncherException e)
+        else
         {
-            throw new ContainerException("Failed to redeploy [" + deployableId + "]", e);
+            JvmLauncher java = createAdminDeployerJava("redeploy");
+            addPathArgument(java, deployable);
+            String deployableId = getModuleId(deployable);
+            java.addAppArguments(deployableId);
+
+            try
+            {
+                int retval = java.execute();
+                if (retval != 0)
+                {
+                    throw new ContainerException("Failed to redeploy [" + deployable + "]");
+                }
+            }
+            catch (JvmLauncherException e)
+            {
+                throw new ContainerException("Failed to redeploy [" + deployable + "]", e);
+            }
         }
     }
 
@@ -483,24 +440,11 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
                 }
                 catch (IOException e)
                 {
-                    throw new CargoException("Cannot write deployment plan", e);
+                    throw new ContainerException("Cannot write deployment plan", e);
                 }
 
                 java.addAppArgument(toFile);
             }
-        }
-    }
-
-    /**
-     * Add moduleId argument to the deployer Ant Java task.
-     * @param java the JVM launcher
-     * @param moduleId the deployable ID
-     */
-    private void addModuleIdArgument(JvmLauncher java, String moduleId)
-    {
-        if (moduleId != null)
-        {
-            java.addAppArguments(moduleId);
         }
     }
 
@@ -513,20 +457,38 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     {
         String moduleId = null;
 
-        String archiveFile = deployable.getFile();
-
-        if (getFileHandler().exists(archiveFile))
+        if (deployable.getType() == DeployableType.BUNDLE)
         {
-            moduleId = new File(archiveFile).getName();
-            int lastDot = moduleId.lastIndexOf('.');
-            if (lastDot != -1)
+            String deployableName = new File(deployable.getFile()).getName();
+            try
             {
-                moduleId = moduleId.substring(0, lastDot);
+                moduleId = Long.toString(
+                    new GeronimoUtils(getInstalledContainer().getConfiguration())
+                       .getBundleId(deployableName));
+            }
+            catch (Exception e)
+            {
+                throw new ContainerException(
+                    "Cannot get bundle ID for deployable " + deployableName, e);
+            }
+        }
+        else
+        {
+            String archiveFile = deployable.getFile();
+
+            if (getFileHandler().exists(archiveFile))
+            {
+                moduleId = new File(archiveFile).getName();
+                int lastDot = moduleId.lastIndexOf('.');
+                if (lastDot != -1)
+                {
+                    moduleId = moduleId.substring(0, lastDot);
+                }
             }
         }
 
         getLogger().debug("Computed module id [" + moduleId + "] for deployable ["
-            + deployable.getFile() + "]", this.getClass().getName());
+            + deployable + "]", this.getClass().getName());
 
         return moduleId;
     }

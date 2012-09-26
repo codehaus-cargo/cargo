@@ -24,8 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
+import javax.management.MBeanException;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
 import javax.management.remote.JMXConnector;
@@ -84,7 +84,7 @@ public class GeronimoUtils
 
         try
         {
-            isStarted = isKernelFullyStarted(host, rmiPort, username, password);
+            isStarted = isKernelFullyStarted();
         }
         catch (IOException e)
         {
@@ -107,15 +107,101 @@ public class GeronimoUtils
     }
 
     /**
-     * @param host the host where Geronimo is executing
-     * @param rmiPort the RMI port to use to connect to the executing Geronimo server
-     * @param username the username to authenticate against the executing Geronimo Server
-     * @param password the password to authenticate against the executing Geronimo Server
+     * @param jarName name of the bundle JAR file
+     * @return Bundle identifier
+     * @throws Exception if an error occurred while checking the container's state
+     */
+    public long getBundleId(String jarName) throws Exception
+    {
+        String base;
+        String version;
+        if (jarName.indexOf('-') != -1)
+        {
+            String jarNameWithoutSnapshot = jarName.replace("-SNAPSHOT", "");
+            base = jarName.substring(0, jarNameWithoutSnapshot.lastIndexOf('-'));
+            version = jarName.substring(jarNameWithoutSnapshot.lastIndexOf('-') + 1);
+            version = version.replace('-', '.');
+        }
+        else
+        {
+            base = "";
+            version = jarName;
+        }
+        if (version.indexOf(".jar") != -1)
+        {
+            version = version.substring(0, version.lastIndexOf('.'));
+        }
+        long bundleId = 0;
+
+        JMXServiceURL jmxServiceURL = new JMXServiceURL("service:jmx:rmi://" + host
+            + "/jndi/rmi://" + host + ":" + rmiPort + "/JMXConnector");
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(JMXConnector.CREDENTIALS, new String[] {username, password});
+
+        JMXConnector connector = JMXConnectorFactory.connect(jmxServiceURL, map);
+        try
+        {
+            MBeanServerConnection mbServerConnection = connector.getMBeanServerConnection();
+
+            Set<ObjectName> bundleState = mbServerConnection.queryNames(
+                new ObjectName("*:type=bundleState,*"), null);
+            if (bundleState == null || bundleState.isEmpty())
+            {
+                throw new ContainerException("Cannot find bundle state MBean");
+            }
+
+            String[] parameterTypes = new String[]{"long"};
+            for (ObjectName bs : bundleState)
+            {
+                try
+                {
+                    long testedBundleId = 0;
+                    while (true)
+                    {
+                        testedBundleId++;
+                        String location = (String) mbServerConnection.invoke(
+                            bs, "getLocation", new Object[]{testedBundleId}, parameterTypes);
+                        if (location.contains(base) && location.contains(version))
+                        {
+                            bundleId = testedBundleId;
+                            break;
+                        }
+                    }
+                }
+                catch (MBeanException end)
+                {
+                    // Reached the end of available bundle IDs
+                }
+            }
+        }
+        finally
+        {
+            try
+            {
+                connector.close();
+            }
+            catch (IOException ignored)
+            {
+                // Ignored
+            }
+
+            connector = null;
+            System.gc();
+        }
+
+        if (bundleId == 0)
+        {
+            throw new ContainerException("Cannot find bundle " + jarName);
+        }
+        return bundleId;
+    }
+
+    /**
      * @return true if Geronimo is fully started or false otherwise
      * @throws Exception if an error occurred while checking the container's state
      */
-    private boolean isKernelFullyStarted(String host, String rmiPort, String username,
-        String password) throws Exception
+    private boolean isKernelFullyStarted() throws Exception
     {
         JMXServiceURL jmxServiceURL = new JMXServiceURL("service:jmx:rmi://" + host
             + "/jndi/rmi://" + host + ":" + rmiPort + "/JMXConnector");
@@ -138,20 +224,13 @@ public class GeronimoUtils
             boolean result = true;
             for (ObjectName attributeManager : attributeManagers)
             {
-                try
-                {
-                    Boolean kernelFullyStarted = (Boolean)
-                        mbServerConnection.getAttribute(attributeManager, "kernelFullyStarted");
+                Boolean kernelFullyStarted = (Boolean)
+                    mbServerConnection.getAttribute(attributeManager, "kernelFullyStarted");
 
-                    if (!kernelFullyStarted)
-                    {
-                        result = false;
-                        break;
-                    }
-                }
-                catch (AttributeNotFoundException ignored)
+                if (!kernelFullyStarted)
                 {
-                    // Ignored
+                    result = false;
+                    break;
                 }
             }
             return result;
