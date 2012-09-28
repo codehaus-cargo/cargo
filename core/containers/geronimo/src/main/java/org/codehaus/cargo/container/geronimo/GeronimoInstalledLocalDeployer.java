@@ -25,6 +25,7 @@ import java.io.IOException;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -464,7 +465,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
             {
                 moduleId = Long.toString(
                     new GeronimoUtils(getInstalledContainer().getConfiguration())
-                       .getBundleId(deployableName));
+                       .getBundleId((Bundle) deployable));
             }
             catch (Exception e)
             {

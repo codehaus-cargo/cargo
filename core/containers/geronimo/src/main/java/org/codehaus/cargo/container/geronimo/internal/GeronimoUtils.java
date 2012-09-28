@@ -19,10 +19,13 @@
  */
 package org.codehaus.cargo.container.geronimo.internal;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.jar.Attributes;
+import java.util.jar.JarFile;
 
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
@@ -34,6 +37,7 @@ import javax.management.remote.JMXServiceURL;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.util.log.Logger;
@@ -114,33 +118,22 @@ public class GeronimoUtils
     }
 
     /**
-     * @param jarName name of the bundle JAR file
+     * @param bundle Bundle deployable
      * @return Bundle identifier
      * @throws Exception if an error occurred while checking the container's state
      */
-    public long getBundleId(String jarName) throws Exception
+    public long getBundleId(Bundle bundle) throws Exception
     {
-        logger.debug("Looking for bundle " + jarName, this.getClass().getName());
+        logger.debug("Looking for bundle " + bundle, this.getClass().getName());
 
-        String base;
-        String version;
-        if (jarName.indexOf('-') != -1)
-        {
-            String jarNameWithoutSnapshot = jarName.replace("-SNAPSHOT", "");
-            base = jarName.substring(0, jarNameWithoutSnapshot.lastIndexOf('-'));
-            version = jarName.substring(jarNameWithoutSnapshot.lastIndexOf('-') + 1);
-            version = version.replace('-', '.');
-        }
-        else
-        {
-            base = "";
-            version = jarName;
-        }
-        if (version.indexOf(".jar") != -1)
-        {
-            version = version.substring(0, version.lastIndexOf('.'));
-        }
-        long bundleId = 0;
+        JarFile bundleJar = new JarFile(bundle.getFile());
+
+        String fileName = new File(bundle.getFile()).getName();
+        String symbolicName = getManifestAttribute(bundleJar, "Bundle-SymbolicName");
+        String version = getManifestAttribute(bundleJar, "Bundle-Version");
+
+        logger.debug("Detected symbolic name " + symbolicName + ", version " + version
+            + " for bundle named " + fileName, this.getClass().getName());
 
         JMXServiceURL jmxServiceURL = new JMXServiceURL("service:jmx:rmi://" + host
             + "/jndi/rmi://" + host + ":" + rmiPort + "/JMXConnector");
@@ -148,6 +141,7 @@ public class GeronimoUtils
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(JMXConnector.CREDENTIALS, new String[] {username, password});
 
+        long bundleId = 0;
         JMXConnector connector = JMXConnectorFactory.connect(jmxServiceURL, map);
         try
         {
@@ -173,7 +167,8 @@ public class GeronimoUtils
                             bs, "getLocation", new Object[]{testedBundleId}, parameterTypes);
                         logger.debug("\tChecking bundle " + location + ", ID " + testedBundleId,
                             this.getClass().getName());
-                        if (location.contains(base) && location.contains(version))
+                        if ((location.contains(symbolicName) && location.contains(version))
+                            || location.contains(fileName))
                         {
                             bundleId = testedBundleId;
                             break;
@@ -205,7 +200,7 @@ public class GeronimoUtils
 
         if (bundleId == 0)
         {
-            throw new ContainerException("Cannot find bundle " + jarName);
+            throw new ContainerException("Cannot find bundle " + bundle);
         }
         return bundleId;
     }
@@ -265,14 +260,21 @@ public class GeronimoUtils
     }
 
     /**
-     * @param kernel the Geronimo kernel object
-     * @return true if the kernel is running or false otherwise
+     * Returns a given manifest attribute value
+     * @param jarFile JAR file to look into
+     * @param attributeName Attribute to look for
+     * @return Value of <code>attributeName</code> in the manifest of <code>jarFile</code>.
      * @throws Exception in case of error
      */
-    private boolean isKernelAlive(Object kernel) throws Exception
+    private String getManifestAttribute(JarFile jarFile, String attributeName) throws Exception
     {
-        Boolean running = (Boolean) kernel.getClass().getMethod("isRunning", (Class<?>[]) null).
-            invoke(kernel, (Object[]) null);
-        return running.booleanValue();
+        Attributes attributes = jarFile.getManifest().getMainAttributes();
+        String attributeValue = attributes.getValue(attributeName);
+        if (attributeValue == null)
+        {
+            throw new IllegalArgumentException(
+                "The file " + jarFile + " doesn't contain attribute " + attributeName);
+        }
+        return attributeValue;
     }
 }
