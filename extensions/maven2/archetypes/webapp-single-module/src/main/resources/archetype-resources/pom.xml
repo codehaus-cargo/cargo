@@ -272,5 +272,29 @@
         </pluginManagement>
       </build>
     </profile>
+    <profile>
+      <id>geronimo3x</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-maven2-plugin</artifactId>
+              <configuration>
+                <container>
+                  <containerId>geronimo3x</containerId>
+                  <artifactInstaller>
+                    <groupId>org.apache.geronimo.assemblies</groupId>
+                    <artifactId>geronimo-tomcat7-javaee6</artifactId>
+                    <version>3.0.0</version>
+                    <classifier>bin</classifier>
+                  </artifactInstaller>
+                </container>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
   </profiles>
 </project>
