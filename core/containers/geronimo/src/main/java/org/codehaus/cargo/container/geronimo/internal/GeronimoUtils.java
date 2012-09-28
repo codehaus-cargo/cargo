@@ -36,6 +36,7 @@ import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 
 import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
@@ -115,6 +116,65 @@ public class GeronimoUtils
         }
 
         return isStarted;
+    }
+
+    /**
+     * Returns the extra classpath dependencies XML for the Geronimo installed local container.
+     * @param container Geronimo installed local container.
+     * @return Extra classpath dependencies XML for <code>container</code>.
+     * @throws IOException If reading the JAR files in the extra classpath fail.
+     */
+    public static String getGeronimoExtraClasspathDependiesXML(
+        InstalledLocalContainer container) throws IOException
+    {
+        StringBuilder sb = new StringBuilder();
+
+        if (container.getExtraClasspath() != null
+            && container.getExtraClasspath().length > 0)
+        {
+            sb.append("    <dep:dependencies>\n");
+            for (String extraClasspathElement : container.getExtraClasspath())
+            {
+                File extraClasspathElementFile = new File(extraClasspathElement);
+                JarFile jarFile = new JarFile(extraClasspathElementFile);
+
+                extraClasspathElement = extraClasspathElementFile.getName();
+
+                String extension = extraClasspathElement.substring(
+                    extraClasspathElement.lastIndexOf('.') + 1);
+                String artifact =
+                    jarFile.getManifest().getMainAttributes().getValue("Bundle-SymbolicName");
+                if (artifact == null)
+                {
+                    artifact = extraClasspathElement.substring(
+                        0, extraClasspathElement.lastIndexOf('.'));
+                }
+                String version =
+                    jarFile.getManifest().getMainAttributes().getValue("Bundle-Version");
+                if (version == null)
+                {
+                    if (artifact.indexOf('-') == -1)
+                    {
+                        version = "1.0";
+                    }
+                    else
+                    {
+                        version = artifact.substring(artifact.lastIndexOf('-') + 1);
+                        artifact = artifact.substring(0, artifact.lastIndexOf('-'));
+                    }
+                }
+
+                sb.append("      <dep:dependency>\n");
+                sb.append("        <dep:groupId>org.codehaus.cargo.classpath</dep:groupId>\n");
+                sb.append("        <dep:artifactId>" + artifact + "</dep:artifactId>\n");
+                sb.append("        <dep:version>" + version + "</dep:version>\n");
+                sb.append("        <dep:type>" + extension + "</dep:type>\n");
+                sb.append("      </dep:dependency>\n");
+            }
+            sb.append("    </dep:dependencies>");
+        }
+
+        return sb.toString();
     }
 
     /**

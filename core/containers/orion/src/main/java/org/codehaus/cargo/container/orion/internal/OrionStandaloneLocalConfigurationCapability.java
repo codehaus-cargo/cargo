@@ -49,14 +49,7 @@ public class OrionStandaloneLocalConfigurationCapability
 
         this.supportsMap = new HashMap<String, Boolean>();
         this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
-        supportDataSources();
-    }
 
-    /**
-     * Add capability for all DataSource implementations
-     */
-    private void supportDataSources()
-    {
         this.supportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.supportsMap.put(DatasourcePropertySet.CONNECTION_TYPE, Boolean.TRUE);
         this.supportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);

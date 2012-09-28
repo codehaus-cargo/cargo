@@ -29,8 +29,8 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.sample.java.validator.HasDataSourceSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasEarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
+import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasXAEmulationValidator;
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
@@ -93,7 +93,7 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
             new Validator[] {
                 new IsInstalledLocalContainerValidator(),
                 new HasStandaloneConfigurationValidator(),
-                new HasEarSupportValidator(),
+                new HasWarSupportValidator(),
                 new HasDataSourceSupportValidator(ConfigurationType.STANDALONE),
                 new HasXAEmulationValidator(ConfigurationType.STANDALONE)},
             excludedContainerIds);

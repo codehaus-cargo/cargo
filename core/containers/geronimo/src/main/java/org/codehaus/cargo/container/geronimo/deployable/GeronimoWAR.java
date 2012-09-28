@@ -19,11 +19,14 @@
  */
 package org.codehaus.cargo.container.geronimo.deployable;
 
-import java.io.File;
+import java.io.IOException;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
+import org.codehaus.cargo.container.deployable.DeployableException;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.geronimo.Geronimo1xInstalledLocalContainer;
+import org.codehaus.cargo.container.geronimo.internal.GeronimoUtils;
 
 /**
  * Geronimo WAR deployable.
@@ -57,45 +60,57 @@ public class GeronimoWAR extends WAR implements GeronimoDeployable
         else
         {
             sb.append("<web-app xmlns=\"http://geronimo.apache.org/xml/ns/j2ee/web-2.0.1\"\n");
-            sb.append("     xmlns:sys=\"http://geronimo.apache.org/xml/ns/deployment-1.2\">\n");
+            sb.append("     xmlns:dep=\"http://geronimo.apache.org/xml/ns/deployment-1.2\"\n");
+            sb.append("     xmlns:naming=\"http://geronimo.apache.org/xml/ns/naming-1.2\">\n");
 
-            if (localContainer.getExtraClasspath() != null
-                && localContainer.getExtraClasspath().length > 0)
+            sb.append("  <dep:environment>\n");
+            String extraClasspathDependenciesXML;
+            try
             {
-                sb.append("  <sys:environment>\n");
-                sb.append("    <sys:dependencies>\n");
-                sb.append("      <sys:dependency>\n");
-                for (String extraClasspathElement : localContainer.getExtraClasspath())
-                {
-                    extraClasspathElement = new File(extraClasspathElement).getName();
-
-                    String extension = extraClasspathElement.substring(
-                        extraClasspathElement.lastIndexOf('.') + 1);
-                    String artifact = extraClasspathElement.substring(
-                        0, extraClasspathElement.lastIndexOf('.'));
-                    String version;
-                    if (artifact.indexOf('-') == -1)
-                    {
-                        version = "1.0";
-                    }
-                    else
-                    {
-                        version = artifact.substring(artifact.lastIndexOf('-') + 1);
-                        artifact = artifact.substring(0, artifact.lastIndexOf('-'));
-                    }
-
-                    sb.append("        <sys:groupId>org.codehaus.cargo.classpath</sys:groupId>\n");
-                    sb.append("        <sys:artifactId>" + artifact + "</sys:artifactId>\n");
-                    sb.append("        <sys:version>" + version + "</sys:version>\n");
-                    sb.append("        <sys:type>" + extension + "</sys:type>\n");
-                }
-                sb.append("      </sys:dependency>\n");
-                sb.append("    </sys:dependencies>\n");
-                sb.append("  </sys:environment>\n");
+                extraClasspathDependenciesXML =
+                    GeronimoUtils.getGeronimoExtraClasspathDependiesXML(localContainer) + "\n";
             }
+            catch (IOException e)
+            {
+                throw new DeployableException("Cannot read deployable " + this, e);
+            }
+
+            if (!localContainer.getConfiguration().getDataSources().isEmpty())
+            {
+                StringBuilder dataSourceDependencies = new StringBuilder("");
+
+                for (DataSource datasource : localContainer.getConfiguration().getDataSources())
+                {
+                    dataSourceDependencies.append("      <dep:dependency>\n");
+                    dataSourceDependencies.append("        <dep:groupId>"
+                        + "org.codehaus.cargo.datasource</dep:groupId>\n");
+                    dataSourceDependencies.append("        <dep:artifactId>"
+                        + datasource.getId() + "</dep:artifactId>\n");
+                    dataSourceDependencies.append("        <dep:version>1.0</dep:version>\n");
+                    dataSourceDependencies.append("        <dep:type>car</dep:type>\n");
+                    dataSourceDependencies.append("      </dep:dependency>\n");
+                }
+
+                extraClasspathDependenciesXML = extraClasspathDependenciesXML.replace(
+                    "    </dep:dependencies>",
+                        dataSourceDependencies.toString() + "    </dep:dependencies>");
+            }
+
+            sb.append(extraClasspathDependenciesXML);
+            sb.append("  </dep:environment>\n");
         }
 
         sb.append("  <context-root>" + this.getContext() + "</context-root>\n");
+
+        for (DataSource datasource : localContainer.getConfiguration().getDataSources())
+        {
+            sb.append("  <naming:resource-ref>\n");
+            sb.append("    <naming:ref-name>"
+                + datasource.getJndiLocation() + "</naming:ref-name>\n");
+            sb.append("    <naming:resource-link>"
+                + datasource.getJndiLocation() + "</naming:resource-link>\n");
+            sb.append("  </naming:resource-ref>\n");
+        }
 
         sb.append("</web-app>");
 

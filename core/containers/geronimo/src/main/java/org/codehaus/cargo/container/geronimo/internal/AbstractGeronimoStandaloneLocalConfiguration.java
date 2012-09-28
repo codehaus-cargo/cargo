@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.geronimo.internal;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,11 +29,16 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.tools.ant.types.FilterChain;
+import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
+import org.codehaus.cargo.container.geronimo.GeronimoInstalledLocalDeployer;
 import org.codehaus.cargo.container.geronimo.GeronimoPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.TransactionSupport;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
@@ -157,5 +163,55 @@ public abstract class AbstractGeronimoStandaloneLocalConfiguration extends
         }
 
         return tokens;
+    }
+
+    /**
+     * Deploy datasources.
+     * @param container Geronimo container.
+     * @throws Exception If anything goes wrong.
+     */
+    public void deployDatasources(InstalledLocalContainer container) throws Exception
+    {
+        GeronimoInstalledLocalDeployer deployer = new GeronimoInstalledLocalDeployer(container);
+
+        for (DataSource datasource : getDataSources())
+        {
+            Map<String, String> replacements = new HashMap<String, String>();
+            replacements.put("id", datasource.getId());
+            replacements.put("dependencies",
+                GeronimoUtils.getGeronimoExtraClasspathDependiesXML(container));
+            replacements.put("jndiLocation", datasource.getJndiLocation());
+            replacements.put("driverClass", datasource.getDriverClass());
+            replacements.put("password", datasource.getPassword());
+            replacements.put("username", datasource.getUsername());
+            replacements.put("url", datasource.getUrl());
+            if (datasource.getTransactionSupport() == TransactionSupport.NO_TRANSACTION)
+            {
+                replacements.put("transactionSupport", "no-transaction");
+            }
+            else if (datasource.getTransactionSupport() == TransactionSupport.LOCAL_TRANSACTION)
+            {
+                replacements.put("transactionSupport", "local-transaction");
+            }
+            else if (datasource.getTransactionSupport() == TransactionSupport.XA_TRANSACTION)
+            {
+                replacements.put("transactionSupport", "xa-transaction");
+            }
+            else
+            {
+                throw new ContainerException("Unknown transaction support type: "
+                    + datasource.getTransactionSupport());
+            }
+            FilterChain filterChain = new FilterChain();
+            getAntUtils().addTokensToFilterChain(filterChain, replacements);
+
+            File target = new File(getHome(),
+                "var/temp/cargo-datasource-" + datasource.getId() + ".xml");
+            getResourceUtils().copyResource(RESOURCE_PATH + "geronimo/DataSourceTemplate.xml",
+                target, filterChain, "UTF-8");
+
+            deployer.deployRar(
+                "org.codehaus.cargo.datasource/" + datasource.getId() + "/1.0/car", target);
+        }
     }
 }

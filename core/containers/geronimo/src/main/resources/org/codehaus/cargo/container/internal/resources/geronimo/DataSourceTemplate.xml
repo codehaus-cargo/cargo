@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connector xmlns="http://geronimo.apache.org/xml/ns/j2ee/connector-1.2">
+  <dep:environment xmlns:dep="http://geronimo.apache.org/xml/ns/deployment-1.2">
+    <dep:moduleId>
+      <dep:groupId>org.codehaus.cargo.datasource</dep:groupId>
+      <dep:artifactId>@id@</dep:artifactId>
+      <dep:version>1.0</dep:version>
+      <dep:type>car</dep:type>
+    </dep:moduleId>
+@dependencies@
+  </dep:environment>
+  <resourceadapter>
+    <outbound-resourceadapter>
+      <connection-definition>
+        <connectionfactory-interface>javax.sql.DataSource</connectionfactory-interface>
+        <connectiondefinition-instance>
+          <name>@jndiLocation@</name>
+          <config-property-setting name="Driver">@driverClass@</config-property-setting>
+          <config-property-setting name="Password">@password@</config-property-setting>
+          <config-property-setting name="UserName">@username@</config-property-setting>
+          <config-property-setting name="ConnectionURL">@url@</config-property-setting>
+          <connectionmanager>
+            <@transactionSupport@/>
+            <single-pool>
+              <max-size>10</max-size>
+              <min-size>0</min-size>
+              <match-one/>
+            </single-pool>
+          </connectionmanager>
+        </connectiondefinition-instance>
+      </connection-definition>
+    </outbound-resourceadapter>
+  </resourceadapter>
+</connector>

@@ -23,6 +23,7 @@ import java.io.File;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.geronimo.internal.AbstractGeronimoStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
@@ -108,9 +109,15 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
 
         waitForCompletion(true);
 
-        // deploy extra classpath and scheduled deployables
+        // deploy extra classpath, datasources and scheduled deployables
         GeronimoInstalledLocalDeployer deployer = new GeronimoInstalledLocalDeployer(this);
         deployer.deployExtraClasspath(this.getExtraClasspath());
+        if (getConfiguration() instanceof AbstractGeronimoStandaloneLocalConfiguration)
+        {
+            AbstractGeronimoStandaloneLocalConfiguration configuration =
+                (AbstractGeronimoStandaloneLocalConfiguration) getConfiguration();
+            configuration.deployDatasources(this);
+        }
         for (Deployable deployable : this.getConfiguration().getDeployables())
         {
             deployer.deploy(deployable);

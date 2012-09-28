@@ -176,7 +176,7 @@ public class DataSource
      * many application servers may prepend a context (typically <code>java:comp/env</code>) to this
      * context.
      * 
-     * @return the JDNI location
+     * @return the JNDI location
      */
     public String getJndiLocation()
     {

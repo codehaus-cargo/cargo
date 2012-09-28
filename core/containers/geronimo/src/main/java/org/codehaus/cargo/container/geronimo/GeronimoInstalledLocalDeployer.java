@@ -112,8 +112,8 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
                 int retval = java.execute();
                 if (retval != 0)
                 {
-                    throw new ContainerException("Failed to add extra classpath element ["
-                        + extraClasspathElement + "]");
+                    getLogger().warn("Failed to add extra classpath element ["
+                        + extraClasspathElement + "]", this.getClass().getName());
                 }
             }
             catch (JvmLauncherException e)
@@ -158,31 +158,47 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     }
 
     /**
-     * Distribute a deployable to a running or offline Geronimo server. The deployable is not
-     * automatically started.
-     * 
-     * @param deployable the deployable being installed
-     * @see org.codehaus.cargo.container.deployer.Deployer#deploy(org.codehaus.cargo.container.deployable.Deployable)
+     * Deploys a RAR plan.
+     * @param id Plan identifier (used for undeploying previous instance if required).
+     * @param planFile XML file of plan.
      */
-    protected void distribute(Deployable deployable)
+    public void deployRar(String id, File planFile)
     {
-        JvmLauncher java = createDeployerJava("distribute");
-        addPathArgument(java, deployable);
-        String deployableId = getModuleId(deployable);
+        File tranql = new File(getInstalledContainer().getHome(),
+            "repository/org/tranql/tranql-connector-ra");
+        File[] tranqlFiles = tranql.listFiles();
+        if (tranqlFiles == null || tranqlFiles.length == 0)
+        {
+            throw new ContainerException("Directory " + tranql + " does not exist or is empty");
+        }
+        tranql = tranqlFiles[0];
+        tranqlFiles = tranql.listFiles();
+        if (tranqlFiles == null || tranqlFiles.length == 0)
+        {
+            throw new ContainerException("Directory " + tranql + " does not exist or is empty");
+        }
+
+        // First, attempt to undeploy
+        JvmLauncher java = createAdminDeployerJava("undeploy");
+        java.addAppArguments(id);
+        java.execute();
+
+        java = createAdminDeployerJava("deploy");
+        java.addAppArgument(planFile);
+        java.addAppArgument(tranqlFiles[0]);
 
         try
         {
             int retval = java.execute();
             if (retval != 0)
             {
-                throw new ContainerException("Failed to distribute [" + deployableId + "]");
+                throw new ContainerException("Failed to deploy [" + planFile + "]");
             }
         }
         catch (JvmLauncherException e)
         {
-            throw new ContainerException("Failed to distribute [" + deployableId + "]", e);
+            throw new ContainerException("Failed to deploy [" + planFile + "]", e);
         }
-
     }
 
     /**

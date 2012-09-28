@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.geronimo.internal;
 
 import org.codehaus.cargo.container.geronimo.GeronimoPropertySet;
+import org.codehaus.cargo.container.property.DatasourcePropertySet;
 
 /**
  * Capabilities of the Geronimo's standalone local configuration.
@@ -37,5 +38,7 @@ public class Geronimo2xStandaloneLocalConfigurationCapability
         super();
 
         this.propertySupportMap.remove(GeronimoPropertySet.GERONIMO_SERVLET_CONTAINER_ID);
+        this.defaultSupportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.defaultSupportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
     }
 }
