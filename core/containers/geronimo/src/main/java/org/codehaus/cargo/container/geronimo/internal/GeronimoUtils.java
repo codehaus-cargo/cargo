@@ -36,6 +36,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Various utility methods such as checking is Geronimo is started.
@@ -44,6 +45,11 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
  */
 public class GeronimoUtils
 {
+    /**
+     * Logger.
+     */
+    private Logger logger;
+
     /**
      * Host name.
      */
@@ -69,6 +75,7 @@ public class GeronimoUtils
      */
     public GeronimoUtils(Configuration configuration)
     {
+        logger = configuration.getLogger();
         host = configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
         rmiPort = configuration.getPropertyValue(GeneralPropertySet.RMI_PORT);
         username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
@@ -113,6 +120,8 @@ public class GeronimoUtils
      */
     public long getBundleId(String jarName) throws Exception
     {
+        logger.debug("Looking for bundle " + jarName, this.getClass().getName());
+
         String base;
         String version;
         if (jarName.indexOf('-') != -1)
@@ -162,6 +171,8 @@ public class GeronimoUtils
                         testedBundleId++;
                         String location = (String) mbServerConnection.invoke(
                             bs, "getLocation", new Object[]{testedBundleId}, parameterTypes);
+                        logger.debug("\tChecking bundle " + location + ", ID " + testedBundleId,
+                            this.getClass().getName());
                         if (location.contains(base) && location.contains(version))
                         {
                             bundleId = testedBundleId;
@@ -189,6 +200,8 @@ public class GeronimoUtils
             connector = null;
             System.gc();
         }
+
+        logger.debug("Returning bundle ID " + bundleId, this.getClass().getName());
 
         if (bundleId == 0)
         {
