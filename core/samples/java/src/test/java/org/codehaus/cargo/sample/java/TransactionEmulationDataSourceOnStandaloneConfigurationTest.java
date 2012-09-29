@@ -77,9 +77,10 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
-        // We exclude jboss7x and jboss71x as these don't support transaction emulation the way
-        // CARGO tests it
+        // We exclude geronimo2x, jboss7x and jboss71x as these don't support transaction emulation
+        // the way CARGO tests it
         Set<String> excludedContainerIds = new TreeSet<String>();
+        excludedContainerIds.add("geronimo2x");
         excludedContainerIds.add("jboss7x");
         excludedContainerIds.add("jboss71x");
 

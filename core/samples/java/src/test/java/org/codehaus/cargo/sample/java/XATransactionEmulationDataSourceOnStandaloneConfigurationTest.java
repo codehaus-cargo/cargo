@@ -76,7 +76,7 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
             new CargoTestSuite(
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
-        // We exclude Geronimo and JBoss container as these don't support
+        // We exclude Geronimo and JBoss containers as these don't support
         // XA transaction emulation the way CARGO tests it
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("geronimo2x");

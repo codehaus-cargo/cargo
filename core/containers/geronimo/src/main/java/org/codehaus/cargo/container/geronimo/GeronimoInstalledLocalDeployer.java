@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.geronimo;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.jar.JarFile;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -88,24 +89,49 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     /**
      * Deploys extra classpath elements to the Geronimo classpath.
      * @param extraClasspath Classpath elements to deploy
+     * @throws IOException If the files in the extra classpath cannot be read
      */
-    public void deployExtraClasspath(String[] extraClasspath)
+    public void deployExtraClasspath(String[] extraClasspath) throws IOException
     {
         for (String extraClasspathElement : extraClasspath)
         {
             File extraClasspathElementFile = new File(extraClasspathElement);
-            if (extraClasspathElementFile.getName().indexOf('-') == -1)
+            JarFile jarFile = new JarFile(extraClasspathElementFile);
+
+            extraClasspathElement = extraClasspathElementFile.getName();
+
+            String extension = extraClasspathElement.substring(
+                extraClasspathElement.lastIndexOf('.') + 1);
+            String artifact =
+                jarFile.getManifest().getMainAttributes().getValue("Bundle-SymbolicName");
+            if (artifact == null)
             {
-                String name = extraClasspathElementFile.getName()
-                    .substring(0, extraClasspathElementFile.getName().lastIndexOf('.'));
-                extraClasspathElementFile = new File(
-                    getFileHandler().createUniqueTmpDirectory(), name + "-1.0.jar");
-                getFileHandler().copyFile(
-                    extraClasspathElement, extraClasspathElementFile.getAbsolutePath());
+                artifact = extraClasspathElement.substring(
+                    0, extraClasspathElement.lastIndexOf('.'));
             }
+            String version =
+                jarFile.getManifest().getMainAttributes().getValue("Bundle-Version");
+            if (version == null)
+            {
+                if (artifact.indexOf('-') == -1)
+                {
+                    version = "1.0";
+                }
+                else
+                {
+                    version = artifact.substring(artifact.lastIndexOf('-') + 1);
+                    artifact = artifact.substring(0, artifact.lastIndexOf('-'));
+                }
+            }
+
+            File target = new File(getInstalledContainer().getConfiguration().getHome(),
+                "var/temp/" + artifact + "-" + version + "." + extension);
+            getFileHandler().copyFile(
+                extraClasspathElementFile.getAbsolutePath(), target.getAbsolutePath());
+
             JvmLauncher java = createAdminDeployerJava("install-library");
             java.addAppArguments("--groupId", "org.codehaus.cargo.classpath");
-            java.addAppArgument(extraClasspathElementFile);
+            java.addAppArgument(target);
 
             try
             {

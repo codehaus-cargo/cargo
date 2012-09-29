@@ -20,6 +20,8 @@
 package org.codehaus.cargo.sample.java;
 
 import java.net.MalformedURLException;
+import java.util.Set;
+import java.util.TreeSet;
 
 import junit.framework.Test;
 
@@ -75,11 +77,18 @@ public class DataSourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
+        // We exclude geronimo2x as it doesn't support datasource setup the way CARGO tests it
+        Set<String> excludedContainerIds = new TreeSet<String>();
+        excludedContainerIds.add("geronimo2x");
+        excludedContainerIds.add("jboss7x");
+        excludedContainerIds.add("jboss71x");
+
         suite.addTestSuite(DataSourceOnStandaloneConfigurationTest.class, new Validator[] {
             new IsInstalledLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),
             new HasWarSupportValidator(),
-            new HasDataSourceSupportValidator(ConfigurationType.STANDALONE)});
+            new HasDataSourceSupportValidator(ConfigurationType.STANDALONE)},
+            excludedContainerIds);
         return suite;
     }
 
