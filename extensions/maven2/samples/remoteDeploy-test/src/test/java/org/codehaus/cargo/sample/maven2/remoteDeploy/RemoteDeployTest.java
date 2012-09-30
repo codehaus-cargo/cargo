@@ -116,17 +116,17 @@ public class RemoteDeployTest extends TestCase
 
     private void waitForRemoteDeployStart() throws Exception
     {
+        String outputString = null;
         long timeout = 90 * 1000 + System.currentTimeMillis();
         while (System.currentTimeMillis() < timeout)
         {
-            String outputString;
             try
             {
                 outputString = FileUtils.readFileToString(output);
             }
             catch (FileNotFoundException e)
             {
-                outputString = "";
+                outputString = e.toString();
             }
 
             if (outputString.contains("BUILD SUCCESS"))
@@ -140,9 +140,11 @@ public class RemoteDeployTest extends TestCase
             }
 
             Thread.sleep(1000);
+            System.gc();
         }
 
-        fail("The file " + output + " did not have the BUILD SUCCESS message after 60 seconds");
+        fail("The file " + output + " did not have the BUILD SUCCESS message after 90 seconds. "
+            + "Current content: \n\n" + outputString);
     }
 
 }

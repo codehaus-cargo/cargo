@@ -116,17 +116,17 @@ public class RunMojoTest extends TestCase
 
     private void waitForRunMojoStart() throws Exception
     {
+        String outputString = null;
         long timeout = 90 * 1000 + System.currentTimeMillis();
         while (System.currentTimeMillis() < timeout)
         {
-            String outputString;
             try
             {
                 outputString = FileUtils.readFileToString(output);
             }
             catch (FileNotFoundException e)
             {
-                outputString = "";
+                outputString = e.toString();
             }
 
             if (outputString.contains("Press Ctrl-C to stop the container..."))
@@ -140,9 +140,11 @@ public class RunMojoTest extends TestCase
             }
 
             Thread.sleep(1000);
+            System.gc();
         }
 
-        fail("The file " + output + " did not have the Ctrl-C message after 60 seconds");
+        fail("The file " + output + " did not have the Ctrl-C message after 90 seconds. "
+            + "Current content: \n\n" + outputString);
     }
 
 }

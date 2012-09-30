@@ -21,6 +21,7 @@ package org.codehaus.cargo.sample.maven2.uberwar_test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.List;
 
@@ -56,10 +57,19 @@ public class UberwarTest extends AbstractDocumentBuilderTest
             }
         }).start();
 
+        String outputString = null;
         long timeout = 90 * 1000 + System.currentTimeMillis();
         while (System.currentTimeMillis() < timeout)
         {
-            String outputString = FileUtils.readFileToString(output);
+            try
+            {
+                outputString = FileUtils.readFileToString(output);
+            }
+            catch (FileNotFoundException e)
+            {
+                outputString = e.toString();
+            }
+
             if (outputString.contains("BUILD SUCCESS"))
             {
                 return;
@@ -71,9 +81,11 @@ public class UberwarTest extends AbstractDocumentBuilderTest
             }
 
             Thread.sleep(1000);
+            System.gc();
         }
 
-        fail("The file " + output + " did not have a BUILD SUCCESS message after 60 seconds");
+        fail("The file " + output + " did not have the BUILD SUCCESS message after 60 seconds. "
+            + "Current content: \n\n" + outputString);
     }
 
     public void testUberwarResult() throws Exception

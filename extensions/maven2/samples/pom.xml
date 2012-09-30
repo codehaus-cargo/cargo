@@ -71,7 +71,7 @@
   </build>
 
   <profiles>
-    <!-- Tomcat7 and Jetty8 require JDK 6 -->
+    <!-- Tomcat 7.x and Jetty 8.x require JDK 6 -->
     <profile>
       <id>java6+</id>
       <activation>
@@ -81,6 +81,17 @@
         <module>jetty8x-embedded-test</module>
         <module>tomcat7x-context-test</module>
         <module>tomcat7x-systemProperty-test</module>
+      </modules>
+    </profile>
+
+    <!-- Jetty 9.x requires JDK 7 -->
+    <profile>
+      <id>java7+</id>
+      <activation>
+        <jdk>[1.7,)</jdk>
+      </activation>
+      <modules>
+        <module>jetty9x-embedded-test</module>
       </modules>
     </profile>
 
