@@ -100,8 +100,10 @@ public class JettyExecutorThread extends Thread implements Loggable
         }
         catch (Exception e)
         {
-            throw new ContainerException("Failed to " + (this.isForStart ? "start" : "stop")
-                + " the Jetty container", e);
+            String message = "Failed to " + (this.isForStart ? "start" : "stop")
+                    + " the Jetty container";
+            getLogger().warn(message + ": " + e, this.getClass().getName());
+            throw new ContainerException(message, e);
         }
     }
 

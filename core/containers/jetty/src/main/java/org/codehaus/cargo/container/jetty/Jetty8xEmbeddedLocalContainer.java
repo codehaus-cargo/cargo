@@ -34,7 +34,7 @@ public class Jetty8xEmbeddedLocalContainer extends Jetty7xEmbeddedLocalContainer
     /**
      * Unique container id.
      */
-    public static final String ID = "jetty8x";
+    private static final String ID = "jetty8x";
 
     /**
      * {@inheritDoc}

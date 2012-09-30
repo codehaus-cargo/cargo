@@ -25,32 +25,31 @@ import java.util.List;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
- * Special container support for the Jetty 8.x servlet container.
+ * Special container support for the Jetty 9.x servlet container.
  * 
  * @version $Id$
  */
-public class Jetty8xInstalledLocalContainer extends Jetty7xInstalledLocalContainer
+public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContainer
 {
     /**
      * Unique container id.
      */
-    private static final String ID = "jetty8x";
+    private static final String ID = "jetty9x";
 
     /**
-     * Jetty8xInstalledLocalContainer Constructor.
+     * Jetty9xInstalledLocalContainer Constructor.
      * @param configuration The configuration associated with the container
      */
-    public Jetty8xInstalledLocalContainer(LocalConfiguration configuration)
+    public Jetty9xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
-
-        this.defaultFinalOptions = "jmx,resources,websocket,ext,plus,annotations";
     }
 
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -60,9 +59,10 @@ public class Jetty8xInstalledLocalContainer extends Jetty7xInstalledLocalContain
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
-        return "Jetty 8.x";
+        return "Jetty 9.x";
     }
 
     /**
@@ -73,22 +73,22 @@ public class Jetty8xInstalledLocalContainer extends Jetty7xInstalledLocalContain
     {
         List<String> startArguments = new ArrayList<String>();
 
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-logging.xml"));
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty.xml"));
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-annotations.xml"));
         // Make sure Jetty-plus is part of startup so that CARGO-1122 is tested
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-plus.xml"));
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-deploy.xml"));
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-webapps.xml"));
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-contexts.xml"));
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
+        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-testrealm.xml"));
 
         String[] startArgumentsArray = new String[startArguments.size()];

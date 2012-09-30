@@ -27,18 +27,18 @@ import org.codehaus.cargo.container.jetty.internal.AbstractJettyRemoteContainer;
  * 
  * @version $Id$
  */
-public class Jetty6xRemoteContainer extends AbstractJettyRemoteContainer
+public class Jetty9xRemoteContainer extends AbstractJettyRemoteContainer
 {
     /**
      * Unique container id.
      */
-    private static final String ID = "jetty6x";
+    private static final String ID = "jetty9x";
 
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyRemoteContainer#AbstractJettyRemoteContainer(RuntimeConfiguration)
      */
-    public Jetty6xRemoteContainer(RuntimeConfiguration configuration)
+    public Jetty9xRemoteContainer(RuntimeConfiguration configuration)
     {
         super(configuration);
     }
@@ -49,7 +49,7 @@ public class Jetty6xRemoteContainer extends AbstractJettyRemoteContainer
      */
     public String getName()
     {
-        return "Jetty 6.x Remote";
+        return "Jetty 9.x Remote";
     }
 
     /**

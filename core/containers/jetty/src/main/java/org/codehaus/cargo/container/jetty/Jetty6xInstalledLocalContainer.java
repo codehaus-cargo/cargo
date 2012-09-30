@@ -40,7 +40,7 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
     /**
      * Unique container id.
      */
-    public static final String ID = "jetty6x";
+    private static final String ID = "jetty6x";
 
     /**
      * Capability of the Jetty container.

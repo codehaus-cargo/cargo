@@ -19,45 +19,53 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-import org.codehaus.cargo.container.jetty.internal.AbstractJettyRemoteContainer;
-
 /**
- * Special container support for wrapping a running instance of Jetty.
+ * Jetty 9.x standalone
+ * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
  * 
  * @version $Id$
  */
-public class Jetty6xRemoteContainer extends AbstractJettyRemoteContainer
+public class Jetty9xStandaloneLocalConfiguration extends Jetty8xStandaloneLocalConfiguration
 {
     /**
-     * Unique container id.
+     * The list of files in which to replace <code>jetty.home</code> with
+     * <code>config.hoome</code>.
      */
-    private static final String ID = "jetty6x";
+    private static String[] replaceJettyHomeInFiles = new String[]
+    {
+        "jetty-contexts.xml",
+        "jetty-plus.xml",
+        "jetty-spdy.xml",
+        "jetty-ssl.xml",
+        "jetty-testrealm.xml",
+        "jetty-webapps.xml"
+    };
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyRemoteContainer#AbstractJettyRemoteContainer(RuntimeConfiguration)
+     * @see Jetty8xStandaloneLocalConfiguration#Jetty8xStandaloneLocalConfiguration(String)
      */
-    public Jetty6xRemoteContainer(RuntimeConfiguration configuration)
+    public Jetty9xStandaloneLocalConfiguration(String dir)
     {
-        super(configuration);
+        super(dir);
     }
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
+     * @see Object#toString()
      */
-    public String getName()
+    @Override
+    public String toString()
     {
-        return "Jetty 6.x Remote";
+        return "Jetty 9.x Standalone Configuration";
     }
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
-    public String getId()
+    protected String[] replaceJettyHomeInFiles()
     {
-        return ID;
+        return Jetty9xStandaloneLocalConfiguration.replaceJettyHomeInFiles;
     }
+
 }

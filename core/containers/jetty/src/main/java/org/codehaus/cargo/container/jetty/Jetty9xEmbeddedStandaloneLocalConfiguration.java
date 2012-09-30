@@ -19,45 +19,43 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-import org.codehaus.cargo.container.jetty.internal.AbstractJettyRemoteContainer;
+import org.codehaus.cargo.container.LocalContainer;
 
 /**
- * Special container support for wrapping a running instance of Jetty.
+ * A mostly canned configuration for an embedded Jetty 9.x instance.
  * 
  * @version $Id$
  */
-public class Jetty6xRemoteContainer extends AbstractJettyRemoteContainer
+public class Jetty9xEmbeddedStandaloneLocalConfiguration extends
+    Jetty8xEmbeddedStandaloneLocalConfiguration
 {
     /**
-     * Unique container id.
-     */
-    private static final String ID = "jetty6x";
-
-    /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyRemoteContainer#AbstractJettyRemoteContainer(RuntimeConfiguration)
+     * @see Jetty8xEmbeddedStandaloneLocalConfiguration#Jetty8xEmbeddedStandaloneLocalConfiguration(String)
      */
-    public Jetty6xRemoteContainer(RuntimeConfiguration configuration)
+    public Jetty9xEmbeddedStandaloneLocalConfiguration(String dir)
     {
-        super(configuration);
+        super(dir);
     }
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
+     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration#activateLogging(org.codehaus.cargo.container.LocalContainer)
      */
-    public String getName()
+    @Override
+    protected void activateLogging(LocalContainer container)
     {
-        return "Jetty 6.x Remote";
+        getLogger().info("Jetty9x log configuration not implemented",
+            Jetty9xEmbeddedStandaloneLocalConfiguration.class.getName());
     }
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
+     * @see Object#toString()
      */
-    public String getId()
+    @Override
+    public String toString()
     {
-        return ID;
+        return "Jetty 9.x Embedded Standalone Configuration";
     }
 }

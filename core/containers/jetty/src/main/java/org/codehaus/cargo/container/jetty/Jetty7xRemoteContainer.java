@@ -32,7 +32,7 @@ public class Jetty7xRemoteContainer extends AbstractJettyRemoteContainer
     /**
      * Unique container id.
      */
-    public static final String ID = "jetty7x";
+    private static final String ID = "jetty7x";
 
     /**
      * {@inheritDoc}
