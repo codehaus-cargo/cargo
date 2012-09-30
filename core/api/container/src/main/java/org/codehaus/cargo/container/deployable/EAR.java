@@ -155,6 +155,15 @@ public class EAR extends AbstractDeployable
     }
 
     /**
+     * @return the list of Web URIs of all WAR files contained in the wrapped EAR
+     */
+    public synchronized List<String> getWebUris()
+    {
+        parseWebApps();
+        return new ArrayList<String>(this.webapps.values());
+    }
+
+    /**
      * @param context the context for which we want to find out the web URI
      * @return the web URI for the WAR matching the context passed as parameter
      */

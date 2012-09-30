@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.websphere;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployer.DeployerType;
-import org.codehaus.cargo.container.internal.ServletContainerCapability;
+import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.websphere.internal.WebSphere85xExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.websphere.internal.WebSphere85xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
@@ -127,7 +127,7 @@ public class WebSphereFactoryRegistry extends AbstractFactoryRegistry
     protected void register(ContainerCapabilityFactory containerCapabilityFactory)
     {
         containerCapabilityFactory.registerContainerCapability("websphere85x",
-            ServletContainerCapability.class);
+            J2EEContainerCapability.class);
     }
 
 }

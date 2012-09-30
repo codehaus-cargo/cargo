@@ -25,7 +25,7 @@ import java.io.FileNotFoundException;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.internal.ServletContainerCapability;
+import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.util.CargoException;
@@ -50,7 +50,7 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
     /**
      * Capabilities.
      */
-    private ContainerCapability capability = new ServletContainerCapability();
+    private ContainerCapability capability = new J2EEContainerCapability();
 
     /**
      * {@inheritDoc}
@@ -71,6 +71,14 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
     @Override
     public void doStart(JvmLauncher java) throws Exception
     {
+        String libExt = getFileHandler().append(getHome(), "lib/ext");
+        for (String extraClasspath : getExtraClasspath())
+        {
+            String destinationFile = getFileHandler().append(
+                libExt, getFileHandler().getName(extraClasspath));
+            getFileHandler().copyFile(extraClasspath, destinationFile);
+        }
+
         prepareJvmLauncher(java);
 
         java.setSystemProperty("com.ibm.CORBA.ConfigURL",
@@ -143,6 +151,14 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
         {
             throw new CargoException(
                 "WebSphere cannot be stopped: return code was " + returnCode);
+        }
+
+        String libExt = getFileHandler().append(getHome(), "lib/ext");
+        for (String extraClasspath : getExtraClasspath())
+        {
+            String destinationFile = getFileHandler().append(
+                libExt, getFileHandler().getName(extraClasspath));
+            getFileHandler().delete(destinationFile);
         }
     }
 

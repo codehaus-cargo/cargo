@@ -25,6 +25,7 @@ import java.io.PrintWriter;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
@@ -70,24 +71,57 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
     {
         try
         {
-            String deployableFileName = getFileHandler().getName(deployable.getFile());
+            String deployableFileName = getFileHandler().getName(deployable.getFile())
+                .replace('\\', '/').replace(" ", "\\ ");
+
+            String contextRoot = "";
+            StringBuilder mapWebModToVH = new StringBuilder(" -MapWebModToVH {");
+            if (deployable instanceof WAR)
+            {
+                WAR war = (WAR) deployable;
+                contextRoot = "-contextroot " + war.getContext();
+                mapWebModToVH.append("{" + deployableFileName + " " + deployableFileName
+                    + ",WEB-INF/web.xml default_host}");
+            }
+            else if (deployable instanceof EAR)
+            {
+                EAR ear = (EAR) deployable;
+                boolean first = true;
+                for (String webUri : ear.getWebUris())
+                {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        mapWebModToVH.append(", ");
+                    }
+                    mapWebModToVH.append("{" + webUri + " " + webUri
+                        + ",WEB-INF/web.xml default_host}");
+                }
+            }
+            else
+            {
+                throw new CargoException("Unknown deployable: " + deployable.getType());
+            }
+            mapWebModToVH.append("}");
+
             executeWsAdmin(
                 "set asn [$AdminControl queryNames type=ApplicationManager,process="
                     + container.getConfiguration().getPropertyValue(WebSpherePropertySet.SERVER)
                     + ",*]",
                 "$AdminApp install "
                     + deployable.getFile().replace('\\', '/').replace(" ", "\\ ")
-                    + " {-contextroot " + ((WAR) deployable).getContext()
+                    + " {" + contextRoot + " "
                     + " -appname " + getDeployableName(deployable)
-                    + " -MapWebModToVH {{"
-                        + deployableFileName + " " + deployableFileName
-                        + ",WEB-INF/web.xml default_host}}}",
+                    + mapWebModToVH.toString() + "}",
                 "$AdminConfig save",
                 "$AdminControl invoke $asn startApplication " + getDeployableName(deployable));
         }
         catch (Exception e)
         {
-            throw new CargoException("Undeploy failed", e);
+            throw new CargoException("Deploy failed", e);
         }
     }
 
@@ -123,6 +157,10 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
         if (deployable instanceof WAR)
         {
             return "cargo-deployable-" + ((WAR) deployable).getContext();
+        }
+        else if (deployable instanceof EAR)
+        {
+            return "cargo-deployable-" + ((EAR) deployable).getName();
         }
         else
         {
