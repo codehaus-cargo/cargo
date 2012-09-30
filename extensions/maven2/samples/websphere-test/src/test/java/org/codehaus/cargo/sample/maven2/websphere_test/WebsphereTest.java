@@ -32,7 +32,25 @@ public class WebsphereTest extends TestCase
 
     Logger logger = new SimpleLogger();
 
-    public void testWebsphere() throws Exception
+    public void testClasspathWar() throws Exception
+    {
+        final URL url = new URL("http://localhost:" + System.getProperty("http.port")
+            + "/classpath-war/test");
+        final String expected = "Got class!";
+
+        PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
+    }
+
+    public void testSimpleEar() throws Exception
+    {
+        final URL url = new URL("http://localhost:" + System.getProperty("http.port")
+            + "/simpleweb");
+        final String expected = "Sample page for testing";
+
+        PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
+    }
+
+    public void testSimpleWar() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
             + "/simple-war");

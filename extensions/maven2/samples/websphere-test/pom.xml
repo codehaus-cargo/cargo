@@ -41,6 +41,23 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
+      <artifactId>classpath-war</artifactId>
+      <version>${cargo.resources.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>simple-ear</artifactId>
+      <version>${cargo.resources.version}</version>
+      <type>ear</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>simple-jar</artifactId>
+      <version>${cargo.resources.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-war</artifactId>
       <version>${cargo.resources.version}</version>
       <type>war</type>
@@ -67,6 +84,12 @@
                 <containerId>websphere85x</containerId>
                 <type>installed</type>
                 <home>${cargo.websphere85x.home}</home>
+                <dependencies>
+                  <dependency>
+                    <groupId>org.codehaus.cargo</groupId>
+                    <artifactId>simple-jar</artifactId>
+                  </dependency>
+                </dependencies>
               </container>
               <configuration>
                 <home>${cargo.websphere85x.home}/profiles/AppSrv02</home>
@@ -81,6 +104,26 @@
                 </properties>
               </configuration>
               <deployables>
+                <deployable>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>classpath-war</artifactId>
+                  <type>war</type>
+                  <properties>
+                    <context>
+                    classpath-war
+                    </context>
+                  </properties>
+                </deployable>
+                <deployable>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>simple-ear</artifactId>
+                  <type>ear</type>
+                  <properties>
+                    <name>
+                    simple-ear
+                    </name>
+                  </properties>
+                </deployable>
                 <deployable>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-war</artifactId>
