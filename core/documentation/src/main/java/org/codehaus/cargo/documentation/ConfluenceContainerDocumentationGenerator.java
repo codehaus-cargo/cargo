@@ -117,9 +117,27 @@ public class ConfluenceContainerDocumentationGenerator
         "jrun4x",
         "oc4j10x",
         "resin3x",
+        "resin31x",
         "tomcat6x",
         "weblogic9x",
         "weblogic10x"
+    });
+
+    /**
+     * Containers that work on Java 6.
+     */
+    private static final List<String> JAVA6_CONTAINERS = Arrays.asList(new String[] {
+        "geronimo3x",
+        "glassfish3x",
+        "jboss6x",
+        "jboss61x",
+        "jboss7x",
+        "jboss71x",
+        "jetty8x",
+        "tomcat7x",
+        "weblogic103x",
+        "weblogic12x",
+        "websphere85x"
     });
 
     /**
@@ -1075,20 +1093,33 @@ public class ConfluenceContainerDocumentationGenerator
             if (GeneralPropertySet.JAVA_HOME.equals(property))
             {
                 String javaVersion;
+                String extra = "";
+
                 if (JAVA4_CONTAINERS.contains(containerId))
                 {
-                    javaVersion = "1.4";
+                    javaVersion = "4";
                 }
                 else if (JAVA5_CONTAINERS.contains(containerId))
                 {
-                    javaVersion = "1.5";
+                    javaVersion = "5";
+                }
+                else if (JAVA6_CONTAINERS.contains(containerId))
+                {
+                    javaVersion = "6";
                 }
                 else
                 {
-                    javaVersion = "1.6";
+                    javaVersion = "7";
                 }
 
-                output.append(" | {_}JAVA_HOME version " + javaVersion + " or newer{_} |");
+                if (containerId.startsWith("websphere"))
+                {
+                    extra = LINE_SEPARATOR + "{_}By default, CARGO will use the JVM from the "
+                        + "WebSphere installation directory{_}";
+                }
+
+                output.append(
+                    " | {_}JAVA_HOME version " + javaVersion + " or newer{_}" + extra + " |");
             }
             else
             {

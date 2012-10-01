@@ -26,6 +26,7 @@ import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.util.CargoException;
@@ -71,6 +72,12 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
     @Override
     public void doStart(JvmLauncher java) throws Exception
     {
+        if (getConfiguration().getPropertyValue(GeneralPropertySet.JAVA_HOME) == null)
+        {
+            getConfiguration().setProperty(GeneralPropertySet.JAVA_HOME,
+                getFileHandler().append(getHome(), "java"));
+        }
+
         String libExt = getFileHandler().append(getHome(), "lib/ext");
         for (String extraClasspath : getExtraClasspath())
         {
