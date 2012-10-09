@@ -1,9 +1,6 @@
 /*
  * ========================================================================
  *
- * Copyright 2003-2004 The Apache Software Foundation. Code from this file 
- * was originally imported from the Jakarta Cactus project.
- *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,8 +26,8 @@ import java.net.URLEncoder;
 
 /**
  * Represents a form writer that allows writing form fields that are url encoded.
- * 
- * @version $Id: $
+ *
+ * @version $Id$
  */
 public class UrlEncodedFormWriter
 {
@@ -43,16 +40,15 @@ public class UrlEncodedFormWriter
      * The buffer that will contain the url encoded form data.
      */
     private final StringBuffer formData = new StringBuffer();
-    
+
     /**
      * The output stream to write to.
      */
     private DataOutputStream out = null;
-    
-    
+
     /**
      * Constructs an UrlEncodedFormWriter.
-     * 
+     *
      */
     public UrlEncodedFormWriter()
     {
@@ -60,7 +56,7 @@ public class UrlEncodedFormWriter
 
     /**
      * Writes a string field value.
-     * 
+     *
      * @param name the field name (required)
      * @param value the field value
      * @throws IOException on input/output errors
@@ -76,15 +72,16 @@ public class UrlEncodedFormWriter
         {
             formData.append("&");
         }
+
         formData.append(name + "=");
         formData.append(URLEncoder.encode(value, charset));
     }
-    
+
     /**
      * Writes the form data to the output stream.
-     * 
+     *
      * @param os The output stream
-     * @throws IOException 
+     * @throws IOException
      */
     public void write(OutputStream os) throws IOException
     {

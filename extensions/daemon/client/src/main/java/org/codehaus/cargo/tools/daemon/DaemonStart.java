@@ -1,9 +1,6 @@
 /*
  * ========================================================================
  *
- * Copyright 2003-2004 The Apache Software Foundation. Code from this file 
- * was originally imported from the Jakarta Cactus project.
- *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,8 +26,8 @@ import org.codehaus.cargo.container.deployable.Deployable;
 
 /**
  * Represents a daemon start request
- * 
- * @version $Id: $
+ *
+ * @version $Id$
  */
 public class DaemonStart
 {
@@ -38,17 +35,17 @@ public class DaemonStart
      * The unique identifier of the container to start
      */
     private String handleId;
-    
+
     /**
      * The container to start
      */
     private InstalledLocalContainer container;
-    
+
     /**
      * The deployables to deploy
      */
     private List<Deployable> deployables;
-    
+
     /**
      * The zip file to install
      */
@@ -117,5 +114,5 @@ public class DaemonStart
     {
         this.installerZipFile = installerZipFile;
     }
-    
+
 }

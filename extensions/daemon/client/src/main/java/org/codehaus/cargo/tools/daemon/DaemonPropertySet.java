@@ -22,7 +22,7 @@ package org.codehaus.cargo.tools.daemon;
 /**
  * Gathers all properties related to the Cargo daemon.
  * 
- * @version $Id:  $
+ * @version $Id$
  */
 public interface DaemonPropertySet
 {

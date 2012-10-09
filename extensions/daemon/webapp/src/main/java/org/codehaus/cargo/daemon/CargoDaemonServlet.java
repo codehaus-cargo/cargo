@@ -63,8 +63,8 @@ import org.json.simple.JSONArray;
 
 /**
  * Cargo daemon servlet.
- * 
- * @version $Id: $
+ *
+ * @version $Id$
  */
 public class CargoDaemonServlet extends HttpServlet
 {
@@ -91,7 +91,7 @@ public class CargoDaemonServlet extends HttpServlet
 
     /**
      * File manager for the daemon.
-     */    
+     */
     private final FileManager fileManager = new FileManager();
 
     /**
@@ -103,10 +103,10 @@ public class CargoDaemonServlet extends HttpServlet
      * Default index page.
      */
     private String indexPage;
-    
+
     /**
      * Construct the daemon servlet.
-     * 
+     *
      * @throws Exception If exception happens
      */
     public CargoDaemonServlet() throws Exception
@@ -114,11 +114,11 @@ public class CargoDaemonServlet extends HttpServlet
         super();
 
         readIndexPage();
-    }    
+    }
 
     /**
      * Read the index page.
-     * 
+     *
      * @throws Exception If exception happens
      */
     private void readIndexPage() throws Exception
@@ -183,9 +183,9 @@ public class CargoDaemonServlet extends HttpServlet
             try
             {
                 startRequest = new StartRequest().parse(request);
-                
+
                 startContainer(startRequest);
-                
+
                 response.getWriter().println("OK - STARTED");
             }
             catch (Throwable e)
@@ -206,8 +206,8 @@ public class CargoDaemonServlet extends HttpServlet
             {
                 String handleId = request.getParameter("handleId");
                 Handle handle = handles.get(handleId);
-    
-                if (handle != null) 
+
+                if (handle != null)
                 {
                     handle.getContainer().stop();
                     handles.remove(handleId);
@@ -217,7 +217,7 @@ public class CargoDaemonServlet extends HttpServlet
             catch (Throwable e)
             {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
-            }            
+            }
         }
         else if ("/viewlog".equals(request.getServletPath()))
         {
@@ -225,15 +225,15 @@ public class CargoDaemonServlet extends HttpServlet
             {
                 String handleId = request.getParameter("handleId");
                 Handle handle = handles.get(handleId);
-    
+
                 if (handle == null)
                 {
                     throw new CargoDaemonException("Handle id " + handleId + " not found.");
                 }
-    
+
                 InstalledLocalContainer container = handle.getContainer();
                 String logFilePath = container.getOutput();
-                
+
                 if (logFilePath == null || logFilePath.length() == 0)
                 {
                     response.getWriter().println("");
@@ -246,8 +246,8 @@ public class CargoDaemonServlet extends HttpServlet
             catch (Throwable e)
             {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
-            }            
-        }        
+            }
+        }
         else if ("/installed".equals(request.getServletPath()))
         {
             String file = request.getParameter("file");
@@ -278,7 +278,7 @@ public class CargoDaemonServlet extends HttpServlet
 
     /**
      * Starts the container.
-     * 
+     *
      * @param request Contains the information needed to start a container
      * @throws Throwable If exception happens.
      */
@@ -301,15 +301,14 @@ public class CargoDaemonServlet extends HttpServlet
             request.getPropertiesList("configurationFiles", false);
         List<Properties> deployableFiles = request.getPropertiesList("deployableFiles", false);
         InputStream installerZipInputStream = request.getFile("installerZipFileData", false);
-        
-        
+
         Handle handle = handles.get(handleId);
-        
+
         if (handle != null)
         {
             InstalledLocalContainer container = handle.getContainer();
-            
-            container.stop();            
+
+            container.stop();
             handles.remove(handleId);
         }
 
@@ -322,21 +321,20 @@ public class CargoDaemonServlet extends HttpServlet
             (LocalConfiguration) CONFIGURATION_FACTORY.createConfiguration(containerId,
                 ContainerType.INSTALLED, ConfigurationType.toType(configurationType),
                 configurationHome);
-        
+
         configuration.getProperties().putAll(configurationProperties);
 
         InstalledLocalContainer container =
             (InstalledLocalContainer) CONTAINER_FACTORY.createContainer(containerId,
                 ContainerType.INSTALLED, configuration);
-        
+
         container.setJvmLauncherFactory(new DaemonJvmLauncherFactory());
- 
 
         if (timeout != null && timeout.length() > 0)
         {
             container.setTimeout(Long.parseLong(timeout));
         }
-        
+
         container.setHome(containerHome);
         container.setSystemProperties(containerProperties);
         if (containerOutput != null && containerOutput.length() > 0)
@@ -345,12 +343,12 @@ public class CargoDaemonServlet extends HttpServlet
         }
 
         container.setAppend(Boolean.getBoolean(containerAppend));
-        
+
         if (installerZipFile != null && installerZipInputStream != null)
         {
             fileManager.saveFile(installerZipFile, installerZipInputStream);
         }
-        
+
         if (installerZipUrl != null || installerZipFile != null)
         {
             containerHome = installContainer(installerZipUrl, installerZipFile);
@@ -369,25 +367,24 @@ public class CargoDaemonServlet extends HttpServlet
 
         setupDeployableFiles(handleId, containerId, deployableFiles, configuration, request);
 
-
-        try 
+        try
         {
             container.start();
-        } 
-        catch (Throwable t) 
-        {            
+        }
+        catch (Throwable t)
+        {
             // Make sure container is stopped.
             container.stop();
-            
+
             throw t;
         }
-        
-        handles.put(handleId, new Handle(handleId, container, configuration));        
+
+        handles.put(handleId, new Handle(handleId, container, configuration));
     }
 
     /**
      * Setup the configuration files.
-     * 
+     *
      * @param handleId Unique handle identifier of the container.
      * @param configuration Reference to the cargo configuration.
      * @param configurationFiles List of properties for configuration files.
@@ -423,7 +420,7 @@ public class CargoDaemonServlet extends HttpServlet
 
     /**
      * Setup the deployable files.
-     * 
+     *
      * @param handleId Unique handle identifier of the container.
      * @param containerId The container identifier.
      * @param deployableFiles List of properties for deployable files.
@@ -446,11 +443,11 @@ public class CargoDaemonServlet extends HttpServlet
 
             Deployable deployable =
                 DEPLOYABLE_FACTORY.createDeployable(containerId, location, deployableType);
-            
+
             if (deployable instanceof WAR)
             {
                 WAR war = (WAR) deployable;
-                
+
                 String context = properties.get("context", false);
 
                 if (context != null && context.length() > 0)
@@ -467,7 +464,7 @@ public class CargoDaemonServlet extends HttpServlet
 
     /**
      * Install the container based on a zip file or an URL to a zip file.
-     * 
+     *
      * @param url The URL to a zip file
      * @param file Or the path to zip file
      * @return the container home path
@@ -478,7 +475,7 @@ public class CargoDaemonServlet extends HttpServlet
         {
             Installer installer;
             URL installURL;
-            
+
             if (file != null)
             {
                 installURL = new URL(fileManager.getFileURL(file));
@@ -487,10 +484,8 @@ public class CargoDaemonServlet extends HttpServlet
             {
                 installURL = new URL(url);
             }
-            
-            
-            
-            installer = new ZipURLInstaller(installURL, fileManager.getInstallDirectory(), 
+
+            installer = new ZipURLInstaller(installURL, fileManager.getInstallDirectory(),
                 fileManager.getInstallDirectory());
             installer.install();
 

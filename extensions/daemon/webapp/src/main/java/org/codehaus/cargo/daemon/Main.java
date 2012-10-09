@@ -34,19 +34,19 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
- * Selfcontained main bootstrap class to launch the 
+ * Selfcontained main bootstrap class to launch the
  * webcontainer tjws and run the daemon web application.
- * 
- * @version $Id: $
+ *
+ * @version $Id$
  */
 public final class Main
 {
     /**
-     * The logger for errors during startup. 
+     * The logger for errors during startup.
      * Cannot use cargo classes because they are not loaded yet.
      */
     private static final PrintStream LOGGER = System.err;
-    
+
     /**
      * Constructor not allowed for utility classes.
      */
@@ -54,7 +54,7 @@ public final class Main
     {
         return;
     }
-    
+
     /**
      * @return the daemon home directory
      */
@@ -62,7 +62,7 @@ public final class Main
     {
         String home = System.getProperty("user.home");
         File homeDir = null;
-        
+
         if (home == null)
         {
             homeDir = new File(System.getProperty("java.io.tmpdir"), "cargo");
@@ -71,13 +71,13 @@ public final class Main
         {
             homeDir = new File(home, ".cargo");
         }
-        
+
         return homeDir;
     }
-    
+
     /**
      * Gets the daemon destination webapp directory.
-     *  
+     *
      * @param homeDirectory The daemon home directory.
      * @return the webapp directory.
      */
@@ -85,7 +85,7 @@ public final class Main
     {
         return new File(homeDirectory, "daemon");
     }
-    
+
     /**
      * Gets the daemon destination war directory.
      * @param webAppDirectory The webapp directory
@@ -94,7 +94,7 @@ public final class Main
     private static File getWarDirectory(File webAppDirectory)
     {
         return new File(new File(webAppDirectory, ".web-apps-target"), "daemon");
-    }    
+    }
 
     /**
      * Gets the server directory.
@@ -103,17 +103,16 @@ public final class Main
      */
     private static File getServerDirectory(File warDirectory)
     {
-        return new File(new File(warDirectory, "WEB-INF"), "tjws");        
+        return new File(new File(warDirectory, "WEB-INF"), "tjws");
     }
-      
-    
+
     /**
      * Deletes a directory recursively.
-     * 
+     *
      * @param file Path to directory to delete.
      * @throws IOException If io exception happens.
      */
-    private static void deleteDirectory(File file) throws IOException 
+    private static void deleteDirectory(File file) throws IOException
     {
         if (file.isDirectory())
         {
@@ -128,41 +127,41 @@ public final class Main
         }
         file.delete();
     }
-    
+
     /**
      * Unpacks a jar.
-     * 
+     *
      * @param jarFile Jar file path.
      * @param destDir Destination directory.
      * @throws IOException If io exception happens.
      */
     @SuppressWarnings("rawtypes")
     private static void unpack(String jarFile, File destDir) throws IOException
-    {        
+    {
         byte[] buffer = new byte[1024 * 1024];
         int length;
         destDir.mkdirs();
-        
+
         JarFile jar = new JarFile(jarFile);
         Enumeration enumeration = jar.entries();
-        while (enumeration.hasMoreElements()) 
+        while (enumeration.hasMoreElements())
         {
             InputStream is = null;
             FileOutputStream os = null;
 
             JarEntry jarEntry = (JarEntry) enumeration.nextElement();
             File destFile = new File(destDir, jarEntry.getName());
-            if (jarEntry.isDirectory()) 
+            if (jarEntry.isDirectory())
             {
                 destFile.mkdir();
                 continue;
             }
-                        
-            try 
+
+            try
             {
                 is = jar.getInputStream(jarEntry);
                 os = new FileOutputStream(destFile);
-                while ((length = is.read(buffer)) >= 0) 
+                while ((length = is.read(buffer)) >= 0)
                 {
                     os.write(buffer, 0, length);
                 }
@@ -178,25 +177,25 @@ public final class Main
                     is.close();
                 }
             }
-        }   
+        }
     }
-    
+
     /**
      * Updates the last-modified timestamp of the webapp directory to that of the daemon war.
-     * 
+     *
      * @param destDir The webapp directory.
      * @param warFilePath The war filepath.
      */
     private static void updateLastModified(File destDir, String warFilePath)
     {
         File warFile = new File(warFilePath);
-        
+
         destDir.setLastModified(warFile.lastModified());
     }
 
-    /** 
+    /**
      * Checks if unpacking is needed.
-     * 
+     *
      * @param webAppDirectory The webapp directory.
      * @param warFilePath The daemon war filepath.
      * @return {@code true} if unpacking is needed, {@code false} otherwise.
@@ -204,50 +203,49 @@ public final class Main
     private static boolean checkUnpack(File webAppDirectory, String warFilePath)
     {
         File warFile = new File(warFilePath);
-        
-        if (!webAppDirectory.exists()) 
+
+        if (!webAppDirectory.exists())
         {
             return true;
         }
 
-        
         return webAppDirectory.lastModified() != warFile.lastModified();
     }
 
-
     /**
      * Main entrypoint.
-     * 
+     *
      * @param bootstrapArguments The bootstrap arguments.
      * @throws Exception If exception happens.
      */
-    public static void main(String[] bootstrapArguments) throws Exception 
+    public static void main(String[] bootstrapArguments) throws Exception
     {
         List<String> serverArguments = new ArrayList<String>(bootstrapArguments.length);
-        
+
         for (String argument : bootstrapArguments)
         {
             serverArguments.add(argument);
         }
-                
+
         String warFilePath = new File(Main.class.getProtectionDomain()
             .getCodeSource().getLocation().toURI()).getAbsolutePath();
-        
+
         File homeDirectory = getHomeDirectory();
         File webAppDirectory = getWebAppDirectory(homeDirectory);
         File warDirectory = getWarDirectory(webAppDirectory);
         File webServerDirectory = getServerDirectory(warDirectory);
-        
+
         warDirectory.mkdirs();
-        
-        if (checkUnpack(webAppDirectory, warFilePath)) 
+
+        if (checkUnpack(webAppDirectory, warFilePath))
         {
-            deleteDirectory(webAppDirectory);                
+            deleteDirectory(webAppDirectory);
             unpack(warFilePath, warDirectory);
             updateLastModified(webAppDirectory, warFilePath);
         }
-        
+
         System.setProperty("tjws.webappdir", webAppDirectory.getAbsolutePath());
+        System.setProperty("tjws.wardeploy.as-root", "daemon");
         serverArguments.add("-out");
         serverArguments.add("Acme.Utils$DummyPrintStream");
         serverArguments.add("-nohup");
@@ -256,14 +254,13 @@ public final class Main
         {
             System.setProperty("cargo.home", homeDirectory.getAbsolutePath());
         }
-        
-        
-        try 
+
+        try
         {
             List<URL> classpathURLs = new ArrayList<URL>();
-            
+
             classpathURLs.add(warDirectory.toURI().toURL());
-            
+
             for (File file : webServerDirectory.listFiles())
             {
                 if (file.getName().endsWith("jar"))
@@ -271,15 +268,14 @@ public final class Main
                     classpathURLs.add(file.toURI().toURL());
                 }
             }
-                        
-            
+
             URLClassLoader serverClassloader = new URLClassLoader(
                 classpathURLs.toArray(new URL[0]), Main.class.getClassLoader());
-            Class<?> mainClass = serverClassloader.loadClass("Acme.Serve.Main");        
+            Class<?> mainClass = serverClassloader.loadClass("Acme.Serve.Main");
             Method main = mainClass.getMethod("main", new Class[] {new String[0].getClass()});
             main.invoke(null, new Object[] {serverArguments.toArray(new String[0])});
-        } 
-        catch (Exception e) 
+        }
+        catch (Exception e)
         {
             LOGGER.println(e.toString());
         }

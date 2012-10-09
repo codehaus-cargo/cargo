@@ -26,8 +26,8 @@ import java.io.PrintWriter;
 
 /**
  * Redirects the output of a process into an OutputStream by periodically pumping data.
- * 
- * @version $Id: $
+ *
+ * @version $Id$
  */
 class DaemonJvmLauncherStreamRedirector implements Runnable
 {
@@ -35,7 +35,6 @@ class DaemonJvmLauncherStreamRedirector implements Runnable
      * The size of the buffer that will contain the output data of the process.
      */
     private static final int BUFFERSIZE = 4096;
-    
 
     /**
      * The input stream of the process
@@ -49,7 +48,7 @@ class DaemonJvmLauncherStreamRedirector implements Runnable
 
     /**
      * Creates a new redirector.
-     * 
+     *
      * @param is the input stream
      * @param os the output stream
      */

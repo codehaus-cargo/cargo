@@ -1,9 +1,6 @@
 /*
  * ========================================================================
  *
- * Copyright 2003-2004 The Apache Software Foundation. Code from this file 
- * was originally imported from the Jakarta Cactus project.
- *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,8 +24,8 @@ import java.util.Map;
 
 /**
  * Represents the daemon parameters to be sent to the listening daemon.
- * 
- * @version $Id: $
+ *
+ * @version $Id$
  */
 public class DaemonParameters
 {
@@ -44,7 +41,7 @@ public class DaemonParameters
 
     /**
      * Sets a daemon parameter.
-     * 
+     *
      * @param key The key name
      * @param value The value string for the specified key
      */
@@ -52,10 +49,10 @@ public class DaemonParameters
     {
         parameters.put(key, value);
     }
-    
+
     /**
      * Sets a daemon file.
-     * 
+     *
      * @param key The key name
      * @param file The path to a file
      */
@@ -63,7 +60,7 @@ public class DaemonParameters
     {
         files.put(key, file);
     }
-    
+
     /**
      * @return if this is a multipart form or not
      */
@@ -71,7 +68,7 @@ public class DaemonParameters
     {
         return files.size() > 0;
     }
-    
+
     /**
      * @return the parameter map
      */
@@ -79,7 +76,7 @@ public class DaemonParameters
     {
         return parameters;
     }
-    
+
     /**
      * @return the files map
      */

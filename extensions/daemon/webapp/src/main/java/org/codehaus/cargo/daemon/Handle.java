@@ -1,9 +1,6 @@
 /*
  * ========================================================================
  *
- * Copyright 2003-2004 The Apache Software Foundation. Code from this file 
- * was originally imported from the Jakarta Cactus project.
- *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,8 +24,8 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
  * A handle keeps track of deployed containers.
- * 
- * @version $Id: $
+ *
+ * @version $Id$
  */
 public class Handle
 {
@@ -36,20 +33,20 @@ public class Handle
      * The unique handle identifier of a container.
      */
     private String id;
-    
+
     /**
      * The installed container.
      */
     private InstalledLocalContainer container;
-    
+
     /**
      * The configuration.
      */
     private LocalConfiguration configuration;
-    
+
     /**
      * Constructs a handle.
-     * 
+     *
      * @param id The handle identifier.
      * @param container The container.
      * @param configuration The configuration.
@@ -60,7 +57,7 @@ public class Handle
         this.container = container;
         this.configuration = configuration;
     }
-    
+
     /**
      * @return the handle identifier
      */
@@ -68,17 +65,17 @@ public class Handle
     {
         return id;
     }
-    
+
     /**
      * Sets the handle identifier.
-     * 
+     *
      * @param id The handle identifier.
      */
     public void setId(String id)
     {
         this.id = id;
     }
-    
+
     /**
      * @return the container
      */
@@ -86,17 +83,17 @@ public class Handle
     {
         return container;
     }
-    
+
     /**
      * Sets the container.
-     * 
+     *
      * @param container The container.
      */
     public void setContainer(InstalledLocalContainer container)
     {
         this.container = container;
     }
-    
+
     /**
      * @return the configuration.
      */
@@ -107,14 +104,14 @@ public class Handle
 
     /**
      * Sets the configuration.
-     * 
+     *
      * @param configuration The configuration
      */
     public void setConfiguration(LocalConfiguration configuration)
     {
         this.configuration = configuration;
     }
-    
+
     @Override
     public String toString()
     {

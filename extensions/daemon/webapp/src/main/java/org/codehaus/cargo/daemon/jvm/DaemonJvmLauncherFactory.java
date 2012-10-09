@@ -23,11 +23,10 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherFactory;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
 
-
 /**
  * The factory to create daemon JVM launchers.
- * 
- * @version $Id: $
+ *
+ * @version $Id$
  */
 public class DaemonJvmLauncherFactory implements JvmLauncherFactory
 {

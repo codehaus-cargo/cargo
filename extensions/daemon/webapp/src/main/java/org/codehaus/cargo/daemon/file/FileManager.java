@@ -1,9 +1,6 @@
 /*
  * ========================================================================
  *
- * Copyright 2003-2004 The Apache Software Foundation. Code from this file 
- * was originally imported from the Jakarta Cactus project.
- *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,8 +30,8 @@ import org.codehaus.cargo.util.FileHandler;
 
 /**
  * File manager to deal with files and directories in the daemon workspace.
- * 
- * @version $Id: $
+ *
+ * @version $Id$
  */
 public class FileManager
 {
@@ -68,19 +65,18 @@ public class FileManager
      */
     private final FileHandler fileHandler = new DefaultFileHandler();
 
-
     /**
      * Get the cargo home directory.
-     * 
+     *
      * @return the cargo home directory
      */
     public String getCargoHomeDirectory()
     {
-        
+
         if (cargoHomeDirectory == null)
         {
             cargoHomeDirectory = System.getProperty("cargo.home");
-            
+
             if (cargoHomeDirectory == null)
             {
                 cargoHomeDirectory = fileHandler.getTmpPath(".");
@@ -92,7 +88,7 @@ public class FileManager
 
     /**
      * Get the workspace directory.
-     * 
+     *
      * @return the workspace directory
      */
     public String getWorkspaceDirectory()
@@ -104,10 +100,10 @@ public class FileManager
 
         return workspaceDirectory;
     }
-    
+
     /**
      * Get the install directory.
-     * 
+     *
      * @return the install directory
      */
     public String getInstallDirectory()
@@ -118,11 +114,11 @@ public class FileManager
         }
 
         return installDirectory;
-    }    
-    
+    }
+
     /**
      * Get the workspace directory for a container.
-     * 
+     *
      * @param handleId The handle identifier of a container
      * @return the workspace directory
      */
@@ -132,14 +128,13 @@ public class FileManager
         {
             workspaceDirectory = fileHandler.append(getCargoHomeDirectory(), "workspace");
         }
-        
+
         return fileHandler.append(workspaceDirectory, handleId);
     }
-    
-    
+
     /**
      * Get the configuration home directory.
-     * 
+     *
      * @return the configuration home directory
      */
     public String getConfigurationDirectory()
@@ -152,10 +147,10 @@ public class FileManager
 
         return configurationHomeDirectory;
     }
-    
+
     /**
      * Get the log directory.
-     * 
+     *
      * @return the log directory
      */
     public String getLogDirectory()
@@ -168,21 +163,21 @@ public class FileManager
 
         return logDirectory;
     }
-    
+
     /**
      * Get the log directory for a container.
-     * 
+     *
      * @param handleId The handle identifier of a container
      * @return the log directory for a container
      */
     public String getLogDirectory(String handleId)
     {
         return fileHandler.append(getLogDirectory(), handleId);
-    }    
-    
+    }
+
     /**
      * Get the log file for a container.
-     * 
+     *
      * @param handleId The handle identifier of a container
      * @param filename The log file name
      * @return the log directory for a container
@@ -190,7 +185,7 @@ public class FileManager
     public String getLogFile(String handleId, String filename)
     {
         File file = new File(filename);
-        
+
         if (file.isAbsolute())
         {
             return filename;
@@ -199,12 +194,11 @@ public class FileManager
         {
             return fileHandler.append(getLogDirectory(handleId), filename);
         }
-    }    
-    
+    }
 
     /**
      * Get the configuration home directory for a container.
-     * 
+     *
      * @param handleId The handle identifier of a container
      * @return the default configuration home directory for a container
      */
@@ -213,7 +207,6 @@ public class FileManager
         return fileHandler.append(getConfigurationDirectory(), handleId);
     }
 
-
     /**
      * Delete temporary files.
      */
@@ -221,65 +214,64 @@ public class FileManager
     {
         fileHandler.delete(getWorkspaceDirectory());
     }
-    
+
     /**
      * Saves the input stream to a file, relative to the workspace directory.
-     * 
-     * @param relativeFile The relative filename 
+     *
+     * @param relativeFile The relative filename
      * @param inputStream The inputstream containing the file contents
      * @return path to the saved file
      */
     public String saveFile(String relativeFile, InputStream inputStream)
     {
         String file = fileHandler.append(getWorkspaceDirectory(), relativeFile);
-        
+
         fileHandler.copy(inputStream, fileHandler.getOutputStream(file));
 
         return file;
     }
-    
-    
+
     /**
      * Saves the input stream to a file, relative to the workspace directory of a container.
-     * 
+     *
      * @param handleId The handle identifier of a container
-     * @param relativeFile The relative filename 
+     * @param relativeFile The relative filename
      * @param inputStream The inputstream containing the file contents
      * @return path to the saved file
      */
     public String saveFile(String handleId, String relativeFile, InputStream inputStream)
     {
         String file = fileHandler.append(getWorkspaceDirectory(handleId), relativeFile);
-        
+
         fileHandler.copy(inputStream, fileHandler.getOutputStream(file));
 
         return file;
     }
-    
+
     /**
-     * Saves the input stream to a file, relative to the workspace directory of a container 
+     * Saves the input stream to a file, relative to the workspace directory of a container
      * and a given directory.
-     * 
+     *
      * @param handleId The handle identifier of a container
      * @param relativeDirectory The relative directory
-     * @param relativeFile The relative filename  
+     * @param relativeFile The relative filename
      * @param inputStream The inputstream containing the file contents
      * @return path to the saved file
      */
-    public String saveFile(String handleId, String relativeDirectory, String relativeFile, 
+    public String saveFile(String handleId, String relativeDirectory, String relativeFile,
         InputStream inputStream)
     {
-        String file = fileHandler.append(fileHandler.append(getWorkspaceDirectory(handleId), 
+        String file = fileHandler.append(fileHandler.append(getWorkspaceDirectory(handleId),
             relativeDirectory), relativeFile);
-        
+
         fileHandler.copy(inputStream, fileHandler.getOutputStream(file));
 
         return file;
     }
-    
+
     /**
      * Check if filename exists in the workspace.
-     * 
+     *
      * @param filename The file to check
      * @return true if file exists
      */
@@ -288,10 +280,10 @@ public class FileManager
         String filepath = fileHandler.append(getWorkspaceDirectory(), filename);
         return fileHandler.exists(filepath);
     }
-    
+
     /**
      * Get the URL for a filename in the workspace.
-     * 
+     *
      * @param filename The filename to construct URL for
      * @return the URL for the filename
      */
@@ -300,21 +292,21 @@ public class FileManager
         String filepath = fileHandler.append(getWorkspaceDirectory(), filename);
         return fileHandler.getURL(filepath);
     }
-    
+
     /**
      * Get the file input stream
-     * 
+     *
      * @param filename The filename to get input stream from
      * @return the input stream
      */
     public InputStream getFileInputStream(String filename)
     {
         return fileHandler.getInputStream(filename);
-    }    
+    }
 
     /**
      * Copies the given file to the output stream
-     * 
+     *
      * @param filename The file to copy
      * @param out The destination output stream
      * @throws IOException if error happens
@@ -324,13 +316,13 @@ public class FileManager
         BufferedInputStream is = new BufferedInputStream(getFileInputStream(filename));
         byte[] buf = new byte[64 * 1024];
         int bytesRead;
-        while ((bytesRead = is.read(buf)) != -1) 
+        while ((bytesRead = is.read(buf)) != -1)
         {
             out.write(buf, 0, bytesRead);
         }
         is.close();
         out.flush();
-        out.close();        
-    }    
+        out.close();
+    }
 
 }

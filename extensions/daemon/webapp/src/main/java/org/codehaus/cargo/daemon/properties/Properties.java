@@ -1,9 +1,6 @@
 /*
  * ========================================================================
  *
- * Copyright 2003-2004 The Apache Software Foundation. Code from this file 
- * was originally imported from the Jakarta Cactus project.
- *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,26 +25,26 @@ import org.codehaus.cargo.daemon.CargoDaemonException;
 
 /**
  * Properties container.
- * 
- * @version $Id: $
+ *
+ * @version $Id$
  */
 public class Properties extends HashMap<String, String>
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 363523668224756869L;
 
     /**
      * Gets a boolean value of a property with key {@code name}.
-     * 
+     *
      * @param name The key name
      * @return the boolean value
      */
     public boolean getBoolean(String name)
     {
         Object object = this.get(name);
-        
+
         if (object != null)
         {
             return Boolean.valueOf(object.toString());
@@ -57,18 +54,18 @@ public class Properties extends HashMap<String, String>
             return false;
         }
     }
-    
+
     /**
      * Gets the value of a property with key {@code name}.
      * @param name The key name
-     * @param required required is @{code true} if this property is required, 
+     * @param required required is @{code true} if this property is required,
      * {@code false} otherwise.
      * @return the value
      */
     public String get(String name, boolean required)
     {
         String value = get(name);
-        
+
         if (value == null || value.length() == 0)
         {
             if (required)
@@ -76,7 +73,7 @@ public class Properties extends HashMap<String, String>
                 throw new CargoDaemonException("Parameter " + name + " is required.");
             }
         }
-        
+
         return value;
     }
 }

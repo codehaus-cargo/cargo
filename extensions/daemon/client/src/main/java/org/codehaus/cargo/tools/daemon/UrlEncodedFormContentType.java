@@ -1,9 +1,6 @@
 /*
  * ========================================================================
  *
- * Copyright 2003-2004 The Apache Software Foundation. Code from this file 
- * was originally imported from the Jakarta Cactus project.
- *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,11 +19,10 @@
  */
 package org.codehaus.cargo.tools.daemon;
 
-
 /**
  * Represents the content type for an url encoded form.
- * 
- * @version $Id: $
+ *
+ * @version $Id$
  */
 public class UrlEncodedFormContentType implements FormContentType
 {

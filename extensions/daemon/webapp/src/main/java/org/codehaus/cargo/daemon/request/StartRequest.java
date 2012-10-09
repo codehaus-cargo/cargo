@@ -1,9 +1,6 @@
 /*
  * ========================================================================
  *
- * Copyright 2003-2004 The Apache Software Foundation. Code from this file 
- * was originally imported from the Jakarta Cactus project.
- *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,8 +41,8 @@ import org.json.simple.JSONValue;
 
 /**
  * Start request for a container.
- * 
- * @version $Id: $
+ *
+ * @version $Id$
  */
 public class StartRequest
 {
@@ -59,7 +56,7 @@ public class StartRequest
      */
     private Map<String, FileItem> files;
 
-    /** 
+    /**
      * File upload helper.
      */
     private final ServletFileUpload servletFileUpload =
@@ -67,7 +64,7 @@ public class StartRequest
 
     /**
      * Parses the servlet request.
-     * 
+     *
      * @param request The servlet request.
      * @return the StartRequest
      */
@@ -106,10 +103,9 @@ public class StartRequest
         return this;
     }
 
-
     /**
      * Gets a parameters from the request.
-     * 
+     *
      * @param name The key name
      * @param required If required {@code true}, otherwise {@code false}
      * @return the value for the key name
@@ -208,7 +204,7 @@ public class StartRequest
         try
         {
             InputStream inputStream = null;
-            
+
             if (item != null)
             {
                 inputStream = item.getInputStream();
@@ -229,7 +225,7 @@ public class StartRequest
             throw new CargoDaemonException(e);
         }
     }
-    
+
     /**
      * Cleans up the temporary data associated with this request.
      */
@@ -241,10 +237,10 @@ public class StartRequest
             {
                 item.delete();
             }
-        
+
             files.clear();
             parameters.clear();
-        } 
+        }
         catch (Throwable t)
         {
             return;
