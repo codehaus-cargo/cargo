@@ -70,7 +70,7 @@
                   Container home directory:
                 </td>
                 <td>
-                  <input name="containerHome" style="width:600px" />
+                  <input name="containerHome" style="width:600px"/>
                 </td>
               </tr>
               <tr>
@@ -78,7 +78,7 @@
                   ... or installer zip URL:
                 </td>
                 <td>
-                  <input name="installerZipUrl" style="width:600px" />
+                  <input name="installerZipUrl" style="width:600px"/>
                 </td>
               </tr>
               <tr>
@@ -86,7 +86,7 @@
                   ... or installer zip file:
                 </td>
                 <td>
-                  <input name="installerZipFile" style="width:600px" />
+                  <input name="installerZipFile" style="width:600px"/>
                 </td>
               </tr>
               <tr bgcolor="#EAEDF2">
@@ -105,7 +105,7 @@
                   Configuration home directory (optional):
                 </td>
                 <td>
-                  <input name="configurationHome" style="width:600px" />
+                  <input name="configurationHome" style="width:600px"/>
                 </td>
               </tr>
               <tr>
@@ -113,7 +113,7 @@
                   Container output:
                 </td>
                 <td>
-                  <input name="containerOutput" style="width:600px" />
+                  <input name="containerOutput" style="width:600px"/>
                 </td>
               </tr>
               <tr>
@@ -121,7 +121,7 @@
                   Container append output:
                 </td>
                 <td>
-                  <input name="containerAppend" style="width:600px" />
+                  <input type="checkbox" name="containerAppend"/>
                 </td>
               </tr>
               <tr valign="top" bgcolor="#EAEDF2">
@@ -215,7 +215,7 @@
                 </td>
                 <td>
                   <br/>
-                  <input type="submit" value="Submit" />
+                  <input type="submit" value="Submit"/>
                 </td>
               </tr>
             </table>
@@ -276,7 +276,7 @@
               containerPropertiesJSON[key] = value
           }
         }
-        containerPropertiesDiv.innerHTML = "<input name='containerProperties' value='" + JSON.stringify(containerPropertiesJSON) + "' />"
+        containerPropertiesDiv.innerHTML = "<input name='containerProperties' value='" + JSON.stringify(containerPropertiesJSON) + "'/>"
       }
 
       function addConfigurationProperty()
@@ -306,7 +306,7 @@
             configurationPropertiesJSON[key] = value
           }
         }
-        configurationPropertiesDiv.innerHTML = "<input name='configurationProperties' value='" + JSON.stringify(configurationPropertiesJSON) + "' />"
+        configurationPropertiesDiv.innerHTML = "<input name='configurationProperties' value='" + JSON.stringify(configurationPropertiesJSON) + "'/>"
       }
 
       function addConfigurationFile()
@@ -320,8 +320,8 @@
 
         row.insertCell(0).innerHTML = "<input id='configurationFileName_" + configurationFiles + "' style='width:90px'/>";
         row.insertCell(1).innerHTML = "<input id='configurationFileDir_" + configurationFiles + "' style='width:140px'/>";
-        row.insertCell(2).innerHTML = "<center><input value='0' type='checkbox' id='configurationFileOverwrite_" + configurationFiles + "'/></center>";
-        row.insertCell(3).innerHTML = "<center><input value='0' type='checkbox' id='configurationFileParse_" + configurationFiles + "'/></center>";
+        row.insertCell(2).innerHTML = "<center><input type='checkbox' id='configurationFileOverwrite_" + configurationFiles + "'/></center>";
+        row.insertCell(3).innerHTML = "<center><input type='checkbox' id='configurationFileParse_" + configurationFiles + "'/></center>";
         row.insertCell(4).innerHTML = "<input id='configurationFileEncoding_" + configurationFiles + "' style='width:65px'/>";
         row.insertCell(5).innerHTML = "<input type='file' name='configurationFileData_" + configurationFiles + "' style='width:120px' size='5'/>";
 
@@ -346,7 +346,7 @@
           configurationFilesJSON[i].parse = parse;
           configurationFilesJSON[i].encoding = encoding;
         }
-        configurationFilesDiv.innerHTML = "<input name='configurationFiles' value='" + JSON.stringify(configurationFilesJSON) + "' />"
+        configurationFilesDiv.innerHTML = "<input name='configurationFiles' value='" + JSON.stringify(configurationFilesJSON) + "'/>"
       }
 
       function addDeployableFile()
@@ -384,7 +384,7 @@
           deployableFilesJSON[i].type = type;
           deployableFilesJSON[i].filename = filename;
         }
-        deployableFilesDiv.innerHTML = "<input name='deployableFiles' value='" + JSON.stringify(deployableFilesJSON) + "' />"
+        deployableFilesDiv.innerHTML = "<input name='deployableFiles' value='" + JSON.stringify(deployableFilesJSON) + "'/>"
       }
 
       function calculateFormProperties()

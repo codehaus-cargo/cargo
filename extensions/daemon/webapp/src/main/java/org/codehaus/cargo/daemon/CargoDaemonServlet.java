@@ -346,7 +346,7 @@ public class CargoDaemonServlet extends HttpServlet
             container.setOutput(fileManager.getLogFile(handleId, containerOutput));
         }
 
-        container.setAppend(Boolean.getBoolean(containerAppend));
+        container.setAppend("on".equals(containerAppend));
 
         if (installerZipFile != null && installerZipInputStream != null)
         {

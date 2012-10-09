@@ -252,8 +252,10 @@ public class DaemonClient extends LoggedObject
         parameters.setParameter("containerOutput",
             container.getOutput());
 
-        parameters.setParameter("containerAppend",
-            Boolean.toString(container.isAppend()));
+        if (container.isAppend())
+        {
+            parameters.setParameter("containerAppend", "on");
+        }
 
         invoke("/start", parameters);
     }
