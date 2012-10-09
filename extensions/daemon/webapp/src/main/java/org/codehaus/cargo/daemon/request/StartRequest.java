@@ -86,7 +86,10 @@ public class StartRequest
                     String fieldName = item.getFieldName();
                     if (item.isFormField())
                     {
-                        parameters.put(fieldName, item.getString());
+                        if (item.getString() != null && item.getString().length() > 0)
+                        {
+                            parameters.put(fieldName, item.getString());
+                        }
                     }
                     else
                     {

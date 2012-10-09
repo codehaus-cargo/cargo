@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
   <head profile="http://www.w3.org/2000/08/w3c-synd/#">
     <link rel="stylesheet" href="cargo.css" type="text/css"/>
     <title>Cargo Daemon</title>
   </head>
-  <body>  
+  <body>
     <table width="100%" id="layout" style="padding:0px;margin:0px;border-collapse:collapse;">
       <tr>
         <td colspan="3" style="padding:8px;">
@@ -15,7 +14,6 @@
               <td align="left" valign="middle" style="padding:0px;margin:0px;">
                 <img src="cargo-banner-left.png"/>
               </td>
-
               <td align="right" valign="middle" style="padding:0px;margin:0px;">
                 <img src="cargo-banner-right.png"/>
               </td>
@@ -35,31 +33,30 @@
         <td style="padding:10px;">
           Welcome to Cargo Daemon Web site.
           <br/><br/>
-          <div id="handleList">
-          	Running containers:
-            <table id="handleListTable" style="margin:0px;border-collapse:collapse;" width="100%">
-              <tr bgcolor="#C0C9D8">
-                <td width="40%">
-                  Handle id
-                </td>
-                <td>Action</td>
-                <td>Log file</td>
-              </tr>
-            </table>
-          </div>
+          Running containers:
+          <br/><br/>
+          <table id="handleListTable" width="800" style="margin:0px;border-collapse:collapse;">
+            <tr bgcolor="#C0C9D8">
+              <td>
+                Handle id
+              </td>
+              <td>Action</td>
+              <td>Log file</td>
+            </tr>
+          </table>
           <br/>
           Please select below the various options for starting or stopping containers and select <b>Submit</b>.
           <br/><br/>
           <form action="./start" method="POST" onsubmit="calculateFormProperties()" enctype="multipart/form-data">
-            <table width="600" style="margin:0px;border-collapse:collapse;">
+            <table width="800" style="margin:0px;border-collapse:collapse;">
               <tr bgcolor="#EAEDF2">
-                <td>
+                <td width="200">
                   Handle id:
                 </td>
-                <td>
-                  <input name="handleId" size="50"/>
+                <td width="600">
+                  <input name="handleId" size="10"/>
                 </td>
-              </tr>              
+              </tr>
               <tr bgcolor="#EAEDF2">
                 <td>
                   Container identifier:
@@ -73,23 +70,23 @@
                   Container home directory:
                 </td>
                 <td>
-                  <input name="containerHome" size="50" />
+                  <input name="containerHome" style="width:600px" />
                 </td>
               </tr>
               <tr>
                 <td>
-                  Installer zip URL:
+                  ... or installer zip URL:
                 </td>
                 <td>
-                  <input name="installerZipUrl" size="50" />
+                  <input name="installerZipUrl" style="width:600px" />
                 </td>
               </tr>
               <tr>
                 <td>
-                  Installer zip file:
+                  ... or installer zip file:
                 </td>
                 <td>
-                  <input name="installerZipFile" size="50" />
+                  <input name="installerZipFile" style="width:600px" />
                 </td>
               </tr>
               <tr bgcolor="#EAEDF2">
@@ -98,8 +95,8 @@
                 </td>
                 <td>
                   <select name="configurationType">
-                  	<option value="STANDALONE">STANDALONE</option>
-                  	<option value="EXISTING">EXISTING</option>
+                      <option value="STANDALONE">STANDALONE</option>
+                      <option value="EXISTING">EXISTING</option>
                   </select>
                 </td>
               </tr>
@@ -108,7 +105,7 @@
                   Configuration home directory (optional):
                 </td>
                 <td>
-                  <input name="configurationHome" size="50" />
+                  <input name="configurationHome" style="width:600px" />
                 </td>
               </tr>
               <tr>
@@ -116,7 +113,7 @@
                   Container output:
                 </td>
                 <td>
-                  <input name="containerOutput" size="50" />
+                  <input name="containerOutput" style="width:600px" />
                 </td>
               </tr>
               <tr>
@@ -124,10 +121,10 @@
                   Container append output:
                 </td>
                 <td>
-                  <input name="containerAppend" size="50" />
+                  <input name="containerAppend" style="width:600px" />
                 </td>
-              </tr>              
-			  <tr valign="top">
+              </tr>
+              <tr valign="top" bgcolor="#EAEDF2">
                 <td>
                   Container system properties:
                   <br/>
@@ -135,19 +132,19 @@
                 </td>
                 <td>
                   <div id="containerProperties">
-                    <table id="containerPropertiesTable" style="margin:0px;border-collapse:collapse;" width="100%">
+                    <table id="containerPropertiesTable" style="margin:0px;border-collapse:collapse;" width="600">
                       <tr bgcolor="#C0C9D8">
-                        <td width="40%">
+                        <td width="200">
                           Name
                         </td>
-                        <td>
+                        <td width="400">
                           Value
                         </td>
                       </tr>
                     </table>
                   </div>
                 </td>
-              </tr>              
+              </tr>
               <tr valign="top">
                 <td>
                   Configuration properties:
@@ -156,12 +153,12 @@
                 </td>
                 <td>
                   <div id="configurationProperties">
-                    <table id="configurationPropertiesTable" style="margin:0px;border-collapse:collapse;" width="100%">
+                    <table id="configurationPropertiesTable" style="margin:0px;border-collapse:collapse;" width="600">
                       <tr bgcolor="#C0C9D8">
-                        <td width="40%">
+                        <td width="200">
                           Name
                         </td>
-                        <td>
+                        <td width="400">
                           Value
                         </td>
                       </tr>
@@ -169,7 +166,7 @@
                   </div>
                 </td>
               </tr>
-              <tr valign="top">
+              <tr valign="top" bgcolor="#EAEDF2">
                 <td>
                   Configuration files:
                   <br/>
@@ -179,20 +176,20 @@
                   <div id="configurationFiles">
                   </div>
                   <div>
-                    <table id="configurationFilesTable" style="margin:0px;border-collapse:collapse;" width="100%">
-                      <tr align="center" bgcolor="#C0C9D8">
-                        <td>Filename</td>
-                        <td>Directory</td>
-                        <td>Overwrite</td>
-                        <td>Parse</td>
-                        <td>Encoding</td>
-                        <td>File</td>                        
+                    <table id="configurationFilesTable" style="margin:0px;border-collapse:collapse;" width="600">
+                      <tr bgcolor="#C0C9D8">
+                        <td width="100">Filename</td>
+                        <td width="150">Directory</td>
+                        <td width="75" align="center">Overwrite</td>
+                        <td width="75" align="center">Parse</td>
+                        <td width="75">Encoding</td>
+                        <td width="125">File</td>
                       </tr>
                     </table>
                   </div>
                 </td>
               </tr>
-			  <tr valign="top">
+              <tr valign="top">
                 <td>
                   Deployable files:
                   <br/>
@@ -202,16 +199,16 @@
                   <div id="deployableFiles">
                   </div>
                   <div>
-                    <table id="deployableFilesTable" style="margin:0px;border-collapse:collapse;" width="100%">
-                      <tr align="center" bgcolor="#C0C9D8">
-                        <td>Type</td>
-                        <td>Filename</td>
-                        <td>File</td>                        
+                    <table id="deployableFilesTable" style="margin:0px;border-collapse:collapse;" width="600">
+                      <tr bgcolor="#C0C9D8">
+                        <td width="100">Type</td>
+                        <td width="200">Filename</td>
+                        <td width="300">File</td>
                       </tr>
                     </table>
                   </div>
                 </td>
-              </tr>              
+              </tr>
               <tr>
                 <td>
                   &nbsp;
@@ -235,7 +232,7 @@
     <script>
 //<![CDATA[
       var deployableTypes = @deployableTypes@
-           
+
       var configurationProperties = 0
       var configurationPropertiesDiv = document.getElementById('configurationProperties')
       var configurationPropertiesTable = document.getElementById('configurationPropertiesTable')
@@ -247,12 +244,11 @@
       var configurationFiles = 0
       var configurationFilesDiv = document.getElementById('configurationFiles')
       var configurationFilesTable = document.getElementById('configurationFilesTable')
-      
+
       var deployableFiles = 0
       var deployableFilesDiv = document.getElementById('deployableFiles')
       var deployableFilesTable = document.getElementById('deployableFilesTable')
 
-      
       function addContainerProperty()
       {
         var row = containerPropertiesTable.insertRow(containerPropertiesTable.rows.length);
@@ -262,12 +258,12 @@
           row.bgColor = "#EAEDF2"
         }
 
-        row.insertCell(0).innerHTML = "<input id='containerPropertyKey_" + containerProperties + "' size='17'/>";
-        row.insertCell(1).innerHTML = "<input id='containerPropertyValue_" + containerProperties + "' size='27'/>";
+        row.insertCell(0).innerHTML = "<input id='containerPropertyKey_" + containerProperties + "' style='width:185px'/>";
+        row.insertCell(1).innerHTML = "<input id='containerPropertyValue_" + containerProperties + "' style='width:395px'/>";
 
         containerProperties++;
       }
-      
+
       function calculateContainerProperties()
       {
         var containerPropertiesJSON = {};
@@ -277,12 +273,12 @@
           var value = document.getElementById("containerPropertyValue_" + i).value
           if (key != "")
           {
-        	  containerPropertiesJSON[key] = value
+              containerPropertiesJSON[key] = value
           }
         }
         containerPropertiesDiv.innerHTML = "<input name='containerProperties' value='" + JSON.stringify(containerPropertiesJSON) + "' />"
-      }  
-      
+      }
+
       function addConfigurationProperty()
       {
         var row = configurationPropertiesTable.insertRow(configurationPropertiesTable.rows.length);
@@ -292,12 +288,12 @@
           row.bgColor = "#EAEDF2"
         }
 
-        row.insertCell(0).innerHTML = "<input id='configurationPropertyKey_" + configurationProperties + "' size='17'/>";
-        row.insertCell(1).innerHTML = "<input id='configurationPropertyValue_" + configurationProperties + "' size='27'/>";
+        row.insertCell(0).innerHTML = "<input id='configurationPropertyKey_" + configurationProperties + "' style='width:185px'/>";
+        row.insertCell(1).innerHTML = "<input id='configurationPropertyValue_" + configurationProperties + "' style='width:395px'/>";
 
         configurationProperties++;
       }
-      
+
       function calculateConfigurationProperties()
       {
         var configurationPropertiesJSON = {};
@@ -311,8 +307,8 @@
           }
         }
         configurationPropertiesDiv.innerHTML = "<input name='configurationProperties' value='" + JSON.stringify(configurationPropertiesJSON) + "' />"
-      }      
-      
+      }
+
       function addConfigurationFile()
       {
         var row = configurationFilesTable.insertRow(configurationFilesTable.rows.length);
@@ -322,16 +318,16 @@
           row.bgColor = "#EAEDF2"
         }
 
-        row.insertCell(0).innerHTML = "<input id='configurationFileName_" + configurationFiles + "' size='17'/>";
-        row.insertCell(1).innerHTML = "<input id='configurationFileDir_" + configurationFiles + "' size='27'/>";
-        row.insertCell(2).innerHTML = "<input value='0' type='checkbox' id='configurationFileOverwrite_" + configurationFiles + "' size='27'/>";
-        row.insertCell(3).innerHTML = "<input value='0' type='checkbox' id='configurationFileParse_" + configurationFiles + "' size='27'/>";
-        row.insertCell(4).innerHTML = "<input id='configurationFileEncoding_" + configurationFiles + "' size='27'/>";
-        row.insertCell(5).innerHTML = "<input type='file' name='configurationFileData_" + configurationFiles + "' size='27'/>";
+        row.insertCell(0).innerHTML = "<input id='configurationFileName_" + configurationFiles + "' style='width:90px'/>";
+        row.insertCell(1).innerHTML = "<input id='configurationFileDir_" + configurationFiles + "' style='width:140px'/>";
+        row.insertCell(2).innerHTML = "<center><input value='0' type='checkbox' id='configurationFileOverwrite_" + configurationFiles + "'/></center>";
+        row.insertCell(3).innerHTML = "<center><input value='0' type='checkbox' id='configurationFileParse_" + configurationFiles + "'/></center>";
+        row.insertCell(4).innerHTML = "<input id='configurationFileEncoding_" + configurationFiles + "' style='width:65px'/>";
+        row.insertCell(5).innerHTML = "<input type='file' name='configurationFileData_" + configurationFiles + "' style='width:120px' size='5'/>";
 
         configurationFiles++;
       }
-      
+
       function calculateConfigurationFiles()
       {
         var configurationFilesJSON = [];
@@ -342,9 +338,8 @@
           var overwrite = document.getElementById("configurationFileOverwrite_" + i).checked
           var parse = document.getElementById("configurationFileParse_" + i).checked
           var encoding = document.getElementById("configurationFileEncoding_" + i).value
-          
 
-		  configurationFilesJSON[i] = {};
+          configurationFilesJSON[i] = {};
           configurationFilesJSON[i].filename = filename;
           configurationFilesJSON[i].directory = directory;
           configurationFilesJSON[i].overwrite = overwrite;
@@ -353,7 +348,6 @@
         }
         configurationFilesDiv.innerHTML = "<input name='configurationFiles' value='" + JSON.stringify(configurationFilesJSON) + "' />"
       }
-      
 
       function addDeployableFile()
       {
@@ -364,20 +358,20 @@
           row.bgColor = "#EAEDF2"
         }
 
-        row.insertCell(0).innerHTML = "<select id='deployableFileType_" + deployableFiles + "'></select>";
-        row.insertCell(1).innerHTML = "<input id='deployableFileName_" + deployableFiles + "' size='27'/>";
-        row.insertCell(2).innerHTML = "<input type='file' name='deployableFileData_" + deployableFiles + "' size='27'/>";
-        
+        row.insertCell(0).innerHTML = "<select id='deployableFileType_" + deployableFiles + "' style='width:95px'></select>";
+        row.insertCell(1).innerHTML = "<input id='deployableFileName_" + deployableFiles + "' style='width:195px'/>";
+        row.insertCell(2).innerHTML = "<input type='file' name='deployableFileData_" + deployableFiles + "' style='width:295px' size='31'/>";
+
         var sel = document.getElementById("deployableFileType_" + deployableFiles);
         for (var i = 0; i < deployableTypes.length; i++)
         {
           var deployableType = deployableTypes[i];
           sel.options.add(new Option(deployableType, deployableType));
-        }        
+        }
 
         deployableFiles++;
       }
-      
+
       function calculateDeployableFiles()
       {
         var deployableFilesJSON = [];
@@ -385,62 +379,54 @@
         {
           var type = document.getElementById("deployableFileType_" + i).value
           var filename = document.getElementById("deployableFileName_" + i).value
-          
-		  deployableFilesJSON[i] = {}; 
-		  deployableFilesJSON[i].type = type;
-		  deployableFilesJSON[i].filename = filename;
+
+          deployableFilesJSON[i] = {};
+          deployableFilesJSON[i].type = type;
+          deployableFilesJSON[i].filename = filename;
         }
         deployableFilesDiv.innerHTML = "<input name='deployableFiles' value='" + JSON.stringify(deployableFilesJSON) + "' />"
-      }      
-      
+      }
+
       function calculateFormProperties()
       {
-    	  calculateContainerProperties();
-    	  calculateConfigurationProperties();
-    	  calculateConfigurationFiles();
-    	  calculateDeployableFiles();
+        calculateContainerProperties();
+        calculateConfigurationProperties();
+        calculateConfigurationFiles();
+        calculateDeployableFiles();
       }
-      
-//]]>      
-    </script>
 
-    <script>
-//<![CDATA[
       var containerIds = @containerIds@
       var containerIdSelect = document.getElementById('containerIdSelect');
 
       var handleIds = @handleIds@
-      var handleListDiv = document.getElementById('handleList');
       var handleListTable = document.getElementById('handleListTable');
-      
 
       for (var i = 0; i < containerIds.length; i++)
       {
         var containerId = containerIds[i];
         containerIdSelect.options.add(new Option(containerId, containerId));
       }
-      
 
       if (handleIds.length > 0)
-   	  {
-          for (var i = 0; i < handleIds.length; i++)
-          {
-	          var row = handleListTable.insertRow(handleListTable.rows.length);
-	
-	          row.insertCell(0).innerHTML = "<P> Handle: " + handleIds[i] + "</P>";
-	          row.insertCell(1).innerHTML = "<form action='./stop' method='POST'> <input type='submit' value='STOP'/> <input type='hidden' name='handleId' value='" + handleIds[i] + "'/></form>";
-	          row.insertCell(2).innerHTML = "<form action='./viewlog' method='GET'> <input type='submit' value='VIEW'/> <input type='hidden' name='handleId' value='" + handleIds[i] + "'/></form>";
-          }      
+      {
+        for (var i = 0; i < handleIds.length; i++)
+        {
+          var row = handleListTable.insertRow(handleListTable.rows.length);
+
+          row.insertCell(0).innerHTML = "<P> Handle: " + handleIds[i] + "</P>";
+          row.insertCell(1).innerHTML = "<form action='./stop' method='POST'> <input type='submit' value='STOP'/> <input type='hidden' name='handleId' value='" + handleIds[i] + "'/></form>";
+          row.insertCell(2).innerHTML = "<form action='./viewlog' method='GET'> <input type='submit' value='VIEW'/> <input type='hidden' name='handleId' value='" + handleIds[i] + "'/></form>";
+        }
       }
       else
-   	  {
-          var row = handleListTable.insertRow(handleListTable.rows.length);
-	
-          row.insertCell(0).innerHTML = "<P>none</P>";
-          row.insertCell(1).innerHTML = "";
-          row.insertCell(2).innerHTML = "";
+      {
+        var row = handleListTable.insertRow(handleListTable.rows.length);
+
+        row.insertCell(0).innerHTML = "";
+        row.insertCell(1).innerHTML = "<i>No running containers</i>";
+        row.insertCell(2).innerHTML = "";
       }
-//]]>      
+//]]>
     </script>
   </body>
 </html>

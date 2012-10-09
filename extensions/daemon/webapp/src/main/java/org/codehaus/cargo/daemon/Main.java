@@ -246,8 +246,8 @@ public final class Main
 
         System.setProperty("tjws.webappdir", webAppDirectory.getAbsolutePath());
         System.setProperty("tjws.wardeploy.as-root", "daemon");
-        serverArguments.add("-out");
-        serverArguments.add("Acme.Utils$DummyPrintStream");
+        serverArguments.add("-d");
+        serverArguments.add(homeDirectory.getAbsolutePath());
         serverArguments.add("-nohup");
 
         if (System.getProperty("cargo.home") == null)

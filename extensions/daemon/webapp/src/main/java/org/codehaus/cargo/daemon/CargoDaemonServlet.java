@@ -190,6 +190,7 @@ public class CargoDaemonServlet extends HttpServlet
             }
             catch (Throwable e)
             {
+                getServletContext().log("Cannot start server", e);
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
             }
             finally
@@ -216,6 +217,7 @@ public class CargoDaemonServlet extends HttpServlet
             }
             catch (Throwable e)
             {
+                getServletContext().log("Cannot stop server", e);
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
             }
         }
@@ -245,6 +247,7 @@ public class CargoDaemonServlet extends HttpServlet
             }
             catch (Throwable e)
             {
+                getServletContext().log("Cannot view log for server", e);
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
             }
         }
@@ -269,6 +272,7 @@ public class CargoDaemonServlet extends HttpServlet
             }
             catch (Exception e)
             {
+                getServletContext().log("Cannot read index page", e);
                 throw new ServletException(e);
             }
             response.getWriter().print(this.indexPage);

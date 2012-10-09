@@ -81,7 +81,7 @@ public class UrlEncodedFormWriter
      * Writes the form data to the output stream.
      *
      * @param os The output stream
-     * @throws IOException
+     * @throws IOException on input/output errors
      */
     public void write(OutputStream os) throws IOException
     {
