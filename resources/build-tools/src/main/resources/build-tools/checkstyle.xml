@@ -384,7 +384,7 @@
     <module name="TypecastParenPad"/>
 
     <module name="UncommentedMain">
-      <property name="excludedClasses" value="ResinRun$|Uberjar$"/>
+      <property name="excludedClasses" value="Main$|ResinRun$|Uberjar$"/>
     </module>
 
     <!--module name="UnnecessaryParentheses"/-->
