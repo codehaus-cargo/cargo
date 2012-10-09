@@ -28,7 +28,6 @@ import java.io.File;
  */
 public interface JvmLauncher
 {
-
     /**
      * Sets the working directory for the forked JVM.
      * 
@@ -152,6 +151,11 @@ public interface JvmLauncher
      * @return The currently configured command line, never {@code null}.
      */
     String getCommandLine();
+
+    /**
+     * Forcibly kill the process that was launched, if supported by the JvmLauncher implementation.
+     */
+    void kill();
 
     /**
      * Sets the timeout in milliseconds after which the process will be killed if still running.

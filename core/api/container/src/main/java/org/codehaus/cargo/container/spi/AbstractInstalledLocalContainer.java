@@ -102,6 +102,11 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * JVM launcher factory.
      */
     private JvmLauncherFactory jvmLauncherFactory;
+    
+    /**
+     * JVM launcher that started the container.
+     */
+    private JvmLauncher jvmStartLauncher;
 
     /**
      * Default constructor.
@@ -296,9 +301,9 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     @Override
     protected final void startInternal() throws Exception
     {
-        JvmLauncher java = createJvmLauncher(true);
-        addMemoryArguments(java);
-        doStart(java);
+        jvmStartLauncher = createJvmLauncher(true);
+        addMemoryArguments(jvmStartLauncher);
+        doStart(jvmStartLauncher);
     }
 
     /**
@@ -312,6 +317,21 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         doStop(createJvmLauncher(false));
     }
 
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#forceStopInternal()
+     */
+    @Override
+    protected final void forceStopInternal()
+    {
+        if (jvmStartLauncher != null)
+        {
+            jvmStartLauncher.kill();
+        }
+    }
+    
     /**
      * Creates a preinitialized instance of a JVM launcher to be used for starting, stopping and
      * controlling the container.

@@ -252,4 +252,11 @@ public class JvmLauncherStub implements JvmLauncher
         return 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public void kill()
+    {
+    }
+
 }

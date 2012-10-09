@@ -241,6 +241,15 @@ class DefaultJvmLauncher implements JvmLauncher
     {
         return this.java.getCommandLine().toString();
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public void kill()
+    {
+        // Not supported by Ant Java Task
+    }
+    
 
     /**
      * {@inheritDoc}

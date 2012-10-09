@@ -138,6 +138,14 @@ public class ZipURLInstaller extends LoggedObject implements Installer
             return this.downloadDir;
         }
     }
+    
+    /**
+     * @return The destination file where the zipped container install will be downloaded.
+     */
+    public String getDownloadFile()
+    {
+        return getFileHandler().append(getDownloadDir(), getSourceFileName());
+    }    
 
     /**
      * @return The destination directory where the zipped container install will be extracted.
@@ -392,7 +400,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     /**
      * Downloads the zip file containing the container files.
      */
-    protected void download()
+    public void download()
     {
         // Try once with the proxy settings on (if set up by the user) and if it doesn't work, try
         // again with no proxy settings...

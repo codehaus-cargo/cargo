@@ -146,6 +146,15 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      * @throws Exception if any error is raised during the container stop
      */
     protected abstract void stopInternal() throws Exception;
+    
+    /**
+     * Some containers may not fully stop and need to be forcibly stopped.
+     * This method should be overridden for containers that support forcibly stopping the container.
+     */
+    protected void forceStopInternal()
+    {
+        
+    }
 
     /**
      * {@inheritDoc}
@@ -213,6 +222,11 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
                 // Wait until the container is fully stopped
                 waitForCompletion(false);
             }
+                        
+            // Force the container to stop, should it not already be stopped.
+            // At this point, the container should already be stopped,
+            // so this should have no effect if the container was properly stopped.
+            forceStopInternal();            
         }
         catch (Exception e)
         {
