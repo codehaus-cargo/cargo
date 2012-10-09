@@ -254,6 +254,8 @@ public class ContainerTest extends MockObjectTestCase
         mockInstaller.expects(once()).method("install");
         // home provided by installer should not be used
         mockInstaller.stubs().method("getHome").will(returnValue("container/incorrect_home"));
+        mockInstaller.stubs().method("getDownloadFile").
+            will(returnValue("tmp/somedownloadedfile.zip"));
         containerElement
             .setZipUrlInstaller(new org.codehaus.cargo.maven2.configuration.ZipUrlInstaller()
             {
@@ -304,6 +306,8 @@ public class ContainerTest extends MockObjectTestCase
         mockInstaller.expects(once()).method("install");
         final String containerHome = "container/installer_home";
         mockInstaller.stubs().method("getHome").will(returnValue(containerHome));
+        mockInstaller.stubs().method("getDownloadFile").
+            will(returnValue("tmp/somedownloadedfile.zip"));
         containerElement
             .setZipUrlInstaller(new org.codehaus.cargo.maven2.configuration.ZipUrlInstaller()
             {

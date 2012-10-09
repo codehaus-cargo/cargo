@@ -271,7 +271,12 @@ public class Configuration
         org.codehaus.cargo.container.configuration.Configuration configuration;
         if (getHome() == null)
         {
-            if (ConfigurationType.RUNTIME.equals(getType()))
+            if (project.isDaemonRun())
+            {
+                configuration = factory.createConfiguration(containerId, containerType, getType(),
+                    "");                
+            }
+            else if (ConfigurationType.RUNTIME.equals(getType()))
             {
                 configuration = factory.createConfiguration(containerId, containerType, getType(),
                     null);

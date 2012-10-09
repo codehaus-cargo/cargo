@@ -86,6 +86,11 @@ public class Container
      * Output file.
      */
     private String output;
+    
+    /**
+     * Downloaded zip file.
+     */    
+    private String installerZipFile;
 
     /**
      * {@link ZipUrlInstaller} for the container.
@@ -171,6 +176,14 @@ public class Container
     {
         return this.timeout;
     }
+    
+    /**
+     * @return installed zip file (null if not downloaded).
+     */
+    public String getInstallerZipFile()
+    {
+        return this.installerZipFile;
+    }    
 
     /**
      * @param timeout Timeout (in milliseconds).
@@ -725,8 +738,23 @@ public class Container
             {
                 installer.setLogger(container.getLogger());
             }
-            installer.install();
-            tmpHome = installer.getHome();
+
+            if (project.isDaemonRun())
+            {
+                // A daemon run needs to have the container zip file downloaded,
+                // to send it to the daemon server
+                if (!installer.isAlreadyDownloaded())
+                {
+                    installer.download();
+                }
+            }
+            else
+            {
+                installer.install();
+                tmpHome = installer.getHome();
+            }
+            
+            this.installerZipFile = installer.getDownloadFile();
         }
         // if a ZipUrlInstaller is specified, use it to install
         if (getZipUrlInstaller() != null)
@@ -750,8 +778,23 @@ public class Container
             {
                 installer.setLogger(container.getLogger());
             }
-            installer.install();
-            tmpHome = installer.getHome();
+            
+            if (project.isDaemonRun())
+            {
+                // A daemon run needs to have the container zip file downloaded,
+                // to send it to the daemon server
+                if (!installer.isAlreadyDownloaded())
+                {
+                    installer.download();
+                }
+            }
+            else
+            {
+                installer.install();
+                tmpHome = installer.getHome();
+            }
+            
+            this.installerZipFile = installer.getDownloadFile();
         }
         if (getHome() != null)
         {

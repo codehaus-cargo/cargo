@@ -64,6 +64,12 @@ public class CargoProject
      * Final name.
      */
     private String finalName;
+    
+    /**
+     * Skip installation of containers.
+     */
+    private boolean daemonRun = false;
+    
 
     /**
      * Project artifacts.
@@ -206,6 +212,23 @@ public class CargoProject
     {
         return this.log;
     }
+    
+    /**
+     * @return if project is part of a daemon run.
+     */
+    public boolean isDaemonRun()
+    {
+        return this.daemonRun;
+    }    
+    
+    /**
+     * @param enable If project is part of a daemon run.
+     */
+    public void setDaemonRun(boolean enable)
+    {
+        this.daemonRun = enable;
+    }    
+    
 
     /**
      * @return <code>true</code> if the project has a Java EE packaging.

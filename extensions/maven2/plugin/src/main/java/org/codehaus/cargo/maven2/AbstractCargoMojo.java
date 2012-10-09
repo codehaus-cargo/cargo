@@ -102,6 +102,14 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * @parameter
      */
     private Container container;
+    
+    /**
+     * Daemon properties.
+     * 
+     * @parameter alias="daemonproperties"
+     */
+    private Map<String, String> daemonProperties;
+    
 
     /**
      * Configures a Cargo {@link org.codehaus.cargo.container.deployer.Deployer}. See the <a
@@ -248,6 +256,15 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     protected void setDeployerElement(Deployer deployerElement)
     {
         this.deployer = deployerElement;
+    }
+    
+    /**
+     * @param name The daemon property key
+     * @return the value of a daemon property
+     */
+    protected String getDaemonProperty(String name)
+    {
+        return daemonProperties.get(name);
     }
 
     /**
