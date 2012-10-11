@@ -111,6 +111,8 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
         this.dataSources = new ArrayList<DataSource>();
 
         this.home = home;
+
+        setProperty(GeneralPropertySet.SPAWN_PROCESS, "false");
     }
 
     /**
@@ -195,8 +197,10 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      */
     public void configure(LocalContainer container)
     {
-        setProperty(GeneralPropertySet.JAVA_HOME, System.getProperty("java.home"));
-        setProperty(GeneralPropertySet.SPAWN_PROCESS, "false");
+        if (getPropertyValue(GeneralPropertySet.JAVA_HOME) == null)
+        {
+            setProperty(GeneralPropertySet.JAVA_HOME, System.getProperty("java.home"));
+        }
 
         parsePropertiesForPendingConfiguration();
         verify();
