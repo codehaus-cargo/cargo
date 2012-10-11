@@ -22,32 +22,30 @@ package org.codehaus.cargo.maven2;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.tools.daemon.DaemonStart;
 
-
 /**
  * Start a container via the daemon.
  * 
+ * @version $Id$
  * @goal daemon-start
- * @version $Id:  $
  */
 public class DaemonStartMojo extends AbstractDaemonMojo
 {
-
     @Override
     protected void performAction() throws MojoExecutionException
     {
         DaemonStart request = new DaemonStart();
-        
+
         request.setContainer(daemonContainer);
         request.setDeployables(daemonDeployables);
         request.setHandleId(daemonHandleId);
-        
+
         try
         {
             if (getContainerElement() != null)
             {
                 request.setInstallerZipFile(getContainerElement().getInstallerZipFile());
             }
-            
+
             daemonClient.start(request);
         }
         catch (Exception e)
@@ -55,23 +53,4 @@ public class DaemonStartMojo extends AbstractDaemonMojo
             throw new MojoExecutionException(e.toString());
         }
     }
-//    @Override
-//    protected void performDeployerActionOnSingleDeployable(
-//        org.codehaus.cargo.container.deployer.Deployer deployer,
-//        org.codehaus.cargo.container.deployable.Deployable deployable, URL pingURL,
-//        Long pingTimeout)
-//    {
-//        getLog().debug("Starting [" + deployable.getFile() + "]"
-//            + (pingURL == null ? " ..." : " using ping URL [" + pingURL + "]"
-//                + (pingTimeout == null ? "" : " and ping timeout [" + pingTimeout + "]")));
-//
-//        if (pingURL != null)
-//        {
-//            deployer.start(deployable, createDeployableMonitor(pingURL, pingTimeout, deployable));
-//        }
-//        else
-//        {
-//            deployer.start(deployable);
-//        }
-//    }
 }

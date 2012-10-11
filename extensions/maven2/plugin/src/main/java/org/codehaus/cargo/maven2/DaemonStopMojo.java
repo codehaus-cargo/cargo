@@ -21,16 +21,14 @@ package org.codehaus.cargo.maven2;
 
 import org.apache.maven.plugin.MojoExecutionException;
 
-
 /**
  * Stop a container via the daemon.
  * 
+ * @version $Id$
  * @goal daemon-stop
- * @version $Id:  $
  */
 public class DaemonStopMojo extends AbstractDaemonMojo
 {
-
     @Override
     protected void performAction() throws MojoExecutionException
     {

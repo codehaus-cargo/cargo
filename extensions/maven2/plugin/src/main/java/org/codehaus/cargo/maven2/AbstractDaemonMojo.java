@@ -33,7 +33,7 @@ import org.codehaus.cargo.tools.daemon.DaemonPropertySet;
 /**
  * Common mojo for all daemon actions (start deployable, stop deployable).
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public abstract class AbstractDaemonMojo extends AbstractCargoMojo
 {
@@ -52,13 +52,11 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
      */
     protected final List<org.codehaus.cargo.container.deployable.Deployable> daemonDeployables =
         new ArrayList<org.codehaus.cargo.container.deployable.Deployable>();
-    
+
     /**
      * The container that should be started by the daemon.
      */
     protected InstalledLocalContainer daemonContainer;
-    
-        
 
     /**
      * {@inheritDoc}
@@ -69,7 +67,7 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
     public void doExecute() throws MojoExecutionException
     {
         getCargoProject().setDaemonRun(true);
-        
+
         if (getCargoProject().getPackaging() == null || !getCargoProject().isJ2EEPackaging())
         {
             if (getDeployablesElement() == null || getDeployablesElement().length == 0)
@@ -78,10 +76,9 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
                 return;
             }
         }
-        
-        
+
         org.codehaus.cargo.container.Container container = createContainer();
-        
+
         if (!(container instanceof InstalledLocalContainer))
         {
             throw new MojoExecutionException("Container must be of INSTALLED type.");
@@ -112,7 +109,7 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
         this.daemonContainer = (InstalledLocalContainer) container;
 
         createDeployables(container);
-        
+
         performAction();
     }
     
@@ -183,30 +180,4 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
     {
         daemonDeployables.add(deployable);
     }
-
-
-
-    // /**
-    // * Create a deployable monitor.
-    // * @param pingURL Ping URL.
-    // * @param pingTimeout Ping timeout (milliseconds).
-    // * @param deployable {@link Deployable} to monitor.
-    // * @return Deployable monitor with specified arguments.
-    // */
-    // protected DeployableMonitor createDeployableMonitor(URL pingURL, Long pingTimeout,
-    // org.codehaus.cargo.container.deployable.Deployable deployable)
-    // {
-    // DeployableMonitor monitor;
-    // if (pingTimeout == null)
-    // {
-    // monitor = new URLDeployableMonitor(pingURL);
-    // }
-    // else
-    // {
-    // monitor = new URLDeployableMonitor(pingURL, pingTimeout.longValue());
-    // }
-    // DeployerListener listener = new DeployerListener(deployable);
-    // monitor.registerListener(listener);
-    // return monitor;
-    // }
 }
