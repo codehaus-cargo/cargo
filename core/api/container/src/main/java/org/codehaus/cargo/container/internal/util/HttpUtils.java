@@ -228,7 +228,7 @@ public class HttpUtils extends LoggedObject
 
     /**
      * Tests whether an HTTP(S) return code corresponds to a valid connection to the test URL or
-     * not. Success is 200 up to but excluding 300.
+     * not. Success is 200 up to but excluding 300; or also 401 or 403 (unauthorized / forbidden).
      * 
      * @param responseResult the detailed HTTP ping result
      * @return <code>true</code> if the test URL could be called without error, <code>false</code>
@@ -237,7 +237,8 @@ public class HttpUtils extends LoggedObject
     private boolean isAvailable(HttpResult responseResult)
     {
         boolean result;
-        if (responseResult.responseCode != -1 && responseResult.responseCode < 300)
+        if (responseResult.responseCode != -1 && (responseResult.responseCode < 300
+            || responseResult.responseCode == 401 || responseResult.responseCode == 403))
         {
             result = true;
         }
