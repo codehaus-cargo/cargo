@@ -5,20 +5,45 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-  <description>CARGO Daemon</description>
+    <description>CARGO Daemon</description>
 
-  <servlet>
-    <servlet-name>cargo</servlet-name>
-    <servlet-class>org.codehaus.cargo.daemon.CargoDaemonServlet</servlet-class>
-  </servlet>
+    <servlet>
+        <servlet-name>cargo</servlet-name>
+        <servlet-class>org.codehaus.cargo.daemon.CargoDaemonServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>error</servlet-name>
+        <servlet-class>org.codehaus.cargo.daemon.CargoDaemonErrorServlet</servlet-class>
+    </servlet>
 
-  <servlet-mapping>
-    <servlet-name>cargo</servlet-name>
-    <url-pattern>/index.html</url-pattern>
-    <url-pattern>/start</url-pattern>
-    <url-pattern>/stop</url-pattern>
-    <url-pattern>/installed</url-pattern>
-    <url-pattern>/viewlog</url-pattern>
-  </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cargo</servlet-name>
+        <url-pattern>/index.html</url-pattern>
+        <url-pattern>/start</url-pattern>
+        <url-pattern>/stop</url-pattern>
+        <url-pattern>/viewlog</url-pattern>
+        <url-pattern>/start</url-pattern>
+        <url-pattern>/getHandles</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>error</servlet-name>
+        <url-pattern>/error</url-pattern>
+    </servlet-mapping>
 
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error</location>
+    </error-page>
+    <error-page>
+       <exception-type>java.io.IOException</exception-type>
+        <location>/error</location>
+    </error-page>
+    <error-page>
+       <exception-type>java.lang.Throwable</exception-type>
+        <location>/error</location>
+    </error-page>
+    <error-page>
+       <exception-type>javax.servlet.ServletException</exception-type>
+        <location>/error</location>
+    </error-page>
 </web-app>

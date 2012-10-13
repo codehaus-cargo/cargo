@@ -256,6 +256,10 @@ public class DaemonClient extends LoggedObject
         {
             parameters.setParameter("containerAppend", "on");
         }
+        else
+        {
+            parameters.setParameter("containerAppend", "off");
+        }
 
         invoke("/start", parameters);
     }

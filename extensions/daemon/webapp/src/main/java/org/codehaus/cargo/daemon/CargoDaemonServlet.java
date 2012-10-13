@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.servlet.ServletException;
@@ -57,9 +58,8 @@ import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
-import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
-import org.codehaus.cargo.generic.deployer.DeployerFactory;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONValue;
 
 /**
  * Cargo daemon servlet.
@@ -68,6 +68,12 @@ import org.json.simple.JSONArray;
  */
 public class CargoDaemonServlet extends HttpServlet
 {
+
+    /**
+     * Serial version UUID.
+     */
+    private static final long serialVersionUID = 3514721195204610896L;
+
     /**
      * Container factory.
      */
@@ -83,11 +89,6 @@ public class CargoDaemonServlet extends HttpServlet
      * Deployable factory.
      */
     private static final DeployableFactory DEPLOYABLE_FACTORY = new DefaultDeployableFactory();
-
-    /**
-     * Deployer factory.
-     */
-    private static final DeployerFactory DEPLOYER_FACTORY = new DefaultDeployerFactory();
 
     /**
      * File manager for the daemon.
@@ -125,15 +126,15 @@ public class CargoDaemonServlet extends HttpServlet
     {
         List<String> deployableTypes = new ArrayList<String>();
 
-        deployableTypes.add("WAR");
-        deployableTypes.add("EAR");
-        deployableTypes.add("EJB");
-        deployableTypes.add("SAR");
-        deployableTypes.add("RAR");
-        deployableTypes.add("FILE");
-        deployableTypes.add("BUNDLE");
-        deployableTypes.add("HAR");
-        deployableTypes.add("AOP");
+        deployableTypes.add(DeployableType.AOP.toString());
+        deployableTypes.add(DeployableType.BUNDLE.toString());
+        deployableTypes.add(DeployableType.EAR.toString());
+        deployableTypes.add(DeployableType.EJB.toString());
+        deployableTypes.add(DeployableType.FILE.toString());
+        deployableTypes.add(DeployableType.HAR.toString());
+        deployableTypes.add(DeployableType.RAR.toString());
+        deployableTypes.add(DeployableType.SAR.toString());
+        deployableTypes.add(DeployableType.WAR.toString());
 
         Map<String, String> replacements = new HashMap<String, String>();
 
@@ -142,8 +143,7 @@ public class CargoDaemonServlet extends HttpServlet
                 .getContainerIds().keySet()))));
         replacements.put("deployableTypes", JSONArray.toJSONString(deployableTypes));
 
-        replacements.put("handleIds",
-            JSONArray.toJSONString(new ArrayList<String>(handles.keySet())));
+        replacements.put("handles", JSONValue.toJSONString(getHandleDetails()));
 
         StringBuilder indexPageBuilder = new StringBuilder();
 
@@ -172,7 +172,6 @@ public class CargoDaemonServlet extends HttpServlet
         this.indexPage = indexPageBuilder.toString();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
@@ -186,6 +185,7 @@ public class CargoDaemonServlet extends HttpServlet
 
                 startContainer(startRequest);
 
+                response.setContentType("text/plain");
                 response.getWriter().println("OK - STARTED");
             }
             catch (Throwable e)
@@ -212,6 +212,7 @@ public class CargoDaemonServlet extends HttpServlet
                 {
                     handle.getContainer().stop();
                     handles.remove(handleId);
+                    response.setContentType("text/plain");
                     response.getWriter().println("OK - STOPPED");
                 }
             }
@@ -236,6 +237,7 @@ public class CargoDaemonServlet extends HttpServlet
                 InstalledLocalContainer container = handle.getContainer();
                 String logFilePath = container.getOutput();
 
+                response.setContentType("text/plain");
                 if (logFilePath == null || logFilePath.length() == 0)
                 {
                     response.getWriter().println("");
@@ -255,6 +257,7 @@ public class CargoDaemonServlet extends HttpServlet
         {
             String file = request.getParameter("file");
 
+            response.setContentType("text/plain");
             if (fileManager.existsFile(file))
             {
                 response.getWriter().println("OK - INSTALLED");
@@ -263,6 +266,11 @@ public class CargoDaemonServlet extends HttpServlet
             {
                 response.getWriter().println("OK - NOTEXIST");
             }
+        }
+        else if ("/getHandles".equals(request.getServletPath()))
+        {
+            response.setContentType("text/plain");
+            response.getWriter().println(JSONValue.toJSONString(getHandleDetails()));
         }
         else
         {
@@ -344,9 +352,13 @@ public class CargoDaemonServlet extends HttpServlet
         if (containerOutput != null && containerOutput.length() > 0)
         {
             container.setOutput(fileManager.getLogFile(handleId, containerOutput));
+            container.setAppend("on".equals(containerAppend));
         }
-
-        container.setAppend("on".equals(containerAppend));
+        else
+        {
+            container.setOutput(fileManager.getLogFile(handleId, "cargo.log"));
+            container.setAppend(false);
+        }
 
         if (installerZipFile != null && installerZipInputStream != null)
         {
@@ -499,5 +511,18 @@ public class CargoDaemonServlet extends HttpServlet
         {
             throw new CargoDaemonException("Malformed URL " + e);
         }
+    }
+
+    /**
+     * @return Details of current handles.
+     */
+    private Map<String, String> getHandleDetails()
+    {
+        Map<String, String> result = new TreeMap<String, String>();
+        for (Map.Entry<String, Handle> handle : this.handles.entrySet())
+        {
+            result.put(handle.getKey(), handle.getValue().getContainer().getState().toString());
+        }
+        return result;
     }
 }
