@@ -41,7 +41,7 @@ public class Jetty7xInstalledLocalDeployer extends Jetty6xInstalledLocalDeployer
     @Override
     protected String createContextXml(WAR war)
     {
-        StringBuilder buffer = new StringBuilder(1024);
+        StringBuilder buffer = new StringBuilder();
         buffer.append("<?xml version=\"1.0\"  encoding=\"UTF-8\"?>\n");
         buffer.append("<!DOCTYPE Configure PUBLIC \"-//Jetty//Configure//EN\" "
             + "\"http://www.eclipse.org/jetty/configure.dtd\">\n");
@@ -51,6 +51,7 @@ public class Jetty7xInstalledLocalDeployer extends Jetty6xInstalledLocalDeployer
         buffer.append("  <Set name=\"extractWAR\">true</Set>\n");
         buffer.append("  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
             + "default=\".\"/>/etc/webdefault.xml</Set>\n");
+        buffer.append(getSharedClasspathXmlFragment());
         buffer.append("</Configure>\n");
         return buffer.toString();
     }

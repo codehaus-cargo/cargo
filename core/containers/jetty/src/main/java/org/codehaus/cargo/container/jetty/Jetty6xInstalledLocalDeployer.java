@@ -132,7 +132,7 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      */
     protected String createContextXml(WAR war)
     {
-        StringBuilder buffer = new StringBuilder(1024);
+        StringBuilder buffer = new StringBuilder();
         buffer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         buffer.append("<!DOCTYPE Configure PUBLIC \"-//Mort Bay Consulting//DTD Configure//EN\" "
             + "\"http://jetty.mortbay.org/configure.dtd\">\n");
@@ -150,8 +150,35 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
         buffer.append("  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
             + "default=\".\"/>/etc/webdefault.xml</Set>\n");
         buffer.append("  <Set name=\"ConfigurationClasses\"><Ref id=\"plusConfig\"/></Set>\n");
+        buffer.append(getSharedClasspathXmlFragment());
         buffer.append("</Configure>\n");
         return buffer.toString();
     }
 
+    /**
+     * @return The XML fragment for shared classpath.
+     */
+    protected String getSharedClasspathXmlFragment()
+    {
+        StringBuilder buffer = new StringBuilder();
+
+        if (getContainer() instanceof InstalledLocalContainer)
+        {
+            InstalledLocalContainer installedLocalContainer =
+                (InstalledLocalContainer) getContainer();
+
+            String[] sharedClasspath = installedLocalContainer.getSharedClasspath();
+            if (sharedClasspath != null && sharedClasspath.length > 0)
+            {
+                buffer.append("  <Set name=\"extraClasspath\">\n");
+                for (String sharedClasspathElement : sharedClasspath)
+                {
+                    buffer.append("    " + sharedClasspathElement + ";\n");
+                }
+                buffer.append("  </Set>\n");
+            }
+        }
+
+        return buffer.toString();
+    }
 }
