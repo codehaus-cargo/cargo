@@ -38,7 +38,7 @@ import org.codehaus.cargo.module.webapp.WebXmlType;
 public class UberwarTest extends AbstractDocumentBuilderTest
 {
 
-    public void testUberwarExecution() throws Exception
+    public void testUberwar() throws Exception
     {
         File target = new File(System.getProperty("target"));
         final File projectDirectory = new File(target, "classes").getAbsoluteFile();
@@ -86,10 +86,7 @@ public class UberwarTest extends AbstractDocumentBuilderTest
 
         fail("The file " + output + " did not have the BUILD SUCCESS message after 60 seconds. "
             + "Current content: \n\n" + outputString);
-    }
 
-    public void testUberwarResult() throws Exception
-    {
         String projectVersion = System.getProperty("project.version");
         assertNotNull("System property project.version not set", projectVersion);
 
