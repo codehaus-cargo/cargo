@@ -85,7 +85,19 @@
                   ... or installer zip file:
                 </td>
                 <td>
-                  <input name="installerZipFile" style="width:600px"/>
+                  <table width="600" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td width="230">
+                        <input type="file" name="installerZipFileData" style="width:225px" size="22" onchange="var filename=this.value;if(filename.indexOf('/') !== -1){filename = filename.substring(filename.lastIndexOf('/') + 1)};if(filename.indexOf('\\') !== -1){filename = filename.substring(filename.lastIndexOf('\\') + 1)};document.getElementById('installerZipFile').value=filename"/>
+                      </td>
+                      <td width="120" align="right">
+                        Save as: &nbsp; 
+                      </td>
+                      <td width="250">
+                        <input name="installerZipFile" id="installerZipFile" style="width:250px"/>
+                      </td>
+                    </tr>
+                  </table>
                 </td>
               </tr>
               <tr bgcolor="#EAEDF2">
