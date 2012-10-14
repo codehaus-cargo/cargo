@@ -36,6 +36,8 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 public class RunMojoTest extends TestCase
 {
 
+    private static boolean initialized = false;
+
     private Logger logger = new SimpleLogger();
 
     private File projectDirectory;
@@ -51,22 +53,30 @@ public class RunMojoTest extends TestCase
         this.projectDirectory = new File(target, "classes").getAbsoluteFile();
 
         this.output = new File(target, "output.log");
+
+        synchronized(RunMojoTest.class)
+        {
+            if (!RunMojoTest.initialized)
+            {
+                final PrintStream outputStream = new PrintStream(output);
+
+                String portOption = "-Dcargo.samples.servlet.port=" + System.getProperty("http.port");
+                final String[] options = new String[] { portOption, "-o", "-X", "clean", "cargo:run" };
+
+                new Thread(new Runnable() {
+                    public void run() {
+                        MavenCli maven2 = new MavenCli();
+                        maven2.doMain(options , projectDirectory.getPath(), outputStream, outputStream);
+                    }
+                }).start();
+
+                RunMojoTest.initialized = true;
+            }
+        }
     }
 
     public void testRunMojo() throws Exception
     {
-        final PrintStream outputStream = new PrintStream(output);
-
-        String portOption = "-Dcargo.samples.servlet.port=" + System.getProperty("http.port");
-        final String[] options = new String[] { portOption, "-o", "-X", "clean", "cargo:run" };
-
-        new Thread(new Runnable() {
-            public void run() {
-                MavenCli maven2 = new MavenCli();
-                maven2.doMain(options , projectDirectory.getPath(), outputStream, outputStream);
-            }
-        }).start();
-
         waitForRunMojoStart();
     }
 
