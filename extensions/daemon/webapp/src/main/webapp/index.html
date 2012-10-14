@@ -4,6 +4,21 @@
   <head profile="http://www.w3.org/2000/08/w3c-synd/#">
     <link rel="stylesheet" href="cargo.css" type="text/css"/>
     <title>Cargo Daemon</title>
+    <script>
+      function setFileName(value, target)
+      {
+        if (value.indexOf('/') !== -1)
+        {
+          value = value.substring(value.lastIndexOf('/') + 1)
+        }
+        if (value.indexOf('\\') !== -1)
+        {
+          value = value.substring(value.lastIndexOf('\\') + 1)
+        }
+
+        document.getElementById(target).value = value
+      }
+    </script>
   </head>
   <body>
     <table width="100%" id="layout" style="padding:0px;margin:0px;border-collapse:collapse;">
@@ -88,7 +103,7 @@
                   <table width="600" cellpadding="0" cellspacing="0">
                     <tr>
                       <td width="230">
-                        <input type="file" name="installerZipFileData" style="width:225px" size="22" onchange="var filename=this.value;if(filename.indexOf('/') !== -1){filename = filename.substring(filename.lastIndexOf('/') + 1)};if(filename.indexOf('\\') !== -1){filename = filename.substring(filename.lastIndexOf('\\') + 1)};document.getElementById('installerZipFile').value=filename"/>
+                        <input type="file" name="installerZipFileData" style="width:225px" size="22" onchange="setFileName(this.value, 'installerZipFile')"/>
                       </td>
                       <td width="120" align="right">
                         Save as: &nbsp; 
@@ -338,7 +353,7 @@
         row.insertCell(2).innerHTML = "<center><input type='checkbox' id='configurationFileOverwrite_" + configurationFiles + "'/></center>";
         row.insertCell(3).innerHTML = "<center><input type='checkbox' id='configurationFileParse_" + configurationFiles + "'/></center>";
         row.insertCell(4).innerHTML = "<input id='configurationFileEncoding_" + configurationFiles + "' style='width:65px'/>";
-        row.insertCell(5).innerHTML = "<input type='file' name='configurationFileData_" + configurationFiles + "' style='width:120px' size='5'/>";
+        row.insertCell(5).innerHTML = "<input type='file' name='configurationFileData_" + configurationFiles + "' onchange=\"setFileName(this.value, 'configurationFileName_" + configurationFiles + "')\" style='width:120px' size='5'/>";
 
         configurationFiles++;
       }
@@ -375,7 +390,7 @@
 
         row.insertCell(0).innerHTML = "<select id='deployableFileType_" + deployableFiles + "' style='width:95px'></select>";
         row.insertCell(1).innerHTML = "<input id='deployableFileName_" + deployableFiles + "' style='width:195px'/>";
-        row.insertCell(2).innerHTML = "<input type='file' name='deployableFileData_" + deployableFiles + "' style='width:295px' size='31'/>";
+        row.insertCell(2).innerHTML = "<input type='file' name='deployableFileData_" + deployableFiles + "' onchange=\"setFileName(this.value, 'deployableFileName_" + deployableFiles + "')\" style='width:295px' size='31'/>";
 
         var sel = document.getElementById("deployableFileType_" + deployableFiles);
         for (var i = 0; i < deployableTypes.length; i++)
