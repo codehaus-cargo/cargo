@@ -90,9 +90,6 @@ public class UberwarTest extends AbstractDocumentBuilderTest
         String projectVersion = System.getProperty("project.version");
         assertNotNull("System property project.version not set", projectVersion);
 
-        String target = System.getProperty("target");
-        assertNotNull("System property target not set", target);
-
         File uberwarExpandedDirectory = new File(target,
             "classes/target/cargo-sample-maven2-uberwar-test-artifact-" + projectVersion);
         assertNotNull("Not a directory: " + uberwarExpandedDirectory,
