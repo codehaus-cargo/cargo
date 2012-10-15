@@ -81,11 +81,8 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
             new CargoTestSuite("Tests that run on local containers to test extra classpath");
 
         // We exclude geronimo1x as it doesn't support extra classpath
-        // We exclude jboss7x and jboss71x as it doesn't support extra classpath
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("geronimo1x");
-        excludedContainerIds.add("jboss7x");
-        excludedContainerIds.add("jboss71x");
         suite.addTestSuite(ExtraClasspathOnStandaloneConfigurationTest.class, new Validator[] {
             new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator(),
             new HasWarSupportValidator()}, excludedContainerIds);

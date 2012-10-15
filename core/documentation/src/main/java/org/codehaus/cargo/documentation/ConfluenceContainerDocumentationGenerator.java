@@ -426,14 +426,14 @@ public class ConfluenceContainerDocumentationGenerator
             else if (containerId.equals("jboss7x"))
             {
                 output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) "
-                    + "| JARs are added to the JBoss 7.x classpath using modules and tested "
-                    + "with JDBC drivers only |");
+                    + "| The JBoss 7.x deployer will modify the {{MANIFEST.MF}} of your "
+                        + "deployables in order to add the extra and shared classpath |");
             }
             else if (containerId.equals("jboss71x"))
             {
                 output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) "
-                    + "| JARs are added to the JBoss 7.1.x classpath using modules and tested "
-                    + "with JDBC drivers only |");
+                    + "| The JBoss 7.1.x deployer will modify the {{MANIFEST.MF}} of your "
+                        + "deployables in order to add the extra and shared classpath |");
             }
             else
             {

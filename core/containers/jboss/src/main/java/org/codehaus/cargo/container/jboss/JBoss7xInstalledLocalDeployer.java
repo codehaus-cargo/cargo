@@ -19,8 +19,20 @@
  */
 package org.codehaus.cargo.container.jboss;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.jar.Manifest;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableException;
 
 /**
  * Static deployer that deploys WARs and EARs to the JBoss <code>deployments</code> directory.
@@ -52,19 +64,15 @@ public class JBoss7xInstalledLocalDeployer extends JBossInstalledLocalDeployer
         getPropertyValue(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR);
         if (altDeployDir != null && !"".equals(altDeployDir))
         {
-            getContainer().getLogger().info("Using "
-                + "non-default deployment target directory "
-                + altDeployDir,
-                JBoss7xInstalledLocalDeployer.class.getName());
-            return getFileHandler().append(getContainer().
-                getConfiguration().getHome(),
+            getContainer().getLogger().info("Using non-default deployment target directory "
+                + altDeployDir, JBoss7xInstalledLocalDeployer.class.getName());
+            return getFileHandler().append(getContainer().getConfiguration().getHome(),
                 altDeployDir);
         }
         else
         {
             return getFileHandler().append(getContainer().
-                getConfiguration().getHome()
-                , "deployments");
+                getConfiguration().getHome(), "deployments");
         }
     }
 
@@ -75,14 +83,153 @@ public class JBoss7xInstalledLocalDeployer extends JBossInstalledLocalDeployer
     @Override
     protected void doDeploy(String deployableDir, Deployable deployable)
     {
-        super.doDeploy(deployableDir, deployable);
-
-        if (deployable.isExpanded())
+        Deployable deployableToDeploy;
+        try
         {
-            String deployableName = getDeployableName(deployable);
+            deployableToDeploy = modifyManifestForClasspathEntries(deployable);
+        }
+        catch (Exception e)
+        {
+            throw new DeployableException("Cannot update the MANIFEST of deployable"
+                + " with the JBoss container classpath", e);
+        }
+
+        super.doDeploy(deployableDir, deployableToDeploy);
+
+        if (deployableToDeploy.isExpanded())
+        {
+            String deployableName = getDeployableName(deployableToDeploy);
             getFileHandler().createFile(getFileHandler().append(deployableDir, deployableName
                 + ".dodeploy"));
         }
     }
 
+    /**
+     * Modify the classpath via the <code>MANIFEST.MF</code> as explained on
+     * https://community.jboss.org/wiki/HowToPutAnExternalFileInTheClasspath
+     * @param originalDeployable Original deployable.
+     * @return Modified deployable.
+     * @throws Exception If anything goes wrong.
+     */
+    protected Deployable modifyManifestForClasspathEntries(Deployable originalDeployable)
+        throws Exception
+    {
+        InstalledLocalContainer container = (InstalledLocalContainer) getContainer();
+
+        Set<String> classpath = new TreeSet<String>();
+        if (container.getExtraClasspath() != null && container.getExtraClasspath().length != 0)
+        {
+            for (String classpathElement : container.getExtraClasspath())
+            {
+                String moduleName = getFileHandler().getName(classpathElement);
+
+                // Strip extension from JAR file to get module name
+                moduleName = moduleName.substring(0, moduleName.lastIndexOf('.'));
+                // CARGO-1091: JBoss expects subdirectories when the module name contains dots.
+                //             Replace all dots with minus to keep a version separator.
+                moduleName = moduleName.replace('.', '-');
+
+                classpath.add(moduleName);
+            }
+        }
+        if (container.getSharedClasspath() != null && container.getSharedClasspath().length != 0)
+        {
+            for (String classpathElement : container.getSharedClasspath())
+            {
+                String moduleName = getFileHandler().getName(classpathElement);
+
+                // Strip extension from JAR file to get module name
+                moduleName = moduleName.substring(0, moduleName.lastIndexOf('.'));
+                // CARGO-1091: JBoss expects subdirectories when the module name contains dots.
+                //             Replace all dots with minus to keep a version separator.
+                moduleName = moduleName.replace('.', '-');
+
+                classpath.add(moduleName);
+            }
+        }
+
+        if (classpath.isEmpty())
+        {
+            return originalDeployable;
+        }
+
+        if (classpath.size() > 0 && originalDeployable.isExpanded())
+        {
+            getLogger().warn("The extra classpath and shared classpath options are not"
+                + " supported with expanded deployables on " + container.getId(),
+                    this.getClass().getName());
+            return originalDeployable;
+        }
+
+        String outputFile =
+            getFileHandler().append(getContainer().getConfiguration().getHome(), "tmp/cargo");
+        getFileHandler().mkdirs(outputFile);
+        outputFile = getFileHandler().append(outputFile,
+            getFileHandler().getName(originalDeployable.getFile()));
+
+        byte[] buf = new byte[1024];
+
+        ZipInputStream zin = new ZipInputStream(new FileInputStream(originalDeployable.getFile()));
+        try
+        {
+            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(outputFile));
+            try
+            {
+                ZipEntry entry = zin.getNextEntry();
+                while (entry != null)
+                {
+                    String name = entry.getName();
+                    if (name.equalsIgnoreCase("META-INF/MANIFEST.MF"))
+                    {
+                        byte[] manifestContents = new byte[(int) entry.getSize()];
+                        zin.read(manifestContents);
+                        InputStream bis = new ByteArrayInputStream(manifestContents);
+                        Manifest manifest = new Manifest(bis);
+                        String dependencies =
+                            manifest.getMainAttributes().getValue("Dependencies");
+                        if (dependencies == null)
+                        {
+                            dependencies = "";
+                        }
+                        for (String classpathEntry : classpath)
+                        {
+                            if (!dependencies.contains(classpathEntry))
+                            {
+                                if (dependencies.length() > 0)
+                                {
+                                    dependencies += ", ";
+                                }
+                                dependencies += "org.codehaus.cargo.classpath." + classpathEntry;
+                            }
+                        }
+                        manifest.getMainAttributes().putValue("Dependencies", dependencies);
+                        out.putNextEntry(new ZipEntry(name));
+                        manifest.write(out);
+                        out.closeEntry();
+                        bis.close();
+                    }
+                    else
+                    {
+                        out.putNextEntry(new ZipEntry(name));
+                        int len;
+                        while ((len = zin.read(buf)) > 0)
+                        {
+                            out.write(buf, 0, len);
+                        }
+                    }
+                    entry = zin.getNextEntry();
+                }
+            }
+            finally
+            {
+                out.close();
+            }
+        }
+        finally
+        {
+            zin.close();
+        }
+
+        return originalDeployable.getClass().getConstructor(String.class).newInstance(outputFile);
+    }
 }

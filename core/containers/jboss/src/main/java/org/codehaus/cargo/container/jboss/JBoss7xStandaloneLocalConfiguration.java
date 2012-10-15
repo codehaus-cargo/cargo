@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.zip.ZipFile;
 
 import org.apache.tools.ant.types.FilterChain;
@@ -198,9 +200,24 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         }
 
         // Create JARs for modules
-        for (String extraClasspath : container.getExtraClasspath())
+        Set<String> classpath = new TreeSet<String>();
+        if (container.getExtraClasspath() != null && container.getExtraClasspath().length != 0)
         {
-            String moduleName = getFileHandler().getName(extraClasspath);
+            for (String classpathElement : container.getExtraClasspath())
+            {
+                classpath.add(classpathElement);
+            }
+        }
+        if (container.getSharedClasspath() != null && container.getSharedClasspath().length != 0)
+        {
+            for (String classpathElement : container.getSharedClasspath())
+            {
+                classpath.add(classpathElement);
+            }
+        }
+        for (String classpathElement : classpath)
+        {
+            String moduleName = getFileHandler().getName(classpathElement);
             // Strip extension from JAR file to get module name
             moduleName = moduleName.substring(0, moduleName.lastIndexOf('.'));
             // CARGO-1091: JBoss expects subdirectories when the module name contains dots.
@@ -213,12 +230,12 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
             FilterChain filterChain = createFilterChain();
             getAntUtils().addTokenToFilterChain(filterChain, "moduleName", moduleName);
 
-            getFileHandler().copyFile(extraClasspath,
+            getFileHandler().copyFile(classpathElement,
                 getFileHandler().append(folder, moduleName + ".jar"));
             getResourceUtils().copyResource(
                 RESOURCE_PATH + "jboss-module/jboss-module.xml",
-                getFileHandler().append(folder, "module.xml"),
-                getFileHandler(), filterChain, "UTF-8");
+                    getFileHandler().append(folder, "module.xml"),
+                        getFileHandler(), filterChain, "UTF-8");
         }
 
         String tmpDir = getFileHandler().createUniqueTmpDirectory();
@@ -289,7 +306,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
                     String temporaryDriver = getFileHandler().append(tmpDir, "driver.xml");
                     getResourceUtils().copyResource(
                         RESOURCE_PATH + "jboss-ds/jboss-driver" + xa + ".xml",
-                        temporaryDriver, getFileHandler(), filterChain, "UTF-8");
+                            temporaryDriver, getFileHandler(), filterChain, "UTF-8");
                     drivers.append("\n");
                     drivers.append(getFileHandler().readTextFile(temporaryDriver, "UTF-8"));
                 }
@@ -297,7 +314,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
                 String temporaryDatasource = getFileHandler().append(tmpDir, "datasource.xml");
                 getResourceUtils().copyResource(
                     RESOURCE_PATH + "jboss-ds/jboss-datasource.xml",
-                    temporaryDatasource, getFileHandler(), filterChain, "UTF-8");
+                        temporaryDatasource, getFileHandler(), filterChain, "UTF-8");
                 datasources.append("\n");
                 datasources.append(getFileHandler().readTextFile(temporaryDatasource, "UTF-8"));
             }
