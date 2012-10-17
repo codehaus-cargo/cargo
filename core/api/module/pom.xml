@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-core-api</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.1-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-core-api-module</artifactId>
   <name>Cargo Core Module API</name>
