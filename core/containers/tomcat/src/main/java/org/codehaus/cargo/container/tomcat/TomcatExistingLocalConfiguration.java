@@ -20,6 +20,16 @@
 package org.codehaus.cargo.container.tomcat;
 
 import java.io.File;
+import java.io.InputStream;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -27,6 +37,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.TomcatExistingLocalConfigurationCapability;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Tomcat existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
@@ -49,7 +60,88 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
     {
         super(dir);
 
-        setProperty(TomcatPropertySet.WEBAPPS_DIRECTORY, "webapps");
+        String file = getFileHandler().append(dir, "conf/server.xml");
+
+        if (!getFileHandler().exists(file))
+        {
+            getLogger().warn("Cannot find file " + file + ", setting default "
+                + TomcatPropertySet.WEBAPPS_DIRECTORY, this.getClass().getName());
+            setProperty(TomcatPropertySet.WEBAPPS_DIRECTORY, "webapps");
+            return;
+        }
+
+        InputStream is = null;
+        try
+        {
+            DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = domFactory.newDocumentBuilder();
+
+            XPathFactory xPathFactory = XPathFactory.newInstance();
+            XPath xPath = xPathFactory.newXPath();
+
+            if (getFileHandler().isDirectory(file))
+            {
+                throw new CargoException("The destination is a directory: " + file);
+            }
+
+            is = getFileHandler().getInputStream(file);
+            Document doc;
+            try
+            {
+                doc = builder.parse(is);
+            }
+            finally
+            {
+                is.close();
+                is = null;
+                System.gc();
+            }
+
+            String expression = "//Server/Service/Engine/Host";
+            String attributeName = "appBase";
+
+            XPathExpression xPathExpr = xPath.compile(expression);
+            Node node = (Node) xPathExpr.evaluate(doc, XPathConstants.NODE);
+
+            if (node == null)
+            {
+                throw new CargoException("Node " + expression + " not found in file " + file);
+            }
+
+            Node attribute = node.getAttributes().getNamedItem(attributeName);
+
+            if (attribute == null)
+            {
+                throw new CargoException("Attribute " + attribute + " not found on node "
+                    + expression + " in file " + file);
+            }
+
+            setProperty(TomcatPropertySet.WEBAPPS_DIRECTORY, attribute.getNodeValue());
+        }
+        catch (Exception e)
+        {
+            throw new CargoException("Cannot read the Tomcat server.xml file", e);
+        }
+        finally
+        {
+            if (is != null)
+            {
+                try
+                {
+                    is.close();
+                }
+                catch (Exception ignored)
+                {
+                    // Ignored
+                }
+                finally
+                {
+                    is = null;
+                }
+            }
+
+            System.gc();
+        }
     }
 
     /**

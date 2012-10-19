@@ -19,9 +19,9 @@
  */
 package org.codehaus.cargo.module.webapp.tomcat;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.codehaus.cargo.module.AbstractDescriptor;
 import org.codehaus.cargo.module.DescriptorType;
@@ -101,7 +101,7 @@ public class TomcatContextXml extends AbstractDescriptor
      */
     public Map<Attribute, Attribute> getParameters()
     {
-        Map<Attribute, Attribute> r = new TreeMap<Attribute, Attribute>();
+        Map<Attribute, Attribute> r = new HashMap<Attribute, Attribute>();
         List<Element> elements = getElements(TomcatContextXmlTag.PARAMETER);
         for (Element element : elements)
         {
