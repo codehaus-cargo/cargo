@@ -165,7 +165,7 @@
                 <container>
                   <containerId>tomcat6x</containerId>
                   <zipUrlInstaller>
-                    <url>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.35/bin/apache-tomcat-6.0.35.zip</url>
+                    <url>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.36/bin/apache-tomcat-6.0.36.zip</url>
                   </zipUrlInstaller>
                 </container>
               </configuration>
