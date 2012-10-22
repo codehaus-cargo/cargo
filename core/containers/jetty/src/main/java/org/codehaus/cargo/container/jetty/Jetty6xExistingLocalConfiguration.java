@@ -25,7 +25,8 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyExistingLocalConfiguration;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
 
-/** Configuration for existing local Jetty 6x
+/**
+ * Configuration for existing local Jetty 6.x
  *
  * @version $Id$
  */

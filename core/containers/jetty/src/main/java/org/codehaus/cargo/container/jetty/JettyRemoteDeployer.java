@@ -43,13 +43,17 @@ import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
 import org.codehaus.cargo.util.Base64;
 
 /**
- * A remote deployer for the Jetty container.
- * 
- * NOTE: undeploy DELETES the webapp from the Jetty webapp directory
- * 
- * Limitations: - will not undeploy files from anywhere other than the servers webapp directory -
- * cannot be used to undeploy webapps that were deployed using a xml context file in /contexts -
- * should not be used with multiple webapps sharing a common war.
+ * A remote deployer for the Jetty container.<br/>
+ * <br/>
+ * <b>NOTE</b>: undeploy <u>DELETES</u> the webapp from the Jetty webapp directory.<br/>
+ * <br/>
+ * Limitations:
+ * <ul>
+ * <li>Will not undeploy files from anywhere other than the servers webapp directory</li>
+ * <li>Cannot be used to undeploy webapps that were deployed using a xml context file in
+ * <code>/contexts</code></li>
+ * <li>Should not be used with multiple webapps sharing a common war</li>
+ * </ul>
  * 
  * @version $Id$
  */

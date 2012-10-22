@@ -19,7 +19,8 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-/** Configuration for existing local Jetty 8x
+/**
+ * Configuration for existing local Jetty 8.x
  *
  * @version $Id$
  */

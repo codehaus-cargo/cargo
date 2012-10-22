@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
+
 /**
  * Jetty 9.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
@@ -33,12 +36,11 @@ public class Jetty9xStandaloneLocalConfiguration extends Jetty8xStandaloneLocalC
      */
     private static String[] replaceJettyHomeInFiles = new String[]
     {
-        "jetty-contexts.xml",
+        "jetty-deploy.xml",
         "jetty-plus.xml",
         "jetty-spdy.xml",
-        "jetty-ssl.xml",
-        "jetty-testrealm.xml",
-        "jetty-webapps.xml"
+        "jetty-https.xml",
+        "test-realm.xml"
     };
 
     /**
@@ -48,6 +50,17 @@ public class Jetty9xStandaloneLocalConfiguration extends Jetty8xStandaloneLocalC
     public Jetty9xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected AbstractCopyingInstalledLocalDeployer createDeployer(
+        InstalledLocalContainer container)
+    {
+        Jetty9xInstalledLocalDeployer deployer = new Jetty9xInstalledLocalDeployer(container);
+        return deployer;
     }
 
     /**

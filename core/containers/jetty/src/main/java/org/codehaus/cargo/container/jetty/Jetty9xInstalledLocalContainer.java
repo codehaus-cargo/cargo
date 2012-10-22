@@ -79,17 +79,15 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
                 "etc/jetty.xml"));
         startArguments.add(getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-annotations.xml"));
+        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-http.xml"));
         // Make sure Jetty-plus is part of startup so that CARGO-1122 is tested
         startArguments.add(getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-plus.xml"));
         startArguments.add(getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-deploy.xml"));
         startArguments.add(getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-webapps.xml"));
-        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-contexts.xml"));
-        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-testrealm.xml"));
+                "etc/test-realm.xml"));
 
         String[] startArgumentsArray = new String[startArguments.size()];
         return startArguments.toArray(startArgumentsArray);

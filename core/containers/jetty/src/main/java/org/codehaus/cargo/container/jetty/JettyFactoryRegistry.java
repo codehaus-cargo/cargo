@@ -232,7 +232,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
         deployerFactory.registerDeployer("jetty9x", DeployerType.EMBEDDED,
             Jetty7xEmbeddedLocalDeployer.class);
         deployerFactory.registerDeployer("jetty9x", DeployerType.INSTALLED,
-            Jetty7xInstalledLocalDeployer.class);
+            Jetty9xInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jetty9x", DeployerType.REMOTE,
             JettyRemoteDeployer.class);
     }

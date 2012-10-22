@@ -20,35 +20,27 @@
 package org.codehaus.cargo.container.jetty;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
 
 /**
- * Configuration for existing local Jetty 9.x
- *
+ * A deployer for webapps that deploys to a Jetty 9.x installed instance.
+ * 
  * @version $Id$
  */
-public class Jetty9xExistingLocalConfiguration extends Jetty8xExistingLocalConfiguration
+public class Jetty9xInstalledLocalDeployer extends Jetty7xInstalledLocalDeployer
 {
-
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#AbstractLocalConfiguration(String)
+     * @see Jetty7xInstalledLocalDeployer#Jetty7xInstalledLocalDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
      */
-    public Jetty9xExistingLocalConfiguration(String dir)
+    public Jetty9xInstalledLocalDeployer(InstalledLocalContainer container)
     {
-        super(dir);
+        super(container);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public AbstractInstalledLocalDeployer createDeployer(LocalContainer container)
+    public String getContextsDir()
     {
-        Jetty9xInstalledLocalDeployer deployer =
-            new Jetty9xInstalledLocalDeployer((InstalledLocalContainer) container);
-        return deployer;
+        return getFileHandler().append(getContainer().getConfiguration().getHome(), "webapps");
     }
 
 }

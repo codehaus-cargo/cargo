@@ -249,7 +249,7 @@
 
               <property>
                 <name>cargo.tomcat6x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.35/bin/apache-tomcat-6.0.35.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.36/bin/apache-tomcat-6.0.36.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat6x.java.home</name>
@@ -336,7 +336,7 @@
 
               <property>
                 <name>cargo.jetty9x.url</name>
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.0.M0/jetty-distribution-9.0.0.M0.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.0.M1/jetty-distribution-9.0.0.M1.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>

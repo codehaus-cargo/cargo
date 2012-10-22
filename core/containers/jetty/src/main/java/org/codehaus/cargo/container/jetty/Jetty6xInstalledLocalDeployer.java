@@ -58,6 +58,18 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     }
 
     /**
+     * Specifies the directory for which the <code>context.xml</code> for the
+     * {@link org.codehaus.cargo.container.deployable.Deployable}s should be copied to. For Jetty
+     * this is the <code>webapps</code> directory.
+     * 
+     * @return Deployable the directory to deploy the <code>context.xml</code> file to
+     */
+    public String getContextsDir()
+    {
+        return getFileHandler().append(getContainer().getConfiguration().getHome(), "contexts");
+    }
+
+    /**
      * {@inheritDoc}. We override the base implementation because Jetty requires a context XML file
      * deployed in its context dir to perform hot deployment. Thus we need to create that context
      * file.
@@ -76,8 +88,7 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
             // - ability to hot deploy
             // - ability to tell Jetty to install the WAR under a given context name
             // - ability to accelerate deployment by avoiding an actual copy of the WAR
-            String contextDir = getFileHandler().append(
-                getContainer().getConfiguration().getHome(), "contexts");
+            String contextDir = getContextsDir();
             String contextFile = war.getContext();
             if ("/".equals(contextFile) || "".equals(contextFile))
             {

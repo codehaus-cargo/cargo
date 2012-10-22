@@ -24,7 +24,8 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyExistingLocalConfiguration;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
 
-/** Configuration for existing local Jetty 7x
+/**
+ * Configuration for existing local Jetty 7.x
  *
  * @version $Id$
  */
@@ -48,7 +49,7 @@ public class Jetty7xExistingLocalConfiguration extends AbstractJettyExistingLoca
     public AbstractInstalledLocalDeployer createDeployer(LocalContainer container)
     {
         Jetty7xInstalledLocalDeployer deployer =
-                new Jetty7xInstalledLocalDeployer((InstalledLocalContainer) container);
+            new Jetty7xInstalledLocalDeployer((InstalledLocalContainer) container);
         return deployer;
     }
     
