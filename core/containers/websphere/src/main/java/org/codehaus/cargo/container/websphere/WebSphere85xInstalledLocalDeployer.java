@@ -30,7 +30,10 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.module.webapp.DefaultWarArchive;
+import org.codehaus.cargo.module.webapp.WebXmlType;
 import org.codehaus.cargo.util.CargoException;
+import org.jdom.Element;
 
 /**
  * Static deployer that deploys WARs to IBM WebSphere 8.5.
@@ -71,17 +74,33 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
     {
         try
         {
-            String deployableFileName = getFileHandler().getName(deployable.getFile())
-                .replace('\\', '/').replace(" ", "\\ ");
+            String deployableFileName = getFileHandler().getName(deployable.getFile());
 
             String contextRoot = "";
             StringBuilder mapWebModToVH = new StringBuilder(" -MapWebModToVH {");
             if (deployable instanceof WAR)
             {
+                String displayName = deployableFileName;
+                DefaultWarArchive warArchive = new DefaultWarArchive(deployable.getFile());
+                Element displayNameElement =
+                    warArchive.getWebXml().getRootElement().getChild(WebXmlType.DISPLAY_NAME);
+                if (displayNameElement != null)
+                {
+                    String displayNameText = displayNameElement.getText();
+                    if (displayNameText != null)
+                    {
+                        displayNameText = displayNameText.trim();
+                        if (displayNameText.length() > 0)
+                        {
+                            displayName = displayNameText;
+                        }
+                    }
+                }
+
                 WAR war = (WAR) deployable;
                 contextRoot = "-contextroot " + war.getContext();
-                mapWebModToVH.append("{" + deployableFileName + " " + deployableFileName
-                    + ",WEB-INF/web.xml default_host}");
+                mapWebModToVH.append("{\"" + displayName + "\" \"" + deployableFileName
+                    + ",WEB-INF/web.xml\" default_host}");
             }
             else if (deployable instanceof EAR)
             {

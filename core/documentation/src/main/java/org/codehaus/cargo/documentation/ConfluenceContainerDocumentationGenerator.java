@@ -363,12 +363,12 @@ public class ConfluenceContainerDocumentationGenerator
         else if (containerId.startsWith("websphere"))
         {
             output.append("{note}");
-            output.append("CARGO's WebSphere support is in very early stages of development:");
+            output.append("The WebSphere container does +not+ support WebSphere Application ");
+            output.append("Server Community Edition,");
             output.append(LINE_SEPARATOR);
-            output.append("* Only a very limited number of tests have been run so far");
+            output.append("please prefer to use the \"full\" WebSphere package ");
+            output.append("or WebSphere Application Server for Developers.");
             output.append(LINE_SEPARATOR);
-            output.append("* The standalone container uses the WebSphere profile manager and ");
-            output.append("seems not to be very stable for now");
             output.append(LINE_SEPARATOR);
             output.append("{note}");
             output.append(LINE_SEPARATOR);
