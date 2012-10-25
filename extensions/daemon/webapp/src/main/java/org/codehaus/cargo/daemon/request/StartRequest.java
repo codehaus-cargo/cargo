@@ -169,7 +169,7 @@ public class StartRequest
 
         String value = getParameter(name, required);
 
-        if (value.length() > 0)
+        if (value != null && value.length() > 0)
         {
             try
             {
