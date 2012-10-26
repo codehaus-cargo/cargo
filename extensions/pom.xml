@@ -51,8 +51,8 @@
 
   <modules>
     <module>ant</module>
-    <module>maven2</module>
     <module>daemon</module>
+    <module>maven2</module>
   </modules>
 
   <build>
