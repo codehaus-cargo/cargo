@@ -20,16 +20,10 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
-    <artifactId>cargo-extensions</artifactId>
+    <artifactId>cargo-daemon-itests</artifactId>
     <version>1.3.1-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-extensions-daemon</artifactId>
-  <name>Cargo Extensions - Daemon</name>
-  <packaging>pom</packaging>
-  <description>Cargo Extensions for Daemon</description>
-  <modules>
-    <module>client</module>
-    <module>webapp</module>
-    <module>itests</module>
-  </modules>
+  <artifactId>cargo-daemon-itests-browser</artifactId>
+  <name>Cargo Daemon Integration Tests - Browser</name>
+  <description>Cargo Daemon Client - Browser</description>
 </project>
