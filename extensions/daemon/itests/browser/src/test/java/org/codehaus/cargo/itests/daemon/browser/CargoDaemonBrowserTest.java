@@ -192,7 +192,8 @@ public class CargoDaemonBrowserTest extends TestCase
         {
             Thread.sleep(1000);
         }
-        assertNotNull("Container stop button did not appear", stopButton);
+        assertNotNull("Container stop button did not appear. Current content: "
+            + htmlPage.asText(), stopButton);
         assertFalse("There should be running containers",
             htmlPage.asText().contains("No running containers"));
         stopButton.click();
