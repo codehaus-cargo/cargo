@@ -154,7 +154,7 @@
                 <td>
                   Container system properties:
                   <br/>
-                  <input type="button" value="Add property" onclick="addContainerProperty()"/>
+                  <input type="button" value="Add property" onclick="addContainerProperty()" id="addContainerPropertyButton"/>
                 </td>
                 <td>
                   <div id="containerProperties">
@@ -175,7 +175,7 @@
                 <td>
                   Configuration properties:
                   <br/>
-                  <input type="button" value="Add property" onclick="addConfigurationProperty()"/>
+                  <input type="button" value="Add property" onclick="addConfigurationProperty()" id="addConfigurationPropertyButton"/>
                 </td>
                 <td>
                   <div id="configurationProperties">
@@ -196,7 +196,7 @@
                 <td>
                   Configuration files:
                   <br/>
-                  <input type="button" value="Add file" onclick="addConfigurationFile()"/>
+                  <input type="button" value="Add file" onclick="addConfigurationFile()" id="addConfigurationFileButton"/>
                 </td>
                 <td>
                   <div id="configurationFiles">
@@ -219,7 +219,7 @@
                 <td>
                   Deployable files:
                   <br/>
-                  <input type="button" value="Add file" onclick="addDeployableFile()"/>
+                  <input type="button" value="Add file" onclick="addDeployableFile()" id="addDeployableFileButton"/>
                 </td>
                 <td>
                   <div id="deployableFiles">
@@ -241,7 +241,7 @@
                 </td>
                 <td>
                   <br/>
-                  <input type="submit" value="Submit"/>
+                  <input type="submit" value="Submit" id="submitButton"/>
                 </td>
               </tr>
             </table>
@@ -455,8 +455,8 @@
 
           row.insertCell(0).innerHTML = handleId;
           row.insertCell(1).innerHTML = handles[handleId];
-          row.insertCell(2).innerHTML = "<form action='./stop' method='POST' target='asyncForm'> <input type='submit' value='Stop container'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form>";
-          row.insertCell(3).innerHTML = "<form action='./viewlog' method='GET'> <input type='submit' value='View logs'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form>";
+          row.insertCell(2).innerHTML = "<form action='./stop' method='POST' target='asyncForm'> <input type='submit' value='Stop container' id='stopContainer_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form>";
+          row.insertCell(3).innerHTML = "<form action='./viewlog' method='GET'> <input type='submit' value='View logs' id='viewContainerLogs_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form>";
         }
         if (!hasHandles)
         {
@@ -480,18 +480,23 @@
       {
         xmlHttpRequest.onreadystatechange = function()
         {
-          var response = xmlHttpRequest.responseText;
-          var parsedResponse = {};
-          eval("parsedResponse = " + response);
-          if (typeof parsedResponse === "undefined")
+          // Do this asynchronously (with timeout), as some browsers do not populate
+          // all XMLHttpRequest request fields when onreadystatechange is fired
+          setTimeout(function()
           {
-            window.alert("Got unexpected response while refreshing handles: " + response);
-          }
-          else
-          {
-            handles = parsedResponse;
-            drawHandleListTable();
-          }
+            var response = xmlHttpRequest.responseText;
+            var parsedResponse = {};
+            eval("parsedResponse = " + response);
+            if (typeof parsedResponse === "undefined")
+            {
+              window.alert("Got unexpected response while refreshing handles: " + response);
+            }
+            else
+            {
+              handles = parsedResponse;
+              drawHandleListTable();
+            }
+          }, 55);
         };
 
         setInterval(function()

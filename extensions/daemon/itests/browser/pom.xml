@@ -26,4 +26,12 @@
   <artifactId>cargo-daemon-itests-browser</artifactId>
   <name>Cargo Daemon Integration Tests - Browser</name>
   <description>Cargo Daemon Client - Browser</description>
+  <dependencies>
+    <dependency>
+      <groupId>net.sourceforge.htmlunit</groupId>
+      <artifactId>htmlunit</artifactId>
+      <version>2.8</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>

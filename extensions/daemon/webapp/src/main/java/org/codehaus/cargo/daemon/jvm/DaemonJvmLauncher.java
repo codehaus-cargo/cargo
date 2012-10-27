@@ -113,14 +113,9 @@ class DaemonJvmLauncher implements JvmLauncher
     {
         List<String> commandLine = new ArrayList<String>();
 
-        if (classpath != null && jarPath != null)
-        {
-            throw new JvmLauncherException("Classpath and jar path may not both be set");
-        }
-
         commandLine.add(executable);
 
-        if (classpath != null)
+        if (classpath != null && jarPath == null)
         {
             commandLine.add("-classpath");
             commandLine.add(classpath);
@@ -134,7 +129,10 @@ class DaemonJvmLauncher implements JvmLauncher
 
         commandLine.addAll(arguments);
         commandLine.addAll(systemProperties);
-        commandLine.add(mainClass);
+        if (jarPath == null)
+        {
+            commandLine.add(mainClass);
+        }
         commandLine.addAll(applicationArguments);
 
         return commandLine;

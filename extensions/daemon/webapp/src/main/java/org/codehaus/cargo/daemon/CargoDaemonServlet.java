@@ -389,8 +389,15 @@ public class CargoDaemonServlet extends HttpServlet
         }
         catch (Throwable t)
         {
-            // Make sure container is stopped.
-            container.stop();
+            try
+            {
+                // Make sure container is stopped.
+                container.stop();
+            }
+            catch (Throwable ignored)
+            {
+                // Ignored
+            }
 
             throw t;
         }
