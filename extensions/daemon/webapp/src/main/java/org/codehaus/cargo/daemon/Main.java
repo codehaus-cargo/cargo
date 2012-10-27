@@ -60,7 +60,11 @@ public final class Main
      */
     private static File getHomeDirectory()
     {
-        String home = System.getProperty("user.home");
+        String home = System.getProperty("daemon.home");
+        if (home == null)
+        {
+            home = System.getProperty("user.home");
+        }
         File homeDir = null;
 
         if (home == null)

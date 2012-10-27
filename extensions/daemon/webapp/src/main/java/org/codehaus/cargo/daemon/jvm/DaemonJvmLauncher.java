@@ -354,7 +354,7 @@ class DaemonJvmLauncher implements JvmLauncher
      */
     public String getCommandLine()
     {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         List<String> commandLine = buildCommandLine();
         if (commandLine != null)
         {
@@ -431,6 +431,21 @@ class DaemonJvmLauncher implements JvmLauncher
         catch (IOException e)
         {
             throw new JvmLauncherException("Failed to launch process " + e);
+        }
+        finally
+        {
+            Runtime.getRuntime().addShutdownHook(new Thread()
+            {
+                @Override
+                public void run()
+                {
+                    if (DaemonJvmLauncher.this.process != null)
+                    {
+                        DaemonJvmLauncher.this.process.destroy();
+                        DaemonJvmLauncher.this.process = null;
+                    }
+                }
+            });
         }
     }
 

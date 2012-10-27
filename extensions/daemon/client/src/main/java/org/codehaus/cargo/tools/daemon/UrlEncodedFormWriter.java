@@ -39,7 +39,7 @@ public class UrlEncodedFormWriter
     /**
      * The buffer that will contain the url encoded form data.
      */
-    private final StringBuffer formData = new StringBuffer();
+    private final StringBuilder formData = new StringBuilder();
 
     /**
      * The output stream to write to.

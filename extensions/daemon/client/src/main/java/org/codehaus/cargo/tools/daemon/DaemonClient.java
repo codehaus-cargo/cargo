@@ -273,7 +273,7 @@ public class DaemonClient extends LoggedObject
      */
     private String setupDeployables(DaemonParameters parameters, List<Deployable> deployables)
     {
-        StringBuffer propertiesJSON = new StringBuffer();
+        StringBuilder propertiesJSON = new StringBuilder();
         propertiesJSON.append("[");
         for (int i = 0; i < deployables.size(); i++)
         {
@@ -315,7 +315,7 @@ public class DaemonClient extends LoggedObject
         StandaloneLocalConfiguration configuration)
     {
         List<FileConfig> fileProperties = configuration.getFileProperties();
-        StringBuffer propertiesJSON = new StringBuffer();
+        StringBuilder propertiesJSON = new StringBuilder();
 
         propertiesJSON.append("[");
         for (int i = 0; i < fileProperties.size(); i++)
@@ -371,7 +371,7 @@ public class DaemonClient extends LoggedObject
      */
     private String setupConfigurationProperties(LocalConfiguration configuration)
     {
-        StringBuffer propertiesJSON = new StringBuffer();
+        StringBuilder propertiesJSON = new StringBuilder();
         Map<String, String> properties = configuration.getProperties();
         int i = 0;
 
@@ -401,7 +401,7 @@ public class DaemonClient extends LoggedObject
      */
     private String setupContainerProperties(InstalledLocalContainer container)
     {
-        StringBuffer propertiesJSON = new StringBuffer();
+        StringBuilder propertiesJSON = new StringBuilder();
         Map<String, String> properties = container.getSystemProperties();
         int i = 0;
 
