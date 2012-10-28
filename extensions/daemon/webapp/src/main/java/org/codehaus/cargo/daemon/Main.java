@@ -281,9 +281,15 @@ public final class Main
 
             URLClassLoader serverClassloader = new URLClassLoader(
                 classpathURLs.toArray(new URL[0]), Main.class.getClassLoader());
+            // The WarRoller requires newer Java versions; hence check that one
+            serverClassloader.loadClass("rogatkin.web.WarRoller");
             Class<?> mainClass = serverClassloader.loadClass("Acme.Serve.Main");
             Method main = mainClass.getMethod("main", new Class[] {new String[0].getClass()});
             main.invoke(null, new Object[] {serverArguments.toArray(new String[0])});
+        }
+        catch (UnsupportedClassVersionError e)
+        {
+            LOGGER.println("The Cargo Daemon requires a version of Java (version 6 or greater).");
         }
         catch (Exception e)
         {

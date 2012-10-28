@@ -51,7 +51,6 @@
 
   <modules>
     <module>ant</module>
-    <module>daemon</module>
     <module>maven2</module>
   </modules>
 
@@ -80,4 +79,17 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <!-- Cargo Daemon requires Java 6 -->
+    <profile>
+      <id>java6+</id>
+      <activation>
+        <jdk>[1.6,)</jdk>
+      </activation>
+      <modules>
+        <module>daemon</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>
