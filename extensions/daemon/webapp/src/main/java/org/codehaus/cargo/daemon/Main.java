@@ -289,7 +289,9 @@ public final class Main
         }
         catch (UnsupportedClassVersionError e)
         {
-            LOGGER.println("The Cargo Daemon requires a version of Java (version 6 or greater).");
+            LOGGER.println(
+                "Cargo Daemon requires Java 6 or greater in order to run in standalone mode.");
+            LOGGER.println("Read more on: http://cargo.codehaus.org/Cargo+Daemon");
         }
         catch (Exception e)
         {
