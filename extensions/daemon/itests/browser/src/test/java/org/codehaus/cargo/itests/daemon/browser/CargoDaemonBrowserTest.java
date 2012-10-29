@@ -184,14 +184,8 @@ public class CargoDaemonBrowserTest extends TestCase
         DeployerWatchdog daemonWatchdog = new DeployerWatchdog(daemonMonitor);
         daemonWatchdog.watchForAvailability();
 
-        HtmlElement stopButton;
-        long timeout = System.currentTimeMillis() + CargoDaemonBrowserTest.TIMEOUT;
-        for (stopButton = null;
-            stopButton == null && System.currentTimeMillis() < timeout;
-            stopButton = htmlPage.getElementById("stopContainer_test1"))
-        {
-            Thread.sleep(1000);
-        }
+        htmlPage = (HtmlPage) htmlPage.refresh();
+        HtmlElement stopButton = htmlPage.getElementById("stopContainer_test1");
         assertNotNull("Container stop button did not appear. Current content: "
             + htmlPage.asText(), stopButton);
         assertFalse("There should be running containers",
@@ -199,6 +193,10 @@ public class CargoDaemonBrowserTest extends TestCase
         stopButton.click();
 
         daemonWatchdog.watchForUnavailability();
+
+        htmlPage = (HtmlPage) htmlPage.refresh();
+        assertTrue("There should be no running containers",
+            htmlPage.asText().contains("No running containers"));
     }
 
 }
