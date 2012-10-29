@@ -49,7 +49,7 @@ public class CargoDaemonBrowserTest extends TestCase
 
     private static final int TOTAL_TESTS = 2;
 
-    private static final long TIMEOUT = 30 * 1000;
+    private static final long TIMEOUT = 60 * 1000;
 
     private static int TESTS_RUN = 0;
 
