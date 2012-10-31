@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.sample.testdata.jdbc;
+package org.codehaus.cargo.sample.testdata.classpath;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Sample test Servlet used to verify that jdbc datasource is deployed.
+ * Sample test Servlet used to verify that extra / shared classpath is present.
  * 
  * @version $Id$
  */

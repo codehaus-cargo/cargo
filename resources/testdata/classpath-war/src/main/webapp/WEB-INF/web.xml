@@ -6,11 +6,11 @@
 
 <web-app>
 
-	<description>JDBC Webapp for testing</description>
+	<description>Classpath Webapp for testing</description>
 
 	<servlet>
 		<servlet-name>test</servlet-name>
-		<servlet-class>org.codehaus.cargo.sample.testdata.jdbc.TestServlet</servlet-class>
+		<servlet-class>org.codehaus.cargo.sample.testdata.classpath.TestServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
