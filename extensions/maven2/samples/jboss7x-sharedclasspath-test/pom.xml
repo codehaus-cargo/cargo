@@ -74,6 +74,7 @@
             <properties>
               <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
               <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
+              <cargo.jboss.management.port>${cargo.samples.jboss.management.port}</cargo.jboss.management.port>
             </properties>
           </configuration>
           <deployables>

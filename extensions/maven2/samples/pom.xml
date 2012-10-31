@@ -62,6 +62,7 @@
                 <portName>cargo.samples.servlet.port</portName>
                 <portName>cargo.samples.rmi.port</portName>
                 <portName>cargo.samples.tomcat.ajp.port</portName>
+                <portName>cargo.samples.jboss.management.port</portName>
               </portNames>
             </configuration>
           </execution>
