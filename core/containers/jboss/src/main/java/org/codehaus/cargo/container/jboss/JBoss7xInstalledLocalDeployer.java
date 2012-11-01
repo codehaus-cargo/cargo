@@ -164,8 +164,7 @@ public class JBoss7xInstalledLocalDeployer extends JBossInstalledLocalDeployer
         String outputFile =
             getFileHandler().append(getContainer().getConfiguration().getHome(), "tmp/cargo");
         getFileHandler().mkdirs(outputFile);
-        outputFile = getFileHandler().append(outputFile,
-            getFileHandler().getName(originalDeployable.getFile()));
+        outputFile = getFileHandler().append(outputFile, getDeployableName(originalDeployable));
 
         byte[] buf = new byte[1024];
 
