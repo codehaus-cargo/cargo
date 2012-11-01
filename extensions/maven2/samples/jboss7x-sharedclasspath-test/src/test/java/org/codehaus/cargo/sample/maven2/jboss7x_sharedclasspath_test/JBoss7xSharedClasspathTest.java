@@ -35,7 +35,7 @@ public class JBoss7xSharedClasspathTest extends TestCase
     public void testJboss7xSharedClasspath() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/classpath-war-" + System.getProperty("project.version") +"/test");
+            + "/classpath-test/test");
         final String expected = "Got class";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);

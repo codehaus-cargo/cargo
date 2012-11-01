@@ -82,6 +82,9 @@
               <groupId>org.codehaus.cargo</groupId>
               <artifactId>classpath-war</artifactId>
               <type>war</type>
+              <properties>
+                <context>/classpath-test</context>
+              </properties>
             </deployable>
           </deployables>
         </configuration>
@@ -120,10 +123,6 @@
                 <property>
                   <name>http.port</name>
                   <value>${cargo.samples.servlet.port}</value>
-                </property>
-                <property>
-                  <name>project.version</name>
-                  <value>${project.version}</value>
                 </property>
               </systemProperties>
             </configuration>
