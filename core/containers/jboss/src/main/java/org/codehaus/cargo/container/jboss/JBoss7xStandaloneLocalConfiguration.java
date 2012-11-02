@@ -251,12 +251,12 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
                 String dataSourceClass = dataSource.getDriverClass().replace('.', '/') + ".class";
                 String dataSourceFile = null;
 
-                for (String extraClasspath : container.getExtraClasspath())
+                for (String classpathElement : classpath)
                 {
-                    ZipFile zip = new ZipFile(extraClasspath);
+                    ZipFile zip = new ZipFile(classpathElement);
                     if (zip.getEntry(dataSourceClass) != null)
                     {
-                        dataSourceFile = extraClasspath;
+                        dataSourceFile = classpathElement;
                     }
                     zip.close();
                 }
@@ -264,7 +264,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
                 if (dataSourceFile == null)
                 {
                     throw new CargoException("Datasource class " + dataSource.getDriverClass()
-                        + " not found in the extra classpath");
+                        + " not found in the classpath");
                 }
 
                 String moduleName = getFileHandler().getName(dataSourceFile);
