@@ -29,6 +29,7 @@
   <description>Cargo Daemon Integration Tests</description>
   <modules>
     <module>browser</module>
+    <module>client</module>
   </modules>
 
   <build>

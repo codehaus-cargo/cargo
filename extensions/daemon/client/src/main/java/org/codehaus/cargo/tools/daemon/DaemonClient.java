@@ -235,8 +235,11 @@ public class DaemonClient extends LoggedObject
                 fileHandler.getName(installerZipFile));
         }
 
-        parameters.setParameter("deployableFiles",
-            setupDeployables(parameters, deployables));
+        if (deployables != null)
+        {
+            parameters.setParameter("deployableFiles",
+                setupDeployables(parameters, deployables));
+        }
 
         if (configuration instanceof StandaloneLocalConfiguration)
         {
