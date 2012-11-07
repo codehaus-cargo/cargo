@@ -97,7 +97,7 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
     }
 
     /**
-     * terminates the data-source tag (ex. </data-source> ).
+     * terminates the data-source tag.
      */
     private void closeDataSourceTag()
     {
@@ -120,7 +120,7 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
     }
 
     /**
-     * ends the data-source tag in progress (ex. adds a greater than ).
+     * ends the data-source tag in progress.
      */
     private void endDataSourceTag()
     {
