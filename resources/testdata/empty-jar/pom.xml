@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>1.3.1</version>
+    <version>1.3.2-SNAPSHOT</version>
   </parent>
   <artifactId>empty-jar</artifactId>
   <name>Cargo Empty JAR test data for samples</name>
