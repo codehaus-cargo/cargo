@@ -155,9 +155,17 @@ public class CargoDaemonClientTest extends TestCase
         File jetty7x = new File(System.getProperty("artifacts.dir"), "jetty7x.zip");
         assertTrue("File " + jetty7x + " is missing", jetty7x.isFile());
 
+        File configurationDirectory = new File(System.getProperty("daemon.home"));
+        assertTrue("File " + configurationDirectory + " does not exist",
+            configurationDirectory.isDirectory());
+        configurationDirectory = new File(configurationDirectory, "configuration");
+        assertFalse("File " + configurationDirectory + " already exists",
+            configurationDirectory.isDirectory());
+
         Configuration configuration =
             CargoDaemonClientTest.CONFIGURATION_FACTORY.createConfiguration("jetty7x",
-                ContainerType.INSTALLED, ConfigurationType.STANDALONE);
+                ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+                    configurationDirectory.getAbsolutePath());
         InstalledLocalContainer container = (InstalledLocalContainer)
             CargoDaemonClientTest.CONTAINER_FACTORY.createContainer("jetty7x",
             ContainerType.INSTALLED, configuration);
