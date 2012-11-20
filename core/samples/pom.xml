@@ -833,6 +833,16 @@
               </property>
 
               <property>
+                <name>cargo.testdata.derby-jar</name>
+                <value>${project.build.directory}/test-jars/derby.jar</value>
+              </property>
+
+              <property>
+                <name>cargo.testdata.simple-jar</name>
+                <value>${project.build.directory}/test-jars/simple.jar</value>
+              </property>
+
+              <property>
                 <name>cargo.testdata.test-jars</name>
                 <value>${project.build.directory}/test-jars</value>
               </property>

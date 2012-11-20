@@ -142,19 +142,6 @@ public class EnvironmentTestData
                 deployableName.substring(0, deployableName.lastIndexOf('.')),
                     deployable.getAbsolutePath());
         }
-
-        String testJarsLocation = System.getProperty("cargo.testdata.test-jars");
-        if (testJarsLocation == null)
-        {
-            throw new ContainerException("Property cargo.testdata.test-jars not set");
-        }
-        for (File testJar : new File(testJarsLocation).listFiles())
-        {
-            String testJarName = testJar.getName();
-            this.testDataArtifacts.put(
-                testJarName.substring(0, testJarName.lastIndexOf('.')),
-                    testJar.getAbsolutePath());
-        }
     }
 
     /**

@@ -317,7 +317,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         }
         deployer.redeploy(modifiedDeployable);
         URL newWarPingURL =
-            new URL("http://localhost:" + getTestData().port + "/simple-warsome.html");
+            new URL("http://localhost:" + getTestData().port + "/simple-war/some.html");
         PingUtils.assertPingTrue("simple war not correctly redeployed", newWarPingURL, getLogger());
     }
 
