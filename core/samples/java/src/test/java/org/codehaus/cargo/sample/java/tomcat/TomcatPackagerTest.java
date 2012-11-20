@@ -114,7 +114,7 @@ public class TomcatPackagerTest extends AbstractCargoTestCase
                     targetLocation.getPath()));
         assertContainer.setHome(targetLocation.getPath());
         URL warPingURL =
-            new URL("http://localhost:" + getTestData().port + "/simple-warindex.jsp");
+            new URL("http://localhost:" + getTestData().port + "/simple-war/index.jsp");
 
         assertContainer.start();
         PingUtils.assertPingTrue("simple war not started", warPingURL, getLogger());
