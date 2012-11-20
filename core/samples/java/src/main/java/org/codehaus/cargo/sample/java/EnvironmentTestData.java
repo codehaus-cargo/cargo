@@ -23,9 +23,12 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.tools.ant.taskdefs.Copy;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.installer.Proxy;
+import org.codehaus.cargo.util.AntUtils;
 
 /**
  * Groups together all environmental test datat (ie data that depends on how the user has configured
@@ -255,7 +258,22 @@ public class EnvironmentTestData
             throw new ContainerException("Test data artifact not found [" + artifactName
                 + "] under base directory [" + localMavenRepository + "]");
         }
+        File testDataFile = new File(localMavenRepository, location);
+        if (!testDataFile.isFile())
+        {
+            throw new ContainerException("File [" + testDataFile + "] does not exist");
+        }
+        File targetFile = new File(targetDir, "deployables");
+        targetFile.mkdirs();
+        targetFile = new File(targetFile, testDataFile.getName());
+        if (!targetFile.isFile())
+        {
+            Copy copyTask = (Copy) new AntUtils().createProject().createTask("copy");
+            copyTask.setTofile(targetFile);
+            copyTask.setFile(testDataFile);
+            copyTask.execute();
+        }
 
-        return new File(localMavenRepository, location).getPath();
+        return targetFile.getPath();
     }
 }
