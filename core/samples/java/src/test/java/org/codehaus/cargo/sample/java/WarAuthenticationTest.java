@@ -91,8 +91,8 @@ public class WarAuthenticationTest extends AbstractCargoTestCase
         getLocalContainer().getConfiguration().setProperty(ServletPropertySet.USERS,
             "someone:password:cargo");
 
-        URL warPingURL = new URL("http://localhost:" + getTestData().port
-            + "/authentication-war-" + getTestData().version + "/test");
+        URL warPingURL =
+            new URL("http://localhost:" + getTestData().port + "/authentication-war/test");
 
         getLocalContainer().start();
 

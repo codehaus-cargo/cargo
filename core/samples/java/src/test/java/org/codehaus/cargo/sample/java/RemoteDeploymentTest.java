@@ -288,8 +288,8 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
      */
     public void testDeployUndeployRedeployWarRemotely() throws Exception
     {
-        URL warPingURL = new URL("http://localhost:" + getTestData().port
-            + "/simple-war-" + getTestData().version + "/index.jsp");
+        URL warPingURL =
+            new URL("http://localhost:" + getTestData().port + "/simple-war/index.jsp");
 
         deployer.deploy(this.war);
         PingUtils.assertPingTrue("simple war not correctly deployed", warPingURL, getLogger());
@@ -316,8 +316,8 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             throw new FileNotFoundException("Modified WAR \"" + modifiedWar + "\" doesn't exist");
         }
         deployer.redeploy(modifiedDeployable);
-        URL newWarPingURL = new URL("http://localhost:" + getTestData().port
-            + "/simple-war-" + getTestData().version + "/some.html");
+        URL newWarPingURL =
+            new URL("http://localhost:" + getTestData().port + "/simple-warsome.html");
         PingUtils.assertPingTrue("simple war not correctly redeployed", newWarPingURL, getLogger());
     }
 

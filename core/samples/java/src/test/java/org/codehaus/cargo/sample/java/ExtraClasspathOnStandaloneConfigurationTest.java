@@ -102,8 +102,7 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
         getLocalContainer().getConfiguration().addDeployable(war);
 
         URL warPingURL =
-            new URL("http://localhost:" + getTestData().port + "/" + "classpath-war-"
-                + getTestData().version + "/test");
+            new URL("http://localhost:" + getTestData().port + "/" + "classpath-war/test");
 
         getLocalContainer().start();
 

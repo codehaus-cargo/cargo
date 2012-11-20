@@ -109,8 +109,8 @@ public class TomcatTLSTest extends AbstractCargoTestCase
         configuration.addDeployable(war);
         configuration.configure(container);
 
-        URL warPingURL = new URL("https://localhost:" + getTestData().port
-            + "/simple-war-" + getTestData().version + "/index.jsp");
+        URL warPingURL =
+            new URL("https://localhost:" + getTestData().port + "/simple-war/index.jsp");
 
         container.start();
         PingUtils.assertPingTrue("simple war not started", warPingURL, getLogger());

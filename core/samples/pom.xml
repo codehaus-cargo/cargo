@@ -817,113 +817,29 @@
                 <value>${project.build.directory}</value>
               </property>
 
-              <!--
-                Location of testdata dependencies used by the tests. These paths are relative to
-                the local Maven repository.
-                -->
               <property>
-                <name>cargo.testdata.empty-ear</name>
-                <value>org/codehaus/cargo/empty-ear/${cargo.resources.version}/empty-ear-${cargo.resources.version}.ear</value>
+                <name>cargo.containers.timeout</name>
+                <value>${cargo.containers.timeout}</value>
               </property>
-              <property>
-                <name>cargo.testdata.authentication-war</name>
-                <value>org/codehaus/cargo/authentication-war/${cargo.resources.version}/authentication-war-${cargo.resources.version}.war</value>
-              </property>
-              <property>
-                <name>cargo.testdata.expanded-war</name>
-                <value>org/codehaus/cargo/expanded-war/${cargo.resources.version}/expanded-war-${cargo.resources.version}.war</value>
-              </property>
-              <property>
-                <name>cargo.testdata.simple-ear</name>
-                <value>org/codehaus/cargo/simple-ear/${cargo.resources.version}/simple-ear-${cargo.resources.version}.ear</value>
-              </property>
-              <property>
-                <name>cargo.testdata.simple-war</name>
-                <value>org/codehaus/cargo/simple-war/${cargo.resources.version}/simple-war-${cargo.resources.version}.war</value>
-              </property>
-              <property>
-                <name>cargo.testdata.datasource-war</name>
-                <value>org/codehaus/cargo/datasource-war/${cargo.resources.version}/datasource-war-${cargo.resources.version}.war</value>
-              </property>
-              <property>
-                <name>cargo.testdata.two-datasources-war</name>
-                <value>org/codehaus/cargo/two-datasources-war/${cargo.resources.version}/two-datasources-war-${cargo.resources.version}.war</value>
-              </property>
-              <property>
-                <name>cargo.testdata.xadatasource-war</name>
-                <value>org/codehaus/cargo/xadatasource-war/${cargo.resources.version}/xadatasource-war-${cargo.resources.version}.war</value>
-              </property>
-              <property>
-                <name>cargo.testdata.mailsession-war</name>
-                <value>org/codehaus/cargo/mailsession-war/${cargo.resources.version}/mailsession-war-${cargo.resources.version}.war</value>
-              </property>
-              <property>
-                <name>cargo.testdata.datasource-cmt-local-war</name>
-                <value>org/codehaus/cargo/datasource-cmt-local-war/${cargo.resources.version}/datasource-cmt-local-war-${cargo.resources.version}.war</value>
-              </property>
-              <property>
-                <name>cargo.testdata.classpath-war</name>
-                <value>org/codehaus/cargo/classpath-war/${cargo.resources.version}/classpath-war-${cargo.resources.version}.war</value>
-              </property>
-              <property>
-                <name>cargo.testdata.simple-ejb</name>
-                <value>org/codehaus/cargo/simple-ejb/${cargo.resources.version}/simple-ejb-${cargo.resources.version}.jar</value>
-              </property>
-              <property>
-                <name>cargo.testdata.tomcatcontext-war</name>
-                <value>org/codehaus/cargo/tomcatcontext-war/${cargo.resources.version}/tomcatcontext-war-${cargo.resources.version}.war</value>
-              </property>
-              <property>
-                <name>cargo.testdata.simple-bundle</name>
-                <value>org/codehaus/cargo/simple-bundle/${cargo.resources.version}/simple-bundle-${cargo.resources.version}.jar</value>
-              </property>
-              <property>
-                <name>cargo.testdata.cargo-jetty-6-and-earlier-deployer</name>
-                <value>org/codehaus/cargo/cargo-jetty-6-and-earlier-deployer/${cargo.resources.version}/cargo-jetty-6-and-earlier-deployer-${cargo.resources.version}.war</value>
-              </property>
-              <property>
-                <name>cargo.testdata.cargo-jetty-7-and-onwards-deployer</name>
-                <value>org/codehaus/cargo/cargo-jetty-7-and-onwards-deployer/${cargo.resources.version}/cargo-jetty-7-and-onwards-deployer-${cargo.resources.version}.war</value>
-              </property>
-              <property>
-                <name>cargo.testdata.derby-jar</name>
-                <value>${project.build.directory}/test-jars/derby.jar</value>
-              </property>
-              <property>
-                <name>cargo.testdata.simple-jar</name>
-                <value>${project.build.directory}/test-jars/simple.jar</value>
-              </property>
+
               <property>
                 <name>cargo.testdata.xerces-jars</name>
                 <value>${project.build.directory}/xerces-jars</value>
               </property>
+
               <property>
                 <name>cargo.testdata.mail-jars</name>
                 <value>${project.build.directory}/mail-jars</value>
               </property>
-              <property>
-                <name>cargo.testdata.simple-har</name>
-                <value>org/codehaus/cargo/simple-har/${cargo.resources.version}/simple-har-${cargo.resources.version}.har</value>
-              </property>
-              <property>
-                <name>cargo.testdata.simple-aop</name>
-                <value>org/codehaus/cargo/simple-aop/${cargo.resources.version}/simple-aop-${cargo.resources.version}.aop</value>
-              </property>
-              <property>
-                <name>cargo.testdata.systemproperty-war</name>
-                <value>org/codehaus/cargo/systemproperty-war/${cargo.resources.version}/systemproperty-war-${cargo.resources.version}.war</value>
-              </property>
 
-              <!-- Version used to compute the location of the test data files in the local Maven
-                   repository. -->
               <property>
-                <name>cargo.resources.version</name>
-                <value>${cargo.resources.version}</value>
+                <name>cargo.testdata.test-jars</name>
+                <value>${project.build.directory}/test-jars</value>
               </property>
 
               <property>
-                <name>cargo.containers.timeout</name>
-                <value>${cargo.containers.timeout}</value>
+                <name>cargo.testdata.deployables</name>
+                <value>${project.build.directory}/deployables</value>
               </property>
 
               <!-- Location where to download the containers for the tests -->
@@ -994,6 +910,159 @@
                   <artifactId>mail</artifactId>
                   <version>1.4</version>
                   <outputDirectory>${project.build.directory}/mail-jars</outputDirectory>
+                </artifactItem>
+                <!-- deployables -->
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>empty-ear</artifactId>
+                  <type>ear</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>empty-ear.ear</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>authentication-war</artifactId>
+                  <type>war</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>authentication-war.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>expanded-war</artifactId>
+                  <type>war</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>expanded-war.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>simple-ear</artifactId>
+                  <type>ear</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>simple-ear.ear</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>simple-war</artifactId>
+                  <type>war</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>simple-war.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>datasource-war</artifactId>
+                  <type>war</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>datasource-war.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>two-datasources-war</artifactId>
+                  <type>war</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>two-datasources-war.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>xadatasource-war</artifactId>
+                  <type>war</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>xadatasource-war.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>mailsession-war</artifactId>
+                  <type>war</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>mailsession-war.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>datasource-cmt-local-war</artifactId>
+                  <type>war</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>datasource-cmt-local-war.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>classpath-war</artifactId>
+                  <type>war</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>classpath-war.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>simple-ejb</artifactId>
+                  <type>jar</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>simple-ejb.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>tomcatcontext-war</artifactId>
+                  <type>war</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>tomcatcontext-war.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>simple-bundle</artifactId>
+                  <type>jar</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>simple-bundle.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-jetty-6-and-earlier-deployer</artifactId>
+                  <type>war</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>cargo-jetty-6-and-earlier-deployer.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-jetty-7-and-onwards-deployer</artifactId>
+                  <type>war</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>cargo-jetty-7-and-onwards-deployer.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>simple-har</artifactId>
+                  <type>har</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>simple-har.har</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>simple-aop</artifactId>
+                  <type>aop</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>simple-aop.aop</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>systemproperty-war</artifactId>
+                  <type>war</type>
+                  <version>${cargo.resources.version}</version>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>systemproperty-war.war</destFileName>
                 </artifactItem>
               </artifactItems>
             </configuration>

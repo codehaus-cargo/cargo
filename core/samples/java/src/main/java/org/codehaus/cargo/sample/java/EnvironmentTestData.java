@@ -22,13 +22,12 @@ package org.codehaus.cargo.sample.java;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import org.apache.tools.ant.taskdefs.Copy;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.installer.Proxy;
-import org.codehaus.cargo.util.AntUtils;
 
 /**
  * Groups together all environmental test datat (ie data that depends on how the user has configured
@@ -97,15 +96,14 @@ public class EnvironmentTestData
     public String javaHome;
 
     /**
-     * Version of Cargo being built (this is required to compute the exact location of the test data
-     * files in the local Maven repository)
-     */
-    public String version;
-
-    /**
      * Proxy properties if defined (can be null).
      */
     public Proxy proxy;
+
+    /**
+     * Test data artifacts.
+     */
+    public Map<String, String> testDataArtifacts = new HashMap<String, String>();
 
     /**
      * @param containerId the container's name (eg "resin3x")
@@ -129,9 +127,34 @@ public class EnvironmentTestData
         this.rmiPort = createPort(containerId, "rmi", 1099);
         this.home = getSystemProperty("cargo." + containerId + ".home");
         this.javaHome = getSystemProperty("cargo." + containerId + ".java.home");
-        this.version = System.getProperty("cargo.resources.version");
         this.containerTimeout = Long.parseLong(getSystemProperty("cargo.containers.timeout",
             "60000"));
+
+        String deployablesLocation = System.getProperty("cargo.testdata.deployables");
+        if (deployablesLocation == null)
+        {
+            throw new ContainerException("Property cargo.testdata.deployables not set");
+        }
+        for (File deployable : new File(deployablesLocation).listFiles())
+        {
+            String deployableName = deployable.getName();
+            this.testDataArtifacts.put(
+                deployableName.substring(0, deployableName.lastIndexOf('.')),
+                    deployable.getAbsolutePath());
+        }
+
+        String testJarsLocation = System.getProperty("cargo.testdata.test-jars");
+        if (testJarsLocation == null)
+        {
+            throw new ContainerException("Property cargo.testdata.test-jars not set");
+        }
+        for (File testJar : new File(testJarsLocation).listFiles())
+        {
+            String testJarName = testJar.getName();
+            this.testDataArtifacts.put(
+                testJarName.substring(0, testJarName.lastIndexOf('.')),
+                    testJar.getAbsolutePath());
+        }
     }
 
     /**
@@ -251,29 +274,11 @@ public class EnvironmentTestData
      */
     public String getTestDataFileFor(String artifactName)
     {
-        String localMavenRepository = System.getProperty("localRepository");
-        String location = System.getProperty("cargo.testdata." + artifactName);
-        if (location == null)
+        String result = this.testDataArtifacts.get(artifactName);
+        if (result == null)
         {
-            throw new ContainerException("Test data artifact not found [" + artifactName
-                + "] under base directory [" + localMavenRepository + "]");
+            throw new ContainerException("Test data artifact not found [" + artifactName + "]");
         }
-        File testDataFile = new File(localMavenRepository, location);
-        if (!testDataFile.isFile())
-        {
-            throw new ContainerException("File [" + testDataFile + "] does not exist");
-        }
-        File targetFile = new File(targetDir, "deployables");
-        targetFile.mkdirs();
-        targetFile = new File(targetFile, testDataFile.getName());
-        if (!targetFile.isFile())
-        {
-            Copy copyTask = (Copy) new AntUtils().createProject().createTask("copy");
-            copyTask.setTofile(targetFile);
-            copyTask.setFile(testDataFile);
-            copyTask.execute();
-        }
-
-        return targetFile.getPath();
+        return result;
     }
 }

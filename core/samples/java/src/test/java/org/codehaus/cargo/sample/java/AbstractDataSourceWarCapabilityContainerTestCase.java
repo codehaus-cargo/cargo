@@ -80,8 +80,7 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
         getLocalContainer().getConfiguration().addDeployable(war);
 
         URL warPingURL =
-            new URL("http://localhost:" + getTestData().port + "/" + type + "-war-"
-                + getTestData().version + "/test");
+            new URL("http://localhost:" + getTestData().port + "/" + type + "-war/test");
 
         startAndStop(warPingURL);
     }

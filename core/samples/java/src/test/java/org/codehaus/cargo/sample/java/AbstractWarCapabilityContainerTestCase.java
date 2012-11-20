@@ -74,8 +74,8 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCar
 
         getLocalContainer().getConfiguration().addDeployable(war);
 
-        URL warPingURL = new URL("http://localhost:" + getTestData().port
-            + "/simple-war-" + getTestData().version + "/index.jsp");
+        URL warPingURL =
+            new URL("http://localhost:" + getTestData().port + "/simple-war/index.jsp");
 
         startAndStop(warPingURL);
     }
