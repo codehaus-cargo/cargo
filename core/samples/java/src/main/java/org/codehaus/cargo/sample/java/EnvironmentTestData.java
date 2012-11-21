@@ -137,10 +137,13 @@ public class EnvironmentTestData
         }
         for (File deployable : new File(deployablesLocation).listFiles())
         {
-            String deployableName = deployable.getName();
-            this.testDataArtifacts.put(
-                deployableName.substring(0, deployableName.lastIndexOf('.')),
-                    deployable.getAbsolutePath());
+            if (deployable.isFile())
+            {
+                String deployableName = deployable.getName();
+                this.testDataArtifacts.put(
+                    deployableName.substring(0, deployableName.lastIndexOf('.')),
+                        deployable.getAbsolutePath());
+            }
         }
     }
 
