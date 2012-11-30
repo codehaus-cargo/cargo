@@ -272,7 +272,7 @@ public class CargoDaemonServlet extends HttpServlet
             response.setContentType("text/plain");
             response.getWriter().println(JSONValue.toJSONString(getHandleDetails()));
         }
-        else
+        else if ("/".equals(request.getServletPath()))
         {
             try
             {
@@ -284,7 +284,10 @@ public class CargoDaemonServlet extends HttpServlet
                 throw new ServletException(e);
             }
             response.getWriter().print(this.indexPage);
-            return;
+        }
+        else
+        {
+            throw new ServletException("Unknown servlet path: " + request.getServletPath());
         }
     }
 

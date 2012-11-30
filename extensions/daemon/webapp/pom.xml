@@ -33,6 +33,14 @@
   </properties>
 
   <build>
+    <resources>
+      <resource>
+        <directory>${project.basedir}/src/main/webapp</directory>
+        <includes>
+          <include>index.html</include>
+        </includes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -85,11 +93,10 @@
         <version>2.2</version>
         <configuration>
           <warSourceDirectory>src/main/webapp</warSourceDirectory>
+          <packagingExcludes>index.html</packagingExcludes>
           <archive>
             <manifest>
-              <mainClass>
-                org.codehaus.cargo.daemon.Main
-              </mainClass>
+              <mainClass>org.codehaus.cargo.daemon.Main</mainClass>
             </manifest>
           </archive>
         </configuration>

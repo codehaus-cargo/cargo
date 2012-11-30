@@ -264,7 +264,7 @@ public class DaemonClient extends LoggedObject
             parameters.setParameter("containerAppend", "off");
         }
 
-        invoke("/start", parameters);
+        invoke("start", parameters);
     }
 
     /**
@@ -439,7 +439,7 @@ public class DaemonClient extends LoggedObject
 
         parameters.setParameter("file", fileHandler.getName(file));
 
-        String response = invoke("/installed", parameters);
+        String response = invoke("installed", parameters);
 
         if (response != null)
         {
@@ -462,7 +462,7 @@ public class DaemonClient extends LoggedObject
 
         parameters.setParameter("handleId", handleId);
 
-        invoke("/stop", parameters);
+        invoke("stop", parameters);
     }
 
     /**
@@ -481,7 +481,15 @@ public class DaemonClient extends LoggedObject
         FormContentType contentType = null;
         UrlEncodedFormWriter urlEncodedFormWriter = null;
 
-        URL invokeURL = new URL(this.url + path);
+        URL invokeURL;
+        if (this.url.toString().endsWith("/"))
+        {
+            invokeURL = new URL(this.url + path);
+        }
+        else
+        {
+            invokeURL = new URL(this.url + "/" + path);
+        }
 
         HttpURLConnection connection = (HttpURLConnection) invokeURL.openConnection();
         connection.setAllowUserInteraction(false);
@@ -592,7 +600,8 @@ public class DaemonClient extends LoggedObject
 
         if (!response.startsWith("OK -"))
         {
-            throw new DaemonException(response);
+            throw new DaemonException(
+                "Failed parsing response for " + invokeURL + ". Response was: " + response);
         }
 
         return response;
