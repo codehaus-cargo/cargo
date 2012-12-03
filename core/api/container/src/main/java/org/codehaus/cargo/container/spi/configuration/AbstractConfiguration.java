@@ -113,7 +113,8 @@ public abstract class AbstractConfiguration extends LoggedObject
         {
             throw new ContainerException("Invalid port number ["
                 + getPropertyValue(ServletPropertySet.PORT)
-                + "]. The port value must be an integer", e);
+                    + "] for property " + ServletPropertySet.PORT
+                        + ". The port value must be an integer", e);
         }
     }
 }
