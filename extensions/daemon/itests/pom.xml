@@ -28,8 +28,6 @@
   <packaging>pom</packaging>
   <description>Cargo Daemon Integration Tests</description>
   <modules>
-    <module>browser</module>
-    <module>client</module>
     <module>deployable</module>
   </modules>
 
@@ -141,4 +139,18 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <!-- Cargo Daemon standalone requires Java 6 -->
+    <profile>
+      <id>java6+</id>
+      <activation>
+        <jdk>[1.6,)</jdk>
+      </activation>
+      <modules>
+        <module>browser</module>
+        <module>client</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>
