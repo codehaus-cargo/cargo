@@ -20,25 +20,23 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
-    <artifactId>cargo-samples-maven2</artifactId>
+    <artifactId>cargo-daemon-itests</artifactId>
     <version>1.3.2-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-sample-maven2-jetty7-root-context-test</artifactId>
-  <name>Cargo Samples - Maven 2 - Jetty 7 root context test</name>
-  <packaging>jar</packaging>
-  <description>Sample application that exercises the Cargo Maven2 plugin with a Jetty 7.x container and the root context</description>
-
+  <artifactId>cargo-daemon-itests-deployable</artifactId>
+  <name>Cargo Daemon Integration Tests - Deployable</name>
+  <description>Cargo Daemon Client - Deployable</description>
   <dependencies>
     <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-sample-java</artifactId>
-      <version>${cargo.core.version}</version>
+      <groupId>net.sourceforge.htmlunit</groupId>
+      <artifactId>htmlunit</artifactId>
+      <version>2.8</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>simple-war</artifactId>
-      <version>${cargo.resources.version}</version>
+      <artifactId>cargo-daemon-webapp</artifactId>
+      <version>${project.version}</version>
       <type>war</type>
     </dependency>
   </dependencies>
@@ -60,20 +58,23 @@
           <configuration>
             <home>${project.build.directory}/jetty-home</home>
             <properties>
-              <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
-              <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
+              <cargo.servlet.port>${cargo.daemon.itests.daemon.port}</cargo.servlet.port>
+              <cargo.rmi.port>${cargo.daemon.itests.daemon.rmi.port}</cargo.rmi.port>
             </properties>
           </configuration>
           <deployables>
             <deployable>
               <groupId>org.codehaus.cargo</groupId>
-              <artifactId>simple-war</artifactId>
+              <artifactId>cargo-daemon-webapp</artifactId>
               <type>war</type>
               <properties>
-                <context>/</context>
+                <context>cargo-daemon-webapp</context>
               </properties>
             </deployable>
           </deployables>
+          <systemProperties>
+            <daemon.home>${project.build.directory}/daemon-home</daemon.home>
+          </systemProperties>
         </configuration>
         <executions>
           <execution>
@@ -106,12 +107,6 @@
             </goals>
             <configuration>
               <skip>${maven.test.skip}</skip>
-              <systemProperties>
-                <property>
-                  <name>http.port</name>
-                  <value>${cargo.samples.servlet.port}</value>
-                </property>
-              </systemProperties>
             </configuration>
           </execution>
         </executions>

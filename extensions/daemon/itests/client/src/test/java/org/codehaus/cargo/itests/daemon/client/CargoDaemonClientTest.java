@@ -156,10 +156,10 @@ public class CargoDaemonClientTest extends TestCase
         assertTrue("File " + jetty7x + " is missing", jetty7x.isFile());
 
         File configurationDirectory = new File(System.getProperty("daemon.home"));
-        assertTrue("File " + configurationDirectory + " does not exist",
+        assertTrue("Directory " + configurationDirectory + " does not exist",
             configurationDirectory.isDirectory());
         configurationDirectory = new File(configurationDirectory, "configuration");
-        assertFalse("File " + configurationDirectory + " already exists",
+        assertFalse("Directory " + configurationDirectory + " already exists",
             configurationDirectory.isDirectory());
 
         Configuration configuration =

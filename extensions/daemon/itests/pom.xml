@@ -30,6 +30,7 @@
   <modules>
     <module>browser</module>
     <module>client</module>
+    <module>deployable</module>
   </modules>
 
   <build>
@@ -50,6 +51,7 @@
             <configuration>
               <portNames>
                 <portName>cargo.daemon.itests.daemon.port</portName>
+                <portName>cargo.daemon.itests.daemon.rmi.port</portName>
                 <portName>cargo.daemon.itests.servlet.port</portName>
                 <portName>cargo.daemon.itests.rmi.port</portName>
               </portNames>

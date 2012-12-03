@@ -106,18 +106,6 @@ public class CargoDaemonServlet extends HttpServlet
     private String indexPage;
 
     /**
-     * Construct the daemon servlet.
-     *
-     * @throws Exception If exception happens
-     */
-    public CargoDaemonServlet() throws Exception
-    {
-        super();
-
-        readIndexPage();
-    }
-
-    /**
      * Read the index page.
      *
      * @throws Exception If exception happens
@@ -148,8 +136,8 @@ public class CargoDaemonServlet extends HttpServlet
         StringBuilder indexPageBuilder = new StringBuilder();
 
         BufferedReader reader =
-            new BufferedReader(new InputStreamReader(this.getClass().getClassLoader()
-                .getResourceAsStream("index.html")));
+            new BufferedReader(new InputStreamReader(
+                this.getServletContext().getResourceAsStream("/index.html")));
         try
         {
             for (String line = reader.readLine(); line != null; line = reader.readLine())
@@ -176,7 +164,9 @@ public class CargoDaemonServlet extends HttpServlet
     public void service(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-        if ("/start".equals(request.getServletPath()))
+        String servletPath = request.getServletPath();
+        servletPath = servletPath.substring(servletPath.lastIndexOf('/') + 1);
+        if ("start".equals(servletPath))
         {
             StartRequest startRequest = null;
             try
@@ -201,7 +191,7 @@ public class CargoDaemonServlet extends HttpServlet
                 }
             }
         }
-        else if ("/stop".equals(request.getServletPath()))
+        else if ("stop".equals(servletPath))
         {
             try
             {
@@ -222,7 +212,7 @@ public class CargoDaemonServlet extends HttpServlet
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
             }
         }
-        else if ("/viewlog".equals(request.getServletPath()))
+        else if ("viewlog".equals(servletPath))
         {
             try
             {
@@ -253,7 +243,7 @@ public class CargoDaemonServlet extends HttpServlet
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
             }
         }
-        else if ("/installed".equals(request.getServletPath()))
+        else if ("installed".equals(servletPath))
         {
             String file = request.getParameter("file");
 
@@ -267,12 +257,12 @@ public class CargoDaemonServlet extends HttpServlet
                 response.getWriter().println("OK - NOTEXIST");
             }
         }
-        else if ("/getHandles".equals(request.getServletPath()))
+        else if ("getHandles".equals(servletPath))
         {
             response.setContentType("text/plain");
             response.getWriter().println(JSONValue.toJSONString(getHandleDetails()));
         }
-        else if ("/".equals(request.getServletPath()))
+        else if ("index.html".equals(servletPath))
         {
             try
             {
@@ -287,7 +277,7 @@ public class CargoDaemonServlet extends HttpServlet
         }
         else
         {
-            throw new ServletException("Unknown servlet path: " + request.getServletPath());
+            throw new ServletException("Unknown servlet path: " + servletPath);
         }
     }
 
