@@ -28,7 +28,8 @@
   <packaging>pom</packaging>
   <description>Cargo Daemon Integration Tests</description>
   <modules>
-    <module>deployable</module>
+    <module>deployable-on-jetty</module>
+    <module>deployable-on-tomcat</module>
   </modules>
 
   <build>
@@ -49,6 +50,7 @@
             <configuration>
               <portNames>
                 <portName>cargo.daemon.itests.daemon.port</portName>
+                <portName>cargo.daemon.itests.daemon.ajp.port</portName>
                 <portName>cargo.daemon.itests.daemon.rmi.port</portName>
                 <portName>cargo.daemon.itests.servlet.port</portName>
                 <portName>cargo.daemon.itests.rmi.port</portName>

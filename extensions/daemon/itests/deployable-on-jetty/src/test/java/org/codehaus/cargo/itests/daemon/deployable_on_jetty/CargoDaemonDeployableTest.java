@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.itests.daemon.deployable;
+package org.codehaus.cargo.itests.daemon.deployable_on_jetty;
 
 import java.io.File;
 import java.net.URL;

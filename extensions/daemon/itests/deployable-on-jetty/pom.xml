@@ -23,9 +23,9 @@
     <artifactId>cargo-daemon-itests</artifactId>
     <version>1.3.2-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-daemon-itests-deployable</artifactId>
-  <name>Cargo Daemon Integration Tests - Deployable</name>
-  <description>Cargo Daemon Client - Deployable</description>
+  <artifactId>cargo-daemon-itests-deployable-on-jetty</artifactId>
+  <name>Cargo Daemon Integration Tests - Deployable on Jetty</name>
+  <description>Cargo Daemon Client - Deployable on Jetty</description>
   <dependencies>
     <dependency>
       <groupId>net.sourceforge.htmlunit</groupId>
