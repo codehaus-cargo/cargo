@@ -24,7 +24,11 @@ import java.io.File;
 import junit.framework.TestCase;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.maven2.configuration.ArtifactInstaller;
+import org.codehaus.cargo.maven2.configuration.Configuration;
 import org.codehaus.cargo.maven2.configuration.Container;
+import org.codehaus.cargo.maven2.configuration.ZipUrlInstaller;
 import org.codehaus.cargo.maven2.log.MavenLogger;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.Logger;
@@ -48,7 +52,7 @@ public class CargoMojoTest extends TestCase
         @Override
         public void doExecute() throws MojoExecutionException
         {
-            // Do nothing voluntarily for the test
+            this.createContainer();
         }
     }
 
@@ -73,10 +77,10 @@ public class CargoMojoTest extends TestCase
     {
         assertEquals(
             "cargo-core-container-jboss",
-            AbstractCargoMojo.calculateContainerArtifactId("jboss42x"));
+                AbstractCargoMojo.calculateContainerArtifactId("jboss42x"));
         assertEquals(
             "cargo-core-container-oc4j",
-            AbstractCargoMojo.calculateContainerArtifactId("oc4j10x"));
+                AbstractCargoMojo.calculateContainerArtifactId("oc4j10x"));
     }
 
     /**
@@ -103,5 +107,57 @@ public class CargoMojoTest extends TestCase
     {
         Logger logger = this.mojo.createLogger();
         assertEquals(MavenLogger.class.getName(), logger.getClass().getName());
+    }
+
+    /**
+     * Test the replacement with absolute directories.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testAbsoluteDirectoryReplacement() throws Exception
+    {
+        this.mojo.setContainerElement(new Container());
+        this.mojo.getContainerElement().setHome("home");
+        this.mojo.getContainerElement().setContainerId("dummy-container");
+        this.mojo.setConfigurationElement(new Configuration());
+        this.mojo.getConfigurationElement().setHome("configuration-home");
+        this.mojo.getContainerElement().setZipUrlInstaller(new ZipUrlInstaller());
+        this.mojo.getContainerElement().getZipUrlInstaller().setDownloadDir("downlad-dir");
+        this.mojo.getContainerElement().getZipUrlInstaller().setExtractDir("extract-dir");
+        this.mojo.getContainerElement().setArtifactInstaller(new ArtifactInstaller());
+        this.mojo.getContainerElement().getArtifactInstaller().setExtractDir("artifact-dir");
+
+        assertFalse("Container home is already absolute",
+            new File(this.mojo.getContainerElement().getHome()).isAbsolute());
+        assertFalse("Container configuration home is already absolute",
+            new File(this.mojo.getConfigurationElement().getHome()).isAbsolute());
+        assertFalse("Zip URL installer download directory is already absolute", new File(
+            this.mojo.getContainerElement().getZipUrlInstaller().getDownloadDir()).isAbsolute());
+        assertFalse("Zip URL installer extract directory is already absolute", new File(
+            this.mojo.getContainerElement().getZipUrlInstaller().getExtractDir()).isAbsolute());
+        assertFalse("Artifact installer extract directory is already absolute", new File(
+            this.mojo.getContainerElement().getArtifactInstaller().getExtractDir()).isAbsolute());
+
+        try
+        {
+            this.mojo.doExecute();
+        }
+        catch (ContainerException e)
+        {
+            // This is expected to fail since there is no container called dummy-container
+            assertTrue(
+                "Exception message [" + e.getMessage() + "] doesn't contain dummy-container",
+                    e.getMessage().contains("dummy-container"));
+        }
+
+        assertTrue("Container home is not absolute",
+            new File(this.mojo.getContainerElement().getHome()).isAbsolute());
+        assertTrue("Container configuration home is not absolute",
+            new File(this.mojo.getConfigurationElement().getHome()).isAbsolute());
+        assertTrue("Zip URL installer download directory is not absolute", new File(
+            this.mojo.getContainerElement().getZipUrlInstaller().getDownloadDir()).isAbsolute());
+        assertTrue("Zip URL installer extract directory is not absolute", new File(
+            this.mojo.getContainerElement().getZipUrlInstaller().getExtractDir()).isAbsolute());
+        assertTrue("Artifact installer extract directory is not absolute", new File(
+            this.mojo.getContainerElement().getArtifactInstaller().getExtractDir()).isAbsolute());
     }
 }

@@ -864,6 +864,30 @@ public class CargoTask extends Task
                 throw new BuildException("Missing mandatory [configuration] element.");
             }
 
+            if (getHome() != null)
+            {
+                setHome(calculateAbsoluteDirectory("container home", getHome()));
+            }
+            if (getZipURLInstaller() != null
+                && getZipURLInstaller().getDownloadDir() != null)
+            {
+                getZipURLInstaller().setDownloadDir(
+                    calculateAbsoluteDirectory("zip URL installer download",
+                        getZipURLInstaller().getDownloadDir()));
+            }
+            if (getZipURLInstaller() != null
+                && getZipURLInstaller().getExtractDir() != null)
+            {
+                getZipURLInstaller().setExtractDir(
+                    calculateAbsoluteDirectory("zip URL installer extract",
+                        getZipURLInstaller().getExtractDir()));
+            }
+            if (getConfiguration().getHome() != null)
+            {
+                getConfiguration().setHome(calculateAbsoluteDirectory("configuration home",
+                    getConfiguration().getHome()));
+            }
+
             // If the user has registered a custom container class, register it against the
             // container factory.
             if (getContainerClass() != null)
@@ -995,5 +1019,34 @@ public class CargoTask extends Task
     protected Logger getLogger()
     {
         return this.logger;
+    }
+
+    /**
+     * Calculate the absolute directory for any given path. This method will also emit a warning if
+     * the given path is not absolute.
+     * @param type Directory type, for example <code>container home</code>.
+     * @param directory Directory path.
+     * @return Absolute directory path.
+     */
+    private String calculateAbsoluteDirectory(String type, String directory)
+    {
+        File directoryFile = new File(directory);
+        if (!directoryFile.isAbsolute())
+        {
+            String absoluteDirectory = directoryFile.getAbsolutePath();
+            if (getLogger() != null)
+            {
+                getLogger().warn("The provided " + type + " directory [" + directory
+                    + "] is not an absolute directory. Replacing it with its absolute directory "
+                        + "counterpart, i.e. [" + absoluteDirectory + "] To avoid this message in "
+                            + "the future, you can also use the ${basedir} variable in your "
+                                + "paths.", this.getClass().getName());
+            }
+            return absoluteDirectory;
+        }
+        else
+        {
+            return directory;
+        }
     }
 }

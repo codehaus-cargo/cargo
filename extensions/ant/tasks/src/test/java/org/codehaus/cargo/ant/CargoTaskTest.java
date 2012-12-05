@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.ant;
 
+import java.io.File;
+
 import junit.framework.TestCase;
 
 import org.apache.tools.ant.BuildException;
@@ -186,5 +188,38 @@ public class CargoTaskTest extends TestCase
         this.task.setAction("stop");
         this.task.setHome("home");
         this.task.execute();
+    }
+
+    /**
+     * Test the replacement with absolute directories.
+     */
+    public void testAbsoluteDirectoryReplacement()
+    {
+        this.task.setAction("stop");
+        this.task.setHome("home");
+        this.task.createConfiguration();
+        this.task.getConfiguration().setHome("configuration-home");
+        this.task.createZipURLInstaller().setDownloadDir("downlad-dir");
+        this.task.createZipURLInstaller().setExtractDir("extract-dir");
+
+        assertFalse("Container home is already absolute",
+            new File(this.task.getHome()).isAbsolute());
+        assertFalse("Container configuration home is already absolute",
+            new File(this.task.getConfiguration().getHome()).isAbsolute());
+        assertFalse("Zip URL installer download directory is already absolute",
+            new File(this.task.getZipURLInstaller().getDownloadDir()).isAbsolute());
+        assertFalse("Zip URL installer extract directory is already absolute",
+            new File(this.task.getZipURLInstaller().getExtractDir()).isAbsolute());
+
+        this.task.execute();
+
+        assertTrue("Container home is not absolute",
+            new File(this.task.getHome()).isAbsolute());
+        assertTrue("Container configuration home is not absolute",
+            new File(this.task.getConfiguration().getHome()).isAbsolute());
+        assertTrue("Zip URL installer download directory is not absolute",
+            new File(this.task.getZipURLInstaller().getDownloadDir()).isAbsolute());
+        assertTrue("Zip URL installer extract directory is not absolute",
+            new File(this.task.getZipURLInstaller().getExtractDir()).isAbsolute());
     }
 }

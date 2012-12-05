@@ -521,10 +521,18 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
             setConfigurationElement(configurationElement);
         }
+        else
+        {
+            if (getConfigurationElement().getHome() != null)
+            {
+                getConfigurationElement().setHome(calculateAbsoluteDirectory("configuration home",
+                    getConfigurationElement().getHome()));
+            }
+        }
 
         configuration = getConfigurationElement().createConfiguration(
             getContainerElement().getContainerId(), getContainerElement().getType(),
-            getDeployablesElement(), getCargoProject());
+                getDeployablesElement(), getCargoProject());
 
         // Find the cargo.server.settings for the current configuration. When found, iterate in
         // the list of servers in Maven's settings.xml file in order to find out which server id
@@ -596,11 +604,44 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         String containerKey = CONTEXT_KEY_CONTAINER;
         if (getContainerElement() != null)
         {
+            if (getContainerElement().getHome() != null)
+            {
+                getContainerElement().setHome(calculateAbsoluteDirectory("container home",
+                    getContainerElement().getHome()));
+            }
+            if (getContainerElement().getArtifactInstaller() != null
+                && getContainerElement().getArtifactInstaller().getExtractDir() != null)
+            {
+                getContainerElement().getArtifactInstaller().setExtractDir(
+                    calculateAbsoluteDirectory("artifact installer extract",
+                        getContainerElement().getArtifactInstaller().getExtractDir()));
+            }
+            if (getContainerElement().getZipUrlInstaller() != null
+                && getContainerElement().getZipUrlInstaller().getDownloadDir() != null)
+            {
+                getContainerElement().getZipUrlInstaller().setDownloadDir(
+                    calculateAbsoluteDirectory("zip URL installer download",
+                        getContainerElement().getZipUrlInstaller().getDownloadDir()));
+            }
+            if (getContainerElement().getZipUrlInstaller() != null
+                && getContainerElement().getZipUrlInstaller().getExtractDir() != null)
+            {
+                getContainerElement().getZipUrlInstaller().setExtractDir(
+                    calculateAbsoluteDirectory("zip URL installer extract",
+                        getContainerElement().getZipUrlInstaller().getExtractDir()));
+            }
+
             containerKey += "." + getContainerElement().getType()
                 + "." + getContainerElement().getHome();
         }
         if (getConfigurationElement() != null)
         {
+            if (getConfigurationElement().getHome() != null)
+            {
+                getConfigurationElement().setHome(calculateAbsoluteDirectory("configuration home",
+                    getConfigurationElement().getHome()));
+            }
+
             containerKey += "." + getConfigurationElement().getHome();
         }
 
@@ -923,5 +964,30 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
 
         return logger;
+    }
+
+    /**
+     * Calculate the absolute directory for any given path. This method will also emit a warning if
+     * the given path is not absolute.
+     * @param type Directory type, for example <code>container home</code>.
+     * @param directory Directory path.
+     * @return Absolute directory path.
+     */
+    private String calculateAbsoluteDirectory(String type, String directory)
+    {
+        File directoryFile = new File(directory);
+        if (!directoryFile.isAbsolute())
+        {
+            String absoluteDirectory = directoryFile.getAbsolutePath();
+            getLog().warn("The provided " + type + " directory [" + directory
+                + "] is not an absolute directory. Replacing it with its absolute directory "
+                    + "counterpart, i.e. [" + absoluteDirectory + "]. To avoid this message in "
+                        + "the future, you can also use the ${basedir} variable in your paths.");
+            return absoluteDirectory;
+        }
+        else
+        {
+            return directory;
+        }
     }
 }
