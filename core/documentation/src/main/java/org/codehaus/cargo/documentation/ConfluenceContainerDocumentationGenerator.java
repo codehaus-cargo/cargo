@@ -201,7 +201,7 @@ public class ConfluenceContainerDocumentationGenerator
     /**
      * Constant for the CI URL.
      */
-    private static final String CI_URL = "http://bamboo.ci.codehaus.org/browse/CARGO-SAMPLES";
+    private static final String CI_URL = "https://bamboo-ci.codehaus.org/browse/CARGO-SAMPLES";
 
     /**
      * Container factory.
