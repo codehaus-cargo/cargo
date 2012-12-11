@@ -23,6 +23,7 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Map;
 import java.util.jar.JarFile;
 
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -53,7 +54,7 @@ public class CargoDaemonBrowserTest extends TestCase
 
     private static int TESTS_RUN = 0;
 
-    private static Thread DAEMON_THREAD = null;
+    private static String DAEMON_CLASS_NAME = null;
 
     private static URL DAEMON_URL = null;
 
@@ -74,7 +75,7 @@ public class CargoDaemonBrowserTest extends TestCase
 
         if (startDaemon)
         {
-            CargoDaemonBrowserTest.DAEMON_THREAD = new Thread()
+            new Thread()
             {
                 @Override
                 public void run()
@@ -84,11 +85,12 @@ public class CargoDaemonBrowserTest extends TestCase
                         File daemonFile = new File(System.getProperty("artifacts.dir"),
                             "cargo-daemon-webapp.jar");
                         JarFile daemonJar = new JarFile(daemonFile);
-                        String daemonClassName =
+                        CargoDaemonBrowserTest.DAEMON_CLASS_NAME =
                             daemonJar.getManifest().getMainAttributes().getValue("Main-Class");
                         URL[] daemonURLs = new URL[] { daemonFile.toURI().toURL() };
                         ClassLoader daemonClassLoader = new URLClassLoader(daemonURLs);
-                        Class daemonClass = daemonClassLoader.loadClass(daemonClassName);
+                        Class daemonClass = daemonClassLoader.loadClass(
+                            CargoDaemonBrowserTest.DAEMON_CLASS_NAME);
                         Method daemonMain = daemonClass.getMethod("main", String[].class);
                         String[] daemonArguments =
                             new String[] { "-p", System.getProperty("daemon.port") };
@@ -100,8 +102,7 @@ public class CargoDaemonBrowserTest extends TestCase
                             CargoDaemonBrowserTest.class.getName());
                     }
                 }
-            };
-            CargoDaemonBrowserTest.DAEMON_THREAD.start();
+            }.start();
         }
 
         synchronized (this.getClass())
@@ -135,9 +136,18 @@ public class CargoDaemonBrowserTest extends TestCase
 
         if (stopDaemon)
         {
-            CargoDaemonBrowserTest.DAEMON_THREAD.interrupt();
-            CargoDaemonBrowserTest.DAEMON_THREAD = null;
-            System.gc();
+            for (Map.Entry<Thread, StackTraceElement[]> thread
+                : Thread.getAllStackTraces().entrySet())
+            {
+                for (StackTraceElement stackTraceElement : thread.getValue())
+                {
+                    if (stackTraceElement.getClassName().contains(
+                        CargoDaemonBrowserTest.DAEMON_CLASS_NAME))
+                    {
+                        thread.getKey().interrupt();
+                    }
+                }
+            }
         }
     }
 
