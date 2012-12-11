@@ -373,22 +373,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             fileContents = fileContents.replace(replacement.getKey(), replacement.getValue());
         }
 
-        try
-        {
-            Writer fw = newWriter(file, encoding);
-            try
-            {
-                fw.write(fileContents);
-            }
-            finally
-            {
-                fw.close();
-            }
-        }
-        catch (IOException e)
-        {
-            throw new CargoException("Cannot write file " + file, e);
-        }
+        writeTextFile(file, fileContents, encoding);
     }
 
     /**
@@ -836,6 +821,44 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         catch (IOException e)
         {
             throw new CargoException("Failed to read text from file: " + file, e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see FileHandler#writeTextFile(String, String, String)
+     */
+    public void writeTextFile(String file, String content, String encoding)
+    {
+        Writer writer;
+        try
+        {
+            writer = newWriter(file, encoding);
+        }
+        catch (IOException e)
+        {
+            throw new CargoException("Cannot get writer for file" + file, e);
+        }
+        try
+        {
+            writer.write(content);
+        }
+        catch (IOException e)
+        {
+            throw new CargoException("Cannot write file" + file, e);
+        }
+        finally
+        {
+            try
+            {
+                writer.close();
+                writer = null;
+                System.gc();
+            }
+            catch (IOException ignored)
+            {
+                // Ignored
+            }
         }
     }
 

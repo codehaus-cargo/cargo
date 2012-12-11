@@ -383,4 +383,12 @@ public interface FileHandler extends Loggable
      * @return a String with the file's contents.
      */
     String readTextFile(String file, String encoding);
+
+    /**
+     * @param file the file in which to write the String object.
+     * @param content String to write into the file.
+     * @param encoding The character encoding to use, may be {@code null} or empty to use the
+     *            platform's default encoding.
+     */
+    void writeTextFile(String file, String content, String encoding);
 }
