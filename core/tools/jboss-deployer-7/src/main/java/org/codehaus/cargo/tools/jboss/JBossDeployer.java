@@ -21,6 +21,7 @@ package org.codehaus.cargo.tools.jboss;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.as.controller.client.helpers.standalone.DeploymentAction;
@@ -110,46 +111,62 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
 
         ModelControllerClient client = ModelControllerClient.Factory.create(hostname, portnumber,
             new UsernamePasswordCallbackHandler(this.configuration));
-        ServerDeploymentManager manager = ServerDeploymentManager.Factory.create(client);
-        DeploymentPlanBuilder builder = manager.newDeploymentPlan();
-        DeploymentPlan plan;
-
-        switch (type)
+        try
         {
-            case DEPLOY:
-                plan = builder.add(deploymentName, new FileInputStream(deploymentFile)).deploy(
-                    deploymentName).build();
-                break;
-            case UNDEPLOY:
-                plan = builder.undeploy(deploymentName).remove(deploymentName).build();
-                break;
-            default:
-                throw new IllegalStateException("Invalid action: " + type);
-        }
+            ServerDeploymentManager manager = ServerDeploymentManager.Factory.create(client);
+            DeploymentPlanBuilder builder = manager.newDeploymentPlan();
+            DeploymentPlan plan;
 
-        if (plan.getDeploymentActions().size() > 0)
-        {
-            ServerDeploymentPlanResult planResult = manager.execute(plan).get();
-            // Check the results
-            for (DeploymentAction action : plan.getDeploymentActions())
+            switch (type)
             {
-                ServerDeploymentActionResult actionResult =
-                    planResult.getDeploymentActionResult(action.getId());
-                ServerUpdateActionResult.Result result = actionResult.getResult();
+                case DEPLOY:
+                    plan = builder.add(deploymentName,
+                        new FileInputStream(deploymentFile)).deploy(deploymentName).build();
+                    break;
+                case UNDEPLOY:
+                    plan = builder.undeploy(deploymentName).remove(deploymentName).build();
+                    break;
+                default:
+                    throw new IllegalStateException("Invalid action: " + type);
+            }
 
-                switch (result)
+            if (plan.getDeploymentActions().size() > 0)
+            {
+                ServerDeploymentPlanResult planResult = manager.execute(plan).get();
+                // Check the results
+                for (DeploymentAction action : plan.getDeploymentActions())
                 {
-                    case FAILED:
-                    case NOT_EXECUTED:
-                    case ROLLED_BACK:
-                        throw new CargoException("Deployment action " + action.getType()
-                            + " failed", actionResult.getDeploymentException());
-                    case CONFIGURATION_MODIFIED_REQUIRES_RESTART:
-                        // Should show warning
-                        break;
-                    default:
-                        break;
+                    ServerDeploymentActionResult actionResult =
+                        planResult.getDeploymentActionResult(action.getId());
+                    ServerUpdateActionResult.Result result = actionResult.getResult();
+
+                    switch (result)
+                    {
+                        case FAILED:
+                        case NOT_EXECUTED:
+                        case ROLLED_BACK:
+                            throw new CargoException("Deployment action " + action.getType()
+                                + " failed", actionResult.getDeploymentException());
+                        case CONFIGURATION_MODIFIED_REQUIRES_RESTART:
+                            // Should show warning
+                            break;
+                        default:
+                            break;
+                    }
                 }
+            }
+        }
+        finally
+        {
+            try
+            {
+                client.close();
+            }
+            catch (IOException e)
+            {
+                this.configuration.getLogger().warn(
+                    "Failed closing the JBoss deployment client: " + e.toString(),
+                        this.getClass().getName());
             }
         }
     }
