@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.tomcat;
 import java.util.Map;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -39,6 +40,8 @@ public class Tomcat7xStandaloneLocalConfiguration
     public Tomcat7xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+
+        setProperty(ServletPropertySet.USERS, "admin::manager");
     }
 
     /**
