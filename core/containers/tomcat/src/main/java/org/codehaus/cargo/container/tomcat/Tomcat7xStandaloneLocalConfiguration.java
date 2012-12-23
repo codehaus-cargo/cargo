@@ -41,7 +41,7 @@ public class Tomcat7xStandaloneLocalConfiguration
     {
         super(dir);
 
-        setProperty(ServletPropertySet.USERS, "admin::manager");
+        setProperty(ServletPropertySet.USERS, "admin::manager-gui");
     }
 
     /**
