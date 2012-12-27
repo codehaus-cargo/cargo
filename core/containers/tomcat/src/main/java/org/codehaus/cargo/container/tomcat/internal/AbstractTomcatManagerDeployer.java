@@ -130,8 +130,8 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
             }
             else
             {
-                getLogger().debug("Deployable [" + getPath(deployable) + "] already undeployed",
-                    this.getClass().getName());
+                throw new ContainerException(
+                    "Deployable [" + getPath(deployable) + "] is not deployed");
             }
         }
         catch (TomcatManagerException exception)
