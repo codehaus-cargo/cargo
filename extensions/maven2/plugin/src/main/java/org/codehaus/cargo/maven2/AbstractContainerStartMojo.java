@@ -78,6 +78,8 @@ public class AbstractContainerStartMojo extends AbstractCargoMojo
                         monitor = new URLDeployableMonitor(pingURL, pingTimeout.longValue());
                     }
                     DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
+                    watchdog.setLogger(container.getLogger());
+                    monitor.setLogger(container.getLogger());
                     watchdog.watchForAvailability();
                 }
             }
