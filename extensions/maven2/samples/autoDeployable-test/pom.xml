@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-maven2</artifactId>
-    <version>1.3.2-SNAPSHOT</version>
+    <version>1.3.2</version>
   </parent>
   <artifactId>cargo-sample-maven2-autoDeployable-test</artifactId>
   <name>Cargo Samples - Maven 2 - AutoDeployable test</name>
