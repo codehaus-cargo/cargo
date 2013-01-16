@@ -22,6 +22,8 @@ package org.codehaus.cargo.container.weblogic;
 import java.util.List;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer;
 
 /**
@@ -86,5 +88,25 @@ public class WebLogic12xInstalledLocalContainer extends AbstractWebLogicInstalle
         List<String> beaHomeDirs = super.getBeaHomeDirs();
         beaHomeDirs.add(getFileHandler().append(getBeaHome(), "modules"));
         return beaHomeDirs;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void addMemoryArguments(JvmLauncher java)
+    {
+        // if the jvmArgs don't alread contain memory settings add the default
+        String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+        if (jvmArgs == null || !jvmArgs.contains("-XX:PermSize"))
+        {
+            java.addJvmArguments("-XX:PermSize=128m");
+        }
+        if (jvmArgs == null || !jvmArgs.contains("-XX:MaxPermSize"))
+        {
+            java.addJvmArguments("-XX:MaxPermSize=256m");
+        }
+
+        super.addMemoryArguments(java);
     }
 }
