@@ -153,7 +153,17 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      */
     protected void forceStopInternal()
     {
-        
+        // No implementation defined here
+    }
+    
+    /**
+     * Some containers may require some extra steps after startup.
+     * 
+     * @throws Exception if any error is raised during these executions
+     */
+    protected void executePostStartTasks() throws Exception
+    {
+        // No implementation defined here
     }
 
     /**
@@ -181,6 +191,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
                 // Wait until the container is fully started
                 waitForCompletion(true);
             }
+
+            executePostStartTasks();
         }
         catch (Exception e)
         {

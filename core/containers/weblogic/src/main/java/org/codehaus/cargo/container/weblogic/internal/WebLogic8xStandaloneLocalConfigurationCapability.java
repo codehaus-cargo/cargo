@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 
@@ -52,7 +51,6 @@ public class WebLogic8xStandaloneLocalConfigurationCapability extends
         this.supportsMap = new HashMap<String, Boolean>();
 
         this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
-        this.supportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
 
         // changing this would require generating hashes for the default
         // authenticator ldift files

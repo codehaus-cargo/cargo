@@ -89,7 +89,7 @@ public class WarAuthenticationTest extends AbstractCargoTestCase
 
         // Add authentication data
         getLocalContainer().getConfiguration().setProperty(ServletPropertySet.USERS,
-            "someone:password:cargo");
+            "someone:p@ssw0rd:cargo");
 
         URL warPingURL =
             new URL("http://localhost:" + getTestData().port + "/authentication-war/test");
@@ -98,7 +98,7 @@ public class WarAuthenticationTest extends AbstractCargoTestCase
 
         Map<String, String> requestProperties = new HashMap<String, String>();
         requestProperties.put("Authorization", "Basic "
-            + new String(Base64.encodeBase64("someone:password".getBytes())));
+            + new String(Base64.encodeBase64("someone:p@ssw0rd".getBytes())));
 
         PingUtils.assertPingTrue("Failed authentication", "Principal name [someone], "
             + "Is user in \"cargo\" role [true]", warPingURL, requestProperties, getLogger());

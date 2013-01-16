@@ -25,13 +25,17 @@ package org.codehaus.cargo.container.weblogic.internal;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
@@ -229,7 +233,6 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
         {
             this.setBeaHome(new File(this.getHome()).getParent());
         }
-
     }
 
     /**
@@ -288,11 +291,138 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     }
 
     /**
+     * {@inheritDoc}. Define the CARGO servlet users in WebLogic.
+     */
+    @Override
+    protected void executePostStartTasks() throws Exception
+    {
+        if (getConfiguration() instanceof StandaloneLocalConfiguration
+            && getConfiguration().getPropertyValue(ServletPropertySet.USERS) != null)
+        {
+            Set<String> roles = new TreeSet<String>();
+
+            for (User user : User.parseUsers(
+                getConfiguration().getPropertyValue(ServletPropertySet.USERS)))
+            {
+                JvmLauncher java = createJvmLauncher(false);
+
+                if (getOutput() != null)
+                {
+                    File outputFile = new File(getOutput());
+                    java.setOutputFile(outputFile);
+                    java.setAppendOutput(isAppend());
+                }
+
+                addWeblogicAdminArguments(java);
+
+                java.addAppArguments("invoke");
+                java.addAppArguments("-mbean");
+                java.addAppArguments("Security:Name=myrealmDefaultAuthenticator");
+                java.addAppArguments("-method");
+                java.addAppArguments("createUser");
+                java.addAppArguments(user.getName());
+                java.addAppArguments(user.getPassword());
+                java.addAppArguments(user.getName());
+
+                for (String role : user.getRoles())
+                {
+                    roles.add(role);
+                }
+
+                int result = java.execute();
+                if (result != 0)
+                {
+                    throw new ContainerException("Cannot add user [" + user.getName()
+                        + "]: java returned " + result);
+                }
+            }
+
+            for (String role : roles)
+            {
+                JvmLauncher java = createJvmLauncher(false);
+
+                if (getOutput() != null)
+                {
+                    File outputFile = new File(getOutput());
+                    java.setOutputFile(outputFile);
+                    java.setAppendOutput(isAppend());
+                }
+
+                addWeblogicAdminArguments(java);
+
+                java.addAppArguments("invoke");
+                java.addAppArguments("-mbean");
+                java.addAppArguments(
+                    "Security:Name=myrealmDefaultAuthenticator");
+                java.addAppArguments("-method");
+                java.addAppArguments("createGroup");
+                java.addAppArguments(role);
+                java.addAppArguments(role);
+
+                int result = java.execute();
+                if (result != 0)
+                {
+                    throw new ContainerException("Cannot add role [" + role
+                        + "]: java returned " + result);
+                }
+            }
+
+            for (User user : User.parseUsers(
+                getConfiguration().getPropertyValue(ServletPropertySet.USERS)))
+            {
+                for (String role : user.getRoles())
+                {
+                    JvmLauncher java = createJvmLauncher(false);
+
+                    if (getOutput() != null)
+                    {
+                        File outputFile = new File(getOutput());
+                        java.setOutputFile(outputFile);
+                        java.setAppendOutput(isAppend());
+                    }
+
+                    addWeblogicAdminArguments(java);
+
+                    java.addAppArguments("invoke");
+                    java.addAppArguments("-mbean");
+                    java.addAppArguments("Security:Name=myrealmDefaultAuthenticator");
+                    java.addAppArguments("-method");
+                    java.addAppArguments("addMemberToGroup");
+                    java.addAppArguments(role);
+                    java.addAppArguments(user.getName());
+
+                    int result = java.execute();
+                    if (result != 0)
+                    {
+                        throw new ContainerException("Cannot add user [" + user.getName()
+                            + "] to role [" + role + "]: java returned " + result);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
     public final void doStop(final JvmLauncher java) throws Exception
+    {
+        addWeblogicAdminArguments(java);
+
+        // Forcing WebLogic shutdown to speed up the shutdown process
+        java.addAppArguments("FORCESHUTDOWN");
+
+        java.start();
+    }
+
+    /**
+     * Add WebLogic admin arguments.
+     * 
+     * @param java  Java launcher.
+     */
+    protected void addWeblogicAdminArguments(final JvmLauncher java)
     {
         File serverDir = new File(this.getHome(), "server");
 
@@ -315,11 +445,6 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
         java.addAppArguments(
                 getConfiguration().getPropertyValue(
                         WebLogicPropertySet.ADMIN_PWD));
-
-        // Forcing WebLogic shutdown to speed up the shutdown process
-        java.addAppArguments("FORCESHUTDOWN");
-
-        java.start();
     }
 
     /**
