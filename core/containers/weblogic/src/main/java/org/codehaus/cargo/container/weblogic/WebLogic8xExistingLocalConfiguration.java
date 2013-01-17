@@ -25,6 +25,7 @@ import java.io.IOException;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
@@ -51,6 +52,8 @@ public class WebLogic8xExistingLocalConfiguration extends
     public WebLogic8xExistingLocalConfiguration(String dir)
     {
         super(dir);
+
+        setProperty(ServletPropertySet.PORT, "7001");
 
         setProperty(WebLogicPropertySet.ADMIN_USER, "weblogic");
         setProperty(WebLogicPropertySet.ADMIN_PWD, "weblogic");

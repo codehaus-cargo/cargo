@@ -306,13 +306,6 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
             {
                 JvmLauncher java = createJvmLauncher(false);
 
-                if (getOutput() != null)
-                {
-                    File outputFile = new File(getOutput());
-                    java.setOutputFile(outputFile);
-                    java.setAppendOutput(isAppend());
-                }
-
                 addWeblogicAdminArguments(java);
 
                 java.addAppArguments("invoke");
@@ -341,19 +334,11 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
             {
                 JvmLauncher java = createJvmLauncher(false);
 
-                if (getOutput() != null)
-                {
-                    File outputFile = new File(getOutput());
-                    java.setOutputFile(outputFile);
-                    java.setAppendOutput(isAppend());
-                }
-
                 addWeblogicAdminArguments(java);
 
                 java.addAppArguments("invoke");
                 java.addAppArguments("-mbean");
-                java.addAppArguments(
-                    "Security:Name=myrealmDefaultAuthenticator");
+                java.addAppArguments("Security:Name=myrealmDefaultAuthenticator");
                 java.addAppArguments("-method");
                 java.addAppArguments("createGroup");
                 java.addAppArguments(role);
@@ -373,13 +358,6 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
                 for (String role : user.getRoles())
                 {
                     JvmLauncher java = createJvmLauncher(false);
-
-                    if (getOutput() != null)
-                    {
-                        File outputFile = new File(getOutput());
-                        java.setOutputFile(outputFile);
-                        java.setAppendOutput(isAppend());
-                    }
 
                     addWeblogicAdminArguments(java);
 
