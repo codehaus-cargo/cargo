@@ -299,6 +299,10 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
         if (getConfiguration() instanceof StandaloneLocalConfiguration
             && getConfiguration().getPropertyValue(ServletPropertySet.USERS) != null)
         {
+            getLogger().info(
+                "WebLogic startup complete, now creating the users defined using the property "
+                    + ServletPropertySet.USERS, this.getClass().getName());
+
             Set<String> roles = new TreeSet<String>();
 
             for (User user : User.parseUsers(
