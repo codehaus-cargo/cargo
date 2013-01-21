@@ -25,6 +25,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
@@ -59,6 +61,11 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
      * JBoss container instance.
      */
     protected JBossInstalledLocalContainer jbossContainer;
+
+    /**
+     * Name of the JBoss log4j configuration file.
+     */
+    protected String log4jFileName = "log4j.xml";
 
     /**
      * {@inheritDoc}
@@ -141,6 +148,17 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         copyExternalResources(
             new File(jbossContainer.getConfDir(getPropertyValue(JBossPropertySet.CONFIGURATION))),
             new File(confDir), cargoFiles);
+
+        // CARGO-825: Configure the logging append property
+        String jbossLog4jXml = getFileHandler().append(confDir, this.log4jFileName);
+        Map<String, String> replacements = new HashMap<String, String>(2);
+        replacements.put(
+            "<param name=\"Append\" value=\"false\"/>",
+            "<param name=\"Append\" value=\"" + Boolean.toString(container.isAppend()) + "\"/>");
+        replacements.put(
+            "<param name=\"Append\" value=\"true\"/>",
+            "<param name=\"Append\" value=\"" + Boolean.toString(container.isAppend()) + "\"/>");
+        getFileHandler().replaceInFile(jbossLog4jXml, replacements, "UTF-8", true);
 
         // Copy the files within the JBoss Deploy directory to the cargo deploy directory
         copyExternalResources(new File(jbossContainer.getDeployDir(getPropertyValue(

@@ -23,11 +23,10 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.jboss.JBoss42xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBossInstalledLocalDeployer;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
-import org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration;
 
 /**
  * Basis for all JBoss 5.x and 6.x standalone local configurations.
@@ -35,7 +34,7 @@ import org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration;
  * @version $Id$
  */
 public abstract class AbstractJBoss5xStandaloneLocalConfiguration
-    extends JBossStandaloneLocalConfiguration
+    extends JBoss42xStandaloneLocalConfiguration
 {
 
     /**
@@ -61,8 +60,6 @@ public abstract class AbstractJBoss5xStandaloneLocalConfiguration
         setupConfigurationDir();
 
         jbossContainer = (AbstractJBossInstalledLocalContainer) container;
-
-        FilterChain filterChain = createJBossFilterChain(jbossContainer);
 
         String deployDir = getFileHandler().createDirectory(getHome(), "/deploy");
         String deployersDir = getFileHandler().createDirectory(getHome(), "/deployers");
