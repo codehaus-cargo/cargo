@@ -99,7 +99,8 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
 
         try
         {
-            getTomcatManager().deploy(getPath(deployable), new FileInputStream(file));
+            getTomcatManager().deploy(getPath(deployable), getVersion(deployable),
+                new FileInputStream(file), false, null);
         }
         catch (TomcatManagerException exception)
         {
@@ -384,5 +385,22 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
         }
 
         return "/" + ((WAR) deployable).getContext();
+    }
+
+    /**
+     * Gets the webapp version for the specified deployable.
+     * 
+     * @param deployable the deployable
+     * @return the webapp version for the specified deployable
+     */
+    protected String getVersion(Deployable deployable)
+    {
+        if (deployable.getType() != DeployableType.WAR)
+        {
+            throw new ContainerException("Only WAR archives are supported for deployment in "
+                + "Tomcat. Got [" + deployable.getFile() + "]");
+        }
+
+        return null;
     }
 }

@@ -33,7 +33,6 @@ import org.codehaus.cargo.container.jonas.internal.AbstractJonasInstalledLocalCo
 import org.codehaus.cargo.container.jonas.internal.Jonas5xContainerCapability;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
-import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
 
 /**
  * Support for the JOnAS JEE container.
@@ -130,8 +129,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         long timeout = System.currentTimeMillis() + this.getTimeout();
         while (System.currentTimeMillis() < timeout)
         {
-            JvmLauncherRequest request = new JvmLauncherRequest(false, this);
-            JvmLauncher ping = getJvmLauncherFactory().createJvmLauncher(request);
+            JvmLauncher ping = createJvmLauncher(false);
 
             doAction(ping);
             doServerAndDomainNameArgs(ping);

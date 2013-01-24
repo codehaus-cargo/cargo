@@ -224,7 +224,7 @@ public class TomcatManager extends LoggedObject
     public void deploy(String path, URL war, boolean update, String tag)
         throws TomcatManagerException, IOException
     {
-        deployImpl(path, null, war, null, update, tag);
+        deployImpl(path, null, null, war, null, update, tag);
     }
 
     /**
@@ -270,7 +270,25 @@ public class TomcatManager extends LoggedObject
     public void deploy(String path, InputStream war, boolean update, String tag)
         throws TomcatManagerException, IOException
     {
-        deployImpl(path, null, null, war, update, tag);
+        deployImpl(path, null, null, null, war, update, tag);
+    }
+
+    /**
+     * Deploys the specified WAR as a HTTP PUT to the specified context path, optionally undeploying
+     * the webapp if it already exists and using the specified tag name.
+     * 
+     * @param path the webapp context path to deploy to
+     * @param version the webapp version
+     * @param war an input stream to the WAR to deploy
+     * @param update whether to first undeploy the webapp if it already exists
+     * @param tag the tag name to use
+     * @throws TomcatManagerException if the Tomcat manager request fails
+     * @throws IOException if an i/o error occurs
+     */
+    public void deploy(String path, String version, InputStream war, boolean update, String tag)
+        throws TomcatManagerException, IOException
+    {
+        deployImpl(path, version, null, null, war, update, tag);
     }
 
     /**
@@ -368,7 +386,7 @@ public class TomcatManager extends LoggedObject
     public void deployContext(String path, URL config, URL war, boolean update, String tag)
         throws TomcatManagerException, IOException
     {
-        deployImpl(path, config, war, null, update, tag);
+        deployImpl(path, null, config, war, null, update, tag);
     }
 
     /**
@@ -380,7 +398,26 @@ public class TomcatManager extends LoggedObject
      */
     public void undeploy(String path) throws TomcatManagerException, IOException
     {
-        invoke("/undeploy?path=" + URLEncoder.encode(path, this.charset));
+        undeploy(path, null);
+    }
+
+    /**
+     * Undeploys the webapp at the specified context path.
+     * 
+     * @param path the webapp context path to undeploy
+     * @param version the version of the webapp context path to undeploy
+     * @throws TomcatManagerException if the Tomcat manager request fails
+     * @throws IOException if an i/o error occurs
+     */
+    public void undeploy(String path, String version) throws TomcatManagerException, IOException
+    {
+        StringBuilder buffer = new StringBuilder("/undeploy");
+        buffer.append("?path=").append(URLEncoder.encode(path, this.charset));
+        if (version != null)
+        {
+            buffer.append("&version=").append(URLEncoder.encode(version, this.charset));
+        }
+        invoke(buffer.toString());
     }
 
     /**
@@ -536,6 +573,7 @@ public class TomcatManager extends LoggedObject
      * Deploys the specified WAR.
      * 
      * @param path the webapp context path to deploy to
+     * @param version the webapp version
      * @param config the URL of the context XML configuration to deploy, or null for none
      * @param war the URL of the WAR to deploy, or null to use <code>data</code>
      * @param data an input stream to the WAR to deploy, or null to use <code>war</code>
@@ -544,11 +582,15 @@ public class TomcatManager extends LoggedObject
      * @throws TomcatManagerException if the Tomcat manager request fails
      * @throws IOException if an i/o error occurs
      */
-    private void deployImpl(String path, URL config, URL war, InputStream data, boolean update,
-        String tag) throws TomcatManagerException, IOException
+    private void deployImpl(String path, String version, URL config, URL war, InputStream data,
+        boolean update, String tag) throws TomcatManagerException, IOException
     {
         StringBuilder buffer = new StringBuilder("/deploy");
         buffer.append("?path=").append(URLEncoder.encode(path, this.charset));
+        if (version != null)
+        {
+            buffer.append("&version=").append(URLEncoder.encode(version, this.charset));
+        }
         if (config != null)
         {
             buffer.append("&config=").append(URLEncoder.encode(config.toString(), this.charset));

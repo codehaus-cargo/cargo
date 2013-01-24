@@ -302,6 +302,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     protected final void startInternal() throws Exception
     {
         jvmStartLauncher = createJvmLauncher(true);
+        jvmStartLauncher.setAppendOutput(isAppend());
         addMemoryArguments(jvmStartLauncher);
         doStart(jvmStartLauncher);
     }
@@ -368,8 +369,9 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             // Ensure that directories where the output file will go are created
             getFileHandler().mkdirs(outputFile.getAbsoluteFile().getParent());
 
+            // CARGO-520: Set append to "true" by default
             java.setOutputFile(outputFile);
-            java.setAppendOutput(isAppend());
+            java.setAppendOutput(true);
         }
 
         setJvmToLaunchContainerIn(java);
