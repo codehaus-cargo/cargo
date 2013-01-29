@@ -612,6 +612,13 @@ public class CargoTask extends Task
 
             for (DeployableElement deployableElement : getConfiguration().getDeployables())
             {
+                if (ACTION_UNDEPLOY.equalsIgnoreCase(getAction())
+                    && deployableElement.getFile() == null)
+                {
+                    // CARGO-1173: The "file" attribute is optional for the undeploy action
+                    deployableElement.setFile(".");
+                }
+
                 Deployable deployable = deployableElement.createDeployable(getContainerId());
 
                 if (ACTION_DEPLOY.equalsIgnoreCase(getAction()))
