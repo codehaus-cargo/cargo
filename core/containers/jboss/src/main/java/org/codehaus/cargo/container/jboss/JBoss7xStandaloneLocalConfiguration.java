@@ -80,61 +80,13 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
     {
         super(dir);
 
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='http']",
-            "port", ServletPropertySet.PORT);
-
         setProperty(GeneralPropertySet.RMI_PORT, "1099");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='jndi']",
-            "port", GeneralPropertySet.RMI_PORT);
-
         setProperty(JBossPropertySet.JBOSS_JRMP_PORT, "1090");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='jmx-connector-registry']",
-            "port", JBossPropertySet.JBOSS_JRMP_PORT);
-
         setProperty(JBossPropertySet.JBOSS_JMX_PORT, "1091");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='jmx-connector-server']",
-            "port", JBossPropertySet.JBOSS_JMX_PORT);
-
         setProperty(JBossPropertySet.JBOSS_MANAGEMENT_PORT, "9999");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/management/management-interfaces/native-interface[@interface='management']",
-            "port", JBossPropertySet.JBOSS_MANAGEMENT_PORT);
-
         setProperty(JBossPropertySet.JBOSS_OSGI_HTTP_PORT, "8090");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='osgi-http']",
-            "port", JBossPropertySet.JBOSS_OSGI_HTTP_PORT);
-
         setProperty(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, "4447");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='remoting']",
-            "port", JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT);
-
         setProperty(JBossPropertySet.CONFIGURATION, CONFIGURATION);
-
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/profile/subsystem/console-handler/level",
-            "name", "cargo.jboss.logging");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/profile/subsystem/periodic-rotating-file-handler/level",
-            "name", "cargo.jboss.logging");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/profile/subsystem/root-logger/level",
-            "name", "cargo.jboss.logging");
 
         try
         {
@@ -163,6 +115,9 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
     @Override
     public void configure(LocalContainer container)
     {
+        String configurationXmlFile = "configuration/"
+            + getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml";
+
         for (Deployable deployable : getDeployables())
         {
             if (deployable instanceof WAR)
@@ -173,7 +128,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
                 {
                     // CARGO-1090: Disable the welcome root application
                     addXmlReplacement(
-                        "configuration/standalone.xml",
+                        configurationXmlFile,
                         "//server/profile/subsystem/virtual-server",
                         "enable-welcome-root", "false");
                     break;
@@ -202,7 +157,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#configure(LocalContainer)
+     * @see AbstractStandaloneLocalConfiguration#doConfigure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer c) throws Exception
@@ -221,14 +176,57 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         setProperty("cargo.jboss.logging",
             getJBossLogLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
 
+        String configurationXmlFile = "configuration/"
+            + getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml";
+
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='http']",
+            "port", ServletPropertySet.PORT);
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='jndi']",
+            "port", GeneralPropertySet.RMI_PORT);
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='jmx-connector-registry']",
+            "port", JBossPropertySet.JBOSS_JRMP_PORT);
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='jmx-connector-server']",
+            "port", JBossPropertySet.JBOSS_JMX_PORT);
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/management/management-interfaces/native-interface[@interface='management']",
+            "port", JBossPropertySet.JBOSS_MANAGEMENT_PORT);
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='osgi-http']",
+            "port", JBossPropertySet.JBOSS_OSGI_HTTP_PORT);
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='remoting']",
+            "port", JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT);
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/profile/subsystem/console-handler/level",
+            "name", "cargo.jboss.logging");
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/profile/subsystem/periodic-rotating-file-handler/level",
+            "name", "cargo.jboss.logging");
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/profile/subsystem/root-logger/level",
+            "name", "cargo.jboss.logging");
+
         setupConfigurationDir();
 
         // Copy initial configuration
         String initialConfiguration = getFileHandler().append(container.getHome(), CONFIGURATION);
         getFileHandler().copyDirectory(initialConfiguration, getHome());
 
-        String configurationXML = getFileHandler().append(getHome(),
-            "/configuration/standalone.xml");
+        String configurationXML = getFileHandler().append(getHome(), configurationXmlFile);
         if (!getFileHandler().exists(configurationXML))
         {
             throw new CargoException("Missing configuration XML file: " + configurationXML);

@@ -53,8 +53,10 @@ public class JBoss7xStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
-        this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.FALSE);
         this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_AJP_PORT, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_NAMING_PORT, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_INVOKER_POOL_PORT, Boolean.FALSE);
@@ -73,8 +75,6 @@ public class JBoss7xStandaloneLocalConfigurationCapability extends
             Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_USER, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_PASSWORD, Boolean.FALSE);
-        this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
-        this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR,
             Boolean.TRUE);
     }

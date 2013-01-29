@@ -177,7 +177,9 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
             "-mp", getHome() + "/modules",
             "-logmodule", "org.jboss.logmanager",
             "-jaxpmodule", "javax.xml.jaxp-provider",
-            "org.jboss.as.standalone");
+            "org.jboss.as.standalone",
+            "--server-config="
+                + getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml");
 
         String runtimeArgs = getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS);
         if (runtimeArgs != null)

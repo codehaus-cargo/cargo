@@ -49,54 +49,11 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
         super(dir);
 
         setProperty(JBossPropertySet.JBOSS_AJP_PORT, "8009");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='ajp']",
-            "port", JBossPropertySet.JBOSS_AJP_PORT);
-
-        removeXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/management/management-interfaces/native-interface[@interface='management']",
-            "port");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='management-native']",
-            "port", JBossPropertySet.JBOSS_MANAGEMENT_PORT);
-
         setProperty(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT, "4712");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='txn-recovery-environment']",
-            "port", JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT);
-
         setProperty(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, "4713");
-        addXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='txn-status-manager']",
-            "port", JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT);
-
         getProperties().remove(GeneralPropertySet.RMI_PORT);
-        removeXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='jndi']",
-            "port");
-
         getProperties().remove(JBossPropertySet.JBOSS_JRMP_PORT);
-        removeXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='jmx-connector-registry']",
-            "port");
-
         getProperties().remove(JBossPropertySet.JBOSS_JMX_PORT);
-        removeXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/socket-binding-group/socket-binding[@name='jmx-connector-server']",
-            "port");
-
-        removeXmlReplacement(
-            "configuration/standalone.xml",
-            "//server/profile/subsystem/periodic-rotating-file-handler/level",
-            "name");
     }
 
     /**
@@ -146,6 +103,56 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
                 getFileHandler().append(getHome(), "/configuration/application-roles.properties"),
                     rolesToken.toString(), "UTF-8");
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see JBoss7xStandaloneLocalConfiguration#doConfigure(LocalContainer)
+     */
+    @Override
+    protected void doConfigure(LocalContainer c) throws Exception
+    {
+        super.doConfigure(c);
+
+        String configurationXmlFile = "configuration/"
+            + getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml";
+
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='ajp']",
+            "port", JBossPropertySet.JBOSS_AJP_PORT);
+        removeXmlReplacement(
+            configurationXmlFile,
+            "//server/management/management-interfaces/native-interface[@interface='management']",
+            "port");
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='management-native']",
+            "port", JBossPropertySet.JBOSS_MANAGEMENT_PORT);
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='txn-recovery-environment']",
+            "port", JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT);
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='txn-status-manager']",
+            "port", JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT);
+        removeXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='jndi']",
+            "port");
+        removeXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='jmx-connector-registry']",
+            "port");
+        removeXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='jmx-connector-server']",
+            "port");
+        removeXmlReplacement(
+            configurationXmlFile,
+            "//server/profile/subsystem/periodic-rotating-file-handler/level",
+            "name");
     }
 
 }
