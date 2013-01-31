@@ -89,7 +89,15 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      */
     public List<Element> getTags(String tagName)
     {
-        return getTags(getDescriptorType().getTagByName(tagName));
+        List<Element> elements = new ArrayList<Element>();
+        for (Element child : (List<Element>) getRootElement().getChildren())
+        {
+            if (child.getName().equals(tagName))
+            {
+                elements.add(child);
+            }
+        }
+        return elements;
     }
 
     /**
@@ -502,6 +510,24 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      */
     public Element getTagByIdentifier(String tagName, String value)
     {
-        return getTagByIdentifier(getDescriptorType().getTagByName(tagName), value);
+        if (value == null || tagName == null)
+        {
+            throw new NullPointerException();
+        }
+        DescriptorTag tag = getDescriptorType().getTagByName(tagName);
+        Identifier id = tag.getIdentifier();
+        if (id != null)
+        {
+            List<Element> tags = getTags(tagName);
+
+            for (Element e : tags)
+            {
+                if (value.equals(id.getIdentifier(e)))
+                {
+                    return e;
+                }
+            }
+        }
+        return null;
     }
 }

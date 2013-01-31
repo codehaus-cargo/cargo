@@ -70,12 +70,29 @@ public interface Descriptor extends org.jdom.Parent
     Element getTagByIdentifier(DescriptorTag tag, String value);
 
     /**
+     * Get elements of a particular descriptor tag whose identifier matches the passed parameter.
+     * 
+     * @param tagName Name of the tag to search for
+     * @param value value for the identifier to match
+     * @return the element that matches
+     */
+    Element getTagByIdentifier(String tagName, String value);
+
+    /**
      * Get tags of a particular type.
      * 
      * @param tag type of elements to find
      * @return list of tags
      */
     List<Element> getTags(DescriptorTag tag);
+
+    /**
+     * Get tags of a particular type.
+     * 
+     * @param tagName type of elements to find
+     * @return list of tags
+     */
+    List<Element> getTags(String tagName);
 
     /**
      * Get the descriptor type for this descriptor.

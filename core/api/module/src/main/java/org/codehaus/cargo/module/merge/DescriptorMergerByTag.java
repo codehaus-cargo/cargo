@@ -182,8 +182,8 @@ public class DescriptorMergerByTag implements DescriptorMerger
                     {
                         DescriptorElement lElement = (DescriptorElement) itemL;
                         DescriptorElement rElement =
-                            (DescriptorElement) right.getTagByIdentifier(tag, identifier
-                                .getIdentifier(lElement));
+                            (DescriptorElement) right.getTagByIdentifier(tag.getTagName(),
+                                identifier.getIdentifier(lElement));
 
                         if (rElement != null)
                         {
@@ -199,8 +199,8 @@ public class DescriptorMergerByTag implements DescriptorMerger
                     {
                         DescriptorElement rElement = (DescriptorElement) itemR;
                         DescriptorElement lElement =
-                            (DescriptorElement) left.getTagByIdentifier(tag, identifier
-                                .getIdentifier(rElement));
+                            (DescriptorElement) left.getTagByIdentifier(tag.getTagName(),
+                                identifier.getIdentifier(rElement));
 
                         if (lElement == null)
                         {

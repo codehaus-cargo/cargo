@@ -124,7 +124,7 @@ public class NodeMergeStrategy implements MergeStrategy
      * 
      * @param content the content to apply to
      * @param left The Left hand element to use
-     * @param right The Righ hand element to use
+     * @param right The Right hand element to use
      */
     private void applyValues(Content content, DescriptorElement left, DescriptorElement right)
     {
@@ -164,8 +164,7 @@ public class NodeMergeStrategy implements MergeStrategy
      * @param right The right hand node
      * @return the replaced string
      */
-    private String replaceValue(String string, DescriptorElement left,
-        DescriptorElement right)
+    private String replaceValue(String string, DescriptorElement left, DescriptorElement right)
     {
         String xPath;
         Element element;
@@ -189,7 +188,25 @@ public class NodeMergeStrategy implements MergeStrategy
         }
         try
         {
+            // CARGO-1175: Avoid XPath and namespace problems
+            String nsPrefix = null;
+            if (element.getNamespaceURI().length() > 0)
+            {
+                nsPrefix = element.getNamespacePrefix();
+                if (nsPrefix.length() == 0 || !xPath.startsWith(nsPrefix))
+                {
+                    if (nsPrefix.length() == 0)
+                    {
+                        nsPrefix = "cargo-xs";
+                    }
+                    xPath = nsPrefix + ":" + xPath;
+                }
+            }
             XPath xp = XPath.newInstance(xPath);
+            if (nsPrefix != null)
+            {
+                xp.addNamespace(nsPrefix, element.getNamespaceURI());
+            }
             Element nestedText = (Element) xp.selectSingleNode(element);
             if (nestedText != null)
             {

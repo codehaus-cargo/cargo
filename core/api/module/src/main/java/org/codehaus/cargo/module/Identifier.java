@@ -39,6 +39,14 @@ public class Identifier
     private XPath xpath;
 
     /**
+     * String XPath of how to navigate to the identifier field.<br/>
+     * <br/>
+     * This is to avoid having namespace problems with XPath (see
+     * <a href="https://jira.codehaus.org/browse/CARGO-1175">CARGO-1175</a>)
+     */
+    private XPath xpathWithoutNamespace;
+
+    /**
      * Constructor.
      * 
      * @param xpath XPath to use to identify field
@@ -54,7 +62,6 @@ public class Identifier
         {
             throw new CargoException("Unexpected xpath error", ex);
         }
-
     }
 
     /**
@@ -74,6 +81,7 @@ public class Identifier
                 String uri = namespaceEntry.getValue();
                 this.xpath.addNamespace(ns, uri);
             }
+            this.xpathWithoutNamespace = XPath.newInstance(xpath);
         }
         catch (JDOMException ex)
         {
@@ -91,7 +99,12 @@ public class Identifier
     {
         try
         {
-            return xpath.valueOf(element);
+            String identifier = xpath.valueOf(element);
+            if (identifier == null || identifier.length() == 0)
+            {
+                identifier = this.xpathWithoutNamespace.valueOf(element);
+            }
+            return identifier;
         }
         catch (Exception ex)
         {
