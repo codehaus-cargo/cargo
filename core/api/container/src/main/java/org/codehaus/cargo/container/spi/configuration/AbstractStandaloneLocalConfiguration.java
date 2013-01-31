@@ -86,9 +86,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     public void configure(LocalContainer container)
     {
         super.configure(container);
-        configureFiles(getFilterChain());
-
         performXmlReplacements(container);
+        configureFiles(getFilterChain());
     }
 
     /**
