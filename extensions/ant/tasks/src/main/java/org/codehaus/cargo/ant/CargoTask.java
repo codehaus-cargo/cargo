@@ -492,6 +492,10 @@ public class CargoTask extends Task
         {
             this.logger.setLevel(getLogLevel());
         }
+        else
+        {
+            this.logger.setLevel(LogLevel.INFO);
+        }
     }
 
     /**
