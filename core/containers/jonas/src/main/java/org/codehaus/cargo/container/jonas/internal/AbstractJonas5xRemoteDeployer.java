@@ -437,6 +437,9 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                 List<String> remoteFiles = (List<String>)
                     mbsc.getAttribute(serverMBeanName, "deployedFiles");
 
+                remoteFiles.addAll((List<String>)
+                    mbsc.getAttribute(serverMBeanName, "deployableFiles"));
+
                 ObjectName deploymentPlanMBean = new ObjectName(
                     config.getDomainName() + ":type=deployment,name=deploymentPlan");
                 if (!mbsc.queryMBeans(deploymentPlanMBean, null).isEmpty())

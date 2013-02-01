@@ -748,7 +748,7 @@
 
               <property>
                 <name>cargo.jonas5x.url</name>
-                <value>http://repo1.maven.org/maven2/org/ow2/jonas/assemblies/profiles/jonas-full/5.2.3/jonas-full-5.2.3-bin.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/ow2/jonas/assemblies/profiles/jonas-full/5.2.4/jonas-full-5.2.4-bin.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jonas5x.java.home</name>
