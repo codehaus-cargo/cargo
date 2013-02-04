@@ -473,7 +473,7 @@ public class CargoTask extends Task
 
     /**
      * Create the Cargo logger that will be used for logging all messages. If the user has specified
-     * a log file we creare a File logger. If no file has been specified we use an Ant logger by
+     * a log file we create a File logger. If no file has been specified we use an Ant logger by
      * default to log to the Ant logging subsystem.
      */
     private void createCargoLogger()
