@@ -460,7 +460,8 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
 
                 for (String remoteFile : remoteFiles)
                 {
-                    if (remoteFile.endsWith(lookForFile))
+                    // CARGO-1178: Be careful with Windows paths
+                    if (remoteFile.replace('\\', '/').endsWith(lookForFile))
                     {
                         result = remoteFile;
                         break;
