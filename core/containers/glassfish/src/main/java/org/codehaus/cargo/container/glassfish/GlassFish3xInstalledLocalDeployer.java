@@ -68,7 +68,15 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         if (deployable instanceof WAR)
         {
             args.add("--contextroot");
-            args.add(((WAR) deployable).getContext());
+            if (((WAR) deployable).getContext().length() == 0)
+            {
+                // CARGO-1179: If --contextroot is '', deployment fails on Windows
+                args.add("/");
+            }
+            else
+            {
+                args.add(((WAR) deployable).getContext());
+            }
         }
         else if (deployable instanceof Bundle)
         {
