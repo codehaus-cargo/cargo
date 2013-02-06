@@ -73,7 +73,7 @@
                 <artifactItem>
                   <groupId>org.eclipse.jetty</groupId>
                   <artifactId>jetty-distribution</artifactId>
-                  <version>7.6.8.v20121106</version>
+                  <version>7.6.9.v20130131</version>
                   <type>zip</type>
                   <destFileName>jetty7x.zip</destFileName>
                 </artifactItem>
