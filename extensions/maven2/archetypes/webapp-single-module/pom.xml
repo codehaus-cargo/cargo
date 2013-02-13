@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-maven2-archetypes</artifactId>
-    <version>1.3.3</version>
+    <version>1.3.4-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-archetype-webapp-single-module</artifactId>
   <packaging>maven-archetype</packaging>
