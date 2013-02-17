@@ -23,7 +23,7 @@
 package org.codehaus.cargo.module.webapp;
 
 import org.codehaus.cargo.module.AbstractDescriptorType;
-import org.codehaus.cargo.module.Dtd;
+import org.codehaus.cargo.module.Grammar;
 
 /**
  * A document type for web.xml web deployment descriptors.
@@ -288,7 +288,7 @@ public abstract class WebXmlType extends AbstractDescriptorType
      * @param parent Parent type if any
      * @param grammar grammar to use
      */
-    protected WebXmlType(AbstractDescriptorType parent, Dtd grammar)
+    protected WebXmlType(AbstractDescriptorType parent, Grammar grammar)
     {
         super(parent, WebXml.class, grammar);
         setDescriptorIo(new WebXmlIo(this));

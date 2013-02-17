@@ -25,23 +25,23 @@ package org.codehaus.cargo.module.webapp;
 import org.codehaus.cargo.module.Xsd;
 
 /**
- * Web 2.5 Descriptor.
+ * Web 3.0 Descriptor.
  * @version $Id$
  */
-public class WebXml25Type extends WebXmlType
+public class WebXml30Type extends WebXmlType
 {
     /**
      * Single instance.
      */
-    private static WebXml25Type instance = new WebXml25Type();
+    private static WebXml30Type instance = new WebXml30Type();
 
     /**
      * Protected constructor.
      */
-    protected WebXml25Type()
+    protected WebXml30Type()
     {
-        super(WebXml22Type.getInstance(), new Xsd(
-                "http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"));
+        super(WebXml25Type.getInstance(), new Xsd(
+                "http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"));
         setDescriptorIo(new WebXmlIo(this));
     }
 
@@ -60,6 +60,6 @@ public class WebXml25Type extends WebXmlType
     @Override
     public WebXmlVersion getVersion()
     {
-        return WebXmlVersion.V2_5;
+        return WebXmlVersion.V3_0;
     }
 }

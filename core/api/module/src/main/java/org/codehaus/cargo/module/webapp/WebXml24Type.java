@@ -125,7 +125,6 @@ public class WebXml24Type extends WebXmlType
             new WebXmlTag(this, "remote"), new WebXmlTag(this, "home"),
             new WebXmlTag(this, "ejb-link")};
         setDescriptorIo(new WebXmlIo(this));
-
     }
 
     /**

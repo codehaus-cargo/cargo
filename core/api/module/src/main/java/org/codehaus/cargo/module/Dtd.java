@@ -135,9 +135,9 @@ public class Dtd implements Grammar
     /**
      * Contructor.
      * 
-     * @param systemId system id of the dtd to parse
+     * @param dtdPath path (URL) of the dtd to parse
      */
-    public Dtd(String systemId)
+    public Dtd(String dtdPath)
     {
         try
         {
@@ -155,7 +155,7 @@ public class Dtd implements Grammar
                 throw new SAXException(e);
             }
 
-            String xml = "<!DOCTYPE dummy SYSTEM \"" + systemId + "\"><dummy/>";
+            String xml = "<!DOCTYPE dummy SYSTEM \"" + dtdPath + "\"><dummy/>";
             reader.parse(new InputSource(new ByteArrayInputStream(xml.getBytes("UTF-8"))));
             this.elementOrders = dtdHandler.getElementOrders();
         }

@@ -56,7 +56,13 @@ public final class WebXmlVersion implements Comparable
     /**
      * Instance for version 2.5.
      */
-    public static final WebXmlVersion V2_5 = new WebXmlVersion("2.4",
+    public static final WebXmlVersion V2_5 = new WebXmlVersion("2.5",
+        "http://java.sun.com/xml/ns/javaee");
+
+    /**
+     * Instance for version 3.0.
+     */
+    public static final WebXmlVersion V3_0 = new WebXmlVersion("3.0",
         "http://java.sun.com/xml/ns/javaee");
 
     /**
@@ -194,6 +200,10 @@ public final class WebXmlVersion implements Comparable
         else if ("2.5".equals(value))
         {
             result = WebXmlVersion.V2_5;
+        }
+        else if ("3.0".equals(value))
+        {
+            result = WebXmlVersion.V3_0;
         }
         return result;
     }

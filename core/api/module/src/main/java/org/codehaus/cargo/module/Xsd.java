@@ -1,9 +1,6 @@
 /*
  * ========================================================================
  *
- * Copyright 2003 The Apache Software Foundation. Code from this file 
- * was originally imported from the Jakarta Cactus project.
- *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,46 +17,35 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.module.webapp;
+package org.codehaus.cargo.module;
 
-import org.codehaus.cargo.module.Xsd;
+import java.util.List;
 
 /**
- * Web 2.5 Descriptor.
+ * Contains methods for getting information from a XSD.
+ * 
  * @version $Id$
  */
-public class WebXml25Type extends WebXmlType
+public class Xsd implements Grammar
 {
-    /**
-     * Single instance.
-     */
-    private static WebXml25Type instance = new WebXml25Type();
 
     /**
-     * Protected constructor.
+     * Contructor.
+     * 
+     * @param xsdPath path (URL) of the XSD to parse
      */
-    protected WebXml25Type()
+    public Xsd(String xsdPath)
     {
-        super(WebXml22Type.getInstance(), new Xsd(
-                "http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"));
-        setDescriptorIo(new WebXmlIo(this));
-    }
-
-    /**
-     * Get the instance of the WEB XML Type.
-     * @return WebXmlType
-     */
-    public static WebXmlType getInstance()
-    {
-        return instance;
+        // Empty for now, maybe one day we'll do something with the XSD path
     }
 
     /**
      * {@inheritDoc}
+     * @see Grammar#getElementOrder(String)
      */
-    @Override
-    public WebXmlVersion getVersion()
+    public List<DescriptorTag> getElementOrder(String tagName)
     {
-        return WebXmlVersion.V2_5;
+        // The XSDs that we handle (webapp 2.5, webapp 3.0, etc.) do not have any order
+        return null;
     }
 }

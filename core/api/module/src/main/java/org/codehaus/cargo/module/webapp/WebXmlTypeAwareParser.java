@@ -169,6 +169,10 @@ public class WebXmlTypeAwareParser extends DefaultHandler
         {
             descriptorType = WebXml25Type.getInstance();
         }
+        else if (WebXmlVersion.V3_0.equals(getVersion()))
+        {
+            descriptorType = WebXml30Type.getInstance();
+        }
 
         webXml = (WebXml) descriptorType.getDescriptorIo().parseXml(bufferedStream,
                 theEntityResolver);
@@ -213,6 +217,11 @@ public class WebXmlTypeAwareParser extends DefaultHandler
             {
                 // We are at a minimum a V2.5
                 this.version = WebXmlVersion.V2_5;
+            }
+            else if (WebXmlVersion.V3_0.getNamespace().getURI().equals(xmlNs))
+            {
+                // We are at a minimum a V3.0
+                this.version = WebXmlVersion.V3_0;
             }
 
             generateWebXml();

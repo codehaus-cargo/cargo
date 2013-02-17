@@ -85,6 +85,16 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         + "         version=\"2.5\">\r\n";
 
     /**
+     * Header for web.xml version 3.0.
+     */
+    public static final String WEBAPP_30_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
+        + "<web-app xmlns=\"http://java.sun.com/xml/ns/javaee\""
+        + "         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
+        + "         xsi:schemaLocation=\"http://java.sun.com/xml/ns/javaee"
+        + "                              http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd\""
+        + "         version=\"3.0\">\r\n";
+
+    /**
      * Header for web.xml with no version.
      */
     public static final String WEBAPP_BLANK_HEADER = "<web-app>";
@@ -188,6 +198,20 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
             getEntityResolver());
         assertEquals(WebXmlVersion.V2_5, webXml.getVersion());
+    }
+
+    /**
+     * Tests whether a servlet API version 3.0 descriptor is correctly detected.
+     * 
+     * @throws Exception If an unexpected error occurs
+     */
+    public void testGetVersion30() throws Exception
+    {
+        String xml = WEBAPP_30_HEADER + "</web-app>";
+
+        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
+            getEntityResolver());
+        assertEquals(WebXmlVersion.V3_0, webXml.getVersion());
     }
 
     /**
