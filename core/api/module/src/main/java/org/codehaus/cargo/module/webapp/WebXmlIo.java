@@ -56,8 +56,8 @@ public final class WebXmlIo extends AbstractDescriptorIo
     }
 
     /**
-     * Implementation of the SAX EntityResolver interface that looks up the web-app DTDs from the
-     * JAR.
+     * Implementation of the SAX EntityResolver interface that looks up the web-app DTDs and XSDs
+     * from the JAR.
      */
     private static class WebXmlEntityResolver implements EntityResolver
     {
@@ -121,9 +121,25 @@ public final class WebXmlIo extends AbstractDescriptorIo
                     "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN",
                     "http://java.sun.com/dtd/web-app_2_3.dtd"));
         }
-        else
+        else if (theVersion.equals(WebXmlVersion.V2_4))
         {
             document = new WebXml24Type().document(root);
+            document.setDocType(new DocType("web-app", "http://java.sun.com/xml/ns/j2ee"));
+        }
+        else if (theVersion.equals(WebXmlVersion.V2_5))
+        {
+            document = new WebXml25Type().document(root);
+            document.setDocType(new DocType("web-app", "http://java.sun.com/xml/ns/j2ee"));
+        }
+        else if (theVersion.equals(WebXmlVersion.V3_0))
+        {
+            document = new WebXml30Type().document(root);
+            document.setDocType(new DocType("web-app", "http://java.sun.com/xml/ns/j2ee"));
+        }
+        else
+        {
+            // Default to web-app 2.5 (Java EE 5)
+            document = new WebXml25Type().document(root);
             document.setDocType(new DocType("web-app", "http://java.sun.com/xml/ns/j2ee"));
         }
         return (WebXml) document;
