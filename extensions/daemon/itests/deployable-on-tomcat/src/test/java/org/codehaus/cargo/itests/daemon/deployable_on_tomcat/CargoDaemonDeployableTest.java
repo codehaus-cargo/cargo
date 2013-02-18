@@ -125,7 +125,9 @@ public class CargoDaemonDeployableTest extends TestCase
         DeployerWatchdog daemonWatchdog = new DeployerWatchdog(daemonMonitor);
         daemonWatchdog.watchForAvailability();
 
-        htmlPage = (HtmlPage) htmlPage.refresh();
+        // htmlPage = (HtmlPage) htmlPage.refresh();
+        webClient.closeAllWindows();
+        htmlPage = webClient.getPage(CargoDaemonDeployableTest.DAEMON_URL);
         HtmlElement stopButton = htmlPage.getElementById("stopContainer_test1");
         assertNotNull("Container stop button did not appear. Current content: "
             + htmlPage.asText(), stopButton);
@@ -135,7 +137,9 @@ public class CargoDaemonDeployableTest extends TestCase
 
         daemonWatchdog.watchForUnavailability();
 
-        htmlPage = (HtmlPage) htmlPage.refresh();
+        // htmlPage = (HtmlPage) htmlPage.refresh();
+        webClient.closeAllWindows();
+        htmlPage = webClient.getPage(CargoDaemonDeployableTest.DAEMON_URL);
         assertFalse("There should be no running containers",
             htmlPage.asText().contains("started"));
     }

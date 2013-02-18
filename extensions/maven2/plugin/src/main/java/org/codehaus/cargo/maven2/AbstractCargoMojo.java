@@ -104,12 +104,21 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     private Container container;
     
     /**
-     * Daemon properties.
+     * Daemon properties (deprecated). The daemonproperties parameter is now deprecated (due to
+     * a bad case spelling), please use daemonProperties instead.
      * 
-     * @parameter 
+     * @deprecated The daemonproperties parameter is now deprecated (due to a bad case spelling),
+     * please use daemonProperties instead
+     * @parameter alias="daemonproperties"
      */
     private Map<String, String> daemonproperties;
-    
+
+    /**
+     * Daemon properties.
+     * 
+     * @parameter alias="daemonProperties"
+     */
+    private Map<String, String> daemonProperties;
 
     /**
      * Configures a Cargo {@link org.codehaus.cargo.container.deployer.Deployer}. See the <a
@@ -264,12 +273,22 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      */
     protected String getDaemonProperty(String name)
     {
-        if (daemonproperties == null)
+        String value = null;
+        if (daemonProperties != null)
         {
-            return null;
+            value = daemonProperties.get(name);
         }
-        
-        return daemonproperties.get(name);
+        if (daemonproperties != null)
+        {
+            getLog().warn("The <daemonproperties> element is deprecated (due to a bad case "
+                + "spelling). Please use <daemonProperties> instead");
+
+            if (value == null)
+            {
+                value = daemonProperties.get(name);
+            }
+        }
+        return value;
     }
 
     /**
