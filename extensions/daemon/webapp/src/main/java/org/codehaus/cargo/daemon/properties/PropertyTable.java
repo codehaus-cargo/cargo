@@ -26,9 +26,9 @@ import org.codehaus.cargo.daemon.CargoDaemonException;
 /**
  * Properties container.
  *
- * @version $Id$
+ * @version $Id: Properties.java 3441 2012-10-09 18:46:01Z alitokmen $
  */
-public class Properties extends HashMap<String, String>
+public class PropertyTable extends HashMap<String, String>
 {
     /**
      *

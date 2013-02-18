@@ -83,8 +83,8 @@ public class CargoDaemonDeployableTest extends TestCase
         WebClient webClient = new WebClient();
         HtmlPage htmlPage = webClient.getPage(CargoDaemonDeployableTest.DAEMON_URL);
 
-        assertTrue("There should be no running containers",
-            htmlPage.asText().contains("No running containers"));
+        assertFalse("There should be no running containers",
+            htmlPage.asText().contains("started"));
         ((HtmlTextInput) htmlPage.getElementByName("handleId")).setText("test1");
 
         ((HtmlSelect) htmlPage.getElementByName("containerId"))
@@ -129,15 +129,15 @@ public class CargoDaemonDeployableTest extends TestCase
         HtmlElement stopButton = htmlPage.getElementById("stopContainer_test1");
         assertNotNull("Container stop button did not appear. Current content: "
             + htmlPage.asText(), stopButton);
-        assertFalse("There should be running containers",
-            htmlPage.asText().contains("No running containers"));
+        assertTrue("There should be running containers",
+            htmlPage.asText().contains("started"));
         stopButton.click();
 
         daemonWatchdog.watchForUnavailability();
 
         htmlPage = (HtmlPage) htmlPage.refresh();
-        assertTrue("There should be no running containers",
-            htmlPage.asText().contains("No running containers"));
+        assertFalse("There should be no running containers",
+            htmlPage.asText().contains("started"));
     }
 
 }

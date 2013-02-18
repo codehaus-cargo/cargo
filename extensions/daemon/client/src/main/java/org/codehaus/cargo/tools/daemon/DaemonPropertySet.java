@@ -40,4 +40,9 @@ public interface DaemonPropertySet
      * Set this property to enable the daemon jvm launcher  
      */
     String JVMLAUNCHER = "cargo.daemon.jvmlauncher";
+    
+    /**
+     * Set this property to enable autostart for a container  
+     */
+    String AUTOSTART = "cargo.daemon.autostart";    
 }

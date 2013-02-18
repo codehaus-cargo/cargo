@@ -20,9 +20,9 @@
     <url-pattern>/index.html</url-pattern>
     <url-pattern>/installed</url-pattern>
     <url-pattern>/start</url-pattern>
+    <url-pattern>/restart</url-pattern>
     <url-pattern>/stop</url-pattern>
     <url-pattern>/viewlog</url-pattern>
-    <url-pattern>/start</url-pattern>
     <url-pattern>/getHandles</url-pattern>
   </servlet-mapping>
   <servlet-mapping>

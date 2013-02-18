@@ -35,6 +35,11 @@ public class DaemonStart
      * The unique identifier of the container to start
      */
     private String handleId;
+    
+    /**
+     * Tells the daemon if the container should auto start.
+     */
+    private boolean autostart;    
 
     /**
      * The container to start
@@ -66,6 +71,23 @@ public class DaemonStart
     {
         this.handleId = handleId;
     }
+    
+    /**
+     * @return true if the container should auto start.
+     */
+    public boolean isAutostart()
+    {
+        return autostart;
+    }
+
+    /**
+     * @param autostart True if the container should auto start.
+     */
+    public void setAutostart(boolean autostart)
+    {
+        this.autostart = autostart;
+    }
+    
 
     /**
      * @return the container to start

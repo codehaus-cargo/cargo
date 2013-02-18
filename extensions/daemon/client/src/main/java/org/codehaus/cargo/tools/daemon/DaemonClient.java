@@ -204,12 +204,14 @@ public class DaemonClient extends LoggedObject
     {
         DaemonParameters parameters = new DaemonParameters();
         InstalledLocalContainer container = start.getContainer();
+        boolean autostart = start.isAutostart();
         String handleId = start.getHandleId();
         String installerZipFile = start.getInstallerZipFile();
         List<Deployable> deployables = start.getDeployables();
 
         LocalConfiguration configuration = container.getConfiguration();
 
+        parameters.setParameter("autostart", String.valueOf(autostart));
         parameters.setParameter("handleId", handleId);
         parameters.setParameter("containerId", container.getId());
         parameters.setParameter("configurationType", configuration.getType().toString());

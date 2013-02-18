@@ -26,19 +26,24 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -50,7 +55,7 @@ import org.codehaus.cargo.container.installer.Installer;
 import org.codehaus.cargo.container.installer.ZipURLInstaller;
 import org.codehaus.cargo.daemon.file.FileManager;
 import org.codehaus.cargo.daemon.jvm.DaemonJvmLauncherFactory;
-import org.codehaus.cargo.daemon.properties.Properties;
+import org.codehaus.cargo.daemon.properties.PropertyTable;
 import org.codehaus.cargo.daemon.request.StartRequest;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
@@ -63,11 +68,26 @@ import org.json.simple.JSONValue;
 
 /**
  * Cargo daemon servlet.
- *
+ * 
  * @version $Id$
  */
-public class CargoDaemonServlet extends HttpServlet
+public class CargoDaemonServlet extends HttpServlet implements Runnable
 {
+
+    /**
+     * The amount of milliseconds to wait between immediately stopping and restarting a container.
+     */
+    private static final int STOPSTARTTIMEOUT = 500;
+
+    /**
+     * The periodic amount of milliseconds between checking if containers are still alive.
+     */
+    private static final int AUTOSTARTTIMEOUT = 20;
+
+    /**
+     * The initial amount of milliseconds between checking if containers are still alive.
+     */
+    private static final int INITIALAUTOSTARTTIMEOUT = 3;
 
     /**
      * Serial version UUID.
@@ -98,7 +118,12 @@ public class CargoDaemonServlet extends HttpServlet
     /**
      * Map of handles to deployed containers.
      */
-    private final Map<String, Handle> handles = new HashMap<String, Handle>();
+    private HandleDatabase handles = null;
+
+    /**
+     * Used for running background tasks.
+     */
+    private ScheduledThreadPoolExecutor scheduledExecutor = new ScheduledThreadPoolExecutor(1);
 
     /**
      * Default index page.
@@ -106,8 +131,40 @@ public class CargoDaemonServlet extends HttpServlet
     private String indexPage;
 
     /**
+     * Constructor of the cargo daemon servlet.
+     */
+    public CargoDaemonServlet()
+    {
+        // Start background task for restarting webapps.
+        scheduledExecutor.scheduleAtFixedRate(this, INITIALAUTOSTARTTIMEOUT, AUTOSTARTTIMEOUT,
+            TimeUnit.SECONDS);
+
+        try
+        {
+            loadHandleDatabase();
+        }
+        catch (IOException e)
+        {
+            // Ignore, we'll try again later
+        }
+    }
+
+    /**
+     * Loads the handle database from disk.
+     * 
+     * @throws IOException if error occurs
+     */
+    private synchronized void loadHandleDatabase() throws IOException
+    {
+        if (handles == null)
+        {
+            handles = fileManager.loadHandleDatabase();
+        }
+    }
+
+    /**
      * Read the index page.
-     *
+     * 
      * @throws Exception If exception happens
      */
     private void readIndexPage() throws Exception
@@ -136,8 +193,8 @@ public class CargoDaemonServlet extends HttpServlet
         StringBuilder indexPageBuilder = new StringBuilder();
 
         BufferedReader reader =
-            new BufferedReader(new InputStreamReader(
-                this.getServletContext().getResourceAsStream("/index.html")));
+            new BufferedReader(new InputStreamReader(this.getServletContext()
+                .getResourceAsStream("/index.html")));
         try
         {
             for (String line = reader.readLine(); line != null; line = reader.readLine())
@@ -166,14 +223,22 @@ public class CargoDaemonServlet extends HttpServlet
     {
         String servletPath = request.getServletPath();
         servletPath = servletPath.substring(servletPath.lastIndexOf('/') + 1);
+
+        loadHandleDatabase();
+
         if ("start".equals(servletPath))
         {
+
             StartRequest startRequest = null;
             try
             {
                 startRequest = new StartRequest().parse(request);
+                startRequest.setSave(true);
 
-                startContainer(startRequest);
+                synchronized (this)
+                {
+                    startContainer(startRequest);
+                }
 
                 response.setContentType("text/plain");
                 response.getWriter().println("OK - STARTED");
@@ -191,20 +256,59 @@ public class CargoDaemonServlet extends HttpServlet
                 }
             }
         }
+        else if ("restart".equals(servletPath))
+        {
+            try
+            {
+                String handleId = request.getParameter("handleId");
+                StartRequest startRequest = new StartRequest();
+
+                synchronized (this)
+                {
+                    Handle handle = handles.get(handleId);
+                    startRequest.setParameters(handle.getProperties());
+                    startContainer(startRequest);
+                }
+
+                response.setContentType("text/plain");
+                response.getWriter().println("OK - STARTED");
+            }
+            catch (Throwable e)
+            {
+                getServletContext().log("Cannot start server", e);
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
+            }
+        }
         else if ("stop".equals(servletPath))
         {
             try
             {
                 String handleId = request.getParameter("handleId");
-                Handle handle = handles.get(handleId);
-
-                if (handle != null)
+                boolean delete = Boolean.valueOf(request.getParameter("deleteContainer"));
+                synchronized (this)
                 {
-                    handle.getContainer().stop();
-                    handles.remove(handleId);
-                    response.setContentType("text/plain");
-                    response.getWriter().println("OK - STOPPED");
+                    Handle handle = handles.get(handleId);
+
+                    if (handle != null)
+                    {
+                        InstalledLocalContainer container = handle.getContainer();
+
+                        if (container != null)
+                        {
+                            container.stop();
+                        }
+
+                        handle.setForceStop(true);
+
+                        if ("delete".equals(servletPath))
+                        {
+                            handles.remove(handleId);
+                            fileManager.saveHandleDatabase(handles);
+                        }
+                    }
                 }
+                response.setContentType("text/plain");
+                response.getWriter().println("OK - STOPPED");
             }
             catch (Throwable e)
             {
@@ -224,17 +328,31 @@ public class CargoDaemonServlet extends HttpServlet
                     throw new CargoDaemonException("Handle id " + handleId + " not found.");
                 }
 
-                InstalledLocalContainer container = handle.getContainer();
-                String logFilePath = container.getOutput();
+                String logFilePath = handle.getLogPath();
 
                 response.setContentType("text/plain");
+                response.setCharacterEncoding("UTF-8");
+                ServletOutputStream outputStream = response.getOutputStream();
+
+                // For some browsers, there needs to be atleast 1024 bytes sent before something is
+                // displayed.
+                // So, we respond with a nice log header to make sure we reach this limit.
+                fileManager.copyHeader(
+                    getClass().getClassLoader().getResourceAsStream(
+                        "org/codehaus/cargo/daemon/logheader.txt"), outputStream);
+
+                outputStream.println("DATE " + new Date());
+                outputStream.println("");
+
+                outputStream.flush();
+
                 if (logFilePath == null || logFilePath.length() == 0)
                 {
-                    response.getWriter().println("");
+                    outputStream.println("");
                 }
                 else
                 {
-                    fileManager.copy(logFilePath, response.getOutputStream());
+                    fileManager.copyContinuous(logFilePath, outputStream);
                 }
             }
             catch (Throwable e)
@@ -283,7 +401,7 @@ public class CargoDaemonServlet extends HttpServlet
 
     /**
      * Starts the container.
-     *
+     * 
      * @param request Contains the information needed to start a container
      * @throws Throwable If exception happens.
      */
@@ -298,13 +416,14 @@ public class CargoDaemonServlet extends HttpServlet
         String configurationType = request.getParameter("configurationType", true);
         String containerOutput = request.getParameter("containerOutput", false);
         String containerAppend = request.getParameter("containerAppend", false);
+        String autostart = request.getParameter("autostart", false);
         String timeout = request.getParameter("timeout", false);
-        Properties containerProperties = request.getProperties("containerProperties", false);
-        Properties configurationProperties =
+        PropertyTable containerProperties = request.getProperties("containerProperties", false);
+        PropertyTable configurationProperties =
             request.getProperties("configurationProperties", false);
-        List<Properties> configurationFiles =
+        List<PropertyTable> configurationFiles =
             request.getPropertiesList("configurationFiles", false);
-        List<Properties> deployableFiles = request.getPropertiesList("deployableFiles", false);
+        List<PropertyTable> deployableFiles = request.getPropertiesList("deployableFiles", false);
         InputStream installerZipInputStream = request.getFile("installerZipFileData", false);
 
         Handle handle = handles.get(handleId);
@@ -313,8 +432,13 @@ public class CargoDaemonServlet extends HttpServlet
         {
             InstalledLocalContainer container = handle.getContainer();
 
-            container.stop();
-            handles.remove(handleId);
+            if (container != null)
+            {
+                container.stop();
+
+                // Wait for a small moment
+                Thread.sleep(STOPSTARTTIMEOUT);
+            }
         }
 
         if (configurationHome == null || configurationHome.length() == 0)
@@ -322,10 +446,10 @@ public class CargoDaemonServlet extends HttpServlet
             configurationHome = fileManager.getConfigurationDirectory(handleId);
         }
 
+        ConfigurationType parsedConfigurationType = ConfigurationType.toType(configurationType);
         LocalConfiguration configuration =
             (LocalConfiguration) CONFIGURATION_FACTORY.createConfiguration(containerId,
-                ContainerType.INSTALLED, ConfigurationType.toType(configurationType),
-                configurationHome);
+                ContainerType.INSTALLED, parsedConfigurationType, configurationHome);
 
         configuration.getProperties().putAll(configurationProperties);
 
@@ -372,9 +496,8 @@ public class CargoDaemonServlet extends HttpServlet
         {
             setupConfigurationFiles(handleId, (StandaloneLocalConfiguration) configuration,
                 configurationFiles, request);
+            setupDeployableFiles(handleId, containerId, deployableFiles, configuration, request);
         }
-
-        setupDeployableFiles(handleId, containerId, deployableFiles, configuration, request);
 
         try
         {
@@ -395,24 +518,43 @@ public class CargoDaemonServlet extends HttpServlet
             throw t;
         }
 
-        handles.put(handleId, new Handle(handleId, container, configuration));
+        if (handle == null)
+        {
+            handle = new Handle();
+            handle.setId(handleId);
+        }
+
+        handle.setConfiguration(configuration);
+        handle.setContainer(container);
+        handle.setForceStop(false);
+
+        handle.setLogPath(container.getOutput());
+        handles.put(handleId, handle);
+
+        if (request.isSave())
+        {
+            handle.setAutostart(Boolean.valueOf(autostart));
+            handle.addProperties(request.getParameters());
+
+            fileManager.saveHandleDatabase(handles);
+        }
     }
 
     /**
      * Setup the configuration files.
-     *
+     * 
      * @param handleId Unique handle identifier of the container.
      * @param configuration Reference to the cargo configuration.
      * @param configurationFiles List of properties for configuration files.
      * @param request The start request for a container.
      */
     private void setupConfigurationFiles(String handleId,
-        StandaloneLocalConfiguration configuration, List<Properties> configurationFiles,
+        StandaloneLocalConfiguration configuration, List<PropertyTable> configurationFiles,
         StartRequest request)
     {
         int i = 0;
 
-        for (Properties properties : configurationFiles)
+        for (PropertyTable properties : configurationFiles)
         {
             FileConfig fileConfig = new FileConfig();
 
@@ -436,7 +578,7 @@ public class CargoDaemonServlet extends HttpServlet
 
     /**
      * Setup the deployable files.
-     *
+     * 
      * @param handleId Unique handle identifier of the container.
      * @param containerId The container identifier.
      * @param deployableFiles List of properties for deployable files.
@@ -444,18 +586,19 @@ public class CargoDaemonServlet extends HttpServlet
      * @param request The start request of the container.
      */
     private void setupDeployableFiles(String handleId, String containerId,
-        List<Properties> deployableFiles, LocalConfiguration configuration, StartRequest request)
+        List<PropertyTable> deployableFiles, LocalConfiguration configuration,
+        StartRequest request)
     {
         int i = 0;
 
-        for (Properties properties : deployableFiles)
+        for (PropertyTable properties : deployableFiles)
         {
             DeployableType deployableType = DeployableType.toType(properties.get("type"));
             String filename = properties.get("filename", true);
 
             String location =
                 fileManager.saveFile(handleId, filename,
-                    request.getFile("deployableFileData_" + i, true));
+                    request.getFile("deployableFileData_" + i, false));
 
             Deployable deployable =
                 DEPLOYABLE_FACTORY.createDeployable(containerId, location, deployableType);
@@ -480,7 +623,7 @@ public class CargoDaemonServlet extends HttpServlet
 
     /**
      * Install the container based on a zip file or an URL to a zip file.
-     *
+     * 
      * @param url The URL to a zip file
      * @param file Or the path to zip file
      * @return the container home path
@@ -501,8 +644,10 @@ public class CargoDaemonServlet extends HttpServlet
                 installURL = new URL(url);
             }
 
-            installer = new ZipURLInstaller(installURL, fileManager.getInstallDirectory(),
-                fileManager.getInstallDirectory());
+            installer =
+                new ZipURLInstaller(installURL,
+                    fileManager.getInstallDirectory(),
+                    fileManager.getInstallDirectory());
             installer.install();
 
             return installer.getHome();
@@ -519,10 +664,41 @@ public class CargoDaemonServlet extends HttpServlet
     private Map<String, String> getHandleDetails()
     {
         Map<String, String> result = new TreeMap<String, String>();
-        for (Map.Entry<String, Handle> handle : this.handles.entrySet())
+
+        for (Map.Entry<String, Handle> entry : this.handles.entrySet())
         {
-            result.put(handle.getKey(), handle.getValue().getContainer().getState().toString());
+            result.put(entry.getKey(), entry.getValue().getContainerStatus().toString());
         }
         return result;
+    }
+
+    /**
+     * Background task to autostart containers if they are stopped.
+     */
+    public void run()
+    {
+        for (Map.Entry<String, Handle> entry : this.handles.entrySet())
+        {
+            Handle handle = entry.getValue();
+
+            synchronized (this)
+            {
+                if (handle.isAutostart() && handle.getContainerStatus() == State.STOPPED
+                    && !handle.isForceStop())
+                {
+                    StartRequest startRequest = new StartRequest();
+
+                    startRequest.setParameters(handle.getProperties());
+                    try
+                    {
+                        startContainer(startRequest);
+                    }
+                    catch (Throwable e)
+                    {
+                        // Ignore
+                    }
+                }
+            }
+        }
     }
 }

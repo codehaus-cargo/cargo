@@ -34,14 +34,14 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.codehaus.cargo.daemon.CargoDaemonException;
-import org.codehaus.cargo.daemon.properties.Properties;
+import org.codehaus.cargo.daemon.properties.PropertyTable;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 /**
  * Start request for a container.
- *
+ * 
  * @version $Id$
  */
 public class StartRequest
@@ -49,7 +49,7 @@ public class StartRequest
     /**
      * The parameters.
      */
-    private Map<String, String> parameters;
+    private PropertyTable parameters;
 
     /**
      * The files.
@@ -57,21 +57,22 @@ public class StartRequest
     private Map<String, FileItem> files;
 
     /**
-     * File upload helper.
+     * Tells if this request needs to be saved.
      */
-    private final ServletFileUpload servletFileUpload =
-        new ServletFileUpload(new DiskFileItemFactory());
+    private boolean save = false;
 
     /**
      * Parses the servlet request.
-     *
+     * 
      * @param request The servlet request.
      * @return the StartRequest
      */
     @SuppressWarnings("unchecked")
     public StartRequest parse(HttpServletRequest request)
     {
-        parameters = new HashMap<String, String>();
+        ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
+
+        parameters = new PropertyTable();
         files = new HashMap<String, FileItem>();
 
         if (ServletFileUpload.isMultipartContent(request))
@@ -108,7 +109,7 @@ public class StartRequest
 
     /**
      * Gets a parameters from the request.
-     *
+     * 
      * @param name The key name
      * @param required If required {@code true}, otherwise {@code false}
      * @return the value for the key name
@@ -129,15 +130,33 @@ public class StartRequest
     }
 
     /**
+     * @return The parameters of the request.
+     */
+    public PropertyTable getParameters()
+    {
+        return parameters;
+    }
+
+    /**
+     * Set the parameters of the request.
+     * @param parameters The parameters of the request.
+     */
+    public void setParameters(PropertyTable parameters)
+    {
+        this.parameters = parameters;
+    }
+
+    /**
      * Gets the Properties associated with a key name.
+     * 
      * @param name The key name.
      * @param required If required {@code true}, otherwise {@code false}
      * @return the properties
      */
     @SuppressWarnings("unchecked")
-    public Properties getProperties(String name, boolean required)
+    public PropertyTable getProperties(String name, boolean required)
     {
-        Properties result = new Properties();
+        PropertyTable result = new PropertyTable();
 
         String value = getParameter(name, required);
 
@@ -159,13 +178,14 @@ public class StartRequest
 
     /**
      * Gets a list of Properties associated with a key name.
+     * 
      * @param name The key name.
      * @param required If required {@code true}, otherwise {@code false}
      * @return the list of properties.
      */
-    public List<Properties> getPropertiesList(String name, boolean required)
+    public List<PropertyTable> getPropertiesList(String name, boolean required)
     {
-        List<Properties> result = new ArrayList<Properties>();
+        List<PropertyTable> result = new ArrayList<PropertyTable>();
 
         String value = getParameter(name, required);
 
@@ -180,7 +200,7 @@ public class StartRequest
                 {
                     JSONObject jsonObject = (JSONObject) iterator.next();
 
-                    Properties properties = new Properties();
+                    PropertyTable properties = new PropertyTable();
                     properties.putAll(jsonObject);
 
                     result.add(properties);
@@ -197,20 +217,24 @@ public class StartRequest
 
     /**
      * Gets the inputstream of a file with key name {@code name}.
+     * 
      * @param name The key name.
      * @param required If required {@code true}, otherwise {@code false}
      * @return the inputstream of the file
      */
     public InputStream getFile(String name, boolean required)
     {
-        FileItem item = files.get(name);
         try
         {
             InputStream inputStream = null;
 
-            if (item != null)
+            if (files != null)
             {
-                inputStream = item.getInputStream();
+                FileItem item = files.get(name);
+                if (item != null)
+                {
+                    inputStream = item.getInputStream();
+                }
             }
 
             if (inputStream == null)
@@ -248,5 +272,23 @@ public class StartRequest
         {
             return;
         }
+    }
+
+    /**
+     * @return if this request needs to be saved
+     */
+    public boolean isSave()
+    {
+        return save;
+    }
+
+    /**
+     * Sets the save flag.
+     * 
+     * @param save True if request needs to be saved
+     */
+    public void setSave(boolean save)
+    {
+        this.save = save;
     }
 }

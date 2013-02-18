@@ -46,6 +46,12 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
      * The daemon handle identifier to use.
      */
     protected String daemonHandleId = null;
+    
+    /**
+     * Tells if the container should autostart.
+     */
+    protected boolean daemonAutostartContainer = false;
+    
 
     /**
      * The deployables to deploy.
@@ -96,6 +102,8 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
         {
             throw new MojoExecutionException("Missing daemon handle id property.");
         }
+        
+        daemonAutostartContainer = Boolean.valueOf(getDaemonProperty(DaemonPropertySet.AUTOSTART));
 
         try
         {

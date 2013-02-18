@@ -106,9 +106,9 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     /**
      * Daemon properties.
      * 
-     * @parameter alias="daemonproperties"
+     * @parameter 
      */
-    private Map<String, String> daemonProperties;
+    private Map<String, String> daemonproperties;
     
 
     /**
@@ -264,7 +264,12 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      */
     protected String getDaemonProperty(String name)
     {
-        return daemonProperties.get(name);
+        if (daemonproperties == null)
+        {
+            return null;
+        }
+        
+        return daemonproperties.get(name);
     }
 
     /**
