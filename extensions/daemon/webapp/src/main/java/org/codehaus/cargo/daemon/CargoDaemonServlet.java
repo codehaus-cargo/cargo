@@ -283,8 +283,9 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         {
             try
             {
-                String handleId = request.getParameter("handleId");
                 boolean delete = Boolean.valueOf(request.getParameter("deleteContainer"));
+                String handleId = request.getParameter("handleId");
+
                 synchronized (this)
                 {
                     Handle handle = handles.get(handleId);
@@ -292,6 +293,12 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                     if (handle != null)
                     {
                         InstalledLocalContainer container = handle.getContainer();
+                        
+                        if (delete)
+                        {
+                            handles.remove(handleId);
+                            fileManager.saveHandleDatabase(handles);
+                        }
 
                         if (container != null)
                         {
@@ -299,12 +306,6 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                         }
 
                         handle.setForceStop(true);
-
-                        if ("delete".equals(servletPath))
-                        {
-                            handles.remove(handleId);
-                            fileManager.saveHandleDatabase(handles);
-                        }
                     }
                 }
                 response.setContentType("text/plain");
