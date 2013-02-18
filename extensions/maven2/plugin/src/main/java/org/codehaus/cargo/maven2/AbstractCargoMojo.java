@@ -285,7 +285,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
             if (value == null)
             {
-                value = daemonProperties.get(name);
+                value = daemonproperties.get(name);
             }
         }
         return value;
