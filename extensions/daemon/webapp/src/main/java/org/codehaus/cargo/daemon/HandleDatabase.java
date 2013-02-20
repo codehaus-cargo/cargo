@@ -41,7 +41,7 @@ public class HandleDatabase
     /**
      * The list of handles.
      */
-    private Map<String, Handle> handles = new ConcurrentHashMap<String, Handle>();
+    private ConcurrentHashMap<String, Handle> handles = new ConcurrentHashMap<String, Handle>();
 
     /**
      * Loads the handles database from disk
@@ -118,6 +118,18 @@ public class HandleDatabase
     {
         handles.put(handleId, handle);
     }
+    
+    /**
+     * Puts the handle object in database (in memory) if absent.
+     * 
+     * @param handleId The handle id.
+     * @param handle The handle object
+     * @return The previous handle instance or null
+     */
+    public Handle putIfAbsent(String handleId, Handle handle)
+    {
+        return handles.putIfAbsent(handleId, handle);
+    }    
 
     /**
      * Removes the handle from the database.

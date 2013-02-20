@@ -67,7 +67,7 @@ public class FileManager
      * The log directory.
      */
     private String logDirectory;
-    
+
     /**
      * The configuration record file.
      */
@@ -113,7 +113,7 @@ public class FileManager
 
         return workspaceDirectory;
     }
-    
+
     /**
      * Get the install directory.
      * 
@@ -128,12 +128,11 @@ public class FileManager
 
         return installDirectory;
     }
-    
+
     /**
-     * Gets the file path of the handle record file.
-     * The handle record file keeps track of the handle id's and 
-     *  if they should be automatically started.
-     *
+     * Gets the file path of the handle record file. The handle record file keeps track of the
+     * handle id's and if they should be automatically started.
+     * 
      * @return the file path to handle record file
      */
     public String getHandleDatabaseFile()
@@ -145,47 +144,49 @@ public class FileManager
 
         return handleRecordFile;
     }
-    
+
     /**
      * @return The handle database loaded from disk.
      * @throws IOException if error occurs
      */
-    public HandleDatabase loadHandleDatabase() throws IOException 
+    public HandleDatabase loadHandleDatabase() throws IOException
     {
-        String file = getHandleDatabaseFile();        
+        String file = getHandleDatabaseFile();
         HandleDatabase database = new HandleDatabase();
 
         if (fileHandler.exists(file))
         {
             database.load(fileHandler.getInputStream(file));
         }
-        
-        return database; 
+
+        return database;
     }
-    
+
     /**
      * Save handle database to disk.
+     * 
      * @param database The handle database to save.
      * @throws IOException if error occurs.
      */
-    public void saveHandleDatabase(HandleDatabase database) throws IOException 
+    public void saveHandleDatabase(HandleDatabase database) throws IOException
     {
-        String file = getHandleDatabaseFile();        
-        
+        String file = getHandleDatabaseFile();
+
         database.store(fileHandler.getOutputStream(file));
     }
- 
+
     /**
-     * Saves the start request properties to a file to the workspace directory, 
-     *  so that it can later be started again.
-     *
+     * Saves the start request properties to a file to the workspace directory, so that it can later
+     * be started again.
+     * 
      * @param handleId The handle identifier of a container
      * @param properties The start request properties
      * @throws IOException if exception happens
      */
-    public void saveRequestProperties(String handleId, Properties properties) throws IOException 
+    public void saveRequestProperties(String handleId, Properties properties) throws IOException
     {
-        String file = fileHandler.append(getConfigurationDirectory(handleId), "request.properties");
+        String file =
+            fileHandler.append(getConfigurationDirectory(handleId), "request.properties");
 
         properties.store(fileHandler.getOutputStream(file), null);
     }
@@ -320,11 +321,9 @@ public class FileManager
         {
             fileHandler.copy(inputStream, fileHandler.getOutputStream(file));
         }
-        
+
         return file;
     }
-
-  
 
     /**
      * Saves the input stream to a file, relative to the workspace directory of a container and a
@@ -435,6 +434,28 @@ public class FileManager
         {
             out.close();
             is.close();
+        }
+    }
+
+    /**
+     * Resolves the extra or shared classpath to an absolute file if it was relative. If a relative
+     * classpath is specified, it will be resolved against the configuration home directory.
+     * 
+     * @param handleId The handle id.
+     * @param classpath The extra or shared classpath.
+     * @return The absolute file path
+     */
+    public String resolveClasspathFile(String handleId, String classpath)
+    {
+        String path = fileHandler.getAbsolutePath(classpath);
+        
+        if (path.equals(classpath))
+        {
+            return classpath;
+        }
+        else
+        {
+            return fileHandler.append(getConfigurationDirectory(handleId), classpath);
         }
     }
 

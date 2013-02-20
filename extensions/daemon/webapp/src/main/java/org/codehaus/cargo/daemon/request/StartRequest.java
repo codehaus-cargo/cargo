@@ -214,6 +214,37 @@ public class StartRequest
 
         return result;
     }
+    
+    /**
+     * Gets list of string values.
+     * 
+     * @param name The key name.
+     * @param required If required {@code true}, otherwise {@code false}
+     * @return the list of string values.
+     */
+    public List<String> getStringList(String name, boolean required)
+    {
+        List<String> result = new ArrayList<String>();
+
+        String value = getParameter(name, required);
+
+        if (value != null && value.length() > 0)
+        {
+            try
+            {
+                JSONArray jsonArray = (JSONArray) JSONValue.parse(value);
+
+                result.addAll(jsonArray);
+            }
+            catch (Throwable t)
+            {
+                throw new CargoDaemonException("Parameter " + name + " is not a JSON array", t);
+            }
+        }
+
+        return result;
+    }
+    
 
     /**
      * Gets the inputstream of a file with key name {@code name}.

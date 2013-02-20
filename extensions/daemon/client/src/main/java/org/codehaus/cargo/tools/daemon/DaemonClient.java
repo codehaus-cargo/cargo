@@ -83,7 +83,7 @@ public class DaemonClient extends LoggedObject
     /**
      * Creates a Cargo daemon manager wrapper for the specified URL that uses a username of
      * <code>admin</code>, an empty password and ISO-8859-1 URL encoding.
-     *
+     * 
      * @param url the full URL of the Cargo daemon manager instance to use
      */
     public DaemonClient(URL url)
@@ -94,7 +94,7 @@ public class DaemonClient extends LoggedObject
     /**
      * Creates a Cargo daemon manager wrapper for the specified URL and username that uses an empty
      * password and ISO-8859-1 URL encoding.
-     *
+     * 
      * @param url the full URL of the Cargo daemon manager instance to use
      * @param username the username to use when authenticating with Cargo daemon manager
      */
@@ -106,7 +106,7 @@ public class DaemonClient extends LoggedObject
     /**
      * Creates a Cargo daemon manager wrapper for the specified URL, username and password that uses
      * ISO-8859-1 URL encoding.
-     *
+     * 
      * @param url the full URL of the Cargo daemon manager instance to use
      * @param username the username to use when authenticating with Cargo daemon manager
      * @param password the password to use when authenticating with Cargo daemon manager
@@ -119,7 +119,7 @@ public class DaemonClient extends LoggedObject
     /**
      * Creates a Cargo daemon manager wrapper for the specified URL, username, password and URL
      * encoding.
-     *
+     * 
      * @param url the full URL of the Cargo daemon manager instance to use
      * @param username the username to use when authenticating with Cargo daemon manager
      * @param password the password to use when authenticating with Cargo daemon manager
@@ -135,7 +135,7 @@ public class DaemonClient extends LoggedObject
 
     /**
      * Gets the full URL of the Cargo daemon manager instance.
-     *
+     * 
      * @return the full URL of the Cargo daemon manager instance
      */
     public URL getURL()
@@ -145,7 +145,7 @@ public class DaemonClient extends LoggedObject
 
     /**
      * Gets the username to use when authenticating with Cargo daemon manager.
-     *
+     * 
      * @return the username to use when authenticating with Cargo daemon manager
      */
     public String getUserName()
@@ -155,7 +155,7 @@ public class DaemonClient extends LoggedObject
 
     /**
      * Gets the password to use when authenticating with Cargo daemon manager.
-     *
+     * 
      * @return the password to use when authenticating with Cargo daemon manager
      */
     public String getPassword()
@@ -165,7 +165,7 @@ public class DaemonClient extends LoggedObject
 
     /**
      * Gets the URL encoding charset to use when communicating with Cargo daemon manager.
-     *
+     * 
      * @return the URL encoding charset to use when communicating with Cargo daemon manager
      */
     public String getCharset()
@@ -175,7 +175,7 @@ public class DaemonClient extends LoggedObject
 
     /**
      * Gets the user agent name to use when communicating with Cargo daemon manager.
-     *
+     * 
      * @return the user agent name to use when communicating with Cargo daemon manager
      */
     public String getUserAgent()
@@ -185,7 +185,7 @@ public class DaemonClient extends LoggedObject
 
     /**
      * Sets the user agent name to use when communicating with Cargo daemon manager.
-     *
+     * 
      * @param userAgent the user agent name to use when communicating with Cargo daemon manager
      */
     public void setUserAgent(String userAgent)
@@ -195,7 +195,7 @@ public class DaemonClient extends LoggedObject
 
     /**
      * Starts a container specified by the start request.
-     *
+     * 
      * @param start The unique identifier of the container
      * @throws DaemonException if the Cargo daemon manager request fails
      * @throws IOException if an i/o error occurs
@@ -233,14 +233,12 @@ public class DaemonClient extends LoggedObject
                 parameters.setFile("installerZipFileData", installerZipFile);
             }
 
-            parameters.setParameter("installerZipFile",
-                fileHandler.getName(installerZipFile));
+            parameters.setParameter("installerZipFile", fileHandler.getName(installerZipFile));
         }
 
         if (deployables != null)
         {
-            parameters.setParameter("deployableFiles",
-                setupDeployables(parameters, deployables));
+            parameters.setParameter("deployableFiles", setupDeployables(parameters, deployables));
         }
 
         if (configuration instanceof StandaloneLocalConfiguration)
@@ -249,13 +247,20 @@ public class DaemonClient extends LoggedObject
                 setupConfigFiles(parameters, (StandaloneLocalConfiguration) configuration));
         }
 
+        if (container instanceof InstalledLocalContainer)
+        {
+            setupExtraClasspath(parameters, (InstalledLocalContainer) container);
+            setupSharedClasspath(parameters, (InstalledLocalContainer) container);
+        }
+        
+        setupAdditionalClasspath(parameters, start.getAdditionalClasspathEntries());
+ 
+
         parameters.setParameter("configurationProperties",
             setupConfigurationProperties(configuration));
-        parameters.setParameter("containerProperties",
-            setupContainerProperties(container));
+        parameters.setParameter("containerProperties", setupContainerProperties(container));
 
-        parameters.setParameter("containerOutput",
-            container.getOutput());
+        parameters.setParameter("containerOutput", container.getOutput());
 
         if (container.isAppend())
         {
@@ -270,8 +275,118 @@ public class DaemonClient extends LoggedObject
     }
 
     /**
+     * Setup the additional classpath for the container.
+     * 
+     * @param parameters The daemon parameters.
+     * @param additionalClasspathEntries The additional classpath entries.
+     */
+    private void setupAdditionalClasspath(DaemonParameters parameters,
+        List<String> additionalClasspathEntries)
+    {
+        if (additionalClasspathEntries == null || additionalClasspathEntries.size() == 0)
+        {
+            return;
+        }
+
+        StringBuilder classpathJSON = new StringBuilder();
+        classpathJSON.append("[");
+
+        for (int i = 0; i < additionalClasspathEntries.size(); i++)
+        {
+            String additionalClasspath = additionalClasspathEntries.get(i);
+
+            if (i != 0)
+            {
+                classpathJSON.append(",");
+            }
+
+            classpathJSON.append("\"");
+            classpathJSON.append(additionalClasspath);
+            classpathJSON.append("\"");
+        }
+
+        classpathJSON.append("]");
+
+        parameters.setParameter("additionalClasspath", classpathJSON.toString());
+    }
+
+    /**
+     * Setup extra classpath.
+     * @param parameters The daemon parameters 
+     * @param container The container to deploy
+     */
+    private void setupExtraClasspath(DaemonParameters parameters,
+        InstalledLocalContainer container)
+    {
+        String[] extraClasspaths = container.getExtraClasspath();
+
+        if (extraClasspaths == null || extraClasspaths.length == 0)
+        {
+            return;
+        }
+
+        StringBuilder classpathJSON = new StringBuilder();
+        classpathJSON.append("[");
+
+        for (int i = 0; i < extraClasspaths.length; i++)
+        {
+            String extraClasspath = extraClasspaths[i];
+
+            if (i != 0)
+            {
+                classpathJSON.append(",");
+            }
+
+            classpathJSON.append("\"");
+            classpathJSON.append(extraClasspath);
+            classpathJSON.append("\"");
+        }
+
+        classpathJSON.append("]");
+
+        parameters.setParameter("extraClasspath", classpathJSON.toString());
+    }
+
+    /**
+     * Setup shared classpath.
+     * @param parameters The daemon parameters 
+     * @param container The container to deploy
+     */
+    private void setupSharedClasspath(DaemonParameters parameters,
+        InstalledLocalContainer container)
+    {
+        String[] sharedClasspaths = container.getSharedClasspath();
+
+        if (sharedClasspaths == null || sharedClasspaths.length == 0)
+        {
+            return;
+        }
+
+        StringBuilder classpathJSON = new StringBuilder();
+        classpathJSON.append("[");
+
+        for (int i = 0; i < sharedClasspaths.length; i++)
+        {
+            String sharedClasspath = sharedClasspaths[i];
+
+            if (i != 0)
+            {
+                classpathJSON.append(",");
+            }
+
+            classpathJSON.append("\"");
+            classpathJSON.append(sharedClasspath);
+            classpathJSON.append("\"");
+        }
+
+        classpathJSON.append("]");
+
+        parameters.setParameter("sharedClasspath", classpathJSON.toString());
+    }
+
+    /**
      * Setup deployables.
-     *
+     * 
      * @param parameters The daemon parameters
      * @param deployables The deployables
      * @return The deployable configuration list
@@ -297,8 +412,8 @@ public class DaemonClient extends LoggedObject
             }
 
             propertiesJSON.append("\"type\":\"" + deployable.getType().toString() + "\",");
-            propertiesJSON.append("\"filename\":\""
-                + fileHandler.getName(deployable.getFile()) + "\"");
+            propertiesJSON.append("\"filename\":\"" + fileHandler.getName(deployable.getFile())
+                + "\"");
 
             propertiesJSON.append("}");
 
@@ -311,7 +426,7 @@ public class DaemonClient extends LoggedObject
 
     /**
      * Setup config files.
-     *
+     * 
      * @param parameters The daemon parameters
      * @param configuration The configuration
      * @return The configuration files list
@@ -340,7 +455,7 @@ public class DaemonClient extends LoggedObject
 
             if (filename == null)
             {
-                filename = "";
+                filename = fileHandler.getName(fileConfig.getFile());
             }
 
             if (directory == null)
@@ -370,7 +485,7 @@ public class DaemonClient extends LoggedObject
 
     /**
      * Setup configuration properties.
-     *
+     * 
      * @param configuration The configuration
      * @return The configuration properties list
      */
@@ -388,8 +503,7 @@ public class DaemonClient extends LoggedObject
                 propertiesJSON.append(",");
             }
 
-            propertiesJSON.append("\"" + entry.getKey() + "\":\""
-                + entry.getValue() + "\"");
+            propertiesJSON.append("\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"");
 
             i++;
         }
@@ -400,7 +514,7 @@ public class DaemonClient extends LoggedObject
 
     /**
      * Setup container properties.
-     *
+     * 
      * @param container The container
      * @return The container properties list
      */
@@ -418,8 +532,7 @@ public class DaemonClient extends LoggedObject
                 propertiesJSON.append(",");
             }
 
-            propertiesJSON.append("\"" + entry.getKey() + "\":\""
-                + entry.getValue() + "\"");
+            propertiesJSON.append("\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"");
 
             i++;
         }
@@ -430,6 +543,7 @@ public class DaemonClient extends LoggedObject
 
     /**
      * Asks the daemon if a file is installed.
+     * 
      * @param file The file to test
      * @return true if file is installed
      * @throws DaemonException If a daemon exception occurs
@@ -453,7 +567,7 @@ public class DaemonClient extends LoggedObject
 
     /**
      * Stops the container with the specified handle identifier.
-     *
+     * 
      * @param handleId The unique identifier of the container
      * @throws DaemonException if the Cargo daemon manager request fails
      * @throws IOException if an i/o error occurs
@@ -469,7 +583,7 @@ public class DaemonClient extends LoggedObject
 
     /**
      * Invokes Cargo daemon manager with a specified command and content data.
-     *
+     * 
      * @param path the Cargo daemon manager command to invoke
      * @param parameters an input stream to the content data
      * @return the result of the invoking command, as returned by the Cargo daemon manager
@@ -602,8 +716,8 @@ public class DaemonClient extends LoggedObject
 
         if (!response.startsWith("OK -"))
         {
-            throw new DaemonException(
-                "Failed parsing response for " + invokeURL + ". Response was: " + response);
+            throw new DaemonException("Failed parsing response for " + invokeURL
+                + ". Response was: " + response);
         }
 
         return response;
@@ -611,7 +725,7 @@ public class DaemonClient extends LoggedObject
 
     /**
      * Gets the HTTP Basic Authorization header value for the supplied username and password.
-     *
+     * 
      * @param username the username to use for authentication
      * @param password the password to use for authentication
      * @return the HTTP Basic Authorization header value
@@ -629,7 +743,7 @@ public class DaemonClient extends LoggedObject
 
     /**
      * Gets the data from the specified input stream as a string using the specified charset.
-     *
+     * 
      * @param in the input stream to read from
      * @param charset the charset to use when constructing the string
      * @return a string representation of the data read from the input stream

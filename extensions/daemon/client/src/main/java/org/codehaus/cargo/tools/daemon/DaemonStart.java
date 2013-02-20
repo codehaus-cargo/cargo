@@ -40,6 +40,11 @@ public class DaemonStart
      * Tells the daemon if the container should auto start.
      */
     private boolean autostart;    
+    
+    /**
+     * Additional classpath entries.
+     */
+    private List<String> additionalClasspathEntries;
 
     /**
      * The container to start
@@ -71,6 +76,23 @@ public class DaemonStart
     {
         this.handleId = handleId;
     }
+    
+    /**
+     * @return the additional classpath entries.
+     */
+    public List<String> getAdditionalClasspathEntries()
+    {
+        return additionalClasspathEntries;
+    }
+
+    /**
+     * @param additionalClasspathEntries The additional classpath entries to set for the container.
+     */
+    public void setAdditionalClasspathEntries(List<String> additionalClasspathEntries)
+    {
+        this.additionalClasspathEntries = additionalClasspathEntries;
+    }
+    
     
     /**
      * @return true if the container should auto start.

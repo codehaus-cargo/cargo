@@ -50,6 +50,7 @@ import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.maven2.configuration.ArtifactInstaller;
 import org.codehaus.cargo.maven2.configuration.Configuration;
 import org.codehaus.cargo.maven2.configuration.Container;
+import org.codehaus.cargo.maven2.configuration.Daemon;
 import org.codehaus.cargo.maven2.configuration.Deployable;
 import org.codehaus.cargo.maven2.configuration.Deployer;
 import org.codehaus.cargo.maven2.jetty.JettyArtifactResolver;
@@ -105,20 +106,32 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     
     /**
      * Daemon properties (deprecated). The daemonproperties parameter is now deprecated (due to
-     * a bad case spelling), please use daemonProperties instead.
+     * restructuring), please use <code>&lt;daemon&gt;&lt;properties&gt;</code> instead.
      * 
-     * @deprecated The daemonproperties parameter is now deprecated (due to a bad case spelling),
-     * please use daemonProperties instead
+     * @deprecated The daemonproperties parameter is now deprecated (due to restructuring),
+     * please use <code>&lt;daemon&gt;&lt;properties&gt;</code> instead
      * @parameter alias="daemonproperties"
      */
     private Map<String, String> daemonproperties;
 
     /**
-     * Daemon properties.
+     * Daemon properties (deprecated). The daemonProperties parameter is now deprecated (due to
+     * restructuring), please use <code>&lt;daemon&gt;&lt;properties&gt;</code> instead.
      * 
+     * @deprecated The daemonproperties parameter is now deprecated (due to restructuring),
+     * please use <code>&lt;daemon&gt;&lt;properties&gt;</code> instead
      * @parameter alias="daemonProperties"
      */
     private Map<String, String> daemonProperties;
+    
+    
+    /**
+     * Daemon configuration.
+     * 
+     * @parameter 
+     */
+    private Daemon daemon;
+    
 
     /**
      * Configures a Cargo {@link org.codehaus.cargo.container.deployer.Deployer}. See the <a
@@ -268,27 +281,27 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
     
     /**
-     * @param name The daemon property key
-     * @return the value of a daemon property
+     * @return The daemon configuration
      */
-    protected String getDaemonProperty(String name)
+    protected Daemon getDaemon()
     {
-        String value = null;
-        if (daemonProperties != null)
+        if (daemon == null)
         {
-            value = daemonProperties.get(name);
-        }
-        if (daemonproperties != null)
-        {
-            getLog().warn("The <daemonproperties> element is deprecated (due to a bad case "
-                + "spelling). Please use <daemonProperties> instead");
-
-            if (value == null)
+            if (daemonproperties != null)
             {
-                value = daemonproperties.get(name);
+                daemon = new Daemon(daemonproperties);
+            }
+            else if (daemonProperties != null)
+            {
+                daemon = new Daemon(daemonProperties);
+            }
+            else
+            {
+                daemon = new Daemon();
             }
         }
-        return value;
+        
+        return daemon;
     }
 
     /**

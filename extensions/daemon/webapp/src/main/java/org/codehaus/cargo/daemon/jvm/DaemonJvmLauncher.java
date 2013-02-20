@@ -233,6 +233,22 @@ class DaemonJvmLauncher implements JvmLauncher
             }
         }
     }
+    
+    /**
+     * Adds additional classpath entries.
+     * 
+     * @param paths The additional classpath entries.
+     */
+    public void addClasspathEntries(List<String> paths)
+    {
+        if (paths != null)
+        {
+            for (String path : paths)
+            {
+                addClasspath(path);
+            }
+        }
+    }    
 
     /**
      * {@inheritDoc}

@@ -19,23 +19,54 @@
  */
 package org.codehaus.cargo.daemon.jvm;
 
+import java.util.List;
+
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherFactory;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
 
 /**
  * The factory to create daemon JVM launchers.
- *
+ * 
  * @version $Id$
  */
 public class DaemonJvmLauncherFactory implements JvmLauncherFactory
 {
     /**
+     * The additional classpath entries to use.
+     */
+    private List<String> additionalClasspathEntries;
+
+    /**
+     * Constructs a launcher with default settings.
+     */
+    public DaemonJvmLauncherFactory()
+    {
+    }
+
+    /**
+     * Constructs a launcher with additional classpath entries.
+     * 
+     * @param additionalClasspathEntries The addtional classpath.
+     */
+    public DaemonJvmLauncherFactory(List<String> additionalClasspathEntries)
+    {
+        this.additionalClasspathEntries = additionalClasspathEntries;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public JvmLauncher createJvmLauncher(JvmLauncherRequest request)
     {
-        return new DaemonJvmLauncher();
+        DaemonJvmLauncher launcher = new DaemonJvmLauncher();
+
+        if (additionalClasspathEntries != null && additionalClasspathEntries.size() != 0)
+        {
+            launcher.addClasspathEntries(additionalClasspathEntries);
+        }
+        
+        return launcher;
     }
 
 }

@@ -39,6 +39,7 @@ public class DaemonStartMojo extends AbstractDaemonMojo
         request.setDeployables(daemonDeployables);
         request.setHandleId(daemonHandleId);
         request.setAutostart(daemonAutostartContainer);
+        request.setAdditionalClasspathEntries(daemonClasspaths);
 
         try
         {

@@ -46,12 +46,16 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
      * The daemon handle identifier to use.
      */
     protected String daemonHandleId = null;
-    
+
     /**
      * Tells if the container should autostart.
      */
     protected boolean daemonAutostartContainer = false;
-    
+
+    /**
+     * The additional classpath entries the daemon should use.
+     */
+    protected List<String> daemonClasspaths = null;
 
     /**
      * The deployables to deploy.
@@ -68,7 +72,7 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
      * {@inheritDoc}
      * 
      * @see org.codehaus.cargo.maven2.AbstractCargoMojo#doExecute()
-     */ 
+     */
     @Override
     public void doExecute() throws MojoExecutionException
     {
@@ -90,8 +94,8 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
             throw new MojoExecutionException("Container must be of INSTALLED type.");
         }
 
-        String daemonURL = getDaemonProperty(DaemonPropertySet.URL);
-        String daemonHandleId = getDaemonProperty(DaemonPropertySet.HANDLE);
+        String daemonURL = getDaemon().getProperty(DaemonPropertySet.URL);
+        String daemonHandleId = getDaemon().getProperty(DaemonPropertySet.HANDLE);
 
         if (daemonURL == null || daemonURL.length() == 0)
         {
@@ -102,8 +106,10 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
         {
             throw new MojoExecutionException("Missing daemon handle id property.");
         }
-        
-        daemonAutostartContainer = Boolean.valueOf(getDaemonProperty(DaemonPropertySet.AUTOSTART));
+
+        daemonAutostartContainer =
+            Boolean.valueOf(getDaemon().getProperty(DaemonPropertySet.AUTOSTART));
+        daemonClasspaths = getDaemon().getClasspaths();
 
         try
         {
@@ -120,7 +126,7 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
 
         performAction();
     }
-    
+
     /**
      * Performs the actual action.
      * 
