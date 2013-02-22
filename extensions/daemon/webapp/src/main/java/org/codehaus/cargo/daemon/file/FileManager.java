@@ -438,25 +438,15 @@ public class FileManager
     }
 
     /**
-     * Resolves the extra or shared classpath to an absolute file if it was relative. If a relative
-     * classpath is specified, it will be resolved against the configuration home directory.
+     * Resolves a path relative to the workspace directory to an absolute path.
      * 
      * @param handleId The handle id.
-     * @param classpath The extra or shared classpath.
-     * @return The absolute file path
+     * @param relativePath The path relative to the workspace.
+     * @return The absolute file path.
      */
-    public String resolveClasspathFile(String handleId, String classpath)
+    public String resolveWorkspacePath(String handleId, String relativePath)
     {
-        String path = fileHandler.getAbsolutePath(classpath);
-        
-        if (path.equals(classpath))
-        {
-            return classpath;
-        }
-        else
-        {
-            return fileHandler.append(getConfigurationDirectory(handleId), classpath);
-        }
+        return fileHandler.append(getWorkspaceDirectory(handleId), relativePath);
     }
 
 }

@@ -24,6 +24,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -243,8 +245,7 @@ public class DaemonClient extends LoggedObject
 
         if (configuration instanceof StandaloneLocalConfiguration)
         {
-            parameters.setParameter("configurationFiles",
-                setupConfigFiles(parameters, (StandaloneLocalConfiguration) configuration));
+            setupConfigFiles(parameters, (StandaloneLocalConfiguration) configuration);
         }
 
         if (container instanceof InstalledLocalContainer)
@@ -252,9 +253,8 @@ public class DaemonClient extends LoggedObject
             setupExtraClasspath(parameters, (InstalledLocalContainer) container);
             setupSharedClasspath(parameters, (InstalledLocalContainer) container);
         }
-        
+
         setupAdditionalClasspath(parameters, start.getAdditionalClasspathEntries());
- 
 
         parameters.setParameter("configurationProperties",
             setupConfigurationProperties(configuration));
@@ -311,8 +311,153 @@ public class DaemonClient extends LoggedObject
     }
 
     /**
+     * Resolves all files it finds into a map, with relative paths as the key and absolute path as
+     * the value.
+     * 
+     * @param classpaths The list of classpaths to use.
+     * @param files The files map to add all found files to.
+     * @param paths The initial paths.
+     * @param prefix The relative path prefix.
+     */
+    private void resolveFiles(List<String> classpaths, Map<String, String> files, String[] paths,
+        String prefix)
+    {
+        for (String path : paths)
+        {
+            String relativePath = fileHandler.getName(path);
+
+            if (prefix != null)
+            {
+                relativePath = fileHandler.append(prefix, relativePath);
+            }
+
+            if (classpaths != null)
+            {
+                classpaths.add(relativePath);
+            }
+
+            if (fileHandler.isDirectory(path))
+            {
+                String[] children = fileHandler.getChildren(path);
+
+                if (children != null && children.length != 0)
+                {
+                    resolveFiles(null, files, children, relativePath);
+                }
+            }
+            else
+            {
+                files.put(relativePath, path);
+            }
+        }
+    }
+
+    /**
+     * Resolves a file/directory path into a map of file paths which specifies each file of the
+     * directory, or the file itself.
+     * 
+     * @param files The map to put each resolved file in.
+     * @param file The absolute file path to resolve.
+     * @param relativePath The relative path of the file.
+     */
+    private void resolveFile(Map<String, String> files, String file, String relativePath)
+    {
+        if (fileHandler.isDirectory(file))
+        {
+            String[] children = fileHandler.getChildren(file);
+
+            if (children != null && children.length != 0)
+            {
+                for (String child : children)
+                {
+                    resolveFile(files, child,
+                        fileHandler.append(relativePath, fileHandler.getName(child)));
+                }
+            }
+
+        }
+        else
+        {
+            files.put(relativePath, file);
+        }
+    }
+
+    /**
+     * Adds a list of string parameter to the daemon parameters.
+     * 
+     * @param parameters The daemon parameters.
+     * @param parameterName The parameter name to add.
+     * @param list The list of strings to add as value.
+     */
+    private void addListParameter(DaemonParameters parameters, String parameterName,
+        List<String> list)
+    {
+        int i = 0;
+
+        if (list == null || list.size() == 0)
+        {
+            return;
+        }
+
+        StringBuilder listJSON = new StringBuilder();
+        listJSON.append("[");
+
+        for (String item : list)
+        {
+            if (i != 0)
+            {
+                listJSON.append(",");
+            }
+
+            listJSON.append("\"" + item + "\"");
+            i++;
+        }
+
+        listJSON.append("]");
+
+        parameters.setParameter(parameterName, listJSON.toString());
+    }
+
+    /**
+     * Adds a list of file parameters to the daemon parameters.
+     * 
+     * @param parameters The daemon parameters.
+     * @param parameterName The parameter name to add.
+     * @param filePrefix The file prefix to use when adding.
+     * @param files The map of files, with as key the relative path, and the absolute path as value.
+     */
+    private void addFilesParameter(DaemonParameters parameters, String parameterName,
+        String filePrefix, Map<String, String> files)
+    {
+        StringBuilder propertiesJSON = new StringBuilder();
+        propertiesJSON.append("[");
+
+        int fileId = 0;
+        for (Map.Entry<String, String> entry : files.entrySet())
+        {
+            String relativePath = entry.getKey();
+            String absolutePath = entry.getValue();
+
+            if (fileId != 0)
+            {
+                propertiesJSON.append(",");
+            }
+
+            propertiesJSON.append("\"" + relativePath + "\"");
+
+            parameters.setFile(filePrefix + fileId, absolutePath);
+            fileId++;
+        }
+
+        propertiesJSON.append("]");
+
+        parameters.setParameter(parameterName, propertiesJSON.toString());
+    }
+
+    /**
      * Setup extra classpath.
-     * @param parameters The daemon parameters 
+     * 
+     * @param parameters The daemon parameters
      * @param container The container to deploy
      */
     private void setupExtraClasspath(DaemonParameters parameters,
@@ -325,31 +470,19 @@ public class DaemonClient extends LoggedObject
             return;
         }
 
-        StringBuilder classpathJSON = new StringBuilder();
-        classpathJSON.append("[");
+        Map<String, String> files = new HashMap<String, String>();
+        List<String> relativeClasspaths = new ArrayList<String>();
 
-        for (int i = 0; i < extraClasspaths.length; i++)
-        {
-            String extraClasspath = extraClasspaths[i];
+        resolveFiles(relativeClasspaths, files, extraClasspaths, null);
 
-            if (i != 0)
-            {
-                classpathJSON.append(",");
-            }
-
-            classpathJSON.append("\"");
-            classpathJSON.append(extraClasspath);
-            classpathJSON.append("\"");
-        }
-
-        classpathJSON.append("]");
-
-        parameters.setParameter("extraClasspath", classpathJSON.toString());
+        addFilesParameter(parameters, "extraFiles", "extraFileData_", files);
+        addListParameter(parameters, "extraClasspath", relativeClasspaths);
     }
 
     /**
      * Setup shared classpath.
-     * @param parameters The daemon parameters 
+     * 
+     * @param parameters The daemon parameters
      * @param container The container to deploy
      */
     private void setupSharedClasspath(DaemonParameters parameters,
@@ -362,26 +495,13 @@ public class DaemonClient extends LoggedObject
             return;
         }
 
-        StringBuilder classpathJSON = new StringBuilder();
-        classpathJSON.append("[");
+        Map<String, String> files = new HashMap<String, String>();
+        List<String> relativeClasspaths = new ArrayList<String>();
 
-        for (int i = 0; i < sharedClasspaths.length; i++)
-        {
-            String sharedClasspath = sharedClasspaths[i];
+        resolveFiles(relativeClasspaths, files, sharedClasspaths, null);
 
-            if (i != 0)
-            {
-                classpathJSON.append(",");
-            }
-
-            classpathJSON.append("\"");
-            classpathJSON.append(sharedClasspath);
-            classpathJSON.append("\"");
-        }
-
-        classpathJSON.append("]");
-
-        parameters.setParameter("sharedClasspath", classpathJSON.toString());
+        addFilesParameter(parameters, "sharedFiles", "sharedFileData_", files);
+        addListParameter(parameters, "sharedClasspath", relativeClasspaths);
     }
 
     /**
@@ -429,58 +549,72 @@ public class DaemonClient extends LoggedObject
      * 
      * @param parameters The daemon parameters
      * @param configuration The configuration
-     * @return The configuration files list
      */
-    private String setupConfigFiles(DaemonParameters parameters,
+    private void setupConfigFiles(DaemonParameters parameters,
         StandaloneLocalConfiguration configuration)
     {
-        List<FileConfig> fileProperties = configuration.getFileProperties();
+        List<FileConfig> fileConfigs = configuration.getFileProperties();
+
+        if (fileConfigs == null || fileConfigs.size() == 0)
+        {
+            return;
+        }
+
+        Map<String, String> files = new HashMap<String, String>();
+        int i = 0;
+
+        for (FileConfig fileConfig : fileConfigs)
+        {
+            String file = fileConfig.getFile();
+
+            String relativePath = fileHandler.getName(file);
+
+            resolveFile(files, file, relativePath);
+        }
+
+
         StringBuilder propertiesJSON = new StringBuilder();
 
         propertiesJSON.append("[");
-        for (int i = 0; i < fileProperties.size(); i++)
+        for (FileConfig fileConfig : fileConfigs)
         {
-            FileConfig fileConfig = fileProperties.get(i);
-
             if (i != 0)
             {
                 propertiesJSON.append(",");
             }
 
-            String filename = fileConfig.getToFile();
-            String directory = fileConfig.getToDir();
+            String file = fileHandler.getName(fileConfig.getFile());
+            String toFile = fileConfig.getToFile();
+            String toDirectory = fileConfig.getToDir();
             boolean overwrite = fileConfig.getOverwrite();
-            boolean parse = fileConfig.getConfigfile();
+            boolean filter = fileConfig.getConfigfile();
             String encoding = fileConfig.getEncoding();
 
-            if (filename == null)
-            {
-                filename = fileHandler.getName(fileConfig.getFile());
-            }
-
-            if (directory == null)
-            {
-                directory = "";
-            }
-
-            if (encoding == null)
-            {
-                encoding = "";
-            }
-
             propertiesJSON.append("{");
-            propertiesJSON.append("\"filename\":\"" + filename + "\",");
-            propertiesJSON.append("\"directory\":\"" + directory + "\",");
+            if (toFile != null)
+            {
+                propertiesJSON.append("\"tofile\":\"" + toFile + "\",");
+            }
+
+            if (toDirectory != null)
+            {
+                propertiesJSON.append("\"todir\":\"" + toDirectory + "\",");
+            }
             propertiesJSON.append("\"overwrite\":\"" + overwrite + "\",");
-            propertiesJSON.append("\"parse\":\"" + parse + "\",");
-            propertiesJSON.append("\"encoding\":\"" + encoding + "\",");
+            propertiesJSON.append("\"filter\":\"" + filter + "\",");
+            if (encoding != null)
+            {
+                propertiesJSON.append("\"encoding\":\"" + encoding + "\",");
+            }
+            propertiesJSON.append("\"file\":\"" + file + "\"");
             propertiesJSON.append("}");
 
-            parameters.setFile("configurationFileData_" + i, fileConfig.getFile());
+            i++;
         }
         propertiesJSON.append("]");
 
-        return propertiesJSON.toString();
+        parameters.setParameter("configurationFileProperties", propertiesJSON.toString());
+        addFilesParameter(parameters, "configurationFiles", "configurationFileData_", files);
     }
 
     /**

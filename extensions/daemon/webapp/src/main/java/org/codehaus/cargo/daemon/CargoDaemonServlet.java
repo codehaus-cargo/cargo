@@ -414,10 +414,13 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         PropertyTable containerProperties = request.getProperties("containerProperties", false);
         PropertyTable configurationProperties =
             request.getProperties("configurationProperties", false);
-        List<PropertyTable> configurationFiles =
-            request.getPropertiesList("configurationFiles", false);
+        List<PropertyTable> configurationFileProperties =
+            request.getPropertiesList("configurationFileProperties", false);
+        List<String> configurationFiles = request.getStringList("configurationFiles", false);
         List<PropertyTable> deployableFiles = request.getPropertiesList("deployableFiles", false);
         InputStream installerZipInputStream = request.getFile("installerZipFileData", false);
+        List<String> extraFiles = request.getStringList("extraFiles", false);
+        List<String> sharedFiles = request.getStringList("sharedFiles", false);
         List<String> extraClasspath = request.getStringList("extraClasspath", false);
         List<String> sharedClasspath = request.getStringList("sharedClasspath", false);
         List<String> additionalClasspath = request.getStringList("additionalClasspath", false);
@@ -427,14 +430,15 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         if (handle == null)
         {
             handle = new Handle();
-            handle.setId(handleId);
-            handle.setForceStop(false);
             Handle previousHandle = handles.putIfAbsent(handleId, handle);
 
             if (previousHandle != null)
             {
                 handle = previousHandle;
             }
+
+            handle.setId(handleId);
+            handle.setForceStop(false);
         }
 
         synchronized (handle)
@@ -505,13 +509,17 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
             if (configuration instanceof StandaloneLocalConfiguration)
             {
+                saveConfigurationFiles(configurationFiles, handleId, request);
+
                 setupConfigurationFiles(handleId, (StandaloneLocalConfiguration) configuration,
-                    configurationFiles, request);
+                    configurationFileProperties, request);
                 setupDeployableFiles(handleId, containerId, deployableFiles, configuration,
                     request);
             }
             if (container instanceof InstalledLocalContainer)
             {
+                saveExtraFiles(extraFiles, handleId, request);
+                saveSharedFiles(sharedFiles, handleId, request);
                 setupExtraClasspath((InstalledLocalContainer) container, extraClasspath, handleId);
                 setupSharedClasspath((InstalledLocalContainer) container, sharedClasspath,
                     handleId);
@@ -570,17 +578,87 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
         for (String classpath : additionalClasspath)
         {
-            result.add(fileManager.resolveClasspathFile(handleId, classpath));
+            result.add(fileManager.resolveWorkspacePath(handleId, classpath));
         }
 
         return result;
     }
 
     /**
+     * Save configuration files to the workspace.
+     * 
+     * @param configurationFiles The configuration files.
+     * @param handleId The handle id.
+     * @param request The initial start request.
+     */
+    private void saveConfigurationFiles(List<String> configurationFiles, String handleId,
+        StartRequest request)
+    {
+        int i = 0;
+
+        if (configurationFiles == null || configurationFiles.size() == 0)
+        {
+            return;
+        }
+
+        for (String filename : configurationFiles)
+        {
+            InputStream inputStream = request.getFile("configurationFileData_" + i, true);
+            fileManager.saveFile(handleId, filename, inputStream);
+        }
+    }
+
+    /**
+     * Save shared classpath files to the workspace.
+     * 
+     * @param sharedFiles The shared classpath files.
+     * @param handleId The handle id.
+     * @param request The initial start request.
+     */
+    private void saveSharedFiles(List<String> sharedFiles, String handleId, StartRequest request)
+    {
+        int i = 0;
+
+        if (sharedFiles == null || sharedFiles.size() == 0)
+        {
+            return;
+        }
+
+        for (String filename : sharedFiles)
+        {
+            InputStream inputStream = request.getFile("sharedFileData_" + i, true);
+            fileManager.saveFile(handleId, filename, inputStream);
+        }
+    }
+
+    /**
+     * Save extra classpath files to the workspace.
+     * 
+     * @param extraFiles The extra classpath files.
+     * @param handleId The handle id.
+     * @param request The initial start request.
+     */
+    private void saveExtraFiles(List<String> extraFiles, String handleId, StartRequest request)
+    {
+        int i = 0;
+
+        if (extraFiles == null || extraFiles.size() == 0)
+        {
+            return;
+        }
+
+        for (String filename : extraFiles)
+        {
+            InputStream inputStream = request.getFile("extraFileData_" + i, true);
+            fileManager.saveFile(handleId, filename, inputStream);
+        }
+    }
+
+    /**
      * Setup shared classpath.
      * 
      * @param container The container to start.
-     * @param sharedClasspaths The shared classpath to set.
+     * @param sharedClasspaths The shared classpaths.
      * @param handleId The handle id.
      */
     private void setupSharedClasspath(InstalledLocalContainer container,
@@ -591,13 +669,12 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             return;
         }
 
-        String[] sharedClasspathsArray =
-            sharedClasspaths.toArray(new String[sharedClasspaths.size()]);
+        String[] sharedClasspathsArray = new String[sharedClasspaths.size()];
 
         for (int i = 0; i < sharedClasspathsArray.length; i++)
         {
             sharedClasspathsArray[i] =
-                fileManager.resolveClasspathFile(handleId, sharedClasspathsArray[i]);
+                fileManager.resolveWorkspacePath(handleId, sharedClasspaths.get(i));
         }
 
         container.setSharedClasspath(sharedClasspathsArray);
@@ -607,7 +684,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
      * Setup extra classpath.
      * 
      * @param container The container to start.
-     * @param extraClasspaths The extra classpath to set.
+     * @param extraClasspaths The extra classpaths.
      * @param handleId The handle id.
      */
     private void setupExtraClasspath(InstalledLocalContainer container,
@@ -618,13 +695,12 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             return;
         }
 
-        String[] extraClasspathsArray =
-            extraClasspaths.toArray(new String[extraClasspaths.size()]);
+        String[] extraClasspathsArray = new String[extraClasspaths.size()];
 
         for (int i = 0; i < extraClasspathsArray.length; i++)
         {
             extraClasspathsArray[i] =
-                fileManager.resolveClasspathFile(handleId, extraClasspathsArray[i]);
+                fileManager.resolveWorkspacePath(handleId, extraClasspaths.get(i));
         }
 
         container.setExtraClasspath(extraClasspathsArray);
@@ -642,27 +718,38 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         StandaloneLocalConfiguration configuration, List<PropertyTable> configurationFiles,
         StartRequest request)
     {
-        int i = 0;
-
         for (PropertyTable properties : configurationFiles)
         {
             FileConfig fileConfig = new FileConfig();
 
-            String filename = properties.get("filename", true);
-            String directory = properties.get("directory");
+            String file = properties.get("file", true);
+            String toFile = properties.get("tofile", false);
+            String toDirectory = properties.get("todir", false);
+            String encoding = properties.get("encoding", false);
+            boolean overwrite = properties.getBoolean("overwrite");
+            boolean filter = properties.getBoolean("filter");
+            
+            fileConfig.setConfigfile(filter);
+            fileConfig.setOverwrite(overwrite);
 
-            fileConfig.setConfigfile(properties.getBoolean("parse"));
-            fileConfig.setOverwrite(properties.getBoolean("overwrite"));
-            fileConfig.setEncoding(properties.get("encoding"));
-            fileConfig.setToFile(filename);
-            fileConfig.setToDir(directory);
+            if (encoding != null && encoding.length() != 0)
+            {
+                fileConfig.setEncoding(encoding);
+            }
 
-            InputStream inputStream = request.getFile("configurationFileData_" + i, true);
-            fileConfig.setFile(fileManager.saveFile(handleId, directory, filename, inputStream));
+            if (toFile != null && toFile.length() != 0)
+            {
+                fileConfig.setToFile(toFile);
+            }
+            
+            if (toDirectory != null && toDirectory.length() != 0)
+            {
+                fileConfig.setToDir(toDirectory);
+            }
+
+            fileConfig.setFile(fileManager.resolveWorkspacePath(handleId, file));
 
             configuration.setFileProperty(fileConfig);
-
-            i++;
         }
     }
 
@@ -775,14 +862,14 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             {
                 continue;
             }
-            
+
             synchronized (handle)
             {
                 if (handle.isAutostart() && handle.getContainerStatus() == State.STOPPED
                     && !handle.isForceStop())
                 {
                     StartRequest startRequest = new StartRequest();
-                    
+
                     startRequest.setParameters(handle.getProperties());
                     try
                     {

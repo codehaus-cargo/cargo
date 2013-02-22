@@ -359,6 +359,7 @@
 
       function calculateConfigurationFiles()
       {
+        var configurationFilePropertiesJSON = [];
         var configurationFilesJSON = [];
         for (var i = 0; i < configurationFiles; i++)
         {
@@ -368,14 +369,16 @@
           var parse = document.getElementById("configurationFileParse_" + i).checked
           var encoding = document.getElementById("configurationFileEncoding_" + i).value
 
-          configurationFilesJSON[i] = {};
-          configurationFilesJSON[i].filename = filename;
-          configurationFilesJSON[i].directory = directory;
-          configurationFilesJSON[i].overwrite = overwrite;
-          configurationFilesJSON[i].parse = parse;
-          configurationFilesJSON[i].encoding = encoding;
+          configurationFilesJSON[i] = filename;
+          configurationFilePropertiesJSON[i] = {};
+          configurationFilePropertiesJSON[i].file = filename;
+          configurationFilePropertiesJSON[i].tofile = filename;
+          configurationFilePropertiesJSON[i].todir = directory;
+          configurationFilePropertiesJSON[i].overwrite = overwrite;
+          configurationFilePropertiesJSON[i].filter = parse;
+          configurationFilePropertiesJSON[i].encoding = encoding;
         }
-        configurationFilesDiv.innerHTML = "<input name='configurationFiles' value='" + JSON.stringify(configurationFilesJSON) + "'/>"
+        configurationFilesDiv.innerHTML = "<input name='configurationFiles' value='" + JSON.stringify(configurationFilesJSON) + "'/><input name='configurationFileProperties' value='" + JSON.stringify(configurationFilePropertiesJSON) + "'/>"
       }
 
       function addDeployableFile()
