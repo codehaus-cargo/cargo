@@ -174,10 +174,8 @@ public class CargoDaemonBrowserTest extends TestCase
         ((HtmlTextInput) htmlPage.getElementByName("installerZipUrl")).setText(
             jetty7x.toURI().toURL().toString());
 
-        File configurationDirectory = new File(System.getProperty("daemon.home"));
-        assertTrue("Directory " + configurationDirectory + " does not exist",
-            configurationDirectory.isDirectory());
-        configurationDirectory = new File(configurationDirectory, "configuration");
+        File configurationDirectory =
+            new File(System.getProperty("daemon.test-configurations.home"));
         assertFalse("Directory " + configurationDirectory + " already exists",
             configurationDirectory.isDirectory());
         ((HtmlTextInput) htmlPage.getElementByName("configurationHome")).setText(

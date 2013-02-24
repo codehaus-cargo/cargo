@@ -26,7 +26,7 @@ import java.util.Map;
  * Holds configuration data for the <code>&lt;daemon&gt;</code> tag used to configure the plugin in
  * the <code>pom.xml</code> file.
  * 
- * @version $Id: Daemon.java 3438 2012-10-09 11:03:13Z dnowicki $
+ * @version $Id$
  */
 public class Daemon
 {

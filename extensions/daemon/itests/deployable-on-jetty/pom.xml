@@ -74,6 +74,7 @@
           </deployables>
           <systemProperties>
             <daemon.home>${project.build.directory}/daemon-home</daemon.home>
+            <cargo.home>${project.build.directory}/daemon-cargo-home</cargo.home>
           </systemProperties>
         </configuration>
         <executions>

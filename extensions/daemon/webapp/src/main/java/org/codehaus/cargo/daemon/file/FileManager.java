@@ -85,15 +85,31 @@ public class FileManager
      */
     public String getCargoHomeDirectory()
     {
-
         if (cargoHomeDirectory == null)
         {
-            cargoHomeDirectory = System.getProperty("cargo.home");
-
-            if (cargoHomeDirectory == null)
+            boolean gotHomeViaProperty = true;
+            String home = System.getProperty("cargo.home");
+            if (home == null)
             {
-                cargoHomeDirectory = fileHandler.getTmpPath(".");
+                gotHomeViaProperty = false;
+                home = System.getProperty("user.home");
             }
+            File homeDir = null;
+
+            if (home == null)
+            {
+                homeDir = new File(System.getProperty("java.io.tmpdir"), "cargo");
+            }
+            else if (!gotHomeViaProperty)
+            {
+                homeDir = new File(home, ".cargo");
+            }
+            else
+            {
+                homeDir = new File(home);
+            }
+
+            cargoHomeDirectory = homeDir.getAbsolutePath();
         }
 
         return cargoHomeDirectory;

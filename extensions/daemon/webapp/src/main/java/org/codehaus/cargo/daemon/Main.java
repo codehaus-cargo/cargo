@@ -60,9 +60,11 @@ public final class Main
      */
     private static File getHomeDirectory()
     {
+        boolean gotHomeViaProperty = true;
         String home = System.getProperty("daemon.home");
         if (home == null)
         {
+            gotHomeViaProperty = false;
             home = System.getProperty("user.home");
         }
         File homeDir = null;
@@ -71,9 +73,13 @@ public final class Main
         {
             homeDir = new File(System.getProperty("java.io.tmpdir"), "cargo");
         }
-        else
+        else if (!gotHomeViaProperty)
         {
             homeDir = new File(home, ".cargo");
+        }
+        else
+        {
+            homeDir = new File(home);
         }
 
         return homeDir;

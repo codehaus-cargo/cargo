@@ -106,12 +106,20 @@
               <skip>${maven.test.skip}</skip>
               <systemProperties>
                 <property>
+                  <name>cargo.home</name>
+                  <value>${project.build.directory}/daemon-cargo-home</value>
+                </property>
+                <property>
                   <name>daemon.home</name>
                   <value>${project.build.directory}/daemon-home</value>
                 </property>
                 <property>
                   <name>daemon.port</name>
                   <value>${cargo.daemon.itests.daemon.port}</value>
+                </property>
+                <property>
+                  <name>daemon.test-configurations.home</name>
+                  <value>${project.build.directory}/daemon-test-configurations-home</value>
                 </property>
                 <property>
                   <name>servlet.port</name>
