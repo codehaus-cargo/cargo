@@ -446,6 +446,10 @@ public class FileManager
                 Thread.sleep(REFRESH_TIME);
             }
         }
+        catch (Exception e) 
+        {
+            // Ignore
+        }
         finally
         {
             out.close();

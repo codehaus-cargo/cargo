@@ -509,7 +509,10 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
             if (configuration instanceof StandaloneLocalConfiguration)
             {
-                saveConfigurationFiles(configurationFiles, handleId, request);
+                if (request.isSave())
+                {
+                    saveConfigurationFiles(configurationFiles, handleId, request);
+                }
 
                 setupConfigurationFiles(handleId, (StandaloneLocalConfiguration) configuration,
                     configurationFileProperties, request);
@@ -518,8 +521,11 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             }
             if (container instanceof InstalledLocalContainer)
             {
-                saveExtraFiles(extraFiles, handleId, request);
-                saveSharedFiles(sharedFiles, handleId, request);
+                if (request.isSave())
+                {
+                    saveExtraFiles(extraFiles, handleId, request);
+                    saveSharedFiles(sharedFiles, handleId, request);
+                }
                 setupExtraClasspath((InstalledLocalContainer) container, extraClasspath, handleId);
                 setupSharedClasspath((InstalledLocalContainer) container, sharedClasspath,
                     handleId);
