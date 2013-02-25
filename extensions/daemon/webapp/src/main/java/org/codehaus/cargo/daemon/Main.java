@@ -231,10 +231,18 @@ public final class Main
     public static void main(String[] bootstrapArguments) throws Exception
     {
         List<String> serverArguments = new ArrayList<String>(bootstrapArguments.length);
+        boolean logging = true;
 
         for (String argument : bootstrapArguments)
         {
-            serverArguments.add(argument);
+            if (argument.equals("-nologging"))
+            {
+                logging = false;
+            }
+            else
+            {
+                serverArguments.add(argument);
+            }
         }
 
         String warFilePath = new File(Main.class.getProtectionDomain()
@@ -265,7 +273,15 @@ public final class Main
             serverArguments.add("-p");
             serverArguments.add("18000");
         }
-
+        
+        if (!logging)
+        {
+            serverArguments.add("-out");
+            serverArguments.add("Acme.Utils$DummyPrintStream");
+            serverArguments.add("-err");
+            serverArguments.add("Acme.Utils$DummyPrintStream");
+        }
+        
         if (System.getProperty("cargo.home") == null)
         {
             System.setProperty("cargo.home", homeDirectory.getAbsolutePath());
