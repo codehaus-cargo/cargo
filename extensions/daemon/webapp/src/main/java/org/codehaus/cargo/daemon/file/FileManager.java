@@ -452,8 +452,15 @@ public class FileManager
         }
         finally
         {
-            out.close();
-            is.close();
+            try
+            {
+                out.close();
+                is.close();
+            }
+            catch (Exception e) 
+            {
+                // Ignore
+            }
         }
     }
 
