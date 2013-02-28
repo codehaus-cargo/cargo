@@ -394,7 +394,7 @@
 
               <property>
                 <name>cargo.glassfish2x.home</name>
-                <value>/Users/alitokmen/Documents/CARGO/core/samples/java/installs/glassfish-2.1.1</value>
+                <value>${cargo.glassfish2x.home}</value>
               </property>
               <property>
                 <name>cargo.glassfish2x.java.home</name>

@@ -189,7 +189,7 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
                     : installedLocalContainer.getSystemProperties().entrySet())
                 {
                     jvmOptions.append("<jvm-options>-D" + systemProperty.getKey()
-                        + "=\"" + systemProperty.getValue() + "\"</jvm-options>\n");
+                        + "=" + xmlEscape(systemProperty.getValue()) + "</jvm-options>\n");
                 }
 
                 jvmOptions.append("</java-config>");
@@ -253,6 +253,49 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
             endIndex = jvmArgs.length();
         }
         return jvmArgs.substring(startIndex, endIndex);
+    }
+
+    /**
+     * Performs escaping of special XML characters.<br/>
+     * <br/>
+     * @see https://jira.codehaus.org/browse/CARGO-1190
+     * @param string String to escape
+     * @return XML escaped <code>string</code>
+     */
+    private String xmlEscape(String string)
+    {
+        if (string == null)
+        {
+            return null;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < string.length(); i++)
+        {
+            char ch = string.charAt(i);
+            switch (ch)
+            {
+                case '<':
+                    sb.append("&lt;");
+                    break;
+                case '>':
+                    sb.append("&gt;");
+                    break;
+                case '&':
+                    sb.append("&amp;");
+                    break;
+                default:
+                    if (ch < 0x20 || ch > 0x7e)
+                    {
+                        sb.append("&#" + (int) ch + ";");
+                    }
+                    else
+                    {
+                        sb.append(ch);
+                    }
+            }
+        }
+        return sb.toString();
     }
 
     /**
