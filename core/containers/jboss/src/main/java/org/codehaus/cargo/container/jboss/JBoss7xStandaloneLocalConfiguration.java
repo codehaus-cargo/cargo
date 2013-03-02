@@ -170,8 +170,9 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
         InstalledLocalContainer container = (InstalledLocalContainer) c;
 
-        getLogger().info("Configuring JBoss using the [" + CONFIGURATION
-            + "] server configuration", this.getClass().getName());
+        getLogger().info("Configuring JBoss using the ["
+            + getPropertyValue(JBossPropertySet.CONFIGURATION) + "] server configuration",
+                this.getClass().getName());
 
         setProperty("cargo.jboss.logging",
             getJBossLogLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
