@@ -73,11 +73,6 @@ public class Configuration
     private File propertiesFile;
 
     /**
-     * Deployables.
-     */
-    private Deployable[] deployables;
-
-    /**
      * Extra files.
      */
     private FileConfig[] fileConfigs;
@@ -154,22 +149,6 @@ public class Configuration
     public void setPropertiesFile(File propertiesFile)
     {
         this.propertiesFile = propertiesFile;
-    }
-
-    /**
-     * @return Deployables.
-     */
-    public Deployable[] getDeployables()
-    {
-        return this.deployables;
-    }
-
-    /**
-     * @param deployables Deployables.
-     */
-    public void setDeployables(Deployable[] deployables)
-    {
-        this.deployables = deployables;
     }
 
     /**

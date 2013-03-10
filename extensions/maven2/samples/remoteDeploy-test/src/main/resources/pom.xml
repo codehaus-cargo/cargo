@@ -49,7 +49,6 @@
         <artifactId>cargo-maven2-plugin</artifactId>
         <version>${project.version}</version>
         <configuration>
-          <skip>true</skip>
           <container>
             <containerId>tomcat6x</containerId>
             <type>remote</type>
@@ -62,6 +61,18 @@
               <cargo.remote.password></cargo.remote.password>
             </properties>
           </configuration>
+          <deployables>
+            <deployable>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>simple-war</artifactId>
+              <type>war</type>
+              <properties>
+                <context>
+                  simple-war
+                </context>
+              </properties>
+            </deployable>
+          </deployables>
         </configuration>
 
         <!-- Add dependency due to a limitation of the Maven embedder plugin -->
@@ -75,9 +86,4 @@
       </plugin>
     </plugins>
   </build>
-  <modules>
-    <module>deployer-deployables</module>
-    <module>inner-configuration-deployables</module>
-    <module>main-deployables</module>
-  </modules>
 </project>

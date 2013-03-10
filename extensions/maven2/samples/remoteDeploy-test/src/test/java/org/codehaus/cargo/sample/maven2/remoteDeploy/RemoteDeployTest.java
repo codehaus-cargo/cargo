@@ -91,34 +91,12 @@ public class RemoteDeployTest extends TestCase
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }
 
-    public void testSimpleWarJspInMainDeployables() throws Exception
+    public void testSimpleWarJsp() throws Exception
     {
         waitForRemoteDeployStart();
 
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/simple-war-main-deployables/index.jsp");
-        final String expected = "Sample page for testing";
-
-        PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
-    }
-
-    public void testSimpleWarJspInConfigurationDeployables() throws Exception
-    {
-        waitForRemoteDeployStart();
-
-        final URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/simple-war-inner-configuration-deployables/index.jsp");
-        final String expected = "Sample page for testing";
-
-        PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
-    }
-
-    public void testSimpleWarJspInDeployerDeployables() throws Exception
-    {
-        waitForRemoteDeployStart();
-
-        final URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/simple-war-deployer-deployables/index.jsp");
+            + "/simple-war/index.jsp");
         final String expected = "Sample page for testing";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);

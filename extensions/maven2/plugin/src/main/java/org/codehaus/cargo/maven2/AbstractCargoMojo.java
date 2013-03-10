@@ -104,26 +104,6 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      */
     private Container container;
     
-    /**
-     * Daemon properties (deprecated). The daemonproperties parameter is now deprecated (due to
-     * restructuring), please use <code>&lt;daemon&gt;&lt;properties&gt;</code> instead.
-     * 
-     * @deprecated The daemonproperties parameter is now deprecated (due to restructuring),
-     * please use <code>&lt;daemon&gt;&lt;properties&gt;</code> instead
-     * @parameter alias="daemonproperties"
-     */
-    private Map<String, String> daemonproperties;
-
-    /**
-     * Daemon properties (deprecated). The daemonProperties parameter is now deprecated (due to
-     * restructuring), please use <code>&lt;daemon&gt;&lt;properties&gt;</code> instead.
-     * 
-     * @deprecated The daemonproperties parameter is now deprecated (due to restructuring),
-     * please use <code>&lt;daemon&gt;&lt;properties&gt;</code> instead
-     * @parameter alias="daemonProperties"
-     */
-    private Map<String, String> daemonProperties;
-    
     
     /**
      * Daemon configuration.
@@ -285,23 +265,12 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      */
     protected Daemon getDaemon()
     {
-        if (daemon == null)
+        if (this.daemon == null)
         {
-            if (daemonproperties != null)
-            {
-                daemon = new Daemon(daemonproperties);
-            }
-            else if (daemonProperties != null)
-            {
-                daemon = new Daemon(daemonProperties);
-            }
-            else
-            {
-                daemon = new Daemon();
-            }
+            this.daemon = new Daemon();
         }
         
-        return daemon;
+        return this.daemon;
     }
 
     /**
@@ -312,42 +281,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      */
     protected Deployable[] getDeployablesElement()
     {
-        Deployable[] deployables = this.deployables;
-
-        if (getConfigurationElement() != null && getConfigurationElement().getDeployables() != null
-            && getConfigurationElement().getDeployables().length != 0)
-        {
-            List<Deployable> deployablesList = new ArrayList<Deployable>();
-            if (deployables != null)
-            {
-                deployablesList.addAll(Arrays.asList(deployables));
-            }
-            deployablesList.addAll(Arrays.asList(getConfigurationElement().getDeployables()));
-            deployables = new Deployable[deployablesList.size()];
-            deployables = deployablesList.toArray(deployables);
-
-            getLog().warn("The <deployables> element under the inner <configuration> element is "
-                + "deprecated. Please use <deployables> under the plugin <configuration> "
-                + "instead.");
-        }
-
-        if (getDeployerElement() != null && getDeployerElement().getDeployables() != null
-            && getDeployerElement().getDeployables().length != 0)
-        {
-            List<Deployable> deployablesList = new ArrayList<Deployable>();
-            if (deployables != null)
-            {
-                deployablesList.addAll(Arrays.asList(deployables));
-            }
-            deployablesList.addAll(Arrays.asList(getDeployerElement().getDeployables()));
-            deployables = new Deployable[deployablesList.size()];
-            deployables = deployablesList.toArray(deployables);
-
-            getLog().warn("The <deployables> element under the <deployer> element is deprecated. "
-                + "Please use <deployables> under the plugin <configuration> instead.");
-        }
-
-        return deployables;
+        return this.deployables;
     }
 
     /**

@@ -58,18 +58,6 @@
             <properties>
               <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
             </properties>
-            <deployables>
-              <deployable>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>simple-war</artifactId>
-                <type>war</type>
-                <properties>
-                  <context>
-                    simple-war-inner-configuration-deployables
-                  </context>
-                </properties>
-              </deployable>
-            </deployables>
           </configuration>
           <deployables>
             <deployable>
@@ -78,25 +66,11 @@
               <type>war</type>
               <properties>
                 <context>
-                  simple-war-main-deployables
+                  simple-war
                 </context>
               </properties>
             </deployable>
           </deployables>
-          <deployer>
-            <deployables>
-              <deployable>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>simple-war</artifactId>
-                <type>war</type>
-                <properties>
-                  <context>
-                    simple-war-deployer-deployables
-                  </context>
-                </properties>
-              </deployable>
-            </deployables>
-          </deployer>
         </configuration>
 
         <!-- Add dependency due to a limitation of the Maven embedder plugin -->

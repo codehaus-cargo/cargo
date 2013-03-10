@@ -233,34 +233,6 @@ public class CargoTask extends Task
     private Logger logger;
 
     /**
-     * Decides whether to wait after the container is started or to return the execution flow to the
-     * user.
-     */
-    @Deprecated
-    private boolean wait = false;
-
-    /**
-     * @param wait if true wait indefinitely after the container is started, if false return the
-     * execution flow to the user
-     */
-    @Deprecated
-    public void setWait(boolean wait)
-    {
-        this.wait = wait;
-        log("The wait parameter is now deprecated, please use the run task instead",
-            Project.MSG_WARN);
-    }
-
-    /**
-     * @return whether the task will block execution after the container is started or not
-     */
-    @Deprecated
-    public boolean getWait()
-    {
-        return this.wait;
-    }
-
-    /**
      * @param containerClass the container implementation class to use
      */
     public final void setClass(Class containerClass)
@@ -553,15 +525,6 @@ public class CargoTask extends Task
             if (ACTION_START.equalsIgnoreCase(getAction()))
             {
                 localContainer.start();
-
-                if (getWait())
-                {
-                    log("The wait parameter is now deprecated, please use the run task instead",
-                        Project.MSG_WARN);
-                    log("", Project.MSG_WARN);
-                    log("Press Ctrl-C to stop the container...");
-                    ContainerUtils.waitTillContainerIsStopped(getContainer());
-                }
             }
             else if (ACTION_RUN.equalsIgnoreCase(getAction()))
             {

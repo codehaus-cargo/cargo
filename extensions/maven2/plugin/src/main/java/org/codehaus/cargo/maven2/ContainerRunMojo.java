@@ -35,7 +35,7 @@ import org.codehaus.cargo.maven2.configuration.ZipUrlInstaller;
  * @goal run
  * @requiresDependencyResolution test
  */
-public class ContainerRunMojo extends AbstractContainerStartMojo
+public class ContainerRunMojo extends ContainerStartMojo
 {
     /**
      * Sets the container id.

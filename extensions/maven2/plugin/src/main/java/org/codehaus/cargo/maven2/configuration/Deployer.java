@@ -43,11 +43,6 @@ public class Deployer
     private String implementation;
 
     /**
-     * Deployables.
-     */
-    private Deployable[] deployables;
-
-    /**
      * @return Deployer implementation.
      */
     public String getImplementation()
@@ -77,14 +72,6 @@ public class Deployer
     public void setType(String type)
     {
         this.type = type;
-    }
-
-    /**
-     * @return Deployables.
-     */
-    public Deployable[] getDeployables()
-    {
-        return this.deployables;
     }
 
     /**
