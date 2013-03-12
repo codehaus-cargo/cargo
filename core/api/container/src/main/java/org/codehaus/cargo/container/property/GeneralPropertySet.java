@@ -79,4 +79,9 @@ public interface GeneralPropertySet
      * property cannot be replaced because it does not exist in the source file.
      */
     String IGNORE_NON_EXISTING_PROPERTIES = "cargo.standalone.ignoreNonExistingProperties";
+    
+    /**
+     * The port offset to apply to the container ports.
+     */
+    String PORT_OFFSET = "cargo.port.offset";
 }

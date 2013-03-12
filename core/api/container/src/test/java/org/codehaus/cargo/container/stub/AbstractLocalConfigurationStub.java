@@ -173,4 +173,20 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     {
         throw new RuntimeException("Not implemented");
     }
+    
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     */
+    public void applyPortOffset() 
+    {
+        // TODO Auto-generated method stub
+    }
+
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     */
+    public void revertPortOffset() 
+    {
+        // TODO Auto-generated method stub
+    }
 }

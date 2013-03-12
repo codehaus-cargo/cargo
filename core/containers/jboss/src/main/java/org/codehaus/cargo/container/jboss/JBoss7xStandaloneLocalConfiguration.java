@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -107,6 +106,19 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
     {
         return CAPABILITY;
     }
+    
+    /**
+     * {@inheritDoc}
+     * @see AbstractStandaloneLocalConfiguration#performXmlReplacements(LocalContainer)
+     */
+    @Override
+    protected void performXmlReplacements(LocalContainer container) 
+    {
+        // JBoss 7.x actually supports port offset
+        this.revertPortOffset();
+        super.performXmlReplacements(container);
+        this.applyPortOffset();
+    }
 
     /**
      * {@inheritDoc}
@@ -154,7 +166,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
                     managementToken.toString(), "UTF-8");
         }
     }
-
+    
     /**
      * {@inheritDoc}
      * @see AbstractStandaloneLocalConfiguration#doConfigure(LocalContainer)
@@ -220,6 +232,10 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
             configurationXmlFile,
             "//server/profile/subsystem/root-logger/level",
             "name", "cargo.jboss.logging");
+        addXmlReplacement(
+                configurationXmlFile,
+                "//server/socket-binding-group",
+                "port-offset", GeneralPropertySet.PORT_OFFSET);
 
         setupConfigurationDir();
 
@@ -440,5 +456,4 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
         return level;
     }
-
 }

@@ -30,7 +30,9 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -279,5 +281,47 @@ public class LocalConfigurationTest extends TestCase
                 .buildDataSource());
         configuration.collectUnsupportedDataSourcesAndThrowException();
         assertEquals(2, configuration.getDataSources().size());
+    }
+    
+    /**
+     * Test the apply port offset.
+     */
+    public void testApplyPortOffset() 
+    {
+        AbstractLocalConfiguration configuration =
+            new LocalConfigurationThatSupportsProperty(Arrays.asList(new String[] {
+                GeneralPropertySet.PORT_OFFSET, 
+                GeneralPropertySet.RMI_PORT, 
+                ServletPropertySet.PORT}));
+
+        configuration.setProperty(GeneralPropertySet.PORT_OFFSET, "100");
+        configuration.setProperty(GeneralPropertySet.RMI_PORT, "1099");
+        configuration.setProperty(ServletPropertySet.PORT, "8080");
+
+        configuration.applyPortOffset();
+
+        assertEquals("1199", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
+        assertEquals("8180", configuration.getPropertyValue(ServletPropertySet.PORT));
+    }
+
+    /**
+     * Test the revert port offset.
+     */
+    public void testRevertPortOffset() 
+    {
+        AbstractLocalConfiguration configuration =
+                new LocalConfigurationThatSupportsProperty(Arrays.asList(new String[] {
+                    GeneralPropertySet.PORT_OFFSET, 
+                    GeneralPropertySet.RMI_PORT, 
+                    ServletPropertySet.PORT}));
+
+        configuration.setProperty(GeneralPropertySet.PORT_OFFSET, "100");
+        configuration.setProperty(GeneralPropertySet.RMI_PORT, "1199");
+        configuration.setProperty(ServletPropertySet.PORT, "8180");
+
+        configuration.revertPortOffset();
+
+        assertEquals("1099", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
+        assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
     }
 }

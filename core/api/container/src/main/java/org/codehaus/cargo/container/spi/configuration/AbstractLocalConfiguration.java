@@ -20,8 +20,10 @@
 package org.codehaus.cargo.container.spi.configuration;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
@@ -112,6 +114,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
         this.home = home;
 
+        setProperty(GeneralPropertySet.PORT_OFFSET, "0");
         setProperty(GeneralPropertySet.SPAWN_PROCESS, "false");
     }
 
@@ -407,5 +410,103 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     public List<DataSource> getDataSources()
     {
         return this.dataSources;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see LocalConfiguration#applyPortOffset()
+     * 
+     * This method should only be called once all the properties has been set.
+     */
+    public void applyPortOffset() 
+    {
+        if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null 
+            && !this.getPropertyValue(GeneralPropertySet.PORT_OFFSET).equals("0")) 
+        {
+            // Since the properties hashmap is impacted by the revert we must 
+            // use a copy of the keys
+            Set<String> keysCopy = new HashSet<String>(this.getProperties().keySet());
+            for (String key : keysCopy) 
+            {
+                if (key.endsWith(".port")) 
+                {
+                    this.applyPortOffset(key);
+                }
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see LocalConfiguration#revertPortOffset()
+     * 
+     * This method should only be called once all the properties has been set.
+     */
+    public void revertPortOffset() 
+    {
+        if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null 
+            && !this.getPropertyValue(GeneralPropertySet.PORT_OFFSET).equals("0")) 
+        {
+            // We need to shift the ports
+            
+            // Since the properties hashmap is impacted by the revert we must 
+            // use a copy of the keys
+            Set<String> keysCopy = new HashSet<String>(this.getProperties().keySet());
+            for (String key : keysCopy) 
+            {
+                if (key.endsWith(".port")) 
+                {
+                    this.revertPortOffset(key);
+                }
+            }
+        }
+    }
+
+    /**
+     * Apply the port offset on the specified property
+     * @param name the property name
+     */
+    protected void applyPortOffset(String name) 
+    {
+        if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null
+            && this.getPropertyValue(name) != null) 
+        {
+            try 
+            {
+                int portOffset = Integer.parseInt(this.getPropertyValue(
+                    GeneralPropertySet.PORT_OFFSET));
+                int value = Integer.parseInt(this.getPropertyValue(name));
+                this.setProperty(name, Integer.toString(value + portOffset));
+            }
+            catch (NumberFormatException e) 
+            {
+                // We do nothing
+            }
+        }
+    }
+
+    /**
+     * Revert the port offset on the specified property
+     * @param name the property name
+     */
+    protected void revertPortOffset(String name) 
+    {
+        if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null
+                && this.getPropertyValue(name) != null) 
+        {
+            try 
+            {
+                int portOffset = Integer.parseInt(this.getPropertyValue(
+                    GeneralPropertySet.PORT_OFFSET));
+                int value = Integer.parseInt(this.getPropertyValue(name));
+                this.setProperty(name, Integer.toString(value - portOffset));
+            }
+            catch (NumberFormatException e) 
+            {
+                // We do nothing
+            }
+        }
     }
 }

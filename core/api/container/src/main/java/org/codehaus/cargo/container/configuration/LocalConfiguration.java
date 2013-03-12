@@ -98,4 +98,14 @@ public interface LocalConfiguration extends Configuration
      * @return the means by which we affect local files.
      */
     FileHandler getFileHandler();
+    
+    /**
+     * Apply the port offset to the configuration port properties.
+     */
+    void applyPortOffset();
+    
+    /**
+     * Revert the port offset on the configuration port properties.
+     */
+    void revertPortOffset();
 }

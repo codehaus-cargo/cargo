@@ -127,6 +127,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      */
     protected void verify()
     {
+        this.getConfiguration().applyPortOffset();
+
         // Nothing to verify. We still need this method so that extending classes do not need to
         // implement this method. Only if they have some checks to perform.
     }
@@ -193,6 +195,11 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
             }
 
             executePostStartTasks();
+
+            setState(State.STARTED);
+            getLogger().info(getName() + " started on port ["
+                + getConfiguration().getPropertyValue(ServletPropertySet.PORT) + "]",
+                this.getClass().getName());
         }
         catch (Exception e)
         {
@@ -201,11 +208,10 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
                 + (getOutput() == null ? "" : " Check the [" + getOutput() + "] file "
                     + "containing the container logs for more details."), e);
         }
-
-        setState(State.STARTED);
-        getLogger().info(getName() + " started on port ["
-            + getConfiguration().getPropertyValue(ServletPropertySet.PORT) + "]",
-            this.getClass().getName());
+        finally 
+        {
+            this.getConfiguration().revertPortOffset();
+        }
     }
 
     /**
