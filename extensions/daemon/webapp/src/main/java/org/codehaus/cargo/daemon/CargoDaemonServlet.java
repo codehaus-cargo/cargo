@@ -611,6 +611,8 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         {
             InputStream inputStream = request.getFile("configurationFileData_" + i, true);
             fileManager.saveFile(handleId, filename, inputStream);
+            
+            i++;
         }
     }
 
@@ -634,6 +636,8 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         {
             InputStream inputStream = request.getFile("sharedFileData_" + i, true);
             fileManager.saveFile(handleId, filename, inputStream);
+            
+            i++;
         }
     }
 
@@ -657,6 +661,8 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         {
             InputStream inputStream = request.getFile("extraFileData_" + i, true);
             fileManager.saveFile(handleId, filename, inputStream);
+            
+            i++;
         }
     }
 
