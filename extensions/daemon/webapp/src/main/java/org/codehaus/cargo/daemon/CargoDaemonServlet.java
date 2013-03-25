@@ -584,7 +584,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
         for (String classpath : additionalClasspath)
         {
-            result.add(fileManager.resolveWorkspacePath(handleId, classpath));
+            result.add(fileManager.resolveConfigurationPath(handleId, classpath));
         }
 
         return result;

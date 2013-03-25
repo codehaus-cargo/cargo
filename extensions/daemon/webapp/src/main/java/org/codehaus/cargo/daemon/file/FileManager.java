@@ -475,5 +475,17 @@ public class FileManager
     {
         return fileHandler.append(getWorkspaceDirectory(handleId), relativePath);
     }
+    
+    /**
+     * Resolves a path relative to the configuration directory to an absolute path.
+     * 
+     * @param handleId The handle id.
+     * @param relativePath The path relative to the configuration.
+     * @return The absolute file path.
+     */
+    public String resolveConfigurationPath(String handleId, String relativePath)
+    {
+        return fileHandler.append(getConfigurationDirectory(handleId), relativePath);
+    }
 
 }
