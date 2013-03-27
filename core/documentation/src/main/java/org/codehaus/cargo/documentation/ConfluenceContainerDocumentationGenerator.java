@@ -1256,7 +1256,6 @@ public class ConfluenceContainerDocumentationGenerator
 
         StringBuilder output = new StringBuilder();
 
-        boolean found = false;
         String urlName = "cargo." + containerId + ".url";
         for (Xpp3Dom property : systemProperties.getChildren())
         {
