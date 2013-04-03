@@ -19,29 +19,24 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import org.codehaus.cargo.container.property.DatasourcePropertySet;
+import org.codehaus.cargo.container.RemoteContainer;
 
 /**
- * GlassFish 3.x standalone local configuration capability.
+ * GlassFish 4.x remote deployer, which uses the JSR-88 to deploy and undeploy applications.
  * 
  * @version $Id$
  */
-public class GlassFish3xStandaloneLocalConfigurationCapability extends
-    GlassFish2xStandaloneLocalConfigurationCapability
+public class GlassFish4xRemoteDeployer extends GlassFish3xRemoteDeployer
 {
 
     /**
-     * Initialize the configuration-specific supports Map.
+     * Constructor.
+     * 
+     * @param container the remote container
      */
-    public GlassFish3xStandaloneLocalConfigurationCapability()
+    public GlassFish4xRemoteDeployer(RemoteContainer container)
     {
-        super();
-
-        // recognize those as well
-        this.defaultSupportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
-        this.defaultSupportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.DEBUGGER_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.OSGI_SHELL_PORT, Boolean.TRUE);
+        super(container);
     }
 
 }

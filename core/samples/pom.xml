@@ -413,6 +413,15 @@
                 <value>${cargo.java.home.1_6}</value>
               </property>
 
+              <property>
+                <name>cargo.glassfish4x.url</name>
+                <value>http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted/glassfish-4.0-b82.zip</value>
+              </property>
+              <property>
+                <name>cargo.glassfish4x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
               <!--
                 WebLogic 8.x
 
@@ -1168,14 +1177,14 @@
       <!-- All stable containers -->
       <id>all-stable-downloadable</id>
       <properties>
-        <cargo.containers>geronimo1x, geronimo2x, geronimo3x, jetty4x, jetty5x, jetty6x, jetty7x, jetty8x, jetty9x, glassfish3x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x, jboss71x, jo1x, jonas4x, jonas5x, resin2x, resin3x, resin31x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
+        <cargo.containers>geronimo1x, geronimo2x, geronimo3x, jetty4x, jetty5x, jetty6x, jetty7x, jetty8x, jetty9x, glassfish3x, glassfish4x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x, jboss71x, jo1x, jonas4x, jonas5x, resin2x, resin3x, resin31x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <!-- All containers that have a distribution which can be downloaded automatically -->
       <id>all-downloadable</id>
       <properties>
-        <cargo.containers>geronimo1x, geronimo2x, geronimo3x, glassfish3x, jetty4x, jetty5x, jetty6x, jetty7x, jetty8x, jetty9x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x, jboss71x, jo1x, jonas4x, jonas5x, resin2x, resin3x, resin31x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
+        <cargo.containers>geronimo1x, geronimo2x, geronimo3x, glassfish3x, glassfish4x, jetty4x, jetty5x, jetty6x, jetty7x, jetty8x, jetty9x, jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x, jboss71x, jo1x, jonas4x, jonas5x, resin2x, resin3x, resin31x, tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
       </properties>
     </profile>
     <profile>
@@ -1446,9 +1455,15 @@
       </properties>
     </profile>
     <profile>
+      <id>glassfish4x</id>
+      <properties>
+        <cargo.containers>glassfish4x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
       <id>all-glassfish</id>
       <properties>
-        <cargo.containers>glassfish2x, glassfish3x</cargo.containers>
+        <cargo.containers>glassfish2x, glassfish3x, glassfish4x</cargo.containers>
       </properties>
     </profile>
 

@@ -19,29 +19,39 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import org.codehaus.cargo.container.property.DatasourcePropertySet;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 
 /**
- * GlassFish 3.x standalone local configuration capability.
+ * GlassFish 4.x standalone local configuration.
  * 
  * @version $Id$
  */
-public class GlassFish3xStandaloneLocalConfigurationCapability extends
-    GlassFish2xStandaloneLocalConfigurationCapability
+public class GlassFish4xStandaloneLocalConfiguration
+    extends GlassFish3xStandaloneLocalConfiguration
 {
 
     /**
-     * Initialize the configuration-specific supports Map.
+     * Container capability instance.
      */
-    public GlassFish3xStandaloneLocalConfigurationCapability()
-    {
-        super();
+    private static final ConfigurationCapability CAPABILITY =
+        new GlassFish4xStandaloneLocalConfigurationCapability();
 
-        // recognize those as well
-        this.defaultSupportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
-        this.defaultSupportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.DEBUGGER_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.OSGI_SHELL_PORT, Boolean.TRUE);
+    /**
+     * Creates the local configuration object.
+     * 
+     * @param home The work directory where files needed to run Glassfish will be created.
+     */
+    public GlassFish4xStandaloneLocalConfiguration(String home)
+    {
+        super(home);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public ConfigurationCapability getCapability()
+    {
+        return CAPABILITY;
     }
 
 }

@@ -19,29 +19,24 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import org.codehaus.cargo.container.property.DatasourcePropertySet;
+import org.codehaus.cargo.container.InstalledLocalContainer;
 
 /**
- * GlassFish 3.x standalone local configuration capability.
+ * GlassFish 4.x installed local deployer, which uses the GlassFish asadmin to deploy and undeploy
+ * applications.
  * 
  * @version $Id$
  */
-public class GlassFish3xStandaloneLocalConfigurationCapability extends
-    GlassFish2xStandaloneLocalConfigurationCapability
+public class GlassFish4xInstalledLocalDeployer extends GlassFish3xInstalledLocalDeployer
 {
-
     /**
-     * Initialize the configuration-specific supports Map.
+     * Calls parent constructor, which saves the container.
+     * 
+     * @param localContainer Container.
      */
-    public GlassFish3xStandaloneLocalConfigurationCapability()
+    public GlassFish4xInstalledLocalDeployer(InstalledLocalContainer localContainer)
     {
-        super();
-
-        // recognize those as well
-        this.defaultSupportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
-        this.defaultSupportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.DEBUGGER_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.OSGI_SHELL_PORT, Boolean.TRUE);
+        super(localContainer);
     }
 
 }

@@ -78,10 +78,10 @@ public class DataSourceOnStandaloneConfigurationTest extends
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
         // We exclude geronimo2x as it doesn't support datasource setup the way CARGO tests it
+        // We exclude glassfish4x beta as it has a small bug in the lookup making CARGO tests fail
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("geronimo2x");
-        excludedContainerIds.add("jboss7x");
-        excludedContainerIds.add("jboss71x");
+        excludedContainerIds.add("glassfish4x");
 
         suite.addTestSuite(DataSourceOnStandaloneConfigurationTest.class, new Validator[] {
             new IsInstalledLocalContainerValidator(),

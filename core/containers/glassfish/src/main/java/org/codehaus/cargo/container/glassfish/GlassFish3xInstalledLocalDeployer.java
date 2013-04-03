@@ -115,7 +115,8 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
     {
         List<String> args = new ArrayList<String>();
 
-        String escapedUrl = dataSource.getUrl().replace("\\", "\\\\").replace(":", "\\:");
+        String escapedUrl = dataSource.getUrl().replace("\\", "\\\\").replace(":", "\\:")
+            .replace("=", "\\=");
 
         StringBuilder dataSourceProperty = new StringBuilder();
         dataSourceProperty.append("user=");

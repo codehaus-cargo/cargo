@@ -130,9 +130,10 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         // Start the local container that this remote container will access
         this.startLocalContainer();
 
-        // The GlassFish 3.x JSR88 container requires a huge classpath
+        // The GlassFish 3.x and 4.x JSR88 containers requires a huge classpath
         List<File> filesToAddToClasspath = new ArrayList<File>();
-        if (getTestData().containerId.equals("glassfish3x"))
+        if (getTestData().containerId.equals("glassfish3x")
+            || getTestData().containerId.equals("glassfish4x"))
         {
             for (File jar : new File(this.localContainer.getHome(),
                 "glassfish/modules").listFiles())
@@ -185,8 +186,9 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             this.getClass().getClassLoader());
         Thread.currentThread().setContextClassLoader(classLoader);
 
-        // Warning: the GlassFish 3.x configuration generation cannot change password
-        if (!getRemoteContainer().getId().equals("glassfish3x"))
+        // Warning: the GlassFish 3.x and 4.x configuration generation cannot change password
+        if (!getRemoteContainer().getId().equals("glassfish3x")
+            && !getRemoteContainer().getId().equals("glassfish4x"))
         {
             // Set up deployment credentials
             getRemoteContainer().getConfiguration().setProperty(RemotePropertySet.USERNAME,

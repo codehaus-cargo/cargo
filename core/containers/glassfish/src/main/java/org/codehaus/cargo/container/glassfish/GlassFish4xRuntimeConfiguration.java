@@ -20,34 +20,19 @@
 package org.codehaus.cargo.container.glassfish;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
 
 /**
- * Configuration to use when using a GlassFish 3.x remote container.
+ * Configuration to use when using a GlassFish 4.x remote container.
  * 
  * @version $Id$
  */
-public class GlassFish3xRuntimeConfiguration extends AbstractRuntimeConfiguration
+public class GlassFish4xRuntimeConfiguration extends GlassFish3xRuntimeConfiguration
 {
     /**
      * Capability of the GlassFish runtime configuration.
      */
     private static ConfigurationCapability capability =
-        new GlassFish3xRuntimeConfigurationCapability();
-
-    /**
-     * Creates the runtime configuration object.
-     */
-    public GlassFish3xRuntimeConfiguration()
-    {
-        // default properties
-        this.setProperty(RemotePropertySet.USERNAME, "admin");
-        this.setProperty(RemotePropertySet.PASSWORD, "adminadmin");
-        this.setProperty(GeneralPropertySet.HOSTNAME, "localhost");
-        this.setProperty(GlassFishPropertySet.ADMIN_PORT, "4848");
-    }
+        new GlassFish4xRuntimeConfigurationCapability();
 
     /**
      * {@inheritDoc}
@@ -57,17 +42,6 @@ public class GlassFish3xRuntimeConfiguration extends AbstractRuntimeConfiguratio
     public ConfigurationCapability getCapability()
     {
         return capability;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Object#toString()
-     */
-    @Override
-    public String toString()
-    {
-        return "GlassFish Runtime Configuration";
     }
 
 }
