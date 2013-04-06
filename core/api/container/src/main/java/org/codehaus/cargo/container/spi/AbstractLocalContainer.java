@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.spi;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Map;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
@@ -179,6 +180,29 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         // Ensure that the configuration is done before starting the container.
         getConfiguration().configure(this);
 
+        // CARGO-365: Check if ports are in use
+        for (Map.Entry<String, String> property : getConfiguration().getProperties().entrySet())
+        {
+            if (property.getKey().endsWith(".port") && property.getValue() != null)
+            {
+                try
+                {
+                    int port = Integer.parseInt(property.getValue());
+                    if (!isPortShutdown(port, 0))
+                    {
+                        throw new ContainerException("Port number " + property.getValue()
+                            + " (defined with the property " + property.getKey() + ") is in use. "
+                                + "Please free it on the system or set it to a different port "
+                                    + "in the container's configuration.");
+                    }
+                }
+                catch (NumberFormatException e) 
+                {
+                    // We do nothing
+                }
+            }
+        }
+
         getLogger().info(getName() + " starting...", this.getClass().getName());
 
         setState(State.STARTING);
@@ -328,17 +352,12 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
             {
                 continue;
             }
-            try
-            {
-                waitForPortShutdown(port, connectTimeout, deadline);
-            }
-            catch (IOException e)
-            {
-                getLogger().debug("\tPort " + port + " is shutdown", this.getClass().getName());
 
-                connectTimeout = 250;
-                continue;
-            }
+            waitForPortShutdown(port, connectTimeout, deadline);
+            getLogger().debug("\tPort " + port + " is shutdown", this.getClass().getName());
+
+            connectTimeout = 250;
+            continue;
         }
     }
 
@@ -348,75 +367,20 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      * @param port The port number.
      * @param connectTimeout The connect timeout.
      * @param deadline The deadline for the port to shutdown.
-     * @throws IOException If the port is shutdown.
      * @throws InterruptedException If the thread was interrupted while waiting for the port
      *             shutdown.
      */
     private void waitForPortShutdown(int port, int connectTimeout, long deadline)
-        throws IOException, InterruptedException
+        throws InterruptedException
     {
         getLogger().debug("Waiting for port " + port + " to shutdown, deadline " + deadline,
             this.getClass().getName());
 
         while (true)
         {
-            Socket s = new Socket();
-            try
+            if (isPortShutdown(port, connectTimeout))
             {
-                getLogger().debug("\tConnection attempt with socket " + s + ", current time is "
-                    + System.currentTimeMillis(), this.getClass().getName());
-
-                s.bind(null);
-
-                // If the remote port is closed, s.connect will throw an exception
-                s.connect(new InetSocketAddress("localhost", port), connectTimeout);
-                getLogger().debug("\tSocket " + s + " for port " + port + " managed to connect",
-                    this.getClass().getName());
-
-                try
-                {
-                    s.shutdownOutput();
-                }
-                catch (IOException e)
-                {
-                    // ignored, irrelevant
-                    getLogger().debug("\tFailed to shutdown output for socket " + s + ": " + e,
-                        this.getClass().getName());
-                }
-                try
-                {
-                    s.shutdownInput();
-                }
-                catch (IOException e)
-                {
-                    // ignored, irrelevant
-                    getLogger().debug("\tFailed to shutdown input for socket " + s + ": " + e,
-                        this.getClass().getName());
-                }
-
-                getLogger().debug("\tSocket " + s + " for port " + port + " shutdown",
-                    this.getClass().getName());
-            }
-            finally
-            {
-                try
-                {
-                    s.close();
-                }
-                catch (IOException e)
-                {
-                    // ignored, irrelevant
-                    getLogger().debug("\tFailed to close socket " + s + ": " + e,
-                        this.getClass().getName());
-                }
-                finally
-                {
-                    getLogger().debug("\tSocket " + s + " for port " + port + " closed",
-                        this.getClass().getName());
-
-                    s = null;
-                    System.gc();
-                }
+                break;
             }
 
             if (System.currentTimeMillis() > deadline)
@@ -498,5 +462,82 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     public void setFileHandler(FileHandler fileHandler)
     {
         this.fileHandler = fileHandler;
+    }
+
+
+    /**
+     * Checks if the specified server port is shutdown.
+     * 
+     * @param port The port number.
+     * @param connectTimeout The connect timeout.
+     * @return <code>true</code> if <code>port</code> is shut down, <code>false</code> otherwise.
+     */
+    private boolean isPortShutdown(int port, int connectTimeout)
+    {
+        Socket s = new Socket();
+        try
+        {
+            getLogger().debug("\tConnection attempt with socket " + s + ", current time is "
+                + System.currentTimeMillis(), this.getClass().getName());
+
+            s.bind(null);
+
+            // If the remote port is closed, s.connect will throw an exception
+            s.connect(new InetSocketAddress("localhost", port), connectTimeout);
+            getLogger().debug("\tSocket " + s + " for port " + port + " managed to connect",
+                this.getClass().getName());
+
+            try
+            {
+                s.shutdownOutput();
+            }
+            catch (IOException e)
+            {
+                // ignored, irrelevant
+                getLogger().debug("\tFailed to shutdown output for socket " + s + ": " + e,
+                    this.getClass().getName());
+            }
+            try
+            {
+                s.shutdownInput();
+            }
+            catch (IOException e)
+            {
+                // ignored, irrelevant
+                getLogger().debug("\tFailed to shutdown input for socket " + s + ": " + e,
+                    this.getClass().getName());
+            }
+
+            getLogger().debug("\tSocket " + s + " for port " + port + " shutdown",
+                this.getClass().getName());
+        }
+        catch (IOException ignored)
+        {
+            // If an IOException has occured, this means port is shut down
+            return true;
+        }
+        finally
+        {
+            try
+            {
+                s.close();
+            }
+            catch (IOException e)
+            {
+                // ignored, irrelevant
+                getLogger().debug("\tFailed to close socket " + s + ": " + e,
+                    this.getClass().getName());
+            }
+            finally
+            {
+                getLogger().debug("\tSocket " + s + " for port " + port + " closed",
+                    this.getClass().getName());
+
+                s = null;
+                System.gc();
+            }
+        }
+
+        return false;
     }
 }
