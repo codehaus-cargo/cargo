@@ -1218,6 +1218,41 @@ public class ConfluenceContainerDocumentationGenerator
     protected String generateSamplesInfoText(String containerId)
         throws Exception
     {
+        String url = getContainerServerDownloadUrl(containerId);
+
+        if (url != null)
+        {
+            StringBuilder output = new StringBuilder();
+
+            output.append("h3.Tested On");
+            output.append(LINE_SEPARATOR);
+
+            output.append("This container is automatically tested on its server using the "
+                + "Codehaus Cargo Continous Integration System once a day.");
+            output.append(LINE_SEPARATOR);
+            output.append("* The server used for tests is downloaded from: ");
+            output.append(url);
+            output.append(LINE_SEPARATOR);
+            output.append("* Link to the build plan: ");
+            output.append(CI_URL + containerId.toUpperCase(Locale.ENGLISH));
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+            return output.toString();
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    /**
+     * Returns the download URL used for testing the given container.
+     * @param containerId Container ID.
+     * @return Download URL for testing <code>containerId</code>, <code>null</null> if no download
+     * URL is set.
+     */
+    public String getContainerServerDownloadUrl(String containerId)
+    {
         File pom = new File(SAMPLES_DIRECTORY, POM).getAbsoluteFile();
 
         Model model = new Model();
@@ -1254,8 +1289,6 @@ public class ConfluenceContainerDocumentationGenerator
                 + " does not have any " + SYSTEM_PROPERTIES + " in its configuration.");
         }
 
-        StringBuilder output = new StringBuilder();
-
         String urlName = "cargo." + containerId + ".url";
         for (Xpp3Dom property : systemProperties.getChildren())
         {
@@ -1265,28 +1298,15 @@ public class ConfluenceContainerDocumentationGenerator
             {
                 throw new IllegalStateException("One of the " + SUREFIRE_PLUGIN
                     + "'s configuration options in pom file " + pom + " is incomplete:\n"
-                    + property);
+                        + property);
             }
 
             if (urlName.equals(nameChild.getValue()))
             {
-                output.append("h3.Tested On");
-                output.append(LINE_SEPARATOR);
-
-                output.append("This container is automatically tested on its server using the "
-                    + "Codehaus Cargo Continous Integration System once a day.");
-                output.append(LINE_SEPARATOR);
-                output.append("* The server used for tests is downloaded from: ");
-                output.append(valueChild.getValue());
-                output.append(LINE_SEPARATOR);
-                output.append("* Link to the build plan: ");
-                output.append(CI_URL + containerId.toUpperCase(Locale.ENGLISH));
-                output.append(LINE_SEPARATOR);
-                output.append(LINE_SEPARATOR);
-                return output.toString();
+                return valueChild.getValue();
             }
         }
 
-        return "";
+        return null;
     }
 }

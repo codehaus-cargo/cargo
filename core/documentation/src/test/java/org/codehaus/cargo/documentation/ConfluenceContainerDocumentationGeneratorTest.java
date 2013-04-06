@@ -77,13 +77,24 @@ public class ConfluenceContainerDocumentationGeneratorTest extends TestCase
      */
     public void testGenerateDocumentationForAllContainers() throws Exception
     {
+        Writer writer = new FileWriter(System.getProperty("basedir")
+            + "/target/container-urls.properties");
+
         ContainerFactory factory = new DefaultContainerFactory();
 
         Map<String, Set<ContainerType>> containerIds = factory.getContainerIds();
         for (String containerId : containerIds.keySet())
         {
             generateDocumentationForContainer(containerId);
+            String url = this.generator.getContainerServerDownloadUrl(containerId);
+            if (url != null)
+            {
+                writer.write("cargo." + containerId + ".url=" + url
+                    + System.getProperty("line.separator"));
+            }
         }
+
+        writer.close();
     }
 
     /**
