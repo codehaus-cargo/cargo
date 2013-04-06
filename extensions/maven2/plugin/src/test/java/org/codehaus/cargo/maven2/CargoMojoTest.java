@@ -20,6 +20,7 @@
 package org.codehaus.cargo.maven2;
 
 import java.io.File;
+import java.util.Collections;
 
 import junit.framework.TestCase;
 
@@ -30,6 +31,7 @@ import org.codehaus.cargo.maven2.configuration.Configuration;
 import org.codehaus.cargo.maven2.configuration.Container;
 import org.codehaus.cargo.maven2.configuration.ZipUrlInstaller;
 import org.codehaus.cargo.maven2.log.MavenLogger;
+import org.codehaus.cargo.maven2.util.CargoProject;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.Logger;
 
@@ -52,6 +54,13 @@ public class CargoMojoTest extends TestCase
         @Override
         public void doExecute() throws MojoExecutionException
         {
+            if (this.getCargoProject() == null)
+            {
+                this.setCargoProject(new CargoProject("dummy-packaging", "dummy-groupId",
+                    "dummy-artifactId", "target/dummy-buildDirectory", "dummy-finalName",
+                        Collections.EMPTY_SET, null));
+            }
+
             this.createContainer();
         }
     }
@@ -159,5 +168,35 @@ public class CargoMojoTest extends TestCase
             this.mojo.getContainerElement().getZipUrlInstaller().getExtractDir()).isAbsolute());
         assertTrue("Artifact installer extract directory is not absolute", new File(
             this.mojo.getContainerElement().getArtifactInstaller().getExtractDir()).isAbsolute());
+    }
+
+    /**
+     * Test the default installer element.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testDefaultInstallerElement() throws Exception
+    {
+        this.mojo.setContainerElement(new Container());
+        this.mojo.getContainerElement().setContainerId("tomcat6x");
+
+        assertNull("Container installer already set",
+            this.mojo.getContainerElement().getZipUrlInstaller());
+
+        try
+        {
+            this.mojo.doExecute();
+        }
+        catch (ContainerException e)
+        {
+            // This is expected to fail since the Tomcat dependency hasn't been loaded
+            assertTrue(
+                "Exception message [" + e.getMessage() + "] doesn't contain tomcat6x",
+                    e.getMessage().contains("tomcat6x"));
+        }
+
+        assertNotNull("Container installer not set",
+            this.mojo.getContainerElement().getZipUrlInstaller());
+        assertNotNull("Container installer URL not set",
+            this.mojo.getContainerElement().getZipUrlInstaller().getUrl());
     }
 }

@@ -60,6 +60,11 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-documentation</artifactId>
+      <version>${cargo.core.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-daemon-client</artifactId>
       <version>${project.version}</version>
     </dependency>

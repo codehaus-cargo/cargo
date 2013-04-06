@@ -20,6 +20,8 @@
 package org.codehaus.cargo.maven2;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
@@ -53,6 +56,7 @@ import org.codehaus.cargo.maven2.configuration.Container;
 import org.codehaus.cargo.maven2.configuration.Daemon;
 import org.codehaus.cargo.maven2.configuration.Deployable;
 import org.codehaus.cargo.maven2.configuration.Deployer;
+import org.codehaus.cargo.maven2.configuration.ZipUrlInstaller;
 import org.codehaus.cargo.maven2.jetty.JettyArtifactResolver;
 import org.codehaus.cargo.maven2.log.MavenLogger;
 import org.codehaus.cargo.maven2.util.CargoProject;
@@ -693,6 +697,15 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         org.codehaus.cargo.container.Container container;
 
         createDefaultContainerElementIfNecessary();
+        try
+        {
+            createDefaultInstallerElementIfNecessary();
+        }
+        catch (IOException e)
+        {
+            getLog().warn("Cannot load the URL to put as the optional default installer element "
+                + "for the container, skipping as this won't kill anyway...", e);
+        }
 
         if (getContainerElement().getType() == ContainerType.EMBEDDED)
         {
@@ -837,6 +850,36 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 createLogger().debug("Cannot resolve container artifact " + containerArtifact
                     + " for container " + containerId + ": " + e.toString(),
                     this.getClass().getName());
+            }
+        }
+    }
+
+    /**
+     * Creates a installer element if required.
+     * 
+     * @throws IOException If the properties file cannot be loaded.
+     */
+    protected void createDefaultInstallerElementIfNecessary() throws IOException
+    {
+        if (getContainerElement().getType() == ContainerType.INSTALLED
+            && getContainerElement().getHome() == null
+                && getContainerElement().getZipUrlInstaller() == null
+                    && getContainerElement().getArtifactInstaller() == null)
+        {
+            InputStream containerUrls = this.getClass().getResourceAsStream(
+                "/org/codehaus/cargo/documentation/container-urls.properties");
+            if (containerUrls != null)
+            {
+                Properties containerUrlsProperties = new Properties();
+                containerUrlsProperties.load(containerUrls);
+                String url = containerUrlsProperties.getProperty("cargo."
+                    + getContainerElement().getContainerId() + ".url");
+                if (url != null)
+                {
+                    ZipUrlInstaller installerElement = new ZipUrlInstaller();
+                    getContainerElement().setZipUrlInstaller(installerElement);
+                    installerElement.setUrl(new URL(url));
+                }
             }
         }
     }

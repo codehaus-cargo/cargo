@@ -596,7 +596,7 @@ public class Container
         {
             container.setOutput(getOutput());
         }
-        else
+        else if (project.getLog() != null)
         {
             project.getLog().debug("No container log will be generated. Configure the plugin "
                 + "using the <output> element under <container> to generate container logs");
