@@ -498,7 +498,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
         else
         {
-            if (getConfigurationElement().getHome() != null)
+            if (getConfigurationElement().getHome() != null && !getCargoProject().isDaemonRun())
             {
                 getConfigurationElement().setHome(calculateAbsoluteDirectory("configuration home",
                     getConfigurationElement().getHome()));
@@ -579,7 +579,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         String containerKey = CONTEXT_KEY_CONTAINER;
         if (getContainerElement() != null)
         {
-            if (getContainerElement().getHome() != null)
+            if (getContainerElement().getHome() != null && !getCargoProject().isDaemonRun())
             {
                 getContainerElement().setHome(calculateAbsoluteDirectory("container home",
                     getContainerElement().getHome()));
