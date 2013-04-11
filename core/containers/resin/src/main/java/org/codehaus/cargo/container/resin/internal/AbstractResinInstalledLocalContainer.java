@@ -84,7 +84,7 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
         java.addAppArguments("-conf");
 
         File confDir = new File(getConfiguration().getHome(), "conf");
-        java.addAppArgument(new File(confDir, "resin.conf"));
+        java.addAppArgument(new File(confDir, getResinConfigurationFileName()));
 
         // Add settings specific to a given container version
         startUpAdditions(java);
@@ -179,5 +179,13 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
         }
         this.version = version;
         return version;
+    }
+
+    /**
+     * @return Resin configuration file name.
+     */
+    protected String getResinConfigurationFileName()
+    {
+        return "resin.conf";
     }
 }

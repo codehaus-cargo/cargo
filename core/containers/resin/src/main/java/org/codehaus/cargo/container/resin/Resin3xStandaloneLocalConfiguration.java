@@ -118,7 +118,7 @@ public class Resin3xStandaloneLocalConfiguration extends
      * @param cargoLoggingLevel the cargo logging level (ie "low", "medium" or "high")
      * @return the Resin logging level corresponding to the cargo logging level
      */
-    private String getResinLoggingLevel(String cargoLoggingLevel)
+    protected String getResinLoggingLevel(String cargoLoggingLevel)
     {
         String level;
 
@@ -169,7 +169,7 @@ public class Resin3xStandaloneLocalConfiguration extends
             "<host id=\"\" root-directory=\".\">\n"
             + createExpandedWarTokenValue("document-directory"));
         getFileHandler().replaceInFile(getFileHandler().append(confDir, "resin.conf"),
-            replacements, "UTF-8");
+                replacements, "UTF-8");
 
         addXmlReplacement("conf/resin.conf", "//resin/log[@name='']", "level",
             getResinLoggingLevel(getPropertyValue(GeneralPropertySet.LOGGING)));

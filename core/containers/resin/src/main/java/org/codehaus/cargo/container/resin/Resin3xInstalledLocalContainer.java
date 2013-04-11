@@ -57,20 +57,18 @@ public class Resin3xInstalledLocalContainer extends AbstractResinInstalledLocalC
     @Override
     protected void startUpAdditions(JvmLauncher java) throws FileNotFoundException
     {
-        // It seems Resin 3.x requires the following property to be
-        // set in order to start...
+        // It seems Resin 3.x requires the following property to be set in order to start
         java.setSystemProperty("java.util.logging.manager", "com.caucho.log.LogManagerImpl");
 
-        // Add the resin_home/bin directory to the library path so that the
-        // Resin dll/so can be loaded.
+        // Add the bin directory to the library path so that the Resin dll/so can be loaded
         java.setSystemProperty("java.library.path", new File(getHome(), "bin").getAbsolutePath());
 
         java.addAppArguments("-socketwait");
         java.addAppArguments(
             getConfiguration().getPropertyValue(ResinPropertySet.SOCKETWAIT_PORT));
 
-        // Add the tools.jar to the classpath. This is not required for
-        // Resin 2.x but it is for Resin 3.x
+        // Add the tools.jar to the classpath.
+        // This was not required for Resin 2.x but it is for Resin 3.x
         addToolsJarToClasspath(java);
     }
 

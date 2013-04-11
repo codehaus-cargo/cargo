@@ -134,6 +134,7 @@ public class ConfluenceContainerDocumentationGenerator
         "jboss7x",
         "jboss71x",
         "jetty8x",
+        "resin4x",
         "tomcat7x",
         "weblogic103x",
         "weblogic12x",

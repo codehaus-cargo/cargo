@@ -72,7 +72,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
         LocalContainer container)
     {
         String path = getFileHandler().append(getHome(), "conf");
-        return getFileHandler().append(path, "resin.conf");
+        return getFileHandler().append(path, getResinConfigurationFileName());
     }
 
     /**
@@ -193,6 +193,14 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
         }
 
         return token.toString();
+    }
+
+    /**
+     * @return Resin configuration file name.
+     */
+    protected String getResinConfigurationFileName()
+    {
+        return "resin.conf";
     }
 
     /**
