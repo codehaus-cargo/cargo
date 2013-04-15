@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-extensions-maven2</artifactId>
-    <version>1.3.4-SNAPSHOT</version>
+    <version>1.4.0</version>
   </parent>
   <artifactId>cargo-maven2-plugin</artifactId>
   <name>Cargo Maven 2 Plugin</name>

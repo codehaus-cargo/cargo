@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-daemon-itests</artifactId>
-    <version>1.3.4-SNAPSHOT</version>
+    <version>1.4.0</version>
   </parent>
   <artifactId>cargo-daemon-itests-deployable-on-tomcat</artifactId>
   <name>Cargo Daemon Integration Tests - Deployable on Tomcat</name>
