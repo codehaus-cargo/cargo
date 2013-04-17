@@ -42,21 +42,6 @@ public class Jetty6xStandaloneLocalConfiguration extends
         new JettyStandaloneLocalConfigurationCapability();
 
     /**
-     * The list of files in which to replace <code>jetty.home</code> with
-     * <code>config.hoome</code>.
-     */
-    private static String[] replaceJettyHomeInFiles = new String[]
-    {
-        "jetty.xml",
-        "jetty-jaas.xml",
-        "jetty-logging.xml",
-        "jetty-plus.xml",
-        "jetty-ssl.xml",
-        "jetty-sslengine.xml",
-        "login.conf"
-    };
-
-    /**
      * {@inheritDoc}
      * @see AbstractJettyStandaloneLocalConfiguration#AbstractJettyStandaloneLocalConfiguration(String)
      */
@@ -102,14 +87,6 @@ public class Jetty6xStandaloneLocalConfiguration extends
     {
         Jetty6xInstalledLocalDeployer deployer = new Jetty6xInstalledLocalDeployer(container);
         return deployer;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected String[] replaceJettyHomeInFiles()
-    {
-        return Jetty6xStandaloneLocalConfiguration.replaceJettyHomeInFiles;
     }
 
     /**

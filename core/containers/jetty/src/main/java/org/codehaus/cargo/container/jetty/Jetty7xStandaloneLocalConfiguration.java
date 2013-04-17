@@ -50,22 +50,6 @@ public class Jetty7xStandaloneLocalConfiguration extends
         new Jetty7xStandaloneLocalConfigurationCapability();
 
     /**
-     * The list of files in which to replace <code>jetty.home</code> with
-     * <code>config.hoome</code>.
-     */
-    private static String[] replaceJettyHomeInFiles = new String[]
-    {
-        "jetty-bio-ssl.xml",
-        "jetty-contexts.xml",
-        "jetty-overlay.xml",
-        "jetty-plus.xml",
-        "jetty-policy.xml",
-        "jetty-ssl.xml",
-        "jetty-testrealm.xml",
-        "jetty-webapps.xml"
-    };
-
-    /**
      * {@inheritDoc}
      * @see AbstractJettyStandaloneLocalConfiguration#AbstractJettyStandaloneLocalConfiguration(String)
      */
@@ -215,14 +199,6 @@ public class Jetty7xStandaloneLocalConfiguration extends
 
         InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
         installedContainer.addExtraClasspath(c3p0File);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected String[] replaceJettyHomeInFiles()
-    {
-        return Jetty7xStandaloneLocalConfiguration.replaceJettyHomeInFiles;
     }
 
     /**

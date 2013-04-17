@@ -31,19 +31,6 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
 public class Jetty9xStandaloneLocalConfiguration extends Jetty8xStandaloneLocalConfiguration
 {
     /**
-     * The list of files in which to replace <code>jetty.home</code> with
-     * <code>config.hoome</code>.
-     */
-    private static String[] replaceJettyHomeInFiles = new String[]
-    {
-        "jetty-deploy.xml",
-        "jetty-plus.xml",
-        "jetty-spdy.xml",
-        "jetty-https.xml",
-        "test-realm.xml"
-    };
-
-    /**
      * {@inheritDoc}
      * @see Jetty8xStandaloneLocalConfiguration#Jetty8xStandaloneLocalConfiguration(String)
      */
@@ -71,14 +58,6 @@ public class Jetty9xStandaloneLocalConfiguration extends Jetty8xStandaloneLocalC
     public String toString()
     {
         return "Jetty 9.x Standalone Configuration";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected String[] replaceJettyHomeInFiles()
-    {
-        return Jetty9xStandaloneLocalConfiguration.replaceJettyHomeInFiles;
     }
 
 }

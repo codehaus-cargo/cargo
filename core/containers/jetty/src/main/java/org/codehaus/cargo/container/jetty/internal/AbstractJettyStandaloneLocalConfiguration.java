@@ -91,13 +91,11 @@ public abstract class AbstractJettyStandaloneLocalConfiguration extends
         String etcDir = getFileHandler().createDirectory(getHome(), "etc");
         getFileHandler().copyDirectory(
             getFileHandler().append(ilContainer.getHome(), "etc"), etcDir);
-        Map<String, String> jettyXmlReplacements = new HashMap<String, String>();
-        jettyXmlReplacements.put("jetty.home", "config.home");
-        for (String replaceJettyHomeInFile : replaceJettyHomeInFiles())
+        Map<String, String> replaceJettyHome = new HashMap<String, String>(1);
+        replaceJettyHome.put("jetty.home", "config.home");
+        for (String etcChild : getFileHandler().getChildren(etcDir))
         {
-            getFileHandler().replaceInFile(
-                getFileHandler().append(etcDir, replaceJettyHomeInFile),
-                jettyXmlReplacements, "UTF-8");
+            getFileHandler().replaceInFile(etcChild, replaceJettyHome, "UTF-8", true);
         }
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/webdefault.xml",
             new File(etcDir, "webdefault.xml"), filterChain, "UTF-8");
@@ -119,11 +117,5 @@ public abstract class AbstractJettyStandaloneLocalConfiguration extends
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             new File(appDir, "cargocpc.war"));
     }
-
-    /**
-     * @return The list of files in which to replace <code>jetty.home</code> with
-     * <code>config.hoome</code>.
-     */
-    protected abstract String[] replaceJettyHomeInFiles();
 
 }
