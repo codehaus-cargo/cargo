@@ -99,7 +99,11 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * @param home the home directory where the container will be set up to start and where it will
-     * deploy its deployables.
+     * deploy its deployables. <b>IMPORTANT</b>: While some containers can deal with this parameter
+     * being set as a relative path, some others require this path to be set to an absolute
+     * directory. Please refer to the documentation of the server to ensure you give the path in
+     * the appropriate way. If in doubt, you can use absolute paths -that is known to work with all
+     * containers.
      */
     public AbstractLocalConfiguration(String home)
     {

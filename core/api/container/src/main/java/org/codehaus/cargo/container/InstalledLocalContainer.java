@@ -39,7 +39,11 @@ public interface InstalledLocalContainer extends LocalContainer, SpawnedContaine
     /**
      * @param home the directory where the container is installed. Note that we're passing a String
      * instead of a File because we want to leave the possibility of using URIs for specifying the
-     * home location.
+     * home location. <b>IMPORTANT</b>: While some containers can deal with this parameter being
+     * set as a relative path, some others require this path to be set to an absolute directory.
+     * Please refer to the documentation of the server to ensure you give the path in the
+     * appropriate way. If in doubt, you can use absolute paths -that is known to work with all
+     * containers.
      */
     void setHome(String home);
 }
