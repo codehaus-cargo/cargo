@@ -33,6 +33,7 @@
     <module>webapp-functional-tests-module</module>
     <module>webapp-with-datasource</module>
     <module>remote-deployment</module>
+    <module>daemon</module>
   </modules>
 
   <build>
@@ -64,6 +65,7 @@
               </goals>
               <configuration>
                 <portNames>
+                  <portName>cargo.itest.daemon.port</portName>
                   <portName>cargo.itest.servlet.port</portName>
                 </portNames>
               </configuration>
@@ -89,6 +91,7 @@
               <archetypeArtifactId>${project.artifactId}</archetypeArtifactId>
               <archetypeVersion>${project.version}</archetypeVersion>
               <servlet.port>${cargo.itest.servlet.port}</servlet.port>
+              <daemon.port>${cargo.itest.daemon.port}</daemon.port>
             </properties>
           </configuration>
           <executions>

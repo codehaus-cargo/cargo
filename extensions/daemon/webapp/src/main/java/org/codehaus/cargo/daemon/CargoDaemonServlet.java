@@ -557,7 +557,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
             if (request.isSave())
             {
-                handle.setAutostart(Boolean.valueOf(autostart));
+                handle.setAutostart("on".equals(autostart) || "true".equals(autostart));
                 handle.addProperties(request.getParameters());
 
                 fileManager.saveHandleDatabase(handles);
