@@ -119,8 +119,28 @@
                 <value>${cargo.samples.glassfish.http.ssl.port}</value>
               </property>
               <property>
+                <name>cargo.glassfish.java.debugger.port</name>
+                <value>${cargo.samples.glassfish.java.debugger.port}</value>
+              </property>
+              <property>
+                <name>cargo.glassfish.jms.port</name>
+                <value>${cargo.samples.glassfish.jms.port}</value>
+              </property>
+              <property>
                 <name>cargo.glassfish.orb.listener.port</name>
                 <value>${cargo.samples.glassfish.orb.listener.port}</value>
+              </property>
+              <property>
+                <name>cargo.glassfish.orb.mutualauth.port</name>
+                <value>${cargo.samples.glassfish.orb.mutualauth.port}</value>
+              </property>
+              <property>
+                <name>cargo.glassfish.orb.ssl.port</name>
+                <value>${cargo.samples.glassfish.orb.ssl.port}</value>
+              </property>
+              <property>
+                <name>cargo.glassfish.osgi.shell.telnet.port</name>
+                <value>${cargo.samples.glassfish.osgi.shell.telnet.port}</value>
               </property>
 
               <!-- ports required for JBoss tests to pass -->
@@ -1128,7 +1148,12 @@
                 <portName>cargo.samples.rmi.port</portName>
                 <portName>cargo.samples.glassfish.adminPort</portName>
                 <portName>cargo.samples.glassfish.http.ssl.port</portName>
+                <portName>cargo.samples.glassfish.java.debugger.port</portName>
+                <portName>cargo.samples.glassfish.jms.port</portName>
                 <portName>cargo.samples.glassfish.orb.listener.port</portName>
+                <portName>cargo.samples.glassfish.orb.mutualauth.port</portName>
+                <portName>cargo.samples.glassfish.orb.ssl.port</portName>
+                <portName>cargo.samples.glassfish.osgi.shell.telnet.port</portName>
                 <portName>cargo.samples.jboss.ajp.port</portName>
                 <portName>cargo.samples.jboss.naming.port</portName>
                 <portName>cargo.samples.jboss.classloading.webservice.port</portName>
