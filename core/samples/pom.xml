@@ -114,6 +114,10 @@
                 <name>cargo.glassfish.adminPort</name>
                 <value>${cargo.samples.glassfish.adminPort}</value>
               </property>
+              <property>
+                <name>cargo.glassfish.http.ssl.port</name>
+                <value>${cargo.samples.glassfish.http.ssl.port}</value>
+              </property>
 
               <!-- ports required for JBoss tests to pass -->
               <property>
@@ -1119,6 +1123,7 @@
                 <portName>cargo.samples.servlet.port</portName>
                 <portName>cargo.samples.rmi.port</portName>
                 <portName>cargo.samples.glassfish.adminPort</portName>
+                <portName>cargo.samples.glassfish.http.ssl.port</portName>
                 <portName>cargo.samples.jboss.ajp.port</portName>
                 <portName>cargo.samples.jboss.naming.port</portName>
                 <portName>cargo.samples.jboss.classloading.webservice.port</portName>
