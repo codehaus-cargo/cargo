@@ -29,7 +29,7 @@ public interface GlassFishPropertySet
     /**
      * The admin HTTP port that Glassfish will use. Defaults to 4848.
      */
-    String ADMIN_PORT = "cargo.glassfish.adminPort";
+    String ADMIN_PORT = "cargo.glassfish.admin.port";
 
     /**
      * The value for --portbase parameter. No default.

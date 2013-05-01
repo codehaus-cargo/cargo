@@ -111,8 +111,8 @@
 
               <!-- ports required for Glassfish domain to be created -->
               <property>
-                <name>cargo.glassfish.adminPort</name>
-                <value>${cargo.samples.glassfish.adminPort}</value>
+                <name>cargo.glassfish.admin.port</name>
+                <value>${cargo.samples.glassfish.admin.port}</value>
               </property>
               <property>
                 <name>cargo.glassfish.http.ssl.port</name>
@@ -1146,7 +1146,7 @@
               <portNames>
                 <portName>cargo.samples.servlet.port</portName>
                 <portName>cargo.samples.rmi.port</portName>
-                <portName>cargo.samples.glassfish.adminPort</portName>
+                <portName>cargo.samples.glassfish.admin.port</portName>
                 <portName>cargo.samples.glassfish.http.ssl.port</portName>
                 <portName>cargo.samples.glassfish.java.debugger.port</portName>
                 <portName>cargo.samples.glassfish.jms.port</portName>
