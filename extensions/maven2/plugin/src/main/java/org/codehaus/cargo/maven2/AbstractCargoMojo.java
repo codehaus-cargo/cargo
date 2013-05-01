@@ -609,7 +609,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             containerKey += "." + getContainerElement().getType()
                 + "." + getContainerElement().getHome();
         }
-        if (getConfigurationElement() != null)
+        if (getConfigurationElement() != null && !getCargoProject().isDaemonRun())
         {
             if (getConfigurationElement().getHome() != null)
             {
