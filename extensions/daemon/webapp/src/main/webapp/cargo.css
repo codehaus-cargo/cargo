@@ -1,24 +1,33 @@
-/**
- Colors :
- Dark blue         : #39434F
- Middle blue       : #76849A
- Light blue        : #C0C9D8
- Very light blue   : #EAEDF2
- Dark red          : #6A1E1E
- Middle red        : #CB4545
- Light red         : #FFA499
- Very light red    : #FFE0DD
- Dark yellow       : #888500
- Middle yellow     : #FEF212
- Light yellow      : #FFFA99
- Very light yellow : #FFFDDD
+﻿/**
+  Colors :
+
+  Dark blue         : #39434F
+  Middle blue       : #76849A
+  Light blue        : #C0C9D8
+  Very light blue   : #EAEDF2
+  Dark red          : #6A1E1E
+  Middle red        : #CB4545
+  Light red         : #FFA499
+  Very light red    : #FFE0DD
+  Dark yellow       : #888500
+  Middle yellow     : #FEF212
+  Light yellow      : #FFFA99
+  Very light yellow : #FFFDDD
 */
 
 body {
   background-color:#FFFFFF;
   font-family: Verdana, Helvetica, Arial, sans-serif;
-  font-size: small;
+  font-size: 13px; /* small */
   margin: 0;
+}
+
+table {
+  font-size: 13px; /* small */
+}
+
+img {
+  border: 0px;
 }
 
 a, a:link {
@@ -91,15 +100,15 @@ blockquote p {
 }
 
 ul {
-	margin-top: 1em;
-	margin-bottom: 1em;
-	list-style: disc inside;
-	margin-left: 0px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  list-style: disc inside;
+  margin-left: 0px;
 }
 
 ul ul {
-	margin: 0px;
-	padding-left: 15px;
+  margin: 0px;
+  padding-left: 15px;
 }
 
 li {
@@ -109,12 +118,12 @@ li {
 }
 
 tt {
-  font-size: small; 
+  font-size: 13px; /* small */ 
 }
 
 pre {
   padding: 12px;
-  font-size: small;
+  font-size: 13px; /* small */
 }
 
 .navLink a {
@@ -148,7 +157,7 @@ span.highlight {
   border-top: none;
   padding: 0px;
   margin-bottom: 8px;
-  font-size: small;
+  font-size: 13px; /* small */
 }
 
 .navSection a {
@@ -164,14 +173,14 @@ span.highlight {
   margin-left: 0px;
   margin-right: 0px;
   font-weight: normal;
-  font-size: small;
+  font-size: 13px; /* small */
 }
 
 .navLink {
   padding-top: 2px;
   padding-bottom: 2px;
   padding-left: 14px;
-  font-size: small;
+  font-size: 13px; /* small */
 }
 
 .section {
@@ -195,7 +204,7 @@ body:first-child {
   background-color: #C0C9D8;
   color: #76849A;  
   padding: 4px; 
-  font-size: small;
+  font-size: 13px; /* small */
   font-weight: normal;
   margin-bottom: .5em;
   /* margin-top: 1em; */
@@ -216,7 +225,7 @@ body:first-child {
   margin-bottom: .5em;
   background-color: white;
   font-weight: normal;
-  font-size: large;
+  font-size: 18px; /* large */
 }
 
 .sectionTitle a {
@@ -300,7 +309,7 @@ textarea.required {
 }
 
 label {
-  font-size: small;
+  font-size: 13px; /* small */
 }
 
 label.required {
@@ -317,29 +326,29 @@ label.required {
 
 
 .linecomment { 
-	color: #C0C9D8; 
+  color: #C0C9D8; 
 }
 .blockcomment { 
-	color: #C0C9D8; 
+  color: #C0C9D8; 
 }
 .prepro { 
-	color: #0000BB; 
+  color: #0000BB; 
 }
 
 .quote { 
-	color: #770000; 
+  color: #770000; 
 }
 
 .category1 { 
-	color: #76849A; 
+  color: #76849A; 
 }
 
 .category2 { 
-	color: #0000BB; 
+  color: #0000BB; 
 }
 
 .category3 { 
-	color: #0000BB; 
+  color: #0000BB; 
 }
 
 .greenbar {
@@ -382,170 +391,170 @@ tr td.noformatting {
 }
 
 .header_name {
-	font-size: small;
-	padding: 2px;
-	padding-right: 1ex;
-	border-right: 1px solid #555555;
-	background-color: #cccccc;
+  font-size: 13px; /* small */
+  padding: 2px;
+  padding-right: 1ex;
+  border-right: 1px solid #555555;
+  background-color: #cccccc;
 }
 
 .header_value {
-	font-size: small;
-	background-color: #76849A;
-	padding: 2px;
+  font-size: 13px; /* small */
+  background-color: #76849A;
+  padding: 2px;
 }
 
 .header_fields {
-	width: 100%;
-	border: 1px solid #39434F;
-	background-color: #FFFFFF;
+  width: 100%;
+  border: 1px solid #39434F;
+  background-color: #FFFFFF;
 }
 
 .email_body {
-	margin: 2ex;
-	padding: 1ex;
-	padding-left: 2ex;
-	padding-right: 2ex;
-	border: 1px solid #39434F;
-	font-size: small;
+  margin: 2ex;
+  padding: 1ex;
+  padding-left: 2ex;
+  padding-right: 2ex;
+  border: 1px solid #39434F;
+  font-size: 13px; /* small */
 }
 
 .email_body pre {
-	padding: 0px;
-	margin: 0px;
+  padding: 0px;
+  margin: 0px;
 }
 
 .email_body blockquote {
-	padding: 0px;
-	margin: 0px;
-	border: 1px solid #cccccc;
+  padding: 0px;
+  margin: 0px;
+  border: 1px solid #cccccc;
 }
 
 .msg_navblock {
-	margin-bottom: 2ex;
-	border: 1px solid #39434F;
-	background-color: #FFFFFF;
+  margin-bottom: 2ex;
+  border: 1px solid #39434F;
+  background-color: #FFFFFF;
 }
 
 .msg_navblock th {
-	border: 1px solid #cccccc;
-	font-size: small;
+  border: 1px solid #cccccc;
+  font-size: 13px; /* small */
 }
 
 .msg_navblock td {
-	border: 1px solid #cccccc;
-	font-size: small;
+  border: 1px solid #cccccc;
+  font-size: 13px; /* small */
 }
 
 .single_entry {
-	border: 1px solid #AAAAAA;
-	border-left: 1px solid #39434F;
-	background-color: #C0C9D8;
-	padding: .5ex;
-	padding-left: 1ex;
-	margin: 2px;
+  border: 1px solid #AAAAAA;
+  border-left: 1px solid #39434F;
+  background-color: #C0C9D8;
+  padding: .5ex;
+  padding-left: 1ex;
+  margin: 2px;
 }
 
 .root_entry {
-	border: 1px solid #AAAAAA;
-	border-left: 1px solid #39434F;
-	background-color: #C0C9D8;
-	padding: .5ex;
-	padding-left: 1ex;
-	margin-top: 8px;
-	margin-bottom: 8px;
+  border: 1px solid #AAAAAA;
+  border-left: 1px solid #39434F;
+  background-color: #C0C9D8;
+  padding: .5ex;
+  padding-left: 1ex;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .root_entry .sub_entry {
-	padding: .5ex;
-	padding-left: 1ex;
-	margin: 2px;
-	margin-left: 1ex;
-	border-left: 1px solid #39434F;
+  padding: .5ex;
+  padding-left: 1ex;
+  margin: 2px;
+  margin-left: 1ex;
+  border-left: 1px solid #39434F;
 }
 
 .list_entry {
-	border: 1px solid #AAAAAA;
-	padding: 1ex;
-	margin-top: 1ex;
-	margin-bottom: 1ex;
+  border: 1px solid #AAAAAA;
+  padding: 1ex;
+  margin-top: 1ex;
+  margin-bottom: 1ex;
 }
 
 .list_entry td {
-	border: 1px solid #39434F;
+  border: 1px solid #39434F;
 }
 
 .project_entry {
-	border: 1px solid #AAAAAA;
-	padding: 1ex;
-	margin-top: 1ex;
-	margin-bottom: 1ex;
+  border: 1px solid #AAAAAA;
+  padding: 1ex;
+  margin-top: 1ex;
+  margin-bottom: 1ex;
 }
 
 /* information macros */
 
 .noteMacro { 
-	border-style: solid; 
-	border-width: 1px; 
-	border-color: #F0C000; 
-	background-color: #FFFFCE; 
+  border-style: solid; 
+  border-width: 1px; 
+  border-color: #F0C000; 
+  background-color: #FFFFCE; 
 }
 
 .warningMacro { 
-	border-style: solid; 
-	border-width: 1px; 
-	border-color: #c00; 
-	background-color: #fcc; 
+  border-style: solid; 
+  border-width: 1px; 
+  border-color: #c00; 
+  background-color: #fcc; 
 }
 
 .infoMacro { 
-	border-style: solid; 
-	border-width: 1px; 
-	border-color: #3c78b5; 
-	background-color: #D8E4F1; 
+  border-style: solid; 
+  border-width: 1px; 
+  border-color: #3c78b5; 
+  background-color: #D8E4F1; 
 }
 
 .tipMacro { 
-	border-style: solid; 
-	border-width: 1px; 
-	border-color: #009900; 
-	background-color: #ddffdd; 
+  border-style: solid; 
+  border-width: 1px; 
+  border-color: #009900; 
+  background-color: #ddffdd; 
 }
 
 .informationMacroPadding { 
-	padding: 5px 0 0 5px; 
+  padding: 5px 0 0 5px; 
 }
 
 table.infoMacro td, table.warningMacro td, table.tipMacro td, table.noteMacro td, table.sectionMacro td {
-    border: none;
-	text-align:left;
+  border: none;
+  text-align:left;
 }
 
 table.confluenceTable{
-	margin: 0px 0px 0px 0px;
-	padding: 4px 4px 4px 4px;
+  margin: 0px 0px 0px 0px;
+  padding: 4px 4px 4px 4px;
 }
 
 table.confluenceTable tr{
-	border-bottom: 1px solid #76849A;
-	border-top: 1px solid #76849A;
+  border-bottom: 1px solid #76849A;
+  border-top: 1px solid #76849A;
 }
 
 table.confluenceTable td{
-	margin: 0px 0px 0px 0px;
-	padding: 4px 8px 4px 8px;
-	background-color: #EAEDF2;
-    font-size: small;
+  margin: 0px 0px 0px 0px;
+  padding: 4px 8px 4px 8px;
+  background-color: #EAEDF2;
+  font-size: 13px; /* small */
 }
 
 table.confluenceTable th{
-	border: 1px solid #39434F;
-	color: #39434F;
-	background-color: #C0C9D8;
-	margin: 0px 0px 0px 0px;
-	padding: 4px 8px 4px 8px;
-	font-weight:bold;
-    font-size: normal;
+  border: 1px solid #39434F;
+  color: #39434F;
+  background-color: #C0C9D8;
+  margin: 0px 0px 0px 0px;
+  padding: 4px 8px 4px 8px;
+  font-weight:bold;
+  font-size: 13px; /* normal */
 }
 
 table.bodyTable td {
@@ -574,19 +583,19 @@ table.grid {
 table.grid th {
   background-color: #C0C9D8;
   border: 1px solid #C0C9D8;
-  font-size: small;
+  font-size: 13px; /* small */
   padding: 4px;
 }
 
 table.grid td {
   border: 1px solid #C0C9D8;
-  font-size: small;
+  font-size: 13px; /* small */
   padding: 3px;
 }
 
 table.bodyTable th, table.bodyTable td, table.wikitable th, table.wikitable td {
   border: 1px solid #39434F;
-  font-size: small;
+  font-size: 13px; /* small */
   padding: 4px;
 }
 
@@ -625,13 +634,12 @@ table.bodyTable tr.b {
   padding-right: 12px;
   padding-top: 2px;
   padding-bottom: 2px;
-  font-size: x-small;
+  font-size: 10px; /* x-small */
 }
 
 #breadcrumbs td {
-  font-size: x-small;
+  font-size: 10px; /* x-small */
 }
-
 
 #breadcrumbs a {
   font-weight: normal;
@@ -651,12 +659,12 @@ table.bodyTable tr.b {
   border-top: 1px solid #39434F;
   color: #39434F;
   padding-left: 4px;
-  font-size: small;
+  font-size: 13px; /* small */
 }
 
 #header_row {
-	background-image: url(cargo-banner-center.png);
-	background-repeat: repeat-x;
+  background-image: url(cargo-banner-center.png);
+  background-repeat: repeat-x;
 }
 
 #layout {
@@ -669,7 +677,7 @@ table.bodyTable tr.b {
   background-color: #EAEDF2;
   margin-top: 20px;
   padding: 12px;
-  font-size: normal;
+  font-size: 13px; /* normal */
   width: 16em;
 }
 
@@ -683,12 +691,12 @@ table.bodyTable tr.b {
 
 #leftColumn a {
   font-weight: normal;
-  font-size: normal;
+  font-size: 13px; /* normal */
 }
 
 #leftColumn tt a {
   font-weight: normal;
-  font-size: normal;
+  font-size: 13px; /* normal */
 }
 
 #leftColumn h3 {
@@ -696,12 +704,12 @@ table.bodyTable tr.b {
   border: 1px solid #EAEDF2;
   border-bottom: 1px solid #76849A;
   margin-bottom: .5em;
-  font-size: normal;
+  font-size: 15px; /* normal */
   font-weight: normal;
 }
 
 #leftColumn h3 a {
-  font-size: normal;
+  font-size: 15px; /* normal */
   font-weight: normal;
 }
 
@@ -711,7 +719,7 @@ table.bodyTable tr.b {
 #page_title {
   border-bottom: 2px solid #39434F;
   font-weight: normal;
-  font-size: x-large;
+  font-size: 24px; /* x-large */
   margin-bottom: .5em;
   color: #39434F;
 }
@@ -719,7 +727,7 @@ table.bodyTable tr.b {
 #rightColumn {
   border-right: 1px solid #39434F;
   padding: 12px;
-  font-size: small;
+  font-size: 13px; /* small */
   padding-left: 16px;
   padding-right: 16px;
 }
