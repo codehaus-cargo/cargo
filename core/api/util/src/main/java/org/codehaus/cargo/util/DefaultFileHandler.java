@@ -361,7 +361,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
                 if (ignoreNonExistingProperties)
                 {
-                    getLogger().warn(message, this.getClass().getName());
+                    getLogger().debug(message, this.getClass().getName());
                     continue;
                 }
                 else
@@ -444,7 +444,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
                     if (ignoreNonExistingProperties)
                     {
-                        getLogger().warn(message, this.getClass().getName());
+                        getLogger().debug(message, this.getClass().getName());
                         continue;
                     }
                     else
