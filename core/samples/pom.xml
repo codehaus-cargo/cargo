@@ -373,7 +373,7 @@
 
               <property>
                 <name>cargo.jetty9x.url</name>
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.2.v20130417/jetty-distribution-9.0.2.v20130417.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.3.v20130506/jetty-distribution-9.0.3.v20130506.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>
