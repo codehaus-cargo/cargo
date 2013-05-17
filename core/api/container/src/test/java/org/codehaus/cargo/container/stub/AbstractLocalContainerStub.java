@@ -159,4 +159,12 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     {
         // Nothing
     }
+
+    /**
+     * Voluntarily empty for testing. {@inheritdoc}
+     */
+    public void restart()
+    {
+        // Nothing
+    }
 }

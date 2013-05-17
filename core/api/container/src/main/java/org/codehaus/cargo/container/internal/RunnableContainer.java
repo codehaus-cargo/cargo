@@ -39,6 +39,13 @@ public interface RunnableContainer
     void stop();
 
     /**
+     * Restarts the container. It blocks until the container is fully stopped (if it not already
+     * is) and then blocks until the container is fully started unless it doesn't start before the
+     * timeout period in which case an exception will be thrown.
+     */
+    void restart();
+
+    /**
      * @param output the file to which the container's output will be logged to. Note that we're
      * passing a String instead of a File because we want to leave the possibility of using URIs for
      * specifying the home location.

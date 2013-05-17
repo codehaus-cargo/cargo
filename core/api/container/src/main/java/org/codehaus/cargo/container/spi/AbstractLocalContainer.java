@@ -287,6 +287,25 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     }
 
     /**
+     * {@inheritDoc}
+     * @see LocalContainer#restart()
+     */
+    public void restart()
+    {
+        try
+        {
+            stop();
+        }
+        catch (Throwable t)
+        {
+            getLogger().info("The stop phase of the restart action has failed: " + t.toString(),
+                this.getClass().getName());
+        }
+
+        start();
+    }
+
+    /**
      * Ping the WAR CPC to verify if the container is started or stopped.
      * 
      * @param waitForStarting if true then wait for container start, if false wait for container

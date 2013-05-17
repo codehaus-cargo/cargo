@@ -74,4 +74,28 @@ public class AllLocalContainerTest extends AbstractCargoTestCase
         getLocalContainer().stop();
         assertEquals(State.STOPPED, getContainer().getState());
     }
+
+    /**
+     * Smoke test: startup with no deployable.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testRestartWithNoDeployable() throws Exception
+    {
+        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
+
+        getLocalContainer().start();
+        assertEquals(State.STARTED, getContainer().getState());
+
+        getLocalContainer().restart();
+        assertEquals(State.STARTED, getContainer().getState());
+
+        getLocalContainer().stop();
+        assertEquals(State.STOPPED, getContainer().getState());
+
+        getLocalContainer().restart();
+        assertEquals(State.STARTED, getContainer().getState());
+
+        getLocalContainer().stop();
+        assertEquals(State.STOPPED, getContainer().getState());
+    }
 }
