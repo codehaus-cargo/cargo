@@ -21,8 +21,10 @@ package org.codehaus.cargo.container.stub;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.tools.ant.types.FilterChain;
 
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
@@ -148,12 +150,41 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * Voluntarily do nothing for testing. {@inheritdoc}
-     * @param container Ignored.
+     * {@inheritdoc}
+     * @return <code>null</code>
      */
-    public void configure(LocalContainer container)
+    public List<FileConfig> getFileProperties()
     {
-        // Nothing
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * @param fileConfig Ignored.
+     */
+    public void setConfigFileProperty(FileConfig fileConfig)
+    {
+        // TODO Auto-generated method stub
+    }
+
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * @param fileConfig Ignored.
+     */
+    public void setFileProperty(FileConfig fileConfig)
+    {
+        // TODO Auto-generate method stub
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return <code>null</code>
+     */
+    public FilterChain getFilterChain()
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /**
@@ -188,5 +219,14 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     public void revertPortOffset() 
     {
         // TODO Auto-generated method stub
+    }
+
+    /**
+     * Voluntarily do nothing for testing. {@inheritdoc}
+     * @param container Ignored.
+     */
+    public void configure(LocalContainer container)
+    {
+        // Nothing
     }
 }

@@ -19,14 +19,17 @@
  */
 package org.codehaus.cargo.container.spi.configuration;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.apache.tools.ant.types.FilterChain;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
@@ -65,6 +68,17 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      * List of {@link Deployable}s to deploy into the container.
      */
     private List<Deployable> deployables;
+
+    /**
+     * List of {@link FileConfig}s to use for the container.
+     */
+    private List<FileConfig> files;
+
+    /**
+     * The filterChain for the configuration files. This contains the tokens and what values they
+     * should be replaced with.
+     */
+    private FilterChain filterChain;
 
     /**
      * The home directory for the configuration. This is where the associated container will be set
@@ -115,6 +129,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
         this.resourceUtils = new ResourceUtils();
         this.resources = new ArrayList<Resource>();
         this.dataSources = new ArrayList<DataSource>();
+        this.files = new ArrayList<FileConfig>();
 
         this.home = home;
 
@@ -165,6 +180,37 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     protected final ResourceUtils getResourceUtils()
     {
         return this.resourceUtils;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#addConfigfile(org.codehaus.cargo.container.configuration.FileConfig)
+     */
+    public void setFileProperty(FileConfig fileConfig)
+    {
+        this.files.add(fileConfig);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#addConfigfile(org.codehaus.cargo.container.configuration.FileConfig)
+     */
+    public void setConfigFileProperty(FileConfig fileConfig)
+    {
+        // a configuration file should always overwrite the previous file if it exists
+        // since the token value could have changed during.
+        fileConfig.setOverwrite(true);
+        fileConfig.setConfigfile(true);
+        this.setFileProperty(fileConfig);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration#getConfigfiles()
+     */
+    public List<FileConfig> getFileProperties()
+    {
+        return this.files;
     }
 
     /**
@@ -221,6 +267,178 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
             throw new ContainerException("Failed to create a " + container.getName() + " "
                 + getType().getType() + " configuration", e);
         }
+
+        configureFiles(getFilterChain(), container);
+    }
+
+    /**
+     * Creates the default filter chain that should be applied while copying container configuration
+     * files to the working directory from which the container is started.
+     * 
+     * @return The default filter chain
+     */
+    protected final FilterChain createFilterChain()
+    {
+        this.filterChain = new FilterChain();
+
+        // add all the token specified in the containers configuration into the filterchain
+        getAntUtils().addTokensToFilterChain(filterChain, getProperties());
+
+        return filterChain;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public FilterChain getFilterChain()
+    {
+        if (this.filterChain == null)
+        {
+            this.filterChain = createFilterChain();
+        }
+        return this.filterChain;
+    }
+
+    /**
+     * Copy the customized configuration files into the cargo home directory.
+     * @param filterChain the filter chain to use during the copy
+     * @param container local container
+     */
+    protected void configureFiles(FilterChain filterChain, LocalContainer container)
+    {
+        List<FileConfig> files = this.files;
+
+        for (FileConfig fileConfig : files)
+        {
+            boolean isDirectory = false;
+
+            if (fileConfig.getFile() == null)
+            {
+                throw new RuntimeException("File cannot be null");
+            }
+
+            File origFile = new File(fileConfig.getFile());
+            if (origFile.isDirectory())
+            {
+                isDirectory = true;
+            }
+
+            String destFile = getDestFileLocation(fileConfig.getFile(),
+                    fileConfig.getToDir(), fileConfig.getToFile());
+
+            // we don't want to do anything if the file exists and overwrite is false
+            if (!origFile.exists() || fileConfig.getOverwrite())
+            {
+                if (isDirectory)
+                {
+                    String destDir = getDestDirectoryLocation(fileConfig.getFile(), fileConfig
+                            .getToDir());
+
+                    if (fileConfig.getConfigfile())
+                    {
+                        getFileHandler().copyDirectory(fileConfig.getFile(), destDir, filterChain,
+                            fileConfig.getEncoding());
+                    }
+                    else
+                    {
+                        getFileHandler().copyDirectory(fileConfig.getFile(), destDir);
+                    }
+                }
+                else
+                {
+                    if (fileConfig.getConfigfile())
+                    {
+                        getFileHandler().copyFile(fileConfig.getFile(), destFile, filterChain,
+                            fileConfig.getEncoding());
+                    }
+                    else
+                    {
+                        getFileHandler().copyFile(fileConfig.getFile(), destFile,
+                                fileConfig.getOverwrite());
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Determines the correct path for the destination file.
+     * @param file The path of the original file
+     * @param toDir The directory for the copied file
+     * @param toFile The file name for the copied file
+     * @return The path for the destination file
+     */
+    protected String getDestFileLocation(String file, String toDir, String toFile)
+    {
+        String fileName = file;
+        String finalFile = null;
+
+        if (fileName == null)
+        {
+            throw new RuntimeException("file cannot be null");
+        }
+        else if (toFile == null && toDir != null)
+        {
+            // get the filename and add it in the todir directory name
+            String filename = new File(fileName).getName();
+            finalFile = getHome() + "/" + toDir + "/" + filename;
+        }
+        else if (toFile != null && toDir == null)
+        {
+            // just use the tofile filename as the final file
+            finalFile = getHome() + "/" + toFile;
+        }
+        else if (toFile == null && toDir == null)
+        {
+            // use the filename and add it into the conf directory
+            String filename = new File(fileName).getName();
+            finalFile = getHome() + "/" + filename;
+        }
+        else if (toFile != null && toDir != null)
+        {
+            // tofile means what name to call the file in the todir directory
+            finalFile = getHome() + "/" + toDir + "/" + toFile;
+        }
+
+        // replace all double slashes with a single slash
+        while (finalFile.contains("//"))
+        {
+            finalFile = finalFile.replaceAll("//", "/");
+        }
+
+        return finalFile;
+    }
+
+    /**
+     * Determines the correct path for the destination directory.
+     * @param file The path of the original file
+     * @param toDir The directory for the copied file
+     * @return The path for the destination file
+     */
+    protected String getDestDirectoryLocation(String file, String toDir)
+    {
+        String fileName = file;
+        String finalDir = null;
+
+        if (fileName == null)
+        {
+            throw new RuntimeException("file cannot be null");
+        }
+        else if (toDir != null)
+        {
+            finalDir = getHome() + "/" + toDir;
+        }
+        else if (toDir == null)
+        {
+            finalDir = getHome();
+        }
+        // replace all double slashes with a single slash
+        while (finalDir.contains("//"))
+        {
+            finalDir = finalDir.replaceAll("//", "/");
+        }
+
+        return finalDir;
     }
 
     /**

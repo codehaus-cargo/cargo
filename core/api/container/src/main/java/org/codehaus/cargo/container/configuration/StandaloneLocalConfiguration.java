@@ -36,19 +36,6 @@ public interface StandaloneLocalConfiguration extends LocalConfiguration
 {
 
     /**
-     * set the config file property for a configuration.
-     * 
-     * @param fileConfig The FileConfig to use
-     */
-    void setConfigFileProperty(FileConfig fileConfig);
-
-    /**
-     * set the file property for a configuration.
-     * @param fileConfig The FileConfig to use
-     */
-    void setFileProperty(FileConfig fileConfig);
-
-    /**
      * Returns the file configurations.
      * 
      * @return The configuration file properies

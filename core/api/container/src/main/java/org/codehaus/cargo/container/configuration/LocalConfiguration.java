@@ -43,6 +43,29 @@ public interface LocalConfiguration extends Configuration
     String getHome();
 
     /**
+     * @param handler means by which we affect local files.
+     */
+    void setFileHandler(FileHandler handler);
+
+    /**
+     * @return the means by which we affect local files.
+     */
+    FileHandler getFileHandler();
+
+    /**
+     * set the config file property for a configuration.
+     * 
+     * @param fileConfig The FileConfig to use
+     */
+    void setConfigFileProperty(FileConfig fileConfig);
+
+    /**
+     * set the file property for a configuration.
+     * @param fileConfig The FileConfig to use
+     */
+    void setFileProperty(FileConfig fileConfig);
+
+    /**
      * Deploy a {@link Deployable} in the container. It installs the {@link Deployable} in the
      * container's configuration directory.
      * 
@@ -55,14 +78,6 @@ public interface LocalConfiguration extends Configuration
      * it is started
      */
     List<Deployable> getDeployables();
-
-    /**
-     * Setup the container which means setting up a valid directory structure, setting up
-     * configuration files and deploying static deployables.
-     * 
-     * @param container the container to configure
-     */
-    void configure(LocalContainer container);
 
     /**
      * Add resources the container can take advantage of. I.e. datasources.
@@ -90,22 +105,20 @@ public interface LocalConfiguration extends Configuration
     List<DataSource> getDataSources();
 
     /**
-     * @param handler means by which we affect local files.
-     */
-    void setFileHandler(FileHandler handler);
-
-    /**
-     * @return the means by which we affect local files.
-     */
-    FileHandler getFileHandler();
-    
-    /**
      * Apply the port offset to the configuration port properties.
      */
     void applyPortOffset();
-    
+
     /**
      * Revert the port offset on the configuration port properties.
      */
     void revertPortOffset();
+
+    /**
+     * Setup the container which means setting up a valid directory structure, setting up
+     * configuration files and deploying static deployables.
+     * 
+     * @param container the container to configure
+     */
+    void configure(LocalContainer container);
 }
