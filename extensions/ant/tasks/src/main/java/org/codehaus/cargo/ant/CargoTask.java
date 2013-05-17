@@ -74,6 +74,12 @@ public class CargoTask extends Task
     private static final String ACTION_START = "start";
 
     /**
+     * Represents a restart container action.
+     * @see #setAction(String)
+     */
+    private static final String ACTION_RESTART = "restart";
+
+    /**
      * Represents a run container action.
      * @see #setAction(String)
      */
@@ -90,7 +96,7 @@ public class CargoTask extends Task
      * @see #setAction(String)
      */
     private static final List<String> LOCAL_ACTIONS = Arrays.asList(new String[] {
-        ACTION_START, ACTION_RUN, ACTION_STOP, ACTION_CONFIGURE
+        ACTION_START, ACTION_RESTART, ACTION_RUN, ACTION_STOP, ACTION_CONFIGURE
     });
 
     /**
@@ -525,6 +531,10 @@ public class CargoTask extends Task
             if (ACTION_START.equalsIgnoreCase(getAction()))
             {
                 localContainer.start();
+            }
+            else if (ACTION_RESTART.equalsIgnoreCase(getAction()))
+            {
+                localContainer.restart();
             }
             else if (ACTION_RUN.equalsIgnoreCase(getAction()))
             {

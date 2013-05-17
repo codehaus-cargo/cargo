@@ -60,7 +60,7 @@ public class ContainerStartMojo extends AbstractCargoMojo
 
         this.localContainer = (LocalContainer) container;
         addAutoDeployDeployable(this.localContainer);
-        this.localContainer.start();
+        executeLocalContainerAction();
 
         if (getDeployablesElement() != null)
         {
@@ -86,6 +86,14 @@ public class ContainerStartMojo extends AbstractCargoMojo
                 }
             }
         }
+    }
+
+    /**
+     * Executes the local container action.
+     */
+    protected void executeLocalContainerAction()
+    {
+        this.localContainer.start();
     }
 
     /**
