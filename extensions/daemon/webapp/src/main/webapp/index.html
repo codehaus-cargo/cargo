@@ -18,6 +18,35 @@
 
         document.getElementById(target).value = value
       }
+      lastAlertedFileType = ""
+      function setFileType(value, target)
+      {
+        if (value.indexOf('.') !== -1)
+        {
+          value = value.substring(value.lastIndexOf('.') + 1)
+        }
+        if (value.indexOf('.') !== -1)
+        {
+          value = value.substring(value.lastIndexOf('.') + 1)
+        }
+        value = value.toLowerCase()
+
+        var fileTypes = document.getElementById(target).options
+        for (var index in fileTypes)
+        {
+          if (fileTypes[index].value == value)
+          {
+            fileTypes[index].selected = true
+            return
+          }
+        }
+
+        if (value != lastAlertedFileType)
+        {
+          lastAlertedFileType = value
+          alert("The deployable type was not recognized. Are you sure you selected a proper deployable?")
+        }
+      }
     </script>
   </head>
   <body>
@@ -58,7 +87,7 @@
             </tr>
           </table>
           <br/>
-          Please select below the various options for starting or stopping containers and select <b>Submit</b>.
+          Please specify below the various options for your container and select <b>Start</b>.
           <br/><br/>
           <form action="./start" method="POST" onsubmit="calculateFormProperties()" enctype="multipart/form-data" target="asyncForm" id="containerForm">
             <table width="800" style="margin:0px;border-collapse:collapse;">
@@ -211,12 +240,12 @@
                   <div>
                     <table id="configurationFilesTable" style="margin:0px;border-collapse:collapse;" width="600">
                       <tr bgcolor="#C0C9D8">
+                        <td width="125">File</td>
                         <td width="100">Filename</td>
                         <td width="150">Directory</td>
                         <td width="75" align="center">Overwrite</td>
                         <td width="75" align="center">Parse</td>
                         <td width="75">Encoding</td>
-                        <td width="125">File</td>
                       </tr>
                     </table>
                   </div>
@@ -234,9 +263,9 @@
                   <div>
                     <table id="deployableFilesTable" style="margin:0px;border-collapse:collapse;" width="600">
                       <tr bgcolor="#C0C9D8">
-                        <td width="100">Type</td>
-                        <td width="200">Filename</td>
                         <td width="300">File</td>
+                        <td width="200">Filename</td>
+                        <td width="100">Type</td>
                       </tr>
                     </table>
                   </div>
@@ -248,7 +277,7 @@
                 </td>
                 <td>
                   <br/>
-                  <input type="submit" value="Submit" id="submitButton"/>
+                  <input type="submit" value="Start" id="submitButton"/>
                 </td>
               </tr>
             </table>
@@ -355,12 +384,12 @@
           row.bgColor = "#EAEDF2"
         }
 
-        row.insertCell(0).innerHTML = "<input id='configurationFileName_" + configurationFiles + "' style='width:90px'/>";
-        row.insertCell(1).innerHTML = "<input id='configurationFileDir_" + configurationFiles + "' style='width:140px'/>";
-        row.insertCell(2).innerHTML = "<center><input type='checkbox' id='configurationFileOverwrite_" + configurationFiles + "'/></center>";
-        row.insertCell(3).innerHTML = "<center><input type='checkbox' id='configurationFileParse_" + configurationFiles + "'/></center>";
-        row.insertCell(4).innerHTML = "<input id='configurationFileEncoding_" + configurationFiles + "' style='width:65px'/>";
-        row.insertCell(5).innerHTML = "<input type='file' name='configurationFileData_" + configurationFiles + "' onchange=\"setFileName(this.value, 'configurationFileName_" + configurationFiles + "')\" style='width:120px' size='5'/>";
+        row.insertCell(0).innerHTML = "<input type='file' name='configurationFileData_" + configurationFiles + "' onchange=\"setFileName(this.value, 'configurationFileName_" + configurationFiles + "')\" style='width:120px' size='5'/>";
+        row.insertCell(1).innerHTML = "<input id='configurationFileName_" + configurationFiles + "' style='width:90px'/>";
+        row.insertCell(2).innerHTML = "<input id='configurationFileDir_" + configurationFiles + "' style='width:140px'/>";
+        row.insertCell(3).innerHTML = "<center><input type='checkbox' id='configurationFileOverwrite_" + configurationFiles + "' checked='checked'/></center>";
+        row.insertCell(4).innerHTML = "<center><input type='checkbox' id='configurationFileParse_" + configurationFiles + "'/></center>";
+        row.insertCell(5).innerHTML = "<input id='configurationFileEncoding_" + configurationFiles + "' style='width:65px'/>";
 
         configurationFiles++;
       }
@@ -398,9 +427,9 @@
           row.bgColor = "#EAEDF2"
         }
 
-        row.insertCell(0).innerHTML = "<select id='deployableFileType_" + deployableFiles + "' style='width:95px'></select>";
-        row.insertCell(1).innerHTML = "<input id='deployableFileName_" + deployableFiles + "' style='width:195px'/>";
-        row.insertCell(2).innerHTML = "<input type='file' name='deployableFileData_" + deployableFiles + "' onchange=\"setFileName(this.value, 'deployableFileName_" + deployableFiles + "')\" style='width:295px' size='31'/>";
+        row.insertCell(0).innerHTML = "<input type='file' name='deployableFileData_" + deployableFiles + "' onchange=\"setFileName(this.value, 'deployableFileName_" + deployableFiles + "');setFileType(this.value, 'deployableFileType_" + deployableFiles + "')\" style='width:295px' size='31'/>";
+        row.insertCell(1).innerHTML = "<input id='deployableFileName_" + deployableFiles + "' onchange=\"setFileType(this.value, 'deployableFileType_" + deployableFiles + "')\" style='width:195px'/>";
+        row.insertCell(2).innerHTML = "<select id='deployableFileType_" + deployableFiles + "' style='width:95px'></select>";
 
         var sel = document.getElementById("deployableFileType_" + deployableFiles);
         for (var i = 0; i < deployableTypes.length; i++)

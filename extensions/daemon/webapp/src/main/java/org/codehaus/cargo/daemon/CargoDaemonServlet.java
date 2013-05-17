@@ -47,7 +47,6 @@ import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -507,18 +506,13 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 container.setHome(containerHome);
             }
 
-            if (configuration instanceof StandaloneLocalConfiguration)
+            if (request.isSave())
             {
-                if (request.isSave())
-                {
-                    saveConfigurationFiles(configurationFiles, handleId, request);
-                }
-
-                setupConfigurationFiles(handleId, (StandaloneLocalConfiguration) configuration,
-                    configurationFileProperties, request);
-                setupDeployableFiles(handleId, containerId, deployableFiles, configuration,
-                    request);
+                saveConfigurationFiles(configurationFiles, handleId, request);
             }
+
+            setupConfigurationFiles(handleId, configuration, configurationFileProperties, request);
+            setupDeployableFiles(handleId, containerId, deployableFiles, configuration, request);
             if (container instanceof InstalledLocalContainer)
             {
                 if (request.isSave())
@@ -726,9 +720,8 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
      * @param configurationFiles List of properties for configuration files.
      * @param request The start request for a container.
      */
-    private void setupConfigurationFiles(String handleId,
-        StandaloneLocalConfiguration configuration, List<PropertyTable> configurationFiles,
-        StartRequest request)
+    private void setupConfigurationFiles(String handleId, LocalConfiguration configuration,
+        List<PropertyTable> configurationFiles, StartRequest request)
     {
         for (PropertyTable properties : configurationFiles)
         {
