@@ -35,7 +35,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
-import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
@@ -138,36 +137,6 @@ public abstract class AbstractJBossInstalledLocalContainer extends
         }
 
         java.execute();
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
-     */
-    @Override
-    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
-    {
-        if (!waitForStarting)
-        {
-            LocalConfiguration config = getConfiguration();
-
-            waitForPortShutdown(
-                config.getPropertyValue(ServletPropertySet.PORT),
-                config.getPropertyValue(GeneralPropertySet.RMI_PORT),
-                config.getPropertyValue(JBossPropertySet.JBOSS_AJP_PORT),
-                config.getPropertyValue(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT),
-                config.getPropertyValue(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT),
-                config.getPropertyValue(JBossPropertySet.JBOSS_INVOKER_POOL_PORT),
-                config.getPropertyValue(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT),
-                config.getPropertyValue(JBossPropertySet.JBOSS_JRMP_PORT),
-                config.getPropertyValue(JBossPropertySet.JBOSS_JMX_PORT),
-                config.getPropertyValue(JBossPropertySet.JBOSS_NAMING_PORT),
-                config.getPropertyValue(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT),
-                config.getPropertyValue(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT));
-            return;
-        }
-
-        super.waitForCompletion(waitForStarting);
     }
 
     /**

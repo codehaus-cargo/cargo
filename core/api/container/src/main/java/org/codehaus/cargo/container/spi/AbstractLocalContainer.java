@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
@@ -319,8 +318,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         if (waitForStarting)
         {
             DeployableMonitor monitor =
-                new URLDeployableMonitor(ContainerUtils.getCPCURL(config),
-                    getTimeout(),
+                new URLDeployableMonitor(ContainerUtils.getCPCURL(config), getTimeout(),
                     "Cargo Ping Component used to verify if the container is started.");
             monitor.setLogger(getLogger());
             DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
@@ -330,53 +328,39 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         }
         else
         {
-            waitForPortShutdown(config.getPropertyValue(ServletPropertySet.PORT),
-                config.getPropertyValue(GeneralPropertySet.RMI_PORT));
+            long deadline = System.currentTimeMillis() + getTimeout();
+
+            int connectTimeout = 0;
+            for (Map.Entry<String, String> property : getConfiguration().getProperties().entrySet())
+            {
+                if (!property.getKey().endsWith(".port") || property.getValue() == null)
+                {
+                    continue;
+                }
+                int port;
+                try
+                {
+                    port = Integer.parseInt(property.getValue());
+                }
+                catch (NumberFormatException e)
+                {
+                    continue;
+                }
+                if (port < 1 || port > 65535)
+                {
+                    continue;
+                }
+
+                waitForPortShutdown(port, connectTimeout, deadline);
+                getLogger().debug("\tPort " + port + " is shutdown", this.getClass().getName());
+
+                connectTimeout = 250;
+                continue;
+            }
 
             // Many container do not fully stop even after having destroyed all their sockets;
             // as a result wait 5 more seconds
             Thread.sleep(5000);
-        }
-    }
-
-    /**
-     * Waits for the specified server ports to get shutdown (i.e. become non-connectable). Invalid
-     * port numbers are silently ignored/skipped.
-     * 
-     * @param ports The ports to monitor, must not be {@code null}.
-     * @throws InterruptedException If the thread was interrupted while waiting for the port
-     *             shutdown.
-     */
-    protected void waitForPortShutdown(String... ports) throws InterruptedException
-    {
-        long deadline = System.currentTimeMillis() + getTimeout();
-
-        int connectTimeout = 0;
-        for (String p : ports)
-        {
-            if (p == null)
-            {
-                continue;
-            }
-            int port;
-            try
-            {
-                port = Integer.parseInt(p);
-            }
-            catch (NumberFormatException e)
-            {
-                continue;
-            }
-            if (port < 1 || port > 65535)
-            {
-                continue;
-            }
-
-            waitForPortShutdown(port, connectTimeout, deadline);
-            getLogger().debug("\tPort " + port + " is shutdown", this.getClass().getName());
-
-            connectTimeout = 250;
-            continue;
         }
     }
 
