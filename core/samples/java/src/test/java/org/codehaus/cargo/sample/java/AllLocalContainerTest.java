@@ -20,6 +20,7 @@
 package org.codehaus.cargo.sample.java;
 
 import junit.framework.Test;
+import org.codehaus.cargo.container.ContainerType;
 
 import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
@@ -82,6 +83,12 @@ public class AllLocalContainerTest extends AbstractCargoTestCase
     public void testRestartWithNoDeployable() throws Exception
     {
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
+
+        if (ContainerType.EMBEDDED.equals(getContainer().getType()))
+        {
+            // Do not restart embedded containers
+            return;
+        }
 
         getLocalContainer().start();
         assertEquals(State.STARTED, getContainer().getState());
