@@ -62,7 +62,6 @@
                 <portName>cargo.samples.servlet.port</portName>
                 <portName>cargo.samples.rmi.port</portName>
                 <portName>cargo.samples.tomcat.ajp.port</portName>
-                <portName>cargo.samples.jboss.management.port</portName>
               </portNames>
             </configuration>
           </execution>
@@ -72,14 +71,13 @@
   </build>
 
   <profiles>
-    <!-- JBoss 7.1.x, Jetty 8.x and Tomcat 7.x require JDK 6 -->
+    <!-- Jetty 8.x and Tomcat 7.x require JDK 6 -->
     <profile>
       <id>java6+</id>
       <activation>
         <jdk>[1.6,)</jdk>
       </activation>
       <modules>
-        <module>jboss7x-sharedclasspath-test</module>
         <module>jetty8x-embedded-test</module>
         <module>tomcat7x-context-test</module>
         <module>tomcat7x-systemProperty-test</module>
