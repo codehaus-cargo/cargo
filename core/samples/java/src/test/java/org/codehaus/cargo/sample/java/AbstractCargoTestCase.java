@@ -234,7 +234,18 @@ public class AbstractCargoTestCase extends TestCase
                 {
                     key = key.replace(containerIdentifier, "cargo");
                 }
-                configuration.setProperty(key, value);
+                if (key.endsWith(".port"))
+                {
+                    // Only set the ports that the container actually supports / uses
+                    if (configuration.getPropertyValue(key) != null)
+                    {
+                        configuration.setProperty(key, value);
+                    }
+                }
+                else
+                {
+                    configuration.setProperty(key, value);
+                }
             }
         }
         if (getTestData().javaHome != null && !getTestData().javaHome.equals(""))

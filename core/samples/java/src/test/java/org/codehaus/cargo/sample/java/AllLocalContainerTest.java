@@ -82,6 +82,12 @@ public class AllLocalContainerTest extends AbstractCargoTestCase
      */
     public void testRestartWithNoDeployable() throws Exception
     {
+        if ("jonas4x".equals(getTestData().containerId))
+        {
+            // JOnAS 4.x has trouble restarting too quickly, skip
+            return;
+        }
+
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
 
         if (ContainerType.EMBEDDED.equals(getContainer().getType()))
