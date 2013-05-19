@@ -63,17 +63,6 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     }
 
     /**
-     * Configure the specified container.
-     * @param container the container to configure
-     */
-    @Override
-    public void configure(LocalContainer container)
-    {
-        super.configure(container);
-        performXmlReplacements(container);
-    }
-
-    /**
      * Perform the XML replacements for the specified container.
      * @param container the container to configure
      */
