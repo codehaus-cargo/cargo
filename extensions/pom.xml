@@ -31,8 +31,8 @@
   <version>1.4.2-SNAPSHOT</version>
   <properties>
     <!-- define these variables because of potentially different release cycles -->
-    <cargo.resources.version>1.4.1</cargo.resources.version>
-    <cargo.core.version>1.4.1</cargo.core.version>
+    <cargo.resources.version>${project.version}</cargo.resources.version>
+    <cargo.core.version>${project.version}</cargo.core.version>
   </properties>
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/cargo/extensions/trunk</connection>
