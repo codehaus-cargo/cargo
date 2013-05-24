@@ -306,6 +306,16 @@ public class FileManager
     }
 
     /**
+     * Delete workspace directory.
+     * 
+     * @param handleId The handle identifier of a container
+     */
+    public void deleteWorkspaceDirectory(String handleId)
+    {
+        fileHandler.delete(getWorkspaceDirectory(handleId));
+    }
+
+    /**
      * Saves the input stream to a file, relative to the workspace directory.
      * 
      * @param relativeFile The relative filename

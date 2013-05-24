@@ -47,6 +47,7 @@ import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -462,6 +463,11 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             LocalConfiguration configuration =
                 (LocalConfiguration) CONFIGURATION_FACTORY.createConfiguration(containerId,
                     ContainerType.INSTALLED, parsedConfigurationType, configurationHome);
+
+            if (request.isSave() && configuration instanceof StandaloneLocalConfiguration)
+            {
+                fileManager.deleteWorkspaceDirectory(handleId);
+            }
 
             configuration.getProperties().putAll(configurationProperties);
 

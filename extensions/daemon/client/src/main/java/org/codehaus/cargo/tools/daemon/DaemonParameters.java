@@ -66,7 +66,7 @@ public class DaemonParameters
      */
     public boolean isMultipartForm()
     {
-        return files.size() > 0;
+        return files.size() > 0 || parameters.size() > 1;
     }
 
     /**

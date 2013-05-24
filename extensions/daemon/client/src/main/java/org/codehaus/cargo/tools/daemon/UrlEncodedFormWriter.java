@@ -74,7 +74,10 @@ public class UrlEncodedFormWriter
         }
 
         formData.append(name + "=");
-        formData.append(URLEncoder.encode(value, charset));
+        if (value != null)
+        {
+            formData.append(URLEncoder.encode(value, charset));
+        }
     }
 
     /**

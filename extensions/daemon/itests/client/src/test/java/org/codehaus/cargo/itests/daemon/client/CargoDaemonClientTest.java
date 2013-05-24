@@ -196,6 +196,13 @@ public class CargoDaemonClientTest extends TestCase
 
         client.stop("test1");
         daemonWatchdog.watchForUnavailability();
+
+        // CARGO-1198: Try starting again
+        client.start(start);
+        daemonWatchdog.watchForAvailability();
+
+        client.stop("test1");
+        daemonWatchdog.watchForUnavailability();
     }
 
 }

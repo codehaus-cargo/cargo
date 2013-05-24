@@ -32,7 +32,6 @@ import java.util.Map;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.util.Base64;
@@ -243,10 +242,7 @@ public class DaemonClient extends LoggedObject
             parameters.setParameter("deployableFiles", setupDeployables(parameters, deployables));
         }
 
-        if (configuration instanceof StandaloneLocalConfiguration)
-        {
-            setupConfigFiles(parameters, (StandaloneLocalConfiguration) configuration);
-        }
+        setupConfigFiles(parameters, configuration);
 
         if (container instanceof InstalledLocalContainer)
         {
@@ -550,8 +546,7 @@ public class DaemonClient extends LoggedObject
      * @param parameters The daemon parameters
      * @param configuration The configuration
      */
-    private void setupConfigFiles(DaemonParameters parameters,
-        StandaloneLocalConfiguration configuration)
+    private void setupConfigFiles(DaemonParameters parameters, LocalConfiguration configuration)
     {
         List<FileConfig> fileConfigs = configuration.getFileProperties();
 
