@@ -21,6 +21,8 @@ package org.codehaus.cargo.container.configuration;
 
 import java.util.List;
 
+import org.apache.tools.ant.types.FilterChain;
+
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
@@ -64,6 +66,20 @@ public interface LocalConfiguration extends Configuration
      * @param fileConfig The FileConfig to use
      */
     void setFileProperty(FileConfig fileConfig);
+
+    /**
+     * Returns the file configurations.
+     * 
+     * @return The configuration file properies
+     */
+    List<FileConfig> getFileProperties();
+
+    /**
+     * Returns the filterchain for this configuration.
+     * 
+     * @return The filterchain
+     */
+    FilterChain getFilterChain();
 
     /**
      * Deploy a {@link Deployable} in the container. It installs the {@link Deployable} in the

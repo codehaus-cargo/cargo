@@ -21,8 +21,6 @@ package org.codehaus.cargo.container.configuration;
 
 import java.util.List;
 
-import org.apache.tools.ant.types.FilterChain;
-
 /**
  * Using a standalone configuration allows Cargo to create a valid configuration for your container
  * in the directory of your choice. It uses default parameters and allows you to modify important
@@ -34,19 +32,5 @@ import org.apache.tools.ant.types.FilterChain;
  */
 public interface StandaloneLocalConfiguration extends LocalConfiguration
 {
-
-    /**
-     * Returns the file configurations.
-     * 
-     * @return The configuration file properies
-     */
-    List<FileConfig> getFileProperties();
-
-    /**
-     * Returns the filterchain for this configuration.
-     * 
-     * @return The filterchain
-     */
-    FilterChain getFilterChain();
 
 }
