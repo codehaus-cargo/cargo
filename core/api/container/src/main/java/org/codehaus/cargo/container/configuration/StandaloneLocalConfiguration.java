@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.configuration;
 
-import java.util.List;
-
 /**
  * Using a standalone configuration allows Cargo to create a valid configuration for your container
  * in the directory of your choice. It uses default parameters and allows you to modify important
