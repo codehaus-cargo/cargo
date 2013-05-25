@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.stub;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.tools.ant.types.FilterChain;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.FileConfig;
@@ -175,16 +174,6 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     public void setFileProperty(FileConfig fileConfig)
     {
         // TODO Auto-generate method stub
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return <code>null</code>
-     */
-    public FilterChain getFilterChain()
-    {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     /**

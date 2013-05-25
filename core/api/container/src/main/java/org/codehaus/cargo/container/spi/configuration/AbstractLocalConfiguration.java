@@ -290,7 +290,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * {@inheritDoc}
      */
-    public FilterChain getFilterChain()
+    protected FilterChain getFilterChain()
     {
         if (this.filterChain == null)
         {
