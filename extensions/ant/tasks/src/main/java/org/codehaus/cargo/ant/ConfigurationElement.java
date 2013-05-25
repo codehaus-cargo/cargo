@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 
@@ -227,27 +226,25 @@ public class ConfigurationElement
             configuration.setProperty(property.getName(), property.getValue());
         }
 
-        // Add static deployables for local configurations
+        // Add static deployables and configuration files for local configurations
         if (configuration instanceof LocalConfiguration)
         {
-            addStaticDeployables(containerId, (LocalConfiguration) configuration);
-        }
+            LocalConfiguration localConfiguration = (LocalConfiguration) configuration;
 
-        if (configuration instanceof StandaloneLocalConfiguration)
-        {
+            addStaticDeployables(containerId, localConfiguration);
+
             if (getFileConfigs() != null)
             {
                 for (FileConfig configfile : getFileConfigs())
                 {
-                    ((StandaloneLocalConfiguration) configuration)
-                            .setConfigFileProperty(configfile);
+                    localConfiguration.setConfigFileProperty(configfile);
                 }
             }
             if (getFiles() != null)
             {
                 for (FileConfig file : getFiles())
                 {
-                    ((StandaloneLocalConfiguration) configuration).setFileProperty(file);
+                    localConfiguration.setFileProperty(file);
                 }
             }
         }

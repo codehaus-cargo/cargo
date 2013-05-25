@@ -34,7 +34,6 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.maven2.util.CargoProject;
@@ -328,31 +327,27 @@ public class Configuration
             }
         }
 
-        // Add static deployables for local configurations
+        // Add static deployables and config files for local configurations
         if (configuration instanceof LocalConfiguration)
         {
+            LocalConfiguration localConfiguration = (LocalConfiguration) configuration;
+
             if (deployables != null)
             {
-                addStaticDeployables(
-                    containerId, (LocalConfiguration) configuration, deployables, project);
+                addStaticDeployables(containerId, localConfiguration, deployables, project);
             }
 
             if (getResources() != null)
             {
-                addResources(containerId, (LocalConfiguration) configuration, project);
+                addResources(containerId, localConfiguration, project);
             }
-        }
 
-        // Add configfiles for standalone local configurations
-        if (configuration instanceof StandaloneLocalConfiguration)
-        {
             if (getConfigfiles() != null)
             {
                 for (int i = 0; i < getConfigfiles().length; i++)
                 {
                     FileConfig fileConfig = getConfigfiles()[i];
-                    ((StandaloneLocalConfiguration) configuration)
-                        .setConfigFileProperty(fileConfig);
+                    localConfiguration.setConfigFileProperty(fileConfig);
                 }
             }
             if (getFiles() != null)
@@ -360,7 +355,7 @@ public class Configuration
                 for (int i = 0; i < getFiles().length; i++)
                 {
                     FileConfig fileConfig = getFiles()[i];
-                    ((StandaloneLocalConfiguration) configuration).setFileProperty(fileConfig);
+                    localConfiguration.setFileProperty(fileConfig);
                 }
             }
         }
