@@ -194,21 +194,6 @@ public class CargoDaemonClientTest extends TestCase
         DeployerWatchdog daemonWatchdog = new DeployerWatchdog(daemonMonitor);
         daemonWatchdog.watchForAvailability();
 
-        // CARGO-1198: Create a dummy file
-        File dummy = new File(configurationDirectory, "dummy.file");
-        assertFalse("File " + dummy + " already exists", dummy.isFile());
-        dummy.createNewFile();
-        assertTrue("File " + dummy + " does not exist", dummy.isFile());
-
-        client.stop("test1");
-        daemonWatchdog.watchForUnavailability();
-
-        // CARGO-1198: Start the standalone container again and check if file disappeared
-        assertTrue("File " + dummy + " does not exist", dummy.isFile());
-        client.start(start);
-        daemonWatchdog.watchForAvailability();
-        assertFalse("File " + dummy + " still exists", dummy.isFile());
-
         client.stop("test1");
         daemonWatchdog.watchForUnavailability();
     }

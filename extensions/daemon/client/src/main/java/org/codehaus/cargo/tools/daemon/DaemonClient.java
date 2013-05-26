@@ -845,6 +845,13 @@ public class DaemonClient extends LoggedObject
 
         if (!response.startsWith("OK -"))
         {
+            String scriptEndString = "</script>";
+            int scriptEnd = response.indexOf(scriptEndString);
+            if (scriptEnd != -1)
+            {
+                response = response.substring(scriptEnd + scriptEndString.length()).trim();
+            }
+
             throw new DaemonException("Failed parsing response for " + invokeURL
                 + ". Response was: " + response);
         }
