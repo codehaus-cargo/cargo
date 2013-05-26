@@ -87,6 +87,17 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         setProperty(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, "4447");
         setProperty(JBossPropertySet.CONFIGURATION, CONFIGURATION);
 
+        getProperties().remove(JBossPropertySet.JBOSS_AJP_PORT);
+        getProperties().remove(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT);
+        getProperties().remove(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT);
+        getProperties().remove(JBossPropertySet.JBOSS_INVOKER_POOL_PORT);
+        getProperties().remove(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT);
+        getProperties().remove(JBossPropertySet.JBOSS_NAMING_PORT);
+        getProperties().remove(JBossPropertySet.JBOSS_PASSWORD);
+        getProperties().remove(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT);
+        getProperties().remove(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT);
+        getProperties().remove(JBossPropertySet.JBOSS_USER);
+
         try
         {
             md5 = MessageDigest.getInstance("md5");
@@ -127,9 +138,6 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
     @Override
     public void configure(LocalContainer container)
     {
-        String configurationXmlFile = "configuration/"
-            + getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml";
-
         for (Deployable deployable : getDeployables())
         {
             if (deployable instanceof WAR)
@@ -138,11 +146,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
                 if (war.getContext() == null || war.getContext().equals("")
                     || war.getContext().equals("/") || war.getContext().equalsIgnoreCase("ROOT"))
                 {
-                    // CARGO-1090: Disable the welcome root application
-                    addXmlReplacement(
-                        configurationXmlFile,
-                        "//server/profile/subsystem/virtual-server",
-                        "enable-welcome-root", "false");
+                    disableWelcomeRoot();
                     break;
                 }
             }
@@ -166,7 +170,21 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
                     managementToken.toString(), "UTF-8");
         }
     }
-    
+
+    /**
+     * CARGO-1090: Disable the welcome root application.
+     */
+    protected void disableWelcomeRoot()
+    {
+        String configurationXmlFile = "configuration/"
+            + getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml";
+
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/profile/subsystem/virtual-server",
+            "enable-welcome-root", "false");
+    }
+
     /**
      * {@inheritDoc}
      * @see AbstractStandaloneLocalConfiguration#doConfigure(LocalContainer)
@@ -385,8 +403,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         if (altDeployDir != null && !altDeployDir.equals(""))
         {
             container.getLogger().info("Using non-default deployment target directory " 
-                + altDeployDir,
-                JBoss7xStandaloneLocalConfiguration.class.getName());
+                + altDeployDir, this.getClass().getName());
             deployments = getFileHandler().append(getHome(), altDeployDir);
         }
         else

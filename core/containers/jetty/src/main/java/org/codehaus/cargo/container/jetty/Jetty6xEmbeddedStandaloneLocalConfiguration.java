@@ -87,8 +87,7 @@ public class Jetty6xEmbeddedStandaloneLocalConfiguration extends
     @Override
     protected void activateLogging(LocalContainer container)
     {
-        getLogger().info("Jetty6x log configuration not implemented",
-            Jetty6xEmbeddedStandaloneLocalConfiguration.class.getName());
+        getLogger().info("Jetty6x log configuration not implemented", this.getClass().getName());
     }
 
     /**

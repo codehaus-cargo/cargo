@@ -41,12 +41,12 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
     /**
      * Unique container id.
      */
-    public static final String ID = "websphere85x";
+    private static final String ID = "websphere85x";
 
     /**
      * Container name (human-readable name).
      */
-    public static final String NAME = "WebSphere 8.5";
+    private static final String NAME = "WebSphere 8.5";
 
     /**
      * Capabilities.

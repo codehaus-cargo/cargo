@@ -32,7 +32,7 @@ public class JBoss3xInstalledLocalContainer extends AbstractJBossInstalledLocalC
     /**
      * JBoss 3.x series unique id.
      */
-    public static final String ID = "jboss3x";
+    private static final String ID = "jboss3x";
 
     /**
      * {@inheritDoc}

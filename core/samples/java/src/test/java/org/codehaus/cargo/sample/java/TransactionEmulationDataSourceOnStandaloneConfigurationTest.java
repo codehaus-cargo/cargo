@@ -77,8 +77,8 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
-        // We exclude geronimo2x, jboss7x and jboss71x as these don't support transaction emulation
-        // the way CARGO tests it
+        // We exclude geronimo2x, jboss7x, jboss71x and wildfly8x as these don't support
+        // transaction emulation the way CARGO tests it
         //
         // We exclude glassfish4x beta as it has a small bug in the lookup making CARGO tests fail
         Set<String> excludedContainerIds = new TreeSet<String>();
@@ -86,6 +86,7 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("jboss7x");
         excludedContainerIds.add("jboss71x");
         excludedContainerIds.add("glassfish4x");
+        excludedContainerIds.add("wildfly8x");
 
         suite.addTestSuite(TransactionEmulationDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {

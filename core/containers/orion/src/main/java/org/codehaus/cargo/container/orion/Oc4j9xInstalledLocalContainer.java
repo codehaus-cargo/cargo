@@ -35,7 +35,7 @@ public class Oc4j9xInstalledLocalContainer extends AbstractOrionInstalledLocalCo
     /**
      * Unique container id.
      */
-    public static final String ID = "oc4j9x";
+    private static final String ID = "oc4j9x";
 
     /**
      * {@inheritDoc}

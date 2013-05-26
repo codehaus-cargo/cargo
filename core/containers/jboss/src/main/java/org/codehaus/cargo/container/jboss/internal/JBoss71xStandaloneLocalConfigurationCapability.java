@@ -44,9 +44,9 @@ public class JBoss71xStandaloneLocalConfigurationCapability
 
         this.propertySupportMap.put(JBossPropertySet.JBOSS_AJP_PORT, Boolean.TRUE);
 
-        this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.FALSE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_JRMP_PORT, Boolean.FALSE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_JMX_PORT, Boolean.FALSE);
+        this.propertySupportMap.remove(GeneralPropertySet.RMI_PORT);
+        this.propertySupportMap.remove(JBossPropertySet.JBOSS_JRMP_PORT);
+        this.propertySupportMap.remove(JBossPropertySet.JBOSS_JMX_PORT);
     }
 
 }

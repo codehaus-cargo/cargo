@@ -39,7 +39,7 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
     /**
      * Geronimo 2.x series unique id.
      */
-    public static final String ID = "geronimo2x";
+    private static final String ID = "geronimo2x";
 
     /**
      * {@inheritDoc}

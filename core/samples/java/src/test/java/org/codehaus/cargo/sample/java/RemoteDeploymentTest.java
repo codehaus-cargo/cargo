@@ -177,6 +177,12 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
                 }
             }
         }
+        // WildFly requires the same huge classpath as JBoss 7.x
+        else if (getTestData().containerId.startsWith("wildfly"))
+        {
+            AbstractJBossCapabilityTestCase.addAllJars(
+                new File(this.localContainer.getHome(), "modules"), filesToAddToClasspath);
+        }
         URL[] urlsArray = new URL[filesToAddToClasspath.size()];
         for (int i = 0; i < filesToAddToClasspath.size(); i++)
         {

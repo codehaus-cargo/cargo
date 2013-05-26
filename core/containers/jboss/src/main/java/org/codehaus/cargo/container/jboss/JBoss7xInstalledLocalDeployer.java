@@ -65,7 +65,7 @@ public class JBoss7xInstalledLocalDeployer extends JBossInstalledLocalDeployer
         if (altDeployDir != null && !"".equals(altDeployDir))
         {
             getContainer().getLogger().info("Using non-default deployment target directory "
-                + altDeployDir, JBoss7xInstalledLocalDeployer.class.getName());
+                + altDeployDir, this.getClass().getName());
             return getFileHandler().append(getContainer().getConfiguration().getHome(),
                 altDeployDir);
         }

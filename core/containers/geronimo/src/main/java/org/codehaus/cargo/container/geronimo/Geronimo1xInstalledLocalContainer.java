@@ -43,7 +43,7 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
     /**
      * Geronimo 1.x series unique id.
      */
-    public static final String ID = "geronimo1x";
+    private static final String ID = "geronimo1x";
 
     /**
      * Capability of the Geronimo Container.

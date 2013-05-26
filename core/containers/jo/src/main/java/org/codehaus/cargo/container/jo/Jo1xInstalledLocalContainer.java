@@ -40,12 +40,12 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
     /**
      * Unique container id.
      */
-    public static final String ID = "jo1x";
+    private static final String ID = "jo1x";
 
     /**
      * Container name (humand-readable name).
      */
-    public static final String NAME = "jo! 1.x";
+    private static final String NAME = "jo! 1.x";
 
     /**
      * Capabilities.

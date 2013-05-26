@@ -22,6 +22,8 @@ package org.codehaus.cargo.sample.java;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.Set;
+import java.util.TreeSet;
 
 import junit.framework.Test;
 
@@ -67,10 +69,15 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that run on containers supporting OSGi deployments");
 
+        // We exclude WildFly as the default standalone.xml has OSGi support disabled
+        Set<String> excludedContainerIds = new TreeSet<String>();
+        excludedContainerIds.add("wildfly8x");
+
         suite.addTestSuite(BundleCapabilityContainerTest.class, new Validator[] {
             new IsLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),
-            new HasBundleSupportValidator()});
+            new HasBundleSupportValidator()},
+            excludedContainerIds);
         return suite;
     }
 

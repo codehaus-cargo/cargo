@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
+import org.codehaus.cargo.container.spi.deployer.AbstractDeployer;
 
 /**
  * JBoss existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
@@ -65,18 +66,15 @@ public class JBoss7xExistingLocalConfiguration extends AbstractExistingLocalConf
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
-        InstalledLocalContainer jbossContainer = 
-            (InstalledLocalContainer) container;
+        InstalledLocalContainer jbossContainer = (InstalledLocalContainer) container;
 
         File deployDir;
         String altDeployDir = container.getConfiguration().
             getPropertyValue(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR);
         if (altDeployDir != null && !altDeployDir.equals(""))
         {
-            container.getLogger().info("Using "
-                + "non-default deployment target directory "
-                + altDeployDir,
-                JBoss7xExistingLocalConfiguration.class.getName());
+            container.getLogger().info("Using non-default deployment target directory "
+                + altDeployDir, this.getClass().getName());
             deployDir = new File(getHome(), altDeployDir);
         }
         else
@@ -94,8 +92,19 @@ public class JBoss7xExistingLocalConfiguration extends AbstractExistingLocalConf
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             new File(deployDir, "cargocpc.war"));
 
-        JBoss7xInstalledLocalDeployer deployer = new JBoss7xInstalledLocalDeployer(jbossContainer);
+        AbstractDeployer deployer = createDeployer(jbossContainer);
         deployer.deploy(getDeployables());
+    }
+
+    /**
+     * Creates the JBoss deployer.
+     * 
+     * @param jbossContainer JBoss container.
+     * @return JBoss deployer.
+     */
+    protected AbstractDeployer createDeployer(InstalledLocalContainer jbossContainer)
+    {
+        return new JBoss7xInstalledLocalDeployer(jbossContainer);
     }
 
     /**

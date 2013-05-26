@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Codehaus CARGO, copyright 2004-2011 Vincent Massol.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-core-containers</artifactId>
+    <version>1.4.2-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-core-container-wildfly</artifactId>
+  <name>Cargo Core WildFly Container</name>
+  <packaging>jar</packaging>
+  <description>Core API implementation for WildFly containers</description>
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-jboss</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <configuration>
+              <outputDirectory>
+                ${project.build.directory}/classes
+              </outputDirectory>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-core-container-jboss</artifactId>
+                  <version>${project.version}</version>
+                  <includes>
+                    org/codehaus/cargo/container/internal/resources/jboss-ds/*,
+                    org/codehaus/cargo/container/internal/resources/jboss-module/*,
+                    org/codehaus/cargo/container/jboss/JBoss7*,
+                    org/codehaus/cargo/container/jboss/JBossExistingLocalConfiguration.class,
+                    org/codehaus/cargo/container/jboss/JBossInstalledLocalDeployer.class,
+                    org/codehaus/cargo/container/jboss/JBossPropertySet.class,
+                    org/codehaus/cargo/container/jboss/JBossStandaloneLocalConfiguration.class,
+                    org/codehaus/cargo/container/jboss/deployable/*,
+                    org/codehaus/cargo/container/jboss/deployer/jboss-deployer-7.jar,
+                    org/codehaus/cargo/container/jboss/internal/AbstractJBossInstalledLocalContainer.class,
+                    org/codehaus/cargo/container/jboss/internal/AbstractJBossRuntimeConfigurationCapability.class,
+                    org/codehaus/cargo/container/jboss/internal/IJBossProfileManagerDeployer.class,
+                    org/codehaus/cargo/container/jboss/internal/JaasConfiguration.class,
+                    org/codehaus/cargo/container/jboss/internal/JBoss7*.class,
+                    org/codehaus/cargo/container/jboss/internal/JBossContainerCapability.class,
+                    org/codehaus/cargo/container/jboss/internal/JBossExistingLocalConfigurationCapability.class,
+                    org/codehaus/cargo/container/jboss/internal/JBossInstalledLocalContainer.class,
+                    org/codehaus/cargo/container/jboss/internal/JBossStandaloneLocalConfigurationCapability.class,
+                    org/codehaus/cargo/container/jboss/internal/UsernamePasswordCallbackHandler.class,
+                  </includes>
+                  <overWrite>false</overWrite>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

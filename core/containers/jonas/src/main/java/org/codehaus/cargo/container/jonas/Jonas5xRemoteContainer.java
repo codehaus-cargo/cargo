@@ -37,7 +37,7 @@ public class Jonas5xRemoteContainer extends AbstractRemoteContainer
     /**
      * Unique container id.
      */
-    public static final String ID = "jonas5x";
+    private static final String ID = "jonas5x";
 
     /**
      * the Capability of the JOnAS container.

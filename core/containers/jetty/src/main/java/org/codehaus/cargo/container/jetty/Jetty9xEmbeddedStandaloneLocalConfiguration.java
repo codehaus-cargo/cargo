@@ -45,8 +45,7 @@ public class Jetty9xEmbeddedStandaloneLocalConfiguration extends
     @Override
     protected void activateLogging(LocalContainer container)
     {
-        getLogger().info("Jetty9x log configuration not implemented",
-            Jetty9xEmbeddedStandaloneLocalConfiguration.class.getName());
+        getLogger().info("Jetty9x log configuration not implemented", this.getClass().getName());
     }
 
     /**

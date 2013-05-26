@@ -33,7 +33,7 @@ public class GlassFish3xRemoteContainer extends AbstractRemoteContainer
     /**
      * Unique container id.
      */
-    public static final String ID = "glassfish3x";
+    private static final String ID = "glassfish3x";
 
     /**
      * the Capability of the JOnAS container.

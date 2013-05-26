@@ -31,7 +31,7 @@ public class JBoss42xInstalledLocalContainer extends JBoss4xInstalledLocalContai
     /**
      * JBoss 4.2.x series unique id.
      */
-    public static final String ID = "jboss42x";
+    private static final String ID = "jboss42x";
 
     /**
      * {@inheritDoc}

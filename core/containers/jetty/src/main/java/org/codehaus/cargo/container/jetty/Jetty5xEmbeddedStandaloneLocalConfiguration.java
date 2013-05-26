@@ -122,7 +122,7 @@ public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
         else
         {
             getLogger().info("Logging for Jetty container deferred to JCL discovery mechanism",
-                Jetty5xEmbeddedStandaloneLocalConfiguration.class.getName());
+                this.getClass().getName());
         }
     }
 

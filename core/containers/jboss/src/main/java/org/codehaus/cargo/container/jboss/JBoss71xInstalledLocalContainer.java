@@ -36,7 +36,7 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
     /**
      * JBoss 7.1.x series unique id.
      */
-    public static final String ID = "jboss71x";
+    private static final String ID = "jboss71x";
 
     /**
      * Since JBoss 7.1.x is not always very stable when stopping, try twice.

@@ -138,7 +138,8 @@ public class ConfluenceContainerDocumentationGenerator
         "tomcat7x",
         "weblogic103x",
         "weblogic12x",
-        "websphere85x"
+        "websphere85x",
+        "wildfly8x"
     });
 
     /**
@@ -436,6 +437,12 @@ public class ConfluenceContainerDocumentationGenerator
                     + "| The JBoss 7.1.x deployer will modify the {{MANIFEST.MF}} of your "
                         + "deployables in order to add the extra and shared classpath |");
             }
+            else if (containerId.equals("wildfly8x"))
+            {
+                output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) "
+                    + "| The WildFly 8.x deployer will modify the {{MANIFEST.MF}} of your "
+                        + "deployables in order to add the extra and shared classpath |");
+            }
             else
             {
                 output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) | |");
@@ -683,7 +690,7 @@ public class ConfluenceContainerDocumentationGenerator
         }
         output.append(LINE_SEPARATOR);
 
-        if (containerId.startsWith("jboss"))
+        if (containerId.startsWith("jboss") || containerId.startsWith("wildfly"))
         {
             if (this.containerCapabilityFactory.createContainerCapability(
                 containerId).supportsDeployableType(DeployableType.HAR))
@@ -895,7 +902,8 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append(LINE_SEPARATOR);
             }
 
-            if (containerId.startsWith("jboss"))
+            if (containerId.startsWith("jboss3") || containerId.startsWith("jboss4")
+                || containerId.startsWith("jboss5") || containerId.startsWith("jboss6"))
             {
                 output.append(LINE_SEPARATOR);
                 output.append(LINE_SEPARATOR);
@@ -988,6 +996,13 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append(LINE_SEPARATOR);
                 output.append("{info}Before using the GlassFish remote deployer, ");
                 output.append("please read: [JSR88]{info}");
+            }
+            if (containerId.startsWith("wildfly"))
+            {
+                output.append(LINE_SEPARATOR);
+                output.append(LINE_SEPARATOR);
+                output.append("{info}Before using the WildFly remote deployer, ");
+                output.append("please read: [JBoss Remote Deployer]{info}");
             }
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);

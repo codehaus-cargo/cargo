@@ -84,5 +84,6 @@
     <module>tomcat</module>
     <module>weblogic</module>
     <module>websphere</module>
+    <module>wildfly</module>
   </modules>
 </project>

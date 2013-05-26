@@ -35,7 +35,7 @@ public class WebLogic10xInstalledLocalContainer extends
     /**
      * Unique container id.
      */
-    public static final String ID = "weblogic10x";
+    private static final String ID = "weblogic10x";
 
     /**
      * {@inheritDoc}

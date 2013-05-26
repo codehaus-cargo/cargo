@@ -76,7 +76,7 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
             new CargoTestSuite(
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
-        // We exclude Geronimo and JBoss containers as these don't support
+        // We exclude Geronimo, JBoss and WildFly containers as these don't support
         // XA transaction emulation the way CARGO tests it
         //
         // We exclude glassfish4x beta as it has a small bug in the lookup making CARGO tests fail
@@ -93,6 +93,7 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
         excludedContainerIds.add("jboss7x");
         excludedContainerIds.add("jboss71x");
         excludedContainerIds.add("glassfish4x");
+        excludedContainerIds.add("wildfly8x");
 
         suite.addTestSuite(XATransactionEmulationDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {

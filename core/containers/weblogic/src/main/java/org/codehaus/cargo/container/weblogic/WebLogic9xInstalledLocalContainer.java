@@ -34,7 +34,7 @@ public class WebLogic9xInstalledLocalContainer
     /**
      * Unique container id.
      */
-    public static final String ID = "weblogic9x";
+    private static final String ID = "weblogic9x";
 
     /**
      * {@inheritDoc}

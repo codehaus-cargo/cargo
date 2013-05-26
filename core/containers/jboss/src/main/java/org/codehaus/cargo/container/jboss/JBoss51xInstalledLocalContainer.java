@@ -32,7 +32,7 @@ public class JBoss51xInstalledLocalContainer extends AbstractJBoss5xInstalledLoc
     /**
      * JBoss 5.1.x series unique id.
      */
-    public static final String ID = "jboss51x";
+    private static final String ID = "jboss51x";
 
     /**
      * {@inheritDoc}

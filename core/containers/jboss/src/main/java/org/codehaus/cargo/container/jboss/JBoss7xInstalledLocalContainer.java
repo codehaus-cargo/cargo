@@ -41,7 +41,7 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
     /**
      * JBoss 7.x series unique id.
      */
-    public static final String ID = "jboss7x";
+    private static final String ID = "jboss7x";
 
     /**
      * Capability of the JBoss container.
@@ -106,8 +106,7 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
             {
                 File configAdminFile;
 
-                File configAdminDirectory = new File(getHome(),
-                    "bundles/org/jboss/as/osgi/configadmin/main");
+                File configAdminDirectory = getConfigAdminDirectory();
 
                 if (configAdminDirectory.isDirectory())
                 {
@@ -150,6 +149,14 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
         }
 
         return version;
+    }
+
+    /**
+     * @return Config admin directory.
+     */
+    protected File getConfigAdminDirectory()
+    {
+        return new File(getHome(), "bundles/org/jboss/as/osgi/configadmin/main");
     }
 
     /**

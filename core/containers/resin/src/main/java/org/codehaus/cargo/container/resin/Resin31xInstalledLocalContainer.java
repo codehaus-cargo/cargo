@@ -34,7 +34,7 @@ public class Resin31xInstalledLocalContainer extends Resin3xInstalledLocalContai
     /**
      * Unique container id.
      */
-    public static final String ID = "resin31x";
+    private static final String ID = "resin31x";
 
     /**
      * {@inheritDoc}
