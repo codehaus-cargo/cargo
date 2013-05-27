@@ -138,8 +138,7 @@ public class ConfluenceContainerDocumentationGenerator
         "tomcat7x",
         "weblogic103x",
         "weblogic12x",
-        "websphere85x",
-        "wildfly8x"
+        "websphere85x"
     });
 
     /**
