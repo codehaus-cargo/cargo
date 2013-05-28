@@ -19,10 +19,13 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.io.File;
+import java.net.URL;
 import junit.framework.Test;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.sample.java.validator.HasExistingConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
@@ -82,5 +85,30 @@ public class ExistingConfigurationTest extends AbstractWarCapabilityContainerTes
         tmpContainer.getConfiguration().configure(tmpContainer);
 
         setContainer(createContainer(createConfiguration(ConfigurationType.EXISTING)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void startAndStop(URL warPingURL)
+    {
+        String testFileName = "cargo-test/test.file";
+        File testFile = new File(getLocalContainer().getConfiguration().getHome(), testFileName);
+        assertFalse("File " + testFile + " already exists", testFile.exists());
+
+        FileConfig fileConfig = new FileConfig();
+        fileConfig.setFile(getTestData().getTestDataFileFor("simple-war"));
+        fileConfig.setToFile(testFileName);
+        getLocalContainer().getConfiguration().setConfigFileProperty(fileConfig);
+
+        getLocalContainer().start();
+        PingUtils.assertPingTrue(warPingURL.getPath() + " not started", warPingURL, getLogger());
+
+        // CARGO-1195: DeployableFiles should be setup for ExistingLocalConfiguration
+        assertTrue("File " + testFile + " was not configured", testFile.exists());
+
+        getLocalContainer().stop();
+        PingUtils.assertPingFalse(warPingURL.getPath() + " not stopped", warPingURL, getLogger());
     }
 }
