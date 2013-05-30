@@ -405,7 +405,7 @@
 
               <property>
                 <name>cargo.geronimo3x.url</name>
-                <value>http://archive.eu.apache.org/dist/geronimo/3.0.0/geronimo-tomcat7-javaee6-3.0.0-bin.zip</value>
+                <value>http://archive.eu.apache.org/dist/geronimo/3.0.1/geronimo-tomcat7-javaee6-3.0.1-bin.zip</value>
               </property>
               <property>
                 <name>cargo.geronimo3x.java.home</name>
