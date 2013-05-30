@@ -144,39 +144,26 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
     private void createDeployables(org.codehaus.cargo.container.Container container)
         throws MojoExecutionException
     {
-        List<Deployable> deployableElements = new ArrayList<Deployable>();
-
         if (getDeployablesElement() != null)
         {
             for (Deployable deployableElement : getDeployablesElement())
             {
-                if (!deployableElements.contains(deployableElement))
-                {
-                    deployableElements.add(deployableElement);
-                }
+                org.codehaus.cargo.container.deployable.Deployable deployable =
+                    deployableElement.createDeployable(container.getId(), getCargoProject());
+                URL pingURL = deployableElement.getPingURL();
+                Long pingTimeout = deployableElement.getPingTimeout();
+                addDeployable(deployable, pingURL, pingTimeout);
             }
-        }
-
-        for (Deployable deployableElement : deployableElements)
-        {
-            org.codehaus.cargo.container.deployable.Deployable deployable =
-                deployableElement.createDeployable(container.getId(), getCargoProject());
-            URL pingURL = deployableElement.getPingURL();
-            Long pingTimeout = deployableElement.getPingTimeout();
-            addDeployable(deployable, pingURL, pingTimeout);
         }
 
         // Perform deployment action on the autodeployable (if any).
         if (getCargoProject().getPackaging() != null && getCargoProject().isJ2EEPackaging())
         {
-            Deployable[] deployableElementsArray = new Deployable[deployableElements.size()];
-            deployableElements.toArray(deployableElementsArray);
-
-            if (!containsAutoDeployable(deployableElementsArray))
+            if (getDeployablesElement() == null
+                || !containsAutoDeployable(getDeployablesElement()))
             {
-                // The ping URL is always null here because if the user has specified a ping URL
-                // then the auto deployable has already been deployed as it's been explicitely
-                // specified by the user...
+                // Has the auto-deployable already been specified as part of the <deployables>
+                // config element?
                 addDeployable(createAutoDeployDeployable(container), null, null);
             }
         }

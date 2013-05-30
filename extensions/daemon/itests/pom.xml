@@ -84,6 +84,20 @@
                   <type>war</type>
                   <destFileName>cargo-daemon-webapp.jar</destFileName>
                 </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>simple-war</artifactId>
+                  <type>war</type>
+                  <version>${cargo.resources.version}</version>
+                  <destFileName>simple-war.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>systemproperty-war</artifactId>
+                  <type>war</type>
+                  <version>${cargo.resources.version}</version>
+                  <destFileName>systemproperty-war.war</destFileName>
+                </artifactItem>
               </artifactItems>
               <outputDirectory>${project.build.directory}/test-artifacts</outputDirectory>
             </configuration>

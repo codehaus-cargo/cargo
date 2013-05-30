@@ -23,6 +23,8 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.jar.JarFile;
 
@@ -31,6 +33,8 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
 
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
@@ -41,6 +45,8 @@ import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
+import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
+import org.codehaus.cargo.generic.deployable.DeployableFactory;
 import org.codehaus.cargo.tools.daemon.DaemonClient;
 import org.codehaus.cargo.tools.daemon.DaemonStart;
 import org.codehaus.cargo.util.log.Logger;
@@ -177,13 +183,23 @@ public class CargoDaemonClientTest extends TestCase
         InstalledLocalContainer container = (InstalledLocalContainer)
             CargoDaemonClientTest.CONTAINER_FACTORY.createContainer("jetty7x",
             ContainerType.INSTALLED, configuration);
+        container.getSystemProperties().put("systemPropertyName", "testProperty");
         configuration.setProperty(ServletPropertySet.PORT, System.getProperty("servlet.port"));
         configuration.setProperty(GeneralPropertySet.RMI_PORT, System.getProperty("rmi.port"));
+        DeployableFactory deployableFactory = new DefaultDeployableFactory();
+        List<Deployable> deployables = new ArrayList<Deployable>();
+        deployables.add(deployableFactory.createDeployable("jetty7x",
+            new File(System.getProperty("artifacts.dir"), "simple-war.war").getAbsolutePath(),
+                DeployableType.WAR));
+        deployables.add(deployableFactory.createDeployable("jetty7x",
+            new File(System.getProperty("artifacts.dir"),
+                "systemproperty-war.war").getAbsolutePath(), DeployableType.WAR));
 
         DaemonClient client = new DaemonClient(CargoDaemonClientTest.DAEMON_URL);
 
         DaemonStart start = new DaemonStart();
         start.setContainer(container);
+        start.setDeployables(deployables);
         start.setHandleId("test1");
         start.setInstallerZipFile(jetty7x.getAbsolutePath());
         client.start(start);
@@ -191,8 +207,20 @@ public class CargoDaemonClientTest extends TestCase
         DeployableMonitor daemonMonitor = new URLDeployableMonitor(new URL(
             "http://localhost:" + System.getProperty("servlet.port") + "/cargocpc/index.html"),
                 CargoDaemonClientTest.TIMEOUT);
+        DeployableMonitor simpleWarMonitor = new URLDeployableMonitor(new URL(
+            "http://localhost:" + System.getProperty("servlet.port") + "/simple-war/index.jsp"),
+                    CargoDaemonClientTest.TIMEOUT);
+        DeployableMonitor systemPropertyWarMonitor = new URLDeployableMonitor(new URL(
+            "http://localhost:" + System.getProperty("servlet.port") +
+                "/systemproperty-war/test?systemPropertyName=testProperty"),
+                    CargoDaemonClientTest.TIMEOUT);
         DeployerWatchdog daemonWatchdog = new DeployerWatchdog(daemonMonitor);
         daemonWatchdog.watchForAvailability();
+        DeployerWatchdog simpleWarWatchdog = new DeployerWatchdog(simpleWarMonitor);
+        simpleWarWatchdog.watchForAvailability();
+        DeployerWatchdog systemPropertyWarWatchdog =
+            new DeployerWatchdog(systemPropertyWarMonitor);
+        systemPropertyWarWatchdog.watchForAvailability();
 
         client.stop("test1");
         daemonWatchdog.watchForUnavailability();
