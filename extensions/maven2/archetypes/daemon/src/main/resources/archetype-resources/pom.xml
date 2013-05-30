@@ -280,7 +280,7 @@
                   <artifactInstaller>
                     <groupId>org.apache.geronimo.assemblies</groupId>
                     <artifactId>geronimo-tomcat7-javaee6</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.0.1</version>
                     <classifier>bin</classifier>
                   </artifactInstaller>
                 </container>
