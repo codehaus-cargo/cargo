@@ -32,6 +32,16 @@ public interface DaemonPropertySet
     String URL = "cargo.daemon.url";
     
     /**
+     * Username used when authenticating against the daemon host  
+     */
+    String USERNAME = "cargo.daemon.username";
+    
+    /**
+     * Password used when authenticating against the daemon host  
+     */
+    String PASSWORD = "cargo.daemon.password";
+    
+    /**
      * Handle identifier for a container and deployables delivery  
      */
     String HANDLE = "cargo.daemon.handleid";

@@ -95,6 +95,8 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
         }
 
         String daemonURL = getDaemon().getProperty(DaemonPropertySet.URL);
+        String daemonUsername = getDaemon().getProperty(DaemonPropertySet.USERNAME);
+        String daemonPassword = getDaemon().getProperty(DaemonPropertySet.PASSWORD);
         String daemonHandleId = getDaemon().getProperty(DaemonPropertySet.HANDLE);
 
         if (daemonURL == null || daemonURL.length() == 0)
@@ -113,7 +115,20 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
 
         try
         {
-            this.daemonClient = new DaemonClient(new URL(daemonURL));
+            if (daemonUsername != null && daemonUsername.length() > 0 && daemonPassword != null
+                && daemonPassword.length() > 0)
+            {
+                this.daemonClient =
+                    new DaemonClient(new URL(daemonURL), daemonUsername, daemonPassword);
+            }
+            else if (daemonUsername != null && daemonUsername.length() > 0)
+            {
+                this.daemonClient = new DaemonClient(new URL(daemonURL), daemonUsername);
+            }
+            else
+            {
+                this.daemonClient = new DaemonClient(new URL(daemonURL));
+            }
         }
         catch (MalformedURLException e)
         {
