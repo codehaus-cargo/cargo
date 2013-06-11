@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -395,7 +396,12 @@ class DaemonJvmLauncher implements JvmLauncher
     {
         if (process != null)
         {
+            // Call first method to kill the process
+            // This is cleanest in code, but no guarantees by the JVM...
             process.destroy();
+
+            // So we call second method to kill the process to be sure
+            nativeKill(); 
             process = null;
         }
     }
@@ -473,5 +479,30 @@ class DaemonJvmLauncher implements JvmLauncher
         start();
         return 0;
     }
+ 
+    /**
+     * Forcefully kill the launched process using platform specific methods.
+     */
+    private void nativeKill()
+    {
+        if (process == null)
+        {
+            return;
+        }
+        if (process.getClass().getName().equals("java.lang.UNIXProcess"))
+        {
+            try
+            {
+                Field f = process.getClass().getDeclaredField("pid");
+                f.setAccessible(true);
+                int pid = f.getInt(process);
+                Runtime.getRuntime().exec("kill -9 " + pid);
+            }
+            catch (Throwable e)
+            {
+                // Ignore, we tried our best
+            }
+        }
+    }    
 
 }
