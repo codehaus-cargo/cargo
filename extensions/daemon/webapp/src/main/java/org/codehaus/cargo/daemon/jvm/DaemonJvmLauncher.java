@@ -27,6 +27,10 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.jna.Pointer;
+import com.sun.jna.platform.win32.Kernel32;
+import com.sun.jna.platform.win32.WinNT.HANDLE;
+
 import org.apache.tools.ant.types.Commandline;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherException;
@@ -497,6 +501,26 @@ class DaemonJvmLauncher implements JvmLauncher
                 f.setAccessible(true);
                 int pid = f.getInt(process);
                 Runtime.getRuntime().exec("kill -9 " + pid);
+            }
+            catch (Throwable e)
+            {
+                // Ignore, we tried our best
+            }
+        }
+        else if (process.getClass().getName().equals("java.lang.Win32Process")
+            || process.getClass().getName().equals("java.lang.ProcessImpl"))
+        {
+            try
+            {
+                Field f = process.getClass().getDeclaredField("handle");
+                f.setAccessible(true);
+                long handleId = f.getLong(process);
+
+                Kernel32 kernel = Kernel32.INSTANCE;
+                HANDLE handle = new HANDLE();
+                handle.setPointer(Pointer.createConstant(handleId));
+                int pid = kernel.GetProcessId(handle);
+                Runtime.getRuntime().exec("taskkill /PID " + pid + " /F");
             }
             catch (Throwable e)
             {
