@@ -452,7 +452,7 @@
 
               <property>
                 <name>cargo.glassfish4x.url</name>
-                <value>http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted/glassfish-4.0-b84.zip</value>
+                <value>http://download.java.net/glassfish/4.0/release/glassfish-4.0.zip</value>
               </property>
               <property>
                 <name>cargo.glassfish4x.java.home</name>
