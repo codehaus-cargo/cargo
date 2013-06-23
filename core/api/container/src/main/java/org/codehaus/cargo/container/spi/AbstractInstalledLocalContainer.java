@@ -302,7 +302,13 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     protected final void startInternal() throws Exception
     {
         jvmStartLauncher = createJvmLauncher(true);
-        jvmStartLauncher.setAppendOutput(isAppend());
+        // Due to defect in org.apache.tools.ant.taskdefs.Java#setAppend we
+        // can't call setAppendOutput if we want to spawn the process. If the 
+        // output isn't null we will have already disabled process spawning
+        if (getOutput() != null)
+        {
+            jvmStartLauncher.setAppendOutput(isAppend());
+        }
         addMemoryArguments(jvmStartLauncher);
         doStart(jvmStartLauncher);
     }
@@ -577,18 +583,27 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         }
     }
 
-    /** Add option of spawn if property exists
+    /**
+     * Add option of spawn if property exists
      * 
      * @param java the predefined JVM launcher which will spawn
      */
     private void addSpawn(JvmLauncher java)
     {
-        boolean spawn = Boolean.parseBoolean(
-                getConfiguration().getPropertyValue(GeneralPropertySet.SPAWN_PROCESS));
-        java.setSpawn(spawn);
-
-        getLogger().debug("Jvm Spawn flag [" + spawn + "]",
+        boolean spawnProcess = Boolean.parseBoolean(getConfiguration().getPropertyValue(
+            GeneralPropertySet.SPAWN_PROCESS));
+        if (spawnProcess)
+        {
+            if (getOutput() == null)
+            {
+                java.setSpawn(spawnProcess);
+            }
+            else
+            {
+                getLogger().warn("Process cannot be spawned unless output is null",
                     this.getClass().getName());
+            }
+        }
     }
 
     /**
