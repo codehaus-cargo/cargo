@@ -69,8 +69,10 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that run on containers supporting OSGi deployments");
 
-        // We exclude WildFly as the default standalone.xml has OSGi support disabled
+        // We exclude JBoss 7.2.x and WildFly as the default standalone configuration XML for these
+        // servers has OSGi support disabled
         Set<String> excludedContainerIds = new TreeSet<String>();
+        excludedContainerIds.add("jboss72x");
         excludedContainerIds.add("wildfly8x");
 
         suite.addTestSuite(BundleCapabilityContainerTest.class, new Validator[] {

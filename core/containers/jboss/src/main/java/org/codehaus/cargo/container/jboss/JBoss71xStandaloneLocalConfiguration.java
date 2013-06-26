@@ -61,6 +61,7 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return CAPABILITY;

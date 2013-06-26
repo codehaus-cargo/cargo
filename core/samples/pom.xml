@@ -373,7 +373,7 @@
 
               <property>
                 <name>cargo.jetty9x.url</name>
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.3.v20130506/jetty-distribution-9.0.3.v20130506.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.4.v20130625/jetty-distribution-9.0.4.v20130625.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>
@@ -776,6 +776,28 @@
               </property>
               <property>
                 <name>cargo.jboss71x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <!--
+                JBoss 7.2 is actually called EAP 6.1.0
+
+                Please download it manually from http://www.jboss.org/jbossas/downloads and set the
+                cargo.jboss72x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.jboss72x.home</name>
+                    <value>C:/Program Files/JBoss/jboss-eap-6.1.0</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.jboss72x.home</name>
+                <value>${cargo.jboss72x.home}</value>
+              </property>
+              <property>
+                <name>cargo.jboss72x.java.home</name>
                 <value>${cargo.java.home.1_6}</value>
               </property>
 
@@ -1238,12 +1260,6 @@
         <cargo.containers>oc4j10x</cargo.containers>
       </properties>
     </profile>
-    <profile>
-      <id>all-orion</id>
-      <properties>
-        <cargo.containers>oc4j9x, oc4j10x</cargo.containers>
-      </properties>
-    </profile>
 
     <profile>
       <id>resin2x</id>
@@ -1269,12 +1285,6 @@
         <cargo.containers>resin4x</cargo.containers>
       </properties>
     </profile>
-    <profile>
-      <id>all-resin</id>
-      <properties>
-        <cargo.containers>resin2x, resin3x, resin31x, resin4x</cargo.containers>
-      </properties>
-    </profile>
 
     <profile>
       <id>tomcat4x</id>
@@ -1298,12 +1308,6 @@
       <id>tomcat7x</id>
       <properties>
         <cargo.containers>tomcat7x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>all-tomcat</id>
-      <properties>
-        <cargo.containers>tomcat4x, tomcat5x, tomcat6x, tomcat7x</cargo.containers>
       </properties>
     </profile>
 
@@ -1341,12 +1345,6 @@
       <id>jetty9x</id>
       <properties>
         <cargo.containers>jetty9x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>all-jetty</id>
-      <properties>
-        <cargo.containers>jetty4x, jetty5x, jetty6x, jetty7x, jetty8x, jetty9x</cargo.containers>
       </properties>
     </profile>
 
@@ -1405,20 +1403,14 @@
        </properties>
     </profile>
     <profile>
-      <id>all-jboss</id>
-      <properties>
-        <cargo.containers>jboss3x, jboss4x, jboss42x, jboss5x, jboss51x, jboss6x, jboss61x, jboss7x, jboss71x</cargo.containers>
-      </properties>
+       <id>jboss72x</id>
+       <properties>
+         <cargo.containers>jboss72x</cargo.containers>
+       </properties>
     </profile>
 
     <profile>
       <id>jo1x</id>
-      <properties>
-        <cargo.containers>jo1x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>all-jo</id>
       <properties>
         <cargo.containers>jo1x</cargo.containers>
       </properties>
@@ -1434,12 +1426,6 @@
       <id>jonas5x</id>
       <properties>
         <cargo.containers>jonas5x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>all-jonas</id>
-      <properties>
-        <cargo.containers>jonas4x, jonas5x</cargo.containers>
       </properties>
     </profile>
 
@@ -1461,12 +1447,6 @@
         <cargo.containers>geronimo3x</cargo.containers>
       </properties>
     </profile>
-    <profile>
-      <id>all-geronimo</id>
-      <properties>
-        <cargo.containers>geronimo1x, geronimo2x, geronimo3x</cargo.containers>
-      </properties>
-    </profile>
 
     <profile>
       <id>glassfish2x</id>
@@ -1486,21 +1466,9 @@
         <cargo.containers>glassfish4x</cargo.containers>
       </properties>
     </profile>
-    <profile>
-      <id>all-glassfish</id>
-      <properties>
-        <cargo.containers>glassfish2x, glassfish3x, glassfish4x</cargo.containers>
-      </properties>
-    </profile>
 
     <profile>
       <id>jrun4x</id>
-      <properties>
-        <cargo.containers>jrun4x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>all-jrun</id>
       <properties>
         <cargo.containers>jrun4x</cargo.containers>
       </properties>
@@ -1536,12 +1504,6 @@
         <cargo.containers>weblogic12x</cargo.containers>
       </properties>
     </profile>
-    <profile>
-      <id>all-weblogic</id>
-      <properties>
-        <cargo.containers>weblogic8x, weblogic9x, weblogic10x, weblogic103x, weblogic12x</cargo.containers>
-      </properties>
-    </profile>
 
     <profile>
       <id>websphere85x</id>
@@ -1549,21 +1511,9 @@
         <cargo.containers>websphere85x</cargo.containers>
       </properties>
     </profile>
-    <profile>
-      <id>all-websphere</id>
-      <properties>
-        <cargo.containers>websphere85x</cargo.containers>
-      </properties>
-    </profile>
 
     <profile>
       <id>wildfly8x</id>
-      <properties>
-        <cargo.containers>wildfly8x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>all-wildfly</id>
       <properties>
         <cargo.containers>wildfly8x</cargo.containers>
       </properties>

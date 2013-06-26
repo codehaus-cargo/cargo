@@ -17,37 +17,35 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.wildfly;
+package org.codehaus.cargo.container.jboss;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jboss.JBoss72xStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.jboss.JBossPropertySet;
-import org.codehaus.cargo.container.wildfly.internal.WildFly8xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss72xStandaloneLocalConfigurationCapability;
 
 /**
- * WildFly 8.x standalone local configuration.
+ * JBoss 7.2.x standalone local configuration.
  * 
  * @version $Id$
  */
-public class WildFly8xStandaloneLocalConfiguration extends JBoss72xStandaloneLocalConfiguration
+public class JBoss72xStandaloneLocalConfiguration extends JBoss71xStandaloneLocalConfiguration
 {
 
     /**
-     * WildFly container capability.
+     * JBoss container capability.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new WildFly8xStandaloneLocalConfigurationCapability();
+        new JBoss72xStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
-     * @see JBoss72xStandaloneLocalConfiguration#JBoss72xStandaloneLocalConfiguration(String)
+     * @see JBoss71xStandaloneLocalConfiguration#JBoss71xStandaloneLocalConfiguration(String)
      */
-    public WildFly8xStandaloneLocalConfiguration(String dir)
+    public JBoss72xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
 
-        setProperty(JBossPropertySet.JBOSS_MANAGEMENT_PORT, "9990");
+        getProperties().remove(JBossPropertySet.JBOSS_OSGI_HTTP_PORT);
     }
 
     /**
@@ -62,7 +60,7 @@ public class WildFly8xStandaloneLocalConfiguration extends JBoss72xStandaloneLoc
 
     /**
      * {@inheritDoc}
-     * @see JBoss72xStandaloneLocalConfiguration#doConfigure(LocalContainer)
+     * @see JBoss7xStandaloneLocalConfiguration#doConfigure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer c) throws Exception
@@ -72,23 +70,10 @@ public class WildFly8xStandaloneLocalConfiguration extends JBoss72xStandaloneLoc
         String configurationXmlFile = "configuration/"
             + getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml";
 
-        addXmlReplacement(
-            configurationXmlFile,
-            "//server/socket-binding-group/socket-binding[@name='management-http']",
-            "port", JBossPropertySet.JBOSS_MANAGEMENT_PORT);
         removeXmlReplacement(
             configurationXmlFile,
-            "//server/socket-binding-group/socket-binding[@name='management-native']",
+            "//server/socket-binding-group/socket-binding[@name='osgi-http']",
             "port");
-    }
-
-    /**
-     * {@inheritDoc}. This is not supported anymore in WildFly 8.0.0 Alpha1.
-     */
-    @Override
-    protected void disableWelcomeRoot()
-    {
-        // Not supported anymore in WildFly 8.0.0 Alpha1.
     }
 
 }

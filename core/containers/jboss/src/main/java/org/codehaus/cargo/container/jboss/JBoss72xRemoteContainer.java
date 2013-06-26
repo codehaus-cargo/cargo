@@ -17,49 +17,46 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.wildfly;
+package org.codehaus.cargo.container.jboss;
 
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.jboss.JBoss72xInstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 
 /**
- * WildFly 8.x series container implementation.
+ * Special container support for wrapping a running instance of JBoss 7.1.x.
  * 
  * @version $Id$
  */
-public class WildFly8xInstalledLocalContainer extends JBoss72xInstalledLocalContainer
+public class JBoss72xRemoteContainer extends JBoss71xRemoteContainer
 {
     /**
-     * WildFly 8.x series unique id.
+     * Unique container id.
      */
-    private static final String ID = "wildfly8x";
+    private static final String ID = "jboss72x";
 
     /**
      * {@inheritDoc}
-     * @see JBoss72xInstalledLocalContainer#JBoss72xInstalledLocalContainer(LocalConfiguration)
+     * @see JBoss71xRemoteContainer#JBoss71xRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
      */
-    public WildFly8xInstalledLocalContainer(LocalConfiguration configuration)
+    public JBoss72xRemoteContainer(RuntimeConfiguration configuration)
     {
         super(configuration);
     }
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
+     * @see org.codehaus.cargo.container.Container#getName()
      */
-    @Override
-    public String getId()
+    public String getName()
     {
-        return ID;
+        return "JBoss 7.2.x Remote";
     }
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
+     * @see org.codehaus.cargo.container.Container#getId()
      */
-    @Override
-    public String getName()
+    public String getId()
     {
-        return "WildFly " + getVersion("8.x");
+        return ID;
     }
 }
