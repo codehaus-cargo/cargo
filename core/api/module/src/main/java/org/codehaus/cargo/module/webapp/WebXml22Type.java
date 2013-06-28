@@ -64,6 +64,7 @@ public class WebXml22Type extends WebXmlType
                     FilterMapping.class),
             new WebXmlTag(this, "init-param", true, new Identifier("param-name"), InitParam.class),
             new WebXmlTag(this, "listener", true, new Identifier("listener-class"), Listener.class),
+            new WebXmlTag(this, "listener-class"),
             new WebXmlTag(this, "servlet", true, new Identifier("servlet-name"), Servlet.class),
             new WebXmlTag(this, "servlet-name"),
             new WebXmlTag(this, "jsp-file"),

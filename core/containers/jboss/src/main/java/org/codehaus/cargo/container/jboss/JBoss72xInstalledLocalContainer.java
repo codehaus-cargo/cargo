@@ -19,8 +19,8 @@
  */
 package org.codehaus.cargo.container.jboss;
 
-
 import java.io.File;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
