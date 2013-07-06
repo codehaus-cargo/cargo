@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.sample.java.tomcat;
+package org.codehaus.cargo.sample.java;
 
 import java.io.File;
 import java.net.URL;
@@ -35,22 +35,17 @@ import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.packager.DefaultPackagerFactory;
 import org.codehaus.cargo.generic.packager.PackagerFactory;
-import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
-import org.codehaus.cargo.sample.java.CargoTestSuite;
-import org.codehaus.cargo.sample.java.EnvironmentTestData;
-import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.sample.java.validator.HasDirectoryPackagerValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
- * Test for Tomcat packager.
+ * Test for packager.
  * 
  * @version $Id$
  */
-public class TomcatPackagerTest extends AbstractCargoTestCase
+public class PackagerTest extends AbstractCargoTestCase
 {
     /**
      * Initializes the test case.
@@ -58,7 +53,7 @@ public class TomcatPackagerTest extends AbstractCargoTestCase
      * @param testData Test environment data.
      * @throws Exception If anything goes wrong.
      */
-    public TomcatPackagerTest(String testName, EnvironmentTestData testData) throws Exception
+    public PackagerTest(String testName, EnvironmentTestData testData) throws Exception
     {
         super(testName, testData);
     }
@@ -70,10 +65,9 @@ public class TomcatPackagerTest extends AbstractCargoTestCase
      */
     public static Test suite() throws Exception
     {
-        CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local Tomcat "
+        CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local "
             + "containers supporting directory Packagers");
-        suite.addTestSuite(TomcatPackagerTest.class, new Validator[] {
-            new StartsWithContainerValidator("tomcat"),
+        suite.addTestSuite(PackagerTest.class, new Validator[] {
             new IsInstalledLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),
             new HasDirectoryPackagerValidator()});
@@ -81,7 +75,7 @@ public class TomcatPackagerTest extends AbstractCargoTestCase
     }
 
     /**
-     * Create an package Tomcat container.
+     * Create the packaging of a container and that it works when unpackaged.
      * @throws Exception If anything goes wrong.
      */
     public void testPackageContainer() throws Exception
