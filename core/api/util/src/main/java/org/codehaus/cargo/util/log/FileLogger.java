@@ -57,6 +57,11 @@ public class FileLogger extends AbstractLogger
     {
         try
         {
+            File parent = file.getParentFile();
+            if (!parent.isDirectory())
+            {
+                parent.mkdirs();
+            }
             FileOutputStream fileOutputStream = new FileOutputStream(file, append);
             this.output = new BufferedOutputStream(fileOutputStream);
         }
