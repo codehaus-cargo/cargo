@@ -62,6 +62,9 @@ import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
+import org.codehaus.cargo.util.log.FileLogger;
+import org.codehaus.cargo.util.log.LogLevel;
+import org.codehaus.cargo.util.log.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 
@@ -225,7 +228,6 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
         if ("start".equals(servletPath))
         {
-
             StartRequest startRequest = null;
             try
             {
@@ -252,12 +254,18 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         }
         else if ("restart".equals(servletPath))
         {
+            String handleId = request.getParameter("handleId");
+            Handle handle = handles.get(handleId);
+            if (handle == null)
+            {
+                getServletContext().log("Unknown handle: " + handleId);
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    "Unknown handle: " + handleId);
+            }
+
             try
             {
-                String handleId = request.getParameter("handleId");
                 StartRequest startRequest = new StartRequest();
-
-                Handle handle = handles.get(handleId);
                 startRequest.setParameters(handle.getProperties());
                 startContainer(startRequest);
 
@@ -407,6 +415,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         String configurationHome = request.getParameter("configurationHome", false);
         String configurationType = request.getParameter("configurationType", true);
         String containerOutput = request.getParameter("containerOutput", false);
+        String containerLogLevel = request.getParameter("containerLogLevel", false);
         String containerAppend = request.getParameter("containerAppend", false);
         String autostart = request.getParameter("autostart", false);
         String timeout = request.getParameter("timeout", false);
@@ -486,16 +495,22 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
             container.setHome(containerHome);
             container.setSystemProperties(containerProperties);
+            Logger logger;
             if (containerOutput != null && containerOutput.length() > 0)
             {
-                container.setOutput(fileManager.getLogFile(handleId, containerOutput));
-                container.setAppend("on".equals(containerAppend));
+                logger = new FileLogger(fileManager.getLogFile(handleId, containerOutput),
+                    "on".equals(containerAppend));
             }
             else
             {
-                container.setOutput(fileManager.getLogFile(handleId, "cargo.log"));
-                container.setAppend(false);
+                logger = new FileLogger(fileManager.getLogFile(handleId, "cargo.log"),
+                    "on".equals(containerAppend));
             }
+            if (containerLogLevel != null && containerLogLevel.length() > 0)
+            {
+                logger.setLevel(LogLevel.toLevel(containerLogLevel));
+            }
+            container.setLogger(logger);
 
             if (installerZipFile != null && installerZipInputStream != null)
             {
@@ -549,18 +564,20 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
                 throw t;
             }
-
-            handle.setConfiguration(configuration);
-            handle.setContainer(container);
-
-            handle.setLogPath(container.getOutput());
-
-            if (request.isSave())
+            finally
             {
-                handle.setAutostart("on".equals(autostart) || "true".equals(autostart));
-                handle.addProperties(request.getParameters());
+                handle.setConfiguration(configuration);
+                handle.setContainer(container);
 
-                fileManager.saveHandleDatabase(handles);
+                handle.setLogPath(container.getOutput());
+
+                if (request.isSave())
+                {
+                    handle.setAutostart("on".equals(autostart) || "true".equals(autostart));
+                    handle.addProperties(request.getParameters());
+
+                    fileManager.saveHandleDatabase(handles);
+                }
             }
         }
     }

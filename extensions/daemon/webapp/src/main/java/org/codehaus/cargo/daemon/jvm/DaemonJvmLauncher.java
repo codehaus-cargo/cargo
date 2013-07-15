@@ -55,7 +55,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * The vm arguments.
      */
-    private final List<String> arguments = new ArrayList<String>();
+    private final List<String> jvmArguments = new ArrayList<String>();
 
     /**
      * The vm classpath.
@@ -120,6 +120,9 @@ class DaemonJvmLauncher implements JvmLauncher
 
         commandLine.add(executable);
 
+        commandLine.addAll(jvmArguments);
+        commandLine.addAll(systemProperties);
+
         if (classpath != null && jarPath == null)
         {
             commandLine.add("-classpath");
@@ -132,8 +135,6 @@ class DaemonJvmLauncher implements JvmLauncher
             commandLine.add(jarPath);
         }
 
-        commandLine.addAll(arguments);
-        commandLine.addAll(systemProperties);
         if (jarPath == null)
         {
             commandLine.add(mainClass);
@@ -188,7 +189,7 @@ class DaemonJvmLauncher implements JvmLauncher
     {
         if (file != null)
         {
-            arguments.add(file.getAbsolutePath());
+            jvmArguments.add(file.getAbsolutePath());
         }
     }
 
@@ -201,7 +202,7 @@ class DaemonJvmLauncher implements JvmLauncher
         {
             for (String value : values)
             {
-                arguments.add(value);
+                jvmArguments.add(value);
             }
         }
     }
@@ -219,7 +220,7 @@ class DaemonJvmLauncher implements JvmLauncher
             {
                 for (String arg : args)
                 {
-                    arguments.add(arg);
+                    jvmArguments.add(arg);
                 }
             }
         }
@@ -481,7 +482,14 @@ class DaemonJvmLauncher implements JvmLauncher
     public int execute() throws JvmLauncherException
     {
         start();
-        return 0;
+        try
+        {
+            return this.process.waitFor();
+        }
+        catch (InterruptedException e)
+        {
+            throw new JvmLauncherException("Failed waiting for process to end", e);
+        }
     }
  
     /**

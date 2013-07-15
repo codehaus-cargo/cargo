@@ -257,6 +257,7 @@ public class DaemonClient extends LoggedObject
         parameters.setParameter("containerProperties", setupContainerProperties(container));
 
         parameters.setParameter("containerOutput", container.getOutput());
+        parameters.setParameter("containerLogLevel", container.getLogger().getLevel().toString());
 
         if (container.isAppend())
         {
