@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-core-containers</artifactId>
-    <version>1.4.3</version>
+    <version>1.4.4-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-core-container-jo</artifactId>
   <name>Cargo Core jo! Container</name>
