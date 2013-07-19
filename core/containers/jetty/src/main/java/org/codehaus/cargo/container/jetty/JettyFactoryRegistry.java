@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.jetty.internal.Jetty7xStandaloneLocalConfigu
 import org.codehaus.cargo.container.jetty.internal.JettyExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.JettyRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.JettyStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.packager.PackagerType;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
@@ -245,6 +246,14 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(PackagerFactory packagerFactory)
     {
+        packagerFactory.registerPackager("jetty6x", PackagerType.DIRECTORY,
+            JettyDirectoryPackager.class);
+        packagerFactory.registerPackager("jetty7x", PackagerType.DIRECTORY,
+            JettyDirectoryPackager.class);
+        packagerFactory.registerPackager("jetty8x", PackagerType.DIRECTORY,
+            JettyDirectoryPackager.class);
+        packagerFactory.registerPackager("jetty9x", PackagerType.DIRECTORY,
+            JettyDirectoryPackager.class);
     }
 
     /**
