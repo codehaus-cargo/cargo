@@ -26,17 +26,17 @@
   </parent>
   <artifactId>cargo-core</artifactId>
   <name>Cargo Core</name>
-  <version>1.4.3-SNAPSHOT</version>
+  <version>1.4.3</version>
   <packaging>pom</packaging>
   <description>Cargo Core</description>
   <properties>
     <!-- define these variables because of potentially different release cycles -->
-    <cargo.resources.version>${project.version}</cargo.resources.version>
+    <cargo.resources.version>1.4.3</cargo.resources.version>
   </properties>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk</url>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/core/tags/cargo-core-1.4.3</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/tags/cargo-core-1.4.3</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/core/tags/cargo-core-1.4.3</url>
   </scm>
   <dependencies>
     <dependency>
