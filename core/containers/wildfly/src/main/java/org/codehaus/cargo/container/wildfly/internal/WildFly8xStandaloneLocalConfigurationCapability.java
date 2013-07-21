@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.wildfly.internal;
 
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.jboss.internal.JBoss72xStandaloneLocalConfigurationCapability;
 
 /**
@@ -37,6 +38,8 @@ public class WildFly8xStandaloneLocalConfigurationCapability
     public WildFly8xStandaloneLocalConfigurationCapability()
     {
         super();
+
+        this.propertySupportMap.remove(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT);
     }
 
 }
