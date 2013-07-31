@@ -351,6 +351,13 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     private void addOptionalXmlReplacements(LocalContainer container)
     {
         if (container.getConfiguration().getPropertyValue(
+            TomcatPropertySet.USE_HTTP_ONLY) != null)
+        {
+            addXmlReplacement("conf/context.xml", "//Context", "useHttpOnly",
+                TomcatPropertySet.USE_HTTP_ONLY);
+        }
+        
+        if (container.getConfiguration().getPropertyValue(
                 TomcatPropertySet.CONNECTOR_KEY_STORE_FILE) != null)
         {
             addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "keystoreFile",
