@@ -37,6 +37,7 @@ public class Tomcat5x6x7xStandaloneLocalConfigurationCapability extends
         super();
 
         this.supportsMap.put(TomcatPropertySet.HTTP_SECURE, Boolean.TRUE);
+        this.supportsMap.put(TomcatPropertySet.USE_HTTP_ONLY, Boolean.TRUE);
         this.supportsMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE, Boolean.TRUE);
         this.supportsMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE, Boolean.TRUE);
         this.supportsMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD, Boolean.TRUE);
