@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -97,6 +98,11 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
     private static final long serialVersionUID = 3514721195204610896L;
 
     /**
+     * Daemon version key for daemon properties file.
+     */
+    private static final String DAEMON_VERSION = "daemon.version";
+
+    /**
      * Container factory.
      */
     private static final ContainerFactory CONTAINER_FACTORY = new DefaultContainerFactory();
@@ -131,6 +137,12 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
      * Default index page.
      */
     private String indexPage;
+    
+    /**
+     * Properties for the Daemon.
+     */
+    private Properties daemonProperties = new Properties();
+
 
     /**
      * Constructor of the cargo daemon servlet.
@@ -140,7 +152,17 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         // Start background task for restarting webapps.
         scheduledExecutor.scheduleAtFixedRate(this, INITIALAUTOSTARTTIMEOUT, AUTOSTARTTIMEOUT,
             TimeUnit.SECONDS);
-
+        
+        try 
+        {
+            daemonProperties.load(getClass().getClassLoader().getResourceAsStream(
+                    "org/codehaus/cargo/daemon/daemon.properties"));
+        } 
+        catch (IOException e) 
+        {
+            throw new RuntimeException("Could not load internal daemon properties");
+        }
+        
         try
         {
             loadHandleDatabase();
@@ -165,6 +187,22 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
     }
 
     /**
+     * Gets the Daemon version.
+     * @return the daemon version.
+     */
+    private String getDaemonVersion()
+    {
+        String daemonVersion = daemonProperties.getProperty(DAEMON_VERSION);
+        
+        if (daemonVersion == null)
+        {
+            daemonVersion = "";
+        }
+        
+        return daemonVersion;
+    }
+    
+    /**
      * Read the index page.
      * 
      * @throws Exception If exception happens
@@ -185,6 +223,8 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
         Map<String, String> replacements = new HashMap<String, String>();
 
+        
+        replacements.put("daemonVersion", getDaemonVersion());
         replacements.put("containerIds", JSONArray
             .toJSONString(new ArrayList<String>(new TreeSet<String>(CONTAINER_FACTORY
                 .getContainerIds().keySet()))));
