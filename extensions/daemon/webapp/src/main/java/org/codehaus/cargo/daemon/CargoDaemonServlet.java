@@ -313,7 +313,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
             }
         }
-        else if ("viewlog".equals(servletPath))
+        else if ("viewlog".equals(servletPath) || "viewcargolog".equals(servletPath))
         {
             try
             {
@@ -325,7 +325,17 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                     throw new CargoDaemonException("Handle id " + handleId + " not found.");
                 }
 
-                String logFilePath = handle.getLogPath();
+                String logFilePath = null;
+                
+                if ("viewlog".equals(servletPath))
+                {
+                    logFilePath = handle.getContainerOutputPath();
+                } 
+                else if ("viewcargolog".equals(servletPath))
+                {
+                    logFilePath = handle.getContainerLogPath();
+                }
+               
 
                 response.setContentType("text/plain");
                 response.setCharacterEncoding("UTF-8");
@@ -395,6 +405,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             throw new ServletException("Unknown servlet path: " + servletPath);
         }
     }
+    
 
     /**
      * Starts the container.
@@ -411,9 +422,10 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         String installerZipFile = request.getParameter("installerZipFile", false);
         String configurationHome = request.getParameter("configurationHome", false);
         String configurationType = request.getParameter("configurationType", true);
-        String containerOutput = request.getParameter("containerOutput", false);
+        String containerOutputFile = request.getParameter("containerOutput", false);
+        String containerLogFile = request.getParameter("containerLogFile", false);
         String containerLogLevel = request.getParameter("containerLogLevel", false);
-        String containerAppend = request.getParameter("containerAppend", false);
+        boolean containerAppend = "on".equals(request.getParameter("containerAppend", false));
         String autostart = request.getParameter("autostart", false);
         String timeout = request.getParameter("timeout", false);
         PropertyTable containerProperties = request.getProperties("containerProperties", false);
@@ -490,22 +502,29 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
         container.setHome(containerHome);
         container.setSystemProperties(containerProperties);
-        Logger logger;
-        if (containerOutput != null && containerOutput.length() > 0)
+        
+        if (containerLogFile == null || containerLogFile.length() == 0)
         {
-            logger = new FileLogger(fileManager.getLogFile(handleId, containerOutput),
-                "on".equals(containerAppend));
+            containerLogFile = "cargo.log";
         }
-        else
-        {
-            logger = new FileLogger(fileManager.getLogFile(handleId, "cargo.log"),
-                "on".equals(containerAppend));
-        }
+        containerLogFile = fileManager.getLogFile(handleId, containerLogFile);
+        Logger logger = new FileLogger(containerLogFile, containerAppend);
+
         if (containerLogLevel != null && containerLogLevel.length() > 0)
         {
             logger.setLevel(LogLevel.toLevel(containerLogLevel));
         }
         container.setLogger(logger);
+        
+        if (containerOutputFile == null || containerOutputFile.length() == 0)
+        {
+            containerOutputFile = "container.log";
+        }
+        containerOutputFile = fileManager.getLogFile(handleId, containerOutputFile);
+        
+        container.setOutput(containerOutputFile);
+        container.setAppend(containerAppend);
+        
 
         if (installerZipFile != null && installerZipInputStream != null)
         {
@@ -564,7 +583,8 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             handle.setConfiguration(configuration);
             handle.setContainer(container);
 
-            handle.setLogPath(container.getOutput());
+            handle.setContainerOutputPath(containerOutputFile);
+            handle.setContainerLogPath(containerLogFile);
 
             if (request.isSave())
             {

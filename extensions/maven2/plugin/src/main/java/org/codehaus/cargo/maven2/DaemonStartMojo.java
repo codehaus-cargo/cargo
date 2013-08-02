@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.maven2;
 
+import java.io.File;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.tools.daemon.DaemonStart;
 
@@ -47,6 +49,13 @@ public class DaemonStartMojo extends AbstractDaemonMojo
             if (getContainerElement() != null)
             {
                 request.setInstallerZipFile(getContainerElement().getInstallerZipFile());
+                
+                File logFile = getContainerElement().getLog();
+                
+                if (logFile != null)
+                {
+                    request.setLogFile(logFile.getName());
+                }
             }
 
             daemonClient.start(request);

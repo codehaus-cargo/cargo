@@ -208,6 +208,7 @@ public class DaemonClient extends LoggedObject
         boolean autostart = start.isAutostart();
         String handleId = start.getHandleId();
         String installerZipFile = start.getInstallerZipFile();
+        String logFile = start.getLogFile();
         List<Deployable> deployables = start.getDeployables();
 
         LocalConfiguration configuration = container.getConfiguration();
@@ -236,7 +237,7 @@ public class DaemonClient extends LoggedObject
 
             parameters.setParameter("installerZipFile", fileHandler.getName(installerZipFile));
         }
-
+        
         if (deployables != null)
         {
             parameters.setParameter("deployableFiles", setupDeployables(parameters, deployables));
@@ -257,6 +258,12 @@ public class DaemonClient extends LoggedObject
         parameters.setParameter("containerProperties", setupContainerProperties(container));
 
         parameters.setParameter("containerOutput", container.getOutput());
+        
+        if (logFile != null)
+        {
+            parameters.setParameter("containerLogFile", logFile);
+        }
+
         parameters.setParameter("containerLogLevel", container.getLogger().getLevel().toString());
 
         if (container.isAppend())

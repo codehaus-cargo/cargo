@@ -23,6 +23,7 @@
     <url-pattern>/restart</url-pattern>
     <url-pattern>/stop</url-pattern>
     <url-pattern>/viewlog</url-pattern>
+    <url-pattern>/viewcargolog</url-pattern>
     <url-pattern>/getHandles</url-pattern>
   </servlet-mapping>
   <servlet-mapping>

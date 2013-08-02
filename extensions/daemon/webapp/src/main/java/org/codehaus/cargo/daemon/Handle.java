@@ -39,9 +39,14 @@ public class Handle
     private static final String KEY_AUTOSTART = "autostart";
 
     /**
-     * The key representing the log file path.
+     * The key representing the Cargo log file path.
      */
     private static final String KEY_LOGPATH = "logpath";
+
+    /**
+     * The key representing the container output log file path.
+     */
+    private static final String KEY_OUTPUTPATH = "outputpath";
 
     /**
      * The unique handle identifier of a container.
@@ -168,23 +173,40 @@ public class Handle
     }
     
     /**
-     * @return the log file path of the container.
+     * @return the Cargo log file path of the container.
      */
-    public String getLogPath()
+    public String getContainerLogPath()
     {
         return this.properties.get(KEY_LOGPATH);
     }
 
     /**
-     * Set the log file path of the container
+     * Set the Cargo log file path of the container
      *
      * @param logpath The log file path
      */
-    public void setLogPath(String logpath)
+    public void setContainerLogPath(String logpath)
     {
         this.properties.put(KEY_LOGPATH, logpath);
     }
     
+    /**
+     * @return the container output log file path.
+     */
+    public String getContainerOutputPath()
+    {
+        return this.properties.get(KEY_OUTPUTPATH);
+    }
+
+    /**
+     * Set the container output log file path
+     *
+     * @param logpath The log file path
+     */
+    public void setContainerOutputPath(String logpath)
+    {
+        this.properties.put(KEY_OUTPUTPATH, logpath);
+    }
     
     /**
      * @return true if the container was forcibly stopped.

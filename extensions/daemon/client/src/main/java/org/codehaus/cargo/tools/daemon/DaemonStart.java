@@ -62,6 +62,12 @@ public class DaemonStart
     private String installerZipFile;
 
     /**
+     * The log file where the Cargo log should be saved to.
+     */
+    private String logFile;
+
+    
+    /**
      * @return the unique identifier of the container to start.
      */
     public String getHandleId()
@@ -157,6 +163,22 @@ public class DaemonStart
     public void setInstallerZipFile(String installerZipFile)
     {
         this.installerZipFile = installerZipFile;
+    }
+
+    /**
+     * @return the log file where to save the Cargo log
+     */
+    public String getLogFile()
+    {
+        return logFile;
+    }
+
+    /**
+     * @param logFile The log file where to save the Cargo log
+     */
+    public void setLogFile(String logFile)
+    {
+        this.logFile = logFile;
     }
 
 }

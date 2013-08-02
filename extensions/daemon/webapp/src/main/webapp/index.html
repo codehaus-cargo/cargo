@@ -83,7 +83,7 @@
             <tr bgcolor="#C0C9D8">
               <td width="400">Handle id</td>
               <td width="100">Status</td>
-              <td colspan="4" width="300"><center>Actions</center></td>
+              <td colspan="5" width="300"><center>Actions</center></td>
             </tr>
           </table>
           <br/>
@@ -508,8 +508,9 @@
           row.insertCell(1).innerHTML = handles[handleId];
           row.insertCell(2).innerHTML = "<center><form action='./stop' method='POST' target='asyncForm'> <input type='submit' value='Stop' id='stopContainer_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>";
           row.insertCell(3).innerHTML = "<center><form action='./restart' method='POST' target='asyncForm'> <input type='submit' value='Start' id='startContainer_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>";
-          row.insertCell(4).innerHTML = "<center><form action='./viewlog' method='GET' target='_blank'> <input type='submit' value='View logs' id='viewContainerLogs_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>";
-          row.insertCell(5).innerHTML = "<center><form action='./stop' method='POST' target='asyncForm'> <input type='submit' value='Delete' id='deleteContainer_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/><input type='hidden' name='deleteContainer' value='true'/></form></center>";
+          row.insertCell(4).innerHTML = "<center><form action='./viewlog' method='GET' target='_blank'> <input type='submit' value='View Container logs' id='viewContainerLogs_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>";
+          row.insertCell(5).innerHTML = "<center><form action='./viewcargolog' method='GET' target='_blank'> <input type='submit' value='View Cargo logs' id='viewCargoLogs_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>";
+          row.insertCell(6).innerHTML = "<center><form action='./stop' method='POST' target='asyncForm'> <input type='submit' value='Delete' id='deleteContainer_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/><input type='hidden' name='deleteContainer' value='true'/></form></center>";
         }
         if (!hasHandles)
         {
@@ -517,7 +518,7 @@
 
           var cell = row.insertCell(0);
           cell.innerHTML = "<center><i>No containers found</i></center>";
-          cell.colSpan = "6";
+          cell.colSpan = "7";
         }
       }
 
