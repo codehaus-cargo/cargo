@@ -507,7 +507,7 @@
           row.insertCell(0).innerHTML = handleId;
           row.insertCell(1).innerHTML = handles[handleId];
           row.insertCell(2).innerHTML = "<center><form action='./stop' method='POST' target='asyncForm'> <input type='submit' value='Stop' id='stopContainer_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>";
-          row.insertCell(3).innerHTML = "<center><form action='./restart' method='POST' target='asyncForm'> <input type='submit' value='Start' id='startContainer_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>";
+          row.insertCell(3).innerHTML = "<center><form action='./start' method='POST' target='asyncForm'> <input type='submit' value='Start' id='startContainer_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>";
           row.insertCell(4).innerHTML = "<center><form action='./viewlog' method='GET' target='_blank'> <input type='submit' value='View Container logs' id='viewContainerLogs_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>";
           row.insertCell(5).innerHTML = "<center><form action='./viewcargolog' method='GET' target='_blank'> <input type='submit' value='View Cargo logs' id='viewCargoLogs_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>";
           row.insertCell(6).innerHTML = "<center><form action='./stop' method='POST' target='asyncForm'> <input type='submit' value='Delete' id='deleteContainer_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/><input type='hidden' name='deleteContainer' value='true'/></form></center>";

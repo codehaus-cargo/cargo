@@ -30,7 +30,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -63,6 +62,7 @@ import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
+import org.codehaus.cargo.uberjar.Uberjar;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.LogLevel;
 import org.codehaus.cargo.util.log.Logger;
@@ -76,11 +76,6 @@ import org.json.simple.JSONValue;
  */
 public class CargoDaemonServlet extends HttpServlet implements Runnable
 {
-
-    /**
-     * The amount of milliseconds to wait between immediately stopping and restarting a container.
-     */
-    private static final int STOPSTARTTIMEOUT = 500;
 
     /**
      * The periodic amount of milliseconds between checking if containers are still alive.
@@ -137,12 +132,6 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
      * Default index page.
      */
     private String indexPage;
-    
-    /**
-     * Properties for the Daemon.
-     */
-    private Properties daemonProperties = new Properties();
-
 
     /**
      * Constructor of the cargo daemon servlet.
@@ -152,17 +141,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         // Start background task for restarting webapps.
         scheduledExecutor.scheduleAtFixedRate(this, INITIALAUTOSTARTTIMEOUT, AUTOSTARTTIMEOUT,
             TimeUnit.SECONDS);
-        
-        try 
-        {
-            daemonProperties.load(getClass().getClassLoader().getResourceAsStream(
-                    "org/codehaus/cargo/daemon/daemon.properties"));
-        } 
-        catch (IOException e) 
-        {
-            throw new RuntimeException("Could not load internal daemon properties");
-        }
-        
+
         try
         {
             loadHandleDatabase();
@@ -184,22 +163,6 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         {
             handles = fileManager.loadHandleDatabase();
         }
-    }
-
-    /**
-     * Gets the Daemon version.
-     * @return the daemon version.
-     */
-    private String getDaemonVersion()
-    {
-        String daemonVersion = daemonProperties.getProperty(DAEMON_VERSION);
-        
-        if (daemonVersion == null)
-        {
-            daemonVersion = "";
-        }
-        
-        return daemonVersion;
     }
     
     /**
@@ -224,7 +187,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         Map<String, String> replacements = new HashMap<String, String>();
 
         
-        replacements.put("daemonVersion", getDaemonVersion());
+        replacements.put("daemonVersion", Uberjar.class.getPackage().getImplementationVersion());
         replacements.put("containerIds", JSONArray
             .toJSONString(new ArrayList<String>(new TreeSet<String>(CONTAINER_FACTORY
                 .getContainerIds().keySet()))));
@@ -268,12 +231,27 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
         if ("start".equals(servletPath))
         {
-            StartRequest startRequest = null;
-            try
+            StartRequest startRequest;
+
+            String handleId = request.getParameter("handleId");
+            Handle handle = null;
+            if (handleId != null)
+            {
+                handle = handles.get(handleId);
+            }
+            if (handle == null)
             {
                 startRequest = new StartRequest().parse(request);
                 startRequest.setSave(true);
+            }
+            else
+            {
+                startRequest = new StartRequest();
+                startRequest.setParameters(handle.getProperties());
+            }
 
+            try
+            {
                 startContainer(startRequest);
 
                 response.setContentType("text/plain");
@@ -500,14 +478,6 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
         InstalledLocalContainer container = handle.getContainer();
 
-        if (container != null)
-        {
-            container.stop();
-
-            // Wait for a small moment
-            Thread.sleep(STOPSTARTTIMEOUT);
-        }
-
         if (configurationHome == null || configurationHome.length() == 0)
         {
             configurationHome = fileManager.getConfigurationDirectory(handleId);
@@ -600,6 +570,20 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 handleId);
         }
 
+        handle.setConfiguration(configuration);
+        handle.setContainer(container);
+
+        handle.setContainerOutputPath(containerOutputFile);
+        handle.setContainerLogPath(containerLogFile);
+
+        if (request.isSave())
+        {
+            handle.setAutostart("on".equals(autostart) || "true".equals(autostart));
+            handle.addProperties(request.getParameters());
+
+            fileManager.saveHandleDatabase(handles);
+        }
+
         try
         {
             container.start();
@@ -617,22 +601,6 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             }
 
             throw t;
-        }
-        finally
-        {
-            handle.setConfiguration(configuration);
-            handle.setContainer(container);
-
-            handle.setContainerOutputPath(containerOutputFile);
-            handle.setContainerLogPath(containerLogFile);
-
-            if (request.isSave())
-            {
-                handle.setAutostart("on".equals(autostart) || "true".equals(autostart));
-                handle.addProperties(request.getParameters());
-
-                fileManager.saveHandleDatabase(handles);
-            }
         }
     }
 

@@ -40,13 +40,6 @@
           <include>**/*.txt</include>
         </includes>
       </resource>
-      <resource>
-      	<directory>src/main/resources</directory>
-      	<filtering>true</filtering>
-      	<includes>
-     		<include>org/codehaus/cargo/daemon/daemon.properties</include>
-      	</includes>
-      </resource>
     </resources>    
     
     <plugins>
