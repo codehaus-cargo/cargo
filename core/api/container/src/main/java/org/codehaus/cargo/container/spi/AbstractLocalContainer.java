@@ -33,6 +33,7 @@ import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
+import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 
@@ -127,8 +128,6 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      */
     protected void verify()
     {
-        this.getConfiguration().applyPortOffset();
-
         // Nothing to verify. We still need this method so that extending classes do not need to
         // implement this method. Only if they have some checks to perform.
     }
@@ -174,66 +173,134 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      */
     public final void start()
     {
-        verify();
+        getLogger().info(getName() + " starting...", this.getClass().getName());
+        boolean realStart;
 
-        // Ensure that the configuration is done before starting the container.
-        getConfiguration().configure(this);
-
-        // CARGO-365: Check if ports are in use
-        for (Map.Entry<String, String> property : getConfiguration().getProperties().entrySet())
+        synchronized (this)
         {
-            if (property.getKey().endsWith(".port") && property.getValue() != null)
+            if (State.STARTING == getState() || State.STARTED == getState())
             {
-                try
+                realStart = false;
+            }
+            else
+            {
+                realStart = true;
+                setState(State.STARTING);
+            }
+        }
+
+        if (realStart)
+        {
+            try
+            {
+                this.getConfiguration().applyPortOffset();
+
+                verify();
+
+                // Ensure that the configuration is done before starting the container.
+                getConfiguration().configure(this);
+
+                // CARGO-365: Check if ports are in use
+                for (Map.Entry<String, String> property
+                    : getConfiguration().getProperties().entrySet())
                 {
-                    int port = Integer.parseInt(property.getValue());
-                    if (!isPortShutdown(port, 0))
+                    if (property.getKey().endsWith(".port") && property.getValue() != null)
                     {
-                        throw new ContainerException("Port number " + property.getValue()
-                            + " (defined with the property " + property.getKey() + ") is in use. "
-                                + "Please free it on the system or set it to a different port "
-                                    + "in the container's configuration.");
+                        try
+                        {
+                            int port = Integer.parseInt(property.getValue());
+                            if (!isPortShutdown(port, 0))
+                            {
+                                throw new ContainerException("Port number " + property.getValue()
+                                    + " (defined with the property " + property.getKey() + ") is "
+                                        + "in use. Please free it on the system or set it to a "
+                                            + "different port in the container configuration.");
+                            }
+                        }
+                        catch (NumberFormatException e) 
+                        {
+                            // We do nothing
+                        }
                     }
                 }
-                catch (NumberFormatException e) 
+
+                startInternal();
+
+                // CARGO-712: If timeout is 0, don't wait at all
+                if (getTimeout() != 0)
                 {
-                    // We do nothing
+                    // Wait until the container is fully started
+                    waitForCompletion(true);
+                }
+
+                executePostStartTasks();
+
+                setState(State.STARTED);
+                getLogger().info(getName() + " started on port ["
+                    + getConfiguration().getPropertyValue(ServletPropertySet.PORT) + "]",
+                        this.getClass().getName());
+            }
+            catch (CargoException e)
+            {
+                setState(State.UNKNOWN);
+                getLogger().warn(e.toString(), this.getClass().getName());
+
+                throw e;
+            }
+            catch (Throwable t)
+            {
+                setState(State.UNKNOWN);
+                getLogger().warn(t.toString(), this.getClass().getName());
+
+                throw new ContainerException("Failed to start the " + getName() + " container."
+                    + (getOutput() == null ? "" : " Check the [" + getOutput() + "] file "
+                        + "containing the container logs for more details."), t);
+            }
+            finally 
+            {
+                this.getConfiguration().revertPortOffset();
+            }
+        }
+        else
+        {
+            if (State.STARTING == getState())
+            {
+                while (State.STARTING == getState())
+                {
+                    try
+                    {
+                        // Wait until the container is fully started
+                        Thread.sleep(1000);
+                    }
+                    catch (InterruptedException ignored)
+                    {
+                        // Ignored
+                    }
+                }
+
+                if (State.STARTED == getState())
+                {
+                    getLogger().info(getName() + " started on port ["
+                        + getConfiguration().getPropertyValue(ServletPropertySet.PORT) + "]",
+                            this.getClass().getName());
+                }
+                else
+                {
+                    throw new ContainerException("Failed to start the " + getName() + " container."
+                        + (getOutput() == null ? "" : " Check the [" + getOutput() + "] file "
+                            + "containing the container logs for more details."));
                 }
             }
-        }
-
-        getLogger().info(getName() + " starting...", this.getClass().getName());
-
-        setState(State.STARTING);
-
-        try
-        {
-            startInternal();
-
-            // CARGO-712: If timeout is 0, don't wait at all
-            if (getTimeout() != 0)
+            else if (State.STARTED == getState())
             {
-                // Wait until the container is fully started
-                waitForCompletion(true);
+                getLogger().info(getName() + " is already started on port ["
+                    + getConfiguration().getPropertyValue(ServletPropertySet.PORT) + "]",
+                        this.getClass().getName());
             }
-
-            executePostStartTasks();
-
-            setState(State.STARTED);
-            getLogger().info(getName() + " started on port ["
-                + getConfiguration().getPropertyValue(ServletPropertySet.PORT) + "]",
-                this.getClass().getName());
-        }
-        catch (Exception e)
-        {
-            setState(State.UNKNOWN);
-            throw new ContainerException("Failed to start the " + getName() + " container."
-                + (getOutput() == null ? "" : " Check the [" + getOutput() + "] file "
-                    + "containing the container logs for more details."), e);
-        }
-        finally 
-        {
-            this.getConfiguration().revertPortOffset();
+            else
+            {
+                throw new ContainerException("Unexpected container state: " + getState());
+            }
         }
     }
 
@@ -243,46 +310,102 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      */
     public final void stop()
     {
-        verify();
-
         getLogger().info(getName() + " is stopping...", this.getClass().getName());
-        setState(State.STOPPING);
+        boolean realStop;
 
-        final boolean isAppend = isAppend();
-
-        try
+        synchronized (this)
         {
-            // CARGO-520: Always set append to "true" when stopping
-            setAppend(true);
-
-            stopInternal();
-
-            // CARGO-712: If timeout is 0, don't wait at all
-            if (getTimeout() != 0)
+            if (State.STOPPING == getState())
             {
-                // Wait until the container is fully stopped
-                waitForCompletion(false);
+                realStop = false;
             }
-                        
-            // Force the container to stop, should it not already be stopped.
-            // At this point, the container should already be stopped,
-            // so this should have no effect if the container was properly stopped.
-            forceStopInternal();            
-        }
-        catch (Exception e)
-        {
-            setState(State.UNKNOWN);
-            throw new ContainerException("Failed to stop the " + getName() + " container."
-                + (getOutput() == null ? "" : " Check the [" + getOutput() + "] file "
-                    + "containing the container logs for more details."), e);
-        }
-        finally
-        {
-            setAppend(isAppend);
+            else
+            {
+                realStop = true;
+                setState(State.STOPPING);
+            }
         }
 
-        setState(State.STOPPED);
-        getLogger().info(getName() + " is stopped", this.getClass().getName());
+        if (realStop)
+        {
+            final boolean isAppend = isAppend();
+
+            try
+            {
+                this.getConfiguration().applyPortOffset();
+
+                verify();
+
+                // CARGO-520: Always set append to "true" when stopping
+                setAppend(true);
+
+                stopInternal();
+
+                // CARGO-712: If timeout is 0, don't wait at all
+                if (getTimeout() != 0)
+                {
+                    // Wait until the container is fully stopped
+                    waitForCompletion(false);
+                }
+
+                // Force the container to stop, should it not already be stopped.
+                // At this point, the container should already be stopped,
+                // so this should have no effect if the container was properly stopped.
+                forceStopInternal();            
+
+                setState(State.STOPPED);
+                getLogger().info(getName() + " is stopped", this.getClass().getName());
+            }
+            catch (Exception e)
+            {
+                setState(State.UNKNOWN);
+                throw new ContainerException("Failed to stop the " + getName() + " container."
+                    + (getOutput() == null ? "" : " Check the [" + getOutput() + "] file "
+                        + "containing the container logs for more details."), e);
+            }
+            finally
+            {
+                setAppend(isAppend);
+                this.getConfiguration().revertPortOffset();
+            }
+        }
+        else
+        {
+            if (State.STOPPING == getState())
+            {
+                while (State.STOPPING == getState())
+                {
+                    try
+                    {
+                        // Wait until the container is fully stopped
+                        Thread.sleep(1000);
+                    }
+                    catch (InterruptedException ignored)
+                    {
+                        // Ignored
+                    }
+                }
+
+                if (State.STOPPED == getState())
+                {
+                    getLogger().info(getName() + " is stopped", this.getClass().getName());
+                }
+                else
+                {
+                    throw new ContainerException("Failed to stop the " + getName() + " container."
+                        + (getOutput() == null ? "" : " Check the [" + getOutput() + "] file "
+                            + "containing the container logs for more details."));
+                }
+            }
+            else if (State.STOPPED == getState())
+            {
+                getLogger().info(getName() + " is already stopped", this.getClass().getName());
+            }
+            else
+            {
+                throw new ContainerException("Unexpected container state: " + getState());
+            }
+        }
     }
 
     /**
