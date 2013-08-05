@@ -20,6 +20,7 @@
 package org.codehaus.cargo.sample.java;
 
 import junit.framework.Test;
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 
 import org.codehaus.cargo.container.State;
@@ -71,6 +72,17 @@ public class AllLocalContainerTest extends AbstractCargoTestCase
 
         getLocalContainer().start();
         assertEquals(State.STARTED, getContainer().getState());
+
+        try
+        {
+            getLocalContainer().start();
+            fail("the second start attempt did not fail");
+        }
+        catch (ContainerException expected)
+        {
+            assertTrue(expected.getMessage() + " does not contain the word 'restart'",
+                expected.getMessage().contains("restart"));
+        }
 
         getLocalContainer().stop();
         assertEquals(State.STOPPED, getContainer().getState());
