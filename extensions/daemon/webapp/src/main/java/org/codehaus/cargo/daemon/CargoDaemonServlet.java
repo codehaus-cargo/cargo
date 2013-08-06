@@ -71,7 +71,7 @@ import org.json.simple.JSONValue;
 
 /**
  * Cargo daemon servlet.
- * 
+ *
  * @version $Id$
  */
 public class CargoDaemonServlet extends HttpServlet implements Runnable
@@ -164,7 +164,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             handles = fileManager.loadHandleDatabase();
         }
     }
-    
+
     /**
      * Read the index page.
      * 
@@ -186,7 +186,6 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
         Map<String, String> replacements = new HashMap<String, String>();
 
-        
         replacements.put("daemonVersion", Uberjar.class.getPackage().getImplementationVersion());
         replacements.put("containerIds", JSONArray
             .toJSONString(new ArrayList<String>(new TreeSet<String>(CONTAINER_FACTORY
@@ -285,6 +284,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             {
                 StartRequest startRequest = new StartRequest();
                 startRequest.setParameters(handle.getProperties());
+                startRequest.setRestart(true);
                 startContainer(startRequest);
 
                 response.setContentType("text/plain");
@@ -307,21 +307,25 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
                 if (handle != null)
                 {
-                    InstalledLocalContainer container = handle.getContainer();
-
-                    if (delete)
+                    synchronized (handle)
                     {
-                        handles.remove(handleId);
-                        fileManager.saveHandleDatabase(handles);
-                    }
+                        InstalledLocalContainer container = handle.getContainer();
 
-                    if (container != null)
-                    {
-                        container.stop();
-                    }
+                        if (delete)
+                        {
+                            handles.remove(handleId);
+                            fileManager.saveHandleDatabase(handles);
+                        }
 
-                    handle.setForceStop(true);
+                        if (container != null)
+                        {
+                            container.stop();
+                        }
+
+                        handle.setForceStop(true);
+                    }
                 }
+
                 response.setContentType("text/plain");
                 response.getWriter().println("OK - STOPPED");
             }
@@ -344,16 +348,15 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 }
 
                 String logFilePath = null;
-                
+
                 if ("viewlog".equals(servletPath))
                 {
                     logFilePath = handle.getContainerOutputPath();
-                } 
+                }
                 else if ("viewcargolog".equals(servletPath))
                 {
                     logFilePath = handle.getContainerLogPath();
                 }
-               
 
                 response.setContentType("text/plain");
                 response.setCharacterEncoding("UTF-8");
@@ -423,7 +426,6 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             throw new ServletException("Unknown servlet path: " + servletPath);
         }
     }
-    
 
     /**
      * Starts the container.
@@ -476,131 +478,138 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             handle.setForceStop(false);
         }
 
-        InstalledLocalContainer container = handle.getContainer();
-
-        if (configurationHome == null || configurationHome.length() == 0)
+        synchronized (handle)
         {
-            configurationHome = fileManager.getConfigurationDirectory(handleId);
-        }
+            if (configurationHome == null || configurationHome.length() == 0)
+            {
+                configurationHome = fileManager.getConfigurationDirectory(handleId);
+            }
 
-        ConfigurationType parsedConfigurationType =
-            ConfigurationType.toType(configurationType);
-        LocalConfiguration configuration =
-            (LocalConfiguration) CONFIGURATION_FACTORY.createConfiguration(containerId,
-                ContainerType.INSTALLED, parsedConfigurationType, configurationHome);
+            ConfigurationType parsedConfigurationType =
+                ConfigurationType.toType(configurationType);
+            LocalConfiguration configuration =
+                (LocalConfiguration) CONFIGURATION_FACTORY.createConfiguration(containerId,
+                    ContainerType.INSTALLED, parsedConfigurationType, configurationHome);
 
-        // CARGO-1198: If we are saving a new container, delete the old workspace directory
-        if (request.isSave())
-        {
-            fileManager.deleteWorkspaceDirectory(handleId);
-        }
-
-        configuration.getProperties().putAll(configurationProperties);
-
-        container =
-            (InstalledLocalContainer) CONTAINER_FACTORY.createContainer(containerId,
-                ContainerType.INSTALLED, configuration);
-
-        additionalClasspath = setupAdditionalClasspath(additionalClasspath, handleId);
-
-        container.setJvmLauncherFactory(new DaemonJvmLauncherFactory(additionalClasspath));
-
-        if (timeout != null && timeout.length() > 0)
-        {
-            container.setTimeout(Long.parseLong(timeout));
-        }
-
-        container.setHome(containerHome);
-        container.setSystemProperties(containerProperties);
-        
-        if (containerLogFile == null || containerLogFile.length() == 0)
-        {
-            containerLogFile = "cargo.log";
-        }
-        containerLogFile = fileManager.getLogFile(handleId, containerLogFile);
-        Logger logger = new FileLogger(containerLogFile, containerAppend);
-
-        if (containerLogLevel != null && containerLogLevel.length() > 0)
-        {
-            logger.setLevel(LogLevel.toLevel(containerLogLevel));
-        }
-        container.setLogger(logger);
-        
-        if (containerOutputFile == null || containerOutputFile.length() == 0)
-        {
-            containerOutputFile = "container.log";
-        }
-        containerOutputFile = fileManager.getLogFile(handleId, containerOutputFile);
-        
-        container.setOutput(containerOutputFile);
-        container.setAppend(containerAppend);
-        
-
-        if (installerZipFile != null && installerZipInputStream != null)
-        {
-            fileManager.saveFile(installerZipFile, installerZipInputStream);
-        }
-
-        if (installerZipUrl != null || installerZipFile != null)
-        {
-            containerHome = installContainer(installerZipUrl, installerZipFile);
-        }
-
-        if (containerHome != null)
-        {
-            container.setHome(containerHome);
-        }
-
-        if (request.isSave())
-        {
-            saveConfigurationFiles(configurationFiles, handleId, request);
-        }
-
-        setupConfigurationFiles(handleId, configuration, configurationFileProperties, request);
-        setupDeployableFiles(handleId, containerId, deployableFiles, configuration, request);
-        if (container instanceof InstalledLocalContainer)
-        {
+            // CARGO-1198: If we are saving a new container, delete the old workspace directory
             if (request.isSave())
             {
-                saveExtraFiles(extraFiles, handleId, request);
-                saveSharedFiles(sharedFiles, handleId, request);
+                fileManager.deleteWorkspaceDirectory(handleId);
             }
-            setupExtraClasspath((InstalledLocalContainer) container, extraClasspath, handleId);
-            setupSharedClasspath((InstalledLocalContainer) container, sharedClasspath,
-                handleId);
-        }
 
-        handle.setConfiguration(configuration);
-        handle.setContainer(container);
+            configuration.getProperties().putAll(configurationProperties);
 
-        handle.setContainerOutputPath(containerOutputFile);
-        handle.setContainerLogPath(containerLogFile);
+            InstalledLocalContainer container =
+                (InstalledLocalContainer) CONTAINER_FACTORY.createContainer(containerId,
+                    ContainerType.INSTALLED, configuration);
 
-        if (request.isSave())
-        {
-            handle.setAutostart("on".equals(autostart) || "true".equals(autostart));
-            handle.addProperties(request.getParameters());
+            additionalClasspath = setupAdditionalClasspath(additionalClasspath, handleId);
 
-            fileManager.saveHandleDatabase(handles);
-        }
+            container.setJvmLauncherFactory(new DaemonJvmLauncherFactory(additionalClasspath));
 
-        try
-        {
-            container.start();
-        }
-        catch (Throwable t)
-        {
+            if (timeout != null && timeout.length() > 0)
+            {
+                container.setTimeout(Long.parseLong(timeout));
+            }
+
+            container.setHome(containerHome);
+            container.setSystemProperties(containerProperties);
+
+            if (containerLogFile == null || containerLogFile.length() == 0)
+            {
+                containerLogFile = "cargo.log";
+            }
+            containerLogFile = fileManager.getLogFile(handleId, containerLogFile);
+            Logger logger = new FileLogger(containerLogFile, containerAppend);
+
+            if (containerLogLevel != null && containerLogLevel.length() > 0)
+            {
+                logger.setLevel(LogLevel.toLevel(containerLogLevel));
+            }
+            container.setLogger(logger);
+
+            if (containerOutputFile == null || containerOutputFile.length() == 0)
+            {
+                containerOutputFile = "container.log";
+            }
+            containerOutputFile = fileManager.getLogFile(handleId, containerOutputFile);
+
+            container.setOutput(containerOutputFile);
+            container.setAppend(containerAppend);
+
+            if (installerZipFile != null && installerZipInputStream != null)
+            {
+                fileManager.saveFile(installerZipFile, installerZipInputStream);
+            }
+
+            if (installerZipUrl != null || installerZipFile != null)
+            {
+                containerHome = installContainer(installerZipUrl, installerZipFile);
+            }
+
+            if (containerHome != null)
+            {
+                container.setHome(containerHome);
+            }
+
+            if (request.isSave())
+            {
+                saveConfigurationFiles(configurationFiles, handleId, request);
+            }
+
+            setupConfigurationFiles(handleId, configuration, configurationFileProperties, request);
+            setupDeployableFiles(handleId, containerId, deployableFiles, configuration, request);
+            if (container instanceof InstalledLocalContainer)
+            {
+                if (request.isSave())
+                {
+                    saveExtraFiles(extraFiles, handleId, request);
+                    saveSharedFiles(sharedFiles, handleId, request);
+                }
+                setupExtraClasspath((InstalledLocalContainer) container, extraClasspath, handleId);
+                setupSharedClasspath((InstalledLocalContainer) container, sharedClasspath,
+                    handleId);
+            }
+
+            handle.setConfiguration(configuration);
+            handle.setContainer(container);
+
+            handle.setContainerOutputPath(containerOutputFile);
+            handle.setContainerLogPath(containerLogFile);
+
+            if (request.isSave())
+            {
+                handle.setAutostart("on".equals(autostart) || "true".equals(autostart));
+                handle.addProperties(request.getParameters());
+
+                fileManager.saveHandleDatabase(handles);
+            }
+
             try
             {
-                // Make sure container is stopped.
-                container.stop();
+                if (request.isRestart())
+                {
+                    container.restart();
+                }
+                else
+                {
+                    container.start();
+                }
             }
-            catch (Throwable ignored)
+            catch (Throwable t)
             {
-                // Ignored
-            }
+                try
+                {
+                    // Make sure container is stopped.
+                    container.stop();
+                }
+                catch (Throwable ignored)
+                {
+                    // Ignored
+                }
 
-            throw t;
+                throw t;
+            }
         }
     }
 
@@ -650,7 +659,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         {
             InputStream inputStream = request.getFile("configurationFileData_" + i, true);
             fileManager.saveFile(handleId, filename, inputStream);
-            
+
             i++;
         }
     }
@@ -675,7 +684,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         {
             InputStream inputStream = request.getFile("sharedFileData_" + i, true);
             fileManager.saveFile(handleId, filename, inputStream);
-            
+
             i++;
         }
     }
@@ -700,7 +709,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         {
             InputStream inputStream = request.getFile("extraFileData_" + i, true);
             fileManager.saveFile(handleId, filename, inputStream);
-            
+
             i++;
         }
     }
@@ -778,7 +787,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             String encoding = properties.get("encoding", false);
             boolean overwrite = properties.getBoolean("overwrite");
             boolean filter = properties.getBoolean("filter");
-            
+
             fileConfig.setConfigfile(filter);
             fileConfig.setOverwrite(overwrite);
 
@@ -791,7 +800,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             {
                 fileConfig.setToFile(toFile);
             }
-            
+
             if (toDirectory != null && toDirectory.length() != 0)
             {
                 fileConfig.setToDir(toDirectory);
