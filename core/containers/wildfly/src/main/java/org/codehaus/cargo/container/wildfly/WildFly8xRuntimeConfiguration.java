@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.wildfly;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.JBoss7xRuntimeConfiguration;
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.wildfly.internal.WildFly8xRuntimeConfigurationCapability;
 
 /**
@@ -35,6 +36,17 @@ public class WildFly8xRuntimeConfiguration extends JBoss7xRuntimeConfiguration
      */
     private static final ConfigurationCapability CAPABILITY =
         new WildFly8xRuntimeConfigurationCapability();
+
+    /**
+     * Set the default values for various port numbers.
+     */
+    public WildFly8xRuntimeConfiguration()
+    {
+        super();
+
+        getProperties().remove(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
+        setProperty(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, "9990");
+    }
 
     /**
      * {@inheritDoc}

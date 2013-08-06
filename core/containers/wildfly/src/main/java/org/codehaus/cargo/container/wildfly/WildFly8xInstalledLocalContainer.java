@@ -19,8 +19,11 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
+import java.io.File;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBoss72xInstalledLocalContainer;
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * WildFly 8.x series container implementation.
@@ -61,5 +64,25 @@ public class WildFly8xInstalledLocalContainer extends JBoss72xInstalledLocalCont
     public String getName()
     {
         return "WildFly " + getVersion("8.x");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doStop(JvmLauncher java) throws Exception
+    {
+        String port =
+            getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
+
+        java.setJarFile(new File(getHome(), "jboss-modules.jar"));
+
+        java.addAppArguments(
+            "-mp", getHome() + "/modules",
+            "org.jboss.as.cli",
+            "--connect", "--controller=localhost:" + port,
+            "command=:shutdown");
+
+        java.start();
     }
 }

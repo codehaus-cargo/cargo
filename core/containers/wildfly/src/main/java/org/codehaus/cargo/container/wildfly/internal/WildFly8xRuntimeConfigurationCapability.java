@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.wildfly.internal;
 
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xRuntimeConfigurationCapability;
 
 /**
@@ -30,4 +31,16 @@ import org.codehaus.cargo.container.jboss.internal.JBoss7xRuntimeConfigurationCa
 public class WildFly8xRuntimeConfigurationCapability extends
     JBoss7xRuntimeConfigurationCapability
 {
+
+    /**
+     * Initialize WildFly-specific configuration Map.
+     */
+    public WildFly8xRuntimeConfigurationCapability()
+    {
+        super();
+
+        this.supportsMap.remove(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
+        this.supportsMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, Boolean.TRUE);
+    }
+
 }

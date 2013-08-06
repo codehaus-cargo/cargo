@@ -39,7 +39,7 @@ public class JBoss7xExistingLocalConfigurationCapability extends
     /**
      * JBoss-specific configuration Map.
      */
-    private Map<String, Boolean> propertySupportMap;
+    protected Map<String, Boolean> propertySupportMap;
 
     /**
      * Initialize JBoss-specific configuration Map.
@@ -54,7 +54,8 @@ public class JBoss7xExistingLocalConfigurationCapability extends
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
         this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, Boolean.FALSE);
     }
 
     /**

@@ -127,10 +127,18 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
             configurationXmlFile,
             "//server/management/management-interfaces/native-interface[@interface='management']",
             "port");
+        removeXmlReplacement(
+            configurationXmlFile,
+            "//server/management/management-interfaces/http-interface[@interface='management']",
+            "port");
         addXmlReplacement(
             configurationXmlFile,
             "//server/socket-binding-group/socket-binding[@name='management-native']",
-            "port", JBossPropertySet.JBOSS_MANAGEMENT_PORT);
+            "port", JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='management-http']",
+            "port", JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
         addXmlReplacement(
             configurationXmlFile,
             "//server/socket-binding-group/socket-binding[@name='txn-recovery-environment']",

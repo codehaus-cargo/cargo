@@ -42,6 +42,7 @@ public class JBoss7xRuntimeConfigurationCapability extends
         this.supportsMap.put(JBossPropertySet.CONFIGURATION, Boolean.FALSE);
         this.supportsMap.put(JBossPropertySet.CLUSTERED, Boolean.FALSE);
         this.supportsMap.put(JBossPropertySet.PROFILE, Boolean.FALSE);
-        this.supportsMap.put(JBossPropertySet.JBOSS_MANAGEMENT_PORT, Boolean.TRUE);
+        this.supportsMap.put(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, Boolean.TRUE);
+        this.supportsMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, Boolean.FALSE);
     }
 }

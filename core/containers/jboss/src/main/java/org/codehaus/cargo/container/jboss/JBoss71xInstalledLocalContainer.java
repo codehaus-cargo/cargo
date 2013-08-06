@@ -109,7 +109,8 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
     @Override
     protected void doStop(JvmLauncher java) throws Exception
     {
-        String port = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_PORT);
+        String port =
+            getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
 
         java.setJarFile(new File(getHome(), "jboss-modules.jar"));
 

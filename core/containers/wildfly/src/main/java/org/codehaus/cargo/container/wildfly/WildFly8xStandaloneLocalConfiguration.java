@@ -47,8 +47,7 @@ public class WildFly8xStandaloneLocalConfiguration extends JBoss72xStandaloneLoc
     {
         super(dir);
 
-        setProperty(JBossPropertySet.JBOSS_MANAGEMENT_PORT, "9990");
-
+        getProperties().remove(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
         getProperties().remove(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT);
     }
 
@@ -79,10 +78,6 @@ public class WildFly8xStandaloneLocalConfiguration extends JBoss72xStandaloneLoc
             "//server/socket-binding-group/socket-binding[@name='remoting']",
             "port");
 
-        addXmlReplacement(
-            configurationXmlFile,
-            "//server/socket-binding-group/socket-binding[@name='management-http']",
-            "port", JBossPropertySet.JBOSS_MANAGEMENT_PORT);
         removeXmlReplacement(
             configurationXmlFile,
             "//server/socket-binding-group/socket-binding[@name='management-native']",

@@ -173,8 +173,12 @@
                 <value>${cargo.samples.jboss.invoker.pool.port}</value>
               </property>
               <property>
-                <name>cargo.jboss.management.port</name>
-                <value>${cargo.samples.jboss.management.port}</value>
+                <name>cargo.jboss.management-native.port</name>
+                <value>${cargo.samples.jboss.management-native.port}</value>
+              </property>
+              <property>
+                <name>cargo.jboss.management-http.port</name>
+                <value>${cargo.samples.jboss.management-http.port}</value>
               </property>
               <property>
                 <name>cargo.jboss.osgi.http.port</name>
@@ -1197,7 +1201,8 @@
                 <portName>cargo.samples.jboss.transaction.statusManager.port</portName>
                 <portName>cargo.samples.jboss.remotedeploy.port</portName>
                 <portName>cargo.samples.jboss.jmx.port</portName>
-                <portName>cargo.samples.jboss.management.port</portName>
+                <portName>cargo.samples.jboss.management-native.port</portName>
+                <portName>cargo.samples.jboss.management-http.port</portName>
                 <portName>cargo.samples.jboss.osgi.http.port</portName>
                 <portName>cargo.samples.resin.socketwait.port</portName>
                 <portName>cargo.samples.tomcat.ajp.port</portName>

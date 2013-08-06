@@ -105,8 +105,18 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
         throws Exception
     {
         String hostname = this.configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
-        String portname =
-            this.configuration.getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_PORT);
+        String portname;
+        if (this.configuration.getCapability().supportsProperty(
+            JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT))
+        {
+            portname =
+                this.configuration.getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
+        }
+        else
+        {
+            portname =
+                this.configuration.getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
+        }
         int portnumber = Integer.parseInt(portname);
 
         ModelControllerClient client = ModelControllerClient.Factory.create(hostname, portnumber,

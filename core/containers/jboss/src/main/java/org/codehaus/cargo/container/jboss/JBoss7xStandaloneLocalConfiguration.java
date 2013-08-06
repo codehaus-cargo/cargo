@@ -82,7 +82,8 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         setProperty(GeneralPropertySet.RMI_PORT, "1099");
         setProperty(JBossPropertySet.JBOSS_JRMP_PORT, "1090");
         setProperty(JBossPropertySet.JBOSS_JMX_PORT, "1091");
-        setProperty(JBossPropertySet.JBOSS_MANAGEMENT_PORT, "9999");
+        setProperty(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, "9999");
+        setProperty(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, "9990");
         setProperty(JBossPropertySet.JBOSS_OSGI_HTTP_PORT, "8090");
         setProperty(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, "4447");
         setProperty(JBossPropertySet.CONFIGURATION, CONFIGURATION);
@@ -229,7 +230,11 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         addXmlReplacement(
             configurationXmlFile,
             "//server/management/management-interfaces/native-interface[@interface='management']",
-            "port", JBossPropertySet.JBOSS_MANAGEMENT_PORT);
+            "port", JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/management/management-interfaces/http-interface[@interface='management']",
+            "port", JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
         addXmlReplacement(
             configurationXmlFile,
             "//server/socket-binding-group/socket-binding[@name='osgi-http']",

@@ -39,6 +39,7 @@ public class WildFly8xStandaloneLocalConfigurationCapability
     {
         super();
 
+        this.propertySupportMap.remove(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
         this.propertySupportMap.remove(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT);
     }
 
