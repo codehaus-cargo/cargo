@@ -922,19 +922,22 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 continue;
             }
 
-            if (handle.isAutostart() && handle.getContainerStatus() == State.STOPPED
-                && !handle.isForceStop())
+            synchronized (handle) 
             {
-                StartRequest startRequest = new StartRequest();
-
-                startRequest.setParameters(handle.getProperties());
-                try
+                if (handle.isAutostart() && handle.getContainerStatus() == State.STOPPED
+                    && !handle.isForceStop())
                 {
-                    startContainer(startRequest);
-                }
-                catch (Throwable e)
-                {
-                    // Ignore
+                    StartRequest startRequest = new StartRequest();
+    
+                    startRequest.setParameters(handle.getProperties());
+                    try
+                    {
+                        startContainer(startRequest);
+                    }
+                    catch (Throwable e)
+                    {
+                        // Ignore
+                    }
                 }
             }
         }
