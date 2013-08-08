@@ -61,7 +61,7 @@ public class Proxy
     /**
      * @param host Proxy host.
      */
-    public final void setHost(String host)
+    public void setHost(String host)
     {
         this.host = host;
     }
@@ -69,7 +69,7 @@ public class Proxy
     /**
      * @return Proxy host.
      */
-    public final String getHost()
+    public String getHost()
     {
         return this.host;
     }
@@ -77,7 +77,7 @@ public class Proxy
     /**
      * @param port Proxy port.
      */
-    public final void setPort(int port)
+    public void setPort(int port)
     {
         this.port = port;
     }
@@ -85,7 +85,7 @@ public class Proxy
     /**
      * @return Proxy port. Default to 80 if not set.
      */
-    public final int getPort()
+    public int getPort()
     {
         return this.port;
     }
@@ -93,7 +93,7 @@ public class Proxy
     /**
      * @param user Username for authenticating proxies.
      */
-    public final void setUser(String user)
+    public void setUser(String user)
     {
         this.user = user;
     }
@@ -101,7 +101,7 @@ public class Proxy
     /**
      * @return Username for authenticating proxies.
      */
-    public final String getUser()
+    public String getUser()
     {
         return this.user;
     }
@@ -109,7 +109,7 @@ public class Proxy
     /**
      * @param password Password for authenticating proxies.
      */
-    public final void setPassword(String password)
+    public void setPassword(String password)
     {
         this.password = password;
     }
@@ -117,7 +117,7 @@ public class Proxy
     /**
      * @return Password for authenticating proxies.
      */
-    public final String getPassword()
+    public String getPassword()
     {
         return this.password;
     }
@@ -128,7 +128,7 @@ public class Proxy
      * character <code>(*)</code> can be used for matching. For example:
      * <code>*.foo.com|localhost</code>
      */
-    public final void setExcludeHosts(String proxyExcludeHosts)
+    public void setExcludeHosts(String proxyExcludeHosts)
     {
         this.excludeHosts = proxyExcludeHosts;
     }
@@ -138,7 +138,7 @@ public class Proxy
      * hosts, each seperated by a <code>|</code>, and in addition a wildcard character
      * <code>(*)</code> can be used for matching. For example: <code>*.foo.com|localhost</code>
      */
-    public final String getExcludeHosts()
+    public String getExcludeHosts()
     {
         return this.excludeHosts;
     }

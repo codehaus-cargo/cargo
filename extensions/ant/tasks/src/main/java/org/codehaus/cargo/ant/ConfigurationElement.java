@@ -77,7 +77,7 @@ public class ConfigurationElement
     /**
      * @param configurationClass the configuration class to associate to the containing container
      */
-    public final void setClass(Class configurationClass)
+    public void setClass(Class configurationClass)
     {
         this.configurationClass = configurationClass;
     }
@@ -164,7 +164,7 @@ public class ConfigurationElement
      * @param typeAsString the configuration type as a string
      * @see org.codehaus.cargo.generic.configuration.ConfigurationFactory
      */
-    public final void setType(String typeAsString)
+    public void setType(String typeAsString)
     {
         this.type = ConfigurationType.toType(typeAsString);
     }
@@ -172,7 +172,7 @@ public class ConfigurationElement
     /**
      * @param home the home directory to set
      */
-    public final void setHome(String home)
+    public void setHome(String home)
     {
         this.home = home;
     }
@@ -180,7 +180,7 @@ public class ConfigurationElement
     /**
      * @return the configuration type
      */
-    public final ConfigurationType getType()
+    public ConfigurationType getType()
     {
         return this.type;
     }
@@ -188,7 +188,7 @@ public class ConfigurationElement
     /**
      * @return the home directory
      */
-    public final String getHome()
+    public String getHome()
     {
         return this.home;
     }

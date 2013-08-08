@@ -222,7 +222,7 @@ public class DeployableElement
     /**
      * @return the list of deployable properties
      */
-    public final List<Property> getProperties()
+    public List<Property> getProperties()
     {
         return this.properties;
     }

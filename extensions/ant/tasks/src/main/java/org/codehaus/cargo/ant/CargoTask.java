@@ -241,7 +241,7 @@ public class CargoTask extends Task
     /**
      * @param containerClass the container implementation class to use
      */
-    public final void setClass(Class containerClass)
+    public void setClass(Class containerClass)
     {
         this.containerClass = containerClass;
     }
@@ -285,7 +285,7 @@ public class CargoTask extends Task
      * Sets the home dir.
      * @param home home dir to set.
      */
-    public final void setHome(String home)
+    public void setHome(String home)
     {
         this.home = home;
     }
@@ -293,7 +293,7 @@ public class CargoTask extends Task
     /**
      * @param id the Ant property name that will contain the container instance reference
      */
-    public final void setId(String id)
+    public void setId(String id)
     {
         this.id = id;
     }
@@ -301,7 +301,7 @@ public class CargoTask extends Task
     /**
      * @param refid the Ant property name that contains an existing container instance reference
      */
-    public final void setRefId(Reference refid)
+    public void setRefId(Reference refid)
     {
         this.refid = refid;
     }
@@ -309,7 +309,7 @@ public class CargoTask extends Task
     /**
      * @return the configured {@link ZipURLInstallerElement} element
      */
-    public final ZipURLInstallerElement createZipURLInstaller()
+    public ZipURLInstallerElement createZipURLInstaller()
     {
         if (getZipURLInstaller() == null)
         {
@@ -322,7 +322,7 @@ public class CargoTask extends Task
     /**
      * @return the configured {@link ConfigurationElement} element
      */
-    public final ConfigurationElement createConfiguration()
+    public ConfigurationElement createConfiguration()
     {
         if (getConfiguration() == null)
         {
@@ -336,7 +336,7 @@ public class CargoTask extends Task
      * {@inheritDoc}
      * @see LocalContainer#setOutput(String)
      */
-    public final void setOutput(String output)
+    public void setOutput(String output)
     {
         this.output = output;
     }
@@ -345,7 +345,7 @@ public class CargoTask extends Task
      * {@inheritDoc}
      * @see org.codehaus.cargo.util.log.LoggedObject#setLogger(Logger)
      */
-    public final void setLog(File log)
+    public void setLog(File log)
     {
         this.log = log;
     }
@@ -363,7 +363,7 @@ public class CargoTask extends Task
      * {@inheritDoc}
      * @see LocalContainer#setAppend(boolean)
      */
-    public final void setAppend(boolean isAppend)
+    public void setAppend(boolean isAppend)
     {
         this.append = isAppend;
     }

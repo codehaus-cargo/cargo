@@ -79,7 +79,7 @@ public class ZipUrlInstaller
     /**
      * @param url URL where to find the zipped container installation file.
      */
-    public final void setUrl(URL url)
+    public void setUrl(URL url)
     {
         this.url = url;
     }
@@ -103,7 +103,7 @@ public class ZipUrlInstaller
     /**
      * @return URL where to find the zipped container installation file.
      */
-    public final URL getUrl()
+    public URL getUrl()
     {
         return this.url;
     }
@@ -111,7 +111,7 @@ public class ZipUrlInstaller
     /**
      * @return Proxy properties.
      */
-    public final Proxy getProxy()
+    public Proxy getProxy()
     {
         return this.proxy;
     }
@@ -119,7 +119,7 @@ public class ZipUrlInstaller
     /**
      * @return The configured {@link Proxy} element.
      */
-    public final Proxy createProxy()
+    public Proxy createProxy()
     {
         if (getProxy() == null)
         {
