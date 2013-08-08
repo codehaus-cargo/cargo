@@ -62,11 +62,6 @@ public class StartRequest
     private boolean save = false;
 
     /**
-     * Tells if this request is for a restart.
-     */
-    private boolean restart = false;
-
-    /**
      * Parses the servlet request.
      * 
      * @param request The servlet request.
@@ -326,23 +321,5 @@ public class StartRequest
     public void setSave(boolean save)
     {
         this.save = save;
-    }
-
-    /**
-     * @return if this request is a restart request
-     */
-    public boolean isRestart()
-    {
-        return restart;
-    }
-
-    /**
-     * Sets the restart flag.
-     * 
-     * @param restart True if request is a restart request
-     */
-    public void setRestart(boolean restart)
-    {
-        this.restart = restart;
     }
 }

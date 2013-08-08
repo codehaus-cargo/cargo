@@ -230,27 +230,38 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
         if ("start".equals(servletPath))
         {
-            StartRequest startRequest;
+            // The "start" method is used to either:
+            //   1) Create a new handleId (i.e. a new container and configuration) and start it
+            //   2) Replace an existing handleId with the provided configuration and start it
+            //   3) Load an existing handleId with the existing configuration and start it
+
+            StartRequest startRequest = null;
+            boolean previouslyExistingStartRequest = false;
 
             String handleId = request.getParameter("handleId");
-            Handle handle = null;
-            if (handleId != null)
-            {
-                handle = handles.get(handleId);
-            }
-            if (handle == null)
-            {
-                startRequest = new StartRequest().parse(request);
-                startRequest.setSave(true);
-            }
-            else
-            {
-                startRequest = new StartRequest();
-                startRequest.setParameters(handle.getProperties());
-            }
+            String containerId = request.getParameter("containerId");
 
             try
             {
+                if (handleId != null && containerId != null)
+                {
+                    Handle handle = handles.get(handleId);
+                    if (handle != null)
+                    {
+                        // Use case: Load existing handleId with the existing configuration
+                        previouslyExistingStartRequest = true;
+
+                        startRequest = new StartRequest();
+                        startRequest.setParameters(handle.getProperties());
+                    }
+                }
+                if (startRequest == null)
+                {
+                    // Use case: Create new / replace existing handleId with provided configuration
+                    startRequest = new StartRequest().parse(request);
+                    startRequest.setSave(true);
+                }
+
                 startContainer(startRequest);
 
                 response.setContentType("text/plain");
@@ -263,37 +274,10 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             }
             finally
             {
-                if (startRequest != null)
+                if (!previouslyExistingStartRequest && startRequest != null)
                 {
                     startRequest.cleanup();
                 }
-            }
-        }
-        else if ("restart".equals(servletPath))
-        {
-            String handleId = request.getParameter("handleId");
-            Handle handle = handles.get(handleId);
-            if (handle == null)
-            {
-                getServletContext().log("Unknown handle: " + handleId);
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    "Unknown handle: " + handleId);
-            }
-
-            try
-            {
-                StartRequest startRequest = new StartRequest();
-                startRequest.setParameters(handle.getProperties());
-                startRequest.setRestart(true);
-                startContainer(startRequest);
-
-                response.setContentType("text/plain");
-                response.getWriter().println("OK - STARTED");
-            }
-            catch (Throwable e)
-            {
-                getServletContext().log("Cannot start server", e);
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
             }
         }
         else if ("stop".equals(servletPath))
@@ -587,20 +571,14 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
             try
             {
-                if (request.isRestart())
-                {
-                    container.restart();
-                }
-                else
-                {
-                    container.start();
-                }
+                // CARGO-1213: Do not use start, always use restart.
+                container.restart();
             }
             catch (Throwable t)
             {
                 try
                 {
-                    // Make sure container is stopped.
+                    // Start failed, make sure container is stopped.
                     container.stop();
                 }
                 catch (Throwable ignored)
