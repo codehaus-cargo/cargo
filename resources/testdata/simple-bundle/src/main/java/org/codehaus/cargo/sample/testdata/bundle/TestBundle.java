@@ -36,7 +36,7 @@ public class TestBundle implements BundleActivator
      * 
      * @param bundleContext OSGi bundle context.
      */
-    public void start(final BundleContext bundleContext) throws Exception
+    public void start(BundleContext bundleContext) throws Exception
     {
         FileOutputStream fos = new FileOutputStream("bundle-output.txt", false);
 
@@ -56,7 +56,7 @@ public class TestBundle implements BundleActivator
      * 
      * @param bundleContext OSGi bundle context.
      */
-    public void stop(final BundleContext bundleContext) throws Exception
+    public void stop(BundleContext bundleContext) throws Exception
     {
         FileOutputStream fos = new FileOutputStream("bundle-output.txt", false);
 
