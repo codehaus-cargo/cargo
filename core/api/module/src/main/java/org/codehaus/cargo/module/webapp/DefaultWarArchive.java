@@ -94,8 +94,7 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
      * @throws JDOMException
      * @see WarArchive#getWebXml()
      */
-    public final WebXml getWebXml()
-        throws IOException, JDOMException
+    public WebXml getWebXml() throws IOException, JDOMException
     {
         if (this.webXml == null)
         {
@@ -139,8 +138,7 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
      * @throws JDOMException
      * @see WarArchive#store(java.io.File)
      */
-    public final void store(File warFile)
-        throws IOException, JDOMException
+    public void store(File warFile) throws IOException, JDOMException
     {
         FileHandler fileHandler = new DefaultFileHandler();
         JarInputStream in = getContentAsStream();
@@ -196,7 +194,7 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
      * @throws java.io.IOException If an I/O error occurred reading the archive
      */
     @Override
-    public final boolean containsClass(String className) throws IOException
+    public boolean containsClass(String className) throws IOException
     {
         boolean containsClass = false;
 

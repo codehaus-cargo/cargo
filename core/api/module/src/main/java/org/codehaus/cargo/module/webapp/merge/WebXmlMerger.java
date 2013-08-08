@@ -116,7 +116,7 @@ public class WebXmlMerger extends XmlMerger
      * @see #merge(Descriptor)
      */
     @Override
-    public final void merge(Descriptor theMerge)
+    public void merge(Descriptor theMerge)
     {
         try
         {

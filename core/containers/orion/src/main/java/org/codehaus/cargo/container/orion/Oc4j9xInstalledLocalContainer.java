@@ -50,7 +50,7 @@ public class Oc4j9xInstalledLocalContainer extends AbstractOrionInstalledLocalCo
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getId()
      */
-    public final String getId()
+    public String getId()
     {
         return ID;
     }

@@ -91,7 +91,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      * {@inheritDoc}
      * @see LocalContainer#setOutput(String)
      */
-    public final void setOutput(String output)
+    public void setOutput(String output)
     {
         this.output = output;
     }
@@ -100,7 +100,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      * {@inheritDoc}
      * @see LocalContainer#setAppend(boolean)
      */
-    public final void setAppend(boolean isAppend)
+    public void setAppend(boolean isAppend)
     {
         this.append = isAppend;
     }
@@ -109,7 +109,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      * {@inheritDoc}
      * @see LocalContainer#getOutput()
      */
-    public final String getOutput()
+    public String getOutput()
     {
         return this.output;
     }
@@ -118,7 +118,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      * {@inheritDoc}
      * @see LocalContainer#isAppend()
      */
-    public final boolean isAppend()
+    public boolean isAppend()
     {
         return this.append;
     }

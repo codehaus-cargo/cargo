@@ -45,7 +45,7 @@ public interface Jonas4xAdmin
      * @param beanFileName the bean file name
      * @return true if the bean has been correctly undeployed
      */
-    boolean unDeploy(final String beanFileName);
+    boolean unDeploy(String beanFileName);
 
     /**
      * deploys the given bean name.
@@ -53,5 +53,5 @@ public interface Jonas4xAdmin
      * @param beanFileName the bean file name
      * @return true if the bean has been correctly deployed
      */
-    boolean deploy(final String beanFileName);
+    boolean deploy(String beanFileName);
 }

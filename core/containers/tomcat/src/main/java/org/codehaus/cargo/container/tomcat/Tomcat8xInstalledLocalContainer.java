@@ -1,6 +1,9 @@
 /*
  * ========================================================================
  *
+ * Copyright 2003-2008 The Apache Software Foundation. Code from this file 
+ * was originally imported from the Jakarta Cactus project.
+ *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,41 +20,29 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.weblogic;
+package org.codehaus.cargo.container.tomcat;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer;
 
 /**
- * Special container support for the Bea WebLogic 9.x application server. Author: 20060918 - Martin
- * Zeltner (MZE)
+ * Special container support for the Apache Tomcat 8.x servlet container.
  * 
  * @version $Id$
  */
-public class WebLogic9xInstalledLocalContainer
-    extends AbstractWebLogicInstalledLocalContainer
+public class Tomcat8xInstalledLocalContainer extends Tomcat7xInstalledLocalContainer
 {
     /**
      * Unique container id.
      */
-    private static final String ID = "weblogic9x";
+    private static final String ID = "tomcat8x";
 
     /**
      * {@inheritDoc}
-     * @see AbstractWebLogicInstalledLocalContainer#AbstractInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see Tomcat7xInstalledLocalContainer#Tomcat7xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
-    public WebLogic9xInstalledLocalContainer(LocalConfiguration configuration)
+    public Tomcat8xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
-     */
-    public String getName()
-    {
-        return "WebLogic 9.x";
     }
 
     /**
@@ -65,10 +56,10 @@ public class WebLogic9xInstalledLocalContainer
 
     /**
      * {@inheritDoc}
-     * 
+     * @see org.codehaus.cargo.container.Container#getName()
      */
-    public String getAutoDeployDirectory()
+    public String getName()
     {
-        return "autodeploy";
+        return "Tomcat " + getVersion("8.x");
     }
 }

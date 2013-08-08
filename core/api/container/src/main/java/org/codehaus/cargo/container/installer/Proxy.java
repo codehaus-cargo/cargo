@@ -60,7 +60,7 @@ public class Proxy extends LoggedObject
     /**
      * @param host the proxy host
      */
-    public final void setHost(String host)
+    public void setHost(String host)
     {
         this.host = host;
     }
@@ -68,7 +68,7 @@ public class Proxy extends LoggedObject
     /**
      * @return the proxy host
      */
-    public final String getHost()
+    public String getHost()
     {
         return this.host;
     }
@@ -76,7 +76,7 @@ public class Proxy extends LoggedObject
     /**
      * @param port the proxy port. Defaults to 80 if not set
      */
-    public final void setPort(int port)
+    public void setPort(int port)
     {
         this.port = port;
     }
@@ -84,7 +84,7 @@ public class Proxy extends LoggedObject
     /**
      * @return the proxy port or 80 if not set
      */
-    public final int getPort()
+    public int getPort()
     {
         return this.port;
     }
@@ -92,7 +92,7 @@ public class Proxy extends LoggedObject
     /**
      * @param user the user for authenticating proxies
      */
-    public final void setUser(String user)
+    public void setUser(String user)
     {
         this.user = user;
     }
@@ -100,7 +100,7 @@ public class Proxy extends LoggedObject
     /**
      * @return the user for authenticating proxies
      */
-    public final String getUser()
+    public String getUser()
     {
         return this.user;
     }
@@ -108,7 +108,7 @@ public class Proxy extends LoggedObject
     /**
      * @param password the password for authenticating proxies
      */
-    public final void setPassword(String password)
+    public void setPassword(String password)
     {
         this.password = password;
     }
@@ -116,7 +116,7 @@ public class Proxy extends LoggedObject
     /**
      * @return the password for authenticating proxies
      */
-    public final String getPassword()
+    public String getPassword()
     {
         return this.password;
     }
@@ -128,7 +128,7 @@ public class Proxy extends LoggedObject
      * 
      * @param proxyExcludeHosts list of hosts that do not go through the proxy
      */
-    public final void setExcludeHosts(String proxyExcludeHosts)
+    public void setExcludeHosts(String proxyExcludeHosts)
     {
         this.excludeHosts = proxyExcludeHosts;
     }
@@ -138,7 +138,7 @@ public class Proxy extends LoggedObject
      * server
      * @see #setExcludeHosts(String)
      */
-    public final String getExcludeHosts()
+    public String getExcludeHosts()
     {
         return this.excludeHosts;
     }

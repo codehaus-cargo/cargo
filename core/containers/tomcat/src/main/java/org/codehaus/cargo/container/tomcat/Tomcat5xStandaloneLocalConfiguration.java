@@ -37,7 +37,7 @@ import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xConfigurationBuilder;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7x8xStandaloneLocalConfigurationCapability;
 
 /**
  * StandAloneLocalConfiguration that is appropriate for Tomcat 5.x containers.
@@ -57,7 +57,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
      * @see TomcatStandaloneLocalConfigurationCapability
      */
     private static ConfigurationCapability capability =
-        new Tomcat5x6x7xStandaloneLocalConfigurationCapability();
+        new Tomcat5x6x7x8xStandaloneLocalConfigurationCapability();
 
     /**
      * XPath expression for identifying the "Connector" element in the server.xml file.
@@ -69,7 +69,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     /**
      * used to insert DataSources and Resources into the configuration file.
      */
-    private Tomcat5x6x7xConfigurationBuilder configurationBuilder;
+    protected Tomcat5x6x7xConfigurationBuilder configurationBuilder;
 
     /**
      * {@inheritDoc}

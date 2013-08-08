@@ -88,7 +88,7 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
      * {@inheritDoc}
      * @see IJBossProfileManagerDeployer#undeploy(String)
      */
-    public void undeploy(final String deploymentName) throws Exception
+    public void undeploy(String deploymentName) throws Exception
     {
         DeploymentManager deploymentManager = getDeploymentManager();
 

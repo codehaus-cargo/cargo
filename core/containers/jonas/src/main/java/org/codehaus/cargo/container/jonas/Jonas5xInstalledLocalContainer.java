@@ -52,7 +52,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      * 
      * @see AbstractJonasInstalledLocalContainer#AbstractJonasInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
-    public Jonas5xInstalledLocalContainer(final LocalConfiguration configuration)
+    public Jonas5xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
     }
@@ -63,7 +63,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      * @see AbstractJonasInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public void doStart(final JvmLauncher java)
+    public void doStart(JvmLauncher java)
     {
         doAction(java);
         doServerAndDomainNameArgs(java);
@@ -79,7 +79,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      * @see AbstractJonasInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    public void doStop(final JvmLauncher java)
+    public void doStop(JvmLauncher java)
     {
         doAction(java);
         doServerAndDomainNameArgs(java);
@@ -172,7 +172,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      * @see AbstractJonasInstalledLocalContainer#setupExtraSysProps(JvmLauncher, Map)
      */
     @Override
-    protected void setupExtraSysProps(final JvmLauncher java,
+    protected void setupExtraSysProps(JvmLauncher java,
         final Map<String, String> configuredSysProps)
     {
         addSysProp(java, configuredSysProps, "org.omg.CORBA.ORBClass", "org.jacorb.orb.ORB");
@@ -190,7 +190,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      * 
      * @param java the target JVM launcher to setup
      */
-    protected void doUsernameAndPasswordArgs(final JvmLauncher java)
+    protected void doUsernameAndPasswordArgs(JvmLauncher java)
     {
         String username = getConfiguration().getPropertyValue(RemotePropertySet.USERNAME);
         String password = getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD);
@@ -210,7 +210,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      * 
      * @param java the target java ant task to setup
      */
-    public void doAction(final JvmLauncher java)
+    public void doAction(JvmLauncher java)
     {
         setupSysProps(java);
 

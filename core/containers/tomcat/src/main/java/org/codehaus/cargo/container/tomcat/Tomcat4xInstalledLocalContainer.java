@@ -54,7 +54,7 @@ public class Tomcat4xInstalledLocalContainer extends AbstractCatalinaInstalledLo
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getId()
      */
-    public final String getId()
+    public String getId()
     {
         return ID;
     }
@@ -63,7 +63,7 @@ public class Tomcat4xInstalledLocalContainer extends AbstractCatalinaInstalledLo
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getName()
      */
-    public final String getName()
+    public String getName()
     {
         return "Tomcat " + getVersion("4.x");
     }

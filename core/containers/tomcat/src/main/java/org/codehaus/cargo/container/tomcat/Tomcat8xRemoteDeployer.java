@@ -19,22 +19,21 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.RemoteContainer;
 
 /**
- * A Tomcat manager-based deployer to perform deployment to a local Tomcat 7.x container.
+ * A special Tomcat 8.x manager-based deployer to perform deployment to a remote container.
  * 
  * @version $Id$
  */
-public class TomcatManager7xInstalledLocalDeployer extends TomcatManagerInstalledLocalDeployer
+public class Tomcat8xRemoteDeployer extends Tomcat7xRemoteDeployer
 {
     /**
      * {@inheritDoc}
-     * @see TomcatManagerInstalledLocalDeployer#TomcatManagerInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * @see Tomcat7xRemoteDeployer#Tomcat7xRemoteDeployer(org.codehaus.cargo.container.RemoteContainer)
      */
-    public TomcatManager7xInstalledLocalDeployer(LocalContainer container)
+    public Tomcat8xRemoteDeployer(RemoteContainer container)
     {
         super(container);
-        this.managerContext += "/text";
     }
 }

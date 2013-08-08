@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteDeployer
 import org.codehaus.cargo.container.tomcat.internal.TomcatManagerException;
 
 /**
- * A special Tomcat4x manager-based deployer to perform deployment to a remote container.
+ * A special Tomcat 4.x manager-based deployer to perform deployment to a remote container.
  * 
  * @version $Id$
  */

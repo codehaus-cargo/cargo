@@ -108,7 +108,7 @@ public class JBossWarArchive
      * 
      * @return The parsed deployment descriptor
      */
-    public final JBossWebXml getJBossWebXml()
+    public JBossWebXml getJBossWebXml()
     {
         return this.jbossWebXml;
     }

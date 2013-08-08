@@ -115,7 +115,7 @@ public class TomcatContextXml extends AbstractDescriptor
      * {@inheritDoc}
      * @see org.codehaus.cargo.module.Descriptor#getFileName()
      */
-    public final String getFileName()
+    public String getFileName()
     {
         return FILE_NAME;
     }

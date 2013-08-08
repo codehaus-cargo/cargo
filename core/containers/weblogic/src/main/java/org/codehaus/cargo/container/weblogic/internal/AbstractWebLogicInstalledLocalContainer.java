@@ -73,7 +73,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      * 
      * @param beaHome The BEA home directory
      */
-    public final void setBeaHome(final String beaHome)
+    public void setBeaHome(String beaHome)
     {
         this.beaHome = beaHome;
     }
@@ -82,7 +82,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getCapability()
      */
-    public final ContainerCapability getCapability()
+    public ContainerCapability getCapability()
     {
         return this.capability;
     }
@@ -213,7 +213,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      * Check the WLS installation directory setting and if the beaHome attribute is not set, guess
      * it.
      */
-    public final void initBeaHome()
+    public void initBeaHome()
     {
 
         if (this.getHome() == null)
@@ -240,7 +240,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public final void doStart(final JvmLauncher java) throws Exception
+    public void doStart(JvmLauncher java) throws Exception
     {
         initBeaHome();
 
@@ -389,7 +389,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    public final void doStop(final JvmLauncher java) throws Exception
+    public void doStop(JvmLauncher java) throws Exception
     {
         addWeblogicAdminArguments(java);
 
@@ -404,7 +404,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      * 
      * @param java  Java launcher.
      */
-    protected void addWeblogicAdminArguments(final JvmLauncher java)
+    protected void addWeblogicAdminArguments(JvmLauncher java)
     {
         File serverDir = new File(this.getHome(), "server");
 

@@ -161,7 +161,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
      * @param newDeployable deployable
      * @return true, if the deployable can be deployed
      */
-    protected boolean canBeDeployed(final Deployable newDeployable)
+    protected boolean canBeDeployed(Deployable newDeployable)
     {
         final Set<String> newDeployableContextSet = getWebContextsSet(newDeployable);
         for (Deployable deployedDeployable : this.deployedDeployables)
@@ -184,7 +184,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
      * @param deployable deployable
      * @return a list of all web contexts this deployable uses
      */
-    private static List<String> getWebContexts(final Deployable deployable)
+    private static List<String> getWebContexts(Deployable deployable)
     {
         List<String> webContexts;
         if (deployable.getType() == DeployableType.EAR)
@@ -208,7 +208,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
      * @param deployable Deployable
      * @return a set of all web contexts contained in this deployable.
      */
-    private static Set<String> getWebContextsSet(final Deployable deployable)
+    private static Set<String> getWebContextsSet(Deployable deployable)
     {
         final Set<String> webContextSet = new HashSet<String>();
         for (String webContext : getWebContexts(deployable))

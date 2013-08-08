@@ -47,7 +47,7 @@ public class Tomcat4xRemoteContainer extends AbstractTomcatRemoteContainer
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getName()
      */
-    public final String getName()
+    public String getName()
     {
         return "Tomcat 4.x Remote";
     }
@@ -56,7 +56,7 @@ public class Tomcat4xRemoteContainer extends AbstractTomcatRemoteContainer
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getId()
      */
-    public final String getId()
+    public String getId()
     {
         return ID;
     }

@@ -307,6 +307,15 @@
               </property>
 
               <property>
+                <name>cargo.tomcat8x.url</name>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.0-RC1/bin/apache-tomcat-8.0.0-RC1.zip</value>
+              </property>
+              <property>
+                <name>cargo.tomcat8x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <property>
                 <name>cargo.jetty4x.url</name>
                 <value>http://dist.codehaus.org/jetty/jetty-4.2.x/jetty-4.2.27.zip</value>
               </property>
@@ -1313,6 +1322,12 @@
       <id>tomcat7x</id>
       <properties>
         <cargo.containers>tomcat7x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomcat8x</id>
+      <properties>
+        <cargo.containers>tomcat8x</cargo.containers>
       </properties>
     </profile>
 

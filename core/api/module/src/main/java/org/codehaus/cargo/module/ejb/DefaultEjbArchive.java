@@ -70,8 +70,7 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
      * @throws JDOMException
      * @see EjbArchive#getEjbJarXml()
      */
-    public final EjbJarXml getEjbJarXml()
-        throws IOException, JDOMException
+    public EjbJarXml getEjbJarXml() throws IOException, JDOMException
     {
         if (this.ejbJarXml == null)
         {
@@ -102,8 +101,7 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
      * @throws IOException If there was a problem reading the deployment descriptor in the EJB jar
      * @throws JDOMException If the deployment descriptor of the EJB jar could not be parsed
      */
-    private void addWeblogicDescriptor()
-        throws IOException, JDOMException
+    private void addWeblogicDescriptor() throws IOException, JDOMException
     {
         InputStream in = null;
         try
@@ -133,8 +131,7 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
      * @throws IOException If there was a problem reading the deployment descriptor in the JAR
      * @throws JDOMException If the deployment descriptor of the EJB jar could not be parsed
      */
-    private void addOracleDescriptor()
-        throws IOException, JDOMException
+    private void addOracleDescriptor() throws IOException, JDOMException
     {
         InputStream in = null;
         try
@@ -164,8 +161,7 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
      * @throws IOException If there was a problem reading the deployment descriptor in the JAR
      * @throws JDOMException If the deployment descriptor of the EJB jar could not be parsed
      */
-    private void addWebsphereDescriptor()
-        throws IOException, JDOMException
+    private void addWebsphereDescriptor() throws IOException, JDOMException
     {
         InputStream in = null;
         try
@@ -195,8 +191,7 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
      * @throws IOException If there was a problem reading the deployment descriptor in the JAR
      * @throws JDOMException If there is an issue with JDOM
      */
-    private void addJBossDescriptor()
-        throws IOException, JDOMException
+    private void addJBossDescriptor() throws IOException, JDOMException
     {
         InputStream in = null;
         try

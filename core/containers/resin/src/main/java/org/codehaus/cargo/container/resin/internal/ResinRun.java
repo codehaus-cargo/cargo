@@ -87,7 +87,7 @@ public class ResinRun extends DefaultServerRun
      * @see DefaultServerRun#doStartServer
      */
     @Override
-    protected final void doStartServer(String[] args)
+    protected void doStartServer(String[] args)
     {
         try
         {
@@ -243,7 +243,7 @@ public class ResinRun extends DefaultServerRun
      * @see DefaultServerRun#doStopServer
      */
     @Override
-    protected final void doStopServer(String[] args)
+    protected void doStopServer(String[] args)
     {
         try
         {

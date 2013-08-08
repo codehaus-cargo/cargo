@@ -17,30 +17,28 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.weblogic;
+package org.codehaus.cargo.container.tomcat;
 
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContainer;
 
 /**
- * Special container support for the Bea WebLogic 9.x application server. Author: 20060918 - Martin
- * Zeltner (MZE)
+ * Special container support for wrapping a running instance of Apache Tomcat.
  * 
  * @version $Id$
  */
-public class WebLogic9xInstalledLocalContainer
-    extends AbstractWebLogicInstalledLocalContainer
+public class Tomcat8xRemoteContainer extends AbstractTomcatRemoteContainer
 {
     /**
      * Unique container id.
      */
-    private static final String ID = "weblogic9x";
+    private static final String ID = "tomcat8x";
 
     /**
      * {@inheritDoc}
-     * @see AbstractWebLogicInstalledLocalContainer#AbstractInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContainer#AbstractTomcatRemoteContainer(RuntimeConfiguration)
      */
-    public WebLogic9xInstalledLocalContainer(LocalConfiguration configuration)
+    public Tomcat8xRemoteContainer(RuntimeConfiguration configuration)
     {
         super(configuration);
     }
@@ -51,7 +49,7 @@ public class WebLogic9xInstalledLocalContainer
      */
     public String getName()
     {
-        return "WebLogic 9.x";
+        return "Tomcat 8.x Remote";
     }
 
     /**
@@ -61,14 +59,5 @@ public class WebLogic9xInstalledLocalContainer
     public String getId()
     {
         return ID;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     */
-    public String getAutoDeployDirectory()
-    {
-        return "autodeploy";
     }
 }

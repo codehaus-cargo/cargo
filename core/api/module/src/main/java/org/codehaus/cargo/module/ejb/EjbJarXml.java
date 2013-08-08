@@ -86,7 +86,7 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
      * 
      * @return List of Session objects representing all session ejbs
      */
-    public final List<Session> getSessionEjbs()
+    public List<Session> getSessionEjbs()
     {
         List<Session> ejbs = new ArrayList<Session>();
         for (Element sessionElement : getElements(EjbJarXmlTag.SESSION))
@@ -111,7 +111,7 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
      * 
      * @return List of Entity objects representing all entity ejbs
      */
-    public final List<Entity> getEntityEjbs()
+    public List<Entity> getEntityEjbs()
     {
         List<Entity> ejbs = new ArrayList<Entity>();
         for (Element entityElement : getElements(EjbJarXmlTag.ENTITY))
@@ -137,7 +137,7 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
      * @param name the name of the ejb.
      * @return the Session
      */
-    public final Session getSessionEjb(String name)
+    public Session getSessionEjb(String name)
     {
         Session result = null;
         for (Session ejb : getSessionEjbs())
@@ -158,7 +158,7 @@ public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
      * @param name the name of the ejb.
      * @return the Entity
      */
-    public final Entity getEntityEjb(String name)
+    public Entity getEntityEjb(String name)
     {
         Entity result = null;
         for (Entity ejb : getEntityEjbs())

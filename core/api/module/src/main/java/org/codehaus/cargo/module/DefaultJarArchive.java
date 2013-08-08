@@ -117,7 +117,7 @@ public class DefaultJarArchive implements JarArchive
      * {@inheritDoc}
      * @see JarArchive#findResource(String)
      */
-    public final String findResource(String name) throws IOException
+    public String findResource(String name) throws IOException
     {
         String result = null;
         for (String entryPath : getResources(""))
@@ -143,7 +143,7 @@ public class DefaultJarArchive implements JarArchive
      * {@inheritDoc}
      * @see JarArchive#getResource(String)
      */
-    public final InputStream getResource(String path) throws IOException
+    public InputStream getResource(String path) throws IOException
     {
         JarInputStream in = null;
         try
@@ -179,7 +179,7 @@ public class DefaultJarArchive implements JarArchive
      * {@inheritDoc}
      * @see org.codehaus.cargo.module.JarArchive#getResources(String)
      */
-    public final List<String> getResources(String path) throws IOException
+    public List<String> getResources(String path) throws IOException
     {
         String normalizedPath = path;
         if (!path.endsWith("/") && !path.equals(""))

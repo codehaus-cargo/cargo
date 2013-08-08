@@ -179,7 +179,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * 
      * @see InstalledLocalContainer#setHome(String)
      */
-    public final void setHome(String home)
+    public void setHome(String home)
     {
         this.home = home;
     }
@@ -254,7 +254,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * 
      * @see InstalledLocalContainer#getHome()
      */
-    public final String getHome()
+    public String getHome()
     {
         return this.home;
     }

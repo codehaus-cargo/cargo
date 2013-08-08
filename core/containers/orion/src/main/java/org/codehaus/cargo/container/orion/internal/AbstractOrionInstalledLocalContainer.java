@@ -67,7 +67,7 @@ public abstract class AbstractOrionInstalledLocalContainer extends AbstractInsta
      * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    public final void doStop(JvmLauncher java)
+    public void doStop(JvmLauncher java)
     {
         // invoke the main class
         FileSet fileSet = new FileSet();
@@ -99,7 +99,7 @@ public abstract class AbstractOrionInstalledLocalContainer extends AbstractInsta
      * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public final void doStart(JvmLauncher java) throws Exception
+    public void doStart(JvmLauncher java) throws Exception
     {
         // Invoke the main class
         FileSet fileSet = new FileSet();

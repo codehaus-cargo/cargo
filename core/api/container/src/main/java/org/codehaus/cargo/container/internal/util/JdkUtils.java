@@ -42,7 +42,7 @@ public class JdkUtils
      * @return The tools.jar file
      * @throws FileNotFoundException If the tools.jar file could not be found
      */
-    public final File getToolsJar() throws FileNotFoundException
+    public File getToolsJar() throws FileNotFoundException
     {
         String javaHome = System.getProperty("java.home");
         File toolsJar = getToolsJar(javaHome);
@@ -63,7 +63,7 @@ public class JdkUtils
      * @return The absolute (and possibly non-existent) path to the {@code tools.jar} file, never
      *         {@code null}.
      */
-    public final File getToolsJar(String javaHome)
+    public File getToolsJar(String javaHome)
     {
         File jdkHome = new File(javaHome).getAbsoluteFile();
         if (jdkHome.getName().equals("jre"))
@@ -82,7 +82,7 @@ public class JdkUtils
      * 
      * @return true if the user's system is determined to be Mac OS X.
      */
-    public final boolean isOSX()
+    public boolean isOSX()
     {
         return System.getProperty("mrj.version") != null;
     }

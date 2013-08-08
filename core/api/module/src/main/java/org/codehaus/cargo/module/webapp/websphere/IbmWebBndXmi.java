@@ -62,7 +62,7 @@ public class IbmWebBndXmi extends AbstractDescriptor implements VendorWebAppDesc
      * {@inheritDoc}
      * @see org.codehaus.cargo.module.webapp.VendorWebAppDescriptor#getFileName()
      */
-    public final String getFileName()
+    public String getFileName()
     {
         return FILE_NAME;
     }
@@ -71,7 +71,7 @@ public class IbmWebBndXmi extends AbstractDescriptor implements VendorWebAppDesc
      * Adds a ejb reference description to the websphere web deployment descriptor.
      * @param ref the reference to add
      */
-    public final void addEjbReference(EjbRef ref)
+    public void addEjbReference(EjbRef ref)
     {
         Element ejbRefBindingsElement = new Element("ejbRefBindings");
         String id = "EjbRefBinding_" + this.random.nextLong();

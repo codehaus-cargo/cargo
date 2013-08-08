@@ -42,7 +42,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
      * 
      * @see AbstractInstalledLocalContainer#AbstractInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
-    public AbstractJonasInstalledLocalContainer(final LocalConfiguration configuration)
+    public AbstractJonasInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
     }
@@ -68,7 +68,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
      * 
      * @param java the target JVM launcher to setup
      */
-    public void doServerAndDomainNameParam(final JvmLauncher java)
+    public void doServerAndDomainNameParam(JvmLauncher java)
     {
         String serverName = getConfiguration().getPropertyValue(JonasPropertySet.JONAS_SERVER_NAME);
         if (serverName != null && serverName.trim().length() != 0)
@@ -84,7 +84,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
      * 
      * @param java the target JVM launcher to setup
      */
-    public void doServerAndDomainNameArgs(final JvmLauncher java)
+    public void doServerAndDomainNameArgs(JvmLauncher java)
     {
         String serverName = getConfiguration().getPropertyValue(JonasPropertySet.JONAS_SERVER_NAME);
         if (serverName == null || serverName.trim().length() == 0)
@@ -100,7 +100,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
      * 
      * @param java the target JVM launcher to setup
      */
-    private void doDomainNameArgs(final JvmLauncher java)
+    private void doDomainNameArgs(JvmLauncher java)
     {
         String domainName = getConfiguration().getPropertyValue(JonasPropertySet.JONAS_DOMAIN_NAME);
         if (domainName == null || domainName.trim().length() == 0)
@@ -115,7 +115,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
      * 
      * @param java the target JVM launcher to setup
      */
-    public void setupSysProps(final JvmLauncher java)
+    public void setupSysProps(JvmLauncher java)
     {
         Map<String, String> configuredSysProps = getSystemProperties();
         addSysProp(java, configuredSysProps, "install.root", new File(getHome()).getAbsolutePath()
@@ -155,7 +155,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
      * @param name the system property Name
      * @param value the system property Value
      */
-    public void addSysProp(final JvmLauncher java, final Map<String, String> configuredSysProps,
+    public void addSysProp(JvmLauncher java, final Map<String, String> configuredSysProps,
         final String name, final String value)
     {
         if (configuredSysProps == null || !configuredSysProps.containsKey(name))

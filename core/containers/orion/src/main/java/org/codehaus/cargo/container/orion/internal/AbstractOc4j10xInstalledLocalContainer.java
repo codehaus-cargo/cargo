@@ -69,7 +69,7 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends
      * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    public final void doStop(JvmLauncher java)
+    public void doStop(JvmLauncher java)
     {
         File adminClientJar = new File(getHome() + "/j2ee/home/admin_client.jar");
         java.setJarFile(adminClientJar);
@@ -93,7 +93,7 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends
      * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public final void doStart(JvmLauncher java) throws Exception
+    public void doStart(JvmLauncher java) throws Exception
     {
         // Invoke the main class
         FileSet fileSet = new FileSet();

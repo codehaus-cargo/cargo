@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.packager.PackagerType;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat4xStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7x8xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.TomcatExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.TomcatRuntimeConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
@@ -60,6 +60,8 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
             TomcatWAR.class);
         deployableFactory.registerDeployable("tomcat7x", DeployableType.WAR,
             TomcatWAR.class);
+        deployableFactory.registerDeployable("tomcat8x", DeployableType.WAR,
+            TomcatWAR.class);
     }
 
     /**
@@ -82,10 +84,10 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("tomcat5x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            Tomcat5x6x7xStandaloneLocalConfigurationCapability.class);
+            Tomcat5x6x7x8xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomcat5x",
             ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            Tomcat5x6x7xStandaloneLocalConfigurationCapability.class);
+            Tomcat5x6x7x8xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomcat5x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             TomcatExistingLocalConfigurationCapability.class);
@@ -98,7 +100,7 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("tomcat6x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            Tomcat5x6x7xStandaloneLocalConfigurationCapability.class);
+            Tomcat5x6x7x8xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomcat6x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             TomcatExistingLocalConfigurationCapability.class);
@@ -108,11 +110,21 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("tomcat7x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            Tomcat5x6x7xStandaloneLocalConfigurationCapability.class);
+            Tomcat5x6x7x8xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomcat7x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             TomcatExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomcat7x",
+            ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            TomcatRuntimeConfigurationCapability.class);
+
+        configurationCapabilityFactory.registerConfigurationCapability("tomcat8x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            Tomcat5x6x7x8xStandaloneLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("tomcat8x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            TomcatExistingLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("tomcat8x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             TomcatRuntimeConfigurationCapability.class);
     }
@@ -170,6 +182,16 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("tomcat7x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             TomcatRuntimeConfiguration.class);
+
+        configurationFactory.registerConfiguration("tomcat8x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            Tomcat8xStandaloneLocalConfiguration.class);
+        configurationFactory.registerConfiguration("tomcat8x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            TomcatExistingLocalConfiguration.class);
+        configurationFactory.registerConfiguration("tomcat8x",
+            ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            TomcatRuntimeConfiguration.class);
     }
 
     /**
@@ -202,6 +224,11 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
              TomcatCopyingInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("tomcat7x", DeployerType.REMOTE,
             Tomcat7xRemoteDeployer.class);
+
+        deployerFactory.registerDeployer("tomcat8x", DeployerType.INSTALLED,
+             TomcatCopyingInstalledLocalDeployer.class);
+        deployerFactory.registerDeployer("tomcat8x", DeployerType.REMOTE,
+            Tomcat8xRemoteDeployer.class);
     }
 
     /**
@@ -219,6 +246,8 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
         packagerFactory.registerPackager("tomcat6x", PackagerType.DIRECTORY,
             TomcatDirectoryPackager.class);
         packagerFactory.registerPackager("tomcat7x", PackagerType.DIRECTORY,
+            TomcatDirectoryPackager.class);
+        packagerFactory.registerPackager("tomcat8x", PackagerType.DIRECTORY,
             TomcatDirectoryPackager.class);
     }
 
@@ -251,6 +280,11 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
             Tomcat7xInstalledLocalContainer.class);
         containerFactory.registerContainer("tomcat7x", ContainerType.REMOTE,
             Tomcat7xRemoteContainer.class);
+
+        containerFactory.registerContainer("tomcat8x", ContainerType.INSTALLED,
+            Tomcat8xInstalledLocalContainer.class);
+        containerFactory.registerContainer("tomcat8x", ContainerType.REMOTE,
+            Tomcat8xRemoteContainer.class);
     }
 
     /**
@@ -271,6 +305,9 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
             ServletContainerCapability.class);
 
         containerCapabilityFactory.registerContainerCapability("tomcat7x",
+            ServletContainerCapability.class);
+
+        containerCapabilityFactory.registerContainerCapability("tomcat8x",
             ServletContainerCapability.class);
     }
 

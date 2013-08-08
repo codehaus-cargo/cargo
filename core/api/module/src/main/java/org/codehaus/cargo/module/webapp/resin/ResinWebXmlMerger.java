@@ -60,7 +60,7 @@ public class ResinWebXmlMerger extends XmlMerger
      * 
      * @param theMergeWebXml The descriptor to merge in
      */
-    public final void merge(ResinWebXml theMergeWebXml)
+    public void merge(ResinWebXml theMergeWebXml)
     {
         if (theMergeWebXml == null)
         {

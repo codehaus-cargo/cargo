@@ -19,45 +19,35 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContainer;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat8xConfigurationBuilder;
 
 /**
- * Special container support for wrapping a running instance of Apache Tomcat.
+ * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
+ * implementation.
  * 
  * @version $Id$
  */
-public class Tomcat7xRemoteContainer extends AbstractTomcatRemoteContainer
+public class Tomcat8xStandaloneLocalConfiguration
+    extends Tomcat7xStandaloneLocalConfiguration
 {
     /**
-     * Unique container id.
-     */
-    private static final String ID = "tomcat7x";
-
-    /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContainer#AbstractTomcatRemoteContainer(RuntimeConfiguration)
+     * @see Tomcat7xStandaloneLocalConfiguration#Tomcat7xStandaloneLocalConfiguration(String)
      */
-    public Tomcat7xRemoteContainer(RuntimeConfiguration configuration)
+    public Tomcat8xStandaloneLocalConfiguration(String dir)
     {
-        super(configuration);
+        super(dir);
+
+        configurationBuilder = new Tomcat8xConfigurationBuilder();
     }
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
+     * @see Object#toString()
      */
-    public String getName()
+    @Override
+    public String toString()
     {
-        return "Tomcat 7.x Remote";
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
-     */
-    public String getId()
-    {
-        return ID;
+        return "Tomcat 8.x Standalone Configuration";
     }
 }

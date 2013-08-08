@@ -42,7 +42,7 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
     /**
      * @param targetContainer the JOnAS target container
      */
-    public Jonas4xAdminImpl(final Jonas4xInstalledLocalContainer targetContainer)
+    public Jonas4xAdminImpl(Jonas4xInstalledLocalContainer targetContainer)
     {
         this.targetContainer = targetContainer;
     }
@@ -76,7 +76,7 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
     /**
      * {@inheritDoc}
      */
-    public boolean unDeploy(final String beanFileName)
+    public boolean unDeploy(String beanFileName)
     {
         boolean undeployed = genericDeployment(beanFileName, "-r");
         if (!undeployed)
@@ -91,7 +91,7 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
     /**
      * {@inheritDoc}
      */
-    public boolean deploy(final String beanFileName)
+    public boolean deploy(String beanFileName)
     {
         return genericDeployment(beanFileName, "-a");
     }
@@ -102,7 +102,7 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
      * @param deploymentParam deployment parameter
      * @return true if the deployment command(deploy or undeploy...)bean has been correctly executed
      */
-    private boolean genericDeployment(final String beanFileName, final String deploymentParam)
+    private boolean genericDeployment(String beanFileName, final String deploymentParam)
     {
         JvmLauncherRequest request = new JvmLauncherRequest(false, targetContainer);
         JvmLauncher java = targetContainer.getJvmLauncherFactory().createJvmLauncher(request);

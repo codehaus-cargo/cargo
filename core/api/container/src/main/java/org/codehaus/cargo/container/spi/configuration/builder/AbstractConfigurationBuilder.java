@@ -35,7 +35,7 @@ public abstract class AbstractConfigurationBuilder implements ConfigurationBuild
      * {@inheritDoc} Detects the type of <code>DataSource</code> to configure based on transactional
      * properties and implementation class.
      */
-    public final String toConfigurationEntry(DataSource ds)
+    public String toConfigurationEntry(DataSource ds)
     {
         String returnVal = " ";
         if (ds.getConnectionType().equals(ConfigurationEntryType.JDBC_DRIVER))

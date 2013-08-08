@@ -108,7 +108,7 @@ public class TomcatWarArchive
      * 
      * @return The parsed deployment descriptor, or <code>null</code> if no such file exists.
      */
-    public final TomcatContextXml getTomcatContextXml()
+    public TomcatContextXml getTomcatContextXml()
     {
         return this.tomcatContextXml;
     }

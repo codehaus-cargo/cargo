@@ -72,7 +72,7 @@ public class HttpUtils extends LoggedObject
      * @param pingURL the URL to ping
      * @return true if the URL can be ping or false otherwise
      */
-    public final boolean ping(URL pingURL)
+    public boolean ping(URL pingURL)
     {
         return isAvailable(testConnectivity(pingURL, null, 0L));
     }
@@ -84,7 +84,7 @@ public class HttpUtils extends LoggedObject
      * @param result the detailed ping result
      * @return true if the URL can be ping or false otherwise
      */
-    public final boolean ping(URL pingURL, HttpResult result)
+    public boolean ping(URL pingURL, HttpResult result)
     {
         return ping(pingURL, null, result);
     }
@@ -97,7 +97,7 @@ public class HttpUtils extends LoggedObject
      * @param timeout the timeout to wait for, 0 if waiting to infinity
      * @return true if the URL can be ping or false otherwise
      */
-    public final boolean ping(URL pingURL, HttpResult result, long timeout)
+    public boolean ping(URL pingURL, HttpResult result, long timeout)
     {
         return ping(pingURL, null, result, timeout);
     }
@@ -110,8 +110,7 @@ public class HttpUtils extends LoggedObject
      * @param result the detailed ping result
      * @return true if the URL can be ping or false otherwise
      */
-    public final boolean ping(URL pingURL, Map<String, String> requestProperties,
-        HttpResult result)
+    public boolean ping(URL pingURL, Map<String, String> requestProperties, HttpResult result)
     {
         return ping(pingURL, requestProperties, result, 0L);
     }
@@ -125,8 +124,8 @@ public class HttpUtils extends LoggedObject
      * @param timeout the timeout to wait for, 0 if waiting to infinity
      * @return true if the URL can be ping or false otherwise
      */
-    public final boolean ping(URL pingURL, Map<String, String> requestProperties,
-        HttpResult result, long timeout)
+    public boolean ping(URL pingURL, Map<String, String> requestProperties, HttpResult result,
+        long timeout)
     {
         HttpResult responseResult = testConnectivity(pingURL, requestProperties, timeout);
         result.responseBody = responseResult.responseBody;

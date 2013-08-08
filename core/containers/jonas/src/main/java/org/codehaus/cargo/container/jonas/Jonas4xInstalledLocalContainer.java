@@ -58,7 +58,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      * 
      * @see AbstractJonasInstalledLocalContainer#AbstractJonasInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
-    public Jonas4xInstalledLocalContainer(final LocalConfiguration configuration)
+    public Jonas4xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
         jonasAdmin = new Jonas4xAdminImpl(this);
@@ -70,7 +70,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      * @see AbstractJonasInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
-    public void doStart(final JvmLauncher java)
+    public void doStart(JvmLauncher java)
     {
         doAction(java);
         doServerAndDomainNameArgs(java);
@@ -85,7 +85,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      * @see AbstractJonasInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
-    public void doStop(final JvmLauncher java)
+    public void doStop(JvmLauncher java)
     {
         // Wait until JonasAdmin stop succeeds, throw exception if anything bad occurs
 
@@ -144,7 +144,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      * @see AbstractJonasInstalledLocalContainer#setupExtraSysProps(JvmLauncher, Map)
      */
     @Override
-    protected void setupExtraSysProps(final JvmLauncher java,
+    protected void setupExtraSysProps(JvmLauncher java,
         final Map<String, String> configuredSysProps)
     {
         addSysProp(java, configuredSysProps, "jonas.default.classloader", "true");
@@ -169,7 +169,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      * 
      * @param java the target JVM launcher to setup
      */
-    public void doAction(final JvmLauncher java)
+    public void doAction(JvmLauncher java)
     {
         setupSysProps(java);
 

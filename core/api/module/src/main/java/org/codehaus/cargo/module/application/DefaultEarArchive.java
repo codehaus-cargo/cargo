@@ -69,8 +69,7 @@ public class DefaultEarArchive extends DefaultJarArchive implements EarArchive
      * @throws JDOMException
      * @see EarArchive#getApplicationXml()
      */
-    public final ApplicationXml getApplicationXml()
-        throws IOException, JDOMException
+    public ApplicationXml getApplicationXml() throws IOException, JDOMException
     {
         if (this.applicationXml == null)
         {
@@ -95,7 +94,7 @@ public class DefaultEarArchive extends DefaultJarArchive implements EarArchive
      * {@inheritDoc}
      * @see EarArchive#getWebModule(String)
      */
-    public final WarArchive getWebModule(String uri) throws IOException
+    public WarArchive getWebModule(String uri) throws IOException
     {
         InputStream war = null;
         try
@@ -120,7 +119,7 @@ public class DefaultEarArchive extends DefaultJarArchive implements EarArchive
      * {@inheritDoc}
      * @see EarArchive#getWebModule(String)
      */
-    public final EjbArchive getEjbModule(String uri) throws IOException
+    public EjbArchive getEjbModule(String uri) throws IOException
     {
         InputStream ejb = null;
         try

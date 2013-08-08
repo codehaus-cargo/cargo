@@ -67,7 +67,7 @@ public class AntUtils
      * @param taskName The logical name of the task to create
      * @return A new instance of the task
      */
-    public final Task createAntTask(String taskName)
+    public Task createAntTask(String taskName)
     {
         return this.antTaskFactory.createTask(taskName);
     }
@@ -79,7 +79,7 @@ public class AntUtils
      * @param file The file the variable should point to
      * @return The created environment variable
      */
-    public final Environment.Variable createSysProperty(String key, File file)
+    public Environment.Variable createSysProperty(String key, File file)
     {
         Environment.Variable var = new Environment.Variable();
         var.setKey(key);
@@ -94,7 +94,7 @@ public class AntUtils
      * @param path The path
      * @return The created environment variable
      */
-    public final Environment.Variable createSysProperty(String key, Path path)
+    public Environment.Variable createSysProperty(String key, Path path)
     {
         Environment.Variable var = new Environment.Variable();
         var.setKey(key);
@@ -109,7 +109,7 @@ public class AntUtils
      * @param value The value
      * @return The created environment variable
      */
-    public final Environment.Variable createSysProperty(String key, String value)
+    public Environment.Variable createSysProperty(String key, String value)
     {
         Environment.Variable var = new Environment.Variable();
         var.setKey(key);
@@ -127,7 +127,7 @@ public class AntUtils
      * @param value The URI to take the value from; {@link java.net.URI#getPath()} will be used
      * @return The created environment variable
      */
-    public final Environment.Variable createSysProperty(String key, URI value)
+    public Environment.Variable createSysProperty(String key, URI value)
     {
         Environment.Variable var = new Environment.Variable();
         var.setKey(key);

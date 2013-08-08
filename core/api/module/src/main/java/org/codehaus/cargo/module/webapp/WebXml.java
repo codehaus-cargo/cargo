@@ -113,7 +113,7 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
      * 
      * @return The version
      */
-    public final WebXmlVersion getVersion()
+    public WebXmlVersion getVersion()
     {
         DocType docType = getDocType();
         if (docType != null)
@@ -128,7 +128,7 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
      * Add a tag into the document.
      * @param element The element to add
      */
-    public final void addTag(DescriptorElement element)
+    public void addTag(DescriptorElement element)
     {
         Identifier id = element.getTag().getIdentifier();
         if (id != null)

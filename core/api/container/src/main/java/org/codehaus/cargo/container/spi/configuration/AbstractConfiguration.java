@@ -60,7 +60,7 @@ public abstract class AbstractConfiguration extends LoggedObject
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.Configuration#setProperty(String, String)
      */
-    public final void setProperty(String name, String value)
+    public void setProperty(String name, String value)
     {
         getLogger().debug("Setting property [" + name + "] = [" + value + "]",
             this.getClass().getName());
@@ -71,7 +71,7 @@ public abstract class AbstractConfiguration extends LoggedObject
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.Configuration#getProperties()
      */
-    public final Map<String, String> getProperties()
+    public Map<String, String> getProperties()
     {
         return this.properties;
     }
@@ -80,7 +80,7 @@ public abstract class AbstractConfiguration extends LoggedObject
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.Configuration#getPropertyValue(String)
      */
-    public final String getPropertyValue(String name)
+    public String getPropertyValue(String name)
     {
         String systemProperty = System.getProperties().getProperty(name);
         if (systemProperty != null)

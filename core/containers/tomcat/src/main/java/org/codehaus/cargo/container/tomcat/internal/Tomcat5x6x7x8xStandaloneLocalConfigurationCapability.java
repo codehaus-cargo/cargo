@@ -26,13 +26,13 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
  * 
  * @version $Id$
  */
-public class Tomcat5x6x7xStandaloneLocalConfigurationCapability extends
+public class Tomcat5x6x7x8xStandaloneLocalConfigurationCapability extends
     Tomcat4xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public Tomcat5x6x7xStandaloneLocalConfigurationCapability()
+    public Tomcat5x6x7x8xStandaloneLocalConfigurationCapability()
     {
         super();
 
