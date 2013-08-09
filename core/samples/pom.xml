@@ -312,7 +312,7 @@
               </property>
               <property>
                 <name>cargo.tomcat8x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
+                <value>${cargo.java.home.1_7}</value>
               </property>
 
               <property>

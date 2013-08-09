@@ -144,8 +144,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
      * @see AbstractJonasInstalledLocalContainer#setupExtraSysProps(JvmLauncher, Map)
      */
     @Override
-    protected void setupExtraSysProps(JvmLauncher java,
-        final Map<String, String> configuredSysProps)
+    protected void setupExtraSysProps(JvmLauncher java, Map<String, String> configuredSysProps)
     {
         addSysProp(java, configuredSysProps, "jonas.default.classloader", "true");
         addSysProp(java, configuredSysProps, "org.omg.CORBA.ORBClass", "org.jacorb.orb.ORB");

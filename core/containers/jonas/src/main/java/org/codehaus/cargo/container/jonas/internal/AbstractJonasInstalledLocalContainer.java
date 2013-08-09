@@ -156,7 +156,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
      * @param value the system property Value
      */
     public void addSysProp(JvmLauncher java, final Map<String, String> configuredSysProps,
-        final String name, final String value)
+        String name, String value)
     {
         if (configuredSysProps == null || !configuredSysProps.containsKey(name))
         {
