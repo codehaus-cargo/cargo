@@ -243,7 +243,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
             try
             {
-                if (handleId != null && containerId != null)
+                if (handleId != null && containerId == null)
                 {
                     Handle handle = handles.get(handleId);
                     if (handle != null)
