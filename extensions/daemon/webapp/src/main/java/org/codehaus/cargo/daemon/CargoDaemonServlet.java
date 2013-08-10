@@ -446,20 +446,24 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         List<String> sharedClasspath = request.getStringList("sharedClasspath", false);
         List<String> additionalClasspath = request.getStringList("additionalClasspath", false);
 
-        Handle handle = handles.get(handleId);
+        Handle handle;
+        InstalledLocalContainer previousContainer = null;
 
-        if (handle == null)
+        synchronized (handles)
         {
-            handle = new Handle();
-            Handle previousHandle = handles.putIfAbsent(handleId, handle);
+            handle = handles.get(handleId);
 
-            if (previousHandle != null)
+            if (handle == null)
             {
-                handle = previousHandle;
+                handle = new Handle();
+                handle.setId(handleId);
+                handle.setForceStop(false);
+                handles.put(handleId, handle);
             }
-
-            handle.setId(handleId);
-            handle.setForceStop(false);
+            else
+            {
+                previousContainer = handle.getContainer();
+            }
         }
 
         synchronized (handle)
@@ -569,10 +573,21 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 fileManager.saveHandleDatabase(handles);
             }
 
+            if (previousContainer != null)
+            {
+                try
+                {
+                    previousContainer.stop();
+                }
+                catch (Throwable ignored)
+                {
+                    // Ignored
+                }
+            }
+
             try
             {
-                // CARGO-1213: Do not use start, always use restart.
-                container.restart();
+                container.start();
             }
             catch (Throwable t)
             {
