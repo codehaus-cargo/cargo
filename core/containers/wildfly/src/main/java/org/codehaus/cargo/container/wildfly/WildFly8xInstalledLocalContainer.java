@@ -35,7 +35,7 @@ public class WildFly8xInstalledLocalContainer extends JBoss72xInstalledLocalCont
     /**
      * WildFly 8.x series unique id.
      */
-    private static final String ID = "wildfly8x";
+    public static final String ID = "wildfly8x";
 
     /**
      * {@inheritDoc}

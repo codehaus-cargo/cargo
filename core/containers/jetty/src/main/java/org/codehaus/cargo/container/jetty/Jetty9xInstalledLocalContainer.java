@@ -34,7 +34,7 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
     /**
      * Unique container id.
      */
-    private static final String ID = "jetty9x";
+    public static final String ID = "jetty9x";
 
     /**
      * Jetty9xInstalledLocalContainer Constructor.

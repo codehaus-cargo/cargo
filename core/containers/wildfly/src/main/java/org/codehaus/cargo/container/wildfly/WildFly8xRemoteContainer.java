@@ -32,7 +32,7 @@ public class WildFly8xRemoteContainer extends JBoss71xRemoteContainer
     /**
      * Unique container id.
      */
-    private static final String ID = "wildfly8x";
+    public static final String ID = "wildfly8x";
 
     /**
      * {@inheritDoc}

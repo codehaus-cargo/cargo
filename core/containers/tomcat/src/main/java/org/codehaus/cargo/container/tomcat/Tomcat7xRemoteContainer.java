@@ -32,7 +32,7 @@ public class Tomcat7xRemoteContainer extends AbstractTomcatRemoteContainer
     /**
      * Unique container id.
      */
-    private static final String ID = "tomcat7x";
+    public static final String ID = "tomcat7x";
 
     /**
      * {@inheritDoc}

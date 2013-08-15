@@ -41,7 +41,7 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
     /**
      * JBoss 7.x series unique id.
      */
-    private static final String ID = "jboss7x";
+    public static final String ID = "jboss7x";
 
     /**
      * Capability of the JBoss container.

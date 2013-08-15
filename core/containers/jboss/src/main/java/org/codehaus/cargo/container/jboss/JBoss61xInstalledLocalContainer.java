@@ -34,7 +34,7 @@ public class JBoss61xInstalledLocalContainer extends JBoss6xInstalledLocalContai
     /**
      * JBoss 6.1.x series unique id.
      */
-    private static final String ID = "jboss61x";
+    public static final String ID = "jboss61x";
 
     /**
      * {@inheritDoc}

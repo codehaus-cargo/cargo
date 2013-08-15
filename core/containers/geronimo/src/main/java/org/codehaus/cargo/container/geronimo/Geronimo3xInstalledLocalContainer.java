@@ -41,7 +41,7 @@ public class Geronimo3xInstalledLocalContainer extends Geronimo1xInstalledLocalC
     /**
      * Geronimo 3.x series unique id.
      */
-    private static final String ID = "geronimo3x";
+    public static final String ID = "geronimo3x";
 
     /**
      * Capability of the Geronimo Container.

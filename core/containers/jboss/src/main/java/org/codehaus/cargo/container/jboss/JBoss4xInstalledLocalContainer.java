@@ -34,7 +34,7 @@ public class JBoss4xInstalledLocalContainer extends AbstractJBossInstalledLocalC
     /**
      * JBoss 4.x series unique id.
      */
-    private static final String ID = "jboss4x";
+    public static final String ID = "jboss4x";
 
     /**
      * Capability of the JBoss container.

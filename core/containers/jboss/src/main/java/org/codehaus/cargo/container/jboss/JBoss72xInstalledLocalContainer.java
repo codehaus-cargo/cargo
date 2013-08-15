@@ -35,7 +35,7 @@ public class JBoss72xInstalledLocalContainer extends JBoss71xInstalledLocalConta
     /**
      * JBoss 7.2.x series unique id.
      */
-    private static final String ID = "jboss72x";
+    public static final String ID = "jboss72x";
 
     /**
      * {@inheritDoc}

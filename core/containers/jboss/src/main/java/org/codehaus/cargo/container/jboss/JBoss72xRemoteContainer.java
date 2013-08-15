@@ -31,7 +31,7 @@ public class JBoss72xRemoteContainer extends JBoss71xRemoteContainer
     /**
      * Unique container id.
      */
-    private static final String ID = "jboss72x";
+    public static final String ID = "jboss72x";
 
     /**
      * {@inheritDoc}

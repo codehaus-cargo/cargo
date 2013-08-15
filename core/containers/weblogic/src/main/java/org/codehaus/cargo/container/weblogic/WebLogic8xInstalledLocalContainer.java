@@ -32,7 +32,7 @@ public class WebLogic8xInstalledLocalContainer extends AbstractWebLogicInstalled
     /**
      * Unique container id.
      */
-    private static final String ID = "weblogic8x";
+    public static final String ID = "weblogic8x";
 
     /**
      * {@inheritDoc}

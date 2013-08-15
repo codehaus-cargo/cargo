@@ -34,7 +34,7 @@ public class WebLogic103xInstalledLocalContainer extends AbstractWebLogicInstall
     /**
      * Unique container id.
      */
-    private static final String ID = "weblogic103x";
+    public static final String ID = "weblogic103x";
 
     /**
      * {@inheritDoc}

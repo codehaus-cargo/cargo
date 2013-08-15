@@ -38,7 +38,7 @@ public class Oc4j10xInstalledLocalContainer extends AbstractOc4j10xInstalledLoca
     /**
      * Unique container id.
      */
-    private static final String ID = "oc4j10x";
+    public static final String ID = "oc4j10x";
 
     /**
      * {@inheritDoc}

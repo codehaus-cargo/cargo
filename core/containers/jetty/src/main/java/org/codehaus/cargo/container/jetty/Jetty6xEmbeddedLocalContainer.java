@@ -43,7 +43,7 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     /**
      * Unique container id.
      */
-    private static final String ID = "jetty6x";
+    public static final String ID = "jetty6x";
 
     /**
      * A default security realm. If ServletPropertySet.USERS has been specified, then we create a

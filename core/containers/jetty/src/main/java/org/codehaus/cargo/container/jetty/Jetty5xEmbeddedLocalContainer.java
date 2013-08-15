@@ -32,7 +32,7 @@ public class Jetty5xEmbeddedLocalContainer extends AbstractJetty4x5xEmbeddedLoca
     /**
      * Unique container id.
      */
-    private static final String ID = "jetty5x";
+    public static final String ID = "jetty5x";
 
     /**
      * A default security realm. If ServletPropertySet.USERS has been specified, then we create a

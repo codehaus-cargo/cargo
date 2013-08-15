@@ -42,7 +42,7 @@ public class Resin4xInstalledLocalContainer extends AbstractResinInstalledLocalC
     /**
      * Unique container id.
      */
-    private static final String ID = "resin4x";
+    public static final String ID = "resin4x";
 
     /**
      * {@inheritDoc}

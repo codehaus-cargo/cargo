@@ -39,7 +39,7 @@ public class Tomcat4xInstalledLocalContainer extends AbstractCatalinaInstalledLo
     /**
      * Unique container id.
      */
-    private static final String ID = "tomcat4x";
+    public static final String ID = "tomcat4x";
 
     /**
      * {@inheritDoc}

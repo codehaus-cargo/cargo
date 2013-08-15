@@ -40,7 +40,7 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
     /**
      * Unique container id.
      */
-    private static final String ID = "jetty7x";
+    public static final String ID = "jetty7x";
 
     /**
      * List of default OPTIONs. Apart from the ones specified here, CARGO will add the

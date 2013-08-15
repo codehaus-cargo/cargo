@@ -39,7 +39,7 @@ public class JRun4xInstalledLocalContainer extends AbstractJRunInstalledLocalCon
     /**
      * Unique container id.
      */
-    private static final String ID = "jrun4x";
+    public static final String ID = "jrun4x";
 
     /**
      * {@inheritDoc}

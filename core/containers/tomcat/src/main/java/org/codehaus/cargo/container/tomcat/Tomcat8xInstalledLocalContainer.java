@@ -34,7 +34,7 @@ public class Tomcat8xInstalledLocalContainer extends Tomcat7xInstalledLocalConta
     /**
      * Unique container id.
      */
-    private static final String ID = "tomcat8x";
+    public static final String ID = "tomcat8x";
 
     /**
      * {@inheritDoc}

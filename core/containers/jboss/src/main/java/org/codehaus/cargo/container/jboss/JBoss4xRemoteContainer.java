@@ -34,7 +34,7 @@ public class JBoss4xRemoteContainer extends AbstractRemoteContainer
     /**
      * Unique container id.
      */
-    private static final String ID = "jboss4x";
+    public static final String ID = "jboss4x";
 
     /**
      * Capability of the JBoss container.
