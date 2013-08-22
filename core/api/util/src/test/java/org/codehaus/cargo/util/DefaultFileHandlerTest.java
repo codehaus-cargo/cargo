@@ -19,13 +19,10 @@
  */
 package org.codehaus.cargo.util;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import junit.framework.TestCase;
 import org.apache.tools.ant.types.FilterChain;
-import org.codehaus.cargo.util.FileHandler.XmlReplacement;
 
 /**
  * Unit tests for {@link DefaultFileHandler}.
@@ -103,18 +100,16 @@ public class DefaultFileHandlerTest extends TestCase
         String read = this.fileHandler.readTextFile(file, "UTF-8");
         assertTrue("File " + file + " does not contain: " + old, read.contains(old));
 
-        Map<XmlReplacement, String> replacements = new HashMap<XmlReplacement, String>();
-        replacements.put(new XmlReplacement(
-            "//server/socket-binding-group/socket-binding[@name='http']", "port"), "test1");
-        this.fileHandler.replaceInXmlFile(file, replacements);
+        XmlReplacement xmlReplacement = new XmlReplacement(file,
+            "//server/socket-binding-group/socket-binding[@name='http']", "port", false, "test1");
+        this.fileHandler.replaceInXmlFile(xmlReplacement);
         read = this.fileHandler.readTextFile(file, "UTF-8");
         assertFalse("File " + file + " still contains: " + old, read.contains(old));
         assertTrue("File " + file + " does not contain: " + new1, read.contains(new1));
 
-        replacements.clear();
-        replacements.put(new XmlReplacement(
-            "//server/socket-binding-group/socket-binding[@name='http']", null), "test2");
-        this.fileHandler.replaceInXmlFile(file, replacements);
+        xmlReplacement.setAttributeName(null);
+        xmlReplacement.setValue("test2");
+        this.fileHandler.replaceInXmlFile(xmlReplacement);
         read = this.fileHandler.readTextFile(file, "UTF-8");
         assertFalse("File " + file + " still contains: " + old, read.contains(old));
         assertFalse("File " + file + " still contains: " + new1, read.contains(new1));
@@ -137,13 +132,12 @@ public class DefaultFileHandlerTest extends TestCase
         assertTrue("File " + file + " does not contain: " + old, read.contains(old));
         assertTrue("File " + file + " does not contain: " + permanent, read.contains(permanent));
 
-        Map<XmlReplacement, String> replacements = new HashMap<XmlReplacement, String>();
-        replacements.put(new XmlReplacement(
+        XmlReplacement xmlReplacement = new XmlReplacement(file,
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
                 + "/property[@name='serviceName' and text()='jboss:service=Naming']/.."
                 + "/property[@name='bindingName' and text()='Port']/.."
-                + "/property[@name='port']", null), "test1");
-        this.fileHandler.replaceInXmlFile(file, replacements);
+                + "/property[@name='port']", null, false, "test1");
+        this.fileHandler.replaceInXmlFile(xmlReplacement);
         read = this.fileHandler.readTextFile(file, "UTF-8");
         assertFalse("File " + file + " still contains: " + old, read.contains(old));
         assertTrue("File " + file + " does not contain: " + new1, read.contains(new1));
@@ -162,12 +156,11 @@ public class DefaultFileHandlerTest extends TestCase
 
         this.fileHandler.copyFile("src/test/resources/jboss-standalone.xml", file, true);
 
-        Map<XmlReplacement, String> replacements = new HashMap<XmlReplacement, String>();
-        replacements.put(new XmlReplacement(nonExistingXpath, null), "test");
-
+        XmlReplacement xmlReplacement =
+            new XmlReplacement(file, nonExistingXpath, null, false, "test");
         try
         {
-            this.fileHandler.replaceInXmlFile(file, replacements);
+            this.fileHandler.replaceInXmlFile(xmlReplacement);
             fail();
         }
         catch (CargoException e)
@@ -190,12 +183,11 @@ public class DefaultFileHandlerTest extends TestCase
 
         this.fileHandler.copyFile("src/test/resources/jboss-standalone.xml", file, true);
 
-        Map<XmlReplacement, String> replacements = new HashMap<XmlReplacement, String>();
-        replacements.put(new XmlReplacement(
-            "//server/socket-binding-group/socket-binding[@name='http']", nonExistingAttribute),
-            "test");
+        XmlReplacement xmlReplacement = new XmlReplacement(file,
+            "//server/socket-binding-group/socket-binding[@name='http']", nonExistingAttribute,
+                false, "test");
 
-        this.fileHandler.replaceInXmlFile(file, replacements);
+        this.fileHandler.replaceInXmlFile(xmlReplacement);
         String read = this.fileHandler.readTextFile(file, "UTF-8");
         assertTrue("File " + file + " does not contain: " + test, read.contains(test));
     }

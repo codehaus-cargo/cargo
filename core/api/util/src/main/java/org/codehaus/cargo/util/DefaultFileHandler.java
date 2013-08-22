@@ -35,6 +35,7 @@ import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -378,20 +379,47 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}.
-     * @see FileHandler#replaceInXmlFile(String, Map)
+     * @see FileHandler#replaceInXmlFile(org.codehaus.cargo.util.XmlReplacement[])
      */
-    public void replaceInXmlFile(String file, Map<XmlReplacement, String> replacements)
+    public void replaceInXmlFile(XmlReplacement... xmlReplacements)
         throws CargoException
     {
-        replaceInXmlFile(file, replacements, false);
+        Map<String, Map<XmlReplacementDetails, String>> replacements =
+            new HashMap<String, Map<XmlReplacementDetails, String>>();
+
+        for (XmlReplacement xmlReplacement : xmlReplacements)
+        {
+            Map<XmlReplacementDetails, String> replacementDetails =
+                replacements.get(xmlReplacement.getFile());
+            if (replacementDetails == null)
+            {
+                replacementDetails = new HashMap<XmlReplacementDetails, String>();
+                replacements.put(xmlReplacement.getFile(), replacementDetails);
+            }
+
+            XmlReplacementDetails xmlReplacementDetails = new XmlReplacementDetails(
+                xmlReplacement.getXpathExpression(), xmlReplacement.getAttributeName(),
+                    xmlReplacement.isIgnoreIfNonExisting());
+            replacementDetails.put(xmlReplacementDetails, xmlReplacement.getValue());
+        }
+
+        for (Map.Entry<String, Map<XmlReplacementDetails, String>> replacement
+            : replacements.entrySet())
+        {
+            replaceInXmlFile(replacement.getKey(), replacement.getValue());
+        }
     }
 
     /**
-     * {@inheritDoc}.
-     * @see FileHandler#replaceInXmlFile(String, Map, boolean)
+     * Replaces using a map of XML replacements in a given file.
+     * 
+     * @param file File to replace in.
+     * @param replacements Map containing XML replacements.
+     * @throws CargoException If anything fails, most notably if one of the replacements does not
+     * exist in the file.
      */
-    public void replaceInXmlFile(String file, Map<XmlReplacement, String> replacements,
-        boolean ignoreNonExistingProperties) throws CargoException
+    private void replaceInXmlFile(String file, Map<XmlReplacementDetails, String> replacements)
+        throws CargoException
     {
         InputStream is = null;
         OutputStream os = null;
@@ -429,7 +457,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
                 System.gc();
             }
 
-            for (Map.Entry<XmlReplacement, String> replacement : replacements.entrySet())
+            for (Map.Entry<XmlReplacementDetails, String> replacement : replacements.entrySet())
             {
                 String expression = replacement.getKey().getXpathExpression();
                 String attributeName = replacement.getKey().getAttributeName();
@@ -442,7 +470,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
                 {
                     String message = "Node " + expression + " not found in file " + file;
 
-                    if (ignoreNonExistingProperties)
+                    if (replacement.getKey().isIgnoreIfNonExisting() == Boolean.TRUE)
                     {
                         getLogger().debug(message, this.getClass().getName());
                         continue;

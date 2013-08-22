@@ -39,9 +39,9 @@ public interface FileHandler extends Loggable
 {
 
     /**
-     * Represents an XML replacement.
+     * Represents details of an XML replacement.
      */
-    class XmlReplacement
+    class XmlReplacementDetails
     {
         /**
          * XPath expression.
@@ -54,6 +54,11 @@ public interface FileHandler extends Loggable
         private String attributeName;
 
         /**
+         * Ignore if XPath expression doesn't match anything.
+         */
+        private Boolean ignoreIfNonExisting;
+
+        /**
          * String form.
          */
         private String toString;
@@ -63,11 +68,14 @@ public interface FileHandler extends Loggable
          * 
          * @param xpathExpression XPath expression.
          * @param attributeName XML attribute name.
+         * @param ignoreIfNonExisting Ignore if XPath expression doesn't match anything.
          */
-        public XmlReplacement(String xpathExpression, String attributeName)
+        public XmlReplacementDetails(String xpathExpression, String attributeName,
+            Boolean ignoreIfNonExisting)
         {
             this.xpathExpression = xpathExpression;
             this.attributeName = attributeName;
+            this.ignoreIfNonExisting = ignoreIfNonExisting;
             this.toString = "XmlReplacement[xpathExpression='" + xpathExpression
                 + "',attributeName='" + attributeName + "']";
         }
@@ -86,6 +94,14 @@ public interface FileHandler extends Loggable
         public String getAttributeName()
         {
             return attributeName;
+        }
+
+        /**
+         * @return Ignore if XPath expression doesn't match anything.
+         */
+        public Boolean isIgnoreIfNonExisting()
+        {
+            return ignoreIfNonExisting;
         }
 
         /**
@@ -112,7 +128,7 @@ public interface FileHandler extends Loggable
                 return false;
             }
 
-            final XmlReplacement other = (XmlReplacement) obj;
+            final XmlReplacementDetails other = (XmlReplacementDetails) obj;
             return this.toString.equals(other.toString);
         }
 
@@ -243,25 +259,12 @@ public interface FileHandler extends Loggable
     /**
      * Replaces using a map of XML replacements in a given file.
      * 
-     * @param file File to replace in.
-     * @param xmlReplacements Map containing XML replacements.
+     * @param xmlReplacements Array of XML replacements.
      * @throws CargoException If anything fails, most notably if one of the replacements does not
      * exist in the file.
      */
-    void replaceInXmlFile(String file, Map<XmlReplacement, String> xmlReplacements)
+    void replaceInXmlFile(XmlReplacement... xmlReplacements)
         throws CargoException;
-
-    /**
-     * Replaces using a map of XML replacements in a given file.
-     * 
-     * @param file File to replace in.
-     * @param xmlReplacements Map containing XML replacements.
-     * @param ignoreNonExistingProperties Whether to ignore if one of the keys cannot be found.
-     * @throws CargoException If anything fails, most notably if one of the replacements does not
-     * exist in the file.
-     */
-    void replaceInXmlFile(String file, Map<XmlReplacement, String> xmlReplacements,
-        boolean ignoreNonExistingProperties) throws CargoException;
 
     /**
      * Compute the location of a temporary directory.

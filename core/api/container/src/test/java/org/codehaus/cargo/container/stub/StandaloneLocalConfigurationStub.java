@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.stub;
 
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
+import org.codehaus.cargo.util.XmlReplacement;
 
 /**
  * Mock for {@link StandaloneLocalConfiguration}. We need a static mock rather than a dynamic mock
@@ -48,6 +49,67 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
     public ConfigurationType getType()
     {
         return ConfigurationType.STANDALONE;
+    }
+
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * 
+     * @param xmlReplacement Ignored.
+     */
+    public void addXmlReplacement(XmlReplacement xmlReplacement)
+    {
+        // Nothing
+    }
+
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * 
+     * @param filename Ignored.
+     * @param xpathExpression Ignored.
+     * @param configurationPropertyName Ignored.
+     */
+    public void addXmlReplacement(String filename, String xpathExpression,
+        String configurationPropertyName)
+    {
+        // Nothing
+    }
+
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * 
+     * @param filename Ignored.
+     * @param xpathExpression Ignored.
+     * @param attributeName Ignored.
+     * @param configurationPropertyName Ignored.
+     */
+    public void addXmlReplacement(String filename, String xpathExpression, String attributeName,
+        String configurationPropertyName)
+    {
+        // Nothing
+    }
+
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * 
+     * @param filename Ignored.
+     * @param xpathExpression Ignored.
+     */
+    public void removeXmlReplacement(String filename, String xpathExpression)
+    {
+        // Nothing
+    }
+
+    /**
+     * Doesn't do anything. {@inheritdoc}
+     * 
+     * @param filename Ignored.
+     * @param xpathExpression Ignored.
+     * @param attributeName Ignored.
+     */
+    public void removeXmlReplacement(String filename, String xpathExpression,
+        String attributeName)
+    {
+        // Nothing
     }
 
 }

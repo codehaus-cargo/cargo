@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.configuration;
 
+import org.codehaus.cargo.util.XmlReplacement;
+
 /**
  * Using a standalone configuration allows Cargo to create a valid configuration for your container
  * in the directory of your choice. It uses default parameters and allows you to modify important
@@ -30,5 +32,54 @@ package org.codehaus.cargo.container.configuration;
  */
 public interface StandaloneLocalConfiguration extends LocalConfiguration
 {
+
+    /**
+     * Adds an XML replacement.
+     * 
+     * @param xmlReplacement XML replacement to add.
+     */
+    void addXmlReplacement(XmlReplacement xmlReplacement);
+
+    /**
+     * Adds an XML replacement.
+     * 
+     * @param filename File in which to replace.
+     * @param xpathExpression XPath expression to look for.
+     * @param configurationPropertyName Name of the configuration property to set. The XML
+     * replacement will be ignored if the property is set to <code>null</code>.
+     */
+    void addXmlReplacement(String filename, String xpathExpression,
+        String configurationPropertyName);
+
+    /**
+     * Adds an XML replacement.
+     * 
+     * @param filename File in which to replace.
+     * @param xpathExpression XPath expression to look for.
+     * @param attributeName Attribute name to modify. If <code>null</code>, the node's contents
+     * will be modified.
+     * @param configurationPropertyName Name of the configuration property to set. The XML
+     * replacement will be ignored if the property is set to <code>null</code>.
+     */
+    void addXmlReplacement(String filename, String xpathExpression, String attributeName,
+        String configurationPropertyName);
+
+    /**
+     * Removes an XML replacement.
+     * 
+     * @param filename File in which to replace.
+     * @param xpathExpression XPath expression to look for.
+     */
+    void removeXmlReplacement(String filename, String xpathExpression);
+
+    /**
+     * Removes an XML replacement.
+     * 
+     * @param filename File in which to replace.
+     * @param xpathExpression XPath expression to look for.
+     * @param attributeName Attribute name to modify. If <code>null</code>, the node's contents
+     * will be modified.
+     */
+    void removeXmlReplacement(String filename, String xpathExpression, String attributeName);
 
 }

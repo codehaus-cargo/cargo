@@ -21,7 +21,9 @@ package org.codehaus.cargo.container.spi.configuration;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
@@ -31,7 +33,8 @@ import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.util.CargoException;
-import org.codehaus.cargo.util.FileHandler.XmlReplacement;
+import org.codehaus.cargo.util.FileHandler.XmlReplacementDetails;
+import org.codehaus.cargo.util.XmlReplacement;
 
 /**
  * Base implementation for a standalone local configuration.
@@ -44,9 +47,10 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
 
     /**
      * The XML replacements for the configuration files. The first map's key is the file name,
-     * the inner map's key is the {@link XmlReplacement} and value the configuration property.
+     * the inner map's key is the {@link XmlReplacementDetails} and value the configuration
+     * property.
      */
-    private Map<String, Map<XmlReplacement, String>> xmlReplacements;
+    private Map<String, Map<XmlReplacementDetails, String>> xmlReplacements;
 
     /**
      * {@inheritDoc}
@@ -58,8 +62,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
 
         // Add all required properties that are common to all standalone configurations
         setProperty(GeneralPropertySet.LOGGING, LoggingLevel.MEDIUM.getLevel());
-        setProperty(GeneralPropertySet.IGNORE_NON_EXISTING_PROPERTIES, "false");
-        this.xmlReplacements = new HashMap<String, Map<XmlReplacement, String>>();
+        this.xmlReplacements = new HashMap<String, Map<XmlReplacementDetails, String>>();
     }
 
     /**
@@ -68,36 +71,45 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      */
     protected void performXmlReplacements(LocalContainer container)
     {
-        boolean ignoreNonExistingProperties = Boolean.valueOf(
-            getPropertyValue(GeneralPropertySet.IGNORE_NON_EXISTING_PROPERTIES)).booleanValue();
+        Boolean ignoreNonExistingProperties = Boolean.valueOf(
+            getPropertyValue(GeneralPropertySet.IGNORE_NON_EXISTING_PROPERTIES));
 
-        for (Map.Entry<String, Map<XmlReplacement, String>> xmlReplacements
+        for (Map.Entry<String, Map<XmlReplacementDetails, String>> xmlReplacementDetails
             : this.xmlReplacements.entrySet())
         {
-            Map<XmlReplacement, String> replacements = new HashMap<XmlReplacement, String>();
+            Set<XmlReplacement> replacements = new HashSet<XmlReplacement>();
+            String destinationFile = getFileHandler().append(
+                container.getConfiguration().getHome(), xmlReplacementDetails.getKey());
 
-            for (Map.Entry<XmlReplacement, String> xmlReplacement
-                    : xmlReplacements.getValue().entrySet())
+            for (Map.Entry<XmlReplacementDetails, String> xmlReplacementDetail
+                    : xmlReplacementDetails.getValue().entrySet())
             {
                 String value = container.getConfiguration().getPropertyValue(
-                    xmlReplacement.getValue());
+                    xmlReplacementDetail.getValue());
 
-                if (value != null)
+                if (value == null)
                 {
-                    replacements.put(xmlReplacement.getKey(), value);
+                    value = xmlReplacementDetail.getValue();
                 }
-                else
+
+                XmlReplacement xmlReplacement = new XmlReplacement(destinationFile,
+                    xmlReplacementDetail.getKey().getXpathExpression(),
+                        xmlReplacementDetail.getKey().getAttributeName(),
+                            xmlReplacementDetail.getKey().isIgnoreIfNonExisting(), value);
+
+                if (xmlReplacement.isIgnoreIfNonExisting() == null)
                 {
-                    replacements.put(xmlReplacement.getKey(), xmlReplacement.getValue());
+                    xmlReplacement.setIgnoreIfNonExisting(ignoreNonExistingProperties);
                 }
+
+                replacements.add(xmlReplacement);
             }
 
             if (!replacements.isEmpty())
             {
-                String destinationFile = getFileHandler().append(
-                    container.getConfiguration().getHome(), xmlReplacements.getKey());
-                getFileHandler().replaceInXmlFile(destinationFile, replacements,
-                    ignoreNonExistingProperties);
+                XmlReplacement[] replacementsArray = new XmlReplacement[replacements.size()];
+                replacementsArray = replacements.toArray(replacementsArray);
+                getFileHandler().replaceInXmlFile(replacementsArray);
             }
         }
     }
@@ -143,69 +155,68 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     }
 
     /**
-     * Adds an XML replacement.
-     * 
-     * @param filename File in which to replace.
-     * @param xpathExpression XPath expression to look for.
-     * @param configurationPropertyName Name of the configuration property to set. The XML
-     * replacement will be ignored if the property is set to <code>null</code>.
+     * {@inheritDoc}
      */
-    protected void addXmlReplacement(String filename, String xpathExpression,
+    public void addXmlReplacement(XmlReplacement xmlReplacement)
+    {
+        Map<XmlReplacementDetails, String> fileReplacements =
+            this.xmlReplacements.get(xmlReplacement.getFile());
+        if (fileReplacements == null)
+        {
+            fileReplacements = new HashMap<XmlReplacementDetails, String>();
+            this.xmlReplacements.put(xmlReplacement.getFile(), fileReplacements);
+        }
+
+        fileReplacements.put(new XmlReplacementDetails(xmlReplacement.getXpathExpression(),
+            xmlReplacement.getAttributeName(), xmlReplacement.isIgnoreIfNonExisting()),
+                xmlReplacement.getValue());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void addXmlReplacement(String filename, String xpathExpression,
         String configurationPropertyName)
     {
         addXmlReplacement(filename, xpathExpression, null, configurationPropertyName);
     }
 
     /**
-     * Adds an XML replacement.
-     * 
-     * @param filename File in which to replace.
-     * @param xpathExpression XPath expression to look for.
-     * @param attributeName Attribute name to modify. If <code>null</code>, the node's contents
-     * will be modified.
-     * @param configurationPropertyName Name of the configuration property to set. The XML
-     * replacement will be ignored if the property is set to <code>null</code>.
+     * {@inheritDoc}
      */
-    protected void addXmlReplacement(String filename, String xpathExpression, String attributeName,
+    public void addXmlReplacement(String filename, String xpathExpression, String attributeName,
         String configurationPropertyName)
     {
-        Map<XmlReplacement, String> fileReplacements = this.xmlReplacements.get(filename);
+        Map<XmlReplacementDetails, String> fileReplacements = this.xmlReplacements.get(filename);
         if (fileReplacements == null)
         {
-            fileReplacements = new HashMap<XmlReplacement, String>();
+            fileReplacements = new HashMap<XmlReplacementDetails, String>();
             this.xmlReplacements.put(filename, fileReplacements);
         }
 
-        fileReplacements.put(new XmlReplacement(xpathExpression, attributeName),
+        fileReplacements.put(new XmlReplacementDetails(xpathExpression, attributeName, null),
             configurationPropertyName);
     }
 
     /**
-     * Removes an XML replacement.
-     * 
-     * @param filename File in which to replace.
-     * @param xpathExpression XPath expression to look for.
+     * {@inheritDoc}
      */
-    protected void removeXmlReplacement(String filename, String xpathExpression)
+    public void removeXmlReplacement(String filename, String xpathExpression)
     {
         removeXmlReplacement(filename, xpathExpression, null);
     }
 
     /**
-     * Removes an XML replacement.
-     * 
-     * @param filename File in which to replace.
-     * @param xpathExpression XPath expression to look for.
-     * @param attributeName Attribute name to modify. If <code>null</code>, the node's contents
-     * will be modified.
+     * {@inheritDoc}
      */
-    protected void removeXmlReplacement(String filename, String xpathExpression,
+    public void removeXmlReplacement(String filename, String xpathExpression,
         String attributeName)
     {
-        Map<XmlReplacement, String> fileReplacements = this.xmlReplacements.get(filename);
+        Map<XmlReplacementDetails, String> fileReplacements = this.xmlReplacements.get(filename);
         if (fileReplacements != null)
         {
-            fileReplacements.remove(new XmlReplacement(xpathExpression, attributeName));
+            fileReplacements.remove(
+                new XmlReplacementDetails(xpathExpression, attributeName, null));
 
             if (fileReplacements.isEmpty())
             {
