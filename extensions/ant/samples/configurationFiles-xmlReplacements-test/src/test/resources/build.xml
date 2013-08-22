@@ -55,6 +55,8 @@
           <configfile file="${project.basedir}/src/test/resources" todir="test-configFile-directory"/>
           <configfile file="${project.basedir}/src/test/resources/test-subfolder/test.properties" todir="test-configFile-file"/>
 
+          <xmlreplacement file="conf/server.xml" xpathexpression="//Server/Service" attributename="test-xmlreplacement-attribute" value="test-xmlreplacement-value"/>
+
           <file file="${project.basedir}/src/test/resources" todir="test-file-directory"/>
           <file file="${project.basedir}/src/test/resources/test-subfolder/test.properties" todir="test-file-file"/>
           <file file="${project.basedir}/src/test/resources" todir="test-file-configfile-directory" configfile="true"/>

@@ -23,10 +23,10 @@
     <artifactId>cargo-samples-ant</artifactId>
     <version>1.4.4-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-sample-ant-configurationFiles-test</artifactId>
-  <name>Cargo Samples - ANT - Configuration files test</name>
+  <artifactId>cargo-sample-ant-configurationFiles-xmlReplacements-test</artifactId>
+  <name>Cargo Samples - ANT - Configuration files and XML replacements test</name>
   <packaging>jar</packaging>
-  <description>Sample application that tests the configuration files options</description>
+  <description>Sample application that tests the configuration files and XML replacement options</description>
 
   <build>
     <plugins>

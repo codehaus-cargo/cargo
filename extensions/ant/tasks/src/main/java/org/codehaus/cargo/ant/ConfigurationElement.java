@@ -27,8 +27,10 @@ import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
+import org.codehaus.cargo.util.XmlReplacement;
 
 /**
  * Nested Ant element to wrap the
@@ -75,6 +77,11 @@ public class ConfigurationElement
     private List<FileConfig> files = new ArrayList<FileConfig>();
 
     /**
+     * List of XML replacements
+     */
+    private List<XmlReplacement> xmlReplacements = new ArrayList<XmlReplacement>();
+
+    /**
      * @param configurationClass the configuration class to associate to the containing container
      */
     public void setClass(Class configurationClass)
@@ -85,7 +92,7 @@ public class ConfigurationElement
     /**
      * @return the configuration class associated with the containing container
      */
-    protected final Class getConfigurationClass()
+    protected Class getConfigurationClass()
     {
         return this.configurationClass;
     }
@@ -101,7 +108,7 @@ public class ConfigurationElement
     /**
      * @return the nested deployable elements to deploy
      */
-    protected final List<DeployableElement> getDeployables()
+    protected List<DeployableElement> getDeployables()
     {
         return this.deployables;
     }
@@ -115,6 +122,15 @@ public class ConfigurationElement
     }
 
     /**
+     * Get the list of configFiles
+     * @return the configFiles
+     */
+    protected List<FileConfig> getFileConfigs()
+    {
+        return this.fileConfigs;
+    }
+
+    /**
      * @param fileConfigElement the nested file element to deploy
      */
     public void addConfiguredFile(FileConfig fileConfigElement)
@@ -123,29 +139,12 @@ public class ConfigurationElement
     }
 
     /**
-     * Get the list of configFiles
-     * @return the configFiles
-     */
-    protected final List<FileConfig> getFileConfigs()
-    {
-        return this.fileConfigs;
-    }
-
-    /**
      * Get the list of files
      * @return the files
      */
-    protected final List<FileConfig> getFiles()
+    protected List<FileConfig> getFiles()
     {
         return this.files;
-    }
-
-    /**
-     * @return the list of container properties
-     */
-    protected final List<Property> getProperties()
-    {
-        return this.properties;
     }
 
     /**
@@ -156,6 +155,30 @@ public class ConfigurationElement
     public void addConfiguredProperty(Property property)
     {
         this.properties.add(property);
+    }
+
+    /**
+     * @return the list of container properties
+     */
+    protected List<Property> getProperties()
+    {
+        return this.properties;
+    }
+
+    /**
+     * @param xmlReplacement the list of XML replacements
+     */
+    public void addConfiguredXmlreplacement(XmlReplacement xmlReplacement)
+    {
+        this.xmlReplacements.add(xmlReplacement);
+    }
+
+    /**
+     * @return the list of XML replacements
+     */
+    protected List<XmlReplacement> getXmlReplacements()
+    {
+        return this.xmlReplacements;
     }
 
     /**
@@ -170,19 +193,19 @@ public class ConfigurationElement
     }
 
     /**
-     * @param home the home directory to set
-     */
-    public void setHome(String home)
-    {
-        this.home = home;
-    }
-
-    /**
      * @return the configuration type
      */
     public ConfigurationType getType()
     {
         return this.type;
+    }
+
+    /**
+     * @param home the home directory to set
+     */
+    public void setHome(String home)
+    {
+        this.home = home;
     }
 
     /**
@@ -224,6 +247,18 @@ public class ConfigurationElement
         for (Property property : getProperties())
         {
             configuration.setProperty(property.getName(), property.getValue());
+        }
+
+        if (configuration instanceof StandaloneLocalConfiguration)
+        {
+            StandaloneLocalConfiguration standaloneLocalConfiguration =
+                (StandaloneLocalConfiguration) configuration;
+
+            // Set all XML replacements
+            for (XmlReplacement xmlReplacement : getXmlReplacements())
+            {
+                standaloneLocalConfiguration.addXmlReplacement(xmlReplacement);
+            }
         }
 
         // Add static deployables and configuration files for local configurations

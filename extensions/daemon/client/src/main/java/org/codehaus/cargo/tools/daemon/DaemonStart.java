@@ -65,7 +65,6 @@ public class DaemonStart
      * The log file where the Cargo log should be saved to.
      */
     private String logFile;
-
     
     /**
      * @return the unique identifier of the container to start.

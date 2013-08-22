@@ -34,9 +34,11 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.maven2.util.CargoProject;
+import org.codehaus.cargo.util.XmlReplacement;
 
 /**
  * Holds configuration data for the <code>&lt;configuration&gt;</code> tag used to configure the
@@ -80,6 +82,11 @@ public class Configuration
      * Configuration files.
      */
     private FileConfig[] configfiles;
+
+    /**
+     * XML replacements.
+     */
+    private XmlReplacement[] xmlReplacements;
 
     /**
      * Extra resources.
@@ -180,6 +187,22 @@ public class Configuration
     public void setFiles(FileConfig[] fileConfigs)
     {
         this.fileConfigs = fileConfigs;
+    }
+
+    /**
+     * @return XML replacements.
+     */
+    public XmlReplacement[] getXmlReplacements()
+    {
+        return this.xmlReplacements;
+    }
+
+    /**
+     * @param xmlReplacements XML replacements.
+     */
+    public void setXmlReplacements(XmlReplacement[] xmlReplacements)
+    {
+        this.xmlReplacements = xmlReplacements;
     }
 
     /**
@@ -324,6 +347,18 @@ public class Configuration
                 }
 
                 configuration.setProperty(property.getKey(), propertyValue);
+            }
+        }
+
+        if (configuration instanceof StandaloneLocalConfiguration && getXmlReplacements() != null)
+        {
+            StandaloneLocalConfiguration standaloneLocalConfiguration =
+                (StandaloneLocalConfiguration) configuration;
+
+            // Set all XML replacements
+            for (XmlReplacement xmlReplacement : getXmlReplacements())
+            {
+                standaloneLocalConfiguration.addXmlReplacement(xmlReplacement);
             }
         }
 

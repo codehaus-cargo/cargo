@@ -28,7 +28,7 @@
   <packaging>pom</packaging>
   <description>Cargo Samples for ANT</description>
   <modules>
-    <module>configurationFiles-test</module>
+    <module>configurationFiles-xmlReplacements-test</module>
     <module>datasource-test</module>
     <module>remote-test</module>
   </modules>

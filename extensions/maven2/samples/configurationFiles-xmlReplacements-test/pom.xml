@@ -23,10 +23,10 @@
     <artifactId>cargo-samples-maven2</artifactId>
     <version>1.4.4-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-sample-maven2-configurationFiles-test</artifactId>
-  <name>Cargo Samples - Maven 2 - Configuration files test</name>
+  <artifactId>cargo-sample-maven2-configurationFiles-xmlReplacements-test</artifactId>
+  <name>Cargo Samples - Maven 2 - Configuration files and XML replacements test</name>
   <packaging>jar</packaging>
-  <description>Sample application that tests the configuration files options</description>
+  <description>Sample application that tests the configuration files and XML replacement options</description>
 
   <build>
     <plugins>
@@ -44,7 +44,11 @@
             <configuration>
               <container>
                 <containerId>jetty7x</containerId>
-                <type>embedded</type>
+                <artifactInstaller>
+                  <groupId>org.eclipse.jetty</groupId>
+                  <artifactId>jetty-distribution</artifactId>
+                  <version>7.6.12.v20130726</version>
+                </artifactInstaller>
               </container>
               <configuration>
                 <home>${project.build.directory}/jetty-base</home>
@@ -81,6 +85,14 @@
                     <configfile>true</configfile>
                   </file>
                 </files>
+                <xmlReplacements>
+                  <xmlReplacement>
+                    <file>etc/jetty.xml</file>
+                    <xpathExpression>//Configure/Set[@name='stopAtShutdown']</xpathExpression>
+                    <attributeName>test-xmlreplacement-attribute</attributeName>
+                    <value>test-xmlreplacement-value</value>
+                  </xmlReplacement>
+                </xmlReplacements>
               </configuration>
             </configuration>
           </execution>
