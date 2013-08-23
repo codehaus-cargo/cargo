@@ -30,6 +30,7 @@ import java.util.zip.ZipEntry;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
@@ -177,12 +178,25 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
         String base = getFileHandler().getAbsolutePath(getConfiguration().getHome()); 
         java.setSystemProperty("catalina.home", getFileHandler().getAbsolutePath(getHome()));
         java.setSystemProperty("catalina.base", base);
-        java.setSystemProperty("java.io.tmpdir",
-            getFileHandler().append(base, "temp"));
-        java.setSystemProperty("java.util.logging.manager",
-            "org.apache.juli.ClassLoaderLogManager");
-        java.setSystemProperty("java.util.logging.config.file",
-            getFileHandler().append(base, "conf/logging.properties"));
+
+        // CARGO-1220: Allow users to override some system properties
+        String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+        if (jvmArgs == null || !jvmArgs.contains("java.io.tmpdir"))
+        {
+            java.setSystemProperty("java.io.tmpdir",
+                getFileHandler().append(base, "temp"));
+        }
+        if (jvmArgs == null || !jvmArgs.contains("java.util.logging.manager"))
+        {
+            java.setSystemProperty("java.util.logging.manager",
+                "org.apache.juli.ClassLoaderLogManager");
+        }
+        if (jvmArgs == null || !jvmArgs.contains("java.util.logging.config.file"))
+        {
+            java.setSystemProperty("java.util.logging.config.file",
+                getFileHandler().append(base, "conf/logging.properties"));
+        }
+
         java.addClasspathEntries(new File(getHome(), "bin/bootstrap.jar"));
         addToolsJarToClasspath(java);
         java.setMainClass("org.apache.catalina.startup.Bootstrap");
