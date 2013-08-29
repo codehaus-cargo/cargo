@@ -23,9 +23,18 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+/**
+ * Test the Maven2/Maven3 Artifact Installer.
+ * 
+ * @version $Id$
+ */
 public class ArtifactInstallerTest extends TestCase
 {
 
+    /**
+     * Test the Maven2/Maven3 Artifact Installer.
+     * @throws Exception If anything fails.
+     */
     public void testArtifactInstaller() throws Exception
     {
         File target = new File("target");
@@ -47,8 +56,8 @@ public class ArtifactInstallerTest extends TestCase
                     assertTrue(installs + " is not a directory", installs.isDirectory());
                     for (File jettyDistribution : installs.listFiles())
                     {
-                        if (jettyDistribution.isDirectory() &&
-                            jettyDistribution.getName().startsWith("jetty-distribution-"))
+                        if (jettyDistribution.isDirectory()
+                            && jettyDistribution.getName().startsWith("jetty-distribution-"))
                         {
                             foundJettyDistribution = true;
                         }

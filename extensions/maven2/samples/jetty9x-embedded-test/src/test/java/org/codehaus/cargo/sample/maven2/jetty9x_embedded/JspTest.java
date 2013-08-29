@@ -27,11 +27,23 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
+/**
+ * Test deployment of JSPs with the embedded Jetty container.
+ * 
+ * @version $Id$
+ */
 public class JspTest extends TestCase
 {
 
-    Logger logger = new SimpleLogger();
+    /**
+     * Logger.
+     */
+    private Logger logger = new SimpleLogger();
 
+    /**
+     * Test deployment of JSPs with the embedded Jetty container
+     * @throws Exception If anything fails.
+     */
     public void testJsp() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

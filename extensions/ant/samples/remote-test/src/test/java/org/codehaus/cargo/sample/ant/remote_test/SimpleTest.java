@@ -27,11 +27,23 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
+/**
+ * Remote deployment testcase.
+ * 
+ * @version $Id$
+ */
 public class SimpleTest extends TestCase
 {
 
-    Logger logger = new SimpleLogger();
+    /**
+     * Logger.
+     */
+    protected Logger logger = new SimpleLogger();
 
+    /**
+     * Test remotely deployed Web application.
+     * @throws Exception If anything fails.
+     */
     public void testSimpleRemoteDeployment() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

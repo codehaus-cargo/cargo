@@ -27,11 +27,23 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
+/**
+ * Generic CARGO testcase.
+ * 
+ * @version $Id$
+ */
 public class CargoTest extends TestCase
 {
 
-    Logger logger = new SimpleLogger();
+    /**
+     * Logger.
+     */
+    protected Logger logger = new SimpleLogger();
 
+    /**
+     * Test CARGO Ping Component.
+     * @throws Exception If anything fails.
+     */
     public void testCargo() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

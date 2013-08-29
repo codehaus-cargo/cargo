@@ -27,11 +27,23 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
+/**
+ * Test the Maven2/Maven3 auto-deloyable.
+ * 
+ * @version $Id$
+ */
 public class AutoDeployableTest extends TestCase
 {
 
-    Logger logger = new SimpleLogger();
+    /**
+     * Logger.
+     */
+    private Logger logger = new SimpleLogger();
 
+    /**
+     * Test the Maven2/Maven3 auto-deloyable.
+     * @throws Exception If anything fails.
+     */
     public void testAutoDeployable() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

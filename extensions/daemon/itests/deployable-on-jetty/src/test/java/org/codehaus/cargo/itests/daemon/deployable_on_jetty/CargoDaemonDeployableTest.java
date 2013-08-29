@@ -39,14 +39,28 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
+/**
+ * Tests of CARGO Daemon started on Jetty using the Java client.
+ * 
+ * @version $Id$
+ */
 public class CargoDaemonDeployableTest extends TestCase
 {
 
-    private Logger logger = new SimpleLogger();
-
+    /**
+     * Timeout while waiting for the container to start.
+     */
     private static final long TIMEOUT = 60 * 1000;
 
-    private static URL DAEMON_URL = null;
+    /**
+     * Base URL of the Daemon.
+     */
+    private static URL daemonUrl = null;
+
+    /**
+     * Logger.
+     */
+    private Logger logger = new SimpleLogger();
 
     /**
      * {@inheritDoc}
@@ -58,30 +72,38 @@ public class CargoDaemonDeployableTest extends TestCase
 
         synchronized (this.getClass())
         {
-            if (CargoDaemonDeployableTest.DAEMON_URL == null)
+            if (CargoDaemonDeployableTest.daemonUrl == null)
             {
-                CargoDaemonDeployableTest.DAEMON_URL =
+                CargoDaemonDeployableTest.daemonUrl =
                     new URL("http://localhost:" + System.getProperty("daemon.port")
                         + "/cargo-daemon-webapp/");
             }
         }
 
         DeployableMonitor daemonMonitor =
-            new URLDeployableMonitor(CargoDaemonDeployableTest.DAEMON_URL);
+            new URLDeployableMonitor(CargoDaemonDeployableTest.daemonUrl);
         DeployerWatchdog daemonWatchdog = new DeployerWatchdog(daemonMonitor);
         daemonWatchdog.watchForAvailability();
     }
 
+    /**
+     * Test the Daemon welcome page.
+     * @throws Exception If anything fails.
+     */
     public void testCargoDaemonWelcomePage() throws Exception
     {
         PingUtils.assertPingTrue("Cargo Daemon not started", "Welcome to Cargo Daemon Web site",
-            CargoDaemonDeployableTest.DAEMON_URL, logger);
+            CargoDaemonDeployableTest.daemonUrl, logger);
     }
 
+    /**
+     * Test starting / stopping container.
+     * @throws Exception If anything fails.
+     */
     public void testStartStopContainer() throws Exception
     {
         WebClient webClient = new WebClient();
-        HtmlPage htmlPage = webClient.getPage(CargoDaemonDeployableTest.DAEMON_URL);
+        HtmlPage htmlPage = webClient.getPage(CargoDaemonDeployableTest.daemonUrl);
 
         assertFalse("There should be no running containers",
             htmlPage.asText().contains("started"));
@@ -124,7 +146,7 @@ public class CargoDaemonDeployableTest extends TestCase
 
         // htmlPage = (HtmlPage) htmlPage.refresh();
         webClient.closeAllWindows();
-        htmlPage = webClient.getPage(CargoDaemonDeployableTest.DAEMON_URL);
+        htmlPage = webClient.getPage(CargoDaemonDeployableTest.daemonUrl);
         HtmlElement stopButton = htmlPage.getElementById("stopContainer_test1");
         assertNotNull("Container stop button did not appear. Current content: "
             + htmlPage.asText(), stopButton);
@@ -136,7 +158,7 @@ public class CargoDaemonDeployableTest extends TestCase
 
         // htmlPage = (HtmlPage) htmlPage.refresh();
         webClient.closeAllWindows();
-        htmlPage = webClient.getPage(CargoDaemonDeployableTest.DAEMON_URL);
+        htmlPage = webClient.getPage(CargoDaemonDeployableTest.daemonUrl);
         assertFalse("There should be no running containers",
             htmlPage.asText().contains("started"));
     }

@@ -23,20 +23,27 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+/**
+ * Test the implementation classes functionality.
+ * 
+ * @version $Id$
+ */
 public class ImplementationClassesTest extends TestCase
 {
 
     /**
      * List of file or folder names to ignore.
      */
-    public static String[] IGNORED_FILENAME_PREFIXES = new String[]
+    private static final String[] IGNORED_FILENAME_PREFIXES = new String[]
     {
-        "apidocs", "checkstyle", "javadoc", "maven-archiver", "site", "surefire", "test-classes"
+        "apidocs", "checkstyle", "javadoc", "maven-archiver", "maven-status", "site", "surefire",
+        "test-classes"
     };
 
     /**
      * The implementation classes we set during the test are supposed to create no configuration
      * directory; so tests verify that nothing has been created.
+     * @throws Exception If anything fails.
      */
     public void testImplementationClasses() throws Exception
     {

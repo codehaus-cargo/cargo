@@ -33,17 +33,37 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
+/**
+ * Test the Maven2/Maven3 <code>cargo:run</code> mojo.
+ * 
+ * @version $Id$
+ */
 public class RunMojoTest extends TestCase
 {
 
+    /**
+     * Whether the initialization is complete.
+     */
     private static boolean initialized = false;
 
+    /**
+     * Logger.
+     */
     private Logger logger = new SimpleLogger();
 
+    /**
+     * Project directory.
+     */
     private File projectDirectory;
 
+    /**
+     * Project output file.
+     */
     private File output;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setUp() throws Exception
     {
@@ -54,19 +74,24 @@ public class RunMojoTest extends TestCase
 
         this.output = new File(target, "output.log");
 
-        synchronized(RunMojoTest.class)
+        synchronized (RunMojoTest.class)
         {
             if (!RunMojoTest.initialized)
             {
                 final PrintStream outputStream = new PrintStream(output);
 
-                String portOption = "-Dcargo.samples.servlet.port=" + System.getProperty("http.port");
-                final String[] options = new String[] { portOption, "-o", "-X", "clean", "cargo:run" };
+                String portOption = "-Dcargo.samples.servlet.port="
+                    + System.getProperty("http.port");
+                final String[] options =
+                    new String[] {portOption, "-o", "-X", "clean", "cargo:run"};
 
-                new Thread(new Runnable() {
-                    public void run() {
+                new Thread(new Runnable()
+                {
+                    public void run()
+                    {
                         MavenCli maven2 = new MavenCli();
-                        maven2.doMain(options , projectDirectory.getPath(), outputStream, outputStream);
+                        maven2.doMain(
+                            options , projectDirectory.getPath(), outputStream, outputStream);
                     }
                 }).start();
 
@@ -75,11 +100,19 @@ public class RunMojoTest extends TestCase
         }
     }
 
+    /**
+     * Test the Maven2/Maven3 <code>cargo:run</code> mojo.
+     * @throws Exception If anything fails.
+     */
     public void testRunMojo() throws Exception
     {
         waitForRunMojoStart();
     }
 
+    /**
+     * Test the CARGO ping component.
+     * @throws Exception If anything fails.
+     */
     public void testCargo() throws Exception
     {
         waitForRunMojoStart();
@@ -91,6 +124,10 @@ public class RunMojoTest extends TestCase
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }
 
+    /**
+     * Test the simple WAR (JSP).
+     * @throws Exception If anything fails.
+     */
     public void testSimpleWarJsp() throws Exception
     {
         waitForRunMojoStart();
@@ -102,6 +139,10 @@ public class RunMojoTest extends TestCase
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }
 
+    /**
+     * Wait for the <code>cargo:run</code> mojo to start.
+     * @throws Exception If anything fails.
+     */
     private void waitForRunMojoStart() throws Exception
     {
         String outputString = null;

@@ -27,11 +27,23 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
+/**
+ * Test deployment of multiple datasources.
+ * 
+ * @version $Id$
+ */
 public class MultiDatasourceTest extends TestCase
 {
 
-    Logger logger = new SimpleLogger();
+    /**
+     * Logger.
+     */
+    private Logger logger = new SimpleLogger();
 
+    /**
+     * Test deployment of multiple datasources.
+     * @throws Exception If anything fails.
+     */
     public void testMultipleDatasources() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

@@ -25,9 +25,18 @@ import java.io.FileReader;
 
 import junit.framework.TestCase;
 
+/**
+ * Test for the XML Replacements option.
+ * 
+ * @version $Id$
+ */
 public class XmlReplacementsTest extends TestCase
 {
 
+    /**
+     * Test XML replacements.
+     * @throws Exception If anything fails.
+     */
     public void testXmlReplacements() throws Exception
     {
         String lookFor = "test-xmlreplacement-attribute=\"test-xmlreplacement-value\"";

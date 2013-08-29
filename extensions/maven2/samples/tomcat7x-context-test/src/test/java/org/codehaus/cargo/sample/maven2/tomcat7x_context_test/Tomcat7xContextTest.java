@@ -27,11 +27,23 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
+/**
+ * Test deployment of Web applications on Tomcat 7.x's root context.
+ * 
+ * @version $Id$
+ */
 public class Tomcat7xContextTest extends TestCase
 {
 
-    Logger logger = new SimpleLogger();
+    /**
+     * Logger.
+     */
+    private Logger logger = new SimpleLogger();
 
+    /**
+     * Test deployment of Web applications on Tomcat 7.x's root context.
+     * @throws Exception If anything fails.
+     */
     public void testTomcat7xContext() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

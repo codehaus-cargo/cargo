@@ -27,11 +27,23 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
+/**
+ * Test WebSphere container.
+ * 
+ * @version $Id$
+ */
 public class WebsphereTest extends TestCase
 {
 
-    Logger logger = new SimpleLogger();
+    /**
+     * Logger.
+     */
+    private Logger logger = new SimpleLogger();
 
+    /**
+     * Test changing of classpath with the WebSphere container.
+     * @throws Exception If anything fails.
+     */
     public void testClasspathWar() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
@@ -41,6 +53,10 @@ public class WebsphereTest extends TestCase
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }
 
+    /**
+     * Test deploying a simple EAR.
+     * @throws Exception If anything fails.
+     */
     public void testSimpleEar() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
@@ -50,6 +66,10 @@ public class WebsphereTest extends TestCase
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }
 
+    /**
+     * Test deploying a simple WAR.
+     * @throws Exception If anything fails.
+     */
     public void testSimpleWar() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

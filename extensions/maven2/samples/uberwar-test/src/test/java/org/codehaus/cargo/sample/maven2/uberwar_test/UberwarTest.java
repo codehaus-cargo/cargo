@@ -35,9 +35,18 @@ import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlIo;
 import org.codehaus.cargo.module.webapp.WebXmlType;
 
+/**
+ * Test generation of Uberwars (merged WARs).
+ * 
+ * @version $Id$
+ */
 public class UberwarTest extends AbstractDocumentBuilderTest
 {
 
+    /**
+     * Test generation of Uberwars (merged WARs).
+     * @throws Exception If anything fails.
+     */
     public void testUberwar() throws Exception
     {
         File target = new File(System.getProperty("target"));
@@ -46,7 +55,7 @@ public class UberwarTest extends AbstractDocumentBuilderTest
         final File output = new File(target, "output.log");
         final PrintStream outputStream = new PrintStream(output);
 
-        final String[] options = new String[] { "-o", "-X", "clean", "verify" };
+        final String[] options = new String[] {"-o", "-X", "clean", "verify"};
 
         new Thread(new Runnable()
         {

@@ -27,11 +27,23 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
+/**
+ * Test setting system properties on Tomcat 7.x.
+ * 
+ * @version $Id$
+ */
 public class Tomcat7xSystemPropertyTest extends TestCase
 {
 
-    Logger logger = new SimpleLogger();
+    /**
+     * Logger.
+     */
+    private Logger logger = new SimpleLogger();
 
+    /**
+     * Test setting system properties on Tomcat 7.x.
+     * @throws Exception If anything fails.
+     */
     public void testTomcat7xSystemProperties() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

@@ -52,24 +52,53 @@ import org.codehaus.cargo.tools.daemon.DaemonStart;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
+/**
+ * Tests of CARGO Daemon using the Java client.
+ * 
+ * @version $Id$
+ */
 public class CargoDaemonClientTest extends TestCase
 {
 
-    private Logger logger = new SimpleLogger();
-
+    /**
+     * Total number of tests (used to kill the Daemon when finished).
+     */
     private static final int TOTAL_TESTS = 1;
 
+    /**
+     * Tests run so far (used to kill the Daemon when finished).
+     */
+    private static int testsRun = 0;
+
+    /**
+     * Timeout while waiting for the Daemon or container to start.
+     */
     private static final long TIMEOUT = 60 * 1000;
 
-    private static int TESTS_RUN = 0;
+    /**
+     * Class name of the Daemon.
+     */
+    private static String daemonClassName = null;
 
-    private static String DAEMON_CLASS_NAME = null;
+    /**
+     * Base URL of the Daemon.
+     */
+    private static URL daemonUrl = null;
 
-    private static URL DAEMON_URL = null;
+    /**
+     * Container factory.
+     */
+    private static ContainerFactory containerFactory = null;
 
-    private static ContainerFactory CONTAINER_FACTORY = null;
+    /**
+     * Configuration factory.
+     */
+    private static ConfigurationFactory configurationFactory = null;
 
-    private static ConfigurationFactory CONFIGURATION_FACTORY = null;
+    /**
+     * Logger.
+     */
+    private Logger logger = new SimpleLogger();
 
     /**
      * {@inheritDoc}
@@ -82,8 +111,8 @@ public class CargoDaemonClientTest extends TestCase
         boolean startDaemon;
         synchronized (this.getClass())
         {
-            startDaemon = CargoDaemonClientTest.TESTS_RUN == 0;
-            CargoDaemonClientTest.TESTS_RUN++;
+            startDaemon = CargoDaemonClientTest.testsRun == 0;
+            CargoDaemonClientTest.testsRun++;
         }
 
         if (startDaemon)
@@ -98,15 +127,15 @@ public class CargoDaemonClientTest extends TestCase
                         File daemonFile = new File(System.getProperty("artifacts.dir"),
                             "cargo-daemon-webapp.jar");
                         JarFile daemonJar = new JarFile(daemonFile);
-                        CargoDaemonClientTest.DAEMON_CLASS_NAME =
+                        CargoDaemonClientTest.daemonClassName =
                             daemonJar.getManifest().getMainAttributes().getValue("Main-Class");
-                        URL[] daemonURLs = new URL[] { daemonFile.toURI().toURL() };
+                        URL[] daemonURLs = new URL[] {daemonFile.toURI().toURL()};
                         ClassLoader daemonClassLoader = new URLClassLoader(daemonURLs);
                         Class daemonClass = daemonClassLoader.loadClass(
-                            CargoDaemonClientTest.DAEMON_CLASS_NAME);
+                            CargoDaemonClientTest.daemonClassName);
                         Method daemonMain = daemonClass.getMethod("main", String[].class);
                         String[] daemonArguments =
-                            new String[] { "-p", System.getProperty("daemon.port") };
+                            new String[] {"-p", System.getProperty("daemon.port")};
                         daemonMain.invoke(null, (Object) daemonArguments);
                     }
                     catch (Exception e)
@@ -115,22 +144,23 @@ public class CargoDaemonClientTest extends TestCase
                             CargoDaemonClientTest.class.getName());
                     }
                 }
-            }.start();
-            CargoDaemonClientTest.CONTAINER_FACTORY = new DefaultContainerFactory();
-            CargoDaemonClientTest.CONFIGURATION_FACTORY = new DefaultConfigurationFactory();
+            }
+                .start();
+            CargoDaemonClientTest.containerFactory = new DefaultContainerFactory();
+            CargoDaemonClientTest.configurationFactory = new DefaultConfigurationFactory();
         }
 
         synchronized (this.getClass())
         {
-            if (CargoDaemonClientTest.DAEMON_URL == null)
+            if (CargoDaemonClientTest.daemonUrl == null)
             {
-                CargoDaemonClientTest.DAEMON_URL =
+                CargoDaemonClientTest.daemonUrl =
                     new URL("http://localhost:" + System.getProperty("daemon.port") + "/");
             }
         }
 
         DeployableMonitor daemonMonitor =
-            new URLDeployableMonitor(CargoDaemonClientTest.DAEMON_URL);
+            new URLDeployableMonitor(CargoDaemonClientTest.daemonUrl);
         DeployerWatchdog daemonWatchdog = new DeployerWatchdog(daemonMonitor);
         daemonWatchdog.watchForAvailability();
     }
@@ -146,7 +176,7 @@ public class CargoDaemonClientTest extends TestCase
         boolean stopDaemon;
         synchronized (this.getClass())
         {
-            stopDaemon = CargoDaemonClientTest.TESTS_RUN == CargoDaemonClientTest.TOTAL_TESTS;
+            stopDaemon = CargoDaemonClientTest.testsRun == CargoDaemonClientTest.TOTAL_TESTS;
         }
 
         if (stopDaemon)
@@ -157,7 +187,7 @@ public class CargoDaemonClientTest extends TestCase
                 for (StackTraceElement stackTraceElement : thread.getValue())
                 {
                     if (stackTraceElement.getClassName().contains(
-                        CargoDaemonClientTest.DAEMON_CLASS_NAME))
+                        CargoDaemonClientTest.daemonClassName))
                     {
                         thread.getKey().interrupt();
                     }
@@ -166,6 +196,10 @@ public class CargoDaemonClientTest extends TestCase
         }
     }
 
+    /**
+     * Test starting / stopping container.
+     * @throws Exception If anything fails.
+     */
     public void testStartStopContainer() throws Exception
     {
         File jetty7x = new File(System.getProperty("artifacts.dir"), "jetty7x.zip");
@@ -177,12 +211,12 @@ public class CargoDaemonClientTest extends TestCase
             configurationDirectory.isDirectory());
 
         Configuration configuration =
-            CargoDaemonClientTest.CONFIGURATION_FACTORY.createConfiguration("jetty7x",
+            CargoDaemonClientTest.configurationFactory.createConfiguration("jetty7x",
                 ContainerType.INSTALLED, ConfigurationType.STANDALONE,
                     configurationDirectory.getAbsolutePath());
         InstalledLocalContainer container = (InstalledLocalContainer)
-            CargoDaemonClientTest.CONTAINER_FACTORY.createContainer("jetty7x",
-            ContainerType.INSTALLED, configuration);
+            CargoDaemonClientTest.containerFactory.createContainer("jetty7x",
+                ContainerType.INSTALLED, configuration);
         container.getSystemProperties().put("systemPropertyName", "testProperty");
         configuration.setProperty(ServletPropertySet.PORT, System.getProperty("servlet.port"));
         configuration.setProperty(GeneralPropertySet.RMI_PORT, System.getProperty("rmi.port"));
@@ -195,7 +229,7 @@ public class CargoDaemonClientTest extends TestCase
             new File(System.getProperty("artifacts.dir"),
                 "systemproperty-war.war").getAbsolutePath(), DeployableType.WAR));
 
-        DaemonClient client = new DaemonClient(CargoDaemonClientTest.DAEMON_URL);
+        DaemonClient client = new DaemonClient(CargoDaemonClientTest.daemonUrl);
 
         DaemonStart start = new DaemonStart();
         start.setContainer(container);
@@ -209,10 +243,10 @@ public class CargoDaemonClientTest extends TestCase
                 CargoDaemonClientTest.TIMEOUT);
         DeployableMonitor simpleWarMonitor = new URLDeployableMonitor(new URL(
             "http://localhost:" + System.getProperty("servlet.port") + "/simple-war/index.jsp"),
-                    CargoDaemonClientTest.TIMEOUT);
+                CargoDaemonClientTest.TIMEOUT);
         DeployableMonitor systemPropertyWarMonitor = new URLDeployableMonitor(new URL(
-            "http://localhost:" + System.getProperty("servlet.port") +
-                "/systemproperty-war/test?systemPropertyName=testProperty"),
+            "http://localhost:" + System.getProperty("servlet.port")
+                + "/systemproperty-war/test?systemPropertyName=testProperty"),
                     CargoDaemonClientTest.TIMEOUT);
         DeployerWatchdog daemonWatchdog = new DeployerWatchdog(daemonMonitor);
         daemonWatchdog.watchForAvailability();
