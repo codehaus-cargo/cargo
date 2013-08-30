@@ -443,9 +443,10 @@
           <version>2.6</version>
         </plugin>
         <plugin>
+          <!-- Do not use version 2.x in order to keep compatibility with Maven 2.x -->
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>2.1</version>
+          <version>1.7.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
