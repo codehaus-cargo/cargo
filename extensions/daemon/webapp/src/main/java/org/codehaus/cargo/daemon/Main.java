@@ -293,6 +293,10 @@ public final class Main
 
             classpathURLs.add(warDirectory.toURI().toURL());
 
+            if (!webServerDirectory.isDirectory())
+            {
+                throw new Exception("Directory " + webServerDirectory + " doesn't exist");
+            }
             for (File file : webServerDirectory.listFiles())
             {
                 if (file.getName().endsWith("jar"))
@@ -315,9 +319,18 @@ public final class Main
                 "Cargo Daemon requires Java 6 or greater in order to run in standalone mode.");
             LOGGER.println("Read more on: http://cargo.codehaus.org/Cargo+Daemon");
         }
-        catch (Exception e)
+        catch (NullPointerException e)
         {
-            LOGGER.println(e.toString());
+            LOGGER.println("An internal error (NullPointerException) occured when starting the "
+                + "CARGO Daemon server. Error details:");
+            for (StackTraceElement ste : e.getStackTrace())
+            {
+                LOGGER.println("\t" + ste.toString());
+            }
+        }
+        catch (Throwable t)
+        {
+            LOGGER.println("Failed starting the CARGO Daemon server: " + t.toString());
         }
     }
 }
