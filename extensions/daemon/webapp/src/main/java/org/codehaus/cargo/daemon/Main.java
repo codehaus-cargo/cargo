@@ -20,6 +20,7 @@
 package org.codehaus.cargo.daemon;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -207,18 +208,19 @@ public final class Main
      * Checks if unpacking is needed.
      *
      * @param webAppDirectory The webapp directory.
+     * @param webServerDirectory The server directory.
      * @param warFilePath The daemon war filepath.
      * @return {@code true} if unpacking is needed, {@code false} otherwise.
      */
-    private static boolean checkUnpack(File webAppDirectory, String warFilePath)
+    private static boolean checkUnpack(File webAppDirectory, File webServerDirectory,
+        String warFilePath)
     {
-        File warFile = new File(warFilePath);
-
-        if (!webAppDirectory.exists())
+        if (!webAppDirectory.isDirectory() || !webServerDirectory.isDirectory())
         {
             return true;
         }
 
+        File warFile = new File(warFilePath);
         return webAppDirectory.lastModified() != warFile.lastModified();
     }
 
@@ -255,7 +257,7 @@ public final class Main
 
         warDirectory.mkdirs();
 
-        if (checkUnpack(webAppDirectory, warFilePath))
+        if (checkUnpack(webAppDirectory, webServerDirectory, warFilePath))
         {
             deleteDirectory(webAppDirectory);
             unpack(warFilePath, warDirectory);
@@ -295,7 +297,8 @@ public final class Main
 
             if (!webServerDirectory.isDirectory())
             {
-                throw new Exception("Directory " + webServerDirectory + " doesn't exist");
+                throw new FileNotFoundException(
+                    "Directory " + webServerDirectory + " doesn't exist");
             }
             for (File file : webServerDirectory.listFiles())
             {
