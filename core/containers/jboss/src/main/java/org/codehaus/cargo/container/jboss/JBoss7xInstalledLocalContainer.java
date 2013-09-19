@@ -208,6 +208,8 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
     @Override
     protected void doStop(JvmLauncher java) throws Exception
     {
+        String host =
+            getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME);
         String port =
             getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
 
@@ -217,7 +219,7 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
             "-mp", getHome() + "/modules",
             "-logmodule", "org.jboss.logmanager",
             "org.jboss.as.cli",
-            "--connect", "--controller=localhost:" + port,
+            "--connect", "--controller=" + host + ":" + port,
             "command=:shutdown");
 
         java.start();

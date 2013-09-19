@@ -20,9 +20,11 @@
 package org.codehaus.cargo.container.wildfly;
 
 import java.io.File;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBoss72xInstalledLocalContainer;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
@@ -72,6 +74,8 @@ public class WildFly8xInstalledLocalContainer extends JBoss72xInstalledLocalCont
     @Override
     protected void doStop(JvmLauncher java) throws Exception
     {
+        String host =
+            getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME);
         String port =
             getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
 
@@ -80,7 +84,7 @@ public class WildFly8xInstalledLocalContainer extends JBoss72xInstalledLocalCont
         java.addAppArguments(
             "-mp", getHome() + "/modules",
             "org.jboss.as.cli",
-            "--connect", "--controller=localhost:" + port,
+            "--connect", "--controller=" + host + ":" + port,
             "command=:shutdown");
 
         java.start();
