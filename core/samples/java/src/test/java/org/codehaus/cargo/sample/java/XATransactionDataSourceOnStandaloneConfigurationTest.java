@@ -21,9 +21,6 @@ package org.codehaus.cargo.sample.java;
 
 import java.net.MalformedURLException;
 
-import java.util.Set;
-import java.util.TreeSet;
-
 import junit.framework.Test;
 
 import org.codehaus.cargo.container.configuration.ConfigurationType;
@@ -76,10 +73,6 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
         CargoTestSuite suite =
             new CargoTestSuite("Tests that run on local containers supporting XADataSource "
                 + "configured DataSources and WAR deployments");
-
-        // We exclude glassfish4x beta as it has a small bug in the lookup making CARGO tests fail
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("glassfish4x");
 
         suite.addTestSuite(XATransactionDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {

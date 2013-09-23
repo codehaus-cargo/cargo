@@ -78,8 +78,6 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
 
         // We exclude Geronimo, JBoss and WildFly containers as these don't support
         // XA transaction emulation the way CARGO tests it
-        //
-        // We exclude glassfish4x beta as it has a small bug in the lookup making CARGO tests fail
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("geronimo2x");
         excludedContainerIds.add("geronimo3x");
@@ -93,7 +91,6 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
         excludedContainerIds.add("jboss7x");
         excludedContainerIds.add("jboss71x");
         excludedContainerIds.add("jboss72x");
-        excludedContainerIds.add("glassfish4x");
         excludedContainerIds.add("wildfly8x");
 
         suite.addTestSuite(XATransactionEmulationDataSourceOnStandaloneConfigurationTest.class,
