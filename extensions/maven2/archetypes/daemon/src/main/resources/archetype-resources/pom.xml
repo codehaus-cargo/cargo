@@ -251,9 +251,11 @@
               <configuration>
                 <container>
                   <containerId>glassfish3x</containerId>
-                  <zipUrlInstaller>
-                    <url>http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2.zip</url>
-                  </zipUrlInstaller>
+                  <artifactInstaller>
+                    <groupId>org.glassfish.main.distributions</groupId>
+                    <artifactId>glassfish</artifactId>
+                    <version>3.1.2.2</version>
+                  </artifactInstaller>
                 </container>
               </configuration>
             </plugin>
