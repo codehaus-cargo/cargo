@@ -51,6 +51,7 @@ public class GlassFish2xStandaloneLocalConfigurationCapability extends
         this.defaultSupportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
         this.defaultSupportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.defaultSupportsMap.put(GeneralPropertySet.JVMARGS, Boolean.TRUE);
+        this.defaultSupportsMap.put(GlassFishPropertySet.REMOVE_DEFAULT_DATASOURCE, Boolean.TRUE);
         this.defaultSupportsMap.put(GlassFishPropertySet.ADMIN_PORT, Boolean.TRUE);
         this.defaultSupportsMap.put(GlassFishPropertySet.JMS_PORT, Boolean.TRUE);
         this.defaultSupportsMap.put(GlassFishPropertySet.IIOP_PORT, Boolean.TRUE);

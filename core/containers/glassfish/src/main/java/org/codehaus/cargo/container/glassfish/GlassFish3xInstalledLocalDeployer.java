@@ -129,7 +129,6 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
 
         String dataSourceId = "cargo-datasource-" + dataSource.getId();
 
-        args.clear();
         this.addConnectOptions(args);
         args.add("create-jdbc-connection-pool");
         args.add("--restype");
@@ -156,6 +155,31 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         args.add("--connectionpoolid");
         args.add(dataSourceId);
         args.add(dataSource.getJndiLocation());
+
+        // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
+        this.getLocalContainer().invokeAsAdmin(false, args);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void undeployDatasource(String poolName, String jdbcName)
+    {
+        List<String> args = new ArrayList<String>();
+
+        args.clear();
+        this.addConnectOptions(args);
+        args.add("delete-jdbc-resource");
+        args.add(jdbcName);
+
+        // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
+        this.getLocalContainer().invokeAsAdmin(false, args);
+
+        args.clear();
+        this.addConnectOptions(args);
+        args.add("delete-jdbc-connection-pool");
+        args.add(poolName);
 
         // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
         this.getLocalContainer().invokeAsAdmin(false, args);

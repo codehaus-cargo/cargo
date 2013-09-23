@@ -36,6 +36,14 @@ public interface GlassFishPropertySet
      */
     String PORT_BASE = "cargo.glassfish.portbase";
 
+    /**
+     * By default, GlassFish deploys a datasource called <code>DerbyPool</code> which attempts to
+     * connect to a locally running Derby database on port <code>1527</code>. On the other hand, it
+     * will not by default start such a server -as a result, it is safer to remove this datasource
+     * in order to avoid confusing the Glassfish persistence manager.
+     */
+    String REMOVE_DEFAULT_DATASOURCE = "cargo.glassfish.removeDefaultDatasource";
+
     //
     // these names are named to match asadmin --domainproperties option
     //

@@ -114,9 +114,9 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends
      */
     private void setUpDerby(InstalledLocalContainer container)
     {
-        if ("glassfish3x".equals(container.getId()))
+        if ("glassfish3x".equals(container.getId()) || "glassfish4x".equals(container.getId()))
         {
-            // GlassFish 3.x already ships with Derby, adding the JAR twice will result in
+            // GlassFish 3.x and 4.x already ship with Derby, adding the JAR twice will result in
             // java.lang.SecurityException: sealing violation: package org.apache.derby.
             return;
         }

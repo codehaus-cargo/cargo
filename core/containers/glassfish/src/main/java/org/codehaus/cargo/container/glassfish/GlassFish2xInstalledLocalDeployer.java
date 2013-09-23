@@ -111,4 +111,29 @@ public class GlassFish2xInstalledLocalDeployer extends AbstractGlassFishInstalle
         // Nothing
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void undeployDatasource(String poolName, String jdbcName)
+    {
+        List<String> args = new ArrayList<String>();
+
+        args.clear();
+        this.addConnectOptions(args);
+        args.add("delete-jdbc-resource");
+        args.add(jdbcName);
+
+        // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
+        this.getLocalContainer().invokeAsAdmin(false, args);
+
+        args.clear();
+        this.addConnectOptions(args);
+        args.add("delete-jdbc-connection-pool");
+        args.add(poolName);
+
+        // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
+        this.getLocalContainer().invokeAsAdmin(false, args);
+    }
+
 }

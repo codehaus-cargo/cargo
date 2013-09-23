@@ -58,6 +58,7 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
         this.setProperty(RemotePropertySet.USERNAME, "admin");
         this.setProperty(RemotePropertySet.PASSWORD, "adminadmin");
         this.setProperty(GeneralPropertySet.HOSTNAME, "localhost");
+        this.setProperty(GlassFishPropertySet.REMOVE_DEFAULT_DATASOURCE, "true");
         this.setProperty(GlassFishPropertySet.ADMIN_PORT, "4848");
         this.setProperty(GlassFishPropertySet.JMS_PORT, "7676");
         this.setProperty(GlassFishPropertySet.IIOP_PORT, "3700");

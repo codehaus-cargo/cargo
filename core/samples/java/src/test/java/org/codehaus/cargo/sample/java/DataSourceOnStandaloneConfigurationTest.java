@@ -78,10 +78,8 @@ public class DataSourceOnStandaloneConfigurationTest extends
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
         // We exclude geronimo2x as it doesn't support datasource setup the way CARGO tests it
-        // We exclude glassfish4x beta as it has a small bug in the lookup making CARGO tests fail
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("geronimo2x");
-        excludedContainerIds.add("glassfish4x");
 
         suite.addTestSuite(DataSourceOnStandaloneConfigurationTest.class, new Validator[] {
             new IsInstalledLocalContainerValidator(),
@@ -100,6 +98,10 @@ public class DataSourceOnStandaloneConfigurationTest extends
     public void testUserConfiguresDriverAndRequestsDataSource() throws MalformedURLException
     {
         DataSourceFixture fixture = ConfigurationFixtureFactory.createDataSource();
+        if ("glassfish4x".equals(getContainer().getId()))
+        {
+            fixture.jndiLocation = "jdbc/__default";
+        }
         testServletThatIssuesGetConnectionFrom(fixture, "datasource");
     }
 
@@ -110,6 +112,10 @@ public class DataSourceOnStandaloneConfigurationTest extends
     public void testMultipleDataSources() throws MalformedURLException
     {
         DataSourceFixture fixture = ConfigurationFixtureFactory.createDataSource();
+        if ("glassfish4x".equals(getContainer().getId()))
+        {
+            fixture.jndiLocation = "jdbc/__default";
+        }
 
         Configuration config = getLocalContainer().getConfiguration();
         config.setProperty(DatasourcePropertySet.DATASOURCE + ".1", fixture

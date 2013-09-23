@@ -127,6 +127,14 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
     public abstract void deployDatasource(DataSource dataSource);
 
     /**
+     * Undeploy a datasource.
+     * 
+     * @param poolName Pool name of datasource to undeploy.
+     * @param jdbcName JNDI name of datasource to undeploy.
+     */
+    public abstract void undeployDatasource(String poolName, String jdbcName);
+
+    /**
      * {@inheritDoc}
      */
     @Override

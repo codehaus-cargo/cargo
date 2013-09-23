@@ -157,6 +157,12 @@ public abstract class AbstractGlassFishInstalledLocalContainer
 
         try
         {
+            if (Boolean.valueOf(this.getConfiguration().getPropertyValue(
+                GlassFishPropertySet.REMOVE_DEFAULT_DATASOURCE)).booleanValue())
+            {
+                deployer.undeployDatasource("DerbyPool", "jdbc/__default");
+            }
+
             // Deploy datasources
             // CARGO-1035: Only for standalone local configuration
             if (this.getConfiguration() instanceof StandaloneLocalConfiguration)
