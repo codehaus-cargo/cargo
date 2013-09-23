@@ -40,14 +40,14 @@ public class ContainerRunMojo extends ContainerStartMojo
     /**
      * Sets the container id.
      * 
-     * @parameter expression="${cargo.maven.containerId}"
+     * @parameter property="cargo.maven.containerId"
      */
     private String containerId;
 
     /**
      * Sets the container download URL.
      * 
-     * @parameter expression="${cargo.maven.containerUrl}"
+     * @parameter property="cargo.maven.containerUrl"
      */
     private String containerUrl;
 

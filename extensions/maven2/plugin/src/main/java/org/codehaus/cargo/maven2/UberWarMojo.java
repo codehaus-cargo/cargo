@@ -73,7 +73,7 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
     /**
      * The directory for the generated WAR.
      * 
-     * @parameter expression="${project.build.directory}"
+     * @parameter property="project.build.directory"
      * @required
      */
     private String outputDirectory;
@@ -81,7 +81,7 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
     /**
      * The name of the generated WAR.
      * 
-     * @parameter expression="${project.build.finalName}"
+     * @parameter property="project.build.finalName"
      * @required
      */
     private String warName;
@@ -117,7 +117,7 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
     /**
      * The local Maven repository.
      * 
-     * @parameter expression="${localRepository}"
+     * @parameter property="localRepository"
      * @required
      * @readonly
      */
@@ -126,7 +126,7 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
     /**
      * The remote Maven repositories.
      * 
-     * @parameter expression="${project.remoteArtifactRepositories}"
+     * @parameter property="project.remoteArtifactRepositories"
      * @required
      * @readonly
      */
@@ -135,7 +135,7 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
     /**
      * The Maven project.
      * 
-     * @parameter expression="${project}"
+     * @parameter property="project"
      * @required
      * @readonly
      */

@@ -75,13 +75,13 @@ public class DependencyCalculator
     /** @component */
     private ArtifactResolver resolver;
 
-    /** @parameter expression="${localRepository}" */
+    /** @parameter property="localRepository" */
     private ArtifactRepository localRepository;
 
-    /** @parameter expression="${project.remoteArtifactRepositories}" */
+    /** @parameter property="project.remoteArtifactRepositories" */
     private List<ArtifactRepository> remoteRepositories;
 
-    /** @parameter expression="${project}" */
+    /** @parameter property="project" */
     private MavenProject mavenProject;
 
     /** @component */

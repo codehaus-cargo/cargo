@@ -157,7 +157,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * artifacts and put them in the local repository so that they won't have to be fetched again
      * next time the plugin is executed.
      * 
-     * @parameter expression="${localRepository}"
+     * @parameter property="localRepository"
      * @required
      * @readonly
      */
@@ -166,7 +166,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     /**
      * The remote Maven repositories used by the artifact resolver to look for artifacts.
      * 
-     * @parameter expression="${project.remoteArtifactRepositories}"
+     * @parameter property="project.remoteArtifactRepositories"
      * @required
      * @readonly
      */
@@ -175,7 +175,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     /**
      * Set this to 'true' to bypass cargo execution.
      * 
-     * @parameter expression="${cargo.maven.skip}" default-value="false"
+     * @parameter property="cargo.maven.skip" default-value="false"
      * @since 1.0.3
      */
     private boolean skip;
@@ -197,7 +197,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     /**
      * Maven settings, injected automatically.
      * 
-     * @parameter expression="${settings}"
+     * @parameter property="settings"
      * @required
      * @readonly
      */
@@ -206,7 +206,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     /**
      * Cargo plugin version.
      * 
-     * @parameter expression="${plugin.version}"
+     * @parameter property="plugin.version"
      * @required
      * @readonly
      */
