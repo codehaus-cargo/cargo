@@ -55,7 +55,7 @@ public class GlassFish2xInstalledLocalContainer extends AbstractGlassFishInstall
     @Override
     protected AbstractAsAdmin getAsAdmin()
     {
-        return new GlassFish2xAsAdmin(this.getHome(), this.getTimeout());
+        return new GlassFish2xAsAdmin(this.getHome());
     }
 
     /**

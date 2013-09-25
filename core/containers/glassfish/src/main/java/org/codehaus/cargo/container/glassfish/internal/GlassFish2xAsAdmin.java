@@ -20,15 +20,7 @@
 package org.codehaus.cargo.container.glassfish.internal;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Execute;
-import org.apache.tools.ant.taskdefs.ExecuteWatchdog;
-import org.apache.tools.ant.taskdefs.PumpStreamHandler;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.util.CargoException;
 
@@ -46,17 +38,11 @@ public class GlassFish2xAsAdmin extends AbstractAsAdmin
     private String home;
 
     /**
-     * Timeout when calling asadmin.
-     */
-    private long timeout;
-
-    /**
      * Saves the GlassFish home directory and the timeout.
      * 
      * @param home GlassFish home directory.
-     * @param timeout Timeout when calling asadmin (in milliseconds).
      */
-    public GlassFish2xAsAdmin(String home, long timeout)
+    public GlassFish2xAsAdmin(String home)
     {
         if (home == null)
         {
@@ -64,7 +50,6 @@ public class GlassFish2xAsAdmin extends AbstractAsAdmin
         }
 
         this.home = home;
-        this.timeout = timeout;
     }
 
     /**
@@ -79,75 +64,52 @@ public class GlassFish2xAsAdmin extends AbstractAsAdmin
             throw new CargoException("GlassFish home directory is not valid: " + home);
         }
 
-        // TODO: don't launch the command, launch the JAR instead
-        File exec;
+        java.setSystemProperty("derby.storage.fileSyncTransactionLog", "true");
+        java.setSystemProperty("com.sun.aas.instanceName", "server");
+        java.setSystemProperty("java.library.path", new File(home, "lib").getAbsolutePath());
+        java.setSystemProperty("com.sun.aas.configRoot",
+            new File(home, "config").getAbsolutePath());
+        java.setSystemProperty("java.endorsed.dirs", new File(home, "endorsed").getAbsolutePath());
+        java.setSystemProperty("com.sun.aas.processLauncher", "SE");
+        java.setSystemProperty("com.sun.appserv.admin.pluggable.features",
+            "com.sun.enterprise.ee.admin.pluggable.EEClientPluggableFeatureImpl");
 
-        if (File.pathSeparatorChar == ';')
+        java.addClasspathEntries(
+            new File(home, "javadb/lib/derby.jar"),
+            new File(home, "jbi/lib/jbi-admin-cli.jar"),
+            new File(home, "jbi/lib/jbi-admin-common.jar"),
+            new File(home, "lib"),
+            new File(home, "lib/comms-appserv-rt.jar"),
+            new File(home, "lib/comms-appserv-api.jar"),
+            new File(home, "lib/appserv-rt.jar"),
+            new File(home, "lib/appserv-ext.jar"),
+            new File(home, "lib/javaee.jar"),
+            new File(home, "lib/appserv-se.jar"),
+            new File(home, "lib/comms-appserv-admin-cli.jar"),
+            new File(home, "lib/admin-cli.jar"),
+            new File(home, "lib/appserv-admin.jar"),
+            new File(home, "lib/commons-launcher.jar"),
+            new File(home, "lib/install/applications/jmsra/imqjmsra.jar"));
+
+        java.setMainClass("com.sun.enterprise.cli.framework.CLIMain");
+
+        java.addAppArguments(args);
+
+        if (async)
         {
-            // on Windows
-            exec = new File(home, "bin/asadmin.bat");
+            java.start();
+            return 0;
         }
         else
         {
-            // on other systems
-            exec = new File(home, "bin/asadmin");
-        }
-
-        if (!exec.exists())
-        {
-            throw new CargoException("asadmin command not found at " + exec);
-        }
-
-        // Make sure the extracted ZIP's executables are set as executable on Unix systems
-        if (File.pathSeparatorChar == ':')
-        {
-            try
+            int exitCode = java.execute();
+            if (exitCode != 0 && exitCode != 1)
             {
-                Process p = Runtime.getRuntime().exec("chmod +x " + exec.getAbsolutePath());
-                p.waitFor();
+                // the first token is the command
+                throw new CargoException("Command failed. asadmin exited " + exitCode);
             }
-            catch (InterruptedException ignored)
-            {
-                // Ignored
-            }
-            catch (IOException ignored)
-            {
-                // Ignored
-            }
+            return exitCode;
         }
-
-        List<String> cmds = new ArrayList<String>();
-        cmds.add(exec.getAbsolutePath());
-        cmds.addAll(Arrays.asList(args));
-
-        int exitCode = 0;
-        try
-        {
-            Execute exe = new Execute(new PumpStreamHandler(), new ExecuteWatchdog(this.timeout));
-            exe.setAntRun(new Project());
-            String[] arguments = new String[cmds.size()];
-            cmds.toArray(arguments);
-            exe.setCommandline(arguments);
-            if (async)
-            {
-                exe.spawn();
-            }
-            else
-            {
-                exitCode = exe.execute();
-                if (exitCode != 0 && exitCode != 1)
-                {
-                    // the first token is the command
-                    throw new CargoException(cmds + " failed. asadmin exited " + exitCode);
-                }
-            }
-        }
-        catch (IOException e)
-        {
-            throw new CargoException("Failed to invoke asadmin", e);
-        }
-
-        return exitCode;
     }
 
 }
