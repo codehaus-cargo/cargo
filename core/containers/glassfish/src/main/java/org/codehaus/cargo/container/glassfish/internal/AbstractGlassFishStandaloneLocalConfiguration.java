@@ -20,8 +20,12 @@
 package org.codehaus.cargo.container.glassfish.internal;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -117,6 +121,8 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
+        InstalledLocalContainer installedLocalContainer = (InstalledLocalContainer) container;
+
         DefaultFileHandler fileHandler = new DefaultFileHandler();
         fileHandler.delete(fileHandler.append(this.getHome(),
             this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)));
@@ -162,41 +168,46 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
             }
         }
 
+        StringBuilder jvmOptions = new StringBuilder();
+
         String jvmArgs = this.getPropertyValue(GeneralPropertySet.JVMARGS);
         if (jvmArgs != null)
         {
-            String xmx = this.getJvmArg(jvmArgs, "-Xmx");
-            if (xmx != null)
+            List<String> jvmArgsList = new ArrayList<String>();
+            Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(jvmArgs);
+            while (m.find())
             {
-                domainXmlReplacements.put("-Xmx512m", xmx);
+                jvmArgsList.add(m.group(1).replace("\"", ""));
             }
-
-            String maxPermSize = this.getJvmArg(jvmArgs, "-XX:MaxPermSize");
-            if (maxPermSize != null)
+            for (String jvmArg : jvmArgsList)
             {
-                domainXmlReplacements.put("-XX:MaxPermSize=192m", maxPermSize);
-            }
-        }
-
-        if (container instanceof InstalledLocalContainer)
-        {
-            InstalledLocalContainer installedLocalContainer = (InstalledLocalContainer) container;
-
-            if (installedLocalContainer.getSystemProperties() != null)
-            {
-                StringBuilder jvmOptions = new StringBuilder();
-
-                for (Map.Entry<String, String> systemProperty
-                    : installedLocalContainer.getSystemProperties().entrySet())
+                if (jvmArg.startsWith("-Xmx"))
                 {
-                    jvmOptions.append("<jvm-options>-D" + systemProperty.getKey()
-                        + "=" + xmlEscape(systemProperty.getValue()) + "</jvm-options>\n");
+                    domainXmlReplacements.put("-Xmx512m", jvmArg);
                 }
-
-                jvmOptions.append("</java-config>");
-                domainXmlReplacements.put("</java-config>", jvmOptions.toString());
+                else if (jvmArg.startsWith("-XX:MaxPermSize"))
+                {
+                    domainXmlReplacements.put("-XX:MaxPermSize=192m", jvmArg);
+                }
+                else
+                {
+                    jvmOptions.append("<jvm-options>" + xmlEscape(jvmArg) + "</jvm-options>\n");
+                }
             }
         }
+
+        if (installedLocalContainer.getSystemProperties() != null)
+        {
+            for (Map.Entry<String, String> systemProperty
+                : installedLocalContainer.getSystemProperties().entrySet())
+            {
+                jvmOptions.append("<jvm-options>-D" + systemProperty.getKey()
+                    + "=" + xmlEscape(systemProperty.getValue()) + "</jvm-options>\n");
+            }
+        }
+
+        jvmOptions.append("</java-config>");
+        domainXmlReplacements.put("</java-config>", jvmOptions.toString());
 
         this.replaceInFile(this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
             + "/config/domain.xml", domainXmlReplacements, "UTF-8");
@@ -232,28 +243,6 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
     {
         String value = this.getPropertyValue(key);
         return key.substring("cargo.glassfish.".length()) + '=' + value;
-    }
-
-    /**
-     * Extracts a JVM argument.
-     * 
-     * @param jvmArgs JVM arguments list.
-     * @param key Key to look for.
-     * @return Associated value, null if not found.
-     */
-    private String getJvmArg(String jvmArgs, String key)
-    {
-        int startIndex = jvmArgs.indexOf(key);
-        if (startIndex == -1)
-        {
-            return null;
-        }
-        int endIndex = jvmArgs.indexOf(' ', startIndex);
-        if (endIndex == -1)
-        {
-            endIndex = jvmArgs.length();
-        }
-        return jvmArgs.substring(startIndex, endIndex);
     }
 
     /**
