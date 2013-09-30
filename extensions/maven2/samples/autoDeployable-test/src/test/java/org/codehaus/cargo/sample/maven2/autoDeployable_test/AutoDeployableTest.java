@@ -47,7 +47,7 @@ public class AutoDeployableTest extends TestCase
     public void testAutoDeployable() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/cargo-sample-maven2-autoDeployable-test-" + System.getProperty("project.version"));
+            + "/cargo-sample-maven2-autoDeployable-test/");
         final String expected = "Sample page for testing";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);

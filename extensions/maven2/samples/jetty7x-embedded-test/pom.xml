@@ -104,10 +104,6 @@
                   <name>http.port</name>
                   <value>${cargo.samples.servlet.port}</value>
                 </property>
-                <property>
-                  <name>cargo.resources.version</name>
-                  <value>${cargo.resources.version}</value>
-                </property>
               </systemProperties>
             </configuration>
           </execution>

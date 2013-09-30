@@ -49,8 +49,7 @@ public class InPlaceDevelopmentTest extends TestCase
     public void testInPlaceDevelopment() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/cargo-sample-maven2-inPlaceDevelopment-test-"
-            + System.getProperty("project.version"));
+            + "/cargo-sample-maven2-inPlaceDevelopment-test/");
 
         final String initialExpected = "Sample page for testing";
         PingUtils.assertPingTrue(url.getPath() + " not started", initialExpected, url, logger);

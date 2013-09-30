@@ -108,31 +108,16 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>classpath-war</artifactId>
                   <type>war</type>
-                  <properties>
-                    <context>
-                    classpath-war
-                    </context>
-                  </properties>
                 </deployable>
                 <deployable>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-ear</artifactId>
                   <type>ear</type>
-                  <properties>
-                    <name>
-                    simple-ear
-                    </name>
-                  </properties>
                 </deployable>
                 <deployable>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-war</artifactId>
                   <type>war</type>
-                  <properties>
-                    <context>
-                    simple-war
-                    </context>
-                  </properties>
                 </deployable>
               </deployables>
             </configuration>

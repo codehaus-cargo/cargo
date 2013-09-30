@@ -47,7 +47,7 @@ public class JspTest extends TestCase
     public void testJsp() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/simple-war-" + System.getProperty("cargo.resources.version") + "/index.jsp");
+            + "/simple-war/index.jsp");
         final String expected = "Sample page for testing";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);

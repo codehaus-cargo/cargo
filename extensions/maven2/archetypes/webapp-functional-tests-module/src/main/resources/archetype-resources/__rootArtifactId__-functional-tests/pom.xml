@@ -47,9 +47,6 @@
                 <groupId>${project.groupId}</groupId>
                 <artifactId>${rootArtifactId}-webapp</artifactId>
                 <type>war</type>
-                <properties>
-                  <context>${rootArtifactId}-webapp</context>
-                </properties>
               </deployable>
             </deployables>
           </configuration>

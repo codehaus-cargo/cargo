@@ -111,10 +111,6 @@
                   <value>${cargo.samples.servlet.port}</value>
                 </property>
                 <property>
-                  <name>project.version</name>
-                  <value>${project.version}</value>
-                </property>
-                <property>
                   <name>expandedWebapp.directory</name>
                   <value>${expandedWebapp.directory}</value>
                 </property>

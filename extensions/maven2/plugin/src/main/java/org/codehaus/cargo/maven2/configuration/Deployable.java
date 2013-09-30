@@ -31,6 +31,8 @@ import java.util.StringTokenizer;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.tools.ant.BuildException;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.EAR;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
 import org.codehaus.cargo.maven2.util.CargoProject;
@@ -207,6 +209,24 @@ public class Deployable extends AbstractDependency
 
         // Set user-defined properties on the created deployable.
         setPropertiesOnDeployable(deployable, project);
+
+        String name = null;
+        String context = null;
+        if (getProperties() != null)
+        {
+            name = getProperties().get("name");
+            context = getProperties().get("context");
+        }
+        if (deployable instanceof EAR && name == null)
+        {
+            EAR ear = (EAR) deployable;
+            ear.setName(getArtifactId());
+        }
+        if (deployable instanceof WAR && context == null)
+        {
+            WAR war = (WAR) deployable;
+            war.setContext(getArtifactId());
+        }
 
         return deployable;
     }
