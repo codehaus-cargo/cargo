@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
@@ -179,6 +180,8 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
     protected void addConnectOptions(List<String> args)
     {
         args.add("--interactive=false");
+        args.add("--host");
+        args.add(this.getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));
         args.add("--port");
         args.add(this.getConfiguration().getPropertyValue(GlassFishPropertySet.ADMIN_PORT));
         args.add("--user");
