@@ -387,7 +387,7 @@
 
               <property>
                 <name>cargo.jetty9x.url</name>
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.5.v20130815/jetty-distribution-9.0.5.v20130815.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.6.v20130930/jetty-distribution-9.0.6.v20130930.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>
@@ -839,15 +839,15 @@
 
               <property>
                 <name>cargo.jonas5x.url</name>
-                <value>http://repo1.maven.org/maven2/org/ow2/jonas/assemblies/profiles/jonas-full/5.2.4/jonas-full-5.2.4-bin.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/ow2/jonas/assemblies/profiles/legacy/jonas-full/5.3.0/jonas-full-5.3.0-bin.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jonas5x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
+                <value>${cargo.java.home.1_6}</value>
               </property>
               <property>
                 <name>cargo.samples.jonas5x.jonas.services.list</name>
-                <value>web,ear,depmonitor</value>
+                <value>resource,web,ear,depmonitor,datasource</value>
               </property>
 
               <!--

@@ -113,7 +113,6 @@ public class ConfluenceContainerDocumentationGenerator
         "jboss51x",
         "jetty6x",
         "jetty7x",
-        "jonas5x",
         "jrun4x",
         "oc4j10x",
         "resin3x",
@@ -1145,6 +1144,10 @@ public class ConfluenceContainerDocumentationGenerator
                 {
                     javaVersion = "6";
                 }
+                else if ("jonas5x".equals(containerId))
+                {
+                    javaVersion = "5 (JOnAS 5.0.x, 5.1.x and 5.2.x) or 6 (JOnAS 5.3.x)";
+                }
                 else
                 {
                     javaVersion = "7";
@@ -1158,6 +1161,11 @@ public class ConfluenceContainerDocumentationGenerator
 
                 output.append(
                     " | {_}JAVA_HOME version " + javaVersion + " or newer{_}" + extra + " |");
+            }
+            else if (JonasPropertySet.JONAS_SERVICES_LIST.equals(property))
+            {
+                output.append(" | {_}Will be loaded from the{_} {{conf/jonas.properties}} {_}file "
+                    + "in the container home directory{_} |");
             }
             else
             {

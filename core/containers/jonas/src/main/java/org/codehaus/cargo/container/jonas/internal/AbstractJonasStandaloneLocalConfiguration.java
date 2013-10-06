@@ -22,11 +22,16 @@
  */
 package org.codehaus.cargo.container.jonas.internal;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.codehaus.cargo.container.ContainerException;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
@@ -38,6 +43,7 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.ow2.jonas.tools.configurator.Jonas;
 import org.ow2.jonas.tools.configurator.api.JDBCConfiguration;
+import org.ow2.jonas.tools.configurator.api.JdbcXMLConfiguration;
 import org.ow2.jonas.tools.configurator.api.JonasConfigurator;
 
 /**
@@ -98,6 +104,30 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
         this.installedContainer = (InstalledLocalContainer) container;
         setupConfigurationDir();
 
+        String services = getPropertyValue(JonasPropertySet.JONAS_SERVICES_LIST);
+        if (services == null || services.trim().length() == 0)
+        {
+            Properties jonasProperties = new Properties();
+            File jonasPropertiesFile = new File(
+                installedContainer.getHome(), "conf/jonas.properties");
+            if (!jonasPropertiesFile.isFile())
+            {
+                throw new ContainerException("File [" + jonasPropertiesFile + "] does not exist");
+            }
+            InputStream jonasPropertiesStream = new FileInputStream(jonasPropertiesFile);
+            try
+            {
+                jonasProperties.load(jonasPropertiesStream);
+            }
+            finally
+            {
+                jonasPropertiesStream.close();
+                jonasPropertiesStream = null;
+                System.gc();
+            }
+            services = jonasProperties.getProperty("jonas.services");
+        }
+
         // Create the JOnAS configurator (version-independent)
         Jonas jonas = new Jonas(installedContainer.getHome());
         JonasConfigurator configurator = jonas.getJonasConfigurator();
@@ -113,24 +143,40 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
             configurator.setJonasBase(getHome());
             configurator.setJonasName(getPropertyValue(JonasPropertySet.JONAS_SERVER_NAME));
             configurator.setJonasName(getPropertyValue(JonasPropertySet.JONAS_DOMAIN_NAME));
-            configurator.setServices(getPropertyValue(JonasPropertySet.JONAS_SERVICES_LIST));
+            configurator.setServices(services);
             configurator.setHost(getPropertyValue(GeneralPropertySet.HOSTNAME));
             configurator.setProtocolsJrmpPort(getPropertyValue(GeneralPropertySet.RMI_PORT));
+            configurator.setHttpConnectorActivation(true);
             configurator.setHttpPort(getPropertyValue(ServletPropertySet.PORT));
             configurator.setJmsPort(getPropertyValue(JonasPropertySet.JONAS_JMS_PORT));
 
             // Add datasources
             for (DataSource ds : getDataSources())
             {
-                JDBCConfiguration dsConfiguration = new JDBCConfiguration();
-                dsConfiguration.datasourceClass = ds.getDriverClass();
-                dsConfiguration.driverName = ds.getDriverClass();
-                dsConfiguration.url = ds.getUrl();
-                dsConfiguration.mappername = "rdb";
-                dsConfiguration.user = ds.getUsername();
-                dsConfiguration.password = ds.getPassword();
-                dsConfiguration.jndiName = ds.getJndiLocation();
-                configurator.addJdbcRA(ds.getId(), dsConfiguration);
+                if (jonas.getMajorVersion() == 4 || jonas.getMajorVersion() == 5
+                    || jonas.getMajorVersion() == 52)
+                {
+                    JDBCConfiguration dsConfiguration = new JDBCConfiguration();
+                    dsConfiguration.datasourceClass = ds.getDriverClass();
+                    dsConfiguration.driverName = ds.getDriverClass();
+                    dsConfiguration.url = ds.getUrl();
+                    dsConfiguration.mappername = "rdb";
+                    dsConfiguration.user = ds.getUsername();
+                    dsConfiguration.password = ds.getPassword();
+                    dsConfiguration.jndiName = ds.getJndiLocation();
+                    configurator.addJdbcRA(ds.getId(), dsConfiguration);
+                }
+                else
+                {
+                    JdbcXMLConfiguration xmlDsConfiguration = new JdbcXMLConfiguration();
+                    xmlDsConfiguration.classname = ds.getDriverClass();
+                    xmlDsConfiguration.url = ds.getUrl();
+                    xmlDsConfiguration.mapper = "rdb";
+                    xmlDsConfiguration.username = ds.getUsername();
+                    xmlDsConfiguration.password = ds.getPassword();
+                    xmlDsConfiguration.name = ds.getJndiLocation();
+                    configurator.addJdbcResource(xmlDsConfiguration);
+                }
             }
 
             for (Map.Entry<String, String> property : getProperties().entrySet())
@@ -198,6 +244,9 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
             String destinationFile = libExt + "/" + getFileHandler().getName(extraClasspath);
             getFileHandler().copyFile(extraClasspath, destinationFile);
         }
+
+        // Create timestamp file (as some versions of the Configurator empty the directory)
+        getFileHandler().createFile(getFileHandler().append(getHome(), ".cargo"));
     }
 
     /**

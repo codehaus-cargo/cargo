@@ -124,6 +124,20 @@ public class JonasStandaloneConfigurationTest extends AbstractCargoTestCase
                     serverXmlFiles.add(confFile);
                 }
             }
+
+            File deploy = new File(
+                getInstalledLocalContainer().getConfiguration().getHome(), "deploy");
+            if (deploy.isDirectory())
+            {
+                for (File deployFile : deploy.listFiles())
+                {
+                    if (deployFile.getName().startsWith("tomcat")
+                        && deployFile.getName().endsWith(".xml"))
+                    {
+                        serverXmlFiles.add(deployFile);
+                    }
+                }
+            }
         }
 
         if (serverXmlFiles.isEmpty())

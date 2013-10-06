@@ -35,6 +35,11 @@ import org.codehaus.cargo.util.log.Logger;
 public class PingUtils extends Assert
 {
     /**
+     * Timeout (in milliseconds)
+     */
+    private static final int TIMEOUT = 20000;
+
+    /**
      * Ping a container and check the result.
      * @param message Error message.
      * @param expectedContent Expected content.
@@ -50,7 +55,7 @@ public class PingUtils extends Assert
         HttpUtils httpUtils = new HttpUtils();
         httpUtils.setLogger(errorLogger);
         HttpUtils.HttpResult result = new HttpUtils.HttpResult();
-        boolean success = httpUtils.ping(pingURL, requestProperties, result);
+        boolean success = httpUtils.ping(pingURL, requestProperties, result, PingUtils.TIMEOUT);
 
         String text = message + ". Failed to ping [" + pingURL.toString() + "], ";
         if (result.responseCode == -1)

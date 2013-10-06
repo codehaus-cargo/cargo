@@ -41,9 +41,6 @@ public class Jonas5xStandaloneLocalConfiguration extends AbstractJonasStandalone
     public Jonas5xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
-
-        setProperty(JonasPropertySet.JONAS_SERVICES_LIST,
-            "registry,jmx,jtm,db,dbm,security,resource,ejb2,ejb3,jaxws,web,ear,depmonitor");
     }
 
     /**
