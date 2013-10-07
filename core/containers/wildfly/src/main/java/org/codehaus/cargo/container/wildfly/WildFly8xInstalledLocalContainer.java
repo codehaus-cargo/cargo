@@ -81,8 +81,15 @@ public class WildFly8xInstalledLocalContainer extends JBoss72xInstalledLocalCont
 
         java.setJarFile(new File(getHome(), "jboss-modules.jar"));
 
+        String modules = getConfiguration().getPropertyValue(
+            JBossPropertySet.ALTERNATIVE_MODULES_DIR);
+        if (!new File(modules).isAbsolute())
+        {
+            modules = getFileHandler().append(getHome(), modules);
+        }
+
         java.addAppArguments(
-            "-mp", getHome() + "/modules",
+            "-mp", modules,
             "org.jboss.as.cli",
             "--connect", "--controller=" + host + ":" + port,
             "command=:shutdown");

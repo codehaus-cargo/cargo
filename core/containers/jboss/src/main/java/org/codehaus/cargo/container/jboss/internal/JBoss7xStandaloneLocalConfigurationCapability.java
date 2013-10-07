@@ -65,6 +65,8 @@ public class JBoss7xStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR,
             Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR,
+            Boolean.TRUE);
     }
 
     /**

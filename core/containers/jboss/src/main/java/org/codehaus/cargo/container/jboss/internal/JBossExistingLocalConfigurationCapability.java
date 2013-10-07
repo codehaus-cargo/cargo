@@ -57,6 +57,8 @@ public class JBossExistingLocalConfigurationCapability extends
         // We don't support this property since it's not required as the configuration home already
         // points to the JBoss configuration to use...
         this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.FALSE);
+        this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR,
+            Boolean.TRUE);
     }
 
     /**

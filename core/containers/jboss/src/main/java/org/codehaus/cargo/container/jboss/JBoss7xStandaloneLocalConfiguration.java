@@ -87,6 +87,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         setProperty(JBossPropertySet.JBOSS_OSGI_HTTP_PORT, "8090");
         setProperty(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, "4447");
         setProperty(JBossPropertySet.CONFIGURATION, CONFIGURATION);
+        setProperty(JBossPropertySet.ALTERNATIVE_MODULES_DIR, "modules");
 
         getProperties().remove(JBossPropertySet.JBOSS_AJP_PORT);
         getProperties().remove(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT);

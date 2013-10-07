@@ -82,8 +82,15 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
 
         java.setJarFile(new File(getHome(), "jboss-modules.jar"));
 
+        String modules = getConfiguration().getPropertyValue(
+            JBossPropertySet.ALTERNATIVE_MODULES_DIR);
+        if (!new File(modules).isAbsolute())
+        {
+            modules = getFileHandler().append(getHome(), modules);
+        }
+
         java.addAppArguments(
-            "-mp", getHome() + "/modules",
+            "-mp", modules,
             "-jaxpmodule", "javax.xml.jaxp-provider",
             "org.jboss.as.standalone",
             "--server-config="
