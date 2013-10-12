@@ -30,6 +30,10 @@
 
   <properties>
     <cargo.samples.servlet.port>9080</cargo.samples.servlet.port>
+    <cargo.websphere.profile>AppSrv01</cargo.websphere.profile>
+    <cargo.websphere.node>virtualbox-xpNode01</cargo.websphere.node>
+    <cargo.websphere.cell>virtualbox-xpNode01Cell</cargo.websphere.cell>
+    <cargo.websphere.server>server1</cargo.websphere.server>
   </properties>
 
   <dependencies>
@@ -92,15 +96,15 @@
                 </dependencies>
               </container>
               <configuration>
-                <home>${cargo.websphere85x.home}/profiles/AppSrv02</home>
+                <home>${cargo.websphere85x.home}/profiles/${cargo.websphere.profile}</home>
                 <type>existing</type>
                 <properties>
                   <cargo.java.home>${cargo.websphere85x.home}/java/jre</cargo.java.home>
                   <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
-                  <cargo.websphere.profile>AppSrv02</cargo.websphere.profile>
-                  <cargo.websphere.node>virtualbox-xpNode01</cargo.websphere.node>
-                  <cargo.websphere.cell>virtualbox-xpNode01Cell</cargo.websphere.cell>
-                  <cargo.websphere.server>server1</cargo.websphere.server>
+                  <cargo.websphere.profile>${cargo.websphere.profile}</cargo.websphere.profile>
+                  <cargo.websphere.node>${cargo.websphere.node}</cargo.websphere.node>
+                  <cargo.websphere.cell>${cargo.websphere.cell}</cargo.websphere.cell>
+                  <cargo.websphere.server>${cargo.websphere.server}</cargo.websphere.server>
                 </properties>
               </configuration>
               <deployables>
