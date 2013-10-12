@@ -30,7 +30,9 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.module.application.DefaultEarArchive;
 import org.codehaus.cargo.module.webapp.DefaultWarArchive;
+import org.codehaus.cargo.module.webapp.WarArchive;
 import org.codehaus.cargo.module.webapp.WebXmlType;
 import org.codehaus.cargo.util.CargoException;
 import org.jdom.Element;
@@ -80,8 +82,10 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
             StringBuilder mapWebModToVH = new StringBuilder(" -MapWebModToVH {");
             if (deployable instanceof WAR)
             {
-                String displayName = deployableFileName;
+                WAR war = (WAR) deployable;
                 DefaultWarArchive warArchive = new DefaultWarArchive(deployable.getFile());
+
+                String displayName = deployableFileName;
                 Element displayNameElement =
                     warArchive.getWebXml().getRootElement().getChild(WebXmlType.DISPLAY_NAME);
                 if (displayNameElement != null)
@@ -97,7 +101,6 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
                     }
                 }
 
-                WAR war = (WAR) deployable;
                 contextRoot = "-contextroot " + war.getContext();
                 mapWebModToVH.append("{\"" + displayName + "\" \"" + deployableFileName
                     + ",WEB-INF/web.xml\" default_host}");
@@ -105,6 +108,8 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
             else if (deployable instanceof EAR)
             {
                 EAR ear = (EAR) deployable;
+                DefaultEarArchive earArchive = new DefaultEarArchive(deployable.getFile());
+
                 boolean first = true;
                 for (String webUri : ear.getWebUris())
                 {
@@ -116,8 +121,26 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
                     {
                         mapWebModToVH.append(", ");
                     }
-                    mapWebModToVH.append("{" + webUri + " " + webUri
-                        + ",WEB-INF/web.xml default_host}");
+
+                    WarArchive warArchive = earArchive.getWebModule(webUri);
+                    String displayName = webUri;
+                    Element displayNameElement =
+                        warArchive.getWebXml().getRootElement().getChild(WebXmlType.DISPLAY_NAME);
+                    if (displayNameElement != null)
+                    {
+                        String displayNameText = displayNameElement.getText();
+                        if (displayNameText != null)
+                        {
+                            displayNameText = displayNameText.trim();
+                            if (displayNameText.length() > 0)
+                            {
+                                displayName = displayNameText;
+                            }
+                        }
+                    }
+
+                    mapWebModToVH.append("{\"" + displayName + "\" \"" + webUri
+                        + ",WEB-INF/web.xml\" default_host}");
                 }
             }
             else
@@ -188,7 +211,7 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
     }
 
     /**
-     * Executed WS admin commands.
+     * Executes WS admin commands.
      * 
      * @param commands Commands to execute.
      * @throws Exception If anything goes wrong.

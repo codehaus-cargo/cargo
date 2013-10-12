@@ -27,4 +27,50 @@
   <name>Cargo Core WebSphere Container</name>
   <packaging>jar</packaging>
   <description>Core API implementation for WebSphere containers</description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-test-resources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>simple-war</artifactId>
+                  <version>${cargo.resources.version}</version>
+                  <type>war</type>
+                  <destFileName>simple-war.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>simple-ear</artifactId>
+                  <version>${cargo.resources.version}</version>
+                  <type>ear</type>
+                  <destFileName>simple-ear.ear</destFileName>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/test-artifacts</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+            <systemProperties>
+              <property>
+                <name>project.version</name>
+                <value>${project.version}</value>
+              </property>
+            </systemProperties>
+          </configuration>
+        </plugin>
+    </plugins>
+  </build>
 </project>
