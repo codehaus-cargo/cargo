@@ -124,12 +124,12 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
         // However this ResinRun class depends on classes found in other Cargo jars (namely, in
         // Core Util and Core Container) so we also need to include those jars in the container
         // execution classpath.
-        java.addClasspathEntries(getResourceUtils().getResourceLocation("/"
-            + ResinRun.class.getName().replace('.', '/') + ".class"));
-        java.addClasspathEntries(getResourceUtils().getResourceLocation("/"
-            + DefaultServerRun.class.getName().replace('.', '/') + ".class"));
-        java.addClasspathEntries(getResourceUtils().getResourceLocation("/"
-            + CargoException.class.getName().replace('.', '/') + ".class"));
+        java.addClasspathEntries(getResourceUtils().getResourceLocation(this.getClass(),
+            "/" + ResinRun.class.getName().replace('.', '/') + ".class"));
+        java.addClasspathEntries(getResourceUtils().getResourceLocation(this.getClass(),
+            "/" + DefaultServerRun.class.getName().replace('.', '/') + ".class"));
+        java.addClasspathEntries(getResourceUtils().getResourceLocation(this.getClass(),
+            "/" + CargoException.class.getName().replace('.', '/') + ".class"));
 
         FileSet fileSet = new FileSet();
         fileSet.setProject(getAntUtils().createProject());

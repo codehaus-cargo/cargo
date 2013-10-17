@@ -37,6 +37,7 @@ import java.util.Vector;
 
 import org.apache.tools.ant.filters.util.ChainReaderHelper;
 import org.apache.tools.ant.types.FilterChain;
+import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.LoggedObject;
@@ -241,28 +242,32 @@ public final class ResourceUtils extends LoggedObject
      * name of the archive.
      * </p>
      * 
+     * @param where Class where to look for the resource (its class loader and parent class loaders
+     * are used recursively for the lookup).
      * @param resourceName The name of the resource
      * @return The directory or archive containing the specified resource
      */
-    public File getResourceLocation(String resourceName)
+    public File getResourceLocation(Class where, String resourceName)
     {
-        File file = null;
-        URL url = ResourceUtils.class.getResource(resourceName);
-        if (url != null)
+        URL url = where.getResource(resourceName);
+        if (url == null)
         {
-            String urlString = url.toString();
-            if (urlString.startsWith("jar:file:"))
-            {
-                int pling = urlString.indexOf("!");
-                String jar = urlString.substring(9, pling);
-                file = new File(URLDecoder.decode(jar));
-            }
-            else if (urlString.startsWith("file:"))
-            {
-                int tail = urlString.indexOf(resourceName);
-                String dir = urlString.substring(5, tail);
-                file = new File(URLDecoder.decode(dir));
-            }
+            throw new CargoException("Cannot find resource [" + resourceName + "]");
+        }
+
+        File file = null;
+        String urlString = url.toString();
+        if (urlString.startsWith("jar:file:"))
+        {
+            int pling = urlString.indexOf("!");
+            String jar = urlString.substring(9, pling);
+            file = new File(URLDecoder.decode(jar));
+        }
+        else if (urlString.startsWith("file:"))
+        {
+            int tail = urlString.indexOf(resourceName);
+            String dir = urlString.substring(5, tail);
+            file = new File(URLDecoder.decode(dir));
         }
 
         getLogger().debug("Location for [" + resourceName + "] is [" + file + "]",
