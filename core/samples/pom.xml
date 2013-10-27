@@ -300,7 +300,7 @@
 
               <property>
                 <name>cargo.tomcat7x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.42/bin/apache-tomcat-7.0.42.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.47/bin/apache-tomcat-7.0.47.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat7x.java.home</name>
@@ -309,7 +309,7 @@
 
               <property>
                 <name>cargo.tomcat8x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.0-RC3/bin/apache-tomcat-8.0.0-RC3.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.0-RC5/bin/apache-tomcat-8.0.0-RC5.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat8x.java.home</name>
