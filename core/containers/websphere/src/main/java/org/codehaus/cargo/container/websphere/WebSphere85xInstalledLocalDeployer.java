@@ -119,7 +119,7 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
                     }
                     else
                     {
-                        mapWebModToVH.append(", ");
+                        mapWebModToVH.append(" ");
                     }
 
                     WarArchive warArchive = earArchive.getWebModule(webUri);
