@@ -19,8 +19,7 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
@@ -43,8 +42,6 @@ public class Jetty8xInstalledLocalContainer extends Jetty7xInstalledLocalContain
     public Jetty8xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
-
-        this.defaultFinalOptions = "jmx,resources,websocket,ext,plus,annotations";
     }
 
     /**
@@ -66,32 +63,47 @@ public class Jetty8xInstalledLocalContainer extends Jetty7xInstalledLocalContain
     }
 
     /**
-     * @return Arguments to add to the Jetty <code>start.jar</code> command.
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.jetty.Jetty7xInstalledLocalContainer#getStartArguments()
      */
     @Override
     protected String[] getStartArguments()
     {
-        List<String> startArguments = new ArrayList<String>();
+        StringBuilder options = new StringBuilder("OPTIONS=Server");
 
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-logging.xml"));
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty.xml"));
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-annotations.xml"));
-        // Make sure Jetty-plus is part of startup so that CARGO-1122 is tested
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-plus.xml"));
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-deploy.xml"));
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-webapps.xml"));
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-contexts.xml"));
-        startArguments.add("--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-testrealm.xml"));
+        File jspLib = new File(getHome(), "lib/jsp");
+        if (jspLib.isDirectory())
+        {
+            options.append(",jsp");
+        }
+        else
+        {
+            getLogger().warn("JSP librairies not found in " + jspLib
+                + ", JSP support will be disabled", this.getClass().getName());
+        }
 
-        String[] startArgumentsArray = new String[startArguments.size()];
-        return startArguments.toArray(startArgumentsArray);
+        options.append(",jmx,resources,websocket,ext,plus,annotations");
+
+        return new String[]
+        {
+            options.toString(),
+            "--ini",
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-logging.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-annotations.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-plus.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-deploy.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-webapps.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-contexts.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-testrealm.xml")
+        };
     }
 }

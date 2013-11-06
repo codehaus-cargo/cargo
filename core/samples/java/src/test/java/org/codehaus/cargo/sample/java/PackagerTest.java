@@ -106,6 +106,7 @@ public class PackagerTest extends AbstractCargoTestCase
             new DefaultContainerFactory().createContainer(getTestData().containerId,
                 getTestData().containerType, createConfiguration(ConfigurationType.EXISTING,
                     targetLocation.getPath()));
+        assertContainer.setLogger(getLogger());
         assertContainer.setHome(targetLocation.getPath());
         URL warPingURL =
             new URL("http://localhost:" + getTestData().port + "/simple-war/index.jsp");

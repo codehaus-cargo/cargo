@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Special container support for the Jetty 7.x servlet container.
@@ -41,13 +42,6 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
      * Unique container id.
      */
     public static final String ID = "jetty7x";
-
-    /**
-     * List of default OPTIONs. Apart from the ones specified here, CARGO will add the
-     * <code>Server</code> option and if the JSP support is here the <code>jsp</code> option.
-     * Any options specified here will be appended.
-     */
-    protected String defaultFinalOptions = "jmx,resources,websocket,ext,plus";
 
     /**
      * Capability of the Jetty container.
@@ -154,27 +148,6 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
             // if RUNTIME_ARGS specified, use'm, otherwise use jetty7.1.5 default OPTIONS
             if (getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS) == null)
             {
-                // sample: OPTIONS=Server,jsp,jmx,resources,websocket,ext
-                StringBuilder options = new StringBuilder("OPTIONS=Server");
-
-                // Enable JSP compilation from Jetty 7x
-                File jspLib = new File(getHome(), "lib/jsp");
-                if (jspLib.isDirectory())
-                {
-                    options.append(",jsp");
-                }
-                else
-                {
-                    getLogger().warn("JSP librairies not found in " + jspLib
-                        + ", JSP support will be disabled", this.getClass().getName());
-                }
-
-                options.append("," + this.defaultFinalOptions);
-                java.addAppArguments(options.toString());
-
-                // ignore everything in the start.ini file
-                java.addAppArguments("--ini");
-
                 java.addAppArguments(getStartArguments());
 
                 // Extra classpath
@@ -184,13 +157,27 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
         else
         {
             java.addAppArguments("--stop");
+
+            java.addAppArguments(getStopArguments());
         }
 
         // integration tests need to let us verify how we're running
         this.getLogger().debug("Running Jetty As: " + java.getCommandLine(),
                 this.getClass().getName());
 
-        java.start();
+        if (isGettingStarted)
+        {
+            java.start();
+        }
+        else
+        {
+            int exitCode = java.execute();
+
+            if (exitCode != 0 && exitCode != 252)
+            {
+                throw new CargoException("Jetty command failed: exit code was " + exitCode);
+            }
+        }
     }
 
     /**
@@ -198,8 +185,25 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
      */
     protected String[] getStartArguments()
     {
+        StringBuilder options = new StringBuilder("OPTIONS=Server");
+
+        File jspLib = new File(getHome(), "lib/jsp");
+        if (jspLib.isDirectory())
+        {
+            options.append(",jsp");
+        }
+        else
+        {
+            getLogger().warn("JSP librairies not found in " + jspLib
+                + ", JSP support will be disabled", this.getClass().getName());
+        }
+
+        options.append(",jmx,resources,websocket,ext,plus");
+
         return new String[]
         {
+            options.toString(),
+            "--ini",
             "--pre=" + getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-logging.xml"),
             "--pre=" + getFileHandler().append(getConfiguration().getHome(),
@@ -213,6 +217,14 @@ public class Jetty7xInstalledLocalContainer extends AbstractInstalledLocalContai
             "--pre=" + getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-testrealm.xml")
         };
+    }
+
+    /**
+     * @return Arguments to add to the Jetty <code>start.jar</code> command.
+     */
+    protected String[] getStopArguments()
+    {
+        return new String[0];
     }
 
     /**

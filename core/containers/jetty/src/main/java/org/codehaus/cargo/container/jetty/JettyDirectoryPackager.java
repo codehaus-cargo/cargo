@@ -38,7 +38,7 @@ public class JettyDirectoryPackager extends AbstractDirectoryPackager
      * The portion of Jetty's distribution to exclude from packaging.
      */
     public static final List<String> EXCLUDED_FROM_DISTRIBUTION = Arrays.asList("etc/**",
-        "logs/**", "webapps/**", "work/**", "overlays", "javadoc", "contexts/**");
+        "logs/**", "webapps/**", "work/**", "overlays", "javadoc", "contexts/**", "start.d/**");
 
     /**
      * {@inheritDoc}

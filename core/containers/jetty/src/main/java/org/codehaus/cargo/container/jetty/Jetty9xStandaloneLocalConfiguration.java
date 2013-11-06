@@ -19,7 +19,12 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
@@ -37,6 +42,31 @@ public class Jetty9xStandaloneLocalConfiguration extends Jetty8xStandaloneLocalC
     public Jetty9xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doConfigure(LocalContainer container) throws Exception
+    {
+        super.doConfigure(container);
+
+        InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
+
+        getFileHandler().copyDirectory(
+            installedContainer.getHome() + "/start.d", getHome() + "/start.d");
+        Map<String, String> replacements = new HashMap<String, String>(1);
+        replacements.put("8080", getPropertyValue(ServletPropertySet.PORT));
+        getFileHandler().replaceInFile(
+            getHome() + "/start.d/http.ini", replacements, "UTF-8", true);
+
+        String libExt = getHome() + "/lib/ext";
+        for (String extraClasspath : installedContainer.getExtraClasspath())
+        {
+            String destinationFile = libExt + "/" + getFileHandler().getName(extraClasspath);
+            getFileHandler().copyFile(extraClasspath, destinationFile);
+        }
     }
 
     /**

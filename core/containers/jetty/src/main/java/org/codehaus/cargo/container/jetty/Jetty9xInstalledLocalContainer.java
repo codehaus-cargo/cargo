@@ -19,10 +19,8 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
  * Special container support for the Jetty 9.x servlet container.
@@ -66,30 +64,38 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
     }
 
     /**
-     * @return Arguments to add to the Jetty <code>start.jar</code> command.
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.jetty.Jetty7xInstalledLocalContainer#getStartArguments()
      */
     @Override
     protected String[] getStartArguments()
     {
-        List<String> startArguments = new ArrayList<String>();
+        return new String[]
+        {
+            "--ini",
+            "--module=logging",
+            "--module=server",
+            "--module=deploy",
+            "--module=websocket",
+            "--module=jsp",
+            "--module=ext",
+            "--module=resources",
+            "--module=http",
+            "--module=plus"
+        };
+    }
 
-        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-logging.xml"));
-        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty.xml"));
-        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-annotations.xml"));
-        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-http.xml"));
-        // Make sure Jetty-plus is part of startup so that CARGO-1122 is tested
-        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-plus.xml"));
-        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-deploy.xml"));
-        startArguments.add(getFileHandler().append(getConfiguration().getHome(),
-                "etc/test-realm.xml"));
-
-        String[] startArgumentsArray = new String[startArguments.size()];
-        return startArguments.toArray(startArgumentsArray);
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.jetty.Jetty7xInstalledLocalContainer#getStartArguments()
+     */
+    @Override
+    protected String[] getStopArguments()
+    {
+        return new String[]
+        {
+            "STOP.PORT=" + getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT),
+            "STOP.KEY=secret"
+        };
     }
 }
