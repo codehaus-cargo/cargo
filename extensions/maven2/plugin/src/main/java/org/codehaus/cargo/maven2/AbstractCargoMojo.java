@@ -768,7 +768,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             ArtifactInstaller artifactInstaller = new ArtifactInstaller();
             artifactInstaller.setGroupId("org.eclipse.jetty");
             artifactInstaller.setArtifactId("jetty-distribution");
-            artifactInstaller.setVersion("7.6.12.v20130726");
+            artifactInstaller.setVersion("7.6.14.v20131031");
             getContainerElement().setArtifactInstaller(artifactInstaller);
 
             getLog().info("No container defined, using a default ["
@@ -879,6 +879,9 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                     ZipUrlInstaller installerElement = new ZipUrlInstaller();
                     getContainerElement().setZipUrlInstaller(installerElement);
                     installerElement.setUrl(new URL(url));
+                    getLog().info("You did not specify a container home nor any installer. "
+                        + "CARGO will automatically download your container's binaries from ["
+                        + url + "].");
                 }
             }
         }
