@@ -48,7 +48,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <build>
-    <finalName>cargo-jetty-deployer</finalName>
-  </build>
 </project>

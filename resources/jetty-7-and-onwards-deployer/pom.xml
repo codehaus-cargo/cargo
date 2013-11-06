@@ -38,7 +38,7 @@
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-deploy</artifactId>
-      <version>7.6.12.v20130726</version>
+      <version>7.6.14.v20131031</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -48,7 +48,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <build>
-    <finalName>cargo-jetty-deployer</finalName>
-  </build>
 </project>

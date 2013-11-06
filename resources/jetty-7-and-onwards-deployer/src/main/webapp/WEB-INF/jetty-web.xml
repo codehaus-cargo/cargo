@@ -29,9 +29,4 @@
      <Arg><Ref id="deployerservlet"/></Arg>
   </New>
 
-  <Call name="addServlet">
-     <Arg><Ref id="servletholder"/></Arg>
-     <Arg>/</Arg>
-  </Call>
-
 </Configure>
