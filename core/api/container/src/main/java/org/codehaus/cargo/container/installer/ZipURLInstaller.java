@@ -225,6 +225,9 @@ public class ZipURLInstaller extends LoggedObject implements Installer
 
             try
             {
+                getLogger().debug("Container [" + getSourceFileName()
+                    + "] is downloaded, now unpacking.", this.getClass().getName());
+
                 unpack();
             }
             catch (BuildException e)
@@ -235,6 +238,9 @@ public class ZipURLInstaller extends LoggedObject implements Installer
                 download();
                 unpack();
             }
+
+            getLogger().debug("Container [" + getSourceFileName()
+                + "] is unpacked, now registering.", this.getClass().getName());
 
             registerInstallation();
         }
