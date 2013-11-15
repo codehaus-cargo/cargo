@@ -81,7 +81,18 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
      */
     public String getName()
     {
-        return "Jetty " + getVersion();
+        if (getHome() != null
+            && getFileHandler().exists(getFileHandler().append(getHome(), "start.jar")))
+        {
+            return "Jetty " + getVersion();
+        }
+        else
+        {
+            String className = this.getClass().getName();
+            int jettyStart = className.lastIndexOf(".Jetty") + 6;
+            String version = className.substring(jettyStart, className.indexOf('x', jettyStart));
+            return "Jetty " + version + ".x";
+        }
     }
 
     /**
