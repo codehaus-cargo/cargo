@@ -20,6 +20,10 @@
 package org.codehaus.cargo.container.jetty;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -29,6 +33,7 @@ import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Special container support for the Jetty 6.x servlet container.
@@ -46,6 +51,11 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
      * Capability of the Jetty container.
      */
     private ContainerCapability capability = new ServletContainerCapability();
+
+    /**
+     * Parsed version of the container.
+     */
+    private String version;
 
     /**
      * Jetty6xInstalledLocalContainer Constructor.
@@ -71,7 +81,42 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
      */
     public String getName()
     {
-        return "Jetty 6.x";
+        return "Jetty " + getVersion();
+    }
+
+    /**
+     * Returns the version of the Jetty installation.
+     * 
+     * @return The Jetty version
+     */
+    protected synchronized String getVersion()
+    {
+        if (this.version == null)
+        {
+            try
+            {
+                JarFile startJar = new JarFile(new File(getHome(), "start.jar"));
+                ZipEntry manifestFile = startJar.getEntry("META-INF/MANIFEST.MF");
+                Properties manifest = new Properties();
+                manifest.load(startJar.getInputStream(manifestFile));
+                this.version = manifest.getProperty("Implementation-Version");
+                if (this.version == null)
+                {
+                    this.version = manifest.getProperty("implementation-version");
+                }
+            }
+            catch (IOException e)
+            {
+                throw new CargoException("Cannot open the start.jar file", e);
+            }
+            if (this.version == null)
+            {
+                throw new CargoException(
+                    "The MANIFEST file of start.jar doesn't contain any Implementation Version");
+            }
+        }
+
+        return this.version;
     }
 
     /**
@@ -99,7 +144,7 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
      * @param isGettingStarted if true then start the container, stop it otherwise
      * @throws Exception in case of startup or shutdown error
      */
-    private void invoke(JvmLauncher java, boolean isGettingStarted) throws Exception
+    protected void invoke(JvmLauncher java, boolean isGettingStarted) throws Exception
     {
         addToolsJarToClasspath(java);
 
@@ -146,22 +191,58 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
             // if RUNTIME_ARGS specified, use'm, otherwise use jetty7.1.5 default OPTIONS
             if (getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS) == null)
             {
-                java.addAppArguments(
-                    getFileHandler().append(getConfiguration().getHome(), "etc/jetty-logging.xml"));
-                java.addAppArguments(
-                    getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml"));
+                java.addAppArguments(getStartArguments());
+
+                // Extra classpath
+                java.addAppArguments("path=" + java.getClasspath());
             }
         }
         else
         {
             java.addAppArguments("--stop");
+
+            java.addAppArguments(getStopArguments());
         }
 
-        // For Jetty to pick up on the extra classpath it needs to export
-        // the classpath as an environment variable 'CLASSPATH'
-        java.setSystemProperty("CLASSPATH", java.getClasspath());
+        // integration tests need to let us verify how we're running
+        this.getLogger().debug("Running Jetty As: " + java.getCommandLine(),
+                this.getClass().getName());
 
-        java.start();
+        if (isGettingStarted)
+        {
+            java.start();
+        }
+        else
+        {
+            int exitCode = java.execute();
+
+            if (exitCode != 0 && exitCode != 252)
+            {
+                throw new CargoException("Jetty command failed: exit code was " + exitCode);
+            }
+        }
+    }
+
+    /**
+     * @return Arguments to add to the Jetty <code>start.jar</code> command.
+     */
+    protected String[] getStartArguments()
+    {
+        return new String[]
+        {
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-logging.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty.xml"),
+        };
+    }
+
+    /**
+     * @return Arguments to add to the Jetty <code>start.jar</code> command.
+     */
+    protected String[] getStopArguments()
+    {
+        return new String[0];
     }
 
     /**

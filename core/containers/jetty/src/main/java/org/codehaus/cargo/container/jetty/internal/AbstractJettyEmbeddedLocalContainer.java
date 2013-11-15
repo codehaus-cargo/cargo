@@ -27,6 +27,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.spi.AbstractEmbeddedLocalContainer;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Common code for all Jetty embedded container implementations.
@@ -46,6 +47,11 @@ public abstract class AbstractJettyEmbeddedLocalContainer
      * Capability of the Jetty Embedded container.
      */
     private ContainerCapability capability = new ServletContainerCapability();
+
+    /**
+     * Parsed version of the container.
+     */
+    private String version;
 
     /**
      * {@inheritDoc}
@@ -155,6 +161,35 @@ public abstract class AbstractJettyEmbeddedLocalContainer
         JettyExecutorThread jettyRunner = new JettyExecutorThread(getServer(), false);
         jettyRunner.setLogger(getLogger());
         jettyRunner.start();
+    }
+
+    /**
+     * Returns the version of the Jetty installation.
+     * 
+     * @return The Jetty version
+     */
+    protected synchronized String getVersion()
+    {
+        if (this.version == null)
+        {
+            try
+            {
+                createServerObject();
+            }
+            catch (Exception e)
+            {
+                throw new CargoException("Cannot create Jetty embedded server", e);
+            }
+            this.version = this.server.getClass().getPackage().getImplementationVersion();
+            if (this.version == null)
+            {
+                throw new CargoException("The class " + this.server.getClass()
+                    + " doesn't have any Implementation Version");
+            }
+            this.version += " Embedded";
+        }
+
+        return this.version;
     }
 
 }

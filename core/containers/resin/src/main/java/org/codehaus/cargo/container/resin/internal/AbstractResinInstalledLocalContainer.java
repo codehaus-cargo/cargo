@@ -155,7 +155,7 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
      * @param defaultVersion default version to use if we cannot find out the exact Resin version
      * @return the Resin version found
      */
-    protected String getVersion(String defaultVersion)
+    protected synchronized String getVersion(String defaultVersion)
     {
         String version = this.version;
 

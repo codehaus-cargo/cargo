@@ -61,17 +61,6 @@ public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
     /**
      * {@inheritDoc}
      * 
-     * @see org.codehaus.cargo.container.Container#getName()
-     */
-    @Override
-    public String getName()
-    {
-        return "Jetty 9.x Embedded";
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
      * @see Jetty7xEmbeddedLocalContainer#configureJettyConnectors() 
      */
     @Override

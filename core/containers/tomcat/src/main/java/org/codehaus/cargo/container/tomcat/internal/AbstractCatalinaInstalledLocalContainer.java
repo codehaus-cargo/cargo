@@ -68,7 +68,7 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
      * @return The Tomcat version, or <code>null</code> if the version number could not be retrieved
      * @param defaultVersion default version to use if we cannot find out the exact Tomcat version
      */
-    protected final String getVersion(String defaultVersion)
+    protected synchronized String getVersion(String defaultVersion)
     {
         String version = this.version;
 

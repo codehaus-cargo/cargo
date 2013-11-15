@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import java.io.File;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
@@ -42,6 +41,7 @@ public class Jetty8xInstalledLocalContainer extends Jetty7xInstalledLocalContain
     public Jetty8xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
+        this.defaultFinalOptions = "jmx,resources,websocket,ext,plus,annotations";
     }
 
     /**
@@ -55,38 +55,14 @@ public class Jetty8xInstalledLocalContainer extends Jetty7xInstalledLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
-     */
-    public String getName()
-    {
-        return "Jetty 8.x";
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.Jetty7xInstalledLocalContainer#getStartArguments()
+     * @see org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer#getStartArguments()
      */
     @Override
     protected String[] getStartArguments()
     {
-        StringBuilder options = new StringBuilder("OPTIONS=Server");
-
-        File jspLib = new File(getHome(), "lib/jsp");
-        if (jspLib.isDirectory())
-        {
-            options.append(",jsp");
-        }
-        else
-        {
-            getLogger().warn("JSP librairies not found in " + jspLib
-                + ", JSP support will be disabled", this.getClass().getName());
-        }
-
-        options.append(",jmx,resources,websocket,ext,plus,annotations");
-
         return new String[]
         {
-            options.toString(),
+            getOptions(),
             "--ini",
             "--pre=" + getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-logging.xml"),

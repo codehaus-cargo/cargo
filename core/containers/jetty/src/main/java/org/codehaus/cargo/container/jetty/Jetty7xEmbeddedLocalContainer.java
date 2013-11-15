@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,10 +26,7 @@ import java.lang.reflect.Method;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalContainer;
-import org.codehaus.cargo.container.jetty.internal.JettyExecutorThread;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 
@@ -39,7 +35,7 @@ import org.codehaus.cargo.container.property.User;
  * 
  * @version $Id$
  */
-public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalContainer
+public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
 {
     /**
      * Unique container id.
@@ -47,41 +43,9 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     public static final String ID = "jetty7x";
 
     /**
-     * A default security realm. If ServletPropertySet.USERS has been specified, then we create a
-     * default realm containing those users and then force that realm to be associated with every
-     * webapp (see TODO comment on setSecurityRealm())
-     */
-    private Object defaultRealm;
-
-    /**
-     * The ContextHandlerCollection into which deployed webapps are added.
-     */
-    private Object contextHandlers;
-
-    /**
-     * The org.eclipse.jetty.server.Handler class.
-     */
-    private Class handlerClass;
-
-    /**
-     * The org.eclipse.jetty.server.handler.HandlerCollection instance.
-     */
-    private Object handlers;
-
-    /**
-     * The method to call to add a handler for a webapp.
-     */
-    private Method addHandlerMethod;
-
-    /**
-     * The method to call to undeploy a handler for a webapp.
-     */
-    private Method removeHandlerMethod;
-
-    /**
      * {@inheritDoc}
      * 
-     * @see AbstractJettyEmbeddedLocalContainer#AbstractJettyEmbeddedLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see Jetty6xEmbeddedLocalContainer#Jetty6xEmbeddedLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Jetty7xEmbeddedLocalContainer(LocalConfiguration configuration)
     {
@@ -96,16 +60,6 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     public String getId()
     {
         return ID;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getName()
-     */
-    public String getName()
-    {
-        return "Jetty 7.x Embedded";
     }
 
     /**
@@ -133,29 +87,8 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractJettyEmbeddedLocalContainer#doStart()
      */
     @Override
-    protected void doStart() throws Exception
-    {
-        createServerObject();
-        configureJettyConnectors();
-        setSecurityRealm();
-        addJettyHandlers();
-        addDeployables();
-        startJetty();
-    }
-
-    /**
-     * Configure Jetty connectors.
-     * 
-     * @throws ClassNotFoundException thrown if the connectors could not be configured
-     * @throws InstantiationException thrown if the connectors could not be configured
-     * @throws IllegalAccessException thrown if the connectors could not be configured
-     * @throws InvocationTargetException thrown if the connectors could not be configured
-     * @throws NoSuchMethodException thrown if the connectors could not be configured
-     */
     protected void configureJettyConnectors() throws ClassNotFoundException,
         InstantiationException, IllegalAccessException, InvocationTargetException,
         NoSuchMethodException
@@ -180,14 +113,9 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     }
 
     /**
-     * Add Jetty handlers.
-     * 
-     * @throws ClassNotFoundException thrown if the handlers could not be added
-     * @throws InstantiationException thrown if the handlers could not be added
-     * @throws IllegalAccessException thrown if the handlers could not be added
-     * @throws InvocationTargetException thrown if the handlers could not be added
-     * @throws NoSuchMethodException thrown if the handlers could not be added
+     * {@inheritDoc}
      */
+    @Override
     protected void addJettyHandlers() throws ClassNotFoundException, InstantiationException,
         IllegalAccessException, InvocationTargetException, NoSuchMethodException
     {
@@ -225,53 +153,9 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     }
 
     /**
-     * Add the cargo deployables and the Cargo Ping Check.
-     * 
-     * @throws Exception thrown if the deployables could not be added
+     * {@inheritDoc}
      */
-    protected void addDeployables() throws Exception
-    {
-        // Deploy statically deployed WARs
-        for (Deployable deployable : getConfiguration().getDeployables())
-        {
-            // Only deploy WARs (packed or unpacked).
-            if (deployable.getType() == DeployableType.WAR)
-            {
-                addHandler(createHandler(deployable));
-            }
-            else
-            {
-                throw new ContainerException("Only WAR archives are supported for deployment in "
-                    + "Jetty. Got [" + deployable.getFile() + "]");
-            }
-        }
-
-        // Deploy CPC. Note: The Jetty Server class offers a isStarted()
-        // method but there is no isStopped() so until we find a better
-        // way, we need a CPC.
-
-        addHandler(createHandler("/cargocpc", new File(getConfiguration().getHome(),
-            "cargocpc.war").getPath()));
-    }
-
-    /**
-     * Starts the Jetty server.
-     */
-    protected void startJetty()
-    {
-        JettyExecutorThread jettyRunner = new JettyExecutorThread(getServer(), true);
-        jettyRunner.setLogger(getLogger());
-        jettyRunner.start();
-    }
-
-    /**
-     * Create a WebAppContext for the Deployable. NB also force the defaultRealm to be set on it if
-     * one is present.
-     * 
-     * @param deployable the cargo webapp to deploy
-     * @return a jetty webapp
-     * @throws Exception on invokation exception
-     */
+    @Override
     public Object createHandler(Deployable deployable) throws Exception
     {
         Object handler =
@@ -290,14 +174,9 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     }
 
     /**
-     * Create a WebAppContext for the webapp given as a string. NB Also force the defaultRealm to be
-     * set if one is present.
-     * 
-     * @param contextPath the context path for the webapp
-     * @param war the webapp
-     * @return a jetty webapp
-     * @throws Exception on invokation exception
+     * {@inheritDoc}
      */
+    @Override
     public Object createHandler(String contextPath, String war) throws Exception
     {
         Object handler =
@@ -313,55 +192,9 @@ public class Jetty7xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     }
 
     /**
-     * Deploy the handler representing the webapp to jetty. If jetty is already started, then start
-     * the handler.
-     * 
-     * @param handler the handler representing the webapp
-     * @throws Exception on invocation exception
+     * {@inheritDoc}
      */
-    public void addHandler(Object handler) throws Exception
-    {
-        if (addHandlerMethod == null)
-        {
-            throw new ContainerException("No Jetty instance to deploy to");
-        }
-        addHandlerMethod.invoke(contextHandlers, new Object[] {handler});
-        Method m = getServer().getClass().getMethod("isStarted", new Class[] {});
-        if (((Boolean) m.invoke(getServer(), null)).booleanValue())
-        {
-            handlerClass.getMethod("start", new Class[] {}).invoke(handler, null);
-        }
-    }
-
-    /**
-     * Undeploy the handler representing the webapp.
-     * 
-     * @param handler the handler representing the webapp
-     * @throws Exception on invocation exception
-     */
-    public void removeHandler(Object handler) throws Exception
-    {
-        if (handler == null)
-        {
-            return;
-        }
-
-        if (removeHandlerMethod == null)
-        {
-            throw new ContainerException("No Jetty instance to deploy to");
-        }
-        removeHandlerMethod.invoke(contextHandlers, new Object[] {handler});
-    }
-
-    /**
-     * Defines a security realm and adds defined users to it. If a user has specified the standard
-     * ServletPropertySet.USERS property, then we try and turn these into an in-memory default
-     * realm, and then set that realm on all of the webapps. TODO: this is not ideal. We need a way
-     * to specify N named realms to the server so that individual webapps can find their appropriate
-     * realms by name.
-     * 
-     * @throws Exception in case of error
-     */
+    @Override
     protected void setSecurityRealm() throws Exception
     {
         if (getConfiguration().getPropertyValue(ServletPropertySet.USERS) != null)

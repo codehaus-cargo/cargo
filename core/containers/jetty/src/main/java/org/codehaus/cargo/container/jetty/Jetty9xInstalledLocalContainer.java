@@ -55,34 +55,42 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
-     */
-    @Override
-    public String getName()
-    {
-        return "Jetty 9.x";
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.Jetty7xInstalledLocalContainer#getStartArguments()
+     * @see org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer#getStartArguments()
      */
     @Override
     protected String[] getStartArguments()
     {
-        return new String[]
+        if (getVersion().startsWith("9.0."))
         {
-            "--ini",
-            "--module=logging",
-            "--module=server",
-            "--module=deploy",
-            "--module=websocket",
-            "--module=jsp",
-            "--module=ext",
-            "--module=resources",
-            "--module=http",
-            "--module=plus"
-        };
+            return new String[]
+            {
+                getOptions(),
+                "--ini",
+                getFileHandler().append(getConfiguration().getHome(), "etc/jetty-logging.xml"),
+                getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml"),
+                getFileHandler().append(getConfiguration().getHome(), "etc/jetty-annotations.xml"),
+                getFileHandler().append(getConfiguration().getHome(), "etc/jetty-http.xml"),
+                getFileHandler().append(getConfiguration().getHome(), "etc/jetty-plus.xml"),
+                getFileHandler().append(getConfiguration().getHome(), "etc/jetty-deploy.xml"),
+                getFileHandler().append(getConfiguration().getHome(), "etc/test-realm.xml")
+            };
+        }
+        else
+        {
+            return new String[]
+            {
+                "--ini",
+                "--module=logging",
+                "--module=server",
+                "--module=deploy",
+                "--module=websocket",
+                "--module=jsp",
+                "--module=ext",
+                "--module=resources",
+                "--module=http",
+                "--module=plus"
+            };
+        }
     }
 
     /**
@@ -92,10 +100,17 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
     @Override
     protected String[] getStopArguments()
     {
-        return new String[]
+        if (getVersion().startsWith("9.0."))
         {
-            "STOP.PORT=" + getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT),
-            "STOP.KEY=secret"
-        };
+            return super.getStopArguments();
+        }
+        else
+        {
+            return new String[]
+            {
+                "STOP.PORT=" + getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT),
+                "STOP.KEY=secret"
+            };
+        }
     }
 }

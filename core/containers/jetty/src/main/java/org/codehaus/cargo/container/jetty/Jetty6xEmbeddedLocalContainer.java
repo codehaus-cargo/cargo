@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.jetty;
 
 import java.io.File;
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.codehaus.cargo.container.ContainerException;
@@ -50,32 +51,32 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
      * default realm containing those users and then force that realm to be associated with every
      * webapp (see TODO comment on setSecurityRealm())
      */
-    private Object defaultRealm;
+    protected Object defaultRealm;
 
     /**
      * The ContextHandlerCollection into which deployed webapps are added.
      */
-    private Object contextHandlers;
+    protected Object contextHandlers;
 
     /**
      * The org.mortbay.jetty.handler.Handler class.
      */
-    private Class handlerClass;
+    protected Class handlerClass;
 
     /**
      * The org.mortbay.jetty.handler.HandlerCollection instance.
      */
-    private Object handlers;
+    protected Object handlers;
 
     /**
      * The method to call to add a handler for a webapp.
      */
-    private Method addHandlerMethod;
+    protected Method addHandlerMethod;
 
     /**
      * The method to call to undeploy a handler for a webapp.
      */
-    private Method removeHandlerMethod;
+    protected Method removeHandlerMethod;
 
     /**
      * {@inheritDoc}
@@ -104,7 +105,7 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
      */
     public String getName()
     {
-        return "Jetty 6.x Embedded";
+        return "Jetty " + getVersion();
     }
 
     /**
@@ -135,10 +136,27 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     @Override
     protected void doStart() throws Exception
     {
-        // Server server = new Server();
-        // server.setStopAtShutdown(true);
         createServerObject();
+        configureJettyConnectors();
+        setSecurityRealm();
+        addJettyHandlers();
+        addDeployables();
+        startJetty();
+    }
 
+    /**
+     * Configure Jetty connectors.
+     * 
+     * @throws ClassNotFoundException thrown if the connectors could not be configured
+     * @throws InstantiationException thrown if the connectors could not be configured
+     * @throws IllegalAccessException thrown if the connectors could not be configured
+     * @throws InvocationTargetException thrown if the connectors could not be configured
+     * @throws NoSuchMethodException thrown if the connectors could not be configured
+     */
+    protected void configureJettyConnectors() throws ClassNotFoundException,
+        InstantiationException, IllegalAccessException, InvocationTargetException,
+        NoSuchMethodException
+    {
         // Connector selectConnector = new SelectChannelConnector();
         // selectConnector.setPort(new
         // Integer(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
@@ -157,10 +175,20 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
         Array.set(connectorArray, 0, connector);
         getServer().getClass().getMethod("addConnector", new Class[] {connectorClass}).invoke(
             getServer(), new Object[] {connector});
+    }
 
-        // Set security realm
-        setSecurityRealm();
-
+    /**
+     * Add Jetty handlers.
+     * 
+     * @throws ClassNotFoundException thrown if the handlers could not be added
+     * @throws InstantiationException thrown if the handlers could not be added
+     * @throws IllegalAccessException thrown if the handlers could not be added
+     * @throws InvocationTargetException thrown if the handlers could not be added
+     * @throws NoSuchMethodException thrown if the handlers could not be added
+     */
+    protected void addJettyHandlers() throws ClassNotFoundException, InstantiationException,
+        IllegalAccessException, InvocationTargetException, NoSuchMethodException
+    {
         // Set up the context handler structure
         // HandlerCollection handlers = new HandlerCollection();
         // ContextHandlerCollection contextHandlers = new ContextHandlerCollection();
@@ -191,7 +219,15 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
         // Method to remove a webappcontext from jetty
         removeHandlerMethod =
             contextHandlers.getClass().getMethod("removeHandler", new Class[] {handlerClass});
+    }
 
+    /**
+     * Add the cargo deployables and the Cargo Ping Check.
+     * 
+     * @throws Exception thrown if the deployables could not be added
+     */
+    protected void addDeployables() throws Exception
+    {
         // Deploy statically deployed WARs
         for (Deployable deployable : getConfiguration().getDeployables())
         {
@@ -213,10 +249,6 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
 
         addHandler(createHandler("/cargocpc", new File(getConfiguration().getHome(),
             "cargocpc.war").getPath()));
-
-        JettyExecutorThread jettyRunner = new JettyExecutorThread(getServer(), true);
-        jettyRunner.setLogger(getLogger());
-        jettyRunner.start();
     }
 
     /**
@@ -317,7 +349,7 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
      * 
      * @throws Exception in case of error
      */
-    private void setSecurityRealm() throws Exception
+    protected void setSecurityRealm() throws Exception
     {
         if (getConfiguration().getPropertyValue(ServletPropertySet.USERS) != null)
         {
@@ -375,5 +407,15 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
             this.server.getClass().getMethod("setStopAtShutdown", new Class[] {boolean.class})
                 .invoke(this.server, new Object[] {Boolean.TRUE});
         }
+    }
+
+    /**
+     * Starts the Jetty server.
+     */
+    protected void startJetty()
+    {
+        JettyExecutorThread jettyRunner = new JettyExecutorThread(getServer(), true);
+        jettyRunner.setLogger(getLogger());
+        jettyRunner.start();
     }
 }

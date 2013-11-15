@@ -166,7 +166,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
      * determined
      * @param defaultVersion the default version used if the exact JBoss version can't be determined
      */
-    protected final String getVersion(String defaultVersion)
+    protected synchronized String getVersion(String defaultVersion)
     {
         String version = this.version;
 

@@ -102,14 +102,4 @@ public class Jetty8xEmbeddedLocalContainer extends Jetty7xEmbeddedLocalContainer
     {
         return ID;
     }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getName()
-     */
-    public String getName()
-    {
-        return "Jetty 8.x Embedded";
-    }
 }

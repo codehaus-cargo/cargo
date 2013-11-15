@@ -142,7 +142,7 @@ public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstal
      * @param defaultVersion default version to use if we cannot find out the exact JRun version
      * @return the JRun version found
      */
-    protected String getVersion(String defaultVersion)
+    protected synchronized String getVersion(String defaultVersion)
     {
         String version = this.version;
 
