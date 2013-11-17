@@ -157,8 +157,6 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
      */
     protected void invoke(JvmLauncher java, boolean isGettingStarted) throws Exception
     {
-        addToolsJarToClasspath(java);
-
         // CARGO-1093 allow container to start/stop with configuration only on the server
         //    It will skip the settings below if there are RUNTIME_ARGS with --ini=
         //         this will allow full usage of --ini=file.ini
@@ -199,14 +197,15 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
 
         if (isGettingStarted)
         {
-            // if RUNTIME_ARGS specified, use'm, otherwise use jetty7.1.5 default OPTIONS
+            // if RUNTIME_ARGS specified, use'm, otherwise use Jetty default OPTIONS
             if (getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS) == null)
             {
-                java.addAppArguments(getStartArguments());
-
-                // Extra classpath
-                java.addAppArguments("path=" + java.getClasspath());
+                java.addAppArguments(getStartArguments(java.getClasspath()));
             }
+
+            // For Jetty to pick up on the extra classpath it needs to export
+            // the classpath as an environment variable 'CLASSPATH'
+            java.setSystemProperty("CLASSPATH", java.getClasspath());
         }
         else
         {
@@ -216,6 +215,7 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
         }
 
         // integration tests need to let us verify how we're running
+        addToolsJarToClasspath(java);
         this.getLogger().debug("Running Jetty As: " + java.getCommandLine(),
                 this.getClass().getName());
 
@@ -235,16 +235,16 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
     }
 
     /**
+     * Returns the arguments to pass to the Jetty <code>start</code> command.
+     * @param classpath Jetty classpath (exludes <code>tools.jar</code>).
      * @return Arguments to add to the Jetty <code>start.jar</code> command.
      */
-    protected String[] getStartArguments()
+    protected String[] getStartArguments(String classpath)
     {
         return new String[]
         {
-            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-logging.xml"),
-            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty.xml"),
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-logging.xml"),
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml")
         };
     }
 

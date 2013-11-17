@@ -91,10 +91,10 @@ public class Jetty7xInstalledLocalContainer extends Jetty6xInstalledLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer#getStartArguments()
+     * @see org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer#getStartArguments(java.lang.String)
      */
     @Override
-    protected String[] getStartArguments()
+    protected String[] getStartArguments(String classpath)
     {
         return new String[]
         {
@@ -111,7 +111,8 @@ public class Jetty7xInstalledLocalContainer extends Jetty6xInstalledLocalContain
             "--pre=" + getFileHandler().append(getConfiguration().getHome(),
                 "etc/jetty-contexts.xml"),
             "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-testrealm.xml")
+                "etc/jetty-testrealm.xml"),
+            "path=" + classpath
         };
     }
 

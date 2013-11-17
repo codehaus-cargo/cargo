@@ -55,10 +55,10 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer#getStartArguments()
+     * @see org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer#getStartArguments(java.lang.String)
      */
     @Override
-    protected String[] getStartArguments()
+    protected String[] getStartArguments(String classpath)
     {
         if (getVersion().startsWith("9.0."))
         {
@@ -72,7 +72,8 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
                 getFileHandler().append(getConfiguration().getHome(), "etc/jetty-http.xml"),
                 getFileHandler().append(getConfiguration().getHome(), "etc/jetty-plus.xml"),
                 getFileHandler().append(getConfiguration().getHome(), "etc/jetty-deploy.xml"),
-                getFileHandler().append(getConfiguration().getHome(), "etc/test-realm.xml")
+                getFileHandler().append(getConfiguration().getHome(), "etc/test-realm.xml"),
+                "path=" + classpath
             };
         }
         else
@@ -88,7 +89,8 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
                 "--module=ext",
                 "--module=resources",
                 "--module=http",
-                "--module=plus"
+                "--module=plus",
+                "path=" + classpath
             };
         }
     }
