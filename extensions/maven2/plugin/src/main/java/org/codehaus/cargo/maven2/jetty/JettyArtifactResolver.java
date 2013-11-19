@@ -231,29 +231,29 @@ public class JettyArtifactResolver
 
         List<Dependency> jetty9xDependencies = new ArrayList<Dependency>();
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-annotations",
-            "9.1.0.RC2"));
+            "9.1.0.v20131115"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-continuation",
-            "9.1.0.RC2"));
+            "9.1.0.v20131115"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http",
-            "9.1.0.RC2"));
+            "9.1.0.v20131115"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io",
-            "9.1.0.RC2"));
+            "9.1.0.v20131115"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jndi",
-            "9.1.0.RC2"));
+            "9.1.0.v20131115"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-plus",
-            "9.1.0.RC2"));
+            "9.1.0.v20131115"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-util",
-            "9.1.0.RC2"));
+            "9.1.0.v20131115"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-security",
-            "9.1.0.RC2"));
+            "9.1.0.v20131115"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-server",
-            "9.1.0.RC2"));
+            "9.1.0.v20131115"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-servlet",
-            "9.1.0.RC2"));
+            "9.1.0.v20131115"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-webapp",
-            "9.1.0.RC2"));
+            "9.1.0.v20131115"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml",
-            "9.1.0.RC2"));
+            "9.1.0.v20131115"));
         jetty9xDependencies.add(new Dependency("javax.servlet", "javax.servlet-api", "3.1.0"));
         // annotations
         jetty9xDependencies.add(new Dependency("org.ow2.asm", "asm", "4.1"));
