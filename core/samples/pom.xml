@@ -818,6 +818,28 @@
                 <value>${cargo.java.home.1_6}</value>
               </property>
 
+              <!--
+                JBoss 7.3 is actually called EAP 6.2.0
+
+                Please download it manually from http://www.jboss.org/jbossas/downloads and set the
+                cargo.jboss73x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.jboss73x.home</name>
+                    <value>C:/Program Files/JBoss/jboss-eap-6.2.0</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.jboss73x.home</name>
+                <value>${cargo.jboss73x.home}</value>
+              </property>
+              <property>
+                <name>cargo.jboss73x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
               <property>
                 <name>cargo.wildfly8x.url</name>
                 <value>http://download.jboss.org/wildfly/8.0.0.Beta1/wildfly-8.0.0.Beta1.tar.gz</value>
@@ -1430,6 +1452,12 @@
        <id>jboss72x</id>
        <properties>
          <cargo.containers>jboss72x</cargo.containers>
+       </properties>
+    </profile>
+    <profile>
+       <id>jboss73x</id>
+       <properties>
+         <cargo.containers>jboss73x</cargo.containers>
        </properties>
     </profile>
 

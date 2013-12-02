@@ -361,7 +361,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        if (containerId.equals("jboss61x") || containerId.equals("jboss72x"))
+        if (containerId.startsWith("jboss6") || containerId.startsWith("jboss7"))
         {
             output.append("{note}With the opening of the JBoss EAP to the public, JBoss decided ");
             output.append("to have a funny naming convention:");
@@ -373,6 +373,11 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("* What Cargo calls [JBoss 7.2.x] is what JBoss refers to as JBoss ");
             output.append("Enterprise Application Platform (EAP) version 6.1; i.e. the build ");
             output.append("from JBoss Application Server (AS) version 7.2 released in May 2013");
+            output.append(LINE_SEPARATOR);
+            output.append("* What Cargo calls [JBoss 7.3.x] is what JBoss refers to as JBoss ");
+            output.append("Enterprise Application Platform (EAP) version 6.2; i.e. the build ");
+            output.append("from JBoss Application Server (AS) version 7.3 released in October ");
+            output.append("2013");
             output.append("{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
@@ -456,6 +461,12 @@ public class ConfluenceContainerDocumentationGenerator
             {
                 output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) "
                     + "| The JBoss 7.2.x deployer will modify the {{MANIFEST.MF}} of your "
+                        + "deployables in order to add the extra and shared classpath |");
+            }
+            else if (containerId.equals("jboss73x"))
+            {
+                output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) "
+                    + "| The JBoss 7.3.x deployer will modify the {{MANIFEST.MF}} of your "
                         + "deployables in order to add the extra and shared classpath |");
             }
             else if (containerId.equals("wildfly8x"))
