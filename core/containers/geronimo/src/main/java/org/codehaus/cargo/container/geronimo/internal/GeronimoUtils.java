@@ -159,8 +159,17 @@ public class GeronimoUtils
                     }
                     else
                     {
-                        version = artifact.substring(artifact.lastIndexOf('-') + 1);
-                        artifact = artifact.substring(0, artifact.lastIndexOf('-'));
+                        int versionStart;
+                        if (artifact.endsWith("-SNAPSHOT"))
+                        {
+                            versionStart = artifact.lastIndexOf('-', artifact.length() - 9);
+                        }
+                        else
+                        {
+                            versionStart = artifact.lastIndexOf('-');
+                        }
+                        version = artifact.substring(versionStart + 1);
+                        artifact = artifact.substring(0, versionStart);
                     }
                 }
 
