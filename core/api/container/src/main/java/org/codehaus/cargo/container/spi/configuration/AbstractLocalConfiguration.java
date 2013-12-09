@@ -61,7 +61,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * The path under which the container resources are stored in the JAR.
      */
-    protected static final String RESOURCE_PATH =
+    public static final String RESOURCE_PATH =
         "org/codehaus/cargo/container/internal/resources/";
 
     /**

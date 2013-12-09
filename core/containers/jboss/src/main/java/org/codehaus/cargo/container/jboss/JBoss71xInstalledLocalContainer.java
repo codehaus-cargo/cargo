@@ -78,6 +78,8 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
     @Override
     protected void doStart(JvmLauncher java) throws Exception
     {
+        copyExtraClasspathJars();
+
         setProperties(java);
 
         java.setJarFile(new File(getHome(), "jboss-modules.jar"));

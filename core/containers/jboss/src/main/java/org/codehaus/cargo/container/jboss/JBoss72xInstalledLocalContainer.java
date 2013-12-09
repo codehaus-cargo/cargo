@@ -72,6 +72,8 @@ public class JBoss72xInstalledLocalContainer extends JBoss71xInstalledLocalConta
     @Override
     protected void doStart(JvmLauncher java) throws Exception
     {
+        copyExtraClasspathJars();
+
         setProperties(java);
         java.addJvmArgumentLine("-D[Standalone]");
 

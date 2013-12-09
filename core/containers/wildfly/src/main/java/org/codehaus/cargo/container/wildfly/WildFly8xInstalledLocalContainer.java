@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.wildfly;
 import java.io.File;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.jboss.JBoss72xInstalledLocalContainer;
+import org.codehaus.cargo.container.jboss.JBoss73xInstalledLocalContainer;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
@@ -32,7 +32,7 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
  * 
  * @version $Id$
  */
-public class WildFly8xInstalledLocalContainer extends JBoss72xInstalledLocalContainer
+public class WildFly8xInstalledLocalContainer extends JBoss73xInstalledLocalContainer
 {
     /**
      * WildFly 8.x series unique id.

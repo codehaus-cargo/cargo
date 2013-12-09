@@ -20,15 +20,21 @@
 package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.jar.JarFile;
+
+import org.apache.tools.ant.types.FilterChain;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
@@ -176,6 +182,8 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
     @Override
     protected void doStart(JvmLauncher java) throws Exception
     {
+        copyExtraClasspathJars();
+
         setProperties(java);
 
         java.setJarFile(new File(getHome(), "jboss-modules.jar"));
@@ -260,6 +268,52 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
             }
 
             java.setSystemProperty("jboss.bind.address", hostname);
+        }
+    }
+
+    /**
+     * Cope extra classpath JARs.
+     * @throws IOException If creating the JARs' <code>module.xml</code> fails.
+     */
+    protected void copyExtraClasspathJars() throws IOException
+    {
+        // Create JARs for modules
+        Set<String> classpath = new TreeSet<String>();
+        if (this.getExtraClasspath() != null && this.getExtraClasspath().length != 0)
+        {
+            for (String classpathElement : this.getExtraClasspath())
+            {
+                classpath.add(classpathElement);
+            }
+        }
+        if (this.getSharedClasspath() != null && this.getSharedClasspath().length != 0)
+        {
+            for (String classpathElement : this.getSharedClasspath())
+            {
+                classpath.add(classpathElement);
+            }
+        }
+        for (String classpathElement : classpath)
+        {
+            String moduleName = getFileHandler().getName(classpathElement);
+            // Strip extension from JAR file to get module name
+            moduleName = moduleName.substring(0, moduleName.lastIndexOf('.'));
+            // CARGO-1091: JBoss expects subdirectories when the module name contains dots.
+            //             Replace all dots with minus to keep a version separator.
+            moduleName = moduleName.replace('.', '-');
+            String folder = this.getHome()
+                + "/modules/org/codehaus/cargo/classpath/" + moduleName + "/main";
+            getFileHandler().mkdirs(folder);
+
+            FilterChain filterChain = new FilterChain();
+            getAntUtils().addTokenToFilterChain(filterChain, "moduleName", moduleName);
+
+            getFileHandler().copyFile(classpathElement,
+                getFileHandler().append(folder, moduleName + ".jar"));
+            getResourceUtils().copyResource(
+                AbstractLocalConfiguration.RESOURCE_PATH + "jboss-module/jboss-module.xml",
+                    getFileHandler().append(folder, "module.xml"),
+                        getFileHandler(), filterChain, "UTF-8");
         }
     }
 }

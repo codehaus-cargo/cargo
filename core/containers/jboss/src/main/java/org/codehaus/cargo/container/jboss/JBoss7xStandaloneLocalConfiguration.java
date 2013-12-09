@@ -289,28 +289,6 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
                 classpath.add(classpathElement);
             }
         }
-        for (String classpathElement : classpath)
-        {
-            String moduleName = getFileHandler().getName(classpathElement);
-            // Strip extension from JAR file to get module name
-            moduleName = moduleName.substring(0, moduleName.lastIndexOf('.'));
-            // CARGO-1091: JBoss expects subdirectories when the module name contains dots.
-            //             Replace all dots with minus to keep a version separator.
-            moduleName = moduleName.replace('.', '-');
-            String folder = container.getHome()
-                + "/modules/org/codehaus/cargo/classpath/" + moduleName + "/main";
-            getFileHandler().mkdirs(folder);
-
-            FilterChain filterChain = createFilterChain();
-            getAntUtils().addTokenToFilterChain(filterChain, "moduleName", moduleName);
-
-            getFileHandler().copyFile(classpathElement,
-                getFileHandler().append(folder, moduleName + ".jar"));
-            getResourceUtils().copyResource(
-                RESOURCE_PATH + "jboss-module/jboss-module.xml",
-                    getFileHandler().append(folder, "module.xml"),
-                        getFileHandler(), filterChain, "UTF-8");
-        }
 
         String tmpDir = getFileHandler().createUniqueTmpDirectory();
         try
