@@ -35,15 +35,14 @@ import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
  * @version $Id$
  */
 public class WebLogic9x10x103x12xCopyingInstalledLocalDeployer extends
-        AbstractCopyingInstalledLocalDeployer
+    AbstractCopyingInstalledLocalDeployer
 {
     /**
      * {@inheritDoc}
      * 
      * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(InstalledLocalContainer)
      */
-    public WebLogic9x10x103x12xCopyingInstalledLocalDeployer(
-            InstalledLocalContainer container)
+    public WebLogic9x10x103x12xCopyingInstalledLocalDeployer(InstalledLocalContainer container)
     {
         super(container);
     }
@@ -58,8 +57,8 @@ public class WebLogic9x10x103x12xCopyingInstalledLocalDeployer extends
     public String getDeployableDir()
     {
         WebLogicLocalContainer container = (WebLogicLocalContainer) getContainer();
-        return new File(container.getConfiguration().getHome(), container
-                .getAutoDeployDirectory()).toString();
+        return new File(container.getConfiguration().getHome(),
+            container.getAutoDeployDirectory()).toString();
     }
 
     /**
@@ -93,12 +92,10 @@ public class WebLogic9x10x103x12xCopyingInstalledLocalDeployer extends
             return;
         }
         WAR war = (WAR) deployable;
-        String fileName = getFileHandler().append(getDeployableDir(),
-                war.getContext() + ".war");
+        String fileName = getFileHandler().append(getDeployableDir(), war.getContext() + ".war");
         if (getFileHandler().exists(fileName))
         {
-            getLogger().info("Undeploying [" + fileName + "]...",
-                    this.getClass().getName());
+            getLogger().info("Undeploying [" + fileName + "]...", this.getClass().getName());
             getFileHandler().delete(fileName);
         }
     }

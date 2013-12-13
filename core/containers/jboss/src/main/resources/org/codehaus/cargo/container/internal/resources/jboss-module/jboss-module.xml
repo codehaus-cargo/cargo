@@ -3,8 +3,6 @@
   <resources>
     <resource-root path="@moduleName@.jar"/>
   </resources>
-  <dependencies>
-    <module name="javax.api"/>
-    <module name="javax.transaction.api"/>
+  <dependencies>@dependencies@
   </dependencies>
 </module>

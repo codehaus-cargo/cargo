@@ -258,7 +258,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
             java.setSystemProperty("weblogic.ListenAddress",
                 getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));
         }
-        java.setSystemProperty("weblogic.name",
+        java.setSystemProperty("weblogic.Name",
             getConfiguration().getPropertyValue(WebLogicPropertySet.SERVER));
         java.setSystemProperty("bea.home", this.getBeaHome());
         java.setSystemProperty("weblogic.management.username",

@@ -42,8 +42,8 @@ import org.dom4j.QName;
  * 
  * @version $Id$
  */
-public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer
-    extends AbstractInstalledLocalDeployer
+public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
+    AbstractInstalledLocalDeployer
 {
     /**
      * The path under which the container resources are stored in the JAR.
@@ -71,7 +71,8 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer
         super(container);
 
         xmlTool = new Dom4JUtil();
-        if (container instanceof WebLogic12xInstalledLocalContainer)
+        if (container instanceof WebLogic12xInstalledLocalContainer
+            || container instanceof WebLogic121xInstalledLocalContainer)
         {
             namespace = "http://xmlns.oracle.com/weblogic/domain";
         }

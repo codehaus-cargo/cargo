@@ -22,6 +22,8 @@ package org.codehaus.cargo.container.jboss;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -277,6 +279,10 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
      */
     protected void copyExtraClasspathJars() throws IOException
     {
+        List<String> dependencies = new ArrayList<String>();
+        dependencies.add("javax.api");
+        dependencies.add("javax.transaction.api");
+
         // Create JARs for modules
         Set<String> classpath = new TreeSet<String>();
         if (this.getExtraClasspath() != null && this.getExtraClasspath().length != 0)
@@ -305,8 +311,17 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
                 + "/modules/org/codehaus/cargo/classpath/" + moduleName + "/main";
             getFileHandler().mkdirs(folder);
 
+            StringBuilder dependenciesXml = new StringBuilder();
+            for (String dependency : dependencies)
+            {
+                dependenciesXml.append("\n    <module name=\"" + dependency + "\"/>");
+            }
+            dependencies.add("org.codehaus.cargo.classpath." + moduleName);
+
             FilterChain filterChain = new FilterChain();
             getAntUtils().addTokenToFilterChain(filterChain, "moduleName", moduleName);
+            getAntUtils().addTokenToFilterChain(
+                filterChain, "dependencies", dependenciesXml.toString());
 
             getFileHandler().copyFile(classpathElement,
                 getFileHandler().append(folder, moduleName + ".jar"));
