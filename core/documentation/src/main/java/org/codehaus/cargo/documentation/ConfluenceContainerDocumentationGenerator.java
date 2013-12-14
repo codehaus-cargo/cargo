@@ -445,35 +445,10 @@ public class ConfluenceContainerDocumentationGenerator
                     + "| Changing the the container classpath is not supported on "
                     + "Apache Geronimo 1.x |");
             }
-            else if (containerId.equals("jboss7x"))
+            else if (containerId.startsWith("jboss7") || containerId.startsWith("wildfly"))
             {
                 output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) "
-                    + "| The JBoss 7.x deployer will modify the {{MANIFEST.MF}} of your "
-                        + "deployables in order to add the extra and shared classpath |");
-            }
-            else if (containerId.equals("jboss71x"))
-            {
-                output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) "
-                    + "| The JBoss 7.1.x deployer will modify the {{MANIFEST.MF}} of your "
-                        + "deployables in order to add the extra and shared classpath |");
-            }
-            else if (containerId.equals("jboss72x"))
-            {
-                output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) "
-                    + "| The JBoss 7.2.x deployer will modify the {{MANIFEST.MF}} of your "
-                        + "deployables in order to add the extra and shared classpath |");
-            }
-            else if (containerId.equals("jboss73x"))
-            {
-                output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) "
-                    + "| The JBoss 7.3.x deployer will modify the {{MANIFEST.MF}} of your "
-                        + "deployables in order to add the extra and shared classpath |");
-            }
-            else if (containerId.equals("wildfly8x"))
-            {
-                output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) "
-                    + "| The WildFly 8.x deployer will modify the {{MANIFEST.MF}} of your "
-                        + "deployables in order to add the extra and shared classpath |");
+                    + "| Read more on [JBoss / WildFly container classpath] |");
             }
             else
             {
