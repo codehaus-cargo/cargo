@@ -448,7 +448,7 @@ public class ConfluenceContainerDocumentationGenerator
             else if (containerId.startsWith("jboss7") || containerId.startsWith("wildfly"))
             {
                 output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) "
-                    + "| Read more on [JBoss / WildFly container classpath] |");
+                    + "| Read more on [JBoss 7 series and WildFly container classpath] |");
             }
             else
             {
