@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>1.4.6</version>
+    <version>1.4.7-SNAPSHOT</version>
   </parent>
   <artifactId>authentication-war</artifactId>
   <name>Cargo Authenticated WAR test data for samples</name>
