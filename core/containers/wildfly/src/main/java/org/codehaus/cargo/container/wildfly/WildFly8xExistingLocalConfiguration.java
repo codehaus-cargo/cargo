@@ -21,7 +21,7 @@ package org.codehaus.cargo.container.wildfly;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jboss.JBoss7xExistingLocalConfiguration;
+import org.codehaus.cargo.container.jboss.JBoss71xExistingLocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractDeployer;
 import org.codehaus.cargo.container.wildfly.internal.WildFly8xExistingLocalConfigurationCapability;
@@ -31,7 +31,7 @@ import org.codehaus.cargo.container.wildfly.internal.WildFly8xExistingLocalConfi
  * 
  * @version $Id$
  */
-public class WildFly8xExistingLocalConfiguration extends JBoss7xExistingLocalConfiguration
+public class WildFly8xExistingLocalConfiguration extends JBoss71xExistingLocalConfiguration
 {
     /**
      * WildFly container capability.
@@ -41,7 +41,7 @@ public class WildFly8xExistingLocalConfiguration extends JBoss7xExistingLocalCon
 
     /**
      * {@inheritDoc}
-     * @see JBoss7xExistingLocalConfiguration#JBoss7xExistingLocalConfiguration(String)
+     * @see JBoss71xExistingLocalConfiguration#JBoss7xExistingLocalConfiguration(String)
      */
     public WildFly8xExistingLocalConfiguration(String dir)
     {
@@ -53,7 +53,7 @@ public class WildFly8xExistingLocalConfiguration extends JBoss7xExistingLocalCon
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jboss.JBoss7xExistingLocalConfiguration#crateDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
+     * @see org.codehaus.cargo.container.jboss.JBoss71xExistingLocalConfiguration#crateDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
      */
     @Override
     protected AbstractDeployer createDeployer(InstalledLocalContainer jbossContainer)

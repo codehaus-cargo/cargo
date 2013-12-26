@@ -20,30 +20,30 @@
 package org.codehaus.cargo.container.jboss;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jboss.internal.JBoss7xRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss71xExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
 
 /**
- * Configuration to use when using a JBoss remote container.
+ * JBoss 7.1.x existing local configuration.
  * 
  * @version $Id$
  */
-public class JBoss7xRuntimeConfiguration extends AbstractRuntimeConfiguration
+public class JBoss71xExistingLocalConfiguration extends JBoss7xExistingLocalConfiguration
 {
-    /**
-     * Capability of the JBoss runtime configuration.
-     */
-    private static final ConfigurationCapability CAPABILITY =
-        new JBoss7xRuntimeConfigurationCapability();
 
     /**
-     * Set the default values for various port numbers.
+     * JBoss container capability.
      */
-    public JBoss7xRuntimeConfiguration()
+    private static final ConfigurationCapability CAPABILITY =
+        new JBoss71xExistingLocalConfigurationCapability();
+
+    /**
+     * {@inheritDoc}
+     * @see JBoss7xExistingLocalConfiguration#JBoss7xExistingLocalConfiguration(String)
+     */
+    public JBoss71xExistingLocalConfiguration(String dir)
     {
-        setProperty(GeneralPropertySet.HOSTNAME, "localhost");
-        setProperty(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, "9999");
+        super(dir);
 
         getProperties().remove(GeneralPropertySet.RMI_PORT);
     }
@@ -52,18 +52,10 @@ public class JBoss7xRuntimeConfiguration extends AbstractRuntimeConfiguration
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return CAPABILITY;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see Object#toString()
-     */
-    @Override
-    public String toString()
-    {
-        return "JBoss Runtime Configuration";
-    }
 }

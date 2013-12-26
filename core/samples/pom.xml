@@ -842,7 +842,7 @@
 
               <property>
                 <name>cargo.wildfly8x.url</name>
-                <value>http://download.jboss.org/wildfly/8.0.0.Beta1/wildfly-8.0.0.Beta1.tar.gz</value>
+                <value>http://download.jboss.org/wildfly/8.0.0.CR1/wildfly-8.0.0.CR1.tar.gz</value>
               </property>
               <property>
                 <name>cargo.wildfly8x.java.home</name>
