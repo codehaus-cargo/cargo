@@ -803,6 +803,17 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
+        else if (this.deployerFactory.isDeployerRegistered(containerId, DeployerType.INSTALLED)
+                && ("glassfish2x".equals(containerId) || "glassfish3x".equals(containerId) 
+                        || "glassfish4x".equals(containerId)))
+        {
+            output.append("The Glassfish installed deployer allows for additional deployment and "
+                + "undeployment arguments by adding properties prefixed with "
+                + "{{GlassFishPropertySet.DEPLOY_ARG_PREFIX}} and "
+                + "{{GlassFishPropertySet.UNDEPLOY_ARG_PREFIX}} respectively followed by a number "
+                + "starting at 1.");
+            output.append(LINE_SEPARATOR);
+        }
 
         output.append("|| Feature name || Java || Ant || Maven2 || Comment ||");
         output.append(LINE_SEPARATOR);
@@ -842,6 +853,22 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("| [Remote Deployer]                       | (x) | (x) | (x) | |");
         }
         output.append(LINE_SEPARATOR);
+
+        if (containerId.startsWith("glassfish"))
+        {
+            String glassFishPropertySetLink = JAVADOC_URL_PREFIX
+                    + GlassFishPropertySet.class.getName().replace('.', '/') + ".html#";
+            output.append("{info:title=Adding arguments to the Deployer}");
+            output.append(LINE_SEPARATOR);
+            output.append("The Glassfish installed deployer allows for additional deployment and ");
+            output.append("undeployment arguments by adding properties prefixed with ");
+            output.append("{{[GlassFishPropertySet.DEPLOY_ARG_PREFIX|" + glassFishPropertySetLink);
+            output.append("DEPLOY_ARG_PREFIX]}} and {{[GlassFishPropertySet.UNDEPLOY_ARG_PREFIX|");
+            output.append(glassFishPropertySetLink + "UNDEPLOY_ARG_PREFIX]}} respectively ");
+            output.append("followed by a number starting at {{1}}.");
+            output.append("{info}");
+            output.append(LINE_SEPARATOR);
+        }
 
         return output.toString();
     }

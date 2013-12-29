@@ -190,4 +190,46 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
         args.add(AbstractAsAdmin.getPasswordFile(this.getConfiguration()).getAbsolutePath());
     }
 
+    /**
+     * Adds deployment arguments defined by {@link GlassFishPropertySet#DEPLOY_ARG_PREFIX}.
+     * 
+     * @param args args to populate
+     */
+    protected void addDeploymentArguments(final List<String> args)
+    {
+        int c = 1;
+        while (true)
+        {
+            final String arg = this.getConfiguration().
+                    getPropertyValue(GlassFishPropertySet.DEPLOY_ARG_PREFIX + c);
+            if (arg == null)
+            {
+                break;
+            }
+            args.add(arg);
+            ++c;
+        }
+    }
+
+    /**
+     * Adds undeployment arguments defined by {@link GlassFishPropertySet#UNDEPLOY_ARG_PREFIX}.
+     * 
+     * @param args args to populate
+     */
+    protected void addUndeploymentArguments(final List<String> args)
+    {
+        int c = 1;
+        while (true)
+        {
+            final String arg = this.getConfiguration().
+                    getPropertyValue(GlassFishPropertySet.UNDEPLOY_ARG_PREFIX + c);
+            if (arg == null)
+            {
+                break;
+            }
+            args.add(arg);
+            ++c;
+        }
+    }
+
 }

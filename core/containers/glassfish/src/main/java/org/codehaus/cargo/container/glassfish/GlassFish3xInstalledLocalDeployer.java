@@ -83,6 +83,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add("--type=osgi");
         }
 
+        this.addDeploymentArguments(args);
         args.add(new File(deployable.getFile()).getAbsolutePath());
 
         // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
@@ -99,6 +100,8 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         this.addConnectOptions(args);
 
         args.add("undeploy");
+
+        this.addUndeploymentArguments(args);
 
         // not too sure how asadmin determines 'name'
         args.add(this.cutExtension(this.getFileHandler().getName(deployable.getFile())));
