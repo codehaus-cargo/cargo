@@ -59,15 +59,15 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     LocalConfiguration
 {
     /**
-     * Property key to flag ports which have already an offset applied.
-     */
-    private static String PORT_OFFSET_APPLIED_PREFIX = LocalConfiguration.class.getName() + "_portOffsetApplied_";
-    
-    /**
      * The path under which the container resources are stored in the JAR.
      */
-    public static final String RESOURCE_PATH =
-        "org/codehaus/cargo/container/internal/resources/";
+    public static final String RESOURCE_PATH = "org/codehaus/cargo/container/internal/resources/";
+    
+    /**
+     * Property key to flag ports which have already an offset applied.
+     */
+    private static final String PORT_OFFSET_APPLIED_PREFIX = LocalConfiguration.class.getName()
+        + "_portOffsetApplied_";
 
     /**
      * List of {@link Deployable}s to deploy into the container.
@@ -718,6 +718,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * Revert the port offset on the specified property
+     * 
      * @param name the property name
      */
     protected void revertPortOffset(String name) 
@@ -746,17 +747,19 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      * @param name the name of the property to be checked
      * @return <code>true</code> if the offset is already applied
      */
-    protected boolean isOffsetApplied(String name) {
+    protected boolean isOffsetApplied(String name)
+    {
         return this.getPropertyValue(PORT_OFFSET_APPLIED_PREFIX + name) != null;
     }
 
     /**
      * Flags the 
      * @param name the name of the property to be flagged.
-     * @param offsetApplied
+     * @param offsetApplied <code>true</code> if the offset is applied, else <code>false</code>.
      */
-    protected void flagOffestApplied(String name, boolean offsetApplied) {
+    protected void flagOffestApplied(String name, boolean offsetApplied)
+    {
         this.setProperty(PORT_OFFSET_APPLIED_PREFIX + name,
-                offsetApplied ? String.valueOf(offsetApplied) : null);
+            offsetApplied ? String.valueOf(offsetApplied) : null);
     }
 }
