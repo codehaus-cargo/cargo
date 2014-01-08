@@ -27,32 +27,32 @@ package org.codehaus.cargo.tools.daemon;
 public interface DaemonPropertySet
 {
     /**
-     * Full URL which specifies the daemon location  
+     * Full URL which specifies the daemon location
      */
     String URL = "cargo.daemon.url";
-    
+
     /**
-     * Username used when authenticating against the daemon host  
+     * Username used when authenticating against the daemon host
      */
     String USERNAME = "cargo.daemon.username";
-    
+
     /**
-     * Password used when authenticating against the daemon host  
+     * Password used when authenticating against the daemon host
      */
     String PASSWORD = "cargo.daemon.password";
-    
+
     /**
-     * Handle identifier for a container and deployables delivery  
+     * Handle identifier for a container and deployables delivery
      */
     String HANDLE = "cargo.daemon.handleid";
-    
+
     /**
-     * Set this property to enable the daemon jvm launcher  
+     * Set this property to enable the daemon jvm launcher
      */
     String JVMLAUNCHER = "cargo.daemon.jvmlauncher";
-    
+
     /**
-     * Set this property to enable autostart for a container  
+     * Set this property to enable autostart for a container
      */
-    String AUTOSTART = "cargo.daemon.autostart";    
+    String AUTOSTART = "cargo.daemon.autostart";
 }

@@ -8,7 +8,7 @@ import java.net.HttpURLConnection;
 public class WebappIT extends TestCase
 {
     private String baseUrl;
-    
+
     public void setUp() throws Exception
     {
         super.setUp();

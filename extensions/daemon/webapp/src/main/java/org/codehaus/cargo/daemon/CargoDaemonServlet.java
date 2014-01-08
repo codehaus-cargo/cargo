@@ -921,7 +921,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                     && !handle.isForceStop())
                 {
                     StartRequest startRequest = new StartRequest();
-    
+
                     startRequest.setParameters(handle.getProperties());
                     try
                     {

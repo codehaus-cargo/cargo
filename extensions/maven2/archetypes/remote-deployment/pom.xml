@@ -26,10 +26,7 @@
   <artifactId>cargo-archetype-remote-deployment</artifactId>
   <packaging>maven-archetype</packaging>
   <name>Cargo Maven Archetype demonstrating Remote Deployment</name>
-  <description>
-    Sample Maven archetype showing how to configure Cargo and Maven to generate a webapp and deploy
-    it to a remote container.
-  </description>
+  <description>Sample Maven archetype showing how to configure Cargo and Maven to generate a webapp and deploy it to a remote container.</description>
 
   <build>
     <resources>

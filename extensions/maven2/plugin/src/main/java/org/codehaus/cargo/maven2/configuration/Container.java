@@ -86,10 +86,10 @@ public class Container
      * Output file.
      */
     private String output;
-    
+
     /**
      * Downloaded zip file.
-     */    
+     */
     private String installerZipFile;
 
     /**
@@ -134,7 +134,7 @@ public class Container
 
     /**
      * System properties loaded from file.
-     */    
+     */
     private File systemPropertiesFile;
 
     /**
@@ -176,14 +176,14 @@ public class Container
     {
         return this.timeout;
     }
-    
+
     /**
      * @return installed zip file (null if not downloaded).
      */
     public String getInstallerZipFile()
     {
         return this.installerZipFile;
-    }    
+    }
 
     /**
      * @param timeout Timeout (in milliseconds).
@@ -505,7 +505,7 @@ public class Container
             project.setEmbeddedClassLoader(urlClassloader);
         }
     }
-    
+
     /**
      * Merges static and system properties loaded from file together
      * @param container Container. 
@@ -663,7 +663,7 @@ public class Container
             container.setSharedClasspath(classpaths.toArray(new String[classpaths.size()]));
         }
     }
-    
+
     /**
      * Setup system properties.
      * @param container Container.
@@ -753,7 +753,7 @@ public class Container
                 installer.install();
                 tmpHome = installer.getHome();
             }
-            
+
             this.installerZipFile = installer.getDownloadFile();
         }
         // if a ZipUrlInstaller is specified, use it to install
@@ -778,7 +778,7 @@ public class Container
             {
                 installer.setLogger(container.getLogger());
             }
-            
+
             if (project.isDaemonRun())
             {
                 // A daemon run needs to have the container zip file downloaded,
@@ -793,7 +793,7 @@ public class Container
                 installer.install();
                 tmpHome = installer.getHome();
             }
-            
+
             this.installerZipFile = installer.getDownloadFile();
         }
         if (getHome() != null)

@@ -62,8 +62,8 @@ public class Handle
      * The configuration.
      */
     private LocalConfiguration configuration;
-    
-    
+
+
     /**
      * Tells if the container was forcibly stopped.
      */
@@ -73,8 +73,8 @@ public class Handle
      * Properties of the handle.
      */
     private PropertyTable properties = new PropertyTable();
-    
-    
+
+
     /**
      * @return the handle identifier
      */
@@ -128,7 +128,7 @@ public class Handle
     {
         this.configuration = configuration;
     }
-    
+
     /**
      * @return the properties.
      */
@@ -146,7 +146,7 @@ public class Handle
     {
         this.properties = properties;
     }
-    
+
 
     @Override
     public String toString()
@@ -171,7 +171,7 @@ public class Handle
     {
         this.properties.put(KEY_AUTOSTART, String.valueOf(autostart));
     }
-    
+
     /**
      * @return the Cargo log file path of the container.
      */
@@ -189,7 +189,7 @@ public class Handle
     {
         this.properties.put(KEY_LOGPATH, logpath);
     }
-    
+
     /**
      * @return the container output log file path.
      */
@@ -207,7 +207,7 @@ public class Handle
     {
         this.properties.put(KEY_OUTPUTPATH, logpath);
     }
-    
+
     /**
      * @return true if the container was forcibly stopped.
      */
@@ -222,7 +222,7 @@ public class Handle
     public void setForceStop(boolean forceStop)
     {
         this.forceStop = forceStop;
-    }    
+    }
 
     /**
      * @return the status of the container.
@@ -250,12 +250,12 @@ public class Handle
         {
             return;
         }
-        
+
         for (Entry<String, String> property : properties.entrySet())
         {
             String key = property.getKey();
             String value = property.getValue();
-            
+
             this.properties.put(key, value);
         }
     }

@@ -118,7 +118,7 @@ public class HandleDatabase
     {
         handles.put(handleId, handle);
     }
-    
+
     /**
      * Puts the handle object in database (in memory) if absent.
      * 
@@ -129,7 +129,7 @@ public class HandleDatabase
     public Handle putIfAbsent(String handleId, Handle handle)
     {
         return handles.putIfAbsent(handleId, handle);
-    }    
+    }
 
     /**
      * Removes the handle from the database.

@@ -26,10 +26,7 @@
   <artifactId>cargo-archetype-webapp-functional-tests-module</artifactId>
   <packaging>maven-archetype</packaging>
   <name>Cargo Maven Archetype Webapp Functional Tests Module</name>
-  <description>
-    Sample Maven archetype showing how to configure Cargo and Maven to run functional tests
-    for a webapp by creating a separate functional-tests module.
-  </description>
+  <description>Sample Maven archetype showing how to configure Cargo and Maven to run functional tests for a webapp by creating a separate functional-tests module.</description>
 
   <build>
     <resources>

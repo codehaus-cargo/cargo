@@ -35,12 +35,12 @@ public class DaemonStart
      * The unique identifier of the container to start
      */
     private String handleId;
-    
+
     /**
      * Tells the daemon if the container should auto start.
      */
-    private boolean autostart;    
-    
+    private boolean autostart;
+
     /**
      * Additional classpath entries.
      */
@@ -65,7 +65,7 @@ public class DaemonStart
      * The log file where the Cargo log should be saved to.
      */
     private String logFile;
-    
+
     /**
      * @return the unique identifier of the container to start.
      */
@@ -81,7 +81,7 @@ public class DaemonStart
     {
         this.handleId = handleId;
     }
-    
+
     /**
      * @return the additional classpath entries.
      */
@@ -97,8 +97,8 @@ public class DaemonStart
     {
         this.additionalClasspathEntries = additionalClasspathEntries;
     }
-    
-    
+
+
     /**
      * @return true if the container should auto start.
      */
@@ -114,7 +114,7 @@ public class DaemonStart
     {
         this.autostart = autostart;
     }
-    
+
 
     /**
      * @return the container to start

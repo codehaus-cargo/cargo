@@ -26,11 +26,7 @@
   <artifactId>cargo-archetype-webapp-with-datasource</artifactId>
   <packaging>maven-archetype</packaging>
   <name>Cargo Maven Archetype Webapp with DataSource</name>
-  <description>
-    Sample Maven archetype showing how to configure Cargo and Maven to run functional tests
-    directly from a webapp with datasource. Cargo will be used to configure the datasource on the
-    container.
-  </description>
+  <description>Sample Maven archetype showing how to configure Cargo and Maven to run functional tests directly from a webapp with datasource. Cargo will be used to configure the datasource on the container.</description>
 
   <build>
     <resources>

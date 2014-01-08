@@ -26,10 +26,7 @@
   <artifactId>cargo-archetype-daemon</artifactId>
   <packaging>maven-archetype</packaging>
   <name>Cargo Maven Archetype demonstrating the Cargo Daemon</name>
-  <description>
-    Sample Maven archetype showing how to configure Cargo and Maven to generate a webapp and remotely
-    start and stop a container with the application deployed on it.
-  </description>
+  <description>Sample Maven archetype showing how to configure Cargo and Maven to generate a webapp and remotely start and stop a container with the application deployed on it.</description>
 
   <dependencies>
     <dependency>

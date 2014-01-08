@@ -485,7 +485,7 @@ public class FileManager
     {
         return fileHandler.append(getWorkspaceDirectory(handleId), relativePath);
     }
-    
+
     /**
      * Resolves a path relative to the configuration directory to an absolute path.
      * 

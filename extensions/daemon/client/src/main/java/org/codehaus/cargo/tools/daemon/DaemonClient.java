@@ -237,7 +237,7 @@ public class DaemonClient extends LoggedObject
 
             parameters.setParameter("installerZipFile", fileHandler.getName(installerZipFile));
         }
-        
+
         if (deployables != null)
         {
             parameters.setParameter("deployableFiles", setupDeployables(parameters, deployables));
@@ -258,7 +258,7 @@ public class DaemonClient extends LoggedObject
         parameters.setParameter("containerProperties", setupContainerProperties(container));
 
         parameters.setParameter("containerOutput", container.getOutput());
-        
+
         if (logFile != null)
         {
             parameters.setParameter("containerLogFile", logFile);

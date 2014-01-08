@@ -70,7 +70,7 @@ public class Configuration
 
     /**
      * Container properties loaded from file.
-     */    
+     */
     private File propertiesFile;
 
     /**
@@ -275,7 +275,7 @@ public class Configuration
             if (project.isDaemonRun())
             {
                 configuration = factory.createConfiguration(containerId, containerType, getType(),
-                    "");                
+                    "");
             }
             else if (ConfigurationType.RUNTIME.equals(getType()))
             {
@@ -295,7 +295,7 @@ public class Configuration
             configuration = factory.createConfiguration(containerId, containerType, getType(),
                 getHome());
         }
-        
+
         // Set container properties loaded from file (if any)
         if (getPropertiesFile() != null)
         {
@@ -311,7 +311,7 @@ public class Configuration
                 {
                     inputStream.close();
                 }
-                for (Enumeration<?> propertyNames = properties.propertyNames(); 
+                for (Enumeration<?> propertyNames = properties.propertyNames();
                     propertyNames.hasMoreElements();)
                 {
                     String propertyName = (String) propertyNames.nextElement();

@@ -275,7 +275,7 @@ public final class Main
             serverArguments.add("-p");
             serverArguments.add("18000");
         }
-        
+
         if (!logging)
         {
             serverArguments.add("-out");
@@ -283,7 +283,7 @@ public final class Main
             serverArguments.add("-err");
             serverArguments.add("Acme.Utils$DummyPrintStream");
         }
-        
+
         if (System.getProperty("cargo.home") == null)
         {
             System.setProperty("cargo.home", homeDirectory.getAbsolutePath());

@@ -49,9 +49,9 @@ public class DaemonStartMojo extends AbstractDaemonMojo
             if (getContainerElement() != null)
             {
                 request.setInstallerZipFile(getContainerElement().getInstallerZipFile());
-                
+
                 File logFile = getContainerElement().getLog();
-                
+
                 if (logFile != null)
                 {
                     request.setLogFile(logFile.getName());

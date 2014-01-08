@@ -50,5 +50,5 @@ public class PingTest extends TestCase
 
         Assert.assertEquals("Servlet is now ready", response);
     }
-    
+
 }

@@ -71,14 +71,14 @@ public class ContainerTest extends MockObjectTestCase
         props.put("id2", "value2");
 
         containerElement.setSystemProperties(props);
-        
+
         File systemPropertiesFile =
             File.createTempFile(ConfigurationTest.class.getName(), ".properties");
         try
         {
             OutputStream outputStream = new FileOutputStream(systemPropertiesFile);
             try
-            {        
+            {
                 Properties properties = new Properties();
                 properties.put("id2", "foobar");
                 properties.put("id3", "value3");
@@ -99,7 +99,7 @@ public class ContainerTest extends MockObjectTestCase
             systemPropertiesFile.delete();
         }
         props.put("id3", "value3");
-        
+
         // For embedded containers, system properties get put into our own vm
         for (Map.Entry<String, String> entry : props.entrySet())
         {
@@ -121,7 +121,7 @@ public class ContainerTest extends MockObjectTestCase
         props.put("id2", "value2");
 
         containerElement.setSystemProperties(props);
-        
+
         org.codehaus.cargo.container.InstalledLocalContainer container;
         File systemPropertiesFile =
             File.createTempFile(ConfigurationTest.class.getName(), ".properties");
@@ -129,7 +129,7 @@ public class ContainerTest extends MockObjectTestCase
         {
             OutputStream outputStream = new FileOutputStream(systemPropertiesFile);
             try
-            {        
+            {
                 Properties properties = new Properties();
                 properties.put("id2", "foobar");
                 properties.put("id3", "value3");

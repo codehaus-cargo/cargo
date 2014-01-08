@@ -239,7 +239,7 @@ class DaemonJvmLauncher implements JvmLauncher
             }
         }
     }
-    
+
     /**
      * Adds additional classpath entries.
      * 
@@ -254,7 +254,7 @@ class DaemonJvmLauncher implements JvmLauncher
                 addClasspath(path);
             }
         }
-    }    
+    }
 
     /**
      * {@inheritDoc}
@@ -406,7 +406,7 @@ class DaemonJvmLauncher implements JvmLauncher
             process.destroy();
 
             // So we call second method to kill the process to be sure
-            nativeKill(); 
+            nativeKill();
             process = null;
         }
     }
@@ -535,6 +535,6 @@ class DaemonJvmLauncher implements JvmLauncher
                 // Ignore, we tried our best
             }
         }
-    }    
+    }
 
 }

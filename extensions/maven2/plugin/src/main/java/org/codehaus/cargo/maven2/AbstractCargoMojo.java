@@ -107,15 +107,15 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * @parameter
      */
     private Container container;
-    
-    
+
+
     /**
      * Daemon configuration.
      * 
      * @parameter 
      */
     private Daemon daemon;
-    
+
 
     /**
      * Configures a Cargo {@link org.codehaus.cargo.container.deployer.Deployer}. See the <a
@@ -202,7 +202,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * @readonly
      */
     private Settings settings;
-    
+
     /**
      * Cargo plugin version.
      * 
@@ -263,7 +263,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     {
         this.deployer = deployerElement;
     }
-    
+
     /**
      * @return The daemon configuration
      */
@@ -273,7 +273,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         {
             this.daemon = new Daemon();
         }
-        
+
         return this.daemon;
     }
 

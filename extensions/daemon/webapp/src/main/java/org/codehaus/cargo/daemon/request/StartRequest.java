@@ -214,7 +214,7 @@ public class StartRequest
 
         return result;
     }
-    
+
     /**
      * Gets list of string values.
      * 
@@ -244,7 +244,7 @@ public class StartRequest
 
         return result;
     }
-    
+
 
     /**
      * Gets the inputstream of a file with key name {@code name}.

@@ -77,7 +77,7 @@ public class ConfigurationTest extends TestCase
 
         assertEquals("", configuration.getPropertyValue("someName"));
     }
-    
+
     /**
      * Test property file based configuration elements which override static counterparts
      * @throws Exception If anything goes wrong.
@@ -90,14 +90,14 @@ public class ConfigurationTest extends TestCase
         Map<String, String> properties = new HashMap<String, String>();
         properties.put("someName1", "someValue1");
         configurationElement.setProperties(properties);
-        
+
         org.codehaus.cargo.container.configuration.Configuration configuration;
         File propertiesFile = File.createTempFile(ConfigurationTest.class.getName(), ".properties");
         try
         {
             OutputStream outputStream = new FileOutputStream(propertiesFile);
             try
-            {        
+            {
                 Properties fileProperties = new Properties();
                 fileProperties.put("someName1", "foobar");
                 fileProperties.put("someName2", "someValue2");
@@ -108,7 +108,7 @@ public class ConfigurationTest extends TestCase
                 outputStream.close();
             }
             configurationElement.setPropertiesFile(propertiesFile);
-    
+
             configuration =
                 configurationElement.createConfiguration("testcontainer", ContainerType.INSTALLED,
                     null, new CargoProject(
@@ -121,7 +121,7 @@ public class ConfigurationTest extends TestCase
 
         assertEquals("someValue1", configuration.getPropertyValue("someName1"));
         assertEquals("someValue2", configuration.getPropertyValue("someName2"));
-    }    
+    }
 
     /**
      * Test adding resources to the configuration.

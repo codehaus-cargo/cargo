@@ -65,7 +65,7 @@ public class DaemonJvmLauncherFactory implements JvmLauncherFactory
         {
             launcher.addClasspathEntries(additionalClasspathEntries);
         }
-        
+
         return launcher;
     }
 
