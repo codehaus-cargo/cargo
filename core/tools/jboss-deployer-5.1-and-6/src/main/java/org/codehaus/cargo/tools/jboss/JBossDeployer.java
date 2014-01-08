@@ -47,7 +47,7 @@ import org.jboss.profileservice.spi.ProfileService;
  */
 public class JBossDeployer implements IJBossProfileManagerDeployer
 {
-    
+
     /**
      * Container configuration.
      */

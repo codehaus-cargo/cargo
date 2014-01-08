@@ -139,7 +139,7 @@ public class CopyingDeployerTest extends MockObjectTestCase
     {
         AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
             createContainer(createContainerCapability(DeployableType.WAR), null));
-        
+
         assertTrue(deployer.shouldDeployExpanded(DeployableType.WAR));
         deployer.setShouldDeployExpanded(DeployableType.WAR, true);
         assertTrue(deployer.shouldDeployExpanded(DeployableType.WAR));

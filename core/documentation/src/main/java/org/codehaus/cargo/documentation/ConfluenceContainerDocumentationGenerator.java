@@ -711,7 +711,7 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("| [Static deployment of (JBoss) HAR]      | (x) | (x) | (x) | |");
             }
             output.append(LINE_SEPARATOR);
-    
+
             if (this.containerCapabilityFactory.createContainerCapability(
                 containerId).supportsDeployableType(DeployableType.SAR))
             {
@@ -722,7 +722,7 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("| [Static deployment of (JBoss) SAR]      | (x) | (x) | (x) | |");
             }
             output.append(LINE_SEPARATOR);
-    
+
             if (this.containerCapabilityFactory.createContainerCapability(
                 containerId).supportsDeployableType(DeployableType.AOP))
             {
@@ -801,17 +801,6 @@ public class ConfluenceContainerDocumentationGenerator
                 + "server by setting the {{GeneralPropertySet.HOSTNAME}} parameter to "
                 + "{{localhost}}.{note}");
             output.append(LINE_SEPARATOR);
-            output.append(LINE_SEPARATOR);
-        }
-        else if (this.deployerFactory.isDeployerRegistered(containerId, DeployerType.INSTALLED)
-                && ("glassfish2x".equals(containerId) || "glassfish3x".equals(containerId) 
-                        || "glassfish4x".equals(containerId)))
-        {
-            output.append("The Glassfish installed deployer allows for additional deployment and "
-                + "undeployment arguments by adding properties prefixed with "
-                + "{{GlassFishPropertySet.DEPLOY_ARG_PREFIX}} and "
-                + "{{GlassFishPropertySet.UNDEPLOY_ARG_PREFIX}} respectively followed by a number "
-                + "starting at 1.");
             output.append(LINE_SEPARATOR);
         }
 

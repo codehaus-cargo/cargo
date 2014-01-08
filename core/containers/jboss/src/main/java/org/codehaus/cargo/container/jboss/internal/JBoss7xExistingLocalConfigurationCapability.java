@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
@@ -58,6 +59,8 @@ public class JBoss7xExistingLocalConfigurationCapability extends
         this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR,
             Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
     }
 
     /**

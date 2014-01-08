@@ -35,7 +35,7 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
  */
 public class Resin4xStandaloneLocalConfiguration extends Resin31xStandaloneLocalConfiguration
 {
-    
+
     /**
      * {@inheritDoc}
      * 

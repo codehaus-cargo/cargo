@@ -146,7 +146,7 @@ public class MergedWarArchive implements WarArchive
         {
             // The merger is based on the first WAR file
             WebXmlMerger wxm = getWebXmlMerger();
-            
+
             // Merge the rest of web.xml files
             for (int cnt = 1; cnt < this.warFiles.size(); cnt++)
             {

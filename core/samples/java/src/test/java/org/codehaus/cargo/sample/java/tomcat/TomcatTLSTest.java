@@ -85,7 +85,7 @@ public class TomcatTLSTest extends AbstractCargoTestCase
     {
         File localhostJksFile = new File("target/test-classes/localhost.jks");
         assertTrue(localhostJksFile.isFile());
-        
+
         // First, create a configuration using the SSL configuration options,
         // then put a WAR on it, finally start it and test for it to be running.
         StandaloneLocalConfiguration configuration =
@@ -101,7 +101,7 @@ public class TomcatTLSTest extends AbstractCargoTestCase
         configuration.setProperty(TomcatPropertySet.CONNECTOR_TRUST_STORE_PASSWORD, "password");
         configuration.setProperty(TomcatPropertySet.CONNECTOR_TRUST_STORE_TYPE, "jks");
         configuration.setProperty(TomcatPropertySet.CONNECTOR_CLIENT_AUTH, "want");
-        
+
         InstalledLocalContainer container =
             (InstalledLocalContainer) createContainer(configuration);
         Deployable war = new DefaultDeployableFactory().createDeployable(container.getId(),

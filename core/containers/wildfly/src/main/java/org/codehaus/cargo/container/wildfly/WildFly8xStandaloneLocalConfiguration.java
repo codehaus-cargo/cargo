@@ -21,7 +21,7 @@ package org.codehaus.cargo.container.wildfly;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jboss.JBoss72xStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.jboss.JBoss73xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.wildfly.internal.WildFly8xStandaloneLocalConfigurationCapability;
 
@@ -30,7 +30,7 @@ import org.codehaus.cargo.container.wildfly.internal.WildFly8xStandaloneLocalCon
  * 
  * @version $Id$
  */
-public class WildFly8xStandaloneLocalConfiguration extends JBoss72xStandaloneLocalConfiguration
+public class WildFly8xStandaloneLocalConfiguration extends JBoss73xStandaloneLocalConfiguration
 {
 
     /**
@@ -41,7 +41,7 @@ public class WildFly8xStandaloneLocalConfiguration extends JBoss72xStandaloneLoc
 
     /**
      * {@inheritDoc}
-     * @see JBoss72xStandaloneLocalConfiguration#JBoss72xStandaloneLocalConfiguration(String)
+     * @see JBoss73xStandaloneLocalConfiguration#JBoss73xStandaloneLocalConfiguration(String)
      */
     public WildFly8xStandaloneLocalConfiguration(String dir)
     {
@@ -63,7 +63,7 @@ public class WildFly8xStandaloneLocalConfiguration extends JBoss72xStandaloneLoc
 
     /**
      * {@inheritDoc}
-     * @see JBoss72xStandaloneLocalConfiguration#doConfigure(LocalContainer)
+     * @see JBoss73xStandaloneLocalConfiguration#doConfigure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer c) throws Exception

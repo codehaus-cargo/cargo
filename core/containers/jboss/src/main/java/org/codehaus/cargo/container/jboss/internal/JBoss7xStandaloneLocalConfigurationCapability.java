@@ -25,6 +25,7 @@ import java.util.Map;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
@@ -67,6 +68,8 @@ public class JBoss7xStandaloneLocalConfigurationCapability extends
             Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR,
             Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
     }
 
     /**

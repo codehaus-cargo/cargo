@@ -95,7 +95,7 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
         configurationCapabilityFactory.registerConfigurationCapability("weblogic12x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             WebLogicExistingLocalConfigurationCapability.class);
-        
+
         configurationCapabilityFactory.registerConfigurationCapability("weblogic121x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             WebLogic9x10x103x12xStandaloneLocalConfigurationCapability.class);
@@ -146,13 +146,13 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("weblogic12x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             WebLogic9x10x103x12xExistingLocalConfiguration.class);
-        
+
         configurationFactory.registerConfiguration("weblogic121x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             WebLogic121xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("weblogic121x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            WebLogic9x10x103x12xExistingLocalConfiguration.class);        
+            WebLogic9x10x103x12xExistingLocalConfiguration.class);
     }
 
     /**
@@ -209,7 +209,7 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
 
         containerFactory.registerContainer("weblogic12x", ContainerType.INSTALLED,
             WebLogic12xInstalledLocalContainer.class);
-        
+
         containerFactory.registerContainer("weblogic121x", ContainerType.INSTALLED,
             WebLogic121xInstalledLocalContainer.class);
     }
@@ -236,7 +236,7 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
 
         containerCapabilityFactory.registerContainerCapability("weblogic12x",
             J2EEContainerCapability.class);
-        
+
         containerCapabilityFactory.registerContainerCapability("weblogic121x",
             J2EEContainerCapability.class);
     }

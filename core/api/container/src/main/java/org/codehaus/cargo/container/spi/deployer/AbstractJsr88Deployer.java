@@ -117,11 +117,11 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         try
         {
             DeploymentManager deploymentManager = this.getDeploymentManager();
-    
+
             ProgressObject progressObject = deploymentManager.distribute(
                 deploymentManager.getTargets(), deployableFile, null);
             this.waitForProgressObject(progressObject);
-    
+
             progressObject = deploymentManager.start(progressObject.getResultTargetModuleIDs());
             this.waitForProgressObject(progressObject);
         }

@@ -42,16 +42,6 @@ public interface JBossPropertySet
     String CLUSTERED = "cargo.jboss.clustered";
 
     /**
-     * The user to use when calling JBoss server commands.
-     */
-    String JBOSS_USER = "cargo.jboss.user";
-
-    /**
-     * The password to use when calling JBoss server commands.
-     */
-    String JBOSS_PASSWORD = "cargo.jboss.password";
-
-    /**
      * The port used for AJP.
      */
     String JBOSS_AJP_PORT = "cargo.jboss.ajp.port";
@@ -142,12 +132,12 @@ public interface JBossPropertySet
      * milliseconds.
      */
     String REMOTEDEPLOY_TIMEOUT = "cargo.jboss.remotedeploy.timeout";
-    
+
     /**
      * Deployment target directory to use instead of the default <code>deployments</code> directory.
      */
     String ALTERNATIVE_DEPLOYMENT_DIR = "cargo.jboss.deployment.dir";
-    
+
     /**
      * Modules directory to use instead of the default <code>modules</code> directory.
      */

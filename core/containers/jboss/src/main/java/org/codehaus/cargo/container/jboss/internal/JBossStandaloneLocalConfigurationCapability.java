@@ -25,6 +25,7 @@ import java.util.Map;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
@@ -72,8 +73,8 @@ public class JBossStandaloneLocalConfigurationCapability extends
             Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT,
             Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_USER, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_PASSWORD, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
         this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR, Boolean.FALSE);

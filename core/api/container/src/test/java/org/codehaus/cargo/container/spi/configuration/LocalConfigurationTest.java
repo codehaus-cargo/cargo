@@ -282,7 +282,7 @@ public class LocalConfigurationTest extends TestCase
         configuration.collectUnsupportedDataSourcesAndThrowException();
         assertEquals(2, configuration.getDataSources().size());
     }
-    
+
     /**
      * Test the apply port offset.
      */
@@ -302,11 +302,11 @@ public class LocalConfigurationTest extends TestCase
 
         assertEquals("1199", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
         assertEquals("8180", configuration.getPropertyValue(ServletPropertySet.PORT));
-        
+
         // re-apply
 
         configuration.applyPortOffset();
-        
+
         assertEquals("1199", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
         assertEquals("8180", configuration.getPropertyValue(ServletPropertySet.PORT));
     }
@@ -328,7 +328,7 @@ public class LocalConfigurationTest extends TestCase
 
         configuration.flagOffestApplied(GeneralPropertySet.RMI_PORT, true);
         configuration.flagOffestApplied(ServletPropertySet.PORT, true);
-        
+
         configuration.revertPortOffset();
 
         assertEquals("1099", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));

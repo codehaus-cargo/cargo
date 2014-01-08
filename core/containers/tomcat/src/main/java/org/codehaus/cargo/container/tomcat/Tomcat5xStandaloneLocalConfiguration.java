@@ -65,7 +65,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     private static final String CONNECTOR_XPATH = 
         "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
             + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']";
-    
+
     /**
      * used to insert DataSources and Resources into the configuration file.
      */
@@ -148,13 +148,13 @@ public class Tomcat5xStandaloneLocalConfiguration extends
                 String.valueOf("https".equalsIgnoreCase(
                     container.getConfiguration().getPropertyValue(
                         GeneralPropertySet.PROTOCOL))));
-            
+
             addOptionalXmlReplacements(container);
-            
+
             super.performXmlReplacements(container);
         }
     }
-    
+
     /**
      * {@inheritDoc}
      * 
@@ -299,7 +299,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
             "server.loader=${catalina.base}/server/classes,${catalina.base}/server/lib/*.jar,");
         return replacements;
     }
-    
+
     /**
      * Adds the XML replacements needed to configure the server.
      */
@@ -356,7 +356,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
             addXmlReplacement("conf/context.xml", "//Context", "useHttpOnly",
                 TomcatPropertySet.USE_HTTP_ONLY);
         }
-        
+
         if (container.getConfiguration().getPropertyValue(
                 TomcatPropertySet.CONNECTOR_KEY_STORE_FILE) != null)
         {

@@ -147,7 +147,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      * @throws Exception if any error is raised during the container stop
      */
     protected abstract void stopInternal() throws Exception;
-    
+
     /**
      * Some containers may not fully stop and need to be forcibly stopped.
      * This method should be overridden for containers that support forcibly stopping the container.
@@ -156,7 +156,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     {
         // No implementation defined here
     }
-    
+
     /**
      * Some containers may require some extra steps after startup.
      * 
@@ -292,7 +292,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
             // Force the container to stop, should it not already be stopped.
             // At this point, the container should already be stopped,
             // so this should have no effect if the container was properly stopped.
-            forceStopInternal();            
+            forceStopInternal();
 
             setState(State.STOPPED);
             getLogger().info(getName() + " is stopped", this.getClass().getName());

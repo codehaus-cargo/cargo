@@ -20,14 +20,14 @@
 package org.codehaus.cargo.container.wildfly;
 
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-import org.codehaus.cargo.container.jboss.JBoss71xRemoteContainer;
+import org.codehaus.cargo.container.jboss.JBoss73xRemoteContainer;
 
 /**
  * Special container support for wrapping a running instance of WildFly 8.x.
  * 
  * @version $Id$
  */
-public class WildFly8xRemoteContainer extends JBoss71xRemoteContainer
+public class WildFly8xRemoteContainer extends JBoss73xRemoteContainer
 {
     /**
      * Unique container id.
@@ -36,7 +36,7 @@ public class WildFly8xRemoteContainer extends JBoss71xRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see JBoss71xRemoteContainer#JBoss71xRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
+     * @see JBoss73xRemoteContainer#JBoss73xRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
      */
     public WildFly8xRemoteContainer(RuntimeConfiguration configuration)
     {

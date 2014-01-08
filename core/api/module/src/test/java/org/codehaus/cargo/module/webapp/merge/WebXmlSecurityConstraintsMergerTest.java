@@ -143,5 +143,5 @@ public class WebXmlSecurityConstraintsMergerTest extends AbstractDocumentBuilder
         merger.merge(mergeWebXml);
         assertNotNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s1/*"));
         assertNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s2/*"));
-    }   
+    }
 }

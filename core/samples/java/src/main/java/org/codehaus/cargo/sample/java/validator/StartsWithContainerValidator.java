@@ -58,7 +58,7 @@ public class StartsWithContainerValidator implements Validator
                 return true;
             }
         }
-        
-        return false; 
+
+        return false;
     }
 }

@@ -140,7 +140,7 @@ public class WebXmlMerger extends XmlMerger
             throw new MergeException("Exception merging web.xml files", e);
         }
     }
-    
+
     /**
      * Retrieves merged descriptor.
      * @return WebXml object

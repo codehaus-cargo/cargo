@@ -25,6 +25,7 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBoss73xInstalledLocalContainer;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
@@ -41,7 +42,7 @@ public class WildFly8xInstalledLocalContainer extends JBoss73xInstalledLocalCont
 
     /**
      * {@inheritDoc}
-     * @see JBoss72xInstalledLocalContainer#JBoss72xInstalledLocalContainer(LocalConfiguration)
+     * @see JBoss73xInstalledLocalContainer#JBoss73xInstalledLocalContainer(LocalConfiguration)
      */
     public WildFly8xInstalledLocalContainer(LocalConfiguration configuration)
     {
@@ -93,15 +94,15 @@ public class WildFly8xInstalledLocalContainer extends JBoss73xInstalledLocalCont
             "org.jboss.as.cli",
             "--connect", "--controller=" + host + ":" + port,
             "command=:shutdown");
-        
-        String user = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_USER);
 
-        if (user != null && user.trim().length() != 0)
+        String username = getConfiguration().getPropertyValue(RemotePropertySet.USERNAME);
+
+        if (username != null && username.trim().length() != 0)
         {
             String password =
-                getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_PASSWORD);
+                getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD);
 
-            java.addAppArguments("--user=" + user, "--password=" + password);
+            java.addAppArguments("--user=" + username, "--password=" + password);
         }
 
         java.start();

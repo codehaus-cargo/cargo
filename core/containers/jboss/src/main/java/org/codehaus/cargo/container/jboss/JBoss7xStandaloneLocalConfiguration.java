@@ -95,10 +95,8 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         getProperties().remove(JBossPropertySet.JBOSS_INVOKER_POOL_PORT);
         getProperties().remove(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT);
         getProperties().remove(JBossPropertySet.JBOSS_NAMING_PORT);
-        getProperties().remove(JBossPropertySet.JBOSS_PASSWORD);
         getProperties().remove(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT);
         getProperties().remove(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT);
-        getProperties().remove(JBossPropertySet.JBOSS_USER);
 
         try
         {
@@ -119,7 +117,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
     {
         return CAPABILITY;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see AbstractStandaloneLocalConfiguration#performXmlReplacements(LocalContainer)
@@ -380,7 +378,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
             getFileHandler().delete(tmpDir);
         }
 
-        // Deploy the deployables into the deployments directory        
+        // Deploy the deployables into the deployments directory
         String deployments;
         String altDeployDir = container.getConfiguration().
             getPropertyValue(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR);
@@ -394,7 +392,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         {
             deployments = getFileHandler().append(getHome(), "deployments");
         }
-         
+ 
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             new File(deployments, "cargocpc.war"));
         JBoss7xInstalledLocalDeployer deployer = new JBoss7xInstalledLocalDeployer(container);

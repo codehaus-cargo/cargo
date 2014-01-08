@@ -100,5 +100,5 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
     {
         return "WebSphere 8.5 Existing Configuration";
     }
-    
+
 }

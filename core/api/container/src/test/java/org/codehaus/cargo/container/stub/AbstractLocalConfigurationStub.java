@@ -193,7 +193,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     {
         throw new RuntimeException("Not implemented");
     }
-    
+
     /**
      * Doesn't do anything. {@inheritdoc}
      */

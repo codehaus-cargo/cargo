@@ -94,11 +94,11 @@ public class DocumentMerger implements MergeProcessor
      */
     private Document merge(Document left, Document right)
     {
-        List<Content> children = new ArrayList<Content>(); 
-        children.addAll(right.getRootElement().getContent()); 
-        
+        List<Content> children = new ArrayList<Content>();
+        children.addAll(right.getRootElement().getContent());
+
         Document tempLeft = (Document) left.clone();
-        
+
         for (Content node : children)
         {
             if (node instanceof Element)
@@ -107,7 +107,7 @@ public class DocumentMerger implements MergeProcessor
                 tempLeft.getRootElement().addContent(clone);
             }
         }
-        
+
         return tempLeft;
     }
 }

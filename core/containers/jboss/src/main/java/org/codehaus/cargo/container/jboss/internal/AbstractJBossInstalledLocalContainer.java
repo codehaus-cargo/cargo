@@ -35,6 +35,7 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
@@ -125,14 +126,14 @@ public abstract class AbstractJBossInstalledLocalContainer extends
             + getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
             + getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
 
-        String jbossUser = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_USER);
-        String jbossPassword = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_PASSWORD);
-        if (jbossUser != null)
+        String username = getConfiguration().getPropertyValue(RemotePropertySet.USERNAME);
+        String password = getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD);
+        if (username != null)
         {
-            java.addAppArguments("--user=" + jbossUser);
-            if (jbossPassword != null)
+            java.addAppArguments("--user=" + username);
+            if (password != null)
             {
-                java.addAppArguments("--password=" + jbossPassword);
+                java.addAppArguments("--password=" + password);
             }
         }
 

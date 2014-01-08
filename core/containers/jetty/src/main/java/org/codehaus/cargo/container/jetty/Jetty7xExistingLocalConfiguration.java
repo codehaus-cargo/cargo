@@ -52,5 +52,5 @@ public class Jetty7xExistingLocalConfiguration extends AbstractJettyExistingLoca
             new Jetty7xInstalledLocalDeployer((InstalledLocalContainer) container);
         return deployer;
     }
-    
+
 }

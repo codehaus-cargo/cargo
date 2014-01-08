@@ -101,12 +101,12 @@ public interface GlassFishPropertySet
      * Glassfish domain debug mode.
      */
     String DEBUG_MODE = "cargo.glassfish.domain.debug";
-    
+
     /**
      * Prefix for extra arguments for "asadmin deploy"
      */
     String DEPLOY_ARG_PREFIX = "cargo.glassfish.deploy.arg.";
-    
+
     /**
      * Prefix for extra arguments for "asadmin undeploy"
      */

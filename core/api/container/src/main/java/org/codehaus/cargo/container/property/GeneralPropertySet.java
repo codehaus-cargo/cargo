@@ -73,13 +73,13 @@ public interface GeneralPropertySet
      * container keeps running even after CARGO itself has terminated.
      */
     String SPAWN_PROCESS = "cargo.process.spawn";
-    
+
     /**
      * Specify if CARGO's configuration generator for standalone containers should ignore when a
      * property cannot be replaced because it does not exist in the source file.
      */
     String IGNORE_NON_EXISTING_PROPERTIES = "cargo.standalone.ignoreNonExistingProperties";
-    
+
     /**
      * The port offset to apply to the container ports.
      */

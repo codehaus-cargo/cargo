@@ -27,6 +27,7 @@ import java.util.Map;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
@@ -57,6 +58,8 @@ public class JonasStandaloneLocalConfigurationCapability extends
         this.defaultSupportsMap.put(JonasPropertySet.JONAS_JMS_PORT, Boolean.TRUE);
         this.defaultSupportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.defaultSupportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
+        this.defaultSupportsMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
+        this.defaultSupportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
     }
 
     /**

@@ -62,7 +62,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      * The path under which the container resources are stored in the JAR.
      */
     public static final String RESOURCE_PATH = "org/codehaus/cargo/container/internal/resources/";
-    
+
     /**
      * Property key to flag ports which have already an offset applied.
      */
@@ -677,7 +677,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
             && !this.getPropertyValue(GeneralPropertySet.PORT_OFFSET).equals("0")) 
         {
             // We need to shift the ports
-            
+
             // Since the properties hashmap is impacted by the revert we must 
             // use a copy of the keys
             Set<String> keysCopy = new HashSet<String>(this.getProperties().keySet());

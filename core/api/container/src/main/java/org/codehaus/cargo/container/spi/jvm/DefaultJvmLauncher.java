@@ -241,7 +241,7 @@ class DefaultJvmLauncher implements JvmLauncher
     {
         return this.java.getCommandLine().toString();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -249,7 +249,7 @@ class DefaultJvmLauncher implements JvmLauncher
     {
         // Not supported by Ant Java Task
     }
-    
+
 
     /**
      * {@inheritDoc}

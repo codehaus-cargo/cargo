@@ -62,7 +62,7 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
          */
         UNDEPLOY
     }
-    
+
     /**
      * Container configuration.
      */

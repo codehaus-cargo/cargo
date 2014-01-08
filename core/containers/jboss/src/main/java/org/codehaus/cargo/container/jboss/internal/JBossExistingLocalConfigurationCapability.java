@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
@@ -53,12 +54,14 @@ public class JBossExistingLocalConfigurationCapability extends
         this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
         this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR,
+            Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
 
         // We don't support this property since it's not required as the configuration home already
         // points to the JBoss configuration to use...
         this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.FALSE);
-        this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR,
-            Boolean.TRUE);
     }
 
     /**

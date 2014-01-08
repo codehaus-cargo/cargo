@@ -94,7 +94,7 @@ public class Tomcat4xInstalledLocalContainer extends AbstractCatalinaInstalledLo
     @Override
     protected void invokeContainer(String action, JvmLauncher java) throws Exception
     {
-        String base = getFileHandler().getAbsolutePath(getConfiguration().getHome()); 
+        String base = getFileHandler().getAbsolutePath(getConfiguration().getHome());
         java.setSystemProperty("catalina.home", getFileHandler().getAbsolutePath(getHome()));
         java.setSystemProperty("catalina.base", base);
         java.setSystemProperty("java.io.tmpdir",

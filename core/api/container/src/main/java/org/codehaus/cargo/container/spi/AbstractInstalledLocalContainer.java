@@ -102,7 +102,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * JVM launcher factory.
      */
     private JvmLauncherFactory jvmLauncherFactory;
-    
+
     /**
      * JVM launcher that started the container.
      */
@@ -324,7 +324,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         doStop(createJvmLauncher(false));
     }
 
-    
     /**
      * {@inheritDoc}
      * 
@@ -338,7 +337,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             jvmStartLauncher.kill();
         }
     }
-    
+
     /**
      * Creates a preinitialized instance of a JVM launcher to be used for starting, stopping and
      * controlling the container.

@@ -61,5 +61,5 @@ public class WebSphere85xExistingLocalConfigurationCapability
     protected Map<String, Boolean> getPropertySupportMap()
     {
         return this.defaultSupportsMap;
-    }   
+    }
 }
