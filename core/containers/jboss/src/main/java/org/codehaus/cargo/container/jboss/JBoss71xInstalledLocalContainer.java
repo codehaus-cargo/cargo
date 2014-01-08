@@ -130,6 +130,15 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
             "org.jboss.as.cli",
             "--connect", "--controller=" + host + ":" + port,
             "command=:shutdown");
+        
+        String user = getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_USER);
+
+        if (user != null && user.trim().length() != 0)
+        {
+            String password =
+                getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_PASSWORD);
+            java.addAppArguments("--user=" + user, "--password=" + password);
+        }
 
         java.start();
     }
