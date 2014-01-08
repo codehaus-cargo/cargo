@@ -69,7 +69,7 @@ public class TestServlet extends HttpServlet
                 out.print("</code></b>.");
             }
         }
-        
+
         out.close();
     }
 }
