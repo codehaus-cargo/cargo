@@ -59,6 +59,11 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     LocalConfiguration
 {
     /**
+     * Property key to flag ports which have already an offset applied.
+     */
+    private static String PORT_OFFSET_APPLIED_PREFIX = LocalConfiguration.class.getName() + "_portOffsetApplied_";
+    
+    /**
      * The path under which the container resources are stored in the JAR.
      */
     public static final String RESOURCE_PATH =
@@ -693,7 +698,8 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     protected void applyPortOffset(String name) 
     {
         if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null
-            && this.getPropertyValue(name) != null) 
+            && this.getPropertyValue(name) != null 
+            && !isOffsetApplied(name)) 
         {
             try 
             {
@@ -701,6 +707,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
                     GeneralPropertySet.PORT_OFFSET));
                 int value = Integer.parseInt(this.getPropertyValue(name));
                 this.setProperty(name, Integer.toString(value + portOffset));
+                flagOffestApplied(name, true);
             }
             catch (NumberFormatException e) 
             {
@@ -716,7 +723,8 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     protected void revertPortOffset(String name) 
     {
         if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null
-                && this.getPropertyValue(name) != null) 
+                && this.getPropertyValue(name) != null
+                && isOffsetApplied(name)) 
         {
             try 
             {
@@ -724,11 +732,31 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
                     GeneralPropertySet.PORT_OFFSET));
                 int value = Integer.parseInt(this.getPropertyValue(name));
                 this.setProperty(name, Integer.toString(value - portOffset));
+                flagOffestApplied(name, false);
             }
             catch (NumberFormatException e) 
             {
                 // We do nothing
             }
         }
+    }
+
+    /**
+     * Checks whether the offset is already applied or not 
+     * @param name the name of the property to be checked
+     * @return <code>true</code> if the offset is already applied
+     */
+    protected boolean isOffsetApplied(String name) {
+        return this.getPropertyValue(PORT_OFFSET_APPLIED_PREFIX + name) != null;
+    }
+
+    /**
+     * Flags the 
+     * @param name the name of the property to be flagged.
+     * @param offsetApplied
+     */
+    protected void flagOffestApplied(String name, boolean offsetApplied) {
+        this.setProperty(PORT_OFFSET_APPLIED_PREFIX + name,
+                offsetApplied ? String.valueOf(offsetApplied) : null);
     }
 }
