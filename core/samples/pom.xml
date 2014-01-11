@@ -717,7 +717,7 @@
 
               <property>
                 <name>cargo.jboss3x.url</name>
-                <value>http://ovh.dl.sourceforge.net/sourceforge/jboss/jboss-3.2.8.SP1.zip</value>
+                <value>http://downloads.sourceforge.net/jboss/jboss-3.2.8.SP1.zip?big_mirror=1</value>
               </property>
               <property>
                 <name>cargo.jboss3x.java.home</name>
