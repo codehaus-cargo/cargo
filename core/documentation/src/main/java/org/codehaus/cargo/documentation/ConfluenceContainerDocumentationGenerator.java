@@ -384,21 +384,6 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        else if (containerId.equals("jetty9x"))
-        {
-            output.append("{note}");
-            output.append("Some versions of Jetty 9, in particular the {{npn}} module, might ");
-            output.append("require specific versions of the Java Virtual Machine.");
-            output.append(LINE_SEPARATOR);
-            output.append("If you get error messages such as {{java.io.IOException: ");
-            output.append("modules/npn/npn-1.7.0_02.mod}} then please either change your ");
-            output.append("Java VM version or modify the {{modules/npn}} directory of the Jetty ");
-            output.append("distribution in order to have {{npn}} support for your specific ");
-            output.append("Java VM version.");
-            output.append("{note}");
-            output.append(LINE_SEPARATOR);
-            output.append(LINE_SEPARATOR);
-        }
         else if (containerId.startsWith("websphere"))
         {
             output.append("{note}");

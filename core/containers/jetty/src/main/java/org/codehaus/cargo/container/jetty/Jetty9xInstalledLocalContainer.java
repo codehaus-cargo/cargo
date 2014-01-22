@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.jetty;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Special container support for the Jetty 9.x servlet container.
@@ -51,6 +52,39 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
     public String getId()
     {
         return ID;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer#doStart(JvmLauncher)
+     */
+    @Override
+    public void doStart(JvmLauncher java) throws Exception
+    {
+        String npnFolder = getFileHandler().append(getHome(), "modules/npn");
+        if (getFileHandler().isDirectory(npnFolder))
+        {
+            String closest = "";
+            String expected = "npn-" + System.getProperty("java.version") + ".mod";
+            for (String npnFile : getFileHandler().getChildren(npnFolder))
+            {
+                String npnFilename = getFileHandler().getName(npnFile);
+                int distanceClosest = Math.abs(closest.compareTo(expected));
+                int distanceCurrent = Math.abs(npnFilename.compareTo(expected));
+                if (distanceCurrent < distanceClosest)
+                {
+                    closest = npnFilename;
+                }
+            }
+            if (closest.length() > 0 && !closest.equals(expected))
+            {
+                closest = getFileHandler().append(npnFolder, closest);
+                expected = getFileHandler().append(npnFolder, expected);
+                getFileHandler().copyFile(closest, expected);
+            }
+        }
+
+        super.doStart(java);
     }
 
     /**
