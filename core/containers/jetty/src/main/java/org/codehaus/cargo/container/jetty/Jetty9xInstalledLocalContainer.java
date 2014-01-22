@@ -61,6 +61,7 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
     @Override
     public void doStart(JvmLauncher java) throws Exception
     {
+        // Workaround for CARGO-1252
         String npnFolder = getFileHandler().append(getHome(), "modules/npn");
         if (getFileHandler().isDirectory(npnFolder))
         {
