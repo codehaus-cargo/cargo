@@ -20,34 +20,24 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
-    <artifactId>cargo-resources</artifactId>
+    <artifactId>cargo-samples-testdata</artifactId>
     <version>1.4.7-SNAPSHOT</version>
   </parent>
-  <groupId>org.codehaus.cargo</groupId>
-  <artifactId>cargo-samples-testdata</artifactId>
-  <packaging>pom</packaging>
-  <name>Cargo Samples Test Data</name>
-  <description>Test data for the Sample applications</description>
-  <modules>
-    <module>empty-jar</module>
-    <module>empty-ear</module>
-    <module>simple-jar</module>
-    <module>simple-war</module>
-    <module>datasource-war</module>
-    <module>two-datasources-war</module>
-    <module>xadatasource-war</module>
-    <module>mailsession-war</module>
-    <module>jms-war</module>
-    <module>datasource-cmt-local-war</module>
-    <module>classpath-war</module>
-    <module>simple-ejb</module>
-    <module>simple-ear</module>
-    <module>authentication-war</module>
-    <module>expanded-war</module>
-    <module>tomcat-context</module>
-    <module>simple-bundle</module>
-    <module>simple-har</module>
-    <module>simple-aop</module>
-    <module>systemproperty-war</module>
-  </modules>
+  <artifactId>jms-war</artifactId>
+  <name>Cargo JMS WAR test data for samples</name>
+  <packaging>war</packaging>
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.4</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.jms</groupId>
+      <artifactId>jms-api</artifactId>
+      <version>1.1-rev-1</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
 </project>

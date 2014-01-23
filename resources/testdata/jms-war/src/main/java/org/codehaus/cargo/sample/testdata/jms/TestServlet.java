@@ -17,12 +17,13 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.sample.testdata.mail;
+package org.codehaus.cargo.sample.testdata.jms;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.mail.Session;
+import javax.jms.JMSException;
+import javax.jms.Queue;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -31,7 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Sample test Servlet used to verify that resource Mail Session is deployed.
+ * Sample test Servlet used to verify that resource JMS queue is deployed.
  * 
  * @version $Id$
  */
@@ -45,17 +46,21 @@ public class TestServlet extends HttpServlet
         Object o = null;
         try
         {
-            o = new InitialContext().lookup("java:comp/env/mail/Session");
-            ((Session) o).getProperties();
+            o = new InitialContext().lookup("java:comp/env/jms/MyQueue");
+            ((Queue) o).getQueueName();
             PrintWriter out = response.getWriter();
-            out.print("Got session!");
+            out.print("Got queue!");
             out.close();
         }
         catch (ClassCastException e)
         {
-            throw new ServletException("Got " + o.getClass() + " instead of Mail Session", e);
+            throw new ServletException("Got " + o.getClass() + " instead of JMS Queue", e);
         }
         catch (NamingException e)
+        {
+            throw new ServletException(e);
+        }
+        catch (JMSException e)
         {
             throw new ServletException(e);
         }
