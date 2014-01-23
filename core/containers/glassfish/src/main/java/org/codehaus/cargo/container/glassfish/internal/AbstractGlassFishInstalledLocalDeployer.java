@@ -24,6 +24,7 @@ import java.util.List;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
+import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.DeployerType;
@@ -134,6 +135,14 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
      * @param jdbcName JNDI name of datasource to undeploy.
      */
     public abstract void undeployDatasource(String poolName, String jdbcName);
+
+    /**
+     * Deploy a resource. There is no undeployResource inverse function.
+     * 
+     * @param resource
+     *            resource to deploy.
+     */
+    public abstract void deployResource(Resource resource);
 
     /**
      * {@inheritDoc}

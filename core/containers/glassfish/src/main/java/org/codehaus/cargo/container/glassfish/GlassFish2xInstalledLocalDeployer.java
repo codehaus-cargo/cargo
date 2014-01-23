@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
+import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
@@ -138,4 +139,13 @@ public class GlassFish2xInstalledLocalDeployer extends AbstractGlassFishInstalle
         this.getLocalContainer().invokeAsAdmin(false, args);
     }
 
+    /**
+     * Does not do anything since GlassFish 2.x support was not tested.
+     * {@inheritDoc}
+     */
+    @Override
+    public void deployResource(Resource resource)
+    {
+        // nothing
+    }
 }

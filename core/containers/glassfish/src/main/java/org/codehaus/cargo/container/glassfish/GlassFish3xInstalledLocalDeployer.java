@@ -21,10 +21,15 @@ package org.codehaus.cargo.container.glassfish;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
+import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -39,6 +44,18 @@ import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalle
 public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalledLocalDeployer
 {
 
+    /**
+     * Allowed JMS resource types per <code>create-jms-resource</code>
+     * <code>--restype</code> parameter.
+     */
+    private static final Set<String> JMS_RESOURCE_TYPES = Collections
+            .unmodifiableSet(new HashSet<String>(Arrays.asList(
+                    "javax.jms.Topic",
+                    "javax.jms.Queue",
+                    "javax.jms.ConnectionFactory",
+                    "javax.jms.TopicConnectionFactory",
+                    "javax.jms.QueueConnectionFactory")));
+    
     /**
      * Calls parent constructor, which saves the container.
      * 
@@ -188,4 +205,23 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         this.getLocalContainer().invokeAsAdmin(false, args);
     }
 
+    /**
+     * This will be used to deploy JMS resources only using
+     * <code>create-jms-resource</code>. {@inheritDoc}
+     */
+    @Override
+    public void deployResource(Resource resource)
+    {
+        if (JMS_RESOURCE_TYPES.contains(resource.getType()))
+        {
+            List<String> args = new ArrayList<String>();
+            this.addConnectOptions(args);
+            args.add("create-jms-resource");
+            args.add("--restype");
+            args.add(resource.getType());
+            args.add(resource.getName());
+
+            this.getLocalContainer().invokeAsAdmin(false, args);
+        }        
+    }
 }

@@ -27,6 +27,7 @@ import java.util.List;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
+import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
@@ -163,13 +164,18 @@ public abstract class AbstractGlassFishInstalledLocalContainer
                 deployer.undeployDatasource("DerbyPool", "jdbc/__default");
             }
 
-            // Deploy datasources
+            // Deploy datasources and resources
             // CARGO-1035: Only for standalone local configuration
             if (this.getConfiguration() instanceof StandaloneLocalConfiguration)
             {
                 for (DataSource dataSource : this.getConfiguration().getDataSources())
                 {
                     deployer.deployDatasource(dataSource);
+                }
+
+                for (Resource resource : this.getConfiguration().getResources())
+                {
+                    deployer.deployResource(resource);
                 }
             }
 
