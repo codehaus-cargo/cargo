@@ -20,6 +20,8 @@
 package org.codehaus.cargo.sample.java;
 
 import java.net.MalformedURLException;
+import java.util.Set;
+import java.util.TreeSet;
 
 import junit.framework.Test;
 
@@ -38,11 +40,11 @@ import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidat
 import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
- * Test for resource capabilities.
+ * Test for mail resource capabilities.
  * 
  * @version $Id$
  */
-public class ResourceOnStandaloneConfigurationTest extends
+public class MailResourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
 {
     /**
@@ -51,7 +53,7 @@ public class ResourceOnStandaloneConfigurationTest extends
      * @param testData Test environment data.
      * @throws Exception If anything goes wrong.
      */
-    public ResourceOnStandaloneConfigurationTest(String testName, EnvironmentTestData testData)
+    public MailResourceOnStandaloneConfigurationTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
@@ -77,7 +79,6 @@ public class ResourceOnStandaloneConfigurationTest extends
             (InstalledLocalContainer) super.createContainer(type, configuration);
         addMailJarsToExtraClasspath(container);
         return container;
-
     }
 
     /**
@@ -108,11 +109,18 @@ public class ResourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting Resource and WAR deployments");
 
-        suite.addTestSuite(ResourceOnStandaloneConfigurationTest.class, new Validator[] {
-            new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
-            new HasWarSupportValidator(),
-            new HasResourceSupportValidator(ConfigurationType.STANDALONE)});
+        // glassfish3x and glassfish4x cannot deploy mail resources
+        Set<String> excludedContainerIds = new TreeSet<String>();
+        excludedContainerIds.add("glassfish3x");
+        excludedContainerIds.add("glassfish4x");
+
+        suite.addTestSuite(MailResourceOnStandaloneConfigurationTest.class,
+            new Validator[] {
+                new IsInstalledLocalContainerValidator(),
+                new HasStandaloneConfigurationValidator(),
+                new HasWarSupportValidator(),
+                new HasResourceSupportValidator(ConfigurationType.STANDALONE)},
+            excludedContainerIds);
         return suite;
     }
 
