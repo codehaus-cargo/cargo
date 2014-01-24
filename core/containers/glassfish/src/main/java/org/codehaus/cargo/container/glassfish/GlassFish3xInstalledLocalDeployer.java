@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Bundle;
@@ -206,8 +207,9 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
     }
 
     /**
-     * This will be used to deploy JMS resources only using
-     * <code>create-jms-resource</code>. {@inheritDoc}
+     * This will be used to deploy JavaMail and JMS resources only using
+     * <code>create-javamail-resource</code> and
+     * <code>create-jms-resource</code> respectively. {@inheritDoc}
      */
     @Override
     public void deployResource(Resource resource)
@@ -223,5 +225,32 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
 
             this.getLocalContainer().invokeAsAdmin(false, args);
         }        
+        else if (ConfigurationEntryType.MAIL_SESSION.equals(resource.getType()))
+        {
+            List<String> args = new ArrayList<String>();
+            this.addConnectOptions(args);
+            args.add("create-javamail-resource");
+            args.add("--mailhost");
+            args.add(resource.getParameter("mail.smtp.host"));
+            args.add("--mailuser");
+            args.add(resource.getParameter("mail.smtp.user"));
+            args.add("--fromaddress");
+            args.add(resource.getParameter("mail.smtp.from"));
+            args.add("--property");
+            
+            StringBuilder propertyBuilder = new StringBuilder();
+            for (String parameterName : resource.getParameterNames())
+            {
+                propertyBuilder.append(parameterName);
+                propertyBuilder.append("=");
+                propertyBuilder.append(resource.getParameter(parameterName)
+                        .replace("\\", "\\\\").replace(":", "\\:")
+                        .replace("=", "\\="));
+                propertyBuilder.append(":");
+            }
+            args.add(propertyBuilder.toString());
+            args.add(resource.getName());
+            this.getLocalContainer().invokeAsAdmin(false, args);
+        }
     }
 }
