@@ -169,4 +169,15 @@ public final class ConfigurationFixtureFactory
             null);
     }
 
+    /**
+     * @return {@link ResourceFixture} representing a JMS queue.
+     */
+    public static ResourceFixture createJmsQueueAsResource()
+    {
+        return new ResourceFixture("jms/MyQueue",
+            ConfigurationEntryType.JMS_QUEUE,
+            null,
+            null);
+    }
+
 }

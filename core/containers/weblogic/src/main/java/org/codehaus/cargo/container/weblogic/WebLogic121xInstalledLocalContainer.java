@@ -56,7 +56,7 @@ public class WebLogic121xInstalledLocalContainer extends AbstractWebLogicInstall
      */
     public String getName()
     {
-        return "WebLogic 12.1x";
+        return "WebLogic 12.1.x";
     }
 
     /**

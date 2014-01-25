@@ -105,6 +105,54 @@ public abstract class AbstractGlassFishInstalledLocalContainer
     protected abstract AbstractAsAdmin getAsAdmin();
 
     /**
+     * {@inheritDoc}. CARGO-1255: Remove the JVM arguments from the asadmin, else debugging and
+     * potentially many other functions do work.
+     * 
+     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#startInternal()
+     */
+    @Override
+    protected void startInternal() throws Exception
+    {
+        synchronized (this.getConfiguration())
+        {
+            String jvmArguments =
+                this.getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+            try
+            {
+                super.startInternal();
+            }
+            finally
+            {
+                this.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, jvmArguments);
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}. CARGO-1255: Remove the JVM arguments from the asadmin, else debugging and
+     * potentially many other functions do work.
+     * 
+     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#stopInternal()
+     */
+    @Override
+    protected void stopInternal() throws Exception
+    {
+        synchronized (this.getConfiguration())
+        {
+            String jvmArguments =
+                this.getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+            try
+            {
+                super.stopInternal();
+            }
+            finally
+            {
+                this.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, jvmArguments);
+            }
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

@@ -299,7 +299,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#startInternal()
      */
     @Override
-    protected final void startInternal() throws Exception
+    protected void startInternal() throws Exception
     {
         jvmStartLauncher = createJvmLauncher(true);
         // Due to defect in org.apache.tools.ant.taskdefs.Java#setAppend we
@@ -319,7 +319,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#stopInternal()
      */
     @Override
-    protected final void stopInternal() throws Exception
+    protected void stopInternal() throws Exception
     {
         doStop(createJvmLauncher(false));
     }

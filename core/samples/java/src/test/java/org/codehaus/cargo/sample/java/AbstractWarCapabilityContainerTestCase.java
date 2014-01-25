@@ -33,7 +33,7 @@ import org.codehaus.cargo.util.AntUtils;
  * 
  * @version $Id$
  */
-public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCargoTestCase
+public abstract class AbstractWarCapabilityContainerTestCase extends AbstractWarTestCase
 {
     /**
      * Initializes the test case.
@@ -108,18 +108,5 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractCar
             + "/expanded-war" + "/index.html");
 
         startAndStop(warPingURL);
-    }
-
-    /**
-     * Start, test and stop WAR.
-     * @param warPingURL WAR ping URL.
-     */
-    public void startAndStop(URL warPingURL)
-    {
-        getLocalContainer().start();
-        PingUtils.assertPingTrue(warPingURL.getPath() + " not started", warPingURL, getLogger());
-
-        getLocalContainer().stop();
-        PingUtils.assertPingFalse(warPingURL.getPath() + " not stopped", warPingURL, getLogger());
     }
 }

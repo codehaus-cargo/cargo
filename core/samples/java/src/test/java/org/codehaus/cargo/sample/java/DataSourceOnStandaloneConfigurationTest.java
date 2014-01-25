@@ -57,16 +57,6 @@ public class DataSourceOnStandaloneConfigurationTest extends
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
-    }
-
-    /**
      * Creates the test suite, using the {@link Validator}s.
      * @return Test suite.
      * @throws Exception If anything goes wrong.

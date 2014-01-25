@@ -50,7 +50,7 @@ public class WebLogic121xStandaloneLocalConfiguration extends
     @Override
     public String toString()
     {
-        return "WebLogic 12.1x Standalone Configuration";
+        return "WebLogic 12.1.x Standalone Configuration";
     }
 
 }

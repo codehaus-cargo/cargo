@@ -25,10 +25,6 @@ import java.util.TreeSet;
 
 import junit.framework.Test;
 
-import org.codehaus.cargo.container.Container;
-import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
@@ -39,11 +35,11 @@ import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidat
 import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
- * Test for mail resource capabilities.
+ * Test for XA datasource deployed as resource resource capabilities.
  * 
  * @version $Id$
  */
-public class MailResourceOnStandaloneConfigurationTest extends
+public class XADatasourceResourceOnStandaloneConfigurationTest extends
     AbstractResourceOnStandaloneConfigurationTest
 {
     /**
@@ -52,39 +48,10 @@ public class MailResourceOnStandaloneConfigurationTest extends
      * @param testData Test environment data.
      * @throws Exception If anything goes wrong.
      */
-    public MailResourceOnStandaloneConfigurationTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    public XADatasourceResourceOnStandaloneConfigurationTest(String testName,
+        EnvironmentTestData testData) throws Exception
     {
         super(testName, testData);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Container createContainer(ContainerType type, Configuration configuration)
-    {
-        InstalledLocalContainer container =
-            (InstalledLocalContainer) super.createContainer(type, configuration);
-        addMailJarsToExtraClasspath(container);
-        return container;
-    }
-
-    /**
-     * Add mail JARs to extra classpath.
-     * @param container Container.
-     */
-    private void addMailJarsToExtraClasspath(InstalledLocalContainer container)
-    {
-        String mail = System.getProperty("cargo.testdata.mail-jars");
-        if (mail != null)
-        {
-            String[] jars = container.getFileHandler().getChildren(mail);
-            for (String jar : jars)
-            {
-                container.addExtraClasspath(jar);
-            }
-        }
     }
 
     /**
@@ -98,12 +65,12 @@ public class MailResourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting Resource and WAR deployments");
 
-        // glassfish3x and glassfish4x cannot deploy mail sessions as a resource
+        // glassfish3x and glassfish4x cannot deploy XA datasources as a resource
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("glassfish3x");
         excludedContainerIds.add("glassfish4x");
 
-        suite.addTestSuite(MailResourceOnStandaloneConfigurationTest.class,
+        suite.addTestSuite(XADatasourceResourceOnStandaloneConfigurationTest.class,
             new Validator[] {
                 new IsInstalledLocalContainerValidator(),
                 new HasStandaloneConfigurationValidator(),
@@ -114,15 +81,15 @@ public class MailResourceOnStandaloneConfigurationTest extends
     }
 
     /**
-     * User configures javax.mail.Session -> container provides that same javax.mail.Session
+     * User configures javax.sql.XADataSource -> container provides that same javax.sql.XADataSource
      * @throws MalformedURLException If URL for the test WAR cannot be built.
      */
-    public void testUserConfiguresMailSessionAsResource() throws MalformedURLException
+    public void testUserConfiguresXADataSourceAsResource() throws MalformedURLException
     {
-        ResourceFixture fixture = ConfigurationFixtureFactory.createMailSessionAsResource();
+        ResourceFixture fixture = ConfigurationFixtureFactory.createXADataSourceAsResource();
 
         addResourceToConfigurationViaProperty(fixture);
 
-        testWar("mailsession");
+        testWar("xadatasource");
     }
 }

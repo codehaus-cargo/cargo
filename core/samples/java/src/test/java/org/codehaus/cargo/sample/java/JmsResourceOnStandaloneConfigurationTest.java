@@ -30,7 +30,8 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.property.ResourcePropertySet;
+import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
+import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.sample.java.validator.HasResourceSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
@@ -43,7 +44,7 @@ import org.codehaus.cargo.sample.java.validator.Validator;
  * @version $Id$
  */
 public class JmsResourceOnStandaloneConfigurationTest extends
-    AbstractDataSourceWarCapabilityContainerTestCase
+    AbstractResourceOnStandaloneConfigurationTest
 {
     /**
      * Initializes the test case.
@@ -55,16 +56,6 @@ public class JmsResourceOnStandaloneConfigurationTest extends
         throws Exception
     {
         super(testName, testData);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
     }
 
     /**
@@ -118,9 +109,10 @@ public class JmsResourceOnStandaloneConfigurationTest extends
      */
     public void testUserConfiguresJmsQueueAsResource() throws MalformedURLException
     {
-        Configuration config = getLocalContainer().getConfiguration();
-        config.setProperty(ResourcePropertySet.RESOURCE + ".jmsMyQueue",
-            "cargo.resource.name=jms/MyQueue|cargo.resource.type=javax.jms.Queue");
+        ResourceFixture fixture = ConfigurationFixtureFactory.createJmsQueueAsResource();
+
+        addResourceToConfigurationViaProperty(fixture);
+
         testWar("jms");
     }
 }

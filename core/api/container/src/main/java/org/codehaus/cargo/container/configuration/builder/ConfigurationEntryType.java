@@ -56,4 +56,9 @@ public interface ConfigurationEntryType
      */
     String MIMETYPE_DATASOURCE = "javax.mail.internet.MimePartDataSource";
 
+    /**
+     * JMS queue.
+     */
+    String JMS_QUEUE = "javax.jms.Queue";
+
 }
