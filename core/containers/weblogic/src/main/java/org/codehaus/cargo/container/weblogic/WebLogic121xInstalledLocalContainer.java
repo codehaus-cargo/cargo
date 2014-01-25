@@ -98,7 +98,7 @@ public class WebLogic121xInstalledLocalContainer extends AbstractWebLogicInstall
     protected List<String> getBeaHomeFiles()
     {
         List<String> requiredFiles = new ArrayList<String>();
-        requiredFiles.add(getFileHandler().append(getBeaHome(), "inventory/registry.xml"));
+        requiredFiles.add(getFileHandler().append(getBeaHome(), "inventory/ContentsXML/comps.xml"));
         return requiredFiles;
     }
 

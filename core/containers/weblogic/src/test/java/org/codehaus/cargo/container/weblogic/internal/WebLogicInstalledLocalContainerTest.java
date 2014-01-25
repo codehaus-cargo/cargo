@@ -170,7 +170,7 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
             assertEquals("Invalid Weblogic installation. The [" + BEA_HOME
                 + "/registry.xml] file doesn't "
                 + "exist. Make sure the BEA_HOME directory you have specified "
-                + "points to the right location (It's currently pointing to [" + BEA_HOME + "])",
+                + "points to the correct location (it is currently pointing to [" + BEA_HOME + "])",
                 expected.getMessage());
         }
     }

@@ -161,9 +161,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
         List<String> requiredDirs = this.getBeaHomeDirs();
         List<String> requiredFiles = this.getBeaHomeFiles();
         String errorPrefix = "Invalid Weblogic installation. ";
-        String errorSuffix = "Make sure the BEA_HOME directory you have specified "
-                + "points to the right location (It's currently pointing to ["
-                + getBeaHome() + "])";
+        String errorSuffix = "Make sure the BEA_HOME directory you have specified points to the "
+            + "correct location (it is currently pointing to [" + getBeaHome() + "])";
         verify(errorPrefix, errorSuffix, requiredDirs, requiredFiles);
     }
 

@@ -119,11 +119,15 @@ public abstract class AbstractGlassFishInstalledLocalContainer
                 this.getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
             try
             {
+                this.getConfiguration().getProperties().remove(GeneralPropertySet.JVMARGS);
                 super.startInternal();
             }
             finally
             {
-                this.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, jvmArguments);
+                if (jvmArguments != null)
+                {
+                    this.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, jvmArguments);
+                }
             }
         }
     }
@@ -143,11 +147,15 @@ public abstract class AbstractGlassFishInstalledLocalContainer
                 this.getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
             try
             {
+                this.getConfiguration().getProperties().remove(GeneralPropertySet.JVMARGS);
                 super.stopInternal();
             }
             finally
             {
-                this.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, jvmArguments);
+                if (jvmArguments != null)
+                {
+                    this.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, jvmArguments);
+                }
             }
         }
     }

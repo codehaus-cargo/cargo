@@ -24,10 +24,12 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import junit.framework.Test;
+import org.codehaus.cargo.container.configuration.Configuration;
 
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
+import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.sample.java.validator.HasResourceSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
@@ -40,7 +42,7 @@ import org.codehaus.cargo.sample.java.validator.Validator;
  * @version $Id$
  */
 public class XADatasourceResourceOnStandaloneConfigurationTest extends
-    AbstractResourceOnStandaloneConfigurationTest
+    AbstractDataSourceWarCapabilityContainerTestCase
 {
     /**
      * Initializes the test case.
@@ -91,5 +93,15 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
         addResourceToConfigurationViaProperty(fixture);
 
         testWar("xadatasource");
+    }
+
+    /**
+     * Add resource to configuration using properties.
+     * @param fixture Container.
+     */
+    protected void addResourceToConfigurationViaProperty(ResourceFixture fixture)
+    {
+        Configuration config = getLocalContainer().getConfiguration();
+        config.setProperty(ResourcePropertySet.RESOURCE, fixture.buildResourcePropertyString());
     }
 }
