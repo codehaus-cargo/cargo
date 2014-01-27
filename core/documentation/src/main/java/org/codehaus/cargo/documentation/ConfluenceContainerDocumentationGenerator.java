@@ -363,7 +363,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        if (containerId.startsWith("jboss6") || containerId.startsWith("jboss7"))
+        else if (containerId.startsWith("jboss6") || containerId.startsWith("jboss7"))
         {
             output.append("{note}With the opening of the JBoss EAP to the public, JBoss decided ");
             output.append("to have a funny naming convention:");
@@ -380,6 +380,20 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("Enterprise Application Platform (EAP) version 6.2; i.e. the build ");
             output.append("from JBoss Application Server (AS) version 7.3 released in October ");
             output.append("2013");
+            output.append("{note}");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+        }
+        else if (containerId.startsWith("weblogic12"))
+        {
+            output.append("{note}");
+            output.append("If you are using the WebLogic 12 Developer's Edition, after you have ");
+            output.append("downloaded the distribution, please remember to also configure ");
+            output.append("WebLogic.");
+            output.append(LINE_SEPARATOR);
+            output.append("You can read http://www.oracle.com/webfolder/technetwork/tutorials/");
+            output.append("obe/java/wls_12c_netbeans_install/wls_12c_netbeans_install.html for ");
+            output.append("details.");
             output.append("{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
