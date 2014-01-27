@@ -19,10 +19,8 @@
  */
 package org.codehaus.cargo.container.jboss;
 
-import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.jar.Manifest;
@@ -180,10 +178,7 @@ public class JBoss7xInstalledLocalDeployer extends JBossInstalledLocalDeployer
                     String name = entry.getName();
                     if (name.equalsIgnoreCase("META-INF/MANIFEST.MF"))
                     {
-                        byte[] manifestContents = new byte[(int) entry.getSize()];
-                        zin.read(manifestContents);
-                        InputStream bis = new ByteArrayInputStream(manifestContents);
-                        Manifest manifest = new Manifest(bis);
+                        Manifest manifest = new Manifest(zin);
                         String dependencies =
                             manifest.getMainAttributes().getValue("Dependencies");
                         if (dependencies == null)
@@ -205,7 +200,6 @@ public class JBoss7xInstalledLocalDeployer extends JBossInstalledLocalDeployer
                         out.putNextEntry(new ZipEntry(name));
                         manifest.write(out);
                         out.closeEntry();
-                        bis.close();
                     }
                     else
                     {
