@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-core</artifactId>
-    <version>1.4.7</version>
+    <version>1.4.8-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-documentation</artifactId>
   <name>Cargo Website Resources</name>
