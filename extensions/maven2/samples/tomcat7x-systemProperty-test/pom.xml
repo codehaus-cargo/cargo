@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-maven2</artifactId>
-    <version>1.4.7</version>
+    <version>1.4.8-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-sample-maven2-tomcat7-systemProperty-test</artifactId>
   <name>Cargo Samples - Maven 2 - Tomcat 7 system property test</name>
