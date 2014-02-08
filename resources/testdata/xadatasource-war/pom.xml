@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>1.4.7-SNAPSHOT</version>
+    <version>1.4.7</version>
   </parent>
   <artifactId>xadatasource-war</artifactId>
   <name>Cargo XADataSource WAR test data for samples</name>
