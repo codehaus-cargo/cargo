@@ -23,8 +23,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -134,22 +137,37 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
     @Override
     public void deployDatasource(DataSource dataSource)
     {
-        List<String> args = new ArrayList<String>();
+        StringBuilder dataSourcePropertyString = new StringBuilder();
+        Map<String, String> dataSourceProperties = new HashMap<String, String>();
 
-        String escapedUrl = dataSource.getUrl().replace("\\", "\\\\").replace(":", "\\:")
-            .replace("=", "\\=");
-
-        StringBuilder dataSourceProperty = new StringBuilder();
-        dataSourceProperty.append("user=");
-        dataSourceProperty.append(dataSource.getUsername());
-        dataSourceProperty.append(":password=");
-        dataSourceProperty.append(dataSource.getPassword());
-        dataSourceProperty.append(":url=\"");
-        dataSourceProperty.append(escapedUrl);
-        dataSourceProperty.append("\"");
+        dataSourceProperties.put("user", dataSource.getUsername());
+        dataSourceProperties.put("password", dataSource.getPassword());
+        dataSourceProperties.put("url", dataSource.getUrl());
+        Properties extraProperties = dataSource.getConnectionProperties();
+        for (Object propertyName : extraProperties.keySet())
+        {
+            if (propertyName != null && extraProperties.get(propertyName) != null)
+            {
+                dataSourceProperties.put(
+                    propertyName.toString(), extraProperties.get(propertyName).toString());
+            }
+        }
+        for (Map.Entry<String, String> dataSourceProperty : dataSourceProperties.entrySet())
+        {
+            if (dataSourcePropertyString.length() > 0)
+            {
+                dataSourcePropertyString.append(":");
+            }
+            dataSourcePropertyString.append(dataSourceProperty.getKey());
+            dataSourcePropertyString.append("=\"");
+            dataSourcePropertyString.append(dataSourceProperty.getValue()
+                .replace("\\", "\\\\").replace(":", "\\:").replace("=", "\\="));
+            dataSourcePropertyString.append("\"");
+        }
 
         String dataSourceId = "cargo-datasource-" + dataSource.getId();
 
+        List<String> args = new ArrayList<String>();
         this.addConnectOptions(args);
         args.add("create-jdbc-connection-pool");
         args.add("--restype");
@@ -164,7 +182,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         }
         args.add(dataSource.getDriverClass());
         args.add("--property");
-        args.add(dataSourceProperty.toString());
+        args.add(dataSourcePropertyString.toString());
         args.add(dataSourceId);
 
         // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
