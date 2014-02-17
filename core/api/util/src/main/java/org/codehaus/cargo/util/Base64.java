@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.util;
 
-import java.io.ByteArrayOutputStream;
 
 /**
  * Provides utility methods to Base64 encode data. This class uses the Base64 encoding as specified
@@ -35,30 +34,15 @@ public final class Base64
      * The Base64 character set look-up table. This consists of the following ordered alphanumerics:
      * A-Z, a-z, 0-9, + and /.
      */
-    private static final char[] ENCODE = new char[64];
+    private static final char[] ENCODE = 
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+            .toCharArray();
+
 
     /**
      * The character to pad the output with if not a multiple of 24-bits.
      */
     private static final char PAD_CHAR = '=';
-
-    // static -----------------------------------------------------------------
-
-    static
-    {
-        // create Base64 character look-up table
-        for (int i = 0; i < 26; i++)
-        {
-            ENCODE[i] = (char) ('A' + i);
-            ENCODE[i + 26] = (char) ('a' + i);
-        }
-        for (int i = 0; i < 10; i++)
-        {
-            ENCODE[i + 52] = (char) ('0' + i);
-        }
-        ENCODE[62] = '+';
-        ENCODE[63] = '/';
-    }
 
     // constructors -----------------------------------------------------------
 
@@ -103,60 +87,78 @@ public final class Base64
      */
     public static byte[] encode(byte[] bytes)
     {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        int count = 0;
-        int carry = 0;
+        return encodeToString(bytes).getBytes();
+    }
 
-        for (byte b : bytes)
+    /**
+     * Base64 encodes the specified bytes to a String.
+     * 
+     * @param bytes the bytes to encode
+     * @return the encoded bytes as a string
+     */
+    public static String encodeToString(final byte[] bytes)
+    {
+        final int length = bytes.length;
+        final StringBuilder buffer = new StringBuilder(length * 3);
+        for (int i = 0; i < length; i += 3) 
         {
-            switch (count++ % 3)
+            // p's are the segments for each byte. For every three bytes there are 6
+            // segments
+            int p0 = bytes[i] & 0xFC;
+            p0 >>= 2;
+            int p1 = bytes[i] & 0x03;
+            p1 <<= 4;
+
+            int p2;
+            int p3;
+            if (i + 1 < length) 
             {
-                // first byte of 24-bits: write 6-bits and carry 2-bits
-                case 0:
-                    out.write(ENCODE[b >> 2]);
-                    carry = b & 0x03;
-                    break;
+                p2 = bytes[i + 1] & 0xF0;
+                p2 >>= 4;
+                p3 = bytes[i + 1] & 0x0F;
+                p3 <<= 2;
+            } 
+            else 
+            {
+                p2 = 0;
+                p3 = 0;
+            }
+            int p4;
+            int p5;
+            if (i + 2 < length) 
+            {
+                p4 = bytes[i + 2] & 0xC0;
+                p4 >>= 6;
+                p5 = bytes[i + 2] & 0x3F;
+            } 
+            else 
+            {
+                p4 = 0;
+                p5 = 0;
+            }
 
-                // second byte of 24-bits: write carry + 4-bits, carry 4-bits
-                case 1:
-                    out.write(ENCODE[(carry << 4) + (b >> 4)]);
-                    carry = b & 0x0F;
-                    break;
-
-                // third byte of 24-bits: write carry + 2-bits, write 6-bits
-                case 2:
-                    out.write(ENCODE[(carry << 2) + (b >> 6)]);
-                    out.write(ENCODE[b & 0x3F]);
-                    break;
-
-                default:
-                    throw new InternalError();
+            if (i + 2 < length) 
+            {
+                buffer.append(ENCODE[p0]);
+                buffer.append(ENCODE[p1 | p2]);
+                buffer.append(ENCODE[p3 | p4]);
+                buffer.append(ENCODE[p5]);
+            }
+            else if (i + 1 < length) 
+            {
+                buffer.append(ENCODE[p0]);
+                buffer.append(ENCODE[p1 | p2]);
+                buffer.append(ENCODE[p3]);
+                buffer.append(PAD_CHAR);
+            } 
+            else 
+            {
+                buffer.append(ENCODE[p0]);
+                buffer.append(ENCODE[p1 | p2]);
+                buffer.append(PAD_CHAR);
+                buffer.append(PAD_CHAR);
             }
         }
-
-        switch (count % 3)
-        {
-            // third byte of 24-bits: 24-bit aligned
-            case 0:
-                break;
-
-            // first byte of 24-bits: write 4-bit carry and pad 16-bits
-            case 1:
-                out.write(ENCODE[carry << 4]);
-                out.write(PAD_CHAR);
-                out.write(PAD_CHAR);
-                break;
-
-            // second byte of 24-bits: write 2-bit carry and pad 8-bits
-            case 2:
-                out.write(ENCODE[carry << 2]);
-                out.write(PAD_CHAR);
-                break;
-
-            default:
-                throw new InternalError();
-        }
-
-        return out.toByteArray();
+        return buffer.toString();
     }
 }

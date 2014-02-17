@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.util;
 
+import java.security.MessageDigest;
+
 import junit.framework.TestCase;
 
 /**
@@ -34,5 +36,17 @@ public class Base64Test extends TestCase
     public void testEncode()
     {
         assertEquals("SGVsbG8gV29ybGQ=", Base64.encode("Hello World"));
+    }
+    
+    /**
+     * Test encoding a byte array derived from a SHA-256 calculation.
+     * 
+     * @throws Exception
+     *             should not happen
+     */
+    public void testSHA256Encoding() throws Exception
+    {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        Base64.encode(digest.digest("password".getBytes()));
     }
 }
