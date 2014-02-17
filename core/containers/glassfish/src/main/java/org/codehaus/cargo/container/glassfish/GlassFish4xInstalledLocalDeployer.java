@@ -19,13 +19,16 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.glassfish.internal.AbstractAsAdmin;
@@ -71,22 +74,9 @@ public class GlassFish4xInstalledLocalDeployer extends GlassFish3xInstalledLocal
             args.add(getLocalContainer().getConfiguration().getPropertyValue(
                     RemotePropertySet.USERNAME));
 
-            File temp = File.createTempFile("password", ".properties");
-            BufferedReader existing = new BufferedReader(new FileReader(
-                    AbstractAsAdmin.getPasswordFile(getLocalContainer()
-                            .getConfiguration())));
-            PrintWriter w = new PrintWriter(temp);
-            String line = existing.readLine();
-            while (line != null)
-            {
-                w.println(line);
-                line = existing.readLine();
-            }
-            existing.close();
-            w.println("AS_ADMIN_USERPASSWORD=" + user.getPassword());
-            w.close();
+            File tempPasswordFile = createPasswordProperties(user.getPassword());
             args.add("--passwordfile");
-            args.add(temp.getCanonicalPath());
+            args.add(tempPasswordFile.getCanonicalPath());
 
             args.add("create-file-user");
 
@@ -103,7 +93,7 @@ public class GlassFish4xInstalledLocalDeployer extends GlassFish3xInstalledLocal
             new PrintWriter(System.out).println(args);
             this.getLocalContainer().invokeAsAdmin(false, args);
 
-            temp.delete();
+            tempPasswordFile.delete();
         }
         catch (IOException e)
         {
@@ -111,6 +101,35 @@ public class GlassFish4xInstalledLocalDeployer extends GlassFish3xInstalledLocal
         }
         
     }
+
+    /**
+     * Creates a temporary file containing the existing AS_ADMIN_PASSWORD and
+     * adds AS_ADMIN_USERPASSWORD property to contain the password of the user
+     * in <code>code.servlet.users</code>.
+     * 
+     * @param password
+     *            password
+     * @return temporary file
+     * @throws IOException
+     *             I/O exception
+     */
+    private File createPasswordProperties(String password) throws IOException
+    {
+        Properties passwordProperties = new Properties();
+        Reader existing = new FileReader(
+                AbstractAsAdmin.getPasswordFile(getLocalContainer()
+                        .getConfiguration()));
+        passwordProperties.load(existing);
+        existing.close();
+        passwordProperties.setProperty("AS_ADMIN_USERPASSWORD", password);
+        
+        File tempFile = File.createTempFile("password", ".properties");
+        Writer w = new FileWriter(tempFile);
+        passwordProperties.store(w, null);
+        w.close();
+        return tempFile;
+    }
+    
     /**
      * {@inheritDoc}
      */
