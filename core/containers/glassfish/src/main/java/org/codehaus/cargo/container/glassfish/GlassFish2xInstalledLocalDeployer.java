@@ -160,4 +160,14 @@ public class GlassFish2xInstalledLocalDeployer extends AbstractGlassFishInstalle
         // nothing
         
     }
+
+    /**
+     * Does not do anything since GlassFish 2.x support was not tested.
+     * {@inheritDoc}
+     */
+    @Override
+    public void activateDefaultPrincipalToRoleMapping()
+    {
+        // nothing
+    }
 }

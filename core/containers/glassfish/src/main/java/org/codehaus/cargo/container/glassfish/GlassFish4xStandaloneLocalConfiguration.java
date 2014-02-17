@@ -19,9 +19,7 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.property.ServletPropertySet;
 
 /**
  * GlassFish 4.x standalone local configuration.
@@ -54,28 +52,6 @@ public class GlassFish4xStandaloneLocalConfiguration
     public ConfigurationCapability getCapability()
     {
         return CAPABILITY;
-    }
-
-
-    /**
-     * Add the necessary changes to support {@link ServletPropertySet#USERS}.
-     * 
-     * {@inheritDoc}
-     */
-    @Override
-    protected void doConfigure(LocalContainer container) throws Exception
-    {
-        // TODO try to implement this using configureUsingAsAdmin in the future
-        if (getPropertyValue(ServletPropertySet.USERS) != null)
-        {
-            // set activate-default-principal-to-role-mapping=true
-            addXmlReplacement(this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
-                    + "/config/domain.xml", 
-                    "//security-service", 
-                    "activate-default-principal-to-role-mapping",
-                    "true");
-        }            
-        super.doConfigure(container);
     }
 
 }

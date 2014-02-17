@@ -283,4 +283,14 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
     {
         // nothing
     }
+
+    /**
+     * Does not do anything since GlassFish 3.x support was not tested.
+     * {@inheritDoc}
+     */
+    @Override
+    public void activateDefaultPrincipalToRoleMapping()
+    {
+        // nothing
+    }
 }

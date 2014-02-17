@@ -250,4 +250,9 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
      */
     public abstract void createFileUser(User user);
 
+    /**
+     * Activates the default principal to role mapping.  This allows groups defined
+     * in <code>cargo.servlet.users</code> to be used as the roles for the application.
+     */
+    public abstract void activateDefaultPrincipalToRoleMapping();
 }

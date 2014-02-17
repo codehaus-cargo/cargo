@@ -111,6 +111,18 @@ public class GlassFish4xInstalledLocalDeployer extends GlassFish3xInstalledLocal
         }
         
     }
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void activateDefaultPrincipalToRoleMapping()
+    {
+        List<String> args = new ArrayList<String>();
+        this.addConnectOptions(args);
+        args.add("set");
+        args.add("configs.config.server-config.security-service."
+                + "activate-default-principal-to-role-mapping=true");
+        this.getLocalContainer().invokeAsAdmin(false, args);
+    }
 
 }

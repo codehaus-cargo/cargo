@@ -239,6 +239,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
                 String servletUsers = getConfiguration().getPropertyValue(ServletPropertySet.USERS);
                 if (servletUsers != null) 
                 {
+                    deployer.activateDefaultPrincipalToRoleMapping();
                     for (final User user : User.parseUsers(servletUsers))
                     {
                         deployer.createFileUser(user);
