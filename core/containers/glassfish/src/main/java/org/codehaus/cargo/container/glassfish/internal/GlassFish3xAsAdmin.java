@@ -44,6 +44,8 @@ public class GlassFish3xAsAdmin extends AbstractAsAdmin
      */
     public GlassFish3xAsAdmin(String home)
     {
+        super();
+        
         if (home == null)
         {
             throw new CargoException("GlassFish home directory is not set");
