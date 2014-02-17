@@ -38,6 +38,7 @@ import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
+import org.codehaus.cargo.container.property.User;
 
 /**
  * GlassFish 3.x installed local deployer, which uses the GlassFish asadmin to deploy and undeploy
@@ -270,5 +271,16 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add(resource.getName());
             this.getLocalContainer().invokeAsAdmin(false, args);
         }
+    }
+
+    /**
+     * Does not do anything since GlassFish 3.x support was not tested.
+     * 
+     * {@inheritDoc}
+     */
+    @Override
+    public void createFileUser(final User user)
+    {
+        // nothing
     }
 }

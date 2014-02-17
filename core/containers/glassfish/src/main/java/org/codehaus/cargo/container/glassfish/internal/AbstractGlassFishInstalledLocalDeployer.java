@@ -31,6 +31,7 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
+import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 
@@ -240,5 +241,13 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
             ++c;
         }
     }
+
+    /**
+     * Calls <code>create-file-user</code> via asadmin to register a user.
+     * 
+     * @param user
+     *            user to register
+     */
+    public abstract void createFileUser(User user);
 
 }

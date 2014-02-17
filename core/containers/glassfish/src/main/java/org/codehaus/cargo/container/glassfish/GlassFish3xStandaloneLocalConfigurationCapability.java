@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.glassfish;
 
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
 
 /**
  * GlassFish 3.x standalone local configuration capability.
@@ -45,7 +44,6 @@ public class GlassFish3xStandaloneLocalConfigurationCapability extends
         this.defaultSupportsMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
         this.defaultSupportsMap.put(GlassFishPropertySet.DEBUGGER_PORT, Boolean.TRUE);
         this.defaultSupportsMap.put(GlassFishPropertySet.OSGI_SHELL_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(ServletPropertySet.USERS, Boolean.TRUE);
     }
 
 }

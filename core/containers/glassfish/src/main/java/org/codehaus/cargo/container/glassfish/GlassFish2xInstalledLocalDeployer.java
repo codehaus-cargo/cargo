@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
+import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -147,5 +148,16 @@ public class GlassFish2xInstalledLocalDeployer extends AbstractGlassFishInstalle
     public void deployResource(Resource resource)
     {
         // nothing
+    }
+
+    /**
+     * Does not do anything since GlassFish 2.x support was not tested.
+     * {@inheritDoc}
+     */
+    @Override
+    public void createFileUser(User user)
+    {
+        // nothing
+        
     }
 }

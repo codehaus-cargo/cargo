@@ -32,6 +32,7 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.util.CargoException;
@@ -232,6 +233,16 @@ public abstract class AbstractGlassFishInstalledLocalContainer
                 for (Resource resource : this.getConfiguration().getResources())
                 {
                     deployer.deployResource(resource);
+                }
+                
+                // CARGO-1246: Create file users
+                String servletUsers = getConfiguration().getPropertyValue(ServletPropertySet.USERS);
+                if (servletUsers != null) 
+                {
+                    for (final User user : User.parseUsers(servletUsers))
+                    {
+                        deployer.createFileUser(user);
+                    }
                 }
             }
 

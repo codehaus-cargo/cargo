@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
+import org.codehaus.cargo.container.property.ServletPropertySet;
+
 /**
  * GlassFish 4.x standalone local configuration capability.
  * 
@@ -27,5 +29,13 @@ package org.codehaus.cargo.container.glassfish;
 public class GlassFish4xStandaloneLocalConfigurationCapability extends
     GlassFish3xStandaloneLocalConfigurationCapability
 {
-    // Nothing compared to GlassFish 3.x
+    /**
+     * CARGO-1246.  GlassFish 4.x is the only one supported for {@link ServletPropertySet#USERS}.
+     */
+    public GlassFish4xStandaloneLocalConfigurationCapability()
+    {
+        super();
+
+        this.defaultSupportsMap.put(ServletPropertySet.USERS, Boolean.TRUE);
+    }
 }

@@ -19,19 +19,12 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.security.MessageDigest;
-
-import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.glassfish.internal.AbstractAsAdmin;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalContainer;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.property.User;
-import org.codehaus.cargo.util.Base64;
 
 /**
  * GlassFish 3.x standalone local configuration.
@@ -64,66 +57,6 @@ public class GlassFish3xStandaloneLocalConfiguration
     public ConfigurationCapability getCapability()
     {
         return CAPABILITY;
-    }
-
-    /**
-     * Add the necessary changes to support {@link ServletPropertySet#USERS}.
-     * 
-     * {@inheritDoc}
-     */
-    @Override
-    protected void doConfigure(LocalContainer container) throws Exception
-    {
-        // TODO try to implement this using configureUsingAsAdmin in the future
-        if (getPropertyValue(ServletPropertySet.USERS) != null)
-        {
-            // set activate-default-principal-to-role-mapping=true
-            addXmlReplacement(this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
-                    + "/config/domain.xml", 
-                    "//security-service", 
-                    "activate-default-principal-to-role-mapping",
-                    "true");
-        }            
-        super.doConfigure(container);
-        // TODO this part still does not work
-        // Use the workaround of creating your own keyfile and overwriting for now
-        if (getPropertyValue(ServletPropertySet.USERS) != null)
-        {
-            // Build the cargo key file after to overwrite the existing file
-            PrintStream keyFileStream = new PrintStream(
-                    new FileOutputStream(
-                            getHome()
-                                    + "/"
-                                    + this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
-                                    + "/config/keyfile"));
-            for (User user : User.parseUsers(getPropertyValue(ServletPropertySet.USERS)))
-            {
-                MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                StringBuilder line = new StringBuilder();
-                line.append(user.getName().trim());
-                line.append(";{SSHA256}");
-                final int passwordLength = user.getPassword().length();
-                byte[] saltedPassword = new byte[passwordLength + 1 ];
-                System.arraycopy(user.getPassword().getBytes(), 0,
-                        saltedPassword, 0, passwordLength);
-                saltedPassword[passwordLength] = 0;
-                final byte[] hash = digest.digest(saltedPassword);
-                byte[] hashPlusSalt = new byte[33];
-                System.arraycopy(hash, 0,
-                        hashPlusSalt, 0, hash.length);
-                hashPlusSalt[32] = 1;
-                line.append(Base64.encodeToString(hashPlusSalt));
-                line.append(";");
-                for (String role : user.getRoles())
-                {
-                    line.append(role.trim());
-                    line.append(',');
-                }
-                line.deleteCharAt(line.length() - 1);
-                keyFileStream.println(line);
-            }
-            keyFileStream.close();
-        }
     }
 
     /**
