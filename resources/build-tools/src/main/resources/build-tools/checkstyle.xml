@@ -67,7 +67,7 @@
 
   <!-- No printStackTrace -->
   <module name="RegexpMultiline">
-    <property name="format" value="printStackTrace"/>
+    <property name="format" value="\.printStackTrace\(\s*\)"/>
     <property name="message" value="Don't printStackTrace, use a logger instead"/>
   </module>
 
