@@ -300,7 +300,7 @@
 
               <property>
                 <name>cargo.tomcat7x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.50/bin/apache-tomcat-7.0.50.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.52/bin/apache-tomcat-7.0.52.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat7x.java.home</name>
@@ -842,7 +842,7 @@
 
               <property>
                 <name>cargo.wildfly8x.url</name>
-                <value>http://download.jboss.org/wildfly/8.0.0.CR1/wildfly-8.0.0.CR1.tar.gz</value>
+                <value>http://download.jboss.org/wildfly/8.0.0.Final/wildfly-8.0.0.Final.tar.gz</value>
               </property>
               <property>
                 <name>cargo.wildfly8x.java.home</name>

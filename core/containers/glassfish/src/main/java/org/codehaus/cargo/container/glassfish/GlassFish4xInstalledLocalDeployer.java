@@ -20,12 +20,12 @@
 package org.codehaus.cargo.container.glassfish;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -116,17 +116,32 @@ public class GlassFish4xInstalledLocalDeployer extends GlassFish3xInstalledLocal
     private File createPasswordProperties(String password) throws IOException
     {
         Properties passwordProperties = new Properties();
-        Reader existing = new FileReader(
-                AbstractAsAdmin.getPasswordFile(getLocalContainer()
-                        .getConfiguration()));
-        passwordProperties.load(existing);
-        existing.close();
+        InputStream existing = new FileInputStream(
+            AbstractAsAdmin.getPasswordFile(getLocalContainer().getConfiguration()));
+        try
+        {
+            passwordProperties.load(existing);
+        }
+        finally
+        {
+            existing.close();
+            existing = null;
+            System.gc();
+        }
         passwordProperties.setProperty("AS_ADMIN_USERPASSWORD", password);
         
         File tempFile = File.createTempFile("password", ".properties");
-        Writer w = new FileWriter(tempFile);
-        passwordProperties.store(w, null);
-        w.close();
+        OutputStream tempFileStream = new FileOutputStream(tempFile);
+        try
+        {
+            passwordProperties.store(tempFileStream, null);
+        }
+        finally
+        {
+            tempFileStream.close();
+            tempFileStream = null;
+            System.gc();
+        }
         return tempFile;
     }
     

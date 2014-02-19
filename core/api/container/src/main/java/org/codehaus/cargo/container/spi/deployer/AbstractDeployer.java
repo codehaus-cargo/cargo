@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.List;
 
 import org.codehaus.cargo.container.Container;
@@ -26,6 +29,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.Deployer;
+import org.codehaus.cargo.util.log.LogLevel;
 import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
@@ -72,6 +76,12 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
             // it; else it will make the method fail.
             getLogger().info("The deployment has failed: " + t.toString(),
                 this.getClass().getName());
+            if (getLogger().getLevel() == LogLevel.DEBUG)
+            {
+                Writer stackTrace = new StringWriter();
+                t.printStackTrace(new PrintWriter(stackTrace));
+                getLogger().debug(stackTrace.toString(), this.getClass().getName());
+            }
         }
 
         // Wait for the Deployable to be deployed
@@ -97,6 +107,12 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
             // detect it; else it will make the method fail.
             getLogger().info("The undeployment has failed: " + t.toString(),
                 this.getClass().getName());
+            if (getLogger().getLevel() == LogLevel.DEBUG)
+            {
+                Writer stackTrace = new StringWriter();
+                t.printStackTrace(new PrintWriter(stackTrace));
+                getLogger().debug(stackTrace.toString(), this.getClass().getName());
+            }
         }
 
         // Wait for the Deployable to be undeployed
@@ -119,6 +135,12 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
         {
             getLogger().info("The undeployment phase of the redeploy action has failed: "
                 + t.toString(), this.getClass().getName());
+            if (getLogger().getLevel() == LogLevel.DEBUG)
+            {
+                Writer stackTrace = new StringWriter();
+                t.printStackTrace(new PrintWriter(stackTrace));
+                getLogger().debug(stackTrace.toString(), this.getClass().getName());
+            }
         }
 
         // Wait for the Deployable to be undeployed
