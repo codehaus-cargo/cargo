@@ -236,68 +236,53 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
             new File(container.getConfiguration().getHome(),
                 "properties/wsjaas_client.conf").getAbsolutePath());
 
-        File commandPropertiesFile = File.createTempFile("cargo-websphere-properties-", ".jacl");
-        PrintWriter writer = new PrintWriter(new FileOutputStream(commandPropertiesFile));
-        try
-        {
-            writer.println("# Temporary Java Properties File for the wsadmin.bat WAS command.");
+        java.setSystemProperty("ws.ext.dirs",
+            new File(container.getJavaHome(),
+                "lib").getAbsolutePath().replace(File.separatorChar, '/')
+            + File.pathSeparatorChar
+            + new File(container.getHome(),
+                "classes").getAbsolutePath().replace(File.separatorChar, '/')
+            + File.pathSeparatorChar
+            + new File(container.getHome(),
+                "lib").getAbsolutePath().replace(File.separatorChar, '/')
+            + File.pathSeparatorChar
+            + new File(container.getHome(),
+                "jinstalledChannels").getAbsolutePath().replace(File.separatorChar, '/')
+            + File.pathSeparatorChar
+            + new File(container.getHome(),
+                "lib/ext").getAbsolutePath().replace(File.separatorChar, '/')
+            + File.pathSeparatorChar
+            + new File(container.getHome(),
+                "web/help").getAbsolutePath().replace(File.separatorChar, '/')
+            + File.pathSeparatorChar
+            + new File(container.getHome(),
+                "deploytool/itp/plugins/com.ibm.etools.ejbdeploy/runtime")
+                    .getAbsolutePath().replace(File.separatorChar, '/')
+            + File.pathSeparatorChar
+            + new File(container.getHome(),
+                "lib/ext").getAbsolutePath().replace(File.separatorChar, '/'));
 
-            writer.print("ws.ext.dirs=");
-            writer.print(getFileHandler().append(container.getJavaHome(),
-                "lib").replace("\\", "\\\\"));
-            writer.print(";");
-            writer.print(getFileHandler().append(container.getHome(),
-                "classes").replace("\\", "\\\\"));
-            writer.print(";");
-            writer.print(getFileHandler().append(container.getHome(),
-                "lib").replace("\\", "\\\\"));
-            writer.print(";");
-            writer.print(getFileHandler().append(container.getHome(),
-                "jinstalledChannels").replace("\\", "\\\\"));
-            writer.print(";");
-            writer.print(getFileHandler().append(container.getHome(),
-                "lib/ext").replace("\\", "\\\\"));
-            writer.print(";");
-            writer.print(getFileHandler().append(container.getHome(),
-                "web/help").replace("\\", "\\\\"));
-            writer.print(";");
-            writer.print(getFileHandler().append(container.getHome(),
-                "deploytool/itp/plugins/com.ibm.etools.ejbdeploy/runtime").replace("\\", "\\\\"));
-            writer.print(";");
-            writer.println(getFileHandler().append(container.getHome(),
-                "lib/ext").replace("\\", "\\\\"));
+        java.setSystemProperty("was.repository.root",
+            new File(container.getConfiguration().getHome(),
+                "config").getAbsolutePath().replace(File.separatorChar, '/'));
+        java.setSystemProperty("com.ibm.itp.location",
+            new File(container.getHome(),
+                    "bin").getAbsolutePath().replace(File.separatorChar, '/'));
+        java.setSystemProperty("local.cell",
+            container.getConfiguration().getPropertyValue(WebSpherePropertySet.CELL));
+        java.setSystemProperty("local.node",
+            container.getConfiguration().getPropertyValue(WebSpherePropertySet.NODE));
 
-            writer.println("was.repository.root="
-                + getFileHandler().append(container.getConfiguration().getHome(),
-                    "config").replace("\\", "\\\\"));
+        java.setSystemProperty("com.ibm.ws.management.standalone", "true");
 
-            writer.println("com.ibm.itp.location="
-                + getFileHandler().append(container.getHome(),
-                    "bin").replace("\\", "\\\\"));
-
-            writer.println("local.cell="
-                + container.getConfiguration().getPropertyValue(WebSpherePropertySet.CELL));
-            writer.println("local.node="
-                + container.getConfiguration().getPropertyValue(WebSpherePropertySet.NODE));
-
-            writer.println("com.ibm.ws.management.standalone=true");
-
-            writer.println("com.ibm.ws.ffdc.log="
-                + getFileHandler().append(container.getConfiguration().getHome(),
-                    "logs/ffdc").replace("\\", "\\\\"));
-        }
-        finally
-        {
-            writer.close();
-            writer = null;
-            System.gc();
-        }
-        java.setSystemProperty("cmd.properties.file", commandPropertiesFile.getAbsolutePath());
+        java.setSystemProperty("com.ibm.ws.ffdc.log",
+            new File(container.getConfiguration().getHome(),
+                    "logs/ffdc").getAbsolutePath().replace(File.separatorChar, '/'));
 
         java.setMainClass("com.ibm.wsspi.bootstrap.WSPreLauncher");
 
         File commandFile = File.createTempFile("cargo-websphere-commandFile-", ".jacl");
-        writer = new PrintWriter(new FileOutputStream(commandFile));
+        PrintWriter writer = new PrintWriter(new FileOutputStream(commandFile));
         try
         {
             for (String command : commands)
@@ -337,7 +322,6 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
         finally
         {
             commandFile.delete();
-            commandPropertiesFile.delete();
         }
     }
 }
