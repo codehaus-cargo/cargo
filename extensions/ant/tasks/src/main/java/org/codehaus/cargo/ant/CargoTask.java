@@ -40,6 +40,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.installer.ZipURLInstaller;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
@@ -597,18 +598,40 @@ public class CargoTask extends Task
                 }
 
                 Deployable deployable = deployableElement.createDeployable(getContainerId());
+                DeployableMonitor deployableMonitor = deployableElement.createDeployableMonitor();
 
                 if (ACTION_DEPLOY.equalsIgnoreCase(getAction()))
                 {
-                    deployer.deploy(deployable);
+                    if (deployableMonitor == null)
+                    {
+                        deployer.deploy(deployable);
+                    }
+                    else
+                    {
+                        deployer.deploy(deployable, deployableMonitor);
+                    }
                 }
                 else if (ACTION_UNDEPLOY.equalsIgnoreCase(getAction()))
                 {
-                    deployer.undeploy(deployable);
+                    if (deployableMonitor == null)
+                    {
+                        deployer.undeploy(deployable);
+                    }
+                    else
+                    {
+                        deployer.undeploy(deployable, deployableMonitor);
+                    }
                 }
                 else if (ACTION_REDEPLOY.equalsIgnoreCase(getAction()))
                 {
-                    deployer.redeploy(deployable);
+                    if (deployableMonitor == null)
+                    {
+                        deployer.redeploy(deployable);
+                    }
+                    else
+                    {
+                        deployer.redeploy(deployable, deployableMonitor);
+                    }
                 }
                 else
                 {

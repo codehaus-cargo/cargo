@@ -72,6 +72,8 @@
           <property name="cargo.remote.password" value=""/>
           <deployable type="war" file="${cargo-test-applications.directory}/simple-war-${cargo.resources.version}.war">
             <property name="context" value="simple-test"/>
+            <property name="pingURL" value="http://localhost:${http.port}/simple-test"/>
+            <property name="pingTimeout" value="30000"/>
           </deployable>
         </configuration>
       </cargo>

@@ -204,75 +204,82 @@ public class DaemonClient extends LoggedObject
     public void start(DaemonStart start) throws DaemonException, IOException
     {
         DaemonParameters parameters = new DaemonParameters();
-        InstalledLocalContainer container = start.getContainer();
-        boolean autostart = start.isAutostart();
+
         String handleId = start.getHandleId();
-        String installerZipFile = start.getInstallerZipFile();
-        String logFile = start.getLogFile();
-        List<Deployable> deployables = start.getDeployables();
-
-        LocalConfiguration configuration = container.getConfiguration();
-
-        parameters.setParameter("autostart", String.valueOf(autostart));
         parameters.setParameter("handleId", handleId);
-        parameters.setParameter("containerId", container.getId());
-        parameters.setParameter("configurationType", configuration.getType().toString());
-        parameters.setParameter("timeout", String.valueOf(container.getTimeout()));
 
-        if (container.getHome() != null)
+        InstalledLocalContainer container = start.getContainer();
+        if (container != null)
         {
-            parameters.setParameter("containerHome", container.getHome());
-        }
-        if (configuration.getHome() != null)
-        {
-            parameters.setParameter("configurationHome", configuration.getHome());
-        }
+            boolean autostart = start.isAutostart();
+            String installerZipFile = start.getInstallerZipFile();
+            String logFile = start.getLogFile();
+            List<Deployable> deployables = start.getDeployables();
 
-        if (installerZipFile != null)
-        {
-            if (!installed(installerZipFile))
+            LocalConfiguration configuration = container.getConfiguration();
+
+            parameters.setParameter("autostart", String.valueOf(autostart));
+            parameters.setParameter("containerId", container.getId());
+            parameters.setParameter("configurationType", configuration.getType().toString());
+            parameters.setParameter("timeout", String.valueOf(container.getTimeout()));
+
+            if (container.getHome() != null)
             {
-                parameters.setFile("installerZipFileData", installerZipFile);
+                parameters.setParameter("containerHome", container.getHome());
+            }
+            if (configuration.getHome() != null)
+            {
+                parameters.setParameter("configurationHome", configuration.getHome());
             }
 
-            parameters.setParameter("installerZipFile", fileHandler.getName(installerZipFile));
-        }
+            if (installerZipFile != null)
+            {
+                if (!installed(installerZipFile))
+                {
+                    parameters.setFile("installerZipFileData", installerZipFile);
+                }
 
-        if (deployables != null)
-        {
-            parameters.setParameter("deployableFiles", setupDeployables(parameters, deployables));
-        }
+                parameters.setParameter("installerZipFile", fileHandler.getName(installerZipFile));
+            }
 
-        setupConfigFiles(parameters, configuration);
+            if (deployables != null)
+            {
+                parameters.setParameter("deployableFiles",
+                    setupDeployables(parameters, deployables));
+            }
 
-        if (container instanceof InstalledLocalContainer)
-        {
-            setupExtraClasspath(parameters, (InstalledLocalContainer) container);
-            setupSharedClasspath(parameters, (InstalledLocalContainer) container);
-        }
+            setupConfigFiles(parameters, configuration);
 
-        setupAdditionalClasspath(parameters, start.getAdditionalClasspathEntries());
+            if (container instanceof InstalledLocalContainer)
+            {
+                setupExtraClasspath(parameters, (InstalledLocalContainer) container);
+                setupSharedClasspath(parameters, (InstalledLocalContainer) container);
+            }
 
-        parameters.setParameter("configurationProperties",
-            setupConfigurationProperties(configuration));
-        parameters.setParameter("containerProperties", setupContainerProperties(container));
+            setupAdditionalClasspath(parameters, start.getAdditionalClasspathEntries());
 
-        parameters.setParameter("containerOutput", container.getOutput());
+            parameters.setParameter("configurationProperties",
+                setupConfigurationProperties(configuration));
+            parameters.setParameter("containerProperties", setupContainerProperties(container));
 
-        if (logFile != null)
-        {
-            parameters.setParameter("containerLogFile", logFile);
-        }
+            parameters.setParameter("containerOutput", container.getOutput());
 
-        parameters.setParameter("containerLogLevel", container.getLogger().getLevel().toString());
+            if (logFile != null)
+            {
+                parameters.setParameter("containerLogFile", logFile);
+            }
 
-        if (container.isAppend())
-        {
-            parameters.setParameter("containerAppend", "on");
-        }
-        else
-        {
-            parameters.setParameter("containerAppend", "off");
+            parameters.setParameter("containerLogLevel",
+                container.getLogger().getLevel().toString());
+
+            if (container.isAppend())
+            {
+                parameters.setParameter("containerAppend", "on");
+            }
+            else
+            {
+                parameters.setParameter("containerAppend", "off");
+            }
         }
 
         invoke("start", parameters);

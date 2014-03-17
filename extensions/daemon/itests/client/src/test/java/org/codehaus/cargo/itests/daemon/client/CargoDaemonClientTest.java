@@ -197,10 +197,10 @@ public class CargoDaemonClientTest extends TestCase
     }
 
     /**
-     * Test starting / stopping container.
+     * Test starting, stopping and restarting container.
      * @throws Exception If anything fails.
      */
-    public void testStartStopContainer() throws Exception
+    public void testStartStopRestartContainer() throws Exception
     {
         File jetty7x = new File(System.getProperty("artifacts.dir"), "jetty7x.zip");
         assertTrue("File " + jetty7x + " is missing", jetty7x.isFile());
@@ -238,7 +238,7 @@ public class CargoDaemonClientTest extends TestCase
         start.setInstallerZipFile(jetty7x.getAbsolutePath());
         client.start(start);
 
-        DeployableMonitor daemonMonitor = new URLDeployableMonitor(new URL(
+        DeployableMonitor cargoCpcMonitor = new URLDeployableMonitor(new URL(
             "http://localhost:" + System.getProperty("servlet.port") + "/cargocpc/index.html"),
                 CargoDaemonClientTest.TIMEOUT);
         DeployableMonitor simpleWarMonitor = new URLDeployableMonitor(new URL(
@@ -248,8 +248,8 @@ public class CargoDaemonClientTest extends TestCase
             "http://localhost:" + System.getProperty("servlet.port")
                 + "/systemproperty-war/test?systemPropertyName=testProperty"),
                     CargoDaemonClientTest.TIMEOUT);
-        DeployerWatchdog daemonWatchdog = new DeployerWatchdog(daemonMonitor);
-        daemonWatchdog.watchForAvailability();
+        DeployerWatchdog cargoCpcWatchdog = new DeployerWatchdog(cargoCpcMonitor);
+        cargoCpcWatchdog.watchForAvailability();
         DeployerWatchdog simpleWarWatchdog = new DeployerWatchdog(simpleWarMonitor);
         simpleWarWatchdog.watchForAvailability();
         DeployerWatchdog systemPropertyWarWatchdog =
@@ -257,7 +257,18 @@ public class CargoDaemonClientTest extends TestCase
         systemPropertyWarWatchdog.watchForAvailability();
 
         client.stop("test1");
-        daemonWatchdog.watchForUnavailability();
+        cargoCpcWatchdog.watchForUnavailability();
+
+        // CARGO-1262: Try restart
+        start = new DaemonStart();
+        start.setHandleId("test1");
+        client.start(start);
+        cargoCpcWatchdog.watchForAvailability();
+        simpleWarWatchdog.watchForAvailability();
+        systemPropertyWarWatchdog.watchForAvailability();
+
+        client.stop("test1");
+        cargoCpcWatchdog.watchForUnavailability();
     }
 
 }

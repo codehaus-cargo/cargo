@@ -20,6 +20,8 @@
 package org.codehaus.cargo.ant;
 
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -27,6 +29,8 @@ import java.util.StringTokenizer;
 import org.apache.tools.ant.BuildException;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployer.DeployableMonitor;
+import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
 
@@ -46,6 +50,16 @@ public class DeployableElement
      * The deployable file.
      */
     private String file;
+
+    /**
+     * Optional ping URL.
+     */
+    private URL pingURL;
+
+    /**
+     * Optional ping timeout.
+     */
+    private Long pingTimeout;
 
     /**
      * Optional implementation class for custom deployable types.
@@ -68,6 +82,22 @@ public class DeployableElement
     public void setFile(String file)
     {
         this.file = file;
+    }
+
+    /**
+     * @param pingURL the deployable ping URL
+     */
+    public void setPingUrl(URL pingURL)
+    {
+        this.pingURL = pingURL;
+    }
+
+    /**
+     * @param pingTimeout the deployable ping timeout
+     */
+    public void setPingTimeout(Long pingTimeout)
+    {
+        this.pingTimeout = pingTimeout;
     }
 
     /**
@@ -123,18 +153,61 @@ public class DeployableElement
         // Set user-defined properties on the created deployable.
         for (Property property : getProperties())
         {
-            try
+            if ("pingURL".equals(property.getName()))
             {
-                callMethodForProperty(deployable, property);
+                try
+                {
+                    this.setPingUrl(new URL(property.getValue()));
+                }
+                catch (MalformedURLException e)
+                {
+                    throw new BuildException("Invalid value [" + property.getValue()
+                        + "] for property [" + property.getName() + "]", e);
+                }
             }
-            catch (Exception e)
+            else if ("pingTimeout".equals(property.getName()))
             {
-                throw new BuildException("Invalid property [" + property.getName()
-                    + "] for deployable type [" + deployable.getType() + "]", e);
+                this.setPingTimeout(Long.getLong(property.getValue()));
+            }
+            else
+            {
+                try
+                {
+                    callMethodForProperty(deployable, property);
+                }
+                catch (Exception e)
+                {
+                    throw new BuildException("Invalid property [" + property.getName()
+                        + "] for deployable type [" + deployable.getType() + "]", e);
+                }
             }
         }
 
         return deployable;
+    }
+
+    /**
+     * @return deployable monitor, if defined.
+     */
+    public DeployableMonitor createDeployableMonitor()
+    {
+        if (pingURL == null)
+        {
+            return null;
+        }
+        else
+        {
+            DeployableMonitor monitor;
+            if (pingTimeout == null)
+            {
+                monitor = new URLDeployableMonitor(pingURL);
+            }
+            else
+            {
+                monitor = new URLDeployableMonitor(pingURL, pingTimeout.longValue());
+            }
+            return monitor;
+        }
     }
 
     /**
