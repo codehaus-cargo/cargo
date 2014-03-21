@@ -324,14 +324,16 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             try
             {
                 String handleId = request.getParameter("handleId");
+                Long offset = getLong(request.getParameter("offset"));
                 Handle handle = handles.get(handleId);
+                String logFilePath = null;
+                long pos = 0;
 
+                
                 if (handle == null)
                 {
                     throw new CargoDaemonException("Handle id " + handleId + " not found.");
                 }
-
-                String logFilePath = null;
 
                 if ("viewlog".equals(servletPath))
                 {
@@ -341,30 +343,58 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 {
                     logFilePath = handle.getContainerLogPath();
                 }
+                
+                long filesize = fileManager.getFileSize(logFilePath);                
 
-                response.setContentType("text/plain");
+                response.setContentType("text/html");
                 response.setCharacterEncoding("UTF-8");
+                response.setHeader("X-Text-Size", String.valueOf(filesize));
+                
+                                
                 ServletOutputStream outputStream = response.getOutputStream();
 
                 // For some browsers, there needs to be atleast 1024 bytes sent before something is
                 // displayed.
                 // So, we respond with a nice log header to make sure we reach this limit.
-                fileManager.copyHeader(
-                    getClass().getClassLoader().getResourceAsStream(
-                        "org/codehaus/cargo/daemon/logheader.txt"), outputStream);
+                if (offset == null) 
+                {
+                    outputLogPageHeader(outputStream);
+                    fileManager.copyHeader(
+                        getClass().getClassLoader().getResourceAsStream(
+                            "org/codehaus/cargo/daemon/logheader.txt"), outputStream);
 
-                outputStream.println("DATE " + new Date());
-                outputStream.println("");
+                    outputStream.println("DATE " + new Date());
+                    outputStream.println("");
 
-                outputStream.flush();
+                    outputStream.flush();
+                }
 
-                if (logFilePath == null || logFilePath.length() == 0)
+                if (filesize == 0)
                 {
                     outputStream.println("");
                 }
                 else
                 {
-                    fileManager.copyContinuous(logFilePath, outputStream);
+                    if (offset == null) 
+                    {
+                        // For logs larger than 1MB, only start at the last 1MB 
+                        // if no offset is specified
+                        if (filesize > 1048576)
+                        {
+                            pos = filesize - 1048576;
+                        }
+                    }
+                    else
+                    {
+                        pos = offset;
+                    }
+                    
+                    fileManager.copy(logFilePath, outputStream, pos, filesize - pos);
+                }
+                
+                if (offset == null) 
+                {
+                    outputLogPageFooter(outputStream, handleId, servletPath, filesize);
                 }
             }
             catch (Throwable e)
@@ -900,6 +930,24 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         }
         return result;
     }
+    
+    /**
+     * Converts text to long if possible, otherwise returns 0
+     * 
+     * @param text The text to convert.
+     * @return The converted long
+     */
+    private Long getLong(String text)
+    {
+        try
+        {
+            return Long.valueOf(text); 
+        }
+        catch (Throwable e)
+        {
+            return null;
+        }            
+    }
 
     /**
      * Background task to autostart containers if they are stopped.
@@ -934,5 +982,84 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 }
             }
         }
+    }
+    
+
+    /**
+     * Prints the log page header to the servlet output stream.
+     * 
+     * @param outputStream The output stream
+     * @throws Exception in case of error
+     */
+    private void outputLogPageHeader(ServletOutputStream outputStream) throws Exception 
+    {
+        outputStream.print("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n"
+                + "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \""
+                + "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+                + "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en-US\""
+                + "lang=\"en-US\">\n"
+                + "  <head profile=\"http://www.w3.org/2000/08/w3c-synd/#\">\n"
+                + "    <title>Cargo Live Log Viewer</title>\n"
+                + "  </head>\n"
+                + "  <body>\n"
+                + "  <pre id=\"logText\">");
+    }
+    
+    /**
+     * Prints the log page footer to the servlet output stream.
+     * 
+     * @param outputStream The output stream
+     * @param handleId The handle id
+     * @param pageId The page id (ie, viewlog or viewcargolog)
+     * @param pos The last offset in the log file
+     * @throws Exception in case of error
+     */
+    private void outputLogPageFooter(ServletOutputStream outputStream, String handleId, 
+            String pageId, long pos) throws Exception
+    {
+        outputStream.print("</pre>\n"
+                + "  <img alt=\"activity indicator\" src=\"spinner.gif\">\n"
+                + "\n"
+                + "    <script>\n"
+                + "//<![CDATA[\n"
+                + "\n"
+                + "      var logText = document.getElementById('logText')\n"
+                + "      var offset = " + pos + ";\n"
+                + "      var handleId = \"" + handleId + "\";\n"
+                + "\n"
+                + "\n"
+                + "      var xmlHttpRequest = 0;\n"
+                + "      if (window.XMLHttpRequest) {\n"
+                + "        xmlHttpRequest = new XMLHttpRequest();\n"
+                + "      } else if (window.ActiveXObject) {\n"
+                + "        xmlHttpRequest = new ActiveXObject(\"Microsoft.XMLHTTP\");\n"
+                + "      }\n"
+                + "      if (xmlHttpRequest)\n"
+                + "      {\n"
+                + "        xmlHttpRequest.onreadystatechange = function()\n"
+                + "        {\n"
+                + "          if (xmlHttpRequest.readyState==4 && xmlHttpRequest.status==200)\n"
+                + "          {\n"
+                + "            var response = xmlHttpRequest.responseText;\n"
+                + "            logText.innerHTML += response;\n"
+                + "            offset = parseInt(xmlHttpRequest.getResponseHeader"
+                + "('X-Text-Size'));\n"
+                + "          }\n"
+                + "        }\n"
+                + "\n"
+                + "        setInterval(function()\n"
+                + "        {\n"
+                + "          if (isNaN(offset)) return;\n"
+                + "          xmlHttpRequest.open(\"GET\", \"./" + pageId 
+                + "?handleId=\" + handleId "
+                + "+ \"&offset=\" + offset, true);\n"
+                + "\n"
+                + "          xmlHttpRequest.send();\n"
+                + "        }, 1000);\n"
+                + "      }\n"
+                + "//]]>\n"
+                + "    </script>\n"
+                + "  </body>\n"
+                + "</html>\n");
     }
 }

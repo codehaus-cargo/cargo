@@ -426,6 +426,22 @@ public class FileManager
             out.write(buf, 0, bytesRead);
         }
     }
+    
+    /**
+     * Get the size of a file.
+     * 
+     * @param filePath The file
+     * @return The size
+     */
+    public long getFileSize(String filePath) 
+    {
+        if (filePath == null || filePath.length() == 0)
+        {
+            return 0;
+        }
+        
+        return fileHandler.getSize(filePath);
+    }
 
     /**
      * Copies the given file to the output stream continously, i.e. not stop when end of file is
@@ -433,38 +449,64 @@ public class FileManager
      * 
      * @param filename The file to copy
      * @param out The destination output stream
+     * @param offset The starting offset to read from
+     * @param size The size to read
+     * @return The last position of the file
      * @throws IOException if error happens
      * @throws InterruptedException if error happens when sleeping
      */
-    public void copyContinuous(String filename, OutputStream out) throws IOException,
+    public long copy(String filename, OutputStream out, long offset, long size) throws IOException,
         InterruptedException
     {
+        if (size < 0) 
+        {
+            return 0;
+        }
+        
         BufferedInputStream is = new BufferedInputStream(getFileInputStream(filename));
         byte[] buf = new byte[64 * 1024];
         int bytesRead;
+        long pos = 0;
+        long remaining = size;  
 
         try
         {
-            while (true)
+            if (offset != 0)
             {
-                while ((bytesRead = is.read(buf)) != -1)
-                {
-                    out.write(buf, 0, bytesRead);
-                }
-
-                out.flush();
-                Thread.sleep(REFRESH_TIME);
+                is.skip(offset);
+                pos += offset;
             }
+            
+            while (remaining != 0)
+            {
+                int max = buf.length;
+                if (max > remaining)
+                {
+                    max = (int) remaining;
+                }
+                
+                bytesRead = is.read(buf, 0, max);
+                if (bytesRead == -1)
+                {
+                    break;
+                }
+                
+                out.write(buf, 0, bytesRead);
+                pos += bytesRead;
+                remaining -= bytesRead;
+            }
+
+            out.flush();
         }
         catch (Exception e) 
         {
             // Ignore
+            out.flush();
         }
         finally
         {
             try
             {
-                out.close();
                 is.close();
             }
             catch (Exception e) 
@@ -472,6 +514,8 @@ public class FileManager
                 // Ignore
             }
         }
+        
+        return pos;
     }
 
     /**
