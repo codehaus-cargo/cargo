@@ -19,8 +19,16 @@
  */
 package org.codehaus.cargo.ant;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
+import org.apache.tools.ant.BuildException;
 
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.Configuration;
@@ -55,6 +63,11 @@ public class ConfigurationElement
      * Configuration properties.
      */
     private List<Property> properties = new ArrayList<Property>();
+
+    /**
+     * Container properties loaded from file.
+     */
+    private File propertiesFile;
 
     /**
      * Custom configuration class to associate to the containing container.
@@ -166,6 +179,22 @@ public class ConfigurationElement
     }
 
     /**
+     * @return Container properties loaded from file.
+     */
+    public File getPropertiesFile()
+    {
+        return propertiesFile;
+    }
+
+    /**
+     * @param propertiesFile Container properties loaded from file.
+     */
+    public void setPropertiesFile(File propertiesFile)
+    {
+        this.propertiesFile = propertiesFile;
+    }
+
+    /**
      * @param xmlReplacement the list of XML replacements
      */
     public void addConfiguredXmlreplacement(XmlReplacement xmlReplacement)
@@ -241,6 +270,36 @@ public class ConfigurationElement
         {
             configuration = factory.createConfiguration(containerId, containerType, getType(),
                 getHome());
+        }
+
+        // Set container properties loaded from file (if any)
+        if (getPropertiesFile() != null)
+        {
+            Properties properties = new Properties();
+            try
+            {
+                InputStream inputStream = new FileInputStream(getPropertiesFile());
+                try
+                {
+                    properties.load(new BufferedInputStream(inputStream));
+                }
+                finally
+                {
+                    inputStream.close();
+                }
+                for (Enumeration<?> propertyNames = properties.propertyNames();
+                    propertyNames.hasMoreElements();)
+                {
+                    String propertyName = (String) propertyNames.nextElement();
+                    String propertyValue = properties.getProperty(propertyName);
+                    configuration.setProperty(propertyName, propertyValue);
+                }
+            }
+            catch (IOException e)
+            {
+                throw new BuildException("Configuration property file ["
+                    + getPropertiesFile() + "] cannot be loaded", e);
+            }
         }
 
         // Set all container properties

@@ -19,12 +19,17 @@
  */
 package org.codehaus.cargo.ant;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import org.apache.tools.ant.BuildException;
@@ -157,6 +162,11 @@ public class CargoTask extends Task
      * List of system properties to set in the container JVM.
      */
     private Map<String, String> systemProperties = new HashMap<String, String>();
+
+    /**
+     * System properties loaded from file.
+     */
+    private File systemPropertiesFile;
 
     /**
      * Additional classpath entries for the classpath that will be used to start the containers.
@@ -416,6 +426,14 @@ public class CargoTask extends Task
     public void addSysproperty(Environment.Variable property)
     {
         getSystemProperties().put(property.getKey(), property.getValue());
+    }
+
+    /**
+     * @param systemPropertiesFile System properties loaded from file.
+     */
+    public void setSystemPropertiesFile(File systemPropertiesFile)
+    {
+        this.systemPropertiesFile = systemPropertiesFile;
     }
 
     /**
@@ -732,10 +750,47 @@ public class CargoTask extends Task
      */
     protected void setupSystemProperties()
     {
+        Map<String, String> systemProperties = new HashMap<String, String>();
+
+        // Set container properties loaded from file (if any)
+        if (getSystemPropertiesFile() != null)
+        {
+            Properties properties = new Properties();
+            try
+            {
+                InputStream inputStream = new FileInputStream(getSystemPropertiesFile());
+                try
+                {
+                    properties.load(new BufferedInputStream(inputStream));
+                }
+                finally
+                {
+                    inputStream.close();
+                }
+                for (Enumeration<?> propertyNames = properties.propertyNames();
+                    propertyNames.hasMoreElements();)
+                {
+                    String propertyName = (String) propertyNames.nextElement();
+                    String propertyValue = properties.getProperty(propertyName);
+                    systemProperties.put(propertyName, propertyValue);
+                }
+            }
+            catch (IOException e)
+            {
+                throw new BuildException("System property file ["
+                    + getSystemPropertiesFile() + "] cannot be loaded", e);
+            }
+        }
+
         if (!getSystemProperties().isEmpty())
         {
-            ((InstalledLocalContainer) getContainer()).setSystemProperties(getSystemProperties());
+            for (Map.Entry<String, String> systemProperty : getSystemProperties().entrySet())
+            {
+                systemProperties.put(systemProperty.getKey(), systemProperty.getValue());
+            }
         }
+
+        ((InstalledLocalContainer) getContainer()).setSystemProperties(systemProperties);
     }
 
     /**
@@ -745,6 +800,14 @@ public class CargoTask extends Task
     protected final Map<String, String> getSystemProperties()
     {
         return this.systemProperties;
+    }
+
+    /**
+     * @return System properties loaded from file.
+     */
+    protected File getSystemPropertiesFile()
+    {
+        return systemPropertiesFile;
     }
 
     /**
