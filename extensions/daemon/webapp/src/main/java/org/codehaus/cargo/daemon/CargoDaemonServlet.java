@@ -608,6 +608,9 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 try
                 {
                     previousContainer.stop();
+                    
+                    // Wait 5 seconds to allow sockets to close after forced kill 
+                    Thread.sleep(5000);
                 }
                 catch (Throwable ignored)
                 {
