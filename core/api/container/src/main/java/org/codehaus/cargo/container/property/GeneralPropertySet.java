@@ -32,7 +32,11 @@ public interface GeneralPropertySet
     String PROTOCOL = "cargo.protocol";
 
     /**
-     * Hostname on which the container is listening to.
+     * Hostname on which the container is listening to.<br/>
+     * <br/>
+     * Note: In order to listen to all IP addresses, you can set this to <code>0.0.0.0</code>,
+     * in that case the container will be set up to use that address but the Cargo ping component
+     * will still ping on <code>localhost</code>.
      */
     String HOSTNAME = "cargo.hostname";
 
@@ -44,12 +48,12 @@ public interface GeneralPropertySet
     String LOGGING = "cargo.logging";
 
     /**
-     * JVM args to be used when starting/stopping containers (ex: "-Xmx500m").
+     * JVM args to be used when starting/stopping containers (ex: <code>-Xmx500m</code>).
      */
     String JVMARGS = "cargo.jvmargs";
 
     /**
-     * Runtime args to be used when starting/stopping containers (ex: "-userThreads").
+     * Runtime args to be used when starting/stopping containers (ex: <code>-userThreads</code>).
      */
     String RUNTIME_ARGS = "cargo.runtime.args";
 

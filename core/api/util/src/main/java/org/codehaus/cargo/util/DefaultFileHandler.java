@@ -35,11 +35,14 @@ import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -286,6 +289,58 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
                     targetFile.getAbsolutePath(), filterChain, encoding);
             }
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see FileHander#explode(String, String)
+     */
+    public void explode(String war, String exploded) throws IOException
+    {
+        if (exists(exploded))
+        {
+            delete(exploded);
+        }
+
+        byte[] buf = new byte[1024];
+
+        JarFile archive = new JarFile(new File(war).getAbsoluteFile());
+        Enumeration e = archive.entries();
+        while (e.hasMoreElements())
+        {
+            JarEntry j = (JarEntry) e.nextElement();
+            String dst = append(exploded, j.getName());
+
+            if (j.isDirectory())
+            {
+                mkdirs(dst);
+                continue;
+            }
+
+            mkdirs(getParent(dst));
+
+            InputStream in = archive.getInputStream(j);
+            FileOutputStream out = new FileOutputStream(dst);
+            try
+            {
+                while (true)
+                {
+                    int sz = in.read(buf);
+                    if (sz < 0)
+                    {
+                        break;
+                    }
+                    out.write(buf, 0, sz);
+                }
+            }
+            finally
+            {
+                in.close();
+                out.close();
+            }
+        }
+
+        archive.close();
     }
 
     /**

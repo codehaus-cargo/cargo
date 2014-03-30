@@ -58,20 +58,21 @@ public final class ContainerUtils
      */
     public static URL getCPCURL(Configuration configuration)
     {
-        URL cpcURL;
         try
         {
-            cpcURL = new URL(configuration.getPropertyValue(GeneralPropertySet.PROTOCOL) + "://"
-                + configuration.getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
-                + configuration.getPropertyValue(ServletPropertySet.PORT)
+            String hostname = configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
+            if ("0.0.0.0".equals(hostname) || "::0".equals(hostname))
+            {
+                hostname = "localhost";
+            }
+            return new URL(configuration.getPropertyValue(GeneralPropertySet.PROTOCOL) + "://"
+                + hostname + ":" + configuration.getPropertyValue(ServletPropertySet.PORT)
                 + "/cargocpc/index.html");
         }
         catch (MalformedURLException e)
         {
             throw new ContainerException("Failed to compute CPC URL", e);
         }
-
-        return cpcURL;
     }
 
     /**

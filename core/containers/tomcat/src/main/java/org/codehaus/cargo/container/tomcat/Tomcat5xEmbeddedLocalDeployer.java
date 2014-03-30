@@ -19,15 +19,9 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
@@ -97,7 +91,7 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
             try
             {
                 docBase = getFileHandler().append(home, "webapps/" + war.getContext());
-                explode(war.getFile(), docBase);
+                getFileHandler().explode(war.getFile(), docBase);
             }
             catch (IOException e)
             {
@@ -218,60 +212,5 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
             throw new ContainerException("Not deployed yet: " + deployable);
         }
         return context;
-    }
-
-    /**
-     * Extracts a war file into a directory.
-     * 
-     * @param war the War archive to be extracted.
-     * @param exploded the directory that receives files.
-     * @throws IOException any file operation failure
-     */
-    private void explode(String war, String exploded) throws IOException
-    {
-        if (getFileHandler().exists(exploded))
-        {
-            getFileHandler().delete(exploded);
-        }
-
-        byte[] buf = new byte[1024];
-
-        JarFile archive = new JarFile(new File(war).getAbsoluteFile());
-        Enumeration e = archive.entries();
-        while (e.hasMoreElements())
-        {
-            JarEntry j = (JarEntry) e.nextElement();
-            String dst = getFileHandler().append(exploded, j.getName());
-
-            if (j.isDirectory())
-            {
-                getFileHandler().mkdirs(dst);
-                continue;
-            }
-
-            getFileHandler().mkdirs(getFileHandler().getParent(dst));
-
-            InputStream in = archive.getInputStream(j);
-            FileOutputStream out = new FileOutputStream(dst);
-            try
-            {
-                while (true)
-                {
-                    int sz = in.read(buf);
-                    if (sz < 0)
-                    {
-                        break;
-                    }
-                    out.write(buf, 0, sz);
-                }
-            }
-            finally
-            {
-                in.close();
-                out.close();
-            }
-        }
-
-        archive.close();
     }
 }

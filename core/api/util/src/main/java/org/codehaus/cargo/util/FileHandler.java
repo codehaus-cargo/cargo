@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.util;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
@@ -201,6 +202,15 @@ public interface FileHandler extends Loggable
      *            platform's default encoding.
      */
     void copyDirectory(String source, String target, FilterChain filterChain, String encoding);
+
+    /**
+     * Extracts a war file into a directory.
+     * 
+     * @param war the War archive to be extracted.
+     * @param exploded the directory that receives files.
+     * @throws IOException any file operation failure
+     */
+    void explode(String war, String exploded) throws IOException;
 
     /**
      * Convenience method for creating a new directory inside another one. If the directory already
