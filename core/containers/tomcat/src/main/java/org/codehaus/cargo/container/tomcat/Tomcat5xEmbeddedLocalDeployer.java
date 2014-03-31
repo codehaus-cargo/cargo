@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,15 +87,8 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
         if (!war.isExpanded())
         {
             String home = container.getConfiguration().getHome();
-            try
-            {
-                docBase = getFileHandler().append(home, "webapps/" + war.getContext());
-                getFileHandler().explode(war.getFile(), docBase);
-            }
-            catch (IOException e)
-            {
-                throw new ContainerException("Failed to expand " + war.getFile(), e);
-            }
+            docBase = getFileHandler().append(home, "webapps/" + war.getContext());
+            getFileHandler().explode(war.getFile(), docBase);
         }
         else
         {

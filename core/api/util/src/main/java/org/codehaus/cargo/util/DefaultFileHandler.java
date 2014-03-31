@@ -157,9 +157,11 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      */
     public void copyFile(String source, String target, FilterChain filterChain, String encoding)
     {
+        InputStream fileIS = null;
+
         try
         {
-            InputStream fileIS = new FileInputStream(source);
+            fileIS = new FileInputStream(source);
 
             BufferedReader in = null;
             BufferedWriter out = null;
@@ -205,6 +207,22 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         {
             throw new CargoException("Failed to copy source file [" + source + "] to [" + target
                     + "] with FilterChain", e);
+        }
+        finally
+        {
+            if (fileIS != null)
+            {
+                try
+                {
+                    fileIS.close();
+                }
+                catch (IOException ignored)
+                {
+                    // Ignored
+                }
+                fileIS = null;
+                System.gc();
+            }
         }
     }
 
@@ -295,7 +313,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * {@inheritDoc}
      * @see FileHander#explode(String, String)
      */
-    public void explode(String war, String exploded) throws IOException
+    public void explode(String war, String exploded)
     {
         if (exists(exploded))
         {
@@ -304,43 +322,78 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
         byte[] buf = new byte[1024];
 
-        JarFile archive = new JarFile(new File(war).getAbsoluteFile());
-        Enumeration e = archive.entries();
-        while (e.hasMoreElements())
+        JarFile archive = null;
+        try
         {
-            JarEntry j = (JarEntry) e.nextElement();
-            String dst = append(exploded, j.getName());
-
-            if (j.isDirectory())
+            archive = new JarFile(new File(war).getAbsoluteFile());
+            Enumeration e = archive.entries();
+            while (e.hasMoreElements())
             {
-                mkdirs(dst);
-                continue;
-            }
+                JarEntry j = (JarEntry) e.nextElement();
+                String dst = append(exploded, j.getName());
 
-            mkdirs(getParent(dst));
-
-            InputStream in = archive.getInputStream(j);
-            FileOutputStream out = new FileOutputStream(dst);
-            try
-            {
-                while (true)
+                if (j.isDirectory())
                 {
-                    int sz = in.read(buf);
-                    if (sz < 0)
+                    mkdirs(dst);
+                    continue;
+                }
+
+                mkdirs(getParent(dst));
+
+                InputStream in = null;
+                FileOutputStream out = null;
+                try
+                {
+                    in = archive.getInputStream(j);
+                    out = new FileOutputStream(dst);
+                    while (true)
                     {
-                        break;
+                        int sz = in.read(buf);
+                        if (sz < 0)
+                        {
+                            break;
+                        }
+                        out.write(buf, 0, sz);
                     }
-                    out.write(buf, 0, sz);
+                }
+                finally
+                {
+                    if (in != null)
+                    {
+                        in.close();
+                        in = null;
+                        System.gc();
+                    }
+                    if (out != null)
+                    {
+                        out.close();
+                        out = null;
+                        System.gc();
+                    }
                 }
             }
-            finally
+        }
+        catch (IOException e)
+        {
+            throw new CargoException(
+                "Failed to extract file [" + war + "] to [" + exploded + "]", e);
+        }
+        finally
+        {
+            if (archive != null)
             {
-                in.close();
-                out.close();
+                try
+                {
+                    archive.close();
+                }
+                catch (IOException ignored)
+                {
+                    // Ignored
+                }
+                archive = null;
+                System.gc();
             }
         }
-
-        archive.close();
     }
 
     /**

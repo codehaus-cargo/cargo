@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.util;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
@@ -208,9 +207,8 @@ public interface FileHandler extends Loggable
      * 
      * @param war the War archive to be extracted.
      * @param exploded the directory that receives files.
-     * @throws IOException any file operation failure
      */
-    void explode(String war, String exploded) throws IOException;
+    void explode(String war, String exploded);
 
     /**
      * Convenience method for creating a new directory inside another one. If the directory already
