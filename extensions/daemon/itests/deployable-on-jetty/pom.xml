@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-daemon-itests</artifactId>
-    <version>1.4.8-SNAPSHOT</version>
+    <version>1.4.8</version>
   </parent>
   <artifactId>cargo-daemon-itests-deployable-on-jetty</artifactId>
   <name>Cargo Daemon Integration Tests - Deployable on Jetty</name>

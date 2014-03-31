@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-extensions-daemon</artifactId>
-    <version>1.4.8-SNAPSHOT</version>
+    <version>1.4.8</version>
   </parent>
   <artifactId>cargo-daemon-webapp</artifactId>
   <packaging>war</packaging>
