@@ -177,6 +177,10 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         {
             args.add("--datasourceclassname");
         }
+        else if ("javax.sql.DataSource".equals(dataSource.getConnectionType()))
+        {
+            args.add("--datasourceclassname");
+        }
         else
         {
             args.add("--driverclassname");
