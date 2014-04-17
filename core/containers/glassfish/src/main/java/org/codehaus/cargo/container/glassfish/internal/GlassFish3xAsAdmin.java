@@ -87,7 +87,18 @@ public class GlassFish3xAsAdmin extends AbstractAsAdmin
 
             if (exitCode != 0)
             {
-                throw new CargoException("GlassFish admin command failed: asadmin exited "
+                final StringBuilder argumentsStringBuilder = new StringBuilder();
+                for (final String arg : args)
+                {
+                    argumentsStringBuilder.append(arg);
+                    argumentsStringBuilder.append(' ');
+                }
+                if (args.length > 0)
+                {
+                    argumentsStringBuilder.deleteCharAt(argumentsStringBuilder.length() - 1);
+                }
+                throw new CargoException("GlassFish admin command with args ("
+                    + argumentsStringBuilder + ") failed: asadmin exited "
                     + exitCode);
             }
         }
