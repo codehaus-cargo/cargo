@@ -38,7 +38,7 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 /**
  * Test the deployment of Glassfish deployment plans.
  * 
- * @version $Id: JonasDeploymentPlanTest.java 3167 2011-12-18 17:50:25Z alitokmen $
+ * @version $Id$
  */
 public class GlassfishDeploymentPlanTest extends AbstractCargoTestCase
 {
@@ -76,15 +76,14 @@ public class GlassfishDeploymentPlanTest extends AbstractCargoTestCase
 
         return suite;
     }
-    
-	/**
-	 * Tests loading with a {@link javax.sql.DataSource} class. The
-	 * {@link javax.sql.XADataSource} is not tested because that configuration cannot
-	 * be tested in {@link ConfigurationType#STANDALONE}
-	 * 
-	 * @throws Exception
-	 *             If anything goes wrong.
-	 */
+
+    /**
+     * Tests loading with a {@link javax.sql.DataSource} class. The
+     * {@link javax.sql.XADataSource} is not tested because that configuration cannot
+     * be tested in {@link ConfigurationType#STANDALONE}
+     * 
+     * @throws Exception If anything goes wrong.
+     */
     public void testDataSourceClass() throws Exception
     {
         Configuration configuration = createConfiguration(ConfigurationType.STANDALONE);
