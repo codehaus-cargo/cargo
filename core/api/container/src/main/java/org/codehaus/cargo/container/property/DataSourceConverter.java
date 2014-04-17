@@ -67,6 +67,10 @@ public class DataSourceConverter
         {
             data.setConnectionType(connectionType);
         }
+        else if (ConfigurationEntryType.DATASOURCE.equals(connectionType))
+        {
+            data.setConnectionType(connectionType);
+        }
         else
         {
             data.setConnectionType(ConfigurationEntryType.JDBC_DRIVER);
