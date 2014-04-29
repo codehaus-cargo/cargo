@@ -300,7 +300,7 @@
     <module name="NeedBraces"/>
 
     <module name="NestedIfDepth">
-      <property name="max" value="3"/>
+      <property name="max" value="4"/>
     </module>
 
     <module name="NestedTryDepth"/>
