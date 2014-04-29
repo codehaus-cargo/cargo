@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Codehaus CARGO, copyright 2004-2011 Vincent Massol.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-samples-ant</artifactId>
+    <version>1.4.9-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-sample-ant-daemon-test</artifactId>
+  <name>Cargo Samples - ANT - Daemon test</name>
+  <packaging>jar</packaging>
+  <description>Sample application that exercises the Cargo ANT tasks with the daemon</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-daemon-webapp</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.cargo</groupId>
+          <artifactId>cargo-maven2-plugin</artifactId>
+          <version>${project.version}</version>
+          <configuration>
+            <container>
+              <containerId>tomcat6x</containerId>
+              <zipUrlInstaller>
+                <url>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.39/bin/apache-tomcat-6.0.39.zip</url>
+                <downloadDir>${project.basedir}/../../../../core/samples/java/installs</downloadDir>
+              </zipUrlInstaller>
+              <systemProperties>
+                <cargo.home>${project.build.directory}/daemon-cargo-home</cargo.home>
+                <daemon.home>${project.build.directory}/daemon-home</daemon.home>
+              </systemProperties>
+            </container>
+            <configuration>
+              <properties>
+                <cargo.servlet.port>${cargo.samples.daemon.port}</cargo.servlet.port>
+                <cargo.rmi.port>${cargo.samples.daemon.rmi.port}</cargo.rmi.port>
+                <cargo.tomcat.ajp.port>${cargo.samples.daemon.ajp.port}</cargo.tomcat.ajp.port>
+              </properties>
+            </configuration>
+            <deployables>
+              <deployable>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-daemon-webapp</artifactId>
+                <type>war</type>
+                <properties>
+                  <context>/</context>
+                </properties>
+              </deployable>
+            </deployables>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-port-numbers</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>reserve-network-port</goal>
+            </goals>
+            <configuration>
+              <portNames>
+                <portName>cargo.samples.daemon.port</portName>
+                <portName>cargo.samples.daemon.ajp.port</portName>
+                <portName>cargo.samples.daemon.rmi.port</portName>
+                <portName>cargo.samples.servlet.port</portName>
+                <portName>cargo.samples.rmi.port</portName>
+                <portName>cargo.samples.tomcat.ajp.port</portName>
+              </portNames>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-test-deployables</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${cargo-test-applications.directory}</outputDirectory>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>simple-war</artifactId>
+                  <version>${cargo.resources.version}</version>
+                  <type>war</type>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-daemon-client</artifactId>
+                  <version>${project.version}</version>
+                  <outputDirectory>${cargo-ant-tasks.directory}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>run-its</id>
+      <activation>
+        <property>
+          <name>skipTests</name>
+          <value>!true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven2-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>start-cargo</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>start</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>stop-cargo</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>start-using-daemon</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <!-- Avoid CARGO-827: Cannot build on Windows -->
+                    <replace file="${cargo-ant-buildfiles.directory}/build.xml">
+                      <replacefilter token="extensions\\ant\\samples\\daemon-test/../../../../" value="" />
+                      <replacefilter token="\\" value="\" />
+                      <replacefilter token="\:" value=":" />
+                    </replace>
+                    <ant antfile="${cargo-ant-buildfiles.directory}/build.xml">
+                      <target name="daemon-start" />
+                    </ant>
+                  </target>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

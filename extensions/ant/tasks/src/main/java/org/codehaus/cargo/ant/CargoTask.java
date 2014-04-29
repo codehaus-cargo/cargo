@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -53,6 +55,9 @@ import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
+import org.codehaus.cargo.tools.daemon.DaemonClient;
+import org.codehaus.cargo.tools.daemon.DaemonPropertySet;
+import org.codehaus.cargo.tools.daemon.DaemonStart;
 import org.codehaus.cargo.util.log.AntLogger;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.LogLevel;
@@ -98,11 +103,32 @@ public class CargoTask extends Task
     private static final String ACTION_STOP = "stop";
 
     /**
+     * The prefix for all daemon actions.
+     * @see #setAction(String)
+     */
+    private static final String ACTIONS_DAEMON_PREFIX = "daemon-";
+
+    /**
+     * Represents a start container action via the Cargo Daemon.
+     * @see #setAction(String)
+     */
+    private static final String ACTION_DAEMON_START =
+        CargoTask.ACTIONS_DAEMON_PREFIX + CargoTask.ACTION_START;
+
+    /**
+     * Represents a stop container action via the Cargo Daemon.
+     * @see #setAction(String)
+     */
+    private static final String ACTION_DAEMON_STOP =
+        CargoTask.ACTIONS_DAEMON_PREFIX + CargoTask.ACTION_STOP;
+
+    /**
      * All actions for local containers.
      * @see #setAction(String)
      */
     private static final List<String> LOCAL_ACTIONS = Arrays.asList(new String[] {
-        ACTION_START, ACTION_RESTART, ACTION_RUN, ACTION_STOP, ACTION_CONFIGURE
+        ACTION_START, ACTION_RESTART, ACTION_RUN, ACTION_STOP, ACTION_CONFIGURE,
+        ACTION_DAEMON_START, ACTION_DAEMON_STOP
     });
 
     /**
@@ -225,6 +251,11 @@ public class CargoTask extends Task
     private ConfigurationElement configurationElement;
 
     /**
+     * Daemon configuration (if defined by the user).
+     */
+    private DaemonElement daemonElement;
+
+    /**
      * Factory to create container instances from a container id.
      */
     private ContainerFactory containerFactory = new DefaultContainerFactory();
@@ -341,6 +372,19 @@ public class CargoTask extends Task
         }
 
         return this.configurationElement;
+    }
+
+    /**
+     * @return the configured {@link DaemonElement} element
+     */
+    public DaemonElement createDaemon()
+    {
+        if (getDaemon() == null)
+        {
+            this.daemonElement = new DaemonElement();
+        }
+
+        return this.daemonElement;
     }
 
     /**
@@ -547,7 +591,107 @@ public class CargoTask extends Task
         {
             final LocalContainer localContainer = (LocalContainer) getContainer();
 
-            if (ACTION_START.equalsIgnoreCase(getAction()))
+            if (getAction().startsWith(ACTIONS_DAEMON_PREFIX))
+            {
+                if (daemonElement == null)
+                {
+                    throw new BuildException("Daemon configuration is empty.");
+                }
+
+                String daemonURLString = daemonElement.getProperty(DaemonPropertySet.URL);
+                String daemonUsername = daemonElement.getProperty(DaemonPropertySet.USERNAME);
+                String daemonPassword = daemonElement.getProperty(DaemonPropertySet.PASSWORD);
+                String daemonHandleId = daemonElement.getProperty(DaemonPropertySet.HANDLE);
+                boolean daemonAutostartContainer =
+                    Boolean.valueOf(daemonElement.getProperty(DaemonPropertySet.AUTOSTART));
+
+                if (daemonURLString == null || daemonURLString.length() == 0)
+                {
+                    throw new BuildException("Missing daemon URL property.");
+                }
+                URL daemonURL;
+                try
+                {
+                    daemonURL = new URL(daemonURLString);
+                }
+                catch (MalformedURLException e)
+                {
+                    throw new BuildException("Invalid daemon URL: " + e, e);
+                }
+
+                if (daemonHandleId == null || daemonHandleId.length() == 0)
+                {
+                    throw new BuildException("Missing daemon handle id property.");
+                }
+
+                DaemonClient daemon;
+                if (daemonUsername != null && daemonUsername.length() > 0
+                    && daemonPassword != null && daemonPassword.length() > 0)
+                {
+                    daemon = new DaemonClient(daemonURL, daemonUsername, daemonPassword);
+                }
+                else if (daemonUsername != null && daemonUsername.length() > 0)
+                {
+                    daemon = new DaemonClient(daemonURL, daemonUsername);
+                }
+                else
+                {
+                    daemon = new DaemonClient(daemonURL);
+                }
+
+                if (ACTION_DAEMON_START.equalsIgnoreCase(getAction()))
+                {
+                    final InstalledLocalContainer installedLocalContainer =
+                        (InstalledLocalContainer) localContainer;
+
+                    DaemonStart start = new DaemonStart();
+                    start.setAdditionalClasspathEntries(daemonElement.getClasspaths());
+                    start.setAutostart(daemonAutostartContainer);
+                    start.setContainer(installedLocalContainer);
+                    start.setDeployables(localContainer.getConfiguration().getDeployables());
+                    start.setHandleId(daemonHandleId);
+                    if (getZipURLInstaller() != null)
+                    {
+                        ZipURLInstaller installer = getZipURLInstaller().createInstaller();
+                        installer.setLogger(getContainer().getLogger());
+                        if (!installer.isAlreadyDownloaded())
+                        {
+                            installer.download();
+                        }
+                        start.setInstallerZipFile(
+                            zipURLInstallerElement.createInstaller().getDownloadFile());
+                    }
+                    if (getLog() != null)
+                    {
+                        start.setLogFile(getLog().getName());
+                    }
+                    try
+                    {
+                        daemon.start(start);
+                    }
+                    catch (Exception e)
+                    {
+                        throw new BuildException("Cannot start the container via Daemon: " + e, e);
+                    }
+                }
+                else if (ACTION_DAEMON_START.equalsIgnoreCase(getAction()))
+                {
+                    try
+                    {
+                        daemon.stop(daemonHandleId);
+                    }
+                    catch (Exception e)
+                    {
+                        throw new BuildException("Cannot stop the container via Daemon: " + e, e);
+                    }
+                }
+                else
+                {
+                    throw new BuildException("Unknown daemon action [" + getAction()
+                        + "] for local container");
+                }
+            }
+            else if (ACTION_START.equalsIgnoreCase(getAction()))
             {
                 localContainer.start();
             }
@@ -826,6 +970,15 @@ public class CargoTask extends Task
     protected final ConfigurationElement getConfiguration()
     {
         return this.configurationElement;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see #createDaemon()
+     */
+    protected final DaemonElement getDaemon()
+    {
+        return this.daemonElement;
     }
 
     /**

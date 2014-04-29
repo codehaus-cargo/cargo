@@ -78,15 +78,6 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
     {
         getCargoProject().setDaemonRun(true);
 
-        if (getCargoProject().getPackaging() == null || !getCargoProject().isJ2EEPackaging())
-        {
-            if (getDeployablesElement() == null || getDeployablesElement().length == 0)
-            {
-                getLog().info("There's nothing to deploy or undeploy");
-                return;
-            }
-        }
-
         org.codehaus.cargo.container.Container container = createContainer();
 
         if (!(container instanceof InstalledLocalContainer))
