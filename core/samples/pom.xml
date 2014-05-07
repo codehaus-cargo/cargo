@@ -363,7 +363,7 @@
                 <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.5.3.v20111011/jetty-distribution-7.5.3.v20111011.tar.gz</value>
                  -->
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.14.v20131031/jetty-distribution-7.6.14.v20131031.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.15.v20140411/jetty-distribution-7.6.15.v20140411.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty7x.java.home</name>
@@ -378,7 +378,7 @@
                 <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.0.3.v20111011/jetty-distribution-8.0.3.v20111011.tar.gz</value>
                  -->
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.14.v20131031/jetty-distribution-8.1.14.v20131031.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.15.v20140411/jetty-distribution-8.1.15.v20140411.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty8x.java.home</name>
@@ -390,7 +390,7 @@
                 <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.7.v20131107/jetty-distribution-9.0.7.v20131107.tar.gz</value>
                  -->
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.4.v20140401/jetty-distribution-9.1.4.v20140401.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>

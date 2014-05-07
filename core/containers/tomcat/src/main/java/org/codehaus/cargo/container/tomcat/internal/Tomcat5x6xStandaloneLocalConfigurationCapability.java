@@ -26,18 +26,19 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
  * 
  * @version $Id$
  */
-public class Tomcat5x6x7x8xStandaloneLocalConfigurationCapability extends
+public class Tomcat5x6xStandaloneLocalConfigurationCapability extends
     Tomcat4xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public Tomcat5x6x7x8xStandaloneLocalConfigurationCapability()
+    public Tomcat5x6xStandaloneLocalConfigurationCapability()
     {
         super();
 
         this.supportsMap.put(TomcatPropertySet.HTTP_SECURE, Boolean.TRUE);
         this.supportsMap.put(TomcatPropertySet.USE_HTTP_ONLY, Boolean.TRUE);
+        this.supportsMap.put(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH, Boolean.TRUE);
         this.supportsMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE, Boolean.TRUE);
         this.supportsMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE, Boolean.TRUE);
         this.supportsMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD, Boolean.TRUE);

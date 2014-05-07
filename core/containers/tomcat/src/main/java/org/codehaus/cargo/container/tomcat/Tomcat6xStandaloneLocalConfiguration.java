@@ -52,6 +52,22 @@ public class Tomcat6xStandaloneLocalConfiguration
     /**
      * {@inheritDoc}
      * 
+     * @see org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration#doConfigure(LocalContainer)
+     */
+    @Override
+    protected void doConfigure(LocalContainer container) throws Exception
+    {
+        super.doConfigure(container);
+
+        // CARGO-1272: Starting Tomcat generates warnings on not existing folders in classloader
+        getFileHandler().createDirectory(getHome(), "common/classes");
+        getFileHandler().createDirectory(getHome(), "shared/classes");
+        getFileHandler().createDirectory(getHome(), "shared/lib");
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * the path to find the manager application is different between v5 and v6.
      * 
      * @see Tomcat5xStandaloneLocalConfiguration#setupManager(org.codehaus.cargo.container.LocalContainer)

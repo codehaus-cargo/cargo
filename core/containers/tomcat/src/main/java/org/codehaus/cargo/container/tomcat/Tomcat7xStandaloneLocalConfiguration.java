@@ -21,8 +21,10 @@ package org.codehaus.cargo.container.tomcat;
 
 import java.util.Map;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat7x8xStandaloneLocalConfigurationCapability;
 
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -33,6 +35,15 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 public class Tomcat7xStandaloneLocalConfiguration
     extends Tomcat6xStandaloneLocalConfiguration
 {
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see TomcatStandaloneLocalConfigurationCapability
+     */
+    private static ConfigurationCapability capability =
+        new Tomcat7x8xStandaloneLocalConfigurationCapability();
+
     /**
      * {@inheritDoc}
      * @see Tomcat6xStandaloneLocalConfiguration#Tomcat6xStandaloneLocalConfiguration(String)
@@ -42,16 +53,35 @@ public class Tomcat7xStandaloneLocalConfiguration
         super(dir);
 
         setProperty(ServletPropertySet.USERS, "admin::manager-gui");
+
+        // CARGO-1271: Starting Tomcat 7 with Cargo logs warning on emptySessionPath
+        getProperties().remove(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
+        removeXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "emptySessionPath");
     }
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
+     * 
+     * @see org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration#doConfigure(LocalContainer)
      */
     @Override
-    public String toString()
+    protected void doConfigure(LocalContainer container) throws Exception
     {
-        return "Tomcat 7.x Standalone Configuration";
+        super.doConfigure(container);
+
+        // CARGO-1272: Starting Tomcat generates warnings on not existing folders in classloader
+        getFileHandler().createDirectory(getHome(), "common/lib");
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.tomcat.Tomcat5xStandaloneLocalConfiguration#getCapability()
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return capability;
     }
 
     /**
@@ -87,5 +117,15 @@ public class Tomcat7xStandaloneLocalConfiguration
                     "resolveHosts", "false");
 
         super.performXmlReplacements(container);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        return "Tomcat 7.x Standalone Configuration";
     }
 }
