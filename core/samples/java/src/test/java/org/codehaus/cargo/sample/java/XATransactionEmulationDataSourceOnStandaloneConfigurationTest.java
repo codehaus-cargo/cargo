@@ -82,6 +82,7 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
         excludedContainerIds.add("jboss71x");
         excludedContainerIds.add("jboss72x");
         excludedContainerIds.add("jboss73x");
+        excludedContainerIds.add("jboss74x");
         excludedContainerIds.add("wildfly8x");
 
         suite.addTestSuite(XATransactionEmulationDataSourceOnStandaloneConfigurationTest.class,

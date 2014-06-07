@@ -390,7 +390,10 @@
                 <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.7.v20131107/jetty-distribution-9.0.7.v20131107.tar.gz</value>
                  -->
+                <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz</value>
+                 -->
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.0.v20140526/jetty-distribution-9.2.0.v20140526.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>
@@ -840,9 +843,32 @@
                 <value>${cargo.java.home.1_6}</value>
               </property>
 
+              <!--
+                JBoss 7.4 is actually called EAP 6.3.0
+
+                Please download it manually from http://www.jboss.org/jbossas/downloads and set the
+                cargo.jboss74x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.jboss74x.home</name>
+                    <value>C:/Program Files/JBoss/jboss-eap-6.3.0</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.jboss74x.home</name>
+                <value>${cargo.jboss74x.home}</value>
+              </property>
+              <property>
+                <name>cargo.jboss74x.java.home</name>
+                <value>${cargo.java.home.1_7}</value>
+              </property>
+
               <property>
                 <name>cargo.wildfly8x.url</name>
-                <value>http://download.jboss.org/wildfly/8.0.0.Final/wildfly-8.0.0.Final.tar.gz</value>
+                <!-- <value>http://download.jboss.org/wildfly/8.0.0.Final/wildfly-8.0.0.Final.tar.gz</value> -->
+                <value>http://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz</value>
               </property>
               <property>
                 <name>cargo.wildfly8x.java.home</name>
@@ -1466,6 +1492,12 @@
        <id>jboss73x</id>
        <properties>
          <cargo.containers>jboss73x</cargo.containers>
+       </properties>
+    </profile>
+    <profile>
+       <id>jboss74x</id>
+       <properties>
+         <cargo.containers>jboss74x</cargo.containers>
        </properties>
     </profile>
 

@@ -86,6 +86,7 @@ public class WarMultiContextTest extends AbstractCargoTestCase
         excludedContainerIds.add("jboss71x");
         excludedContainerIds.add("jboss72x");
         excludedContainerIds.add("jboss73x");
+        excludedContainerIds.add("jboss74x");
         excludedContainerIds.add("jonas4x");
         excludedContainerIds.add("jonas5x");
         excludedContainerIds.add("jrun4x");

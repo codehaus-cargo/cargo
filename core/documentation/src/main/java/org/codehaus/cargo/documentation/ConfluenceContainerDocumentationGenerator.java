@@ -144,6 +144,15 @@ public class ConfluenceContainerDocumentationGenerator
     });
 
     /**
+     * Containers that work on Java 7.
+     */
+    private static final List<String> JAVA7_CONTAINERS = Arrays.asList(new String[] {
+        "jboss74x",
+        "jetty9x",
+        "tomcat8x"
+    });
+
+    /**
      * Classes that are used to get the property names.
      */
     private static final Class[] PROPERTY_SET_CLASSES = {
@@ -380,6 +389,11 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("Enterprise Application Platform (EAP) version 6.2; i.e. the build ");
             output.append("from JBoss Application Server (AS) version 7.3 released in October ");
             output.append("2013");
+            output.append(LINE_SEPARATOR);
+            output.append("* What Cargo calls [JBoss 7.4.x] is what JBoss refers to as JBoss ");
+            output.append("Enterprise Application Platform (EAP) version 6.3; i.e. the build ");
+            output.append("from JBoss Application Server (AS) version 7.4 released in June ");
+            output.append("2014");
             output.append("{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
@@ -1160,13 +1174,17 @@ public class ConfluenceContainerDocumentationGenerator
                 {
                     javaVersion = "6";
                 }
+                else if (JAVA7_CONTAINERS.contains(containerId))
+                {
+                    javaVersion = "7";
+                }
                 else if ("jonas5x".equals(containerId))
                 {
                     javaVersion = "5 (JOnAS 5.0.x, 5.1.x and 5.2.x) or 6 (JOnAS 5.3.x)";
                 }
                 else
                 {
-                    javaVersion = "7";
+                    javaVersion = "8";
                 }
 
                 if (containerId.startsWith("websphere"))
