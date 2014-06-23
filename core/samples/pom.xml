@@ -263,7 +263,7 @@
 
               <property>
                 <name>cargo.resin4x.url</name>
-                <value>http://www.caucho.com/download/resin-4.0.37.zip</value>
+                <value>http://www.caucho.com/download/resin-4.0.40.zip</value>
               </property>
               <property>
                 <name>cargo.resin4x.java.home</name>
@@ -393,7 +393,7 @@
                 <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz</value>
                  -->
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.0.v20140526/jetty-distribution-9.2.0.v20140526.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.1.v20140609/jetty-distribution-9.2.1.v20140609.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>
