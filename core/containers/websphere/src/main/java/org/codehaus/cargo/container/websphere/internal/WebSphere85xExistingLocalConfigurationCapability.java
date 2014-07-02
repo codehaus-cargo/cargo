@@ -52,6 +52,8 @@ public class WebSphere85xExistingLocalConfigurationCapability
         this.defaultSupportsMap.put(WebSpherePropertySet.NODE, Boolean.TRUE);
         this.defaultSupportsMap.put(WebSpherePropertySet.CELL, Boolean.TRUE);
         this.defaultSupportsMap.put(WebSpherePropertySet.SERVER, Boolean.TRUE);
+
+        this.defaultSupportsMap.put(WebSpherePropertySet.PROCESSOR_ARCH, Boolean.TRUE);
     }
 
     /**
