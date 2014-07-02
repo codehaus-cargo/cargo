@@ -61,4 +61,9 @@ public interface WebSpherePropertySet
      */
     String LOGGING = "cargo.websphere.logging";
 
+
+    /**
+     * The processor type within lib/native/{OS} (e.g. 32, 64)
+     */
+    String PROCESSOR_ARCH = "cargo.websphere.arch";
 }

@@ -210,12 +210,20 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
         }
         serverLib = serverLibContents[0];
         serverLibContents = serverLib.listFiles();
-        if (serverLibContents == null || serverLibContents.length != 1)
+        if (serverLibContents == null || serverLibContents.length == 0)
         {
             throw new FileNotFoundException("Directory " + serverLib
-                + " is supposed to have only one sub-folder (with the processor type)");
+                + " is supposed to contain one or more sub-folders (with the processor type)");
         }
-        serverLib = serverLibContents[0];
+
+        if (serverLibContents.length == 1)
+        {
+            serverLib = serverLibContents[0];
+        }
+        else
+        {
+            serverLib = findServerLibByProcessorArch(serverLib, serverLibContents);
+        }
 
         String path = System.getenv("PATH");
         if (path == null || !path.contains(serverLib.getAbsolutePath()))
@@ -247,6 +255,77 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
         java.addClasspathEntries(new File(getHome(), "deploytool/itp/batchboot.jar"));
         java.addClasspathEntries(new File(getHome(), "deploytool/itp/batch2.jar"));
     }
+
+
+    /**
+     * finds the server lib based on the processor arch (32 or 64 bit)
+     * first it looks if cargo.websphere.processor.type is defined, if not (by default it's not set)
+     * then it tries to query various system properties to deduct if we are in a 32 or 64 bit CPU
+     *
+     * @param folder the parent folder of the server lib we are looking for
+     * @param serverLibContents the content of that folder
+     * @return the processor type specific server lib folder
+     * @throws FileNotFoundException if was not able to find a server lib folder
+     */
+    private File findServerLibByProcessorArch(File folder, File[] serverLibContents)
+        throws FileNotFoundException
+    {
+        File foundServerLib = null;
+        String arch = getConfiguration().getPropertyValue(WebSpherePropertySet.PROCESSOR_ARCH);
+        if (arch == null)
+        {
+            arch = getProcessorArchFromProperty(System.getProperty("os.arch"));
+        }
+        if (arch == null)
+        {
+            arch = getProcessorArchFromProperty(System.getProperty("sun.arch.data.model"));
+        }
+        if (arch == null)
+        {
+            arch = getProcessorArchFromProperty(System.getenv("PROCESSOR_ARCHITECTURE"));
+        }
+        if (arch == null)
+        {
+            arch = "32";
+        }
+        for (File file : serverLibContents)
+        {
+            if (file.getName().endsWith(arch))
+            {
+                foundServerLib = file;
+                break;
+            }
+        }
+        if (foundServerLib == null)
+        {
+            throw new FileNotFoundException("Directory " + arch + " is not found under " + folder
+                    + " please check " + WebSpherePropertySet.PROCESSOR_ARCH);
+        }
+        return foundServerLib;
+    }
+
+    /**
+     * returns the processor type based on a arch property
+     * (e.g. amd64 -> 64, x86_32 -> 32)
+     * @param osArch the os Arch property
+     * @return 32 or 64 if found, null otherwise
+     */
+    private String getProcessorArchFromProperty(String osArch)
+    {
+        if (osArch != null)
+        {
+            if (osArch.endsWith("32"))
+            {
+                return "32";
+            }
+            if (osArch.endsWith("64"))
+            {
+                return "64";
+            }
+        }
+        return null;
+    }
+
 
     /**
      * {@inheritDoc}
