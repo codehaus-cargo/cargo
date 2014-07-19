@@ -672,7 +672,8 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      */
     public void ifPresentAddPathToList(String location, List<String> list)
     {
-        if (location == null || !this.getFileHandler().exists(location))
+        if (location == null || !this.getFileHandler().exists(location)
+            || this.getFileHandler().isDirectory(location))
         {
             throw new IllegalArgumentException("Invalid file path: " + location);
         }
