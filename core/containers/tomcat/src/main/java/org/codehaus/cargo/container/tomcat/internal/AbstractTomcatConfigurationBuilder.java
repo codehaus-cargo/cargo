@@ -68,7 +68,6 @@ public abstract class AbstractTomcatConfigurationBuilder extends AbstractConfigu
     public String buildEntryForDriverConfiguredDataSourceWithNoTx(DataSource ds)
     {
         return convertDataSourceToResourceAndGetXMLEntry(ds);
-
     }
 
     /**
@@ -80,7 +79,6 @@ public abstract class AbstractTomcatConfigurationBuilder extends AbstractConfigu
      */
     protected String convertDataSourceToResourceAndGetXMLEntry(DataSource ds)
     {
-
         Resource dataSourceResource = convertToResource(ds);
         return toConfigurationEntry(dataSourceResource);
     }
