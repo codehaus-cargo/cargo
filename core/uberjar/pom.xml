@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-core</artifactId>
-    <version>1.4.9-SNAPSHOT</version>
+    <version>1.4.9</version>
   </parent>
   <artifactId>cargo-core-uberjar</artifactId>
   <name>Cargo Core Uberjar</name>
