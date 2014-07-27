@@ -575,7 +575,7 @@ public class DeployerServlet extends HttpServlet
     }
 
     /**
-     * Returns the context handler for the given context.<br/><b>Note</b>: We need to return an
+     * Returns the context handler for the given context.<br><b>Note</b>: We need to return an
      * <code>Object</code> in order to avoid <a href="https://jira.codehaus.org/browse/CARGO-1049">
      * bug CARGO-1049</a>.
      * @param context The webapp context
