@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-resources</artifactId>
-    <version>1.4.9-SNAPSHOT</version>
+    <version>1.4.9</version>
   </parent>
   <groupId>org.codehaus.cargo</groupId>
   <artifactId>cargo-samples-testdata</artifactId>
