@@ -38,7 +38,7 @@ public class WebLogic9x10x103x12xExistingLocalConfiguration
     /**
      * {@inheritDoc}
      * 
-     * @see WebLogicExistingLocalConfiguration#WebLogicExistingLocalConfiguration(String)
+     * @see WebLogic8xExistingLocalConfiguration#WebLogic8xExistingLocalConfiguration(String)
      */
     public WebLogic9x10x103x12xExistingLocalConfiguration(String dir)
     {

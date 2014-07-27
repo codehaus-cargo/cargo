@@ -23,8 +23,7 @@ import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
- * Capabilities of JBoss's {@link org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration}
- * configuration.
+ * Capabilities of JBoss's runtime configuration.
  * 
  * @version $Id$
  */

@@ -43,10 +43,8 @@ import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
 import org.codehaus.cargo.util.Base64;
 
 /**
- * A remote deployer for the Jetty container.<br/>
- * <br/>
- * <b>NOTE</b>: undeploy <u>DELETES</u> the webapp from the Jetty webapp directory.<br/>
- * <br/>
+ * A remote deployer for the Jetty container.<br><br>
+ * <b>NOTE</b>: undeploy <u>DELETES</u> the webapp from the Jetty webapp directory.<br><br>
  * Limitations:
  * <ul>
  * <li>Will not undeploy files from anywhere other than the servers webapp directory</li>

@@ -39,7 +39,7 @@ public abstract class AbstractJetty4x5xEmbeddedLocalContainer
 {
     /**
      * {@inheritDoc}
-     * @see AbstractJettyEmbeddedLocalContainer#AbstractEmbeddedLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see AbstractJettyEmbeddedLocalContainer#AbstractJettyEmbeddedLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public AbstractJetty4x5xEmbeddedLocalContainer(LocalConfiguration configuration)
     {
@@ -49,7 +49,6 @@ public abstract class AbstractJetty4x5xEmbeddedLocalContainer
     /**
      * {@inheritDoc}
      * @see AbstractJetty4x5xEmbeddedLocalContainer#doStart()
-     * @todo Extract code for standalone configuration and put it in
      * {@link AbstractJettyStandaloneLocalConfiguration}
      */
     @Override

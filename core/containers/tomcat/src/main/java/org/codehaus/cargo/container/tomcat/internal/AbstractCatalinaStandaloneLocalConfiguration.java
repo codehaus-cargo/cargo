@@ -61,7 +61,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder#AbstractStandaloneLocalConfigurationWithDataSourceSupport(String)
+     * @see AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder#AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder(String)
      */
     public AbstractCatalinaStandaloneLocalConfiguration(String dir)
     {

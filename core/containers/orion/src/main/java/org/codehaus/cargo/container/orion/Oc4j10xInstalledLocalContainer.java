@@ -42,7 +42,7 @@ public class Oc4j10xInstalledLocalContainer extends AbstractOc4j10xInstalledLoca
 
     /**
      * {@inheritDoc}
-     * @see AbstractOc4j10xInstalledLocalContainer#org.codehaus.cargo.container.orion.internal.AbstractOc4j10xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see AbstractOc4j10xInstalledLocalContainer#AbstractOc4j10xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Oc4j10xInstalledLocalContainer(LocalConfiguration configuration)
     {

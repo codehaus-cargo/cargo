@@ -254,10 +254,9 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
     }
 
     /**
-     * Set the properties on the JVM launcher.<br/>
-     * <br/>
+     * Set the properties on the JVM launcher.<br><br>
      * CARGO-1111: To allow JBoss 7.x and onwards to be accessed from remote machines,
-     * the system property <code>jboss.bind.address<code> must be set.
+     * the system property <code>jboss.bind.address</code> must be set.
      * @param java JVM launcher to set the properties on.
      * @throws MalformedURLException If URL construction fails.
      */

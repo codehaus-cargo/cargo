@@ -90,7 +90,6 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer#getStartArguments(java.lang.String)
      */
     @Override
     protected String[] getStartArguments(String classpath)
@@ -132,7 +131,6 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.Jetty7xInstalledLocalContainer#getStartArguments()
      */
     @Override
     protected String[] getStopArguments()

@@ -52,7 +52,7 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
 
     /**
      * {@inheritDoc}
-     * @see AbstractLocalDeployer#AbstractLocalDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
+     * @see AbstractLocalDeployer#AbstractLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
     public WebSphere85xInstalledLocalDeployer(InstalledLocalContainer container)
     {

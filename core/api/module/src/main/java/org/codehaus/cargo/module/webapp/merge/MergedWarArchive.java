@@ -136,7 +136,6 @@ public class MergedWarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
-     * @throws JDOMException
      * @see org.codehaus.cargo.module.webapp.WarArchive#getWebXml()
      */
     public WebXml getWebXml() throws IOException,
@@ -183,11 +182,9 @@ public class MergedWarArchive implements WarArchive
 
     /**
      * Here we do actual merge and store resulting war file into the new location. {@inheritDoc}
-     * @see {@link #merge(String)}
      * @see org.codehaus.cargo.module.webapp.WarArchive#store(java.io.File)
      */
-    public void store(File warFile) throws MergeException, IOException,
-        JDOMException
+    public void store(File warFile) throws MergeException, IOException, JDOMException
     {
         DefaultFileHandler fileHandler = new DefaultFileHandler();
 

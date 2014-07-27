@@ -31,8 +31,7 @@ public class Jetty6xEmbeddedStandaloneLocalConfigurationCapability extends
     Jetty4xEmbeddedStandaloneLocalConfigurationCapability
 {
     /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedStandaloneLocalConfigurationCapability#AbstractJettyEmbeddedStandaloneLocalConfigurationCapability()
+     * Constructor.
      */
     public Jetty6xEmbeddedStandaloneLocalConfigurationCapability()
     {

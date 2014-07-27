@@ -57,12 +57,12 @@ public final class PropertyUtils
      * Construct a Properties object from a single string, converting '|' symbols to end of line
      * characters for parsing.
      * <p>
-     * Example: "abc=def|car=bmw" gets converted to "abc" -> "def", and "car" -> "bmw"
+     * Example: "abc=def|car=bmw" gets converted to "abc" -&gt; "def", and "car" -&gt; "bmw"
      * </p>
      * 
      * @param toSplit The string value to convert to properties, pipe separated
      * @return the list of properties
-     * @see getPropertiesFromDelimitedString
+     * {@link #splitPropertiesOnDelimiter}
      */
     public static Properties splitPropertiesOnPipe(String toSplit)
     {
@@ -73,12 +73,12 @@ public final class PropertyUtils
      * Construct a Properties object from a single string, converting ';' symbols to end of line
      * characters for parsing.
      * <p>
-     * Example: "abc=def;car=bmw" gets converted to "abc" -> "def", and "car" -> "bmw"
+     * Example: "abc=def;car=bmw" gets converted to "abc" -&gt; "def", and "car" -&gt; "bmw"
      * </p>
      * 
      * @param toSplit The string value to convert to properties, semicolon separated
      * @return the list of properties
-     * @see getPropertiesFromDelimitedString
+     * {@link #splitPropertiesOnDelimiter}
      */
     public static Properties splitPropertiesOnSemicolon(String toSplit)
     {
@@ -88,7 +88,7 @@ public final class PropertyUtils
     /**
      * Construct a Properties object from a single string, by splitting it on a specified delimiter.
      * <p>
-     * Example: "abc=def;car=bmw" gets converted to "abc" -> "def", and "car" -> "bmw" where:
+     * Example: "abc=def;car=bmw" gets converted to "abc" -&gt; "def", and "car" -&gt; "bmw" where:
      * delimiter = ;
      * </p>
      * 
@@ -208,7 +208,7 @@ public final class PropertyUtils
     }
 
     /**
-     * Returns a <code>Map&lt;String, String&gt</code> out of a Java Properties object.
+     * Returns a <code>Map&lt;String, String&gt;</code> out of a Java Properties object.
      * 
      * @param properties the properties object to convert
      * @return Java Map corresponding to the Java Properties object.

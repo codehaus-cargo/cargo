@@ -50,7 +50,6 @@ public class Identifier
      * Constructor.
      * 
      * @param xpath XPath to use to identify field
-     * @throws JDOMException
      */
     public Identifier(String xpath)
     {
@@ -68,7 +67,6 @@ public class Identifier
      * 
      * @param namespaceMap The namespaceMap
      * @param xpath The xpath
-     * @throws JDOMException
      */
     public Identifier(Map<String, String> namespaceMap, String xpath)
     {

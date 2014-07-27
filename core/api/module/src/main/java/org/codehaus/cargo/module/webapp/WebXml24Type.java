@@ -56,7 +56,6 @@ public class WebXml24Type extends WebXmlType
 
     /**
      * Protected constructor.
-     * @throws
      */
     protected WebXml24Type()
     {

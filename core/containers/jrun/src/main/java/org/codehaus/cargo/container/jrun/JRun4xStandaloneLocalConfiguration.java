@@ -56,7 +56,7 @@ public class JRun4xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see AbstractCatalinaStandaloneLocalConfiguration#AbstractCatalinaStandaloneLocalConfiguration(String)
+     * @see AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder#AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder(String)
      */
     public JRun4xStandaloneLocalConfiguration(String dir)
     {

@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 public class HasWarSupportValidator extends HasDeployableSupportValidator
 {
     /**
-     * Initializes the {@link AbstractContainerCapabilityValidator} with {@link DeployableType#WAR}.
+     * Initializes the {@link HasDeployableSupportValidator} with {@link DeployableType#WAR}.
      */
     public HasWarSupportValidator()
     {

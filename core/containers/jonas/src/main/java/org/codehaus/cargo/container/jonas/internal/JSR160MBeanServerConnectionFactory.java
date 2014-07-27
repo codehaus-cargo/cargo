@@ -56,8 +56,6 @@ public class JSR160MBeanServerConnectionFactory implements MBeanServerConnection
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.jonas.internal.MBeanServerConnectionFactory#getServerConnection()
      */
     public MBeanServerConnection getServerConnection(RuntimeConfiguration configuration)
         throws IOException

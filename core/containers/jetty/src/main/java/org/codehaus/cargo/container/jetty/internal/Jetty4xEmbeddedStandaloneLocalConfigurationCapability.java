@@ -40,7 +40,6 @@ public class Jetty4xEmbeddedStandaloneLocalConfigurationCapability extends
 
     /**
      * Initialize the configuration-specific supports Map.
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedStandaloneLocalConfigurationCapability#AbstractJettyEmbeddedStandaloneLocalConfigurationCapability()
      */
     public Jetty4xEmbeddedStandaloneLocalConfigurationCapability()
     {

@@ -61,7 +61,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalDeployer#AbstractInstalledLocalDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
+     * @see AbstractInstalledLocalDeployer#AbstractInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
     public GeronimoInstalledLocalDeployer(InstalledLocalContainer container)
     {

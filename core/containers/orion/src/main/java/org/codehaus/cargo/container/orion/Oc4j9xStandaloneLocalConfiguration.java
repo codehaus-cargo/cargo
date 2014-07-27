@@ -40,8 +40,6 @@ public class Oc4j9xStandaloneLocalConfiguration extends AbstractOrionStandaloneL
 
     /**
      * {@inheritDoc}
-     * @see AbstractOrionStandaloneLocalConfiguration#copyCustomResources(java.io.File,
-     * org.apache.tools.ant.types.FilterChain)
      */
     @Override
     protected void copyCustomResources(String confDir, FilterChain filterChain) throws Exception

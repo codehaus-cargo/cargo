@@ -26,8 +26,7 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
 
 /**
- * Capabilities of JBoss's {@link org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration}
- * configuration.
+ * Capabilities of JBoss's runtime configuration.
  * 
  * @version $Id$
  */

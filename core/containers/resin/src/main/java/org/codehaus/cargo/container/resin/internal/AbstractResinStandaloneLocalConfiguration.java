@@ -37,8 +37,7 @@ import org.codehaus.cargo.container.resin.ResinInstalledLocalDeployer;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
 
 /**
- * Common class for all Resin {@link StandAloneLocalConfiguration standalone local configurations}.
- * {@link AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder container} implementation.
+ * Common class for all Resin standalone local configurations.
  * 
  * @version $Id$
  */
@@ -48,7 +47,7 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder#AbstractStandaloneLocalConfigurationWithDataSourcesDefinedInXml(String)
+     * @see AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder#AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder(String)
      */
     public AbstractResinStandaloneLocalConfiguration(String dir)
     {

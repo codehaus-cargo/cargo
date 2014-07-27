@@ -30,8 +30,6 @@ public class JBoss4xContainerCapability extends JBossContainerCapability
 {
     /**
      * {@inheritDoc}
-     * 
-     * @see J2EEContainerCapability#supportsDeployableType(DeployableType)
      */
     @Override
     public boolean supportsDeployableType(DeployableType type)

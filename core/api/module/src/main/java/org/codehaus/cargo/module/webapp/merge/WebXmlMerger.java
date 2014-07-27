@@ -242,11 +242,6 @@ public class WebXmlMerger extends XmlMerger
      * @param theWebXml The descriptor that contains the servlet definitions that are to be merged
      * into the original descriptor
      * @throws CargoException if there is any merge problem
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     * @throws NoSuchMethodException
-     * @throws IllegalArgumentException
-     * @throws SecurityException
      */
     protected final void mergeServlets(WebXml theWebXml) throws CargoException
     {

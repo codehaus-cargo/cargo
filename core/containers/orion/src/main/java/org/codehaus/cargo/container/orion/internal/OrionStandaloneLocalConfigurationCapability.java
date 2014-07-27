@@ -28,7 +28,8 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 
 /**
  * Capabilities of Orion's
- * {@link org.codehaus.cargo.container.orion.OrionStandaloneLocalConfiguration} configuration.
+ * {@link org.codehaus.cargo.container.orion.internal.AbstractOrionStandaloneLocalConfiguration}
+ * configuration.
  * 
  * @version $Id$
  */

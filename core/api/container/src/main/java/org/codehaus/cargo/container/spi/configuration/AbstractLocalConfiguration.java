@@ -146,7 +146,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      * Overriden in order to set the logger on ancillary components.
      * 
      * @param logger the logger to set and set in the ancillary objects
-     * @see org.codehaus.cargo.util.log.Loggable#setLogger(org.codehaus.cargo.util.log.Logger)
      */
     @Override
     public void setLogger(Logger logger)
@@ -189,7 +188,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#addConfigfile(org.codehaus.cargo.container.configuration.FileConfig)
      */
     public void setFileProperty(FileConfig fileConfig)
     {
@@ -198,7 +196,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#addConfigfile(org.codehaus.cargo.container.configuration.FileConfig)
      */
     public void setConfigFileProperty(FileConfig fileConfig)
     {
@@ -211,7 +208,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration#getConfigfiles()
      */
     public List<FileConfig> getFileProperties()
     {
@@ -220,8 +216,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#addDeployable(org.codehaus.cargo.container.deployable.Deployable)
      */
     public synchronized void addDeployable(Deployable newDeployable)
     {
@@ -230,8 +224,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#getDeployables()
      */
     public List<Deployable> getDeployables()
     {
@@ -240,8 +232,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#getHome()
      */
     public String getHome()
     {
@@ -250,8 +240,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * {@inheritDoc}
-     * 
-     * @see LocalConfiguration#configure(LocalContainer)
      */
     public void configure(LocalContainer container)
     {
@@ -448,8 +436,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * {@inheritDoc}
-     * 
-     * @see ContainerConfiguration#verify()
      */
     @Override
     public void verify()
@@ -603,8 +589,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * {@inheritDoc}
-     * 
-     * @see LocalConfiguration#addResource(Resource)
      */
     public void addResource(Resource resource)
     {
@@ -621,8 +605,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * {@inheritDoc}
-     * 
-     * @see LocalConfiguration#addDataSource(DataSource)
      */
     public void addDataSource(DataSource dataSource)
     {
@@ -631,8 +613,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * {@inheritDoc}
-     * 
-     * @see LocalConfiguration#getDataSources()
      */
     public List<DataSource> getDataSources()
     {
@@ -640,11 +620,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see LocalConfiguration#applyPortOffset()
-     * 
-     * This method should only be called once all the properties has been set.
+     * This method should only be called once all the properties has been set. {@inheritDoc}
      */
     public void applyPortOffset() 
     {
@@ -666,8 +642,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * {@inheritDoc}
-     * 
-     * @see LocalConfiguration#revertPortOffset()
      * 
      * This method should only be called once all the properties has been set.
      */

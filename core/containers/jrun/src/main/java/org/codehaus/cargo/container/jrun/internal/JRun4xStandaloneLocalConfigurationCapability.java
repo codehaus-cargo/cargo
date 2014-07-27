@@ -29,7 +29,8 @@ import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 /**
- * Capabilities of the JRun's {@link JRunExistingLocalConfigurationCapability} configuration.
+ * Capabilities of the JRun's
+ * {@link org.codehaus.cargo.container.jrun.JRun4xStandaloneLocalConfiguration} configuration.
  * 
  * @version $Id$
  */

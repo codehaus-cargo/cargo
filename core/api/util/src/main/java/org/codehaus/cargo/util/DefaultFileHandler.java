@@ -144,7 +144,6 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHander#copyFile(String, String, FilterChain)
      */
     public void copyFile(String source, String target, FilterChain filterChain)
     {
@@ -153,7 +152,6 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHander#copyFile(String, String, FilterChain, String)
      */
     public void copyFile(String source, String target, FilterChain filterChain, String encoding)
     {
@@ -272,7 +270,6 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHander#copyDirectory(String, String, FilterChain, String)
      */
     public void copyDirectory(String source, String target, FilterChain filterChain,
         String encoding)
@@ -311,7 +308,6 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHander#explode(String, String)
      */
     public void explode(String war, String exploded)
     {

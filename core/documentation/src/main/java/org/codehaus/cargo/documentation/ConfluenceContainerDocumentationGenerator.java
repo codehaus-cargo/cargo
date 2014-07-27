@@ -1328,7 +1328,7 @@ public class ConfluenceContainerDocumentationGenerator
     /**
      * Returns the download URL used for testing the given container.
      * @param containerId Container ID.
-     * @return Download URL for testing <code>containerId</code>, <code>null</null> if no download
+     * @return Download URL for testing <code>containerId</code>, <code>null</code> if no download
      * URL is set.
      */
     public String getContainerServerDownloadUrl(String containerId)

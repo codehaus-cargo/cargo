@@ -319,7 +319,6 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
      * to reference
      * @return token with all the user-defined token value
      * @throws MalformedURLException If an URL is malformed.
-     * @link MalformedURLException
      */
     protected FilterChain createJBossFilterChain(JBossInstalledLocalContainer container)
         throws MalformedURLException

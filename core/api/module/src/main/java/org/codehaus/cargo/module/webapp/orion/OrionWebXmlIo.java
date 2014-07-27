@@ -34,7 +34,7 @@ import org.jdom.JDOMException;
 public class OrionWebXmlIo extends AbstractDescriptorIo
 {
     /**
-     * @param factory
+     * Protected constructor.
      */
     protected OrionWebXmlIo()
     {

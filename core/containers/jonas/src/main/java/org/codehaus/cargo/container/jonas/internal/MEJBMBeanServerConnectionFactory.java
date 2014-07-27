@@ -448,8 +448,6 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.jonas.internal.MBeanServerConnectionFactory#getServerConnection()
      */
     public MBeanServerConnection getServerConnection(RuntimeConfiguration configuration)
         throws Exception

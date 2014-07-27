@@ -202,7 +202,6 @@ public class DataSourceConverter
      * 
      * @param data DataSource to serialize into a string.
      * @return a string representation
-     * @see PropertyUtils#joinPropertiesOnPipe(java.util.Properties)
      */
     public String toPropertyString(DataSource data)
     {

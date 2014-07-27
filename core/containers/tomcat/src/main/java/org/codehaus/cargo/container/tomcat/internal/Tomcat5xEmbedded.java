@@ -371,7 +371,7 @@ public final class Tomcat5xEmbedded
     }
 
     /**
-     * @see org.apache.catalina.Context
+     * Copy of <code>org.apache.catalina.Context</code>
      */
     public final class Context extends Wrapper
     {
@@ -416,7 +416,7 @@ public final class Tomcat5xEmbedded
     }
 
     /**
-     * @see org.apache.catalina.Host
+     * Copy of <code>org.apache.catalina.Host</code>
      */
     public final class Host extends Wrapper
     {
@@ -472,7 +472,7 @@ public final class Tomcat5xEmbedded
     }
 
     /**
-     * @see org.apache.catalina.startup.Embedded
+     * Copy of <code>org.apache.catalina.startup.Embedded</code>
      */
     public final class Embedded extends Wrapper
     {
@@ -602,7 +602,7 @@ public final class Tomcat5xEmbedded
     }
 
     /**
-     * @see org.apache.catalina.Connector
+     * Copy of <code>org.apache.catalina.Connector</code>
      */
     public final class Connector extends Wrapper
     {
@@ -618,7 +618,7 @@ public final class Tomcat5xEmbedded
     }
 
     /**
-     * @see org.apache.catalina.Engine
+     * Copy of <code>org.apache.catalina.Engine</code>
      */
     public final class Engine extends Wrapper
     {

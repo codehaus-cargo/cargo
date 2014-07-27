@@ -34,7 +34,7 @@ public class Resin3xConfigurationBuilder extends Resin2xConfigurationBuilder
      * In Resin 3.x DataSources are proper types
      * 
      * @param ds datasource to configure
-     * @return String representing the <datasource/> entry.
+     * @return String representing the &lt;datasource/&gt; entry.
      */
     @Override
     protected String toResinConfigurationEntry(DataSource ds)

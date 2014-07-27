@@ -32,8 +32,7 @@ public interface GeneralPropertySet
     String PROTOCOL = "cargo.protocol";
 
     /**
-     * Hostname on which the container is listening to.<br/>
-     * <br/>
+     * Hostname on which the container is listening to.<br><br>
      * Note: In order to listen to all IP addresses, you can set this to <code>0.0.0.0</code>,
      * in that case the container will be set up to use that address but the Cargo ping component
      * will still ping on <code>localhost</code>.

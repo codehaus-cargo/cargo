@@ -429,9 +429,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     }
 
     /**
-     * @return the BEA_HOME
-     * 
-     * @see org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer#getDomainHome()
+     * @return the <code>BEA_HOME</code>
+     * @see WebLogicLocalContainer#getBeaHome()
      */
     public String getBeaHome()
     {
@@ -439,9 +438,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     }
 
     /**
-     * @return the DOMAIN_HOME
-     * 
-     * @see org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer#getDomainHome()
+     * @return the <code>DOMAIN_HOME</code>
+     * @see org.codehaus.cargo.container.weblogic.WebLogicConfiguration#getDomainHome()
      */
     public String getDomainHome()
     {
@@ -449,9 +447,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     }
 
     /**
-     * @return the WL_HOME
-     * 
-     * @see org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer#getWeblogicHome()
+     * @return the <code>WL_HOME</code>
+     * @see WebLogicLocalContainer#getWeblogicHome()
      */
     public String getWeblogicHome()
     {

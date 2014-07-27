@@ -91,7 +91,6 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
-     * @throws JDOMException
      * @see WarArchive#getWebXml()
      */
     public WebXml getWebXml() throws IOException, JDOMException
@@ -135,7 +134,6 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
-     * @throws JDOMException
      * @see WarArchive#store(java.io.File)
      */
     public void store(File warFile) throws IOException, JDOMException

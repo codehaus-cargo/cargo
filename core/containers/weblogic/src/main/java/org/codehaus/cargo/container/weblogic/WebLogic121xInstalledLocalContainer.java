@@ -42,7 +42,7 @@ public class WebLogic121xInstalledLocalContainer extends AbstractWebLogicInstall
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractWebLogicInstalledLocalContainer#AbstractInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see AbstractWebLogicInstalledLocalContainer#AbstractWebLogicInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public WebLogic121xInstalledLocalContainer(LocalConfiguration configuration)
     {

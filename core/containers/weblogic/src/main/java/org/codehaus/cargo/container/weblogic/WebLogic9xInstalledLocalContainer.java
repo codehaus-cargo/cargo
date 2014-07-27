@@ -38,7 +38,7 @@ public class WebLogic9xInstalledLocalContainer
 
     /**
      * {@inheritDoc}
-     * @see AbstractWebLogicInstalledLocalContainer#AbstractInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see AbstractWebLogicInstalledLocalContainer#AbstractWebLogicInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public WebLogic9xInstalledLocalContainer(LocalConfiguration configuration)
     {

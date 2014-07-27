@@ -56,8 +56,8 @@ public interface XmlFileBuilder
      * this will parse one or more elements from elementToParse and insert them under the xpath.
      * note: elementsToParse may not be well formed, but only in one way. The elements may be
      * missing a parent. Example: the following is acceptable by this method elementsToParse =
-     * <child1 /> <child2 /> xpath = //parent In this case, both elements child1 and child2 would be
-     * placed under the first match for parent. s
+     * &lt;child1 /&gt; &lt;child2 /&gt; xpath = //parent In this case, both elements child1 and
+     * child2 would be placed under the first match for parent. s
      * 
      * @param elementsToParse String containing one or more elements in textual format
      * @param xpath where to place the above elements.

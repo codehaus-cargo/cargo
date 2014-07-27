@@ -46,9 +46,7 @@ public class WeblogicEjbJarXmlType extends AbstractDescriptorType
     };
 
     /**
-     * @param parent
-     * @param descriptorClass
-     * @param grammar
+     * Protected constructor.
      */
     protected WeblogicEjbJarXmlType()
     {

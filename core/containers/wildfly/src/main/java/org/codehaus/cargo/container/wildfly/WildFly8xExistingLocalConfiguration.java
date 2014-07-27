@@ -41,7 +41,7 @@ public class WildFly8xExistingLocalConfiguration extends JBoss71xExistingLocalCo
 
     /**
      * {@inheritDoc}
-     * @see JBoss71xExistingLocalConfiguration#JBoss7xExistingLocalConfiguration(String)
+     * @see JBoss71xExistingLocalConfiguration#JBoss71xExistingLocalConfiguration(String)
      */
     public WildFly8xExistingLocalConfiguration(String dir)
     {
@@ -53,7 +53,7 @@ public class WildFly8xExistingLocalConfiguration extends JBoss71xExistingLocalCo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jboss.JBoss71xExistingLocalConfiguration#crateDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
+     * @see org.codehaus.cargo.container.jboss.JBoss71xExistingLocalConfiguration#createDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
      */
     @Override
     protected AbstractDeployer createDeployer(InstalledLocalContainer jbossContainer)

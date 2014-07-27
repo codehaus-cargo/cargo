@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 
 /**
  * Capabilities of the WebLogic's
- * {@link org.codehaus.cargo.container.weblogic.WebLogicStandaloneLocalConfiguration} configuration.
+ * {@link org.codehaus.cargo.container.weblogic.WebLogicConfiguration} configuration.
  * 
  * @version $Id$
  */

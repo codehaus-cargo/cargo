@@ -79,8 +79,9 @@ public class Resource
     }
 
     /**
-     * Set a resource parameter. I.e. this relates in tomcat to <ResourceParams...> <parameter>
-     * <name>key</name> <value>value</name> </parameter> ... </ResourceParams>
+     * Set a resource parameter. I.e. this relates in tomcat to &lt;ResourceParams...&gt;
+     * &lt;parameter&gt; &lt;name&gt;key&lt;/name&gt; &lt;value&gt;value&lt;/name&gt;
+     * &lt;/parameter&gt; ... &lt;/ResourceParams&gt;
      * 
      * @param name Name of the value to set.
      * @param value Value to set.

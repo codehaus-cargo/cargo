@@ -30,6 +30,7 @@ public class EjbRef
      * Constant representing an session ejb reference.
      */
     public static final String SESSION = "Session";
+
     /**
      * Constant representing an entity ejb reference.
      */
@@ -39,26 +40,32 @@ public class EjbRef
      * Name of the references. For example ejb/MyEjb.
      */
     private String name;
+
     /**
      * Class name of the ejb interface.
      */
     private String ejbInterface;
+
     /**
      * Class name of the ejb home interface.
      */
     private String ejbHomeInterface;
+
     /**
      * Name of the referenced ejb.
      */
     private String ejbName;
+
     /**
      * Jndi name of the referenced ejb.
      */
     private String jndiName;
+
     /**
      * Indicates if the referenced ejb is a local ejb.
      */
     private boolean local = true;
+
     /**
      * Type of ejb. Possible value is {@link SESSION} or {@link ENTITY}.
      */
@@ -208,8 +215,8 @@ public class EjbRef
     /**
      * Returns the type of reference.
      * 
-     * @see EjbRef.SESSION
-     * @see EjbRef.ENTITY
+     * @see EjbRef#SESSION
+     * @see EjbRef#ENTITY
      * @return type of reference.
      */
     public String getType()
@@ -220,8 +227,8 @@ public class EjbRef
     /**
      * Sets the type of the reference.
      * 
-     * @see EjbRef.SESSION
-     * @see EjbRef.ENTITY
+     * @see EjbRef#SESSION
+     * @see EjbRef#ENTITY
      * @param type type of reference.
      */
     public void setType(String type)

@@ -100,7 +100,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      * 
-     * @see Tomcat5And6xConfigurationBuilder
+     * @see Tomcat5x6x7xConfigurationBuilder
      */
     @Override
     protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)

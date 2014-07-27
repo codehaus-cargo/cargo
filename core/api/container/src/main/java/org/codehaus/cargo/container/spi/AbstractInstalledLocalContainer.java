@@ -132,7 +132,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * Overriden in order to set the logger on ancillary components.
      * 
      * @param logger the logger to set and set in the ancillary objects
-     * @see org.codehaus.cargo.util.log.Loggable#setLogger(org.codehaus.cargo.util.log.Logger)
      */
     @Override
     public void setLogger(Logger logger)
@@ -176,8 +175,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see InstalledLocalContainer#setHome(String)
      */
     public void setHome(String home)
     {
@@ -186,8 +183,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see InstalledLocalContainer#setSystemProperties
      */
     public void setSystemProperties(Map<String, String> properties)
     {
@@ -199,8 +194,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see InstalledLocalContainer#getSystemProperties()
      */
     public Map<String, String> getSystemProperties()
     {
@@ -209,8 +202,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see InstalledLocalContainer#setExtraClasspath(String[])
      */
     public void setExtraClasspath(String[] classpath)
     {
@@ -220,8 +211,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see InstalledLocalContainer#getExtraClasspath()
      */
     public String[] getExtraClasspath()
     {
@@ -230,8 +219,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see InstalledLocalContainer#getHome()
      */
     public void setSharedClasspath(String[] classpath)
     {
@@ -241,8 +228,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see InstalledLocalContainer#getSharedClasspath()
      */
     public String[] getSharedClasspath()
     {
@@ -251,8 +236,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see InstalledLocalContainer#getHome()
      */
     public String getHome()
     {
@@ -295,8 +278,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#startInternal()
      */
     @Override
     protected void startInternal() throws Exception
@@ -315,8 +296,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#stopInternal()
      */
     @Override
     protected void stopInternal() throws Exception
@@ -326,8 +305,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#forceStopInternal()
      */
     @Override
     protected final void forceStopInternal()
@@ -607,8 +584,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#verify()
      */
     @Override
     protected void verify()
@@ -636,8 +611,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getType()
      */
     public ContainerType getType()
     {
@@ -646,8 +619,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.SpawnedContainer#addExtraClasspath()
      */
     public void addExtraClasspath(String location)
     {
@@ -656,8 +627,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.SpawnedContainer#addSharedClasspath()
      */
     public void addSharedClasspath(String location)
     {

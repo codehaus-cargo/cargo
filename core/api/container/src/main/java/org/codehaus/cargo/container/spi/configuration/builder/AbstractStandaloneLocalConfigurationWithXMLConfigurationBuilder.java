@@ -42,7 +42,7 @@ import org.codehaus.cargo.util.XmlFileBuilder;
  * <li> {@link getXpathForDataSourcesParent}: under which element should datasource elements be
  * inserted?</li>
  * <li> {@link getNamespaces}: does this configuration file use namespaces?</li>
- * <li> {@link getDataSourceConfigurationFile}: where do we load and store the datasource
+ * <li> {@link getOrCreateDataSourceConfigurationFile}: where do we load and store the datasource
  * configuration?</li>
  * </ol>
  * 

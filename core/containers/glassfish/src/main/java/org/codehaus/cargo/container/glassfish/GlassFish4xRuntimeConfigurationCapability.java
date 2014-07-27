@@ -21,7 +21,7 @@ package org.codehaus.cargo.container.glassfish;
 
 /**
  * Capabilities of GlassFish
- * {@link org.codehaus.cargo.container.glassfish.GlassFishRuntimeConfiguration} configuration.
+ * {@link org.codehaus.cargo.container.glassfish.GlassFish4xRuntimeConfiguration} configuration.
  * 
  * @version $Id$
  */

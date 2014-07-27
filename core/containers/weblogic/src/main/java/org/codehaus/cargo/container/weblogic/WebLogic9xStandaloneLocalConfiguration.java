@@ -110,7 +110,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      * 
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#toConfigurationEntry(LocalContainer)
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#doConfigure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception

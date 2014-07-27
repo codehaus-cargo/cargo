@@ -37,7 +37,7 @@ import org.xml.sax.SAXException;
 public class EjbJarXmlIo extends AbstractDescriptorIo
 {
     /**
-     * @param factory
+     * Protected constructor.
      */
     protected EjbJarXmlIo()
     {

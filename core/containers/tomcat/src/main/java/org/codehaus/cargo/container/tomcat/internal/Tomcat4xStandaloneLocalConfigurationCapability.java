@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
- * Capabilities of Tomcat's {@link AbstractTomcatStandaloneLocalConfiguration} configuration.
+ * Capabilities of Tomcat's {@link AbstractCatalinaStandaloneLocalConfiguration} configuration.
  * 
  * @version $Id$
  */

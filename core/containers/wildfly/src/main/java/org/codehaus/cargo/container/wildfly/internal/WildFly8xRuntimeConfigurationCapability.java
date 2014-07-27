@@ -23,8 +23,7 @@ import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xRuntimeConfigurationCapability;
 
 /**
- * Capabilities of WildFly's {@link org.codehaus.cargo.container.jboss.JBossRuntimeConfiguration}
- * configuration.
+ * Capabilities of WildFly's runtime configuration.
  * 
  * @version $Id$
  */

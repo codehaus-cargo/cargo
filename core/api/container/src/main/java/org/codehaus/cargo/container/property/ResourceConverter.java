@@ -96,7 +96,6 @@ public class ResourceConverter
      * 
      * @param data the Resource we are serializing
      * @return a string representation
-     * @see PropertyUtils#joinPropertiesOnPipe(java.util.Properties)
      */
     public String toPropertyString(Resource data)
     {

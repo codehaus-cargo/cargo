@@ -52,7 +52,6 @@ public class JndiLink extends DescriptorElement
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.IdentifiableElement#getElementId()
      */
     public String getElementId()
     {

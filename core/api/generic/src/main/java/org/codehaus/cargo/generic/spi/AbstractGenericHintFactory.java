@@ -80,7 +80,7 @@ public abstract class AbstractGenericHintFactory<T> extends LoggedObject
     }
 
     /**
-     * @return the mappings indexed using a {@see RegistrationKey}.
+     * @return the mappings indexed using a {@link RegistrationKey}.
      */
     protected Map<RegistrationKey, Class<? extends T>> getMappings()
     {

@@ -36,8 +36,6 @@ public abstract class AbstractChoiceMergeStrategy implements MergeStrategy
 {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.merge.strategy.MergeStrategy#inLeft(org.codehaus.cargo.module.merge.AbstractMergeSet,
-     * org.w3c.dom.Element)
      */
     public int inLeft(Descriptor set, DescriptorElement element)
     {
@@ -46,8 +44,6 @@ public abstract class AbstractChoiceMergeStrategy implements MergeStrategy
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.merge.strategy.MergeStrategy#inRight(org.codehaus.cargo.module.merge.AbstractMergeSet,
-     * org.w3c.dom.Element)
      */
     public int inRight(Descriptor set, DescriptorElement element)
     {
@@ -56,8 +52,6 @@ public abstract class AbstractChoiceMergeStrategy implements MergeStrategy
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.merge.strategy.MergeStrategy#inBoth(org.codehaus.cargo.module.merge.AbstractMergeSet,
-     * org.codehaus.cargo.module.merge.MergePair)
      */
     public int inBoth(Descriptor set, DescriptorElement left, DescriptorElement right)
     {

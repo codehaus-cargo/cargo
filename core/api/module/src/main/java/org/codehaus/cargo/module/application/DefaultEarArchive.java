@@ -66,7 +66,6 @@ public class DefaultEarArchive extends DefaultJarArchive implements EarArchive
 
     /**
      * {@inheritDoc}
-     * @throws JDOMException
      * @see EarArchive#getApplicationXml()
      */
     public ApplicationXml getApplicationXml() throws IOException, JDOMException

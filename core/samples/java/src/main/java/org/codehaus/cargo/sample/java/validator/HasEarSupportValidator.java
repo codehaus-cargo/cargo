@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 public class HasEarSupportValidator extends HasDeployableSupportValidator
 {
     /**
-     * Initializes the {@link AbstractContainerCapabilityValidator} with {@link DeployableType#EAR}.
+     * Initializes the {@link HasDeployableSupportValidator} with {@link DeployableType#EAR}.
      */
     public HasEarSupportValidator()
     {

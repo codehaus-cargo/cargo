@@ -77,9 +77,6 @@ public class NodeMergeStrategy implements MergeStrategy
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.module.merge.DescriptorMergerByTag.MergeStrategy#inBoth(org.codehaus.cargo.module.Descriptor,
-     * org.codehaus.cargo.module.DescriptorElement, org.codehaus.cargo.module.DescriptorElement)
      */
     public int inBoth(Descriptor target, DescriptorElement left, DescriptorElement right)
     {
@@ -96,9 +93,6 @@ public class NodeMergeStrategy implements MergeStrategy
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.module.merge.DescriptorMergerByTag.MergeStrategy#inLeft(org.codehaus.cargo.module.Descriptor,
-     * org.codehaus.cargo.module.DescriptorElement)
      */
     public int inLeft(Descriptor target, DescriptorElement left)
     {
@@ -108,9 +102,6 @@ public class NodeMergeStrategy implements MergeStrategy
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.module.merge.DescriptorMergerByTag.MergeStrategy#inRight(org.codehaus.cargo.module.Descriptor,
-     * org.codehaus.cargo.module.DescriptorElement)
      */
     public int inRight(Descriptor target, DescriptorElement right)
     {
