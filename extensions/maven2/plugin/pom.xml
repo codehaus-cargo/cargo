@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-extensions-maven2</artifactId>
-    <version>1.4.9-SNAPSHOT</version>
+    <version>1.4.9</version>
   </parent>
   <artifactId>cargo-maven2-plugin</artifactId>
   <name>Cargo Maven 2 Plugin</name>
@@ -115,6 +115,13 @@
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
           </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <!-- We need this since Maven2/Maven3 tags are not Javadoc tags -->
+          <failOnError>false</failOnError>
         </configuration>
       </plugin>
       <plugin>

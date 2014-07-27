@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-maven2-archetypes</artifactId>
-    <version>1.4.9-SNAPSHOT</version>
+    <version>1.4.9</version>
   </parent>
   <artifactId>cargo-archetype-daemon</artifactId>
   <packaging>maven-archetype</packaging>
