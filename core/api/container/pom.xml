@@ -56,10 +56,11 @@
   </dependencies>
   <build>
     <plugins>
-      <!-- We create an attached artifact containing reusable test classes which we're reusing
-           in other module's unit tests.
-           Note: We need to only include some classes but there seems to be no way to do that using
-           the JAR plugin -->
+      <!--
+        We create an attached artifact containing reusable test classes which we're reusing in
+        other modules' unit tests. We need to only include some classes but there seems to be no
+        way to do that using the JAR plugin
+        -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -70,12 +71,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <group>"Public API" "org.codehaus.cargo.container*", "Public SPI" "org.codehaus.cargo.container.spi*", "Internal API" "org.codehaus.cargo.container.internal*"</group>
-        </configuration>
       </plugin>
     </plugins>
   </build>

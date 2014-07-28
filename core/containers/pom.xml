@@ -61,16 +61,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <group>"Public API" "org.codehaus.cargo.container*", "Public SPI" "org.codehaus.cargo.container.spi*", "Internal API" "org.codehaus.cargo.container.internal*"</group>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
   <modules>
     <module>geronimo</module>
     <module>glassfish</module>

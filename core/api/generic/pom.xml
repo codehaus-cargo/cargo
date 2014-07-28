@@ -48,14 +48,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <group>"Public API" "org.codehaus.cargo.generic*", "Public SPI" "org.codehaus.cargo.generic.spi*", "Internal API" "org.codehaus.cargo.generic.internal*"</group>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>

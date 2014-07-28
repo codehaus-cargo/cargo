@@ -246,8 +246,7 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
     }
 
     /**
-     * Performs escaping of special XML characters.<br/>
-     * <br/>
+     * Performs escaping of special XML characters.<br><br>
      * @see https://jira.codehaus.org/browse/CARGO-1190
      * @param string String to escape
      * @return XML escaped <code>string</code>
