@@ -684,8 +684,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * Creates a brand new {@link org.codehaus.cargo.container.Container} instance. If the user has
      * not specified a container element in the POM file or if the user has not specified the
      * container id then automatically create a default container (as defined in
-     * {@link #computeContainerId}) if the project calling this plugin has a WAR packaging. If the
-     * packaging is different then an exception is raised.
+     * {@link #createDefaultContainerElementIfNecessary}) if the project calling this plugin has a
+     * WAR packaging. If the packaging is different then an exception is raised.
      * 
      * @return a valid {@link org.codehaus.cargo.container.Container} instance
      * @throws MojoExecutionException in case of error or if a default container could not be

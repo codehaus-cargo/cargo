@@ -53,7 +53,7 @@ public class CargoTaskTest extends TestCase
     private ConfigurationElement configurationElement;
 
     /**
-     * Creates the various ANT task attributes. {@inheritdoc}
+     * Creates the various ANT task attributes. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
