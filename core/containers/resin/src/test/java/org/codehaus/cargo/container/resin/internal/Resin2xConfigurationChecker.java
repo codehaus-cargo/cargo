@@ -106,7 +106,7 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -118,7 +118,7 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -131,7 +131,7 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -143,7 +143,7 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -157,7 +157,7 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration.
      * @param resourceFixture Resource fixture.
      * @throws Exception If anything goes wrong.
@@ -170,7 +170,7 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration.
      * @param resourceFixture Resource fixture.
      * @throws Exception If anything goes wrong.
@@ -183,7 +183,7 @@ public class Resin2xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param dataSourceEntry Entry to insert.
      * @return <code>dataSourceEntry</code>.
      */

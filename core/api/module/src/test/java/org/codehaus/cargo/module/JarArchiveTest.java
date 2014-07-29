@@ -51,7 +51,7 @@ public final class JarArchiveTest extends AbstractResourceTest
     private FileSystemManager fsManager;
 
     /**
-     * Creates the file system manager. {@inheritdoc}
+     * Creates the file system manager. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -64,7 +64,7 @@ public final class JarArchiveTest extends AbstractResourceTest
     }
 
     /**
-     * Closes the file system manager. {@inheritdoc}
+     * Closes the file system manager. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

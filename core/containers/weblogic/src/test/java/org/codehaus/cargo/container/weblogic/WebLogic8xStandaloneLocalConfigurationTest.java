@@ -41,7 +41,7 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
     AbstractWeblogicStandaloneConfigurationTest
 {
     /**
-     * Creates a {@link WebLogicStandaloneLocalConfiguration}. {@inheritdoc}
+     * Creates a {@link WebLogic8xStandaloneLocalConfiguration}. {@inheritDoc}
      * @param home Configuration home.
      * @return Local configuration for <code>home</code>.
      */
@@ -52,7 +52,7 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Creates a {@link WebLogic8xInstalledLocalContainer}. {@inheritdoc}
+     * Creates a {@link WebLogic8xInstalledLocalContainer}. {@inheritDoc}
      * @param configuration Container's configuration.
      * @return Local container for <code>configuration</code>.
      */
@@ -72,7 +72,7 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param fixture Ignored.
      * @return <code>config.xml</code> file in the configuration directory.
      */
@@ -168,7 +168,7 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

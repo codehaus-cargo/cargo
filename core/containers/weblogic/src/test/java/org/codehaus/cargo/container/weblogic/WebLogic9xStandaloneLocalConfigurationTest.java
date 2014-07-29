@@ -66,7 +66,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     private Dom4JUtil xmlUtil;
 
     /**
-     * Creates a {@link WebLogic9xStandaloneLocalConfiguration}. {@inheritdoc}
+     * Creates a {@link WebLogic9xStandaloneLocalConfiguration}. {@inheritDoc}
      * @param home Configuration home.
      * @return Local configuration for <code>home</code>.
      */
@@ -77,7 +77,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Creates a {@link WebLogic9xInstalledLocalContainer}. {@inheritdoc}
+     * Creates a {@link WebLogic9xInstalledLocalContainer}. {@inheritDoc}
      * @param configuration Container's configuration.
      * @return Local container for <code>configuration</code>.
      */
@@ -88,7 +88,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * @return {@link WebLogic9x10xAnd103xConfigurationChecker}.
+     * @return {@link WebLogic9x10x103x12xConfigurationChecker}.
      */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
@@ -97,7 +97,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param ds Datasource.
      * @return Datasource configuration file with <code>ds</code>.
      */
@@ -109,7 +109,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Initialize all XML tools. {@inheritdoc}
+     * Initialize all XML tools. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -138,7 +138,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Call parent and check link in configuration XML. {@inheritdoc}
+     * Call parent and check link in configuration XML. {@inheritDoc}
      * @param fixture Datasource fixture.
      * @return Configured datasource.
      * @throws Exception If anything goes wrong.
@@ -154,7 +154,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Call parent and check link in configuration XML. {@inheritdoc}
+     * Call parent and check link in configuration XML. {@inheritDoc}
      * @param fixture Datasource fixture.
      * @return Configured datasource.
      * @throws Exception If anything goes wrong.
@@ -185,7 +185,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

@@ -70,7 +70,7 @@ public class InstalledLocalContainerTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the test file system manager and the container configuration. {@inheritdoc}
+     * Creates the test file system manager and the container configuration. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -79,7 +79,7 @@ public class InstalledLocalContainerTest extends TestCase
         this.configuration = new AbstractStandaloneLocalConfiguration("/some/path")
         {
             /**
-             * Doesn't do anything. {@inheritdoc}
+             * Doesn't do anything. {@inheritDoc}
              * @param container Ignored.
              * @throws Exception If anything goes wrong.
              */
@@ -89,7 +89,7 @@ public class InstalledLocalContainerTest extends TestCase
             }
 
             /**
-             * {@inheritdoc}
+             * {@inheritDoc}
              * @return <code>null</code>.
              */
             public ConfigurationCapability getCapability()
@@ -98,7 +98,7 @@ public class InstalledLocalContainerTest extends TestCase
             }
 
             /**
-             * Doesn't do anything. {@inheritdoc}
+             * Doesn't do anything. {@inheritDoc}
              * @param resource Ignored.
              */
             @Override
@@ -117,7 +117,7 @@ public class InstalledLocalContainerTest extends TestCase
     }
 
     /**
-     * {@link AbstractInstalledLocalContainer} for testing. {@inheritdoc}
+     * {@link AbstractInstalledLocalContainer} for testing. {@inheritDoc}
      */
     public class AbstractInstalledLocalContainerStub extends AbstractInstalledLocalContainer
     {
@@ -127,7 +127,7 @@ public class InstalledLocalContainerTest extends TestCase
         private JvmLauncher java;
 
         /**
-         * {@inheritdoc}
+         * {@inheritDoc}
          * @param configuration Container configuration.
          */
         public AbstractInstalledLocalContainerStub(LocalConfiguration configuration)
@@ -136,7 +136,7 @@ public class InstalledLocalContainerTest extends TestCase
         }
 
         /**
-         * Saves the {@link JvmLauncher} instance. {@inheritdoc}
+         * Saves the {@link JvmLauncher} instance. {@inheritDoc}
          * @param java Java instance.
          * @throws Exception If anything goes wrong.
          */
@@ -147,7 +147,7 @@ public class InstalledLocalContainerTest extends TestCase
         }
 
         /**
-         * Doesn't do anything. {@inheritdoc}
+         * Doesn't do anything. {@inheritDoc}
          * @param java Ignored.
          * @throws Exception If anything goes wrong.
          */
@@ -157,7 +157,7 @@ public class InstalledLocalContainerTest extends TestCase
         }
 
         /**
-         * {@inheritdoc}
+         * {@inheritDoc}
          * @return <code>null</code>.
          */
         public ContainerCapability getCapability()
@@ -166,7 +166,7 @@ public class InstalledLocalContainerTest extends TestCase
         }
 
         /**
-         * {@inheritdoc}
+         * {@inheritDoc}
          * @return <code>null</code>.
          */
         public String getId()
@@ -175,7 +175,7 @@ public class InstalledLocalContainerTest extends TestCase
         }
 
         /**
-         * {@inheritdoc}
+         * {@inheritDoc}
          * @return <code>null</code>.
          */
         public String getName()

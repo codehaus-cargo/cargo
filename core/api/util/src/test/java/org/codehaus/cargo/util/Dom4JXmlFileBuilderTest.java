@@ -72,7 +72,7 @@ public class Dom4JXmlFileBuilderTest extends TestCase
     private Map<String, String> namespaces;
 
     /**
-     * Creates the various XML test elements. {@inheritdoc}
+     * Creates the various XML test elements. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -90,7 +90,7 @@ public class Dom4JXmlFileBuilderTest extends TestCase
     }
 
     /**
-     * Closes the file system manager created for tests. {@inheritdoc}
+     * Closes the file system manager created for tests. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

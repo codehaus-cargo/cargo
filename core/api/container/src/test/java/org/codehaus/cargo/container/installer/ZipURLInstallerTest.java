@@ -87,7 +87,7 @@ public class ZipURLInstallerTest extends TestCase
     }
 
     /**
-     * Creates the test ZIP URL installer and its fils system manager. {@inheritdoc}
+     * Creates the test ZIP URL installer and its fils system manager. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -104,7 +104,7 @@ public class ZipURLInstallerTest extends TestCase
     }
 
     /**
-     * Closes the test file system manager. {@inheritdoc}
+     * Closes the test file system manager. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -127,10 +127,10 @@ public class ZipURLInstallerTest extends TestCase
     }
 
     /**
-     * Test {@link ZipURLInstaller#getInstallDirName()}.
+     * Test {@link ZipURLInstaller#getExtractDir()}.
      * @throws Exception If anything goes wrong.
      */
-    public void testGetInstallDirName() throws Exception
+    public void testGetExtractDir() throws Exception
     {
         assertTrue(this.installer.getExtractDir() + " does not end with " + "resin-3.0.18",
             this.installer.getExtractDir().endsWith("resin-3.0.18"));

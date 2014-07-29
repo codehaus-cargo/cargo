@@ -44,7 +44,7 @@ public class DefaultDeployerFactoryTest extends TestCase
     private DeployerFactory factory;
 
     /**
-     * Creates the test deployer. {@inheritdoc}
+     * Creates the test deployer. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

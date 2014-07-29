@@ -83,7 +83,8 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
     }
 
     /**
-     * User configures javax.sql.XADataSource -> container provides that same javax.sql.XADataSource
+     * User configures javax.sql.XADataSource -&gt; container provides that same
+     * javax.sql.XADataSource
      * @throws MalformedURLException If URL for the test WAR cannot be built.
      */
     public void testUserConfiguresXADataSourceAsResource() throws MalformedURLException

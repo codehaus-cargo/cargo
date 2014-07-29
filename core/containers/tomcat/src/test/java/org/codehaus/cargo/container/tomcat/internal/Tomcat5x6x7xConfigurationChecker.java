@@ -32,7 +32,7 @@ import org.custommonkey.xmlunit.XMLAssert;
 public class Tomcat5x6x7xConfigurationChecker extends Tomcat4xConfigurationChecker
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return Datasource factory class:
      * <code>org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory</code>
      */
@@ -43,7 +43,7 @@ public class Tomcat5x6x7xConfigurationChecker extends Tomcat4xConfigurationCheck
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration name.
      * @param dataSourceFixture Datasource.
      * @throws Exception If anything goes wrong.
@@ -60,7 +60,7 @@ public class Tomcat5x6x7xConfigurationChecker extends Tomcat4xConfigurationCheck
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration name.
      * @param resource Resource.
      * @throws Exception If anything goes wrong.
@@ -99,7 +99,7 @@ public class Tomcat5x6x7xConfigurationChecker extends Tomcat4xConfigurationCheck
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param dataSourceEntry Datasource entry.
      * @return Context with inserted configuration entry.
      */

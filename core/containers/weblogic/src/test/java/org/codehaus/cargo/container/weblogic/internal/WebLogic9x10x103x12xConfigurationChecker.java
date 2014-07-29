@@ -47,7 +47,7 @@ public class WebLogic9x10x103x12xConfigurationChecker extends
     private static final String NS_PREFIX = "jdbc:";
 
     /**
-     * Creates the WebLogic XML namespace. {@inheritdoc}
+     * Creates the WebLogic XML namespace. {@inheritDoc}
      * @param serverName Server name.
      */
     public WebLogic9x10x103x12xConfigurationChecker(String serverName)
@@ -60,7 +60,7 @@ public class WebLogic9x10x103x12xConfigurationChecker extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -79,7 +79,7 @@ public class WebLogic9x10x103x12xConfigurationChecker extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -98,7 +98,7 @@ public class WebLogic9x10x103x12xConfigurationChecker extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -117,7 +117,7 @@ public class WebLogic9x10x103x12xConfigurationChecker extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -136,7 +136,7 @@ public class WebLogic9x10x103x12xConfigurationChecker extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -174,7 +174,7 @@ public class WebLogic9x10x103x12xConfigurationChecker extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param dataSourceEntry Datasource entry.
      * @return JDBC datasource XML entry with <code>dataSourceEntry</code>.
      */

@@ -38,7 +38,7 @@ public class Resin2xStandaloneLocalConfigurationTest extends
 {
 
     /**
-     * Creates a {@link Resin2xStandaloneLocalConfiguration}. {@inheritdoc}
+     * Creates a {@link Resin2xStandaloneLocalConfiguration}. {@inheritDoc}
      * @param home Configuration home.
      * @return Local configuration for <code>home</code>.
      */
@@ -49,7 +49,7 @@ public class Resin2xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Creates a {@link Resin2xInstalledLocalContainer}. {@inheritdoc}
+     * Creates a {@link Resin2xInstalledLocalContainer}. {@inheritDoc}
      * @param configuration Container's configuration.
      * @return Local container for <code>configuration</code>.
      */
@@ -68,7 +68,7 @@ public class Resin2xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Set up datasource file. {@inheritdoc}
+     * Set up datasource file. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

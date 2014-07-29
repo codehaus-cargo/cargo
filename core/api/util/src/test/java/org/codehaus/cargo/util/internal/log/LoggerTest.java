@@ -41,7 +41,7 @@ public class LoggerTest extends TestCase
         private String message;
 
         /**
-         * Save the log message. {@inheritdoc}
+         * Save the log message. {@inheritDoc}
          * @param level Level.
          * @param message Message.
          * @param category Category.
@@ -64,7 +64,7 @@ public class LoggerTest extends TestCase
     }
 
     /**
-     * Test that the default level is {@link LogLevel.INFO}.
+     * Test that the default level is {@link LogLevel#INFO}.
      */
     public void testDefaultLevelIsInfo()
     {

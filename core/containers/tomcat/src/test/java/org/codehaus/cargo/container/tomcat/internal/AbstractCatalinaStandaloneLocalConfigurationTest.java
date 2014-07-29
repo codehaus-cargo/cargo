@@ -36,7 +36,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
 {
 
     /**
-     * Creates the Tomcat manager. {@inheritdoc}
+     * Creates the Tomcat manager. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -52,7 +52,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     protected abstract void setUpManager();
 
     /**
-     * {@inheritdoc}. This implementation simply calls
+     * {@inheritDoc}. This implementation simply calls
      * <code>getResourceConfigurationFile(null)</code>.
      * @param fixture Datasource fixture.
      * @return Resource file name for <code>fixture</code>.
@@ -134,7 +134,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Setup datasource file and call parent. {@inheritdoc}
+     * Setup datasource file and call parent. {@inheritDoc}
      * @param fixture Datasource fixture.
      * @return Configured datasource file.
      * @throws Exception If anything goes wrong.
@@ -148,7 +148,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Setup datasource file and call parent. {@inheritdoc}
+     * Setup datasource file and call parent. {@inheritDoc}
      * @param fixture Datasource fixture.
      * @return Configured datasource file.
      * @throws Exception If anything goes wrong.
@@ -162,7 +162,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Setup resource file and call parent. {@inheritdoc}
+     * Setup resource file and call parent. {@inheritDoc}
      * @param fixture Resource fixture.
      * @return Configured resource file.
      * @throws Exception If anything goes wrong.
@@ -176,7 +176,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Setup resource file and call parent. {@inheritdoc}
+     * Setup resource file and call parent. {@inheritDoc}
      * @param fixture Resource fixture.
      * @return Configured resource file.
      * @throws Exception If anything goes wrong.
@@ -197,7 +197,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
 
     /**
      * Checks that creating datasource configuration entries with driver-configured XA transaction
-     * support throws an exception with a good message. {@inheritdoc}
+     * support throws an exception with a good message. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -220,7 +220,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
 
     /**
      * Checks that creating datasource configuration entries with driver-configured local
-     * transaction support throws an exception with a good message. {@inheritdoc}
+     * transaction support throws an exception with a good message. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -243,7 +243,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
 
     /**
      * Checks that creating XA datasource configuration entries throws an exception with a good
-     * message. {@inheritdoc}
+     * message. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

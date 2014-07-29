@@ -40,7 +40,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
 {
 
     /**
-     * Creates a {@link Oc4j9xStandaloneLocalConfiguration}. {@inheritdoc}
+     * Creates a {@link Oc4j9xStandaloneLocalConfiguration}. {@inheritDoc}
      * @param home Configuration home.
      * @return Local configuration for <code>home</code>.
      */
@@ -51,7 +51,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return {@link OrionConfigurationChecker}.
      */
     @Override
@@ -61,7 +61,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param fixture Ignored.
      * @return Directory <code>conf/data-sources.xml</code> in the configuration home.
      */
@@ -144,7 +144,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Setup datasource file and call parent. {@inheritdoc}
+     * Setup datasource file and call parent. {@inheritDoc}
      * @param fixture Datasource fixture.
      * @return Configured datasource.
      * @throws Exception If anything goes wrong.
@@ -158,7 +158,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Setup datasource file and call parent. {@inheritdoc}
+     * Setup datasource file and call parent. {@inheritDoc}
      * @param fixture Datasource fixture.
      * @return Configured datasource file.
      * @throws Exception If anything goes wrong.
@@ -172,7 +172,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Orion does not currently support Resources. {@inheritdoc}
+     * Orion does not currently support Resources. {@inheritDoc}
      * @param fixture Ignored.
      * @return <code>null</code>.
      */
@@ -183,7 +183,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Orion does not currently support Resources. {@inheritdoc}
+     * Orion does not currently support Resources. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     public void testConfigureCreatesResourceForXADataSource() throws Exception
@@ -192,7 +192,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Orion does not currently support Resources. {@inheritdoc}
+     * Orion does not currently support Resources. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -202,7 +202,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Orion does not currently support Resources. {@inheritdoc}
+     * Orion does not currently support Resources. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

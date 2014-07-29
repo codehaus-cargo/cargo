@@ -38,7 +38,7 @@ public class DefaultContainerCapabilityFactoryTest extends TestCase
     private ContainerCapabilityFactory factory;
 
     /**
-     * Creates the container capability factory. {@inheritdoc}
+     * Creates the container capability factory. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

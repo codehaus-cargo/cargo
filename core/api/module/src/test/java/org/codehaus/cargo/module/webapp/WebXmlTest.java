@@ -254,8 +254,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests whether calling {@link WebXml.hasFilter} with <code>null</code> as filter name
-     * parameter results in a <code>NullPointerException</code> being thrown.
+     * Tests whether calling {@link WebXml#getTag} for a <code>filter</code> with <code>null</code>
+     * as filter name parameter results in a <code>NullPointerException</code> being thrown.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -277,8 +277,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests whether {@link WebXml.hasFilter} returns the correct value for a descriptor containing
-     * one filter definition.
+     * Tests whether {@link WebXml#getTag} for a <code>filter</code> returns the correct value for
+     * a descriptor containing one filter definition.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -297,8 +297,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests whether {@link WebXml.hasFilter} returns the correct values for a descriptor containing
-     * multiple filter definitions.
+     * Tests whether {@link WebXml#getTag} for a <code>filter</code> returns the correct values for
+     * a descriptor containing multiple filter definitions.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -728,8 +728,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests whether calling {@link WebXml#hasServlet} with a <code>null</code> parameter as servlet
-     * name throws a <code>NullPointerException</code>.
+     * Tests whether calling {@link WebXmlUtils#hasServlet} with a <code>null</code> parameter as
+     * servlet name throws a <code>NullPointerException</code>.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -752,7 +752,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests whether {@link WebXml#hasServlet} reports the correct values for a descriptor
+     * Tests whether {@link WebXmlUtils#hasServlet} reports the correct values for a descriptor
      * containing a single servlet definition.
      * 
      * @throws Exception If an unexpected error occurs
@@ -773,7 +773,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests whether {@link WebXml#hasServlet} reports the correct values for a descriptor
+     * Tests whether {@link WebXmlUtils#hasServlet} reports the correct values for a descriptor
      * containing multiple servlet definitions.
      * 
      * @throws Exception If an unexpected error occurs

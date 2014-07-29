@@ -23,7 +23,7 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 
 /**
- * Integration tests for {@link WebLogic9x10xAnd103xConfigurationBuilder}.
+ * Integration tests for {@link WebLogic9x10x103x12xConfigurationBuilder}.
  * 
  * @version $Id$
  */
@@ -31,8 +31,8 @@ public class WebLogic9x10x103x12xConfigurationBuilderTest extends
     WebLogic8xConfigurationBuilderTest
 {
     /**
-     * {@inheritdoc}
-     * @return {@link WebLogic9x10xAnd103xConfigurationBuilder}.
+     * {@inheritDoc}
+     * @return {@link WebLogic9x10x103x12xConfigurationBuilder}.
      */
     @Override
     protected ConfigurationBuilder createConfigurationBuilder()
@@ -41,8 +41,8 @@ public class WebLogic9x10x103x12xConfigurationBuilderTest extends
     }
 
     /**
-     * {@inheritdoc}
-     * @return {@link WebLogic9x10xAnd103xConfigurationChecker}.
+     * {@inheritDoc}
+     * @return {@link WebLogic9x10x103x12xConfigurationChecker}.
      */
     @Override
     protected ConfigurationChecker createConfigurationChecker()

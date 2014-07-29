@@ -36,7 +36,7 @@ import org.codehaus.cargo.util.log.LoggedObject;
 public class InstalledLocalDeployerStub extends LoggedObject implements Deployer
 {
     /**
-     * Voluntarily do nothing for testing. {@inheritdoc}
+     * Voluntarily do nothing for testing. {@inheritDoc}
      * @param container Ignored.
      */
     public InstalledLocalDeployerStub(InstalledLocalContainer container)
@@ -45,7 +45,7 @@ public class InstalledLocalDeployerStub extends LoggedObject implements Deployer
     }
 
     /**
-     * Voluntarily do nothing for testing. {@inheritdoc}
+     * Voluntarily do nothing for testing. {@inheritDoc}
      * @param deployable Ignored.
      */
     public void deploy(Deployable deployable)
@@ -54,7 +54,7 @@ public class InstalledLocalDeployerStub extends LoggedObject implements Deployer
     }
 
     /**
-     * Voluntarily do nothing for testing. {@inheritdoc}
+     * Voluntarily do nothing for testing. {@inheritDoc}
      * @param deployable Ignored.
      * @param monitor Ignored.
      */
@@ -64,7 +64,7 @@ public class InstalledLocalDeployerStub extends LoggedObject implements Deployer
     }
 
     /**
-     * Voluntarily do nothing for testing. {@inheritdoc}
+     * Voluntarily do nothing for testing. {@inheritDoc}
      * @param deployable Ignored.
      */
     public void undeploy(Deployable deployable)
@@ -73,7 +73,7 @@ public class InstalledLocalDeployerStub extends LoggedObject implements Deployer
     }
 
     /**
-     * Voluntarily do nothing for testing. {@inheritdoc}
+     * Voluntarily do nothing for testing. {@inheritDoc}
      * @param deployable Ignored.
      * @param monitor Ignored.
      */
@@ -83,7 +83,7 @@ public class InstalledLocalDeployerStub extends LoggedObject implements Deployer
     }
 
     /**
-     * Voluntarily do nothing for testing. {@inheritdoc}
+     * Voluntarily do nothing for testing. {@inheritDoc}
      * @param deployable Ignored.
      */
     public void redeploy(Deployable deployable)
@@ -92,7 +92,7 @@ public class InstalledLocalDeployerStub extends LoggedObject implements Deployer
     }
 
     /**
-     * Voluntarily do nothing for testing. {@inheritdoc}
+     * Voluntarily do nothing for testing. {@inheritDoc}
      * @param deployable Ignored.
      * @param monitor Ignored.
      */
@@ -102,7 +102,7 @@ public class InstalledLocalDeployerStub extends LoggedObject implements Deployer
     }
 
     /**
-     * Voluntarily do nothing for testing. {@inheritdoc}
+     * Voluntarily do nothing for testing. {@inheritDoc}
      * @param deployable Ignored.
      */
     public void start(Deployable deployable)
@@ -111,7 +111,7 @@ public class InstalledLocalDeployerStub extends LoggedObject implements Deployer
     }
 
     /**
-     * Voluntarily do nothing for testing. {@inheritdoc}
+     * Voluntarily do nothing for testing. {@inheritDoc}
      * @param deployable Ignored.
      * @param monitor Ignored.
      */
@@ -121,7 +121,7 @@ public class InstalledLocalDeployerStub extends LoggedObject implements Deployer
     }
 
     /**
-     * Voluntarily do nothing for testing. {@inheritdoc}
+     * Voluntarily do nothing for testing. {@inheritDoc}
      * @param deployable Ignored.
      */
     public void stop(Deployable deployable)
@@ -130,7 +130,7 @@ public class InstalledLocalDeployerStub extends LoggedObject implements Deployer
     }
 
     /**
-     * Voluntarily do nothing for testing. {@inheritdoc}
+     * Voluntarily do nothing for testing. {@inheritDoc}
      * @param deployable Ignored.
      * @param monitor Ignored.
      */
@@ -140,7 +140,7 @@ public class InstalledLocalDeployerStub extends LoggedObject implements Deployer
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return {@link DeployerType#INSTALLED}
      */
     public DeployerType getType()

@@ -65,7 +65,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
     }
 
     /**
-     * Creates the configuration checker. {@inheritdoc}
+     * Creates the configuration checker. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

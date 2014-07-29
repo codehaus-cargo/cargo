@@ -34,7 +34,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     implements InstalledLocalContainer
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return <code>null</code>.
      */
     public String getHome()
@@ -44,7 +44,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * @param home Ignored.
      */
     public void setHome(String home)
@@ -53,7 +53,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return <code>null</code>.
      */
     @Override
@@ -64,7 +64,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * @param handler Ignored.
      */
     @Override
@@ -74,7 +74,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return <code>null</code>.
      */
     public ContainerType getType()
@@ -84,7 +84,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * @param location Ignored.
      */
     public void addExtraClasspath(String location)
@@ -93,7 +93,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * @param location Ignored.
      */
     public void addSharedClasspath(String location)
@@ -102,7 +102,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return <code>null</code>.
      */
     public String[] getExtraClasspath()
@@ -112,7 +112,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return <code>null</code>.
      */
     public String[] getSharedClasspath()
@@ -122,7 +122,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return <code>null</code>.
      */
     public Map<String, String> getSystemProperties()
@@ -132,7 +132,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * @param classpath Ignored.
      */
     public void setExtraClasspath(String[] classpath)
@@ -141,7 +141,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * @param classpath Ignored.
      */
     public void setSharedClasspath(String[] classpath)
@@ -150,7 +150,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * @param properties Ignored.
      */
     public void setSystemProperties(Map<String, String> properties)

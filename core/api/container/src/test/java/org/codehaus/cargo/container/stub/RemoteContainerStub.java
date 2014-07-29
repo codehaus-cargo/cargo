@@ -58,7 +58,7 @@ public class RemoteContainerStub extends AbstractContainerStub implements Remote
     }
 
     /**
-     * Saves the configuration and sets the id and name. {@inheritdoc}
+     * Saves the configuration and sets the id and name. {@inheritDoc}
      * @param configuration Container configuration.
      */
     public RemoteContainerStub(RuntimeConfiguration configuration)
@@ -69,7 +69,7 @@ public class RemoteContainerStub extends AbstractContainerStub implements Remote
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
     @Override
@@ -79,7 +79,7 @@ public class RemoteContainerStub extends AbstractContainerStub implements Remote
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return {@link ContainerType#REMOTE}
      */
     public ContainerType getType()
@@ -88,7 +88,7 @@ public class RemoteContainerStub extends AbstractContainerStub implements Remote
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration to set.
      */
     public void setConfiguration(RuntimeConfiguration configuration)
@@ -97,7 +97,7 @@ public class RemoteContainerStub extends AbstractContainerStub implements Remote
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return Previously set configuration.
      */
     public RuntimeConfiguration getConfiguration()

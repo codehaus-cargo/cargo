@@ -75,7 +75,7 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
     private DeployableFactory factory;
 
     /**
-     * Creates the test file system manager and the container. {@inheritdoc}
+     * Creates the test file system manager and the container. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -105,7 +105,7 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
     }
 
     /**
-     * Closes the test file system manager. {@inheritdoc}
+     * Closes the test file system manager. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

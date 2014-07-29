@@ -47,7 +47,7 @@ public abstract class AbstractConfigurationBuilderTest extends TestCase implemen
     private ConfigurationChecker checker;
 
     /**
-     * Creates the configuration builder and checker. {@inheritdoc}
+     * Creates the configuration builder and checker. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

@@ -34,7 +34,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
     implements StandaloneLocalConfiguration
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param home Configuration home.
      */
     public StandaloneLocalConfigurationStub(String home)
@@ -43,7 +43,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return {@link ConfigurationType#STANDALONE}
      */
     public ConfigurationType getType()
@@ -52,7 +52,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * 
      * @param xmlReplacement Ignored.
      */
@@ -62,7 +62,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * 
      * @param filename Ignored.
      * @param xpathExpression Ignored.
@@ -75,7 +75,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * 
      * @param filename Ignored.
      * @param xpathExpression Ignored.
@@ -89,7 +89,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * 
      * @param filename Ignored.
      * @param xpathExpression Ignored.
@@ -100,7 +100,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * 
      * @param filename Ignored.
      * @param xpathExpression Ignored.

@@ -42,7 +42,7 @@ public class VFSFileHandlerTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the various file system and handler attributes. {@inheritdoc}
+     * Creates the various file system and handler attributes. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

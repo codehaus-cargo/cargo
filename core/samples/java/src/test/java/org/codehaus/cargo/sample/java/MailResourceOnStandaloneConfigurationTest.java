@@ -114,7 +114,7 @@ public class MailResourceOnStandaloneConfigurationTest extends
     }
 
     /**
-     * User configures javax.mail.Session -> container provides that same javax.mail.Session
+     * User configures javax.mail.Session -&gt; container provides that same javax.mail.Session
      * @throws MalformedURLException If URL for the test WAR cannot be built.
      */
     public void testUserConfiguresMailSessionAsResource() throws MalformedURLException

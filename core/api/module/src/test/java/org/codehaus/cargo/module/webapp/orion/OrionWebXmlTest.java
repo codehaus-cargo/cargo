@@ -27,11 +27,11 @@ import org.codehaus.cargo.module.webapp.EjbRef;
 import org.jdom.Element;
 
 /**
- * Unit tests for {@link OracleWebXml}.
+ * Unit tests for {@link OrionWebXml}.
  * 
  * @version $Id$
  */
-public class OracleWebXmlTest extends AbstractDocumentBuilderTest
+public class OrionWebXmlTest extends AbstractDocumentBuilderTest
 {
     /**
      * Tests that a ejb reference description can be added.

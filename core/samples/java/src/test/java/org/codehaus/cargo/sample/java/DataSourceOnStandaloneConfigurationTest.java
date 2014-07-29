@@ -81,7 +81,7 @@ public class DataSourceOnStandaloneConfigurationTest extends
     }
 
     /**
-     * User configures java.sql.Driver -> container provides javax.sql.DataSource with no
+     * User configures java.sql.Driver -&gt; container provides javax.sql.DataSource with no
      * transaction support
      * @throws MalformedURLException If servlet WAR URL cannot be created.
      */

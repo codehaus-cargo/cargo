@@ -96,7 +96,7 @@ public class WebLogic12xStandaloneLocalConfigurationTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the test file system manager and the container. {@inheritdoc}
+     * Creates the test file system manager and the container. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -124,7 +124,7 @@ public class WebLogic12xStandaloneLocalConfigurationTest extends TestCase
     }
 
     /**
-     * Closes the test file system manager. {@inheritdoc}
+     * Closes the test file system manager. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

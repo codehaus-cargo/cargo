@@ -32,7 +32,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 public class SuperConfigurationCapability implements ConfigurationCapability
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param propertyName Ignored.
      * @return <code>true</code>
      */
@@ -42,7 +42,7 @@ public class SuperConfigurationCapability implements ConfigurationCapability
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return {@link Collections#emptyMap()}
      */
     public Map<String, Boolean> getProperties()

@@ -50,7 +50,7 @@ public abstract class AbstractJRunStandaloneConfigurationTest extends
     }
 
     /**
-     * Setup the datasource file and call parent. {@inheritdoc}
+     * Setup the datasource file and call parent. {@inheritDoc}
      * @param fixture Datasource fixture.
      * @return Configuration file for <code>fixture</code>.
      * @throws Exception If anything goes wrong.
@@ -70,7 +70,7 @@ public abstract class AbstractJRunStandaloneConfigurationTest extends
     protected abstract void setUpDataSourceFile() throws Exception;
 
     /**
-     * Setup the datasource file and call parent. {@inheritdoc}
+     * Setup the datasource file and call parent. {@inheritDoc}
      * @param fixture Datasource fixture.
      * @return Configuration file for <code>fixture</code>.
      * @throws Exception If anything goes wrong.
@@ -84,7 +84,7 @@ public abstract class AbstractJRunStandaloneConfigurationTest extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param fixture Ignored.
      * @return <code>null</code>.
      */
@@ -95,7 +95,7 @@ public abstract class AbstractJRunStandaloneConfigurationTest extends
     }
 
     /**
-     * JRun does not currently support Resources. {@inheritdoc}
+     * JRun does not currently support Resources. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     public void testConfigureCreatesResourceForXADataSource() throws Exception
@@ -104,7 +104,7 @@ public abstract class AbstractJRunStandaloneConfigurationTest extends
     }
 
     /**
-     * JRun does not currently support Resources. {@inheritdoc}
+     * JRun does not currently support Resources. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -114,7 +114,7 @@ public abstract class AbstractJRunStandaloneConfigurationTest extends
     }
 
     /**
-     * JRun does not currently support Resources. {@inheritdoc}
+     * JRun does not currently support Resources. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

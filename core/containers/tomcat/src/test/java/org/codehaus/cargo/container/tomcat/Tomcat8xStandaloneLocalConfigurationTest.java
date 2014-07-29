@@ -35,7 +35,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
 {
 
     /**
-     * Creates a {@link Tomcat8xStandaloneLocalConfiguration}. {@inheritdoc}
+     * Creates a {@link Tomcat8xStandaloneLocalConfiguration}. {@inheritDoc}
      * @param home Configuration home.
      * @return Local configuration for <code>home</code>.
      */
@@ -59,7 +59,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Creates a {@link Tomcat8xInstalledLocalContainer}. {@inheritdoc}
+     * Creates a {@link Tomcat8xInstalledLocalContainer}. {@inheritDoc}
      * @param configuration Container's configuration.
      * @return Local container for <code>configuration</code>.
      */
@@ -70,7 +70,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * @return {@link Tomcat5And6xConfigurationChecker}.
+     * @return {@link Tomcat8xConfigurationChecker}.
      */
     @Override
     protected ConfigurationChecker createConfigurationChecker()

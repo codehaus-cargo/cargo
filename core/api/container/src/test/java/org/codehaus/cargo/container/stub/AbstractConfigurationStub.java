@@ -40,7 +40,7 @@ public abstract class AbstractConfigurationStub implements Configuration
     private Map<String, String> properties = new HashMap<String, String>();
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * @param logger Ignored.
      */
     public void setLogger(Logger logger)
@@ -49,7 +49,7 @@ public abstract class AbstractConfigurationStub implements Configuration
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return {@link NullLogger}
      */
     public Logger getLogger()
@@ -58,7 +58,7 @@ public abstract class AbstractConfigurationStub implements Configuration
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
     public ConfigurationCapability getCapability()
@@ -67,7 +67,7 @@ public abstract class AbstractConfigurationStub implements Configuration
     }
 
     /**
-     * Saves the property. {@inheritdoc}
+     * Saves the property. {@inheritDoc}
      * @param name Property name.
      * @param value Property value.
      */
@@ -77,7 +77,7 @@ public abstract class AbstractConfigurationStub implements Configuration
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return All properties.
      */
     public Map<String, String> getProperties()
@@ -86,7 +86,7 @@ public abstract class AbstractConfigurationStub implements Configuration
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param name Name of the property to get.
      * @return The value for <code>name</code>, <code>null</code> if not set.
      */

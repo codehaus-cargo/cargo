@@ -98,7 +98,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
     private Element domain;
 
     /**
-     * Creates the test file system manager and the container. {@inheritdoc}
+     * Creates the test file system manager and the container. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -123,7 +123,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
     }
 
     /**
-     * Closes the test file system manager. {@inheritdoc}
+     * Closes the test file system manager. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

@@ -34,7 +34,7 @@ public class Resin31xStandaloneLocalConfigurationTest
 {
 
     /**
-     * Creates a {@link Resin31xStandaloneLocalConfiguration}. {@inheritdoc}
+     * Creates a {@link Resin31xStandaloneLocalConfiguration}. {@inheritDoc}
      * @param home Configuration home.
      * @return Local configuration for <code>home</code>.
      */
@@ -45,7 +45,7 @@ public class Resin31xStandaloneLocalConfigurationTest
     }
 
     /**
-     * Creates a {@link Resin31xInstalledLocalContainer}. {@inheritdoc}
+     * Creates a {@link Resin31xInstalledLocalContainer}. {@inheritDoc}
      * @param configuration Container's configuration.
      * @return Local container for <code>configuration</code>.
      */

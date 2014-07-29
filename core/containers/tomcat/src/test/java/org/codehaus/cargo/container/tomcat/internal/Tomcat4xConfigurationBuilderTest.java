@@ -50,7 +50,7 @@ public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuild
 
     /**
      * Checks that creating datasource configuration entries with driver-configured local
-     * transaction support throws an exception with a good message. {@inheritdoc}
+     * transaction support throws an exception with a good message. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -73,7 +73,7 @@ public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuild
 
     /**
      * Checks that creating datasource configuration entries with driver-configured XA transaction
-     * support throws an exception with a good message. {@inheritdoc}
+     * support throws an exception with a good message. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -96,7 +96,7 @@ public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuild
 
     /**
      * Checks that creating XA datasource configuration entries throws an exception with a good
-     * message. {@inheritdoc}
+     * message. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

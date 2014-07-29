@@ -110,7 +110,7 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration name.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -143,7 +143,7 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration name.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -156,7 +156,7 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration name.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -168,7 +168,7 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration name.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -180,7 +180,7 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration name.
      * @param resourceFixture Resource fixture.
      * @throws Exception If anything goes wrong.
@@ -194,7 +194,7 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration name.
      * @param resourceFixture Resource fixture.
      * @throws Exception If anything goes wrong.
@@ -208,7 +208,7 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param dataSourceEntry Datasource entry.
      * @return Context with inserted configuration entry.
      */

@@ -64,7 +64,7 @@ public class Jonas5xInstalledLocalContainerTest extends MockObjectTestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the test file system manager and the container. {@inheritdoc}
+     * Creates the test file system manager and the container. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -87,7 +87,7 @@ public class Jonas5xInstalledLocalContainerTest extends MockObjectTestCase
     }
 
     /**
-     * Closes the test file system manager. {@inheritdoc}
+     * Closes the test file system manager. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

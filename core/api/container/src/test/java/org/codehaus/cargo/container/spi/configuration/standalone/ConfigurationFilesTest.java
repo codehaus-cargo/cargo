@@ -104,7 +104,7 @@ public class ConfigurationFilesTest extends TestCase
     }
 
     /**
-     * Creates the test directory. {@inheritdoc}
+     * Creates the test directory. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -124,7 +124,7 @@ public class ConfigurationFilesTest extends TestCase
     }
 
     /**
-     * Sets all the files to delete on exit. {@inheritdoc}
+     * Sets all the files to delete on exit. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

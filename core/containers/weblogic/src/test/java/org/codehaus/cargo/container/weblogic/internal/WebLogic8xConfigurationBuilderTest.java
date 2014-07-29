@@ -49,7 +49,7 @@ public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBui
     }
 
     /**
-     * Check the exception message since Resource configuration is not supported. {@inheritdoc}
+     * Check the exception message since Resource configuration is not supported. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -68,7 +68,7 @@ public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBui
     }
 
     /**
-     * Check the exception message since Resource configuration is not supported. {@inheritdoc}
+     * Check the exception message since Resource configuration is not supported. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

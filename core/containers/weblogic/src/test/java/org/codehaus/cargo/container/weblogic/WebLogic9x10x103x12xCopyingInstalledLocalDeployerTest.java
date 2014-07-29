@@ -27,7 +27,7 @@ import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 
 /**
- * Unit tests for {@link WebLogicCopyingInstalledLocalDeployer}.
+ * Unit tests for {@link WebLogic9x10x103x12xCopyingInstalledLocalDeployer}.
  * 
  * <p>
  * Note: These tests are using <a href="http://jakarta.apache.org/commons/vfs/">VFS</a> with a <a
@@ -76,7 +76,7 @@ public class WebLogic9x10x103x12xCopyingInstalledLocalDeployerTest extends TestC
     private FileHandler fileHandler;
 
     /**
-     * Creates the test file system manager and the container. {@inheritdoc}
+     * Creates the test file system manager and the container. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -99,7 +99,7 @@ public class WebLogic9x10x103x12xCopyingInstalledLocalDeployerTest extends TestC
     }
 
     /**
-     * Closes the test file system manager. {@inheritdoc}
+     * Closes the test file system manager. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

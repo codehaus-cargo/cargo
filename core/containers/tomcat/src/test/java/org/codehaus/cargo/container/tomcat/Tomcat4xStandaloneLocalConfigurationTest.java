@@ -46,7 +46,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
     protected static final String AJP_PORT = "8001";
 
     /**
-     * Creates a {@link Tomcat4xStandaloneLocalConfiguration}. {@inheritdoc}
+     * Creates a {@link Tomcat4xStandaloneLocalConfiguration}. {@inheritDoc}
      * @param home Configuration home.
      * @return Local configuration for <code>home</code>.
      */
@@ -57,7 +57,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Creates a {@link Tomcat4xInstalledLocalContainer}. {@inheritdoc}
+     * Creates a {@link Tomcat4xInstalledLocalContainer}. {@inheritDoc}
      * @param configuration Container's configuration.
      * @return Local container for <code>configuration</code>.
      */
@@ -77,7 +77,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * {@inheritdoc}.
+     * {@inheritDoc}.
      * @param fixture Resource fixture.
      * @return <code>conf/server.xml</code> in the configuration's home.
      */
@@ -88,7 +88,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -102,7 +102,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     @Override
     protected void setUpManager()

@@ -151,7 +151,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -165,7 +165,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -179,7 +179,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -195,7 +195,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -209,7 +209,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param dataSourceEntry Datasource entry.
      * @return Domain XML with <code>dataSourceEntry</code>.
      */
@@ -219,7 +219,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * TODO: WebLogic container doesn't support Resources. {@inheritdoc}
+     * TODO: WebLogic container doesn't support Resources. {@inheritDoc}
      * @param configuration Configuration.
      * @param resourceFixture Resource fixture.
      * @throws Exception If anything goes wrong.
@@ -231,7 +231,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * TODO: WebLogic container doesn't support Resources. {@inheritdoc}
+     * TODO: WebLogic container doesn't support Resources. {@inheritDoc}
      * @param configuration Configuration.
      * @param resourceFixture Resource fixture.
      * @throws Exception If anything goes wrong.

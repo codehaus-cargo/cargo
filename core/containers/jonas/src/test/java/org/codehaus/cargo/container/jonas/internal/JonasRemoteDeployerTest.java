@@ -61,7 +61,7 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
     private AbstractJonasRemoteDeployer deployer;
 
     /**
-     * Creates the test file container and deployer. {@inheritdoc}
+     * Creates the test file container and deployer. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -241,7 +241,7 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
     private class TestDeployer extends AbstractJonas4xRemoteDeployer
     {
         /**
-         * {@inheritdoc}
+         * {@inheritDoc}
          * @param container Container to use.
          */
         public TestDeployer(RemoteContainer container)
@@ -250,7 +250,7 @@ public class JonasRemoteDeployerTest extends MockObjectTestCase
         }
 
         /**
-         * {@inheritdoc}
+         * {@inheritDoc}
          * @return <code>null</code>.
          */
         @Override

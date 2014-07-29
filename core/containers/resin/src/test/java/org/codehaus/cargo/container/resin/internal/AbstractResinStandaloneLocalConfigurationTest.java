@@ -33,7 +33,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
 {
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param fixture Datasource fixture.
      * @return <code>conf/resin.conf</code> in the configuration home.
      */
@@ -44,7 +44,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param fixture Resource fixture.
      * @return <code>conf/resin.conf</code> in the configuration home.
      */
@@ -75,7 +75,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
     protected abstract void setUpDataSourceFile() throws Exception;
 
     /**
-     * Setup the datasource file and call parent. {@inheritdoc}
+     * Setup the datasource file and call parent. {@inheritDoc}
      * @param fixture Datasource fixture.
      * @return Configuration file for <code>fixture</code>.
      * @throws Exception If anything goes wrong.
@@ -89,7 +89,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Setup the datasource file and call parent. {@inheritdoc}
+     * Setup the datasource file and call parent. {@inheritDoc}
      * @param fixture Datasource fixture.
      * @return Configuration file for <code>fixture</code>.
      * @throws Exception If anything goes wrong.
@@ -105,7 +105,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
     /**
      * Checks that creating datasource configuration entries with local transaction support
      * throws an exception with message
-     * {@link Resin2xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritdoc}
+     * {@link Resin2xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -129,7 +129,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
     /**
      * Checks that creating datasource configuration entries with driver-configured XA transaction
      * support throws an exception with message
-     * {@link Resin2xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritdoc}
+     * {@link Resin2xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

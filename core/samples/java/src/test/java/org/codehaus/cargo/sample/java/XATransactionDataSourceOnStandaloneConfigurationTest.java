@@ -75,7 +75,7 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
     }
 
     /**
-     * User configures javax.sql.XADataSource -> container provides javax.sql.DataSource with xa
+     * User configures javax.sql.XADataSource -&gt; container provides javax.sql.DataSource with XA
      * transaction support
      * @throws MalformedURLException If servlet WAR URL cannot be created.
      */

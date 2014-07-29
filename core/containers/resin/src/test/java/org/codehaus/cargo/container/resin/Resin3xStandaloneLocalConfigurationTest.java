@@ -42,7 +42,7 @@ public class Resin3xStandaloneLocalConfigurationTest extends
 {
 
     /**
-     * Creates a {@link Resin3xStandaloneLocalConfiguration}. {@inheritdoc}
+     * Creates a {@link Resin3xStandaloneLocalConfiguration}. {@inheritDoc}
      * @param home Configuration home.
      * @return Local configuration for <code>home</code>.
      */
@@ -53,7 +53,7 @@ public class Resin3xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Creates a {@link Resin3xInstalledLocalContainer}. {@inheritdoc}
+     * Creates a {@link Resin3xInstalledLocalContainer}. {@inheritDoc}
      * @param configuration Container's configuration.
      * @return Local container for <code>configuration</code>.
      */
@@ -64,7 +64,7 @@ public class Resin3xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Call parent and check that the XML file is here. {@inheritdoc}
+     * Call parent and check that the XML file is here. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -100,7 +100,7 @@ public class Resin3xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Set up datasource file. {@inheritdoc}
+     * Set up datasource file. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

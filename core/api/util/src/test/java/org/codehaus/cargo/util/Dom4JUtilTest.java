@@ -43,7 +43,7 @@ public class Dom4JUtilTest extends TestCase
     private Element testElement;
 
     /**
-     * Creates the various XML test elements. {@inheritdoc}
+     * Creates the various XML test elements. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

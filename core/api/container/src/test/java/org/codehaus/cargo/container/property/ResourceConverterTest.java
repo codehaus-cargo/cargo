@@ -41,7 +41,7 @@ public class ResourceConverterTest extends TestCase
     private ResourceConverter resourceConverter;
 
     /**
-     * Creates the test resource converter. {@inheritdoc}
+     * Creates the test resource converter. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

@@ -25,7 +25,7 @@ import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.ejb.EjbDef;
 
 /**
- * Unit tests for {@link IbmEjbJarXmi}.
+ * Unit tests for {@link IbmEjbJarBndXmi}.
  * 
  * @version $Id$
  */

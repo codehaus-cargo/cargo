@@ -55,7 +55,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
     public boolean isAppend()
@@ -64,7 +64,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param shouldAppend Ignored.
      */
     public void setAppend(boolean shouldAppend)
@@ -73,7 +73,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
     public String getOutput()
@@ -82,7 +82,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param output Ignored.
      */
     public void setOutput(String output)
@@ -91,7 +91,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
     public long getTimeout()
@@ -100,7 +100,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param timeout Ignored.
      */
     public void setTimeout(long timeout)
@@ -109,7 +109,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return The saved container configuration.
      */
     public LocalConfiguration getConfiguration()
@@ -118,7 +118,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Container configuration to save.
      */
     public void setConfiguration(LocalConfiguration configuration)
@@ -127,7 +127,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
     public FileHandler getFileHandler()
@@ -136,7 +136,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param handler Ignored.
      */
     public void setFileHandler(FileHandler handler)
@@ -145,7 +145,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     }
 
     /**
-     * Voluntarily empty for testing. {@inheritdoc}
+     * Voluntarily empty for testing. {@inheritDoc}
      */
     public void start()
     {
@@ -153,7 +153,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     }
 
     /**
-     * Voluntarily empty for testing. {@inheritdoc}
+     * Voluntarily empty for testing. {@inheritDoc}
      */
     public void stop()
     {
@@ -161,7 +161,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     }
 
     /**
-     * Voluntarily empty for testing. {@inheritdoc}
+     * Voluntarily empty for testing. {@inheritDoc}
      */
     public void restart()
     {

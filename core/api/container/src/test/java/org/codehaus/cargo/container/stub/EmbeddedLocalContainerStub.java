@@ -58,7 +58,7 @@ public class EmbeddedLocalContainerStub
     }
 
     /**
-     * Saves the configuration and sets the id and name. {@inheritdoc}
+     * Saves the configuration and sets the id and name. {@inheritDoc}
      * @param configuration Container configuration.
      */
     public EmbeddedLocalContainerStub(LocalConfiguration configuration)
@@ -69,7 +69,7 @@ public class EmbeddedLocalContainerStub
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return {@link ContainerType#EMBEDDED}
      */
     public ContainerType getType()
@@ -78,7 +78,7 @@ public class EmbeddedLocalContainerStub
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param classLoader Embedded local container's classloader.
      */
     public void setClassLoader(ClassLoader classLoader)
@@ -87,7 +87,7 @@ public class EmbeddedLocalContainerStub
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return Embedded local container's classloader.
      */
     public ClassLoader getClassLoader()

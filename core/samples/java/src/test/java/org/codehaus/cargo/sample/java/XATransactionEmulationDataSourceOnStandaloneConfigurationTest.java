@@ -97,8 +97,8 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
     }
 
     /**
-     * User configures java.sql.Driver -> container provides javax.sql.DataSource with emulated xa
-     * transaction support
+     * User configures java.sql.Driver -&gt; container provides javax.sql.DataSource with emulated
+     * XA transaction support
      * @throws MalformedURLException If servlet WAR URL cannot be created.
      */
     public void testUserConfiguresDriverAndRequestsDataSourceWithXaTransactionSupport()

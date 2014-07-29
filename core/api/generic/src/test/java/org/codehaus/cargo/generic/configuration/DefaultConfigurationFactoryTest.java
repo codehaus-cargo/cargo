@@ -44,7 +44,7 @@ public class DefaultConfigurationFactoryTest extends TestCase
     private ConfigurationFactory factory;
 
     /**
-     * Creates the configuration factory. {@inheritdoc}
+     * Creates the configuration factory. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

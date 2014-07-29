@@ -77,7 +77,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return Configuration home.
      */
     public String getHome()
@@ -86,7 +86,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param home Configuration home to set.
      */
     public void setHome(String home)
@@ -95,7 +95,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param deployable Deployable to add.
      */
     public void addDeployable(Deployable deployable)
@@ -104,7 +104,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return List of deployables.
      */
     public List<Deployable> getDeployables()
@@ -113,7 +113,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param resource Resource to add.
      */
     public void addResource(Resource resource)
@@ -122,7 +122,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return List of resources.
      */
     public List<Resource> getResources()
@@ -131,7 +131,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param dataSource Datasource to add.
      */
     public void addDataSource(DataSource dataSource)
@@ -140,7 +140,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return List of datasources.
      */
     public List<DataSource> getDataSources()
@@ -149,7 +149,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return <code>null</code>
      */
     public List<FileConfig> getFileProperties()
@@ -159,7 +159,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * @param fileConfig Ignored.
      */
     public void setConfigFileProperty(FileConfig fileConfig)
@@ -168,7 +168,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * @param fileConfig Ignored.
      */
     public void setFileProperty(FileConfig fileConfig)
@@ -177,7 +177,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
     public FileHandler getFileHandler()
@@ -186,7 +186,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param handler Ignored.
      */
     public void setFileHandler(FileHandler handler)
@@ -195,7 +195,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      */
     public void applyPortOffset() 
     {
@@ -203,7 +203,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      */
     public void revertPortOffset() 
     {
@@ -211,7 +211,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
-     * Voluntarily do nothing for testing. {@inheritdoc}
+     * Voluntarily do nothing for testing. {@inheritDoc}
      * @param container Ignored.
      */
     public void configure(LocalContainer container)

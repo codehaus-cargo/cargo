@@ -66,7 +66,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     }
 
     /**
-     * Saves the configuration and sets the id and name. {@inheritdoc}
+     * Saves the configuration and sets the id and name. {@inheritDoc}
      * @param configuration Container configuration.
      */
     public InstalledLocalContainerStub(LocalConfiguration configuration)
@@ -77,7 +77,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return Container home.
      */
     public String getHome()
@@ -86,7 +86,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param home Container home.
      */
     public void setHome(String home)
@@ -95,7 +95,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return {@link ContainerType#INSTALLED}
      */
     public ContainerType getType()
@@ -104,7 +104,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
     public String[] getExtraClasspath()
@@ -113,7 +113,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
     public String[] getSharedClasspath()
@@ -122,7 +122,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param classpath Ignored.
      */
     public void setExtraClasspath(String[] classpath)
@@ -131,7 +131,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param classpath Ignored.
      */
     public void addExtraClasspath(String classpath)
@@ -140,7 +140,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param classpath Ignored.
      */
     public void setSharedClasspath(String[] classpath)
@@ -149,7 +149,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritdoc}
+     * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param location Ignored.
      */
     public void addSharedClasspath(String location)
@@ -158,7 +158,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return System properties.
      */
     public Map<String, String> getSystemProperties()
@@ -167,7 +167,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param properties System properties to set.
      */
     public void setSystemProperties(Map<String, String> properties)
@@ -176,7 +176,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param jvmLauncherFactory JVM launcher factory.
      */
     public void setJvmLauncherFactory(JvmLauncherFactory jvmLauncherFactory)
@@ -185,7 +185,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return JVM launcher factory.
      */
     public JvmLauncherFactory getJvmLauncherFactory()

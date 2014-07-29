@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.deployable.DeployableType;
 
 /**
- * Unit tests for {@link JonasContainerCapability}.
+ * Unit tests for {@link Jonas5xContainerCapability}.
  * 
  * @version $Id$
  */

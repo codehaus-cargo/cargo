@@ -30,7 +30,7 @@ import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 
 /**
- * Unit tests for {@link AbstractWeblogicInstalledLocalContainer}.
+ * Unit tests for {@link AbstractWebLogicInstalledLocalContainer}.
  * <p>
  * Note: These tests are using <a href="http://jakarta.apache.org/commons/vfs/">VFS</a> with a <a
  * href="http://jakarta.apache.org/commons/vfs/filesystems.html#ram">RAM file system</a> so that
@@ -73,7 +73,7 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the test file system manager and the container. {@inheritdoc}
+     * Creates the test file system manager and the container. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -92,7 +92,7 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
     }
 
     /**
-     * Closes the test file system manager. {@inheritdoc}
+     * Closes the test file system manager. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

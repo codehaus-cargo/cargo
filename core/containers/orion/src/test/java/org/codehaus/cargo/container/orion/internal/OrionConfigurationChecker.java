@@ -134,7 +134,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration name.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -155,7 +155,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration name.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -176,7 +176,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration name.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -197,7 +197,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param configuration Configuration name.
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
@@ -210,7 +210,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param dataSourceEntry Datasource entry.
      * @return Context with inserted configuration entry.
      */
@@ -223,7 +223,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * Throws {@link RuntimeException}. {@inheritdoc}
+     * Throws {@link RuntimeException}. {@inheritDoc}
      * @param configuration Ignored.
      * @param resourceFixture Ignored.
      * @throws Exception {@link RuntimeException}.
@@ -235,7 +235,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
     }
 
     /**
-     * Throws {@link RuntimeException}. {@inheritdoc}
+     * Throws {@link RuntimeException}. {@inheritDoc}
      * @param configuration Ignored.
      * @param resourceFixture Ignored.
      * @throws Exception {@link RuntimeException}.

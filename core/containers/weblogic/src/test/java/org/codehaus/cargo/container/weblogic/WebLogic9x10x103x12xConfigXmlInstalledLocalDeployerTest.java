@@ -49,7 +49,7 @@ import org.dom4j.Namespace;
 import org.dom4j.QName;
 
 /**
- * Unit tests for {@link WebLogic9xConfigXmlInstalledLocalDeployer}.
+ * Unit tests for {@link WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer}.
  * <p>
  * Note: These tests are using <a href="http://jakarta.apache.org/commons/vfs/">VFS</a> with a <a
  * href="http://jakarta.apache.org/commons/vfs/filesystems.html#ram">RAM file system</a> so that
@@ -119,7 +119,7 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends Tes
     private Document document;
 
     /**
-     * Creates the test file system manager and the container. {@inheritdoc}
+     * Creates the test file system manager and the container. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -161,7 +161,7 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends Tes
     }
 
     /**
-     * Closes the test file system manager. {@inheritdoc}
+     * Closes the test file system manager. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

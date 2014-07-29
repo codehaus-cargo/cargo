@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.deployable.WAR;
 public class SuperContainerWar extends WAR
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param war the location of the WAR being wrapped.
      */
     public SuperContainerWar(String war)

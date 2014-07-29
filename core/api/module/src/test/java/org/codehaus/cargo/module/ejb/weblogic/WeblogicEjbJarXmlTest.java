@@ -32,7 +32,7 @@ import org.codehaus.cargo.module.ejb.EjbDef;
 public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
 {
     /**
-     * Tests the basic functionality of {@link WeblogicEjbJarXml.getLocalJndiName}.
+     * Tests the basic functionality of {@link WeblogicEjbJarXml#getJndiName}.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -51,7 +51,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests {@link WeblogicEjbJarXml.getLocalJndiName} when no local jndi name is specified.
+     * Tests {@link WeblogicEjbJarXml#getJndiName} when no local jndi name is specified.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -70,7 +70,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests {@link WeblogicEjbJarXml.getLocalJndiName} with wrong ejb name
+     * Tests {@link WeblogicEjbJarXml#getJndiName} with wrong ejb name
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -89,7 +89,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests {@link WeblogicEjbJarXml.getDispatchPolicy}
+     * Tests {@link WeblogicEjbJarXml#getDispatchPolicy}
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -108,7 +108,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests {@link WeblogicEjbJarXml.addDispatchPolicy}
+     * Tests {@link WeblogicEjbJarXml#addDispatchPolicy}
      * 
      * @throws Exception If an unexpected error occurs
      */

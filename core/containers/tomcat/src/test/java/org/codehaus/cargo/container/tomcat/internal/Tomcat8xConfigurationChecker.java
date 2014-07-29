@@ -28,7 +28,7 @@ package org.codehaus.cargo.container.tomcat.internal;
 public class Tomcat8xConfigurationChecker extends Tomcat5x6x7xConfigurationChecker
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return Datasource factory class:
      * <code>org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory</code>
      */

@@ -31,7 +31,7 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurat
 public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderTest
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return {@link OrionConfigurationBuilder}.
      */
     @Override
@@ -41,7 +41,7 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return {@link OrionConfigurationChecker}.
      */
     @Override
@@ -51,7 +51,7 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
     }
 
     /**
-     * Check the exception message since Resource configuration is not supported. {@inheritdoc}
+     * Check the exception message since Resource configuration is not supported. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -70,7 +70,7 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
     }
 
     /**
-     * Check the exception message since Resource configuration is not supported. {@inheritdoc}
+     * Check the exception message since Resource configuration is not supported. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

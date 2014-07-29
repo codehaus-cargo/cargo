@@ -40,7 +40,7 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
     AbstractCatalinaStandaloneLocalConfigurationTest
 {
     /**
-     * Creates a {@link Tomcat5xStandaloneLocalConfiguration}. {@inheritdoc}
+     * Creates a {@link Tomcat5xStandaloneLocalConfiguration}. {@inheritDoc}
      * @param home Configuration home.
      * @return Local configuration for <code>home</code>.
      */
@@ -64,7 +64,7 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Creates a {@link Tomcat5xInstalledLocalContainer}. {@inheritdoc}
+     * Creates a {@link Tomcat5xInstalledLocalContainer}. {@inheritDoc}
      * @param configuration Container's configuration.
      * @return Local container for <code>configuration</code>.
      */
@@ -75,7 +75,7 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * @return {@link Tomcat5And6xConfigurationChecker}.
+     * @return {@link Tomcat5x6x7xConfigurationChecker}.
      */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
@@ -84,7 +84,7 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param fixture Resource fixture.
      * @return <code>conf/context.xml</code> in the configuration's home.
      */
@@ -95,7 +95,7 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -121,7 +121,7 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     @Override
     protected void setUpManager()

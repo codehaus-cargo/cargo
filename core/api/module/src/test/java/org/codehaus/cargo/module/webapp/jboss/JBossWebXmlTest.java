@@ -26,14 +26,14 @@ import org.codehaus.cargo.module.webapp.EjbRef;
 import org.jdom.Element;
 
 /**
- * Unit tests for {@link JBossWebXm}.
+ * Unit tests for {@link JBossWebXml}.
  * 
  * @version $Id$
  */
 public class JBossWebXmlTest extends AbstractDocumentBuilderTest
 {
     /**
-     * Tests {@link JBossWebXml.addEjbReference}.
+     * Tests {@link JBossWebXml#addEjbReference}.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -61,7 +61,7 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests {@link JBossWebXml.addEjbReference}.
+     * Tests {@link JBossWebXml#addEjbReference}.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -88,7 +88,7 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests that {@link JBossWebXml.addEjbReference} can add ejb reference in correct order.
+     * Tests that {@link JBossWebXml#addEjbReference} can add ejb reference in correct order.
      * 
      * @throws Exception If an unexpected error occurs
      */

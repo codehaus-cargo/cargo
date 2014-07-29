@@ -90,7 +90,7 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
     }
 
     /**
-     * User configures java.sql.Driver -> container provides javax.sql.DataSource with local
+     * User configures java.sql.Driver -&gt; container provides javax.sql.DataSource with local
      * transaction support
      * @throws MalformedURLException If servlet WAR URL cannot be created.
      */

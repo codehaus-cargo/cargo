@@ -92,7 +92,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Copy a file. {@inheritdoc}
+     * Copy a file. {@inheritDoc}
      * @param source Source file.
      * @param target Destination file.
      */
@@ -103,7 +103,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Copy a file, ignoring the <code>overwrite</code> parameter. {@inheritdoc}
+     * Copy a file, ignoring the <code>overwrite</code> parameter. {@inheritDoc}
      * @param source Source file.
      * @param target Destination file.
      * @param overwrite Ignored.
@@ -115,7 +115,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Copy a directory. {@inheritdoc}
+     * Copy a directory. {@inheritDoc}
      * @param source Source directory.
      * @param target Destination directory.
      */
@@ -135,7 +135,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * <b>WARNING</b>: Not implemented! {@inheritdoc}
+     * <b>WARNING</b>: Not implemented! {@inheritDoc}
      * @param source Source directory.
      * @param target Destination directory.
      * @param excludes Exclusions list.
@@ -147,7 +147,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Create a file. {@inheritdoc}
+     * Create a file. {@inheritDoc}
      * @param file File name.
      */
     @Override
@@ -164,7 +164,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Create a directory. {@inheritdoc}
+     * Create a directory. {@inheritDoc}
      * @param parent Parent directory name.
      * @param path Directory name.
      * @return Created directory name.
@@ -205,7 +205,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Checks whether a given path exists. {@inheritdoc}
+     * Checks whether a given path exists. {@inheritDoc}
      * @param path Path to check.
      * @return <code>true</code> if <code>path</code> exists, <code>false</code> otherwise.
      */
@@ -225,7 +225,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Gets the parent of a given path. {@inheritdoc}
+     * Gets the parent of a given path. {@inheritDoc}
      * @param path Path
      * @return Parent of <code>path</code>
      */
@@ -245,7 +245,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Make all directories. {@inheritdoc}
+     * Make all directories. {@inheritDoc}
      * @param path Directory Path.
      */
     @Override
@@ -262,7 +262,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Gets the {@link OutputStream} for a given file. {@inheritdoc}
+     * Gets the {@link OutputStream} for a given file. {@inheritDoc}
      * @param file File name.
      * @return {@link OutputStream} for <code>file</code>.
      */
@@ -282,7 +282,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Gets the {@link InputStream} for a given file. {@inheritdoc}
+     * Gets the {@link InputStream} for a given file. {@inheritDoc}
      * @param file File name.
      * @return {@link InputStream} for <code>file</code>.
      */
@@ -302,7 +302,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Test if a directory is empty. {@inheritdoc}
+     * Test if a directory is empty. {@inheritDoc}
      * @param dir Directory to check.
      * @return <code>true</code> if <code>dir</code> is empty, <code>false</code> otherwise.
      */
@@ -322,7 +322,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Delete a given path. {@inheritdoc}
+     * Delete a given path. {@inheritDoc}
      * @param path Path to delete.
      */
     @Override
@@ -341,7 +341,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Test if a path is a directory. {@inheritdoc}
+     * Test if a path is a directory. {@inheritDoc}
      * @see FileHandler#isDirectory(String)
      * @param path Path to check.
      * @return <code>true</code> if <code>path</code> is a directory, <code>false</code> otherwise.
@@ -363,7 +363,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Get the name of a file. {@inheritdoc}
+     * Get the name of a file. {@inheritDoc}
      * @see FileHandler#getName(String)
      * @param file File to check.
      * @return The name of <code>file</code>.
@@ -384,7 +384,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Get the children of a directory. {@inheritdoc}
+     * Get the children of a directory. {@inheritDoc}
      * @param directory Directory to which to get the children.
      * @return Children of <code>directory</code>.
      */

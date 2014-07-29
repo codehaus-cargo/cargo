@@ -33,7 +33,7 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
 {
 
     /**
-     * Creates a {@link Tomcat7xStandaloneLocalConfiguration}. {@inheritdoc}
+     * Creates a {@link Tomcat7xStandaloneLocalConfiguration}. {@inheritDoc}
      * @param home Configuration home.
      * @return Local configuration for <code>home</code>.
      */
@@ -57,7 +57,7 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Creates a {@link Tomcat7xInstalledLocalContainer}. {@inheritdoc}
+     * Creates a {@link Tomcat7xInstalledLocalContainer}. {@inheritDoc}
      * @param configuration Container's configuration.
      * @return Local container for <code>configuration</code>.
      */

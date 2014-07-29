@@ -25,14 +25,14 @@ import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.ejb.EjbDef;
 
 /**
- * Unit tests for {@link JBossXmlTest}.
+ * Unit tests for {@link JBossXml}.
  * 
  * @version $Id$
  */
 public class JBossXmlTest extends AbstractDocumentBuilderTest
 {
     /**
-     * Tests the basic functionality of {@link JBossXmlTest.getJndiName}.
+     * Tests the basic functionality of {@link JBossXml#getJndiName}.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -53,7 +53,7 @@ public class JBossXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests {@link JBossXmlTest.getJndiName} with a faulty ejb name.
+     * Tests {@link JBossXml#getJndiName} with a faulty ejb name.
      * 
      * @throws Exception If an unexpected error occurs
      */

@@ -38,7 +38,7 @@ public class DefaultFileHandlerTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the file handler. {@inheritdoc}
+     * Creates the file handler. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -68,7 +68,7 @@ public class DefaultFileHandlerTest extends TestCase
     }
 
     /**
-     * Test file copy to a non-existing path.<br />
+     * Test file copy to a non-existing path.<br>
      * This has been raised by https://jira.codehaus.org/browse/CARGO-1004
      */
     public void testCopyToNonExistingPath()

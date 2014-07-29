@@ -34,7 +34,7 @@ public class ExistingLocalConfigurationStub
 {
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param home Configuration home.
      */
     public ExistingLocalConfigurationStub(String home)
@@ -43,7 +43,7 @@ public class ExistingLocalConfigurationStub
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return {@link ConfigurationType#EXISTING}
      */
     public ConfigurationType getType()

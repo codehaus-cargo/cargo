@@ -41,7 +41,7 @@ public class DataSourceConverterTest extends TestCase
     private DataSourceConverter dataSourceConverter;
 
     /**
-     * Creates the test datasource converter. {@inheritdoc}
+     * Creates the test datasource converter. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -110,7 +110,7 @@ public class DataSourceConverterTest extends TestCase
     }
 
     /**
-     * Test that the default mode is {@link TransactionSupport.NO_TRANSACTION}.
+     * Test that the default mode is {@link TransactionSupport#NO_TRANSACTION}.
      */
     public void testDefaultIsNoTransaction()
     {
@@ -120,8 +120,8 @@ public class DataSourceConverterTest extends TestCase
     }
 
     /**
-     * Test that the {@link TransactionSupport.NO_TRANSACTION} mode is
-     * {@link TransactionSupport.NO_TRANSACTION}.
+     * Test that the {@link TransactionSupport#NO_TRANSACTION} mode is
+     * {@link TransactionSupport#NO_TRANSACTION}.
      */
     public void testNoTransactionIsNoTransaction()
     {
@@ -133,8 +133,8 @@ public class DataSourceConverterTest extends TestCase
     }
 
     /**
-     * Test that the {@link TransactionSupport.LOCAL_TRANSACTION} mode is
-     * {@link TransactionSupport.LOCAL_TRANSACTION}.
+     * Test that the {@link TransactionSupport#LOCAL_TRANSACTION} mode is
+     * {@link TransactionSupport#LOCAL_TRANSACTION}.
      */
     public void testLocalTransactionIsLocalTransaction()
     {
@@ -146,8 +146,8 @@ public class DataSourceConverterTest extends TestCase
     }
 
     /**
-     * Test that the {@link TransactionSupport.XA_TRANSACTION} mode is
-     * {@link TransactionSupport.XA_TRANSACTION}.
+     * Test that the {@link TransactionSupport#XA_TRANSACTION} mode is
+     * {@link TransactionSupport#XA_TRANSACTION}.
      */
     public void testXATransactionIsXATransaction()
     {

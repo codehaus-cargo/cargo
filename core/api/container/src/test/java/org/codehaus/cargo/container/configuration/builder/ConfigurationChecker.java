@@ -25,7 +25,8 @@ import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 /**
  * <h2>Overview</h2> Implementors of <code>DataSourceConfigurationChecker</code> ensure basic
  * coverage of {@link ConfigurationBuilder} in a way that can be automated. It does this by
- * providing methods for every known configuration of a {@link DataSource}<br>
+ * providing methods for every known configuration of a
+ * {@link org.codehaus.cargo.container.configuration.entry.DataSource}.<br>
  * <h2>Usage</h2> Implementors will be called by tests who implement
  * {@link ConfigurationBuilderTests} or {@link LocalConfigurationWithConfigurationBuilderTests}.<br>
  * <code>DataSourceConfigurationChecker</code> will be called from both of these contexts to help

@@ -53,7 +53,7 @@ public abstract class AbstractContainerStub implements Container
     private State state;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return Container id.
      */
     public String getId()
@@ -62,7 +62,7 @@ public abstract class AbstractContainerStub implements Container
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param id Container id to set.
      */
     public void setId(String id)
@@ -71,7 +71,7 @@ public abstract class AbstractContainerStub implements Container
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return Container name.
      */
     public String getName()
@@ -80,7 +80,7 @@ public abstract class AbstractContainerStub implements Container
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param name Container name to set.
      */
     public void setName(String name)
@@ -89,7 +89,7 @@ public abstract class AbstractContainerStub implements Container
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return Container capability.
      */
     public ContainerCapability getCapability()
@@ -98,7 +98,7 @@ public abstract class AbstractContainerStub implements Container
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param capability Container capability to set.
      */
     public void setCapability(ContainerCapability capability)
@@ -107,7 +107,7 @@ public abstract class AbstractContainerStub implements Container
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return The last saved container state.
      */
     public State getState()
@@ -116,7 +116,7 @@ public abstract class AbstractContainerStub implements Container
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @param state Container state to save.
      */
     public void setState(State state)
@@ -125,7 +125,7 @@ public abstract class AbstractContainerStub implements Container
     }
 
     /**
-     * Doesn't do anything. {@inheritdoc}
+     * Doesn't do anything. {@inheritDoc}
      * @param logger Ignored.
      */
     public void setLogger(Logger logger)
@@ -134,7 +134,7 @@ public abstract class AbstractContainerStub implements Container
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return {@link NullLogger}
      */
     public Logger getLogger()

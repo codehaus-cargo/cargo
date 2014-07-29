@@ -35,7 +35,7 @@ public class ResourceTest extends TestCase
     private Resource resource;
 
     /**
-     * Creates the test resource. {@inheritdoc}
+     * Creates the test resource. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -46,7 +46,7 @@ public class ResourceTest extends TestCase
     }
 
     /**
-     * Destroys the test resource. {@inheritdoc}
+     * Destroys the test resource. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override

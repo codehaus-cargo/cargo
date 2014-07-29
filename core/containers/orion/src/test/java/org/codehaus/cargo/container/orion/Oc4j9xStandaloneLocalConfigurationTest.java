@@ -33,7 +33,7 @@ public class Oc4j9xStandaloneLocalConfigurationTest extends
 {
 
     /**
-     * Creates a {@link Oc4j9xInstalledLocalContainer}. {@inheritdoc}
+     * Creates a {@link Oc4j9xInstalledLocalContainer}. {@inheritDoc}
      * @param configuration Container's configuration.
      * @return Local container for <code>configuration</code>.
      */

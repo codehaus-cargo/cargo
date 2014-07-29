@@ -32,7 +32,7 @@ import org.codehaus.cargo.module.ejb.EjbDef;
 public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
 {
     /**
-     * Tests the basic functionality of {@link OrionEjbJarXml.getJndiName}.
+     * Tests the basic functionality of {@link OrionEjbJarXml#getJndiName}.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -52,7 +52,7 @@ public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests {@link OrionEjbJarXml.getJndiName}.
+     * Tests {@link OrionEjbJarXml#getJndiName}.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -72,7 +72,7 @@ public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests {@link OrionEjbJarXml.getJndiName}.
+     * Tests {@link OrionEjbJarXml#getJndiName}.
      * 
      * @throws Exception If an unexpected error occurs
      */
@@ -91,7 +91,7 @@ public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
     }
 
     /**
-     * Tests {@link OrionEjbJarXml.getJndiName}.
+     * Tests {@link OrionEjbJarXml#getJndiName}.
      * 
      * @throws Exception If an unexpected error occurs
      */

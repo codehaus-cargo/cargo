@@ -33,7 +33,7 @@ public class RuntimeConfigurationStub extends AbstractConfigurationStub
     implements RuntimeConfiguration
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      * @return {@link ConfigurationType#RUNTIME}
      */
     public ConfigurationType getType()
