@@ -70,43 +70,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <tags>
-            <tag>
-              <name>description</name>
-              <placement>X</placement>
-            </tag>
-            <tag>
-              <name>goal</name>
-              <placement>X</placement>
-            </tag>
-            <tag>
-              <name>requiresDependencyResolution</name>
-              <placement>X</placement>
-            </tag>
-            <tag>
-              <name>phase</name>
-              <placement>X</placement>
-            </tag>
-          </tags>
-          <!--
-            The below doesn't work, so we need to use excludePackageNames instead
-            See: https://jira.codehaus.org/browse/MJAVADOC-365
-
-          <sourceFileExcludes>
-            <sourceFileExclude>**/generated-sources/modello/*</sourceFileExclude>
-            <sourceFileExclude>**/generated-sources/plugin/*</sourceFileExclude>
-          </sourceFileExcludes>
-           -->
-           <excludePackageNames>org.codehaus.cargo.maven2:org.codehaus.cargo.maven2.io.xpp3</excludePackageNames>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
 </project>
