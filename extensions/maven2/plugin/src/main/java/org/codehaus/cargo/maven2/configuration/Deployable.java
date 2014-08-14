@@ -223,7 +223,21 @@ public class Deployable extends AbstractDependency
         if (deployable instanceof WAR && context == null)
         {
             WAR war = (WAR) deployable;
-            war.setContext(getArtifactId());
+            if (getGroupId().equals(project.getGroupId())
+                && getArtifactId().equals(project.getArtifactId()))
+            {
+                // CARGO-1279: Honor the finalName if it was set manually
+                context = project.getFinalName();
+                if (context == null || context.startsWith(getArtifactId() + '-'))
+                {
+                    context = getArtifactId();
+                }
+            }
+            else
+            {
+                context = getArtifactId();
+            }
+            war.setContext(context);
         }
 
         return deployable;
