@@ -350,6 +350,17 @@ public class Tomcat5xStandaloneLocalConfiguration extends
      */
     private void addOptionalXmlReplacements(LocalContainer container)
     {
+        if (!"localhost".equals(container.getConfiguration().getPropertyValue(
+            GeneralPropertySet.HOSTNAME)))
+        {
+            addXmlReplacement("conf/server.xml",
+                CONNECTOR_XPATH,
+                        "address", GeneralPropertySet.HOSTNAME);
+            addXmlReplacement("conf/server.xml",
+                "//Server/Service/Connector[@protocol='AJP/1.3']",
+                        "address", GeneralPropertySet.HOSTNAME);
+        }
+
         if (container.getConfiguration().getPropertyValue(
             TomcatPropertySet.USE_HTTP_ONLY) != null)
         {
