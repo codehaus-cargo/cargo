@@ -309,7 +309,7 @@
 
               <property>
                 <name>cargo.tomcat8x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.9/bin/apache-tomcat-8.0.9.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.12/bin/apache-tomcat-8.0.12.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat8x.java.home</name>
@@ -363,7 +363,7 @@
                 <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.5.3.v20111011/jetty-distribution-7.5.3.v20111011.tar.gz</value>
                  -->
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.15.v20140411/jetty-distribution-7.6.15.v20140411.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.16.v20140903/jetty-distribution-7.6.16.v20140903.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty7x.java.home</name>
@@ -378,7 +378,7 @@
                 <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.0.3.v20111011/jetty-distribution-8.0.3.v20111011.tar.gz</value>
                  -->
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.15.v20140411/jetty-distribution-8.1.15.v20140411.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.16.v20140903/jetty-distribution-8.1.16.v20140903.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty8x.java.home</name>
@@ -393,7 +393,7 @@
                 <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz</value>
                  -->
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.2.v20140723/jetty-distribution-9.2.2.v20140723.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.3.v20140905/jetty-distribution-9.2.3.v20140905.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>
