@@ -89,22 +89,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <additionnalDependencies>
-            <additionnalDependency>
-              <groupId>jmock</groupId>
-              <artifactId>jmock-cglib</artifactId>
-              <version>1.2.0</version>
-            </additionnalDependency>
-          </additionnalDependencies>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
 </project>
