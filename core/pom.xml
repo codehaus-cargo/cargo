@@ -87,6 +87,37 @@
           </dependency>
         </dependencies>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <additionalDependencies>
+            <additionalDependency>
+              <groupId>jmock</groupId>
+              <artifactId>jmock</artifactId>
+              <version>1.2.0</version>
+            </additionalDependency>
+          </additionalDependencies>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <additionalDependencies>
+            <additionalDependency>
+              <groupId>jmock</groupId>
+              <artifactId>jmock</artifactId>
+              <version>1.2.0</version>
+            </additionalDependency>
+          </additionalDependencies>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
