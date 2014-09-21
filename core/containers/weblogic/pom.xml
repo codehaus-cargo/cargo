@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-core-containers</artifactId>
-    <version>1.4.10</version>
+    <version>1.4.11-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-core-container-weblogic</artifactId>
   <name>Cargo Core WebLogic Container</name>
