@@ -51,6 +51,7 @@ public class Jetty7xInstalledLocalDeployer extends Jetty6xInstalledLocalDeployer
         buffer.append("  <Set name=\"extractWAR\">true</Set>\n");
         buffer.append("  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
             + "default=\".\"/>/etc/webdefault.xml</Set>\n");
+        buffer.append(getExtraClasspathXmlFragment(war));
         buffer.append(getSharedClasspathXmlFragment());
         buffer.append("</Configure>\n");
         return buffer.toString();

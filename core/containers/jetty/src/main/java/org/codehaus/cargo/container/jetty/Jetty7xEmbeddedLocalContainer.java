@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
+import org.codehaus.cargo.container.jetty.internal.JettyUtils;
 
 /**
  * A Jetty 7.x instance running embedded.
@@ -167,6 +168,8 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
             new Object[] {deployable.getFile()});
         handler.getClass().getMethod("setDefaultsDescriptor", String.class).invoke(handler,
             getFileHandler().append(getConfiguration().getHome(), "etc/webdefault.xml"));
+        handler.getClass().getMethod("setExtraClasspath", String.class)
+            .invoke(handler, JettyUtils.getExtraClasspath((WAR) deployable, false));
 
         setDefaultRealm(handler);
 

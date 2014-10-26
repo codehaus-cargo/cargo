@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.tomcat.internal;
 
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.tomcat.TomcatWAR;
 
 /**
@@ -52,6 +53,39 @@ public final class TomcatUtils
             return ((TomcatWAR) deployable).containsContextFile();
         }
         return false;
+    }
+
+    /**
+     * Gets the extra classpath for the WAR as a single string suitable for use within the
+     * {@code context.xml}.
+     * 
+     * @param war The WAR being deployed, must not be {@code null}.
+     * @param xml {@code true} to escape XML markup in the result, {@code false} to return a plain
+     *            string.
+     * @return The WAR's extra classpath or {@code null} if none.
+     */
+    public static String getExtraClasspath(WAR war, boolean xml)
+    {
+        StringBuilder buffer = new StringBuilder(1024);
+        String[] extraClasspath = war.getExtraClasspath();
+        if (extraClasspath == null || extraClasspath.length <= 0)
+        {
+            return null;
+        }
+        for (String path : extraClasspath)
+        {
+            if (buffer.length() > 0)
+            {
+                buffer.append(';');
+            }
+            buffer.append(path);
+        }
+        String result = buffer.toString();
+        if (xml)
+        {
+            result = result.replace("&", "&amp;");
+        }
+        return result;
     }
 
 }

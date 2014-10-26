@@ -19,6 +19,10 @@
  */
 package org.codehaus.cargo.container.deployable;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 
 /**
@@ -35,12 +39,19 @@ public class WAR extends AbstractDeployable
     private String context;
 
     /**
+     * Additional classpath entries for the web application that usually reside outside of the WAR
+     * file to facilitate rapid development without fully assembling the WAR file.
+     */
+    private List<String> extraClasspath;
+
+    /**
      * @param war the location of the WAR being wrapped. This must point to either a WAR file or an
      * expanded WAR directory.
      */
     public WAR(String war)
     {
         super(war);
+        this.extraClasspath = new ArrayList<String>();
     }
 
     /**
@@ -98,4 +109,35 @@ public class WAR extends AbstractDeployable
     {
         return DeployableType.WAR;
     }
+
+    /**
+     * Sets additional classpath entries for the web application that usually reside outside of the
+     * WAR file to facilitate rapid development without fully assembling the WAR file. In general,
+     * this feature is meant for use with exploded WARs and as such is usually not supported for
+     * non-expanded WARs. If this method is use with tomcat container, the configuration must set
+     * TomcatPropertySet#COPY_WARS to false
+     * 
+     * @param classpath The additional classpath entries for the web application, may be
+     *            {@code null}.
+     */
+    public synchronized void setExtraClasspath(String[] classpath)
+    {
+        this.extraClasspath.clear();
+        if (classpath != null)
+        {
+            Collections.addAll(this.extraClasspath, classpath);
+        }
+    }
+
+    /**
+     * Gets additional classpath entries for the web application that usually reside outside of the
+     * WAR file to facilitate rapid development without fully assembling the WAR file.
+     * 
+     * @return The additional classpath entries for the web application, never {@code null}.
+     */
+    public synchronized String[] getExtraClasspath()
+    {
+        return this.extraClasspath.toArray(new String[this.extraClasspath.size()]);
+    }
+
 }

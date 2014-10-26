@@ -35,6 +35,7 @@ import org.codehaus.cargo.container.internal.util.PropertyUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xConfigurationBuilder;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6xStandaloneLocalConfigurationCapability;
@@ -260,6 +261,17 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         contextTokenValue.append("\"");
 
         contextTokenValue.append(">");
+
+        String extraClasspath = TomcatUtils.getExtraClasspath(deployable, true);
+        if (extraClasspath != null)
+        {
+            contextTokenValue.append("<Loader");
+            contextTokenValue
+                .append(" className=\"org.apache.catalina.loader.VirtualWebappLoader\"");
+            contextTokenValue.append(" virtualClasspath=\"" + extraClasspath + "\"");
+            contextTokenValue.append("/>");
+        }
+
         contextTokenValue.append("</Context>");
         return contextTokenValue.toString();
     }

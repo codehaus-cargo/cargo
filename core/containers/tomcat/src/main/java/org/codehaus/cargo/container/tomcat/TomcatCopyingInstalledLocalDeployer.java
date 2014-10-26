@@ -27,6 +27,7 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
+import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.Dom4JUtil;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -114,8 +115,9 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
                     {
                         context.addAttribute("docBase", war.getFile());
                     }
-                    xmlUtil.saveXml(doc, getFileHandler().append(contextDir, war.getContext()
-                        + ".xml"));
+                    configureExtraClasspath(war, context);
+                    xmlUtil.saveXml(doc,
+                        getFileHandler().append(contextDir, war.getContext() + ".xml"));
                 }
                 else if (this.shouldCopyWars)
                 {
@@ -146,6 +148,46 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
         else
         {
             super.doDeploy(deployableDir, deployable);
+        }
+    }
+
+    /**
+     * Configures the specified context element with the extra classpath (if any) of the given WAR.
+     * 
+     * @param war The WAR whose extra classpath should be configured, must not be {@code null}.
+     * @param context The context element to configure, must not be {@code null}.
+     */
+    private void configureExtraClasspath(WAR war, Element context)
+    {
+        String extraClasspath = TomcatUtils.getExtraClasspath(war, true);
+        if (extraClasspath != null)
+        {
+            Element loader = context.element("Loader");
+            if (loader == null)
+            {
+                loader = context.addElement("Loader");
+            }
+
+            String className =
+                loader.attributeValue("className", "org.apache.catalina.loader.WebappLoader");
+            if (!"org.apache.catalina.loader.WebappLoader".equals(className)
+                && !"org.apache.catalina.loader.VirtualWebappLoader".equals(className))
+            {
+                throw new CargoException("Extra classpath is not supported"
+                    + " for WARs using custom loader: " + className);
+            }
+            loader.addAttribute("className", "org.apache.catalina.loader.VirtualWebappLoader");
+
+            String virtualClasspath = loader.attributeValue("virtualClasspath", "");
+            if (virtualClasspath.length() <= 0)
+            {
+                virtualClasspath = extraClasspath;
+            }
+            else
+            {
+                virtualClasspath = extraClasspath + ";" + virtualClasspath;
+            }
+            loader.addAttribute("virtualClasspath", virtualClasspath);
         }
     }
 

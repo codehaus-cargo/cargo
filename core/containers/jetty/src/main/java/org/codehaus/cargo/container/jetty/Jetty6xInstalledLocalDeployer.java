@@ -27,6 +27,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.jetty.internal.JettyUtils;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
@@ -161,6 +162,7 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
         buffer.append("  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
             + "default=\".\"/>/etc/webdefault.xml</Set>\n");
         buffer.append("  <Set name=\"ConfigurationClasses\"><Ref id=\"plusConfig\"/></Set>\n");
+        buffer.append(getExtraClasspathXmlFragment(war));
         buffer.append(getSharedClasspathXmlFragment());
         buffer.append("</Configure>\n");
         return buffer.toString();
@@ -190,6 +192,21 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
             }
         }
 
+        return buffer.toString();
+    }
+
+    /**
+     * @param war The WAR being deployed, must not be {@code null}.
+     * @return The XML fragment for WAR extra classpath
+     */
+    protected String getExtraClasspathXmlFragment(WAR war)
+    {
+        StringBuilder buffer = new StringBuilder();
+        String extraClasspath = JettyUtils.getExtraClasspath(war, true);
+        if (extraClasspath != null)
+        {
+            buffer.append("  <Set name=\"extraClasspath\">" + extraClasspath + "</Set>\n");
+        }
         return buffer.toString();
     }
 }
