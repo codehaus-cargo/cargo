@@ -41,7 +41,7 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * Test for WAR extra classpath support.
  * 
- * @version $Id: WarExtraClasspathTest.java 3894 2014-10-26 22:10:09Z collignont $
+ * @version $Id$
  */
 public class WarExtraClasspathTest extends AbstractCargoTestCase
 {
