@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat8xConfigurationBuilder;
 
 /**
@@ -27,8 +28,7 @@ import org.codehaus.cargo.container.tomcat.internal.Tomcat8xConfigurationBuilder
  * 
  * @version $Id$
  */
-public class Tomcat8xStandaloneLocalConfiguration
-    extends Tomcat7xStandaloneLocalConfiguration
+public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLocalConfiguration
 {
     /**
      * {@inheritDoc}
@@ -39,6 +39,51 @@ public class Tomcat8xStandaloneLocalConfiguration
         super(dir);
 
         configurationBuilder = new Tomcat8xConfigurationBuilder();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getExtraClasspathToken(WAR deployable)
+    {
+        String[] extraClasspath = deployable.getExtraClasspath();
+        if (extraClasspath == null || extraClasspath.length <= 0)
+        {
+            return "";
+        }
+        else
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.append("<Resources>");
+            for (String path : extraClasspath)
+            {
+                sb.append("<PostResources ");
+                sb.append("className=\"org.apache.catalina.webresources.DirResourceSet\" base=\"");
+                if (getFileHandler().isDirectory(path))
+                {
+                    sb.append(path.replace("&", "&amp;"));
+                }
+                else
+                {
+                    sb.append(getFileHandler().getParent(path).replace("&", "&amp;"));
+                    sb.append("\" internalPath=\"");
+                    sb.append(getFileHandler().getName(path).replace("&", "&amp;"));
+                }
+                sb.append("\" webAppMount=\"/WEB-INF/");
+                if (getFileHandler().isDirectory(path))
+                {
+                    sb.append("classes");
+                }
+                else
+                {
+                    sb.append("lib");
+                }
+                sb.append("\" />");
+            }
+            sb.append("</Resources>");
+            return sb.toString();
+        }
     }
 
     /**

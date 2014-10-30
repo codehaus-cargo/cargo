@@ -35,7 +35,6 @@ import org.codehaus.cargo.container.internal.util.PropertyUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xConfigurationBuilder;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6xStandaloneLocalConfigurationCapability;
@@ -262,15 +261,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
 
         contextTokenValue.append(">");
 
-        String extraClasspath = TomcatUtils.getExtraClasspath(deployable, true);
-        if (extraClasspath != null)
-        {
-            contextTokenValue.append("<Loader");
-            contextTokenValue
-                .append(" className=\"org.apache.catalina.loader.VirtualWebappLoader\"");
-            contextTokenValue.append(" virtualClasspath=\"" + extraClasspath + "\"");
-            contextTokenValue.append("/>");
-        }
+        contextTokenValue.append(getExtraClasspathToken(deployable));
 
         contextTokenValue.append("</Context>");
         return contextTokenValue.toString();
@@ -310,6 +301,18 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         replacements.put("server.loader=",
             "server.loader=${catalina.base}/server/classes,${catalina.base}/server/lib/*.jar,");
         return replacements;
+    }
+
+    /**
+     * Creates the extra classpath XML token.
+     * @param deployable Deployable to create extra classpath XML token for.
+     * @return Extra classpath XML token.
+     */
+    protected String getExtraClasspathToken(WAR deployable)
+    {
+        getLogger().warn("Tomcat 5.x doesn't support extra classpath on WARs",
+            this.getClass().getName());
+        return "";
     }
 
     /**

@@ -82,6 +82,7 @@ public class WarExtraClasspathTest extends AbstractCargoTestCase
         excludedContainerIds.add("jetty4x");
         excludedContainerIds.add("jetty5x");
         excludedContainerIds.add("tomcat4x");
+        excludedContainerIds.add("tomcat5x");
         suite.addTestSuite(WarExtraClasspathTest.class, new Validator[] {
             new StartsWithContainerValidator("jetty", "tomcat"), new HasWarSupportValidator(),
             new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator()},

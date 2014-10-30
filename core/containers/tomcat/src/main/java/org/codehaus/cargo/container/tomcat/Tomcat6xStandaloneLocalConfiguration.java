@@ -25,6 +25,8 @@ import java.util.Map;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
 
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -32,8 +34,7 @@ import org.codehaus.cargo.container.LocalContainer;
  * 
  * @version $Id$
  */
-public class Tomcat6xStandaloneLocalConfiguration
-    extends Tomcat5xStandaloneLocalConfiguration
+public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLocalConfiguration
 {
     /**
      * {@inheritDoc}
@@ -113,5 +114,27 @@ public class Tomcat6xStandaloneLocalConfiguration
         replacements.put("shared.loader=",
             "shared.loader=${catalina.base}/shared/classes,${catalina.base}/shared/lib/*.jar");
         return replacements;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getExtraClasspathToken(WAR deployable)
+    {
+        String extraClasspath = TomcatUtils.getExtraClasspath(deployable, true);
+        if (extraClasspath != null)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.append("<Loader");
+            sb.append(" className=\"org.apache.catalina.loader.VirtualWebappLoader\"");
+            sb.append(" virtualClasspath=\"" + extraClasspath + "\"");
+            sb.append("/>");
+            return sb.toString();
+        }
+        else
+        {
+            return "";
+        }
     }
 }

@@ -32,8 +32,7 @@ import org.codehaus.cargo.container.tomcat.internal.Tomcat7x8xStandaloneLocalCon
  * 
  * @version $Id$
  */
-public class Tomcat7xStandaloneLocalConfiguration
-    extends Tomcat6xStandaloneLocalConfiguration
+public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLocalConfiguration
 {
 
     /**
