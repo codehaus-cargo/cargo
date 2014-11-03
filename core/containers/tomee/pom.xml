@@ -24,9 +24,9 @@
     <version>1.4.11-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-core-container-tomee</artifactId>
-  <name>Cargo Core Tomee Container</name>
+  <name>Cargo Core TomEE Container</name>
   <packaging>jar</packaging>
-  <description>Core API implementation for tomee containers</description>
+  <description>Core API implementation for TomEE containers</description>
   
   <dependencies>
 	<dependency>
@@ -57,8 +57,10 @@
                     org/codehaus/cargo/container/internal/resources/tomcat/*,
                     org/codehaus/cargo/container/internal/resources/tomcat4x/*,
                     org/codehaus/cargo/container/internal/resources/tomcat5x/*,
-                    org/codehaus/cargo/container/tomcat/Tomcat*,
-                    org/codehaus/cargo/container/tomcat/internal/*,
+                    org/codehaus/cargo/container/tomcat/Tomcat5x*,
+                    org/codehaus/cargo/container/tomcat/Tomcat6x*,
+                    org/codehaus/cargo/container/tomcat/Tomcat7x*,
+                    org/codehaus/cargo/container/tomcat/internal/*
                   </includes>
                   <overWrite>false</overWrite>
                 </artifactItem>

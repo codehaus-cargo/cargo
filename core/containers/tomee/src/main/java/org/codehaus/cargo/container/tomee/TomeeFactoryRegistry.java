@@ -1,3 +1,22 @@
+/*
+ * ========================================================================
+ *
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * ========================================================================
+ */
 package org.codehaus.cargo.container.tomee;
 
 import org.codehaus.cargo.container.ContainerType;
@@ -9,11 +28,9 @@ import org.codehaus.cargo.container.packager.PackagerType;
 import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.container.tomcat.TomcatDirectoryPackager;
 import org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration;
-import org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration;
 import org.codehaus.cargo.container.tomcat.TomcatWAR;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat7x8xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.TomcatExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.tomcat.internal.TomcatRuntimeConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
@@ -26,7 +43,7 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 /**
  * Registers Tomee support into default factories.
  * 
- * @version $Id: TomeeFactoryRegistry 3897 2014-10-12 21:15:15Z collignont $
+ * @version $Id$
  */
 public class TomeeFactoryRegistry extends AbstractFactoryRegistry
 {
@@ -56,9 +73,6 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
         configurationCapabilityFactory.registerConfigurationCapability("tomee1x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             TomcatExistingLocalConfigurationCapability.class);
-        configurationCapabilityFactory.registerConfigurationCapability("tomee1x",
-            ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            TomcatRuntimeConfigurationCapability.class);
     }
 
     /**
@@ -69,12 +83,12 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ConfigurationFactory configurationFactory)
     {
-        configurationFactory.registerConfiguration("tomee1x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, Tomee1xStandaloneLocalConfiguration.class);
-        configurationFactory.registerConfiguration("tomee1x", ContainerType.INSTALLED,
-            ConfigurationType.EXISTING, TomcatExistingLocalConfiguration.class);
-        configurationFactory.registerConfiguration("tomee1x", ContainerType.REMOTE,
-            ConfigurationType.RUNTIME, TomcatRuntimeConfiguration.class);
+        configurationFactory.registerConfiguration("tomee1x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            Tomee1xStandaloneLocalConfiguration.class);
+        configurationFactory.registerConfiguration("tomee1x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            TomcatExistingLocalConfiguration.class);
     }
 
     /**
