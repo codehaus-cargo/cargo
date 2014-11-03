@@ -72,6 +72,7 @@
     <module>orion</module>
     <module>resin</module>
     <module>tomcat</module>
+    <module>tomee</module>
     <module>weblogic</module>
     <module>websphere</module>
     <module>wildfly</module>
