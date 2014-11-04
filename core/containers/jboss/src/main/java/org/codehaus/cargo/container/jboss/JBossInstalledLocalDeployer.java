@@ -45,13 +45,10 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
     }
 
     /**
-     * Specifies the directory where {@link org.codehaus.cargo.container.deployable.Deployable}s
-     * should be copied to. For JBoss container the target is the <code>deploy</code> directory.
-     * 
-     * @return Deployable directory for the container
+     * {@inheritDoc}. For JBoss container the target is the <code>deploy</code> directory.
      */
     @Override
-    public String getDeployableDir()
+    public String getDeployableDir(Deployable deployable)
     {
         String clustered = getContainer().getConfiguration().
                                  getPropertyValue(JBossPropertySet.CLUSTERED);
@@ -94,20 +91,20 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
         if (deployable.getType() == DeployableType.WAR)
         {
             WAR war = (WAR) deployable;
-            undeployFile(getDeployableDir(), war.getContext() + ".war");
+            undeployFile(getDeployableDir(deployable), war.getContext() + ".war");
         }
 
         else if (deployable.getType() == DeployableType.EAR)
         {
             EAR ear = (EAR) deployable;
-            undeployFile(getDeployableDir(), ear.getName() + ".ear");
+            undeployFile(getDeployableDir(deployable), ear.getName() + ".ear");
         }
 
         else if (deployable.getType() == DeployableType.FILE
                 || deployable.getType() == DeployableType.SAR)
         {
             String fileName = getFileHandler().getName(deployable.getFile());
-            undeployFile(getDeployableDir(), fileName);
+            undeployFile(getDeployableDir(deployable), fileName);
         }
 
         else

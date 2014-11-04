@@ -19,7 +19,12 @@
  */
 package org.codehaus.cargo.container.tomee;
 
+import java.util.HashMap;
+import java.util.Map;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.tomcat.Tomcat7xStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
 
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -38,6 +43,8 @@ public class Tomee1xStandaloneLocalConfiguration extends Tomcat7xStandaloneLocal
     public Tomee1xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+
+        setProperty(TomeePropertySet.APPS_DIRECTORY, "apps");
     }
 
     /**
@@ -52,12 +59,43 @@ public class Tomee1xStandaloneLocalConfiguration extends Tomcat7xStandaloneLocal
     }
 
     /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
+     */
+    @Override
+    protected void doConfigure(LocalContainer container) throws Exception
+    {
+        super.doConfigure(container);
+
+        String apps = getPropertyValue(TomeePropertySet.APPS_DIRECTORY);
+        String tomeeXml = getFileHandler().append(getHome(), "conf/tomee.xml");
+        Map<String, String> replacements = new HashMap<String, String>(1);
+        replacements.put(
+            "<!-- activate next line to be able to deploy applications in apps -->",
+            "<!-- activate deployment applications in " +  apps + " directory -->");
+        replacements.put(
+            "<!-- <Deployments dir=\"apps\" /> -->",
+            "<Deployments dir=\"" +  apps + "\" />");
+        getFileHandler().replaceInFile(tomeeXml, replacements, "UTF-8");
+    }
+
+    /**
      * {@inheritDoc} Tomee provide it's own transaction factory with openejb, so we don't add
      * org.objectweb.jotm.UserTransactionFactory unlike Tomcat
      */
     @Override
     protected void setupTransactionManager()
     {
+        // Nothing
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected TomcatCopyingInstalledLocalDeployer createDeployer(LocalContainer container)
+    {
+        return new Tomee1xCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
     }
 
 }

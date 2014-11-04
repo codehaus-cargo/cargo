@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.resin;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
@@ -39,13 +40,10 @@ public class ResinInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
     }
 
     /**
-     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should be
-     * copied to. For Resin this is the <code>webapps</code> directory.
-     * 
-     * @return Deployable directory
+     * {@inheritDoc}. For Resin this is the <code>webapps</code> directory.
      */
     @Override
-    public String getDeployableDir()
+    public String getDeployableDir(Deployable deployable)
     {
         return getFileHandler().append(getContainer().getConfiguration().getHome(), "webapps");
     }

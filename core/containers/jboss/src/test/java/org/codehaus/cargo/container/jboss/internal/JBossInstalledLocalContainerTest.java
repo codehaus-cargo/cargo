@@ -148,7 +148,7 @@ public class JBossInstalledLocalContainerTest extends TestCase
         String expected = this.fileHandler.append(CONFIGURATION_HOME, "farm");
 
         JBossInstalledLocalDeployer deployer = new JBossInstalledLocalDeployer(this.container);
-        assertEquals(expected, deployer.getDeployableDir());
+        assertEquals(expected, deployer.getDeployableDir(null));
     }
 
     /**

@@ -84,17 +84,16 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
         // If necessary, warn the user about this deployer's limitations
         warn();
 
-        String deployableFilename = getDeployableDir() + "/" + getDeployableName(deployable);
+        String deployableFilename =
+            getDeployableDir(deployable) + "/" + getDeployableName(deployable);
         getFileHandler().delete(deployableFilename);
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#getDeployableDir()
+     * {@inheritDoc}. For JOnAS 5.x this is the <code>deploy</code> directory.
      */
     @Override
-    public String getDeployableDir()
+    public String getDeployableDir(Deployable deployable)
     {
         return getContainer().getConfiguration().getHome() + "/deploy";
     }

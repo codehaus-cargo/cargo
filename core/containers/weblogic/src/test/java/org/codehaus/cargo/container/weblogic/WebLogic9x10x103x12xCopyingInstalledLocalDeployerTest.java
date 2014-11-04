@@ -120,7 +120,7 @@ public class WebLogic9x10x103x12xCopyingInstalledLocalDeployerTest extends TestC
     public void testDeployableDirIsAutoDeploy()
     {
         // convert so that file paths match in windows os
-        String name = this.deployer.getDeployableDir().replaceAll("\\\\", "/");
+        String name = this.deployer.getDeployableDir(null).replaceAll("\\\\", "/");
         assertEquals(DOMAIN_HOME + "/autodeploy", name);
     }
 }

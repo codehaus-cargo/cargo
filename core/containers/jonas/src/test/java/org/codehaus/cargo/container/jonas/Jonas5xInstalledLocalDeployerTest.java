@@ -120,11 +120,11 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
     }
 
     /**
-     * Test {@link Jonas5xInstalledLocalDeployer#getDeployableDir()}
+     * Test the <code>getDeployableDir</code> method.
      */
     public void testGetDeployableDir()
     {
-        assertEquals(JONAS_BASE + "/deploy", deployer.getDeployableDir());
+        assertEquals(JONAS_BASE + "/deploy", deployer.getDeployableDir(null));
     }
 
     /**
@@ -136,7 +136,7 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
         EJB ejb = (EJB) factory.createDeployable("jonas5x", "ram:///test.jar", DeployableType.EJB);
 
         deployer.deploy(ejb);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.jar"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(ejb) + "/test.jar"));
     }
 
     /**
@@ -151,7 +151,7 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
         ear.setName("test");
 
         deployer.deploy(ear);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.ear"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(ear) + "/test.ear"));
     }
 
     /**
@@ -163,7 +163,7 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
         WAR war = (WAR) factory.createDeployable("jonas5x", "ram:///test.war", DeployableType.WAR);
 
         deployer.deploy(war);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.war"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(war) + "/test.war"));
     }
 
     /**
@@ -175,7 +175,7 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
         RAR rar = (RAR) factory.createDeployable("jonas5x", "ram:///test.rar", DeployableType.RAR);
 
         deployer.deploy(rar);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.rar"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(rar) + "/test.rar"));
     }
 
     /**
@@ -188,7 +188,7 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
             DeployableType.FILE);
 
         deployer.deploy(file);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.extension"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(file) + "/test.extension"));
     }
 
     /**
@@ -201,6 +201,6 @@ public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
             DeployableType.BUNDLE);
 
         deployer.deploy(bundle);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/test.jar"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(bundle) + "/test.jar"));
     }
 }

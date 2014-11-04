@@ -112,7 +112,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
         if (!canBeDeployed(deployable))
         {
             throw new ContainerException("Failed to deploy [" + deployable.getFile() + "] to ["
-                + getDeployableDir() + "]. The required web context is already in use"
+                + getDeployableDir(deployable) + "]. The required web context is already in use"
                 + " by another application.");
         }
 
@@ -124,7 +124,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
                 + "]. Got [" + deployable.getFile() + "]");
         }
 
-        String deployableDir = getDeployableDir();
+        String deployableDir = getDeployableDir(deployable);
 
         try
         {
@@ -222,9 +222,10 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
      * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should be
      * copied to.
      * 
+     * @param deployable Deployable to deploy.
      * @return Deployable directory
      */
-    public abstract String getDeployableDir();
+    public abstract String getDeployableDir(Deployable deployable);
 
     /**
      * Do the actual deployment. This can be overriden.

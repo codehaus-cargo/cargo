@@ -169,7 +169,7 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
 
         setupAdminColdDeployment();
         deployer.deploy(ejb);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/ejbjars/autoload/test.jar"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(ejb) + "/autoload/test.jar"));
     }
 
     /**
@@ -182,7 +182,7 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
 
         setupAdminHotDeployment();
         deployer.deploy(ejb);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/ejbjars/test.jar"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(ejb) + "/test.jar"));
     }
 
     /**
@@ -201,7 +201,7 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
         }
         catch (CargoException expected)
         {
-            assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/ejbjars/test.jar"));
+            assertTrue(fileHandler.exists(deployer.getDeployableDir(ejb) + "/test.jar"));
         }
     }
 
@@ -218,8 +218,8 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
 
         setupAdminColdDeployment();
         deployer.deploy(ear);
-        assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/apps/simple-ear.ear"));
-        assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/apps/autoload/test.ear"));
+        assertFalse(fileHandler.exists(deployer.getDeployableDir(ear) + "/simple-ear.ear"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(ear) + "/autoload/test.ear"));
     }
 
     /**
@@ -235,8 +235,8 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
 
         setupAdminHotDeployment();
         deployer.deploy(ear);
-        assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/apps/simple-ear.ear"));
-        assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/apps/test.ear"));
+        assertFalse(fileHandler.exists(deployer.getDeployableDir(ear) + "/simple-ear.ear"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(ear) + "/test.ear"));
     }
 
     /**
@@ -258,8 +258,8 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
         }
         catch (CargoException expected)
         {
-            assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/apps/simple-ear.ear"));
-            assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/apps/test.ear"));
+            assertFalse(fileHandler.exists(deployer.getDeployableDir(ear) + "/simple-ear.ear"));
+            assertTrue(fileHandler.exists(deployer.getDeployableDir(ear) + "/test.ear"));
         }
     }
 
@@ -274,9 +274,9 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
 
         setupAdminColdDeployment();
         deployer.deploy(war);
-        assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/webapps/autoload/test.war"));
-        assertTrue(fileHandler.exists(deployer.getDeployableDir()
-            + "/webapps/autoload/testContext.war"));
+        assertFalse(fileHandler.exists(deployer.getDeployableDir(war) + "/autoload/test.war"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(war)
+            + "/autoload/testContext.war"));
     }
 
     /**
@@ -290,8 +290,8 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
 
         setupAdminHotDeployment();
         deployer.deploy(war);
-        assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/webapps/test.war"));
-        assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/webapps/testContext.war"));
+        assertFalse(fileHandler.exists(deployer.getDeployableDir(war) + "/test.war"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(war) + "/testContext.war"));
     }
 
     /**
@@ -311,9 +311,8 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
         }
         catch (CargoException expected)
         {
-            assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/webapps/test.war"));
-            assertTrue(fileHandler.exists(deployer.getDeployableDir()
-                + "/webapps/testContext.war"));
+            assertFalse(fileHandler.exists(deployer.getDeployableDir(war) + "/test.war"));
+            assertTrue(fileHandler.exists(deployer.getDeployableDir(war) + "/testContext.war"));
         }
     }
 
@@ -330,10 +329,10 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
 
         setupAdminColdDeployment();
         deployer.deploy(war);
-        assertFalse(fileHandler.exists(deployer.getDeployableDir()
-            + "/webapps/autoload/testExpandedWar"));
-        assertTrue(fileHandler.exists(deployer.getDeployableDir()
-            + "/webapps/autoload/testExpandedWarContext"));
+        assertFalse(fileHandler.exists(deployer.getDeployableDir(war)
+            + "/autoload/testExpandedWar"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(war)
+            + "/autoload/testExpandedWarContext"));
     }
 
     /**
@@ -349,9 +348,9 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
 
         setupAdminHotDeployment();
         deployer.deploy(war);
-        assertFalse(fileHandler.exists(deployer.getDeployableDir() + "/webapps/testExpandedWar"));
-        assertTrue(fileHandler.exists(deployer.getDeployableDir()
-            + "/webapps/testExpandedWarContext"));
+        assertFalse(fileHandler.exists(deployer.getDeployableDir(war) + "/testExpandedWar"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(war)
+            + "/testExpandedWarContext"));
     }
 
     /**
@@ -373,10 +372,9 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
         }
         catch (CargoException expected)
         {
-            assertFalse(fileHandler.exists(deployer.getDeployableDir()
-                + "/webapps/testExpandedWar"));
-            assertTrue(fileHandler.exists(deployer.getDeployableDir()
-                + "/webapps/testExpandedWarContext"));
+            assertFalse(fileHandler.exists(deployer.getDeployableDir(war) + "/testExpandedWar"));
+            assertTrue(fileHandler.exists(deployer.getDeployableDir(war)
+                + "/testExpandedWarContext"));
         }
     }
 
@@ -390,7 +388,7 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
 
         setupAdminColdDeployment();
         deployer.deploy(rar);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/rars/autoload/test.rar"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(rar) + "/autoload/test.rar"));
     }
 
     /**
@@ -403,7 +401,7 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
 
         setupAdminHotDeployment();
         deployer.deploy(rar);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/rars/test.rar"));
+        assertTrue(fileHandler.exists(deployer.getDeployableDir(rar) + "/test.rar"));
     }
 
     /**
@@ -422,16 +420,30 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
         }
         catch (CargoException expected)
         {
-            assertTrue(fileHandler.exists(deployer.getDeployableDir() + "/rars/test.rar"));
+            assertTrue(fileHandler.exists(deployer.getDeployableDir(rar) + "/test.rar"));
         }
     }
 
     /**
-     * Test {@link Jonas4xInstalledLocalDeployer#getDeployableDir()}
+     * Test the <code>getDeployableDir</code> method.
      */
     public void testGetDeployableDir()
     {
-        assertEquals(JONAS_BASE, deployer.getDeployableDir());
+        this.fileHandler.createFile("ram:///test.jar");
+        EJB ejb = (EJB) factory.createDeployable("jonas4x", "ram:///test.jar", DeployableType.EJB);
+        assertEquals(JONAS_BASE + "/ejbjars", deployer.getDeployableDir(ejb));
+
+        this.fileHandler.createFile("ram:///test.ear");
+        EAR ear = (EAR) factory.createDeployable("jonas4x", "ram:///test.ear", DeployableType.EAR);
+        assertEquals(JONAS_BASE + "/apps", deployer.getDeployableDir(ear));
+
+        this.fileHandler.createFile("ram:///test.war");
+        WAR war = (WAR) factory.createDeployable("jonas4x", "ram:///test.war", DeployableType.WAR);
+        assertEquals(JONAS_BASE + "/webapps", deployer.getDeployableDir(war));
+
+        this.fileHandler.createFile("ram:///test.rar");
+        RAR rar = (RAR) factory.createDeployable("jonas4x", "ram:///test.rar", DeployableType.RAR);
+        assertEquals(JONAS_BASE + "/rars", deployer.getDeployableDir(rar));
     }
 
 }

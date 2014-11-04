@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.jo;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
@@ -39,13 +40,10 @@ public class Jo1xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDep
     }
 
     /**
-     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should be
-     * copied to. For jo! this is the <code>webapp/host</code> directory.
-     * 
-     * @return Deployable directory
+     * {@inheritDoc}. For jo! this is the <code>webapp/host</code> directory.
      */
     @Override
-    public String getDeployableDir()
+    public String getDeployableDir(Deployable deployable)
     {
         return getFileHandler().append(getContainer().getConfiguration().getHome(), "webapp/host");
     }

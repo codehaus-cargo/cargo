@@ -23,11 +23,9 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployer.DeployerType;
-import org.codehaus.cargo.container.internal.ServletContainerCapability;
+import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.packager.PackagerType;
-import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.container.tomcat.TomcatDirectoryPackager;
-import org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.TomcatWAR;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat7x8xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.TomcatExistingLocalConfigurationCapability;
@@ -88,7 +86,7 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
             Tomee1xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("tomee1x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            TomcatExistingLocalConfiguration.class);
+            Tomee1xExistingLocalConfiguration.class);
     }
 
     /**
@@ -100,7 +98,7 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
     protected void register(DeployerFactory deployerFactory)
     {
         deployerFactory.registerDeployer("tomee1x", DeployerType.INSTALLED,
-            TomcatCopyingInstalledLocalDeployer.class);
+            Tomee1xCopyingInstalledLocalDeployer.class);
     }
 
     /**
@@ -124,7 +122,7 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
     protected void register(ContainerCapabilityFactory containerCapabilityFactory)
     {
         containerCapabilityFactory.registerContainerCapability("tomee1x",
-            ServletContainerCapability.class);
+            J2EEContainerCapability.class);
     }
 
     /**

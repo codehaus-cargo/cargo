@@ -77,7 +77,7 @@ public class JRun4xExistingLocalConfiguration extends AbstractExistingLocalConfi
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory.
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-            new File(deployer.getDeployableDir(), "cargocpc.war"));
+            new File(deployer.getDeployableDir(null), "cargocpc.war"));
     }
 
     /**

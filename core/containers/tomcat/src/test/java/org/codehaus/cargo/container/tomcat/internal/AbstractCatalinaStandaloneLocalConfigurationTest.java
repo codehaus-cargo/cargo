@@ -21,10 +21,7 @@ package org.codehaus.cargo.container.tomcat.internal;
 
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
-import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfigurationWithConfigurationBuilderTest;
-import org.codehaus.cargo.container.tomcat.Tomcat4xStandaloneLocalConfiguration;
-import org.codehaus.cargo.util.CargoException;
 
 /**
  * Unit tests for Tomcat standalone local configurations.
@@ -109,28 +106,6 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     public void testEscapePathWithPartialWindowsPath()
     {
         testEscapePath("Documents\\java", "Documents/java");
-    }
-
-    /**
-     * Test that EARs cannot be deployed.
-     */
-    public void testCreateTomcatWebappsTokenWhenTryingToDeployAnEar()
-    {
-        Tomcat4xStandaloneLocalConfiguration configuration =
-            new Tomcat4xStandaloneLocalConfiguration("somewhere");
-        configuration.addDeployable(new EAR("some.ear"));
-
-        try
-        {
-            configuration.createTomcatWebappsToken();
-            fail("An exception should have been raised here!");
-        }
-        catch (CargoException expected)
-        {
-            assertEquals(
-                "Only WAR archives are supported for deployment in Tomcat. Got [some.ear]",
-                expected.getMessage());
-        }
     }
 
     /**

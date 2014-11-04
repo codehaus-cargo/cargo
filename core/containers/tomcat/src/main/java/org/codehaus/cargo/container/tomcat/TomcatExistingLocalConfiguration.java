@@ -47,7 +47,7 @@ import org.codehaus.cargo.util.CargoException;
 public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {
     /**
-     * Capability of the Tomcat exisiting configuration.
+     * Capability of the Tomcat existing configuration.
      */
     private static ConfigurationCapability capability =
         new TomcatExistingLocalConfigurationCapability();
@@ -169,8 +169,6 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
         }
         else
         {
-            InstalledLocalContainer tomcatContainer = (InstalledLocalContainer) container;
-
             File webappsDir = new File(getHome(),
                 getPropertyValue(TomcatPropertySet.WEBAPPS_DIRECTORY));
 
@@ -180,8 +178,7 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
                     + webappsDir.getPath() + "] directory does not exist");
             }
 
-            TomcatCopyingInstalledLocalDeployer deployer =
-                new TomcatCopyingInstalledLocalDeployer(tomcatContainer);
+            TomcatCopyingInstalledLocalDeployer deployer = createDeployer(container);
             deployer.setShouldCopyWars(true);
             deployer.deploy(getDeployables());
 
@@ -209,5 +206,16 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
     public String toString()
     {
         return "Tomcat Existing Configuration";
+    }
+
+    /**
+     * Creates the Tomcat deployer.
+     * 
+     * @param container Container to create a deployer for.
+     * @return Tomcat deployer.
+     */
+    protected TomcatCopyingInstalledLocalDeployer createDeployer(LocalContainer container)
+    {
+        return new TomcatCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
     }
 }

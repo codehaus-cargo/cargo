@@ -24,6 +24,7 @@ import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.util.CargoException;
@@ -100,7 +101,7 @@ public class CopyingDeployerTest extends MockObjectTestCase
          * @return Mock directory.
          */
         @Override
-        public String getDeployableDir()
+        public String getDeployableDir(Deployable deployable)
         {
             return "ram:///webapps";
         }
@@ -126,7 +127,7 @@ public class CopyingDeployerTest extends MockObjectTestCase
          * @return Mock directory.
          */
         @Override
-        public String getDeployableDir()
+        public String getDeployableDir(Deployable deployable)
         {
             return "ram:///webapps-nonexisting";
         }

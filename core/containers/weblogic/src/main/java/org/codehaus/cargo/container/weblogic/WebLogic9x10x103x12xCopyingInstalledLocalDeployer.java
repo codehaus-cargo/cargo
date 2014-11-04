@@ -48,13 +48,10 @@ public class WebLogic9x10x103x12xCopyingInstalledLocalDeployer extends
     }
 
     /**
-     * Specifies the directory where {@link org.codehaus.cargo.container.deployable.Deployable}s
-     * should be copied to. For WebLogic container the target is the auto-deploy directory.
-     * 
-     * @return Deployable directory for the container
+     * {@inheritDoc}. For WebLogic container the target is the <code>auto-deploy</code> directory.
      */
     @Override
-    public String getDeployableDir()
+    public String getDeployableDir(Deployable deployable)
     {
         WebLogicLocalContainer container = (WebLogicLocalContainer) getContainer();
         return new File(container.getConfiguration().getHome(),
@@ -92,7 +89,8 @@ public class WebLogic9x10x103x12xCopyingInstalledLocalDeployer extends
             return;
         }
         WAR war = (WAR) deployable;
-        String fileName = getFileHandler().append(getDeployableDir(), war.getContext() + ".war");
+        String fileName =
+            getFileHandler().append(getDeployableDir(deployable), war.getContext() + ".war");
         if (getFileHandler().exists(fileName))
         {
             getLogger().info("Undeploying [" + fileName + "]...", this.getClass().getName());

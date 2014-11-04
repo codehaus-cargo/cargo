@@ -227,8 +227,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
                     getPropertyValue(TomcatPropertySet.WEBAPPS_DIRECTORY));
 
                 // Deploy all deployables into the webapps directory.
-                TomcatCopyingInstalledLocalDeployer deployer =
-                    new TomcatCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
+                TomcatCopyingInstalledLocalDeployer deployer = createDeployer(container);
                 deployer.setShouldCopyWars(Boolean.parseBoolean(
                     getPropertyValue(TomcatPropertySet.COPY_WARS)));
                 deployer.deploy(getDeployables());
@@ -280,27 +279,24 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     {
         // Add webapp contexts in order to explicitely point to where the
         // wars are located.
-        StringBuilder webappTokenValue = new StringBuilder(" ");
+        StringBuilder webappTokenValue = new StringBuilder("");
 
         // Determine whether to copyWars on deployment
         boolean copyWars = Boolean.parseBoolean(getPropertyValue(TomcatPropertySet.COPY_WARS));
 
-        for (Deployable deployable : getDeployables())
+        if (!copyWars)
         {
-            if (deployable.getType() != DeployableType.WAR)
+            for (Deployable deployable : getDeployables())
             {
-                throw new ContainerException("Only WAR archives are supported for deployment "
-                    + "in Tomcat. Got [" + deployable.getFile() + "]");
+                // Do not create tokens for WARs which are copied to the webapps directory:
+                // either by configuration or when containing a context file.
+                if (DeployableType.WAR.equals(deployable.getType())
+                    && !TomcatUtils.containsContextFile(deployable))
+                {
+                    webappTokenValue.append(createContextToken((WAR) deployable));
+                    webappTokenValue.append("\n");
+                }
             }
-
-            // Do not create tokens for WARs which are copied to the webapps directory:
-            // either by configuration or when containing a context file.
-            if (copyWars || TomcatUtils.containsContextFile(deployable))
-            {
-                continue;
-            }
-
-            webappTokenValue.append(createContextToken((WAR) deployable));
         }
 
         return webappTokenValue.toString();
@@ -439,5 +435,16 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     protected Map<String, String> getNamespaces()
     {
         return Collections.emptyMap();
+    }
+
+    /**
+     * Creates the Tomcat deployer.
+     * 
+     * @param container Container to create a deployer for.
+     * @return Tomcat deployer.
+     */
+    protected TomcatCopyingInstalledLocalDeployer createDeployer(LocalContainer container)
+    {
+        return new TomcatCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
     }
 }

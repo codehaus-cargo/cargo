@@ -49,14 +49,10 @@ public class JBoss7xInstalledLocalDeployer extends JBossInstalledLocalDeployer
     }
 
     /**
-     * Specifies the directory where {@link Deployable}s
-     * should be copied to. For JBoss container the target is the <code>deployments</code>
-     * directory.
-     * 
-     * @return Deployable directory for the container
+     * {@inheritDoc}. For JBoss container the target is the <code>deployments</code> directory.
      */
     @Override
-    public String getDeployableDir()
+    public String getDeployableDir(Deployable deployable)
     {
         String altDeployDir = getContainer().getConfiguration().
         getPropertyValue(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR);

@@ -47,13 +47,10 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     }
 
     /**
-     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should be
-     * copied to. For Jetty this is the <code>webapps</code> directory.
-     * 
-     * @return Deployable the directory to deploy to
+     * {@inheritDoc}. For Jetty this is the <code>webapps</code> directory.
      */
     @Override
-    public String getDeployableDir()
+    public String getDeployableDir(Deployable deployable)
     {
         return getFileHandler().append(getContainer().getConfiguration().getHome(), "webapps");
     }

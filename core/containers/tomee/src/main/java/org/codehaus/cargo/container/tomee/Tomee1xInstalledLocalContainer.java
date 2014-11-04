@@ -19,18 +19,17 @@
  */
 package org.codehaus.cargo.container.tomee;
 
-import java.io.File;
-
+import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
-import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaInstalledLocalContainer;
+import org.codehaus.cargo.container.internal.J2EEContainerCapability;
+import org.codehaus.cargo.container.tomcat.Tomcat7xInstalledLocalContainer;
 
 /**
  * Special container support for the Apache TomEE 1.x servlet container.
  * 
  * @version $Id$
  */
-public class Tomee1xInstalledLocalContainer extends AbstractCatalinaInstalledLocalContainer
+public class Tomee1xInstalledLocalContainer extends Tomcat7xInstalledLocalContainer
 {
     /**
      * Unique container id.
@@ -38,9 +37,14 @@ public class Tomee1xInstalledLocalContainer extends AbstractCatalinaInstalledLoc
     public static final String ID = "tomee1x";
 
     /**
+     * Capability of the TomEE container.
+     */
+    private ContainerCapability capability = new J2EEContainerCapability();
+
+    /**
      * {@inheritDoc}
      * 
-     * @see AbstractCatalinaInstalledLocalContainer#AbstractCatalinaInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see Tomcat7xInstalledLocalContainer#Tomcat7xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Tomee1xInstalledLocalContainer(LocalConfiguration configuration)
     {
@@ -52,7 +56,8 @@ public class Tomee1xInstalledLocalContainer extends AbstractCatalinaInstalledLoc
      * 
      * @see org.codehaus.cargo.container.Container#getId()
      */
-    public final String getId()
+    @Override
+    public String getId()
     {
         return ID;
     }
@@ -62,22 +67,20 @@ public class Tomee1xInstalledLocalContainer extends AbstractCatalinaInstalledLoc
      * 
      * @see org.codehaus.cargo.container.Container#getName()
      */
-    public final String getName()
+    @Override
+    public String getName()
     {
         return "TomEE " + getVersion("1.x");
     }
 
     /**
-     * Add the <code>tomcat-juli.jar</code> file to classpath and call parent.
+     * {@inheritDoc}
      * 
-     * @param action Either 'start' or 'stop'
-     * @param java the prepared Ant Java command that will be executed
-     * @exception Exception in case of container invocation error
+     * @see org.codehaus.cargo.container.Container#getCapability()
      */
     @Override
-    protected void invokeContainer(String action, JvmLauncher java) throws Exception
+    public ContainerCapability getCapability()
     {
-        java.addClasspathEntries(new File(getHome(), "bin/tomcat-juli.jar"));
-        super.invokeContainer(action, java);
+        return this.capability;
     }
 }

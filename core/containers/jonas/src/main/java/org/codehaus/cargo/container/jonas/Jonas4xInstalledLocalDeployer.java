@@ -66,39 +66,18 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     }
 
     /**
-     * {@inheritDoc}. We override the base implementation because JOnAS 4 has different folders for
-     * different deployable types.
+     * {@inheritDoc}. We override the base implementation because JOnAS 4.x handles hot deployment
+     * differently than just copying files over.
      */
     @Override
     protected void doDeploy(String deployableDir, Deployable deployable)
     {
         String jonasDeployableDir = deployableDir;
-        if (DeployableType.WAR.equals(deployable.getType()))
-        {
-            jonasDeployableDir += "/webapps";
-        }
-        else if (DeployableType.EAR.equals(deployable.getType()))
-        {
-            jonasDeployableDir += "/apps";
-        }
-        else if (DeployableType.EJB.equals(deployable.getType()))
-        {
-            jonasDeployableDir += "/ejbjars";
-        }
-        else if (DeployableType.RAR.equals(deployable.getType()))
-        {
-            jonasDeployableDir += "/rars";
-        }
-        else
-        {
-            throw new ContainerException("Container " + getContainer().getName()
-                + " cannot deploy " + deployable.getType() + " deployables");
-        }
 
         boolean isRunning = admin.isServerRunning("ping", 0);
         if (!isRunning)
         {
-            jonasDeployableDir += "/autoload";
+            jonasDeployableDir = getFileHandler().append(jonasDeployableDir, "autoload");
         }
 
         super.doDeploy(jonasDeployableDir, deployable);
@@ -140,50 +119,34 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractCopyingInstalledLocalDeployer#getDeployableDir()
+     * {@inheritDoc}. For JOnAS 4.x this is the <code>apps</code> directory for EARs,
+     * <code>ejbjars</code> directory for EJBs, <code>rars</code> directory for RARs and the
+     * <code>webapps</code> directory for WARs.
      */
     @Override
-    public String getDeployableDir()
+    public String getDeployableDir(Deployable deployable)
     {
-        // not the real exact deployment dir since under JOnAS they depends on the
-        // deployable type and this information is not provided as method input parameter,
-        // returned string is used as a base for overriden deployXXX methods
-        return getContainer().getConfiguration().getHome();
-    }
-
-    /**
-     * This Interface allows copying the deployable archive file to the JOnAS directory.
-     */
-    private interface CopyingDeployable
-    {
-        /**
-         * Copy the Deployable archive file to the deployable directory.
-         * 
-         * @param deployableDir the deployable directory
-         * @param deployable deployable to deploy
-         */
-        void copyDeployable(String deployableDir, Deployable deployable);
-    }
-
-    /**
-     * Generic class to allow copying the deployable archive file.
-     */
-    private class GenericCopyingDeployable implements CopyingDeployable
-    {
-        /**
-         * {@inheritDoc}
-         * 
-         * @see org.codehaus.cargo.container.jonas.Deployer.GenericCopyingDeployable#copyDeployable(String,
-         * Deployable)
-         */
-        public void copyDeployable(String deployableDir, Deployable deployable)
+        String jonasDeployableDir = getContainer().getConfiguration().getHome();
+        if (DeployableType.WAR.equals(deployable.getType()))
         {
-            getFileHandler().copyFile(
-                deployable.getFile(),
-                getFileHandler().append(deployableDir,
-                    getFileHandler().getName(deployable.getFile())));
+            return getFileHandler().append(jonasDeployableDir, "webapps");
+        }
+        else if (DeployableType.EAR.equals(deployable.getType()))
+        {
+            return getFileHandler().append(jonasDeployableDir, "apps");
+        }
+        else if (DeployableType.EJB.equals(deployable.getType()))
+        {
+            return getFileHandler().append(jonasDeployableDir, "ejbjars");
+        }
+        else if (DeployableType.RAR.equals(deployable.getType()))
+        {
+            return getFileHandler().append(jonasDeployableDir, "rars");
+        }
+        else
+        {
+            throw new ContainerException("Container " + getContainer().getName()
+                + " cannot deploy " + deployable.getType() + " deployables");
         }
     }
 }
