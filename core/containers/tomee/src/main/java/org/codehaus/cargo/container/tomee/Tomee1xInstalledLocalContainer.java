@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.tomee;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.tomcat.Tomcat7xInstalledLocalContainer;
 
 /**
@@ -39,7 +38,7 @@ public class Tomee1xInstalledLocalContainer extends Tomcat7xInstalledLocalContai
     /**
      * Capability of the TomEE container.
      */
-    private ContainerCapability capability = new J2EEContainerCapability();
+    private ContainerCapability capability = new Tomee1xContainerCapability();
 
     /**
      * {@inheritDoc}

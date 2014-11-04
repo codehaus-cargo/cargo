@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployer.DeployerType;
-import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.packager.PackagerType;
 import org.codehaus.cargo.container.tomcat.TomcatDirectoryPackager;
 import org.codehaus.cargo.container.tomcat.TomcatWAR;
@@ -122,7 +121,7 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
     protected void register(ContainerCapabilityFactory containerCapabilityFactory)
     {
         containerCapabilityFactory.registerContainerCapability("tomee1x",
-            J2EEContainerCapability.class);
+            Tomee1xContainerCapability.class);
     }
 
     /**
