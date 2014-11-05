@@ -54,6 +54,9 @@ public class WebSphere85xStandaloneLocalConfigurationCapability
         this.defaultSupportsMap.put(WebSpherePropertySet.SERVER, Boolean.TRUE);
 
         this.defaultSupportsMap.put(WebSpherePropertySet.PROCESSOR_ARCH, Boolean.TRUE);
+
+        this.defaultSupportsMap.put(WebSpherePropertySet.CLASSLOADER_MODE, Boolean.TRUE);
+        this.defaultSupportsMap.put(WebSpherePropertySet.WAR_CLASSLOADER_POLICY, Boolean.TRUE);
     }
 
     /**

@@ -58,6 +58,9 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
         setProperty(WebSpherePropertySet.CELL, "cargoNodeCell");
         setProperty(WebSpherePropertySet.NODE, "cargoNode");
         setProperty(WebSpherePropertySet.SERVER, "cargoServer");
+
+        setProperty(WebSpherePropertySet.CLASSLOADER_MODE, "PARENT_FIRST");
+        setProperty(WebSpherePropertySet.WAR_CLASSLOADER_POLICY, "MULTIPLE");
     }
 
     /**

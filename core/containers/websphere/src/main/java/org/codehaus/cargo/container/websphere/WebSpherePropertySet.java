@@ -61,9 +61,31 @@ public interface WebSpherePropertySet
      */
     String LOGGING = "cargo.websphere.logging";
 
-
     /**
      * The processor type within lib/native/{OS} (e.g. 32, 64)
      */
     String PROCESSOR_ARCH = "cargo.websphere.arch";
+
+    /**
+     * Classloader mode used when deploying/starting the deployable(s).
+     * Possible values are PARENT_FIRST and PARENT_LAST
+     *
+     * Specifies whether the classes are first loaded from the container
+     * and only after that from the deployable (PARENT_FIRST) or the
+     * other way around - first from the deployable and then from the
+     * container (PARENT_LAST).
+     *
+     */
+    String CLASSLOADER_MODE = "cargo.websphere.classloader.mode";
+
+    /**
+     * Classloader policy used when deploying/starting the deployable(s).
+     * Possible values are MULTIPLE (default) and SINGLE.
+     *
+     * Specifies whether there is one classloader for all war files
+     * in the application or separate classloader for each war.
+     *
+     */
+    String WAR_CLASSLOADER_POLICY = "cargo.websphere.war.classloader.policy";
+
 }

@@ -148,7 +148,12 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
                 throw new CargoException("Unknown deployable: " + deployable.getType());
             }
             mapWebModToVH.append("}");
+            String classldrMode = container.getConfiguration().getPropertyValue(
+                    WebSpherePropertySet.CLASSLOADER_MODE);
+            String classldrPolicy = container.getConfiguration().getPropertyValue(
+                    WebSpherePropertySet.WAR_CLASSLOADER_POLICY);
 
+            String deployableName = getDeployableName(deployable);
             executeWsAdmin(
                 "set asn [$AdminControl queryNames type=ApplicationManager,process="
                     + container.getConfiguration().getPropertyValue(WebSpherePropertySet.SERVER)
@@ -156,8 +161,13 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
                 "$AdminApp install "
                     + deployable.getFile().replace('\\', '/').replace(" ", "\\ ")
                     + " {" + contextRoot + " "
-                    + " -appname " + getDeployableName(deployable)
+                    + " -appname " + deployableName
                     + mapWebModToVH.toString() + "}",
+                "set dep [$AdminConfig getid /Deployment:" + deployableName + "/]",
+                "set depObject [$AdminConfig showAttribute $dep deployedObject]",
+                "set classldr [$AdminConfig showAttribute $depObject classloader]",
+                "$AdminConfig modify $classldr {{mode " + classldrMode + "}}",
+                "$AdminConfig modify $depObject {{warClassLoaderPolicy " + classldrPolicy + "}}",
                 "$AdminConfig save",
                 "$AdminControl invoke $asn startApplication " + getDeployableName(deployable));
         }
