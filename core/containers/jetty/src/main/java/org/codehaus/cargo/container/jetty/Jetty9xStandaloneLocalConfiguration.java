@@ -54,14 +54,24 @@ public class Jetty9xStandaloneLocalConfiguration extends Jetty8xStandaloneLocalC
 
         InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
 
-        // Create directories required by Jettu 9.1.1 onwards
+        // Create directories required by Jetty 9.1.1 onwards
         getFileHandler().createDirectory(getHome(), "lib");
         getFileHandler().createDirectory(getHome(), "lib/ext");
         getFileHandler().createDirectory(getHome(), "resources");
 
-        getFileHandler().copyDirectory(
-            installedContainer.getHome() + "/start.d", getHome() + "/start.d");
-        String httpIni = getFileHandler().append(getHome(), "start.d/http.ini");
+        String httpIni;
+        String startD = getFileHandler().append(installedContainer.getHome(), "start.d");
+        if (getFileHandler().isDirectory(startD))
+        {
+            getFileHandler().copyDirectory(startD, getHome() + "/start.d");
+            httpIni = getFileHandler().append(getHome(), "start.d/http.ini");
+        }
+        else
+        {
+            getFileHandler().copyFile(
+                installedContainer.getHome() + "/start.ini", getHome() + "/start.ini");
+            httpIni = getFileHandler().append(getHome(), "start.ini");
+        }
         if (getFileHandler().exists(httpIni))
         {
             Map<String, String> httpIniReplacements = new HashMap<String, String>(1);
