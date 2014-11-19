@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-core-containers</artifactId>
-    <version>1.4.11</version>
+    <version>1.4.12-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-core-container-wildfly</artifactId>
   <name>Cargo Core WildFly Container</name>
