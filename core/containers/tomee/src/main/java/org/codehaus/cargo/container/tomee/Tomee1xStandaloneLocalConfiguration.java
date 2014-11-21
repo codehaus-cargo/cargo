@@ -23,8 +23,10 @@ import java.util.HashMap;
 import java.util.Map;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.Tomcat7xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
+import org.codehaus.cargo.container.tomee.internal.Tomee1xStandaloneLocalConfigurationCapability;
 
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -38,6 +40,14 @@ public class Tomee1xStandaloneLocalConfiguration extends Tomcat7xStandaloneLocal
     /**
      * {@inheritDoc}
      * 
+     * @see TomcatStandaloneLocalConfigurationCapability
+     */
+    private static ConfigurationCapability capability =
+        new Tomee1xStandaloneLocalConfigurationCapability();
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see Tomcat7xStandaloneLocalConfiguration#Tomcat7xStandaloneLocalConfiguration(String)
      */
     public Tomee1xStandaloneLocalConfiguration(String dir)
@@ -45,6 +55,17 @@ public class Tomee1xStandaloneLocalConfiguration extends Tomcat7xStandaloneLocal
         super(dir);
 
         setProperty(TomeePropertySet.APPS_DIRECTORY, "apps");
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.tomcat.Tomcat7xStandaloneLocalConfiguration#getCapability()
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return capability;
     }
 
     /**
