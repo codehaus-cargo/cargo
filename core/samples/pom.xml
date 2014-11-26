@@ -72,6 +72,10 @@
             <!-- 30 minutes -->
             <forkedProcessTimeoutInSeconds>1800</forkedProcessTimeoutInSeconds>
 
+            <excludes>
+              <exclude>${cargo.samples.exclude}</exclude>
+            </excludes>
+
             <systemProperties>
 
               <!--
