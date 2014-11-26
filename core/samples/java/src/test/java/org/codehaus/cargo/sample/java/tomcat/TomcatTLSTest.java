@@ -58,6 +58,7 @@ public class TomcatTLSTest extends AbstractCargoTestCase
     public TomcatTLSTest(String testName, EnvironmentTestData testData) throws Exception
     {
         super(testName, testData);
+        System.setProperty("javax.net.debug", "all");
     }
 
     /**
