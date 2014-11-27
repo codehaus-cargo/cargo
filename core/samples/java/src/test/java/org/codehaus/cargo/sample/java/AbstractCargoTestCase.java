@@ -55,7 +55,7 @@ import org.codehaus.cargo.util.log.Logger;
  * 
  * @version $Id$
  */
-public class AbstractCargoTestCase extends TestCase
+public abstract class AbstractCargoTestCase extends TestCase
 {
     /**
      * Container factory.
