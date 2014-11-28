@@ -69,11 +69,17 @@ public class TomcatTLSTest extends AbstractCargoTestCase
     {
         CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local Tomcat "
             + "containers supporting TLS configuration.");
-        suite.addTestSuite(TomcatTLSTest.class, new Validator[] {
-            new StartsWithContainerValidator("tomcat5", "tomcat6", "tomcat7", "tomcat8", "tomee"),
-            new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
-            new HasDirectoryPackagerValidator()});
+        // TomcatTLSTest doesn't work in Java 6 and earlier due to expired certificates
+        String javaVersion = System.getProperty("java.version");
+        if (javaVersion.charAt(0) > '1' || javaVersion.charAt(2) > '6')
+        {
+            suite.addTestSuite(TomcatTLSTest.class, new Validator[] {
+                new StartsWithContainerValidator(
+                    "tomcat5", "tomcat6", "tomcat7", "tomcat8", "tomee"),
+                new IsInstalledLocalContainerValidator(),
+                new HasStandaloneConfigurationValidator(),
+                new HasDirectoryPackagerValidator()});
+        }
         return suite;
     }
 
