@@ -25,6 +25,7 @@ import java.lang.reflect.Constructor;
 import javax.enterprise.deploy.shared.ModuleType;
 import javax.enterprise.deploy.shared.factories.DeploymentFactoryManager;
 import javax.enterprise.deploy.spi.DeploymentManager;
+import javax.enterprise.deploy.spi.Target;
 import javax.enterprise.deploy.spi.TargetModuleID;
 import javax.enterprise.deploy.spi.exceptions.DeploymentManagerCreationException;
 import javax.enterprise.deploy.spi.exceptions.TargetException;
@@ -119,7 +120,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
             DeploymentManager deploymentManager = this.getDeploymentManager();
 
             ProgressObject progressObject = deploymentManager.distribute(
-                deploymentManager.getTargets(), deployableFile, null);
+                this.filterTargets(deploymentManager.getTargets()), deployableFile, null);
             this.waitForProgressObject(progressObject);
 
             progressObject = deploymentManager.start(progressObject.getResultTargetModuleIDs());
@@ -471,4 +472,11 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         return this.configuration;
     }
 
+    /**
+     * @return Let implementations filter targets for deploy.
+     */
+    protected Target[] filterTargets(Target[] targets)
+    {
+        return targets;
+    }
 }

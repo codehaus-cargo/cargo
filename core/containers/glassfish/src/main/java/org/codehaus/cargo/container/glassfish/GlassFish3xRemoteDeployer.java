@@ -19,10 +19,14 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
+import java.util.*;
+
 import javax.enterprise.deploy.shared.factories.DeploymentFactoryManager;
 import javax.enterprise.deploy.spi.DeploymentManager;
+import javax.enterprise.deploy.spi.Target;
 import javax.enterprise.deploy.spi.exceptions.DeploymentManagerCreationException;
 
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -75,5 +79,47 @@ public class GlassFish3xRemoteDeployer extends AbstractJsr88Deployer
 
         return dfm.getDeploymentManager("deployer:Sun:AppServer::" + hostname + ":" + port,
             username, password);
+    }
+
+    /**
+     * @param targets All available targets in the container instance.
+     * @return Targets set up in the runtime configuration.
+     */
+    @Override
+    protected Target[] filterTargets(Target[] targets)
+    {
+        String prop = this.getRuntimeConfiguration().getPropertyValue(
+            GlassFishPropertySet.TARGET);
+
+        if (prop != null && !prop.isEmpty())
+        {
+            Set<String> cfgTargets = new HashSet<String>(Arrays.asList(prop.split(",")));
+            ArrayList<Target> result = new ArrayList<Target>();
+
+            for (Target target: targets)
+            {
+                if (cfgTargets.contains(target.getName()))
+                {
+                    result.add(target);
+                }
+            }
+
+            if (result.size() != cfgTargets.size())
+            {
+                String allTargets = "";
+
+                for (Target t: targets)
+                {
+                    allTargets += t.getName() + " ";
+                }
+
+                throw new ContainerException("No such target(s), available targets are: " +
+                    allTargets);
+            }
+
+            return result.toArray(targets);
+        }
+
+        return targets;
     }
 }

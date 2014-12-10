@@ -27,6 +27,11 @@ package org.codehaus.cargo.container.glassfish;
 public interface GlassFishPropertySet
 {
     /**
+     * The deploy target name (instance or cluster).
+     */
+    String TARGET = "cargo.glassfish.target";
+
+    /**
      * The admin HTTP port that Glassfish will use. Defaults to 4848.
      */
     String ADMIN_PORT = "cargo.glassfish.admin.port";
