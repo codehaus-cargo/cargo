@@ -19,7 +19,10 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.enterprise.deploy.shared.factories.DeploymentFactoryManager;
 import javax.enterprise.deploy.spi.DeploymentManager;
@@ -113,8 +116,8 @@ public class GlassFish3xRemoteDeployer extends AbstractJsr88Deployer
                     allTargets += t.getName() + " ";
                 }
 
-                throw new ContainerException("No such target(s), available targets are: " +
-                    allTargets);
+                throw new ContainerException("No such target(s), available targets are: "
+                    + allTargets);
             }
 
             return result.toArray(targets);
