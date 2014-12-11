@@ -473,6 +473,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
     }
 
     /**
+     * @param targets List with all awailable targets for this container instance.
      * @return Let implementations filter targets for deploy.
      */
     protected Target[] filterTargets(Target[] targets)
