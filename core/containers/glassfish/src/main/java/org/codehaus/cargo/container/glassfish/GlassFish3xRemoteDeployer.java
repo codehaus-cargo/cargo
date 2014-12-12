@@ -94,7 +94,7 @@ public class GlassFish3xRemoteDeployer extends AbstractJsr88Deployer
         String prop = this.getRuntimeConfiguration().getPropertyValue(
             GlassFishPropertySet.TARGET);
 
-        if (prop != null && !prop.isEmpty())
+        if (prop != null && prop.length() > 0)
         {
             Set<String> cfgTargets = new HashSet<String>(Arrays.asList(prop.split(",")));
             ArrayList<Target> result = new ArrayList<Target>();
