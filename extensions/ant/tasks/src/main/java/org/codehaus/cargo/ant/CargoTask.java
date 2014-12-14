@@ -50,6 +50,7 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.installer.ZipURLInstaller;
+import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
@@ -668,6 +669,7 @@ public class CargoTask extends Task
                     try
                     {
                         daemon.start(start);
+                        waitDeployableMonitor(true);
                     }
                     catch (Exception e)
                     {
@@ -679,6 +681,7 @@ public class CargoTask extends Task
                     try
                     {
                         daemon.stop(daemonHandleId);
+                        waitDeployableMonitor(false);
                     }
                     catch (Exception e)
                     {
@@ -694,10 +697,12 @@ public class CargoTask extends Task
             else if (ACTION_START.equalsIgnoreCase(getAction()))
             {
                 localContainer.start();
+                waitDeployableMonitor(true);
             }
             else if (ACTION_RESTART.equalsIgnoreCase(getAction()))
             {
                 localContainer.restart();
+                waitDeployableMonitor(true);
             }
             else if (ACTION_RUN.equalsIgnoreCase(getAction()))
             {
@@ -716,6 +721,7 @@ public class CargoTask extends Task
                                 == localContainer.getState())
                             {
                                 localContainer.stop();
+                                waitDeployableMonitor(false);
                             }
                         }
                         catch (Exception e)
@@ -727,6 +733,7 @@ public class CargoTask extends Task
                 });
 
                 localContainer.start();
+                waitDeployableMonitor(true);
 
                 log("Press Ctrl-C to stop the container...");
                 ContainerUtils.waitTillContainerIsStopped(getContainer());
@@ -734,6 +741,7 @@ public class CargoTask extends Task
             else if (ACTION_STOP.equalsIgnoreCase(getAction()))
             {
                 localContainer.stop();
+                waitDeployableMonitor(false);
             }
             else if (ACTION_CONFIGURE.equalsIgnoreCase(getAction()))
             {
@@ -1270,6 +1278,30 @@ public class CargoTask extends Task
         else
         {
             return directory;
+        }
+    }
+
+    /**
+     * Waits until all deployables with a deployable monitor are deployed / undeployed.
+     * 
+     * @param starting <code>true</code> if container is starting (i.e., wait for deployment),
+     * <code>false</code> otherwise.
+     */
+    protected void waitDeployableMonitor(boolean starting)
+    {
+        if (getConfiguration() != null && getConfiguration().getDeployables() != null)
+        {
+            for (DeployableElement deployableElement : getConfiguration().getDeployables())
+            {
+                DeployableMonitor deployableMonitor = deployableElement.createDeployableMonitor();
+                if (deployableMonitor != null)
+                {
+                    DeployerWatchdog watchdog = new DeployerWatchdog(deployableMonitor);
+                    watchdog.setLogger(container.getLogger());
+                    deployableMonitor.setLogger(container.getLogger());
+                    watchdog.watch(starting);
+                }
+            }
         }
     }
 }
