@@ -120,7 +120,7 @@ public class GlassFish3xRemoteDeployer extends AbstractJsr88Deployer
                     + allTargets);
             }
 
-            return result.toArray(targets);
+            return result.toArray(new Target[result.size()]);
         }
 
         return targets;
