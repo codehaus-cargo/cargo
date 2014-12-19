@@ -434,7 +434,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         }
 
         TargetModuleID targetModule = null;
-        TargetModuleID[] modules = deploymentManager.getRunningModules(moduleType,
+        TargetModuleID[] modules = deploymentManager.getAvailableModules(moduleType,
             deploymentManager.getTargets());
 
         StringBuilder sb = new StringBuilder();
