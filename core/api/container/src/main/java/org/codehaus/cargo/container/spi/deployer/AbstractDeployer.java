@@ -171,7 +171,7 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
      */
     public void stop(Deployable deployable, DeployableMonitor monitor)
     {
-        redeploy(deployable);
+        stop(deployable);
 
         // Wait for the Deployable to be stopped
         DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
