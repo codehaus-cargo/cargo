@@ -258,10 +258,11 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
 
 
     /**
-     * finds the server lib based on the processor arch (32 or 64 bit)
-     * first it looks if cargo.websphere.processor.type is defined, if not (by default it's not set)
-     * then it tries to query various system properties to deduct if we are in a 32 or 64 bit CPU
-     *
+     * Finds the server <code>lib</code> based on the processor arch (32 or 64 bit)<br><br>
+     * First it looks if <code>cargo.websphere.processor.type</code> is defined, if not (by default
+     * it's not set) then it tries to query various system properties to deduct if we are in a 32
+     * or 64 bit CPU.
+     * 
      * @param folder the parent folder of the server lib we are looking for
      * @param serverLibContents the content of that folder
      * @return the processor type specific server lib folder
@@ -305,8 +306,9 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
     }
 
     /**
-     * returns the processor type based on a arch property
+     * Returns the processor type based on a arch property
      * (e.g. amd64 -> 64, x86_32 -> 32)
+     * 
      * @param osArch the os Arch property
      * @return 32 or 64 if found, null otherwise
      */

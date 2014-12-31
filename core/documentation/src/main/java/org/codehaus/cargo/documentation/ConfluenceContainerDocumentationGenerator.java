@@ -419,10 +419,14 @@ public class ConfluenceContainerDocumentationGenerator
         {
             output.append("{note}");
             output.append("The WebSphere container does +not+ support WebSphere Application ");
-            output.append("Server Community Edition,");
+            output.append("Server Community Edition, please prefer to use the \"full\" ");
+            output.append("WebSphere package or WebSphere Application Server for Developers.");
+            output.append("{note}");
             output.append(LINE_SEPARATOR);
-            output.append("please prefer to use the \"full\" WebSphere package ");
-            output.append("or WebSphere Application Server for Developers.");
+            output.append(LINE_SEPARATOR);
+            output.append("{note}");
+            output.append("The WebSphere container requires WebSphere's native {{lib}} folder ");
+            output.append("to be put inside the {{PATH}} environment variable.");
             output.append("{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
@@ -939,6 +943,21 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("h4.Standalone Local Configuration Properties");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
+
+            if (containerId.startsWith("websphere"))
+            {
+                output.append("{note}");
+                output.append("Thought the WebSphere container supports [standalone local ");
+                output.append("configurations|Standalone Local Configuration], it is ");
+                output.append("recommended for you to prefer using WebSphere with an ");
+                output.append("[existing local configuration|Existing Local Configuration]; ");
+                output.append("i.e. a WebSphere profile you would create beforehand using ");
+                output.append("WebSphere's setup commands and then use that with CARGO.");
+                output.append("{note}");
+                output.append(LINE_SEPARATOR);
+                output.append(LINE_SEPARATOR);
+            }
+
             if (this.configurationFactory.isConfigurationRegistered(containerId,
                 ContainerType.INSTALLED, ConfigurationType.STANDALONE))
             {
@@ -963,11 +982,11 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append(LINE_SEPARATOR);
                 output.append("{info}A side note on the JBoss ports:");
                 output.append(LINE_SEPARATOR);
-                output.append("* The {{cargo.rmi.port}} corresponds to the {{Port}} parameter of");
-                output.append(" the {{jboss:service=Naming}} bean.");
+                output.append("* The {{cargo.rmi.port}} corresponds to the {{Port}} parameter of ");
+                output.append("the {{jboss:service=Naming}} bean.");
                 output.append(LINE_SEPARATOR);
-                output.append("* The {{cargo.jboss.naming.port}} corresponds to the {{RmiPort}}");
-                output.append(" parameter of the {{jboss:service=Naming}} bean.");
+                output.append("* The {{cargo.jboss.naming.port}} corresponds to the {{RmiPort}} ");
+                output.append("parameter of the {{jboss:service=Naming}} bean.");
                 output.append(LINE_SEPARATOR);
                 output.append("{info}");
                 output.append(LINE_SEPARATOR);
