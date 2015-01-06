@@ -51,7 +51,7 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
     {
         super(dir);
 
-        setProperty(ServletPropertySet.USERS, "admin::manager-gui");
+        setProperty(ServletPropertySet.USERS, "admin::manager-script");
 
         // CARGO-1271: Starting Tomcat 7 with Cargo logs warning on emptySessionPath
         getProperties().remove(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
