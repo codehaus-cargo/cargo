@@ -155,9 +155,6 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
 
             String deployableName = getDeployableName(deployable);
             executeWsAdmin(
-                "set asn [$AdminControl queryNames type=ApplicationManager,process="
-                    + container.getConfiguration().getPropertyValue(WebSpherePropertySet.SERVER)
-                    + ",*]",
                 "$AdminApp install "
                     + deployable.getFile().replace('\\', '/').replace(" ", "\\ ")
                     + " {" + contextRoot + " "
@@ -168,8 +165,7 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
                 "set classldr [$AdminConfig showAttribute $depObject classloader]",
                 "$AdminConfig modify $classldr {{mode " + classldrMode + "}}",
                 "$AdminConfig modify $depObject {{warClassLoaderPolicy " + classldrPolicy + "}}",
-                "$AdminConfig save",
-                "$AdminControl invoke $asn startApplication " + getDeployableName(deployable));
+                "$AdminConfig save");
         }
         catch (Exception e)
         {
@@ -186,10 +182,6 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
         try
         {
             executeWsAdmin(
-                "set asn [$AdminControl queryNames type=ApplicationManager,process="
-                    + container.getConfiguration().getPropertyValue(WebSpherePropertySet.SERVER)
-                    + ",*]",
-                "$AdminControl invoke $asn stopApplication " + getDeployableName(deployable),
                 "$AdminApp uninstall " + getDeployableName(deployable),
                 "$AdminConfig save");
         }
@@ -311,12 +303,8 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
         java.addAppArguments("-application");
         java.addAppArguments("com.ibm.ws.bootstrap.WSLauncher");
         java.addAppArguments("com.ibm.ws.admin.services.WsAdmin");
-        java.addAppArguments("-username");
-        java.addAppArguments(getContainer().getConfiguration().getPropertyValue(
-                WebSpherePropertySet.ADMIN_USERNAME));
-        java.addAppArguments("-password");
-        java.addAppArguments(getContainer().getConfiguration().getPropertyValue(
-                WebSpherePropertySet.ADMIN_PASSWORD));
+        java.addAppArguments("-conntype");
+        java.addAppArguments("NONE");
         java.addAppArguments("-f");
         java.addAppArgument(commandFile);
 

@@ -45,9 +45,6 @@ public class WebSphere85xExistingLocalConfigurationCapability
         this.defaultSupportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
         this.defaultSupportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
 
-        this.defaultSupportsMap.put(WebSpherePropertySet.ADMIN_USERNAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(WebSpherePropertySet.ADMIN_PASSWORD, Boolean.TRUE);
-
         this.defaultSupportsMap.put(WebSpherePropertySet.PROFILE, Boolean.TRUE);
         this.defaultSupportsMap.put(WebSpherePropertySet.NODE, Boolean.TRUE);
         this.defaultSupportsMap.put(WebSpherePropertySet.CELL, Boolean.TRUE);

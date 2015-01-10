@@ -88,6 +88,12 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
 
         prepareJvmLauncher(java);
 
+        WebSphere85xInstalledLocalDeployer deployer = new WebSphere85xInstalledLocalDeployer(this);
+        for (Deployable deployable : getConfiguration().getDeployables())
+        {
+            deployer.redeploy(deployable);
+        }
+
         java.setSystemProperty("com.ibm.CORBA.ConfigURL",
             new File(getConfiguration().getHome(),
                 "properties/sas.client.props").toURI().toURL().toString());
@@ -108,12 +114,6 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
         {
             throw new CargoException(
                 "WebSphere cannot be started: return code was " + returnCode);
-        }
-
-        WebSphere85xInstalledLocalDeployer deployer = new WebSphere85xInstalledLocalDeployer(this);
-        for (Deployable deployable : getConfiguration().getDeployables())
-        {
-            deployer.redeploy(deployable);
         }
     }
 
@@ -158,6 +158,19 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
         {
             throw new CargoException(
                 "WebSphere cannot be stopped: return code was " + returnCode);
+        }
+
+        WebSphere85xInstalledLocalDeployer deployer = new WebSphere85xInstalledLocalDeployer(this);
+        for (Deployable deployable : getConfiguration().getDeployables())
+        {
+            try
+            {
+                deployer.undeploy(deployable);
+            }
+            catch (Exception ignored)
+            {
+                // Ignored
+            }
         }
 
         String libExt = getFileHandler().append(getHome(), "lib/ext");

@@ -51,9 +51,6 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
 
         setProperty(ServletPropertySet.PORT, "9080");
 
-        setProperty(WebSpherePropertySet.ADMIN_USERNAME, "websphere");
-        setProperty(WebSpherePropertySet.ADMIN_PASSWORD, "websphere");
-
         setProperty(WebSpherePropertySet.PROFILE, "cargoProfile");
         setProperty(WebSpherePropertySet.CELL, "cargoNodeCell");
         setProperty(WebSpherePropertySet.NODE, "cargoNode");
