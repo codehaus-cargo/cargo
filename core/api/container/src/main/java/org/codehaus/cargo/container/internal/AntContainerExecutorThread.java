@@ -27,7 +27,7 @@ import org.apache.tools.ant.taskdefs.Java;
 
 /**
  * Executor that executes an Ant's {@link Java} command in a separate thread.
- * 
+ *
  * @version $Id$
  */
 public class AntContainerExecutorThread extends Thread
@@ -42,10 +42,14 @@ public class AntContainerExecutorThread extends Thread
      */
     private boolean spawn;
 
-    /** Build exception. */
+    /**
+     * Build exception.
+     */
     private AtomicReference ex = new AtomicReference();
 
-    /** Finished flag. */
+    /**
+     * Finished flag.
+     */
     private AtomicBoolean finishedFlag = new AtomicBoolean(false);
 
     /**
@@ -60,6 +64,7 @@ public class AntContainerExecutorThread extends Thread
 
     /**
      * Returns a build exception.
+     *
      * @return the build exception
      */
     public BuildException getBuildException()
@@ -69,6 +74,7 @@ public class AntContainerExecutorThread extends Thread
 
     /**
      * Set the build exception.
+     *
      * @param ex The build exception
      */
     private void setBuildException(BuildException ex)
@@ -78,6 +84,7 @@ public class AntContainerExecutorThread extends Thread
 
     /**
      * Determine if its finished or not
+     *
      * @return If its finished or not
      */
     public boolean isFinished()
@@ -87,6 +94,7 @@ public class AntContainerExecutorThread extends Thread
 
     /**
      * Set if the its finished or not
+     *
      * @param b sets finish state
      */
     public void setFinished(boolean b)
@@ -100,7 +108,6 @@ public class AntContainerExecutorThread extends Thread
     @Override
     public void run()
     {
-
         this.java.setSpawn(spawn);
 
         // if it's not spawn, allow exception to be throw

@@ -22,8 +22,11 @@
  */
 package org.codehaus.cargo.container.spi;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -107,6 +110,11 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * JVM launcher that started the container.
      */
     private JvmLauncher jvmStartLauncher;
+
+    /**
+     * Major JVM version
+     */
+    private int jvmMajorVersion = -1;
 
     /**
      * Default constructor.
@@ -327,6 +335,83 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     {
         boolean ssh = getConfiguration().getPropertyValue(SSHPropertySet.HOST) != null;
 
+        if (jvmMajorVersion == -1)
+        {
+            JvmLauncherRequest request = new JvmLauncherRequest(false, this, ssh);
+            JvmLauncher java = jvmLauncherFactory.createJvmLauncher(request);
+            if (ssh)
+            {
+                addSshProperties(java);
+            }
+            setJvmToLaunchContainerIn(java);
+
+            // Read the real JVM version
+            BufferedReader br = null;
+            String jvmVersion;
+            try
+            {
+                File jvmVersionFile = File.createTempFile("cargo-jvm-version-", ".txt");
+                java.setOutputFile(jvmVersionFile);
+                java.setAppendOutput(true);
+                java.setMainClass("-version");
+
+                // We need to use java.start and not java.execute since the latter, which calls
+                // org.apache.tools.ant.taskdefs.Java.executeJava() method, doesn't set up
+                // stderr / stdout properly
+                java.start();
+
+                // Give 15 seconds to read the version
+                for (int i = 0; i < 150; i++)
+                {
+                    if (jvmVersionFile.length() > 0)
+                    {
+                        break;
+                    }
+                    Thread.sleep(100);
+                }
+                br = new BufferedReader(new FileReader(jvmVersionFile));
+                jvmVersion = br.readLine();
+                if (jvmVersion != null && jvmVersion.startsWith("java version \""))
+                {
+                    jvmVersion = jvmVersion.substring(jvmVersion.indexOf('"') + 1);
+                }
+                else
+                {
+                    throw new IOException("Can't read JVM version from line: " + jvmVersion);
+                }
+            }
+            catch (Throwable t)
+            {
+                jvmVersion = System.getProperty("java.version");
+            }
+            finally
+            {
+                if (br != null)
+                {
+                    try
+                    {
+                        br.close();
+                    }
+                    catch (IOException ignored)
+                    {
+                        // Ignored
+                    }
+                    br = null;
+                    System.gc();
+                }
+            }
+            if (jvmVersion.startsWith("1."))
+            {
+                jvmVersion = jvmVersion.substring(2);
+            }
+            int dot = jvmVersion.indexOf('.');
+            if (dot > 0)
+            {
+                jvmVersion = jvmVersion.substring(0, dot);
+            }
+            jvmMajorVersion = Integer.parseInt(jvmVersion);
+        }
+
         JvmLauncherRequest request = new JvmLauncherRequest(server, this, ssh);
 
         JvmLauncher java = jvmLauncherFactory.createJvmLauncher(request);
@@ -539,7 +624,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      */
     protected void addMemoryArguments(JvmLauncher java)
     {
-        // if the jvmArgs don't alread contain memory settings add the default
+        // If the jvmArgs don't already contain memory settings add the default
         String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
         if (jvmArgs == null || !jvmArgs.contains("-Xms"))
         {
@@ -549,13 +634,18 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         {
             java.addJvmArguments("-Xmx512m");
         }
-        if (jvmArgs == null || !jvmArgs.contains("-XX:PermSize"))
+
+        // CARGO-1294: Warning when starting containers on Java 8
+        if (jvmMajorVersion < 8)
         {
-            java.addJvmArguments("-XX:PermSize=48m");
-        }
-        if (jvmArgs == null || !jvmArgs.contains("-XX:MaxPermSize"))
-        {
-            java.addJvmArguments("-XX:MaxPermSize=128m");
+            if (jvmArgs == null || !jvmArgs.contains("-XX:PermSize"))
+            {
+                java.addJvmArguments("-XX:PermSize=48m");
+            }
+            if (jvmArgs == null || !jvmArgs.contains("-XX:MaxPermSize"))
+            {
+                java.addJvmArguments("-XX:MaxPermSize=128m");
+            }
         }
     }
 

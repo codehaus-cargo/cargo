@@ -224,6 +224,7 @@ class DefaultJvmLauncher implements JvmLauncher
     public void setOutputFile(File outputFile)
     {
         this.java.setOutput(outputFile);
+        this.java.setError(outputFile);
     }
 
     /**

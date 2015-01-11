@@ -389,7 +389,7 @@ public class InstalledLocalContainerTest extends TestCase
         AbstractInstalledLocalContainerStub container =
             new AbstractInstalledLocalContainerStub(configuration);
 
-        container.getConfiguration().setProperty("cargo.runtime.args", "hello -world");
+        container.getConfiguration().setProperty(GeneralPropertySet.RUNTIME_ARGS, "hello -world");
         container.startInternal();
         JvmLauncher java = container.getJava();
         assertTrue("Expected runtime arguments not contained in the java commandline.",
@@ -432,8 +432,6 @@ public class InstalledLocalContainerTest extends TestCase
         String commandLine = java.getCommandLine();
         checkString(commandLine, "-Xms128m");
         checkString(commandLine, "-Xmx512m");
-        checkString(commandLine, "-XX:PermSize=48m");
-        checkString(commandLine, "-XX:MaxPermSize=128m");
     }
 
     /**
@@ -452,8 +450,6 @@ public class InstalledLocalContainerTest extends TestCase
         String commandLine = java.getCommandLine();
         checkString(commandLine, "-Xms256m");
         checkString(commandLine, "-Xmx512m");
-        checkString(commandLine, "-XX:PermSize=48m");
-        checkString(commandLine, "-XX:MaxPermSize=128m");
     }
 
     /**
@@ -472,8 +468,6 @@ public class InstalledLocalContainerTest extends TestCase
         String commandLine = java.getCommandLine();
         checkString(commandLine, "-Xms128m");
         checkString(commandLine, "-Xmx256m");
-        checkString(commandLine, "-XX:PermSize=48m");
-        checkString(commandLine, "-XX:MaxPermSize=128m");
     }
 
     /**
@@ -493,7 +487,6 @@ public class InstalledLocalContainerTest extends TestCase
         checkString(commandLine, "-Xms128m");
         checkString(commandLine, "-Xmx512m");
         checkString(commandLine, "-XX:PermSize=256m");
-        checkString(commandLine, "-XX:MaxPermSize=128m");
     }
 
     /**
@@ -513,7 +506,6 @@ public class InstalledLocalContainerTest extends TestCase
         String commandLine = java.getCommandLine();
         checkString(commandLine, "-Xms128m");
         checkString(commandLine, "-Xmx512m");
-        checkString(commandLine, "-XX:PermSize=48m");
         checkString(commandLine, "-XX:MaxPermSize=256m");
     }
 
