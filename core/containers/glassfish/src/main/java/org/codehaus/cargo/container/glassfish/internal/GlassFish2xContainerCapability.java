@@ -17,16 +17,17 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.glassfish;
+package org.codehaus.cargo.container.glassfish.internal;
 
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 
 /**
- * GlassFish 3.x container capability.
+ * GlassFish 2.x container capability.
  * 
  * @version $Id$
  */
-public class GlassFish3xContainerCapability extends GlassFish2xContainerCapability
+public class GlassFish2xContainerCapability extends J2EEContainerCapability
 {
     /**
      * {@inheritDoc}
@@ -34,7 +35,7 @@ public class GlassFish3xContainerCapability extends GlassFish2xContainerCapabili
     @Override
     public boolean supportsDeployableType(DeployableType type)
     {
-        return super.supportsDeployableType(type) || DeployableType.BUNDLE.equals(type);
+        return type == DeployableType.EJB || super.supportsDeployableType(type);
     }
 
 }

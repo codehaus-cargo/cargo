@@ -128,12 +128,6 @@ public interface JBossPropertySet
     String REMOTEDEPLOY_HOSTNAME = "cargo.jboss.remotedeploy.hostname";
 
     /**
-     * Timeout for deploying the artifact to JBoss, in milliseconds. Defaults to <code>120000</code>
-     * milliseconds.
-     */
-    String REMOTEDEPLOY_TIMEOUT = "cargo.jboss.remotedeploy.timeout";
-
-    /**
      * Deployment target directory to use instead of the default <code>deployments</code> directory.
      */
     String ALTERNATIVE_DEPLOYMENT_DIR = "cargo.jboss.deployment.dir";

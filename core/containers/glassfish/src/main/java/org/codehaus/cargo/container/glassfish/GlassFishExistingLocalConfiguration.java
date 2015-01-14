@@ -24,6 +24,7 @@ import java.io.File;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.glassfish.internal.GlassFishExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 

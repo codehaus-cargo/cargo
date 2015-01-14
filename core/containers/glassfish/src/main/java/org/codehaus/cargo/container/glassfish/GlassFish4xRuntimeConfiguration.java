@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.glassfish;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish4xRuntimeConfigurationCapability;
 
 /**
  * Configuration to use when using a GlassFish 4.x remote container.

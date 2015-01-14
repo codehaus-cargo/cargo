@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.jboss;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss4xRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
 
 /**
@@ -42,7 +43,7 @@ public class JBoss4xRuntimeConfiguration extends AbstractRuntimeConfiguration
      */
     public JBoss4xRuntimeConfiguration()
     {
-        this.setProperty(JBossPropertySet.REMOTEDEPLOY_TIMEOUT, "120000");
+        this.setProperty(RemotePropertySet.TIMEOUT, "120000");
     }
 
     /**

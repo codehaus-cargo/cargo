@@ -17,10 +17,11 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.glassfish;
+package org.codehaus.cargo.container.glassfish.internal;
 
 import java.util.Map;
 
+import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;

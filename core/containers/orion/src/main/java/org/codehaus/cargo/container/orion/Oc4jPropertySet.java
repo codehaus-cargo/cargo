@@ -1,6 +1,9 @@
 /*
  * ========================================================================
  *
+ * Copyright 2003-2004 The Apache Software Foundation. Code from this file
+ * was originally imported from the Jakarta Cactus project.
+ *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,16 +20,22 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.glassfish;
+package org.codehaus.cargo.container.orion;
 
 /**
- * Capabilities of GlassFish
- * {@link org.codehaus.cargo.container.glassfish.GlassFish4xRuntimeConfiguration} configuration.
+ * Gathers all OC4J properties.
  * 
  * @version $Id$
  */
-public class GlassFish4xRuntimeConfigurationCapability
-    extends GlassFish3xRuntimeConfigurationCapability
+public interface Oc4jPropertySet
 {
-    // Nothing compared to GlassFish 3.x
+    /**
+     * Directory set up for auto deploy.
+     */
+    String AUTO_DEPLOY_DIR = "cargo.oc4j.auto-deploy.dir";
+
+    /**
+     * Admin password.
+     */
+    String ADMIN_PWD = "cargo.oc4j.admin.pwd";
 }

@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.glassfish;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish4xStandaloneLocalConfigurationCapability;
 
 /**
  * GlassFish 4.x standalone local configuration.

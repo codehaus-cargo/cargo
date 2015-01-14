@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.jboss.internal;
 
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 
 /**
@@ -41,8 +42,9 @@ public class JBoss4xRuntimeConfigurationCapability extends
         this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
         this.supportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
 
+        this.supportsMap.put(RemotePropertySet.TIMEOUT, Boolean.TRUE);
+
         this.supportsMap.put(JBossPropertySet.REMOTEDEPLOY_HOSTNAME, Boolean.TRUE);
         this.supportsMap.put(JBossPropertySet.REMOTEDEPLOY_PORT, Boolean.TRUE);
-        this.supportsMap.put(JBossPropertySet.REMOTEDEPLOY_TIMEOUT, Boolean.TRUE);
     }
 }

@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.glassfish;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish4xContainerCapability;
 
 /**
  * GlassFish 4.x installed local container.

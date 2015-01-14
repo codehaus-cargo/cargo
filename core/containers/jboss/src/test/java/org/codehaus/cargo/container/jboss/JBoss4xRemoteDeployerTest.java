@@ -55,12 +55,12 @@ public class JBoss4xRemoteDeployerTest extends MockObjectTestCase
             .will(returnValue("john"));
         mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.remote.password"))
             .will(returnValue("doe"));
+        mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.remote.timeout"))
+            .will(returnValue("120000"));
         mockConfiguration.stubs().method("getPropertyValue").with(
             eq("cargo.jboss.remotedeploy.port")).will(returnValue("9999"));
         mockConfiguration.stubs().method("getPropertyValue").with(
             eq("cargo.jboss.remotedeploy.hostname")).will(returnValue("localhost"));
-        mockConfiguration.stubs().method("getPropertyValue").with(
-            eq("cargo.jboss.remotedeploy.timeout")).will(returnValue("120000"));
 
         Mock mockContainer = mock(RemoteContainer.class);
         mockContainer.stubs().method("getConfiguration")

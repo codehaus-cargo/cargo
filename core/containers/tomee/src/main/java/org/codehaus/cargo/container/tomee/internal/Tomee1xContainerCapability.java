@@ -17,17 +17,17 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.glassfish;
+package org.codehaus.cargo.container.tomee.internal;
 
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 
 /**
- * GlassFish 2.x container capability.
+ * TomEE 1.x container capability.
  * 
  * @version $Id$
  */
-public class GlassFish2xContainerCapability extends J2EEContainerCapability
+public class Tomee1xContainerCapability extends J2EEContainerCapability
 {
     /**
      * {@inheritDoc}

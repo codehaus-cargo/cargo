@@ -17,10 +17,11 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.glassfish;
+package org.codehaus.cargo.container.glassfish.internal;
 
 import java.util.Map;
 
+import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
 
@@ -44,6 +45,7 @@ public class GlassFish3xRuntimeConfigurationCapability
         this.defaultSupportsMap.put(GlassFishPropertySet.ADMIN_PORT, Boolean.TRUE);
         this.defaultSupportsMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
         this.defaultSupportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
+        this.defaultSupportsMap.put(RemotePropertySet.TIMEOUT, Boolean.TRUE);
         this.defaultSupportsMap.put(GlassFishPropertySet.TARGET, Boolean.TRUE);
     }
 

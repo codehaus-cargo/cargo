@@ -40,4 +40,9 @@ public interface RemotePropertySet
      * Password to use to authenticate against a remote container (when deploying for example).
      */
     String PASSWORD = "cargo.remote.password";
+
+    /**
+     * Timeout used in remote deployments (in milliseconds).
+     */
+    String TIMEOUT = "cargo.remote.timeout";
 }

@@ -39,6 +39,7 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
@@ -62,6 +63,11 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
     private final FileHandler fileHandler;
 
     /**
+     * Timeout.
+     */
+    private long timeout;
+
+    /**
      * Constructor.
      * 
      * @param container the remote container
@@ -71,6 +77,10 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         super(container);
         this.configuration = container.getConfiguration();
         this.fileHandler = new DefaultFileHandler();
+
+        // Set a timeout in order to avoid CARGO-1299
+        String portStr = configuration.getPropertyValue(RemotePropertySet.TIMEOUT);
+        this.timeout = Long.parseLong(portStr);
     }
 
     /**
@@ -264,7 +274,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
      */
     private void waitForProgressObject(ProgressObject progressObject) throws CargoException
     {
-        long timeout = System.currentTimeMillis() + this.getTimeout();
+        long timeout = System.currentTimeMillis() + this.timeout;
         while (System.currentTimeMillis() < timeout)
         {
             try
@@ -287,16 +297,8 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
             }
         }
 
-        throw new CargoException("Deployment has timed out after " + this.getTimeout()
+        throw new CargoException("Deployment has timed out after " + this.timeout
             + " milliseconds");
-    }
-
-    /**
-     * @return Timeout.
-     */
-    private long getTimeout()
-    {
-        return 120000;
     }
 
     /**

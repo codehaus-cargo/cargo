@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.tomee;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.tomcat.Tomcat7xInstalledLocalContainer;
+import org.codehaus.cargo.container.tomee.internal.Tomee1xContainerCapability;
 
 /**
  * Special container support for the Apache TomEE 1.x servlet container.

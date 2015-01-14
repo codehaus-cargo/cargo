@@ -25,6 +25,7 @@ import org.codehaus.cargo.container.glassfish.internal.AbstractAsAdmin;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalContainer;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
 import org.codehaus.cargo.container.glassfish.internal.GlassFish2xAsAdmin;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish2xContainerCapability;
 
 /**
  * GlassFish 2.x installed local container.

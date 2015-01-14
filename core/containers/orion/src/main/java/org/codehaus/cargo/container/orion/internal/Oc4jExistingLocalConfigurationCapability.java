@@ -24,6 +24,7 @@ package org.codehaus.cargo.container.orion.internal;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.codehaus.cargo.container.orion.Oc4jPropertySet;
 
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 

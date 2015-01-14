@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.glassfish;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish4xContainerCapability;
 
 /**
  * GlassFish 4.x remote container.

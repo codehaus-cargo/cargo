@@ -17,25 +17,24 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.glassfish;
+package org.codehaus.cargo.container.glassfish.internal;
 
-import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.deployable.DeployableType;
 
 /**
- * GlassFish 4.x standalone local configuration capability.
+ * GlassFish 3.x container capability.
  * 
  * @version $Id$
  */
-public class GlassFish4xStandaloneLocalConfigurationCapability extends
-    GlassFish3xStandaloneLocalConfigurationCapability
+public class GlassFish3xContainerCapability extends GlassFish2xContainerCapability
 {
     /**
-     * CARGO-1246.  GlassFish 4.x is the only one supported for {@link ServletPropertySet#USERS}.
+     * {@inheritDoc}
      */
-    public GlassFish4xStandaloneLocalConfigurationCapability()
+    @Override
+    public boolean supportsDeployableType(DeployableType type)
     {
-        super();
-
-        this.defaultSupportsMap.put(ServletPropertySet.USERS, Boolean.TRUE);
+        return super.supportsDeployableType(type) || DeployableType.BUNDLE.equals(type);
     }
+
 }

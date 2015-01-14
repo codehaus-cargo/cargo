@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.glassfish;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish3xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
@@ -47,6 +48,7 @@ public class GlassFish3xRuntimeConfiguration extends AbstractRuntimeConfiguratio
         // default properties
         this.setProperty(RemotePropertySet.USERNAME, "admin");
         this.setProperty(RemotePropertySet.PASSWORD, "adminadmin");
+        this.setProperty(RemotePropertySet.TIMEOUT, "120000");
         this.setProperty(GeneralPropertySet.HOSTNAME, "localhost");
         this.setProperty(GlassFishPropertySet.ADMIN_PORT, "4848");
     }

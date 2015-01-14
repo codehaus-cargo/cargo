@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.orion.internal.Oc4jExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.orion.internal.Oc4jPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 import org.codehaus.cargo.util.CargoException;
 

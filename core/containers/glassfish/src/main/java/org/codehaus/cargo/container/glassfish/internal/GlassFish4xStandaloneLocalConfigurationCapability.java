@@ -17,25 +17,25 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.tomee;
+package org.codehaus.cargo.container.glassfish.internal;
 
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.internal.J2EEContainerCapability;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 
 /**
- * TomEE 1.x container capability.
+ * GlassFish 4.x standalone local configuration capability.
  * 
  * @version $Id$
  */
-public class Tomee1xContainerCapability extends J2EEContainerCapability
+public class GlassFish4xStandaloneLocalConfigurationCapability extends
+    GlassFish3xStandaloneLocalConfigurationCapability
 {
     /**
-     * {@inheritDoc}
+     * CARGO-1246.  GlassFish 4.x is the only one supported for {@link ServletPropertySet#USERS}.
      */
-    @Override
-    public boolean supportsDeployableType(DeployableType type)
+    public GlassFish4xStandaloneLocalConfigurationCapability()
     {
-        return type == DeployableType.EJB || super.supportsDeployableType(type);
-    }
+        super();
 
+        this.defaultSupportsMap.put(ServletPropertySet.USERS, Boolean.TRUE);
+    }
 }
