@@ -47,6 +47,7 @@ import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -63,6 +64,7 @@ import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
 import org.codehaus.cargo.uberjar.Uberjar;
+import org.codehaus.cargo.util.XmlReplacement;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.LogLevel;
 import org.codehaus.cargo.util.log.Logger;
@@ -469,6 +471,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             request.getPropertiesList("configurationFileProperties", false);
         List<String> configurationFiles = request.getStringList("configurationFiles", false);
         List<PropertyTable> deployableFiles = request.getPropertiesList("deployableFiles", false);
+        List<PropertyTable> xmlReplacements = request.getPropertiesList("xmlReplacements", false);
         InputStream installerZipInputStream = request.getFile("installerZipFileData", false);
         List<String> extraFiles = request.getStringList("extraFiles", false);
         List<String> sharedFiles = request.getStringList("sharedFiles", false);
@@ -516,6 +519,34 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             }
 
             configuration.getProperties().putAll(configurationProperties);
+
+            if (configuration instanceof StandaloneLocalConfiguration)
+            {
+                StandaloneLocalConfiguration standaloneConfiguration =
+                    (StandaloneLocalConfiguration) configuration;
+                for (PropertyTable xmlReplacement : xmlReplacements)
+                {
+                    String file = xmlReplacement.get("file", true);
+                    String xpathExpression = xmlReplacement.get("xpathExpression", true);
+                    String attributeName = xmlReplacement.get("attributeName", false);
+                    String value = xmlReplacement.get("value", true);
+                    Boolean ignoreIfNonExisting;
+                    String ignoreIfNonExistingString =
+                        xmlReplacement.get("ignoreIfNonExisting", false);
+                    if (ignoreIfNonExistingString == null)
+                    {
+                        ignoreIfNonExisting = Boolean.FALSE;
+                    }
+                    else
+                    {
+                        ignoreIfNonExisting = Boolean.valueOf(ignoreIfNonExistingString);
+                    }
+
+                    XmlReplacement xmlReplacementObject = new XmlReplacement(
+                        file, xpathExpression, attributeName, ignoreIfNonExisting, value);
+                    standaloneConfiguration.addXmlReplacement(xmlReplacementObject);
+                }
+            }
 
             InstalledLocalContainer container =
                 (InstalledLocalContainer) CONTAINER_FACTORY.createContainer(containerId,

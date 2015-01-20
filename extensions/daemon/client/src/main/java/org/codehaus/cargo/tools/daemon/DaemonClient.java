@@ -32,11 +32,13 @@ import java.util.Map;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.util.Base64;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
+import org.codehaus.cargo.util.XmlReplacement;
 import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
@@ -261,6 +263,7 @@ public class DaemonClient extends LoggedObject
             parameters.setParameter("configurationProperties",
                 setupConfigurationProperties(configuration));
             parameters.setParameter("containerProperties", setupContainerProperties(container));
+            parameters.setParameter("xmlReplacements", setupXmlReplacements(container));
 
             parameters.setParameter("containerOutput", container.getOutput());
 
@@ -582,7 +585,6 @@ public class DaemonClient extends LoggedObject
             resolveFile(files, file, relativePath);
         }
 
-
         StringBuilder propertiesJSON = new StringBuilder();
 
         propertiesJSON.append("[");
@@ -603,20 +605,20 @@ public class DaemonClient extends LoggedObject
             propertiesJSON.append("{");
             if (toFile != null)
             {
-                propertiesJSON.append("\"tofile\":\"" + toFile + "\",");
+                propertiesJSON.append("\"tofile\":\"" + escapeJson(toFile) + "\",");
             }
 
             if (toDirectory != null)
             {
-                propertiesJSON.append("\"todir\":\"" + toDirectory + "\",");
+                propertiesJSON.append("\"todir\":\"" + escapeJson(toDirectory) + "\",");
             }
             propertiesJSON.append("\"overwrite\":\"" + overwrite + "\",");
             propertiesJSON.append("\"filter\":\"" + filter + "\",");
             if (encoding != null)
             {
-                propertiesJSON.append("\"encoding\":\"" + encoding + "\",");
+                propertiesJSON.append("\"encoding\":\"" + escapeJson(encoding) + "\",");
             }
-            propertiesJSON.append("\"file\":\"" + file + "\"");
+            propertiesJSON.append("\"file\":\"" + escapeJson(file) + "\"");
             propertiesJSON.append("}");
 
             i++;
@@ -647,7 +649,8 @@ public class DaemonClient extends LoggedObject
                 propertiesJSON.append(",");
             }
 
-            propertiesJSON.append("\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"");
+            propertiesJSON.append("\"" + escapeJson(entry.getKey()) + "\":\""
+                + escapeJson(entry.getValue()) + "\"");
 
             i++;
         }
@@ -676,13 +679,74 @@ public class DaemonClient extends LoggedObject
                 propertiesJSON.append(",");
             }
 
-            propertiesJSON.append("\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"");
+            propertiesJSON.append("\"" + escapeJson(entry.getKey()) + "\":\""
+                + escapeJson(entry.getValue()) + "\"");
 
             i++;
         }
         propertiesJSON.append("}");
 
         return propertiesJSON.toString();
+    }
+
+    /**
+     * Setup container XML replacements.
+     * 
+     * @param container The container
+     * @return The container XML replacements list
+     */
+    private String setupXmlReplacements(InstalledLocalContainer container)
+    {
+        StringBuilder propertiesJSON = new StringBuilder();
+
+        if (container.getConfiguration() instanceof StandaloneLocalConfiguration)
+        {
+            StandaloneLocalConfiguration configuration =
+                (StandaloneLocalConfiguration) container.getConfiguration();
+            int i = 0;
+
+            propertiesJSON.append("[");
+            for (XmlReplacement xmlReplacement : configuration.getXmlReplacements())
+            {
+                if (i != 0)
+                {
+                    propertiesJSON.append(",");
+                }
+
+                propertiesJSON.append(
+                    "{\"attributeName\":\""
+                        + escapeJson(xmlReplacement.getAttributeName()) + "\","
+                    + "\"file\":\"" + escapeJson(xmlReplacement.getFile()) + "\","
+                    +  "\"value\":\"" + escapeJson(xmlReplacement.getValue()) + "\","
+                    + "\"xpathExpression\":\""
+                        + escapeJson(xmlReplacement.getXpathExpression()) + "\","
+                    + "\"ignoreIfNonExisting\":\""
+                        + xmlReplacement.isIgnoreIfNonExisting() + "\"}");
+
+                i++;
+            }
+            propertiesJSON.append("]");
+        }
+
+        return propertiesJSON.toString();
+    }
+
+    /**
+     * Escapes the JSON string.
+     * 
+     * @param string String to escape.
+     * @return Escaped string.
+     */
+    private String escapeJson(String string)
+    {
+        if (string != null)
+        {
+            return string.replace("\\", "\\\\").replace("\"", "\\\"");
+        }
+        else
+        {
+            return "";
+        }
     }
 
     /**
