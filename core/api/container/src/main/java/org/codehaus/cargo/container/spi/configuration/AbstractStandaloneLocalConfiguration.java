@@ -20,8 +20,10 @@
 package org.codehaus.cargo.container.spi.configuration;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -223,6 +225,32 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
                 this.xmlReplacements.remove(filename);
             }
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public List<XmlReplacement> getXmlReplacements()
+    {
+        List<XmlReplacement> xmlReplacements = new ArrayList<XmlReplacement>();
+
+        for (Map.Entry<String, Map<XmlReplacementDetails, String>> xmlReplacementEntry
+            : this.xmlReplacements.entrySet())
+        {
+            for (Map.Entry<XmlReplacementDetails, String> xmlReplacementDetail
+                : xmlReplacementEntry.getValue().entrySet())
+            {
+                XmlReplacement xmlReplacement = new XmlReplacement(
+                    xmlReplacementEntry.getKey(),
+                    xmlReplacementDetail.getKey().getXpathExpression(),
+                    xmlReplacementDetail.getKey().getAttributeName(),
+                    xmlReplacementDetail.getKey().isIgnoreIfNonExisting(),
+                    xmlReplacementDetail.getValue());
+                xmlReplacements.add(xmlReplacement);
+            }
+        }
+
+        return xmlReplacements;
     }
 
     /**

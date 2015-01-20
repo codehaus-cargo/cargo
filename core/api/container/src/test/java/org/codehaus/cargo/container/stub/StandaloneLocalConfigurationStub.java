@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.container.stub;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.util.XmlReplacement;
@@ -110,6 +113,14 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
         String attributeName)
     {
         // Nothing
+    }
+
+    /**
+     * Returns an empty array. {@inheritDoc}
+     */
+    public List<XmlReplacement> getXmlReplacements()
+    {
+        return new ArrayList<XmlReplacement>(0);
     }
 
 }

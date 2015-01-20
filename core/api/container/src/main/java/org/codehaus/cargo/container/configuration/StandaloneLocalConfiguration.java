@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.configuration;
 
+import java.util.List;
+
 import org.codehaus.cargo.util.XmlReplacement;
 
 /**
@@ -32,7 +34,6 @@ import org.codehaus.cargo.util.XmlReplacement;
  */
 public interface StandaloneLocalConfiguration extends LocalConfiguration
 {
-
     /**
      * Adds an XML replacement.
      * 
@@ -82,4 +83,8 @@ public interface StandaloneLocalConfiguration extends LocalConfiguration
      */
     void removeXmlReplacement(String filename, String xpathExpression, String attributeName);
 
+    /**
+     * @return All XML replacements.
+     */
+    List<XmlReplacement> getXmlReplacements();
 }
