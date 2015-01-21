@@ -23,7 +23,8 @@ import org.codehaus.cargo.container.tomcat.internal.Tomcat7x8xStandaloneLocalCon
 import org.codehaus.cargo.container.tomee.TomeePropertySet;
 
 /**
- * Capabilities of TomEE's {@link Tomee1xStandaloneLocalConfiguration} configuration.
+ * Capabilities of TomEE's
+ * {@link org.codehaus.cargo.container.tomee.Tomee1xStandaloneLocalConfiguration} configuration.
  * 
  * @version $Id$
  */
