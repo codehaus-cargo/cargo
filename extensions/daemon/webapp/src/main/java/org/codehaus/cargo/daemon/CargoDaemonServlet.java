@@ -529,6 +529,10 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                     String file = xmlReplacement.get("file", true);
                     String xpathExpression = xmlReplacement.get("xpathExpression", true);
                     String attributeName = xmlReplacement.get("attributeName", false);
+                    if (attributeName != null && attributeName.length() == 0)
+                    {
+                        attributeName = null;
+                    }
                     String value = xmlReplacement.get("value", true);
                     Boolean ignoreIfNonExisting;
                     String ignoreIfNonExistingString =

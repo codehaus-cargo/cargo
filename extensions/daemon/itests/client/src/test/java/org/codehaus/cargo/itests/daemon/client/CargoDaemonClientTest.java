@@ -31,8 +31,8 @@ import java.util.jar.JarFile;
 import junit.framework.TestCase;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 
@@ -49,6 +49,7 @@ import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
 import org.codehaus.cargo.tools.daemon.DaemonClient;
 import org.codehaus.cargo.tools.daemon.DaemonStart;
+import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
@@ -210,7 +211,7 @@ public class CargoDaemonClientTest extends TestCase
         assertFalse("Directory " + configurationDirectory + " already exists",
             configurationDirectory.isDirectory());
 
-        Configuration configuration =
+        StandaloneLocalConfiguration configuration = (StandaloneLocalConfiguration)
             CargoDaemonClientTest.configurationFactory.createConfiguration("jetty7x",
                 ContainerType.INSTALLED, ConfigurationType.STANDALONE,
                     configurationDirectory.getAbsolutePath());
@@ -220,6 +221,8 @@ public class CargoDaemonClientTest extends TestCase
         container.getSystemProperties().put("systemPropertyName", "testProperty");
         configuration.setProperty(ServletPropertySet.PORT, System.getProperty("servlet.port"));
         configuration.setProperty(GeneralPropertySet.RMI_PORT, System.getProperty("rmi.port"));
+        configuration.addXmlReplacement("etc/webdefault.xml", "//web-app/description",
+            "Testing XML replacements via the CARGO Daemon");
         DeployableFactory deployableFactory = new DefaultDeployableFactory();
         List<Deployable> deployables = new ArrayList<Deployable>();
         deployables.add(deployableFactory.createDeployable("jetty7x",
@@ -269,6 +272,11 @@ public class CargoDaemonClientTest extends TestCase
 
         client.stop("test1");
         cargoCpcWatchdog.watchForUnavailability();
+
+        // Check if the XML replacements worked properly
+        String webdefaultXml = new DefaultFileHandler().readTextFile(
+            configurationDirectory.getAbsolutePath() + "/etc/webdefault.xml", "UTF-8");
+        assertTrue(webdefaultXml.contains("Testing XML replacements via the CARGO Daemon"));
     }
 
 }
