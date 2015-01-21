@@ -81,7 +81,7 @@ public class JBoss5xStandaloneLocalConfiguration
             "conf/bootstrap/bindings.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
                 + "/property[@name='serviceName' and "
-                    + "text()='jboss.remoting:service=JMXConnectorServer,protocol=rmi']/.."
+                + "text()='jboss.remoting:service=JMXConnectorServer,protocol=rmi']/.."
                 + "/property[@name='port']", null,
             JBossPropertySet.JBOSS_JRMP_PORT);
 
@@ -98,7 +98,7 @@ public class JBoss5xStandaloneLocalConfiguration
             "conf/bootstrap/bindings.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
                 + "/property[@name='serviceName' "
-                    + "and text()='jboss:service=invoker,type=pooled']/.."
+                + "and text()='jboss:service=invoker,type=pooled']/.."
                 + "/property[@name='port']", null,
             JBossPropertySet.JBOSS_INVOKER_POOL_PORT);
 
