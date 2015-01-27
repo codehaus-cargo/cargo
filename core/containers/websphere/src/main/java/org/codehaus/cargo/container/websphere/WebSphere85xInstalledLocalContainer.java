@@ -238,10 +238,20 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
             serverLib = findServerLibByProcessorArch(serverLib, serverLibContents);
         }
 
-        String path = System.getenv("PATH");
-        if (path == null || !path.contains(serverLib.getAbsolutePath()))
+        String serverLibPath = serverLib.getAbsolutePath().replace(File.separatorChar, '/');
+        String path = java.getEnvironmentVariable("PATH");
+        if (path == null || !path.contains(serverLibPath))
         {
-            throw new CargoException("The PATH environment variable does not contain " + serverLib);
+            if (path == null)
+            {
+                path = serverLibPath;
+            }
+            else
+            {
+                path += File.pathSeparator + serverLibPath;
+            }
+
+            java.setEnvironmentVariable("PATH", path);
         }
 
         java.setSystemProperty("java.library.path",

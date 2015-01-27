@@ -20,6 +20,8 @@
 package org.codehaus.cargo.container.spi.jvm;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Java;
@@ -44,6 +46,12 @@ class DefaultJvmLauncher implements JvmLauncher
      * {@code true} to launch the JVM in spawn - separate thread independent of the initial thread
      */
     private boolean spawn;
+
+    /**
+     * List of extra environment variables. Ant's Java task doesn't offer a getter for the
+     * environment variable, forcing us to keep track of them ourselves.
+     */
+    private final Map<String, String> environmentVariables = new HashMap<String, String>();
 
     /**
      * Creates a new launcher using the specified Ant Java task.
@@ -158,6 +166,36 @@ class DefaultJvmLauncher implements JvmLauncher
             var.setValue(value != null ? value : "");
             this.java.addSysproperty(var);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void setEnvironmentVariable(String name, String value)
+    {
+        if (name != null && name.length() > 0)
+        {
+            Environment.Variable var = new Environment.Variable();
+            var.setKey(name);
+            var.setValue(value);
+            java.addEnv(var);
+
+            // separate bookkeeping, to enable getter method
+            environmentVariables.put(name, value);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getEnvironmentVariable(String name)
+    {
+        String value = environmentVariables.get(name);
+        if (value == null)
+        {
+            value = System.getenv(name);
+        }
+        return value;
     }
 
     /**

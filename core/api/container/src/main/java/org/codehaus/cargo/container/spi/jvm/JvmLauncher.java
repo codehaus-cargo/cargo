@@ -93,6 +93,25 @@ public interface JvmLauncher
     void setSystemProperty(String name, String value);
 
     /**
+     * Sets an environment variable for the JVM.
+     *
+     * @param name The variable name, may be {@code null}.
+     * @param value The property value, may be {@code null}.
+     */
+    void setEnvironmentVariable(String name, String value);
+
+    /**
+     * Gets an environment variable, as configured for the JVM. In case of manipulation of an
+     * existing variable, instead of replacing it (eg: when adding an additional directory to PATH)
+     * it is recommended to retrieve the value using this method instead of using
+     * {@link java.lang.System#getenv(java.lang.String)}.
+     *
+     * @param name The variable name, may be {@code null}.
+     * @return Either the previously set value, the system value or null.
+     */
+    String getEnvironmentVariable(String name);
+
+    /**
      * Sets the JAR file containing the main class to execute. Only one of {@link #setJarFile(File)}
      * and {@link #setMainClass(String)} may be invoked.
      * 

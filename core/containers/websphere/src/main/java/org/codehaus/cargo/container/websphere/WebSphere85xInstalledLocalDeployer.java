@@ -148,6 +148,8 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
                 throw new CargoException("Unknown deployable: " + deployable.getType());
             }
             mapWebModToVH.append("}");
+            String serverName = container.getConfiguration().getPropertyValue(
+                    WebSpherePropertySet.SERVER);
             String classldrMode = container.getConfiguration().getPropertyValue(
                     WebSpherePropertySet.CLASSLOADER_MODE);
             String classldrPolicy = container.getConfiguration().getPropertyValue(
@@ -158,6 +160,7 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
                 "$AdminApp install "
                     + deployable.getFile().replace('\\', '/').replace(" ", "\\ ")
                     + " {" + contextRoot + " "
+                    + " -server " + serverName
                     + " -appname " + deployableName
                     + mapWebModToVH.toString() + "}",
                 "set dep [$AdminConfig getid /Deployment:" + deployableName + "/]",

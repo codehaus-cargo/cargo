@@ -22,7 +22,9 @@ package org.codehaus.cargo.container.stub;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.tools.ant.util.JavaEnvUtils;
@@ -51,6 +53,11 @@ public class JvmLauncherStub implements JvmLauncher
      * System properties.
      */
     private Properties systemProperties = new Properties();
+
+    /**
+     * Environment variables.
+     */
+    private final Map<String, String> environmentVariables = new HashMap<String, String>();
 
     /**
      * {@inheritDoc}
@@ -160,6 +167,30 @@ public class JvmLauncherStub implements JvmLauncher
     public Properties getSystemProperties()
     {
         return this.systemProperties;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void setEnvironmentVariable(String name, String value)
+    {
+        if (name != null && name.length() > 0)
+        {
+            environmentVariables.put(name, value);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getEnvironmentVariable(String name)
+    {
+        String value = environmentVariables.get(name);
+        if (value == null)
+        {
+            value = System.getenv(name);
+        }
+        return value;
     }
 
     /**
