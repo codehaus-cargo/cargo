@@ -25,7 +25,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.Kernel32;
@@ -76,6 +78,11 @@ class DaemonJvmLauncher implements JvmLauncher
      * The vm system properties.
      */
     private final List<String> systemProperties = new ArrayList<String>();
+
+    /**
+     * The extra environment variables.
+     */
+    private final Map<String, String> environmentVariables = new HashMap<String, String>();
 
     /**
      * The application arguments.
@@ -292,6 +299,30 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    public void setEnvironmentVariable(String name, String value)
+    {
+        if (name != null && name.length() > 0)
+        {
+            environmentVariables.put(name, value);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getEnvironmentVariable(String name)
+    {
+        String value = environmentVariables.get(name);
+        if (value == null)
+        {
+            value = System.getenv(name);
+        }
+        return value;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public void setJarFile(File jarFile)
     {
         if (jarFile != null)
@@ -435,6 +466,8 @@ class DaemonJvmLauncher implements JvmLauncher
             ProcessBuilder pb =
                 new ProcessBuilder(buildCommandLine()).directory(workingDirectory)
                     .redirectErrorStream(true);
+            pb.environment().putAll(environmentVariables);
+
             this.process = pb.start();
 
             if (outputFile == null)
