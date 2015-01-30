@@ -94,7 +94,7 @@ public class JBoss7xExistingLocalConfiguration extends AbstractExistingLocalConf
             new File(deployDir, "cargocpc.war"));
 
         AbstractDeployer deployer = createDeployer(jbossContainer);
-        deployer.deploy(getDeployables());
+        deployer.redeploy(getDeployables());
     }
 
     /**

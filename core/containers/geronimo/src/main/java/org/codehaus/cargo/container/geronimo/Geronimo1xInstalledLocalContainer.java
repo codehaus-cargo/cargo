@@ -106,7 +106,7 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
         GeronimoInstalledLocalDeployer deployer = new GeronimoInstalledLocalDeployer(this);
         for (Deployable deployable : this.getConfiguration().getDeployables())
         {
-            deployer.deploy(deployable);
+            deployer.redeploy(deployable);
         }
     }
 

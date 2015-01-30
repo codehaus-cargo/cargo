@@ -122,7 +122,7 @@ public class Geronimo3xInstalledLocalContainer extends Geronimo1xInstalledLocalC
         }
         for (Deployable deployable : this.getConfiguration().getDeployables())
         {
-            deployer.deploy(deployable);
+            deployer.redeploy(deployable);
         }
     }
 

@@ -142,8 +142,20 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
     @Override
     public void redeploy(Deployable deployable)
     {
-        Tomcat5xEmbedded.Context context = getExistingContext(deployable);
-        context.reload();
+        Tomcat5xEmbedded.Context context = null;
+        try
+        {
+            context = getExistingContext(deployable);
+        }
+        catch (ContainerException e)
+        {
+            // Deployable not deployed, so simply deploy it
+            deploy(deployable);
+        }
+        if (context != null)
+        {
+            context.reload();
+        }
     }
 
     /**

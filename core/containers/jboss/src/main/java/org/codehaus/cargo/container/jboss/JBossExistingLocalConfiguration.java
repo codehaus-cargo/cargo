@@ -81,7 +81,7 @@ public class JBossExistingLocalConfiguration extends AbstractExistingLocalConfig
         }
 
         JBossInstalledLocalDeployer deployer = new JBossInstalledLocalDeployer(jbossContainer);
-        deployer.deploy(getDeployables());
+        deployer.redeploy(getDeployables());
 
         // Deploy the CPC (Cargo Ping Component) to the deploy directory.
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",

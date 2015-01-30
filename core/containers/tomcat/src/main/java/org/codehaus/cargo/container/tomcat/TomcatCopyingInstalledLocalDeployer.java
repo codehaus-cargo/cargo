@@ -214,16 +214,23 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
                 String context = war.getContext();
                 getLogger().info("Undeploying context [" + context + "] from [" + deployableDir
                     + "]...", this.getClass().getName());
-
-                // Delete either the WAR file or the expanded WAR directory.
-                String warLocation;
-                if (war.isExpanded())
+                if ("".equals(context) || "/".equals(context))
                 {
-                    warLocation = getFileHandler().append(deployableDir, context);
+                    getLogger().info(
+                        "The WAR file has its context set to / and will therefore be "
+                            + "deployed as ROOT.war", this.getClass().getName());
+                    context = "ROOT";
                 }
-                else
+
+                // Delete both the WAR file or the expanded WAR directory.
+                String warLocation = getFileHandler().append(deployableDir, context + ".war");
+                String expandedwarLocation = getFileHandler().append(deployableDir, context);
+
+                if (!getFileHandler().exists(warLocation)
+                    && !getFileHandler().exists(expandedwarLocation))
                 {
-                    warLocation = getFileHandler().append(deployableDir, context + ".war");
+                    throw new ContainerException("Failed to undeploy as there is no WAR at ["
+                        + warLocation + "] nor [" + expandedwarLocation + "]");
                 }
 
                 if (getFileHandler().exists(warLocation))
@@ -232,10 +239,11 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
                         this.getClass().getName());
                     getFileHandler().delete(warLocation);
                 }
-                else
+                if (getFileHandler().exists(expandedwarLocation))
                 {
-                    throw new ContainerException("Failed to undeploy as there is no WAR at ["
-                        + warLocation + "]");
+                    getLogger().info("Trying to delete WAR from [" + expandedwarLocation + "]...",
+                        this.getClass().getName());
+                    getFileHandler().delete(expandedwarLocation);
                 }
             }
             else

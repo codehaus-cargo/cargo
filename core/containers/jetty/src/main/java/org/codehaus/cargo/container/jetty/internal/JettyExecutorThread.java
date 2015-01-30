@@ -95,7 +95,6 @@ public class JettyExecutorThread extends Thread implements Loggable
                     getLogger().info("Ignoring unimplemented method server.destroy()",
                         getClass().getName());
                 }
-
             }
         }
         catch (Exception e)

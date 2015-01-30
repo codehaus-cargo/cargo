@@ -88,7 +88,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     public void writeConfigXml(Document configXml)
     {
         OutputFormat outformat = OutputFormat.createPrettyPrint();
-        XMLWriter writer;
+        XMLWriter writer = null;
         try
         {
             writer =
@@ -107,7 +107,22 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
             throw new ContainerException("Error writing config.xml for " + this.getServerName(),
                 e);
         }
-
+        finally
+        {
+            if (writer != null)
+            {
+                try
+                {
+                    writer.close();
+                }
+                catch (IOException ignored)
+                {
+                    // Ignored
+                }
+                writer = null;
+                System.gc();
+            }
+        }
     }
 
     /**

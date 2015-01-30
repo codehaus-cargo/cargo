@@ -78,7 +78,7 @@ public abstract class AbstractJettyExistingLocalConfiguration
 
         // create the correct deployer
         AbstractInstalledLocalDeployer deployer = createDeployer(container);
-        deployer.deploy(getDeployables());
+        deployer.redeploy(getDeployables());
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",

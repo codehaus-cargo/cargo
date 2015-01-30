@@ -68,7 +68,7 @@ public class WebLogic9x10x103x12xExistingLocalConfiguration
         WebLogic9x10x103x12xCopyingInstalledLocalDeployer deployer =
             new WebLogic9x10x103x12xCopyingInstalledLocalDeployer(
                 (InstalledLocalContainer) container);
-        deployer.deploy(getDeployables());
+        deployer.redeploy(getDeployables());
 
         // Deploy the cargocpc web-app by copying the WAR file
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",

@@ -62,7 +62,7 @@ public class Jonas4xExistingLocalConfiguration extends AbstractJonasExistingLoca
         checkDirExists("ejbjars/autoload");
 
         Jonas4xInstalledLocalDeployer deployer = new Jonas4xInstalledLocalDeployer(jonasContainer);
-        deployer.deploy(getDeployables());
+        deployer.redeploy(getDeployables());
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory.
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",

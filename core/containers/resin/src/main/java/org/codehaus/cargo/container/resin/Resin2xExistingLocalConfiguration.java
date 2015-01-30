@@ -77,7 +77,7 @@ public class Resin2xExistingLocalConfiguration extends AbstractExistingLocalConf
         }
 
         ResinInstalledLocalDeployer deployer = new ResinInstalledLocalDeployer(resinContainer);
-        deployer.deploy(getDeployables());
+        deployer.redeploy(getDeployables());
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory.
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",

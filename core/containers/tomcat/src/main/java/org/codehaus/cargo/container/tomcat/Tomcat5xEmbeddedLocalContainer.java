@@ -145,7 +145,7 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractEmbeddedLocalContain
             Deployer deployer = new Tomcat5xEmbeddedLocalDeployer(this);
             for (Deployable deployable : scheduledDeployables)
             {
-                deployer.deploy(deployable);
+                deployer.redeploy(deployable);
             }
         }
     }

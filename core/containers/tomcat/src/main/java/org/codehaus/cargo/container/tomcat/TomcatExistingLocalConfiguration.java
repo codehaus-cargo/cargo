@@ -165,7 +165,7 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
             // embedded Tomcat doesn't need CPC
             Tomcat5xEmbeddedLocalDeployer deployer =
                 new Tomcat5xEmbeddedLocalDeployer((Tomcat5xEmbeddedLocalContainer) container);
-            deployer.deploy(getDeployables());
+            deployer.redeploy(getDeployables());
         }
         else
         {
@@ -180,7 +180,7 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
 
             TomcatCopyingInstalledLocalDeployer deployer = createDeployer(container);
             deployer.setShouldCopyWars(true);
-            deployer.deploy(getDeployables());
+            deployer.redeploy(getDeployables());
 
             // Deploy the CPC (Cargo Ping Component) to the webapps directory.
             getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",

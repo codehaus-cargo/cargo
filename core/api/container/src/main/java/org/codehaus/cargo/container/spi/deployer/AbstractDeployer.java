@@ -123,6 +123,18 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
 
     /**
      * {@inheritDoc}
+     * @see #redeploy(Deployable)
+     */
+    public void redeploy(List<Deployable> deployables)
+    {
+        for (Deployable deployable : deployables)
+        {
+            redeploy(deployable);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
      * @see Deployer#redeploy(Deployable, DeployableMonitor)
      */
     public void redeploy(Deployable deployable, DeployableMonitor monitor)
