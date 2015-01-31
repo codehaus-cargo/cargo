@@ -337,7 +337,8 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
                 int retval = java.execute();
                 if (retval != 0)
                 {
-                    throw new ContainerException("Failed to redeploy [" + deployable + "]");
+                    // Redeploy failed, attempt normal deployment
+                    deploy(deployable);
                 }
             }
             catch (JvmLauncherException e)
