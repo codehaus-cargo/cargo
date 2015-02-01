@@ -156,35 +156,20 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
             {
                 org.codehaus.cargo.container.deployable.Deployable deployable =
                     deployableElement.createDeployable(container.getId(), getCargoProject());
-                URL pingURL = deployableElement.getPingURL();
-                Long pingTimeout = deployableElement.getPingTimeout();
-                addDeployable(deployable, pingURL, pingTimeout);
+                daemonDeployables.add(deployable);
             }
         }
 
         // Perform deployment action on the autodeployable (if any).
         if (getCargoProject().getPackaging() != null && getCargoProject().isJ2EEPackaging())
         {
+            // Has the auto-deployable already been specified as part of the <deployables> config
+            // element?
             if (getDeployablesElement() == null
                 || !containsAutoDeployable(getDeployablesElement()))
             {
-                // Has the auto-deployable already been specified as part of the <deployables>
-                // config element?
-                addDeployable(createAutoDeployDeployable(container), null, null);
+                daemonDeployables.add(createAutoDeployDeployable(container));
             }
         }
-    }
-
-    /**
-     * Adds a deployable to the list.
-     * 
-     * @param deployable The deployable
-     * @param pingURL The pingURL
-     * @param pingTimeout The pingTimeout
-     */
-    private void addDeployable(org.codehaus.cargo.container.deployable.Deployable deployable,
-        URL pingURL, Long pingTimeout)
-    {
-        daemonDeployables.add(deployable);
     }
 }

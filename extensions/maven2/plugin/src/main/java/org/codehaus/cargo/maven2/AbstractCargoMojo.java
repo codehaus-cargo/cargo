@@ -49,7 +49,10 @@ import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.deployer.DeployableMonitor;
+import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
+import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.maven2.configuration.ArtifactInstaller;
 import org.codehaus.cargo.maven2.configuration.Configuration;
 import org.codehaus.cargo.maven2.configuration.Container;
@@ -981,6 +984,42 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
 
         return logger;
+    }
+
+    /**
+     * Waits until all deployables with a deployable monitor are deployed / undeployed.
+     * 
+     * @param starting <code>true</code> if container is starting (i.e., wait for deployment),
+     * <code>false</code> otherwise.
+     */
+    protected void waitDeployableMonitor(boolean starting)
+    {
+        if (getDeployablesElement() != null)
+        {
+            Logger watchdogLogger = createLogger();
+
+            for (Deployable deployable : getDeployablesElement())
+            {
+                URL pingURL = deployable.getPingURL();
+                if (pingURL != null)
+                {
+                    DeployableMonitor monitor;
+                    Long pingTimeout = deployable.getPingTimeout();
+                    if (pingTimeout == null)
+                    {
+                        monitor = new URLDeployableMonitor(pingURL);
+                    }
+                    else
+                    {
+                        monitor = new URLDeployableMonitor(pingURL, pingTimeout.longValue());
+                    }
+                    DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
+                    watchdog.setLogger(watchdogLogger);
+                    monitor.setLogger(watchdogLogger);
+                    watchdog.watchForAvailability();
+                }
+            }
+        }
     }
 
     /**

@@ -47,5 +47,6 @@ public class ContainerStopMojo extends AbstractCargoMojo
         }
 
         ((LocalContainer) container).stop();
+        waitDeployableMonitor(false);
     }
 }

@@ -19,16 +19,11 @@
  */
 package org.codehaus.cargo.maven2;
 
-import java.net.URL;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.deployer.DeployableMonitor;
-import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
-import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
-import org.codehaus.cargo.maven2.configuration.Deployable;
 
 /**
  * Start a container using Cargo.
@@ -61,31 +56,7 @@ public class ContainerStartMojo extends AbstractCargoMojo
         this.localContainer = (LocalContainer) container;
         addAutoDeployDeployable(this.localContainer);
         executeLocalContainerAction();
-
-        if (getDeployablesElement() != null)
-        {
-            for (Deployable deployable : getDeployablesElement())
-            {
-                URL pingURL = deployable.getPingURL();
-                if (pingURL != null)
-                {
-                    DeployableMonitor monitor;
-                    Long pingTimeout = deployable.getPingTimeout();
-                    if (pingTimeout == null)
-                    {
-                        monitor = new URLDeployableMonitor(pingURL);
-                    }
-                    else
-                    {
-                        monitor = new URLDeployableMonitor(pingURL, pingTimeout.longValue());
-                    }
-                    DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
-                    watchdog.setLogger(container.getLogger());
-                    monitor.setLogger(container.getLogger());
-                    watchdog.watchForAvailability();
-                }
-            }
-        }
+        waitDeployableMonitor(true);
     }
 
     /**
