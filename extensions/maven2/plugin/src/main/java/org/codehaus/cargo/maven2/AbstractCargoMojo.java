@@ -1016,7 +1016,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                     DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
                     watchdog.setLogger(watchdogLogger);
                     monitor.setLogger(watchdogLogger);
-                    watchdog.watchForAvailability();
+                    watchdog.watch(starting);
                 }
             }
         }
