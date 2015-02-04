@@ -188,9 +188,10 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
             Constructor<?>[] constructors = deployerClass.getConstructors();
             for (Constructor<?> constructor : constructors)
             {
-                if (constructor.getParameterCount() == 1)
+                Class<?>[] parameterTypes = constructor.getParameterTypes();
+                if (parameterTypes != null && parameterTypes.length == 1)
                 {
-                    Class<?> parameter = constructor.getParameterTypes()[0];
+                    Class<?> parameter = parameterTypes[0];
                     if (LocalContainer.class.isAssignableFrom(parameter))
                     {
                         result = (Constructor<? extends Deployer>) constructor;
@@ -204,9 +205,10 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
             Constructor<?>[] constructors = deployerClass.getConstructors();
             for (Constructor<?> constructor : constructors)
             {
-                if (constructor.getParameterCount() == 1)
+                Class<?>[] parameterTypes = constructor.getParameterTypes();
+                if (parameterTypes != null && parameterTypes.length == 1)
                 {
-                    Class<?> parameter = constructor.getParameterTypes()[0];
+                    Class<?> parameter = parameterTypes[0];
                     if (RemoteContainer.class.isAssignableFrom(parameter))
                     {
                         result = (Constructor<? extends Deployer>) constructor;
