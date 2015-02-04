@@ -32,7 +32,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
@@ -163,8 +162,8 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
         if (container instanceof Tomcat5xEmbeddedLocalContainer)
         {
             // embedded Tomcat doesn't need CPC
-            Tomcat5xEmbeddedLocalDeployer deployer =
-                new Tomcat5xEmbeddedLocalDeployer((Tomcat5xEmbeddedLocalContainer) container);
+            TomcatEmbeddedLocalDeployer deployer =
+                new TomcatEmbeddedLocalDeployer((Tomcat5xEmbeddedLocalContainer) container);
             deployer.redeploy(getDeployables());
         }
         else
@@ -216,6 +215,6 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
      */
     protected TomcatCopyingInstalledLocalDeployer createDeployer(LocalContainer container)
     {
-        return new TomcatCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
+        return new TomcatCopyingInstalledLocalDeployer(container);
     }
 }

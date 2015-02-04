@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.resin;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
@@ -32,9 +32,9 @@ public class ResinInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
 {
     /**
      * {@inheritDoc}
-     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(InstalledLocalContainer)
+     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public ResinInstalledLocalDeployer(InstalledLocalContainer container)
+    public ResinInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
     }

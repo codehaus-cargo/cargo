@@ -21,7 +21,7 @@ package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
@@ -37,9 +37,9 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
 {
     /**
      * {@inheritDoc}
-     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(InstalledLocalContainer)
+     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public JBossInstalledLocalDeployer(InstalledLocalContainer container)
+    public JBossInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
     }

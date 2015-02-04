@@ -100,4 +100,30 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
             return this.getClass().getName() + "[File not set]";
         }
     }
+
+    /**
+     * {@inheritDoc}
+     * @see Object#equals(Object)
+     */
+    @Override
+    public boolean equals(Object object)
+    {
+        boolean result = false;
+        if (object != null && object instanceof AbstractDeployable)
+        {
+            return object.toString().equals(this.toString());
+        }
+
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see Object#hashCode()
+     */
+    @Override
+    public int hashCode()
+    {
+        return this.toString().hashCode();
+    }
 }

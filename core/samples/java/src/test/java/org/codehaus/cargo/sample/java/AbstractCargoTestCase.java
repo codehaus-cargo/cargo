@@ -353,7 +353,7 @@ public abstract class AbstractCargoTestCase extends TestCase
 
         // Set up the thread context classloader for embedded containers. We're doing this here
         // instead of in the constructor as this needs to be set for each single test as otherwise
-        // the diferent embedded containers will conflict with each other.
+        // the different embedded containers will conflict with each other.
         if (getTestData().containerType == ContainerType.EMBEDDED)
         {
             EmbeddedContainerClasspathResolver resolver = new EmbeddedContainerClasspathResolver();

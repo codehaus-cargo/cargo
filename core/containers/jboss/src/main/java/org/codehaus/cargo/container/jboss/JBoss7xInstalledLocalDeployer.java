@@ -41,7 +41,7 @@ public class JBoss7xInstalledLocalDeployer extends JBossInstalledLocalDeployer
 {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(InstalledLocalContainer)
+     * @see org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
     public JBoss7xInstalledLocalDeployer(InstalledLocalContainer container)
     {

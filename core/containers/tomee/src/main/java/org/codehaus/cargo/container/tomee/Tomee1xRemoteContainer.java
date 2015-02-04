@@ -17,35 +17,30 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.tomcat;
+package org.codehaus.cargo.container.tomee;
 
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaEmbeddedLocalContainer;
+import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContainer;
 
 /**
- * Embedded Tomcat 5.x container.
+ * Special container support for wrapping a running instance of Apache TomEE.
  * 
  * @version $Id$
  */
-public class Tomcat5xEmbeddedLocalContainer extends AbstractCatalinaEmbeddedLocalContainer
+public class Tomee1xRemoteContainer extends AbstractTomcatRemoteContainer
 {
     /**
-     * Creates a Tomcat 5.x {@link org.codehaus.cargo.container.EmbeddedLocalContainer}.
-     * 
-     * @param configuration the configuration of the newly created container.
+     * Unique container id.
      */
-    public Tomcat5xEmbeddedLocalContainer(LocalConfiguration configuration)
-    {
-        super(configuration);
-    }
+    public static final String ID = "tomee1x";
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
+     * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContainer#AbstractTomcatRemoteContainer(RuntimeConfiguration)
      */
-    public String getId()
+    public Tomee1xRemoteContainer(RuntimeConfiguration configuration)
     {
-        return "tomcat5x";
+        super(configuration);
     }
 
     /**
@@ -54,6 +49,15 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractCatalinaEmbeddedLoca
      */
     public String getName()
     {
-        return "Tomcat 5.x Embedded";
+        return "TomEE 1.x Remote";
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.Container#getId()
+     */
+    public String getId()
+    {
+        return ID;
     }
 }

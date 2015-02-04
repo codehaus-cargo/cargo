@@ -22,7 +22,7 @@
  */
 package org.codehaus.cargo.container.jonas;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
@@ -41,9 +41,9 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(InstalledLocalContainer)
+     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public Jonas5xInstalledLocalDeployer(InstalledLocalContainer container)
+    public Jonas5xInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
 

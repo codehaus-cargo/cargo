@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
 
 /**
- * Static deployer that deploys EARs and WARs to the TomEE directories.
+ * Static deployer that deploys EARs, EJBs and WARs to the TomEE directories.
  * 
  * @version $Id$
  */
@@ -46,7 +46,7 @@ public class Tomee1xCopyingInstalledLocalDeployer extends TomcatCopyingInstalled
     }
 
     /**
-     * {@inheritDoc}. For TomEE this is the <code>apps</code> directory for EARs as well as JARs
+     * {@inheritDoc}. For TomEE this is the <code>apps</code> directory for EARs as well as EJBs
      * and the <code>webapps</code> directory for WARs.
      */
     @Override

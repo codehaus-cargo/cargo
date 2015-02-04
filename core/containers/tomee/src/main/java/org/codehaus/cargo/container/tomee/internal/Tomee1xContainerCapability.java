@@ -35,7 +35,8 @@ public class Tomee1xContainerCapability extends J2EEContainerCapability
     @Override
     public boolean supportsDeployableType(DeployableType type)
     {
-        return type == DeployableType.EJB || super.supportsDeployableType(type);
+        return type == DeployableType.EJB || type == DeployableType.EAR
+            || super.supportsDeployableType(type);
     }
 
 }

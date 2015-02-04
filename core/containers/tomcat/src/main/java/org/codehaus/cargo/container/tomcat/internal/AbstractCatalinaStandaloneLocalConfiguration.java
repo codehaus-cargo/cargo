@@ -43,8 +43,7 @@ import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
-import org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalContainer;
-import org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalDeployer;
+import org.codehaus.cargo.container.tomcat.TomcatEmbeddedLocalDeployer;
 import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
@@ -213,19 +212,19 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     {
         try
         {
+            // Create a webapps directory for automatic deployment of WARs dropped inside.
+            String appDir = getFileHandler().createDirectory(getHome(),
+                getPropertyValue(TomcatPropertySet.WEBAPPS_DIRECTORY));
+
             if (container instanceof EmbeddedLocalContainer)
             {
                 // embedded Tomcat doesn't need CPC
-                Tomcat5xEmbeddedLocalDeployer deployer =
-                    new Tomcat5xEmbeddedLocalDeployer((Tomcat5xEmbeddedLocalContainer) container);
+                TomcatEmbeddedLocalDeployer deployer = new TomcatEmbeddedLocalDeployer(
+                    (AbstractCatalinaEmbeddedLocalContainer) container);
                 deployer.deploy(getDeployables());
             }
             else
             {
-                // Create a webapps directory for automatic deployment of WARs dropped inside.
-                String appDir = getFileHandler().createDirectory(getHome(),
-                    getPropertyValue(TomcatPropertySet.WEBAPPS_DIRECTORY));
-
                 // Deploy all deployables into the webapps directory.
                 TomcatCopyingInstalledLocalDeployer deployer = createDeployer(container);
                 deployer.setShouldCopyWars(Boolean.parseBoolean(
@@ -445,6 +444,6 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      */
     protected TomcatCopyingInstalledLocalDeployer createDeployer(LocalContainer container)
     {
-        return new TomcatCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
+        return new TomcatCopyingInstalledLocalDeployer(container);
     }
 }

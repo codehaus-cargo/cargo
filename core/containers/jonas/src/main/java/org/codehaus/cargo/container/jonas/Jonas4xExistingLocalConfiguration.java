@@ -22,7 +22,6 @@
  */
 package org.codehaus.cargo.container.jonas;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.jonas.internal.AbstractJonasExistingLocalConfiguration;
 
@@ -51,7 +50,7 @@ public class Jonas4xExistingLocalConfiguration extends AbstractJonasExistingLoca
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
-        InstalledLocalContainer jonasContainer = (InstalledLocalContainer) container;
+        Jonas4xInstalledLocalContainer jonasContainer = (Jonas4xInstalledLocalContainer) container;
 
         checkDirExists("conf");
         checkDirExists("apps");

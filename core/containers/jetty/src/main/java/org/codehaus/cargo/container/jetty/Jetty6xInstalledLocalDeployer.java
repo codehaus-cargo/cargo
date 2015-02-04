@@ -24,6 +24,7 @@ import java.io.OutputStream;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -39,9 +40,9 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 {
     /**
      * {@inheritDoc}
-     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
+     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public Jetty6xInstalledLocalDeployer(InstalledLocalContainer container)
+    public Jetty6xInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
     }

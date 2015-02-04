@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
@@ -62,7 +62,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
      * 
      * @see AbstractInstalledLocalDeployer#AbstractInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public AbstractCopyingInstalledLocalDeployer(InstalledLocalContainer container)
+    public AbstractCopyingInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
 

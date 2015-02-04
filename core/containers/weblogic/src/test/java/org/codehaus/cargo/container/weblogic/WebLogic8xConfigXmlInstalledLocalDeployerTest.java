@@ -25,6 +25,7 @@ import org.apache.commons.vfs.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
+import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 import org.custommonkey.xmlunit.XMLAssert;
@@ -45,13 +46,6 @@ import org.dom4j.Element;
  */
 public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
 {
-
-    /**
-     * Resources' path.
-     */
-    protected static final String RESOURCE_PATH =
-        "org/codehaus/cargo/container/internal/resources/";
-
     /**
      * BEA_HOME
      */
@@ -143,8 +137,8 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
      */
     public void testConfigWar() throws Exception
     {
-        this.resourceUtils.copyResource(RESOURCE_PATH + "cargocpc.war", this.fileHandler.append(
-            DOMAIN_HOME, "cargocpc.war"), this.fileHandler);
+        this.resourceUtils.copyResource(AbstractLocalConfiguration.RESOURCE_PATH + "cargocpc.war",
+            this.fileHandler.append(DOMAIN_HOME, "cargocpc.war"), this.fileHandler);
         WAR war = new WAR("cargo.war");
         deployer.addWarToDomain(war, this.domain);
         String xml = domain.asXML();

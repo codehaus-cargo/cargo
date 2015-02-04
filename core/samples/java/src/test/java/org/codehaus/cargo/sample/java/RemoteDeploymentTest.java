@@ -277,6 +277,12 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
                     "cargo:password:manager-script");
             }
         }
+        // TomEE requires the servlet users to have a manager
+        else if (getTestData().containerId.startsWith("tomee"))
+        {
+            this.localContainer.getConfiguration().setProperty(ServletPropertySet.USERS,
+                "cargo:password:manager-script");
+        }
 
         this.localContainer.start();
     }

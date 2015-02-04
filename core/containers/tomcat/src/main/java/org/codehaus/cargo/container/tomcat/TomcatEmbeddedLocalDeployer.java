@@ -30,41 +30,42 @@ import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat5xEmbedded;
+import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaEmbeddedLocalContainer;
+import org.codehaus.cargo.container.tomcat.internal.TomcatEmbedded;
 import org.codehaus.cargo.module.webapp.tomcat.TomcatWarArchive;
 import org.jdom.Attribute;
 
 /**
  * {@link org.codehaus.cargo.container.deployer.Deployer} for deploying to
- * {@link Tomcat5xEmbeddedLocalContainer embedded Tomcat container}.
+ * {@link AbstractCatalinaEmbeddedLocalContainer embedded Tomcat container}.
  * 
  * @version $Id$
  */
-public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
+public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
 {
     /**
      * The container that this deployer acts on.
      */
-    private final Tomcat5xEmbeddedLocalContainer container;
+    private final AbstractCatalinaEmbeddedLocalContainer container;
 
     /**
-     * Map from {@link Deployable} to {@link Tomcat5xEmbedded.Context}, representing deployed
+     * Map from {@link Deployable} to {@link TomcatEmbedded.Context}, representing deployed
      * objects.
      */
-    private final Map<Deployable, Tomcat5xEmbedded.Context> deployed =
-        new HashMap<Deployable, Tomcat5xEmbedded.Context>();
+    private final Map<Deployable, TomcatEmbedded.Context> deployed =
+        new HashMap<Deployable, TomcatEmbedded.Context>();
 
     /**
-     * Creates a new deployer for {@link Tomcat5xEmbeddedLocalContainer}.
+     * Creates a new deployer for {@link AbstractCatalinaEmbeddedLocalContainer}.
      * 
      * @param container The container to which this deployer will work. This parameter is typed as
      * {@link EmbeddedLocalContainer} due to the Cargo generic API requirement, but it has to be a
-     * {@link Tomcat5xEmbeddedLocalContainer}.
+     * {@link AbstractCatalinaEmbeddedLocalContainer}.
      */
-    public Tomcat5xEmbeddedLocalDeployer(EmbeddedLocalContainer container)
+    public TomcatEmbeddedLocalDeployer(EmbeddedLocalContainer container)
     {
         super(container);
-        this.container = (Tomcat5xEmbeddedLocalContainer) container;
+        this.container = (AbstractCatalinaEmbeddedLocalContainer) container;
     }
 
     /**
@@ -95,7 +96,7 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
             docBase = war.getFile();
         }
 
-        Tomcat5xEmbedded.Context context = container.getController().createContext(
+        TomcatEmbedded.Context context = container.getController().createContext(
             '/' + war.getContext(), docBase);
 
         try
@@ -130,7 +131,7 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
     @Override
     public void undeploy(Deployable deployable)
     {
-        Tomcat5xEmbedded.Context context = getExistingContext(deployable);
+        TomcatEmbedded.Context context = getExistingContext(deployable);
         container.getHost().removeChild(context);
         deployed.remove(deployable);
     }
@@ -142,7 +143,7 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
     @Override
     public void redeploy(Deployable deployable)
     {
-        Tomcat5xEmbedded.Context context = null;
+        TomcatEmbedded.Context context = null;
         try
         {
             context = getExistingContext(deployable);
@@ -208,9 +209,9 @@ public class Tomcat5xEmbeddedLocalDeployer extends AbstractLocalDeployer
      * @param deployable the deployable object that has deployed on Tomcat.
      * @return always non-null
      */
-    private Tomcat5xEmbedded.Context getExistingContext(Deployable deployable)
+    private TomcatEmbedded.Context getExistingContext(Deployable deployable)
     {
-        Tomcat5xEmbedded.Context context = deployed.get(deployable);
+        TomcatEmbedded.Context context = deployed.get(deployable);
         if (context == null)
         {
             throw new ContainerException("Not deployed yet: " + deployable);

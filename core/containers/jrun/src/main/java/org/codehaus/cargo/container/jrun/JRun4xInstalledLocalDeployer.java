@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.jrun;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
@@ -32,9 +33,9 @@ public class JRun4xInstalledLocalDeployer extends AbstractCopyingInstalledLocalD
 {
     /**
      * {@inheritDoc}
-     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(InstalledLocalContainer)
+     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public JRun4xInstalledLocalDeployer(InstalledLocalContainer container)
+    public JRun4xInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
     }

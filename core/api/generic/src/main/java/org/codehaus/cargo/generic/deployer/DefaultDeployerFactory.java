@@ -23,8 +23,7 @@ import java.lang.reflect.Constructor;
 
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.EmbeddedLocalContainer;
-import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.DeployerType;
@@ -180,30 +179,53 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
         Class<? extends Deployer> deployerClass, String hint, GenericParameters parameters)
         throws NoSuchMethodException
     {
-        Constructor<? extends Deployer> constructor;
+        Constructor<? extends Deployer> result = null;
 
         DeployerType type = DeployerType.toType(hint);
 
-        if (type == DeployerType.INSTALLED)
+        if (type == DeployerType.INSTALLED || type == DeployerType.EMBEDDED)
         {
-            constructor =
-                deployerClass.getConstructor(new Class[] {InstalledLocalContainer.class});
-        }
-        else if (type == DeployerType.EMBEDDED)
-        {
-            constructor =
-                deployerClass.getConstructor(new Class[] {EmbeddedLocalContainer.class});
+            Constructor<?>[] constructors = deployerClass.getConstructors();
+            for (Constructor<?> constructor : constructors)
+            {
+                if (constructor.getParameterCount() == 1)
+                {
+                    Class<?> parameter = constructor.getParameterTypes()[0];
+                    if (LocalContainer.class.isAssignableFrom(parameter))
+                    {
+                        result = (Constructor<? extends Deployer>) constructor;
+                        break;
+                    }
+                }
+            }
         }
         else if (type == DeployerType.REMOTE)
         {
-            constructor = deployerClass.getConstructor(new Class[] {RemoteContainer.class});
+            Constructor<?>[] constructors = deployerClass.getConstructors();
+            for (Constructor<?> constructor : constructors)
+            {
+                if (constructor.getParameterCount() == 1)
+                {
+                    Class<?> parameter = constructor.getParameterTypes()[0];
+                    if (RemoteContainer.class.isAssignableFrom(parameter))
+                    {
+                        result = (Constructor<? extends Deployer>) constructor;
+                        break;
+                    }
+                }
+            }
         }
         else
         {
             throw new ContainerException("Unknown deployer type [" + type.getType() + "]");
         }
 
-        return constructor;
+        if (result == null)
+        {
+            throw new NoSuchMethodException("No constructor found on class " + deployerClass
+                + " for deployer type [" + type.getType() + "]");
+        }
+        return result;
     }
 
     /**

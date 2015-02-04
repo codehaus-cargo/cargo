@@ -21,7 +21,7 @@ package org.codehaus.cargo.container.weblogic;
 
 import java.io.File;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -40,9 +40,9 @@ public class WebLogic9x10x103x12xCopyingInstalledLocalDeployer extends
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(InstalledLocalContainer)
+     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public WebLogic9x10x103x12xCopyingInstalledLocalDeployer(InstalledLocalContainer container)
+    public WebLogic9x10x103x12xCopyingInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
     }

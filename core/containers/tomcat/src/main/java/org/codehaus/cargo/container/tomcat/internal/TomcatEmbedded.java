@@ -28,11 +28,11 @@ import java.net.InetAddress;
 import org.codehaus.cargo.container.ContainerException;
 
 /**
- * Wrapper classes around Tomcat 5.x embedded API to hide reflection.
+ * Wrapper classes around Tomcat embedded API to hide reflection.
  * 
  * @version $Id$
  */
-public final class Tomcat5xEmbedded
+public final class TomcatEmbedded
 {
     /** reflection method. */
     private Constructor embeddedNew;
@@ -123,7 +123,7 @@ public final class Tomcat5xEmbedded
      * @param classLoader the CL used to load Tomcat 5.x classes. Can be null.
      * @throws Exception if an error happens when creating the Tomcat objects by reflection
      */
-    public Tomcat5xEmbedded(ClassLoader classLoader) throws Exception
+    public TomcatEmbedded(ClassLoader classLoader) throws Exception
     {
         this.classLoader = classLoader;
         ClassLoader old = Thread.currentThread().getContextClassLoader();
@@ -350,7 +350,7 @@ public final class Tomcat5xEmbedded
             // why do we set context class loader? see the comment inside the constructor
             // about commons logging.
             ClassLoader cl = Thread.currentThread().getContextClassLoader();
-            Thread.currentThread().setContextClassLoader(Tomcat5xEmbedded.this.classLoader);
+            Thread.currentThread().setContextClassLoader(TomcatEmbedded.this.classLoader);
             try
             {
                 return method.invoke(core, args);

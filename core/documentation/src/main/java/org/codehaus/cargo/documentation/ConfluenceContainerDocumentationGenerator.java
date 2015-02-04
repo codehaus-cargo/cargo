@@ -1082,10 +1082,23 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(generateConfigurationPropertiesForConfigurationTypeForContainerType(
                 "Runtime", ConfigurationType.RUNTIME, containerId, ContainerType.REMOTE));
             output.append(LINE_SEPARATOR);
-            if (containerId.equals("tomcat7x"))
+            if (containerId.equals("tomcat7x") || containerId.equals("tomcat8x")
+                || containerId.equals("tomee1x"))
             {
-                output.append("{info}With Tomcat 7, the Tomcat manager has multiple aspects to ");
-                output.append("be careful about:");
+                output.append("{info}With ");
+                if (containerId.equals("tomcat7x"))
+                {
+                    output.append("Tomcat 7");
+                }
+                else if (containerId.equals("tomcat8x"))
+                {
+                    output.append("Tomcat 8");
+                }
+                else if (containerId.equals("tomee1x"))
+                {
+                    output.append("TomEE");
+                }
+                output.append(", the Tomcat manager has multiple aspects to be careful about:");
                 output.append(LINE_SEPARATOR);
                 output.append("* Your browser by default accesses the HTML-based manager ");
                 output.append("whereas CARGO needs to use the text-based manager. As a result, ");
@@ -1098,8 +1111,16 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("role. As a result, please make sure you modify your ");
                 output.append("{{tomcat-users.xml}} file to give that role to a user.");
                 output.append(LINE_SEPARATOR);
-                output.append("You can read more on the Tomcat documentation: ");
-                output.append("http://tomcat.apache.org/tomcat-7.0-doc/manager-howto.html{info}");
+                output.append("You can read more in the Tomcat documentation: ");
+                if (containerId.equals("tomcat7x") || containerId.equals("tomee1x"))
+                {
+                    output.append("http://tomcat.apache.org/tomcat-7.0-doc/manager-howto.html");
+                }
+                else if (containerId.equals("tomcat8x"))
+                {
+                    output.append("http://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html");
+                }
+                output.append("{info}");
                 output.append(LINE_SEPARATOR);
             }
         }

@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.tomcat;
 
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -46,9 +46,9 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
 
     /**
      * {@inheritDoc}
-     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(InstalledLocalContainer)
+     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public TomcatCopyingInstalledLocalDeployer(InstalledLocalContainer container)
+    public TomcatCopyingInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
     }

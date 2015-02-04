@@ -23,7 +23,7 @@
 package org.codehaus.cargo.container.jonas;
 
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.jonas.internal.Jonas4xAdmin;
@@ -46,11 +46,11 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(InstalledLocalContainer)
+     * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public Jonas4xInstalledLocalDeployer(InstalledLocalContainer container)
+    public Jonas4xInstalledLocalDeployer(Jonas4xInstalledLocalContainer container)
     {
-        this(container, new Jonas4xAdminImpl((Jonas4xInstalledLocalContainer) container));
+        this(container, new Jonas4xAdminImpl(container));
     }
 
     /**
@@ -59,7 +59,7 @@ public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * @param container the container to be used
      * @param admin the JOnAS admin to use for deployment
      */
-    public Jonas4xInstalledLocalDeployer(InstalledLocalContainer container, Jonas4xAdmin admin)
+    public Jonas4xInstalledLocalDeployer(LocalContainer container, Jonas4xAdmin admin)
     {
         super(container);
         this.admin = admin;

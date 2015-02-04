@@ -17,24 +17,24 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.wildfly;
+package org.codehaus.cargo.container.tomee;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.jboss.JBoss7xInstalledLocalDeployer;
+import org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration;
 
 /**
- * Static deployer that deploys WARs and EARs to the WildFly <code>deployments</code> directory.
+ * Configuration to use when deploying to TomEE remotely.
  * 
  * @version $Id$
  */
-public class WildFly8xInstalledLocalDeployer extends JBoss7xInstalledLocalDeployer
+public class TomeeRuntimeConfiguration extends TomcatRuntimeConfiguration
 {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * @see Object#toString()
      */
-    public WildFly8xInstalledLocalDeployer(InstalledLocalContainer container)
+    @Override
+    public String toString()
     {
-        super(container);
+        return "TomEE Runtime Configuration";
     }
 }

@@ -36,6 +36,7 @@ import org.codehaus.cargo.container.deployable.RAR;
 import org.codehaus.cargo.container.deployable.SAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
+import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 import org.custommonkey.xmlunit.NamespaceContext;
@@ -61,13 +62,6 @@ import org.dom4j.QName;
  */
 public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends TestCase
 {
-
-    /**
-     * Resources' path.
-     */
-    protected static final String RESOURCE_PATH =
-        "org/codehaus/cargo/container/internal/resources/";
-
     /**
      * BEA_HOME
      */
@@ -212,8 +206,8 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends Tes
     protected WAR createWar() throws Exception
     {
         String sourcePath = this.fileHandler.append(DOMAIN_HOME, "cargocpc.war");
-        this.resourceUtils.copyResource(RESOURCE_PATH + "cargocpc.war", sourcePath,
-            this.fileHandler);
+        this.resourceUtils.copyResource(AbstractLocalConfiguration.RESOURCE_PATH + "cargocpc.war",
+            sourcePath, this.fileHandler);
         WAR war = new WAR("cargo.war");
         return war;
     }
