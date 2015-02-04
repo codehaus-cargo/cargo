@@ -214,7 +214,7 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
         deployerFactory.registerDeployer("tomcat5x", DeployerType.REMOTE,
             Tomcat5xRemoteDeployer.class);
         deployerFactory.registerDeployer("tomcat5x", DeployerType.EMBEDDED,
-            Tomcat5xEmbeddedLocalDeployer.class);
+            TomcatEmbeddedLocalDeployer.class);
 
         deployerFactory.registerDeployer("tomcat6x", DeployerType.INSTALLED,
              TomcatCopyingInstalledLocalDeployer.class);
