@@ -441,7 +441,7 @@ public final class TomcatEmbedded
         }
 
         /**
-         * Gets the name of thist host.
+         * Gets the name of this host.
          * 
          * @return host name.
          */

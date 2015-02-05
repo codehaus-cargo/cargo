@@ -23,7 +23,7 @@ package org.codehaus.cargo.container.websphere;
  * Enumeration of possible values for configuration property
  * {@link WebSpherePropertySet#OVERWRITE_EXISTING_CONFIGURATION}.
  *
- * @version $Id: WebSphereExistingConfigurationSetting.java IGuessThisValueIsAutomatedSomehow $
+ * @version $Id$
  */
 public enum WebSphereExistingConfigurationSetting
 {

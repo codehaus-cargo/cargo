@@ -51,6 +51,8 @@ public class WebSphere85xExistingLocalConfigurationCapability
         this.defaultSupportsMap.put(WebSpherePropertySet.SERVER, Boolean.TRUE);
 
         this.defaultSupportsMap.put(WebSpherePropertySet.PROCESSOR_ARCH, Boolean.TRUE);
+        this.defaultSupportsMap.put(WebSpherePropertySet.OVERWRITE_EXISTING_CONFIGURATION,
+            Boolean.TRUE);
     }
 
     /**

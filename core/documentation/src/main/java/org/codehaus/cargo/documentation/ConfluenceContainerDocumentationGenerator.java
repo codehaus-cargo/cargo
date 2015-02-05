@@ -424,12 +424,6 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
-            output.append("{note}");
-            output.append("The WebSphere container requires WebSphere's native {{lib}} folder ");
-            output.append("to be put inside the {{PATH}} environment variable.");
-            output.append("{note}");
-            output.append(LINE_SEPARATOR);
-            output.append(LINE_SEPARATOR);
         }
 
         output.append(generateContainerFeaturesText(containerId));
