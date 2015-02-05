@@ -91,7 +91,7 @@ public class EmbeddedContainerClasspathResolver
         DEPENDENCIES.put("jetty8x", jetty8x9xDependencies);
         DEPENDENCIES.put("jetty9x", jetty8x9xDependencies);
         DEPENDENCIES.put("tomcat5x", tomcat5xDependencies);
-        DEPENDENCIES.put("tomcat6x", tomcat6x7x8xDependencies);
+        DEPENDENCIES.put("tomcat6x", tomcat6xDependencies);
     }
 
     /**
