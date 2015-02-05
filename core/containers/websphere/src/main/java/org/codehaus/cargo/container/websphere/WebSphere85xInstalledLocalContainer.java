@@ -21,6 +21,8 @@ package org.codehaus.cargo.container.websphere;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -279,6 +281,158 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
         java.addClasspathEntries(new File(getHome(), "deploytool/itp/batch2.jar"));
     }
 
+    /**
+     * Executes WS admin commands.
+     *
+     * @param commands Commands to execute.
+     * @throws Exception If anything goes wrong.
+     */
+    protected void executeWsAdmin(String... commands) throws Exception
+    {
+        JvmLauncher java = this.createJvmLauncher();
+
+        java.setSystemProperty("java.util.logging.manager", "com.ibm.ws.bootstrap.WsLogManager");
+        java.setSystemProperty("java.util.logging.configureByServer", "true");
+
+        java.setSystemProperty("com.ibm.SOAP.ConfigURL",
+            new File(this.getConfiguration().getHome(),
+                "properties/soap.client.props").toURI().toURL().toString());
+        java.setSystemProperty("com.ibm.CORBA.ConfigURL",
+            new File(this.getConfiguration().getHome(),
+                "properties/sas.client.props").toURI().toURL().toString());
+        java.setSystemProperty("com.ibm.SSL.ConfigURL",
+            new File(this.getConfiguration().getHome(),
+                "properties/ssl.client.props").toURI().toURL().toString());
+        java.setSystemProperty("java.security.auth.login.config",
+            new File(this.getConfiguration().getHome(),
+                "properties/wsjaas_client.conf").getAbsolutePath());
+
+        java.setSystemProperty("ws.ext.dirs",
+            new File(this.getJavaHome(),
+                    "lib").getAbsolutePath().replace(File.separatorChar, '/')
+                + File.pathSeparatorChar
+                + new File(this.getHome(),
+                    "classes").getAbsolutePath().replace(File.separatorChar, '/')
+                + File.pathSeparatorChar
+                + new File(this.getHome(),
+                    "lib").getAbsolutePath().replace(File.separatorChar, '/')
+                + File.pathSeparatorChar
+                + new File(this.getHome(),
+                    "jinstalledChannels").getAbsolutePath().replace(File.separatorChar, '/')
+                + File.pathSeparatorChar
+                + new File(this.getHome(),
+                    "lib/ext").getAbsolutePath().replace(File.separatorChar, '/')
+                + File.pathSeparatorChar
+                + new File(this.getHome(),
+                    "web/help").getAbsolutePath().replace(File.separatorChar, '/')
+                + File.pathSeparatorChar
+                + new File(this.getHome(),
+                    "deploytool/itp/plugins/com.ibm.etools.ejbdeploy/runtime")
+                    .getAbsolutePath().replace(File.separatorChar, '/')
+                + File.pathSeparatorChar
+                + new File(this.getHome(),
+                    "lib/ext").getAbsolutePath().replace(File.separatorChar, '/'));
+
+        java.setSystemProperty("was.repository.root",
+            new File(this.getConfiguration().getHome(),
+                "config").getAbsolutePath().replace(File.separatorChar, '/'));
+        java.setSystemProperty("com.ibm.itp.location",
+            new File(this.getHome(),
+                "bin").getAbsolutePath().replace(File.separatorChar, '/'));
+        java.setSystemProperty("local.cell",
+            this.getConfiguration().getPropertyValue(WebSpherePropertySet.CELL));
+        java.setSystemProperty("local.node",
+            this.getConfiguration().getPropertyValue(WebSpherePropertySet.NODE));
+
+        java.setSystemProperty("com.ibm.ws.management.standalone", "true");
+
+        java.setSystemProperty("com.ibm.ws.ffdc.log",
+                new File(this.getConfiguration().getHome(),
+                        "logs/ffdc").getAbsolutePath().replace(File.separatorChar, '/'));
+
+        java.setMainClass("com.ibm.wsspi.bootstrap.WSPreLauncher");
+
+        File commandFile = File.createTempFile("cargo-websphere-commandFile-", ".jacl");
+        PrintWriter writer = new PrintWriter(new FileOutputStream(commandFile));
+        try
+        {
+            this.getLogger().debug("*** JACL command file for WsAdmin:", this.getClass().getName());
+            for (String command : commands)
+            {
+                writer.println(command);
+                this.getLogger().debug("* " + command, this.getClass().getName());
+            }
+            this.getLogger().debug("*** EOF ***", this.getClass().getName());
+        }
+        finally
+        {
+            writer.close();
+            writer = null;
+            System.gc();
+        }
+
+        java.addAppArguments("-nosplash");
+        java.addAppArguments("-application");
+        java.addAppArguments("com.ibm.ws.bootstrap.WSLauncher");
+        java.addAppArguments("com.ibm.ws.admin.services.WsAdmin");
+        java.addAppArguments("-conntype");
+        java.addAppArguments("NONE");
+        java.addAppArguments("-f");
+        java.addAppArgument(commandFile);
+
+        try
+        {
+            int returnCode = java.execute();
+            if (returnCode != 0)
+            {
+                throw new CargoException(
+                        "WebSphere deployment failed: return code was " + returnCode);
+            }
+        }
+        finally
+        {
+            commandFile.delete();
+        }
+    }
+
+    /**
+     * Converts a memory size, as given as JVM argument on command line, to MegaByte, as accepted
+     * by WSAdmin.
+     *
+     * @param value given size. Eg.: 512m, 2g
+     * @return value in MegaByte as required by WSAdmin
+     */
+    protected int convertJVMArgToMegaByte(String value)
+    {
+        if (value == null || value.length() == 0)
+        {
+            return 0;
+        }
+
+        try
+        {
+            switch (value.toLowerCase().charAt(value.length() - 1))
+            {
+                case 'g':
+                    return Integer.parseInt(value.substring(0, value.length() - 1)) * 1024;
+
+                case 'm':
+                    return Integer.parseInt(value.substring(0, value.length() - 1));
+
+                case 'k':
+                    return Integer.parseInt(value.substring(0, value.length() - 1)) / 1024;
+
+                default:
+                    // if it ain't one of the above, it must be either an invalid value or in bytes.
+                    return Integer.parseInt(value) / 1024 / 1024;
+            }
+        }
+        catch (NumberFormatException e)
+        {
+            throw new CargoException("Could not convert memory size: '" + value + "'. "
+                    + "Expected a value like '512m' or '2g'", e);
+        }
+    }
 
     /**
      * Finds the server <code>lib</code> based on the processor arch (32 or 64 bit)<br><br>

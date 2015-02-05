@@ -19,17 +19,12 @@
  */
 package org.codehaus.cargo.container.websphere;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
-import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.module.application.DefaultEarArchive;
 import org.codehaus.cargo.module.webapp.DefaultWarArchive;
 import org.codehaus.cargo.module.webapp.WarArchive;
@@ -156,7 +151,7 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
                     WebSpherePropertySet.WAR_CLASSLOADER_POLICY);
 
             String deployableName = getDeployableName(deployable);
-            executeWsAdmin(
+            container.executeWsAdmin(
                 "$AdminApp install "
                     + deployable.getFile().replace('\\', '/').replace(" ", "\\ ")
                     + " {" + contextRoot + " "
@@ -184,7 +179,7 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
     {
         try
         {
-            executeWsAdmin(
+            container.executeWsAdmin(
                 "$AdminApp uninstall " + getDeployableName(deployable),
                 "$AdminConfig save");
         }
@@ -212,117 +207,6 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
         else
         {
             throw new CargoException("Unknown deployable: " + deployable.getType());
-        }
-    }
-
-    /**
-     * Executes WS admin commands.
-     * 
-     * @param commands Commands to execute.
-     * @throws Exception If anything goes wrong.
-     */
-    protected void executeWsAdmin(String... commands) throws Exception
-    {
-        JvmLauncher java = container.createJvmLauncher();
-
-        java.setSystemProperty("java.util.logging.manager", "com.ibm.ws.bootstrap.WsLogManager");
-        java.setSystemProperty("java.util.logging.configureByServer", "true");
-
-        java.setSystemProperty("com.ibm.SOAP.ConfigURL",
-            new File(container.getConfiguration().getHome(),
-                "properties/soap.client.props").toURI().toURL().toString());
-        java.setSystemProperty("com.ibm.CORBA.ConfigURL",
-            new File(container.getConfiguration().getHome(),
-                "properties/sas.client.props").toURI().toURL().toString());
-        java.setSystemProperty("com.ibm.SSL.ConfigURL",
-            new File(container.getConfiguration().getHome(),
-                "properties/ssl.client.props").toURI().toURL().toString());
-        java.setSystemProperty("java.security.auth.login.config",
-            new File(container.getConfiguration().getHome(),
-                "properties/wsjaas_client.conf").getAbsolutePath());
-
-        java.setSystemProperty("ws.ext.dirs",
-            new File(container.getJavaHome(),
-                "lib").getAbsolutePath().replace(File.separatorChar, '/')
-            + File.pathSeparatorChar
-            + new File(container.getHome(),
-                "classes").getAbsolutePath().replace(File.separatorChar, '/')
-            + File.pathSeparatorChar
-            + new File(container.getHome(),
-                "lib").getAbsolutePath().replace(File.separatorChar, '/')
-            + File.pathSeparatorChar
-            + new File(container.getHome(),
-                "jinstalledChannels").getAbsolutePath().replace(File.separatorChar, '/')
-            + File.pathSeparatorChar
-            + new File(container.getHome(),
-                "lib/ext").getAbsolutePath().replace(File.separatorChar, '/')
-            + File.pathSeparatorChar
-            + new File(container.getHome(),
-                "web/help").getAbsolutePath().replace(File.separatorChar, '/')
-            + File.pathSeparatorChar
-            + new File(container.getHome(),
-                "deploytool/itp/plugins/com.ibm.etools.ejbdeploy/runtime")
-                    .getAbsolutePath().replace(File.separatorChar, '/')
-            + File.pathSeparatorChar
-            + new File(container.getHome(),
-                "lib/ext").getAbsolutePath().replace(File.separatorChar, '/'));
-
-        java.setSystemProperty("was.repository.root",
-            new File(container.getConfiguration().getHome(),
-                "config").getAbsolutePath().replace(File.separatorChar, '/'));
-        java.setSystemProperty("com.ibm.itp.location",
-            new File(container.getHome(),
-                    "bin").getAbsolutePath().replace(File.separatorChar, '/'));
-        java.setSystemProperty("local.cell",
-            container.getConfiguration().getPropertyValue(WebSpherePropertySet.CELL));
-        java.setSystemProperty("local.node",
-            container.getConfiguration().getPropertyValue(WebSpherePropertySet.NODE));
-
-        java.setSystemProperty("com.ibm.ws.management.standalone", "true");
-
-        java.setSystemProperty("com.ibm.ws.ffdc.log",
-            new File(container.getConfiguration().getHome(),
-                    "logs/ffdc").getAbsolutePath().replace(File.separatorChar, '/'));
-
-        java.setMainClass("com.ibm.wsspi.bootstrap.WSPreLauncher");
-
-        File commandFile = File.createTempFile("cargo-websphere-commandFile-", ".jacl");
-        PrintWriter writer = new PrintWriter(new FileOutputStream(commandFile));
-        try
-        {
-            for (String command : commands)
-            {
-                writer.println(command);
-            }
-        }
-        finally
-        {
-            writer.close();
-            writer = null;
-            System.gc();
-        }
-
-        java.addAppArguments("-nosplash");
-        java.addAppArguments("-application");
-        java.addAppArguments("com.ibm.ws.bootstrap.WSLauncher");
-        java.addAppArguments("com.ibm.ws.admin.services.WsAdmin");
-        java.addAppArguments("-conntype");
-        java.addAppArguments("NONE");
-        java.addAppArguments("-f");
-        java.addAppArgument(commandFile);
-
-        try
-        {
-            int returnCode = java.execute();
-            if (returnCode != 0)
-            {
-                throw new CargoException(
-                    "WebSphere deployment failed: return code was " + returnCode);
-            }
-        }
-        finally
-        {
-            commandFile.delete();
         }
     }
 }

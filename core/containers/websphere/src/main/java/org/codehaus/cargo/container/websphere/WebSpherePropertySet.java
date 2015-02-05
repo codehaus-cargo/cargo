@@ -88,4 +88,23 @@ public interface WebSpherePropertySet
      */
     String WAR_CLASSLOADER_POLICY = "cargo.websphere.war.classloader.policy";
 
+    /**
+     * JVM arguments and system properties are permanently stored within a profiles configuration.
+     * To avoid overwriting configuration of existing profiles, set this property accordingly. Has
+     * no effect when used on standalone configuration.<br>
+     * <br>
+     * Allowed values are:<br>
+     * <ul>
+     *     <li>ALL: Default value. Both JVM args and system properties will be overwritten.</li>
+     *     <li>JVM: Only JVM values (initialHeapSize, maximumHeapSize, genericJvmArguments) get
+     *     changed.</li>
+     *     <li>SystemProperties: Original system properties get removed, and replaced by those
+     *     defined within the container.</li>
+     *     <li>NONE: Existing profile stays unchanged. Provided system properties and JVM arguments
+     *     get ignored.</li>
+     * </ul>
+     *
+     */
+    String OVERWRITE_EXISTING_CONFIGURATION = "cargo.websphere.overwriteExistingConfiguration";
+
 }

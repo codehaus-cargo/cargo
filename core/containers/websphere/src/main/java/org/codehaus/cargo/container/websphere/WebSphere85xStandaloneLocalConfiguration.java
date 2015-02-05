@@ -20,10 +20,15 @@
 package org.codehaus.cargo.container.websphere;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.websphere.internal.WebSphere85xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
@@ -39,7 +44,7 @@ import org.codehaus.cargo.util.CargoException;
 public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
 {
     /**
-     * Capability of the WebShere standalone configuration.
+     * Capability of the WebSphere standalone configuration.
      */
     private static ConfigurationCapability capability =
         new WebSphere85xStandaloneLocalConfigurationCapability();
@@ -151,6 +156,88 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         {
             portsFile.delete();
         }
+
+
+        // we need to extract minimum and maximum memory settings from given string.
+        int initialHeap = -1;
+        int maxHeap = -1;
+        StringBuilder genericArgs = new StringBuilder();
+
+        String jvmArgs = getPropertyValue(GeneralPropertySet.JVMARGS);
+        if (jvmArgs != null)
+        {
+            for (String arg : jvmArgs.split(" "))
+            {
+                if (arg.startsWith("-Xms"))
+                {
+                    initialHeap = wsContainer.convertJVMArgToMegaByte(arg.substring(4));
+                }
+                else if (arg.startsWith("-Xmx"))
+                {
+                    maxHeap = wsContainer.convertJVMArgToMegaByte(arg.substring(4));
+                }
+                else
+                {
+                    if (genericArgs.length() > 0)
+                    {
+                        genericArgs.append(' ');
+                    }
+                    genericArgs.append(arg);
+                }
+            }
+        }
+
+        // setting default memory settings
+        if (maxHeap < 1)
+        {
+            maxHeap = 512;
+        }
+
+        if (initialHeap < 1)
+        {
+            initialHeap = maxHeap;
+        }
+
+        List<String> wsAdminCommands = new ArrayList<String>();
+        wsAdminCommands.addAll(Arrays.asList(
+                // First we need to find *our* server
+                "set server [$AdminConfig getid "
+                        + "/Cell:" + getPropertyValue(WebSpherePropertySet.CELL)
+                        + "/Node:" + getPropertyValue(WebSpherePropertySet.NODE)
+                        + "/Server:" + getPropertyValue(WebSpherePropertySet.SERVER)
+                        + "/]",
+
+                // ... and the JVM settings of that server
+                "set jvm [$AdminConfig list JavaVirtualMachine $server]",
+
+                // Now we can set our memory settings and other JVM arguments
+                "$AdminConfig modify $jvm { "
+                        + "{initialHeapSize " + initialHeap + "} "
+                        + "{maximumHeapSize " + maxHeap + "} "
+                        + "{genericJvmArguments \"" + genericArgs + "\"} "
+                        + "}",
+
+                // Deleting all existing system properties first
+                "set jvmProperties [$AdminConfig list Property $jvm]",
+                "if { ${jvmProperties} != \"\" } {",
+                "  foreach propertyID ${jvmProperties} {",
+                "    $AdminConfig remove $propertyID",
+                "  }",
+                "}"
+        ));
+
+        for (Map.Entry<String, String> systemProperty
+                : wsContainer.getSystemProperties().entrySet())
+        {
+            wsAdminCommands.add("$AdminConfig create Property $jvm { "
+                    + "{name \"" + systemProperty.getKey() + "\"} "
+                    + "{value \"" + systemProperty.getValue() + "\"} "
+                    + "}");
+        }
+        wsAdminCommands.add("$AdminConfig save");
+
+        wsContainer.executeWsAdmin(wsAdminCommands.toArray(new String[0]));
+
 
         File cargoCpc = File.createTempFile("cargo-cpc-", ".war");
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war", cargoCpc);

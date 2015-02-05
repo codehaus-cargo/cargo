@@ -37,33 +37,16 @@ public class WebSphere85xInstalledLocalDeployerWithNoWsAdminExecution
      */
     public WebSphere85xInstalledLocalDeployerWithNoWsAdminExecution()
     {
-        super(new WebSphere85xInstalledLocalContainer(
+        super(new WebSphere85xInstalledLocalContainerWithNoWsAdminExecution(
             new WebSphere85xExistingLocalConfiguration("target")));
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void executeWsAdmin(String... commands) throws Exception
-    {
-        StringBuilder commandsBuilder = new StringBuilder();
-        if (commands != null)
-        {
-            for (String command : commands)
-            {
-                commandsBuilder.append(command);
-                commandsBuilder.append("\n");
-            }
-        }
-        this.commands = commandsBuilder.toString();
-    }
-
-    /**
-     * @return Commands sent to the deployer.
+     * @return Commands that would be sent to WsAdmin.
      */
     public String getCommands()
     {
-        return commands;
+        return ((WebSphere85xInstalledLocalContainerWithNoWsAdminExecution) getContainer())
+                .getCommands();
     }
 }
