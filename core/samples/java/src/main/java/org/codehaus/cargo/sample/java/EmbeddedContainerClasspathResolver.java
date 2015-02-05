@@ -91,7 +91,7 @@ public class EmbeddedContainerClasspathResolver
         DEPENDENCIES.put("jetty8x", jetty8x9xDependencies);
         DEPENDENCIES.put("jetty9x", jetty8x9xDependencies);
         DEPENDENCIES.put("tomcat5x", tomcat5xDependencies);
-        DEPENDENCIES.put("tomcat6x", tomcat6xDependencies);
+        DEPENDENCIES.put("tomcat6x", tomcat6x7x8xDependencies);
     }
 
     /**
@@ -122,7 +122,8 @@ public class EmbeddedContainerClasspathResolver
         {
             List<URL> urls = new ArrayList<URL>();
 
-            if (containerId.equals("jetty7x") || containerId.equals("jetty8x"))
+            if (containerId.equals("jetty7x") || containerId.equals("jetty8x")
+                || containerId.equals("tomcat6x"))
             {
                 String xerces = System.getProperty("cargo.testdata.xerces-jars");
                 if (xerces == null)
