@@ -297,7 +297,6 @@ public class EmbeddedContainerArtifactResolver
         tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "jasper-el", "6.0.43"));
         tomcat6xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj",
             "4.3.1"));
-        tomcat6xDependencies.add(new Dependency("xerces", "xercesImpl", "2.11.0"));
         this.containerDependencies.put("tomcat6x", tomcat6xDependencies);
     }
 
