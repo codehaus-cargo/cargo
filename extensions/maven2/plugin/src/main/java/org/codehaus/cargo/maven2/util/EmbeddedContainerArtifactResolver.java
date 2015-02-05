@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.maven2.jetty;
+package org.codehaus.cargo.maven2.util;
 
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -34,11 +34,11 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.container.internal.util.JdkUtils;
 
 /**
- * Dynamically load Jetty dependencies.
+ * Dynamically load embedded container dependencies.
  * 
  * @version $Id$
  */
-public class JettyArtifactResolver
+public class EmbeddedContainerArtifactResolver
 {
     /**
      * Artifact resolver.
@@ -61,9 +61,9 @@ public class JettyArtifactResolver
     private ArtifactFactory artifactFactory;
 
     /**
-     * Map of Jetty dependencies.
+     * Map of embedded container dependencies.
      */
-    private Map<String, List<Dependency>> jettyDependencies =
+    private Map<String, List<Dependency>> containerDependencies =
         new HashMap<String, List<Dependency>>();
 
     /**
@@ -112,7 +112,7 @@ public class JettyArtifactResolver
      * @param repositories List of repositories to look in.
      * @param artifactFactory Artifact factory.
      */
-    public JettyArtifactResolver(ArtifactResolver artifactResolver,
+    public EmbeddedContainerArtifactResolver(ArtifactResolver artifactResolver,
         ArtifactRepository localRepository, List<ArtifactRepository> repositories,
         ArtifactFactory artifactFactory)
     {
@@ -128,6 +128,7 @@ public class JettyArtifactResolver
         jetty4xDependencies.add(new Dependency("javax.servlet", "jsp-api", "2.0"));
         jetty4xDependencies.add(new Dependency("tomcat", "jasper-compiler", "4.1.30"));
         jetty4xDependencies.add(new Dependency("tomcat", "jasper-runtime", "4.1.30"));
+        this.containerDependencies.put("jetty4x", jetty4xDependencies);
 
         List<Dependency> jetty5xDependencies = new ArrayList<Dependency>();
         jetty5xDependencies.add(new Dependency("jetty", "org.mortbay.jetty", "5.1.12"));
@@ -140,6 +141,7 @@ public class JettyArtifactResolver
         jetty5xDependencies.add(new Dependency("tomcat", "jasper-runtime", "5.5.12"));
         jetty5xDependencies.add(new Dependency("commons-el", "commons-el", "1.0"));
         jetty5xDependencies.add(new Dependency("commons-logging", "commons-logging", "1.0.4"));
+        this.containerDependencies.put("jetty5x", jetty5xDependencies);
 
         List<Dependency> jetty6xDependencies = new ArrayList<Dependency>();
         jetty6xDependencies.add(new Dependency("org.mortbay.jetty", "jsp-api-2.0", "6.1.26"));
@@ -160,6 +162,7 @@ public class JettyArtifactResolver
         jetty6xDependencies.add(new Dependency("xerces", "xmlParserAPIs", "2.6.2"));
         jetty6xDependencies.add(new Dependency("commons-logging", "commons-logging", "1.0.4"));
         jetty6xDependencies.add(new Dependency("log4j", "log4j", "1.2.14"));
+        this.containerDependencies.put("jetty6x", jetty6xDependencies);
 
         List<Dependency> jetty7xDependencies = new ArrayList<Dependency>();
         jetty7xDependencies.add(new Dependency("javax.servlet", "servlet-api", "2.5"));
@@ -188,6 +191,7 @@ public class JettyArtifactResolver
             "2.1.v20100127"));
         jetty7xDependencies.add(new Dependency("org.mortbay.jetty", "jsp-2.1-glassfish",
             "2.1.v20100127"));
+        this.containerDependencies.put("jetty7x", jetty7xDependencies);
 
         List<Dependency> jetty8xDependencies = new ArrayList<Dependency>();
         jetty8xDependencies.add(new Dependency("org.mortbay.jetty", "servlet-api", "3.0.20100224"));
@@ -228,6 +232,7 @@ public class JettyArtifactResolver
             "7.0.55"));
         jetty8xDependencies.add(new Dependency("org.glassfish.web", "jsp-impl",
             "2.2.1"));
+        this.containerDependencies.put("jetty8x", jetty8xDependencies);
 
         List<Dependency> jetty9xDependencies = new ArrayList<Dependency>();
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-annotations",
@@ -278,13 +283,21 @@ public class JettyArtifactResolver
             "2.3.3"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty.orbit", "org.eclipse.jdt.core",
             "3.8.2.v20130121"));
+        this.containerDependencies.put("jetty9x", jetty9xDependencies);
 
-        this.jettyDependencies.put("jetty4x", jetty4xDependencies);
-        this.jettyDependencies.put("jetty5x", jetty5xDependencies);
-        this.jettyDependencies.put("jetty6x", jetty6xDependencies);
-        this.jettyDependencies.put("jetty7x", jetty7xDependencies);
-        this.jettyDependencies.put("jetty8x", jetty8xDependencies);
-        this.jettyDependencies.put("jetty9x", jetty9xDependencies);
+        List<Dependency> tomcat6xDependencies = new ArrayList<Dependency>();
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "servlet-api", "6.0.43"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "annotations-api", "6.0.43"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "el-api", "6.0.43"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "jsp-api", "6.0.43"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "juli", "6.0.43"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "catalina", "6.0.43"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "coyote", "6.0.43"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "jasper", "6.0.43"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "jasper-el", "6.0.43"));
+        tomcat6xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj",
+            "4.3.1"));
+        this.containerDependencies.put("tomcat6x", tomcat6xDependencies);
     }
 
     /**
@@ -301,7 +314,7 @@ public class JettyArtifactResolver
 
         try
         {
-            List<Dependency> dependencies = this.jettyDependencies.get(jettyContainerId);
+            List<Dependency> dependencies = this.containerDependencies.get(jettyContainerId);
 
             List<URL> urls = new ArrayList<URL>(dependencies.size() + 1);
             for (Dependency dependency : dependencies)

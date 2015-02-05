@@ -32,12 +32,16 @@
     <module>autoDeployable-test</module>
     <module>configurationFiles-xmlReplacements-test</module>
     <module>inPlaceDevelopment-test</module>
+    <module>jetty4x-embedded-test</module>
+    <module>jetty5x-embedded-test</module>
+    <module>jetty6x-embedded-test</module>
     <module>jetty7x-embedded-test</module>
     <module>jetty7x-root-context-test</module>
     <module>ping-test</module>
     <module>multi-datasource-test</module>
     <module>remoteDeploy-test</module>
     <module>runMojo-test</module>
+    <module>tomcat6x-embedded-test</module>
     <module>uberwar-test</module>
     <module>websphere-test</module>
   </modules>

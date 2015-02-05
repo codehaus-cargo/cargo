@@ -60,9 +60,9 @@ import org.codehaus.cargo.maven2.configuration.Daemon;
 import org.codehaus.cargo.maven2.configuration.Deployable;
 import org.codehaus.cargo.maven2.configuration.Deployer;
 import org.codehaus.cargo.maven2.configuration.ZipUrlInstaller;
-import org.codehaus.cargo.maven2.jetty.JettyArtifactResolver;
 import org.codehaus.cargo.maven2.log.MavenLogger;
 import org.codehaus.cargo.maven2.util.CargoProject;
+import org.codehaus.cargo.maven2.util.EmbeddedContainerArtifactResolver;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.FileLogger;
@@ -712,7 +712,13 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
         if (getContainerElement().getType() == ContainerType.EMBEDDED)
         {
-            loadEmbeddedContainerDependencies();
+            EmbeddedContainerArtifactResolver resolver =
+                new EmbeddedContainerArtifactResolver(this.artifactResolver, this.localRepository,
+                    this.repositories, this.artifactFactory);
+            ClassLoader classLoader = resolver.resolveDependencies(
+                getContainerElement().getContainerId(),
+                    getCargoProject().getEmbeddedClassLoader());
+            getCargoProject().setEmbeddedClassLoader(classLoader);
         }
 
         Logger logger = createLogger();
@@ -887,22 +893,6 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                         + url + "].");
                 }
             }
-        }
-    }
-
-    /**
-     * Loads an embedded container.
-     * @throws MojoExecutionException If dependency resolve failed.
-     */
-    protected void loadEmbeddedContainerDependencies() throws MojoExecutionException
-    {
-        if (getContainerElement().getContainerId().startsWith("jetty"))
-        {
-            JettyArtifactResolver resolver = new JettyArtifactResolver(this.artifactResolver,
-                this.localRepository, this.repositories, this.artifactFactory);
-            ClassLoader classLoader = resolver.resolveDependencies(
-                getContainerElement().getContainerId(), getCargoProject().getEmbeddedClassLoader());
-            getCargoProject().setEmbeddedClassLoader(classLoader);
         }
     }
 
