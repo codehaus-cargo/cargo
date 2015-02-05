@@ -276,11 +276,6 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
         java.addClasspathEntries(new File(serverDir, "lib/weblogic_sp.jar"));
         java.addClasspathEntries(new File(serverDir, "lib/weblogic.jar"));
 
-        // The WebLogic startup scripts automatically includes the domain root folder in the
-        // classpath. This folder is a common place to include configuration files, property files,
-        // log4j configurations, etc. This is why we're adding it here.
-        java.addClasspathEntries(new File(getConfiguration().getHome()));
-
         // Add the tools jar to the classpath so deployment will succeed due to appc compiles
         addToolsJarToClasspath(java);
 
