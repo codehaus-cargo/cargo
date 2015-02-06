@@ -31,17 +31,22 @@
     <module>artifactInstaller-test</module>
     <module>autoDeployable-test</module>
     <module>configurationFiles-xmlReplacements-test</module>
+    <module>implementationClasses-test</module>
     <module>inPlaceDevelopment-test</module>
     <module>jetty4x-embedded-test</module>
     <module>jetty5x-embedded-test</module>
     <module>jetty6x-embedded-test</module>
     <module>jetty7x-embedded-test</module>
     <module>jetty7x-root-context-test</module>
+    <module>jetty8x-embedded-test</module>
+    <module>jetty9x-embedded-test</module>
     <module>ping-test</module>
     <module>multi-datasource-test</module>
     <module>remoteDeploy-test</module>
     <module>runMojo-test</module>
     <module>tomcat6x-embedded-test</module>
+    <module>tomcat7x-context-test</module>
+    <module>tomcat7x-systemProperty-test</module>
     <module>uberwar-test</module>
     <module>websphere-test</module>
   </modules>
@@ -73,51 +78,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <!-- Jetty 8.x and Tomcat 7.x require JDK 6 -->
-    <profile>
-      <id>java6+</id>
-      <activation>
-        <jdk>[1.6,)</jdk>
-      </activation>
-      <modules>
-        <module>jetty8x-embedded-test</module>
-        <module>tomcat7x-context-test</module>
-        <module>tomcat7x-systemProperty-test</module>
-      </modules>
-    </profile>
-
-    <!-- Jetty 9.x requires JDK 7 -->
-    <profile>
-      <id>java7+</id>
-      <activation>
-        <jdk>[1.7,)</jdk>
-      </activation>
-      <modules>
-        <module>jetty9x-embedded-test</module>
-      </modules>
-    </profile>
-
-    <!--
-      The implementationClasses test uses a CARGO plugin definition with added dependencies. Since
-      the plugin is also used in previous modules but without dependencies, Maven2 cannot add these
-      dependencies into the plugin. Maven3 fixes this problem.
-      -->
-    <profile>
-      <id>maven3</id>
-      <activation>
-        <file>
-          <!--
-            This employs that the basedir expression is only recognized by Maven 3.x (see MNG-2363)
-            -->
-          <exists>${basedir}</exists>
-        </file>
-      </activation>
-      <modules>
-        <module>implementationClasses-test</module>
-      </modules>
-    </profile>
-  </profiles>
-
 </project>

@@ -28,73 +28,99 @@
   <packaging>war</packaging>
   <description>Sample application that exercises the Cargo Maven2 plugin with personalized implementation classes</description>
 
+  <profiles>
+    <!--
+      The implementationClasses test uses a CARGO plugin definition with added dependencies. Since
+      the plugin is also used in previous modules but without dependencies, Maven2 cannot add these
+      dependencies into the plugin. Maven3 fixes this problem.
+      -->
+    <profile>
+      <id>maven3</id>
+      <activation>
+        <file>
+          <!--
+            This employs that the basedir expression is only recognized by Maven 3.x (see MNG-2363)
+            -->
+          <exists>${basedir}</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven2-plugin</artifactId>
+            <version>${project.version}</version>
+            <configuration>
+              <container>
+                <implementation>org.codehaus.cargo.container.stub.EmbeddedLocalContainerStub</implementation>
+                <type>embedded</type>
+                <containerId>myEmbeddedLocalContainer</containerId>
+              </container>
+              <configuration>
+                <implementation>org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub</implementation>
+                <type>standalone</type>
+              </configuration>
+              <deployer>
+                <implementation>org.codehaus.cargo.container.stub.EmbeddedLocalDeployerStub</implementation>
+                <type>embedded</type>
+              </deployer>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>start</goal>
+                  <goal>deploy</goal>
+                  <goal>stop</goal>
+                </goals>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-core-api-container</artifactId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+              </dependency>
+            </dependencies>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>surefire-it</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <configuration>
+                  <skip>${maven.test.skip}</skip>
+                  <systemProperties>
+                    <property>
+                      <name>artifactId</name>
+                      <value>${project.artifactId}</value>
+                    </property>
+                    <property>
+                      <name>target</name>
+                      <value>${project.build.directory}</value>
+                    </property>
+                  </systemProperties>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.codehaus.cargo</groupId>
-        <artifactId>cargo-maven2-plugin</artifactId>
-        <version>${project.version}</version>
-        <configuration>
-          <container>
-            <implementation>org.codehaus.cargo.container.stub.EmbeddedLocalContainerStub</implementation>
-            <type>embedded</type>
-            <containerId>myEmbeddedLocalContainer</containerId>
-          </container>
-          <configuration>
-            <implementation>org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub</implementation>
-            <type>standalone</type>
-          </configuration>
-          <deployer>
-            <implementation>org.codehaus.cargo.container.stub.EmbeddedLocalDeployerStub</implementation>
-            <type>embedded</type>
-          </deployer>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>start</goal>
-              <goal>deploy</goal>
-              <goal>stop</goal>
-            </goals>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>org.codehaus.cargo</groupId>
-            <artifactId>cargo-core-api-container</artifactId>
-            <version>${project.version}</version>
-            <type>test-jar</type>
-          </dependency>
-        </dependencies>
-      </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>
         </configuration>
-        <executions>
-          <execution>
-            <id>surefire-it</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-            <configuration>
-              <skip>${maven.test.skip}</skip>
-              <systemProperties>
-                <property>
-                  <name>artifactId</name>
-                  <value>${project.artifactId}</value>
-                </property>
-                <property>
-                  <name>target</name>
-                  <value>${project.build.directory}</value>
-                </property>
-              </systemProperties>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

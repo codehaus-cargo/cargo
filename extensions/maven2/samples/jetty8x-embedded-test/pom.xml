@@ -42,72 +42,90 @@
       <type>war</type>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <!-- JDK 6 -->
+    <profile>
+      <id>java6+</id>
+      <activation>
+        <jdk>[1.6,)</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven2-plugin</artifactId>
+            <version>${project.version}</version>
+            <configuration>
+              <container>
+                <containerId>jetty8x</containerId>
+                <type>embedded</type>
+              </container>
+              <configuration>
+                <home>${project.build.directory}/jetty-home</home>
+                <properties>
+                  <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+                  <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
+                </properties>
+              </configuration>
+              <deployables>
+                <deployable>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>simple-war</artifactId>
+                  <type>war</type>
+                </deployable>
+              </deployables>
+            </configuration>
+            <executions>
+              <execution>
+                <id>start</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>start</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>stop</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>surefire-it</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <configuration>
+                  <skip>${maven.test.skip}</skip>
+                  <systemProperties>
+                    <property>
+                      <name>http.port</name>
+                      <value>${cargo.samples.servlet.port}</value>
+                    </property>
+                  </systemProperties>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.codehaus.cargo</groupId>
-        <artifactId>cargo-maven2-plugin</artifactId>
-        <version>${project.version}</version>
-        <configuration>
-          <container>
-            <containerId>jetty8x</containerId>
-            <type>embedded</type>
-          </container>
-          <configuration>
-            <home>${project.build.directory}/jetty-home</home>
-            <properties>
-              <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
-              <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
-            </properties>
-          </configuration>
-          <deployables>
-            <deployable>
-              <groupId>org.codehaus.cargo</groupId>
-              <artifactId>simple-war</artifactId>
-              <type>war</type>
-            </deployable>
-          </deployables>
-        </configuration>
-        <executions>
-          <execution>
-            <id>start</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>start</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>stop</id>
-            <phase>post-integration-test</phase>
-            <goals>
-              <goal>stop</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>
         </configuration>
-        <executions>
-          <execution>
-            <id>surefire-it</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-            <configuration>
-              <skip>${maven.test.skip}</skip>
-              <systemProperties>
-                <property>
-                  <name>http.port</name>
-                  <value>${cargo.samples.servlet.port}</value>
-                </property>
-              </systemProperties>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

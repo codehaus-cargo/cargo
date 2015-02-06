@@ -302,20 +302,24 @@ public class EmbeddedContainerArtifactResolver
 
     /**
      * Resolve dependencies.
-     * @param jettyContainerId Jetty container id.
+     * @param containerId Container id.
      * @param parent Parent {@link ClassLoader}.
      * @return {@link ClassLoader} with the resolved dependencies and given <code>parent</code>.
      * @throws MojoExecutionException If dependencies cannot be resolved.
      */
-    public ClassLoader resolveDependencies(String jettyContainerId, ClassLoader parent)
+    public ClassLoader resolveDependencies(String containerId, ClassLoader parent)
         throws MojoExecutionException
     {
         URLClassLoader classloader;
 
+        List<Dependency> dependencies = this.containerDependencies.get(containerId);
+        if (dependencies == null)
+        {
+            return null;
+        }
+
         try
         {
-            List<Dependency> dependencies = this.containerDependencies.get(jettyContainerId);
-
             List<URL> urls = new ArrayList<URL>(dependencies.size() + 1);
             for (Dependency dependency : dependencies)
             {
