@@ -23,10 +23,10 @@
     <artifactId>cargo-samples-maven2</artifactId>
     <version>1.4.13-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-sample-maven2-tomcat7-context-test</artifactId>
-  <name>Cargo Samples - Maven 2 - Tomcat 7 context test</name>
+  <artifactId>cargo-sample-maven2-tomcat7x-embedded-test</artifactId>
+  <name>Cargo Samples - Maven 2 - Tomcat 7.x embedded container test</name>
   <packaging>jar</packaging>
-  <description>Sample application that exercises the Cargo Maven2 plugin with a Tomcat 7.x container and a user-defined context</description>
+  <description>Sample application that exercises the Cargo Maven2 plugin with an embedded Tomcat 7.x container</description>
 
   <dependencies>
     <dependency>
@@ -59,17 +59,13 @@
             <configuration>
               <container>
                 <containerId>tomcat7x</containerId>
-                <zipUrlInstaller>
-                  <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.59/bin/apache-tomcat-7.0.59.zip</url>
-                  <downloadDir>${project.basedir}/../../../../core/samples/java/installs</downloadDir>
-                </zipUrlInstaller>
+                <type>embedded</type>
               </container>
               <configuration>
-                <home>${project.build.directory}/catalina-base</home>
+                <home>${project.build.directory}/tomcat-home</home>
                 <properties>
                   <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
                   <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
-                  <cargo.tomcat.ajp.port>${cargo.samples.tomcat.ajp.port}</cargo.tomcat.ajp.port>
                 </properties>
               </configuration>
               <deployables>
@@ -77,9 +73,6 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-war</artifactId>
                   <type>war</type>
-                  <properties>
-                    <context>/user-context-test</context>
-                  </properties>
                 </deployable>
               </deployables>
             </configuration>

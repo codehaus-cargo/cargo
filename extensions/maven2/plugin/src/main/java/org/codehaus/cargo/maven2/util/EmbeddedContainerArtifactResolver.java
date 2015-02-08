@@ -298,6 +298,25 @@ public class EmbeddedContainerArtifactResolver
         tomcat6xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj",
             "4.3.1"));
         this.containerDependencies.put("tomcat6x", tomcat6xDependencies);
+
+        List<Dependency> tomcat7xDependencies = new ArrayList<Dependency>();
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-servlet-api",
+            "7.0.59"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-annotations-api",
+            "7.0.59"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "7.0.59"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "7.0.59"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "7.0.59"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "7.0.59"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "7.0.59"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina", "7.0.59"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "7.0.59"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "7.0.59"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper-el",
+            "7.0.59"));
+        tomcat7xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj",
+            "4.4"));
+        this.containerDependencies.put("tomcat7x", tomcat7xDependencies);
     }
 
     /**

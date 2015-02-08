@@ -46,6 +46,7 @@
     <module>runMojo-test</module>
     <module>tomcat6x-embedded-test</module>
     <module>tomcat7x-context-test</module>
+    <module>tomcat7x-embedded-test</module>
     <module>tomcat7x-systemProperty-test</module>
     <module>uberwar-test</module>
     <module>websphere-test</module>
