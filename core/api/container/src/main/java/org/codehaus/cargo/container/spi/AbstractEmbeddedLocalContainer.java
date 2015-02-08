@@ -106,10 +106,7 @@ public abstract class AbstractEmbeddedLocalContainer
     protected abstract void doStop() throws Exception;
 
     /**
-     * {@inheritDoc} Waits 5 seconds after having stopped container.
-     * @param waitForStarting if true then wait for container start, if false wait for container
-     * stop
-     * @throws InterruptedException if the thread sleep is interrupted
+     * Calls <code>System.gc()</code> after container has stopped. {@inheritDoc}
      */
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
     {

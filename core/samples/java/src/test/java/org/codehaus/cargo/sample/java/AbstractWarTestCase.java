@@ -45,22 +45,6 @@ public abstract class AbstractWarTestCase extends AbstractCargoTestCase
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void tearDown()
-    {
-        try
-        {
-            getLocalContainer().stop();
-        }
-        finally
-        {
-            super.tearDown();
-        }
-    }
-
-    /**
      * Tests servlet.
      * @param type WAR type.
      * @throws MalformedURLException If URL cannot be built.

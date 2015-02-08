@@ -121,20 +121,4 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends A
         container.getSystemProperties().put("derby.system.home", getTestData().targetDir);
         container.getSystemProperties().put("derby.stream.error.logSeverityLevel", "0");
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void tearDown()
-    {
-        try
-        {
-            getLocalContainer().stop();
-        }
-        finally
-        {
-            super.tearDown();
-        }
-    }
 }

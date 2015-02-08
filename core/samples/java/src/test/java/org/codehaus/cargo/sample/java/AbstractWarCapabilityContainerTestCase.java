@@ -48,22 +48,6 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractWar
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void tearDown()
-    {
-        try
-        {
-            getLocalContainer().stop();
-        }
-        finally
-        {
-            super.tearDown();
-        }
-    }
-
-    /**
      * Deploy WAR statically.
      * @throws Exception If anything goes wrong.
      */

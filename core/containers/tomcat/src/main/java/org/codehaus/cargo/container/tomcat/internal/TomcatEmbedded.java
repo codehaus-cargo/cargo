@@ -83,13 +83,25 @@ public final class TomcatEmbedded
     private Method engineSetParentClassLoader;
 
     /** reflection method. */
+    private Method engineSetService;
+
+    /** reflection method. */
     private Method standardEngineSetBaseDir;
+
+    /** reflection method. */
+    private Method connectorDestroy;
 
     /** reflection method. */
     private Method contextReload;
 
     /** reflection method. */
     private Method contextSetAvailable;
+
+    /** reflection method. */
+    private Method contextStart;
+
+    /** reflection method. */
+    private Method contextStop;
 
     /** reflection method. */
     private Method contextAddParameter;
@@ -120,7 +132,7 @@ public final class TomcatEmbedded
     /**
      * Prepares the reflection access to Tomcat.
      * 
-     * @param classLoader the CL used to load Tomcat 5.x classes. Can be null.
+     * @param classLoader the class loader used to load Tomcat classes. Can be null.
      * @throws Exception if an error happens when creating the Tomcat objects by reflection
      */
     public TomcatEmbedded(ClassLoader classLoader) throws Exception
@@ -131,7 +143,7 @@ public final class TomcatEmbedded
         {
             // Tomcat uses commons-logging, which tries to use thread context loader
             // for loading resources. We need that to resolve to classes inside
-            // the tomcat. See http://www.qos.ch/logging/classloader.jsp
+            // Tomcat. See http://www.qos.ch/logging/classloader.jsp
             Thread.currentThread().setContextClassLoader(classLoader);
 
             preloadEngine(classLoader);
@@ -162,6 +174,9 @@ public final class TomcatEmbedded
         engineSetDefaultHost = engine.getMethod("setDefaultHost", new Class[] {String.class});
         engineSetParentClassLoader = engine.getMethod("setParentClassLoader",
             new Class[] {ClassLoader.class});
+
+        Class service = Class.forName("org.apache.catalina.Service", true, classLoader);
+        engineSetService = engine.getMethod("setService", new Class[] {service});
 
         Class standardEngine =
             Class.forName("org.apache.catalina.core.StandardEngine", true, classLoader);
@@ -194,7 +209,15 @@ public final class TomcatEmbedded
     {
         Class context = Class.forName("org.apache.catalina.Context", true, classLoader);
         contextReload = context.getMethod("reload", new Class[0]);
-        contextSetAvailable = context.getMethod("setAvailable", new Class[] {boolean.class});
+        try
+        {
+            contextSetAvailable = context.getMethod("setAvailable", new Class[] {boolean.class});
+        }
+        catch (NoSuchMethodException e)
+        {
+            contextStart = context.getMethod("start", new Class[0]);
+            contextStop = context.getMethod("stop", new Class[0]);
+        }
         contextAddParameter =
             context.getMethod("addParameter", new Class[] {String.class, String.class});
     }
@@ -236,7 +259,7 @@ public final class TomcatEmbedded
         }
         catch (ClassNotFoundException e)
         {
-            // and this for Tomcat 5.5.x
+            // and this for Tomcat 5.5.x and newer
             connector = Class.forName("org.apache.catalina.connector.Connector", true, classLoader);
         }
         Class engine = Class.forName("org.apache.catalina.Engine", true, classLoader);
@@ -259,6 +282,7 @@ public final class TomcatEmbedded
             embedded.getMethod("setCatalinaBase", new Class[] {String.class});
         embeddedSetCatalinaHome =
             embedded.getMethod("setCatalinaHome", new Class[] {String.class});
+        connectorDestroy = connector.getMethod("destroy", new Class[0]);
     }
 
     /**
@@ -400,7 +424,18 @@ public final class TomcatEmbedded
          */
         public void setAvailable(boolean b)
         {
-            invoke(contextSetAvailable, Boolean.valueOf(b));
+            if (contextSetAvailable != null)
+            {
+                invoke(contextSetAvailable, Boolean.valueOf(b));
+            }
+            else if (b)
+            {
+                invoke(contextStart);
+            }
+            else
+            {
+                invoke(contextStop);
+            }
         }
 
         /**
@@ -491,7 +526,7 @@ public final class TomcatEmbedded
          */
         public Engine createEngine()
         {
-            return new Engine(invoke(embeddedCreateEngine));
+            return new Engine(invoke(embeddedCreateEngine), core);
         }
 
         /**
@@ -615,6 +650,14 @@ public final class TomcatEmbedded
         {
             super(core);
         }
+
+        /**
+         * Stops the connector.
+         */
+        public void destroy()
+        {
+            invoke(connectorDestroy);
+        }
     }
 
     /**
@@ -626,10 +669,12 @@ public final class TomcatEmbedded
          * Wraps an engine object.
          * 
          * @param core Must be non-null.
+         * @param service Tomcat service.
          */
-        public Engine(Object core)
+        public Engine(Object core, Object service)
         {
             super(core);
+            invoke(engineSetService, service);
         }
 
         /**

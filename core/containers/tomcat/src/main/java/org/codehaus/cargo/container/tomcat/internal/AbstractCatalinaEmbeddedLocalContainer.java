@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.cargo.container.ContainerCapability;
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -57,6 +58,11 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
      * Tomcat host object.
      */
     private TomcatEmbedded.Host host;
+
+    /**
+     * Tomcat connector object.
+     */
+    private TomcatEmbedded.Connector connector;
 
     /**
      * {@link Deployable}s to be deployed once the container is started.
@@ -137,8 +143,8 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
         controller.addEngine(engine);
 
         // create HTTP connector
-        controller.addConnector(
-            controller.createConnector(null, getPort(), false));
+        connector = controller.createConnector(null, getPort(), false);
+        controller.addConnector(connector);
 
         controller.start();
 
@@ -180,14 +186,20 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
     }
 
     /**
-     * Tomcat's start/stop methods are synchronous, so no need for waiting.
-     * 
-     * @param waitForStarting never used
+     * Embedded Tomcat's start method is synchronous, so no need for waiting when starting.
+     * {@inheritDoc}
      */
     @Override
-    protected void waitForCompletion(boolean waitForStarting)
+    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
     {
-        // Nothing to do here as Tomcat start/stop methods are synchronous.
+        if (waitForStarting)
+        {
+            // Nothing to do here as Tomcat start method is synchronous
+        }
+        else
+        {
+            super.waitForCompletion(waitForStarting);
+        }
     }
 
     /**
@@ -209,10 +221,15 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
     {
         if (controller != null)
         {
-            // the stop method is allowed to be invoked multiple times
             controller.stop();
+            connector.destroy();
             controller = null;
+            connector = null;
             host = null;
+        }
+        else
+        {
+            throw new ContainerException("Embedded Tomcat container is not started");
         }
     }
 

@@ -80,9 +80,9 @@ public class EmbeddedContainerClasspathResolver
         tomcat5xDependencies.add("common/lib/*.jar");
         tomcat5xDependencies.add("server/lib/*.jar");
 
-        List<String> tomcat6xDependencies = new ArrayList<String>();
-        tomcat6xDependencies.add("bin/*.jar");
-        tomcat6xDependencies.add("lib/*.jar");
+        List<String> tomcat6x7xDependencies = new ArrayList<String>();
+        tomcat6x7xDependencies.add("bin/*.jar");
+        tomcat6x7xDependencies.add("lib/*.jar");
 
         DEPENDENCIES.put("jetty4x", jetty4xDependencies);
         DEPENDENCIES.put("jetty5x", jetty5xDependencies);
@@ -91,7 +91,8 @@ public class EmbeddedContainerClasspathResolver
         DEPENDENCIES.put("jetty8x", jetty8x9xDependencies);
         DEPENDENCIES.put("jetty9x", jetty8x9xDependencies);
         DEPENDENCIES.put("tomcat5x", tomcat5xDependencies);
-        DEPENDENCIES.put("tomcat6x", tomcat6xDependencies);
+        DEPENDENCIES.put("tomcat6x", tomcat6x7xDependencies);
+        DEPENDENCIES.put("tomcat7x", tomcat6x7xDependencies);
     }
 
     /**
@@ -123,7 +124,7 @@ public class EmbeddedContainerClasspathResolver
             List<URL> urls = new ArrayList<URL>();
 
             if (containerId.equals("jetty7x") || containerId.equals("jetty8x")
-                || containerId.equals("tomcat6x"))
+                || containerId.equals("tomcat6x") || containerId.equals("tomcat7x"))
             {
                 String xerces = System.getProperty("cargo.testdata.xerces-jars");
                 if (xerces == null)
