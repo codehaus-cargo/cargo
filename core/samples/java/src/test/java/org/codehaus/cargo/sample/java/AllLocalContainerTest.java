@@ -103,7 +103,7 @@ public class AllLocalContainerTest extends AbstractCargoTestCase
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
 
         if (ContainerType.EMBEDDED.equals(getContainer().getType())
-            && getTestData().containerId != null && getTestData().containerId.startsWith("jetty"))
+            && getTestData().containerId.startsWith("jetty"))
         {
             // Embedded Jetty containers have trouble restarting too quickly, skip
             return;

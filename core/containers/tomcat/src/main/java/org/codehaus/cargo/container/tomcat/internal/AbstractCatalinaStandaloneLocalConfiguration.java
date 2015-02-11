@@ -43,6 +43,7 @@ import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
+import org.codehaus.cargo.container.tomcat.Tomcat5xEmbeddedLocalContainer;
 import org.codehaus.cargo.container.tomcat.TomcatEmbeddedLocalDeployer;
 import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
@@ -123,7 +124,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
 
             setupConfFiles(targetConf);
         }
-        else if (container instanceof EmbeddedLocalContainer)
+        else if (container instanceof Tomcat5xEmbeddedLocalContainer)
         {
             String webXml = getFileHandler().append(confDir, "web.xml");
             getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/web.xml", webXml,

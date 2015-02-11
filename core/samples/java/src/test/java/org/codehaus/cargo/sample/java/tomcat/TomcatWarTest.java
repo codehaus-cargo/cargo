@@ -28,6 +28,7 @@ import junit.framework.Test;
 
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Expand;
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -50,6 +51,11 @@ import org.codehaus.cargo.util.AntUtils;
 public class TomcatWarTest extends AbstractCargoTestCase
 {
     /**
+     * Due to a bug in embedded Tomcat 8.x, we can't run a test twice with the same context names.
+     */
+    private static boolean contextXmlTestAlreadyRun = false;
+
+    /**
      * Initializes the test case.
      * @param testName Test name.
      * @param testData Test environment data.
@@ -68,10 +74,8 @@ public class TomcatWarTest extends AbstractCargoTestCase
     public static Test suite() throws Exception
     {
         // We exclude tomcat4x container as it does not support context.xml files
-        // We exclude tomcat7x container as Tomcat 7.x has changed context.xml
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("tomcat4x");
-        excludedContainerIds.add("tomcat7x");
 
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that can run on Tomcat containers supporting META-INF/context.xml files");
@@ -98,6 +102,16 @@ public class TomcatWarTest extends AbstractCargoTestCase
      */
     public void testWarWithContextXmlFile() throws Exception
     {
+        if (TomcatWarTest.contextXmlTestAlreadyRun)
+        {
+            return;
+        }
+        if (ContainerType.EMBEDDED.equals(getContainer().getType())
+            && "tomcat8x".equals(getTestData().containerId))
+        {
+            TomcatWarTest.contextXmlTestAlreadyRun = true;
+        }
+
         // Copies the tomcat context war in order to rename it so that it matches the context
         // path defined in its context.xml file.
         File artifactDir = new File(getTestData().targetDir).getParentFile();
@@ -127,6 +141,16 @@ public class TomcatWarTest extends AbstractCargoTestCase
      */
     public void testExpandedWarWithContextXmlFile() throws Exception
     {
+        if (TomcatWarTest.contextXmlTestAlreadyRun)
+        {
+            return;
+        }
+        if (ContainerType.EMBEDDED.equals(getContainer().getType())
+            && "tomcat8x".equals(getTestData().containerId))
+        {
+            TomcatWarTest.contextXmlTestAlreadyRun = true;
+        }
+
         // Copy the war from the Maven local repository in order to expand it
         File artifactDir = new File(getTestData().targetDir).getParentFile();
         Expand expandTask = (Expand) new AntUtils().createProject().createTask("unwar");

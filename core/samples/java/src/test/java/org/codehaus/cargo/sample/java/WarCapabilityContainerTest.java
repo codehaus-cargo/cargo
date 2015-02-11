@@ -25,6 +25,7 @@ import java.net.URL;
 import junit.framework.Test;
 
 import org.apache.tools.ant.taskdefs.Copy;
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -87,6 +88,14 @@ public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTe
      */
     public void testDeployWarDefinedWithRelativePath() throws Exception
     {
+        // Due to a bug in embedded Tomcat 8.x,
+        // we can't run a test twice with the same context names.
+        if (ContainerType.EMBEDDED.equals(getContainer().getType())
+            && "tomcat8x".equals(getTestData().containerId))
+        {
+            return;
+        }
+
         // Copies the testdata artifact
         File artifactDir = new File(getTestData().targetDir).getParentFile();
         File artifactFile = new File(artifactDir, "simple.war").getAbsoluteFile();

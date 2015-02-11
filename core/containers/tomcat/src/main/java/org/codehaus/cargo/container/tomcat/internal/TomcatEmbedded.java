@@ -71,6 +71,21 @@ public final class TomcatEmbedded
     private Method embeddedSetCatalinaHome;
 
     /** reflection method. */
+    private Method embeddedSetPort;
+
+    /** reflection method. */
+    private Method embeddedEnableNaming;
+
+    /** reflection method. */
+    private Method embeddedGetConnector;
+
+    /** reflection method. */
+    private Method embeddedGetEngine;
+
+    /** reflection method. */
+    private Method embeddedGetHost;
+
+    /** reflection method. */
     private Method engineSetName;
 
     /** reflection method. */
@@ -84,6 +99,9 @@ public final class TomcatEmbedded
 
     /** reflection method. */
     private Method engineSetService;
+
+    /** reflection method. */
+    private Method engineSetRealm;
 
     /** reflection method. */
     private Method standardEngineSetBaseDir;
@@ -114,6 +132,9 @@ public final class TomcatEmbedded
 
     /** reflection method. */
     private Method hostAddChild;
+
+    /** reflection method. */
+    private Method hostFindChild;
 
     /** reflection method. */
     private Method hostRemoveChild;
@@ -180,8 +201,15 @@ public final class TomcatEmbedded
 
         Class standardEngine =
             Class.forName("org.apache.catalina.core.StandardEngine", true, classLoader);
-        standardEngineSetBaseDir =
-            standardEngine.getMethod("setBaseDir", new Class[] {String.class});
+        try
+        {
+            standardEngineSetBaseDir =
+                standardEngine.getMethod("setBaseDir", new Class[] {String.class});
+        }
+        catch (NoSuchMethodException ignored)
+        {
+            // This is Tomcat 8.x or newer
+        }
     }
 
     /**
@@ -236,6 +264,7 @@ public final class TomcatEmbedded
         hostSetAutoDeploy = host.getMethod("setAutoDeploy", new Class[] {boolean.class});
         hostGetName = host.getMethod("getName", new Class[0]);
         hostAddChild = host.getMethod("addChild", new Class[] {container});
+        hostFindChild = host.getMethod("findChild", new Class[] {String.class});
         hostRemoveChild = host.getMethod("removeChild", new Class[] {container});
     }
 
@@ -248,8 +277,6 @@ public final class TomcatEmbedded
      */
     private void preloadEmbedded(ClassLoader classLoader) throws Exception
     {
-        Class embedded =
-            Class.forName("org.apache.catalina.startup.Embedded", true, classLoader);
         Class realm = Class.forName("org.apache.catalina.Realm", true, classLoader);
         Class connector;
         try
@@ -264,24 +291,44 @@ public final class TomcatEmbedded
         }
         Class engine = Class.forName("org.apache.catalina.Engine", true, classLoader);
 
+        Class embedded;
+        try
+        {
+            embedded = Class.forName("org.apache.catalina.startup.Embedded", true, classLoader);
+            embeddedCreateEngine = embedded.getMethod("createEngine", new Class[0]);
+            embeddedCreateHost =
+                embedded.getMethod("createHost", new Class[] {String.class, String.class});
+            embeddedAddEngine = embedded.getMethod("addEngine", new Class[] {engine});
+            embeddedCreateConnector = embedded
+                .getMethod("createConnector",
+                    new Class[] {InetAddress.class, int.class, boolean.class});
+            embeddedAddConnector = embedded.getMethod("addConnector", new Class[] {connector});
+            embeddedCreateContext =
+                embedded.getMethod("createContext", new Class[] {String.class, String.class});
+            embeddedSetRealm = embedded.getMethod("setRealm", new Class[] {realm});
+            embeddedSetCatalinaBase =
+                embedded.getMethod("setCatalinaBase", new Class[] {String.class});
+            embeddedSetCatalinaHome =
+                embedded.getMethod("setCatalinaHome", new Class[] {String.class});
+        }
+        catch (ClassNotFoundException e)
+        {
+            // Tomcat 8.x and newer don't have org.apache.catalina.startup.Embedded anymore
+
+            embedded = Class.forName("org.apache.catalina.startup.Tomcat", true, classLoader);
+            embeddedSetCatalinaBase = embedded.getMethod("setBaseDir", new Class[] {String.class});
+            embeddedSetPort = embedded.getMethod("setPort", new Class[] {int.class});
+            embeddedEnableNaming = embedded.getMethod("enableNaming", new Class[0]);
+            embeddedGetConnector = embedded.getMethod("getConnector", new Class[0]);
+            embeddedGetEngine = embedded.getMethod("getEngine", new Class[0]);
+            embeddedGetHost = embedded.getMethod("getHost", new Class[0]);
+            engineSetRealm = engine.getMethod("setRealm", new Class[] {realm});
+            embeddedCreateContext =
+                embedded.getMethod("addWebapp", new Class[] {String.class, String.class});
+        }
         embeddedNew = embedded.getConstructor(new Class[0]);
-        embeddedCreateEngine = embedded.getMethod("createEngine", new Class[0]);
-        embeddedCreateHost =
-            embedded.getMethod("createHost", new Class[] {String.class, String.class});
         embeddedStart = embedded.getMethod("start", new Class[0]);
         embeddedStop = embedded.getMethod("stop", new Class[0]);
-        embeddedAddEngine = embedded.getMethod("addEngine", new Class[] {engine});
-        embeddedCreateConnector = embedded
-            .getMethod("createConnector",
-                new Class[] {InetAddress.class, int.class, boolean.class});
-        embeddedAddConnector = embedded.getMethod("addConnector", new Class[] {connector});
-        embeddedCreateContext =
-            embedded.getMethod("createContext", new Class[] {String.class, String.class});
-        embeddedSetRealm = embedded.getMethod("setRealm", new Class[] {realm});
-        embeddedSetCatalinaBase =
-            embedded.getMethod("setCatalinaBase", new Class[] {String.class});
-        embeddedSetCatalinaHome =
-            embedded.getMethod("setCatalinaHome", new Class[] {String.class});
         connectorDestroy = connector.getMethod("destroy", new Class[0]);
     }
 
@@ -300,6 +347,10 @@ public final class TomcatEmbedded
          */
         public Wrapper(Object core)
         {
+            if (core == null)
+            {
+                throw new NullPointerException("Passed core is null");
+            }
             this.core = core;
         }
 
@@ -496,6 +547,17 @@ public final class TomcatEmbedded
         }
 
         /**
+         * Finds a child with the given name.
+         * 
+         * @param name Name of the child.
+         * @return Child with the given name.
+         */
+        public Context findChild(String name)
+        {
+            return new Context(invoke(hostFindChild, name));
+        }
+
+        /**
          * Removes a web application.
          * 
          * @param context context to be removed.
@@ -612,7 +674,6 @@ public final class TomcatEmbedded
         public void setRealm(MemoryRealm realm)
         {
             invoke(embeddedSetRealm, realm);
-
         }
 
         /**
@@ -633,6 +694,54 @@ public final class TomcatEmbedded
         public void setCatalinaHome(File dir)
         {
             invoke(embeddedSetCatalinaHome, dir.getAbsolutePath());
+        }
+
+        /**
+         * Sets the HTTP port number.
+         * 
+         * @param port Port.
+         */
+        public void setPort(int port)
+        {
+            invoke(embeddedSetPort, port);
+        }
+
+        /**
+         * Enable JNDI naming.
+         */
+        public void enableNaming()
+        {
+            invoke(embeddedEnableNaming);
+        }
+
+        /**
+         * Gets the connector.
+         * 
+         * @return Connector.
+         */
+        public Connector getConnector()
+        {
+            return new Connector(invoke(embeddedGetConnector));
+        }
+
+        /**
+         * Gets the engine.
+         * 
+         * @return Engine.
+         */
+        public Engine getEngine()
+        {
+            return new Engine(invoke(embeddedGetEngine), null);
+        }
+
+        /**
+         * Gets the host.
+         * 
+         * @return Host.
+         */
+        public Host getHost()
+        {
+            return new Host(invoke(embeddedGetHost));
         }
     }
 
@@ -674,7 +783,10 @@ public final class TomcatEmbedded
         public Engine(Object core, Object service)
         {
             super(core);
-            invoke(engineSetService, service);
+            if (service != null)
+            {
+                invoke(engineSetService, service);
+            }
         }
 
         /**
@@ -727,6 +839,16 @@ public final class TomcatEmbedded
         public void setParentClassLoader(ClassLoader cl)
         {
             invoke(engineSetParentClassLoader, cl);
+        }
+
+        /**
+         * Set the realm.
+         * 
+         * @param realm Realm to set.
+         */
+        public void setRealm(MemoryRealm realm)
+        {
+            invoke(engineSetRealm, realm);
         }
     }
 

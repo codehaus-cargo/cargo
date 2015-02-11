@@ -23,6 +23,7 @@ import java.io.File;
 import java.net.URL;
 
 import org.apache.tools.ant.taskdefs.Expand;
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
@@ -73,6 +74,14 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractWar
         if (getContainer().getId().startsWith("geronimo"))
         {
             // The Apache Geronimo server doesn't support expanded WARs
+            return;
+        }
+
+        // Due to a bug in embedded Tomcat 8.x,
+        // we can't run a test twice with the same context names.
+        if (ContainerType.EMBEDDED.equals(getContainer().getType())
+            && "tomcat8x".equals(getTestData().containerId))
+        {
             return;
         }
 

@@ -19,21 +19,25 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.io.File;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaEmbeddedLocalContainer;
+import org.codehaus.cargo.container.tomcat.internal.TomcatEmbedded;
 
 /**
- * Embedded Tomcat 6.x container.
+ * Embedded Tomcat 8.x container.
  * 
  * @version $Id$
  */
-public class Tomcat6xEmbeddedLocalContainer extends Tomcat5xEmbeddedLocalContainer
+public class Tomcat8xEmbeddedLocalContainer extends AbstractCatalinaEmbeddedLocalContainer
 {
     /**
-     * Creates a Tomcat 6.x {@link org.codehaus.cargo.container.EmbeddedLocalContainer}.
+     * Creates a Tomcat 8.x {@link org.codehaus.cargo.container.EmbeddedLocalContainer}.
      * 
      * @param configuration the configuration of the newly created container.
      */
-    public Tomcat6xEmbeddedLocalContainer(LocalConfiguration configuration)
+    public Tomcat8xEmbeddedLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
     }
@@ -44,7 +48,7 @@ public class Tomcat6xEmbeddedLocalContainer extends Tomcat5xEmbeddedLocalContain
      */
     public String getId()
     {
-        return "tomcat6x";
+        return "tomcat8x";
     }
 
     /**
@@ -53,6 +57,28 @@ public class Tomcat6xEmbeddedLocalContainer extends Tomcat5xEmbeddedLocalContain
      */
     public String getName()
     {
-        return "Tomcat 6.x Embedded";
+        return "Tomcat 8.x Embedded";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected void prepareController(TomcatEmbedded wrapper, File home, int port)
+    {
+        controller.enableNaming();
+
+        TomcatEmbedded.Engine engine = controller.getEngine();
+
+        engine.setParentClassLoader(getClassLoader());
+
+        TomcatEmbedded.MemoryRealm realm = wrapper.new MemoryRealm();
+        realm.setPathname(new File(home, "conf/tomcat-users.xml"));
+        engine.setRealm(realm);
+
+        controller.setPort(port);
+        connector = controller.getConnector();
+
+        host = controller.getHost();
+        host.setAutoDeploy(false);
     }
 }

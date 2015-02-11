@@ -20,14 +20,13 @@
 package org.codehaus.cargo.container.tomcat;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaEmbeddedLocalContainer;
 
 /**
  * Embedded Tomcat 7.x container.
  * 
  * @version $Id$
  */
-public class Tomcat7xEmbeddedLocalContainer extends AbstractCatalinaEmbeddedLocalContainer
+public class Tomcat7xEmbeddedLocalContainer extends Tomcat6xEmbeddedLocalContainer
 {
     /**
      * Creates a Tomcat 7.x {@link org.codehaus.cargo.container.EmbeddedLocalContainer}.

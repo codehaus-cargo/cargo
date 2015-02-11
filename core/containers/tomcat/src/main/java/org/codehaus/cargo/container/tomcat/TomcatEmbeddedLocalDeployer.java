@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.cargo.container.ContainerException;
@@ -49,13 +48,6 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
     private final AbstractCatalinaEmbeddedLocalContainer container;
 
     /**
-     * Map from {@link Deployable} to {@link TomcatEmbedded.Context}, representing deployed
-     * objects.
-     */
-    private final Map<Deployable, TomcatEmbedded.Context> deployed =
-        new HashMap<Deployable, TomcatEmbedded.Context>();
-
-    /**
      * Creates a new deployer for {@link AbstractCatalinaEmbeddedLocalContainer}.
      * 
      * @param container The container to which this deployer will work. This parameter is typed as
@@ -83,12 +75,15 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
         }
 
         WAR war = (WAR) deployable;
-        String docBase;
 
+        String docBase;
         if (!war.isExpanded())
         {
-            String home = container.getConfiguration().getHome();
-            docBase = getFileHandler().append(home, "webapps/" + war.getContext());
+            String webappsDirectory = getFileHandler().append(
+                container.getConfiguration().getHome(),
+                    container.getConfiguration().getPropertyValue(
+                        TomcatPropertySet.WEBAPPS_DIRECTORY));
+            docBase = getFileHandler().append(webappsDirectory, war.getContext());
             getFileHandler().explode(war.getFile(), docBase);
         }
         else
@@ -99,29 +94,33 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
         TomcatEmbedded.Context context = container.getController().createContext(
             '/' + war.getContext(), docBase);
 
-        try
+        // The Tomcat 8.x container's createContext method actually deploys the full WAR,
+        // as a result we don't need the whole logic below.
+        if (container instanceof Tomcat5xEmbeddedLocalContainer)
         {
-            TomcatWarArchive twar = new TomcatWarArchive(docBase);
-            if (twar.getTomcatContextXml() != null)
+            try
             {
-                for (Map.Entry<Attribute, Attribute> param : twar.getTomcatContextXml().
-                    getParameters().entrySet())
+                TomcatWarArchive twar = new TomcatWarArchive(docBase);
+                if (twar.getTomcatContextXml() != null)
                 {
-                    String key = param.getKey().getValue();
-                    String value = param.getValue().getValue();
+                    for (Map.Entry<Attribute, Attribute> param : twar.getTomcatContextXml().
+                        getParameters().entrySet())
+                    {
+                        String key = param.getKey().getValue();
+                        String value = param.getValue().getValue();
 
-                    context.addParameter(key, value);
+                        context.addParameter(key, value);
+                    }
                 }
             }
-        }
-        catch (Exception e)
-        {
-            throw new ContainerException("Failed to parse Tomcat WAR file "
-                + "in [" + docBase + "]", e);
-        }
+            catch (Exception e)
+            {
+                throw new ContainerException("Failed to parse Tomcat WAR file "
+                    + "in [" + docBase + "]", e);
+            }
 
-        container.getHost().addChild(context);
-        deployed.put(deployable, context);
+            container.getHost().addChild(context);
+        }
     }
 
     /**
@@ -131,9 +130,9 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
     @Override
     public void undeploy(Deployable deployable)
     {
-        TomcatEmbedded.Context context = getExistingContext(deployable);
+        WAR war = (WAR) deployable;
+        TomcatEmbedded.Context context = container.getHost().findChild(war.getContext());
         container.getHost().removeChild(context);
-        deployed.remove(deployable);
     }
 
     /**
@@ -143,15 +142,17 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
     @Override
     public void redeploy(Deployable deployable)
     {
-        TomcatEmbedded.Context context = null;
+        TomcatEmbedded.Context context;        
         try
         {
-            context = getExistingContext(deployable);
+            WAR war = (WAR) deployable;
+            context = container.getHost().findChild(war.getContext());
         }
-        catch (ContainerException e)
+        catch (NullPointerException e)
         {
             // Deployable not deployed, so simply deploy it
             deploy(deployable);
+            return;
         }
         if (context != null)
         {
@@ -181,7 +182,8 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
     @Override
     public void start(Deployable deployable)
     {
-        getExistingContext(deployable).setAvailable(true);
+        WAR war = (WAR) deployable;
+        container.getHost().findChild(war.getContext()).setAvailable(true);
     }
 
     /**
@@ -191,7 +193,8 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
     @Override
     public void stop(Deployable deployable)
     {
-        getExistingContext(deployable).setAvailable(false);
+        WAR war = (WAR) deployable;
+        container.getHost().findChild(war.getContext()).setAvailable(false);
     }
 
     /**
@@ -201,21 +204,5 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
     public DeployerType getType()
     {
         return DeployerType.EMBEDDED;
-    }
-
-    /**
-     * Gets the context that represents a deployed {@link Deployable}.
-     * 
-     * @param deployable the deployable object that has deployed on Tomcat.
-     * @return always non-null
-     */
-    private TomcatEmbedded.Context getExistingContext(Deployable deployable)
-    {
-        TomcatEmbedded.Context context = deployed.get(deployable);
-        if (context == null)
-        {
-            throw new ContainerException("Not deployed yet: " + deployable);
-        }
-        return context;
     }
 }

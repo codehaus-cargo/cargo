@@ -19,8 +19,11 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.io.File;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaEmbeddedLocalContainer;
+import org.codehaus.cargo.container.tomcat.internal.TomcatEmbedded;
 
 /**
  * Embedded Tomcat 5.x container.
@@ -55,5 +58,40 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractCatalinaEmbeddedLoca
     public String getName()
     {
         return "Tomcat 5.x Embedded";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected void prepareController(TomcatEmbedded wrapper, File home, int port)
+    {
+        controller.setCatalinaHome(new File(getConfiguration().getHome()));
+
+        // unless we set this explicitly, it will be loaded from CATALINA_BASE
+        TomcatEmbedded.MemoryRealm realm = wrapper.new MemoryRealm();
+        realm.setPathname(new File(home, "conf/tomcat-users.xml"));
+        controller.setRealm(realm);
+
+        // no easy way to do this with reflection
+        // controller.setLogger(new LoggerAdapter(getLogger()));
+
+        TomcatEmbedded.Engine engine = controller.createEngine();
+        engine.setName("engine");
+        engine.setBaseDir(home.getPath());
+        engine.setParentClassLoader(getClassLoader());
+
+        // create just one Host
+        host = controller.createHost("localhost", new File(home,
+            getConfiguration().getPropertyValue(TomcatPropertySet.WEBAPPS_DIRECTORY)));
+        host.setAutoDeploy(false);
+        engine.addChild(host);
+        engine.setDefaultHost(host.getName());
+
+        // publish engine
+        controller.addEngine(engine);
+
+        // create HTTP connector
+        connector = controller.createConnector(null, port, false);
+        controller.addConnector(connector);
     }
 }
