@@ -44,11 +44,11 @@
   </dependencies>
 
   <profiles>
-    <!-- JDK 6 -->
+    <!-- JDK 7 -->
     <profile>
-      <id>java6+</id>
+      <id>java7+</id>
       <activation>
-        <jdk>[1.6,)</jdk>
+        <jdk>[1.7,)</jdk>
       </activation>
       <build>
         <plugins>
