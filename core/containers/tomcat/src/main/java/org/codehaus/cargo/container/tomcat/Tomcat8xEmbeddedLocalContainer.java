@@ -24,6 +24,7 @@ import java.io.File;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaEmbeddedLocalContainer;
 import org.codehaus.cargo.container.tomcat.internal.TomcatEmbedded;
+import org.codehaus.cargo.container.tomcat.internal.TomcatEmbedded.MemoryRealm;
 
 /**
  * Embedded Tomcat 8.x container.
@@ -32,6 +33,11 @@ import org.codehaus.cargo.container.tomcat.internal.TomcatEmbedded;
  */
 public class Tomcat8xEmbeddedLocalContainer extends AbstractCatalinaEmbeddedLocalContainer
 {
+    /**
+     * Classloader to use for loading the Embedded container's classes.
+     */
+    private static ClassLoader classLoader;
+
     /**
      * Creates a Tomcat 8.x {@link org.codehaus.cargo.container.EmbeddedLocalContainer}.
      * 
@@ -80,5 +86,45 @@ public class Tomcat8xEmbeddedLocalContainer extends AbstractCatalinaEmbeddedLoca
 
         host = controller.getHost();
         host.setAutoDeploy(false);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doStop() throws Exception
+    {
+        TomcatEmbedded.Context[] contexts = null;
+        if (host != null)
+        {
+            host.findChildren();
+        }
+
+        super.doStop();
+
+        if (contexts != null)
+        {
+            for (TomcatEmbedded.Context context : contexts)
+            {
+                context.destroy();
+            }
+        }
+    }
+
+    /**
+     * Tomcat 8.x has a weird class called TomcatURLStreamHandlerFactory where the singleton has a
+     * static <code>instance</code> field and a final attribute <code>registered</code> which are
+     * not always in sync and cause unexpected exceptions. Save old class loaders in order to avoid
+     * trouble when the container is executed twice (for example, in CARGO's integration tests).
+     * {@inheritDoc}
+     */
+    @Override
+    public ClassLoader getClassLoader()
+    {
+        if (Tomcat8xEmbeddedLocalContainer.classLoader == null)
+        {
+            Tomcat8xEmbeddedLocalContainer.classLoader = super.getClassLoader();
+        }
+        return Tomcat8xEmbeddedLocalContainer.classLoader;
     }
 }

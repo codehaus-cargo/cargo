@@ -24,6 +24,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.codehaus.cargo.container.ContainerException;
 
@@ -109,6 +111,12 @@ public final class TomcatEmbedded
     /** reflection method. */
     private Method connectorDestroy;
 
+    /** context class. */
+    private Class contextClass;
+
+    /** reflection method. */
+    private Method contextDestroy;
+
     /** reflection method. */
     private Method contextReload;
 
@@ -135,6 +143,9 @@ public final class TomcatEmbedded
 
     /** reflection method. */
     private Method hostFindChild;
+
+    /** reflection method. */
+    private Method hostFindChildren;
 
     /** reflection method. */
     private Method hostRemoveChild;
@@ -235,19 +246,21 @@ public final class TomcatEmbedded
      */
     private void preloadContext(ClassLoader classLoader) throws Exception
     {
-        Class context = Class.forName("org.apache.catalina.Context", true, classLoader);
-        contextReload = context.getMethod("reload", new Class[0]);
+        contextClass = Class.forName("org.apache.catalina.Context", true, classLoader);
+        contextDestroy = contextClass.getMethod("destroy", new Class[0]);
+        contextReload = contextClass.getMethod("reload", new Class[0]);
         try
         {
-            contextSetAvailable = context.getMethod("setAvailable", new Class[] {boolean.class});
+            contextSetAvailable =
+                contextClass.getMethod("setAvailable", new Class[] {boolean.class});
         }
         catch (NoSuchMethodException e)
         {
-            contextStart = context.getMethod("start", new Class[0]);
-            contextStop = context.getMethod("stop", new Class[0]);
+            contextStart = contextClass.getMethod("start", new Class[0]);
+            contextStop = contextClass.getMethod("stop", new Class[0]);
         }
         contextAddParameter =
-            context.getMethod("addParameter", new Class[] {String.class, String.class});
+            contextClass.getMethod("addParameter", new Class[] {String.class, String.class});
     }
 
     /**
@@ -265,6 +278,7 @@ public final class TomcatEmbedded
         hostGetName = host.getMethod("getName", new Class[0]);
         hostAddChild = host.getMethod("addChild", new Class[] {container});
         hostFindChild = host.getMethod("findChild", new Class[] {String.class});
+        hostFindChildren = host.getMethod("findChildren", new Class[0]);
         hostRemoveChild = host.getMethod("removeChild", new Class[] {container});
     }
 
@@ -314,7 +328,6 @@ public final class TomcatEmbedded
         catch (ClassNotFoundException e)
         {
             // Tomcat 8.x and newer don't have org.apache.catalina.startup.Embedded anymore
-
             embedded = Class.forName("org.apache.catalina.startup.Tomcat", true, classLoader);
             embeddedSetCatalinaBase = embedded.getMethod("setBaseDir", new Class[] {String.class});
             embeddedSetPort = embedded.getMethod("setPort", new Class[] {int.class});
@@ -325,6 +338,14 @@ public final class TomcatEmbedded
             engineSetRealm = engine.getMethod("setRealm", new Class[] {realm});
             embeddedCreateContext =
                 embedded.getMethod("addWebapp", new Class[] {String.class, String.class});
+
+            // See Tomcat8xEmbeddedLocalContainer#getClassLoader() to understand why we do this
+            Class tomcatURLStreamHandlerFactory =
+                Class.forName("org.apache.catalina.webresources.TomcatURLStreamHandlerFactory",
+                    true, classLoader);
+            Method getInstance =
+                tomcatURLStreamHandlerFactory.getMethod("getInstance", new Class[0]);
+            getInstance.invoke(null);
         }
         embeddedNew = embedded.getConstructor(new Class[0]);
         embeddedStart = embedded.getMethod("start", new Class[0]);
@@ -461,6 +482,14 @@ public final class TomcatEmbedded
         }
 
         /**
+         * Destroys the context.
+         */
+        public void destroy()
+        {
+            invoke(contextDestroy);
+        }
+
+        /**
          * Reloads this web application.
          */
         public void reload()
@@ -544,6 +573,27 @@ public final class TomcatEmbedded
         public void addChild(Context context)
         {
             invoke(hostAddChild, context);
+        }
+
+        /**
+         * Return all context children.
+         * 
+         * @return All context children.
+         */
+        public Context[] findChildren()
+        {
+            List<Context> contexts = new ArrayList<Context>();
+            Object[] children = (Object[]) invoke(hostFindChildren);
+            for (Object child : children)
+            {
+                if (child.getClass().isAssignableFrom(contextClass))
+                {
+                    contexts.add(new Context(child));
+                }
+            }
+            Context[] contextsArray = new Context[contexts.size()];
+            contextsArray = contexts.toArray(contextsArray);
+            return contextsArray;
         }
 
         /**
