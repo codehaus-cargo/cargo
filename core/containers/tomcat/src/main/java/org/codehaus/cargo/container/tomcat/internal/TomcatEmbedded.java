@@ -247,7 +247,14 @@ public final class TomcatEmbedded
     private void preloadContext(ClassLoader classLoader) throws Exception
     {
         contextClass = Class.forName("org.apache.catalina.Context", true, classLoader);
-        contextDestroy = contextClass.getMethod("destroy", new Class[0]);
+        try
+        {
+            contextDestroy = contextClass.getMethod("destroy", new Class[0]);
+        }
+        catch (NoSuchMethodException ignored)
+        {
+            // Context.destroy only exists since Tomcat 7.x
+        }
         contextReload = contextClass.getMethod("reload", new Class[0]);
         try
         {
