@@ -44,12 +44,14 @@
   </dependencies>
 
   <profiles>
-    <!-- JDK 6 -->
+    <!--
+      Tomcat 7.x has introduced a weird class called TomcatURLStreamHandlerFactory where the
+      singleton has a static "instance" field and a final attribute "registered" which are not
+      always in sync and cause unexpected exceptions. As a result, we can either run Tomcat 7.x or
+      Tomcat 8.x in the same JVM; but not both (even one after the other).
+      -->
     <profile>
-      <id>java6+</id>
-      <activation>
-        <jdk>[1.6,)</jdk>
-      </activation>
+      <id>tomcat7x</id>
       <build>
         <plugins>
           <plugin>
