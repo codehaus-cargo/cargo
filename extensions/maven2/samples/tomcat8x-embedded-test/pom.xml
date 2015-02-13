@@ -44,75 +44,73 @@
   </dependencies>
 
   <profiles>
-    <!--
-      Tomcat 7.x has introduced a weird class called TomcatURLStreamHandlerFactory where the
-      singleton has a static "instance" field and a final attribute "registered" which are not
-      always in sync and cause unexpected exceptions. As a result, we can either run Tomcat 7.x or
-      Tomcat 8.x in the same JVM; but not both (even one after the other).
-      -->
     <profile>
-      <id>tomcat8x</id>
+      <!-- JDK 7 -->
+      <id>java7+</id>
+      <activation>
+        <jdk>[1.7,)</jdk>
+      </activation>
       <build>
+        <!--
+          Tomcat 7.x has introduced a weird class called TomcatURLStreamHandlerFactory where the
+          singleton has a static "instance" field and a final attribute "registered" which are not
+          always in sync and cause unexpected exceptions. Due to this, we can't execute Tomcat 7.x
+          and Tomcat 8.x embedded in the same JVM. As a result, we use the maven-invoker-plugin and
+          execute the Tomcat 8.x embedded tests via Maven in a separate JVM.
+          -->
         <plugins>
           <plugin>
-            <groupId>org.codehaus.cargo</groupId>
-            <artifactId>cargo-maven2-plugin</artifactId>
-            <version>${project.version}</version>
-            <configuration>
-              <container>
-                <containerId>tomcat8x</containerId>
-                <type>embedded</type>
-              </container>
-              <configuration>
-                <home>${project.build.directory}/tomcat-home</home>
-                <properties>
-                  <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
-                  <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
-                </properties>
-              </configuration>
-              <deployables>
-                <deployable>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>simple-war</artifactId>
-                  <type>war</type>
-                </deployable>
-              </deployables>
-            </configuration>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
             <executions>
               <execution>
-                <id>start</id>
-                <phase>pre-integration-test</phase>
+                <phase>integration-test</phase>
                 <goals>
-                  <goal>start</goal>
+                  <goal>copy-resources</goal>
                 </goals>
-              </execution>
-              <execution>
-                <id>stop</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>stop</goal>
-                </goals>
+                <configuration>
+                  <outputDirectory>${project.build.directory}/test-classes</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${basedir}</directory>
+                      <includes>
+                        <include>src/test/java/**/*.java</include>
+                      </includes>
+                    </resource>
+                  </resources>
+                </configuration>
               </execution>
             </executions>
           </plugin>
           <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-invoker-plugin</artifactId>
+            <configuration>
+              <streamLogs>true</streamLogs>
+              <pom>${project.build.directory}/test-classes/pom.xml</pom>
+              <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+              </goals>
+              <properties>
+                <interactiveMode>false</interactiveMode>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}-invoker</artifactId>
+                <version>${project.version}</version>
+                <cargo.samples.servlet.port>${cargo.samples.servlet.port}</cargo.samples.servlet.port>
+                <cargo.samples.rmi.port>${cargo.samples.rmi.port}</cargo.samples.rmi.port>
+                <cargo.core.version>${cargo.core.version}</cargo.core.version>
+                <cargo.resources.version>${cargo.resources.version}</cargo.resources.version>
+                <maven.test.skip>${maven.test.skip}</maven.test.skip>
+              </properties>
+            </configuration>
             <executions>
               <execution>
-                <id>surefire-it</id>
-                <phase>integration-test</phase>
+                <id>integration-test</id>
                 <goals>
-                  <goal>test</goal>
+                  <goal>install</goal>
+                  <goal>run</goal>
                 </goals>
-                <configuration>
-                  <skip>${maven.test.skip}</skip>
-                  <systemProperties>
-                    <property>
-                      <name>http.port</name>
-                      <value>${cargo.samples.servlet.port}</value>
-                    </property>
-                  </systemProperties>
-                </configuration>
               </execution>
             </executions>
           </plugin>

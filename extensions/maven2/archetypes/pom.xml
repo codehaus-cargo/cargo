@@ -76,7 +76,7 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-invoker-plugin</artifactId>
           <configuration>
-            <debug>true</debug>
+            <streamLogs>true</streamLogs>
             <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
             <!-- Can't use a cloned local repo as the cargo maven plugin isn't installed
                  in the clone process. See issue MINVOKER-115.
