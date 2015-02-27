@@ -236,37 +236,35 @@ public class EmbeddedContainerArtifactResolver
 
         List<Dependency> jetty9xDependencies = new ArrayList<Dependency>();
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-annotations",
-            "9.2.7.v20150116"));
+            "9.2.9.v20150224"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-continuation",
-            "9.2.7.v20150116"));
+            "9.2.9.v20150224"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http",
-            "9.2.7.v20150116"));
+            "9.2.9.v20150224"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io",
-            "9.2.7.v20150116"));
+            "9.2.9.v20150224"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jndi",
-            "9.2.7.v20150116"));
+            "9.2.9.v20150224"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-plus",
-            "9.2.7.v20150116"));
+            "9.2.9.v20150224"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-util",
-            "9.2.7.v20150116"));
+            "9.2.9.v20150224"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-security",
-            "9.2.7.v20150116"));
+            "9.2.9.v20150224"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-server",
-            "9.2.7.v20150116"));
+            "9.2.9.v20150224"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-servlet",
-            "9.2.7.v20150116"));
+            "9.2.9.v20150224"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-webapp",
-            "9.2.7.v20150116"));
+            "9.2.9.v20150224"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml",
-            "9.2.7.v20150116"));
+            "9.2.9.v20150224"));
         jetty9xDependencies.add(new Dependency("javax.servlet", "javax.servlet-api", "3.1.0"));
         // annotations
-        jetty9xDependencies.add(new Dependency("org.ow2.asm", "asm", "4.1"));
-        jetty9xDependencies.add(new Dependency("org.ow2.asm", "asm-commons", "4.1"));
+        jetty9xDependencies.add(new Dependency("org.ow2.asm", "asm", "5.0.1"));
+        jetty9xDependencies.add(new Dependency("org.ow2.asm", "asm-commons", "5.0.1"));
         jetty9xDependencies.add(new Dependency("javax.annotation", "javax.annotation-api", "1.2"));
         // jndi
-        jetty9xDependencies.add(new Dependency("org.eclipse.jetty.orbit", "javax.activation",
-            "1.1.0.v201105071233"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty.orbit", "javax.mail.glassfish",
             "1.4.1.v201005082020"));
         jetty9xDependencies.add(new Dependency("javax.transaction", "javax.transaction-api",
@@ -320,21 +318,22 @@ public class EmbeddedContainerArtifactResolver
 
         List<Dependency> tomcat8xDependencies = new ArrayList<Dependency>();
         tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-servlet-api",
-            "8.0.18"));
+            "8.0.20"));
         tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-annotations-api",
-            "8.0.18"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "8.0.18"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "8.0.18"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "8.0.18"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "8.0.18"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "8.0.18"));
+            "8.0.20"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "8.0.20"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "8.0.20"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "8.0.20"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "8.0.20"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "8.0.20"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "8.0.20"));
         tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util-scan",
-            "8.0.18"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina", "8.0.18"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "8.0.18"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "8.0.18"));
+            "8.0.20"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina", "8.0.20"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "8.0.20"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "8.0.20"));
         tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper-el",
-            "8.0.18"));
+            "8.0.20"));
         tomcat8xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj",
             "4.4"));
         this.containerDependencies.put("tomcat8x", tomcat8xDependencies);
