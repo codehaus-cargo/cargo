@@ -224,6 +224,9 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             TomcatExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("tomcat8x",
+            ContainerType.EMBEDDED, ConfigurationType.EXISTING,
+            TomcatExistingLocalConfiguration.class);
+        configurationFactory.registerConfiguration("tomcat8x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             TomcatRuntimeConfiguration.class);
     }
