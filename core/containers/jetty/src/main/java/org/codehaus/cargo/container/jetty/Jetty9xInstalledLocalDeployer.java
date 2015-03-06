@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 
 /**
  * A deployer for webapps that deploys to a Jetty 9.x installed instance.
@@ -30,9 +30,9 @@ public class Jetty9xInstalledLocalDeployer extends Jetty7xInstalledLocalDeployer
 {
     /**
      * {@inheritDoc}
-     * @see Jetty7xInstalledLocalDeployer#Jetty7xInstalledLocalDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
+     * @see Jetty7xInstalledLocalDeployer#Jetty7xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public Jetty9xInstalledLocalDeployer(InstalledLocalContainer container)
+    public Jetty9xInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
     }

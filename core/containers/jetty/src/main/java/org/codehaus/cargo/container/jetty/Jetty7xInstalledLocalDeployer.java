@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.WAR;
 
 /**
@@ -31,9 +31,9 @@ public class Jetty7xInstalledLocalDeployer extends Jetty6xInstalledLocalDeployer
 {
     /**
      * {@inheritDoc}
-     * @see Jetty6xInstalledLocalDeployer#Jetty6xInstalledLocalDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
+     * @see Jetty6xInstalledLocalDeployer#Jetty6xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public Jetty7xInstalledLocalDeployer(InstalledLocalContainer container)
+    public Jetty7xInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
     }
