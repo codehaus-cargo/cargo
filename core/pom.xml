@@ -31,7 +31,7 @@
   <description>Cargo Core</description>
   <properties>
     <!-- define these variables because of potentially different release cycles -->
-    <cargo.resources.version>1.4.13</cargo.resources.version>
+    <cargo.resources.version>${project.version}</cargo.resources.version>
   </properties>
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk</connection>
