@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.tomee;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
@@ -38,9 +38,9 @@ public class Tomee1xCopyingInstalledLocalDeployer extends TomcatCopyingInstalled
 
     /**
      * {@inheritDoc}
-     * @see TomcatCopyingInstalledLocalDeployer#TomcatCopyingInstalledLocalDeployer(InstalledLocalContainer)
+     * @see TomcatCopyingInstalledLocalDeployer#TomcatCopyingInstalledLocalDeployer(LocalContainer)
      */
-    public Tomee1xCopyingInstalledLocalDeployer(InstalledLocalContainer container)
+    public Tomee1xCopyingInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
     }
