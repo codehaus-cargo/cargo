@@ -9,6 +9,15 @@
   <servlet>
     <servlet-name>cargo</servlet-name>
     <servlet-class>org.codehaus.cargo.daemon.CargoDaemonServlet</servlet-class>
+    <!--
+      The load-on-startup element indicates that this servlet should be loaded on the startup of
+      the web application. If the value is a negative integer, or the element is not present, the
+      container is free to load the servlet whenever it chooses.
+
+      Since Cargo Daemon has a feature for autostarting containers, we need to have load-on-startup
+      set to some non-negative integer.
+      -->
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet>
     <servlet-name>error</servlet-name>
