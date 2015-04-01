@@ -63,7 +63,6 @@ import org.jdom.JDOMException;
 /**
  * Builds an uber war.
  * 
- * @version $Id$
  * @goal uberwar
  * @phase package
  * @requiresDependencyResolution runtime

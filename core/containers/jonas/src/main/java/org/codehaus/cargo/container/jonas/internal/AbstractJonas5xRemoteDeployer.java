@@ -43,7 +43,6 @@ import org.codehaus.cargo.container.jonas.JonasPropertySet;
 /**
  * Remote deployer for JOnAS 5.x.
  * 
- * @version $Id$
  */
 public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteDeployer
 {

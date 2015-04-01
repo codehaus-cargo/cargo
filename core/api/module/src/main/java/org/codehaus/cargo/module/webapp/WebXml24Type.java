@@ -39,7 +39,6 @@ import org.codehaus.cargo.module.webapp.elements.Servlet;
 
 /**
  * Web 2.4 Descriptor.
- * @version $Id$
  */
 public class WebXml24Type extends WebXmlType
 {

@@ -25,7 +25,6 @@ package org.codehaus.cargo.maven2;
  * @goal undeploy
  * @requiresDependencyResolution test
  * @see org.codehaus.cargo.maven2.DeployerUndeployMojo
- * @version $Id$
  */
 public class AliasedDeployerUndeployMojo extends DeployerUndeployMojo
 {

@@ -38,7 +38,6 @@ import org.codehaus.cargo.util.VFSFileHandler;
 /**
  * Unit tests for {@link AbstractStandaloneLocalConfiguration}.
  * 
- * @version $Id$
  */
 public class StandaloneConfigurationTest extends TestCase
 {

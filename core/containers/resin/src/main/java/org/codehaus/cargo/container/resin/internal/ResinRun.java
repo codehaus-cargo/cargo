@@ -33,7 +33,6 @@ import org.codehaus.cargo.container.spi.util.DefaultServerRun;
 /**
  * Starts/stop Resin by setting up a listener socket. Supports Resin 2.0.x, 2.1.x and 3.x.
  * 
- * @version $Id$
  */
 public class ResinRun extends DefaultServerRun
 {

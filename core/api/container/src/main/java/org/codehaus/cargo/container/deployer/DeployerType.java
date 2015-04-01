@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.ContainerType;
 /**
  * Type of Deployer. Can be a installed, embedded or remote.
  * 
- * @version $Id$
  */
 public final class DeployerType
 {

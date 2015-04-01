@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.glassfish.internal.GlassFish4xRuntimeConfigu
 /**
  * Configuration to use when using a GlassFish 4.x remote container.
  * 
- * @version $Id$
  */
 public class GlassFish4xRuntimeConfiguration extends GlassFish3xRuntimeConfiguration
 {

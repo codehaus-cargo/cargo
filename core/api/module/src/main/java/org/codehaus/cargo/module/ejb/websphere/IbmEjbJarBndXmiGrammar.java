@@ -29,7 +29,6 @@ import org.codehaus.cargo.module.Grammar;
  * descriptors and no general xml schema Grammar implementation exists we have to use a specific
  * one.
  * 
- * @version $Id$
  */
 public class IbmEjbJarBndXmiGrammar implements Grammar
 {

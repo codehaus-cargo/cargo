@@ -24,7 +24,6 @@ import org.codehaus.cargo.util.log.Loggable;
 /**
  * A deployable is a file archive to be deployed in a container (eg WAR, EAR, etc).
  * 
- * @version $Id$
  */
 public interface Deployable extends Loggable
 {

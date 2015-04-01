@@ -33,7 +33,6 @@ import org.dom4j.DocumentHelper;
 /**
  * Abstract Orion standalone configuration implementation test.
  * 
- * @version $Id$
  */
 public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest

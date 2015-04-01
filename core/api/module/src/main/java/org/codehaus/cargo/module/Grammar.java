@@ -24,7 +24,6 @@ import java.util.List;
 /**
  * Contains methods for retrieving grammar information for an XML file.
  * 
- * @version $Id$
  */
 public interface Grammar
 {

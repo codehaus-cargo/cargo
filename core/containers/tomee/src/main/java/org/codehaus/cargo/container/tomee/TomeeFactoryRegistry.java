@@ -42,7 +42,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 /**
  * Registers Tomee support into default factories.
  * 
- * @version $Id$
  */
 public class TomeeFactoryRegistry extends AbstractFactoryRegistry
 {

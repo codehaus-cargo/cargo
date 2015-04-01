@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
 /**
  * Capabilities of the WildFly 8.x container.
  * 
- * @version $Id$
  */
 public class WildFly8xContainerCapability extends JBoss7xContainerCapability
 {

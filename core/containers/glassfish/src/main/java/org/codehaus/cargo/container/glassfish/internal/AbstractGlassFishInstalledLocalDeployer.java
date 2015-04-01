@@ -39,7 +39,6 @@ import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
  * GlassFish installed local deployer, which uses the GlassFish asadmin to deploy and undeploy
  * applications.
  * 
- * @version $Id$
  */
 public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLocalDeployer
 {

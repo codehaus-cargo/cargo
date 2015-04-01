@@ -36,7 +36,6 @@ import org.codehaus.cargo.util.VFSFileHandler;
 /**
  * Unit tests for {@link JarArchive}.
  * 
- * @version $Id$
  */
 public final class JarArchiveTest extends AbstractResourceTest
 {

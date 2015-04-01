@@ -41,7 +41,6 @@ import org.jmock.MockObjectTestCase;
 /**
  * Unit tests for {@link AbstractJonasRemoteDeployer}.
  * 
- * @version $Id$
  */
 public class JonasRemoteDeployerTest extends MockObjectTestCase
 {

@@ -26,7 +26,6 @@ import junit.framework.TestCase;
 /**
  * Unit tests for {@link Base64}.
  * 
- * @version $Id$
  */
 public class Base64Test extends TestCase
 {

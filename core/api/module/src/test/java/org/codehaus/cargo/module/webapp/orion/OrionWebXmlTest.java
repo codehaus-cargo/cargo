@@ -29,7 +29,6 @@ import org.jdom.Element;
 /**
  * Unit tests for {@link OrionWebXml}.
  * 
- * @version $Id$
  */
 public class OrionWebXmlTest extends AbstractDocumentBuilderTest
 {

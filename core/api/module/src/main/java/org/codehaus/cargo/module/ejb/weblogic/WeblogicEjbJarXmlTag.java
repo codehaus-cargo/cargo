@@ -25,7 +25,6 @@ import org.codehaus.cargo.module.DescriptorType;
 /**
  * Represents the various tags in a weblogic ejb jar deployment descriptor.
  * 
- * @version $Id$
  */
 public class WeblogicEjbJarXmlTag extends DescriptorTag
 {

@@ -44,7 +44,6 @@ import org.dom4j.io.XMLWriter;
  * Static deployer that manages deployment configuration by manipulating the WebLogic config.xml
  * file.
  * 
- * @version $Id$
  */
 public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalledLocalDeployer
 {

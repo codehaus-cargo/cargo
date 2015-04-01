@@ -30,7 +30,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Tests whether DataSource configuration works.
  * 
- * @version $Id$
  */
 public class DataSourceTest extends TestCase
 {

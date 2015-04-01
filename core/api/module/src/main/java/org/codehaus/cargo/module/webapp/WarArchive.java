@@ -28,7 +28,6 @@ import org.jdom.JDOMException;
 /**
  * Encapsulates access to a WAR.
  * 
- * @version $Id$
  */
 public interface WarArchive extends JarArchive
 {

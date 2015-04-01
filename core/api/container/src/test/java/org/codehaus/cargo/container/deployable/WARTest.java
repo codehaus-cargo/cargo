@@ -24,7 +24,6 @@ import junit.framework.TestCase;
 /**
  * Unit tests for {@link WAR}.
  * 
- * @version $Id$
  */
 public class WARTest extends TestCase
 {

@@ -29,7 +29,6 @@ import java.util.jar.JarOutputStream;
 /**
  * Some utility classes for manipulating JAR files.
  * 
- * @version $Id$
  */
 public final class JarUtils
 {

@@ -38,7 +38,6 @@ import org.codehaus.cargo.util.log.Logger;
 /**
  * Unit tests for {@link AbstractCargoMojo}.
  * 
- * @version $Id$
  */
 public class CargoMojoTest extends TestCase
 {

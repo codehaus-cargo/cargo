@@ -38,7 +38,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 /**
  * Test the deployment of Glassfish deployment plans.
  * 
- * @version $Id$
  */
 public class GlassfishDeploymentPlanTest extends AbstractCargoTestCase
 {

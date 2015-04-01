@@ -30,7 +30,6 @@ import org.jdom.Namespace;
 /**
  * Represents the various top-level tags in a deployment descriptor as a typesafe enumeration.
  * 
- * @version $Id$
  */
 public class DescriptorTag
 {

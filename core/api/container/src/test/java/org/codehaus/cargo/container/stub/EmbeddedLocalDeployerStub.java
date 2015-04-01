@@ -31,7 +31,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
  * we could get using JMock for example) because we're testing factory classes which create an
  * object out of a class name.
  * 
- * @version $Id$
  */
 public class EmbeddedLocalDeployerStub extends LoggedObject implements Deployer
 {

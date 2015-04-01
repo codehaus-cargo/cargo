@@ -35,7 +35,6 @@ import org.codehaus.cargo.util.VFSFileHandler;
 /**
  * Unit tests for {@link ZipURLInstaller}.
  * 
- * @version $Id$
  */
 public class ZipURLInstallerTest extends TestCase
 {

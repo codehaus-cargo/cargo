@@ -29,7 +29,6 @@ import org.codehaus.cargo.util.FileHandler;
  * remote container which is outside the control of Cargo and which is started and stopped
  * externally from Cargo.
  * 
- * @version $Id$
  */
 public interface LocalContainer extends Container, RunnableContainer
 {

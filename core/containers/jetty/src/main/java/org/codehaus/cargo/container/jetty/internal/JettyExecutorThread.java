@@ -27,7 +27,6 @@ import org.codehaus.cargo.util.log.NullLogger;
 /**
  * Executor that executes by introspection a Jetty Server object.
  * 
- * @version $Id$
  */
 public class JettyExecutorThread extends Thread implements Loggable
 {

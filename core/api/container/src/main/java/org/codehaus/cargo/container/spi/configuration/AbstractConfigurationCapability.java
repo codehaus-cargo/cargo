@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
  * Base implementation of {@link org.codehaus.cargo.container.configuration.ConfigurationCapability}
  * that needs to be extended by the different configuration implementations.
  * 
- * @version $Id$
  */
 public abstract class AbstractConfigurationCapability implements ConfigurationCapability
 {

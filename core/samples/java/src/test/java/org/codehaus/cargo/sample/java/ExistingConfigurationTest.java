@@ -35,7 +35,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 /**
  * Test for existing configuration.
  * 
- * @version $Id$
  */
 public class ExistingConfigurationTest extends AbstractWarCapabilityContainerTestCase
 {

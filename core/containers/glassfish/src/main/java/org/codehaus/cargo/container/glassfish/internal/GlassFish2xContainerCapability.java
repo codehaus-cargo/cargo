@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 /**
  * GlassFish 2.x container capability.
  * 
- * @version $Id$
  */
 public class GlassFish2xContainerCapability extends J2EEContainerCapability
 {

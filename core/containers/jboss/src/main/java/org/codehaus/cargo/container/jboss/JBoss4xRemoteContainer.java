@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
 /**
  * Special container support for wrapping a running instance of JBoss 4.x.
  * 
- * @version $Id$
  */
 public class JBoss4xRemoteContainer extends AbstractRemoteContainer
 {

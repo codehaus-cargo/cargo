@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.jonas.JonasPropertySet;
  * Capabilities of JOnAS {@link org.codehaus.cargo.container.jonas.Jonas5xRuntimeConfiguration}
  * configuration.
  * 
- * @version $Id$
  */
 public class Jonas5xRuntimeConfigurationCapability extends Jonas4xRuntimeConfigurationCapability
 {

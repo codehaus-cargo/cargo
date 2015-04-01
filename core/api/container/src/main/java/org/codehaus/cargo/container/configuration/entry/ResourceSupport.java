@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.LocalContainer;
  * The operations in this interface should not depend on prior state and should be able to be called
  * multiple times.
  * 
- * @version $Id$
  */
 public interface ResourceSupport
 {

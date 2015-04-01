@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 /**
  * Validate that a container supports OSGi bundles.
  * 
- * @version $Id$
  */
 public class HasBundleSupportValidator extends HasDeployableSupportValidator
 {

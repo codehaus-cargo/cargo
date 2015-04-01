@@ -24,7 +24,6 @@ package org.codehaus.cargo.container.property;
  * 
  * {@link org.codehaus.cargo.container.spi.deployer.AbstractJsr88Deployer}
  * 
- * @version $Id$
  */
 public interface JSR88PropertySet
 {

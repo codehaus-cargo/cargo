@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.wildfly.internal.WildFly8xStandaloneLocalCon
 /**
  * WildFly 8.x standalone local configuration.
  * 
- * @version $Id$
  */
 public class WildFly8xStandaloneLocalConfiguration extends JBoss73xStandaloneLocalConfiguration
 {

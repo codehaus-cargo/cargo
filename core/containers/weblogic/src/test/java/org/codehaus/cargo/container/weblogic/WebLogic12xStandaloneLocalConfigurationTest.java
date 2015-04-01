@@ -36,7 +36,6 @@ import org.custommonkey.xmlunit.XMLUnit;
 /**
  * Unit tests for {@link WebLogic12xStandaloneLocalConfiguration}.
  * 
- * @version $Id$
  */
 public class WebLogic12xStandaloneLocalConfigurationTest extends TestCase
 {

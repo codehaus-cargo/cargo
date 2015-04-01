@@ -28,7 +28,6 @@ import org.dom4j.Element;
 /**
  * Unit tests for {@link Dom4JUtil}.
  * 
- * @version $Id$
  */
 public class Dom4JUtilTest extends TestCase
 {

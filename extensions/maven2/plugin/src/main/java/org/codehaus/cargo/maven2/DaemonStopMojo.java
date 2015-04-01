@@ -24,7 +24,6 @@ import org.apache.maven.plugin.MojoExecutionException;
 /**
  * Stop a container via the daemon.
  * 
- * @version $Id$
  * @requiresDependencyResolution test
  * @goal daemon-stop
  */

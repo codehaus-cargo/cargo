@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.resin;
 /**
  * Resin-specific properties.
  * 
- * @version $Id$
  */
 public interface ResinPropertySet
 {

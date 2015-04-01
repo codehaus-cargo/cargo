@@ -37,7 +37,6 @@ import org.codehaus.cargo.generic.deployable.DeployableFactory;
 /**
  * Nested Ant element to wrap a {@link Deployable}.
  * 
- * @version $Id$
  */
 public class DeployableElement
 {

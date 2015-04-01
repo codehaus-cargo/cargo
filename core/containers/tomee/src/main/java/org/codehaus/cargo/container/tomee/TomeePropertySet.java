@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.tomee;
 /**
  * Gathers all TomEE properties.
  * 
- * @version $Id$
  */
 public interface TomeePropertySet
 {

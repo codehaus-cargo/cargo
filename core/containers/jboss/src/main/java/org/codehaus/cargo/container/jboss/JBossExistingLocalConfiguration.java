@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
 /**
  * JBoss existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
  * 
- * @version $Id$
  */
 public class JBossExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {

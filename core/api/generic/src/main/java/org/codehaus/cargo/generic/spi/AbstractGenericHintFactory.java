@@ -35,7 +35,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
  * {@link org.codehaus.cargo.generic.internal.util.RegistrationKey}. This abstract factory class is
  * extended by all the different Cargo factories.
  * 
- * @version $Id$
  */
 public abstract class AbstractGenericHintFactory<T> extends LoggedObject
 {

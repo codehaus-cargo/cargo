@@ -35,7 +35,6 @@ import org.codehaus.cargo.container.ContainerException;
  * server, a listener socket is set up. Then, we it is later called to stop the server, we connect
  * to the listener socket and tell the server to stop.
  * 
- * @version $Id$
  */
 public class DefaultServerRun extends Thread
 {

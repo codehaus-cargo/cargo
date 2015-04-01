@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
  * 
- * @version $Id$
  */
 public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLocalConfiguration
 {

@@ -33,7 +33,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 /**
  * Support for the JOnAS JEE container.
  * 
- * @version $Id$
  */
 public abstract class AbstractJonasInstalledLocalContainer extends AbstractInstalledLocalContainer
 {

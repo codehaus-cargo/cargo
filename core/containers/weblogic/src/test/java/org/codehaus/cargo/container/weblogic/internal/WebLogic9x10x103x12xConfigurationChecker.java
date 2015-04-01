@@ -35,7 +35,6 @@ import org.custommonkey.xmlunit.XMLUnit;
  * Contains XML logic used to validate the XML output of a WebLogic 9.x - 10.3.x DataSource
  * configuration.
  * 
- * @version $Id$
  */
 public class WebLogic9x10x103x12xConfigurationChecker extends
     WebLogic8xConfigurationChecker

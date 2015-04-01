@@ -25,7 +25,6 @@ package org.codehaus.cargo.container.jonas.internal;
 /**
  * JOnAS 4X admin command line utils interface.
  * 
- * @version $Id$
  */
 public interface Jonas4xAdmin
 {

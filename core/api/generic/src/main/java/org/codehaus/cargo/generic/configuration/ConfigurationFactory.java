@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
  * to register different configuration classes for the same container id but for a different
  * container type.
  * 
- * @version $Id$
  */
 public interface ConfigurationFactory
 {

@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
  * Capabilities of Jetty's {@link org.codehaus.cargo.container.jetty.JettyRuntimeConfiguration}
  * configuration.
  * 
- * @version $Id$
  */
 public class JettyRuntimeConfigurationCapability extends AbstractRuntimeConfigurationCapability
 {

@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
 /**
  * JOnAS existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
  * 
- * @version $Id$
  */
 public abstract class AbstractJonasExistingLocalConfiguration extends
     AbstractExistingLocalConfiguration

@@ -25,7 +25,6 @@ import org.codehaus.cargo.module.DescriptorType;
 /**
  * Represents the various top-level tags in a web deployment descriptor as a typesafe enumeration.
  * 
- * @version $Id$
  */
 public class WeblogicXmlTag extends DescriptorTag
 {

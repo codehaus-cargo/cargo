@@ -36,7 +36,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test remote deployment.
  * 
- * @version $Id$
  */
 public class RemoteDeployTest extends TestCase
 {

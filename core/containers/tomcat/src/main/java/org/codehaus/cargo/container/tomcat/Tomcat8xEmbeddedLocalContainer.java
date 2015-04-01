@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.tomcat.internal.TomcatEmbedded.MemoryRealm;
 /**
  * Embedded Tomcat 8.x container.
  * 
- * @version $Id$
  */
 public class Tomcat8xEmbeddedLocalContainer extends AbstractCatalinaEmbeddedLocalContainer
 {

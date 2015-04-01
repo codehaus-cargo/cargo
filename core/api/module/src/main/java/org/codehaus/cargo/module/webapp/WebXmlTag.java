@@ -29,7 +29,6 @@ import org.codehaus.cargo.module.Identifier;
 /**
  * Represents the various top-level tags in a web deployment descriptor as a typesafe enumeration.
  * 
- * @version $Id$
  */
 public final class WebXmlTag extends DescriptorTag
 {

@@ -33,7 +33,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
  * Capabilities of JOnAS {@link org.codehaus.cargo.container.jonas.Jonas4xRuntimeConfiguration}
  * configuration.
  * 
- * @version $Id$
  */
 public class Jonas4xRuntimeConfigurationCapability extends AbstractRuntimeConfigurationCapability
 {

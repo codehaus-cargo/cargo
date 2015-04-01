@@ -42,7 +42,6 @@ import org.dom4j.Element;
  * to resort to creating files in the file system and deleting them afterwards.
  * </p>
  * 
- * @version $Id$
  */
 public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
 {

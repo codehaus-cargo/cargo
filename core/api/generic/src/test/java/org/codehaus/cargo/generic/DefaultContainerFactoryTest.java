@@ -35,7 +35,6 @@ import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
 /**
  * Unit tests for {@link DefaultContainerFactory}.
  * 
- * @version $Id$
  */
 public class DefaultContainerFactoryTest extends TestCase
 {

@@ -34,7 +34,6 @@ import org.dom4j.DocumentHelper;
 /**
  * Tests for the Tomcat 4 implementation of StandaloneLocalConfigurationTest
  * 
- * @version $Id$
  */
 public class Tomcat4xStandaloneLocalConfigurationTest extends
     AbstractCatalinaStandaloneLocalConfigurationTest

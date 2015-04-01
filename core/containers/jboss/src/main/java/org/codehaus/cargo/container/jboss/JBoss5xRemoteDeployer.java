@@ -43,7 +43,6 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * Remote deployer that uses the Profile Service to deploy to JBoss.
  * 
- * @version $Id$
  */
 public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
 {

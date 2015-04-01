@@ -25,7 +25,6 @@ package org.codehaus.cargo.container.jonas;
 /**
  * JOnAS specific properties.
  * 
- * @version $Id$
  */
 public class JonasPropertySet
 {

@@ -76,7 +76,6 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
  * Generate container documentation using Confluence markup language. The generated text is meant to
  * be copied on the Cargo Confluence web site.
  * 
- * @version $Id$
  */
 public class ConfluenceContainerDocumentationGenerator
 {

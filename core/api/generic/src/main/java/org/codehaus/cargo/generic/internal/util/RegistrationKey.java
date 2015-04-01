@@ -23,7 +23,6 @@ package org.codehaus.cargo.generic.internal.util;
  * A key used to register Cargo object implementation classes (configurations, deployables,
  * deployers, etc) against containers.
  * 
- * @version $Id$
  */
 public class RegistrationKey
 {

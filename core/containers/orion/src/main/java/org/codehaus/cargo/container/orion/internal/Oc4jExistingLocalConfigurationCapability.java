@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
  * Capabilities of OC4J {@link org.codehaus.cargo.container.orion.Oc4j10xExistingLocalConfiguration}
  * configuration.
  * 
- * @version $Id$
  */
 public class Oc4jExistingLocalConfigurationCapability extends
     AbstractExistingLocalConfigurationCapability

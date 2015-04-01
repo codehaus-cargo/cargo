@@ -36,7 +36,6 @@ import org.jdom.Element;
  * Encapsulates the DOM representation of an EAR descriptor (<code>application.xml</code>) to
  * provide convenience methods for easy access and manipulation.
  * 
- * @version $Id$
  */
 public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
 {

@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
 /**
  * JOnAS 4X admin command line utils class.
  * 
- * @version $Id$
  */
 public class Jonas4xAdminImpl implements Jonas4xAdmin
 {

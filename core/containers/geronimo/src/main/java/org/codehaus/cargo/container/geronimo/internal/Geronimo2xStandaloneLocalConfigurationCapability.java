@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.property.DatasourcePropertySet;
 /**
  * Capabilities of the Geronimo's standalone local configuration.
  * 
- * @version $Id$
  */
 public class Geronimo2xStandaloneLocalConfigurationCapability
     extends Geronimo1xStandaloneLocalConfigurationCapability

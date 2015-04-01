@@ -69,7 +69,6 @@ import org.codehaus.cargo.util.log.Logger;
  * used with any container implementation that implements the {@link Container} interface (either
  * the implementations provided by Cargo or your own ones).
  * 
- * @version $Id$
  */
 public class CargoTask extends Task
 {

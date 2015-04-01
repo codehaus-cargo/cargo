@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
  * {@link org.codehaus.cargo.container.orion.internal.AbstractOrionStandaloneLocalConfiguration}
  * configuration.
  * 
- * @version $Id$
  */
 public class OrionStandaloneLocalConfigurationCapability
     extends AbstractStandaloneLocalConfigurationCapability

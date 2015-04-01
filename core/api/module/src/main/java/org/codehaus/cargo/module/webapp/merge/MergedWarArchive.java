@@ -38,7 +38,6 @@ import org.jdom.JDOMException;
 
 /**
  * Subclass representing the merged WAR file.
- * @version $Id$
  */
 public class MergedWarArchive implements WarArchive
 {

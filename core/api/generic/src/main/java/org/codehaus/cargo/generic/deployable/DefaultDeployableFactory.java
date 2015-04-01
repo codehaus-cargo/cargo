@@ -42,7 +42,6 @@ import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
  * can be different for different containers is because for some container Cargo understand
  * container-specific files. For example for Tomcat Cargo understand the context.xml file.
  * 
- * @version $Id$
  */
 public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFactory<Deployable>
     implements DeployableFactory

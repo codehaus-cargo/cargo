@@ -44,7 +44,6 @@ import org.jboss.profileservice.spi.ProfileService;
 /**
  * JBoss deployer implementation.
  * 
- * @version $Id$
  */
 public class JBossDeployer implements IJBossProfileManagerDeployer
 {

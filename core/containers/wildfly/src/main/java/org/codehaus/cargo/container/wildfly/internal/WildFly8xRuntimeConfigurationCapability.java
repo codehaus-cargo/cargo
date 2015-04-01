@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.jboss.internal.JBoss7xRuntimeConfigurationCa
 /**
  * Capabilities of WildFly's runtime configuration.
  * 
- * @version $Id$
  */
 public class WildFly8xRuntimeConfigurationCapability extends
     JBoss7xRuntimeConfigurationCapability

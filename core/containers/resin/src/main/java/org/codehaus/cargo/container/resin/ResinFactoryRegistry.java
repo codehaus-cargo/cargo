@@ -39,7 +39,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 /**
  * Registers Resin support into default factories.
  * 
- * @version $Id$
  */
 public class ResinFactoryRegistry extends AbstractFactoryRegistry
 {

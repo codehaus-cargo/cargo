@@ -36,7 +36,6 @@ import org.codehaus.cargo.container.tomcat.internal.Tomcat4xStandaloneLocalConfi
 /**
  * StandAloneLocalConfiguration that is appropriate for Tomcat 4.x containers.
  * 
- * @version $Id$
  */
 public class Tomcat4xStandaloneLocalConfiguration extends
     AbstractCatalinaStandaloneLocalConfiguration

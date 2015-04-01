@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
  * Capabilities of Tomcat's
  * {@link org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration} configuration.
  * 
- * @version $Id$
  */
 public class TomcatExistingLocalConfigurationCapability
     extends AbstractExistingLocalConfigurationCapability

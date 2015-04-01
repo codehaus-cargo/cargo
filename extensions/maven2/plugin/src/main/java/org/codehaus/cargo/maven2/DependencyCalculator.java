@@ -60,7 +60,6 @@ import org.codehaus.plexus.PlexusContainer;
  * A better way would probably be to be able to customise the dependency calculation system, but
  * this seems very bound up in all the project/artifact gubbins.
  * 
- * @version $Id$
  */
 public class DependencyCalculator
 {

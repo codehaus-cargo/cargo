@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 /**
  * Unit tests for the {@link WebSphere85xInstalledLocalDeployer} class.
  *
- * @version $Id$
  */
 public class WebSphere85xInstalledLocalContainerWithNoWsAdminExecution
     extends WebSphere85xInstalledLocalContainer

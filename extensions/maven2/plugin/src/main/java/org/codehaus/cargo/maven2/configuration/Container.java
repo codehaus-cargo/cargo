@@ -58,7 +58,6 @@ import org.codehaus.cargo.util.log.Logger;
  * Holds configuration data for the <code>&lt;container&gt;</code> tag used to configure the plugin
  * in the <code>pom.xml</code> file.
  * 
- * @version $Id$
  */
 public class Container
 {

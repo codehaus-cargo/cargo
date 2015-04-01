@@ -25,7 +25,6 @@ import org.codehaus.cargo.util.AbstractResourceTest;
 /**
  * Unit tests for {@link JBossWAR}.
  * 
- * @version $Id$
  */
 public class JBossWARTest extends AbstractResourceTest
 {

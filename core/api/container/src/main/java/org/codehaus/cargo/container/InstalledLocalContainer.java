@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.internal.SpawnedContainer;
  * Represents a local container that requires an installation to work. The installation is where the
  * container's runtime is located.
  * 
- * @version $Id$
  */
 public interface InstalledLocalContainer extends LocalContainer, SpawnedContainer
 {

@@ -35,7 +35,6 @@ import org.codehaus.cargo.container.deployable.DeployableException;
 /**
  * Static deployer that deploys WARs and EARs to the JBoss <code>deployments</code> directory.
  * 
- * @version $Id$
  */
 public class JBoss7xInstalledLocalDeployer extends JBossInstalledLocalDeployer
 {

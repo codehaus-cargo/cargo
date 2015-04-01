@@ -29,7 +29,6 @@ import java.util.Map;
  * {@link AbstractJettyExistingLocalConfiguration}
  * configuration.
  *
- * @version $Id$
  */
 public class JettyExistingLocalConfigurationCapability
         extends AbstractExistingLocalConfigurationCapability

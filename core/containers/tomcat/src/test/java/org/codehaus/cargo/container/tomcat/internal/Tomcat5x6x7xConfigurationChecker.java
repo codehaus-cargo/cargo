@@ -27,7 +27,6 @@ import org.custommonkey.xmlunit.XMLAssert;
  * Contains XML logic used to validate the XML output of a Tomcat 5.x, 6.x and 7.x DataSource
  * configuration.
  * 
- * @version $Id$
  */
 public class Tomcat5x6x7xConfigurationChecker extends Tomcat4xConfigurationChecker
 {

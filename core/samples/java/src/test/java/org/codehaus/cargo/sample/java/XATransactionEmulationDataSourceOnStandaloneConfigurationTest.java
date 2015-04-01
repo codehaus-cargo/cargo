@@ -38,7 +38,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 /**
  * Test for datasource with XA transaction emulation capabilities.
  * 
- * @version $Id$
  */
 public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase

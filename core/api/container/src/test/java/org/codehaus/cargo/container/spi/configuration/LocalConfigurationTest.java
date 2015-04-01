@@ -38,7 +38,6 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * Unit tests for {@link AbstractLocalConfiguration}.
  * 
- * @version $Id$
  */
 public class LocalConfigurationTest extends TestCase
 {

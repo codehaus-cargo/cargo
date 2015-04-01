@@ -31,7 +31,6 @@ import org.dom4j.VisitorSupport;
 /**
  * {@inheritDoc} This implementation uses @{link Dom4JUtil Dom4JUtil} to manipulate xml files.
  * 
- * @version $Id$
  */
 public class Dom4JXmlFileBuilder implements XmlFileBuilder
 {

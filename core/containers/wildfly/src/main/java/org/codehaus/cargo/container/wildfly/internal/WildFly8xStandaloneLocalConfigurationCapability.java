@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.jboss.internal.JBoss72xStandaloneLocalConfig
  * Capabilities of the WildFly's
  * {@link org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration} configuration.
  * 
- * @version $Id$
  */
 public class WildFly8xStandaloneLocalConfigurationCapability
     extends JBoss72xStandaloneLocalConfigurationCapability

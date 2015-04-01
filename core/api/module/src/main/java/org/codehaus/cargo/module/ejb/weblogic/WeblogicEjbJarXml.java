@@ -30,7 +30,6 @@ import org.jdom.Element;
  * <code>weblogic-ejb-jar.xml</code> to provide convenience methods for easy access and
  * manipulation.
  * 
- * @version $Id$
  */
 public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDescriptor
 {

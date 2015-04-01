@@ -36,7 +36,6 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * Create a classloader to load container classes.
  * 
- * @version $Id$
  */
 public class EmbeddedContainerClasspathResolver
 {

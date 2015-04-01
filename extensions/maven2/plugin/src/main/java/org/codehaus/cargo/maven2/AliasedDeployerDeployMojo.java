@@ -25,7 +25,6 @@ package org.codehaus.cargo.maven2;
  * @goal deploy
  * @requiresDependencyResolution test
  * @see DeployerDeployMojo
- * @version $Id$
  */
 public class AliasedDeployerDeployMojo extends DeployerDeployMojo
 {

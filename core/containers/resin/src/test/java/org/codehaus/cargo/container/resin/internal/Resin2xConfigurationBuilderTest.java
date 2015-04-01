@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 /**
  * Unit tests for {@link Resin2xConfigurationBuilder}.
  * 
- * @version $Id$
  */
 public class Resin2xConfigurationBuilderTest extends AbstractResinConfigurationBuilderTest
 {

@@ -27,7 +27,6 @@ import java.util.List;
  * Holds configuration data for the <code>&lt;daemon&gt;</code> tag used to configure the ANT
  * tasks.
  * 
- * @version $Id$
  */
 public class DaemonElement
 {

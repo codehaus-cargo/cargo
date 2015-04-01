@@ -31,7 +31,6 @@ import org.codehaus.cargo.maven2.configuration.ZipUrlInstaller;
 /**
  * Start a container using Cargo and wait until user pressed CTRL + C to stop.
  * 
- * @version $Id$
  * @goal run
  * @requiresDependencyResolution test
  */

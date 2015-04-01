@@ -26,7 +26,6 @@ package org.codehaus.cargo.container.configuration;
  * <code>JBOSSHOME/server/default</code> for example). The default configuration locations depend on
  * the container you're using.
  * 
- * @version $Id$
  */
 public interface ExistingLocalConfiguration extends LocalConfiguration
 {

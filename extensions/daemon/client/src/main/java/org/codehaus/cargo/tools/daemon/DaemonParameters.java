@@ -25,7 +25,6 @@ import java.util.Map;
 /**
  * Represents the daemon parameters to be sent to the listening daemon.
  *
- * @version $Id$
  */
 public class DaemonParameters
 {

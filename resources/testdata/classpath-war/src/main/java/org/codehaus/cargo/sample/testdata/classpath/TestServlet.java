@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Sample test Servlet used to verify that extra / shared classpath is present.
  * 
- * @version $Id$
  */
 public class TestServlet extends HttpServlet
 {

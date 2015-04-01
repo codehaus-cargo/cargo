@@ -39,7 +39,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
 /**
  * Installs a zipped container file from a URL to a location on your local disk.
  * 
- * @version $Id$
  */
 public class ZipURLInstaller extends LoggedObject implements Installer
 {

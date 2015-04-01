@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.configuration.ExistingLocalConfiguration;
  * (which we could get using JMock for example) because we're testing factory classes which create
  * an object out of a class name.
  * 
- * @version $Id$
  */
 public class ExistingLocalConfigurationStub
     extends AbstractLocalConfigurationStub implements ExistingLocalConfiguration

@@ -22,7 +22,6 @@ package org.codehaus.cargo.daemon;
 /**
  * Cargo servlet exception.
  *
- * @version $Id$
  */
 public class CargoDaemonException extends RuntimeException
 {

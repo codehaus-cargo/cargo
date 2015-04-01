@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.ContainerType;
 /**
  * Validate that a container is a local container.
  * 
- * @version $Id$
  */
 public class IsLocalContainerValidator implements Validator
 {

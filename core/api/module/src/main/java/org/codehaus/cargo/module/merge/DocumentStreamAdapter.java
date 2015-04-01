@@ -42,7 +42,6 @@ import org.xml.sax.SAXException;
  * accessed as streams - therefore use this wrapper to pass streams into the DocumentMerger (or
  * subclass).
  * 
- * @version $Id$
  */
 public class DocumentStreamAdapter implements MergeProcessor
 {

@@ -40,7 +40,6 @@ import org.jmock.MockObjectTestCase;
 /**
  * Unit tests for {@link MEJBMBeanServerConnectionFactory}.
  * 
- * @version $Id$
  */
 public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
 {

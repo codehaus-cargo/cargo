@@ -30,7 +30,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
  * Monitor that verifies if a {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
  * by pinging a URL provided by the user.
  * 
- * @version $Id$
  */
 public class URLDeployableMonitor extends LoggedObject implements DeployableMonitor
 {

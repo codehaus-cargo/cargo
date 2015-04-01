@@ -42,7 +42,6 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandalone
  * JRun standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
  * 
- * @version $Id$
  */
 public class JRun4xStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder implements ResourceSupport

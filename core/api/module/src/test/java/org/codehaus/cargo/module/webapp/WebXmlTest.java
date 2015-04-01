@@ -44,7 +44,6 @@ import org.jdom.Element;
 /**
  * Unit tests for {@link WebXml}.
  * 
- * @version $Id$
  */
 public final class WebXmlTest extends AbstractDocumentBuilderTest
 {

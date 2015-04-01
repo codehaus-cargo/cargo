@@ -25,7 +25,6 @@ package org.codehaus.cargo.maven2;
  * @goal redeploy
  * @requiresDependencyResolution test
  * @see DeployerRedeployMojo
- * @version $Id$
  */
 public class AliasedDeployerRedeployMojo extends DeployerRedeployMojo
 {

@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 /**
  * Configuration capability for a Jetty 4.x Embedded container.
  * 
- * @version $Id$
  */
 public class Jetty4xEmbeddedStandaloneLocalConfigurationCapability extends
     AbstractStandaloneLocalConfigurationCapability

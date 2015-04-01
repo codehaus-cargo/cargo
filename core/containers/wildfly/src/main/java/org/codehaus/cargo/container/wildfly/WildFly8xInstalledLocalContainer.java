@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 /**
  * WildFly 8.x series container implementation.
  * 
- * @version $Id$
  */
 public class WildFly8xInstalledLocalContainer extends JBoss74xInstalledLocalContainer
 {

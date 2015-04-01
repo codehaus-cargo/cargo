@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.deployable.Deployable;
 /**
  * Common code to perform local deployments using a Tomcat manager-based deployer.
  * 
- * @version $Id$
  */
 public abstract class AbstractTomcatManagerInstalledLocalDeployer extends
     AbstractTomcatManagerDeployer

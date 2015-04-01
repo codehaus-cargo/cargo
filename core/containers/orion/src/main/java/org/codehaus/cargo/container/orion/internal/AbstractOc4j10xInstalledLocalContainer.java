@@ -37,7 +37,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 /**
  * Abstract class for installed local container for the OC4J 10.x application server.
  * 
- * @version $Id$
  */
 public abstract class AbstractOc4j10xInstalledLocalContainer extends
     AbstractInstalledLocalContainer

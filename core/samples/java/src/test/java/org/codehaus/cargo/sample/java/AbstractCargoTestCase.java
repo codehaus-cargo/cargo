@@ -53,7 +53,6 @@ import org.codehaus.cargo.util.log.Logger;
 /**
  * Abstract test case for Cargo samples.
  * 
- * @version $Id$
  */
 public abstract class AbstractCargoTestCase extends TestCase
 {

@@ -30,7 +30,6 @@ import org.codehaus.cargo.util.CargoException;
  * Note: There's no ERROR log level as all errors result in an exception being raised.
  * </p>
  * 
- * @version $Id$
  */
 public final class LogLevel implements Comparable
 {

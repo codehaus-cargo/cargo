@@ -37,7 +37,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 /**
  * Test for WAR support: deployment to the root context.
  * 
- * @version $Id$
  */
 public class WarRootContextTest extends AbstractCargoTestCase
 {

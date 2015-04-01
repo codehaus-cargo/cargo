@@ -31,7 +31,6 @@ import org.codehaus.cargo.util.XmlReplacement;
  * (which we could get using JMock for example) because we're testing factory classes which create
  * an object out of a class name.
  * 
- * @version $Id$
  */
 public class StandaloneLocalConfigurationStub extends AbstractLocalConfigurationStub
     implements StandaloneLocalConfiguration

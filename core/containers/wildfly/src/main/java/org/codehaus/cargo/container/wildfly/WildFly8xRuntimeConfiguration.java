@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.wildfly.internal.WildFly8xRuntimeConfigurati
 /**
  * Configuration to use when using a WildFly remote container.
  * 
- * @version $Id$
  */
 public class WildFly8xRuntimeConfiguration extends JBoss7xRuntimeConfiguration
 {

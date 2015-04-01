@@ -22,7 +22,6 @@ package org.codehaus.cargo.module.ejb;
 /**
  * Class representing an EJB definition in a ejb-jar.xml descriptor.
  * 
- * @version $Id$
  */
 public class EjbDef
 {

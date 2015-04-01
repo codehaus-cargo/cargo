@@ -43,7 +43,6 @@ import org.codehaus.cargo.util.DefaultFileHandler;
 /**
  * GlassFish standalone local configuration.
  * 
- * @version $Id$
  */
 public abstract class AbstractGlassFishStandaloneLocalConfiguration
     extends AbstractStandaloneLocalConfiguration

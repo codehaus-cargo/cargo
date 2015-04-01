@@ -37,7 +37,6 @@ import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
  * registered against their containers. It also supports registering new deployers against any
  * container.
  * 
- * @version $Id$
  */
 public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFactory<Deployer>
     implements DeployerFactory

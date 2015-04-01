@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 /**
  * Integration tests for {@link WebLogic9x10x103x12xConfigurationBuilder}.
  * 
- * @version $Id$
  */
 public class WebLogic9x10x103x12xConfigurationBuilderTest extends
     WebLogic8xConfigurationBuilderTest

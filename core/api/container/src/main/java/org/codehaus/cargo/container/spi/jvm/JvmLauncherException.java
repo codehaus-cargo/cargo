@@ -24,7 +24,6 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * Exception thrown to signal a failure to launch a JVM.
  * 
- * @version $Id$
  */
 public class JvmLauncherException extends CargoException
 {

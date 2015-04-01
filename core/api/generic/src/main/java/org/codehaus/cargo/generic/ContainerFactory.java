@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.configuration.Configuration;
 /**
  * Allow instantiating a container by id (e.g. "resin3x").
  * 
- * @version $Id$
  */
 public interface ContainerFactory
 {

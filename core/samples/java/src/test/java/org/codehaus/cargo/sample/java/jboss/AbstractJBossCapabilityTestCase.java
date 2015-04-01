@@ -51,7 +51,6 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * Abstract test case for JBoss capabilities.
  * 
- * @version $Id$
  */
 public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestCase
 {

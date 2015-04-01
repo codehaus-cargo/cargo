@@ -38,7 +38,6 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
  * Jetty 7.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
  * 
- * @version $Id$
  */
 public class Jetty7xStandaloneLocalConfiguration extends
     AbstractJettyStandaloneLocalConfiguration

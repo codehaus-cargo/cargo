@@ -34,7 +34,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 /**
  * Capabilities of the JOnAS standalone local configuration.
  * 
- * @version $Id$
  */
 public class JonasStandaloneLocalConfigurationCapability extends
     AbstractStandaloneLocalConfigurationCapability

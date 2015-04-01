@@ -26,7 +26,6 @@ import org.apache.maven.project.MavenProject;
 /**
  * Common mojo for Uberjar.
  * 
- * @version $Id$
  */
 public abstract class AbstractUberWarMojo extends AbstractMojo
 {

@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.property.DatasourcePropertySet;
 /**
  * Validate that a container supports DataSource configuration.
  * 
- * @version $Id$
  */
 public class HasXAEmulationValidator extends AbstractConfigurationCapabilityAndTypeValidator
 {

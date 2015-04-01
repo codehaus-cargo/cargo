@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 /**
  * GlassFish 2.x standalone local configuration capability.
  * 
- * @version $Id$
  */
 public class GlassFish2xStandaloneLocalConfigurationCapability extends
     AbstractStandaloneLocalConfigurationCapability

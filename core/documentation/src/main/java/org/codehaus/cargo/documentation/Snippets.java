@@ -48,7 +48,6 @@ import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
  * "configuration-typed-resin3x" is invalid if the parent has an id of "resin3x" or "configuration"
  * or "typed-resin3x".
  * 
- * @version $Id$
  */
 public class Snippets
 {

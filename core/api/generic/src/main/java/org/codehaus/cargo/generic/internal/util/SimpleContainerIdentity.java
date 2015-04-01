@@ -22,7 +22,6 @@ package org.codehaus.cargo.generic.internal.util;
 /**
  * Represents a container identified only by its id.
  * 
- * @version $Id$
  */
 public class SimpleContainerIdentity implements ContainerIdentity
 {

@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
 /**
  * JRun existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
  * 
- * @version $Id$
  */
 public class JRun4xExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {

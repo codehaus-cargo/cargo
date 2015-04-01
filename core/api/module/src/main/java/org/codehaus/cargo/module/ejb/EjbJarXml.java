@@ -33,7 +33,6 @@ import org.jdom.Element;
  * Encapsulates the DOM representation of a ejb deployment descriptor <code>ejb-jar.xml</code> to
  * provide convenience methods for easy access and manipulation.
  * 
- * @version $Id$
  */
 public class EjbJarXml extends AbstractDescriptor implements J2eeDescriptor
 {

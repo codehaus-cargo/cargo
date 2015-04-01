@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 /**
  * JBoss 5.1.x standalone local configuration.
  * 
- * @version $Id$
  */
 public class JBoss51xStandaloneLocalConfiguration
     extends AbstractJBoss5xStandaloneLocalConfiguration

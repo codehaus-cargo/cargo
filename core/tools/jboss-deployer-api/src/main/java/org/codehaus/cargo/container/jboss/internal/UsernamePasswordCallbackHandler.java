@@ -35,7 +35,6 @@ import org.codehaus.cargo.util.log.Logger;
 /**
  * Handler that responds to username and password requests.
  * 
- * @version $Id$
  */
 public class UsernamePasswordCallbackHandler implements CallbackHandler
 {

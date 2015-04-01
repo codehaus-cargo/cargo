@@ -30,7 +30,6 @@ import org.jdom.Element;
  * Encapsulates the DOM representation of a oracle web deployment descriptor
  * <code>orion-web.xml</code> to provide convenience methods for easy access and manipulation.
  * 
- * @version $Id$
  */
 public class OrionWebXml extends AbstractDescriptor implements VendorWebAppDescriptor
 {

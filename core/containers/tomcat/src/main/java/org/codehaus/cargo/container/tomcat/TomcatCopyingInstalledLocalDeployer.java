@@ -35,7 +35,6 @@ import org.dom4j.Element;
 /**
  * Static deployer that deploys WARs to the Tomcat <code>webapps</code> directory.
  * 
- * @version $Id$
  */
 public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {

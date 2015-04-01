@@ -27,7 +27,6 @@ import org.codehaus.cargo.module.ejb.EjbDef;
 /**
  * Unit tests for {@link WeblogicEjbJarXml}.
  * 
- * @version $Id$
  */
 public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
 {

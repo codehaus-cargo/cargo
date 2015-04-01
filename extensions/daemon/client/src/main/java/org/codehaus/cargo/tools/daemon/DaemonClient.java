@@ -44,7 +44,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
 /**
  * Client for the Cargo daemon manager
  *
- * @version $Id$
  */
 public class DaemonClient extends LoggedObject
 {

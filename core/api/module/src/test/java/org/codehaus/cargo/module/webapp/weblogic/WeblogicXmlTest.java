@@ -30,7 +30,6 @@ import org.jdom.Element;
 /**
  * Unit tests for {@link WeblogicXml}.
  * 
- * @version $Id$
  */
 public class WeblogicXmlTest extends AbstractDocumentBuilderTest
 {

@@ -32,7 +32,6 @@ import org.apache.tools.ant.BuildException;
  * 
  * Note: When we switch to Ant 1.6 we will be able to replace this by Ant 1.6 PropertySet
  * 
- * @version $Id$
  */
 public class PropertySet
 {

@@ -53,7 +53,6 @@ import org.codehaus.cargo.util.Base64;
  * <li>Should not be used with multiple webapps sharing a common war</li>
  * </ul>
  * 
- * @version $Id$
  */
 public class JettyRemoteDeployer extends AbstractRemoteDeployer
 {

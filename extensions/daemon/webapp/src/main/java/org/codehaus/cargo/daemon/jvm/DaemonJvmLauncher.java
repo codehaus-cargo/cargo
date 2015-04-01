@@ -40,7 +40,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncherException;
 /**
  * A JVM launcher that launches a new Process, that can be forcibly killed if needed.
  *
- * @version $Id$
  */
 class DaemonJvmLauncher implements JvmLauncher
 {

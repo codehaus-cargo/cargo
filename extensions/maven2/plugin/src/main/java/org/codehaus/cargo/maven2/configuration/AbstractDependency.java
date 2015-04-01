@@ -28,7 +28,6 @@ import org.apache.maven.plugin.logging.Log;
 /**
  * Common field and method to {@link Dependency} and {@link Deployable}.
  * 
- * @version $Id$
  */
 public abstract class AbstractDependency
 {

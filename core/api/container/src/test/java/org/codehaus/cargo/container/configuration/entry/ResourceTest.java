@@ -24,7 +24,6 @@ import junit.framework.TestCase;
 /**
  * Tests {@link Resource} implementation.
  * 
- * @version $Id$
  */
 public class ResourceTest extends TestCase
 {

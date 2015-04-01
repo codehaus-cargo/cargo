@@ -40,7 +40,6 @@ import org.codehaus.cargo.container.property.User;
  * GlassFish 4.x installed local deployer, which uses the GlassFish asadmin to deploy and undeploy
  * applications.
  * 
- * @version $Id$
  */
 public class GlassFish4xInstalledLocalDeployer extends GlassFish3xInstalledLocalDeployer
 {

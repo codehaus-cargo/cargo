@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurat
 /**
  * Unit tests for {@link Tomcat4xConfigurationBuilder}.
  * 
- * @version $Id$
  */
 public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuilderTest
 {

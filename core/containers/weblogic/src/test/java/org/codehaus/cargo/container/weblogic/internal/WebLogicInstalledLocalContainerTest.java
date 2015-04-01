@@ -38,7 +38,6 @@ import org.codehaus.cargo.util.VFSFileHandler;
  * to resort to creating files in the file system and deleting them afterwards.
  * </p>
  * 
- * @version $Id$
  */
 public class WebLogicInstalledLocalContainerTest extends TestCase
 {

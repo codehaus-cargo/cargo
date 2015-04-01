@@ -48,7 +48,6 @@ import org.dom4j.Element;
  * WebLogic standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
  * 
- * @version $Id$
  */
 public class WebLogic9xStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder implements

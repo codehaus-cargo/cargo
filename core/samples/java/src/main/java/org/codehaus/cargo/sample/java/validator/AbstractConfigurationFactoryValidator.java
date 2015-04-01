@@ -25,7 +25,6 @@ import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 /**
  * Abstract validator, that instanciates the {@link ConfigurationFactory}.
  * 
- * @version $Id$
  */
 public abstract class AbstractConfigurationFactoryValidator implements Validator
 {

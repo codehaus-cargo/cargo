@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.property.LoggingLevel;
 /**
  * A mostly canned config for a Jetty 4.x container.
  * 
- * @version $Id$
  */
 public class Jetty4xEmbeddedStandaloneLocalConfiguration
     extends AbstractJettyEmbeddedStandaloneLocalConfiguration

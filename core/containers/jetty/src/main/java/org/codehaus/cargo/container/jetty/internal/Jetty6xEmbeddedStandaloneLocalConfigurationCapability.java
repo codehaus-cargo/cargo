@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 /**
  * Configuration capability for a Jetty 6.x Embedded container.
  * 
- * @version $Id$
  */
 public class Jetty6xEmbeddedStandaloneLocalConfigurationCapability extends
     Jetty4xEmbeddedStandaloneLocalConfigurationCapability

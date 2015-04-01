@@ -25,7 +25,6 @@ package org.codehaus.cargo.module.ejb.websphere;
 import org.codehaus.cargo.module.AbstractDescriptorType;
 
 /**
- * @version $Id$
  * 
  */
 public class IbmEjbJarBndXmiType extends AbstractDescriptorType

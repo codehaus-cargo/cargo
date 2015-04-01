@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfi
 /**
  * Integration tests for WebLogic standalone configurations.
  * 
- * @version $Id$
  */
 public abstract class AbstractWeblogicStandaloneConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest

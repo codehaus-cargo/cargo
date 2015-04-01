@@ -30,7 +30,6 @@ import org.codehaus.cargo.util.log.Logger;
 /**
  * Utilities to ping URLs. Useful for the tests.
  * 
- * @version $Id$
  */
 public class PingUtils extends Assert
 {

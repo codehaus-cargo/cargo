@@ -35,7 +35,6 @@ import org.codehaus.cargo.maven2.configuration.Deployable;
  * Common mojo for all deployer actions (start deployable, stop deployable, deploy deployable,
  * undeploy deployable, etc).
  * 
- * @version $Id$
  */
 public abstract class AbstractDeployerMojo extends AbstractCargoMojo
 {

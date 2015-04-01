@@ -23,7 +23,6 @@ package org.codehaus.cargo.container.glassfish.internal;
  * Capabilities of GlassFish
  * {@link org.codehaus.cargo.container.glassfish.GlassFish4xRuntimeConfiguration} configuration.
  * 
- * @version $Id$
  */
 public class GlassFish4xRuntimeConfigurationCapability
     extends GlassFish3xRuntimeConfigurationCapability

@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
  * Capabilities of Tomcat's {@link org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration}
  * configuration.
  * 
- * @version $Id$
  */
 public class TomcatRuntimeConfigurationCapability extends AbstractRuntimeConfigurationCapability
 {

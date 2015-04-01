@@ -44,7 +44,6 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandalone
 /**
  * Standalone configuration methods common to both Orion and Oc4j containers.
  * 
- * @version $Id$
  */
 public abstract class AbstractOrionStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder

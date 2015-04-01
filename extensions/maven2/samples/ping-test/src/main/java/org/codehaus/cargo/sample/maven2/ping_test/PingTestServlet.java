@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Ping test servlet.
  * 
- * @version $Id$
  */
 public class PingTestServlet extends HttpServlet
 {

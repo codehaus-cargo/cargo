@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
 /**
  * Static deployer that deploys WARs to the jo! <code>webapp/host</code> directory.
  * 
- * @version $Id$
  */
 public class Jo1xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {

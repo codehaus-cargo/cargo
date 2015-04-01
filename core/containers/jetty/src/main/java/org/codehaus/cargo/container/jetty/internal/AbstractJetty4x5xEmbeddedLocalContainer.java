@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.property.User;
 /**
  * Common code for all Jetty 4.x and 5.x embedded container implementations.
  * 
- * @version $Id$
  */
 public abstract class AbstractJetty4x5xEmbeddedLocalContainer
     extends AbstractJettyEmbeddedLocalContainer

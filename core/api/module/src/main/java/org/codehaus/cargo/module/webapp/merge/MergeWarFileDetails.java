@@ -31,7 +31,6 @@ import org.codehaus.cargo.module.webapp.WarArchive;
  * Class to store the war file that is required for saving, together with any options such as lib
  * files for filtering.
  * 
- * @version $Id$
  */
 public class MergeWarFileDetails implements FileFilter
 {

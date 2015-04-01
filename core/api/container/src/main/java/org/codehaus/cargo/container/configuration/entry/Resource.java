@@ -25,7 +25,6 @@ import java.util.Set;
 
 /**
  * Represents a resource, such as a datasource.
- * @version $Id$
  */
 public class Resource
 {

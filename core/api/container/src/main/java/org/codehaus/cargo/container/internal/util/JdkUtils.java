@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.ContainerException;
 /**
  * Set of common JDK utility methods.
  * 
- * @version $Id$
  */
 public class JdkUtils
 {

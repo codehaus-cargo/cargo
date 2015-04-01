@@ -44,7 +44,6 @@ import org.codehaus.cargo.util.XmlReplacement;
  * Nested Ant element to wrap the
  * {@link org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory} class.
  * 
- * @version $Id$
  */
 public class ConfigurationElement
 {

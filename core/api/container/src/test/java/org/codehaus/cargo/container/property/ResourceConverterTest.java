@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 /**
  * Unit tests for {@link ResourceConverter}.
  * 
- * @version $Id$
  */
 public class ResourceConverterTest extends TestCase
 {

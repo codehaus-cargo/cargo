@@ -36,7 +36,6 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * IBM WebSphere 8.5 container implementation.
  * 
- * @version $Id$
  */
 public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalContainer
 {

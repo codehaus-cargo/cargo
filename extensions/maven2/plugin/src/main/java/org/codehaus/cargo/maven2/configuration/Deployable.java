@@ -41,7 +41,6 @@ import org.codehaus.cargo.maven2.util.CargoProject;
  * Holds configuration data for the <code>&lt;deployable&gt;</code> tag used to configure the plugin
  * in the <code>pom.xml</code> file.<br><br>
  * <b>TODO</b>: Find a way to remove code duplication with Ant's DeployableElement
- * @version $Id$
  */
 public class Deployable extends AbstractDependency
 {

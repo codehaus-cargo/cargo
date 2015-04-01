@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
 /**
  * Capabilities of the JRun's {@link JRun4xExistingLocalConfigurationCapability} configuration.
  * 
- * @version $Id$
  */
 public class JRun4xExistingLocalConfigurationCapability
     extends AbstractExistingLocalConfigurationCapability

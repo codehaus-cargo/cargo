@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.jonas.JonasPropertySet;
 /**
  * Unit tests for {@link AbstractJonasRemoteDeployer}.
  * 
- * @version $Id$
  */
 public class JonasStandaloneConfigurationTest extends TestCase
 {

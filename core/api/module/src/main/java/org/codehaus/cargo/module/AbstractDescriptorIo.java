@@ -38,7 +38,6 @@ import org.xml.sax.EntityResolver;
 /**
  * Provides convenience methods for reading and writing descriptors.
  * 
- * @version $Id$
  */
 public abstract class AbstractDescriptorIo implements DescriptorIo
 {

@@ -26,7 +26,6 @@ import junit.framework.TestCase;
 /**
  * Test the Maven2/Maven3 Artifact Installer.
  * 
- * @version $Id$
  */
 public class ArtifactInstallerTest extends TestCase
 {

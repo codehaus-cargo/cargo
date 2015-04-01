@@ -27,7 +27,6 @@ import org.jdom.JDOMException;
 /**
  * Class that encapsulates access to an EJB JAR.
  * 
- * @version $Id$
  */
 public interface EjbArchive extends JarArchive
 {

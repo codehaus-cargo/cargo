@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledL
 /**
  * Special container support for the Bea WebLogic 12.x application server.
  * 
- * @version $Id$
  */
 public class WebLogic12xInstalledLocalContainer extends AbstractWebLogicInstalledLocalContainer
 {

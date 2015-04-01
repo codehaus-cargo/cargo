@@ -22,7 +22,6 @@ package org.codehaus.cargo.tools.daemon;
 /**
  * Indicates an error received from Cargo manager.
  *
- * @version $Id$
  */
 public class DaemonException extends Exception
 {

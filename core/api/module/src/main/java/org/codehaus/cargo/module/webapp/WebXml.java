@@ -39,7 +39,6 @@ import org.jdom.Namespace;
  * Encapsulates the DOM representation of a web deployment descriptor <code>web.xml</code> to
  * provide convenience methods for easy access and manipulation.
  * 
- * @version $Id$
  */
 public class WebXml extends AbstractDescriptor implements J2eeDescriptor
 {

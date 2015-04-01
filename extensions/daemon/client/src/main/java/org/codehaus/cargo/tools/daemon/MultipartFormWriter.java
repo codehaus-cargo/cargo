@@ -29,7 +29,6 @@ import java.io.OutputStream;
 /**
  * Represents a form writer capable of sending files and form data as multipart chunks.
  *
- * @version $Id$
  */
 public class MultipartFormWriter
 {

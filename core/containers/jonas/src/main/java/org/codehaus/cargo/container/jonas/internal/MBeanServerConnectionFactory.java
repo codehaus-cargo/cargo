@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 /**
  * Factory to create a remote JMX MBean server connection.
  * 
- * @version $Id$
  */
 public interface MBeanServerConnectionFactory
 {

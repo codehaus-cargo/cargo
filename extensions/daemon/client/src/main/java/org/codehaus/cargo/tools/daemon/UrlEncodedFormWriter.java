@@ -27,7 +27,6 @@ import java.net.URLEncoder;
 /**
  * Represents a form writer that allows writing form fields that are url encoded.
  *
- * @version $Id$
  */
 public class UrlEncodedFormWriter
 {

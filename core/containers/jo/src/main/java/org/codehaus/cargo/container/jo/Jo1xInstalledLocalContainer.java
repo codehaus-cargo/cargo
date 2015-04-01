@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 /**
  * jo! 1.1 container implementation.
  * 
- * @version $Id$
  * @see <a href="http://www.tagtraum.com">jo @ tagtraum</a>
  */
 public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer

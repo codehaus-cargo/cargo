@@ -34,7 +34,6 @@ import org.jmock.MockObjectTestCase;
 /**
  * Unit tests for {@link JBoss4xRemoteDeployer}.
  * 
- * @version $Id$
  */
 public class JBoss4xRemoteDeployerTest extends MockObjectTestCase
 {

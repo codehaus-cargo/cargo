@@ -29,7 +29,6 @@ import org.jdom.Element;
 /**
  * Unit tests for {@link IbmWebBndXmi}.
  * 
- * @version $Id$
  */
 public class IbmWebBndXmiTest extends AbstractDocumentBuilderTest
 {

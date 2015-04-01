@@ -45,7 +45,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
 /**
  * Utility class that provides a couple of methods for extracting files stored as resource in a JAR.
  * 
- * @version $Id$
  */
 public final class ResourceUtils extends LoggedObject
 {

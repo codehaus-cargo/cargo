@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.installer.ZipURLInstaller;
 /**
  * Nested Ant element to wrap the {@link ZipURLInstaller} class.
  * 
- * @version $Id$
  */
 public class ZipURLInstallerElement
 {

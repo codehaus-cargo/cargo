@@ -33,7 +33,6 @@ import org.codehaus.cargo.container.installer.Proxy;
  * Groups together all environmental test datat (ie data that depends on how the user has configured
  * its tests to run in Maven).
  * 
- * @version $Id$
  */
 public class EnvironmentTestData
 {

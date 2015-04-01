@@ -34,7 +34,6 @@ import org.codehaus.cargo.util.DefaultFileHandler;
 /**
  * Unit tests for {@link DefaultConfigurationFactory}.
  * 
- * @version $Id$
  */
 public class DefaultConfigurationFactoryTest extends TestCase
 {

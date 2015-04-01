@@ -22,7 +22,6 @@ package org.codehaus.cargo.tools.daemon;
 /**
  * Represents the content type of a form.
  *
- * @version $Id$
  */
 public interface FormContentType
 {

@@ -32,7 +32,6 @@ import org.codehaus.cargo.util.FileHandler;
  * system. A local configuration is activated before the container is started. In addition, a local
  * configuration allows you to deploy {@link Deployable}s before the container is started.
  * 
- * @version $Id$
  */
 public interface LocalConfiguration extends Configuration
 {

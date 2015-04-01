@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.configuration.entry.DataSource;
 /**
  * Unit tests for {@link DataSourceConverter}.
  * 
- * @version $Id$
  */
 public class DataSourceConverterTest extends TestCase
 {

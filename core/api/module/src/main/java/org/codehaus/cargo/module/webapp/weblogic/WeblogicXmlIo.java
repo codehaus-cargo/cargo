@@ -28,7 +28,6 @@ import org.jdom.JDOMException;
 /**
  * Provides convenience methods for reading Weblogic web deployment descriptor.
  * 
- * @version $Id$
  */
 public class WeblogicXmlIo extends AbstractDescriptorIo
 {

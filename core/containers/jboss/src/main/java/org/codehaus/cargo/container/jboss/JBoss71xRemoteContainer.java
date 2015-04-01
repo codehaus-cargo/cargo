@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 /**
  * Special container support for wrapping a running instance of JBoss 7.1.x.
  * 
- * @version $Id$
  */
 public class JBoss71xRemoteContainer extends JBoss7xRemoteContainer
 {

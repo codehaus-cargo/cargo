@@ -34,7 +34,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncherException;
 /**
  * A JVM launcher stub.
  * 
- * @version $Id$
  */
 public class JvmLauncherStub implements JvmLauncher
 {

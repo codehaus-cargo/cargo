@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.configuration.Configuration;
 /**
  * Common code to perform remote deployments using a Tomcat manager-based deployer.
  * 
- * @version $Id$
  */
 public abstract class AbstractTomcatRemoteDeployer extends AbstractTomcatManagerDeployer
 {

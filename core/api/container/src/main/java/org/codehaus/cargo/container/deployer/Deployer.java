@@ -26,7 +26,6 @@ import org.codehaus.cargo.util.log.Loggable;
  * API to manage all deployment aspects of {@link Deployable}: deploy, undeploy, start, stop and
  * restart.
  * 
- * @version $Id$
  */
 public interface Deployer extends Loggable
 {

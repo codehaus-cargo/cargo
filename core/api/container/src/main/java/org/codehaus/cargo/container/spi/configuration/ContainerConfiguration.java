@@ -23,7 +23,6 @@ package org.codehaus.cargo.container.spi.configuration;
  * Container implementations of {@link org.codehaus.cargo.container.configuration.Configuration}
  * must also implement this interface. This is an SPI interface and shouldn't be used by end users.
  * 
- * @version $Id$
  */
 public interface ContainerConfiguration
 {

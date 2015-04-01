@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.jetty.internal.AbstractJetty4x5xEmbeddedLoca
 /**
  * A Jetty 5.x instance running embedded.
  * 
- * @version $Id$
  */
 public class Jetty5xEmbeddedLocalContainer extends AbstractJetty4x5xEmbeddedLocalContainer
 {

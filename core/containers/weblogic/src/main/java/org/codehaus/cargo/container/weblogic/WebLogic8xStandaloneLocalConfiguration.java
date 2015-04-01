@@ -37,7 +37,6 @@ import org.codehaus.cargo.container.weblogic.internal.WebLogic8xStandaloneLocalC
  * WebLogic standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
  * 
- * @version $Id$
  */
 public class WebLogic8xStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder implements

@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
 /**
  * JOnAS remote container.
  * 
- * @version $Id$
  */
 public class Jonas4xRemoteContainer extends AbstractRemoteContainer
 {

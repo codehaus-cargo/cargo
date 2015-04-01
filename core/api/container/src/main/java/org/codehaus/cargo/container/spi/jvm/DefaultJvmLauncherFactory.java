@@ -27,7 +27,6 @@ import org.codehaus.cargo.util.log.Loggable;
 /**
  * The default factory to create JVM launchers.
  * 
- * @version $Id$
  */
 public class DefaultJvmLauncherFactory implements JvmLauncherFactory
 {

@@ -28,7 +28,6 @@ import org.codehaus.cargo.util.log.Logger;
 /**
  * Mock {@link Logger} implementation, that logs everything in {@link ArrayList}s.
  * 
- * @version $Id$
  */
 public class MockLogger implements Logger
 {

@@ -40,7 +40,6 @@ import org.jmock.MockObjectTestCase;
 /**
  * Unit tests for the {@link ContainerStartMojo} mojo.
  * 
- * @version $Id$
  */
 public class ContainerStartMojoTest extends MockObjectTestCase
 {

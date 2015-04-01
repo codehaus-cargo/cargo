@@ -34,7 +34,6 @@ import org.jdom.Element;
 /**
  * Unit tests for {@link WebXmlMerger}.
  * 
- * @version $Id$
  */
 public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
 {

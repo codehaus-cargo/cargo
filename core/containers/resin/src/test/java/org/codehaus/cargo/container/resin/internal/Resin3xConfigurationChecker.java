@@ -36,7 +36,6 @@ import org.custommonkey.xmlunit.XMLUnit;
 /**
  * Contains XML logic used to validate the XML output of a Resin 3.x DataSource configuration.
  * 
- * @version $Id$
  */
 public class Resin3xConfigurationChecker implements ConfigurationChecker
 {

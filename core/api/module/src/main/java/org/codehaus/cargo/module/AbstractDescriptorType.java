@@ -32,7 +32,6 @@ import org.jdom.JDOMFactory;
 import org.jdom.Namespace;
 
 /**
- * @version $Id$
  */
 public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFactory,
     DescriptorType

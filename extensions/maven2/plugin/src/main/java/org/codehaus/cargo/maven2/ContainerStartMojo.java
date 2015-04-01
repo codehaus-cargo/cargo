@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 /**
  * Start a container using Cargo.
  * 
- * @version $Id$
  * @goal start
  * @requiresDependencyResolution test
  */

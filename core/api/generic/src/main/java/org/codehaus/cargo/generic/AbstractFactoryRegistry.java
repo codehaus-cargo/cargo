@@ -51,7 +51,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
  * Container implementors should override the 1-arg {@code register} methods to register its
  * implementations to the given factory.
  * 
- * @version $Id$
  */
 public abstract class AbstractFactoryRegistry
 {

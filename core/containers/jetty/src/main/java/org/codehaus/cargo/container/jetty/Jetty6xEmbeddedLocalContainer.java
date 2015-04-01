@@ -38,7 +38,6 @@ import org.codehaus.cargo.container.property.User;
 /**
  * A Jetty 6.x instance running embedded.
  * 
- * @version $Id$
  */
 public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalContainer
 {

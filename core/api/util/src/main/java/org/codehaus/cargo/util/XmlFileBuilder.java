@@ -27,7 +27,6 @@ import java.util.Map;
  * Implementations of this interface will: 1. optionally load a file 2. insert some elements into
  * the current document 3. write the file to disk
  * 
- * @version $Id$
  */
 public interface XmlFileBuilder
 {

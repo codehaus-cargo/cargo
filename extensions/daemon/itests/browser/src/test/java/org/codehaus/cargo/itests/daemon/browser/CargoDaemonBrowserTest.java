@@ -46,7 +46,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Tests of CARGO Daemon using a virtual browser.
  * 
- * @version $Id$
  */
 public class CargoDaemonBrowserTest extends TestCase
 {

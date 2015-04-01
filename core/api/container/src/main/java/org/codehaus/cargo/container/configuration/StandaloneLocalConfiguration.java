@@ -30,7 +30,6 @@ import org.codehaus.cargo.util.XmlReplacement;
  * configuration you should switch to an {@link ExistingLocalConfiguration}. However, doing so means
  * that you'll need to set up the configuration yourself on your local file system.
  * 
- * @version $Id$
  */
 public interface StandaloneLocalConfiguration extends LocalConfiguration
 {

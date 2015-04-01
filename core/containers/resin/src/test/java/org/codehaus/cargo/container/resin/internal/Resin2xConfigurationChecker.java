@@ -30,7 +30,6 @@ import org.custommonkey.xmlunit.XMLAssert;
 /**
  * Contains XML logic used to validate the XML output of a Resin 2.x DataSource configuration.
  * 
- * @version $Id$
  */
 public class Resin2xConfigurationChecker implements ConfigurationChecker
 {

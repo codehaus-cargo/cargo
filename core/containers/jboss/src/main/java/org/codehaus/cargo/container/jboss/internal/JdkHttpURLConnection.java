@@ -30,7 +30,6 @@ import org.codehaus.cargo.util.Base64;
  * Implementation of {@link HttpURLConnection} using the JDK's {@link java.net.HttpURLConnection}
  * class.
  * 
- * @version $Id$
  */
 public class JdkHttpURLConnection implements HttpURLConnection
 {

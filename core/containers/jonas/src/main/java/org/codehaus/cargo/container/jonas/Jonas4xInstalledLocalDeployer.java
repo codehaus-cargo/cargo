@@ -34,7 +34,6 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * Static deployer that deploys WAR, EAR, EJB and RAR to JOnAS.
  * 
- * @version $Id$
  */
 public class Jonas4xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {

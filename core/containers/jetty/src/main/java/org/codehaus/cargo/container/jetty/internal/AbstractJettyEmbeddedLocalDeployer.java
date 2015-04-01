@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.spi.deployer.AbstractEmbeddedLocalDeployer;
 /**
  * Base class for all Jetty deployers.
  * 
- * @version $Id$
  */
 public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbeddedLocalDeployer
 {

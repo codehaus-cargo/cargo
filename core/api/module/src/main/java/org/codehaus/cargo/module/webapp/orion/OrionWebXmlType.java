@@ -23,7 +23,6 @@ import org.codehaus.cargo.module.AbstractDescriptorType;
 import org.codehaus.cargo.module.Dtd;
 
 /**
- * @version $Id$
  * 
  */
 public class OrionWebXmlType extends AbstractDescriptorType

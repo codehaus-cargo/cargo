@@ -22,7 +22,6 @@ package org.codehaus.cargo.container;
 /**
  * Represents an embedded container which only requires the correct JARs in the classpath to work.
  * 
- * @version $Id$
  */
 public interface EmbeddedLocalContainer extends LocalContainer
 {

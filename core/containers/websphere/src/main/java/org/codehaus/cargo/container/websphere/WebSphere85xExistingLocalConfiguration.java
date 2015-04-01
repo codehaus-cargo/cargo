@@ -38,7 +38,6 @@ import org.codehaus.cargo.util.CargoException;
  * WebSphere existing {@link org.codehaus.cargo.container.configuration.Configuration}
  * implementation.
  *
- * @version $Id$
  */
 public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {

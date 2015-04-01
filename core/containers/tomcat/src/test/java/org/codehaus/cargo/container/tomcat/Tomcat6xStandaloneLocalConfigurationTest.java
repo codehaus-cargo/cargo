@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 /**
  * Tests for the Tomcat 6 implementation of StandaloneLocalConfigurationTest
  * 
- * @version $Id$
  */
 public class Tomcat6xStandaloneLocalConfigurationTest extends
     Tomcat5xStandaloneLocalConfigurationTest

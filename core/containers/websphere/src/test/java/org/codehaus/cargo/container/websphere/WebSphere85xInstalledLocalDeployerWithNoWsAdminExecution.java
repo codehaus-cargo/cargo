@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.websphere;
 /**
  * Unit tests for the {@link WebSphere85xInstalledLocalDeployer} class.
  * 
- * @version $Id$
  */
 public class WebSphere85xInstalledLocalDeployerWithNoWsAdminExecution
     extends WebSphere85xInstalledLocalDeployer

@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.tomcat.internal.TomcatEmbedded;
 /**
  * Embedded Tomcat 5.x container.
  * 
- * @version $Id$
  */
 public class Tomcat5xEmbeddedLocalContainer extends AbstractCatalinaEmbeddedLocalContainer
 {

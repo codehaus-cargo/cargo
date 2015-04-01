@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 /**
  * Default container implementation that all local embedded container implementations must extend.
  * 
- * @version $Id$
  */
 public abstract class AbstractEmbeddedLocalContainer
     extends AbstractLocalContainer implements EmbeddedLocalContainer

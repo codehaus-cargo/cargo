@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.jboss.JBoss74xRemoteContainer;
 /**
  * Special container support for wrapping a running instance of WildFly 8.x.
  * 
- * @version $Id$
  */
 public class WildFly8xRemoteContainer extends JBoss74xRemoteContainer
 {

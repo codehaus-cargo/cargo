@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 /**
  * Capabilities of Jo's standalone local configuration.
  *
- * @version $Id$
  */
 public class Jo1xStandaloneLocalConfigurationCapability
     extends AbstractStandaloneLocalConfigurationCapability

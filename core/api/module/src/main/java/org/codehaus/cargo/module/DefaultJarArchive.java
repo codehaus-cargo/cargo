@@ -40,7 +40,6 @@ import org.codehaus.cargo.util.FileHandler;
 /**
  * Provide convenient methods to read information from a Jar archive.
  * 
- * @version $Id$
  */
 public class DefaultJarArchive implements JarArchive
 {

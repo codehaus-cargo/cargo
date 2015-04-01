@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.LocalContainer;
 /**
  * A deployer for webapps that deploys to a Jetty 9.x installed instance.
  * 
- * @version $Id$
  */
 public class Jetty9xInstalledLocalDeployer extends Jetty7xInstalledLocalDeployer
 {

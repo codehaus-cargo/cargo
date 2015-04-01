@@ -28,7 +28,6 @@ import org.codehaus.cargo.util.log.Logger;
 /**
  * Ant build listener used to collect logs from Ant tasks and to redirect them to a {@link Logger}.
  * 
- * @version $Id$
  */
 public class AntBuildListener implements BuildListener
 {

@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.resin.ResinPropertySet;
  * {@link org.codehaus.cargo.container.resin.Resin3xExistingLocalConfiguration}
  * configuration.
  * 
- * @version $Id$
  */
 public class Resin3xExistingLocalConfigurationCapability
     extends Resin2xExistingLocalConfigurationCapability

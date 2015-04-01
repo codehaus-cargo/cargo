@@ -36,7 +36,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration
  * Abstract test for any {@link org.codehaus.cargo.container.configuration.LocalConfiguration} with
  * a {@link ConfigurationChecker}.
  * 
- * @version $Id$
  */
 public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest extends
     AbstractLocalConfigurationTest implements LocalConfigurationWithConfigurationBuilderTests

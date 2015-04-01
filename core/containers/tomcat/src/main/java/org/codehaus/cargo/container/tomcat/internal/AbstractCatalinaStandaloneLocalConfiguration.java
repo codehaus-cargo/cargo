@@ -52,7 +52,6 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
  * 
- * @version $Id$
  */
 public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder implements ResourceSupport

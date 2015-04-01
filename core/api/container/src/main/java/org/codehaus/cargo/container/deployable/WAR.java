@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
  * Wraps a WAR file that will be deployed in the container. The root context for this WAR is taken
  * from the name of the WAR file (without the extension).
  * 
- * @version $Id$
  */
 public class WAR extends AbstractDeployable
 {

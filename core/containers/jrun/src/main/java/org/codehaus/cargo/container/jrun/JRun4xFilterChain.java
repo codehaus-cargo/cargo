@@ -37,7 +37,6 @@ import org.dom4j.Element;
 /**
  * JRun {@link FilterChain} for {@link JRun4xStandaloneLocalConfiguration} implementation.
  * 
- * @version $Id$
  */
 public class JRun4xFilterChain extends FilterChain
 {

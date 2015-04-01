@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
  * Base implementation of {@link org.codehaus.cargo.container.configuration.ConfigurationCapability}
  * that needs to be extended by each runtime configuration's implementation.
  * 
- * @version $Id$
  */
 public abstract class AbstractRuntimeConfigurationCapability
     extends AbstractConfigurationCapability

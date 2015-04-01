@@ -34,7 +34,6 @@ package org.codehaus.cargo.container.configuration;
  * 
  * If toDir is foo and toFile is bar, the destination of the new file will be ${cargo.home}/foo/bar
  * 
- * @version $Id$
  */
 public class FileConfig
 {

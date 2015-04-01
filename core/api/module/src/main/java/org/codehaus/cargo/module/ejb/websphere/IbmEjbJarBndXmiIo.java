@@ -28,7 +28,6 @@ import org.jdom.JDOMException;
 /**
  * Provides convenience methods for reading Webspeher ejb jar deployment descriptor.
  * 
- * @version $Id$
  */
 public class IbmEjbJarBndXmiIo extends AbstractDescriptorIo
 {

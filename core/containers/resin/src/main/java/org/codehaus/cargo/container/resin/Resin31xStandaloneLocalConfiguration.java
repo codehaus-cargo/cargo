@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
  * Resin 3.1.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
  * 
- * @version $Id$
  */
 public class Resin31xStandaloneLocalConfiguration extends Resin3xStandaloneLocalConfiguration
 {

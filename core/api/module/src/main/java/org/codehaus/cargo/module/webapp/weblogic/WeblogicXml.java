@@ -31,7 +31,6 @@ import org.jdom.Element;
  * Encapsulates the DOM representation of a weblogic web deployment descriptor
  * <code>weblogic.xml</code> to provide convenience methods for easy access and manipulation.
  * 
- * @version $Id$
  */
 public class WeblogicXml extends AbstractDescriptor implements VendorWebAppDescriptor
 {

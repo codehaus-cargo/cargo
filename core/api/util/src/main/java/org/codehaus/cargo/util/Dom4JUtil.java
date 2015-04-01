@@ -38,7 +38,6 @@ import org.xml.sax.SAXException;
 /**
  * This class offers utility methods not exposed in the current dom4j api.
  * 
- * @version $Id$
  */
 public class Dom4JUtil
 {

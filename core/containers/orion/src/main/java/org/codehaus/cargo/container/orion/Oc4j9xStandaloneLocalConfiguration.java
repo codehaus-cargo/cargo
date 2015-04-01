@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.orion.internal.AbstractOrionStandaloneLocalC
 /**
  * Oc4j9x standalone configuration implementation.
  * 
- * @version $Id$
  */
 public class Oc4j9xStandaloneLocalConfiguration extends AbstractOrionStandaloneLocalConfiguration
 {

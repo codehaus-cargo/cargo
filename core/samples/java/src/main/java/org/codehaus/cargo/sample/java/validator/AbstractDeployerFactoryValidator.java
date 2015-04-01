@@ -25,7 +25,6 @@ import org.codehaus.cargo.generic.deployer.DeployerFactory;
 /**
  * Abstract validator, that instanciates the {@link DeployerFactory}.
  * 
- * @version $Id$
  */
 public abstract class AbstractDeployerFactoryValidator implements Validator
 {

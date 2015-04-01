@@ -41,7 +41,6 @@ import org.codehaus.cargo.util.XmlReplacement;
 /**
  * Base implementation for a standalone local configuration.
  * 
- * @version $Id$
  */
 public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocalConfiguration
     implements StandaloneLocalConfiguration

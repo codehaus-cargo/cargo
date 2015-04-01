@@ -28,7 +28,6 @@ import org.jdom.JDOMException;
 /**
  * Provides convenience methods for reading Weblogic ejb jar deployment descriptor.
  * 
- * @version $Id$
  */
 public class WeblogicEjbJarXmlIo extends AbstractDescriptorIo
 {

@@ -42,7 +42,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 /**
  * Registers Jetty support into default factories.
  *
- * @version $Id$
  */
 public class JettyFactoryRegistry extends AbstractFactoryRegistry
 {

@@ -47,7 +47,6 @@ import org.codehaus.cargo.util.FileHandler;
 /**
  * Test the deployment of JOnAS deployment plans.
  * 
- * @version $Id$
  */
 public class JonasDeploymentPlanTest extends AbstractCargoTestCase
 {

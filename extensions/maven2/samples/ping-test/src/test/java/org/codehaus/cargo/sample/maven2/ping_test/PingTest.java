@@ -30,7 +30,6 @@ import junit.framework.TestCase;
 /**
  * Ping test.
  * 
- * @version $Id$
  */
 public class PingTest extends TestCase
 {

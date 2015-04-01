@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.LocalContainer;
  * All WebLogic configuration implementations must implement this interface which provides method to
  * find out the location of key directories needed to operate WebLogic.
  * 
- * @version $Id$
  */
 public interface WebLogicLocalContainer extends LocalContainer
 {

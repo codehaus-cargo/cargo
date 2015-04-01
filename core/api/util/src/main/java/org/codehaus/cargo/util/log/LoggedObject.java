@@ -22,7 +22,6 @@ package org.codehaus.cargo.util.log;
 /**
  * Helper class for implementing {@link Loggable} methods.
  * 
- * @version $Id$
  */
 public class LoggedObject implements Loggable
 {

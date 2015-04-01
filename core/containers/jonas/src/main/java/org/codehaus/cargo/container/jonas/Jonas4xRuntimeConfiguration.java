@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
 /**
  * Configuration to use when using a JOnAS remote container.
  * 
- * @version $Id$
  */
 public class Jonas4xRuntimeConfiguration extends AbstractRuntimeConfiguration
 {

@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.deployer.Deployer;
 /**
  * Implementation decides how to deploy or undeploy based on the running state of the server.
  * 
- * @version $Id$
  */
 public abstract class AbstractSwitchableLocalDeployer extends AbstractInstalledLocalDeployer
 {

@@ -26,7 +26,6 @@ import org.codehaus.cargo.util.log.Loggable;
  * such as {@link org.codehaus.cargo.container.LocalContainer} or
  * {@link org.codehaus.cargo.container.RemoteContainer}.
  * 
- * @version $Id$
  */
 public interface Container extends Loggable
 {

@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 /**
  * Base implementation for a runtime configuration.
  * 
- * @version $Id$
  */
 public abstract class AbstractRuntimeConfiguration extends AbstractConfiguration
     implements RuntimeConfiguration

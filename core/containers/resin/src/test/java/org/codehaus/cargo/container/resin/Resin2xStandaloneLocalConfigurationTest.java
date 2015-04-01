@@ -31,7 +31,6 @@ import org.dom4j.DocumentHelper;
 /**
  * Unit tests for {@link Resin2xStandaloneLocalConfiguration}.
  * 
- * @version $Id$
  */
 public class Resin2xStandaloneLocalConfigurationTest extends
     AbstractResinStandaloneLocalConfigurationTest

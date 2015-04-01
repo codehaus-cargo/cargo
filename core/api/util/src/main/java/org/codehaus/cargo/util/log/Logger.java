@@ -25,7 +25,6 @@ package org.codehaus.cargo.util.log;
  * include an additional library and more importantly we want to remain open so that applications
  * using Cargo will be able to adapt it to their favorite logging system, whatever that is.
  * 
- * @version $Id$
  */
 public interface Logger
 {

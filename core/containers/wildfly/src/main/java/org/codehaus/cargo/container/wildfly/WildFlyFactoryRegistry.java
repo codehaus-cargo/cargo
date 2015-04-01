@@ -40,7 +40,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 /**
  * Registers JBoss and WildFly support into default factories.
  * 
- * @version $Id$
  */
 public class WildFlyFactoryRegistry extends AbstractFactoryRegistry
 {

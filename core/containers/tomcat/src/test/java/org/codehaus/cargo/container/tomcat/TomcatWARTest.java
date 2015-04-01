@@ -25,7 +25,6 @@ import org.codehaus.cargo.util.AbstractResourceTest;
 /**
  * Unit tests for {@link TomcatWAR}.
  * 
- * @version $Id$
  */
 public class TomcatWARTest extends AbstractResourceTest
 {

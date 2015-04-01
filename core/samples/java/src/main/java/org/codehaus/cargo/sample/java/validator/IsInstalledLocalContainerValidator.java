@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.ContainerType;
 /**
  * Validate that a container is an installed local container.
  * 
- * @version $Id$
  */
 public class IsInstalledLocalContainerValidator extends AbstractConfigurationCapabilityValidator
 {

@@ -28,7 +28,6 @@ import org.jdom.input.SAXBuilder;
 import org.xml.sax.EntityResolver;
 
 /**
- * @version $Id$
  */
 public interface DescriptorIo
 {

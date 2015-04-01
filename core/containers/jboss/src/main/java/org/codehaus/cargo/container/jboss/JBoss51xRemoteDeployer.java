@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.RemoteContainer;
 /**
  * Remote deployer that uses the Profile Service to deploy to JBoss.
  * 
- * @version $Id$
  */
 public class JBoss51xRemoteDeployer extends JBoss5xRemoteDeployer
 {

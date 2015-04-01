@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.ContainerCapability;
 /**
  * Allow finding a Container's capability by container id.
  * 
- * @version $Id$
  */
 public interface ContainerCapabilityFactory
 {

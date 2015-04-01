@@ -45,7 +45,6 @@ import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6xStandaloneLocalCon
  * This code needs to work with both {@link Tomcat5xInstalledLocalContainer} and
  * {@link Tomcat5xEmbeddedLocalContainer}.
  * 
- * @version $Id$
  */
 public class Tomcat5xStandaloneLocalConfiguration extends
     AbstractCatalinaStandaloneLocalConfiguration

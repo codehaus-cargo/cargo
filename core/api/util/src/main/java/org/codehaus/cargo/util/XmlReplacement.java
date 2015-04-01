@@ -22,7 +22,6 @@ package org.codehaus.cargo.util;
 /**
  * XML replacement for the {@link FileHandler}.
  * 
- * @version $Id$
  */
 public class XmlReplacement
 {

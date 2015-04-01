@@ -35,7 +35,6 @@ import org.dom4j.DocumentHelper;
 /**
  * Unit tests for {@link WebLogic8xStandaloneLocalConfiguration}.
  * 
- * @version $Id$
  */
 public class WebLogic8xStandaloneLocalConfigurationTest extends
     AbstractWeblogicStandaloneConfigurationTest

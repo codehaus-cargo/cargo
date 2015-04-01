@@ -24,7 +24,6 @@ import junit.framework.TestCase;
 /**
  * Unit tests for {@link XmlEntityResolver}.
  * 
- * @version $Id$
  */
 public class XmlEntityResolverTest extends TestCase
 {

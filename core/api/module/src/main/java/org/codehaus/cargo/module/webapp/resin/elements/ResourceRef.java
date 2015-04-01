@@ -27,7 +27,6 @@ import org.jdom.Element;
 /**
  * Wrapper class representing a resin-web resource-ref entry.
  * 
- * @version $Id$
  */
 public class ResourceRef extends DescriptorElement
 {

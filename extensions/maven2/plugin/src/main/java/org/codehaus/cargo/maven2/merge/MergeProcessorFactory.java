@@ -26,7 +26,6 @@ import org.codehaus.cargo.module.webapp.merge.WarArchiveMerger;
 /**
  * Factory for creating merge processors.
  * 
- * @version $Id$
  */
 public interface MergeProcessorFactory
 {

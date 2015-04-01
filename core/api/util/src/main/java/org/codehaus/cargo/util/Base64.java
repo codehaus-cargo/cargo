@@ -24,7 +24,6 @@ package org.codehaus.cargo.util;
  * Provides utility methods to Base64 encode data. This class uses the Base64 encoding as specified
  * in RFC 2045, 6.8. Base64 Content-Transfer-Encoding.
  * 
- * @version $Id$
  */
 public final class Base64
 {

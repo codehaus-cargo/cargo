@@ -38,7 +38,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 /**
  * Registers WebLogic support into default factories.
  * 
- * @version $Id$
  */
 public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
 {

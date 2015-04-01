@@ -24,7 +24,6 @@ import org.codehaus.cargo.util.log.Loggable;
 /**
  * Installs a container.
  * 
- * @version $Id$
  */
 public interface Installer extends Loggable
 {

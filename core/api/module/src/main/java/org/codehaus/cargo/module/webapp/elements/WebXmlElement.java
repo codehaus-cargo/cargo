@@ -24,7 +24,6 @@ import org.codehaus.cargo.module.webapp.WebXmlTag;
 import org.jdom.Element;
 
 /**
- * @version $Id$
  */
 public class WebXmlElement extends DescriptorElement
 {

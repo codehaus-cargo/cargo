@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.property.DatasourcePropertySet;
  * {@link org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration}
  * configuration for installed containers.
  * 
- * @version $Id$
  */
 public class Jetty7xStandaloneLocalConfigurationCapability extends
     JettyStandaloneLocalConfigurationCapability

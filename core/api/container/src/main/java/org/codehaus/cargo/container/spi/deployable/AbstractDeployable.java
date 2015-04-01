@@ -27,7 +27,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
 /**
  * Common class for easy Deployable implementations.
  * 
- * @version $Id$
  */
 public abstract class AbstractDeployable extends LoggedObject implements Deployable
 {

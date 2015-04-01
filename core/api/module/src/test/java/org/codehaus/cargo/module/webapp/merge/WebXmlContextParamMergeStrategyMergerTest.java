@@ -36,7 +36,6 @@ import org.jdom.Element;
 /**
  * Unit tests for {@link WebXmlMerger} with merge strategies.
  * 
- * @version $Id$
  */
 public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDocumentBuilderTest
 {

@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.orion.internal.AbstractOrionInstalledLocalCo
 /**
  * Special container support for the OC4J 9.x application server.
  * 
- * @version $Id$
  */
 public class Oc4j9xInstalledLocalContainer extends AbstractOrionInstalledLocalContainer
 {

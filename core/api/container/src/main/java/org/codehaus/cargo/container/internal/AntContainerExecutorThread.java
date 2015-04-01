@@ -28,7 +28,6 @@ import org.apache.tools.ant.taskdefs.Java;
 /**
  * Executor that executes an Ant's {@link Java} command in a separate thread.
  *
- * @version $Id$
  */
 public class AntContainerExecutorThread extends Thread
 {

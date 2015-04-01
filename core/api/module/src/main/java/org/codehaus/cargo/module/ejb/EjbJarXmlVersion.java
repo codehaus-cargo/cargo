@@ -25,7 +25,6 @@ import org.w3c.dom.DocumentType;
  * Enumerated type that represents the version of the deployment descriptor of a ejb descriptor
  * (ejb-jar.xml).
  * 
- * @version $Id$
  */
 public final class EjbJarXmlVersion implements Comparable
 {

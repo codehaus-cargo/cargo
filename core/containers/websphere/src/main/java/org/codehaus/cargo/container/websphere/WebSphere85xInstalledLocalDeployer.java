@@ -35,7 +35,6 @@ import org.jdom.Element;
 /**
  * Static deployer that deploys WARs to IBM WebSphere 8.5.
  * 
- * @version $Id$
  */
 public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
 {

@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 /**
  * Validate that a container has an existing configuration.
  * 
- * @version $Id$
  */
 public class HasExistingConfigurationValidator extends AbstractConfigurationFactoryValidator
 {

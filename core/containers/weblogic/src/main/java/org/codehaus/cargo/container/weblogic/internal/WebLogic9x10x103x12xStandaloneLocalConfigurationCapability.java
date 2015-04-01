@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
  * {@link org.codehaus.cargo.container.weblogic.WebLogic9xStandaloneLocalConfiguration}
  * configuration.
  * 
- * @version $Id$
  */
 public class WebLogic9x10x103x12xStandaloneLocalConfigurationCapability extends
     WebLogic8xStandaloneLocalConfigurationCapability

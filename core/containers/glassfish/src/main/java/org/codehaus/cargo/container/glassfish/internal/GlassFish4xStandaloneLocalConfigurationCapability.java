@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 /**
  * GlassFish 4.x standalone local configuration capability.
  * 
- * @version $Id$
  */
 public class GlassFish4xStandaloneLocalConfigurationCapability extends
     GlassFish3xStandaloneLocalConfigurationCapability

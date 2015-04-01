@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 /**
  * Abstract test for any {@link ConfigurationBuilder} and {@link ConfigurationChecker}.
  * 
- * @version $Id$
  */
 public abstract class AbstractConfigurationBuilderTest extends TestCase implements
     ConfigurationBuilderTests

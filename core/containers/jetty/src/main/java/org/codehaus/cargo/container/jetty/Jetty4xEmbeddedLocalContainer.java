@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.jetty.internal.AbstractJetty4x5xEmbeddedLoca
 /**
  * Special container support for the Jetty 4.x servlet container, using Jetty in embedded mode.
  * 
- * @version $Id$
  */
 public class Jetty4xEmbeddedLocalContainer extends AbstractJetty4x5xEmbeddedLocalContainer
 {

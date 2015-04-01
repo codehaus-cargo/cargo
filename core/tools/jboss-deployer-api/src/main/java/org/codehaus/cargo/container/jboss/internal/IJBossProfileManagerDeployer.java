@@ -24,7 +24,6 @@ import java.io.File;
 /**
  * The generic interface for a JBoss deployer that uses the JBoss profile manager.
  * 
- * @version $Id$
  */
 public interface IJBossProfileManagerDeployer
 {

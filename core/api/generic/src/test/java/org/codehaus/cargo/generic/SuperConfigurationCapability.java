@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 /**
  * Used by {@link TestFactoryRegistry} to see if the discovery succeeds.
  * 
- * @version $Id$
  */
 public class SuperConfigurationCapability implements ConfigurationCapability
 {

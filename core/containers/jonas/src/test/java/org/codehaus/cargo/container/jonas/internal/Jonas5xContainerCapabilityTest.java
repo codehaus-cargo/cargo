@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 /**
  * Unit tests for {@link Jonas5xContainerCapability}.
  * 
- * @version $Id$
  */
 public class Jonas5xContainerCapabilityTest extends Jonas4xContainerCapabilityTest
 {

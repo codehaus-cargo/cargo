@@ -30,7 +30,6 @@ import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 /**
  * Unit tests for {@link ApplicationXml}.
  * 
- * @version $Id$
  */
 public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
 {

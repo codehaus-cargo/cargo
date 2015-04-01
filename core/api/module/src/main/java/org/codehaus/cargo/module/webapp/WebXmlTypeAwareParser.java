@@ -39,7 +39,6 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * SAX Handler for working out what the type of a web descriptor is.
  * 
- * @version $Id$
  */
 public class WebXmlTypeAwareParser extends DefaultHandler
 {

@@ -39,7 +39,6 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 /**
  * Merge processor designed for web.xml files.
  * 
- * @version $Id$
  */
 public class MergeWebXml implements MergeProcessorFactory
 {

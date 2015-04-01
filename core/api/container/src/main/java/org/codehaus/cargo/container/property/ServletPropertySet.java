@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.property;
 /**
  * Gathers all properties related to Servlet/JSP containers.
  * 
- * @version $Id$
  */
 public interface ServletPropertySet
 {

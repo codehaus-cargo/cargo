@@ -34,7 +34,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 /**
  * Unit tests for configuration files.
  * 
- * @version $Id$
  */
 public class ConfigurationFilesTest extends TestCase
 {

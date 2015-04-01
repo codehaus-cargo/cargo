@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.ContainerException;
 /**
  * Wrapper classes around Tomcat embedded API to hide reflection.
  * 
- * @version $Id$
  */
 public final class TomcatEmbedded
 {

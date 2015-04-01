@@ -27,7 +27,6 @@ import java.io.PrintWriter;
 /**
  * Redirects the output of a process into an OutputStream by periodically pumping data.
  *
- * @version $Id$
  */
 class DaemonJvmLauncherStreamRedirector implements Runnable
 {

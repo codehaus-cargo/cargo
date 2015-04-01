@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
 /**
  * Static deployer that deploys WAR, EAR, EJB, RAR, File and Bundle to JOnAS.
  * 
- * @version $Id$
  */
 public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {

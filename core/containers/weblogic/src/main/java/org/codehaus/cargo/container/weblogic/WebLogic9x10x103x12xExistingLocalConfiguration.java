@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
  * WebLogic existing configuration implementation for WebLogic 9.x, 10.x, 10.3.x and 12.x style
  * domains. The configuration home must point to a valid WebLogic domain directory.
  * 
- * @version $Id$
  */
 public class WebLogic9x10x103x12xExistingLocalConfiguration
     extends WebLogic8xExistingLocalConfiguration

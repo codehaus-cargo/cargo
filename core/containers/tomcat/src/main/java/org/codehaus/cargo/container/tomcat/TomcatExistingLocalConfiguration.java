@@ -41,7 +41,6 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * Tomcat existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
  * 
- * @version $Id$
  */
 public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {

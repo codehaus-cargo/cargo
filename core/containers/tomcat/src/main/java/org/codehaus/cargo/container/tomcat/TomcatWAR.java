@@ -28,7 +28,6 @@ import org.codehaus.cargo.module.webapp.tomcat.TomcatWarArchive;
  * <code>META-INF/</code> directory of your WAR. For example, this allows returning the right web
  * context even if it has been defined in the <code>context.xml</code> file.
  * 
- * @version $Id$
  */
 public class TomcatWAR extends WAR
 {

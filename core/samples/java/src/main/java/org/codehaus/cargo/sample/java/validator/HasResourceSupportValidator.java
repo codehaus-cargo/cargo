@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.property.ResourcePropertySet;
 /**
  * Validate that a container supports Resource configuration.
  * 
- * @version $Id$
  */
 public class HasResourceSupportValidator extends AbstractConfigurationCapabilityAndTypeValidator
 {

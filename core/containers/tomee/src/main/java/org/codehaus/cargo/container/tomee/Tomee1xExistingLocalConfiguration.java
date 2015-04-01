@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration;
  * TomEE 1.x existing {@link org.codehaus.cargo.container.configuration.Configuration}
  * implementation.
  * 
- * @version $Id$
  */
 public class Tomee1xExistingLocalConfiguration extends TomcatExistingLocalConfiguration
 {

@@ -25,7 +25,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
 /**
  * Base implementation for all types of containers.
  * 
- * @version $Id$
  */
 public abstract class AbstractContainer extends LoggedObject implements Container
 {

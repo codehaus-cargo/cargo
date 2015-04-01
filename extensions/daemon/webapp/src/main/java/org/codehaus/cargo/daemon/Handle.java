@@ -29,7 +29,6 @@ import org.codehaus.cargo.daemon.properties.PropertyTable;
 /**
  * A handle keeps track of deployed containers.
  *
- * @version $Id$
  */
 public class Handle
 {

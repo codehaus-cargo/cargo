@@ -27,7 +27,6 @@ import org.jdom.Element;
 /**
  * Common interface for Deployment Descriptors.
  * 
- * @version $Id$
  */
 public interface Descriptor extends org.jdom.Parent
 {

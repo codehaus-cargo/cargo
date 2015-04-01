@@ -33,7 +33,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
  * Capabilities of the JBoss's
  * {@link org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration} configuration.
  * 
- * @version $Id$
  */
 public class JBoss7xStandaloneLocalConfigurationCapability extends
     AbstractStandaloneLocalConfigurationCapability

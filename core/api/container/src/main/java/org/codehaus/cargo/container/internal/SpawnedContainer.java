@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncherFactory;
 /**
  * All methods that a container that is spawned must implement.
  * 
- * @version $Id$
  */
 public interface SpawnedContainer
 {

@@ -24,7 +24,6 @@ import org.codehaus.cargo.module.VendorDescriptor;
 /**
  * Common interface for vendor specific deployment descriptors.
  * 
- * @version $Id$
  */
 public interface VendorWebAppDescriptor extends VendorDescriptor
 {

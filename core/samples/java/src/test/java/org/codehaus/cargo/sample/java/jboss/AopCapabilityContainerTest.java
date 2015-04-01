@@ -40,7 +40,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 /**
  * Test for JBoss AOP support.
  * 
- * @version $Id$
  */
 public class AopCapabilityContainerTest extends AbstractJBossCapabilityTestCase
 {

@@ -33,7 +33,6 @@ import org.codehaus.cargo.util.FileHandler;
 /**
  * Code common to all local configuration stubs.
  * 
- * @version $Id$
  */
 public abstract class AbstractLocalConfigurationStub extends AbstractConfigurationStub
     implements LocalConfiguration

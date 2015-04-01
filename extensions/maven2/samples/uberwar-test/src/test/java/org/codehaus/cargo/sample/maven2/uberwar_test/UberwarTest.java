@@ -38,7 +38,6 @@ import org.codehaus.cargo.module.webapp.WebXmlType;
 /**
  * Test generation of Uberwars (merged WARs).
  * 
- * @version $Id$
  */
 public class UberwarTest extends AbstractDocumentBuilderTest
 {

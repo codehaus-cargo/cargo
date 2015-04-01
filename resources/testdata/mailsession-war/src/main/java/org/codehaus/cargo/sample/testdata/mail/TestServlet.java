@@ -33,7 +33,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Sample test Servlet used to verify that resource Mail Session is deployed.
  * 
- * @version $Id$
  */
 public class TestServlet extends HttpServlet
 {

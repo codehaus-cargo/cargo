@@ -26,7 +26,6 @@ import org.codehaus.cargo.module.Xsd;
 
 /**
  * Web 3.0 Descriptor.
- * @version $Id$
  */
 public class WebXml30Type extends WebXmlType
 {

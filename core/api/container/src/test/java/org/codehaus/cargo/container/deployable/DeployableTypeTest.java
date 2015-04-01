@@ -24,7 +24,6 @@ import junit.framework.TestCase;
 /**
  * Unit tests for {@link DeployableType}.
  * 
- * @version $Id$
  */
 public class DeployableTypeTest extends TestCase
 {

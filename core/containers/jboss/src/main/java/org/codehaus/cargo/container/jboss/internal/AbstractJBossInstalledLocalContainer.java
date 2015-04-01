@@ -42,7 +42,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 /**
  * Abstract class for JBoss container family.
  * 
- * @version $Id$
  */
 public abstract class AbstractJBossInstalledLocalContainer extends
     AbstractInstalledLocalContainer implements JBossInstalledLocalContainer

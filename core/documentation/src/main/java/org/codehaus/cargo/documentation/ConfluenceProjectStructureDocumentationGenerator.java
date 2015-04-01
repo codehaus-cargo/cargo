@@ -32,7 +32,6 @@ import org.apache.maven.project.MavenProject;
  * meant to be copied on the Cargo Confluence web site. Warning: Uses a relative path to determine
  * the base cargo directory and the sandbox is hard-coded.
  * 
- * @version $Id$
  */
 public class ConfluenceProjectStructureDocumentationGenerator
 {

@@ -35,7 +35,6 @@ import org.dom4j.Element;
 /**
  * Unit tests for {@link Resin3xStandaloneLocalConfiguration}.
  * 
- * @version $Id$
  */
 public class Resin3xStandaloneLocalConfigurationTest extends
     AbstractResinStandaloneLocalConfigurationTest

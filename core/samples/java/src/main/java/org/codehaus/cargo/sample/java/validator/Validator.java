@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.ContainerType;
 /**
  * Validate that a container.
  * 
- * @version $Id$
  */
 public interface Validator
 {

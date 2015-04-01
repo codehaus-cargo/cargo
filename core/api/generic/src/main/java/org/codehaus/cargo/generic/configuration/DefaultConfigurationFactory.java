@@ -37,7 +37,6 @@ import org.codehaus.cargo.util.FileHandler;
  * configurations registered against their containers. It also supports registering new
  * configurations against any container.
  * 
- * @version $Id$
  */
 public class DefaultConfigurationFactory extends
     AbstractIntrospectionGenericHintFactory<Configuration> implements ConfigurationFactory

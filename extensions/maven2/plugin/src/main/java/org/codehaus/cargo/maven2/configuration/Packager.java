@@ -28,7 +28,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
  * Holds configuration data for the <code>&lt;packager&gt;</code> tag used to configure the plugin
  * in the <code>pom.xml</code> file.
  * 
- * @version $Id$
  */
 public class Packager
 {

@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.jboss.JBoss7xInstalledLocalDeployer;
 /**
  * Static deployer that deploys WARs and EARs to the WildFly <code>deployments</code> directory.
  * 
- * @version $Id$
  */
 public class WildFly8xInstalledLocalDeployer extends JBoss7xInstalledLocalDeployer
 {

@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 /**
  * Factory to create Deployable instances.
  * 
- * @version $Id$
  */
 public interface DeployableFactory
 {

@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.jboss.JBoss7xRemoteDeployer;
 /**
  * Remote deployer that uses the Model Controller Client to deploy to WildFly.
  * 
- * @version $Id$
  */
 public class WildFly8xRemoteDeployer extends JBoss7xRemoteDeployer
 {

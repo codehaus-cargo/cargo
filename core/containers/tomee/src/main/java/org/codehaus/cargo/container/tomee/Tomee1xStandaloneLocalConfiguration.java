@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.tomee.internal.Tomee1xStandaloneLocalConfigu
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
  * 
- * @version $Id$
  */
 public class Tomee1xStandaloneLocalConfiguration extends Tomcat7xStandaloneLocalConfiguration
 {

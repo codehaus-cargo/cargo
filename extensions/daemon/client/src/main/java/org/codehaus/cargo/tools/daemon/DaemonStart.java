@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.deployable.Deployable;
 /**
  * Represents a daemon start request
  *
- * @version $Id$
  */
 public class DaemonStart
 {

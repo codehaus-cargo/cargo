@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager;
 /**
  * Package a Tomcat distribution.
  * 
- * @version $Id$
  */
 public class TomcatDirectoryPackager extends AbstractDirectoryPackager
 {

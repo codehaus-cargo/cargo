@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.LocalContainer;
  * Jetty 8.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
  * 
- * @version $Id$
  */
 public class Jetty8xStandaloneLocalConfiguration extends Jetty7xStandaloneLocalConfiguration
 {

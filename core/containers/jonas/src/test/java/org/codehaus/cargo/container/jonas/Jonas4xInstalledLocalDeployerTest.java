@@ -41,7 +41,6 @@ import org.jmock.cglib.MockObjectTestCase;
 /**
  * Unit tests for {@link Jonas4xInstalledLocalDeployer}.
  * 
- * @version $Id$
  */
 public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
 {

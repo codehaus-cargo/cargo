@@ -37,7 +37,6 @@ import org.dom4j.Element;
 /**
  * Unit tests for {@link XmlFileBuilder}.
  * 
- * @version $Id$
  */
 public class Dom4JXmlFileBuilderTest extends TestCase
 {

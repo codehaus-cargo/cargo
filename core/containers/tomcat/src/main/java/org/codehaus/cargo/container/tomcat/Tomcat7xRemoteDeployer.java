@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.tomcat.internal.TomcatManagerException;
 /**
  * A special Tomcat 7.x manager-based deployer to perform deployment to a remote container.
  * 
- * @version $Id$
  */
 public class Tomcat7xRemoteDeployer extends AbstractTomcatRemoteDeployer
 {

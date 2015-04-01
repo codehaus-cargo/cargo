@@ -42,7 +42,6 @@ import org.jdom.Element;
 /**
  * Helper class that can merge two web deployment descriptors.
  * 
- * @version $Id$
  */
 public class WebXmlMerger extends XmlMerger
 {

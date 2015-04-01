@@ -45,7 +45,6 @@ import org.codehaus.cargo.util.AntUtils;
 /**
  * Test for Tomcat WARs.
  * 
- * @version $Id$
  */
 public class TomcatWarTest extends AbstractCargoTestCase
 {

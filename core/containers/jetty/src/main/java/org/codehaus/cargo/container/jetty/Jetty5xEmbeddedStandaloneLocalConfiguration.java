@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.jetty.internal.Jetty4xEmbeddedStandaloneLoca
  * A mostly canned configuration for a Jetty 5.x running embedded. User uses properties to minimally
  * customize the config.
  * 
- * @version $Id$
  */
 public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
     AbstractJettyEmbeddedStandaloneLocalConfiguration

@@ -30,7 +30,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test deployment of Web applications on Tomcat 7.x's root context.
  * 
- * @version $Id$
  */
 public class Tomcat7xContextTest extends TestCase
 {

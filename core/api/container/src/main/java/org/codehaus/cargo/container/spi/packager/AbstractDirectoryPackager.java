@@ -31,7 +31,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
 /**
  * Package a container distribution and its local configuration in a directory.
  * 
- * @version $Id$
  */
 public abstract class AbstractDirectoryPackager extends LoggedObject implements Packager
 {

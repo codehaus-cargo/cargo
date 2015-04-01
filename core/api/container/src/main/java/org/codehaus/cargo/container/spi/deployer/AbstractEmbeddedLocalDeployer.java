@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 /**
  * Base deployer to deploy to embedded local containers.
  * 
- * @version $Id$
  */
 public abstract class AbstractEmbeddedLocalDeployer extends AbstractLocalDeployer
 {

@@ -31,7 +31,6 @@ import org.jdom.JDOMException;
 /**
  * Class that encapsulates access to a WAR.
  * 
- * @version $Id$
  */
 public class TomcatWarArchive
 {

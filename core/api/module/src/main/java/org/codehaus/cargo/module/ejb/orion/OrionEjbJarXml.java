@@ -30,7 +30,6 @@ import org.jdom.Element;
  * Encapsulates the DOM representation of a oracle ejb deployment descriptor
  * <code>orion-ejb-jar.xml</code> to provide convenience methods for easy access and manipulation.
  * 
- * @version $Id$
  */
 public class OrionEjbJarXml extends AbstractDescriptor implements VendorEjbDescriptor
 {

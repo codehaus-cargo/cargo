@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.jonas.internal.AbstractJonasStandaloneLocalC
  * Implementation of a standalone {@link org.codehaus.cargo.container.configuration.Configuration}
  * for JOnAS.
  * 
- * @version $Id$
  */
 public class Jonas4xStandaloneLocalConfiguration extends AbstractJonasStandaloneLocalConfiguration
 {

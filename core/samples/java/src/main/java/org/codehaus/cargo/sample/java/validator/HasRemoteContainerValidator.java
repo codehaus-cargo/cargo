@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.ContainerType;
 /**
  * Validate that a container has a remote container.
  * 
- * @version $Id$
  */
 public class HasRemoteContainerValidator extends AbstractContainerFactoryValidator
 {

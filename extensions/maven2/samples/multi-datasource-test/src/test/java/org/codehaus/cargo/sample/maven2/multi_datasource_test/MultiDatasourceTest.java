@@ -30,7 +30,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test deployment of multiple datasources.
  * 
- * @version $Id$
  */
 public class MultiDatasourceTest extends TestCase
 {

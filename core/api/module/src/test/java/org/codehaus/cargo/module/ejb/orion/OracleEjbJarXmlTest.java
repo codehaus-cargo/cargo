@@ -27,7 +27,6 @@ import org.codehaus.cargo.module.ejb.EjbDef;
 /**
  * Unit tests for {@link OrionEjbJarXml}.
  * 
- * @version $Id$
  */
 public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
 {

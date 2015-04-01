@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.glassfish.internal.GlassFish4xStandaloneLoca
 /**
  * GlassFish 4.x standalone local configuration.
  * 
- * @version $Id$
  */
 public class GlassFish4xStandaloneLocalConfiguration
     extends GlassFish3xStandaloneLocalConfiguration

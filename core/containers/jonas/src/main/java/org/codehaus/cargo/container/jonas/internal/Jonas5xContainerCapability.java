@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 /**
  * Capabilities of the JOnAS 5.x container.
  * 
- * @version $Id$
  */
 public class Jonas5xContainerCapability extends Jonas4xContainerCapability
 {

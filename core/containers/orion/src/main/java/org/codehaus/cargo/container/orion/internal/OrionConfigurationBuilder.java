@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurat
  * Contains the xml elements used to build a normal or XA compliant DataSource for Orion. Note that
  * this implementation returns multiple xml elements for DataSources which specify dataSourceclass.
  * 
- * @version $Id$
  */
 public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
 {

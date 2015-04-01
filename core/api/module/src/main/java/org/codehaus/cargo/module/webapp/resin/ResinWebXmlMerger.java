@@ -25,7 +25,6 @@ import org.codehaus.cargo.module.merge.DescriptorMergerByTag;
 /**
  * Class to manage the merging of two resin web descriptors.
  * 
- * @version $Id$
  */
 public class ResinWebXmlMerger extends XmlMerger
 {

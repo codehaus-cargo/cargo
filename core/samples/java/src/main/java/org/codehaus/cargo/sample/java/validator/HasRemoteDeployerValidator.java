@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 /**
  * Validate that the specified container has a remote deployer.
  * 
- * @version $Id$
  */
 public class HasRemoteDeployerValidator extends AbstractDeployerFactoryValidator
 {

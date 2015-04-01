@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.property;
 /**
  * Represents the transactional support of a resource, such as a <code>XA_TRANSACTION</code>.
  * 
- * @version $Id$
  */
 public final class TransactionSupport
 {

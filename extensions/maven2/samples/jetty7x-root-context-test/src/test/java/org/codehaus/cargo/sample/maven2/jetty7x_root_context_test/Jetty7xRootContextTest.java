@@ -30,7 +30,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test deployment of Web applications on Jetty 7.x's root context.
  * 
- * @version $Id$
  */
 public class Jetty7xRootContextTest extends TestCase
 {

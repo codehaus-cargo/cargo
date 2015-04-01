@@ -26,7 +26,6 @@ import org.codehaus.cargo.util.FileHandler;
 /**
  * Base deployer to deploy to local containers (installed or embedded).
  * 
- * @version $Id$
  */
 public abstract class AbstractLocalDeployer extends AbstractDeployer
 {

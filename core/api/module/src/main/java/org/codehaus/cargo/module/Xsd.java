@@ -24,7 +24,6 @@ import java.util.List;
 /**
  * Contains methods for getting information from a XSD.
  * 
- * @version $Id$
  */
 public class Xsd implements Grammar
 {

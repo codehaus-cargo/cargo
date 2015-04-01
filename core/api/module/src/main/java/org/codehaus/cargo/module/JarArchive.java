@@ -30,7 +30,6 @@ import java.util.List;
 /**
  * Provide convenient methods to read information from a Jar archive.
  * 
- * @version $Id$
  */
 public interface JarArchive
 {

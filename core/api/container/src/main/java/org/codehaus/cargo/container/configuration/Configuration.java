@@ -37,7 +37,6 @@ import org.codehaus.cargo.util.log.Loggable;
  * changing settings.</li>
  * </ul>
  * 
- * @version $Id$
  */
 public interface Configuration extends Loggable
 {

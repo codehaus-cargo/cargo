@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 /**
  * The default JVM launcher.
  * 
- * @version $Id$
  */
 class DefaultJvmLauncher implements JvmLauncher
 {

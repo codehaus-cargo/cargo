@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.property.ResourcePropertySet;
 /**
  * GlassFish 3.x standalone local configuration capability.
  * 
- * @version $Id$
  */
 public class GlassFish3xStandaloneLocalConfigurationCapability extends
     GlassFish2xStandaloneLocalConfigurationCapability

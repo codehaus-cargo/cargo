@@ -30,7 +30,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test WebSphere container.
  * 
- * @version $Id$
  */
 public class WebsphereTest extends TestCase
 {

@@ -32,7 +32,6 @@ import org.codehaus.cargo.generic.internal.util.RegistrationKey;
  * implementation jar may not be present in the classpath if it's not used by the user. This allows
  * users to only put the container implementation jars the require in the classpath.
  * 
- * @version $Id$
  */
 public abstract class AbstractIntrospectionGenericHintFactory<T> extends
     AbstractGenericHintFactory<T>

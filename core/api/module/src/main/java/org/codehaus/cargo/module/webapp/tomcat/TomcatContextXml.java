@@ -33,7 +33,6 @@ import org.jdom.Element;
  * <code>META-INF/context.xml</code> to provide convenience methods for easy access and
  * manipulation.
  * 
- * @version $Id$
  */
 public class TomcatContextXml extends AbstractDescriptor
 {

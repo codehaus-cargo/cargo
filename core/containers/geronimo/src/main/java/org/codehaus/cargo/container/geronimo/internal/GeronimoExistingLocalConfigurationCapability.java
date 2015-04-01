@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
 /**
  * Capabilities of the Geronimo's existing local configuration.
  * 
- * @version $Id$
  */
 public class GeronimoExistingLocalConfigurationCapability
     extends AbstractExistingLocalConfigurationCapability

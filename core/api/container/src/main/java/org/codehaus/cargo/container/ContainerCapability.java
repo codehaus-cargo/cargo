@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.deployable.DeployableType;
  * Represents the capability of a container. More specifically what deployable type it supports,
  * etc.
  * 
- * @version $Id$
  */
 public interface ContainerCapability
 {

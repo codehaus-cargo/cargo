@@ -25,7 +25,6 @@ import java.util.Locale;
 /**
  * Supported logging levels for {@link GeneralPropertySet#LOGGING}.
  * 
- * @version $Id$
  */
 public enum LoggingLevel
 {

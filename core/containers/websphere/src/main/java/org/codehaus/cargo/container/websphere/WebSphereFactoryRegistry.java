@@ -37,7 +37,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 /**
  * Registers IBM WebSphere support into default factories.
  * 
- * @version $Id$
  */
 public class WebSphereFactoryRegistry extends AbstractFactoryRegistry
 {

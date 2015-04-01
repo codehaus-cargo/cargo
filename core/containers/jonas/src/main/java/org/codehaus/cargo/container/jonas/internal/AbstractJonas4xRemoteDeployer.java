@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.deployable.WAR;
 /**
  * Remote deployer for JOnAS 4.x.
  * 
- * @version $Id$
  */
 public abstract class AbstractJonas4xRemoteDeployer extends AbstractJonasRemoteDeployer
 {

@@ -32,7 +32,6 @@ import junit.framework.TestCase;
  * Helper {@link junit.framework.TestCase} that provides convenience methods to retrieve test
  * resources from the classpath.
  * 
- * @version $Id$
  */
 public class AbstractResourceTest extends TestCase
 {

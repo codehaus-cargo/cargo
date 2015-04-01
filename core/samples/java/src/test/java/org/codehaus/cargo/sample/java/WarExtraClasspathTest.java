@@ -41,7 +41,6 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * Test for WAR extra classpath support.
  * 
- * @version $Id$
  */
 public class WarExtraClasspathTest extends AbstractCargoTestCase
 {

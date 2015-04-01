@@ -35,7 +35,6 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurat
  * {@link org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder} to create the
  * configuration.
  * 
- * @version $Id$
  */
 public abstract class AbstractTomcatConfigurationBuilder extends AbstractConfigurationBuilder
 {

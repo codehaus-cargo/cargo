@@ -26,7 +26,6 @@ import java.net.URL;
  * 
  * @goal deployer-stop
  * @requiresDependencyResolution test
- * @version $Id$
  */
 public class DeployerStopMojo extends AbstractDeployerMojo
 {

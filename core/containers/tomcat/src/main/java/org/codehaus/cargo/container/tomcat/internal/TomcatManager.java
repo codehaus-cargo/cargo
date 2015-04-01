@@ -38,7 +38,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
 /**
  * A Tomcat manager webapp invocation wrapper.
  * 
- * @version $Id$
  */
 public class TomcatManager extends LoggedObject
 {

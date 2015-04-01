@@ -27,7 +27,6 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * Implements an Glassfish 3.x AsAdmin command.
  * 
- * @version $Id$
  */
 public class GlassFish3xAsAdmin extends AbstractAsAdmin
 {

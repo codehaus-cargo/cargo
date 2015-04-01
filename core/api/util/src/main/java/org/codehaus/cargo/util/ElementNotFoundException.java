@@ -24,7 +24,6 @@ import org.dom4j.Element;
 /**
  * Exception raised when an XPath search returns no results.
  * 
- * @version $Id$
  */
 public class ElementNotFoundException extends RuntimeException
 {

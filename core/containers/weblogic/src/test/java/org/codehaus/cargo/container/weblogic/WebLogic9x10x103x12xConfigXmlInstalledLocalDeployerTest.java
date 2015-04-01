@@ -58,7 +58,6 @@ import org.dom4j.QName;
  * to resort to creating files in the file system and deleting them afterwards.
  * </p>
  * 
- * @version $Id$
  */
 public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends TestCase
 {

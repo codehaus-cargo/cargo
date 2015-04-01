@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Sample test Servlet used to verify that the system properties are put in place correctly.
  * 
- * @version $Id$
  */
 public class TestServlet extends HttpServlet
 {

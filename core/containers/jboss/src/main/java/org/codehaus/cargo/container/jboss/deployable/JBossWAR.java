@@ -30,7 +30,6 @@ import org.codehaus.cargo.module.webapp.jboss.JBossWarArchive;
  * For example, this allows returning the right web context even if it has been defined in the
  * <code>jboss-web.xml</code> file.
  * 
- * @version $Id$
  */
 public class JBossWAR extends WAR
 {

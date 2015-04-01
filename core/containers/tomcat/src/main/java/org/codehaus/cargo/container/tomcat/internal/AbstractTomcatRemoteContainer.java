@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
 /**
  * Special container support for wrapping a running instance of Apache Tomcat.
  * 
- * @version $Id$
  */
 public abstract class AbstractTomcatRemoteContainer extends AbstractRemoteContainer
 {

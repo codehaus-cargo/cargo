@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 /**
  * Wraps a HAR (Hibernate Archive) file that will be deployed in the container.
  * 
- * @version $Id$
  */
 public class HAR extends AbstractDeployable
 {

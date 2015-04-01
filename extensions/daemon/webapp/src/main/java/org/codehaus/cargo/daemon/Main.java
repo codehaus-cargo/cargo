@@ -38,7 +38,6 @@ import java.util.jar.JarFile;
  * Selfcontained main bootstrap class to launch the
  * webcontainer tjws and run the daemon web application.
  *
- * @version $Id$
  */
 public final class Main
 {

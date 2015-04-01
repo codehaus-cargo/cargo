@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.jboss;
 /**
  * JBoss 4.2.x standalone local configuration.
  * 
- * @version $Id$
  */
 public class JBoss42xStandaloneLocalConfiguration
     extends JBossStandaloneLocalConfiguration

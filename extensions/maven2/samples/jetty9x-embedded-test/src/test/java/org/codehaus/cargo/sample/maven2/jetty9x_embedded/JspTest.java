@@ -30,7 +30,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test deployment of JSPs with the embedded Jetty container.
  * 
- * @version $Id$
  */
 public class JspTest extends TestCase
 {

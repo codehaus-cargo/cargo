@@ -32,7 +32,6 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * Common code for all Jetty embedded container implementations.
  * 
- * @version $Id$
  */
 public abstract class AbstractJettyEmbeddedLocalContainer
     extends AbstractEmbeddedLocalContainer

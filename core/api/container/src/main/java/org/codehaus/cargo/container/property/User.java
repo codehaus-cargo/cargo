@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.ContainerException;
 /**
  * Represent an authenticating user for the Servlet container.
  * 
- * @version $Id$
  */
 public final class User
 {

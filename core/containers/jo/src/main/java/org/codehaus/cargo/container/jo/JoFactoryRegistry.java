@@ -36,7 +36,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 /**
  * Registers Jo! support into default factories.
  * 
- * @version $Id$
  */
 public class JoFactoryRegistry extends AbstractFactoryRegistry
 {

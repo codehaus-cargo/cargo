@@ -27,7 +27,6 @@ import org.codehaus.cargo.module.ejb.EjbDef;
 /**
  * Unit tests for {@link IbmEjbJarBndXmi}.
  * 
- * @version $Id$
  */
 public class IbmEjbJarBndXmiTest extends AbstractDocumentBuilderTest
 {

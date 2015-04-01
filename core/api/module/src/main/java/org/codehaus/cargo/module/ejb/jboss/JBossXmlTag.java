@@ -24,7 +24,6 @@ import org.codehaus.cargo.module.DescriptorType;
 
 /**
  * Defines the JBoss XML tags.
- * @version $Id$
  */
 public class JBossXmlTag extends DescriptorTag
 {

@@ -28,7 +28,6 @@ import org.jdom.DocType;
 /**
  * Unit tests for {@link WebXmlVersion}.
  * 
- * @version $Id$
  */
 public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
 {

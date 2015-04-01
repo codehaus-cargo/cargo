@@ -42,7 +42,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Tests of CARGO Daemon started on Tomcat using the Java client.
  * 
- * @version $Id$
  */
 public class CargoDaemonDeployableTest extends TestCase
 {

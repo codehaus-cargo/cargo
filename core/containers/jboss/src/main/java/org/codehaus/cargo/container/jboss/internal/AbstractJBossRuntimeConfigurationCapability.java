@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
 /**
  * Capabilities of JBoss's runtime configuration.
  * 
- * @version $Id$
  */
 public abstract class AbstractJBossRuntimeConfigurationCapability extends
     AbstractRuntimeConfigurationCapability

@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.tomee.TomeePropertySet;
  * Capabilities of TomEE's
  * {@link org.codehaus.cargo.container.tomee.Tomee1xStandaloneLocalConfiguration} configuration.
  * 
- * @version $Id$
  */
 public class Tomee1xStandaloneLocalConfigurationCapability extends
     Tomcat7x8xStandaloneLocalConfigurationCapability

@@ -74,7 +74,6 @@ import org.json.simple.JSONValue;
 /**
  * Cargo daemon servlet.
  *
- * @version $Id$
  */
 public class CargoDaemonServlet extends HttpServlet implements Runnable
 {

@@ -34,7 +34,6 @@ import org.codehaus.cargo.maven2.configuration.Deployer;
 /**
  * Unit tests for {@link AbstractDeployerMojo}.
  * 
- * @version $Id$
  */
 public class DeployerMojoTest extends TestCase
 {

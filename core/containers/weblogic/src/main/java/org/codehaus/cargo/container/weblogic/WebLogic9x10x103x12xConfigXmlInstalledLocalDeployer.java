@@ -40,7 +40,6 @@ import org.dom4j.QName;
  * Static deployer that manages deployment configuration by manipulating the WebLogic config.xml
  * file.
  * 
- * @version $Id$
  */
 public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
     AbstractInstalledLocalDeployer

@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.deployer.DeployerType;
  * Base deployer to deploy to containers without any reference to where the container is installed
  * (be it on the same machine or on another one).
  * 
- * @version $Id$
  */
 public abstract class AbstractRemoteDeployer extends AbstractDeployer
 {

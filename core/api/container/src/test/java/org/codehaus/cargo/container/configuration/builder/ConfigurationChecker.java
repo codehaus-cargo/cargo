@@ -53,7 +53,6 @@ import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
  * should verify that the configuration doesn't include the word 'null', as such a thing would
  * certainly break a container. <br>
  * 
- * @version $Id$
  */
 public interface ConfigurationChecker
 {

@@ -38,7 +38,6 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * Existing local configuration for the OC4J 10.x application server.
  * 
- * @version $Id$
  */
 public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {

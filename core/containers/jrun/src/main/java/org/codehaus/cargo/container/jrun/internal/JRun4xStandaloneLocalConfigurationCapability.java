@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
  * Capabilities of the JRun's
  * {@link org.codehaus.cargo.container.jrun.JRun4xStandaloneLocalConfiguration} configuration.
  * 
- * @version $Id$
  */
 public class JRun4xStandaloneLocalConfigurationCapability
     extends AbstractStandaloneLocalConfigurationCapability

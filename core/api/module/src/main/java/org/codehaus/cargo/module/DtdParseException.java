@@ -22,7 +22,6 @@ package org.codehaus.cargo.module;
 /**
  * Exception thrown to indicate that a certain DTD couldn't be parsed.
  * 
- * @version $Id$
  */
 public class DtdParseException extends RuntimeException
 {

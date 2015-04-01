@@ -30,7 +30,6 @@ import org.codehaus.cargo.util.VFSFileHandler;
 /**
  * Abstract test for any {@link LocalConfiguration}.
  * 
- * @version $Id$
  */
 public abstract class AbstractLocalConfigurationTest extends TestCase
 {

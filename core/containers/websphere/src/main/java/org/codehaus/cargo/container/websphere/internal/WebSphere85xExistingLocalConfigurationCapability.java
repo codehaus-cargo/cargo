@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.websphere.WebSpherePropertySet;
 /**
  * Capabilities of WebSphere's existing local configuration.
  *
- * @version $Id$
  */
 public class WebSphere85xExistingLocalConfigurationCapability
     extends AbstractExistingLocalConfigurationCapability

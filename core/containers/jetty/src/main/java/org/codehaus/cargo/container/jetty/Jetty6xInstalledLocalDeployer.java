@@ -34,7 +34,6 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
 /**
  * A deployer for webapps that deploys to a Jetty 6.x installed instance.
  * 
- * @version $Id$
  */
 public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {

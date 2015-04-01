@@ -24,7 +24,6 @@ import org.codehaus.cargo.util.log.Loggable;
 /**
  * Monitor the deployment status of a {@link org.codehaus.cargo.container.deployable.Deployable}.
  * 
- * @version $Id$
  */
 public interface DeployableMonitor extends Loggable
 {

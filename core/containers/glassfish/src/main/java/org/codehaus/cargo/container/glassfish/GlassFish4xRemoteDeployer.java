@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.RemoteContainer;
 /**
  * GlassFish 4.x remote deployer, which uses the JSR-88 to deploy and undeploy applications.
  * 
- * @version $Id$
  */
 public class GlassFish4xRemoteDeployer extends GlassFish3xRemoteDeployer
 {

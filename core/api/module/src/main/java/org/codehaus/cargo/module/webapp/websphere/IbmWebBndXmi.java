@@ -33,7 +33,6 @@ import org.jdom.Namespace;
  * Encapsulates the DOM representation of a websphere web deployment descriptor
  * <code>ibm-web-bnd.xmi</code> to provide convenience methods for easy access and manipulation.
  * 
- * @version $Id$
  */
 public class IbmWebBndXmi extends AbstractDescriptor implements VendorWebAppDescriptor
 {

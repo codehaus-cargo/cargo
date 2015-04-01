@@ -22,7 +22,6 @@ package org.codehaus.cargo.tools.daemon;
 /**
  * Represents the content type for a multipart form.
  *
- * @version $Id$
  */
 public class MultipartFormContentType implements FormContentType
 {

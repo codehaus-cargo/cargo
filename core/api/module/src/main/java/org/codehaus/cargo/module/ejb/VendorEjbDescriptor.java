@@ -24,7 +24,6 @@ import org.codehaus.cargo.module.VendorDescriptor;
 /**
  * Base interface for vendor specific EJB descriptors.
  * 
- * @version $Id$
  */
 public interface VendorEjbDescriptor extends VendorDescriptor
 {

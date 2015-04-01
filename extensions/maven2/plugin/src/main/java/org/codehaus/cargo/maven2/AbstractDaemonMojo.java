@@ -33,7 +33,6 @@ import org.codehaus.cargo.tools.daemon.DaemonPropertySet;
 /**
  * Common mojo for all daemon actions (start deployable, stop deployable).
  * 
- * @version $Id$
  */
 public abstract class AbstractDaemonMojo extends AbstractCargoMojo
 {

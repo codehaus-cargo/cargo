@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.tomcat.TomcatWAR;
 /**
  * Utility methods for Tomcat.
  * 
- * @version $Id$
  */
 public final class TomcatUtils
 {

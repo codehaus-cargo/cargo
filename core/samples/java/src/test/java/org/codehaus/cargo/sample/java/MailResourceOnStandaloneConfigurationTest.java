@@ -41,7 +41,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 /**
  * Test for mail resource capabilities.
  * 
- * @version $Id$
  */
 public class MailResourceOnStandaloneConfigurationTest extends
     AbstractResourceOnStandaloneConfigurationTest

@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType
  * {@link org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder} to create the
  * configuration.
  * 
- * @version $Id$
  */
 public class Tomcat8xConfigurationBuilder extends Tomcat5x6x7xConfigurationBuilder
 {

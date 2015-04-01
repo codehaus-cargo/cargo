@@ -40,7 +40,6 @@ import org.codehaus.cargo.util.FileHandler;
 /**
  * Default container implementation that all local container implementations must extend.
  * 
- * @version $Id$
  */
 public abstract class AbstractLocalContainer extends AbstractContainer implements LocalContainer
 {

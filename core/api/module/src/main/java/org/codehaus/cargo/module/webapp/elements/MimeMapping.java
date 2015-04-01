@@ -24,7 +24,6 @@ import org.codehaus.cargo.module.webapp.WebXmlType;
 import org.jdom.Element;
 
 /**
- * @version $Id$
  */
 public class MimeMapping extends WebXmlElement
 {

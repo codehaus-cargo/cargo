@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
  * Capabilities of the JBoss's
  * {@link org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration} configuration.
  * 
- * @version $Id$
  */
 public class JBoss71xExistingLocalConfigurationCapability
     extends JBoss7xExistingLocalConfigurationCapability

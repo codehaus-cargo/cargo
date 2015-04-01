@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 /**
  * Capabilities of Tomcat's {@link AbstractCatalinaStandaloneLocalConfiguration} configuration.
  * 
- * @version $Id$
  */
 public class Tomcat7x8xStandaloneLocalConfigurationCapability extends
     Tomcat5x6xStandaloneLocalConfigurationCapability

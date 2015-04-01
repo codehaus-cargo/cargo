@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 /**
  * Special container support for the Caucho Resin 3.1.x servlet container.
  * 
- * @version $Id$
  */
 public class Resin31xInstalledLocalContainer extends Resin3xInstalledLocalContainer
 {

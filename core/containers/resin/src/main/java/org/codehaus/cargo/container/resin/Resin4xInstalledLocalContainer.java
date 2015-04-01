@@ -35,7 +35,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 /**
  * Special container support for the Caucho Resin 4.x servlet container.
  * 
- * @version $Id$
  */
 public class Resin4xInstalledLocalContainer extends AbstractResinInstalledLocalContainer
 {

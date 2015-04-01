@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.weblogic;
 /**
  * Gathers all WebLogic properties.
  * 
- * @version $Id$
  */
 public interface WebLogicPropertySet
 {

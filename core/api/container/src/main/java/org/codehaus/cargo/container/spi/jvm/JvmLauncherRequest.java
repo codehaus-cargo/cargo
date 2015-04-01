@@ -24,7 +24,6 @@ import org.codehaus.cargo.util.log.Loggable;
 /**
  * A request to construct a JVM launcher.
  * 
- * @version $Id$
  */
 public class JvmLauncherRequest
 {

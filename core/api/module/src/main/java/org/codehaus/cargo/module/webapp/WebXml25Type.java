@@ -26,7 +26,6 @@ import org.codehaus.cargo.module.Xsd;
 
 /**
  * Web 2.5 Descriptor.
- * @version $Id$
  */
 public class WebXml25Type extends WebXmlType
 {

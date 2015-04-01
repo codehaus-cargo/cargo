@@ -40,7 +40,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 /**
  * Test the JOnAS-specific standalone local configuration options.
  * 
- * @version $Id$
  */
 public class JonasStandaloneConfigurationTest extends AbstractCargoTestCase
 {

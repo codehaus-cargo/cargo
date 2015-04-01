@@ -44,7 +44,6 @@ import org.codehaus.cargo.util.XmlReplacement;
  * Holds configuration data for the <code>&lt;configuration&gt;</code> tag used to configure the
  * plugin in the <code>pom.xml</code> file.
  * 
- * @version $Id$
  */
 public class Configuration
 {

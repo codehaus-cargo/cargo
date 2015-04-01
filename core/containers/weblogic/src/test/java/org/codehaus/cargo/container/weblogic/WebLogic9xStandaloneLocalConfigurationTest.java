@@ -44,7 +44,6 @@ import org.dom4j.QName;
 /**
  * Unit tests for {@link WebLogic9xStandaloneLocalConfiguration}.
  * 
- * @version $Id$
  */
 public class WebLogic9xStandaloneLocalConfigurationTest extends
     AbstractWeblogicStandaloneConfigurationTest

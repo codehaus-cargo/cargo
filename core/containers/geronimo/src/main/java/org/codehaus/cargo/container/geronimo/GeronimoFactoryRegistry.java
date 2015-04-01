@@ -43,7 +43,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 /**
  * Registers Geronimo support into default factories.
  * 
- * @version $Id$
  */
 public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
 {

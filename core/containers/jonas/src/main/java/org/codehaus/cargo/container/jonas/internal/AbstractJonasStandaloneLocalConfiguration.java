@@ -50,7 +50,6 @@ import org.ow2.jonas.tools.configurator.api.JonasConfigurator;
  * Implementation of a standalone {@link org.codehaus.cargo.container.configuration.Configuration}
  * for JOnAS.
  * 
- * @version $Id$
  */
 public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
 {

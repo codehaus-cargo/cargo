@@ -34,7 +34,6 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
 /**
  * Base class for Jetty standalone configurations.
  * 
- * @version $Id$
  */
 public abstract class AbstractJettyStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfiguration

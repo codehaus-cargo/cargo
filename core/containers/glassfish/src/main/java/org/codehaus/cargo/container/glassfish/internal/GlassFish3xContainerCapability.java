@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 /**
  * GlassFish 3.x container capability.
  * 
- * @version $Id$
  */
 public class GlassFish3xContainerCapability extends GlassFish2xContainerCapability
 {

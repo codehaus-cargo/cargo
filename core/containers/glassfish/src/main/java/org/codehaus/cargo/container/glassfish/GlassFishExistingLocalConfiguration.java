@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
 /**
  * GlassFish existing local configuration.
  * 
- * @version $Id$
  */
 public class GlassFishExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {

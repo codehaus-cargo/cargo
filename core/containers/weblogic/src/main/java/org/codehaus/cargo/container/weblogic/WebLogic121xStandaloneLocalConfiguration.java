@@ -24,7 +24,6 @@ package org.codehaus.cargo.container.weblogic;
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
  * WebLogic 12.1.x is only slightly different to configure then WebLogic 12.x.
  * 
- * @version $Id$
  */
 public class WebLogic121xStandaloneLocalConfiguration extends
     WebLogic12xStandaloneLocalConfiguration

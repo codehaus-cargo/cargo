@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 /**
  * Embedded Tomcat 6.x container.
  * 
- * @version $Id$
  */
 public class Tomcat6xEmbeddedLocalContainer extends Tomcat5xEmbeddedLocalContainer
 {

@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 /**
  * JBoss 6.1.x series container implementation.
  * 
- * @version $Id$
  */
 public class JBoss61xInstalledLocalContainer extends JBoss6xInstalledLocalContainer
 {

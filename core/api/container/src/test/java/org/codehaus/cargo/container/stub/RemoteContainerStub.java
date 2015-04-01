@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
  * we could get using JMock for example) for when we're testing factory classes which create an
  * object out of a class name.
  * 
- * @version $Id$
  */
 public class RemoteContainerStub extends AbstractContainerStub implements RemoteContainer
 {
