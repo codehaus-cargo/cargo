@@ -1,0 +1,14 @@
+target
+local
+
+# Eclipse, Netbeans and IntelliJ files
+.project
+.classpath
+nbproject
+.idea
+*.ipr
+*.iws
+*.iml
+
+# Mac DS_Store files
+.DS_Store
