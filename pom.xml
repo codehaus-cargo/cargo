@@ -17,23 +17,552 @@
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.codehaus.cargo</groupId>
-    <artifactId>cargo-parent</artifactId>
-    <version>4.16</version>
-    <relativePath>pom/pom.xml</relativePath>
+    <groupId>org.codehaus</groupId>
+    <artifactId>codehaus-parent</artifactId>
+    <version>4</version>
+    <relativePath />
   </parent>
-  <artifactId>cargo-trunks</artifactId>
-  <name>Cargo Trunks</name>
-  <version>1.3-SNAPSHOT</version>
+  <groupId>org.codehaus.cargo</groupId>
+  <artifactId>cargo-parent</artifactId>
+  <version>1.4.14-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <description>Top level POM to build all other Cargo modules</description>
+
+  <name>Cargo Parent</name>
+  <description>Cargo is a thin wrapper that allows you to manipulate Java EE containers in a standard way.</description>
+  <url>http://cargo.codehaus.org</url>
+  <inceptionYear>2004</inceptionYear>
+  <organization>
+    <name>Codehaus</name>
+    <url>http://codehaus.org/</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <modules>
-    <module>pom</module>
     <module>resources</module>
     <module>core</module>
     <module>extensions</module>
   </modules>
+
+  <developers>
+    <developer>
+      <name>Vincent Massol</name>
+      <id>vmassol</id>
+      <email>vmassol@codehaus.org</email>
+      <organization>Codehaus</organization>
+      <roles>
+        <role>Java Developer</role>
+        <role>Project Manager</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+    <developer>
+      <name>Desire Atanga</name>
+      <id>datanga</id>
+      <email />
+      <organization>OCTO Technology</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+    <developer>
+      <name>Hendrik Schreiber</name>
+      <id>hendriks</id>
+      <email>hs@tagtraum.com</email>
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Arnaud Heritier</name>
+      <id>aheritier</id>
+      <email />
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+    <developer>
+      <name>Milos Kleint</name>
+      <id>mkleint</id>
+      <email />
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>I Nyoman Winardi</name>
+      <id>winwin</id>
+      <email />
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Lev Olkhovich</name>
+      <id>oleo</id>
+      <email />
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Mark Hobson</name>
+      <id>mark</id>
+      <email />
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Magnus Grimsell</name>
+      <id>grimsell</id>
+      <email />
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Nigel Magnay</name>
+      <id>magnayn</id>
+      <email />
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Jan Bartel</name>
+      <id>janb</id>
+      <email />
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Scott Farquhar</name>
+      <id>sfarquhar</id>
+      <email />
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Vincent Siveton</name>
+      <id>vsiveton</id>
+      <email />
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>David J. M. Karlsen</name>
+      <email>david@codehaus.org</email>
+      <id>david</id>
+      <organization>davidkarlsen.com</organization>
+      <organizationUrl>http://www.davidkarlsen.com</organizationUrl>
+      <timezone>+1</timezone>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Matt Wringe</name>
+      <email>mwringe@redhat.com</email>
+      <id>mwringe</id>
+      <organization>Red Hat</organization>
+      <organizationUrl>www.redhat.com</organizationUrl>
+      <roles>
+        <role>Java Developer</role>
+        <role>Project Manager</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Adrian Cole</name>
+      <email>ferncam1@gmail.com</email>
+      <id>adriancole</id>
+      <organization />
+      <timezone>0</timezone>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>S. Ali Tokmen</name>
+      <email>nospam@alishomepage.com</email>
+      <id>alitokmen</id>
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+        <role>Project Manager</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Ryan Connolly</name>
+      <email>rynam0@gmail.com</email>
+      <id>rynam0</id>
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Anders Hammar</name>
+      <email>anders@hammar.net</email>
+      <id>afloom</id>
+      <organization />
+      <timezone>+1</timezone>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Benjamin Bentmann</name>
+      <id>bentmann</id>
+      <email />
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Simon Payne</name>
+      <id>sipayne2012</id>
+      <email />
+      <organization />
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>    
+  </developers>
+  <contributors>
+    <contributor>
+      <name>Jerome Lacoste</name>
+    </contributor>
+    <contributor>
+      <name>Tim Shadel</name>
+    </contributor>
+    <contributor>
+      <name>Matt Raible</name>
+    </contributor>
+    <contributor>
+      <name>Jan Zuchhold</name>
+    </contributor>
+    <contributor>
+      <name>Eoghan McIlwaine</name>
+    </contributor>
+    <contributor>
+      <name>Bill Dudney</name>
+    </contributor>
+    <contributor>
+      <name>Rahul Thakur</name>
+    </contributor>
+    <contributor>
+      <name>Lester Ecarma</name>
+    </contributor>
+    <contributor>
+      <name>Juri Artamonov</name>
+    </contributor>
+    <contributor>
+      <name>Kohsuke Kawaguchi</name>
+    </contributor>
+    <contributor>
+      <name>Wendy Smoak</name>
+    </contributor>
+    <contributor>
+      <name>Cedric Vidal</name>
+    </contributor>
+    <contributor>
+      <name>Cedric Munger</name>
+    </contributor>
+    <contributor>
+      <name>Adriana Danes (OW2)</name>
+    </contributor>
+    <contributor>
+      <name>Ate Douma</name>
+    </contributor>
+  </contributors>
+
+  <prerequisites>
+    <!--
+      There are some issues with Maven 2.0.4 that have been fixed in Maven 2.0.5
+      See: MNG-1952 and other related (probably minor) issues
+      -->
+    <maven>2.0.5</maven>
+  </prerequisites>
+
+  <scm>
+    <connection>scm:svn:http://svn.codehaus.org/cargo/pom/trunk</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/pom/trunk</developerConnection>
+    <url>http://svn.cargo.codehaus.org/cargo/pom/trunk</url> 
+  </scm>
+  <issueManagement>
+    <system>jira</system>
+    <url>http://jira.codehaus.org/browse/CARGO</url>
+  </issueManagement>
+  <ciManagement>
+    <system>bamboo</system>
+    <url>http://bamboo.ci.codehaus.org/browse/CARGO</url>
+  </ciManagement>
+  <distributionManagement>
+    <site>
+      <id>cargo-website</id>
+      <url>dav:https://dav.codehaus.org/cargo/maven-site/</url>
+    </site>
+  </distributionManagement>
+
+  <properties>
+    <cargo.derby.version>10.8.2.2</cargo.derby.version>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>1.7</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>2.10</version>
+          <configuration>
+            <consoleOutput>true</consoleOutput>
+            <configLocation>build-tools/checkstyle.xml</configLocation>
+            <headerLocation>build-tools/checkstyle.license</headerLocation>
+            <includeTestSourceDirectory>true</includeTestSourceDirectory>
+            <suppressionsLocation>build-tools/checkstyle-suppressions.xml</suppressionsLocation>
+
+            <!-- See: http://jira.codehaus.org/browse/MCHECKSTYLE-134 -->
+            <suppressionsFileExpression>checkstyle.suppressions.file.donothing</suppressionsFileExpression>
+            <propertyExpansion>
+              checkstyle.suppressions.file=${project.build.directory}/checkstyle-suppressions.xml
+            </propertyExpansion>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>2.5</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.1</version>
+          <configuration>
+            <source>1.5</source>
+            <target>1.5</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.8</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.7</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-ear-plugin</artifactId>
+          <version>2.8</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-ejb-plugin</artifactId>
+          <version>2.3</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-invoker-plugin</artifactId>
+          <version>1.8</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.9.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-plugin-plugin</artifactId>
+          <version>3.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-rar-plugin</artifactId>
+          <version>2.3</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.4.1</version>
+          <configuration>
+            <preparationGoals>clean install</preparationGoals>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.6</version>
+        </plugin>
+        <plugin>
+          <!-- Do not use version 2.x in order to keep compatibility with Maven 2.x -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>1.7.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.3</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.2.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.16</version>
+          <configuration>
+            <excludes>
+              <exclude>**/Abstract*.java</exclude>
+              <exclude>**/Test*.java</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.modello</groupId>
+          <artifactId>modello-maven-plugin</artifactId>
+          <version>1.7</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>1.8</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>2.4.0</version>
+          <extensions>true</extensions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <!--
+      Codehaus is using WebDav for site deployment, so we need to use the correct
+      Maven Wagon to access it.
+    -->
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav-jackrabbit</artifactId>
+        <version>2.4</version>
+      </extension>
+    </extensions>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+        <configuration>
+          <tagletArtifacts>
+            <tagletArtifact>
+              <groupId>org.apache.maven.plugin-tools</groupId>
+              <artifactId>maven-plugin-tools-javadoc</artifactId>
+              <version>3.2</version>
+            </tagletArtifact>
+          </tagletArtifacts>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.16</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.7</version>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <profiles>
+    <profile>
+      <id>maven-3</id>
+      <activation>
+        <file>
+          <!-- This employs that the basedir expression is only recognized by Maven 3.x (see MNG-2363) -->
+          <exists>${basedir}</exists>
+        </file>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-site-plugin</artifactId>
+              <version>3.3</version>
+            </plugin>          
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
 </project>
