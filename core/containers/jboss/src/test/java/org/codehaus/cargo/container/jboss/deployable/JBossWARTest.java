@@ -24,7 +24,7 @@ import org.codehaus.cargo.util.AbstractResourceTest;
 
 /**
  * Unit tests for {@link JBossWAR}.
- * 
+ *
  */
 public class JBossWARTest extends AbstractResourceTest
 {
@@ -100,5 +100,19 @@ public class JBossWARTest extends AbstractResourceTest
         JBossWAR war = new JBossWAR(getResourcePath(PACKAGE_PATH + "jboss-context.war"));
         war.setContext("context");
         assertEquals("testcontext", war.getContext());
+    }
+
+    /**
+     * Test get JBoss WAR context and virtual host when context already setup and JBoss web.xml is
+     * present.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testGetWarContextAndVirtualHostWhenContextAlreadySetupAndJBossWebXml()
+        throws Exception
+    {
+        JBossWAR war = new JBossWAR(getResourcePath(PACKAGE_PATH + "jboss-virtualhost.war"));
+        war.setContext("context");
+        assertEquals("testhost-testcontext", war.getContext());
+        assertEquals("testhost", war.getVirtualHost());
     }
 }

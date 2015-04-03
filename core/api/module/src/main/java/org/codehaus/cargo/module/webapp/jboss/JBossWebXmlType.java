@@ -38,6 +38,7 @@ public class JBossWebXmlType extends AbstractDescriptorType
     private JBossWebXmlTag[] tags =
         new JBossWebXmlTag[] {
             new JBossWebXmlTag(this, JBossWebXmlTag.CONTEXT_ROOT, false),
+            new JBossWebXmlTag(this, JBossWebXmlTag.VIRTUAL_HOST, false),
             new JBossWebXmlTag(this, JBossWebXmlTag.EJB_LOCAL_REF),
             new JBossWebXmlTag(this, JBossWebXmlTag.EJB_REF),
             new JBossWebXmlTag(this, JBossWebXmlTag.EJB_REF_NAME),

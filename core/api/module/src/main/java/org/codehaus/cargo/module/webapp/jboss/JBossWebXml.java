@@ -28,7 +28,7 @@ import org.jdom.Element;
 /**
  * Encapsulates the DOM representation of a web deployment descriptor <code>jboss-web.xml</code> to
  * provide convenience methods for easy access and manipulation.
- * 
+ *
  */
 public class JBossWebXml extends AbstractDescriptor implements VendorWebAppDescriptor
 {
@@ -64,6 +64,16 @@ public class JBossWebXml extends AbstractDescriptor implements VendorWebAppDescr
         }
 
         return context;
+    }
+
+    /**
+     * @return the virtual host element found in the <code>jboss-web.xml</code> file or null if not
+     * defined
+     */
+    public String getVirtualHost()
+    {
+        return getNestedText(
+            getRootElement(), getDescriptorType().getTagByName(JBossWebXmlTag.VIRTUAL_HOST));
     }
 
     /**

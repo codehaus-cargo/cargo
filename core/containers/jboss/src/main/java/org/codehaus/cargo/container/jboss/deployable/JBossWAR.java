@@ -29,7 +29,7 @@ import org.codehaus.cargo.module.webapp.jboss.JBossWarArchive;
  * Extension that supports custom JBoss descriptor files such as the <code>jboss-web.xml</code> one.
  * For example, this allows returning the right web context even if it has been defined in the
  * <code>jboss-web.xml</code> file.
- * 
+ *
  */
 public class JBossWAR extends WAR
 {
@@ -58,36 +58,55 @@ public class JBossWAR extends WAR
     }
 
     /**
-     * @return the context defined in <code>jboss-web.xml</code> if any. If there is no
-     * <code>jboss-web.xml</code> or if it doesn't define any root context, then return
-     * {@link WAR#getContext()}.
+     * @return the context defined in <code>jboss-web.xml</code> if any (including, if present, the
+     * virtual host name as a prefix). If there is no <code>jboss-web.xml</code> or if it doesn't
+     * define any root context, then return {@link WAR#getContext()}.
      */
     @Override
     public synchronized String getContext()
-    {
-        String result = parseJbossWebXml();
-        if (result == null)
-        {
-            result = super.getContext();
-        }
-
-        return result;
-    }
-
-    /**
-     * @return the context from JBoss's <code>jboss-web.xml</code> if it is defined or
-     * <code>null</code> otherwise.
-     */
-    private String parseJbossWebXml()
     {
         String context = null;
 
         if (this.warArchive.getJBossWebXml() != null)
         {
             context = this.warArchive.getJBossWebXml().getContextRoot();
+            if (context != null)
+            {
+                if ("".equals(context) || "/".equals(context))
+                {
+                    context = "ROOT";
+                }
+
+                String virtualHost = this.warArchive.getJBossWebXml().getVirtualHost();
+                if (virtualHost != null)
+                {
+                    context = virtualHost + '-' + context;
+                }
+            }
+        }
+
+        if (context == null)
+        {
+            context = super.getContext();
         }
 
         return context;
+    }
+
+    /**
+     * @return the virtual host element found in the <code>jboss-web.xml</code> file or null if not
+     * defined
+     */
+    public String getVirtualHost()
+    {
+        String virtualHost = null;
+
+        if (this.warArchive.getJBossWebXml() != null)
+        {
+            virtualHost = this.warArchive.getJBossWebXml().getVirtualHost();
+        }
+
+        return virtualHost;
     }
 
     /**

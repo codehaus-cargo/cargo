@@ -25,7 +25,7 @@ import org.codehaus.cargo.module.DescriptorType;
 /**
  * Represents the various top-level tags in a JBoss web deployment descriptor as a typesafe
  * enumeration.
- * 
+ *
  */
 public final class JBossWebXmlTag extends DescriptorTag
 {
@@ -33,6 +33,11 @@ public final class JBossWebXmlTag extends DescriptorTag
      * Element name 'context-root'.
      */
     public static final String CONTEXT_ROOT = "context-root";
+
+    /**
+     * Element name 'virtual-host'.
+     */
+    public static final String VIRTUAL_HOST = "virtual-host";
 
     /**
      * Element name 'ejb-ref'.
