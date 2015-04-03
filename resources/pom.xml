@@ -26,7 +26,6 @@
   </parent>
   <artifactId>cargo-resources</artifactId>
   <name>Cargo Shared Resources</name>
-  <version>1.4.14-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>Cargo Shared Resources (License files, Checkstyle configuration files, etc)</description>
   <scm>

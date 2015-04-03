@@ -28,7 +28,6 @@
   <name>Cargo Extensions</name>
   <packaging>pom</packaging>
   <description>Cargo Extensions</description>
-  <version>1.4.14-SNAPSHOT</version>
   <properties>
     <!-- define these variables because of potentially different release cycles -->
     <cargo.resources.version>${project.version}</cargo.resources.version>

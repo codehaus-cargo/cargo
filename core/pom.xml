@@ -26,7 +26,6 @@
   </parent>
   <artifactId>cargo-core</artifactId>
   <name>Cargo Core</name>
-  <version>1.4.14-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>Cargo Core</description>
   <properties>
