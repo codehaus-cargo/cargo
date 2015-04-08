@@ -24,7 +24,6 @@
     <version>1.4.14-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-sample-maven2-runMojo-test-artifact</artifactId>
-  <version>${project.version}</version>
   <description>Sample application that will be used to test the cargo:run MOJO</description>
   <packaging>jar</packaging>
 
@@ -32,13 +31,11 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-sample-java</artifactId>
-      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-war</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
   </dependencies>
