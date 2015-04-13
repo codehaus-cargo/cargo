@@ -4,6 +4,7 @@ local
 # Eclipse, Netbeans and IntelliJ files
 .project
 .classpath
+.settings
 nbproject
 .idea
 *.ipr
