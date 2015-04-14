@@ -148,7 +148,7 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
 
         configurationFactory.registerConfiguration("weblogic121x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            WebLogic121xStandaloneLocalConfiguration.class);
+            WebLogic121xWlstStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("weblogic121x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             WebLogic9x10x103x12xExistingLocalConfiguration.class);
@@ -210,7 +210,7 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
             WebLogic12xInstalledLocalContainer.class);
 
         containerFactory.registerContainer("weblogic121x", ContainerType.INSTALLED,
-            WebLogic121xInstalledLocalContainer.class);
+            WebLogic121xWlstInstalledLocalContainer.class);
     }
 
     /**
