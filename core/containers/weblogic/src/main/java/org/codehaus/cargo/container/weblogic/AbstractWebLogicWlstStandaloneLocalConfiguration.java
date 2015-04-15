@@ -133,7 +133,6 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
-    @Override
     public String getDomainHome()
     {
         return getHome();
