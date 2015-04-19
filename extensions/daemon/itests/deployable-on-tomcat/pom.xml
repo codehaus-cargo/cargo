@@ -30,13 +30,11 @@
     <dependency>
       <groupId>net.sourceforge.htmlunit</groupId>
       <artifactId>htmlunit</artifactId>
-      <version>2.8</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-daemon-webapp</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
   </dependencies>

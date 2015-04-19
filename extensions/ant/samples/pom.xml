@@ -38,7 +38,6 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-sample-java</artifactId>
-      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -82,28 +81,23 @@
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>cargo-ant</artifactId>
-                  <version>${project.version}</version>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>cargo-core-uberjar</artifactId>
-                  <version>${project.version}</version>
                 </artifactItem>
 
                 <artifactItem>
                   <groupId>commons-discovery</groupId>
                   <artifactId>commons-discovery</artifactId>
-                  <version>0.4</version>
                 </artifactItem>
                 <artifactItem>
                   <groupId>commons-logging</groupId>
                   <artifactId>commons-logging</artifactId>
-                  <version>1.1.1</version>
                 </artifactItem>
                 <artifactItem>
                   <groupId>dom4j</groupId>
                   <artifactId>dom4j</artifactId>
-                  <version>1.4</version>
                 </artifactItem>
               </artifactItems>
             </configuration>

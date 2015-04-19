@@ -31,13 +31,17 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-tools-jboss-deployer-api</artifactId>
-      <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.jboss.integration</groupId>
       <artifactId>jboss-profileservice-spi</artifactId>
+      <!--
+        Version declaration needs to stay here as different jboss-deployer modules
+        depend on different versions of same artifact. cargo-parent can not simply
+        use single version in dependencyManagement.
+        -->
       <version>5.0.3.GA</version>
       <scope>provided</scope>
     </dependency>

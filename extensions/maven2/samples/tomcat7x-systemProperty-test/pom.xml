@@ -32,13 +32,11 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-sample-java</artifactId>
-      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>systemproperty-war</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
   </dependencies>

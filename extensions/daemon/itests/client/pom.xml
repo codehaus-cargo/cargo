@@ -30,7 +30,6 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-daemon-client</artifactId>
-      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

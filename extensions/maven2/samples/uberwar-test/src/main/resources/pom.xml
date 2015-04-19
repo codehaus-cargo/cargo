@@ -24,7 +24,6 @@
     <version>1.4.14-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-sample-maven2-uberwar-test-artifact</artifactId>
-  <version>${project.version}</version>
   <description>Sample application that will be used to test the uberwar functionalities</description>
   <packaging>uberwar</packaging>
 
@@ -32,13 +31,11 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>authentication-war</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>datasource-war</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
   </dependencies>
