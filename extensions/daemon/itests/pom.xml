@@ -73,14 +73,12 @@
                 <artifactItem>
                   <groupId>org.eclipse.jetty</groupId>
                   <artifactId>jetty-distribution</artifactId>
-                  <version>7.6.16.v20140903</version>
                   <type>zip</type>
                   <destFileName>jetty7x.zip</destFileName>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>cargo-daemon-webapp</artifactId>
-                  <version>${project.version}</version>
                   <type>war</type>
                   <destFileName>cargo-daemon-webapp.jar</destFileName>
                 </artifactItem>
@@ -88,14 +86,12 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-war</artifactId>
                   <type>war</type>
-                  <version>${project.version}</version>
                   <destFileName>simple-war.war</destFileName>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>systemproperty-war</artifactId>
                   <type>war</type>
-                  <version>${project.version}</version>
                   <destFileName>systemproperty-war.war</destFileName>
                 </artifactItem>
               </artifactItems>
@@ -177,7 +173,6 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-sample-java</artifactId>
-      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

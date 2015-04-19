@@ -45,12 +45,10 @@
                 <artifactItem>
                   <groupId>org.apache.derby</groupId>
                   <artifactId>derby</artifactId>
-                  <version>${cargo.derby.version}</version>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>datasource-war</artifactId>
-                  <version>${project.version}</version>
                   <type>war</type>
                 </artifactItem>
               </artifactItems>

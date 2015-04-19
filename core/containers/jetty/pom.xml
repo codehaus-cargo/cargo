@@ -40,7 +40,6 @@
                 <artifactItem>
                   <groupId>c3p0</groupId>
                   <artifactId>c3p0</artifactId>
-                  <version>0.9.1.1</version>
                   <outputDirectory>
                     ${project.build.directory}/classes/org/codehaus/cargo/container/jetty/datasource
                   </outputDirectory>

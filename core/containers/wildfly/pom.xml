@@ -31,7 +31,6 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-jboss</artifactId>
-      <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
@@ -51,7 +50,6 @@
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>cargo-core-container-jboss</artifactId>
-                  <version>${project.version}</version>
                   <includes>
                     org/codehaus/cargo/container/internal/resources/jboss-ds/*,
                     org/codehaus/cargo/container/internal/resources/jboss-module/*,

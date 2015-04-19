@@ -32,7 +32,6 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-daemon-webapp</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
   </dependencies>
@@ -117,13 +116,11 @@
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-war</artifactId>
-                  <version>${project.version}</version>
                   <type>war</type>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>cargo-daemon-client</artifactId>
-                  <version>${project.version}</version>
                   <outputDirectory>${cargo-ant-tasks.directory}</outputDirectory>
                 </artifactItem>
               </artifactItems>

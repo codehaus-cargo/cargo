@@ -27,16 +27,16 @@
   <name>Cargo Core TomEE Container</name>
   <packaging>jar</packaging>
   <description>Core API implementation for TomEE containers</description>
-  
+
   <dependencies>
-	<dependency>
-		<groupId>org.codehaus.cargo</groupId>
-		<artifactId>cargo-core-container-tomcat</artifactId>
-		<version>${project.version}</version>
-		<scope>provided</scope>
-	</dependency>
-</dependencies>
-<build>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-tomcat</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -52,7 +52,6 @@
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>cargo-core-container-tomcat</artifactId>
-                  <version>${project.version}</version>
                   <includes>
                     org/codehaus/cargo/container/internal/resources/tomcat/*,
                     org/codehaus/cargo/container/internal/resources/tomcat4x/*,
