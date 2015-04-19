@@ -319,7 +319,8 @@ public final class Main
         {
             LOGGER.println(
                 "Cargo Daemon requires Java 6 or greater in order to run in standalone mode.");
-            LOGGER.println("Read more on: http://cargo.codehaus.org/Cargo+Daemon");
+            LOGGER.println(
+                "Read more on: https://codehaus-cargo.github.io/cargo/Cargo+Daemon.html");
         }
         catch (NullPointerException e)
         {

@@ -159,7 +159,8 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
         {
             throw new CargoException("Cannot locate the JBoss connector classes! Make sure the "
                 + "required JBoss JARs (or Maven dependencies) are in CARGO's classpath.\n"
-                + "More information on: http://cargo.codehaus.org/JBoss+Remote+Deployer", e);
+                + "More information on: "
+                + "https://codehaus-cargo.github.io/cargo/JBoss+Remote+Deployer.html", e);
         }
 
         URL[] deployerJarURLArray = new URL[] {deployerJarURL};

@@ -1,3 +1,4 @@
+
 /*
  * ========================================================================
  *
@@ -24,7 +25,6 @@ import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -211,11 +211,6 @@ public class ConfluenceContainerDocumentationGenerator
      * Constant for the systemProperties node of the Surefire plugin.
      */
     private static final String SYSTEM_PROPERTIES = "systemProperties";
-
-    /**
-     * Constant for the CI URL.
-     */
-    private static final String CI_URL = "https://bamboo-ci.codehaus.org/browse/CARGO-SAMPLES";
 
     /**
      * Container factory.
@@ -1363,14 +1358,12 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("h3.Tested On");
             output.append(LINE_SEPARATOR);
 
-            output.append("This container is automatically tested on its server using the "
-                + "Codehaus Cargo Continous Integration System once a day.");
+            output.append("This container is automatically tested by the "
+                + "[Continous Integration system|https://semaphoreci.com/codehaus-cargo/cargo] "
+                + "every time there is a code change.");
             output.append(LINE_SEPARATOR);
-            output.append("* The server used for tests is downloaded from: ");
+            output.append("The server used for tests is downloaded from: ");
             output.append(url);
-            output.append(LINE_SEPARATOR);
-            output.append("* Link to the build plan: ");
-            output.append(CI_URL + containerId.toUpperCase(Locale.ENGLISH));
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
             return output.toString();

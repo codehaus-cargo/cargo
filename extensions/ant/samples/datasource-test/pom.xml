@@ -50,7 +50,7 @@
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>datasource-war</artifactId>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <type>war</type>
                 </artifactItem>
               </artifactItems>

@@ -19,12 +19,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.codehaus</groupId>
-    <artifactId>codehaus-parent</artifactId>
-    <version>4</version>
-    <relativePath />
-  </parent>
   <groupId>org.codehaus.cargo</groupId>
   <artifactId>cargo-parent</artifactId>
   <version>1.4.14-SNAPSHOT</version>
@@ -32,7 +26,7 @@
 
   <name>Cargo Parent</name>
   <description>Cargo is a thin wrapper that allows you to manipulate Java EE containers in a standard way.</description>
-  <url>http://cargo.codehaus.org</url>
+  <url>https://codehaus-cargo.github.io/</url>
   <inceptionYear>2004</inceptionYear>
   <organization>
     <name>Codehaus</name>
@@ -311,9 +305,9 @@
   </prerequisites>
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/pom/trunk</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/pom/trunk</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/pom/trunk</url> 
+    <connection>scm:git:git@github.com:codehaus-cargo/cargo.git</connection>
+    <developerConnection>scm:git:git@github.com:codehaus-cargo/cargo.git</developerConnection>
+    <url>https://github.com/codehaus-cargo/cargo</url> 
   </scm>
   <issueManagement>
     <system>jira</system>
@@ -321,7 +315,7 @@
   </issueManagement>
   <ciManagement>
     <system>bamboo</system>
-    <url>http://bamboo.ci.codehaus.org/browse/CARGO</url>
+    <url>https://semaphoreci.com/codehaus-cargo/cargo</url>
   </ciManagement>
   <distributionManagement>
     <site>

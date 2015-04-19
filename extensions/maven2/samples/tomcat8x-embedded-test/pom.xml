@@ -32,13 +32,13 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-sample-java</artifactId>
-      <version>${cargo.core.version}</version>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-war</artifactId>
-      <version>${cargo.resources.version}</version>
+      <version>${project.version}</version>
       <type>war</type>
     </dependency>
   </dependencies>
@@ -100,8 +100,8 @@
                 <version>${project.version}</version>
                 <cargo.samples.servlet.port>${cargo.samples.servlet.port}</cargo.samples.servlet.port>
                 <cargo.samples.rmi.port>${cargo.samples.rmi.port}</cargo.samples.rmi.port>
-                <cargo.core.version>${cargo.core.version}</cargo.core.version>
-                <cargo.resources.version>${cargo.resources.version}</cargo.resources.version>
+                <project.version>${project.version}</project.version>
+                <project.version>${project.version}</project.version>
                 <maven.test.skip>${maven.test.skip}</maven.test.skip>
               </properties>
             </configuration>

@@ -61,7 +61,8 @@ public class Uberjar
         ps.println("tasks and even Maven2 goals.");
         ps.println();
 
-        ps.println("See our website for the full documentation: http://cargo.codehaus.org/");
+        ps.println(
+            "See our website for the full documentation: https://codehaus-cargo.github.io/");
     }
 
 }

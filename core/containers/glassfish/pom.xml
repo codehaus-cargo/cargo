@@ -22,7 +22,6 @@
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-core-containers</artifactId>
     <version>1.4.14-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>cargo-core-container-glassfish</artifactId>
   <name>Cargo Core GlassFish Container</name>

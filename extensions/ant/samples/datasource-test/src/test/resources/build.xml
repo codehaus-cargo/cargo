@@ -67,7 +67,7 @@
                 cargo.datasource.username=APP|
                 cargo.datasource.password=nonemptypassword
                 "/>
-          <deployable type="war" file="${cargo-test-applications.directory}/datasource-war-${cargo.resources.version}.war">
+          <deployable type="war" file="${cargo-test-applications.directory}/datasource-war-${project.version}.war">
             <property name="context" value="datasource-test"/>
           </deployable>
         </configuration>

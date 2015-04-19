@@ -22,21 +22,11 @@
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-parent</artifactId>
     <version>1.4.14-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>cargo-core</artifactId>
   <name>Cargo Core</name>
   <packaging>pom</packaging>
   <description>Cargo Core</description>
-  <properties>
-    <!-- define these variables because of potentially different release cycles -->
-    <cargo.resources.version>${project.version}</cargo.resources.version>
-  </properties>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/core/trunk</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/core/trunk</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/core/trunk</url>
-  </scm>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -82,7 +72,7 @@
           <dependency>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-build-tools</artifactId>
-            <version>${cargo.resources.version}</version>
+            <version>${project.version}</version>
           </dependency>
         </dependencies>
       </plugin>

@@ -53,7 +53,7 @@
         <property name="cargo.servlet.port" value="${http.port}"/>
         <property name="cargo.tomcat.ajp.port" value="${ajp.port}"/>
         <property name="cargo.rmi.port" value="${rmi.port}"/>
-          <deployable type="war" file="${cargo-test-applications.directory}/simple-war-${cargo.resources.version}.war">
+          <deployable type="war" file="${cargo-test-applications.directory}/simple-war-${project.version}.war">
             <property name="context" value="simple-test"/>
             <property name="pingURL" value="http://localhost:${http.port}/simple-test"/>
             <property name="pingTimeout" value="30000"/>

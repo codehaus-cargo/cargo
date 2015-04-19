@@ -117,7 +117,7 @@
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-war</artifactId>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <type>war</type>
                 </artifactItem>
                 <artifactItem>

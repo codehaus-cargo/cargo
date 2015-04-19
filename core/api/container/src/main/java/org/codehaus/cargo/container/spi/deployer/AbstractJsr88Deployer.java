@@ -340,7 +340,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
             throw new CargoException(
                 "Cannot locate the JSR-88 deployer class " + deploymentFactoryClassName + "\n"
                     + "Make sure the target server's librarires are in CARGO's classpath.\n"
-                    + "More information on: http://cargo.codehaus.org/JSR88", e);
+                    + "More information on: https://codehaus-cargo.github.io/cargo/JSR88.html", e);
         }
         catch (Throwable t)
         {

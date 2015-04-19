@@ -49,7 +49,7 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-ejb</artifactId>
-      <version>${cargo.resources.version}</version>
+      <version>${project.version}</version>
       <type>ejb</type>
     </dependency>
   </dependencies>
@@ -1046,7 +1046,7 @@
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-jar</artifactId>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
                   <destFileName>simple.jar</destFileName>
                 </artifactItem>
@@ -1081,7 +1081,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>empty-ear</artifactId>
                   <type>ear</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>empty-ear.ear</destFileName>
                 </artifactItem>
@@ -1089,7 +1089,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>authentication-war</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>authentication-war.war</destFileName>
                 </artifactItem>
@@ -1097,7 +1097,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>expanded-war</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>expanded-war.war</destFileName>
                 </artifactItem>
@@ -1105,7 +1105,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-ear</artifactId>
                   <type>ear</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>simple-ear.ear</destFileName>
                 </artifactItem>
@@ -1113,7 +1113,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-war</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>simple-war.war</destFileName>
                 </artifactItem>
@@ -1121,7 +1121,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>datasource-war</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>datasource-war.war</destFileName>
                 </artifactItem>
@@ -1129,7 +1129,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>two-datasources-war</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>two-datasources-war.war</destFileName>
                 </artifactItem>
@@ -1137,7 +1137,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>xadatasource-war</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>xadatasource-war.war</destFileName>
                 </artifactItem>
@@ -1145,7 +1145,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>mailsession-war</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>mailsession-war.war</destFileName>
                 </artifactItem>
@@ -1153,7 +1153,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>datasource-cmt-local-war</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>datasource-cmt-local-war.war</destFileName>
                 </artifactItem>
@@ -1161,7 +1161,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>jms-war</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>jms-war.war</destFileName>
                 </artifactItem>
@@ -1169,7 +1169,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>classpath-war</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>classpath-war.war</destFileName>
                 </artifactItem>
@@ -1177,7 +1177,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-ejb</artifactId>
                   <type>jar</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>simple-ejb.jar</destFileName>
                 </artifactItem>
@@ -1185,7 +1185,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>tomcatcontext-war</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>tomcatcontext-war.war</destFileName>
                 </artifactItem>
@@ -1193,7 +1193,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-bundle</artifactId>
                   <type>jar</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>simple-bundle.jar</destFileName>
                 </artifactItem>
@@ -1201,7 +1201,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>cargo-jetty-6-and-earlier-deployer</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>cargo-jetty-6-and-earlier-deployer.war</destFileName>
                 </artifactItem>
@@ -1209,7 +1209,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>cargo-jetty-7-and-onwards-deployer</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>cargo-jetty-7-and-onwards-deployer.war</destFileName>
                 </artifactItem>
@@ -1217,7 +1217,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-har</artifactId>
                   <type>har</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>simple-har.har</destFileName>
                 </artifactItem>
@@ -1225,7 +1225,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-aop</artifactId>
                   <type>aop</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>simple-aop.aop</destFileName>
                 </artifactItem>
@@ -1233,7 +1233,7 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>systemproperty-war</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>systemproperty-war.war</destFileName>
                 </artifactItem>

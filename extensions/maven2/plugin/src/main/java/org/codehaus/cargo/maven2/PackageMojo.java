@@ -44,8 +44,9 @@ public class PackageMojo extends AbstractCargoMojo
     /**
      * @return the user configuration of a Cargo
      * {@link org.codehaus.cargo.container.packager.Packager}. See the <a
-     * href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin reference
-     * guide</a> and {@link org.codehaus.cargo.maven2.configuration.Packager} for more details.
+     * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
+     * Maven2 plugin reference guide</a> and
+     * {@link org.codehaus.cargo.maven2.configuration.Packager} for more details.
      */
     protected Packager getPackagerElement()
     {

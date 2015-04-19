@@ -88,14 +88,14 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-war</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <destFileName>simple-war.war</destFileName>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>systemproperty-war</artifactId>
                   <type>war</type>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <destFileName>systemproperty-war.war</destFileName>
                 </artifactItem>
               </artifactItems>
@@ -177,7 +177,7 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-sample-java</artifactId>
-      <version>${cargo.core.version}</version>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

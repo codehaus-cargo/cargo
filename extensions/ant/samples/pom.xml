@@ -38,7 +38,7 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-sample-java</artifactId>
-      <version>${cargo.core.version}</version>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -87,7 +87,7 @@
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>cargo-core-uberjar</artifactId>
-                  <version>${cargo.core.version}</version>
+                  <version>${project.version}</version>
                 </artifactItem>
 
                 <artifactItem>

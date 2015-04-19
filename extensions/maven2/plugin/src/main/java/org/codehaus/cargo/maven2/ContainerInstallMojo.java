@@ -27,8 +27,8 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 /**
  * Installs a container into a given directory. If the container is already installed nothing
  * happens. The container is defined using the <code>&lt;container&gt;</code> element as described
- * in the <a href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin
- * reference guide</a>.
+ * in the <a href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
+ * Maven2 plugin reference guide</a>.
  * 
  * @goal install
  * @requiresDependencyResolution compile

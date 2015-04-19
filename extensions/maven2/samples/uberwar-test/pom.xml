@@ -44,13 +44,13 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-api-module</artifactId>
-      <version>${cargo.core.version}</version>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-api-module</artifactId>
-      <version>${cargo.core.version}</version>
+      <version>${project.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>

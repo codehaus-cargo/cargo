@@ -113,7 +113,7 @@
   <profiles>
     <!--
       Before using the Jetty remote deployer, please read:
-      http://cargo.codehaus.org/Jetty+Remote+Deployer
+      https://codehaus-cargo.github.io/cargo/Jetty+Remote+Deployer.html
       -->
     <profile>
       <id>jetty7x</id>
@@ -135,7 +135,7 @@
     </profile>
     <!--
       Before using the Jetty remote deployer, please read:
-      http://cargo.codehaus.org/Jetty+Remote+Deployer
+      https://codehaus-cargo.github.io/cargo/Jetty+Remote+Deployer.html
       -->
     <profile>
       <id>jetty6x</id>
@@ -210,7 +210,7 @@
 
               <!--
                 The JBoss remote deployer requires some additional dependencies. Read more on:
-                http://cargo.codehaus.org/JBoss+Remote+Deployer
+                https://codehaus-cargo.github.io/cargo/JBoss+Remote+Deployer.html
                 -->
               <dependencies>
                 <dependency>
@@ -299,7 +299,7 @@
 
               <!--
                 The JBoss remote deployer requires some additional dependencies. Read more on:
-                http://cargo.codehaus.org/JBoss+Remote+Deployer
+                https://codehaus-cargo.github.io/cargo/JBoss+Remote+Deployer.html
                 -->
               <dependencies>
                 <dependency>
@@ -329,7 +329,7 @@
 
               <!--
                 The GlassFish remote deployer requires some additional dependencies. Read more on:
-                http://cargo.codehaus.org/JSR88
+                https://codehaus-cargo.github.io/cargo/JSR88.html
                 -->
               <dependencies>
                 <dependency>

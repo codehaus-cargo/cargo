@@ -43,14 +43,14 @@
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-war</artifactId>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <type>war</type>
                   <destFileName>simple-war.war</destFileName>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-ear</artifactId>
-                  <version>${cargo.resources.version}</version>
+                  <version>${project.version}</version>
                   <type>ear</type>
                   <destFileName>simple-ear.ear</destFileName>
                 </artifactItem>

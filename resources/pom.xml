@@ -22,17 +22,11 @@
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-parent</artifactId>
     <version>1.4.14-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>cargo-resources</artifactId>
   <name>Cargo Shared Resources</name>
   <packaging>pom</packaging>
   <description>Cargo Shared Resources (License files, Checkstyle configuration files, etc)</description>
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/cargo/resources/trunk</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/cargo/resources/trunk</developerConnection>
-    <url>http://svn.cargo.codehaus.org/cargo/resources/trunk</url>
-  </scm>
   <modules>
     <module>build-tools</module>
     <module>testdata</module>

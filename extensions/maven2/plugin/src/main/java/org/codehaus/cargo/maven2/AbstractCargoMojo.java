@@ -93,8 +93,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * Configures a Cargo {@link org.codehaus.cargo.container.configuration.Configuration}. See the
-     * <a href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin
-     * reference guide</a> for more details.
+     * <a href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
+     * Maven2 plugin reference guide</a> for more details.
      * 
      * @parameter
      * @see #getConfigurationElement()
@@ -103,8 +103,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * Configures a Cargo {@link org.codehaus.cargo.container.Container}. See the <a
-     * href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin reference
-     * guide</a> for more details.
+     * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
+     * Maven2 plugin reference guide</a> for more details.
      * 
      * @parameter
      */
@@ -121,8 +121,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * Configures a Cargo {@link org.codehaus.cargo.container.deployer.Deployer}. See the <a
-     * href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin reference
-     * guide</a> for more details.
+     * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
+     * Maven2 plugin reference guide</a> for more details.
      * 
      * @parameter
      * @see #getDeployerElement()
@@ -131,8 +131,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * List of {@link org.codehaus.cargo.maven2.configuration.Deployable}. See the <a
-     * href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin reference
-     * guide</a> for more details.
+     * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
+     * Maven2 plugin reference guide</a> for more details.
      * 
      * @parameter
      * @see #getDeployablesElement()
@@ -248,8 +248,9 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     /**
      * @return the user configuration of a Cargo
      * {@link org.codehaus.cargo.container.deployer.Deployer}. See the <a
-     * href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin reference
-     * guide</a> and {@link org.codehaus.cargo.maven2.configuration.Deployer} for more details.
+     * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
+     * Maven2 plugin reference guide</a> and
+     * {@link org.codehaus.cargo.maven2.configuration.Deployer} for more details.
      */
     protected Deployer getDeployerElement()
     {
@@ -282,8 +283,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     /**
      * @return the user configuration of the list of
      * {@link org.codehaus.cargo.maven2.configuration.Deployable}. See the <a
-     * href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin reference
-     * guide</a> for more details.
+     * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
+     * Maven2 plugin reference guide</a> for more details.
      */
     protected Deployable[] getDeployablesElement()
     {
@@ -293,8 +294,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     /**
      * @param deployablesElement the list of
      * {@link org.codehaus.cargo.maven2.configuration.Deployable}. See the <a
-     * href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin reference
-     * guide</a> for more details.
+     * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
+     * Maven2 plugin reference guide</a> for more details.
      * @see #getDeployablesElement()
      */
     protected void setDeployablesElement(Deployable[] deployablesElement)
@@ -305,8 +306,9 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     /**
      * @return the user configuration of a Cargo
      * {@link org.codehaus.cargo.container.configuration.Configuration}. See the <a
-     * href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin reference
-     * guide</a> and {@link org.codehaus.cargo.maven2.configuration.Configuration} for more details.
+     * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
+     * Maven2 plugin reference guide</a> and
+     * {@link org.codehaus.cargo.maven2.configuration.Configuration} for more details.
      */
     protected Configuration getConfigurationElement()
     {
@@ -325,10 +327,10 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
-     * @return the user configuration of a Cargo {@link org.codehaus.cargo.container.Container}. See
-     * the <a href="http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide">Cargo Maven2 plugin
-     * reference guide</a> and {@link org.codehaus.cargo.maven2.configuration.Container} for more
-     * details.
+     * @return the user configuration of a Cargo {@link org.codehaus.cargo.container.Container}.
+     * See the <a href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">
+     * Cargo Maven2 plugin reference guide</a> and
+     * {@link org.codehaus.cargo.maven2.configuration.Container} for more details.
      */
     protected Container getContainerElement()
     {
