@@ -40,7 +40,7 @@ public class Identifier
     /**
      * String XPath of how to navigate to the identifier field.<br><br>
      * This is to avoid having namespace problems with XPath (see
-     * <a href="https://jira.codehaus.org/browse/CARGO-1175">CARGO-1175</a>)
+     * <a href="https://codehaus-cargo.atlassian.net/browse/CARGO-1175">CARGO-1175</a>)
      */
     private XPath xpathWithoutNamespace;
 

@@ -68,7 +68,7 @@ public class DefaultFileHandlerTest extends TestCase
 
     /**
      * Test file copy to a non-existing path.<br>
-     * This has been raised by https://jira.codehaus.org/browse/CARGO-1004
+     * This has been raised by https://codehaus-cargo.atlassian.net/browse/CARGO-1004
      */
     public void testCopyToNonExistingPath()
     {

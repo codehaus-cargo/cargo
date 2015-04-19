@@ -161,7 +161,7 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
     @Override
     protected void addExtraClasspath(JvmLauncher java)
     {
-        // Nothing, else we have bug https://jira.codehaus.org/browse/CARGO-1032
+        // Nothing, else we have bug https://codehaus-cargo.atlassian.net/browse/CARGO-1032
     }
 
     /**

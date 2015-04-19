@@ -88,7 +88,7 @@ public class Tomcat5x6x7xConfigurationChecker extends Tomcat4xConfigurationCheck
             String propertyNameInTomcatXML = propertyName;
             if ("user".equals(propertyName))
             {
-                // see: http://jira.codehaus.org/browse/CARGO-705
+                // see: https://codehaus-cargo.atlassian.net/browse/CARGO-705
                 propertyNameInTomcatXML = "username";
             }
 

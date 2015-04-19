@@ -61,7 +61,7 @@ public class Deployable extends AbstractDependency
 
     /**
      * Constant for Maven2 project type starting with <code>jboss-</code>.<br><br>
-     * JBoss needs special checks, see https://jira.codehaus.org/browse/CARGO-710
+     * JBoss needs special checks, see https://codehaus-cargo.atlassian.net/browse/CARGO-710
      */
     private static final String JBOSS = "jboss-";
 
