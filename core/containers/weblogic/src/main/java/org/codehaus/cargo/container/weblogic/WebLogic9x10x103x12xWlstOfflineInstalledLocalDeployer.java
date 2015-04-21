@@ -73,6 +73,8 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
             "assign('AppDeployment', '%s', 'Target', '%s')",
             id, serverName));
 
+        getLogger().info("Deploying application to Weblogic domain.",
+            this.getClass().getName());
         weblogicContainer.modifyDomainConfigurationWithWlst(configurationScript);
     }
 
@@ -92,6 +94,8 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
         List<String> configurationScript = new ArrayList<String>();
         configurationScript.add(String.format("delete('%s','AppDeployment')", id));
 
+        getLogger().info("Undeploying application from Weblogic domain.",
+            this.getClass().getName());
         weblogicContainer.modifyDomainConfigurationWithWlst(configurationScript);
     }
 

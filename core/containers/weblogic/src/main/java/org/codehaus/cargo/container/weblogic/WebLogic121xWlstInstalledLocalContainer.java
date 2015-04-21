@@ -151,6 +151,8 @@ public class WebLogic121xWlstInstalledLocalContainer extends AbstractWebLogicIns
             }
         }
 
+        getLogger().info("Adding users and groups to Weblogic domain.",
+            this.getClass().getName());
         writeWithWlst(configurationScript);
     }
 
