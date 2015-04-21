@@ -80,7 +80,14 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
             configurationScript.add(configure(dataSource, container));
         }
 
-        weblogicContainer.modifyDomainConfigurationWithWlst(configurationScript);
+        // Executing WLST is time and resource consuming, so it is invoked just when there is
+        // something to configure
+        if (!configurationScript.isEmpty())
+        {
+            getLogger().info("Adding defined datasources to Weblogic domain.",
+                this.getClass().getName());
+            weblogicContainer.modifyDomainConfigurationWithWlst(configurationScript);
+        }
     }
 
     /**
@@ -114,7 +121,14 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
             configurationScript.add(configure(resource, container));
         }
 
-        weblogicContainer.modifyDomainConfigurationWithWlst(configurationScript);
+        // Executing WLST is time and resource consuming, so it is invoked just when there is
+        // something to configure
+        if (!configurationScript.isEmpty())
+        {
+            getLogger().info("Adding defined resources to Weblogic domain.",
+                this.getClass().getName());
+            weblogicContainer.modifyDomainConfigurationWithWlst(configurationScript);
+        }
     }
 
     /**

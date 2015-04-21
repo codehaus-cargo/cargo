@@ -130,6 +130,8 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
         configurationScript.add(String.format("writeDomain('%s')", getDomainHome()));
         configurationScript.add("closeTemplate()");
 
+        getLogger().info("Creating new Weblogic domain.",
+            this.getClass().getName());
         weblogicContainer.writeWithWlst(configurationScript);
     }
 
