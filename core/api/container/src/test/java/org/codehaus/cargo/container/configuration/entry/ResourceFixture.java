@@ -47,6 +47,11 @@ public class ResourceFixture
     public String className;
 
     /**
+     * Resource id.
+     */
+    public String id;
+
+    /**
      * Parameters.
      */
     public String parameters;
@@ -76,6 +81,8 @@ public class ResourceFixture
         PropertyUtils.setPropertyIfNotNull(properties, ResourcePropertySet.RESOURCE_TYPE, type);
         PropertyUtils.setPropertyIfNotNull(properties, ResourcePropertySet.RESOURCE_CLASS,
             className);
+        PropertyUtils.setPropertyIfNotNull(properties, ResourcePropertySet.RESOURCE_ID,
+            id);
         PropertyUtils.setPropertyIfNotNull(properties, ResourcePropertySet.RESOURCE_NAME, name);
         PropertyUtils
             .setPropertyIfNotNull(properties, ResourcePropertySet.PARAMETERS, parameters);

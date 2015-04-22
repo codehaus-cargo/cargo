@@ -60,6 +60,7 @@ public class ResourceConverterTest extends TestCase
         props.setProperty(ResourcePropertySet.RESOURCE_NAME, "jdbc/JiraDS");
         props.setProperty(ResourcePropertySet.RESOURCE_TYPE, ConfigurationEntryType.XA_DATASOURCE);
         props.setProperty(ResourcePropertySet.RESOURCE_CLASS, "org.hsqldb.jdbcDriver");
+        props.setProperty(ResourcePropertySet.RESOURCE_ID, "JiraDS");
         Resource ds = resourceConverter.fromProperties(props);
         assertEquals(0, ds.getParameters().size());
         assertEquals(props, resourceConverter.toProperties(ds));

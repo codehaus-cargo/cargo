@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.property;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 import org.codehaus.cargo.container.configuration.entry.Resource;
@@ -57,19 +58,29 @@ public class ResourceConverter
     {
         String name = properties.getProperty(ResourcePropertySet.RESOURCE_NAME);
         String type = properties.getProperty(ResourcePropertySet.RESOURCE_TYPE);
-        Resource data = new Resource(name, type);
+        Resource resource = new Resource(name, type);
 
         if (properties.containsKey(ResourcePropertySet.RESOURCE_CLASS))
         {
             String className = properties.getProperty(ResourcePropertySet.RESOURCE_CLASS);
-            data.setClassName(className);
+            resource.setClassName(className);
+        }
+
+        if (properties.containsKey(ResourcePropertySet.RESOURCE_ID))
+        {
+            String id = properties.getProperty(ResourcePropertySet.RESOURCE_ID);
+            resource.setId(id);
+        }
+        else
+        {
+            resource.setId(createIdFromJndiLocationIfNotNull(name));
         }
 
         String parametersAsASemicolonDelimitedString =
             properties.getProperty(ResourcePropertySet.PARAMETERS);
-        data.setParameters(PropertyUtils.toMap(getParametersFromString(
+        resource.setParameters(PropertyUtils.toMap(getParametersFromString(
             PropertyUtils.escapeBackSlashesIfNotNull(parametersAsASemicolonDelimitedString))));
-        return data;
+        return resource;
     }
 
     /**
@@ -119,6 +130,8 @@ public class ResourceConverter
 
         PropertyUtils.setPropertyIfNotNull(properties, ResourcePropertySet.RESOURCE_CLASS, data
             .getClassName());
+        PropertyUtils.setPropertyIfNotNull(properties, ResourcePropertySet.RESOURCE_ID, data
+            .getId());
         PropertyUtils.setPropertyIfNotNull(properties, ResourcePropertySet.PARAMETERS,
             getParametersAsASemicolonDelimitedString(data));
         return properties;
@@ -144,4 +157,49 @@ public class ResourceConverter
         }
     }
 
+    /**
+     * return a string that can be used to name this configuration or null, if jndiLocation was not
+     * specified.
+     *
+     * @param jndiLocation used to construct the id
+     * @return a string that can be used to name this configuration or null, if jndiLocation was not
+     * specified.
+     * @see org.codehaus.cargo.container.configuration.entry.Resource#createIdFromJndiLocation(String)
+     */
+    private static String createIdFromJndiLocationIfNotNull(String jndiLocation)
+    {
+        String id = null;
+        if (jndiLocation != null)
+        {
+            id = createIdFromJndiLocation(jndiLocation);
+        }
+        return id;
+    }
+
+    /**
+     * Get a string name for the configuration of this resource. This should be XML and filesystem
+     * friendly. For example, the String returned will have no slashes or punctuation, and be as
+     * short as possible.
+     *
+     * @param jndiLocation used to construct the id
+     * @return a string that can be used to name this configuration
+     */
+    protected static String createIdFromJndiLocation(String jndiLocation)
+    {
+        // using indexOf to avoid introducing a regex package dependency. when we move
+        // to jdk 5+, this can be more easily performed with regex.
+
+        int[] delimeters =
+            new int[] {
+                // jndi locations are organized by dots or slashes. In JBoss, it could have a colon
+                jndiLocation.lastIndexOf('/'), jndiLocation.lastIndexOf('.'),
+                jndiLocation.lastIndexOf(':')};
+        Arrays.sort(delimeters);
+
+        int highestIndex = delimeters[2];
+
+        // highestIndex could be -1, or a location of a character we don't want. In either case, we
+        // want to increase it by one
+        return jndiLocation.substring(highestIndex + 1);
+    }
 }

@@ -45,6 +45,11 @@ public class Resource
     private String className;
 
     /**
+     * id used in configuration files.
+     */
+    private String id;
+
+    /**
      * Resource parameters.
      */
     private Map<String, String> parameters;
@@ -147,4 +152,21 @@ public class Resource
         return className;
     }
 
+    /**
+     * @param id id used in configuration files.
+     */
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+    /**
+     * The String used to identify this resource in configuration files.
+     *
+     * @return the resource id
+     */
+    public String getId()
+    {
+        return this.id;
+    }
 }
