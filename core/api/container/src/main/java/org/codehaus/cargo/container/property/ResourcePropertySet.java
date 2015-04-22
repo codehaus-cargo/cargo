@@ -51,6 +51,11 @@ public interface ResourcePropertySet
     String RESOURCE_CLASS = "cargo.resource.class";
 
     /**
+     * Unique id to use in configuration files. <br>
+     */
+    String RESOURCE_ID = "cargo.resource.id";
+
+    /**
      * Parameters passed to the implementation class. <br>
      */
     String PARAMETERS = "cargo.resource.parameters";
