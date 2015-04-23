@@ -430,9 +430,8 @@ public class DeployerServlet extends HttpServlet
             }
             else if (!webAppFile.getPath().startsWith(webAppDirectory))
             {
-                sendError(response,
-                        "The cargo jetty deployer will not currently delete a war that exists "
-                            + "outside of the webapps directory of the server");
+                sendMessage(response, "Webapp with " + contextPath
+                    + " context has been undeployed but not removed from the filesystem");
             }
             else
             {
