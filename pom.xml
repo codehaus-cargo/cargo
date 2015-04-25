@@ -305,8 +305,8 @@
   </prerequisites>
 
   <scm>
-    <connection>scm:git:git@github.com:codehaus-cargo/cargo.git</connection>
-    <developerConnection>scm:git:git@github.com:codehaus-cargo/cargo.git</developerConnection>
+    <connection>scm:git:https://github.com/codehaus-cargo/cargo.git</connection>
+    <developerConnection>scm:git:https://github.com/codehaus-cargo/cargo.git</developerConnection>
     <url>https://github.com/codehaus-cargo/cargo</url> 
   </scm>
   <issueManagement>
