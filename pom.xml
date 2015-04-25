@@ -314,14 +314,18 @@
     <url>https://codehaus-cargo.atlassian.net/browse/CARGO</url>
   </issueManagement>
   <ciManagement>
-    <system>bamboo</system>
+    <system>semaphoreci</system>
     <url>https://semaphoreci.com/codehaus-cargo/cargo</url>
   </ciManagement>
   <distributionManagement>
-    <site>
-      <id>cargo-website</id>
-      <url>dav:https://dav.codehaus.org/cargo/maven-site/</url>
-    </site>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
   </distributionManagement>
 
   <properties>
@@ -884,7 +888,7 @@
             <includeTestSourceDirectory>true</includeTestSourceDirectory>
             <suppressionsLocation>build-tools/checkstyle-suppressions.xml</suppressionsLocation>
 
-            <!-- See: http://jira.codehaus.org/browse/MCHECKSTYLE-134 -->
+            <!-- See: https://jira.codehaus.org/browse/MCHECKSTYLE-134 -->
             <suppressionsFileExpression>checkstyle.suppressions.file.donothing</suppressionsFileExpression>
             <propertyExpansion>
               checkstyle.suppressions.file=${project.build.directory}/checkstyle-suppressions.xml
@@ -934,6 +938,27 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>1.0</version>
+          <executions>
+            <execution>
+              <id>enforce-maven</id>
+              <goals>
+                <goal>enforce</goal>
+              </goals>
+              <configuration>
+                <rules>
+                  <requireMavenVersion>
+                    <version>(,2.1.0),(2.1.0,2.2.0),(2.2.0,)</version>
+                    <message>Maven 2.1.0 and 2.2.0 produce incorrect GPG signatures and checksums respectively.</message>
+                  </requireMavenVersion>
+                </rules>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
           <version>2.4</version>
         </plugin>
@@ -969,6 +994,8 @@
           <configuration>
             <preparationGoals>clean install</preparationGoals>
             <autoVersionSubmodules>true</autoVersionSubmodules>
+            <useReleaseProfile>false</useReleaseProfile>
+            <arguments>-Pcodehaus-cargo-release</arguments>
           </configuration>
         </plugin>
         <plugin>
@@ -1070,6 +1097,51 @@
   </reporting>
 
   <profiles>
+    <profile>
+      <id>codehaus-cargo-release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.1</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>maven-3</id>
       <activation>
