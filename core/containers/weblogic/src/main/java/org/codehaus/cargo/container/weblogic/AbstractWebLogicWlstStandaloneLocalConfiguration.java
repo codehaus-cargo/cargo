@@ -39,7 +39,7 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      *
-     * @see AbstractLocalConfiguration#AbstractLocalConfiguration(String)
+     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
     public AbstractWebLogicWlstStandaloneLocalConfiguration(String dir)
     {
