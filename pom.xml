@@ -20,7 +20,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.codehaus.cargo</groupId>
-  <artifactId>cargo-parent</artifactId>
+  <artifactId>codehaus-cargo</artifactId>
   <version>1.4.14-SNAPSHOT</version>
   <packaging>pom</packaging>
 
@@ -29,8 +29,8 @@
   <url>https://codehaus-cargo.github.io/</url>
   <inceptionYear>2004</inceptionYear>
   <organization>
-    <name>Codehaus</name>
-    <url>http://codehaus.org/</url>
+    <name>Github</name>
+    <url>https://github.com/</url>
   </organization>
   <licenses>
     <license>
@@ -330,6 +330,7 @@
 
   <properties>
     <cargo.derby.version>10.8.2.2</cargo.derby.version>
+    <jmock.version>1.2.0</jmock.version>
   </properties>
 
   <dependencyManagement>
@@ -721,12 +722,12 @@
       <dependency>
         <groupId>jmock</groupId>
         <artifactId>jmock</artifactId>
-        <version>1.2.0</version>
+        <version>${jmock.version}</version>
       </dependency>
       <dependency>
         <groupId>jmock</groupId>
         <artifactId>jmock-cglib</artifactId>
-        <version>1.2.0</version>
+        <version>${jmock.version}</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>

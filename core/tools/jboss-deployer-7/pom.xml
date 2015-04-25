@@ -39,7 +39,7 @@
       <artifactId>jboss-as-controller-client</artifactId>
       <!--
          Version declaration needs to stay here as different jboss-deployer modules
-         depend on different versions of same artifact. cargo-parent can not simply
+         depend on different versions of same artifact. codehaus-cargo can not simply
          use single version in dependencyManagement.
          -->
       <version>7.0.2.Final</version>
