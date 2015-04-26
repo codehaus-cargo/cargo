@@ -184,8 +184,7 @@ public class ConfluenceContainerDocumentationGenerator
     /**
      * Prefix for all Javadoc URLs.
      */
-    private static final String JAVADOC_URL_PREFIX =
-        "https://codehaus-cargo.github.io/maven-site/cargo-core/apidocs/";
+    private static final String JAVADOC_URL_PREFIX = "https://codehaus-cargo.github.io/apidocs/";
 
     /**
      * The MavenXpp3Reader used to get project info from pom files.
