@@ -27,7 +27,9 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.weblogic.internal.WebLogic8xConfigurationBuilder;
+import org.codehaus.cargo.container.weblogic.internal.configuration.util.PriorityComparator;
+import org.codehaus.cargo.generic.configuration.builder.ConfigurationBuilderFactory;
+import org.codehaus.cargo.generic.configuration.builder.DefaultConfigurationBuilderFactory;
 
 /**
  * Contains common Weblogic configuration functionality for WLST.
@@ -60,6 +62,7 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
     {
         super.configure(container);
         configureDataSources(container);
+        sortResources();
         configureResources(container);
     }
 
@@ -105,6 +108,16 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
     }
 
     /**
+     * Sort resource list because some resources needs to have another resources created first.
+     */
+    protected void sortResources()
+    {
+        PriorityComparator priorityComparator = new PriorityComparator();
+        List<Resource> resources = getResources();
+        resources.sort(priorityComparator);
+    }
+
+    /**
      * Configure resources.
      *
      * @param container Container the datasource will be configured on.
@@ -132,16 +145,20 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
     }
 
     /**
-     * Returns configuration script for datasource.
+     * Returns configuration script for resource.
      *
      * @param resource Resource to be configured.
-     * @param container Container the dataSource will be configured on.
+     * @param container Container the resource will be configured on.
      * @return Configuration script.
      */
     protected String configure(Resource resource, LocalContainer container)
     {
-        throw new UnsupportedOperationException(
-            WebLogic8xConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED);
+        ConfigurationBuilderFactory configurationBuilderFactory =
+            new DefaultConfigurationBuilderFactory();
+        ConfigurationBuilder builder =
+            configurationBuilderFactory.createConfigurationBuilder(container, resource);
+        String configurationEntry = builder.toConfigurationEntry(resource);
+        return configurationEntry;
     }
 
     /**

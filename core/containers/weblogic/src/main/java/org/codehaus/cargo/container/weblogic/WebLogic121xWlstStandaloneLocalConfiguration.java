@@ -28,9 +28,9 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xDataSourceConfigurationBuilder;
-import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xWlstStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
+import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogic9x10x103x12xDataSourceConfigurationBuilder;
 
 /**
  * WebLogic 12.1.x standalone
@@ -64,7 +64,7 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
      */
     public ConfigurationCapability getCapability()
     {
-        return new WebLogic9x10x103x12xStandaloneLocalConfigurationCapability();
+        return new WebLogic9x10x103x12xWlstStandaloneLocalConfigurationCapability();
     }
 
     /**
