@@ -30,7 +30,9 @@ import org.codehaus.cargo.util.CargoException;
 public class PriorityComparator implements Comparator<Resource>
 {
 
-    @Override
+    /**
+     * {@inheritDoc}
+     */
     public int compare(Resource firstResource, Resource secondResource)
     {
         String firstResourcePriority = firstResource.getParameter("priority");

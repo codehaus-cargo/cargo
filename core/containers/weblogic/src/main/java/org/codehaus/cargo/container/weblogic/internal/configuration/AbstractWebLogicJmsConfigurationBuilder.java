@@ -104,7 +104,9 @@ public abstract class AbstractWebLogicJmsConfigurationBuilder implements Configu
         return configuration.getPropertyValue(WebLogicPropertySet.SERVER);
     }
 
-    @Override
+    /**
+     * {@inheritDoc}
+     */
     public String toConfigurationEntry(DataSource ds)
     {
         throw new UnsupportedOperationException("Datasource configuration unsupported in this "

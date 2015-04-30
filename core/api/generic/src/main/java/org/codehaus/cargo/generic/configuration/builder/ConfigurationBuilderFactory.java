@@ -44,6 +44,8 @@ public interface ConfigurationBuilderFactory
         Class< ? extends ConfigurationBuilder> configurationBuilderClass);
 
     /**
+     * Check if configuration builder for this container and configuration entry is defined.
+     *
      * @param containerId the container id attached to this configuration class
      * @param containerType the container type attached to this configuration class
      * @param configurationEntryType the type to differentiate this configuration entry ((Resource))

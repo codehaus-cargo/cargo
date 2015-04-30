@@ -75,7 +75,11 @@ public class DefaultConfigurationBuilderFactory extends
         AbstractFactoryRegistry.register(classLoader, this);
     }
 
-    @Override
+    /**
+     * {@inheritDoc}
+     *
+     * @see ConfigurationBuilderFactory#registerConfigurationBuilder
+     */
     public void registerConfigurationBuilder(String containerId, ContainerType containerType,
         String configurationEntryType,
         Class< ? extends ConfigurationBuilder> configurationBuilderClass)
@@ -85,7 +89,11 @@ public class DefaultConfigurationBuilderFactory extends
 
     }
 
-    @Override
+    /**
+     * {@inheritDoc}
+     *
+     * @see ConfigurationBuilderFactory#isConfigurationBuilderRegistered
+     */
     public boolean isConfigurationBuilderRegistered(String containerId,
         ContainerType containerType, String configurationEntryType)
     {
@@ -93,7 +101,11 @@ public class DefaultConfigurationBuilderFactory extends
             containerType), configurationEntryType));
     }
 
-    @Override
+    /**
+     * {@inheritDoc}
+     *
+     * @see ConfigurationBuilderFactory#createConfigurationBuilder
+     */
     public ConfigurationBuilder createConfigurationBuilder(LocalContainer container,
         Resource resource)
     {

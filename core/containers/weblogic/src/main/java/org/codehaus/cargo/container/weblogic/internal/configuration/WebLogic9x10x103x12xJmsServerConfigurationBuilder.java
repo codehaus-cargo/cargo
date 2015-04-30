@@ -38,7 +38,9 @@ public class WebLogic9x10x103x12xJmsServerConfigurationBuilder extends
         super(configuration);
     }
 
-    @Override
+    /**
+     * {@inheritDoc}
+     */
     public String toConfigurationEntry(Resource resource)
     {
         StringBuffer buffer = new StringBuffer();
