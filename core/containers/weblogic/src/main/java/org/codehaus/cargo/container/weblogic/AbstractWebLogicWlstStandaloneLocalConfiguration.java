@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.weblogic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.codehaus.cargo.container.LocalContainer;
@@ -114,7 +115,7 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
     {
         PriorityComparator priorityComparator = new PriorityComparator();
         List<Resource> resources = getResources();
-        resources.sort(priorityComparator);
+        Collections.sort(resources, priorityComparator);
     }
 
     /**
