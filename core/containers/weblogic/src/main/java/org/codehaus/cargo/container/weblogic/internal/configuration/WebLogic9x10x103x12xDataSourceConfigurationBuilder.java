@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.weblogic.internal;
+package org.codehaus.cargo.container.weblogic.internal.configuration;
 
 import java.util.Map.Entry;
 import java.util.Set;
@@ -27,6 +27,7 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.property.TransactionSupport;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
+import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xConfigurationBuilder;
 
 /**
  * Create WLST script for adding DataSource to Weblogic domain.
