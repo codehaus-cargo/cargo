@@ -1,5 +1,5 @@
 target
-local
+core/samples/java/transaction.log
 
 # Eclipse, Netbeans and IntelliJ files
 .project
