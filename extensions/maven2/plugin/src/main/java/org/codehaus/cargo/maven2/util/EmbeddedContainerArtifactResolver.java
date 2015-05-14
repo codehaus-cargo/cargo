@@ -283,15 +283,15 @@ public class EmbeddedContainerArtifactResolver
         this.containerDependencies.put("jetty9x", jetty9xDependencies);
 
         List<Dependency> tomcat6xDependencies = new ArrayList<Dependency>();
-        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "servlet-api", "6.0.43"));
-        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "annotations-api", "6.0.43"));
-        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "el-api", "6.0.43"));
-        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "jsp-api", "6.0.43"));
-        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "juli", "6.0.43"));
-        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "catalina", "6.0.43"));
-        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "coyote", "6.0.43"));
-        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "jasper", "6.0.43"));
-        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "jasper-el", "6.0.43"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "servlet-api", "6.0.44"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "annotations-api", "6.0.44"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "el-api", "6.0.44"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "jsp-api", "6.0.44"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "juli", "6.0.44"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "catalina", "6.0.44"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "coyote", "6.0.44"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "jasper", "6.0.44"));
+        tomcat6xDependencies.add(new Dependency("org.apache.tomcat", "jasper-el", "6.0.44"));
         tomcat6xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj",
             "4.3.1"));
         this.containerDependencies.put("tomcat6x", tomcat6xDependencies);
