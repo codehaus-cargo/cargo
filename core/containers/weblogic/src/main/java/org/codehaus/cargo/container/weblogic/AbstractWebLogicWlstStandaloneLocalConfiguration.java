@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.weblogic.internal.configuration.rules.WeblogicResourceRules;
 import org.codehaus.cargo.container.weblogic.internal.configuration.util.PriorityComparator;
 import org.codehaus.cargo.generic.configuration.builder.ConfigurationBuilderFactory;
 import org.codehaus.cargo.generic.configuration.builder.DefaultConfigurationBuilderFactory;
@@ -63,6 +64,7 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
     {
         super.configure(container);
         configureDataSources(container);
+        addMissingResources();
         sortResources();
         configureResources(container);
     }
@@ -106,6 +108,15 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
         ConfigurationBuilder builder = this.createConfigurationBuilder(container);
         String configurationEntry = builder.toConfigurationEntry(ds);
         return configurationEntry;
+    }
+
+    /**
+     * Used for adding resources which aren't defined in Cargo properties, but needs to be created
+     * in order to make all resources work.
+     */
+    protected void addMissingResources()
+    {
+        WeblogicResourceRules.addMissingJmsResources(this);
     }
 
     /**
