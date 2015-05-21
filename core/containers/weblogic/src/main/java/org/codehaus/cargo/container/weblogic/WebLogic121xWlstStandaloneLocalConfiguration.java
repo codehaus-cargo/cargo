@@ -57,6 +57,9 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
         setProperty(WebLogicPropertySet.DOMAIN_VERSION, "12.1.3.0");
         setProperty(ServletPropertySet.PORT, "7001");
         setProperty(GeneralPropertySet.HOSTNAME, "localhost");
+        setProperty(WebLogicPropertySet.JMS_SERVER, "testJmsServer");
+        setProperty(WebLogicPropertySet.JMS_MODULE, "testJmsModule");
+        setProperty(WebLogicPropertySet.JMS_SUBDEPLOYMENT, "testJmsSubdeployment");
     }
 
     /**

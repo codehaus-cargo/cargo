@@ -66,4 +66,18 @@ public interface WebLogicPropertySet
      */
     String LOGGING = "cargo.weblogic.logging";
 
+    /**
+     * WebLogic JMS server name.
+     */
+    String JMS_SERVER = "cargo.weblogic.jms.server";
+
+    /**
+     * WebLogic JMS module name.
+     */
+    String JMS_MODULE = "cargo.weblogic.jms.module";
+
+    /**
+     * WebLogic JMS subdeployment name.
+     */
+    String JMS_SUBDEPLOYMENT = "cargo.weblogic.jms.subdeployment";
 }
