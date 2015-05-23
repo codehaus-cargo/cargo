@@ -1,3 +1,22 @@
+/*
+ * ========================================================================
+ *
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2015 Ali Tokmen.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * ========================================================================
+ */
 package org.codehaus.cargo.container.weblogic.internal.configuration.rules;
 
 import java.util.List;
@@ -6,14 +25,14 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.weblogic.WebLogic121xWlstInstalledLocalContainer;
 import org.codehaus.cargo.container.weblogic.WebLogic121xWlstStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.weblogic.internal.configuration.WeblogicConfigurationEntryType;
+import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicConfigurationEntryType;
 
 import junit.framework.TestCase;
 
 /**
- * Unit tests for {@link WeblogicResourceRules}.
+ * Unit tests for {@link WebLogicResourceRules}.
  */
-public class WeblogicResourceRulesTest extends TestCase
+public class WebLogicResourceRulesTest extends TestCase
 {
     /**
      * BEA_HOME
@@ -70,7 +89,7 @@ public class WeblogicResourceRulesTest extends TestCase
         // adding mail session resource
         configuration.addResource(mailSession);
 
-        WeblogicResourceRules.addMissingJmsResources(configuration);
+        WebLogicResourceRules.addMissingJmsResources(configuration);
 
         // no JMS resource is added
         List<Resource> resources = configuration.getResources();
@@ -87,12 +106,12 @@ public class WeblogicResourceRulesTest extends TestCase
     public void testAddMissingJmsResourcesAllJmsResources() throws Exception
     {
         Resource jmsQueueResource =
-            new Resource("jms/queue/REQUEST", WeblogicConfigurationEntryType.JMS_QUEUE);
+            new Resource("jms/queue/REQUEST", WebLogicConfigurationEntryType.JMS_QUEUE);
 
         // adding just JMS queue
         configuration.addResource(jmsQueueResource);
 
-        WeblogicResourceRules.addMissingJmsResources(configuration);
+        WebLogicResourceRules.addMissingJmsResources(configuration);
 
         // JMS server, module and subdeployment are added
         List<Resource> resources = configuration.getResources();
@@ -104,19 +123,19 @@ public class WeblogicResourceRulesTest extends TestCase
         Resource jmsQueue = null;
         for (Resource resource : configuration.getResources())
         {
-            if (WeblogicConfigurationEntryType.JMS_SERVER.equals(resource.getType()))
+            if (WebLogicConfigurationEntryType.JMS_SERVER.equals(resource.getType()))
             {
                 jmsServer = resource;
             }
-            else if (WeblogicConfigurationEntryType.JMS_MODULE.equals(resource.getType()))
+            else if (WebLogicConfigurationEntryType.JMS_MODULE.equals(resource.getType()))
             {
                 jmsModule = resource;
             }
-            else if (WeblogicConfigurationEntryType.JMS_SUBDEPLOYMENT.equals(resource.getType()))
+            else if (WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT.equals(resource.getType()))
             {
                 jmsSubdeployment = resource;
             }
-            else if (WeblogicConfigurationEntryType.JMS_QUEUE.equals(resource.getType()))
+            else if (WebLogicConfigurationEntryType.JMS_QUEUE.equals(resource.getType()))
             {
                 jmsQueue = resource;
             }
@@ -135,20 +154,20 @@ public class WeblogicResourceRulesTest extends TestCase
     public void testAddMissingJmsResourcesJmsModule() throws Exception
     {
         Resource jmsServerResource =
-            new Resource("TestJmsServer", WeblogicConfigurationEntryType.JMS_SERVER);
+            new Resource("TestJmsServer", WebLogicConfigurationEntryType.JMS_SERVER);
         jmsServerResource.setParameter("priority", "10");
         Resource jmsSubdeploymentResource =
-            new Resource("TestJmsSubdeployment", WeblogicConfigurationEntryType.JMS_SUBDEPLOYMENT);
+            new Resource("TestJmsSubdeployment", WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT);
         jmsSubdeploymentResource.setParameter("priority", "30");
         Resource jmsQueueResource =
-            new Resource("jms/queue/REQUEST", WeblogicConfigurationEntryType.JMS_QUEUE);
+            new Resource("jms/queue/REQUEST", WebLogicConfigurationEntryType.JMS_QUEUE);
 
         // adding JMS resources
         configuration.addResource(jmsServerResource);
         configuration.addResource(jmsSubdeploymentResource);
         configuration.addResource(jmsQueueResource);
 
-        WeblogicResourceRules.addMissingJmsResources(configuration);
+        WebLogicResourceRules.addMissingJmsResources(configuration);
 
         // JMS module is added
         List<Resource> resources = configuration.getResources();
@@ -160,19 +179,19 @@ public class WeblogicResourceRulesTest extends TestCase
         Resource jmsQueue = null;
         for (Resource resource : configuration.getResources())
         {
-            if (WeblogicConfigurationEntryType.JMS_SERVER.equals(resource.getType()))
+            if (WebLogicConfigurationEntryType.JMS_SERVER.equals(resource.getType()))
             {
                 jmsServer = resource;
             }
-            else if (WeblogicConfigurationEntryType.JMS_MODULE.equals(resource.getType()))
+            else if (WebLogicConfigurationEntryType.JMS_MODULE.equals(resource.getType()))
             {
                 jmsModule = resource;
             }
-            else if (WeblogicConfigurationEntryType.JMS_SUBDEPLOYMENT.equals(resource.getType()))
+            else if (WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT.equals(resource.getType()))
             {
                 jmsSubdeployment = resource;
             }
-            else if (WeblogicConfigurationEntryType.JMS_QUEUE.equals(resource.getType()))
+            else if (WebLogicConfigurationEntryType.JMS_QUEUE.equals(resource.getType()))
             {
                 jmsQueue = resource;
             }

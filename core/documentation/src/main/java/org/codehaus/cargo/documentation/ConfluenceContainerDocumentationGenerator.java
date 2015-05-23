@@ -59,6 +59,7 @@ import org.codehaus.cargo.container.resin.ResinPropertySet;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 import org.codehaus.cargo.container.tomee.TomeePropertySet;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
+import org.codehaus.cargo.container.weblogic.internal.configuration.rules.WebLogicResourceRules;
 import org.codehaus.cargo.container.websphere.WebSpherePropertySet;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
@@ -173,6 +174,7 @@ public class ConfluenceContainerDocumentationGenerator
         TomcatPropertySet.class,
         TomeePropertySet.class,
         WebLogicPropertySet.class,
+        WebLogicResourceRules.class,
         WebSpherePropertySet.class
     };
 

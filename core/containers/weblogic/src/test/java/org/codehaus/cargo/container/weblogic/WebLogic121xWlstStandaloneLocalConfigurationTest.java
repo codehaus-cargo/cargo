@@ -3,7 +3,7 @@ package org.codehaus.cargo.container.weblogic;
 import java.util.List;
 
 import org.codehaus.cargo.container.configuration.entry.Resource;
-import org.codehaus.cargo.container.weblogic.internal.configuration.WeblogicConfigurationEntryType;
+import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicConfigurationEntryType;
 
 import junit.framework.TestCase;
 
@@ -62,16 +62,16 @@ public class WebLogic121xWlstStandaloneLocalConfigurationTest extends TestCase
     public void testSortResources() throws Exception
     {
         Resource jmsServer =
-            new Resource("TestJmsServer", WeblogicConfigurationEntryType.JMS_SERVER);
+            new Resource("TestJmsServer", WebLogicConfigurationEntryType.JMS_SERVER);
         jmsServer.setParameter("priority", "10");
         Resource jmsModule =
-            new Resource("TestJmsModule", WeblogicConfigurationEntryType.JMS_MODULE);
+            new Resource("TestJmsModule", WebLogicConfigurationEntryType.JMS_MODULE);
         jmsModule.setParameter("priority", "20");
         Resource jmsSubdeployment =
-            new Resource("TestJmsSubdeployment", WeblogicConfigurationEntryType.JMS_SUBDEPLOYMENT);
+            new Resource("TestJmsSubdeployment", WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT);
         jmsSubdeployment.setParameter("priority", "30");
         Resource jmsQueue =
-            new Resource("jms/queue/REQUEST", WeblogicConfigurationEntryType.JMS_QUEUE);
+            new Resource("jms/queue/REQUEST", WebLogicConfigurationEntryType.JMS_QUEUE);
 
         // adding resources in random order
         configuration.addResource(jmsSubdeployment);
@@ -84,9 +84,9 @@ public class WebLogic121xWlstStandaloneLocalConfigurationTest extends TestCase
         // resources are sorted according to priority
         List<Resource> resources = configuration.getResources();
         assertEquals(4, resources.size());
-        assertEquals(WeblogicConfigurationEntryType.JMS_SERVER, resources.get(0).getType());
-        assertEquals(WeblogicConfigurationEntryType.JMS_MODULE, resources.get(1).getType());
-        assertEquals(WeblogicConfigurationEntryType.JMS_SUBDEPLOYMENT, resources.get(2).getType());
-        assertEquals(WeblogicConfigurationEntryType.JMS_QUEUE, resources.get(3).getType());
+        assertEquals(WebLogicConfigurationEntryType.JMS_SERVER, resources.get(0).getType());
+        assertEquals(WebLogicConfigurationEntryType.JMS_MODULE, resources.get(1).getType());
+        assertEquals(WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT, resources.get(2).getType());
+        assertEquals(WebLogicConfigurationEntryType.JMS_QUEUE, resources.get(3).getType());
     }
 }

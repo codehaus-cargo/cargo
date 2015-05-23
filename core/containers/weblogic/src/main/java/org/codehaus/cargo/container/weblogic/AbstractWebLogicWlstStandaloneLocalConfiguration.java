@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.weblogic.internal.configuration.rules.WeblogicResourceRules;
+import org.codehaus.cargo.container.weblogic.internal.configuration.rules.WebLogicResourceRules;
 import org.codehaus.cargo.container.weblogic.internal.configuration.util.PriorityComparator;
 import org.codehaus.cargo.generic.configuration.builder.ConfigurationBuilderFactory;
 import org.codehaus.cargo.generic.configuration.builder.DefaultConfigurationBuilderFactory;
@@ -116,7 +116,7 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
      */
     protected void addMissingResources()
     {
-        WeblogicResourceRules.addMissingJmsResources(this);
+        WebLogicResourceRules.addMissingJmsResources(this);
     }
 
     /**

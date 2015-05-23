@@ -58,7 +58,7 @@ public abstract class AbstractWebLogicJmsConfigurationBuilder implements Configu
     {
         for (Resource resource : configuration.getResources())
         {
-            if (WeblogicConfigurationEntryType.JMS_SERVER.equals(resource.getType()))
+            if (WebLogicConfigurationEntryType.JMS_SERVER.equals(resource.getType()))
             {
                 return resource.getId();
             }
@@ -73,7 +73,7 @@ public abstract class AbstractWebLogicJmsConfigurationBuilder implements Configu
     {
         for (Resource resource : configuration.getResources())
         {
-            if (WeblogicConfigurationEntryType.JMS_SUBDEPLOYMENT.equals(resource.getType()))
+            if (WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT.equals(resource.getType()))
             {
                 return resource.getId();
             }
@@ -88,7 +88,7 @@ public abstract class AbstractWebLogicJmsConfigurationBuilder implements Configu
     {
         for (Resource resource : configuration.getResources())
         {
-            if (WeblogicConfigurationEntryType.JMS_MODULE.equals(resource.getType()))
+            if (WebLogicConfigurationEntryType.JMS_MODULE.equals(resource.getType()))
             {
                 return resource.getId();
             }

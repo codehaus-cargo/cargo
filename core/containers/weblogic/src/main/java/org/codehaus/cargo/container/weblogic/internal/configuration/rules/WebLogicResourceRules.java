@@ -1,3 +1,22 @@
+/*
+ * ========================================================================
+ *
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2015 Ali Tokmen.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * ========================================================================
+ */
 package org.codehaus.cargo.container.weblogic.internal.configuration.rules;
 
 import java.util.List;
@@ -5,25 +24,25 @@ import java.util.List;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
-import org.codehaus.cargo.container.weblogic.internal.configuration.WeblogicConfigurationEntryType;
+import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicConfigurationEntryType;
 
 /**
- * Rule class defining rules which need to be applied for Weblogic resources.
+ * Rule class defining rules which need to be applied for WebLogic resources.
  */
-public final class WeblogicResourceRules
+public final class WebLogicResourceRules
 {
     /**
      * Private constructor, no need to instantiate utility class.
      */
-    private WeblogicResourceRules()
+    private WebLogicResourceRules()
     {
     }
 
     /**
-     * Method used for adding resources needed by Weblogic JMS in case they weren't defined in Cargo
+     * Method used for adding resources needed by WebLogic JMS in case they weren't defined in Cargo
      * properties.
      *
-     * @param configuration Weblogic configuration containing all we need to add resources.
+     * @param configuration WebLogic configuration containing all we need to add resources.
      */
     public static void addMissingJmsResources(LocalConfiguration configuration)
     {
@@ -37,24 +56,24 @@ public final class WeblogicResourceRules
         List<Resource> weblogicResources = configuration.getResources();
         for (Resource resource : weblogicResources)
         {
-            if (WeblogicConfigurationEntryType.JMS_SERVER.equals(resource.getType()))
+            if (WebLogicConfigurationEntryType.JMS_SERVER.equals(resource.getType()))
             {
                 containsJmsServer = true;
             }
-            else if (WeblogicConfigurationEntryType.JMS_MODULE.equals(resource.getType()))
+            else if (WebLogicConfigurationEntryType.JMS_MODULE.equals(resource.getType()))
             {
                 containsJmsModule = true;
             }
-            else if (WeblogicConfigurationEntryType.JMS_SUBDEPLOYMENT.equals(resource.getType()))
+            else if (WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT.equals(resource.getType()))
             {
                 containsJmsSubdeployment = true;
             }
-            else if (WeblogicConfigurationEntryType.JMS_CONNECTION_FACTORY.equals(resource
+            else if (WebLogicConfigurationEntryType.JMS_CONNECTION_FACTORY.equals(resource
                 .getType()))
             {
                 containsJmsConnectionFactory = true;
             }
-            else if (WeblogicConfigurationEntryType.JMS_QUEUE.equals(resource.getType()))
+            else if (WebLogicConfigurationEntryType.JMS_QUEUE.equals(resource.getType()))
             {
                 containsJmsQueue = true;
             }
@@ -67,7 +86,7 @@ public final class WeblogicResourceRules
         {
             String jmsServerName = configuration.getPropertyValue(WebLogicPropertySet.JMS_SERVER);
             Resource jmsServer =
-                new Resource(jmsServerName, WeblogicConfigurationEntryType.JMS_SERVER);
+                new Resource(jmsServerName, WebLogicConfigurationEntryType.JMS_SERVER);
             jmsServer.setParameter("priority", "10");
             weblogicResources.add(jmsServer);
         }
@@ -76,7 +95,7 @@ public final class WeblogicResourceRules
         {
             String jmsModuleName = configuration.getPropertyValue(WebLogicPropertySet.JMS_MODULE);
             Resource jmsModule =
-                new Resource(jmsModuleName, WeblogicConfigurationEntryType.JMS_MODULE);
+                new Resource(jmsModuleName, WebLogicConfigurationEntryType.JMS_MODULE);
             jmsModule.setParameter("priority", "20");
             weblogicResources.add(jmsModule);
         }
@@ -88,7 +107,7 @@ public final class WeblogicResourceRules
                 configuration.getPropertyValue(WebLogicPropertySet.JMS_SUBDEPLOYMENT);
             Resource jmsSubdeployment =
                 new Resource(jmsSubdeploymentName,
-                    WeblogicConfigurationEntryType.JMS_SUBDEPLOYMENT);
+                    WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT);
             jmsSubdeployment.setParameter("priority", "30");
             weblogicResources.add(jmsSubdeployment);
         }

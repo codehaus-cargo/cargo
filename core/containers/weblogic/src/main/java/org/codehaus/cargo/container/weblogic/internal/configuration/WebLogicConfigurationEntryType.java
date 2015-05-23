@@ -22,9 +22,9 @@ package org.codehaus.cargo.container.weblogic.internal.configuration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 
 /**
- * Represents the type of a resource specific to Weblogic, such as a <code>javax.jms.Server</code>.
+ * Represents the type of a resource specific to WebLogic, such as a <code>javax.jms.Server</code>.
  */
-public interface WeblogicConfigurationEntryType extends ConfigurationEntryType
+public interface WebLogicConfigurationEntryType extends ConfigurationEntryType
 {
 
     /**
