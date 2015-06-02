@@ -23,13 +23,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableException;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
+import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
 
 /**
  * Static deployer that manages deployment configuration calling WLST offline script.
@@ -44,7 +45,7 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
      *
      * @param container container to configure
      */
-    public WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer(InstalledLocalContainer container)
+    public WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
     }
@@ -57,8 +58,11 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
     @Override
     public void deploy(Deployable deployable)
     {
-        WebLogic121xWlstInstalledLocalContainer weblogicContainer =
-            (WebLogic121xWlstInstalledLocalContainer) getContainer();
+        WebLogicLocalScriptingContainer weblogicContainer =
+            (WebLogicLocalScriptingContainer) getContainer();
+
+        WebLogicConfiguration configuration =
+            (WebLogicConfiguration) weblogicContainer.getConfiguration();
 
         String id = createIdForDeployable(deployable);
         String path = getAbsolutePath(deployable);
@@ -66,16 +70,20 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
 
         // script for deploying deployable to Weblogic using WLST
         List<String> configurationScript = new ArrayList<String>();
+        configurationScript.add(String.format("readDomain('%s')", configuration.getDomainHome()));
+        configurationScript.add("cd('/')");
         configurationScript.add(String.format("app=create('%s','AppDeployment')", id));
         configurationScript.add(String.format("app.setSourcePath('%s')", path));
         configurationScript.add("cd('/')");
         configurationScript.add(String.format(
             "assign('AppDeployment', '%s', 'Target', '%s')",
             id, serverName));
+        configurationScript.add("updateDomain()");
+        configurationScript.add("closeDomain()");
 
         getLogger().info("Deploying application to Weblogic domain.",
             this.getClass().getName());
-        weblogicContainer.modifyDomainConfigurationWithWlst(configurationScript);
+        weblogicContainer.executeScript(configurationScript);
     }
 
     /**
@@ -86,17 +94,24 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
     @Override
     public void undeploy(Deployable deployable)
     {
-        WebLogic121xWlstInstalledLocalContainer weblogicContainer =
-            (WebLogic121xWlstInstalledLocalContainer) getContainer();
+        WebLogicLocalScriptingContainer weblogicContainer =
+            (WebLogicLocalScriptingContainer) getContainer();
+
+        WebLogicConfiguration configuration =
+            (WebLogicConfiguration) weblogicContainer.getConfiguration();
 
         String id = createIdForDeployable(deployable);
 
         List<String> configurationScript = new ArrayList<String>();
+        configurationScript.add(String.format("readDomain('%s')", configuration.getDomainHome()));
+        configurationScript.add("cd('/')");
         configurationScript.add(String.format("delete('%s','AppDeployment')", id));
+        configurationScript.add("updateDomain()");
+        configurationScript.add("closeDomain()");
 
         getLogger().info("Undeploying application from Weblogic domain.",
             this.getClass().getName());
-        weblogicContainer.modifyDomainConfigurationWithWlst(configurationScript);
+        weblogicContainer.executeScript(configurationScript);
     }
 
     /**
