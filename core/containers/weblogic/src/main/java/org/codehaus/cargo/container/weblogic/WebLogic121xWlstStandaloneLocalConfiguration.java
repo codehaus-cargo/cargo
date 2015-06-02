@@ -30,6 +30,7 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xWlstStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
+import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
 import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogic9x10x103x12xDataSourceConfigurationBuilder;
 
 /**
@@ -87,8 +88,8 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
     {
         setupConfigurationDir();
 
-        WebLogic121xWlstInstalledLocalContainer weblogicContainer =
-            (WebLogic121xWlstInstalledLocalContainer) container;
+        WebLogicLocalScriptingContainer weblogicContainer =
+            (WebLogicLocalScriptingContainer) container;
 
         // create domain
         createNewDomain(weblogicContainer);
@@ -107,7 +108,7 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
      *
      * @param weblogicContainer Weblogic container.
      */
-    private void createNewDomain(WebLogic121xWlstInstalledLocalContainer weblogicContainer)
+    private void createNewDomain(WebLogicLocalScriptingContainer weblogicContainer)
     {
         String weblogicHome = weblogicContainer.getWeblogicHome();
 
@@ -135,7 +136,7 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
 
         getLogger().info("Creating new Weblogic domain.",
             this.getClass().getName());
-        weblogicContainer.writeWithWlst(configurationScript);
+        weblogicContainer.executeScript(configurationScript);
     }
 
     /**

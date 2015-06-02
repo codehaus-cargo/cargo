@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
 import org.codehaus.cargo.container.weblogic.internal.configuration.rules.WebLogicResourceRules;
 import org.codehaus.cargo.container.weblogic.internal.configuration.util.PriorityComparator;
 import org.codehaus.cargo.generic.configuration.builder.ConfigurationBuilderFactory;
@@ -63,10 +64,12 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
     public void configure(LocalContainer container)
     {
         super.configure(container);
-        configureDataSources(container);
+        WebLogicLocalScriptingContainer weblogicContainer =
+            (WebLogicLocalScriptingContainer) container;
+        configureDataSources(weblogicContainer);
         addMissingResources();
         sortResources();
-        configureResources(container);
+        configureResources(weblogicContainer);
     }
 
     /**
@@ -74,10 +77,8 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
      *
      * @param container Container the datasource will be configured on.
      */
-    protected void configureDataSources(LocalContainer container)
+    protected void configureDataSources(WebLogicLocalScriptingContainer container)
     {
-        WebLogic121xWlstInstalledLocalContainer weblogicContainer =
-            (WebLogic121xWlstInstalledLocalContainer) container;
         List<String> configurationScript = new ArrayList<String>();
 
         for (DataSource dataSource : getDataSources())
@@ -92,7 +93,15 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
         {
             getLogger().info("Adding defined datasources to Weblogic domain.",
                 this.getClass().getName());
-            weblogicContainer.modifyDomainConfigurationWithWlst(configurationScript);
+
+            List<String> completeScript = new ArrayList<String>();
+            completeScript.add(String.format("readDomain('%s')", getDomainHome()));
+            completeScript.add("cd('/')");
+            completeScript.addAll(configurationScript);
+            completeScript.add("updateDomain()");
+            completeScript.add("closeDomain()");
+
+            container.executeScript(completeScript);
         }
     }
 
@@ -134,10 +143,8 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
      *
      * @param container Container the datasource will be configured on.
      */
-    protected void configureResources(LocalContainer container)
+    protected void configureResources(WebLogicLocalScriptingContainer container)
     {
-        WebLogic121xWlstInstalledLocalContainer weblogicContainer =
-            (WebLogic121xWlstInstalledLocalContainer) container;
         List<String> configurationScript = new ArrayList<String>();
 
         for (Resource resource : getResources())
@@ -152,7 +159,15 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
         {
             getLogger().info("Adding defined resources to Weblogic domain.",
                 this.getClass().getName());
-            weblogicContainer.modifyDomainConfigurationWithWlst(configurationScript);
+
+            List<String> completeScript = new ArrayList<String>();
+            completeScript.add(String.format("readDomain('%s')", getDomainHome()));
+            completeScript.add("cd('/')");
+            completeScript.addAll(configurationScript);
+            completeScript.add("updateDomain()");
+            completeScript.add("closeDomain()");
+
+            container.executeScript(completeScript);
         }
     }
 

@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.weblogic;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,12 +32,14 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer;
+import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
 import org.codehaus.cargo.util.CargoException;
 
 /**
  * Special container support for the Bea WebLogic 12.1.3 application server. Contains WLST support.
  */
-public class WebLogic121xWlstInstalledLocalContainer extends AbstractWebLogicInstalledLocalContainer
+public class WebLogic121xWlstInstalledLocalContainer extends
+    AbstractWebLogicInstalledLocalContainer implements WebLogicLocalScriptingContainer
 {
 
     /**
@@ -153,24 +154,7 @@ public class WebLogic121xWlstInstalledLocalContainer extends AbstractWebLogicIns
 
         getLogger().info("Adding users and groups to Weblogic domain.",
             this.getClass().getName());
-        writeWithWlst(configurationScript);
-    }
-
-    /**
-     * Used for modifying domain configuration with script provided as parameter.
-     *
-     * @param configurationScript Script containing WLST configuration for domain modifications.
-     */
-    public void modifyDomainConfigurationWithWlst(Collection<String> configurationScript)
-    {
-        List<String> completeScript = new ArrayList<String>();
-        completeScript.add(String.format("readDomain('%s')", getDomainHome()));
-        completeScript.add("cd('/')");
-        completeScript.addAll(configurationScript);
-        completeScript.add("updateDomain()");
-        completeScript.add("closeDomain()");
-
-        writeWithWlst(completeScript);
+        executeScript(configurationScript);
     }
 
     /**
@@ -178,7 +162,7 @@ public class WebLogic121xWlstInstalledLocalContainer extends AbstractWebLogicIns
      *
      * @param configurationScript Script containing WLST configuration to be executed.
      */
-    public void writeWithWlst(Collection<String> configurationScript)
+    public void executeScript(List<String> configurationScript)
     {
         configurationScript.add("dumpStack()");
 
