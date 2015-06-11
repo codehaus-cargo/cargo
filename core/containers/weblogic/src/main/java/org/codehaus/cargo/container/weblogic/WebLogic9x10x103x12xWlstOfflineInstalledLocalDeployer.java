@@ -70,10 +70,10 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
 
         // script for deploying deployable to Weblogic using WLST
         List<String> configurationScript = new ArrayList<String>();
-        configurationScript.add(String.format("readDomain('%s')", configuration.getDomainHome()));
+        configurationScript.add(String.format("readDomain(r'%s')", configuration.getDomainHome()));
         configurationScript.add("cd('/')");
         configurationScript.add(String.format("app=create('%s','AppDeployment')", id));
-        configurationScript.add(String.format("app.setSourcePath('%s')", path));
+        configurationScript.add(String.format("app.setSourcePath(r'%s')", path));
         configurationScript.add("cd('/')");
         configurationScript.add(String.format(
             "assign('AppDeployment', '%s', 'Target', '%s')",
@@ -103,7 +103,7 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
         String id = createIdForDeployable(deployable);
 
         List<String> configurationScript = new ArrayList<String>();
-        configurationScript.add(String.format("readDomain('%s')", configuration.getDomainHome()));
+        configurationScript.add(String.format("readDomain(r'%s')", configuration.getDomainHome()));
         configurationScript.add("cd('/')");
         configurationScript.add(String.format("delete('%s','AppDeployment')", id));
         configurationScript.add("updateDomain()");

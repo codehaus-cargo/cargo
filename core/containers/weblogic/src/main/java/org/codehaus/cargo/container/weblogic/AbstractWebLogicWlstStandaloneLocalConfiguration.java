@@ -95,7 +95,7 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
                 this.getClass().getName());
 
             List<String> completeScript = new ArrayList<String>();
-            completeScript.add(String.format("readDomain('%s')", getDomainHome()));
+            completeScript.add(String.format("readDomain(r'%s')", getDomainHome()));
             completeScript.add("cd('/')");
             completeScript.addAll(configurationScript);
             completeScript.add("updateDomain()");
@@ -161,7 +161,7 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
                 this.getClass().getName());
 
             List<String> completeScript = new ArrayList<String>();
-            completeScript.add(String.format("readDomain('%s')", getDomainHome()));
+            completeScript.add(String.format("readDomain(r'%s')", getDomainHome()));
             completeScript.add("cd('/')");
             completeScript.addAll(configurationScript);
             completeScript.add("updateDomain()");
