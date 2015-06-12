@@ -115,7 +115,7 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
         // script for loading default Weblogic domain form template, configuring port and
         // administration user and storing domain
         List<String> configurationScript = new ArrayList<String>();
-        configurationScript.add(String.format("readTemplate('%s/common/templates/wls/wls.jar')",
+        configurationScript.add(String.format("readTemplate(r'%s/common/templates/wls/wls.jar')",
             weblogicHome));
         configurationScript.add("cd('/')");
         configurationScript.add("cd('Servers/AdminServer')");
@@ -131,7 +131,7 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
             getPropertyValue(WebLogicPropertySet.ADMIN_PWD)));
         configurationScript.add("cd('/')");
         configurationScript.add("setOption('OverwriteDomain', 'true')");
-        configurationScript.add(String.format("writeDomain('%s')", getDomainHome()));
+        configurationScript.add(String.format("writeDomain(r'%s')", getDomainHome()));
         configurationScript.add("closeTemplate()");
 
         getLogger().info("Creating new Weblogic domain.",
