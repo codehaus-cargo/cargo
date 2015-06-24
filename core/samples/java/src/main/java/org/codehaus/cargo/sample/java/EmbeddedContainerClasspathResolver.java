@@ -159,28 +159,53 @@ public class EmbeddedContainerClasspathResolver
                 if (dependencyRelativePath.endsWith("*.jar"))
                 {
                     // JAR folder - Add all JARs in this directory
-                    File folder = new File(containerHome, dependencyRelativePath).getParentFile();
-                    File[] jars = folder.listFiles(new FilenameFilter()
+                    boolean found = false;
+                    String folders = "";
+                    String[] dependencyRelativeSubPaths = dependencyRelativePath.split("\\|");
+                    for (String dependencyRelativeSubPath : dependencyRelativeSubPaths)
                     {
-                        public boolean accept(File dir, String name)
+                        if (!dependencyRelativeSubPath.endsWith("*.jar"))
                         {
-                            return name.endsWith(".jar");
+                            throw new IllegalArgumentException("Dependency paths with "
+                                + "alternatives can only be used for many folder / folder "
+                                    + "alternatives; i.e. all need to end with *.jar");
                         }
-                    });
-                    if (jars == null)
-                    {
-                        throw new FileNotFoundException("No files matched: " + folder.toString()
-                            + "/*.jar");
+                        File folder = new File(containerHome, dependencyRelativeSubPath
+                            .substring(0, dependencyRelativeSubPath.length() - 5));
+                        File[] jars = folder.listFiles(new FilenameFilter()
+                        {
+                            public boolean accept(File dir, String name)
+                            {
+                                return name.endsWith(".jar");
+                            }
+                        });
+                        if (jars != null)
+                        {
+                            found = true;
+                            for (File jar : jars)
+                            {
+                                urls.add(jar.toURI().toURL());
+                            }
+                        }
+                        if (folders.length() > 0)
+                        {
+                            folders += ", ";
+                        }
+                        folders += folder.toString();
                     }
-                    for (File jar : jars)
+                    if (!found)
                     {
-                        urls.add(jar.toURI().toURL());
+                        throw new FileNotFoundException("No files matched in folders: " + folders);
                     }
                 }
                 else
                 {
                     // Single JAR file or directory
                     File dependencyPath = new File(containerHome, dependencyRelativePath);
+                    if (!dependencyPath.isFile())
+                    {
+                        throw new FileNotFoundException(dependencyPath.toString());
+                    }
                     urls.add(dependencyPath.toURI().toURL());
                 }
             }
