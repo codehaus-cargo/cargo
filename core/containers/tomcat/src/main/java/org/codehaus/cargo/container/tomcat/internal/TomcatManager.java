@@ -42,6 +42,11 @@ import org.codehaus.cargo.util.log.LoggedObject;
 public class TomcatManager extends LoggedObject
 {
     /**
+     * cache of nonce values seen
+     */
+    private static final NonceCounter nonceCounter = new NonceCounter();
+
+    /**
      * The charset to use when decoding Tomcat manager responses.
      */
     private static final String MANAGER_CHARSET = "UTF-8";
@@ -531,6 +536,7 @@ public class TomcatManager extends LoggedObject
             connection.setDoOutput(true);
             connection.setRequestMethod("PUT");
             connection.setRequestProperty("Content-Type", "application/octet-stream");
+            connection.setRequestProperty("Expect", "100-continue");
 
             // When trying to upload large amount of data the internal connection buffer can become
             // too large and exceed the heap size, leading to a java.lang.OutOfMemoryError.
@@ -555,14 +561,14 @@ public class TomcatManager extends LoggedObject
 
         connection.connect();
 
-        if (data != null)
-        {
-            pipe(data, connection.getOutputStream());
-        }
-
         String response;
         try
         {
+            if (data != null)
+            {
+                pipe(data, connection.getOutputStream());
+            }
+
             response = toString(connection.getInputStream(), MANAGER_CHARSET);
         }
         catch (IOException e)
@@ -614,7 +620,15 @@ public class TomcatManager extends LoggedObject
                     }
                     ha1 = sb.toString();
 
-                    String uri = invokeURL.getPath();
+                    String uri;
+                    String uri_path = invokeURL.getPath();
+                    String uri_query = invokeURL.getQuery();
+                    if (uri_query != null) {
+                        uri = uri_path + "?" + uri_query;
+                    } else {
+                        uri = uri_path;
+                    }
+
                     String ha2;
                     if (data == null)
                     {
@@ -633,8 +647,8 @@ public class TomcatManager extends LoggedObject
                     }
                     ha2 = sb.toString();
 
-                    String nc = String.format("%08x", System.currentTimeMillis());
-                    nc = nc.substring(nc.length() - 8);
+                    String nc = nonceCounter.Count(nonce);
+
                     String cnonce = String.format("%08x", (long) (Math.random() * 4294967295.0));
                     cnonce = cnonce.substring(cnonce.length() - 8);
 
