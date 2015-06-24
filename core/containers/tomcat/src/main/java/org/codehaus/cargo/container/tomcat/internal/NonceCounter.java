@@ -1,3 +1,22 @@
+/*
+ * ========================================================================
+ *
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2015 Ali Tokmen.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * ========================================================================
+ */
 package org.codehaus.cargo.container.tomcat.internal;
 
 import java.util.LinkedHashMap;
@@ -7,7 +26,8 @@ import java.util.Map;
  * NonceCounter provides a 1,000 item LRU cache counting
  * the number of times a nonce has been seen.
  */    
-public class NonceCounter {
+public class NonceCounter
+{
 
     /**
      * MAX specifies the LRU cache size limit.
@@ -19,9 +39,12 @@ public class NonceCounter {
      */
     private Map<String, Integer> nonces;
 
-    public NonceCounter() {
-        nonces = new LinkedHashMap<String, Integer>(MAX+1, .75F, true) {
-            public boolean removeEldestEntry(Map.Entry eldest) {
+    public NonceCounter()
+    {
+        nonces = new LinkedHashMap<String, Integer>(MAX+1, .75F, true)
+        {
+            public boolean removeEldestEntry(Map.Entry eldest)
+            {
                 return size() > MAX;
             }
         };
@@ -34,12 +57,15 @@ public class NonceCounter {
      *
      * @param nonce the nonce value to count
      */
-    public synchronized String Count(String nonce) {
-
+    public synchronized String Count(String nonce)
+    {
         Integer count = nonces.get(nonce);
-        if (count == null) {
+        if (count == null)
+        {
             count = Integer.valueOf(1);
-        } else {
+        }
+        else
+        {
             count = Integer.valueOf(count.intValue() + 1);
         }
 

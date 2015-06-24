@@ -37,7 +37,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
  * A Tomcat manager webapp invocation wrapper.
- * 
  */
 public class TomcatManager extends LoggedObject
 {
@@ -623,9 +622,12 @@ public class TomcatManager extends LoggedObject
                     String uri;
                     String uri_path = invokeURL.getPath();
                     String uri_query = invokeURL.getQuery();
-                    if (uri_query != null) {
+                    if (uri_query != null)
+                    {
                         uri = uri_path + "?" + uri_query;
-                    } else {
+                    }
+                    else
+                    {
                         uri = uri_path;
                     }
 
