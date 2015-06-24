@@ -30,22 +30,29 @@ public class NonceCounter
 {
 
     /**
-     * MAX specifies the LRU cache size limit.
+     * LRU cache size limit.
      */
-    private final int MAX = 1000;
+    private final int maxLruCacheSizeLimit = 1000;
 
     /**
      * Map holds the nonce values and their counts
      */
     private Map<String, Integer> nonces;
 
+    /**
+     * Nonce counter.
+     */
     public NonceCounter()
     {
-        nonces = new LinkedHashMap<String, Integer>(MAX+1, .75F, true)
+        nonces = new LinkedHashMap<String, Integer>(maxLruCacheSizeLimit + 1, .75F, true)
         {
-            public boolean removeEldestEntry(Map.Entry eldest)
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public boolean removeEldestEntry(Map.Entry<String, Integer> eldest)
             {
-                return size() > MAX;
+                return size() > maxLruCacheSizeLimit;
             }
         };
     }
@@ -56,8 +63,9 @@ public class NonceCounter
      * for a nonce is 00000001.
      *
      * @param nonce the nonce value to count
+     * @return formatted nonce value
      */
-    public synchronized String Count(String nonce)
+    public synchronized String count(String nonce)
     {
         Integer count = nonces.get(nonce);
         if (count == null)

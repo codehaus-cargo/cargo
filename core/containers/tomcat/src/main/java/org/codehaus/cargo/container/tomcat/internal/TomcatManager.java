@@ -43,7 +43,7 @@ public class TomcatManager extends LoggedObject
     /**
      * cache of nonce values seen
      */
-    private static final NonceCounter nonceCounter = new NonceCounter();
+    private static final NonceCounter NONCE_COUNTER = new NonceCounter();
 
     /**
      * The charset to use when decoding Tomcat manager responses.
@@ -620,15 +620,15 @@ public class TomcatManager extends LoggedObject
                     ha1 = sb.toString();
 
                     String uri;
-                    String uri_path = invokeURL.getPath();
-                    String uri_query = invokeURL.getQuery();
-                    if (uri_query != null)
+                    String uriPath = invokeURL.getPath();
+                    String uriQuery = invokeURL.getQuery();
+                    if (uriQuery != null)
                     {
-                        uri = uri_path + "?" + uri_query;
+                        uri = uriPath + "?" + uriQuery;
                     }
                     else
                     {
-                        uri = uri_path;
+                        uri = uriPath;
                     }
 
                     String ha2;
@@ -649,7 +649,7 @@ public class TomcatManager extends LoggedObject
                     }
                     ha2 = sb.toString();
 
-                    String nc = nonceCounter.Count(nonce);
+                    String nc = NONCE_COUNTER.count(nonce);
 
                     String cnonce = String.format("%08x", (long) (Math.random() * 4294967295.0));
                     cnonce = cnonce.substring(cnonce.length() - 8);
