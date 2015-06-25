@@ -148,11 +148,14 @@ public final class User
     {
         List<User> users = new ArrayList<User>();
 
-        // The format to parse is "name1:pwd1:role11,...,role1N|name2:pwd2:role21,...,role2N|..."
-        StringTokenizer userTokens = new StringTokenizer(usersAsString, "|");
-        while (userTokens.hasMoreTokens())
+        if (usersAsString != null)
         {
-            users.add(parseUser(userTokens.nextToken()));
+            // The format to parse is "name1:pwd1:role11,...,role1N|name2:pwd2:role21,...,role2N|.."
+            StringTokenizer userTokens = new StringTokenizer(usersAsString, "|");
+            while (userTokens.hasMoreTokens())
+            {
+                users.add(parseUser(userTokens.nextToken()));
+            }
         }
 
         return users;
