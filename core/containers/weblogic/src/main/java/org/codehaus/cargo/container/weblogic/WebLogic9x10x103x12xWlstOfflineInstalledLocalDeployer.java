@@ -64,26 +64,40 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
         WebLogicConfiguration configuration =
             (WebLogicConfiguration) weblogicContainer.getConfiguration();
 
-        String id = createIdForDeployable(deployable);
-        String path = getAbsolutePath(deployable);
-        String serverName = getServerName();
-
         // script for deploying deployable to Weblogic using WLST
         List<String> configurationScript = new ArrayList<String>();
         configurationScript.add(String.format("readDomain(r'%s')", configuration.getDomainHome()));
         configurationScript.add("cd('/')");
-        configurationScript.add(String.format("app=create('%s','AppDeployment')", id));
-        configurationScript.add(String.format("app.setSourcePath(r'%s')", path));
-        configurationScript.add("cd('/')");
-        configurationScript.add(String.format(
-            "assign('AppDeployment', '%s', 'Target', '%s')",
-            id, serverName));
+        configurationScript.addAll(getDeployScript(deployable));
         configurationScript.add("updateDomain()");
         configurationScript.add("closeDomain()");
 
         getLogger().info("Deploying application to Weblogic domain.",
             this.getClass().getName());
         weblogicContainer.executeScript(configurationScript);
+    }
+
+    /**
+     * Method returning WLST script used for deploying deployable.
+     * @param deployable the Deployable to deploy
+     * @return WLST script for deploying.
+     */
+    public List<String> getDeployScript(Deployable deployable)
+    {
+        String id = createIdForDeployable(deployable);
+        String path = getAbsolutePath(deployable);
+        String serverName = getServerName();
+
+        // script for deploying deployable to Weblogic using WLST
+        List<String> configurationScript = new ArrayList<String>();
+        configurationScript.add(String.format("app=create('%s','AppDeployment')", id));
+        configurationScript.add(String.format("app.setSourcePath(r'%s')", path));
+        configurationScript.add("cd('/')");
+        configurationScript.add(String.format(
+            "assign('AppDeployment', '%s', 'Target', '%s')",
+            id, serverName));
+
+        return configurationScript;
     }
 
     /**
