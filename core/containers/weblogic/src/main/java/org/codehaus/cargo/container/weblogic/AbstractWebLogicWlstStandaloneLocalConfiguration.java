@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,7 +27,6 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
 import org.codehaus.cargo.container.weblogic.internal.configuration.rules.WebLogicResourceRules;
 import org.codehaus.cargo.container.weblogic.internal.configuration.util.PriorityComparator;
 import org.codehaus.cargo.generic.configuration.builder.ConfigurationBuilderFactory;
@@ -58,61 +56,13 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
     protected abstract ConfigurationBuilder createConfigurationBuilder(LocalContainer container);
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void configure(LocalContainer container)
-    {
-        super.configure(container);
-        WebLogicLocalScriptingContainer weblogicContainer =
-            (WebLogicLocalScriptingContainer) container;
-        configureDataSources(weblogicContainer);
-        addMissingResources();
-        sortResources();
-        configureResources(weblogicContainer);
-    }
-
-    /**
-     * Configure datasources.
-     *
-     * @param container Container the datasource will be configured on.
-     */
-    protected void configureDataSources(WebLogicLocalScriptingContainer container)
-    {
-        List<String> configurationScript = new ArrayList<String>();
-
-        for (DataSource dataSource : getDataSources())
-        {
-            configurationScript.add("cd('/')");
-            configurationScript.add(configure(dataSource, container));
-        }
-
-        // Executing WLST is time and resource consuming, so it is invoked just when there is
-        // something to configure
-        if (!configurationScript.isEmpty())
-        {
-            getLogger().info("Adding defined datasources to Weblogic domain.",
-                this.getClass().getName());
-
-            List<String> completeScript = new ArrayList<String>();
-            completeScript.add(String.format("readDomain(r'%s')", getDomainHome()));
-            completeScript.add("cd('/')");
-            completeScript.addAll(configurationScript);
-            completeScript.add("updateDomain()");
-            completeScript.add("closeDomain()");
-
-            container.executeScript(completeScript);
-        }
-    }
-
-    /**
      * Returns configuration script for datasource.
      *
      * @param ds Datasource to be configured.
      * @param container Container the dataSource will be configured on.
      * @return Configuration script.
      */
-    protected String configure(DataSource ds, LocalContainer container)
+    protected String getDataSourceScript(DataSource ds, LocalContainer container)
     {
         ConfigurationBuilder builder = this.createConfigurationBuilder(container);
         String configurationEntry = builder.toConfigurationEntry(ds);
@@ -139,46 +89,13 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
     }
 
     /**
-     * Configure resources.
-     *
-     * @param container Container the datasource will be configured on.
-     */
-    protected void configureResources(WebLogicLocalScriptingContainer container)
-    {
-        List<String> configurationScript = new ArrayList<String>();
-
-        for (Resource resource : getResources())
-        {
-            configurationScript.add("cd('/')");
-            configurationScript.add(configure(resource, container));
-        }
-
-        // Executing WLST is time and resource consuming, so it is invoked just when there is
-        // something to configure
-        if (!configurationScript.isEmpty())
-        {
-            getLogger().info("Adding defined resources to Weblogic domain.",
-                this.getClass().getName());
-
-            List<String> completeScript = new ArrayList<String>();
-            completeScript.add(String.format("readDomain(r'%s')", getDomainHome()));
-            completeScript.add("cd('/')");
-            completeScript.addAll(configurationScript);
-            completeScript.add("updateDomain()");
-            completeScript.add("closeDomain()");
-
-            container.executeScript(completeScript);
-        }
-    }
-
-    /**
      * Returns configuration script for resource.
      *
      * @param resource Resource to be configured.
      * @param container Container the resource will be configured on.
      * @return Configuration script.
      */
-    protected String configure(Resource resource, LocalContainer container)
+    protected String getResourceScript(Resource resource, LocalContainer container)
     {
         ConfigurationBuilderFactory configurationBuilderFactory =
             new DefaultConfigurationBuilderFactory();
