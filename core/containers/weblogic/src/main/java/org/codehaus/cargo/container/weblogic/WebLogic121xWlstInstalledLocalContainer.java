@@ -125,8 +125,9 @@ public class WebLogic121xWlstInstalledLocalContainer extends
             + "myrealm/AuthenticationProviders/DefaultAuthenticator')", getDomainName()));
 
         Set<String> roles = new HashSet<String>();
-        for (User user : User.parseUsers(getConfiguration().getPropertyValue(
-            ServletPropertySet.USERS)))
+        List<User> users = User.parseUsers(getConfiguration().getPropertyValue(
+            ServletPropertySet.USERS));
+        for (User user : users)
         {
             configurationScript.add(String.format("cmo.createUser('%s','%s','%s')",
                 user.getName(), user.getPassword(), user.getName()));
@@ -142,8 +143,7 @@ public class WebLogic121xWlstInstalledLocalContainer extends
             configurationScript.add(String.format("cmo.createGroup('%s','%s')", role, role));
         }
 
-        for (User user : User.parseUsers(getConfiguration().getPropertyValue(
-            ServletPropertySet.USERS)))
+        for (User user : users)
         {
             for (String role : user.getRoles())
             {
@@ -152,9 +152,12 @@ public class WebLogic121xWlstInstalledLocalContainer extends
             }
         }
 
-        getLogger().info("Adding users and groups to Weblogic domain.",
-            this.getClass().getName());
-        executeScript(configurationScript);
+        if (!users.isEmpty())
+        {
+            getLogger().info("Adding users and groups to Weblogic domain.",
+                this.getClass().getName());
+            executeScript(configurationScript);
+        }
     }
 
     /**
