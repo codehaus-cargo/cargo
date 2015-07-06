@@ -484,7 +484,7 @@
               </property>
               <property>
                 <name>cargo.glassfish4x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
+                <value>${cargo.java.home.1_7}</value>
               </property>
 
               <!--
@@ -881,7 +881,16 @@
               </property>
               <property>
                 <name>cargo.wildfly8x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
+                <value>${cargo.java.home.1_7}</value>
+              </property>
+
+              <property>
+                <name>cargo.wildfly9x.url</name>
+                <value>http://download.jboss.org/wildfly/9.0.0.Final/wildfly-9.0.0.Final.tar.gz</value>
+              </property>
+              <property>
+                <name>cargo.wildfly9x.java.home</name>
+                <value>${cargo.java.home.1_7}</value>
               </property>
 
               <property>
@@ -932,7 +941,7 @@
                 <name>cargo.jrun4x.java.home</name>
                 <value>${cargo.java.home.1_5}</value>
               </property>
-              
+  
               <property>
                 <name>cargo.tomee1x.url</name>
                 <value>http://archive.apache.org/dist/tomee/tomee-1.7.1/apache-tomee-1.7.1-plus.zip</value>
@@ -1602,7 +1611,13 @@
         <cargo.containers>wildfly8x</cargo.containers>
       </properties>
     </profile>
-    
+    <profile>
+      <id>wildfly9x</id>
+      <properties>
+        <cargo.containers>wildfly9x</cargo.containers>
+      </properties>
+    </profile>
+
     <profile>
       <id>tomee1x</id>
       <properties>

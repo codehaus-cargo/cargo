@@ -87,6 +87,7 @@ public class WarRootContextTest extends AbstractCargoTestCase
         excludedContainerIds.add("weblogic103x");
         excludedContainerIds.add("weblogic12x");
         excludedContainerIds.add("wildfly8x");
+        excludedContainerIds.add("wildfly9x");
 
         suite.addTestSuite(WarRootContextTest.class,
             new Validator[] {

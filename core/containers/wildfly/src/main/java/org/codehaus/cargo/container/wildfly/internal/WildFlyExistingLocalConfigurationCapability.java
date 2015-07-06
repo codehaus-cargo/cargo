@@ -20,26 +20,25 @@
 package org.codehaus.cargo.container.wildfly.internal;
 
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
-import org.codehaus.cargo.container.jboss.internal.JBoss72xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss71xExistingLocalConfigurationCapability;
 
 /**
  * Capabilities of the WildFly's
- * {@link org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration} configuration.
+ * {@link org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration} configuration.
  * 
  */
-public class WildFly8xStandaloneLocalConfigurationCapability
-    extends JBoss72xStandaloneLocalConfigurationCapability
+public class WildFlyExistingLocalConfigurationCapability extends
+    JBoss71xExistingLocalConfigurationCapability
 {
 
     /**
      * Initialize WildFly-specific configuration Map.
      */
-    public WildFly8xStandaloneLocalConfigurationCapability()
+    public WildFlyExistingLocalConfigurationCapability()
     {
         super();
 
         this.propertySupportMap.remove(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
-        this.propertySupportMap.remove(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, Boolean.TRUE);
     }
-
 }

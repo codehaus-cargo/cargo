@@ -149,9 +149,12 @@ public class ConfluenceContainerDocumentationGenerator
      * Containers that work on Java 7.
      */
     private static final List<String> JAVA7_CONTAINERS = Arrays.asList(new String[] {
+        "glassfish4x",
         "jboss74x",
         "jetty9x",
-        "tomcat8x"
+        "tomcat8x",
+        "wildfly8x",
+        "wildfly9x"
     });
 
     /**
@@ -1236,7 +1239,8 @@ public class ConfluenceContainerDocumentationGenerator
                 }
                 else
                 {
-                    javaVersion = "8";
+                    throw new IllegalArgumentException(
+                        "Java version for " + containerId + " is not defined");
                 }
 
                 if (containerId.startsWith("websphere"))

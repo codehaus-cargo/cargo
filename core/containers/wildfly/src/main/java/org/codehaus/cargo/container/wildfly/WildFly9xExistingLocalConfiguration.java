@@ -17,28 +17,30 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.wildfly.internal;
-
-import org.codehaus.cargo.container.jboss.JBossPropertySet;
-import org.codehaus.cargo.container.jboss.internal.JBoss71xExistingLocalConfigurationCapability;
+package org.codehaus.cargo.container.wildfly;
 
 /**
- * Capabilities of the WildFly's
- * {@link org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration} configuration.
- * 
+ * WildFly 9.x existing {@link org.codehaus.cargo.container.configuration.Configuration}
+ * implementation.
  */
-public class WildFly8xExistingLocalConfigurationCapability extends
-    JBoss71xExistingLocalConfigurationCapability
+public class WildFly9xExistingLocalConfiguration extends WildFly8xExistingLocalConfiguration
 {
+    /**
+     * {@inheritDoc}
+     * @see WildFly8xExistingLocalConfiguration#WildFly8xExistingLocalConfiguration(String)
+     */
+    public WildFly9xExistingLocalConfiguration(String dir)
+    {
+        super(dir);
+    }
 
     /**
-     * Initialize WildFly-specific configuration Map.
+     * {@inheritDoc}
+     * @see Object#toString()
      */
-    public WildFly8xExistingLocalConfigurationCapability()
+    @Override
+    public String toString()
     {
-        super();
-
-        this.propertySupportMap.remove(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, Boolean.TRUE);
+        return "WildFly 9.x Existing Configuration";
     }
 }

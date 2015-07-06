@@ -22,11 +22,10 @@ package org.codehaus.cargo.container.wildfly;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.JBoss7xRuntimeConfiguration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
-import org.codehaus.cargo.container.wildfly.internal.WildFly8xRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.wildfly.internal.WildFlyRuntimeConfigurationCapability;
 
 /**
- * Configuration to use when using a WildFly remote container.
- * 
+ * Configuration to use when using a WildFly 8.x remote container.
  */
 public class WildFly8xRuntimeConfiguration extends JBoss7xRuntimeConfiguration
 {
@@ -34,7 +33,7 @@ public class WildFly8xRuntimeConfiguration extends JBoss7xRuntimeConfiguration
      * Capability of the WildFly runtime configuration.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new WildFly8xRuntimeConfigurationCapability();
+        new WildFlyRuntimeConfigurationCapability();
 
     /**
      * Set the default values for various port numbers.

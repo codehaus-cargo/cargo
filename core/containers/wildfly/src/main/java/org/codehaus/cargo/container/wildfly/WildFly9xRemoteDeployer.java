@@ -1,7 +1,10 @@
-/*
+/* 
  * ========================================================================
  *
- * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2011-2015 Ali Tokmen.
+ * Copyright 2005 Jeff Genender. Code from this file
+ * was originally imported from the JBoss Maven2 plugin.
+ *
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2015 Ali Tokmen.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,19 +22,19 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.jboss.JBoss7xInstalledLocalDeployer;
+import org.codehaus.cargo.container.RemoteContainer;
 
 /**
- * Static deployer that deploys WARs and EARs to the WildFly <code>deployments</code> directory.
+ * Remote deployer that uses the Model Controller Client to deploy to WildFly 9.x.
+ * 
  */
-public class WildFly8xInstalledLocalDeployer extends JBoss7xInstalledLocalDeployer
+public class WildFly9xRemoteDeployer extends WildFly8xRemoteDeployer
 {
     /**
-     * {@inheritDoc}
-     * @see JBoss7xInstalledLocalDeployer#JBoss7xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * @param container the container containing the configuration to use to find the deployer
+     * properties such as url, user name and password to use to connect to the deployer
      */
-    public WildFly8xInstalledLocalDeployer(InstalledLocalContainer container)
+    public WildFly9xRemoteDeployer(RemoteContainer container)
     {
         super(container);
     }

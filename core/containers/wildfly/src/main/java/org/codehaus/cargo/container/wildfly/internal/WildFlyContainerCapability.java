@@ -17,22 +17,14 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.wildfly;
+package org.codehaus.cargo.container.wildfly.internal;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.jboss.JBoss7xInstalledLocalDeployer;
+import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
 
 /**
- * Static deployer that deploys WARs and EARs to the WildFly <code>deployments</code> directory.
+ * Capabilities of the WildFly 8.x container.
+ * 
  */
-public class WildFly8xInstalledLocalDeployer extends JBoss7xInstalledLocalDeployer
+public class WildFlyContainerCapability extends JBoss7xContainerCapability
 {
-    /**
-     * {@inheritDoc}
-     * @see JBoss7xInstalledLocalDeployer#JBoss7xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
-     */
-    public WildFly8xInstalledLocalDeployer(InstalledLocalContainer container)
-    {
-        super(container);
-    }
 }

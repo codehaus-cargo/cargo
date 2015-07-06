@@ -24,10 +24,11 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.JBoss71xExistingLocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractDeployer;
-import org.codehaus.cargo.container.wildfly.internal.WildFly8xExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.wildfly.internal.WildFlyExistingLocalConfigurationCapability;
 
 /**
- * WildFly existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
+ * WildFly 8.x existing {@link org.codehaus.cargo.container.configuration.Configuration}
+ * implementation.
  * 
  */
 public class WildFly8xExistingLocalConfiguration extends JBoss71xExistingLocalConfiguration
@@ -36,7 +37,7 @@ public class WildFly8xExistingLocalConfiguration extends JBoss71xExistingLocalCo
      * WildFly container capability.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new WildFly8xExistingLocalConfigurationCapability();
+        new WildFlyExistingLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
@@ -77,6 +78,6 @@ public class WildFly8xExistingLocalConfiguration extends JBoss71xExistingLocalCo
     @Override
     public String toString()
     {
-        return "WildFly Existing Configuration";
+        return "WildFly 8.x Existing Configuration";
     }
 }

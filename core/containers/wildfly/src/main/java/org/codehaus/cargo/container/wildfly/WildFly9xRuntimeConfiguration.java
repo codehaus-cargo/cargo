@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2011-2015 Ali Tokmen.
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2015 Ali Tokmen.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +17,28 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.wildfly.internal;
-
-import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
+package org.codehaus.cargo.container.wildfly;
 
 /**
- * Capabilities of the WildFly 8.x container.
- * 
+ * Configuration to use when using a WildFly 9.x remote container.
  */
-public class WildFly8xContainerCapability extends JBoss7xContainerCapability
+public class WildFly9xRuntimeConfiguration extends WildFly8xRuntimeConfiguration
 {
+    /**
+     * Set the default values for various port numbers.
+     */
+    public WildFly9xRuntimeConfiguration()
+    {
+        super();
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        return "WildFly Runtime Configuration";
+    }
 }

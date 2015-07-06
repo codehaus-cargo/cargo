@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2011-2015 Ali Tokmen.
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2015 Ali Tokmen.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,28 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.wildfly;
+package org.codehaus.cargo.container.wildfly.internal;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.jboss.JBoss7xInstalledLocalDeployer;
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
+import org.codehaus.cargo.container.jboss.internal.JBoss7xRuntimeConfigurationCapability;
 
 /**
- * Static deployer that deploys WARs and EARs to the WildFly <code>deployments</code> directory.
+ * Capabilities of WildFly's runtime configuration.
+ * 
  */
-public class WildFly8xInstalledLocalDeployer extends JBoss7xInstalledLocalDeployer
+public class WildFlyRuntimeConfigurationCapability extends
+    JBoss7xRuntimeConfigurationCapability
 {
+
     /**
-     * {@inheritDoc}
-     * @see JBoss7xInstalledLocalDeployer#JBoss7xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * Initialize WildFly-specific configuration Map.
      */
-    public WildFly8xInstalledLocalDeployer(InstalledLocalContainer container)
+    public WildFlyRuntimeConfigurationCapability()
     {
-        super(container);
+        super();
+
+        this.supportsMap.remove(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
+        this.supportsMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, Boolean.TRUE);
     }
+
 }

@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2011-2015 Ali Tokmen.
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2015 Ali Tokmen.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,20 +19,17 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.jboss.JBoss7xInstalledLocalDeployer;
-
 /**
- * Static deployer that deploys WARs and EARs to the WildFly <code>deployments</code> directory.
+ * WildFly 9.x standalone local configuration.
  */
-public class WildFly8xInstalledLocalDeployer extends JBoss7xInstalledLocalDeployer
+public class WildFly9xStandaloneLocalConfiguration extends WildFly8xStandaloneLocalConfiguration
 {
     /**
      * {@inheritDoc}
-     * @see JBoss7xInstalledLocalDeployer#JBoss7xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * @see WildFly8xStandaloneLocalConfiguration#WildFly8xStandaloneLocalConfiguration(String)
      */
-    public WildFly8xInstalledLocalDeployer(InstalledLocalContainer container)
+    public WildFly9xStandaloneLocalConfiguration(String dir)
     {
-        super(container);
+        super(dir);
     }
 }

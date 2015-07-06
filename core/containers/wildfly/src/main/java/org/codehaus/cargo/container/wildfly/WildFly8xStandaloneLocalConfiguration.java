@@ -23,11 +23,10 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.JBoss73xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
-import org.codehaus.cargo.container.wildfly.internal.WildFly8xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.wildfly.internal.WildFlyStandaloneLocalConfigurationCapability;
 
 /**
  * WildFly 8.x standalone local configuration.
- * 
  */
 public class WildFly8xStandaloneLocalConfiguration extends JBoss73xStandaloneLocalConfiguration
 {
@@ -36,7 +35,7 @@ public class WildFly8xStandaloneLocalConfiguration extends JBoss73xStandaloneLoc
      * WildFly container capability.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new WildFly8xStandaloneLocalConfigurationCapability();
+        new WildFlyStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
