@@ -87,6 +87,7 @@ public final class WebLogicResourceRules
             String jmsServerName = configuration.getPropertyValue(WebLogicPropertySet.JMS_SERVER);
             Resource jmsServer =
                 new Resource(jmsServerName, WebLogicConfigurationEntryType.JMS_SERVER);
+            jmsServer.setId(jmsServerName);
             jmsServer.setParameter("priority", "10");
             weblogicResources.add(jmsServer);
         }
@@ -96,6 +97,7 @@ public final class WebLogicResourceRules
             String jmsModuleName = configuration.getPropertyValue(WebLogicPropertySet.JMS_MODULE);
             Resource jmsModule =
                 new Resource(jmsModuleName, WebLogicConfigurationEntryType.JMS_MODULE);
+            jmsModule.setId(jmsModuleName);
             jmsModule.setParameter("priority", "20");
             weblogicResources.add(jmsModule);
         }
@@ -108,6 +110,7 @@ public final class WebLogicResourceRules
             Resource jmsSubdeployment =
                 new Resource(jmsSubdeploymentName,
                     WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT);
+            jmsSubdeployment.setId(jmsSubdeploymentName);
             jmsSubdeployment.setParameter("priority", "30");
             weblogicResources.add(jmsSubdeployment);
         }

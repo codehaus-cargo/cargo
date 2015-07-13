@@ -152,8 +152,10 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
         // script for loading default Weblogic domain form template, configuring port and
         // administration user
         List<String> configurationScript = new ArrayList<String>();
+        configurationScript.add("print \"Loading domain template.\"");
         configurationScript.add(String.format("readTemplate(r'%s/common/templates/wls/wls.jar')",
             weblogicHome));
+        configurationScript.add("print \"Configuring domain and resources.\"");
         configurationScript.add("cd('/')");
         configurationScript.add("cd('Servers/AdminServer')");
         configurationScript.add(String.format("cmo.setName('%s')",
@@ -181,6 +183,7 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
     private List<String> writeDomain()
     {
         List<String> configurationScript = new ArrayList<String>();
+        configurationScript.add("print \"Writing domain.\"");
         configurationScript.add(String.format("writeDomain(r'%s')", getDomainHome()));
         configurationScript.add("closeTemplate()");
 
