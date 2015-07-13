@@ -29,7 +29,7 @@ public class WildFly8xInstalledLocalDeployer extends JBoss7xInstalledLocalDeploy
 {
     /**
      * {@inheritDoc}
-     * @see JBoss7xInstalledLocalDeployer#JBoss7xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * @see JBoss7xInstalledLocalDeployer#JBoss7xInstalledLocalDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
      */
     public WildFly8xInstalledLocalDeployer(InstalledLocalContainer container)
     {

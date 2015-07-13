@@ -28,7 +28,7 @@ public class WildFly9xInstalledLocalDeployer extends WildFly8xInstalledLocalDepl
 {
     /**
      * {@inheritDoc}
-     * @see WildFly8xInstalledLocalDeployer#WildFly8xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * @see WildFly8xInstalledLocalDeployer#WildFly8xInstalledLocalDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
      */
     public WildFly9xInstalledLocalDeployer(InstalledLocalContainer container)
     {
