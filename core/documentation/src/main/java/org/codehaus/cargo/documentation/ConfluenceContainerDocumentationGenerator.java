@@ -1287,6 +1287,46 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
         }
 
+        if (ConfigurationType.STANDALONE.equals(type) && containerId.startsWith("weblogic"))
+        {
+            output.append("{note}");
+            output.append("Some versions of WebLogic require you to have a complex password, ");
+            output.append("i.e. only {{weblogic}} is not enough.");
+            output.append(LINE_SEPARATOR);
+            output.append("If you get an error message similar to the below, please include a ");
+            output.append("number in your WebLogic password, for example {{weblogic1}}.");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+            output.append("{code}");
+            output.append(LINE_SEPARATOR);
+            output.append("<Critical> <WebLogicServer> <BEA-000386> <Server subsystem failed. ");
+            output.append("Reason: java.lang.AssertionError:");
+            output.append("java.lang.reflect.InvocationTargetException");
+            output.append(LINE_SEPARATOR);
+            output.append("    at weblogic.descriptor.DescriptorManager$");
+            output.append("SecurityServiceImpl$SecurityProxy._invokeServiceMethod");
+            output.append(LINE_SEPARATOR);
+            output.append("    at weblogic.descriptor.DescriptorManager$SecurityServiceImpl$");
+            output.append("SecurityProxy.decrypt");
+            output.append(LINE_SEPARATOR);
+            output.append("    at weblogic.descriptor.DescriptorManager$");
+            output.append("SecurityServiceImpl.decrypt");
+            output.append(LINE_SEPARATOR);
+            output.append("    at weblogic.descriptor.internal.AbstractDescriptorBean._decrypt");
+            output.append(LINE_SEPARATOR);
+            output.append("    at weblogic.management.configuration.");
+            output.append("SecurityConfigurationMBeanImpl.getCredential");
+            output.append(LINE_SEPARATOR);
+            output.append("    at weblogic.security.internal.ServerPrincipalValidatorImpl.");
+            output.append("getSecret");
+            output.append(LINE_SEPARATOR);
+            output.append("    at weblogic.security.internal.ServerPrincipalValidatorImpl.sign");
+            output.append("{code}");
+            output.append(LINE_SEPARATOR);
+            output.append("{note}");
+            output.append(LINE_SEPARATOR);
+        }
+
         return output.toString();
     }
 
