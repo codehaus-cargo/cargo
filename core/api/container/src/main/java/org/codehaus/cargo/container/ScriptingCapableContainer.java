@@ -32,4 +32,11 @@ public interface ScriptingCapableContainer extends Container
      * @param configurationScript List of command scripts.
      */
     void executeScript(List<String> configurationScript);
+
+    /**
+     * Executes scripts stored in script files against container.
+     *
+     * @param scriptFilePaths List of script file paths.
+     */
+    void executeScriptFiles(List<String> scriptFilePaths);
 }
