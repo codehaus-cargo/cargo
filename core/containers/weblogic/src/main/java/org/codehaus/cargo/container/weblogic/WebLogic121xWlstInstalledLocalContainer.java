@@ -20,8 +20,8 @@
 package org.codehaus.cargo.container.weblogic;
 
 import java.io.File;
-import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -184,28 +184,55 @@ public class WebLogic121xWlstInstalledLocalContainer extends
         {
             // script is stored to *.py file which is added as parameter when invoking WLST
             // configuration class
-            File filename = File.createTempFile("wlst", ".py");
-            filename.deleteOnExit();
-            PrintWriter scriptWriter = new PrintWriter(filename);
-            scriptWriter.println(buffer.toString());
-            scriptWriter.flush();
-            scriptWriter.close();
+            File tempFile = File.createTempFile("wlst", ".py");
+            tempFile.deleteOnExit();
+            getFileHandler().writeTextFile(tempFile.getAbsolutePath(), buffer.toString(), null);
 
-            JvmLauncher java = createJvmLauncher(false);
-
-            addWlstArguments(java);
-
-            java.addAppArgument(filename);
-            int result = java.execute();
-            if (result != 0)
-            {
-                throw new ContainerException("Failure when invoking WLST script, java returned "
-                    + result);
-            }
+            executeScriptFiles(Arrays.asList(tempFile.getAbsolutePath()));
         }
         catch (Exception e)
         {
             throw new CargoException("Cannot execute WLST script.", e);
+        }
+    }
+
+    /**
+     * Executes scripts using WLST.
+     *
+     * @param scriptFilePaths List of file paths containing jython scripts.
+     */
+    public void executeScriptFiles(List<String> scriptFilePaths)
+    {
+        for (String scriptFilePath : scriptFilePaths)
+        {
+            File scriptFile = new File(scriptFilePath);
+
+            if (scriptFile.exists())
+            {
+                try
+                {
+                    JvmLauncher java = createJvmLauncher(false);
+
+                    addWlstArguments(java);
+
+                    java.addAppArgument(scriptFile);
+                    int result = java.execute();
+                    if (result != 0)
+                    {
+                        throw new ContainerException("Failure when invoking WLST script,"
+                                + " java returned " + result);
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new CargoException("Cannot execute WLST script.", e);
+                }
+            }
+            else
+            {
+                getLogger().warn(String.format("Script file %s doesn't exists.", scriptFilePath),
+                            this.getClass().getName());
+            }
         }
     }
 
