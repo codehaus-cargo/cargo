@@ -109,10 +109,6 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
             "//Server/Service/Engine/Host/Valve["
                 + "@className='org.apache.catalina.valves.AccessLogValve']",
                     "prefix", getPropertyValue(GeneralPropertySet.HOSTNAME) + "_access_log.");
-        addXmlReplacement("conf/server.xml",
-            "//Server/Service/Engine/Host/Valve["
-                + "@className='org.apache.catalina.valves.AccessLogValve']",
-                    "resolveHosts", "false");
 
         super.performXmlReplacements(container);
     }
