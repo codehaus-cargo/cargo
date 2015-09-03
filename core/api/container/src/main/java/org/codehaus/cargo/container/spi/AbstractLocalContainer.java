@@ -398,7 +398,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      * @throws InterruptedException If the thread was interrupted while waiting for the port
      *             shutdown.
      */
-    private void waitForPortShutdown(int port, int connectTimeout, long deadline)
+    protected void waitForPortShutdown(int port, int connectTimeout, long deadline)
         throws InterruptedException
     {
         getLogger().debug("Waiting for port " + port + " to shutdown, deadline " + deadline,

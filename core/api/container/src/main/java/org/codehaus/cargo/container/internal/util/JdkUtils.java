@@ -76,7 +76,7 @@ public class JdkUtils
 
     /**
      * Is the user running on a Macintosh OS X system? Heuristic derived from <a
-     * href="http://developer.apple.com/technotes/tn/tn2042.html#Section0_1"> Apple Tech Note
+     * href="http://developer.apple.com/technotes/tn/tn2042.html#Section0_1">Apple Tech Note
      * 2042</a>.
      * 
      * @return true if the user's system is determined to be Mac OS X.

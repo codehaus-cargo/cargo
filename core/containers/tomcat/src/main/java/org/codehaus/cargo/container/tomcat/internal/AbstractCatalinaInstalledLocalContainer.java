@@ -165,12 +165,39 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
     }
 
     /**
+     * Checks all ports except for {@link GeneralPropertySet#RMI_PORT}, to avoid bug <a
+     * href="https://codehaus-cargo.atlassian.net/browse/CARGO-1337">CARGO-1337</a>. {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#waitForPortShutdown(int, int, long)
+     */
+    @Override
+    protected void waitForPortShutdown(int port, int connectTimeout, long deadline)
+        throws InterruptedException
+    {
+        int rmiPort = 0;
+        try
+        {
+            rmiPort = Integer.parseInt(
+                getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
+        }
+        catch (Throwable ignored)
+        {
+            // Ignored
+        }
+        if (port != rmiPort)
+        {
+            super.waitForPortShutdown(port, connectTimeout, deadline);
+        }
+    }
+
+    /**
      * Invokes the container bootstrap class to start or stop the container, depending on the value
      * of the provided argument.
      * 
      * @param action Either 'start' or 'stop'
      * @param java the prepared Ant Java command that will be executed
-     * @exception Exception in case of container invocation error
+     * 
+     * @throws Exception in case of container invocation error
      */
     protected void invokeContainer(String action, JvmLauncher java) throws Exception
     {

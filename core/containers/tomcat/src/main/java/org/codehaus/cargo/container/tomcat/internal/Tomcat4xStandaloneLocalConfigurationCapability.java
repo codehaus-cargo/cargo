@@ -48,6 +48,7 @@ public class Tomcat4xStandaloneLocalConfigurationCapability extends
         super();
 
         this.supportsMap = new HashMap<String, Boolean>();
+        this.supportsMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
         this.supportsMap.put(GeneralPropertySet.URI_ENCODING, Boolean.TRUE);
         this.supportsMap.put(TomcatPropertySet.AJP_PORT, Boolean.TRUE);
         this.supportsMap.put(TomcatPropertySet.CONTEXT_RELOADABLE, Boolean.TRUE);
