@@ -350,14 +350,22 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     private void unpack()
     {
         File targetDir = new File(getExtractDir());
+        File sourceFile = new File(getDownloadDir(), getSourceFileName());
 
-        getLogger().info("Installing container in [" + targetDir.getPath() + "]",
-            getClass().getName());
+        getLogger().info(
+            "Installing container [" + sourceFile + "] in [" + targetDir.getPath() + "]",
+                getClass().getName());
 
         Expand expandTask = createExpandTask();
-        expandTask.setSrc(new File(getDownloadDir(), getSourceFileName()));
+        expandTask.setSrc(sourceFile);
         expandTask.setDest(targetDir);
         expandTask.execute();
+
+        if (!targetDir.isDirectory())
+        {
+            sourceFile.delete();
+            throw new BuildException("The file [" + sourceFile + "] is broken");
+        }
     }
 
     /**
