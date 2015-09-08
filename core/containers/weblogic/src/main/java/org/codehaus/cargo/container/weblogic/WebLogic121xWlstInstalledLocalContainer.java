@@ -140,7 +140,8 @@ public class WebLogic121xWlstInstalledLocalContainer extends
 
         for (String role : roles)
         {
-            configurationScript.add(String.format("cmo.createGroup('%s','%s')", role, role));
+            configurationScript.add(String.format("if not cmo.groupExists('%s'):", role));
+            configurationScript.add(String.format("    cmo.createGroup('%s','%s')", role, role));
         }
 
         for (User user : users)
