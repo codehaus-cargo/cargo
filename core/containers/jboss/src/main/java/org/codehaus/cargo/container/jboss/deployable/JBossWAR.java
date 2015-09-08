@@ -116,4 +116,20 @@ public class JBossWAR extends WAR
     {
         return this.warArchive.getJBossWebXml() != null;
     }
+
+    /**
+     * @return true if the WAR contains a <code>WEB-INF/jboss-web.xml</code> file with a context
+     */
+    public boolean containsJBossWebContext()
+    {
+        if (this.warArchive.getJBossWebXml() != null)
+        {
+            String context = this.warArchive.getJBossWebXml().getContextRoot();
+            return context != null;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
