@@ -976,7 +976,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.9.1</version>
+          <version>2.10.3</version>
           <configuration>
             <additionalDependencies>
               <additionalDependency>
@@ -984,14 +984,12 @@
                 <artifactId>jmock</artifactId>
                 <version>${jmock.version}</version>
               </additionalDependency>
+              <additionalDependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-artifact</artifactId>
+                <version>2.0</version>
+              </additionalDependency>
             </additionalDependencies>
-            <tagletArtifacts>
-              <tagletArtifact>
-                <groupId>org.apache.maven.plugin-tools</groupId>
-                <artifactId>maven-plugin-tools-javadoc</artifactId>
-                <version>3.2</version>
-              </tagletArtifact>
-            </tagletArtifacts>
             <tags>
               <tag>
                 <name>description</name>
@@ -1002,24 +1000,21 @@
                 <placement>X</placement>
               </tag>
               <tag>
-                <name>requiresDependencyResolution</name>
-                <placement>X</placement>
-              </tag>
-              <tag>
                 <name>phase</name>
                 <placement>X</placement>
               </tag>
+              <tag>
+                <name>requiresDependencyResolution</name>
+                <placement>X</placement>
+              </tag>
             </tags>
-            <!--
-              The below doesn't work, so we need to use excludePackageNames instead
-              See: https://jira.codehaus.org/browse/MJAVADOC-365
-
             <sourceFileExcludes>
-              <sourceFileExclude>**/generated-sources/modello/*</sourceFileExclude>
-              <sourceFileExclude>**/generated-sources/plugin/*</sourceFileExclude>
+              <sourceFileExclude>**/org/codehaus/cargo/maven2/HelpMojo.java</sourceFileExclude>
+              <sourceFileExclude>**/org/codehaus/cargo/maven2/Merge*.java</sourceFileExclude>
+              <sourceFileExclude>**/org/codehaus/cargo/maven2/WebXml.java</sourceFileExclude>
+              <sourceFileExclude>**/org/codehaus/cargo/maven2/io/xpp3/*.java</sourceFileExclude>
+              <sourceFileExclude>**/org/codehaus/cargo/maven2/modello/**/*.java</sourceFileExclude>
             </sourceFileExcludes>
-             -->
-            <excludePackageNames>org.codehaus.cargo.maven2:org.codehaus.cargo.maven2.io.xpp3</excludePackageNames>
           </configuration>
         </plugin>
         <plugin>
