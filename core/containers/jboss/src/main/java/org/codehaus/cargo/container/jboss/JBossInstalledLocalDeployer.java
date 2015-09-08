@@ -26,6 +26,7 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.jboss.deployable.JBossWAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
@@ -71,6 +72,15 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
     @Override
     protected String getDeployableName(Deployable deployable)
     {
+        if (deployable instanceof JBossWAR)
+        {
+            JBossWAR jbossWar = (JBossWAR) deployable;
+            if (jbossWar.containsJBossWebContext())
+            {
+                return getFileHandler().getName(deployable.getFile());
+            }
+        }
+
         String deployableName = super.getDeployableName(deployable);
         if (DeployableType.WAR.equals(deployable.getType()) && deployable.isExpanded())
         {
