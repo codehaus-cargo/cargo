@@ -162,6 +162,23 @@ public class WebLogic121xWlstInstalledLocalContainer extends
     }
 
     /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void doStop(JvmLauncher java) throws Exception
+    {
+        List<String> configurationScript = new ArrayList<String>();
+        configurationScript.add(String.format("connect('%s','%s','t3://localhost:%s')",
+            getConfiguration().getPropertyValue(WebLogicPropertySet.ADMIN_USER),
+            getConfiguration().getPropertyValue(WebLogicPropertySet.ADMIN_PWD),
+            getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
+        configurationScript.add(String.format("shutdown('%s','Server','true',1000,'true',"
+                + "'false')",
+                getConfiguration().getPropertyValue(WebLogicPropertySet.SERVER)));
+        executeScript(configurationScript);
+    }
+
+    /**
      * Writes configuration script using WLST.
      *
      * @param configurationScript Script containing WLST configuration to be executed.

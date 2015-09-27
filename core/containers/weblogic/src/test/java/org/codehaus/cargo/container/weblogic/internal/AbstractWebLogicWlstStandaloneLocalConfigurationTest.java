@@ -1,16 +1,18 @@
-package org.codehaus.cargo.container.weblogic;
+package org.codehaus.cargo.container.weblogic.internal;
 
 import java.util.List;
 
 import org.codehaus.cargo.container.configuration.entry.Resource;
+import org.codehaus.cargo.container.weblogic.WebLogic121xWlstInstalledLocalContainer;
+import org.codehaus.cargo.container.weblogic.WebLogic121xWlstStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicConfigurationEntryType;
 
 import junit.framework.TestCase;
 
 /**
- * Unit tests for {@link WebLogic121xWlstStandaloneLocalConfiguration}.
+ * Unit tests for {@link AbstractWebLogicWlstStandaloneLocalConfiguration}.
  */
-public class WebLogic121xWlstStandaloneLocalConfigurationTest extends TestCase
+public class AbstractWebLogicWlstStandaloneLocalConfigurationTest extends TestCase
 {
     /**
      * BEA_HOME
