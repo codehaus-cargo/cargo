@@ -845,7 +845,23 @@ public class TomcatManager extends LoggedObject
             buffer.append(chars, 0, n);
         }
 
-        return buffer.toString();
+        // See: https://codehaus-cargo.atlassian.net/browse/CARGO-1342
+        String response = buffer.toString().replaceAll("\\r\\n?", "\n");
+        if (response.startsWith("HTTP/"))
+        {
+            int httpHeaderBodySeparation = response.indexOf("\n\n");
+            if (httpHeaderBodySeparation != -1)
+            {
+                String splitResponse = response.substring(httpHeaderBodySeparation + 2);
+                httpHeaderBodySeparation = splitResponse.indexOf("\n");
+                if (httpHeaderBodySeparation != -1)
+                {
+                    response = splitResponse.substring(httpHeaderBodySeparation + 1);
+                }
+            }
+        }
+
+        return response;
     }
 
     /**
