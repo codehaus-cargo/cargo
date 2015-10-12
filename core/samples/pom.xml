@@ -480,7 +480,7 @@
                 <!--
                 <value>http://download.java.net/glassfish/4.0/release/glassfish-4.0.zip</value>
                  -->
-                <value>http://download.java.net/glassfish/4.1/release/glassfish-4.1.zip</value>
+                <value>http://download.java.net/glassfish/4.1.1/release/glassfish-4.1.1.zip</value>
               </property>
               <property>
                 <name>cargo.glassfish4x.java.home</name>
