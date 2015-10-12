@@ -25,6 +25,7 @@ package org.codehaus.cargo.container.jboss.internal;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
