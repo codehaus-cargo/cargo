@@ -102,6 +102,20 @@ public abstract class AbstractJBossInstalledLocalContainer extends
 
             java.addAppArguments("--host=" + hostname);
         }
+        // Also do the same for the jboss.bind.address property, else on multi-IP configurations
+        // remote deployments will fail with an org.jboss.remoting.CannotConnectException: Can not
+        // get connection to server, caused by IllegalArgumentException: port out of range: -1
+        final Map<String, String> systemProperties = getSystemProperties();
+        if (!systemProperties.containsKey("jboss.bind.address"))
+        {
+            String hostname = getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME);
+            if ("localhost".equals(hostname))
+            {
+                hostname = "0.0.0.0";
+            }
+
+            java.setSystemProperty("jboss.bind.address", hostname);
+        }
 
         java.addClasspathEntries(new File(getHome(), "bin/run.jar"));
         addToolsJarToClasspath(java);
