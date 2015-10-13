@@ -27,6 +27,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.LoginContext;
+import org.codehaus.cargo.container.ContainerException;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
@@ -183,7 +184,15 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
 
         ProfileService ps = (ProfileService) ctx.lookup("ProfileService");
 
-        return ps.getDeploymentManager();
+        try
+        {
+            return ps.getDeploymentManager();
+        }
+        catch (Exception e)
+        {
+            throw new ContainerException(
+                "Cannot get the JBoss Deployment Manager on Provider URL " + providerURL, e);
+        }
 
         // TODO: think about logout ?
     }
