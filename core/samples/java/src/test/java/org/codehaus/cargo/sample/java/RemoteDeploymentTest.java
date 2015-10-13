@@ -234,22 +234,8 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
         testData.containerType = oldContainerType;
 
-        // With JBoss versions before 7, the jboss.bind.address system property has to be set,
-        // else remote deployments will fail with an org.jboss.remoting.CannotConnectException: Can
-        // not get connection to server, caused by IllegalArgumentException: port out of range: -1
-        // on multi-IP configurations.
-        if (getTestData().containerId.startsWith("jboss"))
-        {
-            int jbossVersion = Integer.parseInt(getTestData().containerId.substring(5,
-                getTestData().containerId.length() - 1));
-
-            if (jbossVersion < 7)
-            {
-                this.localContainer.getSystemProperties().put("jboss.bind.address", "localhost");
-            }
-        }
         // Jetty requires its deployer application
-        else if (getTestData().containerId.startsWith("jetty"))
+        if (getTestData().containerId.startsWith("jetty"))
         {
             int jettyVersion = Integer.parseInt(getTestData().containerId.substring(5,
                 getTestData().containerId.length() - 1));
