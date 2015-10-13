@@ -28,10 +28,6 @@
   <packaging>jar</packaging>
   <description>Sample application that will be used to test the WebLogic container</description>
 
-  <properties>
-    <cargo.samples.servlet.port>7001</cargo.samples.servlet.port>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>

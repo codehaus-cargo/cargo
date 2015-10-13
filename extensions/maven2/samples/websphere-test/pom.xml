@@ -28,6 +28,10 @@
   <packaging>jar</packaging>
   <description>Sample application that will be used to test the WebSphere container</description>
 
+  <!--
+   The WebSphere container works best as an existing configuration, so reuse port number as
+   they're configured in WebSphere itself.
+   -->
   <properties>
     <cargo.samples.servlet.port>9080</cargo.samples.servlet.port>
     <cargo.websphere.profile>AppSrv01</cargo.websphere.profile>
