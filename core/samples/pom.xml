@@ -877,7 +877,7 @@
                 <name>cargo.wildfly8x.url</name>
                 <!-- <value>http://download.jboss.org/wildfly/8.0.0.Final/wildfly-8.0.0.Final.tar.gz</value> -->
                 <!-- <value>http://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz</value> -->
-                <value>http://download.jboss.org/wildfly/8.2.0.Final/wildfly-8.2.0.Final.tar.gz</value>
+                <value>http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz</value>
               </property>
               <property>
                 <name>cargo.wildfly8x.java.home</name>
@@ -886,7 +886,7 @@
 
               <property>
                 <name>cargo.wildfly9x.url</name>
-                <value>http://download.jboss.org/wildfly/9.0.0.Final/wildfly-9.0.0.Final.tar.gz</value>
+                <value>http://download.jboss.org/wildfly/9.0.1.Final/wildfly-9.0.1.Final.tar.gz</value>
               </property>
               <property>
                 <name>cargo.wildfly9x.java.home</name>
@@ -944,7 +944,7 @@
   
               <property>
                 <name>cargo.tomee1x.url</name>
-                <value>http://archive.apache.org/dist/tomee/tomee-1.7.1/apache-tomee-1.7.1-plus.zip</value>
+                <value>http://archive.apache.org/dist/tomee/tomee-1.7.2/apache-tomee-1.7.2-plus.zip</value>
               </property>
               <property>
                 <name>cargo.tomee1x.java.home</name>
