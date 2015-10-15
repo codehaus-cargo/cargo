@@ -81,4 +81,30 @@ public class WebLogicTest extends TestCase
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }
+
+    /**
+     * Test verifying datasource.
+     * @throws Exception If anything fails.
+     */
+    public void testDatasource() throws Exception
+    {
+        final URL url = new URL("http://localhost:" + System.getProperty("http.port")
+            + "/datasource-war-" + projectVersion + "/test");
+        final String expected = "Got connection!";
+
+        PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
+    }
+
+    /**
+     * Test verifying JMS.
+     * @throws Exception If anything fails.
+     */
+    public void testJms() throws Exception
+    {
+        final URL url = new URL("http://localhost:" + System.getProperty("http.port")
+            + "/jms-war-" + projectVersion + "/test");
+        final String expected = "Got queue!";
+
+        PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
+    }
 }
