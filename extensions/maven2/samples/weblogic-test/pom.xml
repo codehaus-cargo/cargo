@@ -53,6 +53,20 @@
       <artifactId>simple-war</artifactId>
       <type>war</type>
     </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>datasource-war</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>jms-war</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+    </dependency>
   </dependencies>
 
   <profiles>
@@ -80,12 +94,33 @@
                     <groupId>org.codehaus.cargo</groupId>
                     <artifactId>simple-jar</artifactId>
                   </dependency>
+                  <dependency>
+                    <groupId>org.apache.derby</groupId>
+                    <artifactId>derby</artifactId>
+                  </dependency>
                 </dependencies>
               </container>
               <configuration>
                 <type>standalone</type>
                 <properties>
                   <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+                  <cargo.datasource.datasource.derby>
+                    cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedDriver|
+                    cargo.datasource.url=jdbc:derby:derbyDB;create=true|
+                    cargo.datasource.jndi=jdbc/CargoDS|
+                    cargo.datasource.username=sa|
+                    cargo.datasource.password=
+                  </cargo.datasource.datasource.derby>
+                  <cargo.resource.resource.jms.cf>
+                    cargo.resource.name=jms/cf/MyCf|
+                    cargo.resource.type=javax.jms.ConnectionFactory|
+                    cargo.resource.id=MyCf
+                  </cargo.resource.resource.jms.cf>
+                  <cargo.resource.resource.jms.queue>
+                    cargo.resource.name=jms/MyQueue|
+                    cargo.resource.type=javax.jms.Queue|
+                    cargo.resource.id=MyQueue
+                  </cargo.resource.resource.jms.queue>
                 </properties>
               </configuration>
               <deployables>
@@ -102,6 +137,16 @@
                 <deployable>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-war</artifactId>
+                  <type>war</type>
+                </deployable>
+                <deployable>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>datasource-war</artifactId>
+                  <type>war</type>
+                </deployable>
+                <deployable>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>jms-war</artifactId>
                   <type>war</type>
                 </deployable>
               </deployables>
