@@ -396,6 +396,11 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("Enterprise Application Platform (EAP) version 6.3; i.e. the build ");
             output.append("from JBoss Application Server (AS) version 7.4 released in June ");
             output.append("2014");
+            output.append(LINE_SEPARATOR);
+            output.append("* What Cargo calls [JBoss 7.5.x] is what JBoss refers to as JBoss ");
+            output.append("Enterprise Application Platform (EAP) version 6.4; i.e. the build ");
+            output.append("from JBoss Application Server (AS) version 7.5 released in October ");
+            output.append("2015");
             output.append("{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);

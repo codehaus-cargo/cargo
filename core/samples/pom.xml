@@ -873,6 +873,28 @@
                 <value>${cargo.java.home.1_7}</value>
               </property>
 
+              <!--
+                JBoss 7.5 is actually called EAP 6.4.0
+
+                Please download it manually from https://www.jboss.org/products/eap/download/ and
+                set the cargo.jboss75x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.jboss75x.home</name>
+                    <value>C:/Program Files/JBoss/jboss-eap-6.4.0</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.jboss75x.home</name>
+                <value>${cargo.jboss75x.home}</value>
+              </property>
+              <property>
+                <name>cargo.jboss75x.java.home</name>
+                <value>${cargo.java.home.1_7}</value>
+              </property>
+
               <property>
                 <name>cargo.wildfly8x.url</name>
                 <!-- <value>http://download.jboss.org/wildfly/8.0.0.Final/wildfly-8.0.0.Final.tar.gz</value> -->
@@ -1499,6 +1521,12 @@
        <id>jboss74x</id>
        <properties>
          <cargo.containers>jboss74x</cargo.containers>
+       </properties>
+    </profile>
+    <profile>
+       <id>jboss75x</id>
+       <properties>
+         <cargo.containers>jboss75x</cargo.containers>
        </properties>
     </profile>
 
