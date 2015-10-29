@@ -908,7 +908,7 @@
 
               <property>
                 <name>cargo.wildfly9x.url</name>
-                <value>http://download.jboss.org/wildfly/9.0.1.Final/wildfly-9.0.1.Final.tar.gz</value>
+                <value>http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz</value>
               </property>
               <property>
                 <name>cargo.wildfly9x.java.home</name>
