@@ -675,7 +675,7 @@ public class CargoTask extends Task
                         throw new BuildException("Cannot start the container via Daemon: " + e, e);
                     }
                 }
-                else if (ACTION_DAEMON_START.equalsIgnoreCase(getAction()))
+                else if (ACTION_DAEMON_STOP.equalsIgnoreCase(getAction()))
                 {
                     try
                     {
