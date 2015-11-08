@@ -32,6 +32,7 @@
     <module>webapp-single-module</module>
     <module>webapp-functional-tests-module</module>
     <module>webapp-with-datasource</module>
+    <module>multiple-containers</module>
     <module>remote-deployment</module>
     <module>daemon</module>
   </modules>
@@ -67,6 +68,9 @@
                 <portNames>
                   <portName>cargo.itest.daemon.port</portName>
                   <portName>cargo.itest.servlet.port</portName>
+                  <portName>cargo.itest.servlet2.port</portName>
+                  <portName>cargo.itest.rmi.port</portName>
+                  <portName>cargo.itest.rmi2.port</portName>
                 </portNames>
               </configuration>
             </execution>
@@ -92,6 +96,9 @@
               <archetypeArtifactId>${project.artifactId}</archetypeArtifactId>
               <archetypeVersion>${project.version}</archetypeVersion>
               <servlet.port>${cargo.itest.servlet.port}</servlet.port>
+              <servlet2.port>${cargo.itest.servlet.port2}</servlet2.port>
+              <rmi.port>${cargo.itest.rmi.port}</rmi.port>
+              <rmi2.port>${cargo.itest.rmi.port2}</rmi2.port>
               <daemon.port>${cargo.itest.daemon.port}</daemon.port>
             </properties>
           </configuration>

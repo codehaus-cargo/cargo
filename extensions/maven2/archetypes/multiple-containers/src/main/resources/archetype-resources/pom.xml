@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>\${groupId}</groupId>
+  <artifactId>\${artifactId}</artifactId>
+  <version>\${version}</version>
+  <packaging>war</packaging>
+  <name>Maven Webapp</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <servlet.port>8080</servlet.port>
+    <servlet2.port>18080</servlet2.port>
+    <rmi.port>8079</rmi.port>
+    <rmi2.port>18079</rmi2.port>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.16</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>pre-integration-test</phase>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.eclipse.jetty</groupId>
+                  <artifactId>jetty-distribution</artifactId>
+                  <version>7.6.17.v20150415</version>
+                  <type>zip</type>
+                  <outputDirectory>\${project.build.directory}/cargo/containers</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.eclipse.jetty</groupId>
+                  <artifactId>jetty-distribution</artifactId>
+                  <version>8.1.17.v20150415</version>
+                  <type>zip</type>
+                  <outputDirectory>\${project.build.directory}/cargo/containers</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!--
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>start-cargo-first-container</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+            <configuration>
+              <container>
+                <containerId>jetty7x</containerId>
+                <artifactInstaller>
+                  <groupId>org.eclipse.jetty</groupId>
+                  <artifactId>jetty-distribution</artifactId>
+                  <version>7.6.17.v20150415</version>
+                </artifactInstaller>
+              </container>
+              <configuration>
+                <properties>
+                  <cargo.servlet.port>\${servlet.port}</cargo.servlet.port>
+                </properties>
+              </configuration>
+            </configuration>
+          </execution>
+          <execution>
+            <id>start-cargo-second-container</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+            <configuration>
+              <container>
+                <containerId>jetty8x</containerId>
+                <artifactInstaller>
+                  <groupId>org.eclipse.jetty</groupId>
+                  <artifactId>jetty-distribution</artifactId>
+                  <version>8.1.17.v20150415</version>
+                </artifactInstaller>
+              </container>
+              <configuration>
+                <properties>
+                  <cargo.servlet.port>\${servlet2.port}</cargo.servlet.port>
+                </properties>
+              </configuration>
+            </configuration>
+          </execution>
+          <execution>
+            <id>stop-cargo</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      -->
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>start</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <taskdef resource="cargo.tasks"/>
+
+                <cargo containerId="jetty7x" action="start" home="\${project.build.directory}/cargo/containers/jetty-distribution-7.6.17.v20150415">
+                  <configuration home="\${project.build.directory}/cargo/configurations/jetty7x">
+                    <property name="cargo.servlet.port" value="\${servlet.port}"/>
+                    <property name="cargo.rmi.port" value="\${rmi.port}"/>
+                    <deployable type="war" file="\${project.build.directory}/\${artifactId}-\${version}.war">
+                      <property name="context" value="\${artifactId}"/>
+                    </deployable>
+                  </configuration>
+                </cargo>
+                <cargo containerId="jetty8x" action="start" home="\${project.build.directory}/cargo/containers/jetty-distribution-8.1.17.v20150415">
+                  <configuration home="\${project.build.directory}/cargo/configurations/jetty8x">
+                    <property name="cargo.servlet.port" value="\${servlet2.port}"/>
+                    <property name="cargo.rmi.port" value="\${rmi2.port}"/>
+                    <deployable type="war" file="\${project.build.directory}/\${artifactId}-\${version}.war">
+                      <property name="context" value="\${artifactId}"/>
+                    </deployable>
+                  </configuration>
+                </cargo>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>stop</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <taskdef resource="cargo.tasks"/>
+
+                <cargo containerId="jetty7x" action="stop" home="\${project.build.directory}/cargo/containers/jetty-distribution-7.6.17.v20150415">
+                  <configuration home="\${project.build.directory}/cargo/configurations/jetty7x">
+                    <property name="cargo.servlet.port" value="\${servlet.port}"/>
+                    <property name="cargo.rmi.port" value="\${rmi.port}"/>
+                  </configuration>
+                </cargo>
+                <cargo containerId="jetty8x" action="stop" home="\${project.build.directory}/cargo/containers/jetty-distribution-8.1.17.v20150415">
+                  <configuration home="\${project.build.directory}/cargo/configurations/jetty8x">
+                    <property name="cargo.servlet.port" value="\${servlet2.port}"/>
+                    <property name="cargo.rmi.port" value="\${rmi2.port}"/>
+                  </configuration>
+                </cargo>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-uberjar</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-ant</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>perform-it</id>
+            <goals>
+              <goal>integration-test</goal>
+            </goals>
+            <configuration>
+              <systemProperties>
+                <property>
+                  <name>servlet.port</name>
+                  <value>\${servlet.port}</value>
+                </property>
+                <property>
+                  <name>servlet2.port</name>
+                  <value>\${servlet2.port}</value>
+                </property>
+              </systemProperties>
+            </configuration>
+          </execution>
+          <execution>
+            <id>verify-it</id>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
