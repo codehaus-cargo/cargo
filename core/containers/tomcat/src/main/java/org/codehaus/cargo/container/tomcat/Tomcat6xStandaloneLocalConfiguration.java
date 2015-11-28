@@ -111,7 +111,7 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
         replacements.put("common.loader=",
             "common.loader=${catalina.base}/common/classes,${catalina.base}/common/lib/*.jar,");
         replacements.put("shared.loader=",
-            "shared.loader=${catalina.base}/shared/classes,${catalina.base}/shared/lib/*.jar");
+            "shared.loader=${catalina.base}/shared/classes,${catalina.base}/shared/lib/*.jar,");
         return replacements;
     }
 
