@@ -92,6 +92,23 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
 
     /**
      * Doesn't do anything. {@inheritDoc}
+     *
+     * @param filename File in which to replace.
+     * @param xpathExpression XPath expression to look for.
+     * @param attributeName Attribute name to modify. If <code>null</code>, the node's contents
+     * will be modified.
+     * @param configurationPropertyName Name of the configuration property to set. The XML
+     * replacement will be ignored if the property is set to <code>null</code>.
+     * @param ignoreIfNonExisting
+     */
+    public void addXmlReplacement(String filename, String xpathExpression, String attributeName,
+         String configurationPropertyName, boolean ignoreIfNonExisting)
+    {
+        // Nothing
+    }
+
+    /**
+     * Doesn't do anything. {@inheritDoc}
      * 
      * @param filename Ignored.
      * @param xpathExpression Ignored.
