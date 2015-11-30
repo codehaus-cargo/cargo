@@ -202,6 +202,23 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     /**
      * {@inheritDoc}
      */
+    public void addXmlReplacement(String filename, String xpathExpression, String attributeName,
+                                  String configurationPropertyName, boolean ignoreIfNonExisting)
+    {
+        Map<XmlReplacementDetails, String> fileReplacements = this.xmlReplacements.get(filename);
+        if (fileReplacements == null)
+        {
+            fileReplacements = new HashMap<XmlReplacementDetails, String>();
+            this.xmlReplacements.put(filename, fileReplacements);
+        }
+
+        fileReplacements.put(new XmlReplacementDetails(xpathExpression, attributeName,
+             ignoreIfNonExisting), configurationPropertyName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public void removeXmlReplacement(String filename, String xpathExpression)
     {
         removeXmlReplacement(filename, xpathExpression, null);
