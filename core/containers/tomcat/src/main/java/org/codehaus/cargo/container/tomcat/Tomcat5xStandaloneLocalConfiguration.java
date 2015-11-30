@@ -342,7 +342,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
                     "port", ServletPropertySet.PORT);
         addXmlReplacement("conf/server.xml",
             "//Server/Service/Connector[@protocol='AJP/1.3']",
-                "port", TomcatPropertySet.AJP_PORT);
+                "port", TomcatPropertySet.AJP_PORT, true);
         addXmlReplacement("conf/server.xml",
             "//Server/Service/Engine",
                 "defaultHost", GeneralPropertySet.HOSTNAME);
@@ -372,7 +372,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
                         "address", GeneralPropertySet.HOSTNAME);
             addXmlReplacement("conf/server.xml",
                 "//Server/Service/Connector[@protocol='AJP/1.3']",
-                        "address", GeneralPropertySet.HOSTNAME);
+                        "address", GeneralPropertySet.HOSTNAME, true);
         }
 
         if (container.getConfiguration().getPropertyValue(
