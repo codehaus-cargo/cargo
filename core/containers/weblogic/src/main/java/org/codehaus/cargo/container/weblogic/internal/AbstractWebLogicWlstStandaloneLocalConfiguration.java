@@ -22,52 +22,37 @@ package org.codehaus.cargo.container.weblogic.internal;
 import java.util.Collections;
 import java.util.List;
 
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
-import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.weblogic.WebLogicConfiguration;
+import org.codehaus.cargo.container.weblogic.WebLogicWlstConfiguration;
+import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicWlstConfigurationFactory;
 import org.codehaus.cargo.container.weblogic.internal.configuration.rules.WebLogicResourceRules;
 import org.codehaus.cargo.container.weblogic.internal.configuration.util.PriorityComparator;
-import org.codehaus.cargo.generic.configuration.builder.ConfigurationBuilderFactory;
-import org.codehaus.cargo.generic.configuration.builder.DefaultConfigurationBuilderFactory;
 
 /**
  * Contains common Weblogic configuration functionality for WLST.
  */
 public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
-    AbstractStandaloneLocalConfiguration implements WebLogicConfiguration
+    AbstractStandaloneLocalConfiguration implements WebLogicWlstConfiguration
 {
+
+    /**
+     * Configuration factory for creating WLST configuration scripts.
+     */
+    private WebLogicWlstConfigurationFactory factory;
 
     /**
      * {@inheritDoc}
      *
+     * @param dir Home directory for container.
+     * @param baseResourcePath Base path for WLST configuration resources.
+     *
      * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
-    public AbstractWebLogicWlstStandaloneLocalConfiguration(String dir)
+    public AbstractWebLogicWlstStandaloneLocalConfiguration(String dir, String baseResourcePath)
     {
         super(dir);
-    }
-
-    /**
-     * @param container Container the dataSource will be configured on.
-     * @return Configuration builder that produces WLST script for DataSource creation.
-     */
-    protected abstract ConfigurationBuilder createConfigurationBuilder(LocalContainer container);
-
-    /**
-     * Returns configuration script for datasource.
-     *
-     * @param ds Datasource to be configured.
-     * @param container Container the dataSource will be configured on.
-     * @return Configuration script.
-     */
-    protected String getDataSourceScript(DataSource ds, LocalContainer container)
-    {
-        ConfigurationBuilder builder = this.createConfigurationBuilder(container);
-        String configurationEntry = builder.toConfigurationEntry(ds);
-        return configurationEntry;
+        factory = new WebLogicWlstConfigurationFactory(this, baseResourcePath);
     }
 
     /**
@@ -90,27 +75,18 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
     }
 
     /**
-     * Returns configuration script for resource.
-     *
-     * @param resource Resource to be configured.
-     * @param container Container the resource will be configured on.
-     * @return Configuration script.
-     */
-    protected String getResourceScript(Resource resource, LocalContainer container)
-    {
-        ConfigurationBuilderFactory configurationBuilderFactory =
-            new DefaultConfigurationBuilderFactory();
-        ConfigurationBuilder builder =
-            configurationBuilderFactory.createConfigurationBuilder(container, resource);
-        String configurationEntry = builder.toConfigurationEntry(resource);
-        return configurationEntry;
-    }
-
-    /**
      * {@inheritDoc}
      */
     public String getDomainHome()
     {
         return getHome();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public WebLogicWlstConfigurationFactory getConfigurationFactory()
+    {
+        return factory;
     }
 }

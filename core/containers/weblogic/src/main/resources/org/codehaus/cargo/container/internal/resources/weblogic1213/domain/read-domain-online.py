@@ -1,0 +1,1 @@
+connect('@cargo.weblogic.administrator.user@','@cargo.weblogic.administrator.password@','t3://@cargo.hostname@:@cargo.servlet.port@')

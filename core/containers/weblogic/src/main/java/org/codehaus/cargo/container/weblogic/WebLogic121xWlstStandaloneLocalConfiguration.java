@@ -25,9 +25,9 @@ import java.util.List;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
+import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
@@ -35,7 +35,6 @@ import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicWlstStanda
 import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xWlstStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
-import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogic9x10x103x12xDataSourceConfigurationBuilder;
 
 /**
  * WebLogic 12.1.x standalone
@@ -53,7 +52,7 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
      */
     public WebLogic121xWlstStandaloneLocalConfiguration(String dir)
     {
-        super(dir);
+        super(dir, "org/codehaus/cargo/container/internal/resources/weblogic1213/");
 
         setProperty(WebLogicPropertySet.ADMIN_USER, "weblogic");
         setProperty(WebLogicPropertySet.ADMIN_PWD, "weblogic1");
@@ -79,31 +78,22 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
      * {@inheritDoc}
      */
     @Override
-    protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)
-    {
-        return new WebLogic9x10x103x12xDataSourceConfigurationBuilder(container.getConfiguration());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         setupConfigurationDir();
 
         WebLogicLocalScriptingContainer weblogicContainer =
             (WebLogicLocalScriptingContainer) container;
-        List<String> configurationScript = new ArrayList<String>();
+        List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();
 
         // create new domain
-        configurationScript.addAll(prepareDomain(weblogicContainer));
+        configurationScript.add(getConfigurationFactory().createDomainScript(
+                weblogicContainer.getWeblogicHome()));
 
         // add datasources to script
         for (DataSource dataSource : getDataSources())
         {
-            configurationScript.add("cd('/')");
-            configurationScript.add(getDataSourceScript(dataSource, weblogicContainer));
+            configurationScript.addAll(getConfigurationFactory().dataSourceScript(dataSource));
         }
 
         // add missing resources to list of resources
@@ -115,8 +105,7 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
         // add resources to script
         for (Resource resource : getResources())
         {
-            configurationScript.add("cd('/')");
-            configurationScript.add(getResourceScript(resource, weblogicContainer));
+            configurationScript.add(getConfigurationFactory().resourceScript(resource));
         }
 
         // add deployments to script
@@ -124,12 +113,11 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
             new WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer(weblogicContainer);
         for (Deployable deployable : getDeployables())
         {
-            configurationScript.add("cd('/')");
-            configurationScript.addAll(deployer.getDeployScript(deployable));
+            configurationScript.add(deployer.getDeployScript(deployable));
         }
 
         // write new domain to domain folder
-        configurationScript.addAll(writeDomain());
+        configurationScript.add(getConfigurationFactory().writeDomainScript());
 
         getLogger().info("Creating new Weblogic domain.", this.getClass().getName());
 
@@ -138,57 +126,6 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
 
         // deploy cargo ping
         deployCargoPing(weblogicContainer);
-    }
-
-    /**
-     * Returns script for creating new domain from Weblogic template.
-     *
-     * @param weblogicContainer Weblogic container.
-     * @return Script for creating new domain.
-     */
-    private List<String> prepareDomain(WebLogicLocalScriptingContainer weblogicContainer)
-    {
-        String weblogicHome = weblogicContainer.getWeblogicHome();
-
-        // script for loading default Weblogic domain form template, configuring port and
-        // administration user
-        List<String> configurationScript = new ArrayList<String>();
-        configurationScript.add("print \"Loading domain template.\"");
-        configurationScript.add(String.format("readTemplate(r'%s/common/templates/wls/wls.jar')",
-            weblogicHome));
-        configurationScript.add("print \"Configuring domain and resources.\"");
-        configurationScript.add("cd('/')");
-        configurationScript.add("cd('Servers/AdminServer')");
-        configurationScript.add(String.format("cmo.setName('%s')",
-            getPropertyValue(WebLogicPropertySet.SERVER)));
-        configurationScript.add(String.format("set('ListenPort', %s)",
-            getPropertyValue(ServletPropertySet.PORT)));
-        configurationScript.add("cd('/')");
-        configurationScript.add("cd('Security/base_domain/User/weblogic')");
-        configurationScript.add(String.format("cmo.setName('%s')",
-            getPropertyValue(WebLogicPropertySet.ADMIN_USER)));
-        configurationScript.add(String.format("cmo.setPassword('%s')",
-            getPropertyValue(WebLogicPropertySet.ADMIN_PWD)));
-        configurationScript.add("cd('/')");
-        configurationScript.add("setOption('OverwriteDomain', 'true')");
-        configurationScript.add("cd('/')");
-
-        return configurationScript;
-    }
-
-    /**
-     * Write domain and close domain template.
-     *
-     * @return Script writing new domain.
-     */
-    private List<String> writeDomain()
-    {
-        List<String> configurationScript = new ArrayList<String>();
-        configurationScript.add("print \"Writing domain.\"");
-        configurationScript.add(String.format("writeDomain(r'%s')", getDomainHome()));
-        configurationScript.add("closeTemplate()");
-
-        return configurationScript;
     }
 
     /**
