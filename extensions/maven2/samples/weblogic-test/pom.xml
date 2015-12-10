@@ -104,6 +104,7 @@
                 <type>standalone</type>
                 <properties>
                   <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+                  <cargo.servlet.users>myUser:passw0rd:group1</cargo.servlet.users>
                   <cargo.datasource.datasource.derby>
                     cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedDriver|
                     cargo.datasource.url=jdbc:derby:derbyDB;create=true|

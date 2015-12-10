@@ -27,12 +27,6 @@ import org.codehaus.cargo.container.weblogic.internal.WebLogic8xStandaloneLocalC
 import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xWlstStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogic9x10x103x12xJmsConnectionFactoryConfigurationBuilder;
-import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogic9x10x103x12xJmsQueueConfigurationBuilder;
-import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogic9x10x103x12xJmsServerConfigurationBuilder;
-import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogic9x10x103x12xJmsSubdeploymentConfigurationBuilder;
-import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogic9x10x103x12xJmsSystemResourceConfigurationBuilder;
-import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicConfigurationEntryType;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
@@ -256,25 +250,6 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ConfigurationBuilderFactory configurationBuilderFactory)
     {
-        // Resources for Weblogic 12.1.x.
-        configurationBuilderFactory.registerConfigurationBuilder("weblogic121x",
-            ContainerType.INSTALLED, WebLogicConfigurationEntryType.JMS_CONNECTION_FACTORY,
-            WebLogic9x10x103x12xJmsConnectionFactoryConfigurationBuilder.class);
-
-        configurationBuilderFactory.registerConfigurationBuilder("weblogic121x",
-            ContainerType.INSTALLED, WebLogicConfigurationEntryType.JMS_MODULE,
-            WebLogic9x10x103x12xJmsSystemResourceConfigurationBuilder.class);
-
-        configurationBuilderFactory.registerConfigurationBuilder("weblogic121x",
-            ContainerType.INSTALLED, WebLogicConfigurationEntryType.JMS_QUEUE,
-            WebLogic9x10x103x12xJmsQueueConfigurationBuilder.class);
-
-        configurationBuilderFactory.registerConfigurationBuilder("weblogic121x",
-            ContainerType.INSTALLED, WebLogicConfigurationEntryType.JMS_SERVER,
-            WebLogic9x10x103x12xJmsServerConfigurationBuilder.class);
-
-        configurationBuilderFactory.registerConfigurationBuilder("weblogic121x",
-            ContainerType.INSTALLED, WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT,
-            WebLogic9x10x103x12xJmsSubdeploymentConfigurationBuilder.class);
+        // Resources for Weblogic 12.1.x. - not used - solved by WebLogicWlstConfigurationFactory
     }
 }

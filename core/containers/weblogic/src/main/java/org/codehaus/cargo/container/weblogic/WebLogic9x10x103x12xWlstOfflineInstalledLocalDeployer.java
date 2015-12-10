@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableException;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -61,16 +62,16 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
         WebLogicLocalScriptingContainer weblogicContainer =
             (WebLogicLocalScriptingContainer) getContainer();
 
-        WebLogicConfiguration configuration =
-            (WebLogicConfiguration) weblogicContainer.getConfiguration();
+        WebLogicWlstConfiguration configuration =
+            (WebLogicWlstConfiguration) weblogicContainer.getConfiguration();
 
         // script for deploying deployable to Weblogic using WLST
-        List<String> configurationScript = new ArrayList<String>();
-        configurationScript.add(String.format("readDomain(r'%s')", configuration.getDomainHome()));
-        configurationScript.add("cd('/')");
-        configurationScript.addAll(getDeployScript(deployable));
-        configurationScript.add("updateDomain()");
-        configurationScript.add("closeDomain()");
+        List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();
+
+        configurationScript.add(configuration.getConfigurationFactory().readDomainOfflineScript());
+        configurationScript.add(getDeployScript(deployable));
+        configurationScript.add(configuration.getConfigurationFactory().
+                updateDomainOfflineScript());
 
         getLogger().info("Deploying application to Weblogic domain.",
             this.getClass().getName());
@@ -82,22 +83,15 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
      * @param deployable the Deployable to deploy
      * @return WLST script for deploying.
      */
-    public List<String> getDeployScript(Deployable deployable)
+    public ScriptCommand getDeployScript(Deployable deployable)
     {
+        WebLogicWlstConfiguration configuration =
+            (WebLogicWlstConfiguration) getContainer().getConfiguration();
+
         String id = createIdForDeployable(deployable);
         String path = getAbsolutePath(deployable);
-        String serverName = getServerName();
 
-        // script for deploying deployable to Weblogic using WLST
-        List<String> configurationScript = new ArrayList<String>();
-        configurationScript.add(String.format("app=create('%s','AppDeployment')", id));
-        configurationScript.add(String.format("app.setSourcePath(r'%s')", path));
-        configurationScript.add("cd('/')");
-        configurationScript.add(String.format(
-            "assign('AppDeployment', '%s', 'Target', '%s')",
-            id, serverName));
-
-        return configurationScript;
+        return configuration.getConfigurationFactory().deployDeployableScript(id, path);
     }
 
     /**
@@ -111,17 +105,18 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
         WebLogicLocalScriptingContainer weblogicContainer =
             (WebLogicLocalScriptingContainer) getContainer();
 
-        WebLogicConfiguration configuration =
-            (WebLogicConfiguration) weblogicContainer.getConfiguration();
+        WebLogicWlstConfiguration configuration =
+            (WebLogicWlstConfiguration) weblogicContainer.getConfiguration();
 
         String id = createIdForDeployable(deployable);
 
-        List<String> configurationScript = new ArrayList<String>();
-        configurationScript.add(String.format("readDomain(r'%s')", configuration.getDomainHome()));
-        configurationScript.add("cd('/')");
-        configurationScript.add(String.format("delete('%s','AppDeployment')", id));
-        configurationScript.add("updateDomain()");
-        configurationScript.add("closeDomain()");
+        List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();
+
+        configurationScript.add(configuration.getConfigurationFactory().readDomainOfflineScript());
+        configurationScript.add(configuration.getConfigurationFactory().
+                undeployDeployableScript(id));
+        configurationScript.add(configuration.getConfigurationFactory().
+                updateDomainOfflineScript());
 
         getLogger().info("Undeploying application from Weblogic domain.",
             this.getClass().getName());
@@ -171,16 +166,6 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
     {
         File file = new File(deployable.getFile());
         return file.getName();
-    }
-
-    /**
-     * return the running server's name.
-     *
-     * @return the WebLogic server's name
-     */
-    private String getServerName()
-    {
-        return getContainer().getConfiguration().getPropertyValue(WebLogicPropertySet.SERVER);
     }
 
     /**

@@ -1,0 +1,1 @@
+shutdown('@cargo.weblogic.server@','Server','true',1000,'true','false')

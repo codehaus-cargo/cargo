@@ -275,4 +275,79 @@ public final class ResourceUtils extends LoggedObject
         return file;
     }
 
+    /**
+     * Reads a container resource from the JAR, applies the specified filters and returns content
+     * as String.
+     *
+     * @param resourceName The name of the resource, relative to the
+     * org.codehaus.cargo.container.internal.util package
+     * @param filterChain The ordered list of filter readers that should be applied while reading
+     * @param encoding The encoding that should be used when reading the resource. Use null for
+     * system default encoding
+     * @return Content of resource as String.
+     */
+    public String readResource(String resourceName, FilterChain filterChain, String encoding)
+    {
+        String newLine = System.getProperty("line.separator");
+        InputStream resource = ResourceUtils.resourceLoader.getResourceAsStream(resourceName);
+
+        if (resource == null)
+        {
+            throw new CargoException("Resource [" + resourceName
+                + "] not found in resource loader " + ResourceUtils.resourceLoader);
+        }
+
+        BufferedReader in = null;
+        StringBuffer out = null;
+
+        try
+        {
+            ChainReaderHelper helper = new ChainReaderHelper();
+            helper.setBufferSize(8192);
+            helper.setPrimaryReader(new BufferedReader(createReader(resource, encoding)));
+            Vector<FilterChain> filterChains = new Vector<FilterChain>();
+            filterChains.add(filterChain);
+            helper.setFilterChains(filterChains);
+            in = new BufferedReader(helper.getAssembledReader());
+
+            out = new StringBuffer();
+
+            String line;
+            while ((line = in.readLine()) != null)
+            {
+                if (line.length() == 0)
+                {
+                    out.append(newLine);
+                }
+                else
+                {
+                    if (out.length() > 0)
+                    {
+                        out.append(newLine);
+                    }
+                    out.append(line);
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            throw new CargoException("Error while reading resource [" + resourceName + "] ", e);
+        }
+        finally
+        {
+            if (in != null)
+            {
+                try
+                {
+                    in.close();
+                }
+                catch (IOException e)
+                {
+                    getLogger().warn("Failed to close input stream for [" + resourceName + "]",
+                            this.getClass().getName());
+                }
+            }
+        }
+        return out.toString();
+    }
 }

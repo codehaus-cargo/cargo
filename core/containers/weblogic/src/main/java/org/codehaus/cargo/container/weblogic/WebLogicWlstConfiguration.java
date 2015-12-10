@@ -17,28 +17,21 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container;
+package org.codehaus.cargo.container.weblogic;
 
-import java.util.List;
-
-import org.codehaus.cargo.container.configuration.script.ScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicWlstConfigurationFactory;
 
 /**
- * Represents container capable of executing configuration scripts.
+ * All WebLogic WLST configuration implementations must implement this interface which provides 
+ * method to retrieve configuration factory for WLST script.
+ * 
  */
-public interface ScriptingCapableContainer extends Container
+public interface WebLogicWlstConfiguration extends WebLogicConfiguration
 {
-    /**
-     * Executes script defined as list of script commands against container.
-     *
-     * @param configurationScript List of script commands.
-     */
-    void executeScript(List<ScriptCommand> configurationScript);
 
     /**
-     * Executes scripts stored in script files against container.
-     *
-     * @param scriptFilePaths List of script file paths.
+     * @return Configuration factory for WebLogic returning WLST scripts.
      */
-    void executeScriptFiles(List<String> scriptFilePaths);
+    WebLogicWlstConfigurationFactory getConfigurationFactory();
+
 }

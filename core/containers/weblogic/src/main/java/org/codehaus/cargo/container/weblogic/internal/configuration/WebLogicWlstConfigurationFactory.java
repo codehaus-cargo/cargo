@@ -1,0 +1,257 @@
+/*
+ * ========================================================================
+ *
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2011-2015 Ali Tokmen.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * ========================================================================
+ */
+package org.codehaus.cargo.container.weblogic.internal.configuration;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
+import org.codehaus.cargo.container.configuration.entry.Resource;
+import org.codehaus.cargo.container.configuration.script.ScriptCommand;
+import org.codehaus.cargo.container.property.User;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.deployment.DeployDeployableScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.deployment.UndeployDeployableScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.CreateDomainScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.ReadDomainOfflineScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.ReadDomainOnlineScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.ShutdownDomainScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.UpdateDomainOfflineScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.UpdateDomainOnlineScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.WriteDomainScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.DataSourceConnectionPropertyScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.DataSourceScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.JmsConnectionFactoryScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.JmsModuleScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.JmsQueueScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.JmsServerScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.JmsSubdeploymentScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.user.AddUserToGroupScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.user.CreateGroupScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.user.CreateUserScriptCommand;
+import org.codehaus.cargo.util.CargoException;
+
+/**
+ * WLST configuration factory returning specific configuration scripts.
+ */
+public class WebLogicWlstConfigurationFactory
+{
+    /**
+     * Type to resource command script class map.
+     */
+    private static Map<String, Class<? extends ScriptCommand>> resourceMap =
+            new HashMap<String, Class<? extends ScriptCommand>>();
+
+    /**
+     * Path to configuration script resources.
+     */
+    private final String resourcePath;
+
+    /**
+     * Container configuration.
+     */
+    private Configuration configuration;
+
+    static
+    {
+        resourceMap.put(WebLogicConfigurationEntryType.JMS_SERVER, JmsServerScriptCommand.class);
+        resourceMap.put(WebLogicConfigurationEntryType.JMS_MODULE, JmsModuleScriptCommand.class);
+        resourceMap.put(WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT,
+                JmsSubdeploymentScriptCommand.class);
+        resourceMap.put(WebLogicConfigurationEntryType.JMS_CONNECTION_FACTORY,
+                JmsConnectionFactoryScriptCommand.class);
+        resourceMap.put(WebLogicConfigurationEntryType.JMS_QUEUE, JmsQueueScriptCommand.class);
+    }
+
+    /**
+     * Sets configuration containing all needed information for building configuration scripts.
+     *
+     * @param configuration Container configuration.
+     * @param resourcePath Path to configuration script resources.
+     */
+    public WebLogicWlstConfigurationFactory(Configuration configuration, String resourcePath)
+    {
+        this.resourcePath = resourcePath;
+        this.configuration = configuration;
+    }
+
+    /* Domain configuration*/
+
+    /**
+     * @param weblogicHome WebLogic home.
+     * @return Create domain WLST script.
+     */
+    public ScriptCommand createDomainScript(String weblogicHome)
+    {
+        return new CreateDomainScriptCommand(configuration, resourcePath, weblogicHome);
+    }
+
+    /**
+     * @return Read domain offline WLST script.
+     */
+    public ScriptCommand readDomainOfflineScript()
+    {
+        return new ReadDomainOfflineScriptCommand(configuration, resourcePath);
+    }
+
+    /**
+     * @return Read domain online WLST script.
+     */
+    public ScriptCommand readDomainOnlineScript()
+    {
+        return new ReadDomainOnlineScriptCommand(configuration, resourcePath);
+    }
+
+    /**
+     * @return Update offline domain WLST script.
+     */
+    public ScriptCommand updateDomainOfflineScript()
+    {
+        return new UpdateDomainOfflineScriptCommand(configuration, resourcePath);
+    }
+
+    /**
+     * @return Update online domain WLST script.
+     */
+    public ScriptCommand updateDomainOnlineScript()
+    {
+        return new UpdateDomainOnlineScriptCommand(configuration, resourcePath);
+    }
+
+    /**
+     * @return Write domain WLST script.
+     */
+    public ScriptCommand writeDomainScript()
+    {
+        return new WriteDomainScriptCommand(configuration, resourcePath);
+    }
+
+    /**
+     * @return Shutdown domain WLST script.
+     */
+    public ScriptCommand shutdownDomainScript()
+    {
+        return new ShutdownDomainScriptCommand(configuration, resourcePath);
+    }
+
+    /* Deployment configuration*/
+
+    /**
+     * @param deployableId Id of deployable for deploy.
+     * @param deployablePath Absolute path of deployable.
+     * @return Deploy deployable WLST script.
+     */
+    public ScriptCommand deployDeployableScript(String deployableId, String deployablePath)
+    {
+        return new DeployDeployableScriptCommand(configuration, resourcePath, deployableId,
+                deployablePath);
+    }
+
+    /**
+     * @param deployableId Id of deployed deployable for undeploy.
+     * @return Undeploy deployable WLST script.
+     */
+    public ScriptCommand undeployDeployableScript(String deployableId)
+    {
+        return new UndeployDeployableScriptCommand(configuration, resourcePath, deployableId);
+    }
+
+    /* Resource configuration*/
+
+    /**
+     * @param ds DataSource.
+     * @return Create datasource WLST script.
+     */
+    public Collection<ScriptCommand> dataSourceScript(DataSource ds)
+    {
+        Collection<ScriptCommand> script = new ArrayList<ScriptCommand>();
+
+        script.add(new DataSourceScriptCommand(configuration, resourcePath, ds));
+
+        for (Entry<Object, Object> driverProperty : ds.getConnectionProperties().entrySet())
+        {
+            script.add(new DataSourceConnectionPropertyScriptCommand(configuration, resourcePath,
+                    ds, driverProperty));
+        }
+
+        return script;
+    }
+
+    /**
+     * @param resource Resource.
+     * @return Create datasource WLST script.
+     */
+    public ScriptCommand resourceScript(Resource resource)
+    {
+        Class<? extends ScriptCommand> resourceClass = resourceMap.get(resource.getType());
+        ScriptCommand newInstance = null;
+        try
+        {
+            newInstance = resourceClass.getConstructor(Configuration.class,
+                    String.class, Resource.class).newInstance(configuration,
+                            resourcePath, resource);
+        }
+        catch (Exception e)
+        {
+            throw new CargoException("Failed instantiation of resource command.", e);
+        }
+
+        return newInstance;
+    }
+
+    /* User configuration*/
+
+    /**
+     * @param user User to be created.
+     * @return Create user WLST script.
+     */
+    public ScriptCommand createUserScript(User user)
+    {
+        return new CreateUserScriptCommand(configuration, resourcePath, user);
+    }
+
+    /**
+     * @param groupRole Group role.
+     * @return Create group WLST script.
+     */
+    public ScriptCommand createGroupScript(String groupRole)
+    {
+        return new CreateGroupScriptCommand(configuration, resourcePath, groupRole);
+    }
+
+    /**
+     * @param user User to be paired with groups.
+     * @return Pair user with groups WLST script.
+     */
+    public Collection<ScriptCommand> addUserToGroupsScript(User user)
+    {
+        Collection<ScriptCommand> script = new ArrayList<ScriptCommand>();
+
+        for (String role : user.getRoles())
+        {
+            script.add(new AddUserToGroupScriptCommand(configuration, resourcePath, user, role));
+        }
+
+        return script;
+    }
+}

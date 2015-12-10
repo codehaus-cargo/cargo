@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
@@ -116,21 +117,18 @@ public class WebLogic121xWlstInstalledLocalContainer extends
     @Override
     protected void executePostStartTasks() throws Exception
     {
-        List<String> configurationScript = new ArrayList<String>();
-        configurationScript.add(String.format("connect('%s','%s','t3://localhost:%s')",
-            getConfiguration().getPropertyValue(WebLogicPropertySet.ADMIN_USER),
-            getConfiguration().getPropertyValue(WebLogicPropertySet.ADMIN_PWD),
-            getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
-        configurationScript.add(String.format("cd('/SecurityConfiguration/%s/Realms/"
-            + "myrealm/AuthenticationProviders/DefaultAuthenticator')", getDomainName()));
+        List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();
+        WebLogicWlstConfiguration configuration = (WebLogicWlstConfiguration) getConfiguration();
+
+        configurationScript.add(configuration.getConfigurationFactory().readDomainOnlineScript());
 
         Set<String> roles = new HashSet<String>();
         List<User> users = User.parseUsers(getConfiguration().getPropertyValue(
             ServletPropertySet.USERS));
         for (User user : users)
         {
-            configurationScript.add(String.format("cmo.createUser('%s','%s','%s')",
-                user.getName(), user.getPassword(), user.getName()));
+            configurationScript.add(configuration.getConfigurationFactory().
+                    createUserScript(user));
 
             for (String role : user.getRoles())
             {
@@ -140,18 +138,17 @@ public class WebLogic121xWlstInstalledLocalContainer extends
 
         for (String role : roles)
         {
-            configurationScript.add(String.format("if not cmo.groupExists('%s'):", role));
-            configurationScript.add(String.format("    cmo.createGroup('%s','%s')", role, role));
+            configurationScript.add(configuration.getConfigurationFactory().
+                    createGroupScript(role));
         }
 
         for (User user : users)
         {
-            for (String role : user.getRoles())
-            {
-                configurationScript.add(String.format("cmo.addMemberToGroup('%s','%s')", role,
-                    user.getName()));
-            }
+            configurationScript.addAll(configuration.getConfigurationFactory().
+                    addUserToGroupsScript(user));
         }
+
+        configurationScript.add(configuration.getConfigurationFactory().updateDomainOnlineScript());
 
         if (!users.isEmpty())
         {
@@ -167,14 +164,12 @@ public class WebLogic121xWlstInstalledLocalContainer extends
     @Override
     public void doStop(JvmLauncher java) throws Exception
     {
-        List<String> configurationScript = new ArrayList<String>();
-        configurationScript.add(String.format("connect('%s','%s','t3://localhost:%s')",
-            getConfiguration().getPropertyValue(WebLogicPropertySet.ADMIN_USER),
-            getConfiguration().getPropertyValue(WebLogicPropertySet.ADMIN_PWD),
-            getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
-        configurationScript.add(String.format("shutdown('%s','Server','true',1000,'true',"
-                + "'false')",
-                getConfiguration().getPropertyValue(WebLogicPropertySet.SERVER)));
+        List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();
+        WebLogicWlstConfiguration configuration = (WebLogicWlstConfiguration) getConfiguration();
+
+        configurationScript.add(configuration.getConfigurationFactory().readDomainOnlineScript());
+        configurationScript.add(configuration.getConfigurationFactory().shutdownDomainScript());
+
         executeScript(configurationScript);
     }
 
@@ -183,17 +178,17 @@ public class WebLogic121xWlstInstalledLocalContainer extends
      *
      * @param configurationScript Script containing WLST configuration to be executed.
      */
-    public void executeScript(List<String> configurationScript)
+    public void executeScript(List<ScriptCommand> configurationScript)
     {
-        configurationScript.add("dumpStack()");
-
         String newLine = System.getProperty("line.separator");
         StringBuffer buffer = new StringBuffer();
-        for (String configuration : configurationScript)
+        for (ScriptCommand configuration : configurationScript)
         {
-            buffer.append(configuration);
+            buffer.append(configuration.readScript());
             buffer.append(newLine);
         }
+
+        buffer.append("dumpStack()");
 
         getLogger().debug("Sending WLST script: " + newLine + buffer.toString(),
             this.getClass().getName());
