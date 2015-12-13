@@ -22,9 +22,9 @@ package org.codehaus.cargo.container.installer;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 
-import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Expand;
 import org.apache.tools.ant.taskdefs.Get;
 import org.apache.tools.ant.taskdefs.Untar;
@@ -229,13 +229,24 @@ public class ZipURLInstaller extends LoggedObject implements Installer
 
                 unpack();
             }
-            catch (BuildException e)
+            catch (Exception e)
             {
                 getLogger().debug("Container [" + getSourceFileName() + "] is broken.",
                     this.getClass().getName());
 
+                File sourceFile = new File(getDownloadDir(), getSourceFileName());
+                sourceFile.delete();
+
                 download();
-                unpack();
+                try
+                {
+                    unpack();
+                }
+                catch (Exception ee)
+                {
+                    throw new ContainerException(
+                        "Failed to unpack [" + getSourceFileName() + "]", ee);
+                }
             }
 
             getLogger().debug("Container [" + getSourceFileName()
@@ -346,8 +357,9 @@ public class ZipURLInstaller extends LoggedObject implements Installer
 
     /**
      * Unpacks the zip file containing the container files.
+     * @throws IOException If the ZIP file is broken
      */
-    private void unpack()
+    private void unpack() throws IOException
     {
         File targetDir = new File(getExtractDir());
         File sourceFile = new File(getDownloadDir(), getSourceFileName());
@@ -363,8 +375,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
 
         if (!targetDir.isDirectory())
         {
-            sourceFile.delete();
-            throw new BuildException("The file [" + sourceFile + "] is broken");
+            throw new IOException("The file [" + sourceFile + "] is broken");
         }
     }
 
@@ -437,13 +448,13 @@ public class ZipURLInstaller extends LoggedObject implements Installer
                 catch (Exception ee)
                 {
                     throw new ContainerException(
-                        "Failed to download [" + this.remoteLocation + "]",
-                        ee);
+                        "Failed to download [" + this.remoteLocation + "]", ee);
                 }
             }
             else
             {
-                throw new ContainerException("Failed to download [" + this.remoteLocation + "]", e);
+                throw new ContainerException(
+                    "Failed to download [" + this.remoteLocation + "]", e);
             }
         }
     }
