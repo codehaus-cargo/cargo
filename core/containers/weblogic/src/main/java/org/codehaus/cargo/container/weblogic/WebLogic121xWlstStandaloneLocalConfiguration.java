@@ -48,7 +48,7 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      *
-     * @see AbstractWebLogicWlstStandaloneLocalConfiguration#AbstractWebLogicWlstStandaloneLocalConfiguration(String)
+     * @see AbstractWebLogicWlstStandaloneLocalConfiguration#AbstractWebLogicWlstStandaloneLocalConfiguration(String, String)
      */
     public WebLogic121xWlstStandaloneLocalConfiguration(String dir)
     {
