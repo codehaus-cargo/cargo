@@ -315,7 +315,7 @@
 
               <property>
                 <name>cargo.jetty4x.url</name>
-                <value>http://mirrors.ibiblio.org/maven/jetty/jetty-4.2.27.zip</value>
+                <value>http://maven.ibiblio.org/maven/jetty/jetty-4.2.x/jetty-4.2.27.zip</value>
               </property>
               <property>
                 <name>cargo.jetty4x.java.home</name>
@@ -324,7 +324,7 @@
 
               <property>
                 <name>cargo.jetty5x.url</name>
-                <value>http://mirrors.ibiblio.org/maven/jetty/jetty-5.1.x/jetty-5.1.15.tgz</value>
+                <value>http://maven.ibiblio.org/maven/jetty/jetty-5.1.x/jetty-5.1.15.tgz</value>
               </property>
               <property>
                 <name>cargo.jetty5x.java.home</name>
