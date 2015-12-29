@@ -453,6 +453,11 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
         // Add JVM args if defined
         addJvmArgs(java);
+        
+        if (server)
+        {
+            addStartJvmArgs(java);
+        }
 
         // Add spawn options if defined
         addSpawn(java);
@@ -605,6 +610,24 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     private void addJvmArgs(JvmLauncher java)
     {
         String jvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+        if (jvmargs != null)
+        {
+            // Replace new lines and tabs, so that Maven or ANT plugins can
+            // specify multiline JVM arguments in their XML files
+            jvmargs = jvmargs.replace('\n', ' ');
+            jvmargs = jvmargs.replace('\r', ' ');
+            jvmargs = jvmargs.replace('\t', ' ');
+            java.addJvmArgumentLine(jvmargs);
+        }
+    }
+
+    /**
+     * Add the @link{GeneralPropertySet#START_JVMARGS} arguments to the java command.
+     * @param java The java command
+     */
+    private void addStartJvmArgs(JvmLauncher java)
+    {
+        String jvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.START_JVMARGS);
         if (jvmargs != null)
         {
             // Replace new lines and tabs, so that Maven or ANT plugins can
