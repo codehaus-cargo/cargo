@@ -51,6 +51,11 @@ public interface GeneralPropertySet
     String JVMARGS = "cargo.jvmargs";
 
     /**
+     * JVM args to be used when starting containers
+     */
+    String START_JVMARGS = "cargo.start.jvmargs";
+
+    /**
      * Runtime args to be used when starting/stopping containers (ex: <code>-userThreads</code>).
      */
     String RUNTIME_ARGS = "cargo.runtime.args";
