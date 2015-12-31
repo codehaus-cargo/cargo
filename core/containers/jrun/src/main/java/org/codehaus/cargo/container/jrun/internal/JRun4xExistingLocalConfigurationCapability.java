@@ -19,40 +19,12 @@
  */
 package org.codehaus.cargo.container.jrun.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
 /**
  * Capabilities of the JRun's {@link JRun4xExistingLocalConfigurationCapability} configuration.
- * 
  */
 public class JRun4xExistingLocalConfigurationCapability
     extends AbstractExistingLocalConfigurationCapability
 {
-    /**
-     * Configuration-specific supports Map.
-     */
-    private Map<String, Boolean> supportsMap;
-
-    /**
-     * Initialize the configuration-specific supports Map.
-     */
-    public JRun4xExistingLocalConfigurationCapability()
-    {
-        super();
-
-        this.supportsMap = new HashMap<String, Boolean>();
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.supportsMap;
-    }
 }

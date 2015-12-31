@@ -27,7 +27,6 @@ package org.codehaus.cargo.container.jboss.internal;
 public class JBoss73xStandaloneLocalConfigurationCapability
     extends JBoss72xStandaloneLocalConfigurationCapability
 {
-
     /**
      * Initialize JBoss-specific configuration Map.
      */
@@ -35,5 +34,4 @@ public class JBoss73xStandaloneLocalConfigurationCapability
     {
         super();
     }
-
 }

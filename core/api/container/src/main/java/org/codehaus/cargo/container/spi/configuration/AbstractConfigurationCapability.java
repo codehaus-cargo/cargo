@@ -27,22 +27,21 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 /**
  * Base implementation of {@link org.codehaus.cargo.container.configuration.ConfigurationCapability}
  * that needs to be extended by the different configuration implementations.
- * 
  */
 public abstract class AbstractConfigurationCapability implements ConfigurationCapability
 {
     /**
-     * Default support Map.
+     * Property support Map.
      */
-    protected Map<String, Boolean> defaultSupportsMap;
+    protected Map<String, Boolean> propertySupportMap;
 
     /**
-     * Initialize the default supports Map. This is so that extending classes will have less work to
-     * do and they can simply specify what's different from the default.
+     * Initialize the property supports Map. This is so that extending classes will have less work
+     * to do and they can simply specify what's different from the default.
      */
     public AbstractConfigurationCapability()
     {
-        this.defaultSupportsMap = new HashMap<String, Boolean>();
+        this.propertySupportMap = new HashMap<String, Boolean>();
     }
 
     /**
@@ -53,14 +52,9 @@ public abstract class AbstractConfigurationCapability implements ConfigurationCa
     {
         boolean supports = false;
 
-        // Merge default support map with configuration specific one
-        Map<String, Boolean> propertySupportMap =
-            new HashMap<String, Boolean>(this.defaultSupportsMap);
-        propertySupportMap.putAll(getPropertySupportMap());
-
-        if (propertySupportMap.containsKey(propertyName))
+        if (this.propertySupportMap.containsKey(propertyName))
         {
-            supports = propertySupportMap.get(propertyName);
+            supports = this.propertySupportMap.get(propertyName);
         }
 
         return supports;
@@ -72,16 +66,6 @@ public abstract class AbstractConfigurationCapability implements ConfigurationCa
      */
     public Map<String, Boolean> getProperties()
     {
-        // Merge default support map with configuration specific one
-        Map<String, Boolean> propertySupportMap =
-            new HashMap<String, Boolean>(this.defaultSupportsMap);
-        propertySupportMap.putAll(getPropertySupportMap());
-        return propertySupportMap;
+        return new HashMap<String, Boolean>(this.propertySupportMap);
     }
-
-    /**
-     * @return a map indexed on the configuration property and having Boolean values expressing
-     * whether the configuration supports the said property or not
-     */
-    protected abstract Map<String, Boolean> getPropertySupportMap();
 }

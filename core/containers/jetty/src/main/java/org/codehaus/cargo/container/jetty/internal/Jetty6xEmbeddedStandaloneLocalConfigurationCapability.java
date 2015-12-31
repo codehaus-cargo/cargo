@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
  * Configuration capability for a Jetty 6.x Embedded container.
- * 
  */
 public class Jetty6xEmbeddedStandaloneLocalConfigurationCapability extends
     Jetty4xEmbeddedStandaloneLocalConfigurationCapability
@@ -34,12 +33,10 @@ public class Jetty6xEmbeddedStandaloneLocalConfigurationCapability extends
      */
     public Jetty6xEmbeddedStandaloneLocalConfigurationCapability()
     {
-        super();
+        this.propertySupportMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
 
-        this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
-
-        this.supportsMap.put(JettyPropertySet.SESSION_PATH, Boolean.TRUE);
-        this.supportsMap.put(JettyPropertySet.USE_FILE_MAPPED_BUFFER, Boolean.TRUE);
-        this.supportsMap.put(JettyPropertySet.CREATE_CONTEXT_XML, Boolean.TRUE);
+        this.propertySupportMap.put(JettyPropertySet.SESSION_PATH, Boolean.TRUE);
+        this.propertySupportMap.put(JettyPropertySet.USE_FILE_MAPPED_BUFFER, Boolean.TRUE);
+        this.propertySupportMap.put(JettyPropertySet.CREATE_CONTEXT_XML, Boolean.TRUE);
     }
 }

@@ -33,8 +33,6 @@ public class GlassFish4xStandaloneLocalConfigurationCapability extends
      */
     public GlassFish4xStandaloneLocalConfigurationCapability()
     {
-        super();
-
-        this.defaultSupportsMap.put(ServletPropertySet.USERS, Boolean.TRUE);
+        this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.TRUE);
     }
 }

@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 public class JBoss71xExistingLocalConfigurationCapability
     extends JBoss7xExistingLocalConfigurationCapability
 {
-
     /**
      * Initialize JBoss-specific configuration Map.
      */
@@ -39,5 +38,4 @@ public class JBoss71xExistingLocalConfigurationCapability
 
         this.propertySupportMap.remove(GeneralPropertySet.RMI_PORT);
     }
-
 }

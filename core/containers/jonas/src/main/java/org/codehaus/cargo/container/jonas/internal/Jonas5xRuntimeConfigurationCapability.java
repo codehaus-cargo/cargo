@@ -31,14 +31,11 @@ import org.codehaus.cargo.container.jonas.JonasPropertySet;
  */
 public class Jonas5xRuntimeConfigurationCapability extends Jonas4xRuntimeConfigurationCapability
 {
-
     /**
      * Initialize the configuration-specific supports Map.
      */
     public Jonas5xRuntimeConfigurationCapability()
     {
-        super();
-
-        this.defaultSupportsMap.put(JonasPropertySet.JONAS_UNDEPLOY_IGNORE_VERSION, Boolean.TRUE);
+        this.propertySupportMap.put(JonasPropertySet.JONAS_UNDEPLOY_IGNORE_VERSION, Boolean.TRUE);
     }
 }

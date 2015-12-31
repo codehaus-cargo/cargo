@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.websphere.internal;
 
-import java.util.Map;
-
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
@@ -28,42 +26,29 @@ import org.codehaus.cargo.container.websphere.WebSpherePropertySet;
 
 /**
  * Capabilities of WebSphere's standalone local configuration.
- *
  */
 public class WebSphere85xStandaloneLocalConfigurationCapability
     extends AbstractStandaloneLocalConfigurationCapability
 {
-
     /**
      * Initialize the configuration-specific supports Map.
      */
     public WebSphere85xStandaloneLocalConfigurationCapability()
     {
-        super();
+        this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
+        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
 
-        this.defaultSupportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
-        this.defaultSupportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
+        this.propertySupportMap.put(WebSpherePropertySet.ADMIN_USERNAME, Boolean.TRUE);
+        this.propertySupportMap.put(WebSpherePropertySet.ADMIN_PASSWORD, Boolean.TRUE);
 
-        this.defaultSupportsMap.put(WebSpherePropertySet.ADMIN_USERNAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(WebSpherePropertySet.ADMIN_PASSWORD, Boolean.TRUE);
+        this.propertySupportMap.put(WebSpherePropertySet.PROFILE, Boolean.TRUE);
+        this.propertySupportMap.put(WebSpherePropertySet.NODE, Boolean.TRUE);
+        this.propertySupportMap.put(WebSpherePropertySet.CELL, Boolean.TRUE);
+        this.propertySupportMap.put(WebSpherePropertySet.SERVER, Boolean.TRUE);
 
-        this.defaultSupportsMap.put(WebSpherePropertySet.PROFILE, Boolean.TRUE);
-        this.defaultSupportsMap.put(WebSpherePropertySet.NODE, Boolean.TRUE);
-        this.defaultSupportsMap.put(WebSpherePropertySet.CELL, Boolean.TRUE);
-        this.defaultSupportsMap.put(WebSpherePropertySet.SERVER, Boolean.TRUE);
+        this.propertySupportMap.put(WebSpherePropertySet.PROCESSOR_ARCH, Boolean.TRUE);
 
-        this.defaultSupportsMap.put(WebSpherePropertySet.PROCESSOR_ARCH, Boolean.TRUE);
-
-        this.defaultSupportsMap.put(WebSpherePropertySet.CLASSLOADER_MODE, Boolean.TRUE);
-        this.defaultSupportsMap.put(WebSpherePropertySet.WAR_CLASSLOADER_POLICY, Boolean.TRUE);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.defaultSupportsMap;
+        this.propertySupportMap.put(WebSpherePropertySet.CLASSLOADER_MODE, Boolean.TRUE);
+        this.propertySupportMap.put(WebSpherePropertySet.WAR_CLASSLOADER_POLICY, Boolean.TRUE);
     }
 }

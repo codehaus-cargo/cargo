@@ -31,6 +31,11 @@ public interface TomcatPropertySet
     String CONNECTOR_EMPTY_SESSION_PATH = "cargo.tomcat.connector.emptySessionPath";
 
     /**
+     * URI Encoding to set.
+     */
+    String URI_ENCODING = "cargo.tomcat.uriencoding";
+
+    /**
      * Port tomcat will listen on for AJP 1.3 requests.
      */
     String AJP_PORT = "cargo.tomcat.ajp.port";

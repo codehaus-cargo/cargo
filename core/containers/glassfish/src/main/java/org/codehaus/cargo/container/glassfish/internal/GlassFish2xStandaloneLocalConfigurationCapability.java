@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.glassfish.internal;
 
-import java.util.Map;
-
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -29,52 +27,33 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 
 /**
  * GlassFish 2.x standalone local configuration capability.
- * 
  */
 public class GlassFish2xStandaloneLocalConfigurationCapability extends
     AbstractStandaloneLocalConfigurationCapability
 {
-
     /**
      * Initialize the configuration-specific supports Map.
      */
     public GlassFish2xStandaloneLocalConfigurationCapability()
     {
-        super();
-
         // unsupported
-        this.defaultSupportsMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
-        this.defaultSupportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
+        this.propertySupportMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
+        this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
 
         // recognize those
-        this.defaultSupportsMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
-        this.defaultSupportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(GeneralPropertySet.JVMARGS, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.REMOVE_DEFAULT_DATASOURCE, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.ADMIN_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.JMS_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.IIOP_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.HTTPS_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.IIOPS_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.JMX_ADMIN_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.DOMAIN_NAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.DEBUG_MODE, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.PORT_BASE, Boolean.TRUE);
-
-        // this.defaultSupportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.REMOVE_DEFAULT_DATASOURCE, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.ADMIN_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.JMS_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.IIOP_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.HTTPS_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.IIOPS_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.JMX_ADMIN_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.DOMAIN_NAME, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.DEBUG_MODE, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.PORT_BASE, Boolean.TRUE);
     }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.defaultSupportsMap;
-    }
-
 }

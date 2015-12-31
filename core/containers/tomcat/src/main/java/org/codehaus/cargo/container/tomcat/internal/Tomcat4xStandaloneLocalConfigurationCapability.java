@@ -19,9 +19,6 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
@@ -30,43 +27,22 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
  * Capabilities of Tomcat's {@link AbstractCatalinaStandaloneLocalConfiguration} configuration.
- * 
  */
 public class Tomcat4xStandaloneLocalConfigurationCapability extends
     AbstractStandaloneLocalConfigurationCapability
 {
     /**
-     * Configuration-specific supports Map.
-     */
-    protected Map<String, Boolean> supportsMap;
-
-    /**
      * Initialize the configuration-specific supports Map.
      */
     public Tomcat4xStandaloneLocalConfigurationCapability()
     {
-        super();
-
-        this.supportsMap = new HashMap<String, Boolean>();
-        this.supportsMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
-        this.supportsMap.put(GeneralPropertySet.URI_ENCODING, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.AJP_PORT, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.CONTEXT_RELOADABLE, Boolean.TRUE);
-        this.supportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
-        this.supportsMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.COPY_WARS, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.WEBAPPS_DIRECTORY, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.URI_ENCODING, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.AJP_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONTEXT_RELOADABLE, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.propertySupportMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.COPY_WARS, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.WEBAPPS_DIRECTORY, Boolean.TRUE);
     }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.supportsMap;
-    }
-
 }

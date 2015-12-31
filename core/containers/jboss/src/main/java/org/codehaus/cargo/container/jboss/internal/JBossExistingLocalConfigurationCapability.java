@@ -19,9 +19,6 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -37,19 +34,10 @@ public class JBossExistingLocalConfigurationCapability extends
     AbstractExistingLocalConfigurationCapability
 {
     /**
-     * JBoss-specific configuration Map.
-     */
-    private Map<String, Boolean> propertySupportMap;
-
-    /**
      * Initialize JBoss-specific configuration Map.
      */
     public JBossExistingLocalConfigurationCapability()
     {
-        super();
-
-        this.propertySupportMap = new HashMap<String, Boolean>();
-
         this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
         this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
@@ -61,15 +49,5 @@ public class JBossExistingLocalConfigurationCapability extends
         // We don't support this property since it's not required as the configuration home already
         // points to the JBoss configuration to use...
         this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.FALSE);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.propertySupportMap;
     }
 }

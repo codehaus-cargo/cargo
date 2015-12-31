@@ -19,43 +19,20 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
 
 /**
  * Capabilities of JBoss's runtime configuration.
- * 
  */
 public abstract class AbstractJBossRuntimeConfigurationCapability extends
     AbstractRuntimeConfigurationCapability
 {
     /**
-     * Configuration-specific supports Map.
-     */
-    protected Map<String, Boolean> supportsMap;
-
-    /**
      * Initialize the configuration-specific supports Map.
      */
     public AbstractJBossRuntimeConfigurationCapability()
     {
-        super();
-
-        this.supportsMap = new HashMap<String, Boolean>();
-
-        this.supportsMap.put(RemotePropertySet.URI, Boolean.FALSE);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.supportsMap;
+        this.propertySupportMap.put(RemotePropertySet.URI, Boolean.FALSE);
     }
 }

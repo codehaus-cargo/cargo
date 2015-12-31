@@ -25,19 +25,15 @@ import org.codehaus.cargo.container.resin.ResinPropertySet;
  * Capabilities of the Resin's
  * {@link org.codehaus.cargo.container.resin.Resin3xStandaloneLocalConfiguration}
  * configuration.
- * 
  */
 public class Resin3xStandaloneLocalConfigurationCapability
     extends Resin2xStandaloneLocalConfigurationCapability
 {
-
     /**
      * Initialize the configuration-specific supports Map.
      */
     public Resin3xStandaloneLocalConfigurationCapability()
     {
-        super();
-
-        this.supportsMap.put(ResinPropertySet.SOCKETWAIT_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(ResinPropertySet.SOCKETWAIT_PORT, Boolean.TRUE);
     }
 }

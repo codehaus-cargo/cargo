@@ -19,9 +19,6 @@
  */
 package org.codehaus.cargo.container.geronimo.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.codehaus.cargo.container.geronimo.GeronimoPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -36,19 +33,10 @@ public class Geronimo1xStandaloneLocalConfigurationCapability
     extends AbstractStandaloneLocalConfigurationCapability
 {
     /**
-     * Geronimo-specific configuration Map.
-     */
-    protected Map<String, Boolean> propertySupportMap;
-
-    /**
      * Initialize Geronimo-specific configuration Map.
      */
     public Geronimo1xStandaloneLocalConfigurationCapability()
     {
-        super();
-
-        this.propertySupportMap = new HashMap<String, Boolean>();
-
         this.propertySupportMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
@@ -61,15 +49,5 @@ public class Geronimo1xStandaloneLocalConfigurationCapability
         this.propertySupportMap.put(GeronimoPropertySet.GERONIMO_SERVLET_CONTAINER_ID,
             Boolean.TRUE);
         this.propertySupportMap.put(GeronimoPropertySet.GERONIMO_USERS, Boolean.TRUE);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.propertySupportMap;
     }
 }

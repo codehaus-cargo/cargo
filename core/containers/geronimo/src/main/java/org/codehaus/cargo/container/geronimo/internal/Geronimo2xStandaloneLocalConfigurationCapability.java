@@ -34,10 +34,8 @@ public class Geronimo2xStandaloneLocalConfigurationCapability
      */
     public Geronimo2xStandaloneLocalConfigurationCapability()
     {
-        super();
-
         this.propertySupportMap.remove(GeronimoPropertySet.GERONIMO_SERVLET_CONTAINER_ID);
-        this.defaultSupportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
-        this.defaultSupportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
     }
 }

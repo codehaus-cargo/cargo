@@ -19,44 +19,20 @@
  */
 package org.codehaus.cargo.container.jetty.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
 
 /**
  * Capabilities of Jetty's {@link org.codehaus.cargo.container.jetty.JettyRuntimeConfiguration}
  * configuration.
- * 
  */
 public class JettyRuntimeConfigurationCapability extends AbstractRuntimeConfigurationCapability
 {
-    /**
-     * Configuration-specific supports Map.
-     */
-    private Map<String, Boolean> supportsMap;
-
     /**
      * Initialize the configuration-specific supports Map.
      */
     public JettyRuntimeConfigurationCapability()
     {
-        super();
-
-        this.supportsMap = new HashMap<String, Boolean>();
-
-        this.supportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
+        this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
     }
-
-    /**
-     * {@inheritDoc}
-     * @see AbstractRuntimeConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.supportsMap;
-    }
-
 }

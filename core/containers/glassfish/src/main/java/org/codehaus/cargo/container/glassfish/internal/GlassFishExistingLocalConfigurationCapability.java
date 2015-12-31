@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.glassfish.internal;
 
-import java.util.Map;
-
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -33,31 +31,18 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
 public class GlassFishExistingLocalConfigurationCapability extends
     AbstractExistingLocalConfigurationCapability
 {
-
     /**
      * Initialize the configuration-specific supports Map.
      */
     public GlassFishExistingLocalConfigurationCapability()
     {
-        super();
+        this.propertySupportMap.remove(GeneralPropertySet.PROTOCOL);
+        this.propertySupportMap.remove(GeneralPropertySet.JAVA_HOME);
 
-        this.defaultSupportsMap.remove(GeneralPropertySet.PROTOCOL);
-        this.defaultSupportsMap.remove(GeneralPropertySet.JAVA_HOME);
-
-        this.defaultSupportsMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.ADMIN_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.DOMAIN_NAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.DEBUG_MODE, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.ADMIN_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.DOMAIN_NAME, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.DEBUG_MODE, Boolean.TRUE);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.defaultSupportsMap;
-    }
-
 }

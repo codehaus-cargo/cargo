@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 public class JBoss71xStandaloneLocalConfigurationCapability
     extends JBoss7xStandaloneLocalConfigurationCapability
 {
-
     /**
      * Initialize JBoss-specific configuration Map.
      */
@@ -47,5 +46,4 @@ public class JBoss71xStandaloneLocalConfigurationCapability
         this.propertySupportMap.remove(JBossPropertySet.JBOSS_JRMP_PORT);
         this.propertySupportMap.remove(JBossPropertySet.JBOSS_JMX_PORT);
     }
-
 }

@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
  * Capabilities of Tomcat's {@link AbstractCatalinaStandaloneLocalConfiguration} configuration.
- * 
  */
 public class Tomcat7x8xStandaloneLocalConfigurationCapability extends
     Tomcat5x6xStandaloneLocalConfigurationCapability
@@ -33,10 +32,8 @@ public class Tomcat7x8xStandaloneLocalConfigurationCapability extends
      */
     public Tomcat7x8xStandaloneLocalConfigurationCapability()
     {
-        super();
-
         // CARGO-1271: Starting Tomcat 7 with Cargo logs warning on emptySessionPath
-        this.supportsMap.remove(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
+        this.propertySupportMap.remove(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
     }
 
 }

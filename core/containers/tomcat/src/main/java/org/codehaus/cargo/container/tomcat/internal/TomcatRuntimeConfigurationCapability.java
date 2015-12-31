@@ -19,9 +19,6 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
@@ -30,37 +27,16 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
 /**
  * Capabilities of Tomcat's {@link org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration}
  * configuration.
- * 
  */
 public class TomcatRuntimeConfigurationCapability extends AbstractRuntimeConfigurationCapability
 {
-    /**
-     * Configuration-specific supports Map.
-     */
-    private Map<String, Boolean> supportsMap;
-
     /**
      * Initialize the configuration-specific supports Map.
      */
     public TomcatRuntimeConfigurationCapability()
     {
-        super();
-
-        this.supportsMap = new HashMap<String, Boolean>();
-
-        this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
-        this.supportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
-        this.supportsMap.put(RemotePropertySet.URI, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
+        this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.URI, Boolean.TRUE);
     }
-
-    /**
-     * {@inheritDoc}
-     * @see AbstractRuntimeConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.supportsMap;
-    }
-
 }

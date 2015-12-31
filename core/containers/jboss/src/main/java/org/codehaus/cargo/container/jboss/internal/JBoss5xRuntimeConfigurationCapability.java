@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
  * Capabilities of JBoss's runtime configuration.
- * 
  */
 public class JBoss5xRuntimeConfigurationCapability extends
     AbstractJBossRuntimeConfigurationCapability
@@ -34,11 +33,9 @@ public class JBoss5xRuntimeConfigurationCapability extends
      */
     public JBoss5xRuntimeConfigurationCapability()
     {
-        super();
-
-        this.supportsMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
-        this.supportsMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
-        this.supportsMap.put(JBossPropertySet.CLUSTERED, Boolean.TRUE);
-        this.supportsMap.put(JBossPropertySet.PROFILE, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.CLUSTERED, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.PROFILE, Boolean.TRUE);
     }
 }

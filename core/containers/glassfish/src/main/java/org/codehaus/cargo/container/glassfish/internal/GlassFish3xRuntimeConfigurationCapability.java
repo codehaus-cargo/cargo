@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.glassfish.internal;
 
-import java.util.Map;
-
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
@@ -33,29 +31,15 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
 public class GlassFish3xRuntimeConfigurationCapability
     extends AbstractRuntimeConfigurationCapability
 {
-
     /**
      * Initialize the configuration-specific supports Map.
      */
     public GlassFish3xRuntimeConfigurationCapability()
     {
-        super();
-
-        this.defaultSupportsMap.put(GlassFishPropertySet.ADMIN_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
-        this.defaultSupportsMap.put(RemotePropertySet.TIMEOUT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.TARGET, Boolean.TRUE);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.defaultSupportsMap;
+        this.propertySupportMap.put(GlassFishPropertySet.ADMIN_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.TIMEOUT, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.TARGET, Boolean.TRUE);
     }
 }

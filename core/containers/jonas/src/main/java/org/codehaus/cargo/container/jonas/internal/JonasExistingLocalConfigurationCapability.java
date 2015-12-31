@@ -22,8 +22,6 @@
  */
 package org.codehaus.cargo.container.jonas.internal;
 
-import java.util.Map;
-
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -36,29 +34,17 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
 public class JonasExistingLocalConfigurationCapability extends
     AbstractExistingLocalConfigurationCapability
 {
-
     /**
      * Initialize the configuration-specific supports Map.
      */
     public JonasExistingLocalConfigurationCapability()
     {
         super();
-        this.defaultSupportsMap.remove(GeneralPropertySet.PROTOCOL);
-        this.defaultSupportsMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(JonasPropertySet.JONAS_SERVER_NAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(JonasPropertySet.JONAS_DOMAIN_NAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.defaultSupportsMap;
+        this.propertySupportMap.remove(GeneralPropertySet.PROTOCOL);
+        this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JonasPropertySet.JONAS_SERVER_NAME, Boolean.TRUE);
+        this.propertySupportMap.put(JonasPropertySet.JONAS_DOMAIN_NAME, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
     }
 }

@@ -336,7 +336,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
                     "emptySessionPath", TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
         addXmlReplacement("conf/server.xml",
             CONNECTOR_XPATH,
-                    "URIEncoding", GeneralPropertySet.URI_ENCODING);
+                    "URIEncoding", TomcatPropertySet.URI_ENCODING);
         addXmlReplacement("conf/server.xml",
             CONNECTOR_XPATH,
                     "port", ServletPropertySet.PORT);

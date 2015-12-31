@@ -36,16 +36,11 @@ public abstract class AbstractStandaloneLocalConfigurationCapability
      */
     public AbstractStandaloneLocalConfigurationCapability()
     {
-        super();
+        this.propertySupportMap.put(GeneralPropertySet.LOGGING, Boolean.TRUE);
 
-        this.defaultSupportsMap.put(GeneralPropertySet.LOGGING, Boolean.TRUE);
-        this.defaultSupportsMap.put(GeneralPropertySet.JVMARGS, Boolean.TRUE);
-        this.defaultSupportsMap.put(GeneralPropertySet.START_JVMARGS, Boolean.TRUE);
-        this.defaultSupportsMap.put(GeneralPropertySet.RUNTIME_ARGS, Boolean.TRUE);
-
-        this.defaultSupportsMap.put(GeneralPropertySet.IGNORE_NON_EXISTING_PROPERTIES,
+        this.propertySupportMap.put(GeneralPropertySet.IGNORE_NON_EXISTING_PROPERTIES,
             Boolean.TRUE);
 
-        this.defaultSupportsMap.put(ServletPropertySet.USERS, Boolean.TRUE);
+        this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.TRUE);
     }
 }

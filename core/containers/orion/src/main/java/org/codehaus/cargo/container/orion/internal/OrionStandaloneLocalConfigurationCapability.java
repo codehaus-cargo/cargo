@@ -19,9 +19,6 @@
  */
 package org.codehaus.cargo.container.orion.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
@@ -30,39 +27,19 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
  * Capabilities of Orion's
  * {@link org.codehaus.cargo.container.orion.internal.AbstractOrionStandaloneLocalConfiguration}
  * configuration.
- * 
  */
 public class OrionStandaloneLocalConfigurationCapability
     extends AbstractStandaloneLocalConfigurationCapability
 {
     /**
-     * Configuration-specific supports Map.
-     */
-    private Map<String, Boolean> supportsMap;
-
-    /**
      * Initialize the configuration-specific supports Map.
      */
     public OrionStandaloneLocalConfigurationCapability()
     {
-        super();
+        this.propertySupportMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
 
-        this.supportsMap = new HashMap<String, Boolean>();
-        this.supportsMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
-
-        this.supportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
-        this.supportsMap.put(DatasourcePropertySet.CONNECTION_TYPE, Boolean.TRUE);
-        this.supportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.CONNECTION_TYPE, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
     }
-
-    /**
-     * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.supportsMap;
-    }
-
 }

@@ -21,42 +21,12 @@ package org.codehaus.cargo.container.jetty.internal;
 
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Capabilities of Jetty's
  * {@link AbstractJettyExistingLocalConfiguration}
  * configuration.
- *
  */
-public class JettyExistingLocalConfigurationCapability
-        extends AbstractExistingLocalConfigurationCapability
+public class JettyExistingLocalConfigurationCapability extends
+    AbstractExistingLocalConfigurationCapability
 {
-
-    /**
-     * Configuration-specific supports Map.
-     */
-    private Map<String, Boolean> supportsMap;
-
-    /**
-     * Initialize the configuration-specific supports Map.
-     */
-    public JettyExistingLocalConfigurationCapability()
-    {
-        super();
-
-        this.supportsMap = new HashMap<String, Boolean>();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return supportsMap;
-    }
 }

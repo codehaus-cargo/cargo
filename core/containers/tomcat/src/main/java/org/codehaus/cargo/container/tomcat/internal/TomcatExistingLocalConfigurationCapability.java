@@ -19,42 +19,13 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
 /**
  * Capabilities of Tomcat's
  * {@link org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration} configuration.
- * 
  */
 public class TomcatExistingLocalConfigurationCapability
     extends AbstractExistingLocalConfigurationCapability
 {
-    /**
-     * Configuration-specific supports Map.
-     */
-    private Map<String, Boolean> supportsMap;
-
-    /**
-     * Initialize the configuration-specific supports Map.
-     */
-    public TomcatExistingLocalConfigurationCapability()
-    {
-        super();
-
-        this.supportsMap = new HashMap<String, Boolean>();
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.supportsMap;
-    }
-
 }

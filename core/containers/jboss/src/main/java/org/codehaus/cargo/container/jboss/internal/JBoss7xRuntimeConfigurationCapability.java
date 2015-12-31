@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
  * Capabilities of JBoss's runtime configuration.
- * 
  */
 public class JBoss7xRuntimeConfigurationCapability extends
     AbstractJBossRuntimeConfigurationCapability
@@ -34,14 +33,12 @@ public class JBoss7xRuntimeConfigurationCapability extends
      */
     public JBoss7xRuntimeConfigurationCapability()
     {
-        super();
+        this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.FALSE);
+        this.propertySupportMap.put(JBossPropertySet.CLUSTERED, Boolean.FALSE);
+        this.propertySupportMap.put(JBossPropertySet.PROFILE, Boolean.FALSE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, Boolean.FALSE);
 
-        this.supportsMap.put(JBossPropertySet.CONFIGURATION, Boolean.FALSE);
-        this.supportsMap.put(JBossPropertySet.CLUSTERED, Boolean.FALSE);
-        this.supportsMap.put(JBossPropertySet.PROFILE, Boolean.FALSE);
-        this.supportsMap.put(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, Boolean.TRUE);
-        this.supportsMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, Boolean.FALSE);
-
-        this.supportsMap.remove(GeneralPropertySet.RMI_PORT);
+        this.propertySupportMap.remove(GeneralPropertySet.RMI_PORT);
     }
 }

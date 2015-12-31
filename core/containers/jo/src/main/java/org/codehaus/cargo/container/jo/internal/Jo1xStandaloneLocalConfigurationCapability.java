@@ -19,40 +19,24 @@
  */
 package org.codehaus.cargo.container.jo.internal;
 
-import java.util.Map;
-
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 /**
  * Capabilities of Jo's standalone local configuration.
- *
  */
 public class Jo1xStandaloneLocalConfigurationCapability
     extends AbstractStandaloneLocalConfigurationCapability
 {
-
     /**
      * Initialize the configuration-specific supports Map.
      */
     public Jo1xStandaloneLocalConfigurationCapability()
     {
-        super();
+        this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
+        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
 
-        this.defaultSupportsMap.put(ServletPropertySet.USERS, Boolean.FALSE);
-        this.defaultSupportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
-
-        this.defaultSupportsMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.defaultSupportsMap;
+        this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
     }
 }

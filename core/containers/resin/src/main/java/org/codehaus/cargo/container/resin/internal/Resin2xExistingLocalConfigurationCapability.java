@@ -19,9 +19,6 @@
  */
 package org.codehaus.cargo.container.resin.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
@@ -29,36 +26,16 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
  * Capabilities of the Resin's
  * {@link org.codehaus.cargo.container.resin.Resin2xExistingLocalConfiguration}
  * configuration.
- * 
  */
 public class Resin2xExistingLocalConfigurationCapability
     extends AbstractExistingLocalConfigurationCapability
 {
     /**
-     * Configuration-specific supports Map.
-     */
-    protected Map<String, Boolean> supportsMap;
-
-    /**
      * Initialize the configuration-specific supports Map.
      */
     public Resin2xExistingLocalConfigurationCapability()
     {
-        super();
-
-        this.supportsMap = new HashMap<String, Boolean>();
-
-        this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
-        this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.supportsMap;
+        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
+        this.propertySupportMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
     }
 }

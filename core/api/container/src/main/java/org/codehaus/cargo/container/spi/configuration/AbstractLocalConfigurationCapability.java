@@ -35,13 +35,14 @@ public abstract class AbstractLocalConfigurationCapability extends AbstractConfi
      */
     public AbstractLocalConfigurationCapability()
     {
-        super();
-
-        this.defaultSupportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
-        this.defaultSupportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GeneralPropertySet.JAVA_HOME, Boolean.TRUE);
-        this.defaultSupportsMap.put(GeneralPropertySet.SPAWN_PROCESS, Boolean.TRUE);
-        this.defaultSupportsMap.put(GeneralPropertySet.PORT_OFFSET, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
+        this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.JAVA_HOME, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.JVMARGS, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.RUNTIME_ARGS, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.START_JVMARGS, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.SPAWN_PROCESS, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.PORT_OFFSET, Boolean.TRUE);
     }
 }

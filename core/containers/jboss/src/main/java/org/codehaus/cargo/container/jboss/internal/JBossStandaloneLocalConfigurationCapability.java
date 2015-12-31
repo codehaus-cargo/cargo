@@ -19,9 +19,6 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
@@ -32,25 +29,15 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 /**
  * Capabilities of the JBoss's
  * {@link org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration} configuration.
- * 
  */
 public class JBossStandaloneLocalConfigurationCapability extends
     AbstractStandaloneLocalConfigurationCapability
 {
     /**
-     * JBoss-specific configuration Map.
-     */
-    protected Map<String, Boolean> propertySupportMap;
-
-    /**
      * Initialize JBoss-specific configuration Map.
      */
     public JBossStandaloneLocalConfigurationCapability()
     {
-        super();
-
-        this.propertySupportMap = new HashMap<String, Boolean>();
-        this.propertySupportMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
@@ -78,15 +65,5 @@ public class JBossStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR, Boolean.FALSE);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.propertySupportMap;
     }
 }

@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.jboss.internal.JBoss71xExistingLocalConfigur
 public class WildFlyExistingLocalConfigurationCapability extends
     JBoss71xExistingLocalConfigurationCapability
 {
-
     /**
      * Initialize WildFly-specific configuration Map.
      */

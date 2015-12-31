@@ -19,52 +19,25 @@
  */
 package org.codehaus.cargo.container.weblogic.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 
 /**
  * Capabilities of the WebLogic's
  * {@link org.codehaus.cargo.container.weblogic.WebLogicConfiguration} configuration.
- * 
  */
 public class WebLogicExistingLocalConfigurationCapability
     extends AbstractExistingLocalConfigurationCapability
 {
     /**
-     * Configuration-specific supports Map.
-     */
-    private Map<String, Boolean> supportsMap;
-
-    /**
      * Initialize the configuration-specific supports Map.
      */
     public WebLogicExistingLocalConfigurationCapability()
     {
-        super();
+        this.propertySupportMap.put(WebLogicPropertySet.ADMIN_USER, Boolean.TRUE);
+        this.propertySupportMap.put(WebLogicPropertySet.ADMIN_PWD, Boolean.TRUE);
 
-        this.supportsMap = new HashMap<String, Boolean>();
-
-        this.supportsMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
-
-        this.supportsMap.put(WebLogicPropertySet.ADMIN_USER, Boolean.TRUE);
-        this.supportsMap.put(WebLogicPropertySet.ADMIN_PWD, Boolean.TRUE);
-
-        this.supportsMap.put(WebLogicPropertySet.SERVER, Boolean.TRUE);
-        this.supportsMap.put(WebLogicPropertySet.BEA_HOME, Boolean.TRUE);
-
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see AbstractExistingLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.supportsMap;
+        this.propertySupportMap.put(WebLogicPropertySet.SERVER, Boolean.TRUE);
+        this.propertySupportMap.put(WebLogicPropertySet.BEA_HOME, Boolean.TRUE);
     }
 }

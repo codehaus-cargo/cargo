@@ -22,8 +22,6 @@
  */
 package org.codehaus.cargo.container.jonas.internal;
 
-import java.util.Map;
-
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -36,40 +34,26 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
  */
 public class Jonas4xRuntimeConfigurationCapability extends AbstractRuntimeConfigurationCapability
 {
-
     /**
      * Initialize the configuration-specific supports Map.
      */
     public Jonas4xRuntimeConfigurationCapability()
     {
-        super();
+        this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
 
-        this.defaultSupportsMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.URI, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
 
-        this.defaultSupportsMap.put(RemotePropertySet.URI, Boolean.TRUE);
-        this.defaultSupportsMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
+        this.propertySupportMap.put(JonasPropertySet.JONAS_SERVER_NAME, Boolean.TRUE);
+        this.propertySupportMap.put(JonasPropertySet.JONAS_DOMAIN_NAME, Boolean.TRUE);
+        this.propertySupportMap.put(JonasPropertySet.JONAS_CLUSTER_NAME, Boolean.TRUE);
 
-        this.defaultSupportsMap.put(JonasPropertySet.JONAS_SERVER_NAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(JonasPropertySet.JONAS_DOMAIN_NAME, Boolean.TRUE);
-        this.defaultSupportsMap.put(JonasPropertySet.JONAS_CLUSTER_NAME, Boolean.TRUE);
+        this.propertySupportMap.put(JonasPropertySet.JONAS_DEPLOYABLE_IDENTIFIER, Boolean.TRUE);
 
-        this.defaultSupportsMap.put(JonasPropertySet.JONAS_DEPLOYABLE_IDENTIFIER, Boolean.TRUE);
-
-        this.defaultSupportsMap.put(JonasPropertySet.JONAS_MEJB_JNDI_PATH, Boolean.TRUE);
-        this.defaultSupportsMap.put(JonasPropertySet.JONAS_MEJB_JAAS_FILE, Boolean.TRUE);
-        this.defaultSupportsMap.put(JonasPropertySet.JONAS_MEJB_JAAS_ENTRY, Boolean.TRUE);
-        this.defaultSupportsMap.put(JonasPropertySet.JONAS_MEJB_JNDI_INIT_CTX_FACT, Boolean.TRUE);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.defaultSupportsMap;
+        this.propertySupportMap.put(JonasPropertySet.JONAS_MEJB_JNDI_PATH, Boolean.TRUE);
+        this.propertySupportMap.put(JonasPropertySet.JONAS_MEJB_JAAS_FILE, Boolean.TRUE);
+        this.propertySupportMap.put(JonasPropertySet.JONAS_MEJB_JAAS_ENTRY, Boolean.TRUE);
+        this.propertySupportMap.put(JonasPropertySet.JONAS_MEJB_JNDI_INIT_CTX_FACT, Boolean.TRUE);
     }
 }

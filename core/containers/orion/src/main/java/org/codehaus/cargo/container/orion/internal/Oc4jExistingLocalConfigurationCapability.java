@@ -22,45 +22,21 @@
  */
 package org.codehaus.cargo.container.orion.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-import org.codehaus.cargo.container.orion.Oc4jPropertySet;
-
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.orion.Oc4jPropertySet;
 
 /**
  * Capabilities of OC4J {@link org.codehaus.cargo.container.orion.Oc4j10xExistingLocalConfiguration}
  * configuration.
- * 
  */
 public class Oc4jExistingLocalConfigurationCapability extends
     AbstractExistingLocalConfigurationCapability
 {
-
-    /**
-     * Configuration-specific supports Map.
-     */
-    private Map<String, Boolean> supportsMap;
-
     /**
      * Initialize the configuration-specific supports Map.
      */
     public Oc4jExistingLocalConfigurationCapability()
     {
-        super();
-
-        this.supportsMap = new HashMap<String, Boolean>();
-        this.supportsMap.put(Oc4jPropertySet.AUTO_DEPLOY_DIR, Boolean.TRUE);
+        this.propertySupportMap.put(Oc4jPropertySet.AUTO_DEPLOY_DIR, Boolean.TRUE);
     }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability#getPropertySupportMap()
-     */
-    @Override
-    protected Map<String, Boolean> getPropertySupportMap()
-    {
-        return this.supportsMap;
-    }
-
 }

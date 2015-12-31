@@ -30,20 +30,16 @@ import org.codehaus.cargo.container.property.ResourcePropertySet;
 public class GlassFish3xStandaloneLocalConfigurationCapability extends
     GlassFish2xStandaloneLocalConfigurationCapability
 {
-
     /**
      * Initialize the configuration-specific supports Map.
      */
     public GlassFish3xStandaloneLocalConfigurationCapability()
     {
-        super();
-
         // recognize those as well
-        this.defaultSupportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
-        this.defaultSupportsMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.DEBUGGER_PORT, Boolean.TRUE);
-        this.defaultSupportsMap.put(GlassFishPropertySet.OSGI_SHELL_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
+        this.propertySupportMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.DEBUGGER_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(GlassFishPropertySet.OSGI_SHELL_PORT, Boolean.TRUE);
     }
-
 }

@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.property.DatasourcePropertySet;
  * Capabilities of the Jetty 7.x and onward's
  * {@link org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration}
  * configuration for installed containers.
- * 
  */
 public class Jetty7xStandaloneLocalConfigurationCapability extends
     JettyStandaloneLocalConfigurationCapability
@@ -35,8 +34,6 @@ public class Jetty7xStandaloneLocalConfigurationCapability extends
      */
     public Jetty7xStandaloneLocalConfigurationCapability()
     {
-        super();
-
-        this.supportsMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
     }
 }

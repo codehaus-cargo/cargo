@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
  * Capabilities of Tomcat's {@link AbstractCatalinaStandaloneLocalConfiguration} configuration.
- * 
  */
 public class Tomcat5x6xStandaloneLocalConfigurationCapability extends
     Tomcat4xStandaloneLocalConfigurationCapability
@@ -33,20 +32,18 @@ public class Tomcat5x6xStandaloneLocalConfigurationCapability extends
      */
     public Tomcat5x6xStandaloneLocalConfigurationCapability()
     {
-        super();
-
-        this.supportsMap.put(TomcatPropertySet.HTTP_SECURE, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.USE_HTTP_ONLY, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.CONNECTOR_KEY_ALIAS, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.CONNECTOR_TRUST_STORE_FILE, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.CONNECTOR_TRUST_STORE_TYPE, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.CONNECTOR_TRUST_STORE_PASSWORD, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.CONNECTOR_CLIENT_AUTH, Boolean.TRUE);
-        this.supportsMap.put(TomcatPropertySet.CONNECTOR_SSL_PROTOCOL, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.HTTP_SECURE, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.USE_HTTP_ONLY, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_KEY_ALIAS, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_TRUST_STORE_FILE, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_TRUST_STORE_TYPE, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_TRUST_STORE_PASSWORD, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_CLIENT_AUTH, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_SSL_PROTOCOL, Boolean.TRUE);
     }
 
 }

@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 
 /**
  * Capabilities of JBoss's runtime configuration.
- * 
  */
 public class JBoss4xRuntimeConfigurationCapability extends
     AbstractJBossRuntimeConfigurationCapability
@@ -36,14 +35,12 @@ public class JBoss4xRuntimeConfigurationCapability extends
      */
     public JBoss4xRuntimeConfigurationCapability()
     {
-        super();
+        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
+        this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
 
-        this.supportsMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
-        this.supportsMap.put(ServletPropertySet.PORT, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.TIMEOUT, Boolean.TRUE);
 
-        this.supportsMap.put(RemotePropertySet.TIMEOUT, Boolean.TRUE);
-
-        this.supportsMap.put(JBossPropertySet.REMOTEDEPLOY_HOSTNAME, Boolean.TRUE);
-        this.supportsMap.put(JBossPropertySet.REMOTEDEPLOY_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.REMOTEDEPLOY_HOSTNAME, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.REMOTEDEPLOY_PORT, Boolean.TRUE);
     }
 }
