@@ -92,4 +92,32 @@ public class WARTest extends TestCase
         assertEquals("Parsed web context = [test]", logger.messages.get(0));
         assertEquals("org.codehaus.cargo.container.deployable.WAR", logger.categories.get(0));
     }
+
+    /**
+     * Test name when WAR has an extension.
+     */
+    public void testGetNameWhenWarHasExtension()
+    {
+        WAR war = new WAR("c:/some/path/to/war/test.war");
+        assertEquals("test", war.getName());
+    }
+
+    /**
+     * Test name when WAR has no extension.
+     */
+    public void testGetNameWhenWarHasNoExtension()
+    {
+        WAR war = new WAR("/some/path/to/war/test");
+        assertEquals("test", war.getName());
+    }
+
+    /**
+     * Test name when WAR context is overriden.
+     */
+    public void testGetNameWhenOverride()
+    {
+        WAR war = new WAR("c:/some/path/to/war/test.war");
+        war.setContext("context");
+        assertEquals("context", war.getName());
+    }
 }

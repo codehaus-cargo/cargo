@@ -19,32 +19,28 @@
  */
 package org.codehaus.cargo.container.deployable;
 
-import org.codehaus.cargo.util.log.Loggable;
+import junit.framework.TestCase;
 
 /**
- * A deployable is a file archive to be deployed in a container (eg WAR, EAR, etc).
- * 
+ * Unit tests for {@link EJB}.
  */
-public interface Deployable extends Loggable
+public class EJBTest extends TestCase
 {
     /**
-     * @return the file representing the archive to deploy
+     * Test name when EJB has an extension.
      */
-    String getFile();
+    public void testGetNameWhenEjbHasExtension()
+    {
+        EJB ejb = new EJB("c:/some/path/to/ejb/test.ejb");
+        assertEquals("test", ejb.getName());
+    }
 
     /**
-     * @return the deployable's type (war, ear, etc)
+     * Test name when EJB has no extension.
      */
-    DeployableType getType();
-
-    /**
-     * @return If the deployable is a directory or not
-     */
-    boolean isExpanded();
-
-    /**
-     * @return The name of this deployable.
-     * See CARGO-1352.
-     */
-    String getName();
+    public void testGetNameWhenEjbHasNoExtension()
+    {
+        EJB ejb = new EJB("/some/path/to/ejb/test");
+        assertEquals("test", ejb.getName());
+    }
 }

@@ -19,32 +19,38 @@
  */
 package org.codehaus.cargo.container.deployable;
 
-import org.codehaus.cargo.util.log.Loggable;
+import junit.framework.TestCase;
 
 /**
- * A deployable is a file archive to be deployed in a container (eg WAR, EAR, etc).
- * 
+ * Unit tests for {@link EAR}.
  */
-public interface Deployable extends Loggable
+public class EARTest extends TestCase
 {
     /**
-     * @return the file representing the archive to deploy
+     * Test name when EAR has an extension.
      */
-    String getFile();
+    public void testGetNameWhenEarHasExtension()
+    {
+        EAR ear = new EAR("c:/some/path/to/ear/test.ear");
+        assertEquals("test", ear.getName());
+    }
 
     /**
-     * @return the deployable's type (war, ear, etc)
+     * Test name when EAR has no extension.
      */
-    DeployableType getType();
+    public void testGetNameWhenEarHasNoExtension()
+    {
+        EAR ear = new EAR("/some/path/to/ejb/test");
+        assertEquals("test", ear.getName());
+    }
 
     /**
-     * @return If the deployable is a directory or not
+     * Test name when EAR name is set.
      */
-    boolean isExpanded();
-
-    /**
-     * @return The name of this deployable.
-     * See CARGO-1352.
-     */
-    String getName();
+    public void testGetNameWhenOverride()
+    {
+        EAR ear = new EAR("c:/some/path/to/ear/test.ear");
+        ear.setName("name");
+        assertEquals("name", ear.getName());
+    }
 }
