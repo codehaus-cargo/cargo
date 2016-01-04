@@ -77,4 +77,12 @@ public class CustomType implements Deployable
     {
         return false;
     }
+
+    /**
+     * @return <code>null</code>
+     */
+    public String getName()
+    {
+        return null;
+    }
 }

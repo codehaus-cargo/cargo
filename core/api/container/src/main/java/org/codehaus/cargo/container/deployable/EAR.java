@@ -138,6 +138,7 @@ public class EAR extends AbstractDeployable
      * EAR's file name (removing the filename extension).
      * @return the name of this deployable
      */
+    @Override
     public synchronized String getName()
     {
         parseName();

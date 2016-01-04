@@ -101,6 +101,22 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
     }
 
     /**
+     * Returns the name of this deployable. Default value is computed from the
+     * Deployable file name (removing the filename extension).
+     * @return the name of this deployable
+     */
+    public String getName()
+    {
+        String name = getFileHandler().getName(getFile());
+        int nameIndex = name.toLowerCase().lastIndexOf(".");
+        if (nameIndex >= 0)
+        {
+            name = name.substring(0, nameIndex);
+        }
+        return name;
+    }
+
+    /**
      * {@inheritDoc}
      * @see Object#equals(Object)
      */

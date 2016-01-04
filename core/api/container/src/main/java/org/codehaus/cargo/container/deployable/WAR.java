@@ -139,4 +139,13 @@ public class WAR extends AbstractDeployable
         return this.extraClasspath.toArray(new String[this.extraClasspath.size()]);
     }
 
+    /**
+     * Returns the name of this deployable. For WAR file it is its context.
+     * @return the name of this deployable
+     */
+    @Override
+    public String getName()
+    {
+        return getContext();
+    }
 }

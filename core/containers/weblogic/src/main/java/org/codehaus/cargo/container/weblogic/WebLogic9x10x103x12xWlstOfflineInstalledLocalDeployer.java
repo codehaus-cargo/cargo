@@ -19,17 +19,12 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.DeployableException;
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.deployable.EAR;
-import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
 
@@ -88,10 +83,10 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
         WebLogicWlstConfiguration configuration =
             (WebLogicWlstConfiguration) getContainer().getConfiguration();
 
-        String id = createIdForDeployable(deployable);
         String path = getAbsolutePath(deployable);
 
-        return configuration.getConfigurationFactory().deployDeployableScript(id, path);
+        return configuration.getConfigurationFactory().deployDeployableScript(deployable.getName(),
+                path);
     }
 
     /**
@@ -108,64 +103,17 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
         WebLogicWlstConfiguration configuration =
             (WebLogicWlstConfiguration) weblogicContainer.getConfiguration();
 
-        String id = createIdForDeployable(deployable);
-
         List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();
 
         configurationScript.add(configuration.getConfigurationFactory().readDomainOfflineScript());
         configurationScript.add(configuration.getConfigurationFactory().
-                undeployDeployableScript(id));
+                undeployDeployableScript(deployable.getName()));
         configurationScript.add(configuration.getConfigurationFactory().
                 updateDomainOfflineScript());
 
         getLogger().info("Undeploying application from Weblogic domain.",
             this.getClass().getName());
         weblogicContainer.executeScript(configurationScript);
-    }
-
-    /**
-     * Get a string name for the configuration of this deployable. This should be XML friendly. For
-     * example, the String returned will have no slashes or colons, and be as short as possible.
-     *
-     * @param deployable used to construct the id
-     * @return a string that can be used to name this configuration
-     */
-    protected String createIdForDeployable(Deployable deployable)
-    {
-        String name = null;
-        // TODO this code should be moved into the deployable objects themselves, as they
-        // are better responsible for their name.
-        if (deployable.getType() == DeployableType.WAR)
-        {
-            name = ((WAR) deployable).getContext();
-        }
-        else if (deployable.getType() == DeployableType.EAR)
-        {
-            name = ((EAR) deployable).getName();
-        }
-        else if (deployable.getType() == DeployableType.EJB
-            || deployable.getType() == DeployableType.RAR)
-        {
-            name = createIdFromFileName(deployable);
-        }
-        else
-        {
-            throw new DeployableException("name extraction for " + deployable.getType()
-                + " not currently supported");
-        }
-        return name;
-    }
-
-    /**
-     * Get a string name for the configuration of this deployable based on its filename.
-     *
-     * @param deployable used to construct the id
-     * @return a string that can be used to name this configuration
-     */
-    protected String createIdFromFileName(Deployable deployable)
-    {
-        File file = new File(deployable.getFile());
-        return file.getName();
     }
 
     /**

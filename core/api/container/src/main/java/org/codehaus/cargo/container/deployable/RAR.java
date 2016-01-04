@@ -91,6 +91,7 @@ public class RAR extends AbstractDeployable
      * RAR's file name (removing the filename extension).
      * @return the name of this deployable
      */
+    @Override
     public synchronized String getName()
     {
         parseName();
