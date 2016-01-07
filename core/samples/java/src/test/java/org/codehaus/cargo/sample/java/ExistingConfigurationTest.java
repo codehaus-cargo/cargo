@@ -21,6 +21,7 @@ package org.codehaus.cargo.sample.java;
 
 import java.io.File;
 import java.net.URL;
+
 import junit.framework.Test;
 
 import org.codehaus.cargo.container.LocalContainer;
@@ -60,11 +61,12 @@ public class ExistingConfigurationTest extends AbstractWarCapabilityContainerTes
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that verify that existing configuration work by doing local WAR deployments");
 
-        suite.addTestSuite(ExistingConfigurationTest.class, new Validator[] {
-            new IsLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
-            new HasExistingConfigurationValidator(),
-            new HasWarSupportValidator()});
+        suite.addTestSuite(ExistingConfigurationTest.class,
+            new Validator[] {
+                new IsLocalContainerValidator(),
+                new HasStandaloneConfigurationValidator(),
+                new HasExistingConfigurationValidator(),
+                new HasWarSupportValidator()});
         return suite;
     }
 

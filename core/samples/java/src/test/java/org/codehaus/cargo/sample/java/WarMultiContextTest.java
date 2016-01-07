@@ -103,6 +103,8 @@ public class WarMultiContextTest extends AbstractCargoTestCase
         excludedContainerIds.add("weblogic10x");
         excludedContainerIds.add("weblogic103x");
         excludedContainerIds.add("weblogic12x");
+        excludedContainerIds.add("weblogic121x");
+        excludedContainerIds.add("weblogic122x");
         excludedContainerIds.add("wildfly8x");
         excludedContainerIds.add("wildfly9x");
 

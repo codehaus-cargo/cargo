@@ -20,6 +20,8 @@
 package org.codehaus.cargo.sample.java;
 
 import java.net.MalformedURLException;
+import java.util.Set;
+import java.util.TreeSet;
 
 import junit.framework.Test;
 
@@ -63,13 +65,19 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
             new CargoTestSuite("Tests that run on local containers supporting XADataSource "
                 + "configured DataSources and WAR deployments");
 
+        // The WebLogic WSLT deployer cannot deploy XA datasources with this method
+        Set<String> excludedContainerIds = new TreeSet<String>();
+        excludedContainerIds.add("weblogic121x");
+        excludedContainerIds.add("weblogic122x");
+
         suite.addTestSuite(XATransactionDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {
                 new IsInstalledLocalContainerValidator(),
                 new HasStandaloneConfigurationValidator(),
                 new HasWarSupportValidator(),
                 new HasDataSourceSupportValidator(ConfigurationType.STANDALONE),
-                new HasXASupportValidator(ConfigurationType.STANDALONE)});
+                new HasXASupportValidator(ConfigurationType.STANDALONE)},
+            excludedContainerIds);
         return suite;
     }
 

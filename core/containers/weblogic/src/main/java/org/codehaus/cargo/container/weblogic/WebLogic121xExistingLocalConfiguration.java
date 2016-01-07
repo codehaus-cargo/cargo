@@ -31,26 +31,27 @@ import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicWlstStandaloneLocalConfiguration;
+import static org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration.RESOURCE_PATH;
+import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicWlstExistingLocalConfiguration;
+import org.codehaus.cargo.container.weblogic.internal.WebLogicExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
-import org.codehaus.cargo.container.weblogic.internal.WebLogicWlstStandaloneLocalConfigurationCapability;
 
 /**
- * WebLogic 12.1.x standalone
+ * WebLogic 12.1.x existing
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
  * WebLogic 12.1.x uses WLST for container configuration.
  */
-public class WebLogic121xWlstStandaloneLocalConfiguration extends
-    AbstractWebLogicWlstStandaloneLocalConfiguration
+public class WebLogic121xExistingLocalConfiguration extends
+    AbstractWebLogicWlstExistingLocalConfiguration
 {
 
     /**
      * {@inheritDoc}
      *
-     * @see AbstractWebLogicWlstStandaloneLocalConfiguration#AbstractWebLogicWlstStandaloneLocalConfiguration(String, String)
+     * @see AbstractWebLogicWlstExistingLocalConfiguration#AbstractWebLogicWlstExistingLocalConfiguration(String, String)
      */
-    public WebLogic121xWlstStandaloneLocalConfiguration(String dir)
+    public WebLogic121xExistingLocalConfiguration(String dir)
     {
         super(dir, "org/codehaus/cargo/container/internal/resources/weblogicWlst/");
 
@@ -69,7 +70,7 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
      */
     public ConfigurationCapability getCapability()
     {
-        return new WebLogicWlstStandaloneLocalConfigurationCapability();
+        return new WebLogicExistingLocalConfigurationCapability();
     }
 
     /**
@@ -78,8 +79,6 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
-        setupConfigurationDir();
-
         WebLogicLocalScriptingContainer weblogicContainer =
             (WebLogicLocalScriptingContainer) container;
         List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();
@@ -151,6 +150,6 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
     @Override
     public String toString()
     {
-        return "WebLogic 12.1.x Standalone Configuration";
+        return "WebLogic 12.1.x Existing Configuration";
     }
 }

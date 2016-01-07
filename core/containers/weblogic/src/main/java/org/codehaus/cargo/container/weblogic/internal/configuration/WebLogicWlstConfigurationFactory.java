@@ -204,6 +204,11 @@ public class WebLogicWlstConfigurationFactory
     public ScriptCommand resourceScript(Resource resource)
     {
         Class<? extends ScriptCommand> resourceClass = resourceMap.get(resource.getType());
+        if (resourceClass == null)
+        {
+            throw new CargoException("Resources of type " + resource.getType()
+                + " are not supported by the WebLogic WSLT configuration factory");
+        }
         ScriptCommand newInstance = null;
         try
         {

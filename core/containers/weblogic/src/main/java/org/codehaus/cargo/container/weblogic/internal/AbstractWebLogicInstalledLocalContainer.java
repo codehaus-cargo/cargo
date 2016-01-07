@@ -222,7 +222,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
         if (this.getBeaHome() == null)
         {
             this.setBeaHome(this.getConfiguration().getPropertyValue(
-                    WebLogicPropertySet.BEA_HOME));
+                WebLogicPropertySet.BEA_HOME));
         }
 
         // If the beaHome attribute is not set, guess the bea home

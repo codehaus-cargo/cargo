@@ -20,20 +20,20 @@
 package org.codehaus.cargo.container.weblogic;
 
 /**
- * WebLogic 12.2.x standalone
+ * WebLogic 12.2.x existing
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
  * WebLogic 12.2.x uses WLST for container configuration.
  */
-public class WebLogic122xWlstStandaloneLocalConfiguration extends
-    WebLogic121xWlstStandaloneLocalConfiguration
+public class WebLogic122xExistingLocalConfiguration extends
+    WebLogic121xExistingLocalConfiguration
 {
 
     /**
      * {@inheritDoc}
      *
-     * @see WebLogic121xWlstStandaloneLocalConfiguration#WebLogic121xWlstStandaloneLocalConfiguration(String)
+     * @see WebLogic121xExistingLocalConfiguration#WebLogic121xExistingLocalConfiguration(String)
      */
-    public WebLogic122xWlstStandaloneLocalConfiguration(String dir)
+    public WebLogic122xExistingLocalConfiguration(String dir)
     {
         super(dir);
     }
@@ -46,6 +46,6 @@ public class WebLogic122xWlstStandaloneLocalConfiguration extends
     @Override
     public String toString()
     {
-        return "WebLogic 12.2.x Standalone Configuration";
+        return "WebLogic 12.2.x Existing Configuration";
     }
 }

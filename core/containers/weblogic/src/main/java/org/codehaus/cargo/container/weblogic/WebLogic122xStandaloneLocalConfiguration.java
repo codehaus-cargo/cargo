@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2015 Ali Tokmen.
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2011-2015 Ali Tokmen.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,7 @@ package org.codehaus.cargo.container.weblogic;
 /**
  * WebLogic 12.2.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
- * WebLogic 12.2.x is only slightly different to configure then WebLogic 12.1.x.
- * 
+ * WebLogic 12.2.x uses WLST for container configuration.
  */
 public class WebLogic122xStandaloneLocalConfiguration extends
     WebLogic121xStandaloneLocalConfiguration
@@ -31,7 +30,7 @@ public class WebLogic122xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see WebLogic121xStandaloneLocalConfiguration#WebLogic121xStandaloneLocalConfiguration(String)
      */
     public WebLogic122xStandaloneLocalConfiguration(String dir)
@@ -41,7 +40,7 @@ public class WebLogic122xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see Object#toString()
      */
     @Override
@@ -49,5 +48,4 @@ public class WebLogic122xStandaloneLocalConfiguration extends
     {
         return "WebLogic 12.2.x Standalone Configuration";
     }
-
 }

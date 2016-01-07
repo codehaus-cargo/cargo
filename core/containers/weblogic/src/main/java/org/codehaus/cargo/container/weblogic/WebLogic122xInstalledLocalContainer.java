@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2015 Ali Tokmen.
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2011-2015 Ali Tokmen.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,11 @@ package org.codehaus.cargo.container.weblogic;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
- * Special container support for the Oracle WebLogic 12.2.x application server.
- * 
+ * Special container support for the Oracle WebLogic 12.2 application server. Contains WLST support.
  */
 public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLocalContainer
 {
+
     /**
      * Unique container id.
      */
@@ -34,7 +34,7 @@ public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLo
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see WebLogic121xInstalledLocalContainer#WebLogic121xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public WebLogic122xInstalledLocalContainer(LocalConfiguration configuration)
@@ -44,7 +44,7 @@ public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLo
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.codehaus.cargo.container.Container#getName()
      */
     public String getName()
@@ -54,7 +54,7 @@ public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLo
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.codehaus.cargo.container.Container#getId()
      */
     public String getId()

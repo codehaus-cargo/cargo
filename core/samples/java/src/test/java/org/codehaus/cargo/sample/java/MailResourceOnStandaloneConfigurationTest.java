@@ -97,10 +97,13 @@ public class MailResourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting Resource and WAR deployments");
 
-        // glassfish3x and glassfish4x cannot deploy mail sessions as a resource
+        // GlassFish 3.x and 4.x as well as the WebLogic WSLT deployer
+        // cannot deploy mail sessions as a resource
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("glassfish3x");
         excludedContainerIds.add("glassfish4x");
+        excludedContainerIds.add("weblogic121x");
+        excludedContainerIds.add("weblogic122x");
 
         suite.addTestSuite(MailResourceOnStandaloneConfigurationTest.class,
             new Validator[] {

@@ -23,8 +23,8 @@ import java.util.List;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.Resource;
-import org.codehaus.cargo.container.weblogic.WebLogic121xWlstInstalledLocalContainer;
-import org.codehaus.cargo.container.weblogic.WebLogic121xWlstStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.weblogic.WebLogic121xInstalledLocalContainer;
+import org.codehaus.cargo.container.weblogic.WebLogic121xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicConfigurationEntryType;
 
 import junit.framework.TestCase;
@@ -52,12 +52,12 @@ public class WebLogicResourceRulesTest extends TestCase
     /**
      * Container.
      */
-    private WebLogic121xWlstInstalledLocalContainer container;
+    private WebLogic121xInstalledLocalContainer container;
 
     /**
      * Configuration.
      */
-    private WebLogic121xWlstStandaloneLocalConfiguration configuration;
+    private WebLogic121xStandaloneLocalConfiguration configuration;
 
     /**
      * Creates the test file system manager and the container. {@inheritDoc}
@@ -69,9 +69,9 @@ public class WebLogicResourceRulesTest extends TestCase
     {
         super.setUp();
 
-        this.configuration = new WebLogic121xWlstStandaloneLocalConfiguration(DOMAIN_HOME);
+        this.configuration = new WebLogic121xStandaloneLocalConfiguration(DOMAIN_HOME);
 
-        this.container = new WebLogic121xWlstInstalledLocalContainer(configuration);
+        this.container = new WebLogic121xInstalledLocalContainer(configuration);
         this.container.setHome(WL_HOME);
     }
 

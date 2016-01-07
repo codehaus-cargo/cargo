@@ -156,17 +156,17 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
 
         configurationFactory.registerConfiguration("weblogic121x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            WebLogic121xWlstStandaloneLocalConfiguration.class);
+            WebLogic121xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("weblogic121x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            WebLogic9x10x103x12xExistingLocalConfiguration.class);
+            WebLogic121xExistingLocalConfiguration.class);
 
         configurationFactory.registerConfiguration("weblogic122x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            WebLogic122xWlstStandaloneLocalConfiguration.class);
+            WebLogic122xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("weblogic122x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            WebLogic9x10x103x12xExistingLocalConfiguration.class);
+            WebLogic122xExistingLocalConfiguration.class);
     }
 
     /**
@@ -227,10 +227,10 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
             WebLogic12xInstalledLocalContainer.class);
 
         containerFactory.registerContainer("weblogic121x", ContainerType.INSTALLED,
-            WebLogic121xWlstInstalledLocalContainer.class);
+            WebLogic121xInstalledLocalContainer.class);
 
         containerFactory.registerContainer("weblogic122x", ContainerType.INSTALLED,
-            WebLogic122xWlstInstalledLocalContainer.class);
+            WebLogic122xInstalledLocalContainer.class);
     }
 
     /**
