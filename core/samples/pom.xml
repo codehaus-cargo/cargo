@@ -390,14 +390,14 @@
                 <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz</value>
                  -->
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.13.v20150730/jetty-distribution-9.2.13.v20150730.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.14.v20151106/jetty-distribution-9.2.14.v20151106.tar.gz</value>
                 <!--
-                  Jetty 9.3.5.v20151012 cannot be used due to a bug in the way the ServiceLoader's
+                  Jetty 9.3.6.v20151106 cannot be used due to a bug in the way the ServiceLoader's
                   class loader is handled and we get javax.servlet.ServletContainerInitializer:
                   Provider org.eclipse.jetty.cdi.websocket.WebSocketCdiInitializer not found
                   -->
                 <!--
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.5.v20151012/jetty-distribution-9.3.5.v20151012.tar.gz</value>
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.6.v20151106/jetty-distribution-9.3.6.v20151106.tar.gz</value>
                  -->
               </property>
               <property>
