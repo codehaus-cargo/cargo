@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.weblogic.internal;
 
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 
 /**
  * Capabilities of the WebLogic's
@@ -30,11 +31,14 @@ public class WebLogic9x10x103x12xStandaloneLocalConfigurationCapability extends
     WebLogic8xStandaloneLocalConfigurationCapability
 {
     /**
-     * WebLogic 9x supports additional features not available in 8x.
+     * WebLogic 9.x onwards supports additional features not available in 8.x.
      */
     public WebLogic9x10x103x12xStandaloneLocalConfigurationCapability()
     {
         // it is possible to set server logging thresholds in WLS 9+
         this.propertySupportMap.put(GeneralPropertySet.LOGGING, Boolean.TRUE);
+
+        this.propertySupportMap.put(WebLogicPropertySet.CONFIGURATION_VERSION, Boolean.TRUE);
+        this.propertySupportMap.put(WebLogicPropertySet.DOMAIN_VERSION, Boolean.TRUE);
     }
 }

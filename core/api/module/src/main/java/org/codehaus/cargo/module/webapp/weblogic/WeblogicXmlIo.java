@@ -26,7 +26,7 @@ import org.codehaus.cargo.module.AbstractDescriptorIo;
 import org.jdom.JDOMException;
 
 /**
- * Provides convenience methods for reading Weblogic web deployment descriptor.
+ * Provides convenience methods for reading WebLogic web deployment descriptor.
  * 
  */
 public class WeblogicXmlIo extends AbstractDescriptorIo

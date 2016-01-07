@@ -26,7 +26,7 @@ import org.codehaus.cargo.module.AbstractDescriptorIo;
 import org.jdom.JDOMException;
 
 /**
- * Provides convenience methods for reading Weblogic ejb jar deployment descriptor.
+ * Provides convenience methods for reading WebLogic ejb jar deployment descriptor.
  * 
  */
 public class WeblogicEjbJarXmlIo extends AbstractDescriptorIo

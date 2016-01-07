@@ -138,14 +138,14 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     }
 
     /**
-     * Verify that the Weblogic home directory structure is valid and throw a ContainerException if
+     * Verify that the WebLogic home directory structure is valid and throw a ContainerException if
      * not.
      */
     protected void verifyWeblogicHome()
     {
         List<String> requiredDirs = this.getWeblogicHomeDirs();
         List<String> requiredFiles = this.getWeblogicHomeFiles();
-        String errorPrefix = "Invalid Weblogic installation. ";
+        String errorPrefix = "Invalid WebLogic installation. ";
         String errorSuffix = "Make sure the WL_HOME directory you have specified "
                 + "points to the right location (It's currently pointing to ["
                 + getWeblogicHome() + "])";
@@ -159,7 +159,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     {
         List<String> requiredDirs = this.getBeaHomeDirs();
         List<String> requiredFiles = this.getBeaHomeFiles();
-        String errorPrefix = "Invalid Weblogic installation. ";
+        String errorPrefix = "Invalid WebLogic installation. ";
         String errorSuffix = "Make sure the BEA_HOME directory you have specified points to the "
             + "correct location (it is currently pointing to [" + getBeaHome() + "])";
         verify(errorPrefix, errorSuffix, requiredDirs, requiredFiles);
@@ -226,7 +226,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
         }
 
         // If the beaHome attribute is not set, guess the bea home
-        // directory using the parent directory of the weblogic home
+        // directory using the parent directory of the WebLogic home
         if (this.getBeaHome() == null)
         {
             this.setBeaHome(new File(this.getHome()).getParent());
@@ -242,7 +242,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     {
         initBeaHome();
 
-        // Weblogic looks for files relative to the domain home, which is not
+        // WebLogic looks for files relative to the domain home, which is not
         // necessarily relative to the Bea home
         File serverDir = new File(this.getHome(), "server");
 

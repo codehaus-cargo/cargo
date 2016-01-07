@@ -23,15 +23,15 @@ import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 
 /**
- * Capabilities of Weblogic(what it can do and what can be set).
+ * Capabilities of WebLogic configured via WSLT.
  */
-public class WebLogic9x10x103x12xWlstStandaloneLocalConfigurationCapability extends
+public class WebLogicWlstStandaloneLocalConfigurationCapability extends
     WebLogic9x10x103x12xStandaloneLocalConfigurationCapability
 {
     /**
      * WLST implementation allows easy support of resources.
      */
-    public WebLogic9x10x103x12xWlstStandaloneLocalConfigurationCapability()
+    public WebLogicWlstStandaloneLocalConfigurationCapability()
     {
         // support resources
         this.propertySupportMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
@@ -41,5 +41,9 @@ public class WebLogic9x10x103x12xWlstStandaloneLocalConfigurationCapability exte
         // support setting of admin user and password as they are set by WLST when creating domain
         this.propertySupportMap.put(WebLogicPropertySet.ADMIN_USER, Boolean.TRUE);
         this.propertySupportMap.put(WebLogicPropertySet.ADMIN_PWD, Boolean.TRUE);
+
+        // WLST-based configuration doesn't need these anymore
+        this.propertySupportMap.remove(WebLogicPropertySet.CONFIGURATION_VERSION);
+        this.propertySupportMap.remove(WebLogicPropertySet.DOMAIN_VERSION);
     }
 }

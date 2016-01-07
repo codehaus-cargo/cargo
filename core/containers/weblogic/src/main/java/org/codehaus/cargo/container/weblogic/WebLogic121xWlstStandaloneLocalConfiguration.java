@@ -32,9 +32,9 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicWlstStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xWlstStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
+import org.codehaus.cargo.container.weblogic.internal.WebLogicWlstStandaloneLocalConfigurationCapability;
 
 /**
  * WebLogic 12.1.x standalone
@@ -52,13 +52,11 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
      */
     public WebLogic121xWlstStandaloneLocalConfiguration(String dir)
     {
-        super(dir, "org/codehaus/cargo/container/internal/resources/weblogic1213/");
+        super(dir, "org/codehaus/cargo/container/internal/resources/weblogicWlst/");
 
         setProperty(WebLogicPropertySet.ADMIN_USER, "weblogic");
         setProperty(WebLogicPropertySet.ADMIN_PWD, "weblogic1");
         setProperty(WebLogicPropertySet.SERVER, "server");
-        setProperty(WebLogicPropertySet.CONFIGURATION_VERSION, "12.1.3.0");
-        setProperty(WebLogicPropertySet.DOMAIN_VERSION, "12.1.3.0");
         setProperty(ServletPropertySet.PORT, "7001");
         setProperty(GeneralPropertySet.HOSTNAME, "localhost");
         setProperty(WebLogicPropertySet.JMS_SERVER, "testJmsServer");
@@ -71,7 +69,7 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
      */
     public ConfigurationCapability getCapability()
     {
-        return new WebLogic9x10x103x12xWlstStandaloneLocalConfigurationCapability();
+        return new WebLogicWlstStandaloneLocalConfigurationCapability();
     }
 
     /**
@@ -109,8 +107,8 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
         }
 
         // add deployments to script
-        WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer deployer =
-            new WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer(weblogicContainer);
+        WebLogicWlstOfflineInstalledLocalDeployer deployer =
+            new WebLogicWlstOfflineInstalledLocalDeployer(weblogicContainer);
         for (Deployable deployable : getDeployables())
         {
             configurationScript.add(deployer.getDeployScript(deployable));
@@ -119,7 +117,7 @@ public class WebLogic121xWlstStandaloneLocalConfiguration extends
         // write new domain to domain folder
         configurationScript.add(getConfigurationFactory().writeDomainScript());
 
-        getLogger().info("Creating new Weblogic domain.", this.getClass().getName());
+        getLogger().info("Creating new WebLogic domain.", this.getClass().getName());
 
         // execute script
         weblogicContainer.executeScript(configurationScript);

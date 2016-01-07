@@ -30,7 +30,7 @@ import org.codehaus.cargo.container.weblogic.internal.configuration.rules.WebLog
 import org.codehaus.cargo.container.weblogic.internal.configuration.util.PriorityComparator;
 
 /**
- * Contains common Weblogic configuration functionality for WLST.
+ * Contains common WebLogic configuration functionality for WLST.
  */
 public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfiguration implements WebLogicWlstConfiguration

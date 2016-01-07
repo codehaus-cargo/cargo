@@ -32,8 +32,7 @@ import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingCont
  * Static deployer that manages deployment configuration calling WLST offline script.
  *
  */
-public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
-    AbstractInstalledLocalDeployer
+public class WebLogicWlstOfflineInstalledLocalDeployer extends AbstractInstalledLocalDeployer
 {
 
     /**
@@ -41,7 +40,7 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
      *
      * @param container container to configure
      */
-    public WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer(LocalContainer container)
+    public WebLogicWlstOfflineInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
     }
@@ -60,7 +59,7 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
         WebLogicWlstConfiguration configuration =
             (WebLogicWlstConfiguration) weblogicContainer.getConfiguration();
 
-        // script for deploying deployable to Weblogic using WLST
+        // script for deploying deployable to WebLogic using WLST
         List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();
 
         configurationScript.add(configuration.getConfigurationFactory().readDomainOfflineScript());
@@ -68,7 +67,7 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
         configurationScript.add(configuration.getConfigurationFactory().
                 updateDomainOfflineScript());
 
-        getLogger().info("Deploying application to Weblogic domain.",
+        getLogger().info("Deploying application to WebLogic domain.",
             this.getClass().getName());
         weblogicContainer.executeScript(configurationScript);
     }
@@ -111,7 +110,7 @@ public class WebLogic9x10x103x12xWlstOfflineInstalledLocalDeployer extends
         configurationScript.add(configuration.getConfigurationFactory().
                 updateDomainOfflineScript());
 
-        getLogger().info("Undeploying application from Weblogic domain.",
+        getLogger().info("Undeploying application from WebLogic domain.",
             this.getClass().getName());
         weblogicContainer.executeScript(configurationScript);
     }

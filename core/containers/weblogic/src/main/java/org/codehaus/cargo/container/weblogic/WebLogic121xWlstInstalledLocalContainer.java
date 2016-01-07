@@ -152,7 +152,7 @@ public class WebLogic121xWlstInstalledLocalContainer extends
 
         if (!users.isEmpty())
         {
-            getLogger().info("Adding users and groups to Weblogic domain.",
+            getLogger().info("Adding users and groups to WebLogic domain.",
                 this.getClass().getName());
             executeScript(configurationScript);
         }

@@ -142,7 +142,7 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         }
         catch (ContainerException expected)
         {
-            assertEquals("Invalid Weblogic installation. The [" + WL_HOME
+            assertEquals("Invalid WebLogic installation. The [" + WL_HOME
                 + "/server/lib] directory is empty "
                 + "and it shouldn't be. Make sure the WL_HOME directory you have specified "
                 + "points to the right location (It's currently pointing to [" + WL_HOME + "])",
@@ -166,7 +166,7 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         }
         catch (ContainerException expected)
         {
-            assertEquals("Invalid Weblogic installation. The [" + BEA_HOME
+            assertEquals("Invalid WebLogic installation. The [" + BEA_HOME
                 + "/registry.xml] file doesn't "
                 + "exist. Make sure the BEA_HOME directory you have specified "
                 + "points to the correct location (it is currently pointing to [" + BEA_HOME + "])",
@@ -189,7 +189,7 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         }
         catch (ContainerException expected)
         {
-            assertEquals("Invalid Weblogic installation. The [" + WL_HOME
+            assertEquals("Invalid WebLogic installation. The [" + WL_HOME
                 + "/server/lib] directory doesn't "
                 + "exist. Make sure the WL_HOME directory you have specified "
                 + "points to the right location (It's currently pointing to [" + WL_HOME + "])",
@@ -214,7 +214,7 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         }
         catch (ContainerException expected)
         {
-            assertEquals("Invalid Weblogic installation. The [" + WL_HOME
+            assertEquals("Invalid WebLogic installation. The [" + WL_HOME
                 + "/server/lib] path should be a "
                 + "directory. Make sure the WL_HOME directory you have specified "
                 + "points to the right location (It's currently pointing to [" + WL_HOME + "])",

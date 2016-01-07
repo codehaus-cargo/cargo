@@ -25,8 +25,8 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic8xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xWlstStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.weblogic.internal.WebLogicWlstStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
@@ -99,7 +99,7 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("weblogic121x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            WebLogic9x10x103x12xWlstStandaloneLocalConfigurationCapability.class);
+            WebLogicWlstStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("weblogic121x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             WebLogicExistingLocalConfigurationCapability.class);
@@ -250,6 +250,6 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ConfigurationBuilderFactory configurationBuilderFactory)
     {
-        // Resources for Weblogic 12.1.x. - not used - solved by WebLogicWlstConfigurationFactory
+        // Resources for WebLogic 12.1.x. - not used - solved by WebLogicWlstConfigurationFactory
     }
 }

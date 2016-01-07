@@ -492,7 +492,7 @@
 
                 Notes:
 
-                WebLogic 8.1SP6 and below only run on JDK 1.4
+                WebLogic 8.1SP6 and below run on JDK 1.4
 
                 There is no non-interactive download link for WL 8.x.  Here is a link that requires license agreement:
                    * http://commerce.bea.com/showproduct.jsp?family=WLS&major=8.1&minor=6
@@ -520,7 +520,7 @@
 
                 Notes:
 
-                WebLogic 9.2MP3 and below only run on JDK 1.5
+                WebLogic 9.2MP3 and below run on JDK 1.5
 
                 There is no non-interactive download link for WL 9.x.  Here are links that require license agreement:
                    * http://commerce.bea.com/showproduct.jsp?family=WLS&major=9.2&minor=3
@@ -549,7 +549,7 @@
 
                 Notes:
 
-                WebLogic 10.0MP1 and below only run on JDK 1.5
+                WebLogic 10.0MP1 and below run on JDK 1.5
 
                 There is no non-interactive download link for WL 10.x.  Here are links that require license agreement:
                    * http://commerce.bea.com/showallversions.jsp?family=WLS
@@ -578,7 +578,7 @@
 
                 Notes:
 
-                WebLogic 10.3 only runs on JDK 1.6
+                WebLogic 10.3 runs on JDK 1.6
 
                 There is no non-interactive download link for WL 10.3x.  Here is is a link that requires license agreement:
                    * http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html
@@ -606,12 +606,12 @@
 
                 Notes:
 
-                WebLogic 12 runs on JDK 1.6 and JDK 7
+                WebLogic 12 runs on JDK 1.6
 
                 There is no non-interactive download link for WL 12.x.  Here is is a link that requires license agreement:
                    * http://oracle.com/technetwork/middleware/ias/downloads/wls-main-097127.html
 
-                Once you install this, set the cargo.weblogic103x.home property accordingly.
+                Once you install this, set the cargo.weblogic12x.home property accordingly.
 
                 For example:
 
@@ -630,11 +630,39 @@
               </property>
 
               <!--
+                WebLogic 12.1.x
+
+                Notes:
+
+                WebLogic 12.1 runs on JDK 1.6
+
+                There is no non-interactive download link for WL 12.x.  Here is is a link that requires license agreement:
+                   * http://oracle.com/technetwork/middleware/ias/downloads/wls-main-097127.html
+
+                Once you install this, set the cargo.weblogic121x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.weblogic121x.home</name>
+                    <value>C:/Oracle/Middleware/wlserver_12.1</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.weblogic121x.home</name>
+                <value>${cargo.weblogic121x.home}</value>
+              </property>
+              <property>
+                <name>cargo.weblogic121x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <!--
                 WebSphere 8.5.x
 
                 Notes:
 
-                WebSphere 8.5 runs on JDK 1.6 and JDK 7
+                WebSphere 8.5 runs on JDK 1.6
 
                 There is no non-interactive download link for WebSphere 8.5.x.  Here is is a link that requires license agreement:
                    * http://www.ibm.com/developerworks/downloads/ws/was/
@@ -1623,6 +1651,12 @@
       <id>weblogic12x</id>
       <properties>
         <cargo.containers>weblogic12x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>weblogic121x</id>
+      <properties>
+        <cargo.containers>weblogic121x</cargo.containers>
       </properties>
     </profile>
 
