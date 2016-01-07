@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
-import org.codehaus.cargo.generic.configuration.builder.ConfigurationBuilderFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
 import org.codehaus.cargo.generic.packager.PackagerFactory;
@@ -70,11 +69,6 @@ public class TestFactoryRegistry extends AbstractFactoryRegistry
 
     @Override
     protected void register(ContainerCapabilityFactory factory)
-    {
-    }
-
-    @Override
-    protected void register(ConfigurationBuilderFactory factory)
     {
     }
 }

@@ -32,7 +32,6 @@ import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
-import org.codehaus.cargo.generic.configuration.builder.ConfigurationBuilderFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
 import org.codehaus.cargo.generic.packager.PackagerFactory;
@@ -240,16 +239,5 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
 
         containerCapabilityFactory.registerContainerCapability("weblogic121x",
             J2EEContainerCapability.class);
-    }
-
-    /**
-     * Register configuration builder for creating resources.
-     *
-     * @param configurationBuilderFactory Factory on which to register.
-     */
-    @Override
-    protected void register(ConfigurationBuilderFactory configurationBuilderFactory)
-    {
-        // Resources for WebLogic 12.1.x. - not used - solved by WebLogicWlstConfigurationFactory
     }
 }

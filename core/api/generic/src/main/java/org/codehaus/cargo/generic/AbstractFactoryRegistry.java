@@ -31,7 +31,6 @@ import org.apache.commons.discovery.tools.Service;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
-import org.codehaus.cargo.generic.configuration.builder.ConfigurationBuilderFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
 import org.codehaus.cargo.generic.packager.PackagerFactory;
@@ -165,20 +164,6 @@ public abstract class AbstractFactoryRegistry
     }
 
     /**
-     * See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
-     *
-     * @param classLoader See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
-     * @param factory See {@link #register(ClassLoader, DeployableFactory)} for the semantics.
-     */
-    public static void register(ClassLoader classLoader, ConfigurationBuilderFactory factory)
-    {
-        for (AbstractFactoryRegistry registry : list(classLoader))
-        {
-            registry.register(factory);
-        }
-    }
-
-    /**
      * Registers {@link org.codehaus.cargo.container.deployable.Deployable} implementations to the
      * given {@link DeployableFactory}.
      * 
@@ -227,16 +212,6 @@ public abstract class AbstractFactoryRegistry
      * @param factory See {@link #register(DeployableFactory)}
      */
     protected abstract void register(ContainerCapabilityFactory factory);
-
-    /**
-     * See {@link #register(DeployableFactory)} for the semantics.
-     * Empty default implementation as lot of containers don't support resources.
-     *
-     * @param factory See {@link #register(DeployableFactory)}
-     */
-    protected void register(ConfigurationBuilderFactory factory)
-    {
-    }
 
     /**
      * Lists up {@link AbstractFactoryRegistry}s that are discovered.
