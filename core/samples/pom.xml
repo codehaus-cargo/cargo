@@ -658,6 +658,34 @@
               </property>
 
               <!--
+                WebLogic 12.2.x
+
+                Notes:
+
+                WebLogic 12.2 runs on JDK 8
+
+                There is no non-interactive download link for WL 12.x.  Here is is a link that requires license agreement:
+                   * http://oracle.com/technetwork/middleware/ias/downloads/wls-main-097127.html
+
+                Once you install this, set the cargo.weblogic122x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.weblogic122x.home</name>
+                    <value>C:/Oracle/Middleware/wlserver_12.2</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.weblogic122x.home</name>
+                <value>${cargo.weblogic122x.home}</value>
+              </property>
+              <property>
+                <name>cargo.weblogic122x.java.home</name>
+                <value>${cargo.java.home.1_8}</value>
+              </property>
+
+              <!--
                 WebSphere 8.5.x
 
                 Notes:
@@ -1657,6 +1685,12 @@
       <id>weblogic121x</id>
       <properties>
         <cargo.containers>weblogic121x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>weblogic122x</id>
+      <properties>
+        <cargo.containers>weblogic122x</cargo.containers>
       </properties>
     </profile>
 

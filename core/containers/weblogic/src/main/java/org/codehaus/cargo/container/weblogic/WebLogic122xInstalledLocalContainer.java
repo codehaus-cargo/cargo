@@ -19,35 +19,46 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+
 /**
- * WebLogic 12.1.x standalone
- * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
- * WebLogic 12.1.x is only slightly different to configure then WebLogic 12.x.
+ * Special container support for the Oracle WebLogic 12.2.x application server.
  * 
  */
-public class WebLogic121xStandaloneLocalConfiguration extends
-    WebLogic12xStandaloneLocalConfiguration
+public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLocalContainer
 {
+    /**
+     * Unique container id.
+     */
+    public static final String ID = "weblogic122x";
 
     /**
      * {@inheritDoc}
      * 
-     * @see WebLogic103xStandaloneLocalConfiguration#WebLogic103xStandaloneLocalConfiguration(String)
+     * @see WebLogic121xInstalledLocalContainer#WebLogic121xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
-    public WebLogic121xStandaloneLocalConfiguration(String dir)
+    public WebLogic122xInstalledLocalContainer(LocalConfiguration configuration)
     {
-        super(dir);
+        super(configuration);
     }
 
     /**
      * {@inheritDoc}
      * 
-     * @see Object#toString()
+     * @see org.codehaus.cargo.container.Container#getName()
      */
-    @Override
-    public String toString()
+    public String getName()
     {
-        return "WebLogic 12.1.x Standalone Configuration";
+        return "WebLogic 12.2.x";
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.Container#getId()
+     */
+    public String getId()
+    {
+        return ID;
+    }
 }

@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer;
 
 /**
- * Special container support for the Bea WebLogic 12.x application server.
+ * Special container support for the Bea WebLogic 12.1.x application server.
  * 
  */
 public class WebLogic121xInstalledLocalContainer extends AbstractWebLogicInstalledLocalContainer

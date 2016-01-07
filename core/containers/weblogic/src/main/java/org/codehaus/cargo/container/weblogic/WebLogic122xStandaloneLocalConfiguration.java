@@ -20,21 +20,21 @@
 package org.codehaus.cargo.container.weblogic;
 
 /**
- * WebLogic 12.1.x standalone
+ * WebLogic 12.2.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
- * WebLogic 12.1.x is only slightly different to configure then WebLogic 12.x.
+ * WebLogic 12.2.x is only slightly different to configure then WebLogic 12.1.x.
  * 
  */
-public class WebLogic121xStandaloneLocalConfiguration extends
-    WebLogic12xStandaloneLocalConfiguration
+public class WebLogic122xStandaloneLocalConfiguration extends
+    WebLogic121xStandaloneLocalConfiguration
 {
 
     /**
      * {@inheritDoc}
      * 
-     * @see WebLogic103xStandaloneLocalConfiguration#WebLogic103xStandaloneLocalConfiguration(String)
+     * @see WebLogic121xStandaloneLocalConfiguration#WebLogic121xStandaloneLocalConfiguration(String)
      */
-    public WebLogic121xStandaloneLocalConfiguration(String dir)
+    public WebLogic122xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
     }
@@ -47,7 +47,7 @@ public class WebLogic121xStandaloneLocalConfiguration extends
     @Override
     public String toString()
     {
-        return "WebLogic 12.1.x Standalone Configuration";
+        return "WebLogic 12.2.x Standalone Configuration";
     }
 
 }

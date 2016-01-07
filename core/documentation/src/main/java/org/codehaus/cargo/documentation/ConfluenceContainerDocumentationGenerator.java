@@ -159,6 +159,13 @@ public class ConfluenceContainerDocumentationGenerator
     });
 
     /**
+     * Containers that work on Java 8.
+     */
+    private static final List<String> JAVA8_CONTAINERS = Arrays.asList(new String[] {
+        "weblogic122x"
+    });
+
+    /**
      * Classes that are used to get the property names.
      */
     private static final Class[] PROPERTY_SET_CLASSES = {
@@ -1238,6 +1245,10 @@ public class ConfluenceContainerDocumentationGenerator
                 else if (JAVA7_CONTAINERS.contains(containerId))
                 {
                     javaVersion = "7";
+                }
+                else if (JAVA8_CONTAINERS.contains(containerId))
+                {
+                    javaVersion = "8";
                 }
                 else if ("jonas5x".equals(containerId))
                 {
