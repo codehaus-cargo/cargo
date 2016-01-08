@@ -1,0 +1,1 @@
+AdminTask.addMemberToGroup('-memberUniqueName uid=@cargo.websphere.user.name@,o=defaultWIMFileBasedRealm -groupUniqueName cn=@cargo.websphere.group@,o=defaultWIMFileBasedRealm')

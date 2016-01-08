@@ -43,7 +43,9 @@ public class WebSphere85xExistingLocalConfigurationCapability
         this.propertySupportMap.put(WebSpherePropertySet.CELL, Boolean.TRUE);
         this.propertySupportMap.put(WebSpherePropertySet.SERVER, Boolean.TRUE);
 
-        this.propertySupportMap.put(WebSpherePropertySet.PROCESSOR_ARCH, Boolean.TRUE);
+        this.propertySupportMap.put(WebSpherePropertySet.ADMIN_USERNAME, Boolean.FALSE);
+        this.propertySupportMap.put(WebSpherePropertySet.ADMIN_PASSWORD, Boolean.FALSE);
+
         this.propertySupportMap.put(WebSpherePropertySet.OVERWRITE_EXISTING_CONFIGURATION,
             Boolean.TRUE);
     }

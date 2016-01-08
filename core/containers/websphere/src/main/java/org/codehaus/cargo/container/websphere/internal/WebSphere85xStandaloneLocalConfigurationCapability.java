@@ -19,7 +19,9 @@
  */
 package org.codehaus.cargo.container.websphere.internal;
 
+import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.websphere.WebSpherePropertySet;
@@ -35,7 +37,7 @@ public class WebSphere85xStandaloneLocalConfigurationCapability
      */
     public WebSphere85xStandaloneLocalConfigurationCapability()
     {
-        this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
+        this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
 
         this.propertySupportMap.put(WebSpherePropertySet.ADMIN_USERNAME, Boolean.TRUE);
@@ -46,9 +48,11 @@ public class WebSphere85xStandaloneLocalConfigurationCapability
         this.propertySupportMap.put(WebSpherePropertySet.CELL, Boolean.TRUE);
         this.propertySupportMap.put(WebSpherePropertySet.SERVER, Boolean.TRUE);
 
-        this.propertySupportMap.put(WebSpherePropertySet.PROCESSOR_ARCH, Boolean.TRUE);
-
         this.propertySupportMap.put(WebSpherePropertySet.CLASSLOADER_MODE, Boolean.TRUE);
         this.propertySupportMap.put(WebSpherePropertySet.WAR_CLASSLOADER_POLICY, Boolean.TRUE);
+
+        this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
+        this.propertySupportMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
     }
 }

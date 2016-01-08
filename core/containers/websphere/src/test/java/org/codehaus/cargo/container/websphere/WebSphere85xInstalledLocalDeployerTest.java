@@ -40,9 +40,8 @@ public class WebSphere85xInstalledLocalDeployerTest extends TestCase
             new WebSphere85xInstalledLocalDeployerWithNoWsAdminExecution();
         WAR war = new WAR("target/test-artifacts/simple-war.war");
         deployer.deploy(war);
-        assertContains(deployer.getCommands(), "cargo-deployable-simple-war");
-        assertContains(deployer.getCommands(), "\"Simple Webapp\"");
-        assertContains(deployer.getCommands(), "\"simple-war.war,WEB-INF/web.xml\"");
+        assertContains(deployer.getCommands(), "'-appname','simple-war'");
+        assertContains(deployer.getCommands(), "'-contextroot','simple-war'");
     }
 
     /**
@@ -55,10 +54,8 @@ public class WebSphere85xInstalledLocalDeployerTest extends TestCase
             new WebSphere85xInstalledLocalDeployerWithNoWsAdminExecution();
         EAR ear = new EAR("target/test-artifacts/simple-ear.ear");
         deployer.deploy(ear);
-        assertContains(deployer.getCommands(), "cargo-deployable-simple-ear");
-        assertContains(deployer.getCommands(), "\"Simple Webapp\"");
-        assertContains(deployer.getCommands(), "\"simple-war-"
-            + System.getProperty("project.version") + ".war,WEB-INF/web.xml\"");
+        assertContains(deployer.getCommands(), "'-appname','simple-ear'");
+        assertContains(deployer.getCommands(), "filename = 'target/test-artifacts/simple-ear.ear'");
     }
 
     /**

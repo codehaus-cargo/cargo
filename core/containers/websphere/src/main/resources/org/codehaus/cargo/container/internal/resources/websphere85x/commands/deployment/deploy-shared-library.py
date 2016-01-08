@@ -1,0 +1,1 @@
+createSharedLibrary('@cargo.library.shared.id@','@cargo.library.shared.path.absolute@')

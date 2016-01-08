@@ -19,7 +19,10 @@
  */
 package org.codehaus.cargo.container.websphere;
 
+import java.util.List;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 
 /**
  * Unit tests for the {@link WebSphere85xInstalledLocalDeployer} class.
@@ -47,14 +50,14 @@ public class WebSphere85xInstalledLocalContainerWithNoWsAdminExecution
      * {@inheritDoc}
      */
     @Override
-    protected void executeWsAdmin(String... commands) throws Exception
+    public void executeScript(List<ScriptCommand> configurationScript)
     {
         StringBuilder commandsBuilder = new StringBuilder();
-        if (commands != null)
+        if (configurationScript != null)
         {
-            for (String command : commands)
+            for (ScriptCommand scriptCommand : configurationScript)
             {
-                commandsBuilder.append(command);
+                commandsBuilder.append(scriptCommand.readScript());
                 commandsBuilder.append("\n");
             }
         }

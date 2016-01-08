@@ -1,0 +1,1 @@
+setJvmProperty("@cargo.websphere.node@","@cargo.websphere.server@","@cargo.websphere.jvm.name@","@cargo.websphere.jvm.value@")

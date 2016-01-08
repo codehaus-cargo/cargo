@@ -21,17 +21,20 @@ package org.codehaus.cargo.container.websphere;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 import org.codehaus.cargo.container.websphere.internal.WebSphere85xExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.websphere.internal.configuration.WebSphereJythonConfigurationFactory;
+import org.codehaus.cargo.container.websphere.util.ByteUnit;
+import org.codehaus.cargo.container.websphere.util.JvmArguments;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -40,6 +43,7 @@ import org.codehaus.cargo.util.CargoException;
  *
  */
 public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLocalConfiguration
+    implements WebSphereConfiguration
 {
     /**
      * Capability of the WebSphere existing configuration.
@@ -48,14 +52,24 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
         new WebSphere85xExistingLocalConfigurationCapability();
 
     /**
+     * Configuration factory for creating WebSphere jython configuration scripts.
+     */
+    private WebSphereJythonConfigurationFactory factory;
+
+    /**
      * {@inheritDoc}
      * @see AbstractExistingLocalConfiguration#AbstractExistingLocalConfiguration(String)
      */
     public WebSphere85xExistingLocalConfiguration(String dir)
     {
         super(dir);
+        factory = new WebSphereJythonConfigurationFactory(this,
+                RESOURCE_PATH + "websphere85x/commands/");
 
         setProperty(ServletPropertySet.PORT, "9080");
+
+        setProperty(WebSpherePropertySet.ADMIN_USERNAME, "websphere");
+        setProperty(WebSpherePropertySet.ADMIN_PASSWORD, "websphere");
 
         setProperty(WebSpherePropertySet.PROFILE, "cargoProfile");
         setProperty(WebSpherePropertySet.CELL, "cargoNodeCell");
@@ -98,107 +112,49 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
                     + getPropertyValue(WebSpherePropertySet.OVERWRITE_EXISTING_CONFIGURATION));
         }
 
-        List<String> wsAdminCommands = new ArrayList<String>();
+        getLogger().info("Updating existing profile.", this.getClass().getName());
 
-        // First we need to find *our* server
-        wsAdminCommands.add("set server [$AdminConfig getid "
-                        + "/Cell:" + getPropertyValue(WebSpherePropertySet.CELL)
-                        + "/Node:" + getPropertyValue(WebSpherePropertySet.NODE)
-                        + "/Server:" + getPropertyValue(WebSpherePropertySet.SERVER)
-                        + "/]"
-        );
+        List<ScriptCommand> wsAdminCommands = new ArrayList<ScriptCommand>();
 
-        // ... and the JVM settings of that server
-        wsAdminCommands.add("set jvm [$AdminConfig list JavaVirtualMachine $server]");
-
-
+        // add JVM configuration
         if (configurationSetting == WebSphereExistingConfigurationSetting.ALL
                 || configurationSetting == WebSphereExistingConfigurationSetting.JVM)
         {
-            // we need to extract minimum and maximum memory settings from given string.
-            int initialHeap = -1;
-            int maxHeap = -1;
-            StringBuilder genericArgs = new StringBuilder();
-
             String jvmArgs = getPropertyValue(GeneralPropertySet.JVMARGS);
-            if (jvmArgs != null)
-            {
-                for (String arg : jvmArgs.split(" "))
-                {
-                    if (arg.startsWith("-Xms"))
-                    {
-                        initialHeap = wsContainer.convertJVMArgToMegaByte(arg.substring(4));
-                    }
-                    else if (arg.startsWith("-Xmx"))
-                    {
-                        maxHeap = wsContainer.convertJVMArgToMegaByte(arg.substring(4));
-                    }
-                    else
-                    {
-                        if (genericArgs.length() > 0)
-                        {
-                            genericArgs.append(' ');
-                        }
-                        genericArgs.append(arg);
-                    }
-                }
-            }
+            JvmArguments parsedArguments = JvmArguments.parseArguments(jvmArgs);
 
-            // setting default memory settings
-            if (maxHeap < 1)
-            {
-                maxHeap = 512;
-            }
-
-            if (initialHeap < 1)
-            {
-                initialHeap = maxHeap;
-            }
-
-            // Now we can set our memory settings and other JVM arguments
-            wsAdminCommands.add("$AdminConfig modify $jvm { "
-                            + "{initialHeapSize " + initialHeap + "} "
-                            + "{maximumHeapSize " + maxHeap + "} "
-                            + "{genericJvmArguments \"" + genericArgs + "\"} "
-                            + "}"
-            );
+            wsAdminCommands.add(factory.setJvmPropertyScript("initialHeapSize",
+                    Long.toString(parsedArguments.getInitialHeap(ByteUnit.MEGABYTES))));
+            wsAdminCommands.add(factory.setJvmPropertyScript("maximumHeapSize",
+                    Long.toString(parsedArguments.getMaxHeap(ByteUnit.MEGABYTES))));
+            wsAdminCommands.add(factory.setJvmPropertyScript("genericJvmArguments",
+                    parsedArguments.getGenericArgs()));
         }
 
+        // add system properties
         if (configurationSetting == WebSphereExistingConfigurationSetting.ALL
                 || configurationSetting == WebSphereExistingConfigurationSetting.SystemProperties)
         {
-            wsAdminCommands.addAll(Arrays.asList(
-                    // Deleting all existing system properties first
-                    "set jvmProperties [$AdminConfig list Property $jvm]",
-                    "if { ${jvmProperties} != \"\" } {",
-                    "  foreach propertyID ${jvmProperties} {",
-                    "    $AdminConfig remove $propertyID",
-                    "  }",
-                    "}"
-            ));
-
-            for (Map.Entry<String, String> systemProperty : wsContainer.getSystemProperties()
-                    .entrySet())
+            for (Map.Entry<String, String> systemProperty
+                    : wsContainer.getSystemProperties().entrySet())
             {
-                wsAdminCommands.add("$AdminConfig create Property $jvm { "
-                        + "{name \"" + systemProperty.getKey() + "\"} "
-                        + "{value \"" + systemProperty.getValue() + "\"} "
-                        + "}"
-                );
+                wsAdminCommands.add(factory.setSystemPropertyScript(systemProperty.getKey(),
+                        systemProperty.getValue()));
             }
         }
 
-        if (configurationSetting != WebSphereExistingConfigurationSetting.NONE)
-        {
-            wsAdminCommands.add("$AdminConfig save");
-            wsContainer.executeWsAdmin(wsAdminCommands.toArray(new String[0]));
-        }
-
+        // deploy cargo ping
         File cargoCpc = File.createTempFile("cargo-cpc-", ".war");
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war", cargoCpc);
         WAR cargoCpcWar = new WAR(cargoCpc.getAbsolutePath());
         cargoCpcWar.setContext("cargocpc");
-        getDeployables().add(cargoCpcWar);
+        wsAdminCommands.add(factory.undeployDeployableScript(cargoCpcWar));
+        wsAdminCommands.add(factory.deployDeployableScript(cargoCpcWar));
+
+        //save and activate
+        wsAdminCommands.add(factory.saveSyncScript());
+
+        wsContainer.executeScript(wsAdminCommands);
     }
 
     /**
@@ -220,4 +176,12 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
         return "WebSphere 8.5 Existing Configuration";
     }
 
+    /**
+     * {@inheritDoc}
+     * @see WebSphereConfiguration#getFactory()
+     */
+    public WebSphereJythonConfigurationFactory getFactory()
+    {
+        return factory;
+    }
 }

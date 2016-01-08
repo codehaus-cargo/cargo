@@ -1,0 +1,1 @@
+associateSharedLibrary('@cargo.library.shared.id@','@cargo.deployable.id@','')
