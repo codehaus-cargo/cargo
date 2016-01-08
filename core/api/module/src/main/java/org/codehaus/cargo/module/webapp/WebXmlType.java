@@ -182,6 +182,16 @@ public abstract class WebXmlType extends AbstractDescriptorType
     public static final String RESOURCE_REF = "resource-ref";
 
     /**
+     * Element name 'res-ref-name'.
+     */
+    public static final String RES_REF_NAME = "res-ref-name";
+
+    /**
+     * Element name 'res-type'.
+     */
+    public static final String RES_TYPE = "res-type";
+
+    /**
      * Element name 'security-constraint'.
      */
     public static final String SECURITY_CONSTRAINT = "security-constraint";

@@ -1,0 +1,1 @@
+deleteApplicationByNameIfExists('@cargo.deployable.id@')

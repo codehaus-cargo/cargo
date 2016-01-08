@@ -22,17 +22,28 @@ package org.codehaus.cargo.container.websphere;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
+import org.codehaus.cargo.container.configuration.entry.Resource;
+import org.codehaus.cargo.container.configuration.script.ScriptCommand;
+import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.websphere.internal.WebSphere85xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.container.websphere.internal.WebSphere85xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.websphere.internal.configuration.WebSphereJythonConfigurationFactory;
+import org.codehaus.cargo.container.websphere.internal.configuration.rules.WebSphereResourceRules;
+import org.codehaus.cargo.container.websphere.util.ByteUnit;
+import org.codehaus.cargo.container.websphere.util.JvmArguments;
+import org.codehaus.cargo.container.websphere.util.WebSphereResourceComparator;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -41,6 +52,7 @@ import org.codehaus.cargo.util.CargoException;
  * 
  */
 public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
+    implements WebSphereConfiguration
 {
     /**
      * Capability of the WebSphere standalone configuration.
@@ -54,9 +66,9 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
     private WebSphere85xInstalledLocalContainer wsContainer;
 
     /**
-     * Profile home.
+     * Configuration factory for creating WebSphere jython configuration scripts.
      */
-    private String home;
+    private WebSphereJythonConfigurationFactory factory;
 
     /**
      * {@inheritDoc}
@@ -65,7 +77,8 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
     public WebSphere85xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
-        this.home = dir;
+        factory = new WebSphereJythonConfigurationFactory(this,
+                RESOURCE_PATH + "websphere85x/commands/");
 
         setProperty(ServletPropertySet.PORT, "9080");
 
@@ -79,6 +92,12 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
 
         setProperty(WebSpherePropertySet.CLASSLOADER_MODE, "PARENT_FIRST");
         setProperty(WebSpherePropertySet.WAR_CLASSLOADER_POLICY, "MULTIPLE");
+        setProperty(WebSpherePropertySet.APPLICATION_SECURITY, "true");
+
+        setProperty(WebSpherePropertySet.JMS_SIBUS, "jmsBus");
+
+        setProperty(WebSpherePropertySet.EJB_TO_ACT_SPEC_BINDING, "");
+        setProperty(WebSpherePropertySet.EJB_TO_RES_REF_BINDING, "");
     }
 
     /**
@@ -96,44 +115,121 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
     protected void doConfigure(LocalContainer container) throws Exception
     {
         this.wsContainer = (WebSphere85xInstalledLocalContainer) container;
-        File home = new File(this.wsContainer.getHome(),
-            "profiles/" + getPropertyValue(WebSpherePropertySet.PROFILE));
-        this.home = home.getAbsolutePath();
 
-        try
-        {
-            runManageProfileCommand(
-                "-delete",
-                "-profileName",
-                getPropertyValue(WebSpherePropertySet.PROFILE));
-        }
-        catch (Exception e)
-        {
-            getLogger().debug("Error occured while deleting WebSphere profile",
-                this.getClass().getName());
-        }
-        finally
-        {
-            getLogger().debug("Deleting profile folder " + this.home,
-                this.getClass().getName());
-            getFileHandler().delete(this.home);
+        // delete old profile and create new profile
+        deleteOldProfile();
+        createNewProfile(container);
 
-            if (getFileHandler().isDirectory(this.home))
+        getLogger().info("Configuring profile.", this.getClass().getName());
+
+        List<ScriptCommand> commands = new ArrayList<ScriptCommand>();
+
+        // add miscellaneous configuration
+        commands.add(factory.miscConfigurationScript());
+
+        // add JVM configuration
+        commands.addAll(createJvmPropertiesScripts(wsContainer));
+
+        // add system properties
+        for (Map.Entry<String, String> systemProperty
+                : wsContainer.getSystemProperties().entrySet())
+        {
+            if (systemProperty.getValue() != null)
             {
-                throw new CargoException("Directory " + this.home + " cannot be deleted");
+                commands.add(factory.setSystemPropertyScript(systemProperty.getKey(),
+                        systemProperty.getValue()));
             }
         }
 
+        // add shared libraries
+        List<String> extraLibraries = Arrays.asList(wsContainer.getExtraClasspath());
+        for (String extraLibrary : extraLibraries)
+        {
+            commands.add(factory.deploySharedLibraryScript(extraLibrary));
+        }
+
+        // create datasources
+        for (DataSource dataSource : getDataSources())
+        {
+            commands.addAll(factory.createDataSourceScript(dataSource, extraLibraries));
+        }
+
+        // add missing resources to list of resources
+        WebSphereResourceRules.addMissingJmsResources(this);
+
+        // sort resources
+        WebSphereResourceComparator resourceComparator = new WebSphereResourceComparator();
+        List<Resource> resources = getResources();
+        Collections.sort(resources, resourceComparator);
+
+        // create resources
+        for (Resource resource : getResources())
+        {
+            commands.add(factory.createResourceScript(resource));
+        }
+
+        // deploy cargo ping
+        commands.add(getDeployCargoPingScript());
+
+        // deploy deployables
+        for (Deployable deployable : getDeployables())
+        {
+            commands.addAll(factory.deployDeployableScript(deployable, extraLibraries));
+        }
+
+        //save and activate
+        commands.add(factory.saveSyncScript());
+
+        wsContainer.executeScript(commands);
+    }
+
+    /**
+     * Delete old profile.
+     * @throws Exception if any error is raised during deleting of profile
+     */
+    private void deleteOldProfile() throws Exception
+    {
+        getLogger().info("Deleting old profile.", this.getClass().getName());
+
+        // Delete profile in WebSphere
+        wsContainer.runManageProfileCommand(
+            "-delete",
+            "-profileName",
+            getPropertyValue(WebSpherePropertySet.PROFILE));
+
+        // Profile directory has to be deleted too.
+        getLogger().debug("Deleting profile folder " + getHome(), this.getClass().getName());
+        getFileHandler().delete(getHome());
+
+        if (getFileHandler().isDirectory(getHome()))
+        {
+            throw new CargoException("Directory " + getHome() + " cannot be deleted");
+        }
+
+        // Update profile informations in WebSphere
+        wsContainer.runManageProfileCommand("-validateAndUpdateRegistry");
+    }
+
+    /**
+     * Create new profile.
+     * @param container Container.
+     * @throws Exception if any error is raised during deleting of profile
+     */
+    private void createNewProfile(Container container) throws Exception
+    {
         File portsFile = File.createTempFile("cargo-websphere-portdef-", ".properties");
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/portdef.props",
             portsFile, createFilterChain(), "ISO-8859-1");
 
         try
         {
-            runManageProfileCommand(
+            getLogger().info("Creating new profile.", this.getClass().getName());
+            wsContainer.runManageProfileCommand(
                 "-create",
                 "-profileName",
                 getPropertyValue(WebSpherePropertySet.PROFILE),
+                "-profilePath",
+                getHome(),
                 "-nodeName",
                 getPropertyValue(WebSpherePropertySet.NODE),
                 "-cellName",
@@ -146,6 +242,8 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
                 "false",
                 "-enableService",
                 "false",
+                "-enableAdminSecurity",
+                "true",
                 "-adminUserName",
                 getPropertyValue(WebSpherePropertySet.ADMIN_USERNAME),
                 "-adminPassword",
@@ -155,147 +253,44 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         {
             portsFile.delete();
         }
+    }
 
-
-        // we need to extract minimum and maximum memory settings from given string.
-        int initialHeap = -1;
-        int maxHeap = -1;
-        StringBuilder genericArgs = new StringBuilder();
+    /**
+     * Create JVM properties.
+     * @param container Container.
+     * @return Scripts for creating JVM properties.
+     * @throws Exception if any error is raised during deleting of profile.
+     */
+    private Collection<ScriptCommand> createJvmPropertiesScripts(
+            WebSphere85xInstalledLocalContainer container) throws Exception
+    {
+        Collection<ScriptCommand> jvmCommands = new ArrayList<ScriptCommand>();
 
         String jvmArgs = getPropertyValue(GeneralPropertySet.JVMARGS);
-        if (jvmArgs != null)
-        {
-            for (String arg : jvmArgs.split(" "))
-            {
-                if (arg.startsWith("-Xms"))
-                {
-                    initialHeap = wsContainer.convertJVMArgToMegaByte(arg.substring(4));
-                }
-                else if (arg.startsWith("-Xmx"))
-                {
-                    maxHeap = wsContainer.convertJVMArgToMegaByte(arg.substring(4));
-                }
-                else
-                {
-                    if (genericArgs.length() > 0)
-                    {
-                        genericArgs.append(' ');
-                    }
-                    genericArgs.append(arg);
-                }
-            }
-        }
+        JvmArguments parsedArguments = JvmArguments.parseArguments(jvmArgs);
 
-        // setting default memory settings
-        if (maxHeap < 1)
-        {
-            maxHeap = 512;
-        }
+        jvmCommands.add(factory.setJvmPropertyScript("initialHeapSize",
+                Long.toString(parsedArguments.getInitialHeap(ByteUnit.MEGABYTES))));
+        jvmCommands.add(factory.setJvmPropertyScript("maximumHeapSize",
+                Long.toString(parsedArguments.getMaxHeap(ByteUnit.MEGABYTES))));
+        jvmCommands.add(factory.setJvmPropertyScript("genericJvmArguments",
+                parsedArguments.getGenericArgs()));
 
-        if (initialHeap < 1)
-        {
-            initialHeap = maxHeap;
-        }
+        return jvmCommands;
+    }
 
-        List<String> wsAdminCommands = new ArrayList<String>();
-        wsAdminCommands.addAll(Arrays.asList(
-                // First we need to find *our* server
-                "set server [$AdminConfig getid "
-                        + "/Cell:" + getPropertyValue(WebSpherePropertySet.CELL)
-                        + "/Node:" + getPropertyValue(WebSpherePropertySet.NODE)
-                        + "/Server:" + getPropertyValue(WebSpherePropertySet.SERVER)
-                        + "/]",
-
-                // ... and the JVM settings of that server
-                "set jvm [$AdminConfig list JavaVirtualMachine $server]",
-
-                // Now we can set our memory settings and other JVM arguments
-                "$AdminConfig modify $jvm { "
-                        + "{initialHeapSize " + initialHeap + "} "
-                        + "{maximumHeapSize " + maxHeap + "} "
-                        + "{genericJvmArguments \"" + genericArgs + "\"} "
-                        + "}",
-
-                // Deleting all existing system properties first
-                "set jvmProperties [$AdminConfig list Property $jvm]",
-                "if { ${jvmProperties} != \"\" } {",
-                "  foreach propertyID ${jvmProperties} {",
-                "    $AdminConfig remove $propertyID",
-                "  }",
-                "}"
-        ));
-
-        for (Map.Entry<String, String> systemProperty
-                : wsContainer.getSystemProperties().entrySet())
-        {
-            wsAdminCommands.add("$AdminConfig create Property $jvm { "
-                    + "{name \"" + systemProperty.getKey() + "\"} "
-                    + "{value \"" + systemProperty.getValue() + "\"} "
-                    + "}");
-        }
-        wsAdminCommands.add("$AdminConfig save");
-
-        wsContainer.executeWsAdmin(wsAdminCommands.toArray(new String[0]));
-
-
+    /**
+     * Deploy the Cargo Ping utility to the container.
+     * @return Script command deploying cargo ping war file.
+     * @throws Exception if the cargo ping deployment fails
+     */
+    private ScriptCommand getDeployCargoPingScript() throws Exception
+    {
         File cargoCpc = File.createTempFile("cargo-cpc-", ".war");
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war", cargoCpc);
         WAR cargoCpcWar = new WAR(cargoCpc.getAbsolutePath());
         cargoCpcWar.setContext("cargocpc");
-        getDeployables().add(cargoCpcWar);
-    }
-
-    /**
-     * {@inheritDoc}. This implementation overrides as WebSphere does not allow flexible paths.
-     */
-    @Override
-    public String getHome()
-    {
-        return this.home;
-    }
-
-    /**
-     * Run a manageprofile command.
-     * @param arguments Arguments.
-     */
-    protected void runManageProfileCommand(String... arguments)
-    {
-        JvmLauncher java = this.wsContainer.createJvmLauncher();
-
-        java.setSystemProperty("ws.ext.dirs",
-            // new File(javaLib, "ext").getAbsolutePath().replace(File.separatorChar, '/')
-            // + File.pathSeparatorChar
-            new File(getHome(), "classes").getAbsolutePath().replace(File.separatorChar, '/')
-            + File.pathSeparatorChar
-            + new File(getHome(), "lib").getAbsolutePath().replace(File.separatorChar, '/')
-            + File.pathSeparatorChar
-            + new File(getHome(), "installedChannels").getAbsolutePath()
-                .replace(File.separatorChar, '/')
-            + File.pathSeparatorChar
-            + new File(getHome(), "lib/ext").getAbsolutePath().replace(File.separatorChar, '/')
-            + File.pathSeparatorChar
-            + new File(getHome(), "web/help").getAbsolutePath().replace(File.separatorChar, '/')
-            + File.pathSeparatorChar
-            + new File(getHome(), "deploytool/itp/plugins/com.ibm.etools.ejbdeploy/runtime")
-                .getAbsolutePath().replace(File.separatorChar, '/'));
-
-        java.setMainClass("com.ibm.wsspi.bootstrap.WSPreLauncher");
-
-        java.addAppArguments("-nosplash");
-        java.addAppArguments("-application");
-        java.addAppArguments("com.ibm.ws.bootstrap.WSLauncher");
-        java.addAppArguments("com.ibm.ws.runtime.WsProfile");
-
-        java.addAppArguments(arguments);
-
-        java.setWorkingDirectory(new File(wsContainer.getHome()));
-
-        int returnCode = java.execute();
-        if (returnCode != 0)
-        {
-            throw new CargoException(
-                "WebSphere configuration cannot be created: return code was " + returnCode);
-        }
+        return factory.deployDeployableScript(cargoCpcWar);
     }
 
     /**
@@ -305,5 +300,14 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
     public String toString()
     {
         return "WebSphere 8.5 Standalone Configuration";
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see WebSphereConfiguration#getFactory()
+     */
+    public WebSphereJythonConfigurationFactory getFactory()
+    {
+        return factory;
     }
 }

@@ -1,0 +1,1 @@
+AdminTask.addSIBusMember('[-bus @cargo.resource.jms.sibus.id@ -node @cargo.websphere.node@ -server @cargo.websphere.server@ ]')

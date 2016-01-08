@@ -61,11 +61,6 @@ public interface WebSpherePropertySet
     String LOGGING = "cargo.websphere.logging";
 
     /**
-     * The processor type within lib/native/{OS} (e.g. 32, 64)
-     */
-    String PROCESSOR_ARCH = "cargo.websphere.arch";
-
-    /**
      * Classloader mode used when deploying/starting the deployable(s).
      * Possible values are PARENT_FIRST and PARENT_LAST
      *
@@ -106,4 +101,37 @@ public interface WebSpherePropertySet
      */
     String OVERWRITE_EXISTING_CONFIGURATION = "cargo.websphere.overwriteExistingConfiguration";
 
+    /**
+     * WebSphere JMS SIBus.
+     */
+    String JMS_SIBUS = "cargo.websphere.jms.sibus";
+
+    /**
+     * WebSphere binding of EJB to activation specification.<br>
+     * <br>
+     * Example:<br>
+     *          deployable name:EJB name:queue jndi name|<br>
+     *          deployable name:another EJB name:another queue jndi name<br>
+     * <br>
+     * Used for mapping of queues to their appropriate messaging EJBs.
+     */
+    String EJB_TO_ACT_SPEC_BINDING = "cargo.websphere.ejb.act.binding";
+
+    /**
+     * WebSphere binding of EJB to resource reference.<br>
+     * <br>
+     * Example:<br>
+     * deployable name:EJB name:EBJ resource name:resource jndi name|<br>
+     * deployable name:another EJB name:EBJ resource2 name:resource2 jndi name<br>
+     * <br>
+     * Used for mapping of resources like JMS factories to their appropriate EJBs references.<br>
+     * Can be used to map resources in EBJ annotated with @Resource.
+     */
+    String EJB_TO_RES_REF_BINDING = "cargo.websphere.ejb.res.binding";
+
+    /**
+     * Whether to enable or disable application security for deployed applications.
+     * Possible values: true or false.
+     */
+    String APPLICATION_SECURITY = "cargo.websphere.security.application";
 }

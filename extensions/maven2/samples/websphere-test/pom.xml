@@ -65,6 +65,20 @@
       <artifactId>simple-war</artifactId>
       <type>war</type>
     </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>datasource-war</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>jms-war</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+    </dependency>
   </dependencies>
 
   <profiles>
@@ -92,18 +106,40 @@
                     <groupId>org.codehaus.cargo</groupId>
                     <artifactId>simple-jar</artifactId>
                   </dependency>
+                  <dependency>
+                    <groupId>org.apache.derby</groupId>
+                    <artifactId>derby</artifactId>
+                  </dependency>
                 </dependencies>
               </container>
               <configuration>
-                <home>${cargo.websphere85x.home}/profiles/${cargo.websphere.profile}</home>
-                <type>existing</type>
+                <type>standalone</type>
                 <properties>
+                  <cargo.servlet.users>myUser:passw0rd:group1</cargo.servlet.users>
+                  <cargo.websphere.server>${cargo.websphere.server}</cargo.websphere.server>
                   <cargo.java.home>${cargo.websphere85x.home}/java/jre</cargo.java.home>
                   <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
-                  <cargo.websphere.profile>${cargo.websphere.profile}</cargo.websphere.profile>
-                  <cargo.websphere.node>${cargo.websphere.node}</cargo.websphere.node>
-                  <cargo.websphere.cell>${cargo.websphere.cell}</cargo.websphere.cell>
-                  <cargo.websphere.server>${cargo.websphere.server}</cargo.websphere.server>
+                  <cargo.websphere.classloader.mode>PARENT_LAST</cargo.websphere.classloader.mode>
+                  <cargo.websphere.war.classloader.policy>SINGLE</cargo.websphere.war.classloader.policy>
+                  <cargo.datasource.datasource.derby>
+                    cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedConnectionPoolDataSource|
+                    cargo.datasource.url=jdbc:derby:derbyDB;create=true|
+                    cargo.datasource.jndi=jdbc/CargoDS|
+                    cargo.datasource.username=sa|
+                    cargo.datasource.password=|
+                    cargo.datasource.id=derbyDB|
+                    cargo.datasource.properties=createDatabase=create
+                  </cargo.datasource.datasource.derby>
+                  <cargo.resource.resource.jms.cf>
+                    cargo.resource.name=jms/cf/MyCf|
+                    cargo.resource.type=javax.jms.ConnectionFactory|
+                    cargo.resource.id=MyCf
+                  </cargo.resource.resource.jms.cf>
+                  <cargo.resource.resource.jms.queue>
+                    cargo.resource.name=jms/MyQueue|
+                    cargo.resource.type=javax.jms.Queue|
+                    cargo.resource.id=MyQueue
+                  </cargo.resource.resource.jms.queue>
                 </properties>
               </configuration>
               <deployables>
@@ -120,6 +156,16 @@
                 <deployable>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-war</artifactId>
+                  <type>war</type>
+                </deployable>
+                <deployable>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>datasource-war</artifactId>
+                  <type>war</type>
+                </deployable>
+                <deployable>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>jms-war</artifactId>
                   <type>war</type>
                 </deployable>
               </deployables>
