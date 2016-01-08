@@ -25,6 +25,8 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 
+import org.codehaus.cargo.container.deployable.DeployableType;
+
 /**
  * Common field and method to {@link Dependency} and {@link Deployable}.
  * 
@@ -165,9 +167,18 @@ public abstract class AbstractDependency
                     || artifact.getClassifier() != null
                     && artifact.getClassifier().equals(getClassifier()))
                 {
-                    if (artifact.getType() == getType()
-                        || artifact.getType() != null
-                        && artifact.getType().equals(getType()))
+                    String artifactType = artifact.getType();
+                    if (artifactType == null || DeployableType.EJB.getType().equals(artifactType))
+                    {
+                        artifactType = "jar";
+                    }
+                    String type = getType();
+                    if (type == null || DeployableType.BUNDLE.getType().equals(type)
+                        || DeployableType.EJB.getType().equals(type))
+                    {
+                        type = "jar";
+                    }
+                    if (type.equals(artifactType))
                     {
                         resolvedArtifact = artifact;
                         break;
