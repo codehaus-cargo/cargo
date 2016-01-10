@@ -51,6 +51,11 @@ public class WebSphere85xStandaloneLocalConfigurationCapability
         this.propertySupportMap.put(WebSpherePropertySet.CLASSLOADER_MODE, Boolean.TRUE);
         this.propertySupportMap.put(WebSpherePropertySet.WAR_CLASSLOADER_POLICY, Boolean.TRUE);
 
+        this.propertySupportMap.put(WebSpherePropertySet.JMS_SIBUS, Boolean.TRUE);
+        this.propertySupportMap.put(WebSpherePropertySet.EJB_TO_ACT_SPEC_BINDING, Boolean.TRUE);
+        this.propertySupportMap.put(WebSpherePropertySet.EJB_TO_RES_REF_BINDING, Boolean.TRUE);
+        this.propertySupportMap.put(WebSpherePropertySet.APPLICATION_SECURITY, Boolean.TRUE);
+
         this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
         this.propertySupportMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);

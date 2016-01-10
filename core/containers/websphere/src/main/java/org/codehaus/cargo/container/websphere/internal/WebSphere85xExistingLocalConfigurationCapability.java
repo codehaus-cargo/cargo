@@ -20,7 +20,6 @@
 package org.codehaus.cargo.container.websphere.internal;
 
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.websphere.WebSpherePropertySet;
 
@@ -35,7 +34,6 @@ public class WebSphere85xExistingLocalConfigurationCapability
      */
     public WebSphere85xExistingLocalConfigurationCapability()
     {
-        this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
 
         this.propertySupportMap.put(WebSpherePropertySet.PROFILE, Boolean.TRUE);
@@ -43,8 +41,8 @@ public class WebSphere85xExistingLocalConfigurationCapability
         this.propertySupportMap.put(WebSpherePropertySet.CELL, Boolean.TRUE);
         this.propertySupportMap.put(WebSpherePropertySet.SERVER, Boolean.TRUE);
 
-        this.propertySupportMap.put(WebSpherePropertySet.ADMIN_USERNAME, Boolean.FALSE);
-        this.propertySupportMap.put(WebSpherePropertySet.ADMIN_PASSWORD, Boolean.FALSE);
+        this.propertySupportMap.put(WebSpherePropertySet.ADMIN_USERNAME, Boolean.TRUE);
+        this.propertySupportMap.put(WebSpherePropertySet.ADMIN_PASSWORD, Boolean.TRUE);
 
         this.propertySupportMap.put(WebSpherePropertySet.OVERWRITE_EXISTING_CONFIGURATION,
             Boolean.TRUE);
