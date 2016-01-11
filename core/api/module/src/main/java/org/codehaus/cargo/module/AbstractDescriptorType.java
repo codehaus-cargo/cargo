@@ -134,7 +134,6 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
         }
 
         return parent != null ? parent.getTagByName(name) : null;
-
     }
 
     /**

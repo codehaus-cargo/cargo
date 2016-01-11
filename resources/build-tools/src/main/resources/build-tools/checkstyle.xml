@@ -128,12 +128,11 @@
 
     <module name="AvoidStarImport"/>
 
+    <module name="AvoidStaticImport"/>
+
     <module name="BooleanExpressionComplexity"/>
 
-    <!-- This is a good metric but checkstyle doesn't allow to remove JDK's base classes
-         from the new count thus making this check unusable IMO
-    <module name="ClassDataAbstractionCoupling"/>
-    -->
+    <!--module name="ClassDataAbstractionCoupling"/-->
 
     <module name="ClassFanOutComplexity">
       <property name="severity" value="warning"/>
@@ -152,8 +151,6 @@
     <module name="DefaultComesLast"/>
 
     <module name="DescendantToken"/>
-
-    <!--module name="DoubleCheckedLocking"/-->
 
     <!--module name="DesignForExtension"/-->
 
@@ -196,9 +193,7 @@
       <property name="classes" value="java.lang.Boolean, java.lang.String"/>
     </module>
 
-    <!-- Checkstyle 4 check
-    <module name="IllegalThrows"/>
-    -->
+    <!--module name="IllegalThrows"/-->
 
     <!--module name="IllegalToken"/-->
 
@@ -208,9 +203,7 @@
       <property name="severity" value="warning"/>
     </module>
 
-    <!-- Checkstyle 4 check
-    <module name="ImportControl"/>
-    -->
+    <!--module name="ImportControl"/-->
 
     <!--module name="ImportOrder"/-->
 
@@ -240,9 +233,7 @@
       <property name="scope" value="private"/>
     </module>
 
-    <!-- Checkstyle 3.5 check. Maven 1.0.2 ships with CS 3.4 dependency.
-    <module name="JavaNCSS"/>
-    -->
+    <!--module name="JavaNCSS"/-->
 
     <module name="JUnitTestCase"/>
 
@@ -282,15 +273,11 @@
 
     <module name="MissingSwitchDefault"/>
 
-    <!-- Checkstyle 3.5 check. Maven 1.0.2 ships with CS 3.4 dependency.
-    <module name="ModifiedControlVariable"/>
-    -->
+    <!--module name="ModifiedControlVariable"/-->
 
     <module name="ModifierOrder"/>
 
-    <!-- Checkstyle 3.5 check. Maven 1.0.2 ships with CS 3.4 dependency.
-    <module name="MultipleStringLiterals"/>
-    -->
+    <!--module name="MultipleStringLiterals"/-->
 
     <module name="MultipleVariableDeclarations"/>
 
@@ -336,16 +323,6 @@
 
     <module name="RedundantModifier"/>
 
-    <!--module name="Regexp"/-->
-
-    <!-- Seems there's a bug in the Checkstyle 3.4 implementation
-    <module name="RequireThis">
-      <property name="checkMethods" value="false"/>
-    </module>
-    -->
-
-    <!--module name="RequiredRegexp"/-->
-
     <module name="ReturnCount">
       <property name="max" value="7"/>
     </module>
@@ -360,17 +337,13 @@
 
     <module name="StaticVariableName"/>
 
-    <!-- Checkstyle 3.5 check. Maven 1.0.2 ships with CS 3.4 dependency.
-    <module name="StrictDuplicateCode"/>
-    -->
-
     <module name="StringLiteralEquality"/>
 
     <module name="SuperClone"/>
 
     <module name="SuperFinalize"/>
 
-    <!--module name="ThrowsCount"-->
+    <!--module name="ThrowsCount"/-->
 
     <module name="TodoComment">
       <property name="severity" value="warning"/>
@@ -386,7 +359,7 @@
       <property name="excludedClasses" value="Main$|ResinRun$|Uberjar$"/>
     </module>
 
-    <!--module name="UnnecessaryParentheses"/-->
+    <module name="UnnecessaryParentheses"/>
 
     <module name="UnusedImports"/>
 
