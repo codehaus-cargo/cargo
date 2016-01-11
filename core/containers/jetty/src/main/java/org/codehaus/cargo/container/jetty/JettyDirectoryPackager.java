@@ -19,9 +19,8 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import static java.util.Collections.emptyList;
-
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager;
@@ -57,7 +56,7 @@ public class JettyDirectoryPackager extends AbstractDirectoryPackager
     @Override
     protected List<String> getConfigurationExclusions()
     {
-        return emptyList();
+        return Collections.emptyList();
     }
 
     /**
