@@ -95,9 +95,6 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         setProperty(WebSpherePropertySet.APPLICATION_SECURITY, "true");
 
         setProperty(WebSpherePropertySet.JMS_SIBUS, "jmsBus");
-
-        setProperty(WebSpherePropertySet.EJB_TO_ACT_SPEC_BINDING, "");
-        setProperty(WebSpherePropertySet.EJB_TO_RES_REF_BINDING, "");
     }
 
     /**

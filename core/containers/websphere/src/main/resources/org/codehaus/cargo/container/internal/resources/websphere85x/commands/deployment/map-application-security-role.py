@@ -1,1 +1,0 @@
-AdminApp.edit('@cargo.deployable.id@', '[ -MapRolesToUsers [[ @cargo.deployable.security.role@ AppDeploymentOption.No AppDeploymentOption.No "" @cargo.websphere.group@ AppDeploymentOption.No "" group:defaultWIMFileBasedRealm/cn=@cargo.websphere.group@,o=defaultWIMFileBasedRealm ]]]' )

@@ -36,6 +36,7 @@ import org.codehaus.cargo.module.webapp.WarArchive;
 import org.codehaus.cargo.module.webapp.WarArchiveIo;
 import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlType;
+import org.codehaus.cargo.module.webapp.WebXmlUtils;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
 import org.jdom.Element;
@@ -82,6 +83,7 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
         addContext(additionalArguments);
         addResourceReferenceMapping(additionalArguments);
         addJndiForEjbMessageBindingMapping(additionalArguments);
+        addApplicationSecurityRolesMapping(additionalArguments);
         propertiesMap.put("cargo.deployable.websphere.arguments", additionalArguments.toString());
     }
 
@@ -217,6 +219,46 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
         if (resRefList.size() > 0)
         {
             arguments.append(",'-BindJndiForEJBMessageBinding','");
+            arguments.append(convertListToString(resRefList, ""));
+            arguments.append("'");
+        }
+    }
+
+    /**
+     * @param arguments Arguments passed to configuration script.
+     */
+    private void addApplicationSecurityRolesMapping(StringBuffer arguments)
+    {
+        List<String> resRefList = new ArrayList<String>();
+
+        if (deployable instanceof WAR)
+        {
+            try
+            {
+                WarArchive warArchive = WarArchiveIo.open(deployable.getFile());
+                WebXml webXml = warArchive.getWebXml();
+                List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(webXml);
+                for (String securityRoleName : securityRoleNames)
+                {
+                    List<String> entryList = new ArrayList<String>();
+                    entryList.add(securityRoleName);
+                    entryList.add("AppDeploymentOption.No AppDeploymentOption.No \"\"");
+                    entryList.add(securityRoleName);
+                    entryList.add("AppDeploymentOption.No \"\"");
+                    entryList.add("group:defaultWIMFileBasedRealm/cn=" + securityRoleName
+                            + ",o=defaultWIMFileBasedRealm");
+                    resRefList.add(convertListToString(entryList, " "));
+                }
+            }
+            catch (Exception e)
+            {
+                throw new CargoException("Error when retrieving security roles!", e);
+            }
+        }
+
+        if (resRefList.size() > 0)
+        {
+            arguments.append(",'-MapRolesToUsers','");
             arguments.append(convertListToString(resRefList, ""));
             arguments.append("'");
         }
