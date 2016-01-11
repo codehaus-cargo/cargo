@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ScriptingCapableContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
-import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
@@ -128,13 +127,6 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
         for (User user : users)
         {
             configurationScript.addAll(configuration.getFactory().createUserScript(user));
-        }
-
-        // map security roles to groups
-        for (Deployable deployable : getConfiguration().getDeployables())
-        {
-            configurationScript.addAll(configuration.getFactory().
-                    mapApplicationSecurityRolesScript(deployable));
         }
 
         configurationScript.add(configuration.getFactory().saveSyncScript());
