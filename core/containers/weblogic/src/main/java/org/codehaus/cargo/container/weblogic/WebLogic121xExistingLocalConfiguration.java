@@ -19,22 +19,13 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.configuration.entry.DataSource;
-import org.codehaus.cargo.container.configuration.entry.Resource;
-import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import static org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration.RESOURCE_PATH;
 import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicWlstExistingLocalConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
 
 /**
@@ -60,9 +51,6 @@ public class WebLogic121xExistingLocalConfiguration extends
         setProperty(WebLogicPropertySet.SERVER, "server");
         setProperty(ServletPropertySet.PORT, "7001");
         setProperty(GeneralPropertySet.HOSTNAME, "localhost");
-        setProperty(WebLogicPropertySet.JMS_SERVER, "testJmsServer");
-        setProperty(WebLogicPropertySet.JMS_MODULE, "testJmsModule");
-        setProperty(WebLogicPropertySet.JMS_SUBDEPLOYMENT, "testJmsSubdeployment");
     }
 
     /**
@@ -81,65 +69,29 @@ public class WebLogic121xExistingLocalConfiguration extends
     {
         WebLogicLocalScriptingContainer weblogicContainer =
             (WebLogicLocalScriptingContainer) container;
-        List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();
 
-        // create new domain
-        configurationScript.add(getConfigurationFactory().createDomainScript(
-                weblogicContainer.getWeblogicHome()));
-
-        // add datasources to script
-        for (DataSource dataSource : getDataSources())
-        {
-            configurationScript.addAll(getConfigurationFactory().dataSourceScript(dataSource));
-        }
-
-        // add missing resources to list of resources
-        addMissingResources();
-
-        // sort resources
-        sortResources();
-
-        // add resources to script
-        for (Resource resource : getResources())
-        {
-            configurationScript.add(getConfigurationFactory().resourceScript(resource));
-        }
-
-        // add deployments to script
-        WebLogicWlstOfflineInstalledLocalDeployer deployer =
-            new WebLogicWlstOfflineInstalledLocalDeployer(weblogicContainer);
-        for (Deployable deployable : getDeployables())
-        {
-            configurationScript.add(deployer.getDeployScript(deployable));
-        }
-
-        // write new domain to domain folder
-        configurationScript.add(getConfigurationFactory().writeDomainScript());
-
-        getLogger().info("Creating new WebLogic domain.", this.getClass().getName());
-
-        // execute script
-        weblogicContainer.executeScript(configurationScript);
-
-        // deploy cargo ping
-        deployCargoPing(weblogicContainer);
-    }
-
-    /**
-     * Deploy the Cargo Ping utility to the container.
-     *
-     * @param container the container to configure
-     * @throws IOException if the cargo ping deployment fails
-     */
-    private void deployCargoPing(WebLogicLocalContainer container) throws IOException
-    {
-        // as this is an initial install, this directory will not exist, yet
-        String deployDir =
-            getFileHandler().createDirectory(getDomainHome(), container.getAutoDeployDirectory());
+        // This directory might not exist yet
+        String deployDir = getFileHandler().createDirectory(getDomainHome(),
+            weblogicContainer.getAutoDeployDirectory());
 
         // Deploy the cargocpc web-app by copying the WAR file
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             getFileHandler().append(deployDir, "cargocpc.war"), getFileHandler());
+        for (Deployable deployable : getDeployables())
+        {
+            if (getFileHandler().isDirectory(deployable.getFile()))
+            {
+                getFileHandler().copyDirectory(deployable.getFile(),
+                    getFileHandler().append(deployDir,
+                        getFileHandler().getName(deployable.getFile())));
+            }
+            else
+            {
+                getFileHandler().copyFile(deployable.getFile(),
+                    getFileHandler().append(deployDir,
+                        getFileHandler().getName(deployable.getFile())));
+            }
+        }
     }
 
     /**
