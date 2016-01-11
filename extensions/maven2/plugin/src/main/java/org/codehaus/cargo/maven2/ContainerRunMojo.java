@@ -96,7 +96,7 @@ public class ContainerRunMojo extends ContainerStartMojo
     protected org.codehaus.cargo.container.Container createNewContainer()
         throws MojoExecutionException
     {
-        if ((containerId != null && containerUrl == null))
+        if (containerId != null && containerUrl == null)
         {
             throw new MojoExecutionException(
                 "If you specify a containerId, you also need to specify a containerUrl.");
