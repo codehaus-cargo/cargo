@@ -31,13 +31,11 @@ import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.ImportWsadminlibScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.AddSharedLibraryToDeployableScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.DeployDeployableScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.DeploySharedLibraryScriptCommand;
-import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.MapApplicationSecurityRoleScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.UndeployDeployableScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.domain.MiscConfigurationScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.domain.SaveSyncScriptCommand;
@@ -52,10 +50,6 @@ import org.codehaus.cargo.container.websphere.internal.configuration.commands.re
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.user.AddUserToGroupScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.user.CreateGroupScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.user.CreateUserScriptCommand;
-import org.codehaus.cargo.module.webapp.WarArchive;
-import org.codehaus.cargo.module.webapp.WarArchiveIo;
-import org.codehaus.cargo.module.webapp.WebXml;
-import org.codehaus.cargo.module.webapp.WebXmlUtils;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -198,36 +192,6 @@ public class WebSphereJythonConfigurationFactory
     public ScriptCommand undeployDeployableScript(Deployable deployable)
     {
         return new UndeployDeployableScriptCommand(configuration, resourcePath, deployable);
-    }
-
-    /**
-     * @param deployable Deployable containing roles which needs to be mapped.
-     * @return Map roles jython script.
-     */
-    public List<ScriptCommand> mapApplicationSecurityRolesScript(Deployable deployable)
-    {
-        List<ScriptCommand> scriptCommands = new ArrayList<ScriptCommand>();
-
-        if (deployable instanceof WAR)
-        {
-            try
-            {
-                WarArchive warArchive = WarArchiveIo.open(deployable.getFile());
-                WebXml webXml = warArchive.getWebXml();
-                List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(webXml);
-                for (String securityRoleName : securityRoleNames)
-                {
-                    scriptCommands.add(new MapApplicationSecurityRoleScriptCommand(configuration,
-                            resourcePath, deployable, securityRoleName, securityRoleName));
-                }
-            }
-            catch (Exception e)
-            {
-                throw new CargoException("Error when retrieving security roles!", e);
-            }
-        }
-
-        return scriptCommands;
     }
 
     /* User/group configuration*/
