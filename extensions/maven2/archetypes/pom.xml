@@ -123,7 +123,7 @@
     -->
   <profiles>
     <profile>
-      <id>run-its</id>
+      <id>jdk6+</id>
       <activation>
         <jdk>[1.6,)</jdk>
       </activation>
