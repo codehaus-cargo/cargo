@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.websphere.internal.configuration.commands.d
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -32,6 +31,7 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 import org.codehaus.cargo.container.websphere.WebSpherePropertySet;
+import org.codehaus.cargo.container.websphere.util.ComplexPropertyParser;
 import org.codehaus.cargo.module.webapp.WarArchive;
 import org.codehaus.cargo.module.webapp.WarArchiveIo;
 import org.codehaus.cargo.module.webapp.WebXml;
@@ -125,19 +125,16 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
 
         String bindingString = getConfiguration().
                 getPropertyValue(WebSpherePropertySet.EJB_TO_RES_REF_BINDING);
+        List<List<String>> parsedBinding = ComplexPropertyParser.parseProperty(bindingString);
 
-        if (bindingString != null && bindingString.length() > 0)
+        for (List<String> bindingItem : parsedBinding)
         {
-            StringTokenizer bindingEntries = new StringTokenizer(bindingString, "|");
-            while (bindingEntries.hasMoreTokens())
+            if (bindingItem.size() == 4)
             {
-                String bindingEntry = bindingEntries.nextToken().trim();
-                StringTokenizer bindingValues = new StringTokenizer(bindingEntry, ":");
-
-                String deployableName = bindingValues.nextToken().trim();
-                String ejbName = bindingValues.nextToken().trim();
-                String ejbResourceName = bindingValues.nextToken().trim();
-                String jndiName = bindingValues.nextToken().trim();
+                String deployableName = bindingItem.get(0);
+                String ejbName = bindingItem.get(1);
+                String ejbResourceName = bindingItem.get(2);
+                String jndiName = bindingItem.get(3);
 
                 if (deployableName.equals(deployable.getName()))
                 {
@@ -159,6 +156,11 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
                     }
                 }
             }
+            else
+            {
+                throw new CargoException("Resource reference property has to have 4 items,"
+                        + "currently it has " + bindingItem.size() + " items.");
+            }
         }
 
         if (resRefList.size() > 0)
@@ -179,18 +181,15 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
         FileHandler fileHandler = ((AbstractDeployable) deployable).getFileHandler();
         String bindingString = getConfiguration().
                 getPropertyValue(WebSpherePropertySet.EJB_TO_ACT_SPEC_BINDING);
+        List<List<String>> parsedBinding = ComplexPropertyParser.parseProperty(bindingString);
 
-        if (bindingString != null && bindingString.length() > 0)
+        for (List<String> bindingItem : parsedBinding)
         {
-            StringTokenizer bindingEntries = new StringTokenizer(bindingString, "|");
-            while (bindingEntries.hasMoreTokens())
+            if (bindingItem.size() == 3)
             {
-                String bindingEntry = bindingEntries.nextToken().trim();
-                StringTokenizer bindingValues = new StringTokenizer(bindingEntry, ":");
-
-                String deployableName = bindingValues.nextToken().trim();
-                String ejbName = bindingValues.nextToken().trim();
-                String queueJndiName = bindingValues.nextToken().trim();
+                String deployableName = bindingItem.get(0);
+                String ejbName = bindingItem.get(1);
+                String queueJndiName = bindingItem.get(2);
 
                 if (deployableName.equals(deployable.getName()))
                 {
@@ -213,6 +212,11 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
                         }
                     }
                 }
+            }
+            else
+            {
+                throw new CargoException("EJB to act spec property has to have 3 items,"
+                        + "currently it has " + bindingItem.size() + " items.");
             }
         }
 

@@ -23,4 +23,3 @@ dataSourceId = createDataSource(jdbcProvider, '@cargo.datasource.id@', '', '@car
 # set custom properties to the DS
 propSet = AdminConfig.list('J2EEResourcePropertySet', dataSourceId)
 createJ2EEResourceProperty(propSet, 'URL', 'java.lang.String', '@cargo.datasource.url@')
-createJ2EEResourceProperty(propSet, 'databaseName', 'java.lang.String', '@cargo.datasource.id@')
