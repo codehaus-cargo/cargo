@@ -69,14 +69,9 @@ public class DeployerServlet extends HttpServlet
     private ContextHandlerCollection chc;
 
     /**
-     * The location of the server's configuration directory.
-     */
-    private String configHome;
-
-    /**
      * The location of the server's webapp directory
      */
-    private String webAppDirectory;
+    private File webAppDirectory;
 
     /**
      * Initialize the DeployerServlet and obtain a reference to the server in which it is deployed.
@@ -98,21 +93,27 @@ public class DeployerServlet extends HttpServlet
             throw new IllegalStateException("Cannot get the Jetty Web application context", e);
         }
 
-        Server server = this.context.getServer();
-        // TODO find a better means of determining the configuration and webapp directories
-        if (System.getProperty("config.home") != null)
+        // The org.eclipse.jetty.server.Server class doesn't have any getter for the Jetty
+        // configuration home, so we need to read existing system properties
+        String configHome = System.getProperty("config.home");
+        if (configHome == null)
         {
-            this.configHome = System.getProperty("config.home");
+            configHome = System.getProperty("jetty.base");
         }
-        else
+        if (configHome == null)
         {
-            this.configHome = System.getProperty("jetty.home");
+            configHome = System.getProperty("jetty.home");
         }
-        this.webAppDirectory = configHome + File.separator + "webapps";
+        if (configHome == null)
+        {
+            throw new IllegalStateException("Cannot find the Jetty configuration home");
+        }
+        this.webAppDirectory = new File(configHome, "webapps");
 
         // TODO there could potentially be more than one context handler collection and there is
         // also the chance that a web application can be deployed under the same context. These
         // situations should be looked after but are currently not.
+        Server server = this.context.getServer();
         Handler[] handles = server.getChildHandlers();
         for (Handler handle : handles)
         {
@@ -231,9 +232,8 @@ public class DeployerServlet extends HttpServlet
         {
             Log.getLogger(this.getClass()).debug("trying to get the remote web archive");
 
-            String webappLocation = webAppDirectory + contextPath
-                    + (contextPath.equals("/") ? "ROOT" : "") + ".war";
-            File webappFile = new File(webappLocation);
+            File webappFile = new File(this.webAppDirectory,
+                (contextPath.equals("/") ? "ROOT" : contextPath.substring(1)) + ".war");
             InputStream inputStream = new BufferedInputStream(request.getInputStream());
             OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(webappFile),
                 8096);
@@ -299,8 +299,8 @@ public class DeployerServlet extends HttpServlet
             fileName = contextPath;
         }
 
-        File webappArchive = new File(webAppDirectory + File.separator + fileName + ".war");
-        File webappDirectory = new File(webAppDirectory + File.separator + fileName);
+        File webappArchive = new File(webAppDirectory, fileName + ".war");
+        File webappDirectory = new File(webAppDirectory, fileName);
 
         File returnedFile = null;
 
@@ -454,7 +454,7 @@ public class DeployerServlet extends HttpServlet
         Object handler = getContextHandler(contextPath);
         if (handler == null)
         {
-            sendError(response, "Could not find handler for the context");
+            sendError(response, "Could not find handler for the context " + contextPath);
             error = true;
         }
         try
@@ -463,7 +463,7 @@ public class DeployerServlet extends HttpServlet
         }
         catch (Exception e)
         {
-            sendError(response, "Could not stop context handler");
+            sendError(response, "Could not stop context handler " + contextPath);
             Log.getLogger(this.getClass()).warn(e);
             error = true;
         }
@@ -483,12 +483,12 @@ public class DeployerServlet extends HttpServlet
 
             if (!webAppFile.exists())
             {
-                sendError(response, "Can't find a valid file for this context path");
+                sendError(response, "Can't find a valid file for the context " + contextPath);
             }
-            else if (!webAppFile.getPath().startsWith(webAppDirectory))
+            else if (!webAppFile.getPath().startsWith(webAppDirectory.getPath()))
             {
-                sendMessage(response, "Webapp with " + contextPath
-                    + " context has been undeployed but not removed from the filesystem");
+                sendMessage(response, "Webapp with context " + contextPath
+                    + " has been undeployed but not removed from the filesystem");
             }
             else
             {
@@ -508,14 +508,13 @@ public class DeployerServlet extends HttpServlet
 
                 if (deleted)
                 {
-                    sendMessage(response, "Webapp with " + contextPath
-                            + " context has been undeployed and removed from the filesystem");
+                    sendMessage(response, "Webapp with context " + contextPath
+                        + " has been undeployed and removed from the filesystem");
                 }
                 else
                 {
-                    sendError(response, "Webapp with " + contextPath
-                            + " context has been undeployed"
-                            + " but it couldn't be removed from the filesystem");
+                    sendError(response, "Webapp with context " + contextPath
+                        + " has been undeployed but it couldn't be removed from the filesystem");
                 }
             }
         }
@@ -550,7 +549,7 @@ public class DeployerServlet extends HttpServlet
     protected String getWebAppLocation(WebAppContext webapp)
     {
         // getWar will return either the file location or a URL based on how the
-        // webapp was deloyed
+        // webapp was deployed
         String location = webapp.getWar();
 
         // manually comparing strings since easier than trying to do it with the

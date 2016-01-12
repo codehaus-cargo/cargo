@@ -64,7 +64,7 @@ public class DeployerServlet extends HttpServlet
     /**
      * The location of the server's webapp directory
      */
-    private String webAppDirectory;
+    private File webAppDirectory;
 
     /**
      * Creates the DeployerServlet and gives the servlet reference to the server in which it is
@@ -74,16 +74,22 @@ public class DeployerServlet extends HttpServlet
      */
     public DeployerServlet(Server server)
     {
-        // TODO find a better means of determining the configuration and webapp directories
-        if (System.getProperty("config.home") != null)
+        // The org.eclipse.jetty.server.Server class doesn't have any getter for the Jetty
+        // configuration home, so we need to read existing system properties
+        this.configHome = System.getProperty("config.home");
+        if (this.configHome == null)
         {
-            this.configHome = System.getProperty("config.home");
+            this.configHome = System.getProperty("jetty.base");
         }
-        else
+        if (this.configHome == null)
         {
             this.configHome = System.getProperty("jetty.home");
         }
-        this.webAppDirectory = configHome + File.separator + "webapps";
+        if (this.configHome == null)
+        {
+            throw new IllegalStateException("Cannot find the Jetty configuration home");
+        }
+        this.webAppDirectory = new File(this.configHome, "webapps");
 
         // TODO there could potentially be more than one context handler collection and there is
         // also the chance that a web application can be deployed under the same context. These
@@ -179,9 +185,8 @@ public class DeployerServlet extends HttpServlet
         else
         {
             Log.debug("trying to get the remote web archive");
-            String webappLocation = webAppDirectory + contextPath
-                    + (contextPath.equals("/") ? "ROOT" : "") + ".war";
-            File webappFile = new File(webappLocation);
+            File webappFile = new File(this.webAppDirectory,
+                (contextPath.equals("/") ? "ROOT" : contextPath.substring(1)) + ".war");
             InputStream inputStream = new BufferedInputStream(request.getInputStream());
             OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(webappFile),
                 8096);
@@ -202,7 +207,7 @@ public class DeployerServlet extends HttpServlet
             // deploy webapp
             WebAppContext webappcontext = new WebAppContext();
             webappcontext.setContextPath(contextPath);
-            webappcontext.setWar(webappLocation);
+            webappcontext.setWar(webappFile.getAbsolutePath());
             webappcontext.setDefaultsDescriptor(configHome + "/etc/webdefault.xml");
             chc.addHandler(webappcontext);
             try
@@ -242,8 +247,8 @@ public class DeployerServlet extends HttpServlet
             fileName = contextPath;
         }
 
-        File webappArchive = new File(webAppDirectory + File.separator + fileName + ".war");
-        File webappDirectory = new File(webAppDirectory + File.separator + fileName);
+        File webappArchive = new File(webAppDirectory, fileName + ".war");
+        File webappDirectory = new File(webAppDirectory, fileName);
 
         File returnedFile = null;
 
@@ -330,8 +335,7 @@ public class DeployerServlet extends HttpServlet
         }
         else
         {
-            String webappDestLocation = webAppDirectory + context + ".war";
-            File webappDest = new File(webappDestLocation);
+            File webappDest = new File(webAppDirectory, context + ".war");
 
             URI uri = null;
             try
@@ -363,7 +367,7 @@ public class DeployerServlet extends HttpServlet
 
             WebAppContext webappcontext = new WebAppContext();
             webappcontext.setContextPath(context);
-            webappcontext.setWar(webappDestLocation);
+            webappcontext.setWar(webappDest.getPath());
             chc.addHandler(webappcontext);
             try
             {
@@ -397,7 +401,7 @@ public class DeployerServlet extends HttpServlet
         ContextHandler handler = getContextHandler(contextPath);
         if (handler == null)
         {
-            sendError(response, "Could not find handler for the context");
+            sendError(response, "Could not find handler for the context " + contextPath);
             error = true;
         }
         try
@@ -406,7 +410,7 @@ public class DeployerServlet extends HttpServlet
         }
         catch (Exception e)
         {
-            sendError(response, "Could not stop context handler");
+            sendError(response, "Could not stop context handler " + contextPath);
             Log.warn(e);
             error = true;
         }
@@ -426,12 +430,12 @@ public class DeployerServlet extends HttpServlet
 
             if (!webAppFile.exists())
             {
-                sendError(response, "Can't find a valid file for this context path");
+                sendError(response, "Can't find a valid file for the context " + contextPath);
             }
-            else if (!webAppFile.getPath().startsWith(webAppDirectory))
+            else if (!webAppFile.getPath().startsWith(webAppDirectory.getPath()))
             {
-                sendMessage(response, "Webapp with " + contextPath
-                    + " context has been undeployed but not removed from the filesystem");
+                sendMessage(response, "Webapp with context " + contextPath
+                    + " has been undeployed but not removed from the filesystem");
             }
             else
             {
@@ -451,14 +455,13 @@ public class DeployerServlet extends HttpServlet
 
                 if (deleted)
                 {
-                    sendMessage(response, "Webapp with " + contextPath
-                            + " context has been undeployed and removed from the filesystem");
+                    sendMessage(response, "Webapp with context " + contextPath
+                        + " has been undeployed and removed from the filesystem");
                 }
                 else
                 {
-                    sendError(response, "Webapp with " + contextPath
-                            + " context has been undeployed"
-                            + " but it couldn't be removed from the filesystem");
+                    sendError(response, "Webapp with context " + contextPath
+                        + " has been undeployed but it couldn't be removed from the filesystem");
                 }
             }
         }
@@ -522,8 +525,7 @@ public class DeployerServlet extends HttpServlet
      */
     protected ContextHandler getContextHandler(String context)
     {
-        // Note: this is very inefficient, but I think its the only way that
-        // will
+        // Note: this is very inefficient, but I think its the only way that will
         // work. It would have been nice if they used a map and a context could
         // have been used to retrieve the handler.
         Handler[] handlers = chc.getHandlers();
