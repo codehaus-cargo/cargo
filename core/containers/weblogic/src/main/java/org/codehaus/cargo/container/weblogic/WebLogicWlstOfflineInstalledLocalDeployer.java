@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingCont
 
 /**
  * Static deployer that manages deployment configuration calling WLST offline script.
- *
  */
 public class WebLogicWlstOfflineInstalledLocalDeployer extends AbstractInstalledLocalDeployer
 {
@@ -67,8 +66,8 @@ public class WebLogicWlstOfflineInstalledLocalDeployer extends AbstractInstalled
         configurationScript.add(configuration.getConfigurationFactory().
                 updateDomainOfflineScript());
 
-        getLogger().info("Deploying application to WebLogic domain.",
-            this.getClass().getName());
+        getLogger().info("Deploying application " + deployable.getName()
+                + " to WebLogic domain.", this.getClass().getName());
         weblogicContainer.executeScript(configurationScript);
     }
 
@@ -110,8 +109,8 @@ public class WebLogicWlstOfflineInstalledLocalDeployer extends AbstractInstalled
         configurationScript.add(configuration.getConfigurationFactory().
                 updateDomainOfflineScript());
 
-        getLogger().info("Undeploying application from WebLogic domain.",
-            this.getClass().getName());
+        getLogger().info("Undeploying application " + deployable.getName()
+            + " from WebLogic domain.", this.getClass().getName());
         weblogicContainer.executeScript(configurationScript);
     }
 
