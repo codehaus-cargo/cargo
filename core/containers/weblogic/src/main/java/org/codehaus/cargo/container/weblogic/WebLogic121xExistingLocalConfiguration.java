@@ -77,19 +77,32 @@ public class WebLogic121xExistingLocalConfiguration extends
         // Deploy the cargocpc web-app by copying the WAR file
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             getFileHandler().append(deployDir, "cargocpc.war"), getFileHandler());
+
         for (Deployable deployable : getDeployables())
         {
-            if (getFileHandler().isDirectory(deployable.getFile()))
+            String deployableName = getFileHandler().getName(deployable.getFile());
+            String deployablePath = getFileHandler().append(deployDir, deployableName);
+
+            if (getFileHandler().exists(deployablePath))
             {
-                getFileHandler().copyDirectory(deployable.getFile(),
-                    getFileHandler().append(deployDir,
-                        getFileHandler().getName(deployable.getFile())));
+                // If deployable is deployed to autodeploy directory then redeploy
+                // by deleting and copying.
+                if (getFileHandler().isDirectory(deployable.getFile()))
+                {
+                    getFileHandler().copyDirectory(deployable.getFile(), deployablePath);
+                }
+                else
+                {
+                    getFileHandler().copyFile(deployable.getFile(), deployablePath, true);
+                }
             }
             else
             {
-                getFileHandler().copyFile(deployable.getFile(),
-                    getFileHandler().append(deployDir,
-                        getFileHandler().getName(deployable.getFile())));
+                // If deployable isn't deployed to autodeploy directory then redeploy
+                // using WLST deployer.
+                WebLogicWlstOfflineInstalledLocalDeployer deployer =
+                        new WebLogicWlstOfflineInstalledLocalDeployer(weblogicContainer);
+                deployer.redeploy(deployable);
             }
         }
     }

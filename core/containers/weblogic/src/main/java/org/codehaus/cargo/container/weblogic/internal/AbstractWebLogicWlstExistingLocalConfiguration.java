@@ -19,15 +19,9 @@
  */
 package org.codehaus.cargo.container.weblogic.internal;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 import org.codehaus.cargo.container.weblogic.WebLogicWlstConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicWlstConfigurationFactory;
-import org.codehaus.cargo.container.weblogic.internal.configuration.rules.WebLogicResourceRules;
-import org.codehaus.cargo.container.weblogic.internal.configuration.util.PriorityComparator;
 
 /**
  * Contains common WebLogic configuration functionality for WLST.
@@ -53,25 +47,6 @@ public abstract class AbstractWebLogicWlstExistingLocalConfiguration extends
     {
         super(dir);
         factory = new WebLogicWlstConfigurationFactory(this, baseResourcePath);
-    }
-
-    /**
-     * Used for adding resources which aren't defined in Cargo properties, but needs to be created
-     * in order to make all resources work.
-     */
-    protected void addMissingResources()
-    {
-        WebLogicResourceRules.addMissingJmsResources(this);
-    }
-
-    /**
-     * Sort resource list because some resources needs to have another resources created first.
-     */
-    protected void sortResources()
-    {
-        PriorityComparator priorityComparator = new PriorityComparator();
-        List<Resource> resources = getResources();
-        Collections.sort(resources, priorityComparator);
     }
 
     /**
