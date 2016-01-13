@@ -51,38 +51,38 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
         {
             return "";
         }
-        else
+        StringBuilder sb = new StringBuilder();
+        sb.append("<Resources>");
+        for (String path : extraClasspath)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.append("<Resources>");
-            for (String path : extraClasspath)
+            sb.append("<PostResources ");
+            sb.append("className=\"org.apache.catalina.webresources.DirResourceSet\" base=\"");
+            if (getFileHandler().isDirectory(path))
             {
-                sb.append("<PostResources ");
-                sb.append("className=\"org.apache.catalina.webresources.DirResourceSet\" base=\"");
-                if (getFileHandler().isDirectory(path))
+                sb.append(path.replace("&", "&amp;"));
+            }
+            else
+            {
+                sb.append(getFileHandler().getParent(path).replace("&", "&amp;"));
+                if (!path.endsWith(".jar"))
                 {
-                    sb.append(path.replace("&", "&amp;"));
-                }
-                else
-                {
-                    sb.append(getFileHandler().getParent(path).replace("&", "&amp;"));
                     sb.append("\" internalPath=\"");
                     sb.append(getFileHandler().getName(path).replace("&", "&amp;"));
                 }
-                sb.append("\" webAppMount=\"/WEB-INF/");
-                if (getFileHandler().isDirectory(path))
-                {
-                    sb.append("classes");
-                }
-                else
-                {
-                    sb.append("lib");
-                }
-                sb.append("\" />");
             }
-            sb.append("</Resources>");
-            return sb.toString();
+            sb.append("\" webAppMount=\"/WEB-INF/");
+            if (getFileHandler().isDirectory(path))
+            {
+                sb.append("classes");
+            }
+            else
+            {
+                sb.append("lib");
+            }
+            sb.append("\" />");
         }
+        sb.append("</Resources>");
+        return sb.toString();
     }
 
     /**
