@@ -128,7 +128,7 @@
                     cargo.datasource.username=sa|
                     cargo.datasource.password=|
                     cargo.datasource.id=derbyDB|
-                    cargo.datasource.properties=createDatabase=create
+                    cargo.datasource.properties=createDatabase=create;databaseName=derbyDB
                   </cargo.datasource.datasource.derby>
                   <cargo.resource.resource.jms.cf>
                     cargo.resource.name=jms/cf/MyCf|

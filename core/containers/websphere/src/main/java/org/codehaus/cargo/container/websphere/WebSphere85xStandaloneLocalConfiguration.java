@@ -96,6 +96,7 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         setProperty(WebSpherePropertySet.CLASSLOADER_MODE, "PARENT_FIRST");
         setProperty(WebSpherePropertySet.WAR_CLASSLOADER_POLICY, "MULTIPLE");
         setProperty(WebSpherePropertySet.APPLICATION_SECURITY, "true");
+        setProperty(WebSpherePropertySet.LOGGING_ROLLOVER, "50");
 
         setProperty(WebSpherePropertySet.JMS_SIBUS, "jmsBus");
     }
@@ -291,16 +292,19 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
     private Collection<ScriptCommand> createGlobalSecurityPropertiesScripts()
     {
         Collection<ScriptCommand> globalSecPropertiesCommands = new ArrayList<ScriptCommand>();
-
         String globSecProps = getPropertyValue(WebSpherePropertySet.GLOBAL_SECURITY_PROPERTIES);
-        Properties parsedProperty = PropertyUtils.splitPropertiesOnPipe(globSecProps);
 
-        for (Entry<Object, Object> propertyItem : parsedProperty.entrySet())
+        if (globSecProps != null && globSecProps.length() > 0)
         {
-            String propertyName = propertyItem.getKey().toString();
-            String propertyValue = propertyItem.getValue().toString();
-            globalSecPropertiesCommands.add(factory.setGlobalSecurityPropertyScript(
-                    propertyName, propertyValue));
+            Properties parsedProperty = PropertyUtils.splitPropertiesOnPipe(globSecProps);
+
+            for (Entry<Object, Object> propertyItem : parsedProperty.entrySet())
+            {
+                String propertyName = propertyItem.getKey().toString();
+                String propertyValue = propertyItem.getValue().toString();
+                globalSecPropertiesCommands.add(factory.setGlobalSecurityPropertyScript(
+                        propertyName, propertyValue));
+            }
         }
 
         return globalSecPropertiesCommands;
@@ -313,16 +317,19 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
     private Collection<ScriptCommand> createSessionManagementPropertiesScripts()
     {
         Collection<ScriptCommand> sessionManPropertiesCommands = new ArrayList<ScriptCommand>();
-
         String sessManProps = getPropertyValue(WebSpherePropertySet.SESSION_MANAGEMENT_PROPERTIES);
-        Properties parsedProperty = PropertyUtils.splitPropertiesOnPipe(sessManProps);
 
-        for (Entry<Object, Object> propertyItem : parsedProperty.entrySet())
+        if (sessManProps != null && sessManProps.length() > 0)
         {
-            String propertyName = propertyItem.getKey().toString();
-            String propertyValue = propertyItem.getValue().toString();
-            sessionManPropertiesCommands.add(factory.setSessionManagementPropertyScript(
-                    propertyName, propertyValue));
+            Properties parsedProperty = PropertyUtils.splitPropertiesOnPipe(sessManProps);
+
+            for (Entry<Object, Object> propertyItem : parsedProperty.entrySet())
+            {
+                String propertyName = propertyItem.getKey().toString();
+                String propertyValue = propertyItem.getValue().toString();
+                sessionManPropertiesCommands.add(factory.setSessionManagementPropertyScript(
+                        propertyName, propertyValue));
+            }
         }
 
         return sessionManPropertiesCommands;

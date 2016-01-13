@@ -19,11 +19,8 @@
  */
 package org.codehaus.cargo.container.websphere.internal.configuration.commands.domain;
 
-import java.util.Map;
-
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
-import org.codehaus.cargo.container.websphere.WebSpherePropertySet;
 
 /**
  * Implementation of setting miscellaneous configuration configuration script command.
@@ -45,13 +42,5 @@ public class MiscConfigurationScriptCommand extends AbstractScriptCommand
     protected String getScriptRelativePath()
     {
         return "domain/misc-configuration.py";
-    }
-
-    @Override
-    protected void addConfigurationScriptProperties(Map<String, String> propertiesMap)
-    {
-        String applicationSecurity = getConfiguration().
-                getPropertyValue(WebSpherePropertySet.APPLICATION_SECURITY);
-        propertiesMap.put("cargo.websphere.security.application", applicationSecurity);
     }
 }
