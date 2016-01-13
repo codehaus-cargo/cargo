@@ -26,6 +26,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
 
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.LocalContainer;
@@ -35,6 +37,7 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.internal.util.PropertyUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
@@ -137,6 +140,12 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
                         systemProperty.getValue()));
             }
         }
+
+        // add global security properties
+        commands.addAll(createGlobalSecurityPropertiesScripts());
+
+        // add session management properties
+        commands.addAll(createSessionManagementPropertiesScripts());
 
         // add shared libraries
         List<String> extraLibraries = Arrays.asList(wsContainer.getExtraClasspath());
@@ -256,10 +265,9 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
      * Create JVM properties.
      * @param container Container.
      * @return Scripts for creating JVM properties.
-     * @throws Exception if any error is raised during deleting of profile.
      */
     private Collection<ScriptCommand> createJvmPropertiesScripts(
-            WebSphere85xInstalledLocalContainer container) throws Exception
+            WebSphere85xInstalledLocalContainer container)
     {
         Collection<ScriptCommand> jvmCommands = new ArrayList<ScriptCommand>();
 
@@ -274,6 +282,50 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
                 parsedArguments.getGenericArgs()));
 
         return jvmCommands;
+    }
+
+    /**
+     * Create global security properties.
+     * @return Scripts for creating global security properties.
+     */
+    private Collection<ScriptCommand> createGlobalSecurityPropertiesScripts()
+    {
+        Collection<ScriptCommand> globalSecPropertiesCommands = new ArrayList<ScriptCommand>();
+
+        String globSecProps = getPropertyValue(WebSpherePropertySet.GLOBAL_SECURITY_PROPERTIES);
+        Properties parsedProperty = PropertyUtils.splitPropertiesOnPipe(globSecProps);
+
+        for (Entry<Object, Object> propertyItem : parsedProperty.entrySet())
+        {
+            String propertyName = propertyItem.getKey().toString();
+            String propertyValue = propertyItem.getValue().toString();
+            globalSecPropertiesCommands.add(factory.setGlobalSecurityPropertyScript(
+                    propertyName, propertyValue));
+        }
+
+        return globalSecPropertiesCommands;
+    }
+
+    /**
+     * Create session management properties.
+     * @return Scripts for creating session management properties.
+     */
+    private Collection<ScriptCommand> createSessionManagementPropertiesScripts()
+    {
+        Collection<ScriptCommand> sessionManPropertiesCommands = new ArrayList<ScriptCommand>();
+
+        String sessManProps = getPropertyValue(WebSpherePropertySet.SESSION_MANAGEMENT_PROPERTIES);
+        Properties parsedProperty = PropertyUtils.splitPropertiesOnPipe(sessManProps);
+
+        for (Entry<Object, Object> propertyItem : parsedProperty.entrySet())
+        {
+            String propertyName = propertyItem.getKey().toString();
+            String propertyValue = propertyItem.getValue().toString();
+            sessionManPropertiesCommands.add(factory.setSessionManagementPropertyScript(
+                    propertyName, propertyValue));
+        }
+
+        return sessionManPropertiesCommands;
     }
 
     /**

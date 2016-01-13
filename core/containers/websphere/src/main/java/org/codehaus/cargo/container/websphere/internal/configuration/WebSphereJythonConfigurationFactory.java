@@ -39,7 +39,9 @@ import org.codehaus.cargo.container.websphere.internal.configuration.commands.de
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.UndeployDeployableScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.domain.MiscConfigurationScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.domain.SaveSyncScriptCommand;
+import org.codehaus.cargo.container.websphere.internal.configuration.commands.domain.SetGlobalSecurityPropertyScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.domain.SetJvmPropertyScriptCommand;
+import org.codehaus.cargo.container.websphere.internal.configuration.commands.domain.SetSessionManagementPropertyScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.domain.SetSystemPropertyScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.resource.DataSourceConnectionPropertyScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.resource.DataSourceScriptCommand;
@@ -135,6 +137,29 @@ public class WebSphereJythonConfigurationFactory
     {
         return new SetSystemPropertyScriptCommand(configuration, resourcePath, propertyName,
                 propertyValue);
+    }
+
+    /**
+     * @param propertyName Name of global security property.
+     * @param propertyValue Value of global security property.
+     * @return Set global security property jython script.
+     */
+    public ScriptCommand setGlobalSecurityPropertyScript(String propertyName, String propertyValue)
+    {
+        return new SetGlobalSecurityPropertyScriptCommand(configuration, resourcePath,
+                propertyName, propertyValue);
+    }
+
+    /**
+     * @param propertyName Name of session management property.
+     * @param propertyValue Value of session management property.
+     * @return Set session management property jython script.
+     */
+    public ScriptCommand setSessionManagementPropertyScript(String propertyName,
+            String propertyValue)
+    {
+        return new SetSessionManagementPropertyScriptCommand(configuration, resourcePath,
+                propertyName, propertyValue);
     }
 
     /**

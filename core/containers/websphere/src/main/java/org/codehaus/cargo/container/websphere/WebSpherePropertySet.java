@@ -134,4 +134,26 @@ public interface WebSpherePropertySet
      * Possible values: true or false.
      */
     String APPLICATION_SECURITY = "cargo.websphere.security.application";
+
+    /**
+     * WebSphere global security properties.<br>
+     * <br>
+     * Example:<br>
+     * com.ibm.ssl.rootCertValidDays=1234|<br>
+     * com.ibm.websphere.security.krb.canonical_host=false<br>
+     * <br>
+     * Used for configuration of security properties for whole WebSphere.
+     */
+    String GLOBAL_SECURITY_PROPERTIES = "cargo.websphere.security.properties";
+
+    /**
+     * WebSphere session management properties.<br>
+     * <br>
+     * Example:<br>
+     * NoAdditionalSessionInfo=true|<br>
+     * NoAffinitySwitchBack=false<br>
+     * <br>
+     * Used for configuration of session management properties for WebSphere server.
+     */
+    String SESSION_MANAGEMENT_PROPERTIES = "cargo.websphere.session.properties";
 }
