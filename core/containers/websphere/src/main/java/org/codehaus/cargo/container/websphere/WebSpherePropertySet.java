@@ -156,4 +156,10 @@ public interface WebSpherePropertySet
      * Used for configuration of session management properties for WebSphere server.
      */
     String SESSION_MANAGEMENT_PROPERTIES = "cargo.websphere.session.properties";
+
+    /**
+     * Maximum size of error and output log in MB.<br>
+     * If log reaches this size then it is rolled over.
+     */
+    String LOGGING_ROLLOVER = "cargo.websphere.logging.rollover";
 }

@@ -58,6 +58,7 @@ public class WebSphere85xStandaloneLocalConfigurationCapability
         this.propertySupportMap.put(WebSpherePropertySet.GLOBAL_SECURITY_PROPERTIES, Boolean.TRUE);
         this.propertySupportMap.put(WebSpherePropertySet.SESSION_MANAGEMENT_PROPERTIES,
                 Boolean.TRUE);
+        this.propertySupportMap.put(WebSpherePropertySet.LOGGING_ROLLOVER, Boolean.TRUE);
 
         this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
