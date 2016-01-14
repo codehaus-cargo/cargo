@@ -42,6 +42,10 @@ public class WebLogicWlstStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(WebLogicPropertySet.ADMIN_USER, Boolean.TRUE);
         this.propertySupportMap.put(WebLogicPropertySet.ADMIN_PWD, Boolean.TRUE);
 
+        // support external scripts
+        this.propertySupportMap.put(WebLogicPropertySet.JYTHON_SCRIPT_OFFLINE, Boolean.TRUE);
+        this.propertySupportMap.put(WebLogicPropertySet.JYTHON_SCRIPT_ONLINE, Boolean.TRUE);
+
         // WLST-based configuration doesn't need these anymore
         this.propertySupportMap.remove(WebLogicPropertySet.CONFIGURATION_VERSION);
         this.propertySupportMap.remove(WebLogicPropertySet.DOMAIN_VERSION);

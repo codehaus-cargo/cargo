@@ -29,6 +29,7 @@ import java.util.Set;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
+import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
@@ -156,6 +157,12 @@ public class WebLogic121xInstalledLocalContainer extends
                 this.getClass().getName());
             executeScript(configurationScript);
         }
+
+        // Execute online jython scripts
+        String scriptPaths = getConfiguration().getPropertyValue(
+                WebLogicPropertySet.JYTHON_SCRIPT_ONLINE);
+        List<String> scriptPathList = ComplexPropertyUtils.parseProperty(scriptPaths, "|");
+        executeScriptFiles(scriptPathList);
     }
 
     /**

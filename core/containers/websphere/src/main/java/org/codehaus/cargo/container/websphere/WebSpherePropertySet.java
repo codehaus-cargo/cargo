@@ -162,4 +162,24 @@ public interface WebSpherePropertySet
      * If log reaches this size then it is rolled over.
      */
     String LOGGING_ROLLOVER = "cargo.websphere.logging.rollover";
+
+    /**
+     * External offline jython script file paths.<br>
+     * Used for custom configuration of WebSphere container.<br>
+     * <br>
+     * Example:<br>
+     * /home/me/script1.py|<br>
+     * /home/me/script2.py<br>
+     */
+    String JYTHON_SCRIPT_OFFLINE = "cargo.websphere.script.jython.offline";
+
+    /**
+     * External online jython script file paths.<br>
+     * Used for custom configuration of WebSphere container.<br>
+     * <br>
+     * Example:<br>
+     * /home/me/script1.py|<br>
+     * /home/me/script2.py<br>
+     */
+    String JYTHON_SCRIPT_ONLINE = "cargo.websphere.script.jython.online";
 }

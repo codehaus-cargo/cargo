@@ -29,9 +29,9 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
 import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 import org.codehaus.cargo.container.websphere.WebSpherePropertySet;
-import org.codehaus.cargo.container.websphere.util.ComplexPropertyParser;
 import org.codehaus.cargo.module.webapp.WarArchive;
 import org.codehaus.cargo.module.webapp.WarArchiveIo;
 import org.codehaus.cargo.module.webapp.WebXml;
@@ -125,7 +125,7 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
 
         String bindingString = getConfiguration().
                 getPropertyValue(WebSpherePropertySet.EJB_TO_RES_REF_BINDING);
-        List<List<String>> parsedBinding = ComplexPropertyParser.parseProperty(bindingString);
+        List<List<String>> parsedBinding = ComplexPropertyUtils.parseProperty(bindingString);
 
         for (List<String> bindingItem : parsedBinding)
         {
@@ -181,7 +181,7 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
         FileHandler fileHandler = ((AbstractDeployable) deployable).getFileHandler();
         String bindingString = getConfiguration().
                 getPropertyValue(WebSpherePropertySet.EJB_TO_ACT_SPEC_BINDING);
-        List<List<String>> parsedBinding = ComplexPropertyParser.parseProperty(bindingString);
+        List<List<String>> parsedBinding = ComplexPropertyUtils.parseProperty(bindingString);
 
         for (List<String> bindingItem : parsedBinding)
         {

@@ -30,6 +30,7 @@ import org.codehaus.cargo.container.ScriptingCapableContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
+import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
@@ -137,6 +138,12 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
                 this.getClass().getName());
             executeScript(configurationScript);
         }
+
+        // Execute online jython scripts
+        String scriptPaths = getConfiguration().getPropertyValue(
+                WebSpherePropertySet.JYTHON_SCRIPT_ONLINE);
+        List<String> scriptPathList = ComplexPropertyUtils.parseProperty(scriptPaths, "|");
+        executeScriptFiles(scriptPathList);
     }
 
     /**
