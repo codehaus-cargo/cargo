@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicWlstStandaloneLocalConfiguration;
@@ -124,6 +125,11 @@ public class WebLogic121xStandaloneLocalConfiguration extends
 
         // deploy cargo ping
         deployCargoPing(weblogicContainer);
+
+        // Execute offline jython scripts
+        String scriptPaths = getPropertyValue(WebLogicPropertySet.JYTHON_SCRIPT_OFFLINE);
+        List<String> scriptPathList = ComplexPropertyUtils.parseProperty(scriptPaths, "|");
+        weblogicContainer.executeScriptFiles(scriptPathList);
     }
 
     /**

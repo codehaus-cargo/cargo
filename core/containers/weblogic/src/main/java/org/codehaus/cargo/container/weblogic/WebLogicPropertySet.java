@@ -80,4 +80,24 @@ public interface WebLogicPropertySet
      * WebLogic JMS subdeployment name.
      */
     String JMS_SUBDEPLOYMENT = "cargo.weblogic.jms.subdeployment";
+
+    /**
+     * External offline jython script file paths.<br>
+     * Used for custom configuration of WebLogic container.<br>
+     * <br>
+     * Example:<br>
+     * /home/me/script1.py|<br>
+     * /home/me/script2.py<br>
+     */
+    String JYTHON_SCRIPT_OFFLINE = "cargo.weblogic.script.jython.offline";
+
+    /**
+     * External online jython script file paths.<br>
+     * Used for custom configuration of WebLogic container.<br>
+     * <br>
+     * Example:<br>
+     * /home/me/script1.py|<br>
+     * /home/me/script2.py<br>
+     */
+    String JYTHON_SCRIPT_ONLINE = "cargo.weblogic.script.jython.online";
 }

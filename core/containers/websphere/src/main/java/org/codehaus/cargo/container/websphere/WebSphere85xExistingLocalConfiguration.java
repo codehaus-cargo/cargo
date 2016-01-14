@@ -21,12 +21,14 @@ package org.codehaus.cargo.container.websphere;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
+import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
@@ -150,6 +152,14 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
         cargoCpcWar.setContext("cargocpc");
         wsAdminCommands.add(factory.undeployDeployableScript(cargoCpcWar));
         wsAdminCommands.add(factory.deployDeployableScript(cargoCpcWar));
+
+        // redeploy deployables
+        List<String> extraLibraries = Arrays.asList(wsContainer.getExtraClasspath());
+        for (Deployable deployable : getDeployables())
+        {
+            wsAdminCommands.add(factory.undeployDeployableScript(deployable));
+            wsAdminCommands.addAll(factory.deployDeployableScript(deployable, extraLibraries));
+        }
 
         //save and activate
         wsAdminCommands.add(factory.saveSyncScript());

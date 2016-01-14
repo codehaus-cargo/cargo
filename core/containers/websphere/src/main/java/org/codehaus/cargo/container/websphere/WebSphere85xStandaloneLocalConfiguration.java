@@ -37,6 +37,7 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
 import org.codehaus.cargo.container.internal.util.PropertyUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
@@ -188,6 +189,11 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         commands.add(factory.saveSyncScript());
 
         wsContainer.executeScript(commands);
+
+        // Execute offline jython scripts
+        String scriptPaths = getPropertyValue(WebSpherePropertySet.JYTHON_SCRIPT_OFFLINE);
+        List<String> scriptPathList = ComplexPropertyUtils.parseProperty(scriptPaths, "|");
+        wsContainer.executeScriptFiles(scriptPathList);
     }
 
     /**

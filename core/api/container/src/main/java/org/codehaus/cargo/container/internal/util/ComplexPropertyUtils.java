@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.websphere.util;
+package org.codehaus.cargo.container.internal.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +27,13 @@ import java.util.StringTokenizer;
  * Parser used for processing complexly defined properties
  * like WebSpherePropertySet.EJB_TO_RES_REF_BINDING.
  */
-public final class ComplexPropertyParser
+public final class ComplexPropertyUtils
 {
 
     /**
      * Constructor.
      */
-    private ComplexPropertyParser()
+    private ComplexPropertyUtils()
     {
     }
 
@@ -76,6 +76,32 @@ public final class ComplexPropertyParser
                         propertyValueList.add(propertyValues.nextToken().trim());
                     }
                     parsedProperty.add(propertyValueList);
+                }
+            }
+        }
+
+        return parsedProperty;
+    }
+
+    /**
+     * Parse provided property using defined property delimiter.
+     * @param property Property to be parsed.
+     * @param propertyDelimiter Property delimiter.
+     * @return List of properties containing list of property values.
+     */
+    public static List<String> parseProperty(String property, String propertyDelimiter)
+    {
+        List<String> parsedProperty = new ArrayList<String>();
+
+        if (property != null && property.length() > 0)
+        {
+            StringTokenizer propertyEntries = new StringTokenizer(property, propertyDelimiter);
+            while (propertyEntries.hasMoreTokens())
+            {
+                String propertyEntry = propertyEntries.nextToken().trim();
+                if (propertyEntry != null && propertyEntry.length() > 0)
+                {
+                    parsedProperty.add(propertyEntry);
                 }
             }
         }

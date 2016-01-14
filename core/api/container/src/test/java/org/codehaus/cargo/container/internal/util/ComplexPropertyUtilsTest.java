@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.websphere.util;
+package org.codehaus.cargo.container.internal.util;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 /**
  * Test for JvmArguments class.
  */
-public final class ComplexPropertyParserTest extends TestCase
+public final class ComplexPropertyUtilsTest extends TestCase
 {
     /**
      * Test parsing of provided property.
@@ -36,7 +36,7 @@ public final class ComplexPropertyParserTest extends TestCase
         String toBeParsed = "com.ibm.ssl.rootCertValidDays:1234|"
                 + "   com.ibm.websphere.security.krb.canonical_host:false";
 
-        List<List<String>> parsedProperty = ComplexPropertyParser.parseProperty(toBeParsed);
+        List<List<String>> parsedProperty = ComplexPropertyUtils.parseProperty(toBeParsed);
         assertEquals(2, parsedProperty.size());
         assertEquals(2, parsedProperty.get(0).size());
         assertEquals(2, parsedProperty.get(1).size());
@@ -56,7 +56,7 @@ public final class ComplexPropertyParserTest extends TestCase
                 + "   com.ibm.websphere.security.krb.canonical_host%false";
 
         List<List<String>> parsedProperty = 
-                ComplexPropertyParser.parseProperty(toBeParsed, "#", "%");
+                ComplexPropertyUtils.parseProperty(toBeParsed, "#", "%");
         assertEquals(2, parsedProperty.size());
         assertEquals(2, parsedProperty.get(0).size());
         assertEquals(2, parsedProperty.get(1).size());
@@ -65,5 +65,20 @@ public final class ComplexPropertyParserTest extends TestCase
         assertEquals("1234", parsedProperty.get(0).get(1));
         assertEquals("com.ibm.websphere.security.krb.canonical_host", parsedProperty.get(1).get(0));
         assertEquals("false", parsedProperty.get(1).get(1));
+    }
+
+    /**
+     * Test parsing of provided simple property.
+     */
+    public void testParseCustomSimpleProperty()
+    {
+        String toBeParsed = "com.ibm.ssl.rootCertValidDays#"
+                + "   com.ibm.websphere.security.krb.canonical_host";
+
+        List<String> parsedProperty = ComplexPropertyUtils.parseProperty(toBeParsed, "#");
+        assertEquals(2, parsedProperty.size());
+
+        assertEquals("com.ibm.ssl.rootCertValidDays", parsedProperty.get(0));
+        assertEquals("com.ibm.websphere.security.krb.canonical_host", parsedProperty.get(1));
     }
 }
