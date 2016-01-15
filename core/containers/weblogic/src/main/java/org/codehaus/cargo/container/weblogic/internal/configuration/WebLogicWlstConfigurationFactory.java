@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
+import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.deployment.DeployDeployableScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.deployment.UndeployDeployableScriptCommand;
@@ -36,6 +37,7 @@ import org.codehaus.cargo.container.weblogic.internal.configuration.commands.dom
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.ReadDomainOfflineScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.ReadDomainOnlineScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.ShutdownDomainScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.SslScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.UpdateDomainOfflineScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.UpdateDomainOnlineScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.WriteDomainScriptCommand;
@@ -154,26 +156,32 @@ public class WebLogicWlstConfigurationFactory
         return new ShutdownDomainScriptCommand(configuration, resourcePath);
     }
 
+    /**
+     * @return Configure SSL WLST script.
+     */
+    public ScriptCommand sslScript()
+    {
+        return new SslScriptCommand(configuration, resourcePath);
+    }
+
     /* Deployment configuration*/
 
     /**
-     * @param deployableId Id of deployable for deploy.
-     * @param deployablePath Absolute path of deployable.
+     * @param deployable Deployable to be deployed.
      * @return Deploy deployable WLST script.
      */
-    public ScriptCommand deployDeployableScript(String deployableId, String deployablePath)
+    public ScriptCommand deployDeployableScript(Deployable deployable)
     {
-        return new DeployDeployableScriptCommand(configuration, resourcePath, deployableId,
-                deployablePath);
+        return new DeployDeployableScriptCommand(configuration, resourcePath, deployable);
     }
 
     /**
-     * @param deployableId Id of deployed deployable for undeploy.
+     * @param deployable Deployable to be undeployed.
      * @return Undeploy deployable WLST script.
      */
-    public ScriptCommand undeployDeployableScript(String deployableId)
+    public ScriptCommand undeployDeployableScript(Deployable deployable)
     {
-        return new UndeployDeployableScriptCommand(configuration, resourcePath, deployableId);
+        return new UndeployDeployableScriptCommand(configuration, resourcePath, deployable);
     }
 
     /* Resource configuration*/

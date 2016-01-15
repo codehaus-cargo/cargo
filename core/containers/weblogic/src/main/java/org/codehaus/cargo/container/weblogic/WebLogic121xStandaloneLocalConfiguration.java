@@ -63,6 +63,9 @@ public class WebLogic121xStandaloneLocalConfiguration extends
         setProperty(WebLogicPropertySet.JMS_SERVER, "testJmsServer");
         setProperty(WebLogicPropertySet.JMS_MODULE, "testJmsModule");
         setProperty(WebLogicPropertySet.JMS_SUBDEPLOYMENT, "testJmsSubdeployment");
+        setProperty(WebLogicPropertySet.LOG_ROTATION_TYPE, "none");
+        setProperty(WebLogicPropertySet.SSL_HOSTNAME_VERIFICATION_IGNORED, "true");
+        setProperty(WebLogicPropertySet.SSL_HOSTNAME_VERIFIER_CLASS, "None");
     }
 
     /**
@@ -89,6 +92,9 @@ public class WebLogic121xStandaloneLocalConfiguration extends
         configurationScript.add(getConfigurationFactory().createDomainScript(
                 weblogicContainer.getWeblogicHome()));
 
+        // configure SSL
+        configurationScript.add(getConfigurationFactory().sslScript());
+
         // add datasources to script
         for (DataSource dataSource : getDataSources())
         {
@@ -108,11 +114,9 @@ public class WebLogic121xStandaloneLocalConfiguration extends
         }
 
         // add deployments to script
-        WebLogicWlstOfflineInstalledLocalDeployer deployer =
-            new WebLogicWlstOfflineInstalledLocalDeployer(weblogicContainer);
         for (Deployable deployable : getDeployables())
         {
-            configurationScript.add(deployer.getDeployScript(deployable));
+            configurationScript.add(getConfigurationFactory().deployDeployableScript(deployable));
         }
 
         // write new domain to domain folder
