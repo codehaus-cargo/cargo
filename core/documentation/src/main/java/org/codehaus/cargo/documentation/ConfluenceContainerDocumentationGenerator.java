@@ -30,11 +30,11 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.project.MavenProject;
-
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
@@ -59,7 +59,6 @@ import org.codehaus.cargo.container.resin.ResinPropertySet;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 import org.codehaus.cargo.container.tomee.TomeePropertySet;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
-import org.codehaus.cargo.container.weblogic.internal.configuration.rules.WebLogicResourceRules;
 import org.codehaus.cargo.container.websphere.WebSpherePropertySet;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
@@ -185,7 +184,6 @@ public class ConfluenceContainerDocumentationGenerator
         TomcatPropertySet.class,
         TomeePropertySet.class,
         WebLogicPropertySet.class,
-        WebLogicResourceRules.class,
         WebSpherePropertySet.class
     };
 

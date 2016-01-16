@@ -17,48 +17,30 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.weblogic.internal.configuration.commands.deployment;
-
-import java.util.Map;
+package org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
-import org.codehaus.cargo.container.deployable.Deployable;
 
 /**
- * Implementation of undeploy deployable configuration script command.
+ * Implementation of setting server SSL properties configuration script command.
  */
-public class UndeployDeployableScriptCommand extends AbstractScriptCommand
+public class SslScriptCommand extends AbstractScriptCommand
 {
-
-    /**
-     * Deployable.
-     */
-    private Deployable deployable;
-
     /**
      * Sets configuration containing all needed information for building configuration scripts.
      *
      * @param configuration Container configuration.
      * @param resourcePath Path to configuration script resources.
-     * @param deployable Deployable to be undeployed.
      */
-    public UndeployDeployableScriptCommand(Configuration configuration, String resourcePath,
-            Deployable deployable)
+    public SslScriptCommand(Configuration configuration, String resourcePath)
     {
         super(configuration, resourcePath);
-        this.deployable = deployable;
     }
 
     @Override
     protected String getScriptRelativePath()
     {
-        return "deployment/undeploy-deployable.py";
-    }
-
-    @Override
-    protected void addConfigurationScriptProperties(Map<String, String> propertiesMap)
-    {
-        propertiesMap.put("cargo.deployable.id", deployable.getName());
+        return "domain/ssl.py";
     }
 }

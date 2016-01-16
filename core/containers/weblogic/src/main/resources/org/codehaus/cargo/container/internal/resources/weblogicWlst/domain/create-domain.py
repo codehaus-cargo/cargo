@@ -14,6 +14,14 @@ cd('Security/base_domain/User/weblogic')
 cmo.setName('@cargo.weblogic.administrator.user@')
 cmo.setPassword('@cargo.weblogic.administrator.password@')
 
+# Configure logs
+cd('/Servers/@cargo.weblogic.server@')
+create('@cargo.weblogic.server@', 'Log')
+cd('Log/@cargo.weblogic.server@')
+cmo.setRotationType('@cargo.weblogic.logging.rotation.type@')
+cmo.setRedirectStderrToServerLogEnabled(true)
+cmo.setRedirectStdoutToServerLogEnabled(true)
+
 cd('/')
 setOption('OverwriteDomain', 'true')
 cd('/')

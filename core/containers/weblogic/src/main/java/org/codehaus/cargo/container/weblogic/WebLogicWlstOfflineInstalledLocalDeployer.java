@@ -62,29 +62,14 @@ public class WebLogicWlstOfflineInstalledLocalDeployer extends AbstractInstalled
         List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();
 
         configurationScript.add(configuration.getConfigurationFactory().readDomainOfflineScript());
-        configurationScript.add(getDeployScript(deployable));
+        configurationScript.add(configuration.getConfigurationFactory().
+                deployDeployableScript(deployable));
         configurationScript.add(configuration.getConfigurationFactory().
                 updateDomainOfflineScript());
 
         getLogger().info("Deploying application " + deployable.getName()
                 + " to WebLogic domain.", this.getClass().getName());
         weblogicContainer.executeScript(configurationScript);
-    }
-
-    /**
-     * Method returning WLST script used for deploying deployable.
-     * @param deployable the Deployable to deploy
-     * @return WLST script for deploying.
-     */
-    public ScriptCommand getDeployScript(Deployable deployable)
-    {
-        WebLogicWlstConfiguration configuration =
-            (WebLogicWlstConfiguration) getContainer().getConfiguration();
-
-        String path = getAbsolutePath(deployable);
-
-        return configuration.getConfigurationFactory().deployDeployableScript(deployable.getName(),
-                path);
     }
 
     /**
@@ -105,7 +90,7 @@ public class WebLogicWlstOfflineInstalledLocalDeployer extends AbstractInstalled
 
         configurationScript.add(configuration.getConfigurationFactory().readDomainOfflineScript());
         configurationScript.add(configuration.getConfigurationFactory().
-                undeployDeployableScript(deployable.getName()));
+                undeployDeployableScript(deployable));
         configurationScript.add(configuration.getConfigurationFactory().
                 updateDomainOfflineScript());
 
@@ -113,17 +98,4 @@ public class WebLogicWlstOfflineInstalledLocalDeployer extends AbstractInstalled
             + " from WebLogic domain.", this.getClass().getName());
         weblogicContainer.executeScript(configurationScript);
     }
-
-    /**
-     * gets the absolute path from a file that may be relative to the current directory.
-     *
-     * @param deployable - what to extract the file path from
-     * @return - absolute path to the deployable
-     */
-    private String getAbsolutePath(Deployable deployable)
-    {
-        String path = deployable.getFile();
-        return getFileHandler().getAbsolutePath(path);
-    }
-
 }

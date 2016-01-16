@@ -67,6 +67,12 @@ public interface WebLogicPropertySet
     String LOGGING = "cargo.weblogic.logging";
 
     /**
+     * Which way is log file rotated.<br>
+     * Possible values are: "none", "byTime", "bySize".
+     */
+    String LOG_ROTATION_TYPE = "cargo.weblogic.logging.rotation.type";
+
+    /**
      * WebLogic JMS server name.
      */
     String JMS_SERVER = "cargo.weblogic.jms.server";
@@ -100,4 +106,20 @@ public interface WebLogicPropertySet
      * /home/me/script2.py<br>
      */
     String JYTHON_SCRIPT_ONLINE = "cargo.weblogic.script.jython.online";
+
+    /**
+     * Specifies whether to ignore the installed implementation of the
+     * weblogic.security.SSL.HostnameVerifier interface
+     * (when this server is acting as a client to another application server).<br>
+     * Possible values: true or false.<br>
+     * Default set to true for test purposes.
+     */
+    String SSL_HOSTNAME_VERIFICATION_IGNORED = "cargo.weblogic.ssl.verification.hostname.ignored";
+
+    /**
+     * The name of the class that implements the weblogic.security.SSL.HostnameVerifier interface.
+     * Used for setting Custom Hostname Verifier.<br>
+     * Default set to None.
+     */
+    String SSL_HOSTNAME_VERIFIER_CLASS = "cargo.weblogic.ssl.verification.hostname.class";
 }

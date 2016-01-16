@@ -23,6 +23,9 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Implementation of deploy deployable configuration script command.
@@ -31,29 +34,22 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
 {
 
     /**
-     * Deployable id.
+     * Deployable.
      */
-    private String deployableId;
-
-    /**
-     * Deployable path.
-     */
-    private String deployablePath;
+    private Deployable deployable;
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
      *
      * @param configuration Container configuration.
      * @param resourcePath Path to configuration script resources.
-     * @param deployableId Id of deployable for deploy.
-     * @param deployablePath Absolute path of deployable.
+     * @param deployable Deployable to be deployed.
      */
     public DeployDeployableScriptCommand(Configuration configuration, String resourcePath,
-            String deployableId, String deployablePath)
+            Deployable deployable)
     {
         super(configuration, resourcePath);
-        this.deployableId = deployableId;
-        this.deployablePath = deployablePath;
+        this.deployable = deployable;
     }
 
     @Override
@@ -65,7 +61,11 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
     @Override
     protected void addConfigurationScriptProperties(Map<String, String> propertiesMap)
     {
-        propertiesMap.put("cargo.deployable.id", deployableId);
-        propertiesMap.put("cargo.deployable.path.absolute", deployablePath);
+        propertiesMap.put("cargo.deployable.id", deployable.getName());
+
+        FileHandler fileHandler = ((AbstractDeployable) deployable).getFileHandler();
+        String path = deployable.getFile();
+        String absolutePath = fileHandler.getAbsolutePath(path);
+        propertiesMap.put("cargo.deployable.path.absolute", absolutePath);
     }
 }

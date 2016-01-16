@@ -35,8 +35,6 @@ public class WebLogicWlstStandaloneLocalConfigurationCapability extends
     {
         // support resources
         this.propertySupportMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
-        this.propertySupportMap.put(ResourcePropertySet.RESOURCE_NAME, Boolean.TRUE);
-        this.propertySupportMap.put(ResourcePropertySet.RESOURCE_TYPE, Boolean.TRUE);
 
         // support setting of admin user and password as they are set by WLST when creating domain
         this.propertySupportMap.put(WebLogicPropertySet.ADMIN_USER, Boolean.TRUE);
@@ -45,6 +43,14 @@ public class WebLogicWlstStandaloneLocalConfigurationCapability extends
         // support external scripts
         this.propertySupportMap.put(WebLogicPropertySet.JYTHON_SCRIPT_OFFLINE, Boolean.TRUE);
         this.propertySupportMap.put(WebLogicPropertySet.JYTHON_SCRIPT_ONLINE, Boolean.TRUE);
+
+        // Logging configuration
+        this.propertySupportMap.put(WebLogicPropertySet.LOG_ROTATION_TYPE, Boolean.TRUE);
+
+        // SSL
+        this.propertySupportMap.put(WebLogicPropertySet.SSL_HOSTNAME_VERIFICATION_IGNORED,
+                Boolean.TRUE);
+        this.propertySupportMap.put(WebLogicPropertySet.SSL_HOSTNAME_VERIFIER_CLASS, Boolean.TRUE);
 
         // WLST-based configuration doesn't need these anymore
         this.propertySupportMap.remove(WebLogicPropertySet.CONFIGURATION_VERSION);
