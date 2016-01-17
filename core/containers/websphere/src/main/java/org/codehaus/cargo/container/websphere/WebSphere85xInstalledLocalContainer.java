@@ -57,7 +57,7 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
     /**
      * Container name (human-readable name).
      */
-    private static final String NAME = "WebSphere 8.5";
+    private static final String NAME = "WebSphere 8.5.x";
 
     /**
      * Windows command suffix.
