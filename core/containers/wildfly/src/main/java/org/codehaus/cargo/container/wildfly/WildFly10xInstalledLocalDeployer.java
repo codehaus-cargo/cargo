@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2015 Ali Tokmen.
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2011-2015 Ali Tokmen.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,26 +19,19 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
+import org.codehaus.cargo.container.InstalledLocalContainer;
+
 /**
- * Configuration to use when using a WildFly 9.x remote container.
+ * Static deployer that deploys WARs and EARs to the WildFly <code>deployments</code> directory.
  */
-public class WildFly9xRuntimeConfiguration extends WildFly8xRuntimeConfiguration
+public class WildFly10xInstalledLocalDeployer extends WildFly9xInstalledLocalDeployer
 {
     /**
-     * Set the default values for various port numbers.
-     */
-    public WildFly9xRuntimeConfiguration()
-    {
-        super();
-    }
-
-    /**
      * {@inheritDoc}
-     * @see Object#toString()
+     * @see WildFly9xInstalledLocalDeployer#WildFly9xInstalledLocalDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
      */
-    @Override
-    public String toString()
+    public WildFly10xInstalledLocalDeployer(InstalledLocalContainer container)
     {
-        return "WildFly 9.x Runtime Configuration";
+        super(container);
     }
 }

@@ -1,5 +1,8 @@
-/*
+/* 
  * ========================================================================
+ *
+ * Copyright 2005 Jeff Genender. Code from this file
+ * was originally imported from the JBoss Maven2 plugin.
  *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2015 Ali Tokmen.
  *
@@ -19,26 +22,20 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
+import org.codehaus.cargo.container.RemoteContainer;
+
 /**
- * Configuration to use when using a WildFly 9.x remote container.
+ * Remote deployer that uses the Model Controller Client to deploy to WildFly 10.x.
+ * 
  */
-public class WildFly9xRuntimeConfiguration extends WildFly8xRuntimeConfiguration
+public class WildFly10xRemoteDeployer extends WildFly9xRemoteDeployer
 {
     /**
-     * Set the default values for various port numbers.
+     * @param container the container containing the configuration to use to find the deployer
+     * properties such as url, user name and password to use to connect to the deployer
      */
-    public WildFly9xRuntimeConfiguration()
+    public WildFly10xRemoteDeployer(RemoteContainer container)
     {
-        super();
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see Object#toString()
-     */
-    @Override
-    public String toString()
-    {
-        return "WildFly 9.x Runtime Configuration";
+        super(container);
     }
 }

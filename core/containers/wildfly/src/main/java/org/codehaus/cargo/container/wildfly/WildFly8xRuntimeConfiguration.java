@@ -63,6 +63,6 @@ public class WildFly8xRuntimeConfiguration extends JBoss7xRuntimeConfiguration
     @Override
     public String toString()
     {
-        return "WildFly Runtime Configuration";
+        return "WildFly 8.x Runtime Configuration";
     }
 }

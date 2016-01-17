@@ -972,6 +972,15 @@
               </property>
 
               <property>
+                <name>cargo.wildfly10x.url</name>
+                <value>http://download.jboss.org/wildfly/10.0.0.CR5/wildfly-10.0.0.CR5.tar.gz</value>
+              </property>
+              <property>
+                <name>cargo.wildfly10x.java.home</name>
+                <value>${cargo.java.home.1_7}</value>
+              </property>
+
+              <property>
                 <name>cargo.jonas4x.url</name>
                 <value>http://download.fr.forge.objectweb.org/jonas/jonas4.10.9-tomcat5.5.28.tgz</value>
               </property>
@@ -1711,6 +1720,12 @@
       <id>wildfly9x</id>
       <properties>
         <cargo.containers>wildfly9x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>wildfly10x</id>
+      <properties>
+        <cargo.containers>wildfly10x</cargo.containers>
       </properties>
     </profile>
 

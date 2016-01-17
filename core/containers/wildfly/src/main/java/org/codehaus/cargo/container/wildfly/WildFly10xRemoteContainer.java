@@ -19,26 +19,44 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
+import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+
 /**
- * Configuration to use when using a WildFly 9.x remote container.
+ * Special container support for wrapping a running instance of WildFly 10.x.
  */
-public class WildFly9xRuntimeConfiguration extends WildFly8xRuntimeConfiguration
+public class WildFly10xRemoteContainer extends WildFly9xRemoteContainer
 {
     /**
-     * Set the default values for various port numbers.
+     * Unique container id.
      */
-    public WildFly9xRuntimeConfiguration()
+    public static final String ID = "wildfly10x";
+
+    /**
+     * {@inheritDoc}
+     * @see WildFly9xRemoteContainer#WildFly9xRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
+     */
+    public WildFly10xRemoteContainer(RuntimeConfiguration configuration)
     {
-        super();
+        super(configuration);
     }
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
+     * @see org.codehaus.cargo.container.Container#getName()
      */
     @Override
-    public String toString()
+    public String getName()
     {
-        return "WildFly 9.x Runtime Configuration";
+        return "WildFly 10.x Remote";
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.Container#getId()
+     */
+    @Override
+    public String getId()
+    {
+        return ID;
     }
 }

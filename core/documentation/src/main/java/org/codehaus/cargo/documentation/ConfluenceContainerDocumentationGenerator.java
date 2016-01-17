@@ -154,7 +154,8 @@ public class ConfluenceContainerDocumentationGenerator
         "jetty9x",
         "tomcat8x",
         "wildfly8x",
-        "wildfly9x"
+        "wildfly9x",
+        "wildfly10x"
     });
 
     /**

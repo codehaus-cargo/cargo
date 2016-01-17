@@ -20,16 +20,18 @@
 package org.codehaus.cargo.container.wildfly;
 
 /**
- * Configuration to use when using a WildFly 9.x remote container.
+ * WildFly 10.x existing {@link org.codehaus.cargo.container.configuration.Configuration}
+ * implementation.
  */
-public class WildFly9xRuntimeConfiguration extends WildFly8xRuntimeConfiguration
+public class WildFly10xExistingLocalConfiguration extends WildFly9xExistingLocalConfiguration
 {
     /**
-     * Set the default values for various port numbers.
+     * {@inheritDoc}
+     * @see WildFly9xExistingLocalConfiguration#WildFly9xExistingLocalConfiguration(String)
      */
-    public WildFly9xRuntimeConfiguration()
+    public WildFly10xExistingLocalConfiguration(String dir)
     {
-        super();
+        super(dir);
     }
 
     /**
@@ -39,6 +41,6 @@ public class WildFly9xRuntimeConfiguration extends WildFly8xRuntimeConfiguration
     @Override
     public String toString()
     {
-        return "WildFly 9.x Runtime Configuration";
+        return "WildFly 10.x Existing Configuration";
     }
 }
