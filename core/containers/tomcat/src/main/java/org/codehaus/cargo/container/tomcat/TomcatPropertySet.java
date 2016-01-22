@@ -109,4 +109,14 @@ public interface TomcatPropertySet
      * The password for the server key store.
      */
     String CONNECTOR_SSL_PROTOCOL = "cargo.tomcat.connector.sslProtocol";
+
+    /**
+     * Custom valves defined as properties separated by |<br>
+     * Maven example:<br>
+     * &lt;cargo.tomcat.valve.stuckthread&gt;<br>
+     *     className=org.apache.catalina.valves.StuckThreadDetectionValve|<br>
+     *     threshold=60<br>
+     * &lt;/cargo.tomcat.valve.stuckthread&gt;<br>
+     */
+    String CUSTOM_VALVE = "cargo.tomcat.valve";
 }
