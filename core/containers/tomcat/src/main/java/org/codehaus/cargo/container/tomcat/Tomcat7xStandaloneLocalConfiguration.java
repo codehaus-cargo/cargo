@@ -20,8 +20,12 @@
 package org.codehaus.cargo.container.tomcat;
 
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.internal.util.PropertyUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat7x8xStandaloneLocalConfigurationCapability;
@@ -97,6 +101,35 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
             + "\n      </Host>");
         getFileHandler().replaceInFile(getFileHandler().append(confDir, "server.xml"),
             replacements, "UTF-8");
+
+        // Add custom Valves
+        for (Map.Entry<String, String> property : getProperties().entrySet())
+        {
+            String propertyName = property.getKey();
+            if (propertyName.startsWith(TomcatPropertySet.CUSTOM_VALVE))
+            {
+                StringBuffer replacement = new StringBuffer("  <Valve ");
+                String customValve = property.getValue();
+                Properties valveProps = PropertyUtils.splitPropertiesOnPipe(customValve);
+
+                for (Entry<Object, Object> valveEntry : valveProps.entrySet())
+                {
+                    String key = valveEntry.getKey().toString();
+                    String value = valveEntry.getValue().toString();
+
+                    replacement.append(key);
+                    replacement.append("=\"");
+                    replacement.append(value);
+                    replacement.append("\" ");
+                }
+                replacement.append("/>\n      </Host>");
+                replacements.clear();
+                replacements.put("</Host>", replacement.toString());
+
+                getFileHandler().replaceInFile(getFileHandler().append(confDir, "server.xml"),
+                        replacements, "UTF-8");
+            }
+        }
     }
 
     /**
