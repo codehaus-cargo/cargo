@@ -20,9 +20,12 @@
 package org.codehaus.cargo.sample.maven2.weblogic;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.codec.binary.Base64;
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
@@ -106,5 +109,38 @@ public class WebLogicTest extends TestCase
         final String expected = "Got queue!";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
+    }
+
+    /**
+     * Test verifying user creation and WAR authentication.
+     * @throws Exception If anything fails.
+     */
+    public void testAuthentication() throws Exception
+    {
+        URL url = new URL("http://localhost:" + System.getProperty("http.port")
+            + "/authentication-war-" + projectVersion + "/test");
+        final String expected = "Principal name [someone], Is user in \"cargo\" role [true]";
+
+        Map<String, String> requestProperties = new HashMap<String, String>();
+        requestProperties.put("Authorization", "Basic "
+            + new String(Base64.encodeBase64("someone:passw0rd".getBytes())));
+
+        PingUtils.assertPingTrue("Failed authentication", expected, url,
+                requestProperties, logger);
+    }
+
+    /**
+     * Test verifying system property configuration.
+     * @throws Exception If anything fails.
+     */
+    public void testSystemProperty() throws Exception
+    {
+        URL url = new URL("http://localhost:" + System.getProperty("http.port")
+            + "/systemproperty-war-" + projectVersion
+            + "/test?systemPropertyName=cargo.system.property");
+        final String expected = "CargoSystemProp";
+
+        PingUtils.assertPingTrue("System property cargo.system.property not found",
+                expected, url, logger);
     }
 }
