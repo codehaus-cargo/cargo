@@ -92,6 +92,9 @@ public class WebLogic121xStandaloneLocalConfiguration extends
         configurationScript.add(getConfigurationFactory().createDomainScript(
                 weblogicContainer.getWeblogicHome()));
 
+        // configure logging
+        configurationScript.add(getConfigurationFactory().loggingScript());
+
         // configure SSL
         configurationScript.add(getConfigurationFactory().sslScript());
 
