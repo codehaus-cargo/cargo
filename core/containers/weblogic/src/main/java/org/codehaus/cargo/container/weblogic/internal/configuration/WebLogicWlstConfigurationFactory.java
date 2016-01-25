@@ -34,6 +34,7 @@ import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.deployment.DeployDeployableScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.deployment.UndeployDeployableScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.CreateDomainScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.LoggingScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.ReadDomainOfflineScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.ReadDomainOnlineScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.ShutdownDomainScriptCommand;
@@ -154,6 +155,14 @@ public class WebLogicWlstConfigurationFactory
     public ScriptCommand shutdownDomainScript()
     {
         return new ShutdownDomainScriptCommand(configuration, resourcePath);
+    }
+
+    /**
+     * @return Logging WLST script.
+     */
+    public ScriptCommand loggingScript()
+    {
+        return new LoggingScriptCommand(configuration, resourcePath);
     }
 
     /**
