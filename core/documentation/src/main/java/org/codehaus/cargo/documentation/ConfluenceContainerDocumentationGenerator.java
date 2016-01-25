@@ -154,15 +154,15 @@ public class ConfluenceContainerDocumentationGenerator
         "jetty9x",
         "tomcat8x",
         "wildfly8x",
-        "wildfly9x",
-        "wildfly10x"
+        "wildfly9x"
     });
 
     /**
      * Containers that work on Java 8.
      */
     private static final List<String> JAVA8_CONTAINERS = Arrays.asList(new String[] {
-        "weblogic122x"
+        "weblogic122x",
+        "wildfly10x"
     });
 
     /**
