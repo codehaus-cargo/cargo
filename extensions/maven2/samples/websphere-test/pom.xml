@@ -76,8 +76,23 @@
       <type>war</type>
     </dependency>
     <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>authentication-war</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>systemproperty-war</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
       <groupId>org.apache.derby</groupId>
       <artifactId>derby</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
@@ -111,11 +126,14 @@
                     <artifactId>derby</artifactId>
                   </dependency>
                 </dependencies>
+                <systemProperties>
+                  <cargo.system.property>CargoSystemProp</cargo.system.property>
+                </systemProperties>
               </container>
               <configuration>
                 <type>standalone</type>
                 <properties>
-                  <cargo.servlet.users>myUser:passw0rd:group1</cargo.servlet.users>
+                  <cargo.servlet.users>someone:passw0rd:cargo</cargo.servlet.users>
                   <cargo.websphere.server>${cargo.websphere.server}</cargo.websphere.server>
                   <cargo.java.home>${cargo.websphere85x.home}/java/jre</cargo.java.home>
                   <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
@@ -166,6 +184,16 @@
                 <deployable>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>jms-war</artifactId>
+                  <type>war</type>
+                </deployable>
+                <deployable>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>authentication-war</artifactId>
+                  <type>war</type>
+                </deployable>
+                <deployable>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>systemproperty-war</artifactId>
                   <type>war</type>
                 </deployable>
               </deployables>
