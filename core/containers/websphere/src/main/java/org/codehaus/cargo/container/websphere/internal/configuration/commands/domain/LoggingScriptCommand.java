@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain;
+package org.codehaus.cargo.container.websphere.internal.configuration.commands.domain;
 
 import java.util.Map;
 
@@ -52,26 +52,26 @@ public class LoggingScriptCommand extends AbstractScriptCommand
     protected void addConfigurationScriptProperties(Map<String, String> propertiesMap)
     {
         String logLevel = getConfiguration().getPropertyValue(GeneralPropertySet.LOGGING);
-        propertiesMap.put("cargo.weblogic.logging", getWebLogicLogLevel(logLevel));
+        propertiesMap.put("cargo.websphere.logging", getWebSphereLogLevel(logLevel));
     }
 
     /**
-     * Translate Cargo logging levels into WebLogic logging levels.
-     * 
+     * Translate Cargo logging levels into WebSphere logging levels.
+     *
      * @param cargoLogLevel Cargo logging level
      * @return the corresponding WebLogic logging level
      */
-    private String getWebLogicLogLevel(String cargoLogLevel)
+    private String getWebSphereLogLevel(String cargoLogLevel)
     {
-        String returnVal = "Info";
+        String returnVal = "info";
 
         if (LoggingLevel.LOW.equalsLevel(cargoLogLevel))
         {
-            returnVal = "Warning";
+            returnVal = "warning";
         }
         else if (LoggingLevel.HIGH.equalsLevel(cargoLogLevel))
         {
-            returnVal = "Debug";
+            returnVal = "detail";
         }
 
         return returnVal;
