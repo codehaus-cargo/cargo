@@ -37,6 +37,7 @@ import org.codehaus.cargo.container.websphere.internal.configuration.commands.de
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.DeployDeployableScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.DeploySharedLibraryScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.UndeployDeployableScriptCommand;
+import org.codehaus.cargo.container.websphere.internal.configuration.commands.domain.LoggingScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.domain.MiscConfigurationScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.domain.SaveSyncScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.domain.SetGlobalSecurityPropertyScriptCommand;
@@ -168,6 +169,14 @@ public class WebSphereJythonConfigurationFactory
     public ScriptCommand miscConfigurationScript()
     {
         return new MiscConfigurationScriptCommand(configuration, resourcePath);
+    }
+
+    /**
+     * @return Logging configuration jython script.
+     */
+    public ScriptCommand loggingScript()
+    {
+        return new LoggingScriptCommand(configuration, resourcePath);
     }
 
     /* Deployment configuration*/

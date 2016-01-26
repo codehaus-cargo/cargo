@@ -129,6 +129,9 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         // add miscellaneous configuration
         commands.add(factory.miscConfigurationScript());
 
+        // add logging configuration
+        commands.add(factory.loggingScript());
+
         // add JVM configuration
         commands.addAll(createJvmPropertiesScripts(wsContainer));
 
