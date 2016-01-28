@@ -33,6 +33,7 @@ import org.codehaus.cargo.container.jboss.internal.JBoss71xExistingLocalConfigur
 import org.codehaus.cargo.container.jboss.internal.JBoss71xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss72xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss73xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss75xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xRuntimeConfigurationCapability;
@@ -207,7 +208,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("jboss75x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            JBoss73xStandaloneLocalConfigurationCapability.class);
+            JBoss75xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jboss75x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             JBoss71xExistingLocalConfigurationCapability.class);
@@ -307,7 +308,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
             ConfigurationType.RUNTIME, JBoss7xRuntimeConfiguration.class);
 
         configurationFactory.registerConfiguration("jboss75x", ContainerType.INSTALLED,
-            ConfigurationType.STANDALONE, JBoss73xStandaloneLocalConfiguration.class);
+            ConfigurationType.STANDALONE, JBoss75xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("jboss75x", ContainerType.INSTALLED,
             ConfigurationType.EXISTING, JBoss71xExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("jboss75x", ContainerType.REMOTE,

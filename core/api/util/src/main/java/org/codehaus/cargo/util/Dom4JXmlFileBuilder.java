@@ -92,6 +92,17 @@ public class Dom4JXmlFileBuilder implements XmlFileBuilder
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public void insertElementUnderXPath(Element elementToInsert, String xpath)
+    {
+        Element parent = xmlUtil.selectElementMatchingXPath(xpath, document.getRootElement());
+
+        setNamespaceOfElementToTheSameAsParent(elementToInsert, parent);
+        parent.add(elementToInsert);
+    }
+
+    /**
      * @param element to traverse and change namespace of
      * @param parent - who to match namespaces with.
      */
