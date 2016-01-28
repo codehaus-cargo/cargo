@@ -21,6 +21,8 @@ package org.codehaus.cargo.util;
 
 import java.util.Map;
 
+import org.dom4j.Element;
+
 /**
  * This interface intends to remove hard-bindings to a specific xml api.
  * 
@@ -62,6 +64,14 @@ public interface XmlFileBuilder
      * @param xpath where to place the above elements.
      */
     void insertElementsUnderXPath(String elementsToParse, String xpath);
+
+    /**
+     * This will take element from elementToInsert and insert it under the xpath.
+     *
+     * @param elementToInsert Element to insert
+     * @param xpath where to place the above element.
+     */
+    void insertElementUnderXPath(Element elementToInsert, String xpath);
 
     /**
      * write the current xml to disk.
