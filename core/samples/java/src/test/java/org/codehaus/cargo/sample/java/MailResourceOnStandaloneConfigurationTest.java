@@ -123,6 +123,13 @@ public class MailResourceOnStandaloneConfigurationTest extends
     {
         ResourceFixture fixture = ConfigurationFixtureFactory.createMailSessionAsResource();
 
+        if (getTestData().containerId.startsWith("jboss7"))
+        {
+            // JBoss needs to have mail resource JNDI name with specific format,
+            // needs to be different from res-ref-name in web.xml
+            fixture.name = "java:/mail/Session";
+        }
+
         addResourceToConfigurationViaProperty(fixture);
 
         testWar("mailsession");
