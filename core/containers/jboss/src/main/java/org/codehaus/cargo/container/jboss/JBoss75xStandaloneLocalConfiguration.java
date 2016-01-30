@@ -107,8 +107,17 @@ public class JBoss75xStandaloneLocalConfiguration extends JBoss73xStandaloneLoca
                 manager.loadFile();
                 manager.setNamespaces(ns);
 
+                String jndiName = resource.getName();
+                if (!jndiName.startsWith("java:/"))
+                {
+                    jndiName = "java:/" + jndiName;
+                    getLogger().warn("JBoss 7 requires resource JNDI names to start with "
+                        + "java:/, hence changing the given JNDI name to: " + jndiName,
+                        this.getClass().getName());
+                }
+
                 Element mailSession = DocumentHelper.createElement("mail-session");
-                mailSession.addAttribute("jndi-name", resource.getName());
+                mailSession.addAttribute("jndi-name", jndiName);
                 mailSession.addAttribute("name", resource.getId());
                 if (resource.getParameter("mail.smtp.from") != null)
                 {
