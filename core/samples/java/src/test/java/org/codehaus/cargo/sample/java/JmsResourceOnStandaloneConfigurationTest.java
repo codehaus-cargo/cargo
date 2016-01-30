@@ -79,8 +79,9 @@ public class JmsResourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting Resource and WAR deployments");
 
-        // JRun, Resin, Tomcat, TomEE and JBoss containers cannot deploy JMS resources
+        // JBoss, JRun, Resin, Tomcat and TomEE containers cannot deploy JMS resources
         Set<String> excludedContainerIds = new TreeSet<String>();
+        excludedContainerIds.add("jboss75x");
         excludedContainerIds.add("jrun4x");
         excludedContainerIds.add("resin2x");
         excludedContainerIds.add("resin3x");
@@ -92,7 +93,6 @@ public class JmsResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("tomcat7x");
         excludedContainerIds.add("tomcat8x");
         excludedContainerIds.add("tomee1x");
-        excludedContainerIds.add("jboss75x");
 
         suite.addTestSuite(JmsResourceOnStandaloneConfigurationTest.class,
             new Validator[] {
