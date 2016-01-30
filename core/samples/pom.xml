@@ -973,7 +973,7 @@
 
               <property>
                 <name>cargo.wildfly10x.url</name>
-                <value>http://download.jboss.org/wildfly/10.0.0.CR5/wildfly-10.0.0.CR5.tar.gz</value>
+                <value>http://download.jboss.org/wildfly/10.0.0.Final/wildfly-10.0.0.Final.tar.gz</value>
               </property>
               <property>
                 <name>cargo.wildfly10x.java.home</name>
