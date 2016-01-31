@@ -42,6 +42,8 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
 
     /**
      * {@inheritDoc}
+     * 
+     * @see http://tomcat.apache.org/tomcat-8.0-doc/config/resources.html
      */
     @Override
     protected String getExtraClasspathToken(WAR deployable)
@@ -56,29 +58,24 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
         for (String path : extraClasspath)
         {
             sb.append("<PostResources ");
-            sb.append("className=\"org.apache.catalina.webresources.DirResourceSet\" base=\"");
             if (getFileHandler().isDirectory(path))
             {
+                sb.append("className=\"org.apache.catalina.webresources.DirResourceSet\" base=\"");
+                sb.append(path.replace("&", "&amp;"));
+            }
+            else if (path.toLowerCase().endsWith(".jar"))
+            {
+                sb.append("className=\"org.apache.catalina.webresources.JarResourceSet\" base=\"");
                 sb.append(path.replace("&", "&amp;"));
             }
             else
             {
+                sb.append("className=\"org.apache.catalina.webresources.DirResourceSet\" base=\"");
                 sb.append(getFileHandler().getParent(path).replace("&", "&amp;"));
-                if (!path.endsWith(".jar"))
-                {
-                    sb.append("\" internalPath=\"");
-                    sb.append(getFileHandler().getName(path).replace("&", "&amp;"));
-                }
+                sb.append("\" internalPath=\"");
+                sb.append(getFileHandler().getName(path).replace("&", "&amp;"));
             }
-            sb.append("\" webAppMount=\"/WEB-INF/");
-            if (getFileHandler().isDirectory(path))
-            {
-                sb.append("classes");
-            }
-            else
-            {
-                sb.append("lib");
-            }
+            sb.append("\" webAppMount=\"/WEB-INF/classes");
             sb.append("\" />");
         }
         sb.append("</Resources>");
