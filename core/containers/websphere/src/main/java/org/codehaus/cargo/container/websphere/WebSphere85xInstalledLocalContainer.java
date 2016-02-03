@@ -26,17 +26,20 @@ import java.util.List;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerCapability;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.ScriptingCapableContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
+import org.codehaus.cargo.container.internal.util.HttpUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.container.spi.util.ContainerUtils;
 import org.codehaus.cargo.container.websphere.internal.ProcessExecutor;
 import org.codehaus.cargo.container.websphere.util.ByteUnit;
 import org.codehaus.cargo.container.websphere.util.JvmArguments;
@@ -80,11 +83,6 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
     private ProcessExecutor processExecutor;
 
     /**
-     * WebSphere domain is online.
-     */
-    private boolean isOnline = false;
-
-    /**
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#AbstractInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
@@ -110,7 +108,36 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
         arguments.add(getConfiguration().getPropertyValue(WebSpherePropertySet.PROFILE));
         runStartServerCommand(arguments.toArray(new String[arguments.size()]));
 
-        isOnline = true;
+        // Register shutdown hook for case if Cargo java process terminates prematurely.
+        // Needed because WebSphere runs in separate process.
+        boolean spawnProcess = Boolean.parseBoolean(getConfiguration()
+                .getPropertyValue(GeneralPropertySet.SPAWN_PROCESS));
+        if (!spawnProcess)
+        {
+            final LocalContainer localContainer = this;
+            Runtime.getRuntime().addShutdownHook(new Thread()
+            {
+                @Override
+                public void run()
+                {
+                    try
+                    {
+                        if (org.codehaus.cargo.container.State.STARTED
+                            == localContainer.getState()
+                            ||
+                            org.codehaus.cargo.container.State.STARTING
+                            == localContainer.getState())
+                        {
+                            localContainer.stop();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        throw new CargoException("Failed stopping the container.", e);
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -166,8 +193,6 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
         arguments.add("-password");
         arguments.add(getConfiguration().getPropertyValue(WebSpherePropertySet.ADMIN_PASSWORD));
         runStopServerCommand(arguments.toArray(new String[arguments.size()]));
-
-        isOnline = false;
     }
 
     /**
@@ -262,7 +287,7 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
                 arguments.add("-javaoption -Xmx"
                         + Long.toString(parsedArguments.getMaxHeap(ByteUnit.MEGABYTES)) + "m");
 
-                if (!isOnline)
+                if (!isOnline())
                 {
                     arguments.add("-conntype");
                     arguments.add("NONE");
@@ -360,5 +385,14 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
             processExecutor = new ProcessExecutor(getLogger());
         }
         return processExecutor;
+    }
+
+    /**
+     * @return True if WebSphere is started and has cargocpc deployed.
+     */
+    public boolean isOnline()
+    {
+        HttpUtils httpUtils = new HttpUtils();
+        return httpUtils.ping(ContainerUtils.getCPCURL(getConfiguration()));
     }
 }
