@@ -11,8 +11,8 @@ Cargo provides the following APIs and tools:
 
 These tools and APIs can be used in a standalone fashion or via various IDEs.
 
-The name "Codehaus Cargo" comes from the fact that this project was earlier on Codehaus, but in April / May 2015 Codehaus has shut down so we moved to Github.
+To learn more about Codehaus Cargo or ask questions:
 
-We use JIRA to track the issues, see https://codehaus-cargo.atlassian.net/projects/CARGO.
-
-To know more about Codehaus Cargo, please refer to our Web site: http://codehaus-cargo.github.io/
+* Check out our Web site - Which contains all our documentation - Be it for understanding what Codehaus Cargo is, learn how to use it with many examples, detailed documentation on container features as well as articles from various users: http://codehaus-cargo.github.io/
+* Mailing list: https://groups.google.com/d/forum/codehaus-cargo
+* Issue tracker (JIRA): https://codehaus-cargo.atlassian.net/projects/CARGO
