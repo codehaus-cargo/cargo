@@ -257,13 +257,23 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         contextTokenValue.append(" reloadable=\"");
         contextTokenValue.append(getPropertyValue(TomcatPropertySet.CONTEXT_RELOADABLE));
         contextTokenValue.append("\"");
-
+        contextTokenValue.append(getExtraContextAttributes());
         contextTokenValue.append(">");
 
         contextTokenValue.append(getExtraClasspathToken(deployable));
 
         contextTokenValue.append("</Context>");
         return contextTokenValue.toString();
+    }
+
+    /**
+     * Allows adding attributes during the creation of <Context/> element for Tomcat > 5.x.
+     * @return the extra "context" XML attributes to insert in the Tomcat <code>server.xml</code>
+     * configuration file.
+     */
+    protected String getExtraContextAttributes()
+    {
+      return "";
     }
 
     /**

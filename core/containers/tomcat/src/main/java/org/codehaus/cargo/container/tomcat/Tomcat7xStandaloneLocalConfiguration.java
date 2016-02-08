@@ -55,6 +55,7 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
         super(dir);
 
         setProperty(ServletPropertySet.USERS, "admin::manager-script");
+        setProperty(TomcatPropertySet.CONTEXT_ALLOWMULTIPART, "true");
 
         // CARGO-1271: Starting Tomcat 7 with Cargo logs warning on emptySessionPath
         getProperties().remove(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
@@ -130,6 +131,13 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
                         replacements, "UTF-8");
             }
         }
+    }
+
+    @Override
+    protected String getExtraContextAttributes()
+    {
+        return new StringBuilder(" allowCasualMultipartParsing=\"").append(
+            getPropertyValue(TomcatPropertySet.CONTEXT_ALLOWMULTIPART)).append("\"").toString();
     }
 
     /**
