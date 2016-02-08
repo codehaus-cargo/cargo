@@ -259,6 +259,8 @@ public class EmbeddedContainerArtifactResolver
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml",
             "9.2.14.v20151106"));
         jetty9xDependencies.add(new Dependency("javax.servlet", "javax.servlet-api", "3.1.0"));
+        jetty9xDependencies.add(new Dependency("org.eclipse.jetty.toolchain", "jetty-schemas",
+            "3.1"));
         // annotations
         jetty9xDependencies.add(new Dependency("org.ow2.asm", "asm", "5.0.1"));
         jetty9xDependencies.add(new Dependency("org.ow2.asm", "asm-commons", "5.0.1"));
