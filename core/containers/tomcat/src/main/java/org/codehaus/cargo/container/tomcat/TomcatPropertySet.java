@@ -46,6 +46,11 @@ public interface TomcatPropertySet
     String CONTEXT_RELOADABLE = "cargo.tomcat.context.reloadable";
 
     /**
+     * Whether the contexts for deployed Web applications should allow multipart parsing.
+     */
+    String CONTEXT_ALLOWMULTIPART = "cargo.tomcat.context.allowCasualMultipartParsing";
+
+    /**
      * Whether WAR deployables should be copied or referenced.
      */
     String COPY_WARS = "cargo.tomcat.copywars";
