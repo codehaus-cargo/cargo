@@ -273,7 +273,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
      */
     protected String getExtraContextAttributes()
     {
-      return "";
+        return "";
     }
 
     /**
