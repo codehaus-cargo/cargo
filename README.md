@@ -13,4 +13,6 @@ These tools and APIs can be used in a standalone fashion or via various IDEs.
 
 The name "Codehaus Cargo" comes from the fact that this project was earlier on Codehaus, but in April / May 2015 Codehaus has shut down so we moved to Github.
 
+We use JIRA to track the issues, see https://codehaus-cargo.atlassian.net/projects/CARGO.
+
 To know more about Codehaus Cargo, please refer to our Web site: http://codehaus-cargo.github.io/
