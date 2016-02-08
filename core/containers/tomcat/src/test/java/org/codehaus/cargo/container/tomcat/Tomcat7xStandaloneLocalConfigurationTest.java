@@ -23,6 +23,8 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
+import junit.framework.Assert;
+
 /**
  * Tests for the Tomcat 7 implementation of StandaloneLocalConfigurationTest
  * 
@@ -64,6 +66,15 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
     protected InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new Tomcat7xInstalledLocalContainer(configuration);
+    }
+
+    /**
+     * Checks the activation of multipart parsing.
+     */
+    public void testExtraContextAttributes()
+    {
+        Assert.assertTrue(Boolean.valueOf(
+            configuration.getProperties().get(TomcatPropertySet.CONTEXT_ALLOWMULTIPART)));
     }
 
 }
