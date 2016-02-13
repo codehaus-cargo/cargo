@@ -289,7 +289,7 @@
               <property>
                 <name>cargo.tomcat6x.url</name>
                 <!--
-                  Tomcat 6.0.55 cannot be used due to a ClassCastException:
+                  Tomcat 6.0.45 cannot be used due to a ClassCastException:
                   org.apache.catalina.core.StandardContext cannot be cast to
                   org.apache.catalina.Context in the Embedded container
                   -->
