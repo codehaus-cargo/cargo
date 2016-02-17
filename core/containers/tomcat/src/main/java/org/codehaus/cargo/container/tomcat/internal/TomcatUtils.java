@@ -66,8 +66,8 @@ public final class TomcatUtils
     public static String getExtraClasspath(WAR war, boolean xml)
     {
         StringBuilder buffer = new StringBuilder(1024);
-        String[] extraClasspath = war.getExtraClasspath();
-        if (extraClasspath == null || extraClasspath.length <= 0)
+        String[] extraClasspath = getExtraClasspath(war);
+        if (extraClasspath == null)
         {
             return null;
         }
@@ -86,5 +86,20 @@ public final class TomcatUtils
         }
         return result;
     }
-
+    
+    /**
+     * Gets the extra classpath for the WAR as a string array
+     * 
+     * @param war The WAR being deployed, must not be {@code null}.
+     * @return The WAR's extra classpath or {@code null} if none.
+     */
+    public static String[] getExtraClasspath(WAR war)
+    {
+        String[] extraClasspath = war.getExtraClasspath();
+        if (extraClasspath == null || extraClasspath.length <= 0)
+        {
+            return null;
+        }
+        return extraClasspath;
+    }
 }

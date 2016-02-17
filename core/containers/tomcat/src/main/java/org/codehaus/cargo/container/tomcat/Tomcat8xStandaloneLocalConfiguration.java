@@ -21,16 +21,30 @@ package org.codehaus.cargo.container.tomcat;
 
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat8xConfigurationBuilder;
+import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
+import org.dom4j.Element;
 
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
- * 
  */
 public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLocalConfiguration
 {
     /**
+     * @see http://tomcat.apache.org/tomcat-8.0-doc/config/resources.html
+     */
+    protected static final String DIR_RESOURCE_SET =
+        "org.apache.catalina.webresources.DirResourceSet";
+
+    /**
+     * @see http://tomcat.apache.org/tomcat-8.0-doc/config/resources.html
+     */
+    protected static final String JAR_RESOURCE_SET =
+        "org.apache.catalina.webresources.JarResourceSet";
+
+    /**
      * {@inheritDoc}
+     * 
      * @see Tomcat7xStandaloneLocalConfiguration#Tomcat7xStandaloneLocalConfiguration(String)
      */
     public Tomcat8xStandaloneLocalConfiguration(String dir)
@@ -48,33 +62,13 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
     @Override
     protected String getExtraClasspathToken(WAR deployable)
     {
-        String[] extraClasspath = deployable.getExtraClasspath();
-        if (extraClasspath == null || extraClasspath.length <= 0)
-        {
-            return "";
-        }
+        String[] extraClasspath = TomcatUtils.getExtraClasspath(deployable);
         StringBuilder sb = new StringBuilder();
         sb.append("<Resources>");
         for (String path : extraClasspath)
         {
             sb.append("<PostResources ");
-            if (getFileHandler().isDirectory(path))
-            {
-                sb.append("className=\"org.apache.catalina.webresources.DirResourceSet\" base=\"");
-                sb.append(path.replace("&", "&amp;"));
-            }
-            else if (path.toLowerCase().endsWith(".jar"))
-            {
-                sb.append("className=\"org.apache.catalina.webresources.JarResourceSet\" base=\"");
-                sb.append(path.replace("&", "&amp;"));
-            }
-            else
-            {
-                sb.append("className=\"org.apache.catalina.webresources.DirResourceSet\" base=\"");
-                sb.append(getFileHandler().getParent(path).replace("&", "&amp;"));
-                sb.append("\" internalPath=\"");
-                sb.append(getFileHandler().getName(path).replace("&", "&amp;"));
-            }
+            writePostResource(path, sb);
             sb.append("\" webAppMount=\"/WEB-INF/classes");
             sb.append("\" />");
         }
@@ -84,6 +78,152 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
 
     /**
      * {@inheritDoc}
+     */
+    @Override
+    protected void configureExtraClasspathToken(WAR deployable, Element context)
+    {
+        String[] extraClasspath = TomcatUtils.getExtraClasspath(deployable);
+        if (extraClasspath != null)
+        {
+            Element resources = context.element("Resources");
+            if (resources == null)
+            {
+                resources = context.addElement("Resources");
+            }
+
+            for (String path : extraClasspath)
+            {
+                Element postResource = resources.addElement("PostResources");
+                writePostResource(path, postResource);
+                postResource.addAttribute("webAppMount", "/WEB-INF/classes");
+            }
+        }
+    }
+
+    /**
+     * Write post Resources using with a StringBuilder
+     * 
+     * @param path will be in the post resource
+     * @param sb the StringBuilder we fill
+     */
+    private void writePostResource(String path, StringBuilder sb)
+    {
+        if (getFileHandler().isDirectory(path))
+        {
+            writeDirectoryPostResource(sb, path);
+        }
+        else if (path.toLowerCase().endsWith(".jar"))
+        {
+            writeJarPostResource(sb, path);
+        }
+        else
+        {
+            writeFilePostResource(sb, path);
+        }
+    }
+
+    /**
+     * Write post Resources using with a PostResources xml element
+     * 
+     * @param path will be in the post resource
+     * @param postResourceEl the xml element we fill
+     */
+    private void writePostResource(String path, Element postResourceEl)
+    {
+        if (getFileHandler().isDirectory(path))
+        {
+            writeDirectoryPostResource(postResourceEl, path);
+        }
+        else if (path.toLowerCase().endsWith(".jar"))
+        {
+            writeJarPostResource(postResourceEl, path);
+        }
+        else
+        {
+            writeFilePostResource(postResourceEl, path);
+        }
+    }
+
+    /**
+     * Write directory post resource
+     * 
+     * @param path will be in the post resource
+     * @param sb the StringBuilder we fill
+     */
+    private void writeDirectoryPostResource(StringBuilder sb, String path)
+    {
+        sb.append("className=\"" + DIR_RESOURCE_SET + "\" base=\"");
+        sb.append(path.replace("&", "&amp;"));
+    }
+
+    /**
+     * Write directory post resource
+     * 
+     * @param path will be in the post resource
+     * @param postResourceEl the xml element we fill
+     */
+    private void writeDirectoryPostResource(Element postResourceEl, String path)
+    {
+        postResourceEl.addAttribute("className", DIR_RESOURCE_SET);
+        postResourceEl.addAttribute("base", path.replace("&", "&amp;"));
+    }
+
+    /**
+     * Write jar post resource
+     * 
+     * @param path will be in the post resource
+     * @param sb the StringBuilder we fill
+     */
+    private void writeJarPostResource(StringBuilder sb, String path)
+    {
+        sb.append("className=\"" + JAR_RESOURCE_SET + "\" base=\"");
+        sb.append(path.replace("&", "&amp;"));
+    }
+
+    /**
+     * Write jar post resource
+     * 
+     * @param path will be in the post resource
+     * @param postResourceEl the xml element we fill
+     */
+    private void writeJarPostResource(Element postResourceEl, String path)
+    {
+        postResourceEl.addAttribute("className", JAR_RESOURCE_SET);
+        postResourceEl.addAttribute("base", path.replace("&", "&amp;"));
+    }
+
+    /**
+     * Write file post resource
+     * 
+     * @param path will be in the post resource
+     * @param sb the StringBuilder we fill
+     */
+    private void writeFilePostResource(StringBuilder sb, String path)
+    {
+        sb.append("className=\"" + DIR_RESOURCE_SET + "\" base=\"");
+        sb.append(getFileHandler().getParent(path).replace("&", "&amp;"));
+        sb.append("\" internalPath=\"");
+        sb.append(getFileHandler().getName(path).replace("&", "&amp;"));
+    }
+
+    /**
+     * Write file post resource
+     * 
+     * @param path will be in the post resource
+     * @param postResourceEl the xml element we fill
+     */
+    private void writeFilePostResource(Element postResourceEl, String path)
+    {
+        postResourceEl.addAttribute("className", JAR_RESOURCE_SET);
+        postResourceEl.addAttribute("base",
+            getFileHandler().getParent(path).replace("&", "&amp;"));
+        postResourceEl.addAttribute("internalPath",
+            getFileHandler().getName(path).replace("&", "&amp;"));
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see Object#toString()
      */
     @Override
