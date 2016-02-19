@@ -87,7 +87,7 @@ public class XmlEntityResolver implements EntityResolver
                               "jboss_5_0.dtd");
         publicIdentifiers.put("-//JBoss//DTD Web Service Reference 5.0//EN",
                               "service-ref_5_0.dtd");
-        publicIdentifiers.put("-//JBoss//DTD Web Service Reference 5.0//EN",
+        publicIdentifiers.put("-//JBoss//DTD Web Application 5.0//EN",
                               "jboss-web_5_0.dtd");
     }
 
