@@ -1039,7 +1039,7 @@
   
               <property>
                 <name>cargo.tomee1x.url</name>
-                <value>http://archive.apache.org/dist/tomee/tomee-1.7.2/apache-tomee-1.7.2-plus.zip</value>
+                <value>http://archive.apache.org/dist/tomee/tomee-1.7.3/apache-tomee-1.7.3-plus.zip</value>
               </property>
               <property>
                 <name>cargo.tomee1x.java.home</name>
