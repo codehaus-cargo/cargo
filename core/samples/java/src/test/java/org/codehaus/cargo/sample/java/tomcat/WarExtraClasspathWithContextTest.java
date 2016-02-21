@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.sample.java;
+package org.codehaus.cargo.sample.java.tomcat;
 
 import java.io.File;
 import java.net.URL;
@@ -82,12 +82,10 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
                 + " META-INF/context.xml file");
 
         Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("jetty4x");
-        excludedContainerIds.add("jetty5x");
         excludedContainerIds.add("tomcat4x");
         excludedContainerIds.add("tomcat5x");
         suite.addTestSuite(WarExtraClasspathWithContextTest.class, new Validator[] {
-            new StartsWithContainerValidator("jetty", "tomcat", "tomee"), 
+            new StartsWithContainerValidator("tomcat", "tomee"), 
             new HasWarSupportValidator(), new IsInstalledLocalContainerValidator(),
             new HasStandaloneConfigurationValidator()},
             excludedContainerIds);
