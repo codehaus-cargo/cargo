@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
-import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.Dom4JUtil;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -155,35 +154,11 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
      */
     private void configureExtraClasspath(WAR war, Element context)
     {
-        String extraClasspath = TomcatUtils.getExtraClasspath(war, true);
-        if (extraClasspath != null)
+        if (war.getExtraClasspath() != null)
         {
-            Element loader = context.element("Loader");
-            if (loader == null)
-            {
-                loader = context.addElement("Loader");
-            }
-
-            String className =
-                loader.attributeValue("className", "org.apache.catalina.loader.WebappLoader");
-            if (!"org.apache.catalina.loader.WebappLoader".equals(className)
-                && !"org.apache.catalina.loader.VirtualWebappLoader".equals(className))
-            {
-                throw new CargoException("Extra classpath is not supported"
-                    + " for WARs using custom loader: " + className);
-            }
-            loader.addAttribute("className", "org.apache.catalina.loader.VirtualWebappLoader");
-
-            String virtualClasspath = loader.attributeValue("virtualClasspath", "");
-            if (virtualClasspath.length() <= 0)
-            {
-                virtualClasspath = extraClasspath;
-            }
-            else
-            {
-                virtualClasspath = extraClasspath + ";" + virtualClasspath;
-            }
-            loader.addAttribute("virtualClasspath", virtualClasspath);
+            // if extraClasspath is not null here, we are on tomcat >=5x
+            ((Tomcat5xStandaloneLocalConfiguration) getContainer().getConfiguration())
+                .configureExtraClasspathToken(war, context);
         }
     }
 

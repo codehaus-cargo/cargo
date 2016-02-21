@@ -38,6 +38,7 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xConfigurationBuilder;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6xStandaloneLocalConfigurationCapability;
+import org.dom4j.Element;
 
 /**
  * StandAloneLocalConfiguration that is appropriate for Tomcat 5.x containers.
@@ -322,6 +323,17 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         getLogger().warn("Tomcat 5.x doesn't support extra classpath on WARs",
             this.getClass().getName());
         return "";
+    }
+    
+    /**
+     * Configures the specified context element with the extra classpath (if any) of the given WAR.
+     * @param deployable Deployable to create extra classpath XML token for.
+     * @param context The context element to configure, must not be {@code null}.
+     */
+    protected void configureExtraClasspathToken(WAR deployable, Element context)
+    {
+        getLogger().warn("Tomcat 5.x doesn't support extra classpath on WARs",
+            this.getClass().getName());
     }
 
     /**
