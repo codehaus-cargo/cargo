@@ -24,6 +24,7 @@ import java.net.URL;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.container.ContainerType;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
 import org.codehaus.cargo.maven2.configuration.Container;
 import org.codehaus.cargo.maven2.configuration.ZipUrlInstaller;
@@ -57,6 +58,13 @@ public class ContainerRunMojo extends ContainerStartMojo
     @Override
     public void doExecute() throws MojoExecutionException
     {
+        org.codehaus.cargo.container.Container container = createContainer();
+
+        if (!container.getType().isLocal())
+        {
+            throw new MojoExecutionException("Only local containers can be started");
+        }
+
         // When Ctrl-C is pressed, stop the container
         Runtime.getRuntime().addShutdownHook(new Thread()
         {
@@ -82,7 +90,17 @@ public class ContainerRunMojo extends ContainerStartMojo
             }
         });
 
-        super.doExecute();
+        this.localContainer = (LocalContainer) container;
+        addAutoDeployDeployable(this.localContainer);
+        try
+        {
+            executeLocalContainerAction();
+            waitDeployableMonitor(true);
+        }
+        catch (Throwable t)
+        {
+            getLog().error("Starting container [" + this.localContainer + "] failed", t);
+        }
 
         getLog().info("Press Ctrl-C to stop the container...");
         ContainerUtils.waitTillContainerIsStopped(this.localContainer);

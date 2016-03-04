@@ -54,8 +54,27 @@ public class ContainerStartMojo extends AbstractCargoMojo
 
         this.localContainer = (LocalContainer) container;
         addAutoDeployDeployable(this.localContainer);
-        executeLocalContainerAction();
-        waitDeployableMonitor(true);
+        try
+        {
+            executeLocalContainerAction();
+            waitDeployableMonitor(true);
+        }
+        catch (Throwable t1)
+        {
+            getLog().error(
+                "Starting container [" + this.localContainer + "] failed, now stopping container");
+            try
+            {
+                this.localContainer.stop();
+            }
+            catch (Throwable t2)
+            {
+                getLog().error("Stopping container [" + this.localContainer + "] failed", t2);
+            }
+
+            throw new MojoExecutionException(
+                "Cannot start container [" + this.localContainer + "]", t1);
+        }
     }
 
     /**
@@ -77,7 +96,7 @@ public class ContainerStartMojo extends AbstractCargoMojo
      * @param container the local container to which to add the project's artifact
      * @throws MojoExecutionException if an error occurs
      */
-    private void addAutoDeployDeployable(LocalContainer container)
+    protected void addAutoDeployDeployable(LocalContainer container)
         throws MojoExecutionException
     {
         if (getDeployerElement() == null && getCargoProject().getPackaging() != null
