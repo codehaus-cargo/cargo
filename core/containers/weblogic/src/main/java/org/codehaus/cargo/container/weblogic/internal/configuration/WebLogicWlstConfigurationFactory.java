@@ -31,7 +31,9 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.property.User;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.deployment.DeployDeployableOnlineScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.deployment.DeployDeployableScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.deployment.UndeployDeployableOnlineScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.deployment.UndeployDeployableScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.CreateDomainScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.LoggingScriptCommand;
@@ -185,12 +187,30 @@ public class WebLogicWlstConfigurationFactory
     }
 
     /**
+     * @param deployable Deployable to be deployed.
+     * @return Deploy deployable online WLST script.
+     */
+    public ScriptCommand deployDeployableOnlineScript(Deployable deployable)
+    {
+        return new DeployDeployableOnlineScriptCommand(configuration, resourcePath, deployable);
+    }
+
+    /**
      * @param deployable Deployable to be undeployed.
      * @return Undeploy deployable WLST script.
      */
     public ScriptCommand undeployDeployableScript(Deployable deployable)
     {
         return new UndeployDeployableScriptCommand(configuration, resourcePath, deployable);
+    }
+
+    /**
+     * @param deployable Deployable to be undeployed.
+     * @return Undeploy deployable online WLST script.
+     */
+    public ScriptCommand undeployDeployableOnlineScript(Deployable deployable)
+    {
+        return new UndeployDeployableOnlineScriptCommand(configuration, resourcePath, deployable);
     }
 
     /* Resource configuration*/
