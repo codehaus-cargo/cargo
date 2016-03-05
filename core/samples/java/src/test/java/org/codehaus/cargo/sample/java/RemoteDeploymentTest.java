@@ -41,6 +41,7 @@ import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.jboss.AbstractJBossCapabilityTestCase;
 import org.codehaus.cargo.sample.java.validator.HasInstalledLocalContainerValidator;
@@ -192,14 +193,21 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         Thread.currentThread().setContextClassLoader(classLoader);
 
         // Warning: the GlassFish 3.x and 4.x configuration generation cannot change password
+        // WebLogic needs password in specific format, for test is used default value
         if (!getRemoteContainer().getId().equals("glassfish3x")
-            && !getRemoteContainer().getId().equals("glassfish4x"))
+            && !getRemoteContainer().getId().equals("glassfish4x")
+            && !getRemoteContainer().getId().startsWith("weblogic"))
         {
             // Set up deployment credentials
             getRemoteContainer().getConfiguration().setProperty(RemotePropertySet.USERNAME,
                 "cargo");
             getRemoteContainer().getConfiguration().setProperty(RemotePropertySet.PASSWORD,
                 "password");
+        }
+        else if (getRemoteContainer().getId().startsWith("weblogic"))
+        {
+            getRemoteContainer().getConfiguration().setProperty(
+                WebLogicPropertySet.LOCAL_WEBLOGIC_HOME, localContainer.getHome());
         }
 
         this.war = (WAR) new DefaultDeployableFactory().createDeployable(getContainer().getId(),
@@ -340,6 +348,13 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
      */
     public void testChangeWarContextAndDeployUndeployRemotely() throws Exception
     {
+        if (getTestData().containerId.startsWith("weblogic"))
+        {
+            // WebLogic retrieve WAR context from file name,
+            // cannot be tested on context change.
+            return;
+        }
+
         this.war.setContext("simple");
 
         URL warPingURL = new URL("http://localhost:" + getTestData().port + "/"

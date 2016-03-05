@@ -17,55 +17,48 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain;
+package org.codehaus.cargo.container.weblogic.internal.configuration.commands.deployment;
 
 import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
-import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
+import org.codehaus.cargo.container.deployable.Deployable;
 
 /**
- * Implementation of read domain online configuration script command.
+ * Implementation of undeploy deployable online configuration script command.
  */
-public class ReadDomainOnlineScriptCommand extends AbstractScriptCommand
+public class UndeployDeployableOnlineScriptCommand extends AbstractScriptCommand
 {
+
+    /**
+     * Deployable.
+     */
+    private Deployable deployable;
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
      *
      * @param configuration Container configuration.
      * @param resourcePath Path to configuration script resources.
+     * @param deployable Deployable to be undeployed.
      */
-    public ReadDomainOnlineScriptCommand(Configuration configuration, String resourcePath)
+    public UndeployDeployableOnlineScriptCommand(Configuration configuration, String resourcePath,
+            Deployable deployable)
     {
         super(configuration, resourcePath);
+        this.deployable = deployable;
     }
 
     @Override
     protected String getScriptRelativePath()
     {
-        return "domain/read-domain-online.py";
+        return "deployment/undeploy-deployable-online.py";
     }
 
     @Override
     protected void addConfigurationScriptProperties(Map<String, String> propertiesMap)
     {
-        if (ConfigurationType.RUNTIME.equals(getConfiguration().getType()))
-        {
-            propertiesMap.put("cargo.weblogic.login.user", getConfiguration().
-                    getPropertyValue(RemotePropertySet.USERNAME));
-            propertiesMap.put("cargo.weblogic.login.password", getConfiguration().
-                    getPropertyValue(RemotePropertySet.PASSWORD));
-        }
-        else
-        {
-            propertiesMap.put("cargo.weblogic.login.user", getConfiguration().
-                    getPropertyValue(WebLogicPropertySet.ADMIN_USER));
-            propertiesMap.put("cargo.weblogic.login.password", getConfiguration().
-                    getPropertyValue(WebLogicPropertySet.ADMIN_PWD));
-        }
+        propertiesMap.put("cargo.deployable.id", deployable.getName());
     }
 }

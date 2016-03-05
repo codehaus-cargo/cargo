@@ -122,4 +122,12 @@ public interface WebLogicPropertySet
      * Default set to None.
      */
     String SSL_HOSTNAME_VERIFIER_CLASS = "cargo.weblogic.ssl.verification.hostname.class";
+
+    /**
+     * Path to local WebLogic home. This property is used in Remote container
+     * to gather WLST dependencies needed for remote communication with WebLogic instance.
+     *
+     * WebLogic needs to be installed locally even for remote calls.
+     */
+    String LOCAL_WEBLOGIC_HOME = "cargo.weblogic.installation.home";
 }

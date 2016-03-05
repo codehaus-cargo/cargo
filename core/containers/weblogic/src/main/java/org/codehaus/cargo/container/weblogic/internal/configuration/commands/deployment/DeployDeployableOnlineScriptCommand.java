@@ -17,55 +17,55 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain;
+package org.codehaus.cargo.container.weblogic.internal.configuration.commands.deployment;
 
 import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
-import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
- * Implementation of read domain online configuration script command.
+ * Implementation of deploy deployable online configuration script command.
  */
-public class ReadDomainOnlineScriptCommand extends AbstractScriptCommand
+public class DeployDeployableOnlineScriptCommand extends AbstractScriptCommand
 {
+
+    /**
+     * Deployable.
+     */
+    private Deployable deployable;
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
      *
      * @param configuration Container configuration.
      * @param resourcePath Path to configuration script resources.
+     * @param deployable Deployable to be deployed.
      */
-    public ReadDomainOnlineScriptCommand(Configuration configuration, String resourcePath)
+    public DeployDeployableOnlineScriptCommand(Configuration configuration, String resourcePath,
+            Deployable deployable)
     {
         super(configuration, resourcePath);
+        this.deployable = deployable;
     }
 
     @Override
     protected String getScriptRelativePath()
     {
-        return "domain/read-domain-online.py";
+        return "deployment/deploy-deployable-online.py";
     }
 
     @Override
     protected void addConfigurationScriptProperties(Map<String, String> propertiesMap)
     {
-        if (ConfigurationType.RUNTIME.equals(getConfiguration().getType()))
-        {
-            propertiesMap.put("cargo.weblogic.login.user", getConfiguration().
-                    getPropertyValue(RemotePropertySet.USERNAME));
-            propertiesMap.put("cargo.weblogic.login.password", getConfiguration().
-                    getPropertyValue(RemotePropertySet.PASSWORD));
-        }
-        else
-        {
-            propertiesMap.put("cargo.weblogic.login.user", getConfiguration().
-                    getPropertyValue(WebLogicPropertySet.ADMIN_USER));
-            propertiesMap.put("cargo.weblogic.login.password", getConfiguration().
-                    getPropertyValue(WebLogicPropertySet.ADMIN_PWD));
-        }
+        propertiesMap.put("cargo.deployable.id", deployable.getName());
+
+        FileHandler fileHandler = ((AbstractDeployable) deployable).getFileHandler();
+        String path = deployable.getFile();
+        String absolutePath = fileHandler.getAbsolutePath(path);
+        propertiesMap.put("cargo.deployable.path.absolute", absolutePath);
     }
 }
