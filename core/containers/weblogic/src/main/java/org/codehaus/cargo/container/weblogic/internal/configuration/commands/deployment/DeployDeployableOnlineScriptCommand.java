@@ -66,6 +66,7 @@ public class DeployDeployableOnlineScriptCommand extends AbstractScriptCommand
         FileHandler fileHandler = ((AbstractDeployable) deployable).getFileHandler();
         String path = deployable.getFile();
         String absolutePath = fileHandler.getAbsolutePath(path);
-        propertiesMap.put("cargo.deployable.path.absolute", absolutePath);
+        String escapedAbsolutePath = absolutePath.replace('\\', '/');
+        propertiesMap.put("cargo.deployable.path.absolute", escapedAbsolutePath);
     }
 }
