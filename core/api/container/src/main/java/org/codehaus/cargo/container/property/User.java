@@ -169,55 +169,61 @@ public final class User
      */
     protected static User parseUser(String userAsString)
     {
+        if (userAsString.length() == 0)
+        {
+            throw new ContainerException("User property has empty value.");
+        }
+
         User user = new User();
 
         StringTokenizer fieldTokens = new StringTokenizer(userAsString, ":", true);
 
         try
         {
-            user.setName(fieldTokens.nextToken());
+            String userName = fieldTokens.nextToken().trim();
+            user.setName(userName);
 
-            if (!":".equals(fieldTokens.nextToken()))
-            {
-                throw new ContainerException("Invalid format for [" + userAsString + "]");
-            }
+            // Skip next delimiter
+            fieldTokens.nextToken();
 
-            String token = fieldTokens.nextToken();
-            if (":".equals(token))
+            String password = fieldTokens.nextToken();
+            if (":".equals(password))
             {
                 user.setPassword("");
             }
             else
             {
-                user.setPassword(token);
-            }
-        }
-        catch (NoSuchElementException exception)
-        {
-            throw new ContainerException("Invalid format for [" + userAsString + "]");
-        }
+                user.setPassword(password);
 
-        try
-        {
-            if (user.getPassword().length() > 0 && !":".equals(fieldTokens.nextToken()))
+                // Consume next token if exists
+                if (fieldTokens.hasMoreTokens())
+                {
+                    fieldTokens.nextToken();
+                }
+            }
+
+            if (fieldTokens.hasMoreTokens())
             {
-                throw new ContainerException("Invalid format for [" + userAsString + "]");
+                String roles = fieldTokens.nextToken();
+                if (!":".equals(roles))
+                {
+                    user.addRoles(parseRoles(roles));
+                }
+                else
+                {
+                    throw new ContainerException("Invalid format for [" + userAsString + "]");
+                }
             }
-            user.addRoles(parseRoles(fieldTokens.nextToken()));
         }
         catch (NoSuchElementException exception)
         {
-            // CARGO-526: No roles defined, that's OK
-        }
-
-        try
-        {
-            fieldTokens.nextToken();
             throw new ContainerException("Invalid format for [" + userAsString + "]");
         }
-        catch (NoSuchElementException exception)
+
+        if (fieldTokens.hasMoreTokens())
         {
-            // That's expected: we only have 3 tokens
+            // We don't expect any more tokens
+            throw new ContainerException("Invalid format for [" + userAsString + "]");
         }
 
         return user;
