@@ -96,6 +96,36 @@ public class UserTest extends TestCase
     }
 
     /**
+     * Test user parsing empty field.
+     */
+    public void testParseUserWithEmptyField()
+    {
+        try
+        {
+            User.parseUser("");
+            fail("Should have raised an exception here");
+        }
+        catch (ContainerException expected)
+        {
+            assertEquals("User property has empty value.", expected.getMessage());
+        }
+    }
+
+    /**
+     * Test user parsing.
+     */
+    public void testParseUserWithWhitespace()
+    {
+        User expectedUser = new User();
+        expectedUser.setName("name");
+        expectedUser.setPassword("pwd");
+        expectedUser.addRole("role");
+
+        User user = User.parseUser("\n\t  name:pwd:role");
+        assertEquals(expectedUser, user);
+    }
+
+    /**
      * Test user parsing with empty password.
      */
     public void testParseUserWithEmptyPassword()
