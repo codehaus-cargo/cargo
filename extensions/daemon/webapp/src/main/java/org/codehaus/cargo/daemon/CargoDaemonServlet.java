@@ -35,6 +35,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -135,38 +136,6 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
     private String indexPage;
 
     /**
-     * Constructor of the cargo daemon servlet.
-     */
-    public CargoDaemonServlet()
-    {
-        // Start background task for restarting webapps.
-        scheduledExecutor.scheduleAtFixedRate(this, INITIALAUTOSTARTTIMEOUT, AUTOSTARTTIMEOUT,
-            TimeUnit.SECONDS);
-
-        try
-        {
-            loadHandleDatabase();
-        }
-        catch (IOException e)
-        {
-            // Ignore, we'll try again later
-        }
-    }
-
-    /**
-     * Loads the handle database from disk.
-     * 
-     * @throws IOException if error occurs
-     */
-    private synchronized void loadHandleDatabase() throws IOException
-    {
-        if (handles == null)
-        {
-            handles = fileManager.loadHandleDatabase();
-        }
-    }
-
-    /**
      * Read the index page.
      * 
      * @throws Exception If exception happens
@@ -220,6 +189,33 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         }
 
         this.indexPage = indexPageBuilder.toString();
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException
+    {
+        super.init(config);
+
+        // Try loading the handle database files
+        try
+        {
+            handles = fileManager.loadHandleDatabase();
+        }
+        catch (IOException e)
+        {
+            // Ignore, we'll try again later
+        }
+
+        // Start background task for restarting webapps
+        scheduledExecutor.scheduleAtFixedRate(
+            this, INITIALAUTOSTARTTIMEOUT, AUTOSTARTTIMEOUT, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public void destroy()
+    {
+        scheduledExecutor.shutdown();
+        super.destroy();
     }
 
     @Override
