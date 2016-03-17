@@ -235,32 +235,33 @@ public class EmbeddedContainerArtifactResolver
 
         List<Dependency> jetty9xDependencies = new ArrayList<Dependency>();
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-annotations",
-            "9.2.15.v20160210"));
+            "9.3.8.v20160314"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-continuation",
-            "9.2.15.v20160210"));
+            "9.3.8.v20160314"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http",
-            "9.2.15.v20160210"));
+            "9.3.8.v20160314"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io",
-            "9.2.15.v20160210"));
+            "9.3.8.v20160314"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jndi",
-            "9.2.15.v20160210"));
+            "9.3.8.v20160314"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-plus",
-            "9.2.15.v20160210"));
+            "9.3.8.v20160314"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-util",
-            "9.2.15.v20160210"));
+            "9.3.8.v20160314"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-security",
-            "9.2.15.v20160210"));
+            "9.3.8.v20160314"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-server",
-            "9.2.15.v20160210"));
+            "9.3.8.v20160314"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-servlet",
-            "9.2.15.v20160210"));
+            "9.3.8.v20160314"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-webapp",
-            "9.2.15.v20160210"));
+            "9.3.8.v20160314"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml",
-            "9.2.15.v20160210"));
+            "9.3.8.v20160314"));
         jetty9xDependencies.add(new Dependency("javax.servlet", "javax.servlet-api", "3.1.0"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty.toolchain", "jetty-schemas",
             "3.1"));
+        jetty9xDependencies.add(new Dependency("javax.enterprise", "cdi-api", "1.2"));
         // annotations
         jetty9xDependencies.add(new Dependency("org.ow2.asm", "asm", "5.0.1"));
         jetty9xDependencies.add(new Dependency("org.ow2.asm", "asm-commons", "5.0.1"));
@@ -271,17 +272,11 @@ public class EmbeddedContainerArtifactResolver
         jetty9xDependencies.add(new Dependency("javax.transaction", "javax.transaction-api",
             "1.2"));
         // jsp
-        jetty9xDependencies.add(new Dependency("javax.el", "javax.el-api", "3.0.0"));
-        jetty9xDependencies.add(new Dependency("org.glassfish.web", "javax.servlet.jsp",
-            "2.3.2"));
-        jetty9xDependencies.add(new Dependency("javax.servlet.jsp", "javax.servlet.jsp-api",
-            "2.3.1"));
-        jetty9xDependencies.add(new Dependency("org.eclipse.jetty.orbit", "javax.servlet.jsp.jstl",
-            "1.2.0.v201105211821"));
-        jetty9xDependencies.add(new Dependency("org.eclipse.jetty.toolchain", "jetty-jsp-jdt",
-            "2.3.3"));
-        jetty9xDependencies.add(new Dependency("org.eclipse.jetty.orbit", "org.eclipse.jdt.core",
-            "3.8.2.v20130121"));
+        jetty9xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj", "4.4.2"));
+        jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "apache-jsp",
+            "9.3.8.v20160314"));
+        jetty9xDependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "8.0.27"));
+        jetty9xDependencies.add(new Dependency("org.mortbay.jasper", "apache-jsp", "8.0.27"));
         this.containerDependencies.put("jetty9x", jetty9xDependencies);
 
         List<Dependency> tomcat6xDependencies = new ArrayList<Dependency>();

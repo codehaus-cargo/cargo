@@ -398,15 +398,10 @@
                 <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz</value>
                  -->
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.15.v20160210/jetty-distribution-9.2.15.v20160210.tar.gz</value>
-                <!--
-                  Jetty 9.3.6.v20151106 cannot be used due to a bug in the way the ServiceLoader's
-                  class loader is handled and we get javax.servlet.ServletContainerInitializer:
-                  Provider org.eclipse.jetty.cdi.websocket.WebSocketCdiInitializer not found
-                  -->
-                <!--
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.6.v20151106/jetty-distribution-9.3.6.v20151106.tar.gz</value>
+                                <!--
+<value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.15.v20160210/jetty-distribution-9.2.15.v20160210.tar.gz</value>
                  -->
+                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.8.v20160314/jetty-distribution-9.3.8.v20160314.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>
@@ -1092,6 +1087,11 @@
               </property>
 
               <property>
+                <name>cargo.testdata.cdi-jars</name>
+                <value>${project.build.directory}/cdi-jars</value>
+              </property>
+
+              <property>
                 <name>cargo.testdata.mail-jars</name>
                 <value>${project.build.directory}/mail-jars</value>
               </property>
@@ -1178,6 +1178,12 @@
                   <groupId>javax.mail</groupId>
                   <artifactId>mail</artifactId>
                   <outputDirectory>${project.build.directory}/mail-jars</outputDirectory>
+                </artifactItem>
+                <!-- CDI API used by the Jetty WebSocket implementatiom -->
+                <artifactItem>
+                  <groupId>javax.enterprise</groupId>
+                  <artifactId>cdi-api</artifactId>
+                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
                 </artifactItem>
                 <!-- deployables -->
                 <artifactItem>

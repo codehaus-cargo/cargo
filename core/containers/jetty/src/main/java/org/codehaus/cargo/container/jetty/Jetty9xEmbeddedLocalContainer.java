@@ -22,6 +22,10 @@ package org.codehaus.cargo.container.jetty;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 
@@ -85,5 +89,52 @@ public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
         Array.set(connectorArray, 0, connector);
         getServer().getClass().getMethod("addConnector", new Class[] {connectorClass})
             .invoke(getServer(), new Object[] {connector});
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalContainer#createServerObject()
+     */
+    @Override
+    protected synchronized void createServerObject() throws Exception
+    {
+        if (this.server == null)
+        {
+            super.createServerObject();
+
+            Class webAppContextClass =
+                getClassLoader().loadClass("org.eclipse.jetty.webapp.WebAppContext");
+
+            if (webAppContextClass.getPackage().getImplementationVersion() != null
+                && webAppContextClass.getPackage().getImplementationVersion().startsWith("9.3."))
+            {
+                // Override of the Jetty 9.3.x server classes list, to work around the nasty
+                // javax.servlet.ServletContainerInitializer error: Provider
+                // org.eclipse.jetty.cdi.websocket.WebSocketCdiInitializer not found.
+                String[] dftServerClasses = (String[])
+                    webAppContextClass.getDeclaredField("__dftServerClasses").get(null);
+                List<String> dftServerClassesList =
+                    new ArrayList<String>(dftServerClasses.length + 1);
+                dftServerClassesList.add("-org.eclipse.jetty.cdi.websocket.");
+                dftServerClassesList.addAll(Arrays.asList(dftServerClasses));
+                dftServerClasses = new String[dftServerClassesList.size()];
+                dftServerClasses = dftServerClassesList.toArray(dftServerClasses);
+                server.getClass().getMethod("setAttribute",
+                    new Class[] {String.class, Object.class}).invoke(server, new Object[] {
+                        "org.eclipse.jetty.webapp.serverClasses", dftServerClasses});
+
+                String[] dftSystemClasses = (String[])
+                    webAppContextClass.getDeclaredField("__dftSystemClasses").get(null);
+                List<String> dftSystemClassesList =
+                    new ArrayList<String>(dftSystemClasses.length + 1);
+                dftSystemClassesList.addAll(Arrays.asList(dftSystemClasses));
+                dftSystemClassesList.add("org.eclipse.jetty.cdi.websocket.");
+                dftSystemClasses = new String[dftSystemClassesList.size()];
+                dftSystemClasses = dftSystemClassesList.toArray(dftSystemClasses);
+                server.getClass().getMethod("setAttribute",
+                    new Class[] {String.class, Object.class}).invoke(server, new Object[] {
+                        "org.eclipse.jetty.webapp.systemClasses", dftSystemClasses});
+            }
+        }
     }
 }

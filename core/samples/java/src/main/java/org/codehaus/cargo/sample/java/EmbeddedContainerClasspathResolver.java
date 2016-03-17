@@ -69,10 +69,10 @@ public class EmbeddedContainerClasspathResolver
         jetty7xDependencies.add("lib/jsp/*.jar");
 
         List<String> jetty8x9xDependencies = new ArrayList<String>();
-        jetty8x9xDependencies.add("lib/*.jar");
+        jetty8x9xDependencies.add("lib/*.jar|lib/websocket/*.jar");
         jetty8x9xDependencies.add("lib/annotations/*.jar");
         jetty8x9xDependencies.add("lib/jndi/*.jar");
-        jetty8x9xDependencies.add("lib/jsp/*.jar");
+        jetty8x9xDependencies.add("lib/jsp/*.jar|lib/apache-jsp/*.jar");
 
         List<String> tomcat5xDependencies = new ArrayList<String>();
         tomcat5xDependencies.add("bin/*.jar");
@@ -151,6 +151,25 @@ public class EmbeddedContainerClasspathResolver
                 for (File xercesJAR : xercesJARs)
                 {
                     urls.add(xercesJAR.toURI().toURL());
+                }
+            }
+
+            // Jetty 9.3.x onwards has a WebSocket implementation that needs CDI
+            if ("jetty9x".equals(containerId))
+            {
+                String cdi = System.getProperty("cargo.testdata.cdi-jars");
+                if (cdi == null)
+                {
+                    throw new IllegalArgumentException("cargo.testdata.cdi-jars not defined");
+                }
+                File[] cdiJARs = new File(cdi).listFiles();
+                if (cdiJARs == null)
+                {
+                    throw new FileNotFoundException("Directory not found: " + cdi);
+                }
+                for (File cdiJAR : cdiJARs)
+                {
+                    urls.add(cdiJAR.toURI().toURL());
                 }
             }
 
