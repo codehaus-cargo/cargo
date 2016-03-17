@@ -49,11 +49,11 @@ public class WebLogic121xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      *
-     * @see AbstractWebLogicWlstStandaloneLocalConfiguration#AbstractWebLogicWlstStandaloneLocalConfiguration(String, String)
+     * @see AbstractWebLogicWlstStandaloneLocalConfiguration#AbstractWebLogicWlstStandaloneLocalConfiguration(String)
      */
     public WebLogic121xStandaloneLocalConfiguration(String dir)
     {
-        super(dir, "org/codehaus/cargo/container/internal/resources/weblogicWlst/");
+        super(dir);
 
         setProperty(WebLogicPropertySet.ADMIN_USER, "weblogic");
         setProperty(WebLogicPropertySet.ADMIN_PWD, "weblogic1");

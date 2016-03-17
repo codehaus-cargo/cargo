@@ -65,8 +65,7 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
     public WebSphere85xExistingLocalConfiguration(String dir)
     {
         super(dir);
-        factory = new WebSphereJythonConfigurationFactory(this,
-                RESOURCE_PATH + "websphere85x/commands/");
+        factory = new WebSphereJythonConfigurationFactory(this);
 
         setProperty(ServletPropertySet.PORT, "9080");
 

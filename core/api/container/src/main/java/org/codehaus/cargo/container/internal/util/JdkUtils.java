@@ -87,6 +87,16 @@ public class JdkUtils
     }
 
     /**
+     * Is the user running on a Windows system?
+     *
+     * @return true if the user's system is determined to be Windows.
+     */
+    public boolean isWindows()
+    {
+        return System.getProperty("os.name").startsWith("Windows");
+    }
+
+    /**
      * Pauses the current thread for the specified amount.
      * 
      * @param ms The time to sleep in milliseconds

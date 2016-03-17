@@ -39,14 +39,13 @@ public abstract class AbstractWebLogicWlstExistingLocalConfiguration extends
      * {@inheritDoc}
      *
      * @param dir Home directory for container.
-     * @param baseResourcePath Base path for WLST configuration resources.
      *
      * @see AbstractExistingLocalConfiguration#AbstractExistingLocalConfiguration(String)
      */
-    public AbstractWebLogicWlstExistingLocalConfiguration(String dir, String baseResourcePath)
+    public AbstractWebLogicWlstExistingLocalConfiguration(String dir)
     {
         super(dir);
-        factory = new WebLogicWlstConfigurationFactory(this, baseResourcePath);
+        factory = new WebLogicWlstConfigurationFactory(this);
     }
 
     /**
