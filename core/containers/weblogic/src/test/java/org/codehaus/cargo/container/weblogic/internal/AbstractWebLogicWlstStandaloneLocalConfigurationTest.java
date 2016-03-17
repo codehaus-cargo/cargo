@@ -65,30 +65,32 @@ public class AbstractWebLogicWlstStandaloneLocalConfigurationTest extends TestCa
     {
         Resource jmsServer =
             new Resource("TestJmsServer", WebLogicConfigurationEntryType.JMS_SERVER);
-        jmsServer.setParameter("priority", "10");
         Resource jmsModule =
             new Resource("TestJmsModule", WebLogicConfigurationEntryType.JMS_MODULE);
-        jmsModule.setParameter("priority", "20");
         Resource jmsSubdeployment =
             new Resource("TestJmsSubdeployment", WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT);
-        jmsSubdeployment.setParameter("priority", "30");
         Resource jmsQueue =
             new Resource("jms/queue/REQUEST", WebLogicConfigurationEntryType.JMS_QUEUE);
+        Resource jmsConnectionFactory = new Resource("jms/cf/REQUEST",
+                WebLogicConfigurationEntryType.JMS_CONNECTION_FACTORY);
 
         // adding resources in random order
         configuration.addResource(jmsSubdeployment);
         configuration.addResource(jmsQueue);
         configuration.addResource(jmsModule);
         configuration.addResource(jmsServer);
+        configuration.addResource(jmsConnectionFactory);
 
         configuration.sortResources();
 
         // resources are sorted according to priority
         List<Resource> resources = configuration.getResources();
-        assertEquals(4, resources.size());
+        assertEquals(5, resources.size());
         assertEquals(WebLogicConfigurationEntryType.JMS_SERVER, resources.get(0).getType());
         assertEquals(WebLogicConfigurationEntryType.JMS_MODULE, resources.get(1).getType());
         assertEquals(WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT, resources.get(2).getType());
-        assertEquals(WebLogicConfigurationEntryType.JMS_QUEUE, resources.get(3).getType());
+        assertEquals(WebLogicConfigurationEntryType.JMS_CONNECTION_FACTORY,
+                resources.get(3).getType());
+        assertEquals(WebLogicConfigurationEntryType.JMS_QUEUE, resources.get(4).getType());
     }
 }

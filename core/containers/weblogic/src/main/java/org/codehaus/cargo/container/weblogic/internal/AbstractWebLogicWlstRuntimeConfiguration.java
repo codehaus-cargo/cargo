@@ -46,8 +46,7 @@ public abstract class AbstractWebLogicWlstRuntimeConfiguration extends
      */
     public AbstractWebLogicWlstRuntimeConfiguration()
     {
-        factory = new WebLogicWlstConfigurationFactory(this, 
-                "org/codehaus/cargo/container/internal/resources/weblogicWlst/");
+        factory = new WebLogicWlstConfigurationFactory(this);
 
         setProperty(RemotePropertySet.USERNAME, "weblogic");
         setProperty(RemotePropertySet.PASSWORD, "weblogic1");

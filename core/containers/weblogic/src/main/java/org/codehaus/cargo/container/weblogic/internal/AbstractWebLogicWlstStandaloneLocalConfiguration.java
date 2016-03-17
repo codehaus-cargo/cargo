@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 import org.codehaus.cargo.container.weblogic.WebLogicWlstConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicWlstConfigurationFactory;
 import org.codehaus.cargo.container.weblogic.internal.configuration.rules.WebLogicResourceRules;
-import org.codehaus.cargo.container.weblogic.internal.configuration.util.PriorityComparator;
+import org.codehaus.cargo.container.weblogic.internal.configuration.util.WebLogicResourceComparator;
 
 /**
  * Contains common WebLogic configuration functionality for WLST.
@@ -45,14 +45,13 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
      * {@inheritDoc}
      *
      * @param dir Home directory for container.
-     * @param baseResourcePath Base path for WLST configuration resources.
      *
      * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
-    public AbstractWebLogicWlstStandaloneLocalConfiguration(String dir, String baseResourcePath)
+    public AbstractWebLogicWlstStandaloneLocalConfiguration(String dir)
     {
         super(dir);
-        factory = new WebLogicWlstConfigurationFactory(this, baseResourcePath);
+        factory = new WebLogicWlstConfigurationFactory(this);
     }
 
     /**
@@ -69,7 +68,7 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
      */
     protected void sortResources()
     {
-        PriorityComparator priorityComparator = new PriorityComparator();
+        WebLogicResourceComparator priorityComparator = new WebLogicResourceComparator();
         List<Resource> resources = getResources();
         Collections.sort(resources, priorityComparator);
     }

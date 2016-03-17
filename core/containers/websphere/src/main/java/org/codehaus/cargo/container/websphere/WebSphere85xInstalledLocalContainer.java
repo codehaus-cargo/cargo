@@ -354,7 +354,7 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
         command.append(File.separator);
         command.append(wsCommand);
 
-        if (System.getProperty("os.name").startsWith("Windows"))
+        if (getJdkUtils().isWindows())
         {
             command.append(WINDOWS_SUFFIX);
         }

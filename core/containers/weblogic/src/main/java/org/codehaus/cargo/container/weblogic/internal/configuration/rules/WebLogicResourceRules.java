@@ -88,7 +88,6 @@ public final class WebLogicResourceRules
             Resource jmsServer =
                 new Resource(jmsServerName, WebLogicConfigurationEntryType.JMS_SERVER);
             jmsServer.setId(jmsServerName);
-            jmsServer.setParameter("priority", "10");
             weblogicResources.add(jmsServer);
         }
         // if we have JMS connection factory or queue to create, but missing JMS module then add it
@@ -98,7 +97,6 @@ public final class WebLogicResourceRules
             Resource jmsModule =
                 new Resource(jmsModuleName, WebLogicConfigurationEntryType.JMS_MODULE);
             jmsModule.setId(jmsModuleName);
-            jmsModule.setParameter("priority", "20");
             weblogicResources.add(jmsModule);
         }
         // if we have JMS connection factory or queue to create, but missing JMS subdeployment then
@@ -111,7 +109,6 @@ public final class WebLogicResourceRules
                 new Resource(jmsSubdeploymentName,
                     WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT);
             jmsSubdeployment.setId(jmsSubdeploymentName);
-            jmsSubdeployment.setParameter("priority", "30");
             weblogicResources.add(jmsSubdeployment);
         }
     }

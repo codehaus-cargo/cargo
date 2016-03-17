@@ -70,7 +70,8 @@ public class WebLogicWlstConfigurationFactory
     /**
      * Path to configuration script resources.
      */
-    private final String resourcePath;
+    private static final String RESOURCE_PATH =
+            "org/codehaus/cargo/container/internal/resources/weblogicWlst/";
 
     /**
      * Container configuration.
@@ -92,11 +93,9 @@ public class WebLogicWlstConfigurationFactory
      * Sets configuration containing all needed information for building configuration scripts.
      *
      * @param configuration Container configuration.
-     * @param resourcePath Path to configuration script resources.
      */
-    public WebLogicWlstConfigurationFactory(Configuration configuration, String resourcePath)
+    public WebLogicWlstConfigurationFactory(Configuration configuration)
     {
-        this.resourcePath = resourcePath;
         this.configuration = configuration;
     }
 
@@ -108,7 +107,7 @@ public class WebLogicWlstConfigurationFactory
      */
     public ScriptCommand createDomainScript(String weblogicHome)
     {
-        return new CreateDomainScriptCommand(configuration, resourcePath, weblogicHome);
+        return new CreateDomainScriptCommand(configuration, RESOURCE_PATH, weblogicHome);
     }
 
     /**
@@ -116,7 +115,7 @@ public class WebLogicWlstConfigurationFactory
      */
     public ScriptCommand readDomainOfflineScript()
     {
-        return new ReadDomainOfflineScriptCommand(configuration, resourcePath);
+        return new ReadDomainOfflineScriptCommand(configuration, RESOURCE_PATH);
     }
 
     /**
@@ -124,7 +123,7 @@ public class WebLogicWlstConfigurationFactory
      */
     public ScriptCommand readDomainOnlineScript()
     {
-        return new ReadDomainOnlineScriptCommand(configuration, resourcePath);
+        return new ReadDomainOnlineScriptCommand(configuration, RESOURCE_PATH);
     }
 
     /**
@@ -132,7 +131,7 @@ public class WebLogicWlstConfigurationFactory
      */
     public ScriptCommand updateDomainOfflineScript()
     {
-        return new UpdateDomainOfflineScriptCommand(configuration, resourcePath);
+        return new UpdateDomainOfflineScriptCommand(configuration, RESOURCE_PATH);
     }
 
     /**
@@ -140,7 +139,7 @@ public class WebLogicWlstConfigurationFactory
      */
     public ScriptCommand updateDomainOnlineScript()
     {
-        return new UpdateDomainOnlineScriptCommand(configuration, resourcePath);
+        return new UpdateDomainOnlineScriptCommand(configuration, RESOURCE_PATH);
     }
 
     /**
@@ -148,7 +147,7 @@ public class WebLogicWlstConfigurationFactory
      */
     public ScriptCommand writeDomainScript()
     {
-        return new WriteDomainScriptCommand(configuration, resourcePath);
+        return new WriteDomainScriptCommand(configuration, RESOURCE_PATH);
     }
 
     /**
@@ -156,7 +155,7 @@ public class WebLogicWlstConfigurationFactory
      */
     public ScriptCommand shutdownDomainScript()
     {
-        return new ShutdownDomainScriptCommand(configuration, resourcePath);
+        return new ShutdownDomainScriptCommand(configuration, RESOURCE_PATH);
     }
 
     /**
@@ -164,7 +163,7 @@ public class WebLogicWlstConfigurationFactory
      */
     public ScriptCommand loggingScript()
     {
-        return new LoggingScriptCommand(configuration, resourcePath);
+        return new LoggingScriptCommand(configuration, RESOURCE_PATH);
     }
 
     /**
@@ -172,7 +171,7 @@ public class WebLogicWlstConfigurationFactory
      */
     public ScriptCommand sslScript()
     {
-        return new SslScriptCommand(configuration, resourcePath);
+        return new SslScriptCommand(configuration, RESOURCE_PATH);
     }
 
     /* Deployment configuration*/
@@ -183,7 +182,7 @@ public class WebLogicWlstConfigurationFactory
      */
     public ScriptCommand deployDeployableScript(Deployable deployable)
     {
-        return new DeployDeployableScriptCommand(configuration, resourcePath, deployable);
+        return new DeployDeployableScriptCommand(configuration, RESOURCE_PATH, deployable);
     }
 
     /**
@@ -192,7 +191,7 @@ public class WebLogicWlstConfigurationFactory
      */
     public ScriptCommand deployDeployableOnlineScript(Deployable deployable)
     {
-        return new DeployDeployableOnlineScriptCommand(configuration, resourcePath, deployable);
+        return new DeployDeployableOnlineScriptCommand(configuration, RESOURCE_PATH, deployable);
     }
 
     /**
@@ -201,7 +200,7 @@ public class WebLogicWlstConfigurationFactory
      */
     public ScriptCommand undeployDeployableScript(Deployable deployable)
     {
-        return new UndeployDeployableScriptCommand(configuration, resourcePath, deployable);
+        return new UndeployDeployableScriptCommand(configuration, RESOURCE_PATH, deployable);
     }
 
     /**
@@ -210,7 +209,7 @@ public class WebLogicWlstConfigurationFactory
      */
     public ScriptCommand undeployDeployableOnlineScript(Deployable deployable)
     {
-        return new UndeployDeployableOnlineScriptCommand(configuration, resourcePath, deployable);
+        return new UndeployDeployableOnlineScriptCommand(configuration, RESOURCE_PATH, deployable);
     }
 
     /* Resource configuration*/
@@ -223,11 +222,11 @@ public class WebLogicWlstConfigurationFactory
     {
         Collection<ScriptCommand> script = new ArrayList<ScriptCommand>();
 
-        script.add(new DataSourceScriptCommand(configuration, resourcePath, ds));
+        script.add(new DataSourceScriptCommand(configuration, RESOURCE_PATH, ds));
 
         for (Entry<Object, Object> driverProperty : ds.getConnectionProperties().entrySet())
         {
-            script.add(new DataSourceConnectionPropertyScriptCommand(configuration, resourcePath,
+            script.add(new DataSourceConnectionPropertyScriptCommand(configuration, RESOURCE_PATH,
                     ds, driverProperty));
         }
 
@@ -251,7 +250,7 @@ public class WebLogicWlstConfigurationFactory
         {
             newInstance = resourceClass.getConstructor(Configuration.class,
                     String.class, Resource.class).newInstance(configuration,
-                            resourcePath, resource);
+                            RESOURCE_PATH, resource);
         }
         catch (Exception e)
         {
@@ -269,7 +268,7 @@ public class WebLogicWlstConfigurationFactory
      */
     public ScriptCommand createUserScript(User user)
     {
-        return new CreateUserScriptCommand(configuration, resourcePath, user);
+        return new CreateUserScriptCommand(configuration, RESOURCE_PATH, user);
     }
 
     /**
@@ -278,7 +277,7 @@ public class WebLogicWlstConfigurationFactory
      */
     public ScriptCommand createGroupScript(String groupRole)
     {
-        return new CreateGroupScriptCommand(configuration, resourcePath, groupRole);
+        return new CreateGroupScriptCommand(configuration, RESOURCE_PATH, groupRole);
     }
 
     /**
@@ -291,7 +290,7 @@ public class WebLogicWlstConfigurationFactory
 
         for (String role : user.getRoles())
         {
-            script.add(new AddUserToGroupScriptCommand(configuration, resourcePath, user, role));
+            script.add(new AddUserToGroupScriptCommand(configuration, RESOURCE_PATH, user, role));
         }
 
         return script;

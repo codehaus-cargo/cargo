@@ -32,6 +32,7 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.property.User;
+import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.ImportWsadminlibScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.AddSharedLibraryToDeployableScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.DeployDeployableScriptCommand;
@@ -69,7 +70,8 @@ public class WebSphereJythonConfigurationFactory
     /**
      * Path to configuration script resources.
      */
-    private final String resourcePath;
+    private static final String RESOURCE_PATH =
+            AbstractLocalConfiguration.RESOURCE_PATH + "websphere85x/commands/";
 
     /**
      * Container configuration.
@@ -91,11 +93,9 @@ public class WebSphereJythonConfigurationFactory
      * Sets configuration containing all needed information for building configuration scripts.
      *
      * @param configuration Container configuration.
-     * @param resourcePath Path to configuration script resources.
      */
-    public WebSphereJythonConfigurationFactory(Configuration configuration, String resourcePath)
+    public WebSphereJythonConfigurationFactory(Configuration configuration)
     {
-        this.resourcePath = resourcePath;
         this.configuration = configuration;
     }
 
@@ -105,7 +105,7 @@ public class WebSphereJythonConfigurationFactory
      */
     public ScriptCommand importWsadminlibScript(String wsadminlibPath)
     {
-        return new ImportWsadminlibScriptCommand(configuration, resourcePath, wsadminlibPath);
+        return new ImportWsadminlibScriptCommand(configuration, RESOURCE_PATH, wsadminlibPath);
     }
 
     /* Domain configuration*/
@@ -115,7 +115,7 @@ public class WebSphereJythonConfigurationFactory
      */
     public ScriptCommand saveSyncScript()
     {
-        return new SaveSyncScriptCommand(configuration, resourcePath);
+        return new SaveSyncScriptCommand(configuration, RESOURCE_PATH);
     }
 
     /**
@@ -125,7 +125,7 @@ public class WebSphereJythonConfigurationFactory
      */
     public ScriptCommand setJvmPropertyScript(String propertyName, String propertyValue)
     {
-        return new SetJvmPropertyScriptCommand(configuration, resourcePath, propertyName,
+        return new SetJvmPropertyScriptCommand(configuration, RESOURCE_PATH, propertyName,
                 propertyValue);
     }
 
@@ -136,7 +136,7 @@ public class WebSphereJythonConfigurationFactory
      */
     public ScriptCommand setSystemPropertyScript(String propertyName, String propertyValue)
     {
-        return new SetSystemPropertyScriptCommand(configuration, resourcePath, propertyName,
+        return new SetSystemPropertyScriptCommand(configuration, RESOURCE_PATH, propertyName,
                 propertyValue);
     }
 
@@ -147,7 +147,7 @@ public class WebSphereJythonConfigurationFactory
      */
     public ScriptCommand setGlobalSecurityPropertyScript(String propertyName, String propertyValue)
     {
-        return new SetGlobalSecurityPropertyScriptCommand(configuration, resourcePath,
+        return new SetGlobalSecurityPropertyScriptCommand(configuration, RESOURCE_PATH,
                 propertyName, propertyValue);
     }
 
@@ -159,7 +159,7 @@ public class WebSphereJythonConfigurationFactory
     public ScriptCommand setSessionManagementPropertyScript(String propertyName,
             String propertyValue)
     {
-        return new SetSessionManagementPropertyScriptCommand(configuration, resourcePath,
+        return new SetSessionManagementPropertyScriptCommand(configuration, RESOURCE_PATH,
                 propertyName, propertyValue);
     }
 
@@ -168,7 +168,7 @@ public class WebSphereJythonConfigurationFactory
      */
     public ScriptCommand miscConfigurationScript()
     {
-        return new MiscConfigurationScriptCommand(configuration, resourcePath);
+        return new MiscConfigurationScriptCommand(configuration, RESOURCE_PATH);
     }
 
     /**
@@ -176,7 +176,7 @@ public class WebSphereJythonConfigurationFactory
      */
     public ScriptCommand loggingScript()
     {
-        return new LoggingScriptCommand(configuration, resourcePath);
+        return new LoggingScriptCommand(configuration, RESOURCE_PATH);
     }
 
     /* Deployment configuration*/
@@ -187,7 +187,8 @@ public class WebSphereJythonConfigurationFactory
      */
     public ScriptCommand deploySharedLibraryScript(String sharedLibraryPath)
     {
-        return new DeploySharedLibraryScriptCommand(configuration, resourcePath, sharedLibraryPath);
+        return new DeploySharedLibraryScriptCommand(configuration, RESOURCE_PATH,
+                sharedLibraryPath);
     }
 
     /**
@@ -196,7 +197,7 @@ public class WebSphereJythonConfigurationFactory
      */
     public ScriptCommand deployDeployableScript(Deployable deployable)
     {
-        return new DeployDeployableScriptCommand(configuration, resourcePath, deployable);
+        return new DeployDeployableScriptCommand(configuration, RESOURCE_PATH, deployable);
     }
 
     /**
@@ -213,7 +214,7 @@ public class WebSphereJythonConfigurationFactory
         for (String sharedLibrary : sharedLibraries)
         {
             scriptCommands.add(new AddSharedLibraryToDeployableScriptCommand(configuration,
-                    resourcePath, deployable, sharedLibrary));
+                    RESOURCE_PATH, deployable, sharedLibrary));
         }
 
         return scriptCommands;
@@ -225,7 +226,7 @@ public class WebSphereJythonConfigurationFactory
      */
     public ScriptCommand undeployDeployableScript(Deployable deployable)
     {
-        return new UndeployDeployableScriptCommand(configuration, resourcePath, deployable);
+        return new UndeployDeployableScriptCommand(configuration, RESOURCE_PATH, deployable);
     }
 
     /* User/group configuration*/
@@ -238,12 +239,12 @@ public class WebSphereJythonConfigurationFactory
     {
         List<ScriptCommand> scriptCommands = new ArrayList<ScriptCommand>();
 
-        scriptCommands.add(new CreateUserScriptCommand(configuration, resourcePath, user));
+        scriptCommands.add(new CreateUserScriptCommand(configuration, RESOURCE_PATH, user));
 
         for (String role : user.getRoles())
         {
-            scriptCommands.add(new CreateGroupScriptCommand(configuration, resourcePath, role));
-            scriptCommands.add(new AddUserToGroupScriptCommand(configuration, resourcePath,
+            scriptCommands.add(new CreateGroupScriptCommand(configuration, RESOURCE_PATH, role));
+            scriptCommands.add(new AddUserToGroupScriptCommand(configuration, RESOURCE_PATH,
                     user, role));
         }
 
@@ -262,13 +263,13 @@ public class WebSphereJythonConfigurationFactory
     {
         List<ScriptCommand> scriptCommands = new ArrayList<ScriptCommand>();
 
-        scriptCommands.add(new DataSourceScriptCommand(configuration, resourcePath, dataSource,
+        scriptCommands.add(new DataSourceScriptCommand(configuration, RESOURCE_PATH, dataSource,
                 sharedLibraries));
 
         for (Entry<Object, Object> property : dataSource.getConnectionProperties().entrySet())
         {
             scriptCommands.add(new DataSourceConnectionPropertyScriptCommand(configuration,
-                    resourcePath, dataSource, property));
+                    RESOURCE_PATH, dataSource, property));
         }
 
         return scriptCommands;
@@ -293,7 +294,7 @@ public class WebSphereJythonConfigurationFactory
         {
             newInstance = resourceClass.getConstructor(Configuration.class,
                     String.class, Resource.class).newInstance(configuration,
-                            resourcePath, resource);
+                            RESOURCE_PATH, resource);
         }
         catch (Exception e)
         {

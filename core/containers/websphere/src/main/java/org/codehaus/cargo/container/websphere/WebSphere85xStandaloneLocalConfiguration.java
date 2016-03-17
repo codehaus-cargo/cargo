@@ -81,8 +81,7 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
     public WebSphere85xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
-        factory = new WebSphereJythonConfigurationFactory(this,
-                RESOURCE_PATH + "websphere85x/commands/");
+        factory = new WebSphereJythonConfigurationFactory(this);
 
         setProperty(ServletPropertySet.PORT, "9080");
 
