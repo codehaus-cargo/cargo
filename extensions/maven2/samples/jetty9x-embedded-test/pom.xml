@@ -42,11 +42,11 @@
   </dependencies>
 
   <profiles>
-    <!-- JDK 7 -->
+    <!-- JDK 8 -->
     <profile>
-      <id>java7+</id>
+      <id>java8+</id>
       <activation>
-        <jdk>[1.7,)</jdk>
+        <jdk>[1.8,)</jdk>
       </activation>
       <build>
         <plugins>
