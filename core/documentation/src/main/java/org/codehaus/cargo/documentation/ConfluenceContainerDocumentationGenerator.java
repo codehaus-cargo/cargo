@@ -151,7 +151,6 @@ public class ConfluenceContainerDocumentationGenerator
         "glassfish4x",
         "jboss74x",
         "jboss75x",
-        "jetty9x",
         "tomcat8x",
         "wildfly8x",
         "wildfly9x"
