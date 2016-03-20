@@ -268,7 +268,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     }
 
     /**
-     * Allows adding attributes during the creation of <Context/> element for Tomcat > 5.x.
+     * Allows adding attributes during the creation of &lt;Context/&gt; element for Tomcat > 5.x.
      * @return the extra "context" XML attributes to insert in the Tomcat <code>server.xml</code>
      * configuration file.
      */
