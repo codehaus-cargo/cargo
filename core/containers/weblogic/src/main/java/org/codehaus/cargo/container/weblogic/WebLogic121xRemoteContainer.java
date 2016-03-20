@@ -36,7 +36,7 @@ public class WebLogic121xRemoteContainer extends AbstractWebLogicRemoteContainer
     /**
      * {@inheritDoc}
      *
-     * @see AbstractRemoteContainer#AbstractRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
+     * @see AbstractWebLogicRemoteContainer#AbstractWebLogicRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
      */
     public WebLogic121xRemoteContainer(RuntimeConfiguration configuration)
     {
