@@ -116,12 +116,14 @@ public interface TomcatPropertySet
     String CONNECTOR_SSL_PROTOCOL = "cargo.tomcat.connector.sslProtocol";
 
     /**
-     * Custom valves defined as properties separated by |<br>
-     * Maven example:<br>
-     * &lt;cargo.tomcat.valve.stuckthread&gt;<br>
-     *     className=org.apache.catalina.valves.StuckThreadDetectionValve|<br>
-     *     threshold=60<br>
-     * &lt;/cargo.tomcat.valve.stuckthread&gt;<br>
+     * Custom valves defined as properties separated by <code>|</code><br/>
+     * Maven example:<br/>
+     * <code>
+     * &lt;cargo.tomcat.valve.stuckthread&gt;<br/>
+     * &nbsp; &nbsp; className=org.apache.catalina.valves.StuckThreadDetectionValve|<br/>
+     * &nbsp; &nbsp; threshold=60<br/>
+     * &lt;/cargo.tomcat.valve.stuckthread&gt;
+     * </code>
      */
     String CUSTOM_VALVE = "cargo.tomcat.valve";
 }
