@@ -33,7 +33,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
     /**
      * For further details, see
      * <a href="http://tomcat.apache.org/tomcat-8.0-doc/config/resources.html">Apache Tomcat 8
-     * Configuration Reference</a>, in particular the <pre>DirResourceSet</pre> section.
+     * Configuration Reference</a>, in particular the <code>DirResourceSet</code> section.
      */
     protected static final String DIR_RESOURCE_SET =
         "org.apache.catalina.webresources.DirResourceSet";
@@ -41,7 +41,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
     /**
      * For further details, see
      * <a href="http://tomcat.apache.org/tomcat-8.0-doc/config/resources.html">Apache Tomcat 8
-     * Configuration Reference</a>, in particular the <pre>JarResourceSet</pre> section.
+     * Configuration Reference</a>, in particular the <code>JarResourceSet</code> section.
      */
     protected static final String JAR_RESOURCE_SET =
         "org.apache.catalina.webresources.JarResourceSet";
@@ -61,7 +61,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
     /**
      * {@inheritDoc}. For further details, see
      * <a href="http://tomcat.apache.org/tomcat-8.0-doc/config/resources.html">Apache Tomcat 8
-     * Configuration Reference</a>, in particular the <pre>PostResources</pre> section.
+     * Configuration Reference</a>, in particular the <code>PostResources</code> section.
      */
     @Override
     protected String getExtraClasspathToken(WAR deployable)
