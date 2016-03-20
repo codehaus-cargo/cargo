@@ -31,13 +31,17 @@ import org.dom4j.Element;
 public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLocalConfiguration
 {
     /**
-     * @see http://tomcat.apache.org/tomcat-8.0-doc/config/resources.html
+     * For further details, see
+     * <a href="http://tomcat.apache.org/tomcat-8.0-doc/config/resources.html">Apache Tomcat 8
+     * Configuration Reference</a>, in particular the <pre>DirResourceSet</pre> section.
      */
     protected static final String DIR_RESOURCE_SET =
         "org.apache.catalina.webresources.DirResourceSet";
 
     /**
-     * @see http://tomcat.apache.org/tomcat-8.0-doc/config/resources.html
+     * For further details, see
+     * <a href="http://tomcat.apache.org/tomcat-8.0-doc/config/resources.html">Apache Tomcat 8
+     * Configuration Reference</a>, in particular the <pre>JarResourceSet</pre> section.
      */
     protected static final String JAR_RESOURCE_SET =
         "org.apache.catalina.webresources.JarResourceSet";
@@ -55,9 +59,9 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see http://tomcat.apache.org/tomcat-8.0-doc/config/resources.html
+     * {@inheritDoc}. For further details, see
+     * <a href="http://tomcat.apache.org/tomcat-8.0-doc/config/resources.html">Apache Tomcat 8
+     * Configuration Reference</a>, in particular the <pre>PostResources</pre> section.
      */
     @Override
     protected String getExtraClasspathToken(WAR deployable)
