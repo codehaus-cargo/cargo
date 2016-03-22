@@ -36,6 +36,7 @@ import org.codehaus.cargo.container.weblogic.internal.configuration.commands.dep
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.deployment.UndeployDeployableOnlineScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.deployment.UndeployDeployableScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.CreateDomainScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.JtaScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.LoggingScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.ReadDomainOfflineScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.ReadDomainOnlineScriptCommand;
@@ -172,6 +173,14 @@ public class WebLogicWlstConfigurationFactory
     public ScriptCommand sslScript()
     {
         return new SslScriptCommand(configuration, RESOURCE_PATH);
+    }
+
+    /**
+     * @return Configure JTA WLST script.
+     */
+    public ScriptCommand jtaScript()
+    {
+        return new JtaScriptCommand(configuration, RESOURCE_PATH);
     }
 
     /* Deployment configuration*/

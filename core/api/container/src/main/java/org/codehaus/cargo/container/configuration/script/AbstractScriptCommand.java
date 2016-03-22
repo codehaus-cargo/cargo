@@ -91,6 +91,14 @@ public abstract class AbstractScriptCommand implements ScriptCommand
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public boolean isApplicable()
+    {
+        return true;
+    }
+
+    /**
      * @return Relative path to resource being read. 
      */
     protected abstract String getScriptRelativePath();

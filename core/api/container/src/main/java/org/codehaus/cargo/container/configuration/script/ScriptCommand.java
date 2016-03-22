@@ -28,4 +28,12 @@ public interface ScriptCommand
      * @return Filtered script representing this command.
      */
     String readScript();
+
+    /**
+     * Method used for checking if script command can be applied - if it has
+     * all needed parameters set.
+     *
+     * @return True if script command can be applied with existing parameters.
+     */
+    boolean isApplicable();
 }

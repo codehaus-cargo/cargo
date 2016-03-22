@@ -124,6 +124,13 @@ public interface WebLogicPropertySet
     String SSL_HOSTNAME_VERIFIER_CLASS = "cargo.weblogic.ssl.verification.hostname.class";
 
     /**
+     * Timeout for JTA transactions.
+     * If the transaction is still in the "active" state after this time (counting from begin()),
+     * it is automatically rolled back.
+     */
+    String JTA_TRANSACTION_TIMEOUT = "cargo.weblogic.jta.timeout";
+
+    /**
      * Path to local WebLogic home. This property is used in Remote container
      * to gather WLST dependencies needed for remote communication with WebLogic instance.
      *

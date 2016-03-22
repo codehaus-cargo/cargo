@@ -98,6 +98,12 @@ public class WebLogic121xStandaloneLocalConfiguration extends
         // configure SSL
         configurationScript.add(getConfigurationFactory().sslScript());
 
+        // configure JTA
+        if (getConfigurationFactory().jtaScript().isApplicable())
+        {
+            configurationScript.add(getConfigurationFactory().jtaScript());
+        }
+
         // add datasources to script
         for (DataSource dataSource : getDataSources())
         {
