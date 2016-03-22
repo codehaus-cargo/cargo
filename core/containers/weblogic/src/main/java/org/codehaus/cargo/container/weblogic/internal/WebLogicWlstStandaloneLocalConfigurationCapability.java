@@ -52,6 +52,8 @@ public class WebLogicWlstStandaloneLocalConfigurationCapability extends
                 Boolean.TRUE);
         this.propertySupportMap.put(WebLogicPropertySet.SSL_HOSTNAME_VERIFIER_CLASS, Boolean.TRUE);
 
+        this.propertySupportMap.put(WebLogicPropertySet.JTA_TRANSACTION_TIMEOUT, Boolean.TRUE);
+
         // WLST-based configuration doesn't need these anymore
         this.propertySupportMap.remove(WebLogicPropertySet.CONFIGURATION_VERSION);
         this.propertySupportMap.remove(WebLogicPropertySet.DOMAIN_VERSION);
