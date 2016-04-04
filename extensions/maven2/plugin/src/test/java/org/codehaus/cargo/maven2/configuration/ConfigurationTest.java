@@ -154,4 +154,37 @@ public class ConfigurationTest extends TestCase
         assertEquals("type not correct", "someType", r.getType());
     }
 
+    /**
+     * Test adding users to the configuration.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testAddUsers() throws Exception
+    {
+        Configuration configurationElement = new Configuration();
+        configurationElement.setImplementation(StandaloneLocalConfigurationStub.class.getName());
+
+        User user = new User();
+        user.setName("someName");
+        user.setPassword("passW0rd");
+        String[] roles = new String[] {"cargo"};
+        user.setRoles(roles);
+        configurationElement.setUsers(new User[] {user});
+
+        org.codehaus.cargo.container.configuration.Configuration configuration =
+            configurationElement.createConfiguration("testContainer", ContainerType.INSTALLED,
+                null, new CargoProject(
+                    null, null, null, null, null, Collections.<Artifact>emptySet(), null));
+
+        StandaloneLocalConfigurationStub conf = (StandaloneLocalConfigurationStub) configuration;
+        List<org.codehaus.cargo.container.property.User> users = conf.getUsers();
+        assertEquals("users not of correct size", 1, users.size());
+
+        org.codehaus.cargo.container.property.User userProperty = users.get(0);
+        assertEquals("name not correct", "someName", userProperty.getName());
+        assertEquals("password not correct", "passW0rd", userProperty.getPassword());
+
+        assertEquals("roles not of correct size", 1, userProperty.getRoles().size());
+        assertEquals("role not correct", "cargo", userProperty.getRoles().get(0));
+    }
+
 }

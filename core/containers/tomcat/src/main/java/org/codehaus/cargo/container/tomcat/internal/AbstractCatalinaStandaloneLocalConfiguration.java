@@ -357,12 +357,12 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         StringBuilder token = new StringBuilder("");
 
         // Add token filters for authenticated users
-        if (getPropertyValue(ServletPropertySet.USERS) != null)
+        if (!getUsers().isEmpty())
         {
             StringBuilder usersToken = new StringBuilder("");
 
             Set<String> rolesSet = new HashSet<String>();
-            for (User user : User.parseUsers(getPropertyValue(ServletPropertySet.USERS)))
+            for (User user : getUsers())
             {
                 usersToken.append("<user ");
                 usersToken.append("name=\"" + user.getName() + "\" ");

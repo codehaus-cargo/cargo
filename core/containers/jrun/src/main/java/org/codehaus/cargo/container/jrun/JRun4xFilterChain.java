@@ -245,9 +245,9 @@ public class JRun4xFilterChain extends FilterChain
         StringBuilder token = new StringBuilder();
 
         // Add token filters for authenticated users
-        if (getPropertyValue(ServletPropertySet.USERS) != null)
+        if (!configuration.getUsers().isEmpty())
         {
-            for (User user : User.parseUsers(getPropertyValue(ServletPropertySet.USERS)))
+            for (User user : configuration.getUsers())
             {
                 // create user elements
                 Element userElement = DocumentHelper.createDocument().addElement("user");

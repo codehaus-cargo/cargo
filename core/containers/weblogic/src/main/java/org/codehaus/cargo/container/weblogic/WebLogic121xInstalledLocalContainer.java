@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
-import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer;
@@ -124,8 +123,7 @@ public class WebLogic121xInstalledLocalContainer extends
         configurationScript.add(configuration.getConfigurationFactory().readDomainOnlineScript());
 
         Set<String> roles = new HashSet<String>();
-        List<User> users = User.parseUsers(getConfiguration().getPropertyValue(
-            ServletPropertySet.USERS));
+        List<User> users = getConfiguration().getUsers();
         for (User user : users)
         {
             configurationScript.add(configuration.getConfigurationFactory().
