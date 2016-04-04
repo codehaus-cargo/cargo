@@ -290,16 +290,14 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     protected void executePostStartTasks() throws Exception
     {
         if (getConfiguration() instanceof StandaloneLocalConfiguration
-            && getConfiguration().getPropertyValue(ServletPropertySet.USERS) != null)
+            && !getConfiguration().getUsers().isEmpty())
         {
             getLogger().info(
-                "WebLogic startup complete, now creating the users defined using the property "
-                    + ServletPropertySet.USERS, this.getClass().getName());
+                "WebLogic startup complete, now creating users." , this.getClass().getName());
 
             Set<String> roles = new TreeSet<String>();
 
-            for (User user : User.parseUsers(
-                getConfiguration().getPropertyValue(ServletPropertySet.USERS)))
+            for (User user : getConfiguration().getUsers())
             {
                 JvmLauncher java = createJvmLauncher(false);
 
@@ -349,8 +347,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
                 }
             }
 
-            for (User user : User.parseUsers(
-                getConfiguration().getPropertyValue(ServletPropertySet.USERS)))
+            for (User user : getConfiguration().getUsers())
             {
                 for (String role : user.getRoles())
                 {

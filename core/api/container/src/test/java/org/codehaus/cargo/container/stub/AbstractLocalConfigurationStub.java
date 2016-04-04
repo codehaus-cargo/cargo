@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.util.FileHandler;
 
 /**
@@ -56,6 +57,11 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * Datasources to deploy.
      */
     private List<DataSource> dataSources = new ArrayList<DataSource>();
+
+    /**
+     * Users.
+     */
+    private List<User> users = new ArrayList<User>();
 
     /**
      * Empty constructor to allow creating a container with no configuration for test that do not
@@ -145,6 +151,22 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     public List<DataSource> getDataSources()
     {
         return this.dataSources;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void addUser(User user)
+    {
+        this.users.add(user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public List<User> getUsers()
+    {
+        return users;
     }
 
     /**

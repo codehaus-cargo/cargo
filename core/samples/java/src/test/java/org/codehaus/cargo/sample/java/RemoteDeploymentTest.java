@@ -40,7 +40,7 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.jboss.AbstractJBossCapabilityTestCase;
@@ -275,20 +275,20 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
             if (tomcatVersion < 7)
             {
-                this.localContainer.getConfiguration().setProperty(ServletPropertySet.USERS,
-                    "cargo:password:manager");
+                List<User> users = User.parseUsers("cargo:password:manager");
+                this.localContainer.getConfiguration().getUsers().addAll(users);
             }
             else
             {
-                this.localContainer.getConfiguration().setProperty(ServletPropertySet.USERS,
-                    "cargo:password:manager-script");
+                List<User> users = User.parseUsers("cargo:password:manager-script");
+                this.localContainer.getConfiguration().getUsers().addAll(users);
             }
         }
         // TomEE requires the servlet users to have a manager
         else if (getTestData().containerId.startsWith("tomee"))
         {
-            this.localContainer.getConfiguration().setProperty(ServletPropertySet.USERS,
-                "cargo:password:manager-script");
+            List<User> users = User.parseUsers("cargo:password:manager-script");
+            this.localContainer.getConfiguration().getUsers().addAll(users);
         }
 
         this.localContainer.start();

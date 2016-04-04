@@ -37,7 +37,6 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
 
@@ -246,7 +245,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
             getPropertyValue(GeneralPropertySet.RMI_PORT));
 
         // Add token filters for adding users and roles
-        if (getPropertyValue(ServletPropertySet.USERS) != null)
+        if (!getUsers().isEmpty())
         {
             getAntUtils().addTokenToFilterChain(filterChain, "orion.users", getUserToken());
             getAntUtils().addTokenToFilterChain(filterChain, "orion.roles", getRoleToken());
@@ -353,9 +352,9 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
         StringBuilder token = new StringBuilder(" ");
 
         // Add token filters for authenticated users
-        if (getPropertyValue(ServletPropertySet.USERS) != null)
+        if (!getUsers().isEmpty())
         {
-            for (User user : User.parseUsers(getPropertyValue(ServletPropertySet.USERS)))
+            for (User user : getUsers())
             {
                 token.append("<user deactivated=\"false\" ");
                 token.append("username=\"" + user.getName() + "\" ");
@@ -374,7 +373,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
     {
         StringBuilder token = new StringBuilder(" ");
 
-        List<User> users = User.parseUsers(getPropertyValue(ServletPropertySet.USERS));
+        List<User> users = getUsers();
         Map<String, List<User>> roles = User.createRoleMap(users);
 
         for (Map.Entry<String, List<User>> role : roles.entrySet())

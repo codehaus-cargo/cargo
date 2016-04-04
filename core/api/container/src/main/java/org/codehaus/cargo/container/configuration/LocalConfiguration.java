@@ -25,6 +25,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.util.FileHandler;
 
 /**
@@ -97,6 +98,18 @@ public interface LocalConfiguration extends Configuration
      * started.
      */
     List<Resource> getResources();
+
+    /**
+     * Add user to container.
+     *
+     * @param user the {@link User} to add.
+     */
+    void addUser(User user);
+
+    /**
+     * @return the list of {@link User}s that are going to be added to the container.
+     */
+    List<User> getUsers();
 
     /**
      * Add data source the container can take advantage of.

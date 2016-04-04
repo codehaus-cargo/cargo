@@ -199,7 +199,7 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
     @Override
     protected void setSecurityRealm() throws Exception
     {
-        if (getConfiguration().getPropertyValue(ServletPropertySet.USERS) != null)
+        if (!getConfiguration().getUsers().isEmpty())
         {
             Class realmClass =
                 // see: http://wiki.eclipse.org/Jetty/Starting/Porting_to_Jetty_7
@@ -208,8 +208,7 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
                 realmClass.getConstructor(new Class[] {String.class}).newInstance(
                     new Object[] {"Cargo Test Realm"});
 
-            for (User user : User.parseUsers(getConfiguration().getPropertyValue(
-                ServletPropertySet.USERS)))
+            for (User user : getConfiguration().getUsers())
             {
                 String userName = user.getName();
                 Class credentialClass;

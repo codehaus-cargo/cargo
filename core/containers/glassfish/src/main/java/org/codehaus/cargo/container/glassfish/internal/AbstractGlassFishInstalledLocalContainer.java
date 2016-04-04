@@ -235,11 +235,11 @@ public abstract class AbstractGlassFishInstalledLocalContainer
                 }
                 
                 // CARGO-1246: Create file users
-                String servletUsers = getConfiguration().getPropertyValue(ServletPropertySet.USERS);
-                if (servletUsers != null) 
+                List<User> servletUsers = getConfiguration().getUsers();
+                if (!servletUsers.isEmpty())
                 {
                     deployer.activateDefaultPrincipalToRoleMapping();
-                    for (final User user : User.parseUsers(servletUsers))
+                    for (final User user : servletUsers)
                     {
                         deployer.createFileUser(user);
                     }
