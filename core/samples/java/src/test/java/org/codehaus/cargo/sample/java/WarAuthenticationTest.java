@@ -21,6 +21,7 @@ package org.codehaus.cargo.sample.java;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.Test;
@@ -29,7 +30,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.validator.HasAuthenticationSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
@@ -87,8 +88,8 @@ public class WarAuthenticationTest extends AbstractCargoTestCase
         getLocalContainer().getConfiguration().addDeployable(war);
 
         // Add authentication data
-        getLocalContainer().getConfiguration().setProperty(ServletPropertySet.USERS,
-            "someone:p@ssw0rd:cargo");
+        List<User> users = User.parseUsers("someone:p@ssw0rd:cargo");
+        getLocalContainer().getConfiguration().getUsers().addAll(users);
 
         URL warPingURL =
             new URL("http://localhost:" + getTestData().port + "/authentication-war/test");

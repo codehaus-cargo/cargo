@@ -34,7 +34,6 @@ import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
 import org.codehaus.cargo.container.internal.util.HttpUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration;
@@ -150,8 +149,7 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
         WebSphereConfiguration configuration = (WebSphereConfiguration) getConfiguration();
 
         // add users and groups
-        List<User> users = User.parseUsers(getConfiguration().getPropertyValue(
-                ServletPropertySet.USERS));
+        List<User> users = getConfiguration().getUsers();
         for (User user : users)
         {
             configurationScript.addAll(configuration.getFactory().createUserScript(user));

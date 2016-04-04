@@ -353,7 +353,7 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
      */
     protected void setSecurityRealm() throws Exception
     {
-        if (getConfiguration().getPropertyValue(ServletPropertySet.USERS) != null)
+        if (!getConfiguration().getUsers().isEmpty())
         {
             Class realmClass =
                 getClassLoader().loadClass("org.mortbay.jetty.security.HashUserRealm");
@@ -361,8 +361,7 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
                 realmClass.getConstructor(new Class[] {String.class}).newInstance(
                     new Object[] {"Cargo Test Realm"});
 
-            for (User user : User.parseUsers(getConfiguration().getPropertyValue(
-                ServletPropertySet.USERS)))
+            for (User user : getConfiguration().getUsers())
             {
                 this.defaultRealm.getClass().getMethod("put",
                     new Class[] {Object.class, Object.class}).invoke(this.defaultRealm,

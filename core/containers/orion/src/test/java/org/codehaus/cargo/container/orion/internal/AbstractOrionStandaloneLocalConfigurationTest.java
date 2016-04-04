@@ -19,12 +19,14 @@
  */
 package org.codehaus.cargo.container.orion.internal;
 
+import java.util.List;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.orion.Oc4j9xStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfigurationWithConfigurationBuilderTest;
 import org.codehaus.cargo.util.Dom4JUtil;
 import org.dom4j.Document;
@@ -75,7 +77,8 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
      */
     public void testGetRoleToken()
     {
-        configuration.setProperty(ServletPropertySet.USERS, "u1:p1:r1,r2|u2:p2:r2,r3");
+        List<User> users = User.parseUsers("u1:p1:r1,r2|u2:p2:r2,r3");
+        configuration.getUsers().addAll(users);
 
         String token = ((AbstractOrionStandaloneLocalConfiguration) configuration).getRoleToken();
         assertTrue(token.contains("<security-role-mapping name=\"r1\">"
@@ -91,7 +94,8 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
      */
     public void testGetUserToken()
     {
-        configuration.setProperty(ServletPropertySet.USERS, "u1:p1:r1,r2|u2:p2:r2,r3");
+        List<User> users = User.parseUsers("u1:p1:r1,r2|u2:p2:r2,r3");
+        configuration.getUsers().addAll(users);
 
         String token = ((AbstractOrionStandaloneLocalConfiguration) configuration).getUserToken();
         assertEquals(" " + "<user deactivated=\"false\" username=\"u1\" password=\"p1\"/>"
@@ -209,5 +213,4 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     {
         // Nothing
     }
-
 }
