@@ -94,6 +94,11 @@ public class ConfigurationElement
     private List<XmlReplacement> xmlReplacements = new ArrayList<XmlReplacement>();
 
     /**
+     * List of users
+     */
+    private List<UserElement> users = new ArrayList<UserElement>();
+
+    /**
      * @param configurationClass the configuration class to associate to the containing container
      */
     public void setClass(Class configurationClass)
@@ -207,6 +212,22 @@ public class ConfigurationElement
     protected List<XmlReplacement> getXmlReplacements()
     {
         return this.xmlReplacements;
+    }
+
+    /**
+     * @param userElement the nested user element
+     */
+    public void addConfiguredUser(UserElement userElement)
+    {
+        this.users.add(userElement);
+    }
+
+    /**
+     * @return the nested user elements
+     */
+    protected List<UserElement> getUsers()
+    {
+        return this.users;
     }
 
     /**
@@ -333,11 +354,20 @@ public class ConfigurationElement
                     localConfiguration.setConfigFileProperty(configfile);
                 }
             }
+
             if (getFiles() != null)
             {
                 for (FileConfig file : getFiles())
                 {
                     localConfiguration.setFileProperty(file);
+                }
+            }
+
+            if (getUsers() != null)
+            {
+                for (UserElement user : getUsers())
+                {
+                    localConfiguration.addUser(user.createUser());
                 }
             }
         }
