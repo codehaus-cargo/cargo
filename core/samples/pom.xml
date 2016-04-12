@@ -305,7 +305,7 @@
 
               <property>
                 <name>cargo.tomcat7x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.68/bin/apache-tomcat-7.0.68.zip</value>
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.68/tomcat-7.0.68.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat7x.java.home</name>
@@ -314,7 +314,7 @@
 
               <property>
                 <name>cargo.tomcat8x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.33/bin/apache-tomcat-8.0.33.zip</value>
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.0.33/tomcat-8.0.33.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat8x.java.home</name>
@@ -1034,7 +1034,7 @@
   
               <property>
                 <name>cargo.tomee1x.url</name>
-                <value>http://archive.apache.org/dist/tomee/tomee-1.7.3/apache-tomee-1.7.3-plus.zip</value>
+                <value>http://archive.apache.org/dist/tomee/tomee-1.7.4/apache-tomee-1.7.4-plus.zip</value>
               </property>
               <property>
                 <name>cargo.tomee1x.java.home</name>
