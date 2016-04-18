@@ -305,7 +305,7 @@
 
               <property>
                 <name>cargo.tomcat7x.url</name>
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.68/tomcat-7.0.68.zip</value>
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.69/tomcat-7.0.69.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat7x.java.home</name>
