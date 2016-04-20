@@ -75,21 +75,34 @@ public class JBoss75xStandaloneLocalConfiguration extends JBoss73xStandaloneLoca
         super.doConfigure(c);
 
         // Configure resources
-        addResources();
+        addResources((JBoss7xInstalledLocalContainer) c);
     }
 
     /**
      * Add resources to JBoss domain
+     * @param container JBoss container
      */
-    protected void addResources()
+    protected void addResources(JBoss7xInstalledLocalContainer container)
     {
+        String version = container.getVersion("7.5.7.Final");
+        String microVersion = version.
+                substring(version.indexOf(".", 2) + 1, version.indexOf(".", 4));
+        int microVersionValue = Integer.parseInt(microVersion);
+
         String configurationXmlFile = "configuration/"
             + getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml";
 
         // Create resources - so far just Email resource
         Map<String, String> ns = new HashMap<String, String>();
-        ns.put("domain", "urn:jboss:domain:1.7");
         ns.put("mail", "urn:jboss:domain:mail:1.2");
+        if (microVersionValue >= 7)
+        {
+            ns.put("domain", "urn:jboss:domain:1.8");
+        }
+        else
+        {
+            ns.put("domain", "urn:jboss:domain:1.7");
+        }
 
         String configurationXmlFilePath = getFileHandler().append(getHome(), configurationXmlFile);
 
