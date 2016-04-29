@@ -32,6 +32,7 @@ import org.codehaus.cargo.sample.java.validator.HasEarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
+import org.junit.Assume;
 
 /**
  * Test for EAR support.
@@ -84,11 +85,8 @@ public class EarCapabilityContainerTest extends AbstractCargoTestCase
      */
     public void testStartWithOneEmptyEarDeployed() throws Exception
     {
-        if (getContainer().getId().startsWith("geronimo"))
-        {
-            // The Apache Geronimo server doesn't like empty EARs
-            return;
-        }
+        // The Apache Geronimo server doesn't like empty EARs
+        Assume.assumeFalse(getContainer().getId().startsWith("geronimo"));
 
         Deployable ear = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
             getTestData().getTestDataFileFor("empty-ear"), DeployableType.EAR);

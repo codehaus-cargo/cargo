@@ -54,6 +54,7 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
+import org.junit.Assume;
 
 /**
  * Test for remote deployment.
@@ -322,12 +323,9 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         deployer.deploy(this.war);
         PingUtils.assertPingTrue("simple war not correctly redeployed", warPingURL, getLogger());
 
-        if ("jonas4x".equals(getTestData().containerId))
-        {
-            // JOnAS 4.x has trouble redeploying modified WARs,
-            // applications indeed need to be EARs in order to be successfully redeployed
-            return;
-        }
+        // JOnAS 4.x has trouble redeploying modified WARs,
+        // applications indeed need to be EARs in order to be successfully redeployed
+        Assume.assumeFalse("jonas4x".equals(getTestData().containerId));
 
         // Redeploy the WAR after modifying its content
         Deployable modifiedDeployable = modifyWar(this.war);
@@ -348,12 +346,9 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
      */
     public void testChangeWarContextAndDeployUndeployRemotely() throws Exception
     {
-        if (getTestData().containerId.startsWith("weblogic"))
-        {
-            // WebLogic retrieve WAR context from file name,
-            // cannot be tested on context change.
-            return;
-        }
+        // WebLogic retrieve WAR context from file name,
+        // cannot be tested on context change.
+        Assume.assumeFalse(getTestData().containerId.startsWith("weblogic"));
 
         this.war.setContext("simple");
 
