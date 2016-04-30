@@ -20,9 +20,9 @@
 package org.codehaus.cargo.sample.java;
 
 import junit.framework.Test;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
-
 import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
