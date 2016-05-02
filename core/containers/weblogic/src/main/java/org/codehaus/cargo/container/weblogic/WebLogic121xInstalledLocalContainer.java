@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.weblogic;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -122,19 +121,8 @@ public class WebLogic121xInstalledLocalContainer extends
 
         configurationScript.add(configuration.getConfigurationFactory().readDomainOnlineScript());
 
-        Set<String> roles = new HashSet<String>();
         List<User> users = getConfiguration().getUsers();
-        for (User user : users)
-        {
-            configurationScript.add(configuration.getConfigurationFactory().
-                    createUserScript(user));
-
-            for (String role : user.getRoles())
-            {
-                roles.add(role);
-            }
-        }
-
+        Set<String> roles = User.createRoleMap(users).keySet();
         for (String role : roles)
         {
             configurationScript.add(configuration.getConfigurationFactory().
@@ -143,8 +131,14 @@ public class WebLogic121xInstalledLocalContainer extends
 
         for (User user : users)
         {
-            configurationScript.addAll(configuration.getConfigurationFactory().
-                    addUserToGroupsScript(user));
+            // WebLogic cannot create user with same name as existing role
+            if (!roles.contains(user.getName()))
+            {
+                configurationScript.add(configuration.getConfigurationFactory().
+                        createUserScript(user));
+                configurationScript.addAll(configuration.getConfigurationFactory().
+                        addUserToGroupsScript(user));
+            }
         }
 
         configurationScript.add(configuration.getConfigurationFactory().updateDomainOnlineScript());
