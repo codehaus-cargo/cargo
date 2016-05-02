@@ -38,6 +38,7 @@ import org.codehaus.cargo.container.weblogic.internal.configuration.commands.dep
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.CreateDomainScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.JtaScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.LoggingScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.PasswordValidatorScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.ReadDomainOfflineScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.ReadDomainOnlineScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain.ShutdownDomainScriptCommand;
@@ -181,6 +182,14 @@ public class WebLogicWlstConfigurationFactory
     public ScriptCommand jtaScript()
     {
         return new JtaScriptCommand(configuration, RESOURCE_PATH);
+    }
+
+    /**
+     * @return Configure password validator script.
+     */
+    public ScriptCommand passwordValidatorScript()
+    {
+        return new PasswordValidatorScriptCommand(configuration, RESOURCE_PATH);
     }
 
     /* Deployment configuration*/
