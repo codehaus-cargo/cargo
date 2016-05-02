@@ -17,56 +17,30 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.weblogic.internal.configuration.commands.user;
-
-import java.util.Map;
+package org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
-import org.codehaus.cargo.container.internal.util.JythonUtils;
-import org.codehaus.cargo.container.property.User;
 
 /**
- * Implementation of create user configuration script command.
+ * Implementation of setting of password validator.
  */
-public class CreateUserScriptCommand extends AbstractScriptCommand
+public class PasswordValidatorScriptCommand extends AbstractScriptCommand
 {
-
-    /**
-     * User.
-     */
-    private User user;
-
     /**
      * Sets configuration containing all needed information for building configuration scripts.
      *
      * @param configuration Container configuration.
      * @param resourcePath Path to configuration script resources.
-     * @param user User.
      */
-    public CreateUserScriptCommand(Configuration configuration, String resourcePath, User user)
+    public PasswordValidatorScriptCommand(Configuration configuration, String resourcePath)
     {
         super(configuration, resourcePath);
-        this.user = user;
     }
 
     @Override
     protected String getScriptRelativePath()
     {
-        return "user/create-user.py";
-    }
-
-    @Override
-    protected void addConfigurationScriptProperties(Map<String, String> propertiesMap)
-    {
-        propertiesMap.put("cargo.weblogic.user.name", user.getName());
-
-        String escapedPassword = JythonUtils.escapeStringLiteral(user.getPassword());
-        propertiesMap.put("cargo.weblogic.user.password", escapedPassword);
-
-        LocalConfiguration configuration = (LocalConfiguration) getConfiguration();
-        String domainName = configuration.getFileHandler().getName(configuration.getHome());
-        propertiesMap.put("cargo.weblogic.domain.name", domainName);
+        return "domain/password-validator.py";
     }
 }

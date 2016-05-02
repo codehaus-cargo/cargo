@@ -66,6 +66,8 @@ public class WebLogic121xStandaloneLocalConfiguration extends
         setProperty(WebLogicPropertySet.LOG_ROTATION_TYPE, "none");
         setProperty(WebLogicPropertySet.SSL_HOSTNAME_VERIFICATION_IGNORED, "true");
         setProperty(WebLogicPropertySet.SSL_HOSTNAME_VERIFIER_CLASS, "None");
+        setProperty(WebLogicPropertySet.PASSWORD_LENGTH_MIN, "8");
+        setProperty(WebLogicPropertySet.PASSWORD_SPNUM_MIN, "1");
     }
 
     /**
@@ -103,6 +105,9 @@ public class WebLogic121xStandaloneLocalConfiguration extends
         {
             configurationScript.add(getConfigurationFactory().jtaScript());
         }
+
+        // configure password validator
+        configurationScript.add(getConfigurationFactory().passwordValidatorScript());
 
         // add datasources to script
         for (DataSource dataSource : getDataSources())

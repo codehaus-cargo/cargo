@@ -137,4 +137,16 @@ public interface WebLogicPropertySet
      * WebLogic needs to be installed locally even for remote calls.
      */
     String LOCAL_WEBLOGIC_HOME = "cargo.weblogic.installation.home";
+
+    /**
+     * Minimal length of user password - number.
+     * Used when configuring new users.
+     */
+    String PASSWORD_LENGTH_MIN = "cargo.weblogic.password.length.min";
+
+    /**
+     * Minimal number of numeric or special characters in password - number.
+     * Used when configuring new users.
+     */
+    String PASSWORD_SPNUM_MIN = "cargo.weblogic.password.spnum.min";
 }
