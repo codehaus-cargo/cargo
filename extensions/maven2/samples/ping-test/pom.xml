@@ -61,7 +61,17 @@
                 <context>/ping-test</context>
               </properties>
               <pingURL>http://localhost:${cargo.samples.servlet.port}/ping-test/</pingURL>
-              <pingTimeout>30000</pingTimeout>
+              <pingTimeout>10000</pingTimeout>
+            </deployable>
+            <deployable>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-sample-maven2-ping-test</artifactId>
+              <type>war</type>
+              <properties>
+                <context>/ping-test-URL-path</context>
+              </properties>
+              <pingUrlPath>/ping-test-URL-path</pingUrlPath>
+              <pingTimeout>10000</pingTimeout>
             </deployable>
           </deployables>
         </configuration>

@@ -95,7 +95,7 @@ public class ContainerRunMojo extends ContainerStartMojo
         try
         {
             executeLocalContainerAction();
-            waitDeployableMonitor(true);
+            waitDeployableMonitor(localContainer, true);
         }
         catch (Throwable t)
         {

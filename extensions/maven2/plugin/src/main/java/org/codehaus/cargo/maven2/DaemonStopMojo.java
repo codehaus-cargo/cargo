@@ -41,6 +41,6 @@ public class DaemonStopMojo extends AbstractDaemonMojo
             throw new MojoExecutionException(e.toString());
         }
 
-        waitDeployableMonitor(false);
+        waitDeployableMonitor(daemonContainer, false);
     }
 }

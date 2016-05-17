@@ -76,6 +76,11 @@ public class Deployable extends AbstractDependency
     private URL pingURL;
 
     /**
+     * Ping URL path.
+     */
+    private String pingUrlPath;
+
+    /**
      * Ping timeout.
      */
     private Long pingTimeout;
@@ -112,6 +117,14 @@ public class Deployable extends AbstractDependency
     public URL getPingURL()
     {
         return this.pingURL;
+    }
+
+    /**
+     * @return Ping URL path.
+     */
+    public String getPingUrlPath()
+    {
+        return this.pingUrlPath;
     }
 
     /**

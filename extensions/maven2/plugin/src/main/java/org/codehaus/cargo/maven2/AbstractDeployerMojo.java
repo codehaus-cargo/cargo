@@ -19,17 +19,17 @@
  */
 package org.codehaus.cargo.maven2;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.DeployableMonitorListener;
-import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
 import org.codehaus.cargo.maven2.configuration.Deployable;
+import org.codehaus.cargo.maven2.deployer.DefaultDeployableMonitorFactory;
+import org.codehaus.cargo.maven2.deployer.DeployableMonitorFactory;
 
 /**
  * Common mojo for all deployer actions (start deployable, stop deployable, deploy deployable,
@@ -160,9 +160,10 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
         {
             org.codehaus.cargo.container.deployable.Deployable deployable =
                 deployableElement.createDeployable(container.getId(), getCargoProject());
-            URL pingURL = deployableElement.getPingURL();
-            Long pingTimeout = deployableElement.getPingTimeout();
-            performDeployerActionOnSingleDeployable(deployer, deployable, pingURL, pingTimeout);
+            DeployableMonitor monitor = createDeployableMonitor(container, deployableElement,
+                    deployable);
+
+            performDeployerActionOnSingleDeployable(deployer, deployable, monitor);
         }
 
         // Perform deployment action on the autodeployable (if any).
@@ -173,11 +174,10 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
 
             if (!containsAutoDeployable(deployableElementsArray))
             {
-                // The ping URL is always null here because if the user has specified a ping URL
-                // then the auto deployable has already been deployed as it's been explicitely
-                // specified by the user...
+                // Deployable monitor is always null here because if the user has explicitly
+                // specified deployable then the auto deployable has already been deployed...
                 performDeployerActionOnSingleDeployable(deployer,
-                    createAutoDeployDeployable(container), null, null);
+                    createAutoDeployDeployable(container), null);
             }
         }
     }
@@ -186,35 +186,35 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
      * Perform a deployer action on a single deployable.
      * @param deployer Deployer.
      * @param deployable Deployable.
-     * @param pingURL Application ping URL.
-     * @param pingTimeout Timeout (milliseconds).
+     * @param monitor Deployable monitor.
      */
     protected abstract void performDeployerActionOnSingleDeployable(
         org.codehaus.cargo.container.deployer.Deployer deployer,
-        org.codehaus.cargo.container.deployable.Deployable deployable, URL pingURL,
-        Long pingTimeout);
+        org.codehaus.cargo.container.deployable.Deployable deployable,
+        org.codehaus.cargo.container.deployer.DeployableMonitor monitor);
 
     /**
      * Create a deployable monitor.
-     * @param pingURL Ping URL.
-     * @param pingTimeout Ping timeout (milliseconds).
-     * @param deployable {@link Deployable} to monitor.
+     * @param container Container where is deployable deployed.
+     * @param deployableElement {@link Deployable} containing monitoring info.
+     * @param deployable {@link org.codehaus.cargo.container.deployable.Deployable} to monitor.
      * @return Deployable monitor with specified arguments.
      */
-    protected DeployableMonitor createDeployableMonitor(URL pingURL, Long pingTimeout,
-        org.codehaus.cargo.container.deployable.Deployable deployable)
+    private DeployableMonitor createDeployableMonitor(
+            org.codehaus.cargo.container.Container container,
+            Deployable deployableElement,
+            org.codehaus.cargo.container.deployable.Deployable deployable)
     {
-        DeployableMonitor monitor;
-        if (pingTimeout == null)
+        DeployableMonitorFactory monitorFactory = new DefaultDeployableMonitorFactory();
+        DeployableMonitor monitor = monitorFactory.
+                createDeployableMonitor(container, deployableElement);
+
+        if (monitor != null)
         {
-            monitor = new URLDeployableMonitor(pingURL);
+            DeployerListener listener = new DeployerListener(deployable);
+            monitor.registerListener(listener);
         }
-        else
-        {
-            monitor = new URLDeployableMonitor(pingURL, pingTimeout.longValue());
-        }
-        DeployerListener listener = new DeployerListener(deployable);
-        monitor.registerListener(listener);
+
         return monitor;
     }
 }
