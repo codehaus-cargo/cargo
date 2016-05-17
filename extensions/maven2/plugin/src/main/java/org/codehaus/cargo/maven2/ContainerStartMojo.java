@@ -57,7 +57,7 @@ public class ContainerStartMojo extends AbstractCargoMojo
         try
         {
             executeLocalContainerAction();
-            waitDeployableMonitor(true);
+            waitDeployableMonitor(localContainer, true);
         }
         catch (Throwable t1)
         {

@@ -20,25 +20,16 @@
 package org.codehaus.cargo.container.deployer;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.codehaus.cargo.container.internal.util.HttpUtils;
-import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
  * Monitor that verifies if a {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
  * by pinging a URL provided by the user.
  * 
  */
-public class URLDeployableMonitor extends LoggedObject implements DeployableMonitor
+public class URLDeployableMonitor extends AbstractDeployableMonitor
 {
-    /**
-     * List of {@link DeployableMonitorListener} that we will notify when the
-     * {@link org.codehaus.cargo.container.deployable.Deployable} is deployed or undeployed.
-     */
-    private List<DeployableMonitorListener> listeners;
-
     /**
      * The URL to ping.
      */
@@ -47,12 +38,7 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
     /**
      * Useful HTTP methods (specifically the ping method).
      */
-    private HttpUtils httpUtils;
-
-    /**
-     * The timeout after which we stop waiting for deployment.
-     */
-    private long timeout;
+    private HttpUtils httpUtils = new HttpUtils();
 
     /**
      * String that must be contained in the HTTP response.
@@ -65,7 +51,8 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
      */
     public URLDeployableMonitor(URL pingURL)
     {
-        this(pingURL, 20000L);
+        super();
+        this.pingURL = pingURL;
     }
 
     /**
@@ -75,7 +62,8 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
      */
     public URLDeployableMonitor(URL pingURL, long timeout)
     {
-        this(pingURL, timeout, null);
+        super(timeout);
+        this.pingURL = pingURL;
     }
 
     /**
@@ -86,9 +74,7 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
      */
     public URLDeployableMonitor(URL pingURL, long timeout, String contains)
     {
-        this.listeners = new ArrayList<DeployableMonitorListener>();
-        this.httpUtils = new HttpUtils();
-        this.timeout = timeout;
+        super(timeout);
         this.pingURL = pingURL;
         this.contains = contains;
     }
@@ -103,21 +89,12 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
     }
 
     /**
-     * {@inheritDoc}
-     * @see DeployableMonitor#registerListener(DeployableMonitorListener)
-     */
-    public void registerListener(DeployableMonitorListener listener)
-    {
-        this.listeners.add(listener);
-    }
-
-    /**
      * @see DeployableMonitor#monitor()
      */
     public void monitor()
     {
         getLogger().debug("Checking URL [" + this.pingURL + "] for status using a timeout of ["
-            + this.timeout + "] ms...", this.getClass().getName());
+            + getTimeout() + "] ms...", this.getClass().getName());
 
         // We check if the deployable is servicing requests by pinging a URL specified by the user
         HttpUtils.HttpResult results = new HttpUtils.HttpResult();
@@ -138,28 +115,6 @@ public class URLDeployableMonitor extends LoggedObject implements DeployableMoni
         }
         getLogger().debug(msg, this.getClass().getName());
 
-        for (DeployableMonitorListener listener : listeners)
-        {
-            getLogger().debug("Notifying monitor listener [" + listener + "]",
-                this.getClass().getName());
-
-            if (isDeployed)
-            {
-                listener.deployed();
-            }
-            else
-            {
-                listener.undeployed();
-            }
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see DeployableMonitor#getTimeout()
-     */
-    public long getTimeout()
-    {
-        return this.timeout;
+        notifyListeners(isDeployed);
     }
 }

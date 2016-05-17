@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.maven2;
 
-import java.net.URL;
-
 import junit.framework.TestCase;
 
 import org.codehaus.cargo.container.deployer.DeployerType;
@@ -54,8 +52,8 @@ public class DeployerMojoTest extends TestCase
         @Override
         protected void performDeployerActionOnSingleDeployable(
             org.codehaus.cargo.container.deployer.Deployer deployer,
-            org.codehaus.cargo.container.deployable.Deployable deployable, URL pingURL,
-            Long pingTimeout)
+            org.codehaus.cargo.container.deployable.Deployable deployable,
+            org.codehaus.cargo.container.deployer.DeployableMonitor monitor)
         {
             // Do nothing voluntarily for testing
         }

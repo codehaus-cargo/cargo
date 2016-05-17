@@ -17,35 +17,26 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.maven2;
+package org.codehaus.cargo.maven2.deployer;
 
-import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.container.Container;
-import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.deployer.DeployableMonitor;
+import org.codehaus.cargo.maven2.configuration.Deployable;
 
 /**
- * Stop a running container using Cargo.
- * 
- * @goal stop
- * @requiresDependencyResolution test
+ * Create a {@link DeployableMonitor} knowing how to check status of deployable.
  */
-public class ContainerStopMojo extends AbstractCargoMojo
+public interface DeployableMonitorFactory
 {
+
     /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.maven2.AbstractCargoMojo#doExecute()
+     * Create a {@link DeployableMonitor} instance which is able to check status of deployable
+     * using passed parameters, for example if Deployable has complete URL defined then is used
+     * URLDeployableMonitor.
+     * 
+     * @param container The container for which we need to check status of deployable.
+     * @param deployable The deployable to be checked.
+     * @return the deployable monitor instance
      */
-    @Override
-    public void doExecute() throws MojoExecutionException
-    {
-        Container container = createContainer();
-
-        if (!container.getType().isLocal())
-        {
-            throw new MojoExecutionException("Only local containers can be stopped");
-        }
-
-        ((LocalContainer) container).stop();
-        waitDeployableMonitor(container, false);
-    }
+    DeployableMonitor createDeployableMonitor(Container container, Deployable deployable);
 }

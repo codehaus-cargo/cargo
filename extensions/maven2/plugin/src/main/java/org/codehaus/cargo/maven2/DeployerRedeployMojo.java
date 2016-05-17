@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.maven2;
 
-import java.net.URL;
-
 /**
  * Redeploy a deployable (i.e. undeploy and deploy it again) in a container.
  * 
@@ -33,16 +31,15 @@ public class DeployerRedeployMojo extends AbstractDeployerMojo
     protected void performDeployerActionOnSingleDeployable(
         org.codehaus.cargo.container.deployer.Deployer deployer,
         org.codehaus.cargo.container.deployable.Deployable deployable,
-        URL pingURL, Long pingTimeout)
+        org.codehaus.cargo.container.deployer.DeployableMonitor monitor)
     {
         getLog().debug("Redeploying [" + deployable.getFile() + "]"
-            + (pingURL == null ? " ..." : " using ping URL [" + pingURL + "]"
-                + (pingTimeout == null ? "" : " and ping timeout [" + pingTimeout + "]")));
+            + (monitor == null ? " ..." : " with deployable Id [" + monitor.getDeployableName()
+                + "] and timeout [" + monitor.getTimeout() + "]"));
 
-        if (pingURL != null)
+        if (monitor != null)
         {
-            deployer.redeploy(deployable, createDeployableMonitor(pingURL, pingTimeout,
-                deployable));
+            deployer.redeploy(deployable, monitor);
         }
         else
         {

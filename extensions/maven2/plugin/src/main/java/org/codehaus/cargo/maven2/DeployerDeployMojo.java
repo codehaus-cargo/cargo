@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.maven2;
 
-import java.net.URL;
-
 /**
  * Deploy a deployable to a container.
  * 
@@ -29,26 +27,19 @@ import java.net.URL;
  */
 public class DeployerDeployMojo extends AbstractDeployerMojo
 {
-    /**
-     * {@inheritDoc}.
-     * @param deployer Deployer.
-     * @param deployable Deployable.
-     * @param pingURL Application ping URL.
-     * @param pingTimeout Timeout (milliseconds).
-     */
     @Override
     protected void performDeployerActionOnSingleDeployable(
         org.codehaus.cargo.container.deployer.Deployer deployer,
-        org.codehaus.cargo.container.deployable.Deployable deployable, URL pingURL,
-        Long pingTimeout)
+        org.codehaus.cargo.container.deployable.Deployable deployable,
+        org.codehaus.cargo.container.deployer.DeployableMonitor monitor)
     {
         getLog().debug("Deploying [" + deployable.getFile() + "]"
-            + (pingURL == null ? " ..." : " using ping URL [" + pingURL + "]"
-                + (pingTimeout == null ? "" : " and ping timeout [" + pingTimeout + "]")));
+            + (monitor == null ? " ..." : " with deployable Id [" + monitor.getDeployableName()
+                + "] and timeout [" + monitor.getTimeout() + "]"));
 
-        if (pingURL != null)
+        if (monitor != null)
         {
-            deployer.deploy(deployable, createDeployableMonitor(pingURL, pingTimeout, deployable));
+            deployer.deploy(deployable, monitor);
         }
         else
         {

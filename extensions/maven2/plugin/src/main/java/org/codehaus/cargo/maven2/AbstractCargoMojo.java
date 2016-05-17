@@ -50,7 +50,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
-import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.maven2.configuration.ArtifactInstaller;
@@ -60,6 +59,8 @@ import org.codehaus.cargo.maven2.configuration.Daemon;
 import org.codehaus.cargo.maven2.configuration.Deployable;
 import org.codehaus.cargo.maven2.configuration.Deployer;
 import org.codehaus.cargo.maven2.configuration.ZipUrlInstaller;
+import org.codehaus.cargo.maven2.deployer.DefaultDeployableMonitorFactory;
+import org.codehaus.cargo.maven2.deployer.DeployableMonitorFactory;
 import org.codehaus.cargo.maven2.log.MavenLogger;
 import org.codehaus.cargo.maven2.util.CargoProject;
 import org.codehaus.cargo.maven2.util.EmbeddedContainerArtifactResolver;
@@ -979,11 +980,14 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * Waits until all deployables with a deployable monitor are deployed / undeployed.
-     * 
+     *
+     * @param container Container where is deployable deployed.
      * @param starting <code>true</code> if container is starting (i.e., wait for deployment),
      * <code>false</code> otherwise.
      */
-    protected void waitDeployableMonitor(boolean starting)
+    protected void waitDeployableMonitor(
+            org.codehaus.cargo.container.Container container,
+            boolean starting)
     {
         if (getDeployablesElement() != null)
         {
@@ -991,19 +995,12 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
             for (Deployable deployable : getDeployablesElement())
             {
-                URL pingURL = deployable.getPingURL();
-                if (pingURL != null)
+                DeployableMonitorFactory monitorFactory = new DefaultDeployableMonitorFactory();
+                DeployableMonitor monitor = monitorFactory.
+                        createDeployableMonitor(container, deployable);
+
+                if (monitor != null)
                 {
-                    DeployableMonitor monitor;
-                    Long pingTimeout = deployable.getPingTimeout();
-                    if (pingTimeout == null)
-                    {
-                        monitor = new URLDeployableMonitor(pingURL);
-                    }
-                    else
-                    {
-                        monitor = new URLDeployableMonitor(pingURL, pingTimeout.longValue());
-                    }
                     DeployerWatchdog watchdog = new DeployerWatchdog(monitor);
                     watchdog.setLogger(watchdogLogger);
                     monitor.setLogger(watchdogLogger);
