@@ -75,6 +75,10 @@ public class ProcessExecutor
         {
             throw new CargoException("Error invoking command!", e);
         }
+        finally
+        {
+            executorService.shutdown();
+        }
     }
 
     /**
