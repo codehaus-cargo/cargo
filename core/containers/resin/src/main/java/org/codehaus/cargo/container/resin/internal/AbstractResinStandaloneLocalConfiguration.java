@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.resin.ResinInstalledLocalDeployer;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
@@ -166,9 +165,9 @@ public abstract class AbstractResinStandaloneLocalConfiguration extends
         StringBuilder token = new StringBuilder(" ");
 
         // Add token filters for authenticated users
-        if (getPropertyValue(ServletPropertySet.USERS) != null)
+        if (!getUsers().isEmpty())
         {
-            for (User user : User.parseUsers(getPropertyValue(ServletPropertySet.USERS)))
+            for (User user : getUsers())
             {
                 token.append(prefix);
                 token.append(user.getName());

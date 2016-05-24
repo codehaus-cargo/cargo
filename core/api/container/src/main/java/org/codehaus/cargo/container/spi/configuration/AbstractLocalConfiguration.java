@@ -41,7 +41,9 @@ import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ResourceConverter;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.TransactionSupport;
+import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
@@ -116,6 +118,11 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     private List<DataSource> dataSources;
 
     /**
+     * List of {@link User}s to add to a container.
+     */
+    private List<User> users;
+
+    /**
      * @param home the home directory where the container will be set up to start and where it will
      * deploy its deployables. <b>IMPORTANT</b>: While some containers can deal with this parameter
      * being set as a relative path, some others require this path to be set to an absolute
@@ -134,6 +141,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
         this.resources = new ArrayList<Resource>();
         this.dataSources = new ArrayList<DataSource>();
         this.files = new ArrayList<FileConfig>();
+        this.users = new ArrayList<User>();
 
         this.home = home;
 
@@ -527,6 +535,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     {
         addResourcesFromProperties();
         addDataSourcesFromProperties();
+        addUsersFromProperties();
     }
 
     /**
@@ -576,6 +585,27 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     }
 
     /**
+     * Parse properties and add any users to pending configuration. Users will be retrieved from
+     * their property: {@link ServletPropertySet#USERS}
+     */
+    protected void addUsersFromProperties()
+    {
+        getLogger().debug("Searching properties for User definition",
+            this.getClass().getName());
+
+        String usersProperty = getPropertyValue(ServletPropertySet.USERS);
+
+        if (usersProperty != null)
+        {
+            getLogger().debug("Found User definition: value [" + usersProperty + "]",
+                    this.getClass().getName());
+
+            List<User> usersFromProp = User.parseUsers(usersProperty);
+            getUsers().addAll(usersFromProp);
+        }
+    }
+
+    /**
      * Implementation of {@link LocalConfiguration#configure(LocalContainer)} that all local
      * configuration using this class must implement. This provides the ability to perform generic
      * actions before and after the container-specific implementation. Another way would be to use
@@ -600,6 +630,22 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     public List<Resource> getResources()
     {
         return this.resources;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void addUser(User user)
+    {
+        this.users.add(user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public List<User> getUsers()
+    {
+        return users;
     }
 
     /**

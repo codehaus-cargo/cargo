@@ -24,8 +24,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
+import org.junit.Assert;
 
 /**
  * Ping test.
@@ -40,8 +40,19 @@ public class PingTest extends TestCase
      */
     public void testPing() throws Exception
     {
+        testServlet("/ping-test");
+        testServlet("/ping-test-URL-path");
+    }
+
+    /**
+     * Test deployed servlet.
+     * @param urlPath URL path.
+     * @throws Exception If anything goes wrong.
+     */
+    private void testServlet(String urlPath) throws Exception
+    {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/ping-test/");
+            + urlPath);
 
         InputStream responseStream = url.openConnection().getInputStream();
         BufferedReader responseReader = new BufferedReader(new InputStreamReader(responseStream));

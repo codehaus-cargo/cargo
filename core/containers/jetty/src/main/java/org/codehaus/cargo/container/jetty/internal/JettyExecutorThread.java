@@ -98,6 +98,12 @@ public class JettyExecutorThread extends Thread implements Loggable
         }
         catch (Exception e)
         {
+            if (e.getCause() != null && e.getCause() instanceof IllegalStateException
+                && "!STOPPED".equals(e.getCause().getMessage()))
+            {
+                return;
+            }
+
             String message = "Failed to " + (this.isForStart ? "start" : "stop")
                     + " the Jetty container";
             getLogger().warn(message + ": " + e, this.getClass().getName());

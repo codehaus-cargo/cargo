@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.maven2;
 
-import java.net.URL;
-
 /**
  * Start a deployable which is already installed in a container.
  * 
@@ -32,16 +30,16 @@ public class DeployerStartMojo extends AbstractDeployerMojo
     @Override
     protected void performDeployerActionOnSingleDeployable(
         org.codehaus.cargo.container.deployer.Deployer deployer,
-        org.codehaus.cargo.container.deployable.Deployable deployable, URL pingURL,
-        Long pingTimeout)
+        org.codehaus.cargo.container.deployable.Deployable deployable,
+        org.codehaus.cargo.container.deployer.DeployableMonitor monitor)
     {
         getLog().debug("Starting [" + deployable.getFile() + "]"
-            + (pingURL == null ? " ..." : " using ping URL [" + pingURL + "]"
-                + (pingTimeout == null ? "" : " and ping timeout [" + pingTimeout + "]")));
+            + (monitor == null ? " ..." : " with deployable Id [" + monitor.getDeployableName()
+                + "] and timeout [" + monitor.getTimeout() + "]"));
 
-        if (pingURL != null)
+        if (monitor != null)
         {
-            deployer.start(deployable, createDeployableMonitor(pingURL, pingTimeout, deployable));
+            deployer.start(deployable, monitor);
         }
         else
         {

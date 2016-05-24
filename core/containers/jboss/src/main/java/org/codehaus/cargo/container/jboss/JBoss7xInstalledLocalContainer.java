@@ -104,7 +104,7 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
      * determined
      * @param defaultVersion the default version used if the exact JBoss version can't be determined
      */
-    protected String getVersion(String defaultVersion)
+    public String getVersion(String defaultVersion)
     {
         String version = this.version;
 

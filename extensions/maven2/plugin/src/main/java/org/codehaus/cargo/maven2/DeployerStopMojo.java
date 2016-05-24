@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.maven2;
 
-import java.net.URL;
-
 /**
  * Stop a deployable which is already deployed in a container.
  * 
@@ -32,16 +30,16 @@ public class DeployerStopMojo extends AbstractDeployerMojo
     @Override
     protected void performDeployerActionOnSingleDeployable(
         org.codehaus.cargo.container.deployer.Deployer deployer,
-        org.codehaus.cargo.container.deployable.Deployable deployable, URL pingURL,
-        Long pingTimeout)
+        org.codehaus.cargo.container.deployable.Deployable deployable,
+        org.codehaus.cargo.container.deployer.DeployableMonitor monitor)
     {
         getLog().debug("Stopping [" + deployable.getFile() + "]"
-            + (pingURL == null ? " ..." : " using ping URL [" + pingURL + "]"
-                + (pingTimeout == null ? "" : " and ping timeout [" + pingTimeout + "]")));
+            + (monitor == null ? " ..." : " with deployable Id [" + monitor.getDeployableName()
+                + "] and timeout [" + monitor.getTimeout() + "]"));
 
-        if (pingURL != null)
+        if (monitor != null)
         {
-            deployer.stop(deployable, createDeployableMonitor(pingURL, pingTimeout, deployable));
+            deployer.stop(deployable, monitor);
         }
         else
         {

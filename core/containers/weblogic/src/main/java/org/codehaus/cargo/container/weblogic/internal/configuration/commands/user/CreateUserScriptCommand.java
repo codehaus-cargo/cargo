@@ -24,6 +24,7 @@ import java.util.Map;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.internal.util.JythonUtils;
 import org.codehaus.cargo.container.property.User;
 
 /**
@@ -60,7 +61,9 @@ public class CreateUserScriptCommand extends AbstractScriptCommand
     protected void addConfigurationScriptProperties(Map<String, String> propertiesMap)
     {
         propertiesMap.put("cargo.weblogic.user.name", user.getName());
-        propertiesMap.put("cargo.weblogic.user.password", user.getPassword());
+
+        String escapedPassword = JythonUtils.escapeStringLiteral(user.getPassword());
+        propertiesMap.put("cargo.weblogic.user.password", escapedPassword);
 
         LocalConfiguration configuration = (LocalConfiguration) getConfiguration();
         String domainName = configuration.getFileHandler().getName(configuration.getHome());

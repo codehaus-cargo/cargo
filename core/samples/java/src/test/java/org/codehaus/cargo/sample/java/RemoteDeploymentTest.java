@@ -40,7 +40,7 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.jboss.AbstractJBossCapabilityTestCase;
@@ -54,6 +54,7 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
+import org.junit.Assume;
 
 /**
  * Test for remote deployment.
@@ -275,20 +276,20 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
             if (tomcatVersion < 7)
             {
-                this.localContainer.getConfiguration().setProperty(ServletPropertySet.USERS,
-                    "cargo:password:manager");
+                List<User> users = User.parseUsers("cargo:password:manager");
+                this.localContainer.getConfiguration().getUsers().addAll(users);
             }
             else
             {
-                this.localContainer.getConfiguration().setProperty(ServletPropertySet.USERS,
-                    "cargo:password:manager-script");
+                List<User> users = User.parseUsers("cargo:password:manager-script");
+                this.localContainer.getConfiguration().getUsers().addAll(users);
             }
         }
         // TomEE requires the servlet users to have a manager
         else if (getTestData().containerId.startsWith("tomee"))
         {
-            this.localContainer.getConfiguration().setProperty(ServletPropertySet.USERS,
-                "cargo:password:manager-script");
+            List<User> users = User.parseUsers("cargo:password:manager-script");
+            this.localContainer.getConfiguration().getUsers().addAll(users);
         }
 
         this.localContainer.start();
@@ -322,12 +323,9 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         deployer.deploy(this.war);
         PingUtils.assertPingTrue("simple war not correctly redeployed", warPingURL, getLogger());
 
-        if ("jonas4x".equals(getTestData().containerId))
-        {
-            // JOnAS 4.x has trouble redeploying modified WARs,
-            // applications indeed need to be EARs in order to be successfully redeployed
-            return;
-        }
+        // JOnAS 4.x has trouble redeploying modified WARs,
+        // applications indeed need to be EARs in order to be successfully redeployed
+        Assume.assumeFalse("jonas4x".equals(getTestData().containerId));
 
         // Redeploy the WAR after modifying its content
         Deployable modifiedDeployable = modifyWar(this.war);
@@ -348,12 +346,9 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
      */
     public void testChangeWarContextAndDeployUndeployRemotely() throws Exception
     {
-        if (getTestData().containerId.startsWith("weblogic"))
-        {
-            // WebLogic retrieve WAR context from file name,
-            // cannot be tested on context change.
-            return;
-        }
+        // WebLogic retrieve WAR context from file name,
+        // cannot be tested on context change.
+        Assume.assumeFalse(getTestData().containerId.startsWith("weblogic"));
 
         this.war.setContext("simple");
 

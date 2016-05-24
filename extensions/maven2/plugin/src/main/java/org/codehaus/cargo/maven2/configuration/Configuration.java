@@ -93,6 +93,11 @@ public class Configuration
     private Resource[] resources;
 
     /**
+     * Users.
+     */
+    private User[] users;
+
+    /**
      * @return Configuration type.
      */
     public ConfigurationType getType()
@@ -237,6 +242,22 @@ public class Configuration
     }
 
     /**
+     * @return Users.
+     */
+    public User[] getUsers()
+    {
+        return users;
+    }
+
+    /**
+     * @param users Users.
+     */
+    public void setUsers(User[] users)
+    {
+        this.users = users;
+    }
+
+    /**
      * Creates a configuration.
      * @param containerId Container id.
      * @param containerType Container type.
@@ -376,6 +397,11 @@ public class Configuration
                 addResources(containerId, localConfiguration, project);
             }
 
+            if (getUsers() != null)
+            {
+                addUsers(getUsers(), localConfiguration);
+            }
+
             if (getConfigfiles() != null)
             {
                 for (int i = 0; i < getConfigfiles().length; i++)
@@ -410,6 +436,19 @@ public class Configuration
         for (int i = 0; i < getResources().length; i++)
         {
             configuration.addResource(getResources()[i].createResource(containerId, project));
+        }
+    }
+
+    /**
+     * Add users to the configuration.
+     * @param users Users to be added.
+     * @param configuration Container configuration.
+     */
+    private void addUsers(User[] users, LocalConfiguration configuration)
+    {
+        for (User user : users)
+        {
+            configuration.addUser(user.createUser());
         }
     }
 

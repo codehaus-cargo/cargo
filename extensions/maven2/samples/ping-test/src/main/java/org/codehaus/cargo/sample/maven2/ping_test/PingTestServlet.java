@@ -57,7 +57,7 @@ public class PingTestServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-        final long wait = 25000;
+        final long wait = 5000;
 
         if (PingTestServlet.startTime == 0)
         {
