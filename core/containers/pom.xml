@@ -64,6 +64,7 @@
     <module>jo</module>
     <module>jonas</module>
     <module>jrun</module>
+    <module>liberty</module>
     <module>orion</module>
     <module>resin</module>
     <module>tomcat</module>
