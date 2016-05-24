@@ -41,6 +41,7 @@ import org.codehaus.cargo.container.liberty.internal.LibertyStandaloneLocalConfi
 import org.codehaus.cargo.container.liberty.internal.ServerConfigUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
 /**
@@ -176,31 +177,23 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
      */
     private void processUsers(LocalContainer container, File configOverrides) throws IOException
     {
-        String val = getPropertyValue(ServletPropertySet.USERS);
-        if (val != null)
+        List<User> userList = getUsers();
+        if (userList != null)
         {
-            String[] entries = val.split("\\|");
             Map<String, List<String>> groups = new HashMap<String, List<String>>();
             Map<String, String> users = new HashMap<String, String>();
-            for (String s : entries)
+            for (User u : userList)
             {
-                String[] parts = s.split(":");
-                String user = parts[0];
-                String pwd = parts[1];
-                users.put(user, pwd);
-                if (parts.length == 3)
+                users.put(u.getName(), u.getPassword());
+                for (String group : u.getRoles())
                 {
-                    String[] groupNames = parts[2].split(",");
-                    for (String group : groupNames)
+                    List<String> members = groups.get(group);
+                    if (members == null)
                     {
-                        List<String> members = groups.get(group);
-                        if (members == null)
-                        {
-                            members = new ArrayList<String>();
-                            groups.put(group, members);
-                        }
-                        members.add(user);
+                        members = new ArrayList<String>();
+                        groups.put(group, members);
                     }
+                    members.add(u.getName());
                 }
             }
             writeUserRegistry(container, configOverrides, users, groups);
@@ -221,7 +214,6 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
         File usersXML = new File(configDir, "cargo-users.xml");
         PrintStream writer = ServerConfigUtils.open(usersXML);
 
-        writer.println("<server>");
         writer.println("  <basicRegistry id=\"basic\">");
         for (Map.Entry<String, String> user : users.entrySet())
         {

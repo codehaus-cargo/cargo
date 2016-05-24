@@ -26,9 +26,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
@@ -37,7 +35,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.liberty.internal.LibertyInstall;
 import org.codehaus.cargo.container.liberty.internal.ServerConfigUtils;
-import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
@@ -132,19 +130,13 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      */
     private void writeSecurity(PrintStream writer) throws IOException
     {
-        String users = getContainer().getConfiguration().getPropertyValue(ServletPropertySet.USERS);
+        List<User> users = getContainer().getConfiguration().getUsers();
         if (users != null)
         {
-            String[] elements = users.split("\\|");
-            Set<String> groups = new HashSet<String>();
-            for (String s : elements)
+            List<String> groups = new ArrayList<String>();
+            for (User u : users)
             {
-                String[] parts = s.split(":");
-                if (parts.length == 3)
-                {
-                    String[] groupNames = parts[2].split(",");
-                    groups.addAll(Arrays.asList(groupNames));
-                }
+                groups.addAll(u.getRoles());
             }
             
             if (!!!groups.isEmpty())
