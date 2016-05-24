@@ -349,7 +349,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
         while (builder.length() != 12)
         {
             int next = rand.nextInt();
-            if (Character.isAlphabetic(next))
+            if (Character.isJavaIdentifierStart(next))
             {
                 char c = (char) next;
                 if (c == next)
